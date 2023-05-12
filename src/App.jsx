@@ -1,20 +1,18 @@
 import TableRangeSlider from './components/TableRangeSlider'
 import {QueryClient, QueryClientProvider} from "react-query";
-
-// import VoyageContext from './context/VoyageContext'
-
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 function App() {
 
 const queryClient = new QueryClient()
 
   return (
-    // <VoyageContext.Provider value={voyage}>
+    <Provider store={store}>
         <QueryClientProvider client={queryClient}>
         <TableRangeSlider/>
         </QueryClientProvider>
-    // {/* </VoyageContext.Provider> */}
+        </Provider>
   )
 }
-
-export default App
+export default App;
