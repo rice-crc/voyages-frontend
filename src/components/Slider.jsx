@@ -1,11 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import {  Stack, Box, Paper } from "@mui/material";
+import {  Stack, Box, Paper,Slider,Typography} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MuiInput from "@mui/material/Input";
 import axios from 'axios';
-import { Slider } from "@mui/material";
-import Typography from '@mui/material/Typography';
-
 const Input = styled(MuiInput)`
   width: 80px;
 `;
@@ -34,30 +32,27 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function GetSlider(props) {
-
-  const { label, isObjects, keyOption, idOption } = props;
+  const { label, keyOption,setRangeValue, idOption,rangeValue,setMessage}  = props //range, setRange ,value,setValue
 
   const [range, setRange] = useState([0, 0]);
-  const [value, setValue] = useState([range[0] / 2, range[1] / 2]);
+  const [value, setValue] = useState([Number(range[0]) / 2, Number(range[1]) / 2]);
 
   const data = new FormData();
   data.append('aggregate_fields', keyOption);
 
-
-
-  const URL = `https://voyages3-api.crc.rice.edu/voyage/aggregations`
-
+  const AUTHTOKEN = `Token ba4a9c10dd8685860fd97f47f505e39bc135528a`
+  const BASEURL   = `https://voyages3-api.crc.rice.edu/`
+  
   const config = {
     method: 'post',
-    baseURL: URL,
-    headers: { 'Authorization': `Token ba4a9c10dd8685860fd97f47f505e39bc135528a` },
+    baseURL: `${BASEURL}voyage/aggregations`,
+    headers: { 'Authorization': AUTHTOKEN },
     data: data
   }
-
-
-  useEffect(() => {
-    axios(config)
-      .then((res) => {
+  async function fetchData() {
+    try {
+      const res = await axios(config);
+      if(Object.values(res.data)[0]["min"] || Object.values(res.data)[0]["max"] ){
         setRange([
           Object.values(res.data)[0]["min"],
           Object.values(res.data)[0]["max"],
@@ -66,8 +61,19 @@ export default function GetSlider(props) {
           Object.values(res.data)[0]["min"],
           Object.values(res.data)[0]["max"],
         ]);
-      })
-      .then(console.log("HTTP resquest from Slider", config));
+      }else if(Object.values(res.data)[0]["min"] === null || Object.values(res.data)[0]["max"] === null ){
+        setMessage('Min and Max have not value')
+      }else{
+       setMessage(res.message)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+  useEffect(() => {
+    fetchData()
   }, []);
 
   function handleCommittedChange(event, newValue) {
@@ -76,6 +82,9 @@ export default function GetSlider(props) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setRangeValue({
+      ...rangeValue, [idOption]: newValue
+    })
   };
 
   const handleInputChange = (event) => {
@@ -96,13 +105,13 @@ export default function GetSlider(props) {
     const curEnd = value[1];
 
     if (event.target.name === "end") {
-      if (event.target.value > range[1]) setValue([curStart, range[1]]);
+      if (event.target.value > Number(range[1])) setValue([curStart, Number(range[1])]);
       if (event.target.value < curStart)
-        setValue([curStart, curStart + 1 < range[1] ? curStart + 1 : range[1]]);
+        setValue([curStart, curStart + 1 < Number(range[1]) ? curStart + 1 : Number(range[1])]);
     } else if (event.target.name === "start") {
       if (event.target.value > curEnd)
-        setValue([curEnd - 1 < range[0] ? range[0] : curEnd - 1, curEnd]);
-      if (event.target.value < range[0]) setValue([range[0], curEnd]);
+        setValue([curEnd - 1 < Number(range[0]) ? Number(range[0]) : curEnd - 1, curEnd]);
+      if (event.target.value < Number(range[0])) setValue([Number(range[0]), curEnd]);
     }
   };
 
@@ -120,20 +129,20 @@ export default function GetSlider(props) {
             onBlur={handleBlur}
             onKeyPress={(event) => {
               if (event.key === "Enter") {
-                if (event.target.value < range[0]) {
-                  setValue([range[0], value[1]]);
-                } else if (event.target.value > range[1]) {
+                if (event.target.value < Number(range[0])) {
+                  setValue([Number(range[0]), value[1]]);
+                } else if (event.target.value > Number(range[1])) {
                   setValue([
-                    value[1] - 1 < range[0] ? range[0] : value[1] - 1,
+                    value[1] - 1 < Number(range[0]) ? Number(range[0]) : value[1] - 1,
                     value[1],
                   ]);
                 }
               }
             }}
             inputProps={{
-              step: range[1] - range[0] > 20 ? 10 : 1,
-              min: range[0],
-              max: range[1],
+              step: Number(range[1]) - Number(range[0]) > 20 ? 10 : 1,
+              min: Number(range[0]),
+              max: Number(range[1]),
               type: "number",
               "aria-labelledby": "input-slider",
               position: "left",
@@ -147,20 +156,20 @@ export default function GetSlider(props) {
             onBlur={handleBlur}
             onKeyPress={(event) => {
               if (event.key === "Enter") {
-                if (event.target.value > range[1]) {
-                  setValue([value[0], range[1]]);
+                if (event.target.value > Number(range[1])) {
+                  setValue([value[0], Number(range[1])]);
                 } else if (event.target.value < value[0]) {
                   setValue([
                     value[0],
-                    value[0] + 1 < range[1] ? value[0] + 1 : range[1],
+                    value[0] + 1 < Number(range[1]) ? value[0] + 1 : (range[1]),
                   ]);
                 }
               }
             }}
             inputProps={{
-              step: range[1] - range[0] > 20 ? 10 : 1,
-              min: range[0],
-              max: range[1],
+              step: Number(range[1]) - Number(range[0]) > 20 ? 10 : 1,
+              min: Number(range[0]),
+              max: Number(range[1]),
               type: "number",
               "aria-labelledby": "input-slider",
               position: "left",
@@ -169,8 +178,8 @@ export default function GetSlider(props) {
         </div>
         <CustomSlider
           size="small"
-          min={range[0]}
-          max={range[1]}
+          min={Number(Number(range[0]))}
+          max={Number(Number(range[1]))}
           getAriaLabel={() => "Temperature range"}
           value={value}
           onChange={handleChange}

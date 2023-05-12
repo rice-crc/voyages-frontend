@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from "react";
 import {Table, Box,TableBody,TableCell,TableContainer,TableHead, TableRow, Paper, Stack,Pagination} from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -17,11 +18,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function TableRangeSlider() {
+const  TableRangeSlider = () =>{
   const optionsFlatlabel = [];
   const datas = useSelector((state)=> state.getOptions.value);
   const resultOptions = useGetOptionsQuery(datas);
-  const [isObjects, setObjects] = useState({});
+  const [isShow, setIsShow] = useState({});
+  const [message, setMessage] = useState('')
+    const [rangeValue, setRangeValue] = useState({});
 
   if (resultOptions.isLoading) {
     return (
@@ -30,6 +33,7 @@ export default function TableRangeSlider() {
       </div>
     );
   }
+ console.log('rangeValue --', rangeValue)
 
   const options = resultOptions.data;
   Object.entries(options).forEach(([key, value], index) => {
@@ -41,17 +45,22 @@ export default function TableRangeSlider() {
     });
   });
 
-  const handleChangePagePagination = (event, newPage) => {
-    //console.log("newPagePagi", newPage);
-    // setPage(newPage - 1);
-  };
+  // const handleChangePagePagination = (event, newPage) => {
+  //   //console.log("newPagePagi", newPage);
+  //   // setPage(newPage - 1);
+  // };
 
   const colunmName = ["Flatlabel", "Range Slider", "Json Display"];
   const handleShowRangeSlide = (row) => {
-    setObjects((prev)=> ({
+  
+    setIsShow((prev)=> ({
      ...prev, [row.id] : true
     }))
+    if(message){
+      setMessage("")
+    }
   };
+
   return (
     <Box>
       <TableContainer component={Paper}>
@@ -83,9 +92,18 @@ export default function TableRangeSlider() {
                   {row.label}
                 </TableCell>
                 <TableCell>
-                  {isObjects[row.id] ? <GetSlider label={row.label} isObjects={isObjects} keyOption={row.key} idOption={row.id}/> : ''}
+                  {isShow[row.id] && <GetSlider 
+                  setRangeValue={setRangeValue}
+                  label={row.label} isShow={isShow} keyOption={row.key} idOption={row.id} rangeValue={rangeValue} setMessage={setMessage}/>}
                   </TableCell>
-                <TableCell>Display Json</TableCell>
+                <TableCell style={{textAlign:'center'}}>
+                 {isShow[row.id] && 
+                  <><div>{row.key}</div>
+                  {rangeValue?.[row.id]?.length && <div>{`${Number(rangeValue?.[row.id][0])} - ${Number(rangeValue?.[row.id][1])}`}</div>}
+                  <div style={{color: 'red'}}>{rangeValue && message}</div>
+                  </>
+                  }
+                  </TableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -102,3 +120,5 @@ export default function TableRangeSlider() {
          </Box>
   );
 }
+
+export default TableRangeSlider;
