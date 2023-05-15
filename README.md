@@ -5,8 +5,20 @@ This is a sample React application for the CRC Voyages exercise. The application
 To run this application locally, you'll need to have Node.js installed on your machine. After cloning the repository, navigate to the project directory and install the dependencies 
 by running: `npm install`
 
+
 ## Usage
 To start the development server, run: `npm run dev`
+
+## Add typeScript
+`npm i -D typescript`
+
+## To generate typeScript
+`npx tsc --init`
+
+## Add Type to app
+`npm i -D @types/react@18.0.21 @types/react-dom@18.0.6`
+
+
 
 
 This will start the application in development mode on `http://localhost:3000`. 
