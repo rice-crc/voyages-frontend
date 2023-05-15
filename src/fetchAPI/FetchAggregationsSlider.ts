@@ -1,33 +1,19 @@
-
-// export const requestAggregations = async()=>{
-//     const res = await fetch(`https://voyages3-api.crc.rice.edu/voyage/aggregations`,{
-//         method: "POST",
-//         headers: {'Authorization': 'Token ba4a9c10dd8685860fd97f47f505e39bc135528a'}
-//     })
-//     return res.json()
-// }
-
-const AUTHTOKEN = `Token ba4a9c10dd8685860fd97f47f505e39bc135528a`
-const BASEURL = `https://voyages3-api.crc.rice.edu/`
-
-
-
-
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import React from 'react';
 import { RangeSliderProps } from '../components/Slider';
+
+const BASEURL = import.meta.env.VITE_API_URL;
+const AUTHTOKEN = import.meta.env.VITE_API_KEY;
+
 export const fetchRangeSlider = async (
     keyOption: string,
     setRange: React.Dispatch<React.SetStateAction<[number, number]>>,
     setValue: React.Dispatch<React.SetStateAction<[number, number]>>,
     setMessage: React.Dispatch<React.SetStateAction<string>>
 ) => {
+
     const data = new FormData();
     data.append('aggregate_fields', keyOption);
-
-    const AUTHTOKEN = `Token ba4a9c10dd8685860fd97f47f505e39bc135528a`
-    const BASEURL = `https://voyages3-api.crc.rice.edu/`
-
     const config: AxiosRequestConfig = {
         method: 'post',
         baseURL: `${BASEURL}voyage/aggregations`,

@@ -18,6 +18,8 @@ To start the development server, run: `npm run dev`
 ## Add Type to app
 `npm i -D @types/react@18.0.21 @types/react-dom@18.0.6`
 
+## To add env
+`npm i --save-dev @types/node`
 
 
 
