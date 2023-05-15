@@ -1,7 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-const BASEURL = import.meta.env.VITE_API_URL;
-const AUTHTOKEN = import.meta.env.VITE_API_KEY;
+import { AUTHTOKEN, BASEURL } from "../share/AUTH_BASEURL";
 
 export const voyagesApi = createApi({
     reducerPath: "voyagesApi",

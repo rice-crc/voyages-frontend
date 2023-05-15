@@ -1,9 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import React from 'react';
 import { RangeSliderProps } from '../components/Slider';
-
-const BASEURL = import.meta.env.VITE_API_URL;
-const AUTHTOKEN = import.meta.env.VITE_API_KEY;
+import { AUTHTOKEN, BASEURL } from '../share/AUTH_BASEURL';
 
 export const fetchRangeSlider = async (
     keyOption: string,

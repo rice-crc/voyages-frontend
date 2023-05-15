@@ -24,6 +24,7 @@ const TableRangeSlider = () => {
   const datas = useSelector((state: any) => state.getOptions.value);
 
   const resultOptions = useGetOptionsQuery(datas);
+  
   const [isShow, setIsShow] = useState<IsShowProp>({});
   const [message, setMessage] = useState<string>('')
 
@@ -40,7 +41,9 @@ const TableRangeSlider = () => {
     );
 
   }
+ 
   const options: Options = resultOptions.data as Options
+  console.log('options',options)
 
   Object.entries(options).forEach(([key, value]: [string, VoyageOptionsValue], index: number) => {
     const intergerDecimal = value.type.replace(/'>/g, "").split(".");
