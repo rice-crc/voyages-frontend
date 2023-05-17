@@ -1,37 +1,46 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from "react";
 import { Table, Box, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Stack, TablePagination } from "@mui/material";
-
 import { useGetOptionsQuery } from '../fetchAPI/fetchApiService'
-import GetSlider from "./Slider";
 import { useSelector } from "react-redux";
 import { VoyageOptionsValue, Flatlabel, IsShowProp, Options } from '../share/TableRangeSliderType'
-import RangeSlider from "./RangeSlider";
 import { StyledTableRow } from "../styleMUI";
+import Autocompleted from "./Autocompleted";
+import { setValue } from "../redux/rangeSliderSlice";
+import {fetchOptionsData} from '../fetchAPI/fetchOptionsData'
 import { RootState } from "../redux/store";
-import { fetchOptionsDataIntegerField} from "../fetchAPI/fetchOptionsData";
 
 
-const TableRangeSlider = () => {
-  const datas = useSelector((state: RootState) => state.getOptions.value);
-  const { data, isLoading, isSuccess } = useGetOptionsQuery(datas);
+const TableCharacter = () => {
+  const datas = useSelector((state:RootState) =>  state.getOptions.value);
   const [optionsLabel, setOptionsLabel] = useState<Flatlabel[]>([]);
-  const colunmName = ["Label", "Range-Slider", "Display"];
+
+  const {data,isLoading,isSuccess } = useGetOptionsQuery(datas);
+  const colunmName = ["Label", "Auto Complete", "Display"];
   const [isShow, setIsShow] = useState<IsShowProp>({});
-  const [message, setMessage] = useState<string>('')
-  const [rangeValue, setRangeValue] = useState<Record<string, number[]>>({});
+
+  const [value, setValue] = useState<any>();
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
+  if (isLoading) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <h1>Loading</h1>
+      </div>
+    );
+  }
+  console.log('optionsLabel', optionsLabel)
   useEffect(() => {
     if (isSuccess) {
       const fetchData = async () => {
-        const options = await fetchOptionsDataIntegerField(data as Options);
+        const options = await fetchOptionsData(data as Options);
         setOptionsLabel(options);
       }
       fetchData();
     }
   }, [isSuccess, data]);
+
 
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
@@ -42,23 +51,7 @@ const TableRangeSlider = () => {
     setPage(0);
   };
 
-  const handleShowRangeSlide = (row: Flatlabel) => {
-    setIsShow((prev) => ({
-      ...prev,
-      [row.key]: true
-    }))
-    if (message) {
-      setMessage("")
-    }
-  };
 
-  if (isLoading) {
-    return (
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <h1>Loading</h1>
-      </div>
-    );
-  }
 
   return (
     <Box>
@@ -86,41 +79,29 @@ const TableRangeSlider = () => {
                   >
                     <TableCell
                       style={{ cursor: "pointer" }}
-                      onClick={() => handleShowRangeSlide(row)}
+                      // onClick={() => handleShowRangeSlide(row)}
                       component="th"
-                      scope="row" 
-                  
+                      scope="row"
                     >
                       <div> {row.label}</div>
                     </TableCell>
-                 
                     <TableCell>
-                      {isShow[row.key] && 
-                            <>
-                            <RangeSlider
-                             keyOption={row.key}
-                             setRangeValue={setRangeValue}
-                             rangeValue={rangeValue}
-                             label={row.label}
-                            />
-                          {/* <GetSlider
-                          setRangeValue={setRangeValue}
-                          label={row.label}
-                          isShow={isShow}
-                          keyOption={row.key}
-                          idOption={row.id}
-                          rangeValue={rangeValue}
-                          setMessage={setMessage} /> */}
-                          </>
-                          }
+                      {isShow[row.key] &&
+                          <Autocompleted
+                            keyOption={row.key}
+                            label={row.label}
+                            value={value}
+                            setValue={setValue}
+                          />
+                      }
                     </TableCell>
                     <TableCell style={{ textAlign: 'center' }}>
-                      {isShow[row.key] &&
+                      {/* {isShow[row.key] &&
                         <><div>{row.key}</div>
                           {rangeValue?.[row.key] && <div>{`${(rangeValue?.[row.key][0])} - ${(rangeValue?.[row.key][1])}`}</div>}
                           <div style={{ color: 'red' }}>{rangeValue && message}</div>
                         </>
-                      }
+                      } */}
                     </TableCell>
                   </StyledTableRow>
                 )
@@ -135,18 +116,10 @@ const TableRangeSlider = () => {
         direction="row"
         justifyContent="flex-end"
       >
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15, 20, 25]}
-          component="div"
-          count={optionsLabel.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+      Box
       </Stack>
     </Box>
   );
 }
 
-export default TableRangeSlider;
+export default TableCharacter;

@@ -1,22 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setRange, setValue } from '../redux/rangeSliderSlice'
 import { Typography } from "@mui/material";
 import { CustomSlider, Input, Item } from '../styleMUI';
-import { fetchRangeSliderData } from '../fetchAPI/FetchAggregationsSlider';
 import { AppDispatch, RootState } from '../redux/store';
 import { RangeSliderState } from '../share/TableRangeSliderType';
+import { fetchRangeSliderData } from '../fetchAPI/FetchAggregationsSlider';
 
 interface GetSliderProps {
     label: string;
     setRangeValue: React.Dispatch<React.SetStateAction<Record<string, number[]>>>;
-    idOption: number;
     rangeValue: Record<string, number[]>;
     keyOption: string
 }
 const RangeSlider: React.FC<GetSliderProps> = (props) => {
-    const { setRangeValue, idOption, rangeValue, label, keyOption } = props;
+    const { setRangeValue, rangeValue, label, keyOption } = props;
+    const [silderValue, setSilderValue] = useState<any>([0,0])
     const dispatch: AppDispatch = useDispatch();
+
+    const { value } = useSelector((state: RootState) =>  state.rangeSlider as RangeSliderState)
+    const min = value?.[keyOption]?.[0] || 0
+    const max = value?.[keyOption]?.[1] || 0
+
     useEffect(() => {
         const formData: FormData = new FormData();
         formData.append('aggregate_fields', keyOption);
@@ -27,23 +32,20 @@ const RangeSlider: React.FC<GetSliderProps> = (props) => {
                     const initialValue : number[] = [response[keyOption].min, response[keyOption].max];
                     dispatch(setRange(initialValue))
                     dispatch(setValue({
-                        ...value, [idOption]: initialValue
+                        ...value, [keyOption]: initialValue
                     }))
+                    setSilderValue(initialValue)
                 }
             })
             .catch((error: any) => {
                 console.log('error', error)
             });
-    }, [dispatch,idOption]);
-
-    const { value, range } = useSelector((state: RootState) =>  state.rangeSlider as RangeSliderState)
-    const min = value?.[idOption]?.[0]
-    const max = value?.[idOption]?.[1]
-    
-    const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    }, [dispatch,keyOption]);
+    const handleSliderChange = (event: Event, newValue:number| number[]) => {
+        setSilderValue(newValue)
         dispatch(setRange(newValue as number[]));
         setRangeValue({
-            ...rangeValue, [idOption]: newValue
+            ...rangeValue, [keyOption]: newValue  as number[]
         })
     };
     
@@ -85,7 +87,7 @@ const RangeSlider: React.FC<GetSliderProps> = (props) => {
                     min={min}
                     max={max}
                     getAriaLabel={() => "Temperature range"}
-                    value={[min,max] || []}
+                    value={silderValue}
                     onChange={handleSliderChange}
                 />
             </Item>

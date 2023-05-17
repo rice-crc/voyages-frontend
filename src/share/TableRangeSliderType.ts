@@ -1,7 +1,8 @@
 export interface Flatlabel {
     key: string;
     label: string;
-    id: number
+    id: number;
+    type: string;
 }
 export interface Options {
     [key: string]: VoyageOptionsValue;
@@ -18,7 +19,7 @@ export interface IsShowProp {
 
 
 export interface OptionsDataState {
-    value: Record<string, unknown>;
+    value: Record<string, never>;
 }
 
 export interface RangeSliderState {
@@ -27,3 +28,19 @@ export interface RangeSliderState {
     loading: boolean;
     error: boolean;
 }
+export const TYPES: {
+    IntegerField: string;
+    DecimalField: string;
+    CharField: string;
+} = {
+    IntegerField: 'IntegerField',
+    DecimalField: 'DecimalField',
+    CharField: 'CharField'
+};
+
+type MyObject = {
+    key: string;
+    label: string;
+    id: number;
+    type: string;
+};

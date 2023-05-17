@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchRangeSliderData } from '../fetchAPI/FetchAggregationsSlider';
 import { RangeSliderState } from '../share/TableRangeSliderType';
-
+import { fetchRangeSliderData } from '../fetchAPI/FetchAggregationsSlider';
 
 const initialState: RangeSliderState = {
     value: {},
@@ -9,7 +8,6 @@ const initialState: RangeSliderState = {
     loading: false,
     error: false
 };
-
 
 const rangeSliderSlice = createSlice({
     name: 'rangeSlider',

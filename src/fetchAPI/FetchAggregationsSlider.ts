@@ -3,7 +3,6 @@ import React from 'react';
 import { RangeSliderProps } from '../components/Slider';
 import { AUTHTOKEN, BASEURL } from '../share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AppDispatch } from '../redux/store';
 
 export const fetchRangeSliderData = createAsyncThunk(
     'rangeSlider/fetchRangeData',
@@ -23,19 +22,19 @@ export const fetchRangeSliderData = createAsyncThunk(
     }
 );
 
-
 export const fetchRangeSlider = async (
     keyOption: string,
     setRange: React.Dispatch<React.SetStateAction<[number, number]>>,
     setValue: React.Dispatch<React.SetStateAction<[number, number]>>,
     setMessage: React.Dispatch<React.SetStateAction<string>>
+    // enpoint app --> voyage , past/enslaved , past/enslavers
 ) => {
 
     const data = new FormData();
     data.append('aggregate_fields', keyOption);
     const config: AxiosRequestConfig = {
         method: 'post',
-        baseURL: `${BASEURL}voyage/aggregations`,
+        baseURL: `${BASEURL}voyage/aggregations`, // voyage will set to variable will point to different endpoint
         headers: { 'Authorization': AUTHTOKEN },
         data: data
     }

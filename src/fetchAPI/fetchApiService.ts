@@ -14,19 +14,8 @@ export const voyagesApi = createApi({
             transformResponse: (response) => {
                 return response
             }
-        }),
-        getRangeSlider: builder.query({
-            query: (data) => ({
-                url: "voyage/aggregations",
-                method: "POST",
-                body: data,
-                headers: { 'Authorization': AUTHTOKEN }
-            }),
-            transformResponse: (response) => {
-                return response
-            },
-        }),
+        })
     })
 });
 
-export const { useGetOptionsQuery, useGetRangeSliderQuery } = voyagesApi;
+export const { useGetOptionsQuery } = voyagesApi;

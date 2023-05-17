@@ -2,8 +2,9 @@
 import { useState, useEffect } from "react";
 import { Stack, Box,Typography } from "@mui/material";
 import { IsShowProp } from "../share/TableRangeSliderType";
-import { fetchRangeSlider } from "../fetchAPI/FetchAggregationsSlider";
+
 import { Item,Input,CustomSlider } from "../styleMUI";
+import { fetchRangeSlider } from "../fetchAPI/FetchAggregationsSlider";
 
 export interface RangeSliderProps {
   keyOption: MinMaxProps
@@ -41,9 +42,9 @@ const GetSlider: React.FC<GetSliderProps> = (props) => {
  
   const handleChange = (event:Event, newValue:number | number[]) => {
     setValue(newValue as [number, number]);
-    setRangeValue({
-      ...rangeValue, [idOption]: newValue
-    })
+    // setRangeValue({
+    //   ...rangeValue, [keyOption]: newValue
+    // })
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +57,6 @@ const GetSlider: React.FC<GetSliderProps> = (props) => {
     } else if (event.target.name === "start") {
       res = [Number(event.target.value), endVal];
     }
-  
     setValue(res as [number, number]);
   };
 

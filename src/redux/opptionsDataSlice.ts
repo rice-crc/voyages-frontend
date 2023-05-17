@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { OptionsDataState } from '../share/TableRangeSliderType'
 
 
+
 const initialState: OptionsDataState = {
     value: {},
 };
@@ -10,7 +11,7 @@ export const optionsDataSlice = createSlice({
     name: "optionsData",
     initialState,
     reducers: {
-        getOptions: (state, action: PayloadAction<Record<string, unknown>>) => {
+        getOptions: (state, action: PayloadAction<Record<string, never>>) => {
             state.value = action.payload;
         },
     },
