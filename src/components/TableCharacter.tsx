@@ -30,7 +30,6 @@ const TableCharacter = () => {
       </div>
     );
   }
-  console.log('optionsLabel', optionsLabel)
   useEffect(() => {
     if (isSuccess) {
       const fetchData = async () => {
@@ -51,7 +50,12 @@ const TableCharacter = () => {
     setPage(0);
   };
 
-
+  const handleShowSearch = (row: Flatlabel) => {
+    setIsShow((prev) => ({
+      ...prev,
+      [row.key]: true
+    }))
+  };
 
   return (
     <Box>
@@ -79,7 +83,7 @@ const TableCharacter = () => {
                   >
                     <TableCell
                       style={{ cursor: "pointer" }}
-                      // onClick={() => handleShowRangeSlide(row)}
+                      onClick={() => handleShowSearch(row)}
                       component="th"
                       scope="row"
                     >
@@ -116,7 +120,15 @@ const TableCharacter = () => {
         direction="row"
         justifyContent="flex-end"
       >
-      Box
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 15, 20, 25]}
+          component="div"
+          count={optionsLabel.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Stack>
     </Box>
   );

@@ -15,13 +15,13 @@ interface GetSliderProps {
 }
 const Autocompleted: React.FC<GetSliderProps> = (props) => {
     const { setValue, value, label, keyOption } = props;
-   
+    const LABEL = label.replace(/'>/g, "").split(' : ');
    
     
     return (
         <div>
             <Item>
-                <Typography>{label}</Typography>
+                <Typography>{LABEL[0]}</Typography>
             </Item>
         </div>
     );
