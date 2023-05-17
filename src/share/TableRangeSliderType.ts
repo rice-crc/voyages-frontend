@@ -20,3 +20,10 @@ export interface IsShowProp {
 export interface OptionsDataState {
     value: Record<string, unknown>;
 }
+
+export interface RangeSliderState {
+    value: Record<string, number[]>
+    range: number[]
+    loading: boolean;
+    error: boolean;
+}

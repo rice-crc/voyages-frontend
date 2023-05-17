@@ -2,6 +2,27 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import React from 'react';
 import { RangeSliderProps } from '../components/Slider';
 import { AUTHTOKEN, BASEURL } from '../share/AUTH_BASEURL';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AppDispatch } from '../redux/store';
+
+export const fetchRangeSliderData = createAsyncThunk(
+    'rangeSlider/fetchRangeData',
+    async (formData: FormData) => {
+        try {
+            const response = await axios.post(
+                `${BASEURL}voyage/aggregations`,
+                formData,
+                {
+                    headers: { 'Authorization': AUTHTOKEN },
+                }
+            );
+            return response.data;
+        } catch (error) {
+            throw new Error('Failed to fetch range slider data');
+        }
+    }
+);
+
 
 export const fetchRangeSlider = async (
     keyOption: string,
@@ -37,3 +58,4 @@ export const fetchRangeSlider = async (
         console.error(error);
     }
 }
+

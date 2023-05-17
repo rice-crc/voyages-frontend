@@ -1,28 +1,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from "react";
 import { Table, Box, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Stack, TablePagination } from "@mui/material";
-import { styled } from "@mui/material/styles";
+
 import { useGetOptionsQuery } from '../fetchAPI/fetchApiService'
 import GetSlider from "./Slider";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { VoyageOptionsValue, Flatlabel, IsShowProp, Options } from '../share/TableRangeSliderType'
+import RangeSlider from "./RangeSlider";
+import { StyledTableRow } from "../styleMUI";
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  "&:last-child td, &:last-child th": {
-    border: 1,
-  },
-  "&:hover": {
-    backgroundColor: "#85d4cb",
-  },
-}));
 
 const TableRangeSlider = () => {
   const optionsFlatlabel: Flatlabel[] = [];
   const datas = useSelector((state: any) => state.getOptions.value);
-
   const resultOptions = useGetOptionsQuery(datas);
   
   const [isShow, setIsShow] = useState<IsShowProp>({});
@@ -39,11 +29,9 @@ const TableRangeSlider = () => {
         <h1>Loading</h1>
       </div>
     );
-
   }
  
   const options: Options = resultOptions.data as Options
-  console.log('options',options)
 
   Object.entries(options).forEach(([key, value]: [string, VoyageOptionsValue], index: number) => {
     const intergerDecimal = value.type.replace(/'>/g, "").split(".");
@@ -62,7 +50,7 @@ const TableRangeSlider = () => {
     setRowsPerPage(parseInt(event.target.value as string, 10));
     setPage(0);
   };
-
+ 
   const colunmName = ["Flatlabel", "Range Slider", "Json Display"];
   const handleShowRangeSlide = (row: Flatlabel) => {
 
@@ -106,14 +94,18 @@ const TableRangeSlider = () => {
                 </TableCell>
              
                 <TableCell>
-                  {isShow[row.id] && <GetSlider
-                    setRangeValue={setRangeValue}
-                    label={row.label}
-                    isShow={isShow}
-                    keyOption={row.key}
-                    idOption={row.id}
-                    rangeValue={rangeValue}
-                    setMessage={setMessage} />}
+                  {isShow[row.id] && 
+                        <>
+                      <GetSlider
+                      setRangeValue={setRangeValue}
+                      label={row.label}
+                      isShow={isShow}
+                      keyOption={row.key}
+                      idOption={row.id}
+                      rangeValue={rangeValue}
+                      setMessage={setMessage} />
+                      </>
+                      }
                 </TableCell>
                 <TableCell style={{ textAlign: 'center' }}>
                   {isShow[row.id] &&

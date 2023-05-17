@@ -1,9 +1,10 @@
 import TableRangeSlider from './components/TableRangeSlider'
+import React from 'react';
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
-function App() {
+const App: React.FC = () => {
 
   const queryClient = new QueryClient()
 

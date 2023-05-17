@@ -1,29 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import { Stack, Box, Paper, Slider, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import MuiInput from "@mui/material/Input";
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { Stack, Box,Typography } from "@mui/material";
 import { IsShowProp } from "../share/TableRangeSliderType";
 import { fetchRangeSlider } from "../fetchAPI/FetchAggregationsSlider";
-const Input = styled(MuiInput)`
-  width: 80px;
-`;
-const blue500 = "#42a5f5";
+import { Item,Input,CustomSlider } from "../styleMUI";
 
-const CustomSlider = styled(Slider)(() => ({
-  color: blue500,
-  width: "70%",
-  height: "5px",
-  "& .MuiSlider-thumb": {
-    backgroundColor: blue500,
-
-  },
-  "& .MuiSlider-rail": {
-    color: blue500,
-
-  }
-}));
 export interface RangeSliderProps {
   keyOption: MinMaxProps
 }
@@ -33,13 +14,7 @@ export interface MinMaxProps {
   max: number
 }
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
+
 interface GetSliderProps {
   label: string;
   keyOption: string;
@@ -63,11 +38,9 @@ const GetSlider: React.FC<GetSliderProps> = (props) => {
   const handleCommittedChange = (event: Event | React.SyntheticEvent<Element, Event>, newValue: number | number[]) => {
     setValue(newValue as [number, number]);
   };
-
  
   const handleChange = (event:Event, newValue:number | number[]) => {
     setValue(newValue as [number, number]);
-
     setRangeValue({
       ...rangeValue, [idOption]: newValue
     })
