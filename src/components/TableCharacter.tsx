@@ -97,7 +97,7 @@ const TableCharacter = () => {
                     <TableCell style={{ textAlign: 'center' }}>
                       {isShow[row.key] &&
                          value && value?.length > 0 ?
-                         value.map((value)=> <div key={value.id}>{value.label}</div> 
+                         value.map((value)=> <div key={value.id}>----</div> 
                          ): <div>---</div>
                       }
                     </TableCell>
