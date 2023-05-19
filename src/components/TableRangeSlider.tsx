@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from "react";
 import { Table, Box, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Stack, TablePagination } from "@mui/material";
-
 import { useGetOptionsQuery } from '../fetchAPI/fetchApiService'
-import GetSlider from "./Slider";
 import { useSelector } from "react-redux";
-import { Flatlabel, IsShowProp, Options } from '../share/TableRangeSliderType'
+import { Flatlabel, IsShowProp, Options } from '../share/InterfaceTypes'
 import RangeSlider from "./RangeSlider";
 import { StyledTableRow } from "../styleMUI";
 import { RootState } from "../redux/store";

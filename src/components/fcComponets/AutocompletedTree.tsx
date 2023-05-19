@@ -58,7 +58,7 @@ const AutocompleteBox: React.FC = () => {
           width={450}
           height={200}
           leading={true}
-          // chip={true}
+          chip={true}
           // limit={5}
           placeholderCtx={true}
           trailing={true}

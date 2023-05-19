@@ -1,4 +1,4 @@
-import { Flatlabel, Options, VoyageOptionsValue, TYPES } from '../share/TableRangeSliderType';
+import { Flatlabel, Options, VoyageOptionsValue, TYPES } from '../share/InterfaceTypes';
 
 export const fetchOptionsData = async (
     data: Options,

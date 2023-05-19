@@ -38,15 +38,19 @@ export const TYPES: {
     CharField: 'CharField'
 };
 
-type MyObject = {
-    key: string;
-    label: string;
-    id: number;
-    type: string;
-};
 
-
-export interface AutoSliceLists {
+export interface AutoCompleteSliceLists {
     results: string[][]
     total_results_count: number
+}
+
+
+export interface AutoCompleteLists {
+    results: AutoCompleteOption[]
+    total_results_count: number
+}
+
+export interface AutoCompleteOption {
+    id: number
+    label: string
 }

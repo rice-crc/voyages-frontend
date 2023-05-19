@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { Stack, Box,Typography } from "@mui/material";
-import { IsShowProp } from "../share/TableRangeSliderType";
+import { IsShowProp } from "../share/InterfaceTypes";
 
 import { Item,Input,CustomSlider } from "../styleMUI";
-import { fetchRangeSlider } from "../fetchAPI/FetchAggregationsSlider";
+import { fetchRangeSlider } from "../fetchAPI/fetchAggregationsSlider";
 
 export interface RangeSliderProps {
   keyOption: MinMaxProps

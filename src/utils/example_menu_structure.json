@@ -1,56 +1,92 @@
-{
-	"Owner, Crew, & Captain": {	
-		"Crew":{
-			"voyage_crew__crew_voyage_outset": {
-				"type": "Integer",
- 				"label": "Crew at voyage outset"
+[
+	{
+		"label": "Owner, Crew, & Captain",
+		"children": [
+			{
+				"label": "Crew",
+				"children": [
+					{
+						"var_name": "voyage_crew__crew_voyage_outset",
+						"type": "Integer",
+						"label": "Crew at voyage outset"
+					},
+					{
+						"var_name": "voyage_crew__crew_first_landing",
+						"type": "Integer",
+						"label": "Crew at first landing of slaves"
+					},
+					{
+						"var_name": "voyage_crew__crew_died_complete_voyage",
+						"type": "Integer",
+						"label": "Crew died during complete voyage"
+					}
+				]
 			},
-			"voyage_crew__crew_first_landing": {
-				"type": "Integer",
- 				"label": "Crew at first landing of slaves"
+			{
+				"label": "Captain's name",
+				"children": [
+					{
+						"var_name": "voyage_captainconnection__captain__name",
+						"type": "ShortText",
+						"label": "Ship Captain"
+					}
+				]
 			},
-			"voyage_crew__crew_died_complete_voyage": {
-				"type": "Integer",
- 				"label": "Crew died during complete voyage"
+			{
+				"label": "Ship Owner Name",
+				"children": [
+					{
+						"var_name": "voyage_shipownerconnection__owner__name",
+						"type": "ShortText",
+						"label": "Ship Owner"
+					}
+				]
 			}
-		},
-		"voyage_captainconnection__captain__name": {
-			"type": "ShortText",
- 			"label": "Ship Captain"
-		},
-		"voyage_shipownerconnection__owner__name": {
-			"type": "ShortText",
- 			"label": "Ship Owner"
-		}
+		]
 	},
-	"Itinerary": {
-		"Port of Departure": {
-			"voyage_itinerary__port_of_departure__geo_location__latitude": {
-				"type": "Decimal",
- 				"label": "Latitude of Port of departure (PORTDEP)"
+	{
+		"label": "Itinerary",
+		"children": [
+			{
+				"label": "Port of Departure",
+				"children": [
+					{
+						"var_name": "voyage_itinerary__port_of_departure__geo_location__latitude",
+						"type": "Decimal",
+						"label": "Latitude of Port of departure (PORTDEP)"
+					},
+					{
+						"var_name": "voyage_itinerary__port_of_departure__geo_location__longitude",
+						"type": "Decimal",
+						"label": "Longitude of Port of departure (PORTDEP)"
+					},
+					{
+						"var_name": "voyage_itinerary__port_of_departure__geo_location__name",
+						"type": "ShortText",
+						"label": "Port of departure (PORTDEP)"
+					}
+				]
 			},
-			"voyage_itinerary__port_of_departure__geo_location__longitude": {
-				"type": "Decimal",
- 				"label": "Longitude of Port of departure (PORTDEP)"
-			},
-			"voyage_itinerary__port_of_departure__geo_location__name": {
-				"type": "ShortText",
- 				"label": "Port of departure (PORTDEP)"
+			{
+				"label": "Port of Arrival",
+				"children": [
+					{
+						"var_name": "voyage_itinerary__place_voyage_ended__geo_location__latitude",
+						"type": "Decimal",
+						"label": "Latitude of Place at which voyage ended (PORTRET)"
+					},
+					{
+						"var_name": "voyage_itinerary__place_voyage_ended__geo_location__longitude",
+						"type": "Decimal",
+						"label": "Longitude of Place at which voyage ended (PORTRET)"
+					},
+					{
+						"var_name": "voyage_itinerary__place_voyage_ended__geo_location__name",
+						"type": "ShortText",
+						"label": "Place at which voyage ended (PORTRET)"
+					}
+				]
 			}
-		},
-		"Port of Arrival": {
-			"voyage_itinerary__place_voyage_ended__geo_location__latitude": {
-				"type": "Decimal",
- 				"label": "Latitude of Place at which voyage ended (PORTRET)"
-			},
-			"voyage_itinerary__place_voyage_ended__geo_location__longitude": {
-				"type": "Decimal",
- 				"label": "Longitude of Place at which voyage ended (PORTRET)"
-			},
-			"voyage_itinerary__place_voyage_ended__geo_location__name": {
-				"type": "ShortText",
- 				"label": "Place at which voyage ended (PORTRET)"
-			}
-		}
+		]
 	}
-}
+]

@@ -1,7 +1,10 @@
 
-import { styled } from "@mui/material/styles";
-import { TableRow, Paper, Slider } from "@mui/material";
+import { styled, createStyles } from "@mui/material/styles";
+
+import { TableRow, Paper, Slider, Theme } from "@mui/material";
 import MuiInput from "@mui/material/Input";
+const blue500 = "#42a5f5";
+const bgNavBar = "#85d4cbde"
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
@@ -26,7 +29,7 @@ export const Item = styled(Paper)(({ theme }) => ({
 export const Input = styled(MuiInput)`
   width: 80px;
 `;
-const blue500 = "#42a5f5";
+
 
 export const CustomSlider = styled(Slider)(() => ({
     color: blue500,
@@ -41,3 +44,9 @@ export const CustomSlider = styled(Slider)(() => ({
 
     }
 }));
+
+export const AppNavStyle = {
+    backgroundColor: bgNavBar,
+    color: 'black'
+}
+

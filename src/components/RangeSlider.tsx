@@ -4,7 +4,7 @@ import { setRange, setValue } from '../redux/rangeSliderSlice'
 import { Typography } from "@mui/material";
 import { CustomSlider, Input, Item } from '../styleMUI';
 import { AppDispatch, RootState } from '../redux/store';
-import { RangeSliderState } from '../share/TableRangeSliderType';
+import { RangeSliderState } from '../share/InterfaceTypes';
 import { fetchRangeSliderData } from '../fetchAPI/FetchAggregationsSlider';
 
 interface GetSliderProps {

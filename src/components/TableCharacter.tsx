@@ -3,28 +3,22 @@ import { useEffect, useState } from "react";
 import { Table, Box, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Stack, TablePagination } from "@mui/material";
 import { useGetOptionsQuery } from '../fetchAPI/fetchApiService'
 import { useSelector } from "react-redux";
-import { VoyageOptionsValue, Flatlabel, IsShowProp, Options } from '../share/TableRangeSliderType'
+import { AutoCompleteOption, Flatlabel, IsShowProp, Options } from '../share/InterfaceTypes'
 import { StyledTableRow } from "../styleMUI";
-import { setValue } from "../redux/rangeSliderSlice";
-import {fetchOptionsData} from '../fetchAPI/fetchOptionsData'
+import { fetchOptionsData } from '../fetchAPI/fetchOptionsData'
 import { RootState } from "../redux/store";
-// import AutocompleteBox from "./Autocompleted";
 import AutocompleteBox from "./AutocompletedBox";
 
 
-
 const TableCharacter = () => {
-  const datas = useSelector((state:RootState) =>  state.getOptions.value);
+  const datas = useSelector((state: RootState) => state.getOptions.value);
   const [optionsLabel, setOptionsLabel] = useState<Flatlabel[]>([]);
-  const {data,isLoading,isSuccess } = useGetOptionsQuery(datas);
+  const { data, isLoading, isSuccess } = useGetOptionsQuery(datas);
   const colunmName = ["Label", "Auto Complete", "Display"];
   const [isShow, setIsShow] = useState<IsShowProp>({});
-
-  const [value, setValue] = useState<any>();
+  const [value, setValue] = useState<AutoCompleteOption[]>([]);
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-
-
 
 
   useEffect(() => {
@@ -61,7 +55,7 @@ const TableCharacter = () => {
       </div>
     );
   }
-  
+
 
   return (
     <Box>
@@ -95,18 +89,17 @@ const TableCharacter = () => {
                     >
                       <div> {row.label}</div>
                     </TableCell>
-                    <TableCell> 
-                      {isShow[row.key] && 
-                          <AutocompleteBox keyOptions={row.key}/>
+                    <TableCell>
+                      {isShow[row.key] &&
+                        <AutocompleteBox keyOptions={row.key} setValue={setValue} value={value}/>
                       }
                     </TableCell>
                     <TableCell style={{ textAlign: 'center' }}>
-                      {/* {isShow[row.key] &&
-                        <><div>{row.key}</div>
-                          {rangeValue?.[row.key] && <div>{`${(rangeValue?.[row.key][0])} - ${(rangeValue?.[row.key][1])}`}</div>}
-                          <div style={{ color: 'red' }}>{rangeValue && message}</div>
-                        </>
-                      } */}
+                      {isShow[row.key] &&
+                         value && value?.length > 0 ?
+                         value.map((value)=> <div key={value.id}>{value.label}</div> 
+                         ): <div>---</div>
+                      }
                     </TableCell>
                   </StyledTableRow>
                 )

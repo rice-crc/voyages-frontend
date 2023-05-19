@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { OptionsDataState } from '../share/TableRangeSliderType'
+import { OptionsDataState } from '../share/InterfaceTypes'
 
 
 

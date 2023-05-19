@@ -1,60 +1,75 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { AppDispatch, RootState } from '../redux/store';
-import DropdownTreeSelect from "react-dropdown-tree-select";
-import { useDispatch, useSelector } from "react-redux";
-import "./table.css";
-import "react-dropdown-tree-select/dist/styles.css";
-import data from "../utils/data.json";
+import { FunctionComponent, useEffect, useState, useMemo } from "react";
+import { AppDispatch } from '../redux/store';
+import { useDispatch } from "react-redux";
 import { fetchAutoComplete } from "../fetchAPI/fetchAutoCompleted";
-import { AutoSliceLists } from "../share/TableRangeSliderType";
+import { Autocomplete, Stack, TextField, Box } from '@mui/material';
+import "../style/table.css";
+import "react-dropdown-tree-select/dist/styles.css";
+import { AutoCompleteOption } from "../share/InterfaceTypes";
 
 interface AutocompleteBoxProps {
-  keyOptions: string
+  keyOptions: string;
+  value: AutoCompleteOption[];
+  setValue: React.Dispatch<React.SetStateAction<AutoCompleteOption[]>>
 }
+
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
-  const { keyOptions } = props;
-  // assignObjectPaths(data);
-  const onChange = (currentNode: any, selectedNodes: any) => {
-    console.log("path::", currentNode.path);
-  };
+  const { keyOptions, setValue } = props;
+  const [autoList, setAutoLists] = useState<AutoCompleteOption[]>([]);
+  const [selectedValue, setSelectedValue] = useState<AutoCompleteOption[]>([]);
+  const [autoValue, setAutoValue] = useState<string>('');
 
-
-  const [autoList, setAutoLists] = useState<string[]>([])
-  const [searchAuto, setSearchAuto] = useState<string[]>([])
-  const [inputValue, setInputValue] = useState<string>('')
   const dispatch: AppDispatch = useDispatch();
-  const { results } = useSelector((state: RootState) => state.autoCompleteList as AutoSliceLists)
-  // console.log('results', results)
+
   useEffect(() => {
     const formData: FormData = new FormData();
-    formData.append(keyOptions, '');
+    formData.append(keyOptions, autoValue);
     dispatch(fetchAutoComplete(formData))
       .unwrap()
       .then((response: any) => {
         if (response) {
-          setAutoLists(response?.results[0])
+          setAutoLists(response?.results);
         }
       })
       .catch((error: any) => {
-        console.log('error', error)
+        console.log('error', error);
       });
-  }, [dispatch, keyOptions]);
+  }, [dispatch, keyOptions, autoValue]);
 
-  console.log('autoList', autoList)
+  const handleInputChange = useMemo(() => (event: React.SyntheticEvent<Element, Event>, value: string) => {
+    event.preventDefault();
+    setAutoValue(value);
+  }, []);
 
-  const assignObjectPaths = (obj: any, stack: any) => {
-    Object.keys(obj).forEach(k => {
-      console.log('k', k)
-      const node = obj[k];
-      if (typeof node === "object") {
-        node.path = stack ? `${stack}.${k}` : k;
-        assignObjectPaths(node, node.path);
-      }
-    });
-  };
-  assignObjectPaths(data, null)
   return (
-    <DropdownTreeSelect data={data} onChange={onChange} className="mdl-demo" />
+    <Stack spacing={3} sx={{ width: 500 }}>
+      <Autocomplete
+        multiple
+        id="tags-outlined"
+        options={autoList}
+        getOptionLabel={(option) => option.label}
+        value={selectedValue}
+        onChange={(event, newValue) => {
+          setSelectedValue(newValue as AutoCompleteOption[]);
+          setValue((prevValue) => [...prevValue, ...(newValue as AutoCompleteOption[])]);
+        }}
+        onInputChange={handleInputChange}
+        inputValue={autoValue}
+        renderOption={(props, option) => (
+          <Box component="li" {...props} key={option.id}>
+            {option.label}
+          </Box>
+        )}
+        filterSelectedOptions
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="field"
+            placeholder="SelectedOptions"
+          />
+        )}
+      />
+    </Stack>
   );
 };
 
