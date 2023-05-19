@@ -26,7 +26,7 @@ interface GetSliderProps {
   isShow: IsShowProp
 }
 const GetSlider: React.FC<GetSliderProps> = (props) => {
-  const { label, keyOption, setRangeValue, idOption, rangeValue, setMessage } = props;
+  const { label, keyOption, setMessage } = props;
 
   const [range, setRange] = useState<[number, number]>([0, 0]);
   const [value, setValue] = useState<[number, number]>([Number(range[0]) / 2, Number(range[1]) / 2]);

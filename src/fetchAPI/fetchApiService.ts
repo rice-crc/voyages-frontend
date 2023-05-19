@@ -13,7 +13,7 @@ export const voyagesApi = createApi({
             }),
             transformResponse: (response) => {
                 return response
-            }
+            },
         })
     })
 });

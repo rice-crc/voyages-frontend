@@ -1,30 +1,79 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setRange, setValue } from '../redux/rangeSliderSlice'
-import { Typography } from "@mui/material";
-import { CustomSlider, Input, Item } from '../styleMUI';
-import { AppDispatch, RootState } from '../redux/store';
-import { RangeSliderState } from '../share/TableRangeSliderType';
-import { fetchRangeSliderData } from '../fetchAPI/FetchAggregationsSlider';
+import React, { useEffect, useRef, useState } from "react";
+import { NestedSelect } from "multi-nested-select";
 
-interface GetSliderProps {
-    label: string;
-    setValue: React.Dispatch<React.SetStateAction<Record<string, number[]>>>;
-    value: Record<string, number[]>;
-    keyOption: string
+interface Country {
+  name: string;
+  code: string;
+  disabled?: boolean;
+  zones: Zone[];
+  continent: string;
+  provinceKey: string;
 }
-const Autocompleted: React.FC<GetSliderProps> = (props) => {
-    const { setValue, value, label, keyOption } = props;
-    const LABEL = label.replace(/'>/g, "").split(' : ');
-   
-    
-    return (
-        <div>
-            <Item>
-                <Typography>{LABEL[0]}</Typography>
-            </Item>
-        </div>
-    );
-};
 
-export default Autocompleted;
+interface Zone {
+  code: string;
+  disabled?: boolean;
+  name: string;
+}
+
+const AutocompleteBox: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [response, setResponse] = useState<Country[]>([]);
+  const data: Country[] = [
+    {
+      name: "Afghanistan",
+      code: "AF",
+      disabled: true,
+      zones: [],
+      continent: "Asia",
+      provinceKey: "REGION"
+    },
+    // Rest of the data...
+  ];
+
+  const callbackFunction = (value: Country[]) => {
+    console.log(value);
+    setResponse(value);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        // alert("saving fat");
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, []);
+
+  return (
+      <div className="center-component" ref={ref}>
+        <NestedSelect
+          enableButton={true}
+          state={true}
+          width={450}
+          height={200}
+          leading={true}
+          // chip={true}
+          // limit={5}
+          placeholderCtx={true}
+          trailing={true}
+          trailingIcon={true}
+          inputClass="myCustom_text"
+          continent={false}
+          selectAllOption={true}
+          dropDownClass="myCustom_dropbox"
+          selectedValue={data}
+          onViewmore={(v:any) => alert("viewed")}
+          onChipDelete={(v:any) => alert("deleted")}
+          onChange={(v:any) => console.log("okay", v)}
+          callback={(val:any) => callbackFunction(val)}
+        />
+      </div>
+)}
+
+export default AutocompleteBox

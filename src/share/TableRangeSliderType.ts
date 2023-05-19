@@ -44,3 +44,9 @@ type MyObject = {
     id: number;
     type: string;
 };
+
+
+export interface AutoSliceLists {
+    results: string[][]
+    total_results_count: number
+}

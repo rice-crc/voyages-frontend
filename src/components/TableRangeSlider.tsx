@@ -5,12 +5,11 @@ import { Table, Box, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import { useGetOptionsQuery } from '../fetchAPI/fetchApiService'
 import GetSlider from "./Slider";
 import { useSelector } from "react-redux";
-import { VoyageOptionsValue, Flatlabel, IsShowProp, Options } from '../share/TableRangeSliderType'
+import { Flatlabel, IsShowProp, Options } from '../share/TableRangeSliderType'
 import RangeSlider from "./RangeSlider";
 import { StyledTableRow } from "../styleMUI";
 import { RootState } from "../redux/store";
 import { fetchOptionsDataIntegerField} from "../fetchAPI/fetchOptionsData";
-
 
 const TableRangeSlider = () => {
   const datas = useSelector((state: RootState) => state.getOptions.value);

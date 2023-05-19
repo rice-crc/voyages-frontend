@@ -29,7 +29,6 @@ export const fetchRangeSlider = async (
     setMessage: React.Dispatch<React.SetStateAction<string>>
     // enpoint app --> voyage , past/enslaved , past/enslavers
 ) => {
-
     const data = new FormData();
     data.append('aggregate_fields', keyOption);
     const config: AxiosRequestConfig = {

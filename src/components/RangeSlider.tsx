@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FunctionComponent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setRange, setValue } from '../redux/rangeSliderSlice'
 import { Typography } from "@mui/material";
@@ -13,9 +13,9 @@ interface GetSliderProps {
     rangeValue: Record<string, number[]>;
     keyOption: string
 }
-const RangeSlider: React.FC<GetSliderProps> = (props) => {
+const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
     const { setRangeValue, rangeValue, label, keyOption } = props;
-    const [silderValue, setSilderValue] = useState<any>([0,0])
+    const [silderValue, setSilderValue] = useState<number[]>([0,0])
     const dispatch: AppDispatch = useDispatch();
 
     const { value } = useSelector((state: RootState) =>  state.rangeSlider as RangeSliderState)
@@ -41,8 +41,9 @@ const RangeSlider: React.FC<GetSliderProps> = (props) => {
                 console.log('error', error)
             });
     }, [dispatch,keyOption]);
+    
     const handleSliderChange = (event: Event, newValue:number| number[]) => {
-        setSilderValue(newValue)
+        setSilderValue(newValue as number[])
         dispatch(setRange(newValue as number[]));
         setRangeValue({
             ...rangeValue, [keyOption]: newValue  as number[]

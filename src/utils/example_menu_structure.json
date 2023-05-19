@@ -1,0 +1,56 @@
+{
+	"Owner, Crew, & Captain": {	
+		"Crew":{
+			"voyage_crew__crew_voyage_outset": {
+				"type": "Integer",
+ 				"label": "Crew at voyage outset"
+			},
+			"voyage_crew__crew_first_landing": {
+				"type": "Integer",
+ 				"label": "Crew at first landing of slaves"
+			},
+			"voyage_crew__crew_died_complete_voyage": {
+				"type": "Integer",
+ 				"label": "Crew died during complete voyage"
+			}
+		},
+		"voyage_captainconnection__captain__name": {
+			"type": "ShortText",
+ 			"label": "Ship Captain"
+		},
+		"voyage_shipownerconnection__owner__name": {
+			"type": "ShortText",
+ 			"label": "Ship Owner"
+		}
+	},
+	"Itinerary": {
+		"Port of Departure": {
+			"voyage_itinerary__port_of_departure__geo_location__latitude": {
+				"type": "Decimal",
+ 				"label": "Latitude of Port of departure (PORTDEP)"
+			},
+			"voyage_itinerary__port_of_departure__geo_location__longitude": {
+				"type": "Decimal",
+ 				"label": "Longitude of Port of departure (PORTDEP)"
+			},
+			"voyage_itinerary__port_of_departure__geo_location__name": {
+				"type": "ShortText",
+ 				"label": "Port of departure (PORTDEP)"
+			}
+		},
+		"Port of Arrival": {
+			"voyage_itinerary__place_voyage_ended__geo_location__latitude": {
+				"type": "Decimal",
+ 				"label": "Latitude of Place at which voyage ended (PORTRET)"
+			},
+			"voyage_itinerary__place_voyage_ended__geo_location__longitude": {
+				"type": "Decimal",
+ 				"label": "Longitude of Place at which voyage ended (PORTRET)"
+			},
+			"voyage_itinerary__place_voyage_ended__geo_location__name": {
+				"type": "ShortText",
+ 				"label": "Place at which voyage ended (PORTRET)"
+			}
+		}
+	}
+}
