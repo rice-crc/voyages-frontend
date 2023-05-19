@@ -23,13 +23,7 @@ const TableCharacter = () => {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
-  if (isLoading) {
-    return (
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <h1>Loading</h1>
-      </div>
-    );
-  }
+
   useEffect(() => {
     if (isSuccess) {
       const fetchData = async () => {
@@ -57,6 +51,14 @@ const TableCharacter = () => {
     }))
   };
 
+  if (isLoading) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <h1>Loading</h1>
+      </div>
+    );
+  }
+  
   return (
     <Box>
       <TableContainer component={Paper}>
