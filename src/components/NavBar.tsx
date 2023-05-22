@@ -3,13 +3,13 @@ import {
   Hidden
 } from '@mui/material';
 
-import MenuListComposition from './NestedMenuItems';
+import CanscandingMenu from './CanscandingMenu';
 
 const NavBar: React.FC = () => {
 
   return (
     <Hidden smDown>
-      <MenuListComposition />
+      <CanscandingMenu />
     </Hidden>
 
   );
