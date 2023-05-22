@@ -54,3 +54,18 @@ export interface AutoCompleteOption {
     id: number
     label: string
 }
+
+
+export type YoyagaesFilterMenu = filterMenu[]
+
+export interface filterMenu {
+    label: string
+    children: ChildrenFilter[]
+}
+
+export interface ChildrenFilter {
+    var_name?: string
+    type?: string
+    label: string
+    flatlabel?: string
+}

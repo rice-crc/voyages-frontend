@@ -1,4 +1,3 @@
-import TableRangeSlider from './components/TableRangeSlider'
 import React from 'react';
 import NavBar from './components/NavBar'
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -13,7 +12,6 @@ const App: React.FC = () => {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <NavBar/>
-        {/* <TableRangeSlider /> */}
       </QueryClientProvider>
     </Provider>
   )

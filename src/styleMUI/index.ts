@@ -1,11 +1,11 @@
 
-import { styled, createStyles } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 import { TableRow, Paper, Slider, Theme } from "@mui/material";
 import MuiInput from "@mui/material/Input";
 const blue500 = "#42a5f5";
-const bgNavBar = "#85d4cbde"
-
+export const bgNavBar = "#85d4cbde"
+export const WHITE = "#fff"
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
         backgroundColor: theme.palette.action.hover,
@@ -50,3 +50,11 @@ export const AppNavStyle = {
     color: 'black'
 }
 
+export const StyleMenuItem = styled('div')(({ theme }) => ({
+    "& .Mui-selected": {
+        backgroundColor: WHITE,
+    },
+    "&:hover": {
+        backgroundColor: "rgb(25 118 210 / 12%)",
+    },
+}));

@@ -3,8 +3,10 @@ import getOptionsReducer from './opptionsDataSlice';
 import getRangeSliderReducer from './getRangeSliderSlice';
 import rangeSliderSlice from './rangeSliderSlice';
 import getAutoCompleteList from './getAutoCompleteSlice'
+import getOptionsFlatMenu from './getOptionsFlatObj'
 import { voyagesApi } from '../fetchAPI/fetchApiService';
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
+
 
 
 const store = configureStore({
@@ -13,6 +15,7 @@ const store = configureStore({
         getRangeSlider: getRangeSliderReducer,
         rangeSlider: rangeSliderSlice,
         autoCompleteList: getAutoCompleteList,
+        optionFlatMenu: getOptionsFlatMenu,
         [voyagesApi.reducerPath]: voyagesApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
