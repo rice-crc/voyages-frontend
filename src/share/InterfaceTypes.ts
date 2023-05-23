@@ -68,4 +68,5 @@ export interface ChildrenFilter {
     type?: string
     label: string
     flatlabel?: string
+    children?: ChildrenFilter[]
 }

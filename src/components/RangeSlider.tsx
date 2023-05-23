@@ -5,18 +5,22 @@ import { Typography } from "@mui/material";
 import { CustomSlider, Input, Item } from '../styleMUI';
 import { AppDispatch, RootState } from '../redux/store';
 import { RangeSliderState } from '../share/InterfaceTypes';
-import { fetchRangeSliderData } from '../fetchAPI/FetchAggregationsSlider';
+import { fetchRangeSliderData } from '../fetchAPI/fetchAggregationsSlider';
+
 
 interface GetSliderProps {
-    label: string;
+    label?: string;
     setRangeValue: React.Dispatch<React.SetStateAction<Record<string, number[]>>>;
-    rangeValue: Record<string, number[]>;
+    rangeValue?: Record<string, number[]>;
     keyOption: string
 }
 const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
     const { setRangeValue, rangeValue, label, keyOption } = props;
     const [silderValue, setSilderValue] = useState<number[]>([0,0])
     const dispatch: AppDispatch = useDispatch();
+    const [initialPosition, setInitialPosition] = useState<number>(0);
+
+    const [elementPosition, setRangeSliderPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
 
     const { value } = useSelector((state: RootState) =>  state.rangeSlider as RangeSliderState)
     const min = value?.[keyOption]?.[0] || 0
@@ -43,6 +47,11 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
     }, [dispatch,keyOption]);
     
     const handleSliderChange = (event: Event, newValue:number| number[]) => {
+        const changedElement = event.currentTarget;
+        console.log('changedElement',changedElement)
+        // const { top, left, height } = clickedElement.getBoundingClientRect();
+        // console.log('top-->', top)
+        // console.log('left-->', left)
         setSilderValue(newValue as number[])
         dispatch(setRange(newValue as number[]));
         setRangeValue({

@@ -91,7 +91,7 @@ const TableCharacter = () => {
                     </TableCell>
                     <TableCell>
                       {isShow[row.key] &&
-                        <AutocompleteBox keyOptions={row.key} setValue={setValue} value={value}/>
+                        <AutocompleteBox keyOption={row.key} setValue={setValue} value={value}/>
                       }
                     </TableCell>
                     <TableCell style={{ textAlign: 'center' }}>

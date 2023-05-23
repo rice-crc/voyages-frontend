@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
+import { useState, useEffect, FunctionComponent } from "react";
 import { Stack, Box,Typography } from "@mui/material";
 import { IsShowProp } from "../share/InterfaceTypes";
 
@@ -25,7 +25,7 @@ interface GetSliderProps {
   setMessage: React.Dispatch<React.SetStateAction<string>>
   isShow: IsShowProp
 }
-const GetSlider: React.FC<GetSliderProps> = (props) => {
+const GetSlider: FunctionComponent<GetSliderProps> = (props) => {
   const { label, keyOption, setMessage } = props;
 
   const [range, setRange] = useState<[number, number]>([0, 0]);

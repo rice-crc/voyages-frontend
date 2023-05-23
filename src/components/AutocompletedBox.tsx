@@ -8,13 +8,14 @@ import "react-dropdown-tree-select/dist/styles.css";
 import { AutoCompleteOption } from "../share/InterfaceTypes";
 
 interface AutocompleteBoxProps {
-  keyOptions: string;
-  value: AutoCompleteOption[];
+  keyOption: string;
+  value?: AutoCompleteOption[];
   setValue: React.Dispatch<React.SetStateAction<AutoCompleteOption[]>>
+
 }
 
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
-  const { keyOptions, setValue } = props;
+  const { keyOption, setValue } = props;
   const [autoList, setAutoLists] = useState<AutoCompleteOption[]>([]);
   const [selectedValue, setSelectedValue] = useState<AutoCompleteOption[]>([]);
   const [autoValue, setAutoValue] = useState<string>('');
@@ -23,7 +24,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
 
   useEffect(() => {
     const formData: FormData = new FormData();
-    formData.append(keyOptions, autoValue);
+    formData.append(keyOption, autoValue);
     dispatch(fetchAutoComplete(formData))
       .unwrap()
       .then((response: any) => {
@@ -34,7 +35,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
       .catch((error: any) => {
         console.log('error', error);
       });
-  }, [dispatch, keyOptions, autoValue]);
+  }, [dispatch, keyOption, autoValue]);
 
   const handleInputChange = useMemo(() => (event: React.SyntheticEvent<Element, Event>, value: string) => {
     event.preventDefault();
@@ -43,6 +44,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
 
   return (
     <Stack spacing={3} sx={{ width: 500 }}>
+
       <Autocomplete
         multiple
         id="tags-outlined"
