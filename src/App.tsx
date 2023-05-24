@@ -1,8 +1,8 @@
 import React from 'react';
-import NavBar from './components/navbar/NavBar'
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import HOME from './components/Home';
 
 const App: React.FC = () => {
 
@@ -11,7 +11,7 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <NavBar/>
+        <HOME/>
       </QueryClientProvider>
     </Provider>
   )

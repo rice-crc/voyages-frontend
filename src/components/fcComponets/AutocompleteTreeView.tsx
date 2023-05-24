@@ -4,7 +4,7 @@ import DropdownTreeSelect, { TreeNode } from "react-dropdown-tree-select";
 import { useDispatch, useSelector } from "react-redux";
 import "./table.css";
 import "react-dropdown-tree-select/dist/styles.css";
-import autoData from '../../utils/example_menu_structure.json' // WILL GET TO NEW API
+import autoData from '../../utils/transatlantic_voyages_filter_menu.json' // WILL GET TO NEW API
 import { fetchAutoComplete } from "../../fetchAPI/fetchAutoCompleted";
 import {  Stack  } from '@mui/material';
 interface AutocompleteBoxProps {

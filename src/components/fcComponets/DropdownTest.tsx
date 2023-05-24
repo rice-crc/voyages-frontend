@@ -1,96 +1,66 @@
-import { useState } from 'react';
-import { Menu as MenuIcon } from '@mui/icons-material';
-import { AppBar, IconButton, Menu, Toolbar, MenuItem, Hidden } from '@mui/material';
-import { MenuListDropdownStyle, bgNavBar } from '../../styleMUI';
-import { useSelector } from "react-redux";
-import { MenuListDropdown } from '../canscanding/MenuListDropdown';
-import TableRangeSlider from '../TableRangeSlider';
-import TableCharacter from '../TableCharacter';
-import { RootState } from "../../redux/store";
-import './menustyle.css';
-import { ChildrenFilter, YoyagaesFilterMenu, filterMenu } from '../../share/InterfaceTypes';
+import React, { useState, FunctionComponent } from 'react';
+import {
+    Paper,
+    Box,
+    Tabs,
+    Tab,
+    Typography,
+} from '@mui/material';
+import RangeSlider from '../RangeSlider';
+import { ChildrenNewObjectProp } from '../../share/InterfaceTypes';
 
-const MenuItemListTest = () => {
-    const menuOptionFlat: YoyagaesFilterMenu = useSelector((state: RootState) => state.optionFlatMenu.value);
+interface MenuListBoxProps {
+    listMenu: ChildrenNewObjectProp[];
+    isOpen?: boolean;
+    activeTab: number;
+    idMenu:number;
+    handleTabChange: (event: React.ChangeEvent<{}>, newValue: number) => void
+    setRangeValue: React.Dispatch<React.SetStateAction<Record<string, number[]>>>;
 
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [tableType, setTableType] = useState<string>('integer');
+}
 
-    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
+const DropdownTEST: FunctionComponent<MenuListBoxProps> = (props) => {
+    const { listMenu, isOpen,idMenu,  activeTab, handleTabChange,setRangeValue } = props;
+    console.log('idMenu-->', idMenu)
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleTableSelect = (tableType: string) => {
-        setTableType(tableType);
-        handleMenuClose();
-    };
-
-    const renderSubChildItems = (subChildItems: ChildrenFilter[] = []) => {
-        if (subChildItems.length) {
-            return subChildItems.map((subChildItem: ChildrenFilter) => (
-                <li key={subChildItem.label}><div >{subChildItem.label}</div></li>
-            ));
-        }
-        return null;
-    };
+    if(!listMenu){
+        return <>Loading</>
+    }
 
     return (
         <div>
-            <AppBar position="static" style={{ backgroundColor: bgNavBar, color: 'black', fontSize: 12 }}>
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        onClick={handleMenuOpen}
+            <Paper>
+                <Box display="flex">
+                    <Tabs
+                        orientation="vertical"
+                        variant="scrollable"
+                        value={activeTab}
+                        onChange={handleTabChange}
                     >
-                        <MenuIcon />
-                    </IconButton>
-                    <Hidden smDown>
-                        <nav>
-                            <ul className="nav">
-                                {menuOptionFlat.map((item: filterMenu, index: number) => (
-                                    <li key={item.label} className='navBar'>
-                                        <div>{item.label}</div>
-                                        <ul>
-                                            {item.children.map((childItem: ChildrenFilter) => (
-                                                <li key={childItem.label} className='childItem'>
-                                                    <div >{childItem.label}</div>
-                                                    <ul>
-                                                        {renderSubChildItems(childItem.children)}
-                                                    </ul>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </li>
-                                ))}
-                            </ul>
-                        </nav>
-                    </Hidden>
-                </Toolbar>
-                <Menu
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleMenuClose}
-                >
-                    <MenuItem onClick={() => handleTableSelect('integer')}>
-                        Integers
-                    </MenuItem>
-                    <MenuItem onClick={() => handleTableSelect('character')}>
-                        Characters
-                    </MenuItem>
-                    <MenuListDropdownStyle>
-                        <MenuListDropdown />
-                    </MenuListDropdownStyle>
-                </Menu>
-            </AppBar>
-            {tableType === 'integer' ? <TableRangeSlider /> : <TableCharacter />}
+                        {listMenu.map((childItem, tabIndex) => {
+                            return (
+                                idMenu === childItem?.id  &&  <Tab key={tabIndex} label={childItem?.subMenu} />
+                            )
+                        })}
+                    </Tabs>
+                    <Box p={2}>
+                        {listMenu.map((childItem, tabIndex) => {
+                            console.log("childItem", childItem.varName)
+                            return (
+                                <div key={tabIndex} hidden={activeTab !== tabIndex}>
+                                    {idMenu === childItem?.id &&  <Typography>{childItem.subMenu}</Typography>}
+                                    {/* <RangeSlider
+                                        keyOption={childItem.varName}
+                                        setRangeValue={setRangeValue}
+                                    /> */}
+                                </div>
+                            )
+                        })}
+                    </Box>
+                </Box>
+            </Paper>
         </div>
     );
 };
 
-export default MenuItemListTest;
+export default DropdownTEST;

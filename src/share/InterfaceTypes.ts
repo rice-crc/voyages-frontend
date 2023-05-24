@@ -70,3 +70,11 @@ export interface ChildrenFilter {
     flatlabel?: string
     children?: ChildrenFilter[]
 }
+
+export interface ChildrenNewObjectProp {
+    varName?: string
+    subMenu: string | null
+    id: number | null
+    flatlabel?: string | null
+    type?: string | null
+}

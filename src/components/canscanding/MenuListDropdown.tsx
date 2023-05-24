@@ -8,7 +8,7 @@ import { DropdownMenuItem, DropdownNestedMenuItem, GridStyleComponent } from "..
 import RangeSlider from "../RangeSlider";
 import { useState, MouseEvent } from "react";
 import AutocompleteBox from "../AutocompletedBox";
-import DropdownTEST from "../fcComponets/DropdownTest";
+// import DropdownTEST from "../fcComponets/DropdownTest";
 
 export function MenuListDropdown() {
   const menuOptionFlat: YoyagaesFilterMenu = useSelector((state: RootState) => state.optionFlatMenu.value);
@@ -44,18 +44,25 @@ export function MenuListDropdown() {
   const elementPosition = { top: elementTop, left: elementLeft };
   setElementPosition(elementPosition);
   };
-  const renderDropdownItems = (item: filterMenu, index: number) => (
-    <Dropdown
-      key={`${item.label}-${index}`}
-      trigger={
-        <Button style={{ color: '#000', textTransform: 'none' }}>
-          {item.label}
-        </Button>
-      }
-      menu={renderDropdownMenu(item.children)}
-    />
-    // <DropdownTEST/>
-  );
+  
+  const renderMenuList = (item: filterMenu, index: number) => {
+    return (
+    
+       <Button 
+        key={`${item.label}-${index}`} style={{ color: '#000', textTransform: 'none' }}>
+         {item.label}
+      </Button> 
+         //    <Dropdown
+    //   key={`${item.label}-${index}`}
+    //   trigger={
+    //     <Button style={{ color: '#000', textTransform: 'none' }}>
+    //       {item.label}
+    //     </Button>
+    //   }
+    //   menu={renderDropdownMenu(item.children)}
+    // />
+    )
+  }
 
   const renderDropdownMenu = (children: ChildrenFilter[]) =>
     children.map((childItem: ChildrenFilter, index: number) => (
@@ -65,6 +72,7 @@ export function MenuListDropdown() {
       >
         {childItem.children && childItem.children.length > 0 && (
           childItem.children.map((nodeChild: ChildrenFilter, idx: number) => (
+       
             <DropdownMenuItem
               key={`${nodeChild.label}-${idx}`}
               onMouseOver={(event: MouseEvent<HTMLLIElement, globalThis.MouseEvent>) => {
@@ -74,12 +82,13 @@ export function MenuListDropdown() {
               //   handleClickMenu(event, nodeChild?.var_name, nodeChild.type, nodeChild.label);
               // }}
             >
-              {nodeChild.label}
+              {nodeChild.label} 
             </DropdownMenuItem>
           ))
         )}
       </DropdownNestedMenuItem>
     ));
+
 
   const renderRangeSlider = () => (
     <Popper
@@ -134,7 +143,7 @@ export function MenuListDropdown() {
   return (
     <>
       <Box>
-        {menuOptionFlat.map(renderDropdownItems)}
+        {menuOptionFlat.map(renderMenuList)}
       </Box>
       {keyValue && (type === TYPES.IntegerField || type === TYPES.DecimalField) && renderRangeSlider()}
       {keyValue && type === TYPES.CharField && renderAutocompleteBox()}

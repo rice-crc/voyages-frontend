@@ -12,16 +12,12 @@ interface GetSliderProps {
     label?: string;
     setRangeValue: React.Dispatch<React.SetStateAction<Record<string, number[]>>>;
     rangeValue?: Record<string, number[]>;
-    keyOption: string
+    keyOption: string 
 }
 const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
     const { setRangeValue, rangeValue, label, keyOption } = props;
     const [silderValue, setSilderValue] = useState<number[]>([0,0])
     const dispatch: AppDispatch = useDispatch();
-    const [initialPosition, setInitialPosition] = useState<number>(0);
-
-    const [elementPosition, setRangeSliderPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
-
     const { value } = useSelector((state: RootState) =>  state.rangeSlider as RangeSliderState)
     const min = value?.[keyOption]?.[0] || 0
     const max = value?.[keyOption]?.[1] || 0
