@@ -111,34 +111,49 @@
 		"label": "Owner, Crew, & Captain",
 		"children": [
 			{
-				"var_name": "voyage_shipownerconnection__owner__name",
-				"type": "CharField",
-				"label": "Ship Owner",
-				"flatlabel": "Ship Owner"
+				"label": "Ship Owner Name",
+				"children": [
+					{
+						"var_name": "voyage_shipownerconnection__owner__name",
+						"type": "CharField",
+						"label": "Ship Owner",
+						"flatlabel": "Ship Owner"
+					}
+				]
 			},
 			{
-				"var_name": "voyage_captainconnection__captain__name",
-				"type": "CharField",
-				"label": "Ship Captain",
-				"flatlabel": "Ship Captain"
+				"label": "Captain's name",
+				"children": [
+					{
+						"var_name": "voyage_captainconnection__captain__name",
+						"type": "CharField",
+						"label": "Ship Captain",
+						"flatlabel": "Ship Captain"
+					}
+				]
 			},
 			{
-				"var_name": "voyage_crew__crew_died_complete_voyage",
-				"type": "IntegerField",
-				"label": "Crew died during complete voyage",
-				"flatlabel": "Crew died during complete voyage"
-			},
-			{
-				"var_name": "voyage_crew__crew_first_landing",
-				"type": "IntegerField",
-				"label": "Crew at first landing of slaves",
-				"flatlabel": "Crew at first landing of slaves"
-			},
-			{
-				"var_name": "voyage_crew__crew_voyage_outset",
-				"type": "IntegerField",
-				"label": "Crew at voyage outset",
-				"flatlabel": "Crew at voyage outset"
+				"label": "Crew",
+				"children": [
+					{
+						"var_name": "voyage_crew__crew_died_complete_voyage",
+						"type": "IntegerField",
+						"label": "Crew died during complete voyage",
+						"flatlabel": "Crew died during complete voyage"
+					},
+					{
+						"var_name": "voyage_crew__crew_first_landing",
+						"type": "IntegerField",
+						"label": "Crew at first landing of slaves",
+						"flatlabel": "Crew at first landing of slaves"
+					},
+					{
+						"var_name": "voyage_crew__crew_voyage_outset",
+						"type": "IntegerField",
+						"label": "Crew at voyage outset",
+						"flatlabel": "Crew at voyage outset"
+					}
+				]
 			}
 		]
 	},

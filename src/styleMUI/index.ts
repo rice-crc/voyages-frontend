@@ -1,10 +1,9 @@
 
 import { styled } from "@mui/material/styles";
-import { TableRow, Paper, Slider, Theme, MenuItem, Grid } from "@mui/material";
+import { TableRow, Paper, Slider, Theme, MenuItem, Grid, Dialog } from "@mui/material";
 import MuiInput from "@mui/material/Input";
 import NestedMenuItem from "../components/canscanding/NestedMenuItem";
-import { MenuListDropdown } from "../components/canscanding/MenuListDropdown";
-
+import { SxProps } from "@mui/material";
 
 const blue500 = "#42a5f5";
 export const bgNavBar = "#85d4cbde"
@@ -97,24 +96,10 @@ export const GridStyleComponent = styled(Grid)(() => ({
 }));
 
 
-
-export const useStyles = styled('div')((theme) => ({
-  menuButton: {
-    marginRight: 8,
-  },
-  title: {
-    flexGrow: 1,
-  },
-  dropdownContainer: {
-    padding: 8,
-  },
-  mediaObject: {
-    width: '100px',
-    height: '100px',
-  },
-  rangeSlider: {
-    width: '200px',
-    marginLeft: '20px',
-  },
-}));
-
+export const StyleDialog: SxProps = {
+  "& .MuiDialog-container": {
+    position: 'relative',
+    top: "15%",
+    alignItems: "flex-start",
+  }
+};

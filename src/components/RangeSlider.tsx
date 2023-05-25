@@ -1,8 +1,8 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setRange, setValue } from '../redux/rangeSliderSlice'
-import { Typography } from "@mui/material";
-import { CustomSlider, Input, Item } from '../styleMUI';
+import { Divider, Grid } from "@mui/material";
+import { CustomSlider, Input } from '../styleMUI';
 import { AppDispatch, RootState } from '../redux/store';
 import { RangeSliderState } from '../share/InterfaceTypes';
 import { fetchRangeSliderData } from '../fetchAPI/fetchAggregationsSlider';
@@ -16,12 +16,11 @@ interface GetSliderProps {
 }
 const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
     const { setRangeValue, rangeValue, label, keyOption } = props;
+    const { value } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState)
     const [silderValue, setSilderValue] = useState<number[]>([0,0])
     const dispatch: AppDispatch = useDispatch();
-    const { value } = useSelector((state: RootState) =>  state.rangeSlider as RangeSliderState)
     const min = value?.[keyOption]?.[0] || 0
     const max = value?.[keyOption]?.[1] || 0
-
     useEffect(() => {
         const formData: FormData = new FormData();
         formData.append('aggregate_fields', keyOption);
@@ -35,6 +34,9 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
                         ...value, [keyOption]: initialValue
                     }))
                     setSilderValue(initialValue)
+                    setRangeValue({
+                        ...rangeValue, [keyOption]: initialValue  as number[]
+                    })
                 }
             })
             .catch((error: any) => {
@@ -43,11 +45,6 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
     }, [dispatch,keyOption]);
     
     const handleSliderChange = (event: Event, newValue:number| number[]) => {
-        const changedElement = event.currentTarget;
-        console.log('changedElement',changedElement)
-        // const { top, left, height } = clickedElement.getBoundingClientRect();
-        // console.log('top-->', top)
-        // console.log('left-->', left)
         setSilderValue(newValue as number[])
         dispatch(setRange(newValue as number[]));
         setRangeValue({
@@ -56,14 +53,11 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
     };
     
     return (
-        <div>
-            <Item>
-                <Typography>{label}</Typography>
-                <div className="sliderInputs">
+        <Grid  sx={{ width: 350 }}>
                     <Input
                         color="secondary"
                         name="start"
-                        value={min}
+                        value={silderValue[0]}
                         size="small"
                         inputProps={{
                             step: max - min > 20 ? 10 : 1,
@@ -76,7 +70,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
                     />
                     <Input
                         name="end"
-                        value={max}
+                        value={silderValue[1]}
                         size="small"
                         inputProps={{
                             step: max - min > 20 ? 10 : 1,
@@ -87,7 +81,6 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
                             position: "left",
                         }}
                     />
-                </div>
                 <CustomSlider
                     size="small"
                     min={min}
@@ -96,8 +89,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
                     value={silderValue}
                     onChange={handleSliderChange}
                 />
-            </Item>
-        </div>
+            </Grid>
     );
 };
 

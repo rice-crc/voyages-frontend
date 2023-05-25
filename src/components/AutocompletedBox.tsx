@@ -43,8 +43,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   }, []);
 
   return (
-    <Stack spacing={3} sx={{ width: 500 }}>
-
+    <Stack spacing={3} sx={{ width: 350 }}>
       <Autocomplete
         multiple
         id="tags-outlined"
@@ -68,6 +67,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
             {...params}
             label="field"
             placeholder="SelectedOptions"
+            style={{marginTop: 20}}
           />
         )}
       />
