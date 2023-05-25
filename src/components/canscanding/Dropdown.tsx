@@ -1,14 +1,14 @@
-import  {
+import {
   forwardRef,
   ReactElement,
   MouseEvent,
   useState,
   useRef,
-  MutableRefObject,
   ReactNode,
   createElement,
   Children,
   cloneElement,
+  useEffect,
 } from "react";
 import Menu from "@mui/material/Menu";
 import { List } from "@mui/material";
@@ -26,56 +26,53 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     {
       trigger,
       menu,
-      keepOpen: keepOpenGlobal,
       isOpen: controlledIsOpen,
       onOpen: onControlledOpen,
     },
     ref
   ) => {
-    const [isInternalOpen, setInternalOpen] = useState<null | HTMLElement>(
+    const [isInternalOpen, setInternalOpen] = useState<HTMLElement | null>(
       null
     );
 
     const isOpen = controlledIsOpen || isInternalOpen !== null;
-    let anchorRef = useRef<HTMLDivElement | null>(null);
-    if (ref) {
-      anchorRef = ref as MutableRefObject<HTMLDivElement | null>;
-    }
+    const anchorRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+      const handleClose = (event: any) => {
+        event.stopPropagation();
+
+        if (
+          anchorRef.current &&
+          anchorRef.current.contains(event.target as Node)
+        ) {
+          return;
+        }
+        handleForceClose();
+      };
+
+      document.addEventListener("click", handleClose);
+
+      return () => {
+        document.removeEventListener("click", handleClose);
+      };
+    }, []);
 
     const handleOpen = (event: MouseEvent<HTMLDivElement, MouseEvent>) => {
-      console.log("isOpen", isOpen)
-
       event.stopPropagation();
       if (menu.length) {
         onControlledOpen
           ? onControlledOpen(event)
-          : setInternalOpen(event.currentTarget as HTMLElement);
+          : setInternalOpen(event.currentTarget);
       }
     };
 
-    const handleClose = (event: MouseEvent<HTMLElement, MouseEvent>) => {
-    
-      event.stopPropagation();
-
-      if (anchorRef.current && anchorRef.current.contains(event.target as Node)) {
-        return;
-      }
+    const handleClose = () => {
       handleForceClose();
     };
 
     const handleForceClose = () => {
-  
       onControlledOpen ? onControlledOpen(null) : setInternalOpen(null);
-    };
-
-    const handleMenuItemClick = (
-      event: MouseEvent<HTMLLIElement, MouseEvent>
-    ) => {
-      event.stopPropagation();
-      if (!keepOpenGlobal) {
-        setTimeout(handleForceClose, 0); // Close the menu in the next tick
-      }
-      handleClose(event);
     };
 
     const renderMenu = (
@@ -83,7 +80,6 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       index: number
     ): ReactNode => {
       const { ...props } = menuItem.props;
-    
 
       let extraProps: { parentMenuOpen: boolean } = { parentMenuOpen: isOpen };
       if (props.menu) {
@@ -96,7 +92,6 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         ...props,
         key: index,
         ...extraProps,
-        onClick: handleMenuItemClick,
         children: props.menu
           ? Children.map(props.menu, renderMenu)
           : props.children,
@@ -109,6 +104,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           onClick: handleOpen,
           ref: anchorRef,
         })}
+  
         <Menu
           anchorEl={isOpen ? anchorRef.current : null}
           open={isOpen}

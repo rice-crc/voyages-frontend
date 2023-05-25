@@ -5,7 +5,7 @@ import { RootState } from "../../redux/store";
 import { AutoCompleteOption, ChildrenFilter, TYPES, YoyagaesFilterMenu, filterMenu } from "../../share/InterfaceTypes";
 import { DropdownMenuItem, DropdownNestedMenuItem, StyleDialog } from "../../styleMUI";
 import RangeSlider from "../RangeSlider";
-import { useState, MouseEvent, useEffect } from "react";
+import { useState, MouseEvent, useEffect,useCallback,useRef } from "react";
 import AutocompleteBox from "../AutocompletedBox";
 import { PaperDraggable } from "./PaperDraggable";
 
@@ -17,7 +17,27 @@ export function MenuListDropdown() {
   const [keyValue, setKeyValue] = useState<string>('');
   const [type, setType] = useState<string>('');
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
+  const menuRef = useRef<HTMLDivElement>(null);
+  // console.log('isOpenDialog', isOpenDialog)
+  
+  // useEffect(() => {
+  //   // const handleOutsideClicks = (event: any) => {
+  //   //   if (menuOpen && menuRef.current && !menuRef.current.contains(event.target as Node)) {
+  //   //     setMenuOpen(false);
+  //   //   }
+  //   // };
+  
+  //   // document.addEventListener("click", handleCloseDialog);
+  
+  //   return () => {
+  //     document.removeEventListener("click", handleCloseDialog);
+  //   };
+  // }, [menuOpen,isOpenDialog]);
+  
+
+  
   const handleClickMenu = (event: React.MouseEvent<HTMLLIElement>) => {
     const { value, type, label } = event.currentTarget.dataset;
     if (value && type && label) {
@@ -25,13 +45,16 @@ export function MenuListDropdown() {
       setType(type);
       setLabel(label);
       setIsOpenDialog(true);
+      setMenuOpen(false)
     }
   };
-
-  const handleCloseDialog = () => {
-    setIsOpenDialog(false);
-  };
   
+  const handleCloseDialog = (event:any) => {
+    setIsOpenDialog(false);
+    event.stopPropagation();
+    setMenuOpen(false)
+  };
+
   const renderDropdownMenu = (children: ChildrenFilter[]) =>
     children.map((childItem: ChildrenFilter, index: number) => (
       <DropdownNestedMenuItem
@@ -55,16 +78,18 @@ export function MenuListDropdown() {
     ));
 
   return (
+     
     <Box>
       {menuOptionFlat.map((item: filterMenu, index: number) => (
         <Dropdown
           key={`${item.label}-${index}`}
           trigger={
-            <Button style={{ color: '#000', textTransform: 'none' }}>
+            <Button style={{ color: '#000', textTransform: 'none' }} >
               {item.label}
             </Button>
           }
           menu={renderDropdownMenu(item.children)}
+          // setIsOpenDropdown={setIsOpenDropdown}
         />
       ))}
       <Dialog
