@@ -1,4 +1,4 @@
-# CRC-Voyages-React-App-Exercise Range Slider
+# CRC-Voyages-React-App
 This is a sample React application for the CRC Voyages exercise. The application is built using Vite and React, TypeScript, Redux-toolkit, and Material-UI.
 
 [![](https://img.shields.io/badge/npm-v8.12.2-brightgreen)](https://shields.io)  [![](https://img.shields.io/badge/node-v16.15.1-orange)](https://shields.io)
