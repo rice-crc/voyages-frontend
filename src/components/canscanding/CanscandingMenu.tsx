@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { AppBar, IconButton, Menu, Toolbar,  MenuItem, Hidden } from '@mui/material';
 import { MenuListDropdownStyle, bgNavBar } from '../../styleMUI';
-import TableRangeSlider from '../TableRangeSlider';
-import TableCharacter from '../TableCharacter';
 import { MenuListDropdown } from './MenuListDropdown';
 
 export default function CanscandingMenu() {
@@ -54,7 +52,6 @@ export default function CanscandingMenu() {
                     </MenuListDropdownStyle>
                     </Menu>
             </AppBar>
-            {tableType === 'integer' ? <TableRangeSlider /> : <TableCharacter />}
         </div>
     );
 }

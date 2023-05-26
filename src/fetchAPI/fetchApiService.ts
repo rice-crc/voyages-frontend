@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AUTHTOKEN, BASEURL } from "../share/AUTH_BASEURL";
+import { Options } from "@vitejs/plugin-react-refresh";
 
 export const voyagesApi = createApi({
     reducerPath: "voyagesApi",
@@ -11,7 +12,7 @@ export const voyagesApi = createApi({
                 method: "OPTIONS",
                 headers: { 'Authorization': AUTHTOKEN }
             }),
-            transformResponse: (response) => {
+            transformResponse: (response: Options) => {
                 return response
             },
         })

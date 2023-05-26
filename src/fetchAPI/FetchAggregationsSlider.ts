@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import React from 'react';
-import { RangeSliderProps } from '../components/Slider';
+import { RangeSliderProps } from '../components/fcComponets/Slider';
 import { AUTHTOKEN, BASEURL } from '../share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 

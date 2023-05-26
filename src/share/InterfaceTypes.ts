@@ -78,3 +78,29 @@ export interface ChildrenNewObjectProp {
     flatlabel?: string | null
     type?: string | null
 }
+
+export interface VoyageGroupby {
+    [key: string]: VoyageGroupbyValue;
+}
+export interface VoyageGroupbyValue {
+    [key: string]: number[]
+}
+
+export interface plotXYProps {
+    x_vars: PlotXYVar[]
+    y_vars: PlotXYVar[]
+}
+
+export interface PlotXYVar {
+    var_name: string
+    type: string
+    label: string
+}
+
+export interface ScatterOptionsXYResponse {
+    [key: string]: [];
+}
+export interface voygOption {
+    x_vars: string;
+    y_vars: string;
+}
