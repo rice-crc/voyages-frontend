@@ -100,7 +100,7 @@ export interface PlotXYVar {
 export interface ScatterOptionsXYResponse {
     [key: string]: [];
 }
-export interface voygOption {
+export interface VoyagesOptionProps {
     x_vars: string;
     y_vars: string;
 }

@@ -2,7 +2,10 @@ import { useState, useEffect, useMemo, ChangeEvent } from "react";
 import Plot from "react-plotly.js";
 import VOYAGE_SCATTER_OPTIONS from "../../../utils/VOYAGE_SCATTER_OPTIONS.json";
 import { Grid } from "@mui/material";
-import { useWindowSize } from "@react-hook/window-size";
+import {
+  DebouncedWindowSizeOptions,
+  useWindowSize,
+} from "@react-hook/window-size";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetOptionsQuery } from "../../../fetchAPI/fetchApiService";
@@ -11,7 +14,7 @@ import AggregationSumAverage from "./AggregationSumAverage";
 import { fetchVoyageGroupby } from "../../../fetchAPI/fetchVoyageGroupby";
 import {
   PlotXYVar,
-  voygOption,
+  VoyagesOptionProps,
   ScatterOptionsXYResponse,
   Options,
   VoyageOptionsValue,
@@ -27,11 +30,12 @@ function Scatter() {
   } = useGetOptionsQuery(datas);
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
+  const [isValidOption, setIsValidOption] = useState(true);
   const [selectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [selectedY, setSelectedY] = useState<PlotXYVar[]>([]);
   const [plotX, setPlotX] = useState<number[]>([]);
   const [plotY, setPlotY] = useState<number[]>([]);
-  const [voyageOption, setVoyageOption] = useState<voygOption>({
+  const [voyageOption, setVoyageOption] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_SCATTER_OPTIONS.x_vars[0].var_name,
     y_vars: VOYAGE_SCATTER_OPTIONS.y_vars[0].var_name,
   });
@@ -41,7 +45,7 @@ function Scatter() {
 
   const VoyageScatterOptions = () => {
     Object.entries(VOYAGE_SCATTER_OPTIONS).forEach(
-      ([key, value]: [string, PlotXYVar[]], index: number) => {
+      ([key, value]: [string, PlotXYVar[]]) => {
         if (key === "x_vars") {
           setSelectedX(value);
         }
@@ -82,11 +86,12 @@ function Scatter() {
             x_vars: keys[0] || "",
             y_vars: keys[1] || "",
           });
+
           if (keys[0]) {
             setPlotX(response[keys[0]]);
           }
           if (keys[1]) {
-            setPlotY(response[keys[1]]);
+            setPlotY(response[keys[1]]); // WAIT TO CHANGE FORMAT
           }
         }
       })
@@ -97,6 +102,7 @@ function Scatter() {
 
   const handleChangeAggregation = useMemo(
     () => (event: ChangeEvent<HTMLInputElement>, name: string) => {
+      console.log("-->", event.target.value);
       setAggregation(event.target.value);
     },
     [aggregation]
@@ -105,16 +111,25 @@ function Scatter() {
   const handleChangeSelectXY = useMemo(() => {
     return (event: ChangeEvent<HTMLSelectElement>, name: string) => {
       const value = event.target.value;
-      setVoyageOption((prevVoygOption) => ({
-        ...prevVoygOption,
-        [name]: value,
-      }));
+      const isValidOption = selectedX.some(
+        (option) => option.var_name === value
+      );
+      if (isValidOption) {
+        setIsValidOption(true);
+        setVoyageOption((prevVoygOption) => ({
+          ...prevVoygOption,
+          [name]: value,
+        }));
+      } else {
+        setIsValidOption(false);
+      }
     };
-  }, [voyageOption]);
+  }, [selectedX]);
 
   if (isLoading) {
     return <div className="spinner"></div>;
   }
+
   return (
     <div>
       <SelectDropDownXY
@@ -128,6 +143,8 @@ function Scatter() {
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
         showAlert={showAlert}
+        voyageOption={voyageOption}
+        optionFlat={optionFlat}
       />
 
       <div>
@@ -135,8 +152,8 @@ function Scatter() {
           <Plot
             data={[
               {
-                x: [plotX[voyageOption.x_vars as keyof typeof plotX] as number],
-                y: [plotY[voyageOption.y_vars as keyof typeof plotY] as number],
+                x: plotX,
+                y: plotY,
                 type: "scatter",
                 mode: "lines",
                 marker: { color: "red" },

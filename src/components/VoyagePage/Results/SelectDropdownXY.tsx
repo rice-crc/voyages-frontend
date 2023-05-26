@@ -1,10 +1,10 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { ChangeEvent, FunctionComponent } from "react";
-import { PlotXYVar, voygOption } from "../../../share/InterfaceTypes";
+import { PlotXYVar, VoyagesOptionProps } from "../../../share/InterfaceTypes";
 interface SelectDropDownXYProps {
   selectedX: PlotXYVar[];
   selectedY: PlotXYVar[];
-  voyageOption: voygOption;
+  voyageOption: VoyagesOptionProps;
   handleChange: (event: ChangeEvent<HTMLSelectElement>, name: string) => void;
   width: number;
 }
