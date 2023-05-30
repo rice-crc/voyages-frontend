@@ -1,11 +1,8 @@
-import { useState, useEffect, useMemo, ChangeEvent } from "react";
+import { useState, useEffect, useMemo, ChangeEvent, useCallback } from "react";
 import Plot from "react-plotly.js";
 import VOYAGE_SCATTER_OPTIONS from "../../../utils/VOYAGE_SCATTER_OPTIONS.json";
-import { Grid } from "@mui/material";
-import {
-  DebouncedWindowSizeOptions,
-  useWindowSize,
-} from "@react-hook/window-size";
+import { Grid, SelectChangeEvent } from "@mui/material";
+import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetOptionsQuery } from "../../../fetchAPI/fetchApiService";
@@ -15,10 +12,10 @@ import { fetchVoyageGroupby } from "../../../fetchAPI/fetchVoyageGroupby";
 import {
   PlotXYVar,
   VoyagesOptionProps,
-  ScatterOptionsXYResponse,
   Options,
   VoyageOptionsValue,
 } from "../../../share/InterfaceTypes";
+import { fetchOptionsFlat } from "../../../fetchAPI/fetchOptionsFlat";
 
 function Scatter() {
   const dispatch: AppDispatch = useDispatch();
@@ -30,18 +27,37 @@ function Scatter() {
   } = useGetOptionsQuery(datas);
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
-  const [isValidOption, setIsValidOption] = useState(true);
-  const [selectedX, setSelectedX] = useState<PlotXYVar[]>([]);
-  const [selectedY, setSelectedY] = useState<PlotXYVar[]>([]);
-  const [plotX, setPlotX] = useState<number[]>([]);
-  const [plotY, setPlotY] = useState<number[]>([]);
-  const [voyageOption, setVoyageOption] = useState<VoyagesOptionProps>({
-    x_vars: VOYAGE_SCATTER_OPTIONS.x_vars[0].var_name,
-    y_vars: VOYAGE_SCATTER_OPTIONS.y_vars[0].var_name,
+  const [showAlert, setAlert] = useState(false);
+  const [selectedX, setSelectedX] = useState<PlotXYVar[]>(() => {
+    const storedSelectedX = localStorage.getItem("selectedX");
+    return storedSelectedX ? JSON.parse(storedSelectedX) : [];
+  });
+  const [selectedY, setSelectedY] = useState<PlotXYVar[]>(() => {
+    const storedSelectedY = localStorage.getItem("selectedY");
+    return storedSelectedY ? JSON.parse(storedSelectedY) : [];
+  });
+  const [plotX, setPlotX] = useState<number[]>(() => {
+    const storedPlotX = localStorage.getItem("plotX");
+    return storedPlotX ? JSON.parse(storedPlotX) : [];
+  });
+  const [plotY, setPlotY] = useState<number[]>(() => {
+    const storedPlotY = localStorage.getItem("plotY");
+    return storedPlotY ? JSON.parse(storedPlotY) : [];
+  });
+  const [voyageOption, setVoyageOption] = useState<VoyagesOptionProps>(() => {
+    const storedVoyageOption = localStorage.getItem("voyageOption");
+    return storedVoyageOption
+      ? JSON.parse(storedVoyageOption)
+      : {
+          x_vars: VOYAGE_SCATTER_OPTIONS.x_vars[0].var_name,
+          y_vars: VOYAGE_SCATTER_OPTIONS.y_vars[0].var_name,
+        };
   });
 
-  const [aggregation, setAggregation] = useState("sum");
-  const [showAlert, setAlert] = useState(false);
+  const [aggregation, setAggregation] = useState<string>(() => {
+    const storedAggregation = localStorage.getItem("aggregation");
+    return storedAggregation ? JSON.parse(storedAggregation) : "sum";
+  });
 
   const VoyageScatterOptions = () => {
     Object.entries(VOYAGE_SCATTER_OPTIONS).forEach(
@@ -56,75 +72,100 @@ function Scatter() {
     );
   };
 
-  const OptionsFlat = () => {
-    if (isSuccess && options_flat) {
-      const options: Options = {};
-      Object.entries(options_flat).forEach(
-        ([key, value]: [string, VoyageOptionsValue]) => {
-          options[key] = value;
-        }
-      );
-      setOptionsFlat(options);
-    }
-  };
-
   useEffect(() => {
     VoyageScatterOptions();
-    OptionsFlat();
-    const formData: FormData = new FormData();
-    formData.append("groupby_by", voyageOption.x_vars);
-    formData.append("groupby_cols", voyageOption.y_vars);
-    formData.append("agg_fn", aggregation);
-    formData.append("cachename", "voyage_xyscatter");
+    fetchOptionsFlat(
+      isSuccess,
+      (options_flat as Options) || undefined,
+      setOptionsFlat
+    );
+    const fetchData = async () => {
+      const newFormData: FormData = new FormData();
+      newFormData.append("groupby_by", voyageOption.x_vars);
+      newFormData.append("groupby_cols", voyageOption.y_vars);
+      newFormData.append("agg_fn", aggregation);
+      newFormData.append("cachename", "voyage_xyscatter");
 
-    dispatch(fetchVoyageGroupby(formData))
-      .unwrap()
-      .then((response: ScatterOptionsXYResponse) => {
+      try {
+        const response = await dispatch(
+          fetchVoyageGroupby(newFormData)
+        ).unwrap();
         if (response) {
           const keys = Object.keys(response);
           setVoyageOption({
             x_vars: keys[0] || "",
             y_vars: keys[1] || "",
           });
-
+          localStorage.setItem(
+            "voyageOption",
+            JSON.stringify({
+              x_vars: keys[0] || "",
+              y_vars: keys[1] || "",
+            })
+          );
           if (keys[0]) {
+            localStorage.setItem("plotX", JSON.stringify(response[keys[0]]));
             setPlotX(response[keys[0]]);
           }
           if (keys[1]) {
-            setPlotY(response[keys[1]]); // WAIT TO CHANGE FORMAT
+            localStorage.setItem("plotY", JSON.stringify(response[keys[1]]));
+            setPlotY(response[keys[1]]);
           }
         }
-      })
-      .catch((error: any) => {
+      } catch (error) {
         console.log("error", error);
-      });
-  }, [dispatch, aggregation, options_flat]);
+      }
+    };
+
+    fetchData();
+  }, [
+    dispatch,
+    options_flat,
+    voyageOption.x_vars,
+    voyageOption.y_vars,
+    aggregation,
+  ]);
 
   const handleChangeAggregation = useMemo(
     () => (event: ChangeEvent<HTMLInputElement>, name: string) => {
-      console.log("-->", event.target.value);
       setAggregation(event.target.value);
     },
     [aggregation]
   );
 
-  const handleChangeSelectXY = useMemo(() => {
-    return (event: ChangeEvent<HTMLSelectElement>, name: string) => {
+  const handleChangeVoyageOption = useCallback(
+    (event: SelectChangeEvent<string>, name: string) => {
       const value = event.target.value;
-      const isValidOption = selectedX.some(
-        (option) => option.var_name === value
-      );
-      if (isValidOption) {
-        setIsValidOption(true);
-        setVoyageOption((prevVoygOption) => ({
-          ...prevVoygOption,
-          [name]: value,
-        }));
-      } else {
-        setIsValidOption(false);
-      }
-    };
+      setVoyageOption((prevVoyageOption) => ({
+        ...prevVoyageOption,
+        [name]: value,
+      }));
+    },
+    [selectedX, selectedY, voyageOption]
+  );
+
+  useEffect(() => {
+    localStorage.setItem("selectedX", JSON.stringify(selectedX));
   }, [selectedX]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedY", JSON.stringify(selectedY));
+  }, [selectedY]);
+
+  useEffect(() => {
+    localStorage.setItem("plotX", JSON.stringify(plotX));
+  }, [plotX]);
+
+  useEffect(() => {
+    localStorage.setItem("plotY", JSON.stringify(plotY));
+  }, [plotY]);
+  useEffect(() => {
+    localStorage.setItem("plotY", JSON.stringify(plotY));
+  }, [plotY]);
+
+  useEffect(() => {
+    localStorage.setItem("aggregation", JSON.stringify(aggregation));
+  }, [aggregation]);
 
   if (isLoading) {
     return <div className="spinner"></div>;
@@ -136,7 +177,7 @@ function Scatter() {
         selectedX={selectedX}
         selectedY={selectedY}
         voyageOption={voyageOption}
-        handleChange={handleChangeSelectXY}
+        handleChange={handleChangeVoyageOption}
         width={width}
       />
       <AggregationSumAverage
