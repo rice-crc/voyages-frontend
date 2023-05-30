@@ -1,12 +1,13 @@
 
 import { styled } from "@mui/material/styles";
-import { TableRow, Paper, Slider, Theme, MenuItem, Grid, Dialog } from "@mui/material";
+import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Dialog } from "@mui/material";
 import MuiInput from "@mui/material/Input";
 import NestedMenuItem from "../components/canscanding/NestedMenuItem";
 import { SxProps } from "@mui/material";
 
 const blue500 = "#42a5f5";
-export const bgNavBar = "#85d4cbde"
+export const MAINBGGREEN = "rgba(0, 128, 128, 0.5)"
+export const bgNavBar = "rgba(0, 128, 128, 0.5)"
 export const WHITE = "#fff"
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -17,7 +18,7 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 1,
   },
   "&:hover": {
-    backgroundColor: "#85d4cb",
+    backgroundColor: "rgba(0, 128, 128, 0.8)",
   },
 }));
 
@@ -63,9 +64,9 @@ export const StyleMenuItem = styled('div')(({ theme }) => ({
 }));
 
 export const DropdownMenuItem = styled(MenuItem)`
+  fontSize: '22px';
   display: flex;
   justify-content: space-between !important;
-
   & > svg {
     margin-left: 32px;
   }
@@ -74,7 +75,6 @@ export const DropdownMenuItem = styled(MenuItem)`
 export const DropdownNestedMenuItem = styled(NestedMenuItem)`
   display: flex;
   justify-content: space-between !important;
-
   & > svg {
     margin-left: 32px;
   }
@@ -102,4 +102,9 @@ export const StyleDialog: SxProps = {
     top: "15%",
     alignItems: "flex-start",
   }
-};
+}
+export const StyleDiver = styled(Divider)`
+border-width: 0.25px;
+border-color: rgb(0 0 0 / 50%);
+width: 480px;
+`;

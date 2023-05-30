@@ -6,6 +6,7 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  Typography,
 } from "@mui/material";
 import { ChangeEvent, FunctionComponent } from "react";
 import { Options, VoyagesOptionProps } from "../../../share/InterfaceTypes";
@@ -43,7 +44,10 @@ const AggregationSumAverage: FunctionComponent<AggregationSumAverageProps> = (
   return (
     <div>
       <FormControl>
-        <FormLabel id="demo-controlled-radio-buttons-group">
+        <FormLabel
+          id="demo-controlled-radio-buttons-group"
+          style={{ fontSize: 20, fontWeight: 600 }}
+        >
           Aggregation Function
         </FormLabel>
         <RadioGroup
@@ -53,8 +57,30 @@ const AggregationSumAverage: FunctionComponent<AggregationSumAverageProps> = (
           onChange={handleChange}
           row
         >
-          <FormControlLabel value="sum" control={<Radio />} label="Sum" />
-          <FormControlLabel value="mean" control={<Radio />} label="Average" />
+          <FormControlLabel
+            value="sum"
+            control={<Radio />}
+            label={
+              <Typography
+                variant="body1"
+                style={{ fontSize: 20, fontWeight: 500 }}
+              >
+                Sum
+              </Typography>
+            }
+          />
+          <FormControlLabel
+            value="mean"
+            control={<Radio />}
+            label={
+              <Typography
+                variant="body1"
+                style={{ fontSize: 20, fontWeight: 500 }}
+              >
+                Average
+              </Typography>
+            }
+          />
         </RadioGroup>
       </FormControl>
       {alertBar()}

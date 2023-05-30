@@ -1,59 +1,147 @@
 import { useState } from "react";
-import { Menu as MenuIcon } from "@mui/icons-material";
-import {
-  AppBar,
-  IconButton,
-  Menu,
-  Toolbar,
-  MenuItem,
-  Hidden,
-} from "@mui/material";
-import { bgNavBar } from "../../styleMUI";
+import { AppBar, Box, CssBaseline, List, IconButton } from "@mui/material";
 
-export default function HeaderNavBar() {
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
+import { StyleDiver, bgNavBar } from "../../styleMUI";
+import { Button, Menu, MenuItem, Typography } from "@mui/material";
+import FilterICON from "../../assets/filterICON.svg";
+import "../../style/Nav.scss";
+import { HeaderNavBarMenuProps } from "../../share/InterfaceTypeNav";
+
+const navItems = ["About", "Vessels", "Itinerary", "Collections"];
+
+export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
+  const { isFilter, setIsFilter } = props;
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const handleMenuOpen = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
-  const handleTableSelect = (tableType: string) => {
+  const handleSelectMentu = (name: string) => {
     handleMenuClose();
   };
 
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
+
+  const drawer = (
+    <Box onClick={handleDrawerToggle}>
+      <List>
+        {navItems.map((item) => (
+          <ListItem key={item} disablePadding>
+            <ListItemButton sx={{ textAlign: "center", fontSize: "16px" }}>
+              <ListItemText primary={item} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
   return (
-    <div>
+    <Box
+      sx={{
+        display: "flex",
+      }}
+    >
+      <CssBaseline />
       <AppBar
         position="static"
-        style={{ backgroundColor: bgNavBar, color: "black", fontSize: 12 }}
+        component="nav"
+        style={{
+          backgroundColor: "transparent",
+          color: "black",
+          fontSize: 12,
+          boxShadow: "none",
+          marginTop: "4.5rem",
+        }}
       >
-        <Toolbar>
+        <Toolbar sx={{ alignItems: "center" }}>
           <IconButton
-            edge="start"
             color="inherit"
-            aria-label="menu"
-            onClick={handleMenuOpen}
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
-          <Hidden smDown>HAVE HEADER Filter Icon Here</Hidden>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", sm: "block", md: "block" },
+            }}
+          >
+            <div
+              className="header-logo-text"
+              onClick={() => {
+                console.log("go to HOME");
+              }}
+            >
+              Voyages Database
+            </div>
+            <StyleDiver />
+            <Typography
+              component="div"
+              variant="body1"
+              fontWeight="500"
+              sx={{
+                cursor: "pointer",
+                alignItems: "center",
+                display: "flex",
+                margin: "10px 0",
+                fontSize: 24,
+                fontWeight: 500,
+              }}
+              onClick={() => setIsFilter(!isFilter)}
+            >
+              <img src={FilterICON} alt="logo" />
+              <div> Filter Search</div>
+            </Typography>
+          </Typography>
+          <Box sx={{ display: { xs: "none", sm: "block", paddingRight: 40 } }}>
+            {navItems.map((item) => (
+              <Button
+                key={item}
+                sx={{
+                  color: "#000",
+                  fontWeight: 500,
+                  textTransform: "none",
+                  fontSize: 22,
+                }}
+              >
+                {item}
+              </Button>
+            ))}
+          </Box>
         </Toolbar>
+      </AppBar>
+      <Box component="nav">
         <Menu
           anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          sx={{
+            display: { xs: "block", sm: "none", md: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+            },
+          }}
         >
-          <MenuItem onClick={() => handleTableSelect("integer")}>
-            Integers
-          </MenuItem>
-          <MenuItem onClick={() => handleTableSelect("character")}>
-            Characters
+          <MenuItem onClick={() => handleSelectMentu("home")}>
+            {drawer}
           </MenuItem>
         </Menu>
-      </AppBar>
-    </div>
+      </Box>
+    </Box>
   );
 }

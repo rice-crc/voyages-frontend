@@ -1,24 +1,23 @@
 import { FunctionComponent, useEffect, useState, useMemo } from "react";
-import { AppDispatch } from '../redux/store';
+import { AppDispatch } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { fetchAutoComplete } from "../fetchAPI/fetchAutoCompleted";
-import { Autocomplete, Stack, TextField, Box } from '@mui/material';
-import "../style/table.css";
+import { Autocomplete, Stack, TextField, Box } from "@mui/material";
+import "../style/table.scss";
 import "react-dropdown-tree-select/dist/styles.css";
 import { AutoCompleteOption } from "../share/InterfaceTypes";
 
 interface AutocompleteBoxProps {
   keyOption: string;
   value?: AutoCompleteOption[];
-  setValue: React.Dispatch<React.SetStateAction<AutoCompleteOption[]>>
-
+  setValue: React.Dispatch<React.SetStateAction<AutoCompleteOption[]>>;
 }
 
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { keyOption, setValue } = props;
   const [autoList, setAutoLists] = useState<AutoCompleteOption[]>([]);
   const [selectedValue, setSelectedValue] = useState<AutoCompleteOption[]>([]);
-  const [autoValue, setAutoValue] = useState<string>('');
+  const [autoValue, setAutoValue] = useState<string>("");
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -33,14 +32,17 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         }
       })
       .catch((error: any) => {
-        console.log('error', error);
+        console.log("error", error);
       });
   }, [dispatch, keyOption, autoValue]);
 
-  const handleInputChange = useMemo(() => (event: React.SyntheticEvent<Element, Event>, value: string) => {
-    event.preventDefault();
-    setAutoValue(value);
-  }, []);
+  const handleInputChange = useMemo(
+    () => (event: React.SyntheticEvent<Element, Event>, value: string) => {
+      event.preventDefault();
+      setAutoValue(value);
+    },
+    []
+  );
 
   return (
     <Stack spacing={3} sx={{ width: 350 }}>
@@ -52,7 +54,10 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         value={selectedValue}
         onChange={(event, newValue) => {
           setSelectedValue(newValue as AutoCompleteOption[]);
-          setValue((prevValue) => [...prevValue, ...(newValue as AutoCompleteOption[])]);
+          setValue((prevValue) => [
+            ...prevValue,
+            ...(newValue as AutoCompleteOption[]),
+          ]);
         }}
         onInputChange={handleInputChange}
         inputValue={autoValue}
@@ -67,7 +72,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
             {...params}
             label="field"
             placeholder="SelectedOptions"
-            style={{marginTop: 20}}
+            style={{ marginTop: 20 }}
           />
         )}
       />

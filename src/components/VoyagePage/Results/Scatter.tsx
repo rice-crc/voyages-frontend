@@ -27,6 +27,7 @@ function Scatter() {
   } = useGetOptionsQuery(datas);
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
+  console.log("width-->", width);
   const [showAlert, setAlert] = useState(false);
   const [selectedX, setSelectedX] = useState<PlotXYVar[]>(() => {
     const storedSelectedX = localStorage.getItem("selectedX");
@@ -170,6 +171,7 @@ function Scatter() {
   if (isLoading) {
     return <div className="spinner"></div>;
   }
+  const maxWidth = width > 600 ? width * 0.8 : width * 0.7;
 
   return (
     <div>
@@ -188,44 +190,41 @@ function Scatter() {
         optionFlat={optionFlat}
       />
 
-      <div>
-        <Grid>
-          <Plot
-            data={[
-              {
-                x: plotX,
-                y: plotY,
-                type: "scatter",
-                mode: "lines",
-                marker: { color: "red" },
-                line: { shape: "spline" },
+      <Grid>
+        <Plot
+          data={[
+            {
+              x: plotX,
+              y: plotY,
+              type: "scatter",
+              mode: "lines",
+              marker: { color: "red" },
+              line: { shape: "spline" },
+            },
+            { type: "bar" },
+          ]}
+          layout={{
+            width: maxWidth,
+            height: height * 0.4,
+            title: `The ${aggregation} of ${
+              optionFlat[voyageOption.x_vars]?.label || ""
+            } vs ${optionFlat[voyageOption.y_vars]?.label || ""} Scatter Graph`,
+            xaxis: {
+              title: {
+                text: optionFlat[voyageOption.x_vars]?.label || "",
               },
-              { type: "bar" },
-            ]}
-            layout={{
-              width: width * 0.8,
-              title: `The ${aggregation} of ${
-                optionFlat[voyageOption.x_vars]?.label || ""
-              } vs ${
-                optionFlat[voyageOption.y_vars]?.label || ""
-              } Scatter Graph`,
-              xaxis: {
-                title: {
-                  text: optionFlat[voyageOption.x_vars]?.label || "",
-                },
-                fixedrange: true,
+              fixedrange: true,
+            },
+            yaxis: {
+              title: {
+                text: optionFlat[voyageOption.y_vars]?.label || "",
               },
-              yaxis: {
-                title: {
-                  text: optionFlat[voyageOption.y_vars]?.label || "",
-                },
-                fixedrange: true,
-              },
-            }}
-            config={{ responsive: true }}
-          />
-        </Grid>
-      </div>
+              fixedrange: true,
+            },
+          }}
+          config={{ responsive: true }}
+        />
+      </Grid>
     </div>
   );
 }
