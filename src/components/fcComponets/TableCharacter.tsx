@@ -19,12 +19,12 @@ import {
   Flatlabel,
   IsShowProp,
   Options,
-} from "../../share/InterfaceTypes";
-import { StyledTableRow } from "../../styleMUI";
-import { fetchOptionsData } from "../../fetchAPI/fetchOptionsData";
-import { RootState } from "../../redux/store";
-import AutocompleteBox from "../AutocompletedBox";
-import { useGetOptionsQuery } from "../../fetchAPI/fetchApiService";
+} from "@/share/InterfaceTypes";
+import { StyledTableRow } from "@/styleMUI";
+import { fetchOptionsData } from "@/fetchAPI/fetchOptionsData";
+import { RootState } from "@/redux/store";
+import AutocompleteBox from "../VoyagePage/Results/AutocompletedBox";
+import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
 
 const TableCharacter = () => {
   const datas = useSelector((state: RootState) => state.getOptions.value);

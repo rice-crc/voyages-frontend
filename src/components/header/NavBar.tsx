@@ -2,7 +2,7 @@ import React from "react";
 import { Hidden } from "@mui/material";
 
 import CanscandingMenu from "../canscanding/CanscandingMenu";
-import { NavProps } from "../../share/InterfaceTypeNav";
+import { NavProps } from "@/share/InterfaceTypeNav";
 
 function NavBar(props: NavProps) {
   const { isFilter } = props;

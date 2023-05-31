@@ -6,34 +6,41 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dropdown } from "./Dropdown";
-import { RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   AutoCompleteOption,
   ChildrenFilter,
+  RangeSliderState,
   TYPES,
   YoyagaesFilterMenu,
   filterMenu,
-} from "../../share/InterfaceTypes";
+} from "@/share/InterfaceTypes";
 import {
+  BLACK,
   DropdownMenuItem,
   DropdownNestedMenuItem,
   StyleDialog,
-} from "../../styleMUI";
-import RangeSlider from "../RangeSlider";
-import { useState, MouseEvent, useEffect, useCallback, useRef } from "react";
-import AutocompleteBox from "../AutocompletedBox";
+} from "@/styleMUI";
+import RangeSlider from "../VoyagePage/Results/RangeSlider";
+import { useState } from "react";
+import AutocompleteBox from "../VoyagePage/Results/AutocompletedBox";
 import { PaperDraggable } from "./PaperDraggable";
+import { setKeyValue } from "@/redux/rangeSliderSlice";
 
 export function MenuListDropdown() {
   const menuOptionFlat: YoyagaesFilterMenu = useSelector(
     (state: RootState) => state.optionFlatMenu.value
   );
+  const { keyValue } = useSelector(
+    (state: RootState) => state.rangeSlider as RangeSliderState
+  );
+
+  const dispatch: AppDispatch = useDispatch();
   const [rangeValue, setRangeValue] = useState<Record<string, number[]>>({});
   const [value, setValue] = useState<AutoCompleteOption[]>([]);
   const [label, setLabel] = useState<string>("");
-  const [keyValue, setKeyValue] = useState<string>("");
   const [type, setType] = useState<string>("");
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -41,7 +48,7 @@ export function MenuListDropdown() {
   const handleClickMenu = (event: React.MouseEvent<HTMLLIElement>) => {
     const { value, type, label } = event.currentTarget.dataset;
     if (value && type && label) {
-      setKeyValue(value);
+      dispatch(setKeyValue(value));
       setType(type);
       setLabel(label);
       setIsOpenDialog(true);
@@ -97,7 +104,6 @@ export function MenuListDropdown() {
             </Button>
           }
           menu={renderDropdownMenu(item.children)}
-          // setIsOpenDropdown={setIsOpenDropdown}
         />
       ))}
       <Dialog
@@ -108,7 +114,10 @@ export function MenuListDropdown() {
         PaperComponent={PaperDraggable}
         aria-labelledby="draggable-dialog-title"
       >
-        <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
+        <DialogTitle
+          sx={{ cursor: "move", fontWeight: 600 }}
+          id="draggable-dialog-title"
+        >
           {label}
         </DialogTitle>
         <DialogContent style={{ textAlign: "center" }}>
@@ -125,10 +134,13 @@ export function MenuListDropdown() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleCloseDialog}>
+          <Button
+            autoFocus
+            onClick={handleCloseDialog}
+            sx={{ color: BLACK, fontSize: 18, fontWeight: 600 }}
+          >
             Cancel
           </Button>
-          <Button onClick={() => setIsOpenDialog(!isOpenDialog)}>Submit</Button>
         </DialogActions>
       </Dialog>
     </Box>

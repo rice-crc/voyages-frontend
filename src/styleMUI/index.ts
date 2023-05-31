@@ -1,6 +1,6 @@
 
 import { styled } from "@mui/material/styles";
-import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Dialog } from "@mui/material";
+import { TableRow, Paper, Slider, Divider, MenuItem, Grid } from "@mui/material";
 import MuiInput from "@mui/material/Input";
 import NestedMenuItem from "../components/canscanding/NestedMenuItem";
 import { SxProps } from "@mui/material";
@@ -9,6 +9,7 @@ const blue500 = "#42a5f5";
 export const MAINBGGREEN = "rgba(0, 128, 128, 0.5)"
 export const bgNavBar = "rgba(0, 128, 128, 0.5)"
 export const WHITE = "#fff"
+export const BLACK = "#000"
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {

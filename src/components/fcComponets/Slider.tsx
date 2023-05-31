@@ -1,20 +1,19 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect, FunctionComponent } from "react";
-import { Stack, Box,Typography } from "@mui/material";
-import { IsShowProp } from "../../share/InterfaceTypes";
+import { Stack, Box, Typography } from "@mui/material";
+import { IsShowProp } from "@/share/InterfaceTypes";
 
-import { Item,Input,CustomSlider } from "../../styleMUI";
-import { fetchRangeSlider } from "../../fetchAPI/fetchAggregationsSlider";
+import { Item, Input, CustomSlider } from "@/styleMUI";
+import { fetchRangeSlider } from "@/fetchAPI/fetchAggregationsSlider";
 
 export interface RangeSliderProps {
-  keyOption: MinMaxProps
+  keyOption: MinMaxProps;
 }
 
 export interface MinMaxProps {
-  min: number
-  max: number
+  min: number;
+  max: number;
 }
-
 
 interface GetSliderProps {
   label: string;
@@ -22,25 +21,30 @@ interface GetSliderProps {
   setRangeValue: React.Dispatch<React.SetStateAction<Record<string, number[]>>>;
   idOption: number;
   rangeValue: Record<string, number[]>;
-  setMessage: React.Dispatch<React.SetStateAction<string>>
-  isShow: IsShowProp
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+  isShow: IsShowProp;
 }
 const GetSlider: FunctionComponent<GetSliderProps> = (props) => {
   const { label, keyOption, setMessage } = props;
 
   const [range, setRange] = useState<[number, number]>([0, 0]);
-  const [value, setValue] = useState<[number, number]>([Number(range[0]) / 2, Number(range[1]) / 2]);
+  const [value, setValue] = useState<[number, number]>([
+    Number(range[0]) / 2,
+    Number(range[1]) / 2,
+  ]);
 
   useEffect(() => {
     fetchRangeSlider(keyOption, setRange, setValue, setMessage);
   }, []);
 
-
-  const handleCommittedChange = (event: Event | React.SyntheticEvent<Element, Event>, newValue: number | number[]) => {
+  const handleCommittedChange = (
+    event: Event | React.SyntheticEvent<Element, Event>,
+    newValue: number | number[]
+  ) => {
     setValue(newValue as [number, number]);
   };
- 
-  const handleChange = (event:Event, newValue:number | number[]) => {
+
+  const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as [number, number]);
     // setRangeValue({
     //   ...rangeValue, [keyOption]: newValue
@@ -51,7 +55,7 @@ const GetSlider: FunctionComponent<GetSliderProps> = (props) => {
     const startVal = value[0];
     const endVal = value[1];
     let res: [number, number] = [0, 0];
-  
+
     if (event.target.name === "end") {
       res = [startVal, Number(event.target.value)];
     } else if (event.target.name === "start") {
@@ -87,9 +91,10 @@ const GetSlider: FunctionComponent<GetSliderProps> = (props) => {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: "100%" }}>
       <Stack spacing={2}>
-        <Item> <Typography>{label}</Typography>
+        <Item>
+          <Typography>{label}</Typography>
           <div className="sliderInputs">
             <Input
               color="secondary"
@@ -105,7 +110,9 @@ const GetSlider: FunctionComponent<GetSliderProps> = (props) => {
                     setValue([Number(range[0]), value[1]]);
                   } else if (inputValue > Number(range[1])) {
                     setValue([
-                      value[1] - 1 < Number(range[0]) ? Number(range[0]) : value[1] - 1,
+                      value[1] - 1 < Number(range[0])
+                        ? Number(range[0])
+                        : value[1] - 1,
                       value[1],
                     ]);
                   }
@@ -134,7 +141,7 @@ const GetSlider: FunctionComponent<GetSliderProps> = (props) => {
                   } else if (inputValue < value[0]) {
                     setValue([
                       value[0],
-                      value[0] + 1 < Number(range[1]) ? value[0] + 1 : (range[1]),
+                      value[0] + 1 < Number(range[1]) ? value[0] + 1 : range[1],
                     ]);
                   }
                 }
@@ -161,7 +168,6 @@ const GetSlider: FunctionComponent<GetSliderProps> = (props) => {
         </Item>
       </Stack>
     </Box>
-
   );
-}
-export default GetSlider
+};
+export default GetSlider;

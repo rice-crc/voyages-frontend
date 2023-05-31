@@ -1,20 +1,12 @@
 import { useState } from "react";
 import { Menu as MenuIcon } from "@mui/icons-material";
-import {
-  AppBar,
-  IconButton,
-  Menu,
-  Toolbar,
-  MenuItem,
-  Hidden,
-} from "@mui/material";
-import { MenuListDropdownStyle, bgNavBar } from "../../styleMUI";
+import { AppBar, IconButton, Menu, Toolbar, Hidden } from "@mui/material";
+import { MenuListDropdownStyle } from "@/styleMUI";
 import { MenuListDropdown } from "./MenuListDropdown";
-import { CanscandingMenuProps } from "../../share/InterfaceTypeNav";
+import { CanscandingMenuProps } from "@/share/InterfaceTypeNav";
 
 export default function CanscandingMenu(props: CanscandingMenuProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [tableType, setTableType] = useState<string>("integer");
   const handleMenuOpen = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -24,7 +16,6 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
   };
 
   const handleTableSelect = (tableType: string) => {
-    setTableType(tableType);
     handleMenuClose();
   };
 
@@ -59,12 +50,6 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
         >
-          <MenuItem onClick={() => handleTableSelect("integer")}>
-            Integers
-          </MenuItem>
-          <MenuItem onClick={() => handleTableSelect("character")}>
-            Characters
-          </MenuItem>
           <MenuListDropdownStyle>
             <MenuListDropdown />
           </MenuListDropdownStyle>

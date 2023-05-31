@@ -1,38 +1,44 @@
-import { useState } from "react";
-import { AppBar, Box, CssBaseline, List, IconButton } from "@mui/material";
+import { MouseEventHandler, useState } from "react";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  List,
+  IconButton,
+  Hidden,
+} from "@mui/material";
 
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-import { StyleDiver, bgNavBar } from "../../styleMUI";
+import { StyleDiver } from "@/styleMUI";
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
-import FilterICON from "../../assets/filterICON.svg";
-import "../../style/Nav.scss";
-import { HeaderNavBarMenuProps } from "../../share/InterfaceTypeNav";
+import FilterICON from "@/assets/filterICON.svg";
+import "@/style/Nav.scss";
+import { HeaderNavBarMenuProps } from "@/share/InterfaceTypeNav";
 
 const navItems = ["About", "Vessels", "Itinerary", "Collections"];
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const { isFilter, setIsFilter } = props;
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
+  const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   const handleSelectMentu = (name: string) => {
     handleMenuClose();
   };
 
-  const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
-  };
-
   const drawer = (
-    <Box onClick={handleDrawerToggle}>
+    <Box>
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
@@ -64,15 +70,17 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
         }}
       >
         <Toolbar sx={{ alignItems: "center" }}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Hidden smUp>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleMenuOpen}
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
           <Typography
             variant="h6"
             component="div"
@@ -108,7 +116,16 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               <div> Filter Search</div>
             </Typography>
           </Typography>
-          <Box sx={{ display: { xs: "none", sm: "block", paddingRight: 40 } }}>
+          <Box
+            sx={{
+              display: {
+                xs: "none",
+                sm: "none",
+                md: "block",
+                paddingRight: 40,
+              },
+            }}
+          >
             {navItems.map((item) => (
               <Button
                 key={item}
@@ -124,24 +141,24 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             ))}
           </Box>
         </Toolbar>
+        <Box component="nav">
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            sx={{
+              display: { xs: "block", sm: "none", md: "block" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+              },
+            }}
+          >
+            <MenuItem onClick={() => handleSelectMentu("home")}>
+              {drawer}
+            </MenuItem>
+          </Menu>
+        </Box>
       </AppBar>
-      <Box component="nav">
-        <Menu
-          anchorEl={anchorEl}
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          sx={{
-            display: { xs: "block", sm: "none", md: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-            },
-          }}
-        >
-          <MenuItem onClick={() => handleSelectMentu("home")}>
-            {drawer}
-          </MenuItem>
-        </Menu>
-      </Box>
     </Box>
   );
 }

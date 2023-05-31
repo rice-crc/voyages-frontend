@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RangeSliderState } from '../share/InterfaceTypes';
-import { fetchRangeSliderData } from '../fetchAPI/fetchAggregationsSlider';
+import { RangeSliderState } from '@/share/InterfaceTypes';
+import { fetchRangeSliderData } from '@/fetchAPI/fetchAggregationsSlider';
 
 const initialState: RangeSliderState = {
     value: {},
     range: [0, 0],
     loading: false,
-    error: false
+    error: false,
+    keyValue: ""
 };
 
 const rangeSliderSlice = createSlice({
@@ -19,6 +20,9 @@ const rangeSliderSlice = createSlice({
         setValue: (state, action: PayloadAction<Record<string, number[]>>) => {
             state.value = action.payload;
         },
+        setKeyValue: (state, action: PayloadAction<string>) => {
+            state.keyValue = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchRangeSliderData.pending, (state) => {
@@ -36,5 +40,5 @@ const rangeSliderSlice = createSlice({
         });
     },
 });
-export const { setRange, setValue } = rangeSliderSlice.actions;
+export const { setRange, setValue, setKeyValue } = rangeSliderSlice.actions;
 export default rangeSliderSlice.reducer;

@@ -1,21 +1,21 @@
 import { useState, useEffect, useMemo, ChangeEvent, useCallback } from "react";
 import Plot from "react-plotly.js";
-import VOYAGE_SCATTER_OPTIONS from "../../../utils/VOYAGE_SCATTER_OPTIONS.json";
+import VOYAGE_SCATTER_OPTIONS from "@/utils/VOYAGE_SCATTER_OPTIONS.json";
 import { Grid, SelectChangeEvent } from "@mui/material";
 import { useWindowSize } from "@react-hook/window-size";
-import { AppDispatch, RootState } from "../../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetOptionsQuery } from "../../../fetchAPI/fetchApiService";
+import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
 import SelectDropDownXY from "./SelectDropdownXY";
 import AggregationSumAverage from "./AggregationSumAverage";
-import { fetchVoyageGroupby } from "../../../fetchAPI/fetchVoyageGroupby";
+import { fetchVoyageGroupby } from "@/fetchAPI/fetchVoyageGroupby";
 import {
   PlotXYVar,
   VoyagesOptionProps,
   Options,
-  VoyageOptionsValue,
-} from "../../../share/InterfaceTypes";
-import { fetchOptionsFlat } from "../../../fetchAPI/fetchOptionsFlat";
+  RangeSliderState,
+} from "@/share/InterfaceTypes";
+import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
 
 function Scatter() {
   const dispatch: AppDispatch = useDispatch();
@@ -25,9 +25,12 @@ function Scatter() {
     isLoading,
     isSuccess,
   } = useGetOptionsQuery(datas);
+  const { range: rangeValue, keyValue } = useSelector(
+    (state: RootState) => state.rangeSlider as RangeSliderState
+  );
+
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
-  console.log("width-->", width);
   const [showAlert, setAlert] = useState(false);
   const [selectedX, setSelectedX] = useState<PlotXYVar[]>(() => {
     const storedSelectedX = localStorage.getItem("selectedX");
@@ -80,12 +83,15 @@ function Scatter() {
       (options_flat as Options) || undefined,
       setOptionsFlat
     );
+
     const fetchData = async () => {
       const newFormData: FormData = new FormData();
       newFormData.append("groupby_by", voyageOption.x_vars);
       newFormData.append("groupby_cols", voyageOption.y_vars);
       newFormData.append("agg_fn", aggregation);
       newFormData.append("cachename", "voyage_xyscatter");
+      newFormData.append(keyValue, String(rangeValue[0]));
+      newFormData.append(keyValue, String(rangeValue[1]));
 
       try {
         const response = await dispatch(
@@ -125,6 +131,8 @@ function Scatter() {
     voyageOption.x_vars,
     voyageOption.y_vars,
     aggregation,
+    rangeValue,
+    keyValue,
   ]);
 
   const handleChangeAggregation = useMemo(
@@ -144,6 +152,14 @@ function Scatter() {
     },
     [selectedX, selectedY, voyageOption]
   );
+
+  useEffect(() => {
+    localStorage.setItem("rangValue", JSON.stringify(rangeValue));
+  }, [rangeValue]);
+
+  useEffect(() => {
+    localStorage.setItem("keyValue", JSON.stringify(keyValue));
+  }, [keyValue]);
 
   useEffect(() => {
     localStorage.setItem("selectedX", JSON.stringify(selectedX));

@@ -27,6 +27,7 @@ export interface RangeSliderState {
     range: number[]
     loading: boolean;
     error: boolean;
+    keyValue: string;
 }
 export const TYPES: {
     IntegerField: string;

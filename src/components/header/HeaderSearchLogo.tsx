@@ -1,7 +1,7 @@
 import { AppBar, Box, CssBaseline, Typography, Toolbar } from "@mui/material";
-import { WHITE } from "../../styleMUI";
-import LOGOVoyages from "../../assets/sv-logo_v2.svg";
-import SearchVoyages from "../../assets/searchICON.svg";
+import { WHITE } from "@/styleMUI";
+import LOGOVoyages from "@/assets/sv-logo_v2.svg";
+import SearchVoyages from "@/assets/searchICON.svg";
 
 export default function HeaderLogoSearch() {
   return (

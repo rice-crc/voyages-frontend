@@ -1,37 +1,34 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { AppDispatch, RootState } from '../../redux/store';
+import { AppDispatch, RootState } from "@/redux/store";
 import DropdownTreeSelect, { TreeNode } from "react-dropdown-tree-select";
 import { useDispatch, useSelector } from "react-redux";
 import "./table.css";
 import "react-dropdown-tree-select/dist/styles.css";
-import autoData from '../../utils/transatlantic_voyages_filter_menu.json' // WILL GET TO NEW API
-import { fetchAutoComplete } from "../../fetchAPI/fetchAutoCompleted";
-import {  Stack  } from '@mui/material';
+import autoData from "@/utils/transatlantic_voyages_filter_menu.json"; // WILL GET TO NEW API
+import { fetchAutoComplete } from "@/fetchAPI/fetchAutoCompleted";
+import { Stack } from "@mui/material";
 interface AutocompleteBoxProps {
-  keyOptions: string
+  keyOptions: string;
 }
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { keyOptions } = props;
-  const [autoList, setAutoLists] = useState<string[]>([])
-  const [searchAuto, setSearchAuto] = useState<string[]>([])
-  const [inputValue, setInputValue] = useState<string>('')
+  const [autoList, setAutoLists] = useState<string[]>([]);
+  const [searchAuto, setSearchAuto] = useState<string[]>([]);
+  const [inputValue, setInputValue] = useState<string>("");
   const dispatch: AppDispatch = useDispatch();
-
-  // const { results } = useSelector((state: RootState) => state.autoCompleteList as AutoCompleteSliceLists)
 
   useEffect(() => {
     const formData: FormData = new FormData();
-    formData.append(keyOptions, '');
+    formData.append(keyOptions, "");
     dispatch(fetchAutoComplete(formData))
       .unwrap()
       .then((response: any) => {
         if (response) {
-          // console.log('response-->', response)
-          setAutoLists(response?.results[0])
+          setAutoLists(response?.results[0]);
         }
       })
       .catch((error: any) => {
-        console.log('error', error)
+        console.log("error", error);
       });
   }, [dispatch, keyOptions]);
 
@@ -39,18 +36,22 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     console.log("path::", currentNode);
     console.log("selectedNodes::", selectedNodes);
   };
-  const listsAutoComplete = []
-  Object.entries(autoData).forEach(([key, value]: [string, any], index: number) => {
-    console.log('key-->', key)
-    console.log('value-->', value)
-    
-});
+
+  Object.entries(autoData).forEach(
+    ([key, value]: [string, any], index: number) => {
+      console.log("key-->", key);
+      console.log("value-->", value);
+    }
+  );
 
   return (
     <Stack spacing={3} sx={{ width: 500 }}>
-      <DropdownTreeSelect data={autoData} onChange={onChange} className="mdl-demo" />
+      <DropdownTreeSelect
+        data={autoData}
+        onChange={onChange}
+        className="mdl-demo"
+      />
     </Stack>
-
   );
 };
 

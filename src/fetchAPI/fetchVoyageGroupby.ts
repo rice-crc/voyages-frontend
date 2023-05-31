@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AUTHTOKEN, BASEURL } from '../share/AUTH_BASEURL';
+import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchVoyageGroupby = createAsyncThunk(

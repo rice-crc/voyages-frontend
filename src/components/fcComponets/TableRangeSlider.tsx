@@ -12,18 +12,20 @@ import {
   Stack,
   TablePagination,
 } from "@mui/material";
-import { useGetOptionsQuery } from "../../fetchAPI/fetchApiService";
+import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
 import { useSelector } from "react-redux";
-import { Flatlabel, IsShowProp, Options } from "../../share/InterfaceTypes";
-import RangeSlider from "../RangeSlider";
-import { StyledTableRow } from "../../styleMUI";
-import { RootState } from "../../redux/store";
-import { fetchOptionsDataIntegerField } from "../../fetchAPI/fetchOptionsData";
+import { Flatlabel, IsShowProp, Options } from "@/share/InterfaceTypes";
+
+import { StyledTableRow } from "@/styleMUI";
+import { RootState } from "@/redux/store";
+import { fetchOptionsDataIntegerField } from "@/fetchAPI/fetchOptionsData";
+import RangeSlider from "../VoyagePage/Results/RangeSlider";
 
 const TableRangeSlider = () => {
   const datas = useSelector((state: RootState) => state.getOptions.value);
   const { data, isLoading, isSuccess } = useGetOptionsQuery(datas);
   const colunmName = ["Label", "Range-Slider", "Display"];
+  const [optionsLabel, setOptionsLabel] = useState<Flatlabel[]>([]);
   const [isShow, setIsShow] = useState<IsShowProp>({});
   const [message, setMessage] = useState<string>("");
   const [rangeValue, setRangeValue] = useState<Record<string, number[]>>({});

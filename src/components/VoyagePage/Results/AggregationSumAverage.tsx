@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ChangeEvent, FunctionComponent } from "react";
-import { Options, VoyagesOptionProps } from "../../../share/InterfaceTypes";
+import { Options, VoyagesOptionProps } from "@/share/InterfaceTypes";
 interface AggregationSumAverageProps {
   showAlert: boolean;
   aggregation: string;

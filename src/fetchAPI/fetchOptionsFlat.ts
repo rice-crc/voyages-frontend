@@ -1,4 +1,4 @@
-import { Options, VoyageOptionsValue } from "../share/InterfaceTypes";
+import { Options, VoyageOptionsValue } from "@/share/InterfaceTypes";
 
 export const fetchOptionsFlat = (
     isSuccess: boolean,

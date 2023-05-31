@@ -7,7 +7,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { FunctionComponent } from "react";
-import { PlotXYVar, VoyagesOptionProps } from "../../../share/InterfaceTypes";
+import { PlotXYVar, VoyagesOptionProps } from "@/share/InterfaceTypes";
 
 interface SelectDropDownXYProps {
   selectedX: PlotXYVar[];

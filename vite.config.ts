@@ -1,11 +1,14 @@
 import { defineConfig } from 'vite';
-import reactRefresh from '@vitejs/plugin-react-refresh';
 import { resolve } from 'path';
 import dotenv from 'dotenv';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 dotenv.config({ path: resolve(__dirname, '.env') });
 
 export default defineConfig({
-  plugins: [reactRefresh()],
-  // ... other Vite configurations
+  plugins: [react()],
+  resolve: {
+    alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
+  },
 });
