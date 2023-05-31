@@ -1,19 +1,34 @@
-import React, { useRef, useState, forwardRef, useImperativeHandle, Ref, RefObject } from "react";
+import React, {
+  useRef,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  Ref,
+  RefObject,
+  MouseEvent,
+} from "react";
 import { Menu, MenuItem } from "@mui/material";
 import { ArrowRight } from "@mui/icons-material";
 
 interface NestedMenuItemProps {
   parentMenuOpen?: boolean;
   label: string;
+  varName?: string | undefined;
+  type?: string | undefined;
   rightIcon?: JSX.Element;
   keepOpen?: boolean;
   children: React.ReactNode;
   customTheme?: any;
   className?: string;
   tabIndex?: number;
-  ContainerProps?: React.HTMLAttributes<HTMLDivElement> & { ref?: RefObject<HTMLDivElement> };
+  ContainerProps?: React.HTMLAttributes<HTMLDivElement> & {
+    ref?: RefObject<HTMLDivElement>;
+  };
   rightAnchored?: boolean;
-  disabled?:boolean
+  disabled?: boolean;
+  onClickMenu: (
+    event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
+  ) => void;
 }
 
 const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
@@ -22,12 +37,16 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
     label,
     rightIcon = <ArrowRight style={{ fontSize: 16 }} />,
     keepOpen,
+    varName,
+    type,
     children,
     customTheme,
     className,
     tabIndex: tabIndexProp,
     ContainerProps: ContainerPropsProp = {},
-    rightAnchored, disabled,
+    rightAnchored,
+    disabled,
+    onClickMenu,
     ...MenuItemProps
   } = props;
 
@@ -59,8 +78,6 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
     }
   };
   const handleOnClick = (event: React.MouseEvent<HTMLDivElement>) => {
-
-
     if (ContainerProps?.onClick) {
       ContainerProps.onClick(event);
       setIsSubMenuOpen(true);
@@ -136,37 +153,42 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
         data-open={!!open || undefined}
         className={className}
         ref={menuItemRef}
+        onClick={onClickMenu}
+        data-value={varName}
+        data-type={type}
+        data-label={label}
       >
         {label}
         <div style={{ flexGrow: 1 }} />
         {children && rightIcon}
       </MenuItem>
-      {children && 
-      <Menu
-        hideBackdrop
-        style={{ pointerEvents: "none" }}
-        anchorEl={menuItemRef.current}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: rightAnchored ? "left" : "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: rightAnchored ? "right" : "left",
-        }}
-        sx={customTheme}
-        open={!!open}
-        autoFocus={false}
-        disableAutoFocus
-        disableEnforceFocus
-        onClose={() => {
-          setIsSubMenuOpen(false);
-        }}
-      >
-        <div ref={menuContainerRef} style={{ pointerEvents: "auto" }}>
-          {children}
-        </div>
-      </Menu>}
+      {children && (
+        <Menu
+          hideBackdrop
+          style={{ pointerEvents: "none" }}
+          anchorEl={menuItemRef.current}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: rightAnchored ? "left" : "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: rightAnchored ? "right" : "left",
+          }}
+          sx={customTheme}
+          open={!!open}
+          autoFocus={false}
+          disableAutoFocus
+          disableEnforceFocus
+          onClose={() => {
+            setIsSubMenuOpen(false);
+          }}
+        >
+          <div ref={menuContainerRef} style={{ pointerEvents: "auto" }}>
+            {children}
+          </div>
+        </Menu>
+      )}
     </div>
   );
 });

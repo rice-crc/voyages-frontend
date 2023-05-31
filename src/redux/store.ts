@@ -3,7 +3,7 @@ import getOptionsReducer from './opptionsDataSlice';
 import getRangeSliderReducer from './getRangeSliderSlice';
 import rangeSliderSlice from './rangeSliderSlice';
 import getAutoCompleteList from './getAutoCompleteSlice'
-import getOptionsFlatMenu from './getOptionsFlatObj'
+import getOptionsFlatMenu from './getOptionsFlatObjSlice'
 import { voyagesApi } from '../fetchAPI/fetchApiService';
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import getVoyageGroupbySlice from "./getVoyageGroupbySlice";

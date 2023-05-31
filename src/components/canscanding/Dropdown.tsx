@@ -23,12 +23,7 @@ interface DropdownProps {
 
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
   (
-    {
-      trigger,
-      menu,
-      isOpen: controlledIsOpen,
-      onOpen: onControlledOpen,
-    },
+    { trigger, menu, isOpen: controlledIsOpen, onOpen: onControlledOpen },
     ref
   ) => {
     const [isInternalOpen, setInternalOpen] = useState<HTMLElement | null>(
@@ -75,10 +70,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       onControlledOpen ? onControlledOpen(null) : setInternalOpen(null);
     };
 
-    const renderMenu = (
-      menuItem: ReactElement,
-      index: number
-    ): ReactNode => {
+    const renderMenu = (menuItem: ReactElement, index: number): ReactNode => {
       const { ...props } = menuItem.props;
 
       let extraProps: { parentMenuOpen: boolean } = { parentMenuOpen: isOpen };
@@ -104,7 +96,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           onClick: handleOpen,
           ref: anchorRef,
         })}
-  
+
         <Menu
           anchorEl={isOpen ? anchorRef.current : null}
           open={isOpen}

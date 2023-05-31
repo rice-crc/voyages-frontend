@@ -24,7 +24,7 @@ import {
   StyleDialog,
 } from "@/styleMUI";
 import RangeSlider from "../VoyagePage/Results/RangeSlider";
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import AutocompleteBox from "../VoyagePage/Results/AutocompletedBox";
 import { PaperDraggable } from "./PaperDraggable";
 import { setKeyValue } from "@/redux/rangeSliderSlice";
@@ -45,7 +45,9 @@ export function MenuListDropdown() {
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-  const handleClickMenu = (event: React.MouseEvent<HTMLLIElement>) => {
+  const handleClickMenu = (
+    event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
+  ) => {
     const { value, type, label } = event.currentTarget.dataset;
     if (value && type && label) {
       dispatch(setKeyValue(value));
@@ -65,9 +67,12 @@ export function MenuListDropdown() {
   const renderDropdownMenu = (children: ChildrenFilter[]) =>
     children.map((childItem: ChildrenFilter, index: number) => (
       <DropdownNestedMenuItem
+        onClickMenu={handleClickMenu}
         sx={{ fontSize: 20, paddingTop: 0, paddingBottom: 0 }}
         label={childItem.label}
         key={`${childItem.label}-${index}`}
+        varName={childItem.var_name}
+        type={childItem.type}
       >
         {childItem.children &&
           childItem.children.length > 0 &&

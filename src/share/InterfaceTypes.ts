@@ -106,4 +106,8 @@ export interface VoyagesOptionProps {
     y_vars: string;
 }
 
-
+export interface AutocompleteBoxProps {
+    keyOption: string;
+    value?: AutoCompleteOption[];
+    setValue: React.Dispatch<React.SetStateAction<AutoCompleteOption[]>>;
+}

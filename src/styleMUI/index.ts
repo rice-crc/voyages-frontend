@@ -109,3 +109,12 @@ border-width: 0.25px;
 border-color: rgb(0 0 0 / 50%);
 width: 480px;
 `;
+
+export const Tag = styled("div")(({ theme }) => ({
+  backgroundColor: "#eaeaea",
+  borderRadius: theme.shape.borderRadius,
+  padding: "5px",
+  marginRight: "5px",
+  fontSize: 18,
+  fontWeight: 600,
+}));
