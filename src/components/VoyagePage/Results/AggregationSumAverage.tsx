@@ -15,12 +15,12 @@ interface AggregationSumAverageProps {
   aggregation: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
   optionFlat: Options;
-  voyageOption: VoyagesOptionProps;
+  scatterOptions: VoyagesOptionProps;
 }
 const AggregationSumAverage: FunctionComponent<AggregationSumAverageProps> = (
   props
 ) => {
-  const { showAlert, aggregation, optionFlat, handleChange, voyageOption } =
+  const { showAlert, aggregation, optionFlat, handleChange, scatterOptions } =
     props;
 
   const alertBar = () => {
@@ -32,8 +32,9 @@ const AggregationSumAverage: FunctionComponent<AggregationSumAverageProps> = (
             Sorry, these particular variables don't graph well together:
           </AlertTitle>
           <AlertTitle>
-            The {aggregation} of {optionFlat[voyageOption.x_vars]?.label || ""},{" "}
-            {optionFlat[voyageOption.y_vars]?.label || ""} Pie Graph
+            The {aggregation} of{" "}
+            {optionFlat[scatterOptions.x_vars]?.label || ""},{" "}
+            {optionFlat[scatterOptions.y_vars]?.label || ""} Pie Graph
           </AlertTitle>
         </Alert>
       );

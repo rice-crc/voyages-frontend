@@ -4,25 +4,30 @@ import { fetchRangeSliderData } from '@/fetchAPI/fetchAggregationsSlider';
 
 const initialState: RangeSliderState = {
     value: {},
-    range: [0, 0],
     loading: false,
     error: false,
-    keyValue: ""
+    varName: "",
+    isChange: false,
+    rangeSliderMinMax: {}
 };
 
 const rangeSliderSlice = createSlice({
     name: 'rangeSlider',
     initialState,
     reducers: {
-        setRange: (state, action: PayloadAction<number[]>) => {
-            state.range = action.payload;
-        },
         setValue: (state, action: PayloadAction<Record<string, number[]>>) => {
             state.value = action.payload;
         },
         setKeyValue: (state, action: PayloadAction<string>) => {
-            state.keyValue = action.payload;
-        }
+            state.varName = action.payload;
+        },
+        setIsChange: (state, action: PayloadAction<boolean>) => {
+            state.isChange = action.payload;
+        },
+        setRangeSliderValue: (state, action: PayloadAction<Record<string, number[]>>) => {
+            state.rangeSliderMinMax = action.payload;
+        },
+
     },
     extraReducers: (builder) => {
         builder.addCase(fetchRangeSliderData.pending, (state) => {
@@ -40,5 +45,5 @@ const rangeSliderSlice = createSlice({
         });
     },
 });
-export const { setRange, setValue, setKeyValue } = rangeSliderSlice.actions;
+export const { setValue, setKeyValue, setIsChange, setRangeSliderValue } = rangeSliderSlice.actions;
 export default rangeSliderSlice.reducer;

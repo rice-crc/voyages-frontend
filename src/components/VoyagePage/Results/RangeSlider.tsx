@@ -5,87 +5,119 @@ import React, {
   ChangeEvent,
 } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setRange, setValue, setKeyValue } from "@/redux/rangeSliderSlice";
+import {
+  setValue,
+  setKeyValue,
+  setIsChange,
+  setRangeSliderValue,
+} from "@/redux/rangeSliderSlice";
 import { Grid } from "@mui/material";
 import { CustomSlider, Input } from "@/styleMUI";
 import { AppDispatch, RootState } from "@/redux/store";
-import { RangeSliderState } from "@/share/InterfaceTypes";
+import {
+  RangeSliderMinMaxInitialState,
+  RangeSliderState,
+} from "@/share/InterfaceTypes";
 import { fetchRangeSliderData } from "@/fetchAPI/fetchAggregationsSlider";
 
 interface GetSliderProps {
   label?: string;
-  setRangeValue: React.Dispatch<React.SetStateAction<Record<string, number[]>>>;
-  rangeValue?: Record<string, number[]>;
-  keyOption: string;
 }
+
 const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
-  const { setRangeValue, rangeValue, keyOption } = props;
-  const { value } = useSelector(
-    (state: RootState) => state.rangeSlider as RangeSliderState
+  const {
+    value,
+    varName,
+    rangeSliderMinMax: rangeValue,
+  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+
+  const [rangeSlider, setRangeSlider] = useState<RangeSliderMinMaxInitialState>(
+    () => {
+      const storedSliderValue = localStorage.getItem("filterObject");
+      return storedSliderValue ? JSON.parse(storedSliderValue) : {};
+    }
   );
-  const [sliderValue, setSilderValue] = useState<number[]>(() => {
-    const storeSliderValue = localStorage.getItem("rangValue");
-    return storeSliderValue ? JSON.parse(storeSliderValue) : [0, 0];
-  });
+
+  const [rangeMinMax, setRangeMinMax] = useState<number[]>([0, 0]);
+
   const dispatch: AppDispatch = useDispatch();
-  const min = value?.[keyOption]?.[0] || 0;
-  const max = value?.[keyOption]?.[1] || 0;
+  const min = value?.[varName]?.[0] || 0;
+  const max = value?.[varName]?.[1] || 0;
+
   useEffect(() => {
     const formData: FormData = new FormData();
-    formData.append("aggregate_fields", keyOption);
+    formData.append("aggregate_fields", varName);
     dispatch(fetchRangeSliderData(formData))
       .unwrap()
       .then((response: any) => {
         if (response) {
           const initialValue: number[] = [
-            response[keyOption].min,
-            response[keyOption].max,
+            response[varName].min,
+            response[varName].max,
           ];
-          dispatch(setRange(initialValue));
-          dispatch(setKeyValue(keyOption));
+          if (rangeValue[varName]) {
+            setRangeMinMax(rangeValue[varName]);
+          } else {
+            setRangeMinMax(initialValue);
+          }
+          setRangeSlider({
+            ...rangeValue,
+            [varName]: initialValue as number[],
+          });
+          dispatch(
+            setRangeSliderValue({
+              ...rangeValue,
+              [varName]: initialValue as number[],
+            })
+          );
+          dispatch(setKeyValue(varName));
           dispatch(
             setValue({
               ...value,
-              [keyOption]: initialValue,
+              [varName]: initialValue,
             })
           );
-          setSilderValue(initialValue);
-          setRangeValue({
-            ...rangeValue,
-            [keyOption]: initialValue as number[],
-          });
         }
       })
       .catch((error: any) => {
         console.log("error", error);
       });
-  }, [dispatch, keyOption]);
+  }, [dispatch, varName]);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    setSilderValue(newValue as number[]);
-    dispatch(setRange(newValue as number[]));
-    setRangeValue({
-      ...rangeValue,
-      [keyOption]: newValue as number[],
+    localStorage.setItem("filterObject", JSON.stringify(rangeValue));
+    dispatch(setIsChange(true));
+    setRangeMinMax(newValue as number[]);
+    dispatch(
+      setRangeSliderValue({
+        ...rangeValue,
+        [varName]: newValue as number[],
+      })
+    );
+    setRangeSlider({
+      ...rangeSlider,
+      [varName]: newValue as number[],
     });
   };
-
-  useEffect(() => {
-    localStorage.setItem("rangValue", JSON.stringify(sliderValue));
-  }, [sliderValue]);
 
   const handleInputChange = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const { name, value } = event.target;
-    const updatedSliderValue = [...sliderValue];
+    const updatedSliderValue = [...rangeMinMax];
     updatedSliderValue[name === "start" ? 0 : 1] = Number(value);
-    console.log("updatedSliderValue", updatedSliderValue);
-    setSilderValue(updatedSliderValue);
-    setRangeValue({
-      ...rangeValue,
-      [keyOption]: updatedSliderValue,
+    localStorage.setItem("filterObject", JSON.stringify(rangeValue));
+    setRangeMinMax(updatedSliderValue);
+    setRangeSlider({
+      ...rangeSlider,
+      [varName]: updatedSliderValue,
     });
+    dispatch(
+      setRangeSliderValue({
+        ...rangeValue,
+        [varName]: updatedSliderValue,
+      })
+    );
   };
 
   return (
@@ -94,7 +126,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
         color="secondary"
         name="start"
         style={{ fontSize: 22, fontWeight: 500 }}
-        value={sliderValue[0]}
+        value={rangeMinMax[0]}
         size="small"
         onChange={handleInputChange}
         inputProps={{
@@ -108,7 +140,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
       />
       <Input
         name="end"
-        value={sliderValue[1]}
+        value={rangeMinMax[1]}
         size="small"
         onChange={handleInputChange}
         style={{ fontSize: 22, fontWeight: 500 }}
@@ -126,7 +158,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
         min={min}
         max={max}
         getAriaLabel={() => "Temperature range"}
-        value={sliderValue}
+        value={rangeMinMax}
         onChange={handleSliderChange}
       />
     </Grid>

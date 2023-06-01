@@ -103,7 +103,7 @@ const TableRangeSlider = () => {
                       {isShow[row.key] && (
                         <>
                           <RangeSlider
-                            keyOption={row.key}
+                            varName={row.key}
                             setRangeValue={setRangeValue}
                             rangeValue={rangeValue}
                             label={row.label}

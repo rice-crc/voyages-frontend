@@ -24,11 +24,17 @@ export interface OptionsDataState {
 
 export interface RangeSliderState {
     value: Record<string, number[]>
-    range: number[]
     loading: boolean;
     error: boolean;
-    keyValue: string;
+    varName: string;
+    isChange?: boolean
+    rangeSliderMinMax: RangeSliderMinMaxInitialState
+
 }
+export interface RangeSliderMinMaxInitialState {
+    [key: string]: number[]
+}
+
 export const TYPES: {
     IntegerField: string;
     DecimalField: string;
@@ -111,3 +117,4 @@ export interface AutocompleteBoxProps {
     value?: AutoCompleteOption[];
     setValue: React.Dispatch<React.SetStateAction<AutoCompleteOption[]>>;
 }
+

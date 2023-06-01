@@ -27,23 +27,24 @@ import RangeSlider from "../VoyagePage/Results/RangeSlider";
 import { useState, MouseEvent } from "react";
 import AutocompleteBox from "../VoyagePage/Results/AutocompletedBox";
 import { PaperDraggable } from "./PaperDraggable";
-import { setKeyValue } from "@/redux/rangeSliderSlice";
+import { setIsChange, setKeyValue } from "@/redux/rangeSliderSlice";
 
 export function MenuListDropdown() {
   const menuOptionFlat: YoyagaesFilterMenu = useSelector(
     (state: RootState) => state.optionFlatMenu.value
   );
-  const { keyValue } = useSelector(
+
+  const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
 
   const dispatch: AppDispatch = useDispatch();
-  const [rangeValue, setRangeValue] = useState<Record<string, number[]>>({});
+  // const [rangeValue, setRangeValue] = useState<Record<string, number[]>>({});
+
   const [value, setValue] = useState<AutoCompleteOption[]>([]);
   const [label, setLabel] = useState<string>("");
   const [type, setType] = useState<string>("");
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -54,14 +55,14 @@ export function MenuListDropdown() {
       setType(type);
       setLabel(label);
       setIsOpenDialog(true);
-      setMenuOpen(false);
     }
   };
 
   const handleCloseDialog = (event: any) => {
+    const value = event.cancelable;
+    dispatch(setIsChange(!value));
     setIsOpenDialog(false);
     event.stopPropagation();
-    setMenuOpen(false);
   };
 
   const renderDropdownMenu = (children: ChildrenFilter[]) =>
@@ -126,16 +127,11 @@ export function MenuListDropdown() {
           {label}
         </DialogTitle>
         <DialogContent style={{ textAlign: "center" }}>
-          {keyValue && type === TYPES.CharField && (
-            <AutocompleteBox keyOption={keyValue} setValue={setValue} />
+          {varName && type === TYPES.CharField && (
+            <AutocompleteBox keyOption={varName} setValue={setValue} />
           )}
           {(type === TYPES.IntegerField || type === TYPES.DecimalField) && (
-            <RangeSlider
-              keyOption={keyValue}
-              label={label}
-              setRangeValue={setRangeValue}
-              rangeValue={rangeValue}
-            />
+            <RangeSlider label={label} />
           )}
         </DialogContent>
         <DialogActions>
