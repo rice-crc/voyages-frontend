@@ -13,7 +13,7 @@ import { ChildrenFilter } from "@/share/InterfaceTypes";
 
 interface NestedMenuItemProps {
   parentMenuOpen?: boolean;
-  label: string;
+  label?: string;
   varName?: string | undefined;
   type?: string | undefined;
   rightIcon?: JSX.Element;

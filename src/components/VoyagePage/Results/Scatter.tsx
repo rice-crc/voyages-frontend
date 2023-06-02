@@ -6,7 +6,7 @@ import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
-import SelectDropDownXY from "./SelectDropdownXY";
+import SelectDropdownScatter from "./SelectDropdownScatter";
 import AggregationSumAverage from "./AggregationSumAverage";
 import { fetchVoyageGroupby } from "@/fetchAPI/fetchVoyageGroupby";
 import {
@@ -19,19 +19,17 @@ import {
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
 
 function Scatter() {
-  const dispatch: AppDispatch = useDispatch();
   const datas = useSelector((state: RootState) => state.getOptions?.value);
   const {
     data: options_flat,
     isLoading,
     isSuccess,
   } = useGetOptionsQuery(datas);
-  const {
-    rangeSliderMinMax: rangeMinMax,
-    varName,
-    isChange,
-  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
-  const { autoCompleteValue, autoLabelName } = useSelector(
+  const dispatch: AppDispatch = useDispatch();
+  const { rangeSliderMinMax, varName, value, isChange } = useSelector(
+    (state: RootState) => state.rangeSlider as RangeSliderState
+  );
+  const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
 
@@ -71,6 +69,44 @@ function Scatter() {
       (options_flat as Options) || undefined,
       setOptionsFlat
     );
+    const fetchData = async () => {
+      const newFormData: FormData = new FormData();
+      newFormData.append("groupby_by", scatterOptions.x_vars);
+      newFormData.append("groupby_cols", scatterOptions.y_vars);
+      newFormData.append("agg_fn", aggregation);
+      newFormData.append("cachename", "voyage_xyscatter");
+      if (isChange && value[varName]) {
+        newFormData.append(varName, String(rangeSliderMinMax[varName][0]));
+        newFormData.append(varName, String(rangeSliderMinMax[varName][1]));
+      }
+      if (autoCompleteValue && varName && isChangeAuto) {
+        for (let i = 0; i < autoLabelName.length; i++) {
+          const label = autoLabelName[i];
+          newFormData.append(varName, label);
+        }
+      }
+
+      try {
+        const response = await dispatch(
+          fetchVoyageGroupby(newFormData)
+        ).unwrap();
+        if (response) {
+          const keys = Object.keys(response);
+          setScatterOptins({
+            x_vars: keys[0] || "",
+            y_vars: keys[1] || "",
+          });
+          if (keys[0]) {
+            setPlotX(response[keys[0]]);
+          }
+          if (keys[1]) {
+            setPlotY(response[keys[1]]);
+          }
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
 
     fetchData();
   }, [
@@ -79,44 +115,11 @@ function Scatter() {
     scatterOptions.x_vars,
     scatterOptions.y_vars,
     aggregation,
-    rangeMinMax,
+    rangeSliderMinMax,
     varName,
     isChange,
     autoLabelName,
   ]);
-  const fetchData = async () => {
-    const newFormData: FormData = new FormData();
-    newFormData.append("groupby_by", scatterOptions.x_vars);
-    newFormData.append("groupby_cols", scatterOptions.y_vars);
-    newFormData.append("agg_fn", aggregation);
-    newFormData.append("cachename", "voyage_xyscatter");
-    if (isChange) {
-      newFormData.append(varName, JSON.stringify(rangeMinMax[varName][0]));
-      newFormData.append(varName, JSON.stringify(rangeMinMax[varName][1]));
-    }
-    if (autoCompleteValue && varName) {
-      newFormData.append(varName, JSON.stringify(autoLabelName));
-    }
-
-    try {
-      const response = await dispatch(fetchVoyageGroupby(newFormData)).unwrap();
-      if (response) {
-        const keys = Object.keys(response);
-        setScatterOptins({
-          x_vars: keys[0] || "",
-          y_vars: keys[1] || "",
-        });
-        if (keys[0]) {
-          setPlotX(response[keys[0]]);
-        }
-        if (keys[1]) {
-          setPlotY(response[keys[1]]);
-        }
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
 
   const handleChangeAggregation = useMemo(
     () => (event: ChangeEvent<HTMLInputElement>, name: string) => {
@@ -139,10 +142,9 @@ function Scatter() {
     return <div className="spinner"></div>;
   }
   const maxWidth = width > 600 ? width * 0.8 : width * 0.7;
-
   return (
     <div>
-      <SelectDropDownXY
+      <SelectDropdownScatter
         scatterSelectedX={scatterSelectedX}
         scatterSelectedY={scatterSelectedY}
         scatterOptions={scatterOptions}

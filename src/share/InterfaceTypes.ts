@@ -38,6 +38,7 @@ export interface AutoCompleteInitialState {
     total_results_count: number,
     autoCompleteValue: Record<string, AutoCompleteOption[] | string[]>;
     autoLabelName: string[]
+    isChangeAuto: boolean
 }
 
 export interface AutoCompleteValueInitialState {
@@ -72,20 +73,30 @@ export interface AutoCompleteOption {
 }
 
 
-export type YoyagaesFilterMenu = filterMenu[]
+export type VoyagaesFilterMenu = FilterMenu[]
 
-export interface filterMenu {
+export interface FilterMenu {
     label: string
-    children: ChildrenFilter[]
-}
-
-export interface ChildrenFilter {
     var_name?: string
     type?: string
-    label: string
     flatlabel?: string
     children?: ChildrenFilter[]
 }
+
+export interface ChildrenFilter {
+    label?: string
+    children?: ChildrenFilterArr[]
+    var_name?: string
+    type?: string
+    flatlabel?: string
+}
+export interface ChildrenFilterArr {
+    var_name: string
+    type: string
+    label: string
+    flatlabel: string
+}
+
 
 export interface ChildrenNewObjectProp {
     varName?: string

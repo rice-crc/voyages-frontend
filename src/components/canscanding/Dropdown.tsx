@@ -15,7 +15,7 @@ import { List } from "@mui/material";
 
 interface DropdownProps {
   trigger: ReactElement;
-  menu: ReactElement[];
+  menu?: ReactElement[];
   keepOpen?: boolean;
   isOpen?: boolean;
   onOpen?: (event: MouseEvent<Element, MouseEvent> | null) => void;
@@ -55,7 +55,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
     const handleOpen = (event: MouseEvent<HTMLDivElement, MouseEvent>) => {
       event.stopPropagation();
-      if (menu.length) {
+      if (menu?.length) {
         onControlledOpen
           ? onControlledOpen(event)
           : setInternalOpen(event.currentTarget);
@@ -102,7 +102,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           open={isOpen}
           onClose={handleClose}
         >
-          <List>{menu.map(renderMenu)}</List>
+          <List>{menu?.map(renderMenu)}</List>
         </Menu>
       </>
     );

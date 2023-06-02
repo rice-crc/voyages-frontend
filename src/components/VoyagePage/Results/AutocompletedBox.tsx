@@ -20,6 +20,7 @@ import {
 import {
   setAutoCompleteValue,
   setAutoLabel,
+  setIsChangeAuto,
 } from "@/redux/getAutoCompleteSlice";
 
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
@@ -64,6 +65,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   ) => {
     setSelectedValue(newValue as AutoCompleteOption[]);
     if (newValue) {
+      dispatch(setIsChangeAuto(true));
       const autuLabel: string[] = newValue.map((ele) => ele.label);
       dispatch(
         setAutoCompleteValue({

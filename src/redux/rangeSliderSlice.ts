@@ -17,6 +17,7 @@ const rangeSliderSlice = createSlice({
     initialState,
     reducers: {
         setValue: (state, action: PayloadAction<Record<string, number[]>>) => {
+
             state.value = action.payload;
         },
         setKeyValue: (state, action: PayloadAction<string>) => {

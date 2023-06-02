@@ -14,8 +14,8 @@ import {
   ChildrenFilter,
   RangeSliderState,
   TYPES,
-  YoyagaesFilterMenu,
-  filterMenu,
+  VoyagaesFilterMenu,
+  FilterMenu,
 } from "@/share/InterfaceTypes";
 import {
   BLACK,
@@ -28,13 +28,10 @@ import { useState, MouseEvent } from "react";
 import AutocompleteBox from "../VoyagePage/Results/AutocompletedBox";
 import { PaperDraggable } from "./PaperDraggable";
 import { setIsChange, setKeyValue } from "@/redux/rangeSliderSlice";
-import { timeEnd } from "console";
+import { setIsChangeAuto } from "@/redux/getAutoCompleteSlice";
 
 export function MenuListDropdown() {
-  // const menuOptionFlat: YoyagaesFilterMenu = useSelector(
-  //   (state: RootState) => state.optionFlatMenu.value
-  // );
-  const menuOptionFlat: any = useSelector(
+  const menuOptionFlat: VoyagaesFilterMenu = useSelector(
     (state: RootState) => state.optionFlatMenu.value
   );
 
@@ -62,12 +59,13 @@ export function MenuListDropdown() {
   const handleCloseDialog = (event: any) => {
     const value = event.cancelable;
     dispatch(setIsChange(!value));
+    dispatch(setIsChangeAuto(!value));
     setIsOpenDialog(false);
     event.stopPropagation();
   };
 
-  const renderDropdownMenu = (children: ChildrenFilter[]) =>
-    children.map((childItem: ChildrenFilter, index: number) => {
+  const renderDropdownMenu = (children?: ChildrenFilter[]) =>
+    children?.map((childItem: ChildrenFilter, index: number) => {
       return (
         <DropdownNestedMenuItem
           onClickMenu={handleClickMenu}
@@ -99,7 +97,7 @@ export function MenuListDropdown() {
     });
   return (
     <Box>
-      {menuOptionFlat.map((item: any, index: number) => {
+      {menuOptionFlat.map((item: FilterMenu, index: number) => {
         return item.var_name ? (
           <Button
             key={`${item.label}-${index}`}

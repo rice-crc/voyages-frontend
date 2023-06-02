@@ -9,7 +9,7 @@ import {
 import { FunctionComponent } from "react";
 import { PlotXYVar, VoyagesOptionProps } from "@/share/InterfaceTypes";
 
-interface SelectDropDownXYProps {
+interface SelectDropdownScatterProps {
   scatterSelectedX: PlotXYVar[];
   scatterSelectedY: PlotXYVar[];
   scatterOptions: VoyagesOptionProps;
@@ -17,7 +17,7 @@ interface SelectDropDownXYProps {
   width: number;
 }
 
-const SelectDropDownXY: FunctionComponent<SelectDropDownXYProps> = ({
+const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
   scatterSelectedX,
   scatterSelectedY,
   scatterOptions,
@@ -104,4 +104,4 @@ const SelectDropDownXY: FunctionComponent<SelectDropDownXYProps> = ({
   );
 };
 
-export default SelectDropDownXY;
+export default SelectDropdownScatter;
