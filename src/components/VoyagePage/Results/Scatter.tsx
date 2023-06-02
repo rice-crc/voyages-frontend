@@ -14,6 +14,7 @@ import {
   VoyagesOptionProps,
   Options,
   RangeSliderState,
+  AutoCompleteInitialState,
 } from "@/share/InterfaceTypes";
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
 
@@ -30,6 +31,9 @@ function Scatter() {
     varName,
     isChange,
   } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+  const { autoCompleteValue, autoLabelName } = useSelector(
+    (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
+  );
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
@@ -75,10 +79,13 @@ function Scatter() {
       newFormData.append("agg_fn", aggregation);
       newFormData.append("cachename", "voyage_xyscatter");
       if (isChange) {
-        newFormData.append(varName, String(rangeMinMax[varName][0]));
-        newFormData.append(varName, String(rangeMinMax[varName][1]));
+        newFormData.append(varName, JSON.stringify(rangeMinMax[varName][0]));
+        newFormData.append(varName, JSON.stringify(rangeMinMax[varName][1]));
       }
-      // newFormData.append(keyValue, [ "Gold Coast", "abc,", "acc"]);
+      if (autoCompleteValue && varName) {
+        newFormData.append(varName, JSON.stringify(autoLabelName));
+        // console.log("-->", newFormData.getAll(varName));
+      }
 
       try {
         const response = await dispatch(
@@ -112,6 +119,7 @@ function Scatter() {
     rangeMinMax,
     varName,
     isChange,
+    autoLabelName,
   ]);
 
   const handleChangeAggregation = useMemo(

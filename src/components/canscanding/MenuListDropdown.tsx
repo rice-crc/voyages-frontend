@@ -127,9 +127,7 @@ export function MenuListDropdown() {
           {label}
         </DialogTitle>
         <DialogContent style={{ textAlign: "center" }}>
-          {varName && type === TYPES.CharField && (
-            <AutocompleteBox keyOption={varName} setValue={setValue} />
-          )}
+          {varName && type === TYPES.CharField && <AutocompleteBox />}
           {(type === TYPES.IntegerField || type === TYPES.DecimalField) && (
             <RangeSlider label={label} />
           )}

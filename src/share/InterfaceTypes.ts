@@ -29,10 +29,19 @@ export interface RangeSliderState {
     varName: string;
     isChange?: boolean
     rangeSliderMinMax: RangeSliderMinMaxInitialState
-
 }
 export interface RangeSliderMinMaxInitialState {
     [key: string]: number[]
+}
+export interface AutoCompleteInitialState {
+    results: [],
+    total_results_count: number,
+    autoCompleteValue: Record<string, AutoCompleteOption[] | string[]>;
+    autoLabelName: string[]
+}
+
+export interface AutoCompleteValueInitialState {
+    [key: string]: string[]
 }
 
 export const TYPES: {
@@ -47,7 +56,7 @@ export const TYPES: {
 
 
 export interface AutoCompleteSliceLists {
-    results: string[][]
+    results: string[]
     total_results_count: number
 }
 
@@ -113,8 +122,6 @@ export interface VoyagesOptionProps {
 }
 
 export interface AutocompleteBoxProps {
-    keyOption: string;
     value?: AutoCompleteOption[];
-    setValue: React.Dispatch<React.SetStateAction<AutoCompleteOption[]>>;
 }
 

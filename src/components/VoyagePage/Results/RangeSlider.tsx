@@ -15,6 +15,7 @@ import { Grid } from "@mui/material";
 import { CustomSlider, Input } from "@/styleMUI";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
+  AutoCompleteInitialState,
   RangeSliderMinMaxInitialState,
   RangeSliderState,
 } from "@/share/InterfaceTypes";
@@ -30,7 +31,9 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
     varName,
     rangeSliderMinMax: rangeValue,
   } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
-
+  const { autoCompleteValue } = useSelector(
+    (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
+  );
   const [rangeSlider, setRangeSlider] = useState<RangeSliderMinMaxInitialState>(
     () => {
       const storedSliderValue = localStorage.getItem("filterObject");
@@ -85,7 +88,10 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
   }, [dispatch, varName]);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    localStorage.setItem("filterObject", JSON.stringify(rangeValue));
+    const filterObject = { rangeValue, autoCompleteValue };
+    const filterObjectString = JSON.stringify(filterObject);
+    localStorage.setItem("filterObject", filterObjectString);
+    // localStorage.setItem("filterObject", JSON.stringify(rangeValue));
     dispatch(setIsChange(true));
     setRangeMinMax(newValue as number[]);
     dispatch(
@@ -106,7 +112,10 @@ const RangeSlider: FunctionComponent<GetSliderProps> = (props) => {
     const { name, value } = event.target;
     const updatedSliderValue = [...rangeMinMax];
     updatedSliderValue[name === "start" ? 0 : 1] = Number(value);
-    localStorage.setItem("filterObject", JSON.stringify(rangeValue));
+    const filterObject = { rangeValue, autoCompleteValue };
+    const filterObjectString = JSON.stringify(filterObject);
+    localStorage.setItem("filterObject", filterObjectString);
+    // localStorage.setItem("filterObject", JSON.stringify(rangeValue));
     setRangeMinMax(updatedSliderValue);
     setRangeSlider({
       ...rangeSlider,

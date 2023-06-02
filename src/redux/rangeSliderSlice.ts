@@ -8,7 +8,8 @@ const initialState: RangeSliderState = {
     error: false,
     varName: "",
     isChange: false,
-    rangeSliderMinMax: {}
+    rangeSliderMinMax: {},
+
 };
 
 const rangeSliderSlice = createSlice({
@@ -16,6 +17,7 @@ const rangeSliderSlice = createSlice({
     initialState,
     reducers: {
         setValue: (state, action: PayloadAction<Record<string, number[]>>) => {
+            console.log("action", action.payload)
             state.value = action.payload;
         },
         setKeyValue: (state, action: PayloadAction<string>) => {
