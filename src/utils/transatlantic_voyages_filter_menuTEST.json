@@ -1,0 +1,498 @@
+[
+	{
+		"label": "Year Range",
+		"var_name": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+		"type": "IntegerField",
+		"flatlabel": "Year of arrival at port of disembarkation (YEARAM)"
+	},
+	{
+		"label": "Ship and Nation",
+		"children": [
+			{
+				"label": "Voyages and vessels",
+				"children": [
+					{
+						"var_name": "voyage_id",
+						"type": "IntegerField",
+						"label": "Voyage ID",
+						"flatlabel": "Voyage ID"
+					},
+					{
+						"var_name": "voyage_ship__ship_name",
+						"type": "CharField",
+						"label": "Name of vessel",
+						"flatlabel": "Name of vessel"
+					},
+					{
+						"var_name": "voyage_shipownerconnection__owner__name",
+						"type": "CharField",
+						"label": "Ship Owner",
+						"flatlabel": "Ship Owner"
+					}
+				]
+			},
+			{
+				"label": "Construction and registration",
+				"children": [
+					{
+						"var_name": "voyage_ship__vessel_construction_region__geo_location__name",
+						"type": "CharField",
+						"label": "Region where vessel constructed",
+						"flatlabel": "Region where vessel constructed"
+					},
+					{
+						"var_name": "voyage_ship__registered_place__geo_location__name",
+						"type": "CharField",
+						"label": "Place where vessel registered",
+						"flatlabel": "Place where vessel registered"
+					},
+					{
+						"var_name": "voyage_ship__registered_year",
+						"type": "IntegerField",
+						"label": "Year of vessel's registration",
+						"flatlabel": "Year of vessel's registration"
+					},
+					{
+						"var_name": "voyage_ship__year_of_construction",
+						"type": "IntegerField",
+						"label": "Year of vessel's construction",
+						"flatlabel": "Year of vessel's construction"
+					}
+				]
+			},
+			{
+				"label": "Flag of Vessel",
+				"children": [
+					{
+						"var_name": "voyage_ship__imputed_nationality__name",
+						"type": "CharField",
+						"label": "Imputed Ship Nationality",
+						"flatlabel": "Imputed Ship Nationality"
+					}
+				]
+			},
+			{
+				"label": "Rig, tonnage, and guns mounted",
+				"children": [
+					{
+						"var_name": "voyage_ship__rig_of_vessel__name",
+						"type": "CharField",
+						"label": "Rig of Vessel",
+						"flatlabel": "Rig of Vessel"
+					},
+					{
+						"var_name": "voyage_ship__tonnage_mod",
+						"type": "DecimalField",
+						"label": "Tonnage standardized on British measured tons 1773-1870",
+						"flatlabel": "Tonnage standardized on British measured tons 1773-1870"
+					},
+					{
+						"var_name": "voyage_ship__tonnage",
+						"type": "IntegerField",
+						"label": "Tonnage of vessel",
+						"flatlabel": "Tonnage of vessel"
+					},
+					{
+						"var_name": "voyage_ship__guns_mounted",
+						"type": "IntegerField",
+						"label": "Guns mounted",
+						"flatlabel": "Guns mounted"
+					}
+				]
+			}
+		]
+	},
+	{
+		"label": "Owner, Crew, & Captain",
+		"children": [
+			{
+				"label": "Ship Owner Name",
+				"children": [
+					{
+						"var_name": "voyage_shipownerconnection__owner__name",
+						"type": "CharField",
+						"label": "Ship Owner",
+						"flatlabel": "Ship Owner"
+					}
+				]
+			},
+			{
+				"label": "Captain's name",
+				"children": [
+					{
+						"var_name": "voyage_captainconnection__captain__name",
+						"type": "CharField",
+						"label": "Ship Captain",
+						"flatlabel": "Ship Captain"
+					}
+				]
+			},
+			{
+				"label": "Crew",
+				"children": [
+					{
+						"var_name": "voyage_crew__crew_died_complete_voyage",
+						"type": "IntegerField",
+						"label": "Crew died during complete voyage",
+						"flatlabel": "Crew died during complete voyage"
+					},
+					{
+						"var_name": "voyage_crew__crew_first_landing",
+						"type": "IntegerField",
+						"label": "Crew at first landing of slaves",
+						"flatlabel": "Crew at first landing of slaves"
+					},
+					{
+						"var_name": "voyage_crew__crew_voyage_outset",
+						"type": "IntegerField",
+						"label": "Crew at voyage outset",
+						"flatlabel": "Crew at voyage outset"
+					}
+				]
+			}
+		]
+	},
+	{
+		"label": "Itinerary",
+		"children": [
+			{
+				"label": "Place of Vessel's Departure",
+				"children": [
+					{
+						"var_name": "voyage_itinerary__port_of_departure__geo_location__name",
+						"type": "CharField",
+						"label": "Port of departure (PORTDEP)",
+						"flatlabel": "Port of departure (PORTDEP)"
+					}
+				]
+			},
+			{
+				"label": "Place where captives were purchased",
+				"children": [
+					{
+						"var_name": "voyage_itinerary__third_place_slave_purchase__geo_location__name",
+						"type": "CharField",
+						"label": "Third place of slave purchase (PLAC3TRA)",
+						"flatlabel": "Third place of slave purchase (PLAC3TRA)"
+					},
+					{
+						"var_name": "voyage_itinerary__second_place_slave_purchase__geo_location__name",
+						"type": "CharField",
+						"label": "Location name",
+						"flatlabel": "Second place of slave purchase (PLAC2TRA)"
+					},
+					{
+						"var_name": "voyage_itinerary__first_place_slave_purchase__geo_location__name",
+						"type": "CharField",
+						"label": "First place of slave purchase (PLAC1TRA)",
+						"flatlabel": "First place of slave purchase (PLAC1TRA)"
+					},
+					{
+						"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+						"type": "CharField",
+						"label": "Imputed principal place of slave purchase (MJBYPTIMP)",
+						"flatlabel": "Imputed principal place of slave purchase (MJBYPTIMP)"
+					}
+				]
+			},
+			{
+				"label": "Places of call before Atlantic crossing",
+				"children": [
+					{
+						"var_name": "voyage_itinerary__port_of_call_before_atl_crossing__geo_location__name",
+						"type": "CharField",
+						"label": "Port of call before Atlantic crossing (NPAFTTRA)",
+						"flatlabel": "Port of call before Atlantic crossing (NPAFTTRA)"
+					}
+				]
+			},
+			{
+				"label": "Place where captives were landed",
+				"children": [
+					{
+						"var_name": "voyage_itinerary__third_landing_place__geo_location__name",
+						"type": "CharField",
+						"label": "Third place of slave landing (ADPSALE2)",
+						"flatlabel": "Third place of slave landing (ADPSALE2)"
+					},
+					{
+						"var_name": "voyage_itinerary__second_landing_place__geo_location__name",
+						"type": "CharField",
+						"label": "Second place of slave landing (ADPSALE1)",
+						"flatlabel": "Second place of slave landing (ADPSALE1)"
+					},
+					{
+						"var_name": "voyage_itinerary__first_landing_place__geo_location__name",
+						"type": "CharField",
+						"label": "First place of slave landing (SLA1PORT)",
+						"flatlabel": "First place of slave landing (SLA1PORT)"
+					},
+					{
+						"var_name": "voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+						"type": "CharField",
+						"label": "Imputed principal port of slave disembarkation (MJSLPTIMP)",
+						"flatlabel": "Imputed principal port of slave disembarkation (MJSLPTIMP)"
+					}
+				]
+			},
+			{
+				"label": "Place where vessel's voyage ended",
+				"children": [
+					{
+						"var_name": "voyage_itinerary__place_voyage_ended__geo_location__name",
+						"type": "CharField",
+						"label": "Place at which voyage ended (PORTRET)",
+						"flatlabel": "Place at which voyage ended (PORTRET)"
+					}
+				]
+			}
+		]
+	},
+	{
+		"label": "Enslaved",
+		"children": [
+			{
+				"label": "Overall numbers",
+				"children": [
+					{
+						"var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+						"type": "IntegerField",
+						"label": "Total slaves disembarked imputed * (SLAMIMP)",
+						"flatlabel": "Total slaves disembarked imputed * (SLAMIMP)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+						"type": "IntegerField",
+						"label": "Total slaves embarked imputed * (slaximp)",
+						"flatlabel": "Total slaves embarked imputed * (slaximp)"
+					}
+				]
+			},
+			{
+				"label": "Purchase numbers",
+				"children": [
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_carried_third_port",
+						"type": "IntegerField",
+						"label": "Number of slaves carried from third port of purchase (NCAR17)",
+						"flatlabel": "Number of slaves carried from third port of purchase (NCAR17)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_carried_second_port",
+						"type": "IntegerField",
+						"label": "Number of slaves carried from second port of purchase (NCAR15)",
+						"flatlabel": "Number of slaves carried from second port of purchase (NCAR15)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_carried_first_port",
+						"type": "IntegerField",
+						"label": "Number of slaves carried from first port of purchase (NCAR13)",
+						"flatlabel": "Number of slaves carried from first port of purchase (NCAR13)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_intended_first_port",
+						"type": "IntegerField",
+						"label": "Number of slaves intended from first port of purchase (SLINTEND)",
+						"flatlabel": "Number of slaves intended from first port of purchase (SLINTEND)"
+					}
+				]
+			},
+			{
+				"label": "Landing numbers",
+				"children": [
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_disembark_third_place",
+						"type": "IntegerField",
+						"label": "Number of slaves disembarked at third place (SLAS39)",
+						"flatlabel": "Number of slaves disembarked at third place (SLAS39)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_disembark_second_place",
+						"type": "IntegerField",
+						"label": "Number of slaves disembarked at second place (SLAS36)",
+						"flatlabel": "Number of slaves disembarked at second place (SLAS36)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_disembark_first_place",
+						"type": "IntegerField",
+						"label": "Number of slaves disembarked at first place (SLAS32)",
+						"flatlabel": "Number of slaves disembarked at first place (SLAS32)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
+						"type": "IntegerField",
+						"label": "Total slaves arrived at first port of disembarkation (SLAARRIV)",
+						"flatlabel": "Total slaves arrived at first port of disembarkation (SLAARRIV)"
+					}
+				]
+			},
+			{
+				"label": "Percentage by sex and age",
+				"children": [
+					{
+						"var_name": "voyage_slaves_numbers__percentage_child",
+						"type": "FloatField",
+						"label": "Percentage children on voyage (CHILRAT7)",
+						"flatlabel": "Percentage children on voyage (CHILRAT7)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__percentage_male",
+						"type": "FloatField",
+						"label": "Percentage male on voyage (MALRAT7)",
+						"flatlabel": "Percentage male on voyage (MALRAT7)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__percentage_girl",
+						"type": "FloatField",
+						"label": "Percentage girl on voyage (GIRLRAT7)",
+						"flatlabel": "Percentage girl on voyage (GIRLRAT7)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__percentage_boy",
+						"type": "FloatField",
+						"label": "Percentage boy on voyage (BOYRAT7)",
+						"flatlabel": "Percentage boy on voyage (BOYRAT7)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__percentage_women",
+						"type": "FloatField",
+						"label": "Percentage women on voyage (WOMRAT7)",
+						"flatlabel": "Percentage women on voyage (WOMRAT7)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__percentage_men",
+						"type": "FloatField",
+						"label": "Percentage men on voyage (MENRAT7)",
+						"flatlabel": "Percentage men on voyage (MENRAT7)"
+					}
+				]
+			},
+			{
+				"label": "Other characteristics",
+				"children": [
+					{
+						"var_name": "voyage_slaves_numbers__imp_mortality_ratio",
+						"type": "FloatField",
+						"label": "Imputed mortality ratio (VYMRTRAT)",
+						"flatlabel": "Imputed mortality ratio (VYMRTRAT)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__imp_mortality_during_voyage",
+						"type": "IntegerField",
+						"label": "Imputed number of slave deaths during Middle Passage (VYMRTIMP)",
+						"flatlabel": "Imputed number of slave deaths during Middle Passage (VYMRTIMP)"
+					},
+					{
+						"var_name": "voyage_slaves_numbers__imp_jamaican_cash_price",
+						"type": "DecimalField",
+						"label": "Sterling cash price in Jamaica* (imputed)",
+						"flatlabel": "Sterling cash price in Jamaica* (imputed)"
+					}
+				]
+			}
+		]
+	},
+	{
+		"label": "Dates",
+		"children": [
+			{
+				"label": "Voyage duration",
+				"children": [
+					{
+						"var_name": "voyage_dates__imp_length_home_to_disembark",
+						"type": "IntegerField",
+						"label": "Voyage length from home port to disembarkation (days) (VOY1IMP)",
+						"flatlabel": "Voyage length from home port to disembarkation (days) (VOY1IMP)"
+					},
+					{
+						"var_name": "voyage_dates__length_middle_passage_days",
+						"type": "IntegerField",
+						"label": "Length of Middle Passage in (days) (VOYAGE)",
+						"flatlabel": "Length of Middle Passage in (days)"
+					}
+				]
+			},
+			{
+				"label": "Dates during voyage",
+				"children": [
+					{
+						"var_name": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+						"type": "IntegerField",
+						"label": "Year of arrival at port of disembarkation (YEARAM)",
+						"flatlabel": "Year of arrival at port of disembarkation (YEARAM)"
+					}
+				]
+			}
+		]
+	},
+	{
+		"label": "Captain and crew",
+		"children": [
+			{
+				"var_name": "voyage_captainconnection__captain__name",
+				"type": "CharField",
+				"label": "Captain's name",
+				"flatlabel": "Captain's name"
+			},
+			{
+				"var_name": "voyage_crew__crew_died_complete_voyage",
+				"type": "IntegerField",
+				"label": "Crew died during complete voyage",
+				"flatlabel": "Crew died during complete voyage"
+			},
+			{
+				"var_name": "voyage_crew__crew_first_landing",
+				"type": "IntegerField",
+				"label": "Crew at first landing of slaves",
+				"flatlabel": "Crew at first landing of slaves"
+			},
+			{
+				"var_name": "voyage_crew__crew_voyage_outset",
+				"type": "IntegerField",
+				"label": "Crew at voyage outset",
+				"flatlabel": "Crew at voyage outset"
+			}
+		]
+	},
+	{
+		"label": "Outcome",
+		"children": [
+			{
+				"var_name": "voyage_outcome__vessel_captured_outcome__name",
+				"type": "CharField",
+				"label": "Vessel Captured Outcome",
+				"flatlabel": "Vessel Captured Outcome"
+			},
+			{
+				"var_name": "voyage_outcome__resistance__name",
+				"type": "CharField",
+				"label": "Resistance",
+				"flatlabel": "Resistance"
+			},
+			{
+				"var_name": "voyage_outcome__outcome_owner__name",
+				"type": "CharField",
+				"label": "Owner Outcome",
+				"flatlabel": "Owner Outcome"
+			},
+			{
+				"var_name": "voyage_outcome__outcome_slaves__name",
+				"type": "CharField",
+				"label": "Slaves Outcome",
+				"flatlabel": "Slaves Outcome"
+			},
+			{
+				"var_name": "voyage_outcome__particular_outcome__name",
+				"type": "CharField",
+				"label": "Particular Outcome",
+				"flatlabel": "Particular Outcome"
+			}
+		]
+	},
+	{
+		"label": "Sources",
+		"var_name": "voyage_sourceconnection__source__full_ref",
+		"type": "CharField",
+		"flatlabel": "Source, full reference"
+	}
+]

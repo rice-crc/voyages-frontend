@@ -72,7 +72,6 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
     const renderMenu = (menuItem: ReactElement, index: number): ReactNode => {
       const { ...props } = menuItem.props;
-
       let extraProps: { parentMenuOpen: boolean } = { parentMenuOpen: isOpen };
       if (props.menu) {
         extraProps = {
@@ -80,6 +79,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           parentMenuOpen: isOpen,
         };
       }
+
       return createElement(menuItem.type, {
         ...props,
         key: index,

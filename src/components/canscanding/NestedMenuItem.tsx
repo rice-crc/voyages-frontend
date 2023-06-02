@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import { ArrowRight } from "@mui/icons-material";
+import { ChildrenFilter } from "@/share/InterfaceTypes";
 
 interface NestedMenuItemProps {
   parentMenuOpen?: boolean;
@@ -18,6 +19,7 @@ interface NestedMenuItemProps {
   rightIcon?: JSX.Element;
   keepOpen?: boolean;
   children: React.ReactNode;
+  childrenFilter?: ChildrenFilter;
   customTheme?: any;
   className?: string;
   tabIndex?: number;
@@ -37,6 +39,7 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
     label,
     rightIcon = <ArrowRight style={{ fontSize: 16 }} />,
     keepOpen,
+    childrenFilter,
     varName,
     type,
     children,
@@ -136,7 +139,7 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
   if (!disabled) {
     tabIndex = tabIndexProp !== undefined ? tabIndexProp : -1;
   }
-
+  const isOneChild = childrenFilter?.children?.length === 1;
   return (
     <div
       {...ContainerProps}
@@ -153,10 +156,10 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
         data-open={!!open || undefined}
         className={className}
         ref={menuItemRef}
-        onClick={onClickMenu}
         data-value={varName}
         data-type={type}
         data-label={label}
+        onClick={onClickMenu}
       >
         {label}
         <div style={{ flexGrow: 1 }} />

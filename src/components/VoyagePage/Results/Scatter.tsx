@@ -72,43 +72,6 @@ function Scatter() {
       setOptionsFlat
     );
 
-    const fetchData = async () => {
-      const newFormData: FormData = new FormData();
-      newFormData.append("groupby_by", scatterOptions.x_vars);
-      newFormData.append("groupby_cols", scatterOptions.y_vars);
-      newFormData.append("agg_fn", aggregation);
-      newFormData.append("cachename", "voyage_xyscatter");
-      if (isChange) {
-        newFormData.append(varName, JSON.stringify(rangeMinMax[varName][0]));
-        newFormData.append(varName, JSON.stringify(rangeMinMax[varName][1]));
-      }
-      if (autoCompleteValue && varName) {
-        newFormData.append(varName, JSON.stringify(autoLabelName));
-        // console.log("-->", newFormData.getAll(varName));
-      }
-
-      try {
-        const response = await dispatch(
-          fetchVoyageGroupby(newFormData)
-        ).unwrap();
-        if (response) {
-          const keys = Object.keys(response);
-          setScatterOptins({
-            x_vars: keys[0] || "",
-            y_vars: keys[1] || "",
-          });
-          if (keys[0]) {
-            setPlotX(response[keys[0]]);
-          }
-          if (keys[1]) {
-            setPlotY(response[keys[1]]);
-          }
-        }
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-
     fetchData();
   }, [
     dispatch,
@@ -121,6 +84,39 @@ function Scatter() {
     isChange,
     autoLabelName,
   ]);
+  const fetchData = async () => {
+    const newFormData: FormData = new FormData();
+    newFormData.append("groupby_by", scatterOptions.x_vars);
+    newFormData.append("groupby_cols", scatterOptions.y_vars);
+    newFormData.append("agg_fn", aggregation);
+    newFormData.append("cachename", "voyage_xyscatter");
+    if (isChange) {
+      newFormData.append(varName, JSON.stringify(rangeMinMax[varName][0]));
+      newFormData.append(varName, JSON.stringify(rangeMinMax[varName][1]));
+    }
+    if (autoCompleteValue && varName) {
+      newFormData.append(varName, JSON.stringify(autoLabelName));
+    }
+
+    try {
+      const response = await dispatch(fetchVoyageGroupby(newFormData)).unwrap();
+      if (response) {
+        const keys = Object.keys(response);
+        setScatterOptins({
+          x_vars: keys[0] || "",
+          y_vars: keys[1] || "",
+        });
+        if (keys[0]) {
+          setPlotX(response[keys[0]]);
+        }
+        if (keys[1]) {
+          setPlotY(response[keys[1]]);
+        }
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   const handleChangeAggregation = useMemo(
     () => (event: ChangeEvent<HTMLInputElement>, name: string) => {

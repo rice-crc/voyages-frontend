@@ -64,10 +64,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   ) => {
     setSelectedValue(newValue as AutoCompleteOption[]);
     if (newValue) {
-      const autuLabel: string[] = [];
-      newValue.forEach((ele) => {
-        autuLabel.push(ele.label);
-      });
+      const autuLabel: string[] = newValue.map((ele) => ele.label);
       dispatch(
         setAutoCompleteValue({
           ...autoCompleteValue,
@@ -75,10 +72,12 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         })
       );
       dispatch(setAutoLabel(autuLabel));
-      const filterObject = { rangeValue, autoCompleteValue };
+      const filterObject = {
+        rangeValue,
+        autoCompleteValue: { ...autoCompleteValue, [varName]: autuLabel },
+      };
       const filterObjectString = JSON.stringify(filterObject);
       localStorage.setItem("filterObject", filterObjectString);
-      // localStorage.setItem("filterObject", JSON.stringify(autoCompleteValue));
     }
   };
 
