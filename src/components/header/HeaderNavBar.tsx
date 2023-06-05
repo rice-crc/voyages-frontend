@@ -59,14 +59,13 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     >
       <CssBaseline />
       <AppBar
-        position="static"
         component="nav"
         style={{
-          backgroundColor: "transparent",
+          backgroundColor: isFilter ? "transparent" : "#93D0CB",
           color: "black",
           fontSize: 12,
           boxShadow: "none",
-          marginTop: "4.5rem",
+          marginTop: "4rem",
         }}
       >
         <Toolbar sx={{ alignItems: "center" }}>
@@ -82,7 +81,6 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             </IconButton>
           </Hidden>
           <Typography
-            variant="h6"
             component="div"
             sx={{
               flexGrow: 1,
@@ -107,8 +105,8 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
                 alignItems: "center",
                 display: "flex",
                 margin: "10px 0",
-                fontSize: 24,
-                fontWeight: 500,
+                fontSize: 20,
+                fontWeight: 600,
               }}
               onClick={() => setIsFilter(!isFilter)}
             >
@@ -131,9 +129,9 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
                 key={item}
                 sx={{
                   color: "#000",
-                  fontWeight: 500,
+                  fontWeight: 600,
                   textTransform: "none",
-                  fontSize: 22,
+                  fontSize: 20,
                 }}
               >
                 {item}

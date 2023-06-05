@@ -106,13 +106,7 @@ const TableCharacter = () => {
                       <div> {row.label}</div>
                     </TableCell>
                     <TableCell>
-                      {isShow[row.key] && (
-                        <AutocompleteBox
-                          keyOption={row.key}
-                          setValue={setValue}
-                          value={value}
-                        />
-                      )}
+                      {isShow[row.key] && <AutocompleteBox value={value} />}
                     </TableCell>
                     <TableCell style={{ textAlign: "center" }}>
                       {isShow[row.key] && value && value?.length > 0 ? (

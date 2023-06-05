@@ -23,7 +23,7 @@ export interface OptionsDataState {
 }
 
 export interface RangeSliderState {
-    value: Record<string, number[]>
+    rangeValue: RangeSliderMinMaxInitialState
     loading: boolean;
     error: boolean;
     varName: string;
@@ -124,6 +124,18 @@ export interface PlotXYVar {
     label: string
 }
 
+
+export interface BargraphXYProps {
+    x_vars: BargraphXYVar[]
+    y_vars: BargraphXYVar[]
+}
+
+export interface BargraphXYVar {
+    var_name: string
+    type: string
+    label: string
+    flatlabel: string
+}
 export interface ScatterOptionsXYResponse {
     [key: string]: [];
 }
@@ -136,3 +148,7 @@ export interface AutocompleteBoxProps {
     value?: AutoCompleteOption[];
 }
 
+export interface currentPageInitialState {
+    currentPage: number;
+    isOpenDialog: boolean
+}

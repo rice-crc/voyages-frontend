@@ -3,7 +3,7 @@ import { RangeSliderState } from '@/share/InterfaceTypes';
 import { fetchRangeSliderData } from '@/fetchAPI/fetchAggregationsSlider';
 
 const initialState: RangeSliderState = {
-    value: {},
+    rangeValue: {},
     loading: false,
     error: false,
     varName: "",
@@ -16,9 +16,8 @@ const rangeSliderSlice = createSlice({
     name: 'rangeSlider',
     initialState,
     reducers: {
-        setValue: (state, action: PayloadAction<Record<string, number[]>>) => {
-
-            state.value = action.payload;
+        setRangeValue: (state, action: PayloadAction<Record<string, number[]>>) => {
+            state.rangeValue = action.payload;
         },
         setKeyValue: (state, action: PayloadAction<string>) => {
             state.varName = action.payload;
@@ -29,7 +28,6 @@ const rangeSliderSlice = createSlice({
         setRangeSliderValue: (state, action: PayloadAction<Record<string, number[]>>) => {
             state.rangeSliderMinMax = action.payload;
         },
-
     },
     extraReducers: (builder) => {
         builder.addCase(fetchRangeSliderData.pending, (state) => {
@@ -37,7 +35,7 @@ const rangeSliderSlice = createSlice({
             state.error = true;
         });
         builder.addCase(fetchRangeSliderData.fulfilled, (state, action) => {
-            state.value = action.payload.value;
+            state.rangeValue = action.payload.rangeValue;
             state.loading = false;
             state.error = false;
         });
@@ -47,5 +45,5 @@ const rangeSliderSlice = createSlice({
         });
     },
 });
-export const { setValue, setKeyValue, setIsChange, setRangeSliderValue } = rangeSliderSlice.actions;
+export const { setRangeValue, setKeyValue, setIsChange, setRangeSliderValue } = rangeSliderSlice.actions;
 export default rangeSliderSlice.reducer;

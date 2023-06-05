@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, ChangeEvent, useCallback } from "react";
 import Plot from "react-plotly.js";
-import VOYAGE_SCATTER_OPTIONS from "@/utils/VOYAGE_SCATTER_OPTIONS.json";
+import VOYAGE_SCATTER_OPTIONS from "@/utils/VOYAGE_BARGRAPH_OPTIONS.json";
 import { Grid, SelectChangeEvent } from "@mui/material";
 import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -15,6 +15,7 @@ import {
   Options,
   RangeSliderState,
   AutoCompleteInitialState,
+  currentPageInitialState,
 } from "@/share/InterfaceTypes";
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
 
@@ -26,11 +27,16 @@ function Scatter() {
     isSuccess,
   } = useGetOptionsQuery(datas);
   const dispatch: AppDispatch = useDispatch();
-  const { rangeSliderMinMax, varName, value, isChange } = useSelector(
-    (state: RootState) => state.rangeSlider as RangeSliderState
-  );
+  const {
+    rangeSliderMinMax: rang,
+    varName,
+    isChange,
+  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
   const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
+  );
+  const { currentPage } = useSelector(
+    (state: RootState) => state.getScrollPage as currentPageInitialState
   );
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
@@ -61,6 +67,7 @@ function Scatter() {
       }
     );
   };
+  console.log("ischange", isChange);
 
   useEffect(() => {
     VoyageScatterOptions();
@@ -75,9 +82,9 @@ function Scatter() {
       newFormData.append("groupby_cols", scatterOptions.y_vars);
       newFormData.append("agg_fn", aggregation);
       newFormData.append("cachename", "voyage_xyscatter");
-      if (isChange && value[varName]) {
-        newFormData.append(varName, String(rangeSliderMinMax[varName][0]));
-        newFormData.append(varName, String(rangeSliderMinMax[varName][1]));
+      if (isChange && rang[varName] && currentPage === 1) {
+        newFormData.append(varName, String(rang[varName][0]));
+        newFormData.append(varName, String(rang[varName][1]));
       }
       if (autoCompleteValue && varName && isChangeAuto) {
         for (let i = 0; i < autoLabelName.length; i++) {
@@ -115,7 +122,7 @@ function Scatter() {
     scatterOptions.x_vars,
     scatterOptions.y_vars,
     aggregation,
-    rangeSliderMinMax,
+    rang,
     varName,
     isChange,
     autoLabelName,

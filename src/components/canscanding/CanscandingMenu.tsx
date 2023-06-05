@@ -15,10 +15,6 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
     setAnchorEl(null);
   };
 
-  const handleTableSelect = (tableType: string) => {
-    handleMenuClose();
-  };
-
   return (
     <div>
       <AppBar
@@ -28,6 +24,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
           color: "black",
           fontSize: 16,
           boxShadow: "none",
+          marginTop: "13rem",
         }}
       >
         <Toolbar>

@@ -5,7 +5,7 @@ import SearchVoyages from "@/assets/searchICON.svg";
 
 export default function HeaderLogoSearch() {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box>
       <CssBaseline />
       <AppBar
         component="nav"

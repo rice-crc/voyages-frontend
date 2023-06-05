@@ -39,7 +39,7 @@ const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
         <FormControl fullWidth>
           <InputLabel
             id="x-field-label"
-            style={{ fontSize: 20, fontWeight: 600 }}
+            style={{ fontSize: 18, fontWeight: 600 }}
           >
             X Field
           </InputLabel>
@@ -48,7 +48,7 @@ const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
             id="x-field-select"
             value={scatterOptions.x_vars}
             label="X Field"
-            style={{ fontSize: 20, fontWeight: 600 }}
+            style={{ fontSize: 18, fontWeight: 600 }}
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, "x_vars");
             }}
@@ -59,7 +59,7 @@ const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
                 key={`${option.label}-${index}`}
                 value={option.var_name}
                 disabled={isDisabledX(option)}
-                style={{ fontSize: 20, fontWeight: 600 }}
+                style={{ fontSize: 18, fontWeight: 600 }}
               >
                 {option.label}
               </MenuItem>
@@ -68,11 +68,11 @@ const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
         </FormControl>
       </Box>
 
-      <Box sx={{ maxWidth, my: 4 }}>
+      <Box sx={{ maxWidth, my: 2 }}>
         <FormControl fullWidth>
           <InputLabel
             id="y-field-label"
-            style={{ fontSize: 20, fontWeight: 600 }}
+            style={{ fontSize: 18, fontWeight: 600 }}
           >
             Y Field
           </InputLabel>

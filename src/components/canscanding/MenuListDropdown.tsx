@@ -16,6 +16,7 @@ import {
   TYPES,
   VoyagaesFilterMenu,
   FilterMenu,
+  currentPageInitialState,
 } from "@/share/InterfaceTypes";
 import {
   BLACK,
@@ -29,6 +30,7 @@ import AutocompleteBox from "../VoyagePage/Results/AutocompletedBox";
 import { PaperDraggable } from "./PaperDraggable";
 import { setIsChange, setKeyValue } from "@/redux/rangeSliderSlice";
 import { setIsChangeAuto } from "@/redux/getAutoCompleteSlice";
+import { setIsOpenDialog } from "@/redux/getScrollPageSlice";
 
 export function MenuListDropdown() {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
@@ -38,11 +40,13 @@ export function MenuListDropdown() {
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
-
+  const { isOpenDialog } = useSelector(
+    (state: RootState) => state.getScrollPage as currentPageInitialState
+  );
   const dispatch: AppDispatch = useDispatch();
   const [label, setLabel] = useState<string>("");
   const [type, setType] = useState<string>("");
-  const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
+  // const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
 
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -52,7 +56,7 @@ export function MenuListDropdown() {
       dispatch(setKeyValue(value));
       setType(type);
       setLabel(label);
-      setIsOpenDialog(true);
+      dispatch(setIsOpenDialog(true));
     }
   };
 
@@ -60,7 +64,7 @@ export function MenuListDropdown() {
     const value = event.cancelable;
     dispatch(setIsChange(!value));
     dispatch(setIsChangeAuto(!value));
-    setIsOpenDialog(false);
+    dispatch(setIsOpenDialog(false));
     event.stopPropagation();
   };
 
@@ -69,7 +73,7 @@ export function MenuListDropdown() {
       return (
         <DropdownNestedMenuItem
           onClickMenu={handleClickMenu}
-          sx={{ fontSize: 20, paddingTop: 0, paddingBottom: 0 }}
+          sx={{ fontSize: 18, paddingTop: 0, paddingBottom: 0 }}
           label={childItem.label}
           key={`${childItem.label}-${index}`}
           varName={childItem.var_name}
@@ -86,7 +90,7 @@ export function MenuListDropdown() {
                   data-type={nodeChild.type}
                   data-label={nodeChild.label}
                   onClick={handleClickMenu}
-                  sx={{ fontSize: 20, paddingTop: 0, paddingBottom: 0 }}
+                  sx={{ fontSize: 18, paddingTop: 0, paddingBottom: 0 }}
                 >
                   {nodeChild.label}
                 </DropdownMenuItem>
@@ -107,9 +111,9 @@ export function MenuListDropdown() {
             onClick={(event: any) => handleClickMenu(event)}
             sx={{
               color: "#000",
-              fontWeight: 500,
+              fontWeight: 600,
               textTransform: "none",
-              fontSize: 22,
+              fontSize: 18,
             }}
           >
             {item.label}
@@ -121,9 +125,9 @@ export function MenuListDropdown() {
               <Button
                 sx={{
                   color: "#000",
-                  fontWeight: 500,
+                  fontWeight: 600,
                   textTransform: "none",
-                  fontSize: 22,
+                  fontSize: 18,
                 }}
               >
                 {item.label}

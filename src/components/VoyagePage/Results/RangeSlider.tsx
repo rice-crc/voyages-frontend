@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  setValue,
+  setRangeValue,
   setKeyValue,
   setIsChange,
   setRangeSliderValue,
@@ -17,6 +17,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import {
   AutoCompleteInitialState,
   RangeSliderState,
+  currentPageInitialState,
 } from "@/share/InterfaceTypes";
 import { fetchRangeSliderData } from "@/fetchAPI/fetchAggregationsSlider";
 
@@ -24,18 +25,18 @@ interface GetSliderProps {}
 
 const RangeSlider: FunctionComponent<GetSliderProps> = () => {
   const dispatch: AppDispatch = useDispatch();
-  const {
-    value,
-    varName,
-    rangeSliderMinMax: rangeValue,
-  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+  const { rangeValue, varName, rangeSliderMinMax } = useSelector(
+    (state: RootState) => state.rangeSlider as RangeSliderState
+  );
   const { autoCompleteValue } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-  const [rangeMinMax, setRangeMinMax] = useState<number[]>([0, 0]);
 
-  const min = value?.[varName]?.[0] || 0;
-  const max = value?.[varName]?.[1] || 0;
+  const rangeMinMax = rangeSliderMinMax?.[varName] ||
+    rangeValue?.[varName] || [0, 0];
+
+  const min = rangeValue?.[varName]?.[0] || 0;
+  const max = rangeValue?.[varName]?.[1] || 0;
 
   useEffect(() => {
     const formData: FormData = new FormData();
@@ -48,22 +49,11 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
             response[varName].min,
             response[varName].max,
           ];
-          if (rangeValue[varName]) {
-            setRangeMinMax(rangeValue[varName]);
-          } else {
-            setRangeMinMax(initialValue);
-          }
-          dispatch(
-            setRangeSliderValue({
-              ...rangeValue,
-              [varName]: initialValue as number[],
-            })
-          );
           dispatch(setKeyValue(varName));
           dispatch(
-            setValue({
-              ...value,
-              [varName]: initialValue,
+            setRangeValue({
+              ...rangeValue,
+              [varName]: initialValue as number[],
             })
           );
         }
@@ -75,15 +65,14 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     dispatch(setIsChange(true));
-    setRangeMinMax(newValue as number[]);
     dispatch(
       setRangeSliderValue({
-        ...rangeValue,
+        ...rangeSliderMinMax,
         [varName]: newValue as number[],
       })
     );
     const filterObject = {
-      rangeValue: { ...rangeValue, [varName]: newValue },
+      rangeValue: { ...rangeSliderMinMax, [varName]: newValue },
       autoCompleteValue,
     };
     const filterObjectString = JSON.stringify(filterObject);
@@ -96,15 +85,14 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
     const { name, value } = event.target;
     const updatedSliderValue = [...rangeMinMax];
     updatedSliderValue[name === "start" ? 0 : 1] = Number(value);
-    setRangeMinMax(updatedSliderValue);
     dispatch(
       setRangeSliderValue({
-        ...rangeValue,
+        ...rangeSliderMinMax,
         [varName]: updatedSliderValue,
       })
     );
     const filterObject = {
-      rangeValue: { ...rangeValue, [varName]: updatedSliderValue },
+      rangeValue: { ...rangeSliderMinMax, [varName]: updatedSliderValue },
       autoCompleteValue,
     };
     const filterObjectString = JSON.stringify(filterObject);

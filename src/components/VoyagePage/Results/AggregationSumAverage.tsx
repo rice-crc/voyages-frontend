@@ -47,7 +47,7 @@ const AggregationSumAverage: FunctionComponent<AggregationSumAverageProps> = (
       <FormControl>
         <FormLabel
           id="demo-controlled-radio-buttons-group"
-          style={{ fontSize: 20, fontWeight: 600 }}
+          style={{ fontSize: 18, fontWeight: 600 }}
         >
           Aggregation Function
         </FormLabel>
@@ -64,7 +64,7 @@ const AggregationSumAverage: FunctionComponent<AggregationSumAverageProps> = (
             label={
               <Typography
                 variant="body1"
-                style={{ fontSize: 20, fontWeight: 500 }}
+                style={{ fontSize: 18, fontWeight: 600 }}
               >
                 Sum
               </Typography>
@@ -76,7 +76,7 @@ const AggregationSumAverage: FunctionComponent<AggregationSumAverageProps> = (
             label={
               <Typography
                 variant="body1"
-                style={{ fontSize: 20, fontWeight: 500 }}
+                style={{ fontSize: 18, fontWeight: 600 }}
               >
                 Average
               </Typography>
