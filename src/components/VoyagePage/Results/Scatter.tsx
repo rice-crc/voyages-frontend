@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, ChangeEvent, useCallback } from "react";
 import Plot from "react-plotly.js";
-import VOYAGE_SCATTER_OPTIONS from "@/utils/VOYAGE_BARGRAPH_OPTIONS.json";
+import VOYAGE_SCATTER_OPTIONS from "@/utils/VOYAGE_SCATTER_OPTIONS.json";
 import { Grid, SelectChangeEvent } from "@mui/material";
 import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
 import SelectDropdownScatter from "./SelectDropdownScatter";
 import AggregationSumAverage from "./AggregationSumAverage";
-import { fetchVoyageGroupby } from "@/fetchAPI/fetchVoyageGroupby";
+import { fetchVoyageScatterGroupby } from "@/fetchAPI/fetchVoyageGroupby";
 import {
   PlotXYVar,
   VoyagesOptionProps,
@@ -42,9 +42,7 @@ function Scatter() {
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [showAlert, setAlert] = useState(false);
-
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
-
   const [scatterSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
   const [scatterPlotX, setPlotX] = useState<number[]>([]);
   const [scatterPlotY, setPlotY] = useState<number[]>([]);
@@ -67,7 +65,6 @@ function Scatter() {
       }
     );
   };
-  console.log("ischange", isChange);
 
   useEffect(() => {
     VoyageScatterOptions();
@@ -82,7 +79,7 @@ function Scatter() {
       newFormData.append("groupby_cols", scatterOptions.y_vars);
       newFormData.append("agg_fn", aggregation);
       newFormData.append("cachename", "voyage_xyscatter");
-      if (isChange && rang[varName] && currentPage === 1) {
+      if (isChange && rang[varName] && currentPage === 2) {
         newFormData.append(varName, String(rang[varName][0]));
         newFormData.append(varName, String(rang[varName][1]));
       }
@@ -92,22 +89,22 @@ function Scatter() {
           newFormData.append(varName, label);
         }
       }
-
       try {
         const response = await dispatch(
-          fetchVoyageGroupby(newFormData)
+          fetchVoyageScatterGroupby(newFormData)
         ).unwrap();
         if (response) {
           const keys = Object.keys(response);
+          const values = Object.values(response);
           setScatterOptins({
             x_vars: keys[0] || "",
             y_vars: keys[1] || "",
           });
-          if (keys[0]) {
-            setPlotX(response[keys[0]]);
+          if (values[0]) {
+            setPlotX(values[0] as number[]);
           }
-          if (keys[1]) {
-            setPlotY(response[keys[1]]);
+          if (values[1]) {
+            setPlotY(values[1] as number[]);
           }
         }
       } catch (error) {
@@ -149,12 +146,13 @@ function Scatter() {
     return <div className="spinner"></div>;
   }
   const maxWidth = width > 600 ? width * 0.8 : width * 0.7;
+
   return (
     <div>
       <SelectDropdownScatter
-        scatterSelectedX={scatterSelectedX}
-        scatterSelectedY={scatterSelectedY}
-        scatterOptions={scatterOptions}
+        selectedX={scatterSelectedX}
+        selectedY={scatterSelectedY}
+        selectedOptions={scatterOptions}
         handleChange={handleChangeVoyageOption}
         width={width}
       />
@@ -165,7 +163,6 @@ function Scatter() {
         scatterOptions={scatterOptions}
         optionFlat={optionFlat}
       />
-
       <Grid>
         <Plot
           data={[
@@ -181,10 +178,10 @@ function Scatter() {
           ]}
           layout={{
             width: maxWidth,
-            height: height * 0.4,
+            height: height * 0.45,
             title: `The ${aggregation} of ${
               optionFlat[scatterOptions.x_vars]?.label || ""
-            } vs ${
+            } vs  <br>${
               optionFlat[scatterOptions.y_vars]?.label || ""
             } Scatter Graph`,
             xaxis: {

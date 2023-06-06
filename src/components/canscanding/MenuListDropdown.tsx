@@ -46,8 +46,6 @@ export function MenuListDropdown() {
   const dispatch: AppDispatch = useDispatch();
   const [label, setLabel] = useState<string>("");
   const [type, setType] = useState<string>("");
-  // const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
-
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
   ) => {
@@ -161,7 +159,7 @@ export function MenuListDropdown() {
           <Button
             autoFocus
             onClick={handleCloseDialog}
-            sx={{ color: BLACK, fontSize: 18, fontWeight: 600 }}
+            sx={{ color: BLACK, fontSize: 16, fontWeight: 600 }}
           >
             Cancel
           </Button>

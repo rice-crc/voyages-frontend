@@ -13,6 +13,7 @@ export default function HeaderLogoSearch() {
           backgroundColor: WHITE,
           zIndex: 2000,
           boxShadow: "none",
+          height: 50,
         }}
       >
         <Toolbar
@@ -23,11 +24,15 @@ export default function HeaderLogoSearch() {
           }}
         >
           <Typography component="div" sx={{ cursor: "pointer" }}>
-            <img src={LOGOVoyages} alt="logo" />
+            <img
+              src={LOGOVoyages}
+              alt="logo"
+              style={{ position: "relative", bottom: 5 }}
+            />
           </Typography>
 
           <Typography component="div" sx={{ cursor: "pointer" }}>
-            <img src={SearchVoyages} alt="search" />
+            <img src={SearchVoyages} alt="search" height={40} />
           </Typography>
         </Toolbar>
       </AppBar>

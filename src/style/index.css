@@ -2,10 +2,13 @@
     font-family: 'Cormorant Garamond', serif;
 }
 
+*{
+    margin:0;
+    padding:0;
+}
 body, html { 
     font-family: 'Cormorant Garamond', serif;
-    margin: 0;
-    padding: 0;
     background-color: "rgba(0, 128, 128, 0.5)";
+    width:100%;
+    height:100%;
 }
-

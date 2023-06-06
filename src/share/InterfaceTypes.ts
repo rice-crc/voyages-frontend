@@ -124,17 +124,10 @@ export interface PlotXYVar {
     label: string
 }
 
-
-export interface BargraphXYProps {
-    x_vars: BargraphXYVar[]
-    y_vars: BargraphXYVar[]
-}
-
 export interface BargraphXYVar {
     var_name: string
     type: string
     label: string
-    flatlabel: string
 }
 export interface ScatterOptionsXYResponse {
     [key: string]: [];

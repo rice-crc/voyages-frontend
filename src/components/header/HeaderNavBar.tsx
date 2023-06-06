@@ -16,12 +16,19 @@ import Toolbar from "@mui/material/Toolbar";
 import { StyleDiver } from "@/styleMUI";
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import FilterICON from "@/assets/filterICON.svg";
-import "@/style/Nav.scss";
+import { RootState } from "@/redux/store";
 import { HeaderNavBarMenuProps } from "@/share/InterfaceTypeNav";
+import CanscandingMenu from "../canscanding/CanscandingMenu";
+import { useSelector } from "react-redux";
+import { currentPageInitialState } from "@/share/InterfaceTypes";
+import "@/style/Nav.scss";
 
 const navItems = ["About", "Vessels", "Itinerary", "Collections"];
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
+  const { currentPage } = useSelector(
+    (state: RootState) => state.getScrollPage as currentPageInitialState
+  );
   const { isFilter, setIsFilter } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -61,7 +68,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: isFilter ? "transparent" : "#93D0CB",
+          backgroundColor: "#93D0CB",
           color: "black",
           fontSize: 12,
           boxShadow: "none",
@@ -110,8 +117,12 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               }}
               onClick={() => setIsFilter(!isFilter)}
             >
-              <img src={FilterICON} alt="logo" />
-              <div> Filter Search</div>
+              {currentPage !== 1 && (
+                <>
+                  <img src={FilterICON} alt="logo" />
+                  <div> Filter Search</div>
+                </>
+              )}
             </Typography>
           </Typography>
           <Box
@@ -139,6 +150,9 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             ))}
           </Box>
         </Toolbar>
+        <Hidden smDown>
+          {isFilter && <CanscandingMenu isFilter={isFilter} />}
+        </Hidden>
         <Box component="nav">
           <Menu
             anchorEl={anchorEl}

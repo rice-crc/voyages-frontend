@@ -10,27 +10,27 @@ import { FunctionComponent } from "react";
 import { PlotXYVar, VoyagesOptionProps } from "@/share/InterfaceTypes";
 
 interface SelectDropdownScatterProps {
-  scatterSelectedX: PlotXYVar[];
-  scatterSelectedY: PlotXYVar[];
-  scatterOptions: VoyagesOptionProps;
+  selectedX: PlotXYVar[];
+  selectedY: PlotXYVar[];
+  selectedOptions: VoyagesOptionProps;
   handleChange: (event: SelectChangeEvent<string>, name: string) => void;
   width: number;
 }
 
 const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
-  scatterSelectedX,
-  scatterSelectedY,
-  scatterOptions,
+  selectedX,
+  selectedY,
+  selectedOptions,
   handleChange,
   width,
 }) => {
   const maxWidth = width > 600 ? width * 0.8 : width * 0.7;
 
   const isDisabledX = (option: PlotXYVar) => {
-    return option.var_name === scatterOptions.y_vars;
+    return option.var_name === selectedOptions.y_vars;
   };
   const isDisabledY = (option: PlotXYVar) => {
-    return option.var_name === scatterOptions.x_vars;
+    return option.var_name === selectedOptions.x_vars;
   };
 
   return (
@@ -44,9 +44,22 @@ const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
             X Field
           </InputLabel>
           <Select
+            sx={{
+              height: 42,
+            }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  height: 380,
+                  "& .MuiMenuItem-root": {
+                    padding: 2,
+                  },
+                },
+              },
+            }}
             labelId="x-field-label"
             id="x-field-select"
-            value={scatterOptions.x_vars}
+            value={selectedOptions.x_vars}
             label="X Field"
             style={{ fontSize: 18, fontWeight: 600 }}
             onChange={(event: SelectChangeEvent<string>) => {
@@ -54,7 +67,7 @@ const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
             }}
             name="x_vars"
           >
-            {scatterSelectedX.map((option: PlotXYVar, index: number) => (
+            {selectedX.map((option: PlotXYVar, index: number) => (
               <MenuItem
                 key={`${option.label}-${index}`}
                 value={option.var_name}
@@ -77,9 +90,19 @@ const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
             Y Field
           </InputLabel>
           <Select
+            sx={{
+              height: 42,
+            }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  height: 365,
+                },
+              },
+            }}
             labelId="y-field-label"
             id="y-field-select"
-            value={scatterOptions.y_vars}
+            value={selectedOptions.y_vars}
             label="Y Field"
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, "y_vars");
@@ -87,7 +110,7 @@ const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
             name="y_vars"
             style={{ fontSize: 18, fontWeight: 600 }}
           >
-            {scatterSelectedY.map((option: PlotXYVar, index: number) => (
+            {selectedY.map((option: PlotXYVar, index: number) => (
               <MenuItem
                 key={`${option.label}-${index}`}
                 value={option.var_name}

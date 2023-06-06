@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
 import SelectDropdownScatter from "./SelectDropdownScatter";
 import AggregationSumAverage from "./AggregationSumAverage";
-import { fetchVoyageGroupby } from "@/fetchAPI/fetchVoyageGroupby";
+import { fetchVoyageBarGraphGroupby } from "@/fetchAPI/fetchVoyageGroupby";
 import {
   PlotXYVar,
   VoyagesOptionProps,
@@ -44,16 +44,13 @@ function BarGraph() {
   const [width, height] = useWindowSize();
   const [showAlert, setAlert] = useState(false);
 
-  const [barGraphSelectedX, setSelectedX] = useState<BargraphXYVar[]>([]);
-  const [barGraphSelectedY, setSelectedY] = useState<BargraphXYVar[]>([]);
-  const [barGraphPlotX, setPlotX] = useState<number[]>([]);
-  const [barGraphPlotY, setPlotY] = useState<number[]>([]);
-  const [barData, setBarData] = useState([]);
-  const [chips, setChips] = useState([VOYAGE_BARGRAPH_OPTIONS.y_vars[5]]);
-
-  const [barGraphOptions, setBarOptins] = useState<VoyagesOptionProps>({
+  const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
+  const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
+  const [barGraphPlotX, setPlotBarX] = useState<number[]>([]);
+  const [barGraphPlotY, setPlotBarY] = useState<number[]>([]);
+  const [barGraphOptions, setBarOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
-    y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[5].var_name,
+    y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   });
 
   const [aggregation, setAggregation] = useState<string>("sum");
@@ -70,7 +67,6 @@ function BarGraph() {
       }
     );
   };
-  console.log("ischange", isChange);
 
   useEffect(() => {
     VoyageBargraphOptions();
@@ -84,8 +80,9 @@ function BarGraph() {
       newFormData.append("groupby_by", barGraphOptions.x_vars);
       newFormData.append("groupby_cols", barGraphOptions.y_vars);
       newFormData.append("agg_fn", aggregation);
-      newFormData.append("cachename", "voyage_xyscatter");
-      if (isChange && rang[varName] && currentPage === 1) {
+      newFormData.append("cachename", "voyage_bar_and_donut_charts");
+
+      if (isChange && rang[varName] && currentPage === 3) {
         newFormData.append(varName, String(rang[varName][0]));
         newFormData.append(varName, String(rang[varName][1]));
       }
@@ -98,26 +95,26 @@ function BarGraph() {
 
       try {
         const response = await dispatch(
-          fetchVoyageGroupby(newFormData)
+          fetchVoyageBarGraphGroupby(newFormData)
         ).unwrap();
         if (response) {
           const keys = Object.keys(response);
-          setBarOptins({
+          const values = Object.values(response);
+          setBarOptions({
             x_vars: keys[0] || "",
             y_vars: keys[1] || "",
           });
-          if (keys[0]) {
-            setPlotX(response[keys[0]]);
+          if (values[0]) {
+            setPlotBarX(values[0] as number[]);
           }
-          if (keys[1]) {
-            setPlotY(response[keys[1]]);
+          if (values[1]) {
+            setPlotBarY(values[1] as number[]);
           }
         }
       } catch (error) {
         console.log("error", error);
       }
     };
-
     fetchData();
   }, [
     dispatch,
@@ -131,22 +128,17 @@ function BarGraph() {
     autoLabelName,
   ]);
 
-  const handleChangeChips = (event: any, name: string) => {
-    //   console.log("⚽️", "Chips changed")
-    const {
-      target: { value },
-    } = event;
+  const handleChangeBarGraphOption = useCallback(
+    (event: SelectChangeEvent<string>, name: string) => {
+      const value = event.target.value;
+      setBarOptions((prevVoyageOption) => ({
+        ...prevVoyageOption,
+        [name]: value,
+      }));
+    },
+    [barGraphSelectedX, barGraphSelectedY, barGraphOptions]
+  );
 
-    setChips(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-
-    setBarOptins({
-      ...barGraphOptions,
-      [name]: event.target.value[event.target.value.length - 1],
-    });
-  };
   const handleChangeAggregation = useMemo(
     () => (event: ChangeEvent<HTMLInputElement>, name: string) => {
       setAggregation(event.target.value);
@@ -154,16 +146,6 @@ function BarGraph() {
     [aggregation]
   );
 
-  // const handleChangeVoyageOption = useCallback(
-  //   (event: SelectChangeEvent<string>, name: string) => {
-  //     const value = event.target.value;
-  //     setScatterOptins((prevVoyageOption) => ({
-  //       ...prevVoyageOption,
-  //       [name]: value,
-  //     }));
-  //   },
-  //   [barGraphSelectedX, barGraphSelectedY, barGraphOptions]
-  // );
   if (isLoading) {
     return <div className="spinner"></div>;
   }
@@ -171,10 +153,10 @@ function BarGraph() {
   return (
     <div>
       <SelectDropdownScatter
-        scatterSelectedX={barGraphSelectedX}
-        scatterSelectedY={barGraphSelectedY}
-        scatterOptions={barGraphOptions}
-        handleChange={handleChangeChips}
+        selectedX={barGraphSelectedX}
+        selectedY={barGraphSelectedY}
+        selectedOptions={barGraphOptions}
+        handleChange={handleChangeBarGraphOption}
         width={width}
       />
       <AggregationSumAverage
@@ -191,21 +173,17 @@ function BarGraph() {
             {
               x: barGraphPlotX,
               y: barGraphPlotY,
-              type: "scatter",
-              mode: "lines",
-              marker: { color: "red" },
-              line: { shape: "spline" },
+              type: "bar",
             },
-            { type: "bar" },
           ]}
           layout={{
             width: maxWidth,
-            height: height * 0.4,
+            height: height * 0.45,
             title: `The ${aggregation} of ${
               optionFlat[barGraphOptions.x_vars]?.label || ""
-            } vs ${
+            } vs <br> ${
               optionFlat[barGraphOptions.y_vars]?.label || ""
-            } Scatter Graph`,
+            } Bar Graph`,
 
             xaxis: {
               title: {
