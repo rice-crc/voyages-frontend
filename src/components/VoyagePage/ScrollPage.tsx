@@ -139,6 +139,12 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
               <ButtonNav
                 key={`${page}-${buttonIndex}`}
                 onClick={() => handlePageNavigation(buttonIndex)}
+                style={{
+                  backgroundColor:
+                    currentPage === buttonIndex ? "#54bfb6" : "#93D0CB",
+                  color: currentPage === buttonIndex ? "#000aff" : "black",
+                  fontWeight: currentPage === buttonIndex ? 700 : 500,
+                }}
                 variant={currentPage === buttonIndex ? "contained" : "outlined"}
               >
                 {page.toUpperCase()}

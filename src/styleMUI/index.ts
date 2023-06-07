@@ -1,6 +1,6 @@
 
 import { styled } from "@mui/material/styles";
-import { TableRow, Paper, Slider, Divider, MenuItem, Grid } from "@mui/material";
+import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button } from "@mui/material";
 import MuiInput from "@mui/material/Input";
 import NestedMenuItem from "../components/canscanding/NestedMenuItem";
 import { SxProps } from "@mui/material";
@@ -118,3 +118,19 @@ export const Tag = styled("div")(({ theme }) => ({
   fontSize: 18,
   fontWeight: 600,
 }));
+
+export const ButtonNav = styled(Button)`
+  && {
+    color: black;
+    width: 70px;
+    background-color: #93d0cb;
+    margin: 6px 0;
+    font-size: 14px;
+    font-weight: 600;
+
+    &:hover {
+      background-color: #54bfb6;
+      color: white
+    }
+  }
+`;
