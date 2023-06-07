@@ -1,5 +1,6 @@
 import { useEffect, FunctionComponent } from "react";
-import { Container, Box } from "@mui/material";
+import { Grid, Hidden } from "@mui/material";
+import { motion } from "framer-motion";
 import Scatter from "./Results/Scatter";
 import BarGraph from "./Results/BarGraph";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,24 +29,35 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
 
   // Scroll to next page and page hide other page
   useEffect(() => {
-    const handleWheel = (event: WheelEvent) => {
+    const handleScroll = (event: WheelEvent) => {
       const { deltaY } = event;
       const nextPage = deltaY > 0 ? currentPage + 1 : currentPage - 1;
-      if (nextPage >= 1 && nextPage <= totalPageCount) {
-        dispatch(setCurrentPage(nextPage));
-        smoothScrollToTop();
+
+      setTimeout(() => {
+        if (nextPage >= 1 && nextPage <= totalPageCount) {
+          dispatch(setCurrentPage(nextPage));
+          smoothScrollToTop();
+          dispatch(setIsOpenDialog(false));
+        }
+        setIsFilter(false);
         dispatch(setIsOpenDialog(false));
-      }
-      setIsFilter(false);
-      dispatch(setIsOpenDialog(false));
+      }, 400);
     };
-
-    window.addEventListener("wheel", handleWheel);
-
+    window.addEventListener("wheel", handleScroll);
     return () => {
-      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("wheel", handleScroll);
     };
   }, [currentPage, isOpenDialog]);
+
+  const smoothScrollToTop = () => {
+    const contentContainer = document.getElementById("content-container");
+    if (contentContainer) {
+      contentContainer.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
 
   /*  Scrool to next page and also still see prev page 2
    const scrollThreshold = 800;
@@ -69,91 +81,64 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
     };
   }, []); */
 
-  const smoothScrollToTop = () => {
-    const contentContainer = document.getElementById("content-container");
-    if (contentContainer) {
-      contentContainer.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentPage(page));
   };
-  let displayPage;
-  if (currentPage === 1) {
-    displayPage = <VoyagesPage />;
-  } else if (currentPage === 2) {
-    displayPage = (
-      <Box>
-        <Scatter />
-      </Box>
-    );
-  } else if (currentPage === 3) {
-    displayPage = (
-      <Box>
-        <BarGraph />
-      </Box>
-    );
-  } else if (currentPage === 4) {
-    displayPage = (
-      <Box>
-        <h1 style={{ marginTop: 50 }}>PIE</h1>
-      </Box>
-    );
-  } else if (currentPage === 5) {
-    displayPage = (
-      <Box>
-        <h1 style={{ marginTop: 50 }}>TABLE</h1>
-      </Box>
-    );
-  } else if (currentPage === 6) {
-    displayPage = (
-      <Box>
-        <h1 style={{ marginTop: 50 }}>PIVOT</h1>
-      </Box>
-    );
-  } else if (currentPage === 7) {
-    displayPage = (
-      <Box>
-        <h1 style={{ marginTop: 50 }}>MAP</h1>
-      </Box>
-    );
-  }
+  const displayPage = (
+    <motion.div
+      initial={"initial"}
+      animate={"animate"}
+      variants={
+        currentPage - 1 > -1 ? pageVariantsFromTop : pageVariantsFromBottom
+      }
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
+      {currentPage === 1 && <VoyagesPage />}
+      {currentPage === 2 && <Scatter />}
+      {currentPage === 3 && <BarGraph />}
+      {currentPage === 4 && <h1 style={{ marginTop: 50 }}>PIE</h1>}
+      {currentPage === 5 && <h1 style={{ marginTop: 50 }}>TABLE</h1>}
+      {currentPage === 6 && <h1 style={{ marginTop: 50 }}>PIVOT</h1>}
+      {currentPage === 7 && <h1 style={{ marginTop: 50 }}>MAP</h1>}
+    </motion.div>
+  );
 
   return (
     <div
       style={{
         position: "relative",
         top: isFilter ? 245 : 200,
+        padding: currentPage !== 1 ? "0 20px" : "",
       }}
       id="content-container"
     >
-      <div className="navbar-wrapper">
-        <nav className="nav-button">
-          {pageList.map((page, index) => {
-            const buttonIndex = totalPageCount - index;
-            return (
-              <ButtonNav
-                key={`${page}-${buttonIndex}`}
-                onClick={() => handlePageNavigation(buttonIndex)}
-                style={{
-                  backgroundColor:
-                    currentPage === buttonIndex ? "#54bfb6" : "#93D0CB",
-                  color: currentPage === buttonIndex ? "#000aff" : "black",
-                  fontWeight: currentPage === buttonIndex ? 700 : 500,
-                }}
-                variant={currentPage === buttonIndex ? "contained" : "outlined"}
-              >
-                {page.toUpperCase()}
-              </ButtonNav>
-            );
-          })}
-        </nav>
-      </div>
-      {currentPage !== 1 ? <Container>{displayPage}</Container> : displayPage}
+      <Hidden mdDown>
+        <div className="navbar-wrapper">
+          <nav className="nav-button">
+            {pageList.map((page, index) => {
+              const buttonIndex = totalPageCount - index;
+              return (
+                <ButtonNav
+                  key={`${page}-${buttonIndex}`}
+                  onClick={() => handlePageNavigation(buttonIndex)}
+                  style={{
+                    backgroundColor:
+                      currentPage === buttonIndex ? "#54bfb6" : "#93D0CB",
+                    color: currentPage === buttonIndex ? "#000aff" : "black",
+                    fontWeight: currentPage === buttonIndex ? 700 : 500,
+                  }}
+                  variant={
+                    currentPage === buttonIndex ? "contained" : "outlined"
+                  }
+                >
+                  {page.toUpperCase()}
+                </ButtonNav>
+              );
+            })}
+          </nav>
+        </div>
+      </Hidden>
+      <Grid id="content-container">{displayPage}</Grid>
 
       {/* Scrolling up to next page version 2
       <Container>
@@ -181,3 +166,12 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
 };
 
 export default ScrollPage;
+
+const pageVariantsFromTop = {
+  initial: { opacity: 0, y: -1000 },
+  animate: { opacity: 1, y: 0 },
+};
+const pageVariantsFromBottom = {
+  initial: { opacity: -1000, y: 0 },
+  animate: { opacity: 0, y: 1 },
+};

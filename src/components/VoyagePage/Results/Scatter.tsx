@@ -18,9 +18,12 @@ import {
   currentPageInitialState,
 } from "@/share/InterfaceTypes";
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
+import "@/style/page.scss";
 
 function Scatter() {
-  const datas = useSelector((state: RootState) => state.getOptions?.value);
+  const datas = useSelector(
+    (state: RootState | any) => state.getOptions?.value
+  );
   const {
     data: options_flat,
     isLoading,
@@ -145,7 +148,16 @@ function Scatter() {
   if (isLoading) {
     return <div className="spinner"></div>;
   }
-  const maxWidth = width > 600 ? width * 0.8 : width * 0.7;
+  const maxWidth =
+    width > 1024
+      ? width > 1440
+        ? width * 0.88
+        : width * 0.92
+      : width === 1024
+      ? width * 0.895
+      : width < 768
+      ? width * 0.92
+      : width * 0.95;
 
   return (
     <div>
@@ -154,7 +166,7 @@ function Scatter() {
         selectedY={scatterSelectedY}
         selectedOptions={scatterOptions}
         handleChange={handleChangeVoyageOption}
-        width={width}
+        maxWidth={maxWidth}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}

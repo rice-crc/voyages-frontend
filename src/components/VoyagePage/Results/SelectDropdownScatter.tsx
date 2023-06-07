@@ -14,7 +14,7 @@ interface SelectDropdownScatterProps {
   selectedY: PlotXYVar[];
   selectedOptions: VoyagesOptionProps;
   handleChange: (event: SelectChangeEvent<string>, name: string) => void;
-  width: number;
+  maxWidth?: number;
 }
 
 const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
@@ -22,10 +22,8 @@ const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
   selectedY,
   selectedOptions,
   handleChange,
-  width,
+  maxWidth,
 }) => {
-  const maxWidth = width > 600 ? width * 0.8 : width * 0.7;
-
   const isDisabledX = (option: PlotXYVar) => {
     return option.var_name === selectedOptions.y_vars;
   };

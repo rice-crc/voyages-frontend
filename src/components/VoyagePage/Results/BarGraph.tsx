@@ -149,7 +149,18 @@ function BarGraph() {
   if (isLoading) {
     return <div className="spinner"></div>;
   }
-  const maxWidth = width > 600 ? width * 0.8 : width * 0.7;
+
+  const maxWidth =
+    width > 1024
+      ? width > 1440
+        ? width * 0.88
+        : width * 0.92
+      : width === 1024
+      ? width * 0.895
+      : width < 768
+      ? width * 0.92
+      : width * 0.95;
+
   return (
     <div>
       <SelectDropdownScatter
@@ -157,7 +168,7 @@ function BarGraph() {
         selectedY={barGraphSelectedY}
         selectedOptions={barGraphOptions}
         handleChange={handleChangeBarGraphOption}
-        width={width}
+        maxWidth={maxWidth}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}

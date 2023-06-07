@@ -37,10 +37,12 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   };
 
   const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
+    console.log("anchorEl", anchorEl);
     setAnchorEl(event.currentTarget);
   };
 
-  const handleSelectMentu = (name: string) => {
+  const handleSelectMenu = (name: string) => {
+    console.log("name", name);
     handleMenuClose();
   };
 
@@ -48,7 +50,11 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     <Box>
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
+          <ListItem
+            key={item}
+            disablePadding
+            onClick={() => handleSelectMenu(item)}
+          >
             <ListItemButton sx={{ textAlign: "center", fontSize: "16px" }}>
               <ListItemText primary={item} />
             </ListItemButton>
@@ -72,17 +78,17 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
           color: "black",
           fontSize: 12,
           boxShadow: "none",
-          marginTop: "4rem",
+          marginTop: "3rem",
         }}
       >
         <Toolbar sx={{ alignItems: "center" }}>
-          <Hidden smUp>
+          <Hidden mdUp>
             <IconButton
               edge="start"
               color="inherit"
               aria-label="menu"
               onClick={handleMenuOpen}
-              sx={{ mr: 2, display: { sm: "none" } }}
+              sx={{ mr: 2, display: { md: "none" } }}
             >
               <MenuIcon />
             </IconButton>
@@ -150,7 +156,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             ))}
           </Box>
         </Toolbar>
-        <Hidden smDown>
+        <Hidden mdDown>
           {isFilter && <CanscandingMenu isFilter={isFilter} />}
         </Hidden>
         <Box component="nav">
@@ -159,15 +165,13 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
             sx={{
-              display: { xs: "block", sm: "none", md: "block" },
+              display: { xs: "block", sm: "block", md: "none" },
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
               },
             }}
           >
-            <MenuItem onClick={() => handleSelectMentu("home")}>
-              {drawer}
-            </MenuItem>
+            <MenuItem>{drawer}</MenuItem>
           </Menu>
         </Box>
       </AppBar>

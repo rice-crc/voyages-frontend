@@ -25,6 +25,7 @@ interface GetSliderProps {}
 
 const RangeSlider: FunctionComponent<GetSliderProps> = () => {
   const dispatch: AppDispatch = useDispatch();
+
   const { rangeValue, varName, rangeSliderMinMax } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
@@ -37,6 +38,10 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
 
   const min = rangeValue?.[varName]?.[0] || 0;
   const max = rangeValue?.[varName]?.[1] || 0;
+
+  const [currentSliderValue, setCurrentSliderValue] = useState<
+    number | number[]
+  >(rangeMinMax);
 
   useEffect(() => {
     const formData: FormData = new FormData();
@@ -64,15 +69,19 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
   }, [dispatch, varName]);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    setCurrentSliderValue(newValue);
+  };
+
+  const handleSliderChangeMouseUp = () => {
     dispatch(setIsChange(true));
     dispatch(
       setRangeSliderValue({
         ...rangeSliderMinMax,
-        [varName]: newValue as number[],
+        [varName]: currentSliderValue as number[],
       })
     );
     const filterObject = {
-      rangeValue: { ...rangeSliderMinMax, [varName]: newValue },
+      rangeValue: { ...rangeSliderMinMax, [varName]: currentSliderValue },
       autoCompleteValue,
     };
     const filterObjectString = JSON.stringify(filterObject);
@@ -136,9 +145,9 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
         size="small"
         min={min}
         max={max}
-        getAriaLabel={() => "Temperature range"}
         value={rangeMinMax}
         onChange={handleSliderChange}
+        onMouseUp={handleSliderChangeMouseUp}
       />
     </Grid>
   );
