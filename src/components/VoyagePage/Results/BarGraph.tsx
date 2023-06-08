@@ -1,12 +1,13 @@
-import { useState, useEffect, useMemo, ChangeEvent, useCallback } from "react";
+import { useState, useEffect, useMemo, ChangeEvent } from "react";
 import Plot from "react-plotly.js";
+import { Data } from "plotly.js";
 import VOYAGE_BARGRAPH_OPTIONS from "@/utils/VOYAGE_BARGRAPH_OPTIONS.json";
 import { Grid, SelectChangeEvent } from "@mui/material";
 import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
-import SelectDropdownScatter from "./SelectDropdownScatter";
+import SelectDropdownBarGraph from "./SelectDropdown";
 import AggregationSumAverage from "./AggregationSumAverage";
 import { fetchVoyageBarGraphGroupby } from "@/fetchAPI/fetchVoyageGroupby";
 import {
@@ -43,18 +44,19 @@ function BarGraph() {
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [showAlert, setAlert] = useState(false);
-
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
+  const [barData, setBarData] = useState<Data[]>([]);
+  const [chips, setChips] = useState<string[]>([
+    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
+  ]);
   const [barGraphPlotX, setPlotBarX] = useState<number[]>([]);
   const [barGraphPlotY, setPlotBarY] = useState<number[]>([]);
   const [barGraphOptions, setBarOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
     y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   });
-
   const [aggregation, setAggregation] = useState<string>("sum");
-
   const VoyageBargraphOptions = () => {
     Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(
       ([key, value]: [string, BargraphXYVar[]]) => {
@@ -78,7 +80,13 @@ function BarGraph() {
     const fetchData = async () => {
       const newFormData: FormData = new FormData();
       newFormData.append("groupby_by", barGraphOptions.x_vars);
-      newFormData.append("groupby_cols", barGraphOptions.y_vars);
+      const yfieldArr: string[] = [];
+      if (currentPage === 3) {
+        for (const chip of chips) {
+          newFormData.append("groupby_cols", chip);
+          yfieldArr.push(chip);
+        }
+      }
       newFormData.append("agg_fn", aggregation);
       newFormData.append("cachename", "voyage_bar_and_donut_charts");
 
@@ -94,22 +102,40 @@ function BarGraph() {
       }
 
       try {
+        const data: Data[] = [];
         const response = await dispatch(
           fetchVoyageBarGraphGroupby(newFormData)
         ).unwrap();
+
         if (response) {
           const keys = Object.keys(response);
           const values = Object.values(response);
+          for (const [index, [key, value]] of Object.entries(
+            response
+          ).entries()) {
+            if (key !== barGraphOptions.x_vars) {
+              if (Array.isArray(value)) {
+                data.push({
+                  x: values[0] as number[],
+                  y: value as number[],
+                  type: "bar",
+                  name: `aggregation: ${aggregation} label: ${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
+                });
+              }
+            }
+          }
+
+          setBarData(data);
           setBarOptions({
             x_vars: keys[0] || "",
             y_vars: keys[1] || "",
           });
-          if (values[0]) {
-            setPlotBarX(values[0] as number[]);
-          }
-          if (values[1]) {
-            setPlotBarY(values[1] as number[]);
-          }
+          // if (values[0]) {
+          //   setPlotBarX(values[0] as number[]);
+          // }
+          // if (values[1]) {
+          //   setPlotBarY(values[1] as number[]);
+          // }
         }
       } catch (error) {
         console.log("error", error);
@@ -128,16 +154,30 @@ function BarGraph() {
     autoLabelName,
   ]);
 
-  const handleChangeBarGraphOption = useCallback(
-    (event: SelectChangeEvent<string>, name: string) => {
-      const value = event.target.value;
-      setBarOptions((prevVoyageOption) => ({
-        ...prevVoyageOption,
-        [name]: value,
-      }));
-    },
-    [barGraphSelectedX, barGraphSelectedY, barGraphOptions]
-  );
+  const handleChangeBarGraphOption = (
+    event: SelectChangeEvent<string>,
+    name: string
+  ) => {
+    const value = event.target.value;
+    setBarOptions((prevVoyageOption) => ({
+      ...prevVoyageOption,
+      [name]: value,
+    }));
+  };
+
+  const handleChangeBarGraphChipYSelected = (
+    event: SelectChangeEvent<string[]>,
+    name: string
+  ) => {
+    const {
+      target: { value },
+    } = event;
+    setChips(typeof value === "string" ? value.split(",") : value);
+    setBarOptions((prevVoyageOption) => ({
+      ...prevVoyageOption,
+      [name]: value,
+    }));
+  };
 
   const handleChangeAggregation = useMemo(
     () => (event: ChangeEvent<HTMLInputElement>, name: string) => {
@@ -163,12 +203,17 @@ function BarGraph() {
 
   return (
     <div>
-      <SelectDropdownScatter
+      <SelectDropdownBarGraph
         selectedX={barGraphSelectedX}
+        chips={chips}
         selectedY={barGraphSelectedY}
         selectedOptions={barGraphOptions}
         handleChange={handleChangeBarGraphOption}
+        handleChangeChipYSelected={handleChangeBarGraphChipYSelected}
         maxWidth={maxWidth}
+        XFieldText={"X Field"}
+        YFieldText={"Multi-Selector Y-Feild"}
+        optionsFlatY={VOYAGE_BARGRAPH_OPTIONS.y_vars}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
@@ -180,13 +225,14 @@ function BarGraph() {
 
       <Grid>
         <Plot
-          data={[
-            {
-              x: barGraphPlotX,
-              y: barGraphPlotY,
-              type: "bar",
-            },
-          ]}
+          // data={[
+          //   {
+          //     x: barGraphPlotX,
+          //     y: barGraphPlotY,
+          //     type: "bar",
+          //   },
+          // ]}
+          data={barData}
           layout={{
             width: maxWidth,
             height: height * 0.45,

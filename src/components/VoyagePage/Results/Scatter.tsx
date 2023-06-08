@@ -1,12 +1,13 @@
 import { useState, useEffect, useMemo, ChangeEvent, useCallback } from "react";
 import Plot from "react-plotly.js";
+import { Data } from "plotly.js";
 import VOYAGE_SCATTER_OPTIONS from "@/utils/VOYAGE_SCATTER_OPTIONS.json";
 import { Grid, SelectChangeEvent } from "@mui/material";
 import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
-import SelectDropdownScatter from "./SelectDropdownScatter";
+import SelectDropdownScatter from "./SelectDropdown";
 import AggregationSumAverage from "./AggregationSumAverage";
 import { fetchVoyageScatterGroupby } from "@/fetchAPI/fetchVoyageGroupby";
 import {
@@ -47,6 +48,10 @@ function Scatter() {
   const [showAlert, setAlert] = useState(false);
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [scatterSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
+  const [scatterData, setScatterData] = useState<Data[]>([]);
+  const [chips, setChips] = useState([
+    VOYAGE_SCATTER_OPTIONS.y_vars[0].var_name,
+  ]);
   const [scatterPlotX, setPlotX] = useState<number[]>([]);
   const [scatterPlotY, setPlotY] = useState<number[]>([]);
   const [scatterOptions, setScatterOptins] = useState<VoyagesOptionProps>({
@@ -79,7 +84,13 @@ function Scatter() {
     const fetchData = async () => {
       const newFormData: FormData = new FormData();
       newFormData.append("groupby_by", scatterOptions.x_vars);
-      newFormData.append("groupby_cols", scatterOptions.y_vars);
+      const yfieldArr: string[] = [];
+      if (currentPage === 2) {
+        for (const chip of chips) {
+          newFormData.append("groupby_cols", chip);
+          yfieldArr.push(chip);
+        }
+      }
       newFormData.append("agg_fn", aggregation);
       newFormData.append("cachename", "voyage_xyscatter");
       if (isChange && rang[varName] && currentPage === 2) {
@@ -87,28 +98,47 @@ function Scatter() {
         newFormData.append(varName, String(rang[varName][1]));
       }
       if (autoCompleteValue && varName && isChangeAuto) {
-        for (let i = 0; i < autoLabelName.length; i++) {
-          const label = autoLabelName[i];
+        for (const label of autoLabelName) {
           newFormData.append(varName, label);
         }
       }
+
       try {
+        const data: Data[] = [];
         const response = await dispatch(
           fetchVoyageScatterGroupby(newFormData)
         ).unwrap();
         if (response) {
           const keys = Object.keys(response);
           const values = Object.values(response);
+          for (const [index, [key, value]] of Object.entries(
+            response
+          ).entries()) {
+            if (key !== scatterOptions.x_vars) {
+              if (Array.isArray(value)) {
+                data.push({
+                  x: values[0] as number[],
+                  y: value as number[],
+                  type: "scatter",
+                  mode: "lines",
+                  // marker: { color: "red" },
+                  line: { shape: "spline" },
+                  name: `aggregation: ${aggregation} label: ${VOYAGE_SCATTER_OPTIONS.y_vars[index].label}`,
+                });
+              }
+            }
+          }
+          setScatterData(data);
           setScatterOptins({
             x_vars: keys[0] || "",
             y_vars: keys[1] || "",
           });
-          if (values[0]) {
-            setPlotX(values[0] as number[]);
-          }
-          if (values[1]) {
-            setPlotY(values[1] as number[]);
-          }
+          // if (values[0]) {
+          //   setPlotX(values[0] as number[]);
+          // }
+          // if (values[1]) {
+          //   setPlotY(values[1] as number[]);
+          // }
         }
       } catch (error) {
         console.log("error", error);
@@ -145,6 +175,19 @@ function Scatter() {
     },
     [scatterSelectedX, scatterSelectedY, scatterOptions]
   );
+  const handleChangeScatterChipYSelected = (
+    event: SelectChangeEvent<string[]>,
+    name: string
+  ) => {
+    const {
+      target: { value },
+    } = event;
+    setChips(typeof value === "string" ? value.split(",") : value);
+    setScatterOptins((prevVoyageOption) => ({
+      ...prevVoyageOption,
+      [name]: value,
+    }));
+  };
   if (isLoading) {
     return <div className="spinner"></div>;
   }
@@ -158,15 +201,19 @@ function Scatter() {
       : width < 768
       ? width * 0.92
       : width * 0.95;
-
   return (
     <div>
       <SelectDropdownScatter
         selectedX={scatterSelectedX}
         selectedY={scatterSelectedY}
+        chips={chips}
         selectedOptions={scatterOptions}
         handleChange={handleChangeVoyageOption}
+        handleChangeChipYSelected={handleChangeScatterChipYSelected}
         maxWidth={maxWidth}
+        XFieldText={"X Field"}
+        YFieldText={"Multi-Selector Y-Feild"}
+        optionsFlatY={VOYAGE_SCATTER_OPTIONS.y_vars}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
@@ -177,17 +224,18 @@ function Scatter() {
       />
       <Grid>
         <Plot
-          data={[
-            {
-              x: scatterPlotX,
-              y: scatterPlotY,
-              type: "scatter",
-              mode: "lines",
-              marker: { color: "red" },
-              line: { shape: "spline" },
-            },
-            { type: "bar" },
-          ]}
+          // data={[
+          //   {
+          //     x: scatterPlotX,
+          //     y: scatterPlotY,
+          //     type: "scatter",
+          //     mode: "lines",
+          //     marker: { color: "red" },
+          //     line: { shape: "spline" },
+          //   },
+          //   { type: "bar" },
+          // ]}
+          data={scatterData}
           layout={{
             width: maxWidth,
             height: height * 0.45,
