@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, useCallback } from "react";
 import Plot from "react-plotly.js";
 import { Data } from "plotly.js";
 import VOYAGE_BARGRAPH_OPTIONS from "@/utils/VOYAGE_BARGRAPH_OPTIONS.json";
@@ -50,14 +50,13 @@ function BarGraph() {
   const [chips, setChips] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   ]);
-  const [barGraphPlotX, setPlotBarX] = useState<number[]>([]);
-  const [barGraphPlotY, setPlotBarY] = useState<number[]>([]);
+
   const [barGraphOptions, setBarOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
     y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   });
   const [aggregation, setAggregation] = useState<string>("sum");
-  const VoyageBargraphOptions = () => {
+  const VoyageBargraphOptions = useCallback(() => {
     Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(
       ([key, value]: [string, BargraphXYVar[]]) => {
         if (key === "x_vars") {
@@ -68,15 +67,12 @@ function BarGraph() {
         }
       }
     );
-  };
+  }, []);
 
   useEffect(() => {
     VoyageBargraphOptions();
-    fetchOptionsFlat(
-      isSuccess,
-      (options_flat as Options) || undefined,
-      setOptionsFlat
-    );
+    fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
+
     const fetchData = async () => {
       const newFormData: FormData = new FormData();
       newFormData.append("groupby_by", barGraphOptions.x_vars);
@@ -113,15 +109,13 @@ function BarGraph() {
           for (const [index, [key, value]] of Object.entries(
             response
           ).entries()) {
-            if (key !== barGraphOptions.x_vars) {
-              if (Array.isArray(value)) {
-                data.push({
-                  x: values[0] as number[],
-                  y: value as number[],
-                  type: "bar",
-                  name: `aggregation: ${aggregation} label: ${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
-                });
-              }
+            if (key !== barGraphOptions.x_vars && Array.isArray(value)) {
+              data.push({
+                x: values[0] as number[],
+                y: value as number[],
+                type: "bar",
+                name: `aggregation: ${aggregation} label: ${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
+              });
             }
           }
 
@@ -130,12 +124,6 @@ function BarGraph() {
             x_vars: keys[0] || "",
             y_vars: keys[1] || "",
           });
-          // if (values[0]) {
-          //   setPlotBarX(values[0] as number[]);
-          // }
-          // if (values[1]) {
-          //   setPlotBarY(values[1] as number[]);
-          // }
         }
       } catch (error) {
         console.log("error", error);
@@ -151,39 +139,42 @@ function BarGraph() {
     rang,
     varName,
     isChange,
+    autoCompleteValue,
     autoLabelName,
+    chips,
+    currentPage,
+    isSuccess,
+    VoyageBargraphOptions,
   ]);
 
-  const handleChangeBarGraphOption = (
-    event: SelectChangeEvent<string>,
-    name: string
-  ) => {
-    const value = event.target.value;
-    setBarOptions((prevVoyageOption) => ({
-      ...prevVoyageOption,
-      [name]: value,
-    }));
-  };
-
-  const handleChangeBarGraphChipYSelected = (
-    event: SelectChangeEvent<string[]>,
-    name: string
-  ) => {
-    const {
-      target: { value },
-    } = event;
-    setChips(typeof value === "string" ? value.split(",") : value);
-    setBarOptions((prevVoyageOption) => ({
-      ...prevVoyageOption,
-      [name]: value,
-    }));
-  };
-
-  const handleChangeAggregation = useMemo(
-    () => (event: ChangeEvent<HTMLInputElement>, name: string) => {
+  const handleChangeAggregation = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
       setAggregation(event.target.value);
     },
-    [aggregation]
+    []
+  );
+
+  const handleChangeBarGraphOption = useCallback(
+    (event: SelectChangeEvent<string>, name: string) => {
+      const value = event.target.value;
+      setBarOptions((prevVoyageOption) => ({
+        ...prevVoyageOption,
+        [name]: value,
+      }));
+    },
+    []
+  );
+
+  const handleChangeBarGraphChipYSelected = useCallback(
+    (event: SelectChangeEvent<string[]>, name: string) => {
+      const value = event.target.value;
+      setChips(typeof value === "string" ? value.split(",") : value);
+      setBarOptions((prevVoyageOption) => ({
+        ...prevVoyageOption,
+        [name]: value,
+      }));
+    },
+    []
   );
 
   if (isLoading) {
@@ -225,13 +216,6 @@ function BarGraph() {
 
       <Grid>
         <Plot
-          // data={[
-          //   {
-          //     x: barGraphPlotX,
-          //     y: barGraphPlotY,
-          //     type: "bar",
-          //   },
-          // ]}
           data={barData}
           layout={{
             width: maxWidth,

@@ -6,7 +6,7 @@ import {
   Select,
   SelectChangeEvent,
   Chip,
-  OutlinedInput
+  OutlinedInput,
 } from "@mui/material";
 import { FunctionComponent, ReactNode } from "react";
 import { PlotXYVar, VoyagesOptionProps } from "@/share/InterfaceTypes";
@@ -17,11 +17,14 @@ interface SelectDropdownScatterProps {
   chips: string[];
   selectedOptions: VoyagesOptionProps;
   handleChange: (event: SelectChangeEvent<string>, name: string) => void;
-  handleChangeChipYSelected: (event: SelectChangeEvent<string[]>, name: string) => void
+  handleChangeChipYSelected: (
+    event: SelectChangeEvent<string[]>,
+    name: string
+  ) => void;
   maxWidth?: number;
   XFieldText?: string;
   YFieldText?: string;
-  optionsFlatY:PlotXYVar[]
+  optionsFlatY: PlotXYVar[];
 }
 
 const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
@@ -33,18 +36,19 @@ const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
   handleChangeChipYSelected,
   maxWidth,
   XFieldText,
-  YFieldText,optionsFlatY
+  YFieldText,
+  optionsFlatY,
 }) => {
   const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
     },
-  },
-};
+  };
 
   const isDisabledX = (option: PlotXYVar) => {
     return option.var_name === selectedOptions.y_vars;
@@ -58,7 +62,10 @@ const MenuProps = {
     <div>
       <Box sx={{ maxWidth, my: 4 }}>
         <FormControl fullWidth>
-          <InputLabel id="x-field-label" style={{ fontSize: 16, fontWeight: 600 }}>
+          <InputLabel
+            id="x-field-label"
+            style={{ fontSize: 16, fontWeight: 600 }}
+          >
             {XFieldText}
           </InputLabel>
           <Select
@@ -100,9 +107,12 @@ const MenuProps = {
       </Box>
       <Box sx={{ maxWidth, my: 2 }}>
         <FormControl fullWidth>
-        <InputLabel id="demo-multiple-chip-label" style={{ fontSize: 16, fontWeight: 600 }}>
-              {YFieldText}
-        </InputLabel>
+          <InputLabel
+            id="demo-multiple-chip-label"
+            style={{ fontSize: 16, fontWeight: 600 }}
+          >
+            {YFieldText}
+          </InputLabel>
           <Select
             MenuProps={MenuProps}
             labelId="demo-multiple-chip-label"
@@ -111,23 +121,28 @@ const MenuProps = {
             label={YFieldText}
             style={{ fontSize: 16, fontWeight: 600 }}
             value={chips}
-            onChange={(event: SelectChangeEvent<string[]>)=>{
-              handleChangeChipYSelected(event, "y_vars")
+            onChange={(event: SelectChangeEvent<string[]>) => {
+              handleChangeChipYSelected(event, "y_vars");
             }}
-            input={<OutlinedInput id="select-multiple-chip" label={YFieldText} />}
-            renderValue={(value): ReactNode =>  (
-                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-                  {value.map((option: string, index: number) => (
-                      <Chip
-                        style={{ fontSize: 16, fontWeight: 600, margin: 2, border: '1px solid #54bfb6' }}
-                        key={`${option}-${index}`}
-                        label={optionsFlatY[index].label}
-                      />
-                    )
-                  )}
-                </Box>
-              )
+            input={
+              <OutlinedInput id="select-multiple-chip" label={YFieldText} />
             }
+            renderValue={(value): ReactNode => (
+              <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                {value.map((option: string, index: number) => (
+                  <Chip
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 600,
+                      margin: 2,
+                      border: "1px solid #54bfb6",
+                    }}
+                    key={`${option}-${index}`}
+                    label={optionsFlatY[index].label}
+                  />
+                ))}
+              </Box>
+            )}
           >
             {selectedY.map((option: PlotXYVar, index: number) => (
               <MenuItem
