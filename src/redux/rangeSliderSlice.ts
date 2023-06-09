@@ -9,7 +9,6 @@ const initialState: RangeSliderState = {
     varName: "",
     isChange: false,
     rangeSliderMinMax: {},
-
 };
 
 const rangeSliderSlice = createSlice({

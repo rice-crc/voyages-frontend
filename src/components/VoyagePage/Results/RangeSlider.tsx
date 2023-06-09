@@ -17,7 +17,6 @@ import { AppDispatch, RootState } from "@/redux/store";
 import {
   AutoCompleteInitialState,
   RangeSliderState,
-  currentPageInitialState,
 } from "@/share/InterfaceTypes";
 import { fetchRangeSliderData } from "@/fetchAPI/fetchAggregationsSlider";
 

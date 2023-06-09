@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dropdown } from "./Dropdown";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
-  AutoCompleteOption,
   ChildrenFilter,
   RangeSliderState,
   TYPES,

@@ -5,7 +5,7 @@ const initialState = {
     value: jsonData
 };
 export const getOptionsFlatObjSlice = createSlice({
-    name: "menuOptionFlat",
+    name: "optionFlatMenu",
     initialState,
     reducers: {
         getOptionsFlatMenu: (state, action) => {

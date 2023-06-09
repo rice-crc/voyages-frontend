@@ -3,7 +3,7 @@ import { Menu as MenuIcon } from "@mui/icons-material";
 import { AppBar, IconButton, Menu, Toolbar, Hidden } from "@mui/material";
 import { MenuListDropdownStyle } from "@/styleMUI";
 import { MenuListDropdown } from "./MenuListDropdown";
-import { CanscandingMenuProps } from "@/share/InterfaceTypeNav";
+import { CanscandingMenuProps } from "@/share/InterfaceTypes";
 
 export default function CanscandingMenu(props: CanscandingMenuProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

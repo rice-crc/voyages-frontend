@@ -17,7 +17,7 @@ import { StyleDiver } from "@/styleMUI";
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import FilterICON from "@/assets/filterICON.svg";
 import { RootState } from "@/redux/store";
-import { HeaderNavBarMenuProps } from "@/share/InterfaceTypeNav";
+import { HeaderNavBarMenuProps } from "@/share/InterfaceTypes";
 import CanscandingMenu from "../canscanding/CanscandingMenu";
 import { useSelector } from "react-redux";
 import { currentPageInitialState } from "@/share/InterfaceTypes";
