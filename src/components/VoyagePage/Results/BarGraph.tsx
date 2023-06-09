@@ -7,9 +7,9 @@ import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
-import SelectDropdownBarGraph from "./SelectDropdown";
-import AggregationSumAverage from "./AggregationSumAverage";
-import { fetchVoyageBarGraphGroupby } from "@/fetchAPI/fetchVoyageGroupby";
+import { SelectDropdown } from "./SelectDropdown";
+import { AggregationSumAverage } from "./AggregationSumAverage";
+import { fetchVoyageGraphGroupby } from "@/fetchAPI/fetchVoyageGroupby";
 import {
   PlotXYVar,
   VoyagesOptionProps,
@@ -100,7 +100,7 @@ function BarGraph() {
       try {
         const data: Data[] = [];
         const response = await dispatch(
-          fetchVoyageBarGraphGroupby(newFormData)
+          fetchVoyageGraphGroupby(newFormData)
         ).unwrap();
 
         if (response) {
@@ -194,7 +194,7 @@ function BarGraph() {
 
   return (
     <div>
-      <SelectDropdownBarGraph
+      <SelectDropdown
         selectedX={barGraphSelectedX}
         chips={chips}
         selectedY={barGraphSelectedY}

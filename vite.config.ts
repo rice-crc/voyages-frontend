@@ -11,4 +11,10 @@ export default defineConfig({
   resolve: {
     alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
   },
+  css: {
+    modules: false, // Disable CSS modules if not needed
+    preprocessorOptions: {
+      // Add any preprocessor options if necessary
+    },
+  },
 });

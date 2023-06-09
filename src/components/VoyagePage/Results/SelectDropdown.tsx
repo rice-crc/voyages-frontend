@@ -27,7 +27,7 @@ interface SelectDropdownScatterProps {
   optionsFlatY: PlotXYVar[];
 }
 
-const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
+export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
   selectedX,
   selectedY,
   chips,
@@ -160,5 +160,3 @@ const SelectDropdownScatter: FunctionComponent<SelectDropdownScatterProps> = ({
     </div>
   );
 };
-
-export default SelectDropdownScatter;

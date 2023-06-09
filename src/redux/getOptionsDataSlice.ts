@@ -1,13 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { OptionsDataState } from '@/share/InterfaceTypes'
 
-
-
 const initialState: OptionsDataState = {
     value: {},
 };
 
-export const optionsDataSlice = createSlice({
+export const getOptionsDataSlice = createSlice({
     name: "optionsData",
     initialState,
     reducers: {
@@ -17,5 +15,5 @@ export const optionsDataSlice = createSlice({
     },
 });
 
-export const { getOptions } = optionsDataSlice.actions;
-export default optionsDataSlice.reducer;
+export const { getOptions } = getOptionsDataSlice.actions;
+export default getOptionsDataSlice.reducer;

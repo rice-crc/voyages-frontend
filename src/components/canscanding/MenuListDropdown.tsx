@@ -24,9 +24,9 @@ import {
   DropdownNestedMenuItem,
   StyleDialog,
 } from "@/styleMUI";
-import RangeSlider from "../VoyagePage/Results/RangeSlider";
+import RangeSlider from "../voyagePage/Results/RangeSlider";
 import { useState, MouseEvent } from "react";
-import AutocompleteBox from "../VoyagePage/Results/AutocompletedBox";
+import AutocompleteBox from "../voyagePage/Results/AutocompletedBox";
 import { PaperDraggable } from "./PaperDraggable";
 import { setIsChange, setKeyValue } from "@/redux/rangeSliderSlice";
 import { setIsChangeAuto } from "@/redux/getAutoCompleteSlice";

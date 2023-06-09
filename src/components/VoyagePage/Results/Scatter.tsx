@@ -7,9 +7,7 @@ import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
-import SelectDropdownScatter from "./SelectDropdown";
-import AggregationSumAverage from "./AggregationSumAverage";
-import { fetchVoyageScatterGroupby } from "@/fetchAPI/fetchVoyageGroupby";
+import { fetchVoyageGraphGroupby } from "@/fetchAPI/fetchVoyageGroupby";
 import {
   PlotXYVar,
   VoyagesOptionProps,
@@ -20,6 +18,8 @@ import {
 } from "@/share/InterfaceTypes";
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
 import "@/style/page.scss";
+import { SelectDropdown } from "./SelectDropdown";
+import { AggregationSumAverage } from "./AggregationSumAverage";
 
 function Scatter() {
   const datas = useSelector(
@@ -105,7 +105,7 @@ function Scatter() {
       try {
         const data: Data[] = [];
         const response = await dispatch(
-          fetchVoyageScatterGroupby(newFormData)
+          fetchVoyageGraphGroupby(newFormData)
         ).unwrap();
 
         if (response) {
@@ -203,7 +203,7 @@ function Scatter() {
 
   return (
     <div>
-      <SelectDropdownScatter
+      <SelectDropdown
         selectedX={scatterSelectedX}
         selectedY={scatterSelectedY}
         chips={chips}

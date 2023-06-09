@@ -20,6 +20,8 @@
     "@react-hook/window-size": "^3.1.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/dotenv": "^8.2.0",
+    "ag-grid-community": "^30.0.0",
+    "ag-grid-react": "^30.0.0",
     "axios": "^1.4.0",
     "framer-motion": "^10.12.16",
     "multi-nested-select": "^1.2.1",
@@ -31,6 +33,7 @@
     "react-plotly.js": "^2.6.0",
     "react-query": "^3.39.3",
     "react-redux": "^8.0.5",
+    "react-router-dom": "^6.12.1",
     "react-scroll": "^1.8.9",
     "styled-components": "^5.3.10"
   },

@@ -17,9 +17,9 @@ interface AggregationSumAverageProps {
   optionFlat: Options;
   scatterOptions: VoyagesOptionProps;
 }
-const AggregationSumAverage: FunctionComponent<AggregationSumAverageProps> = (
-  props
-) => {
+export const AggregationSumAverage: FunctionComponent<
+  AggregationSumAverageProps
+> = (props) => {
   const { showAlert, aggregation, optionFlat, handleChange, scatterOptions } =
     props;
 
@@ -88,5 +88,3 @@ const AggregationSumAverage: FunctionComponent<AggregationSumAverageProps> = (
     </div>
   );
 };
-
-export default AggregationSumAverage;

@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import getOptionsReducer from './opptionsDataSlice';
+import getOptionsDataSlice from './getOptionsDataSlice';
 import rangeSliderSlice from './rangeSliderSlice';
 import getAutoCompleteList from './getAutoCompleteSlice'
 import getOptionsFlatMenu from './getOptionsFlatObjSlice'
@@ -12,7 +12,7 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 const store = configureStore({
     reducer: {
-        getOptions: getOptionsReducer,
+        getOptions: getOptionsDataSlice,
         rangeSlider: rangeSliderSlice,
         autoCompleteList: getAutoCompleteList,
         optionFlatMenu: getOptionsFlatMenu,

@@ -1,8 +1,7 @@
 import { useEffect, FunctionComponent } from "react";
 import { Grid, Hidden } from "@mui/material";
 import { motion } from "framer-motion";
-import Scatter from "./Results/Scatter";
-import BarGraph from "./Results/BarGraph";
+
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage, setIsOpenDialog } from "@/redux/getScrollPageSlice";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -10,6 +9,8 @@ import { currentPageInitialState } from "@/share/InterfaceTypes";
 import { ButtonNav } from "@/styleMUI";
 import VoyagesPage from "./VoyagePage";
 import "@/style/page.scss";
+import Scatter from "./Results/Scatter";
+import BarGraph from "./Results/BarGraph";
 
 interface ScrollPageProps {
   isFilter: boolean;
