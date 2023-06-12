@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+
 export const MAINBGGREEN = "#93D0CB"
 export const theme = createTheme({
     components: {
@@ -23,3 +24,4 @@ export const theme = createTheme({
         },
     },
 });
+

@@ -1,6 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '../share/AUTH_BASEURL';
-import { AutoCompleteSliceLists } from '../share/InterfaceTypes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchAutoComplete = createAsyncThunk(

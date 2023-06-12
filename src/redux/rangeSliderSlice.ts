@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RangeSliderState } from '@/share/InterfaceTypes';
-import { fetchRangeSliderData } from '@/fetchAPI/fetchAggregationsSlider';
+import { fetchRangeSliderData } from '@/fetchAPI/fetchRangeSliderData';
 
 const initialState: RangeSliderState = {
     rangeValue: {},

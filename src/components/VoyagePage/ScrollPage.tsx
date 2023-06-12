@@ -1,7 +1,8 @@
 import { useEffect, FunctionComponent } from "react";
 import { Grid, Hidden } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { motion } from "framer-motion";
-
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage, setIsOpenDialog } from "@/redux/getScrollPageSlice";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -22,6 +23,8 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
   setIsFilter,
 }) => {
   const dispatch: AppDispatch = useDispatch();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.up("md"));
   const { currentPage, isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as currentPageInitialState
   );
@@ -108,7 +111,7 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
     <div
       style={{
         position: "relative",
-        top: isFilter ? 245 : 200,
+        top: !isSmallScreen ? 120 : isFilter ? 230 : 175,
         padding: currentPage !== 1 ? "0 20px" : "",
       }}
       id="content-container"

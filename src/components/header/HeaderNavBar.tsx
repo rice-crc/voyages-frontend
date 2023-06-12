@@ -78,7 +78,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
           color: "black",
           fontSize: 12,
           boxShadow: "none",
-          marginTop: "3rem",
+          marginTop: "2.5rem",
         }}
       >
         <Toolbar sx={{ alignItems: "center" }}>
@@ -97,11 +97,12 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             component="div"
             sx={{
               flexGrow: 1,
-              display: { xs: "none", sm: "block", md: "block" },
+              color: "#000000",
+              fontWeight: 500,
+              fontSize: { xs: 20, sm: 40, md: 60 },
             }}
           >
             <div
-              className="header-logo-text"
               onClick={() => {
                 console.log("go to HOME");
               }}
@@ -109,27 +110,29 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               Voyages Database
             </div>
             <StyleDiver />
-            <Typography
-              component="div"
-              variant="body1"
-              fontWeight="500"
-              sx={{
-                cursor: "pointer",
-                alignItems: "center",
-                display: "flex",
-                margin: "10px 0",
-                fontSize: 20,
-                fontWeight: 600,
-              }}
-              onClick={() => setIsFilter(!isFilter)}
-            >
-              {currentPage !== 1 && (
-                <>
-                  <img src={FilterICON} alt="logo" />
-                  <div> Filter Search</div>
-                </>
-              )}
-            </Typography>
+            <Hidden mdDown>
+              <Typography
+                component="div"
+                variant="body1"
+                fontWeight="500"
+                sx={{
+                  cursor: "pointer",
+                  alignItems: "center",
+                  display: "flex",
+                  margin: "10px 0",
+                  fontSize: 20,
+                  fontWeight: 600,
+                }}
+                onClick={() => setIsFilter(!isFilter)}
+              >
+                {currentPage !== 1 && (
+                  <>
+                    <img src={FilterICON} alt="logo" />
+                    <div> Filter Search</div>
+                  </>
+                )}
+              </Typography>
+            </Hidden>
           </Typography>
           <Box
             sx={{

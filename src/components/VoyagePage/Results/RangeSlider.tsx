@@ -1,9 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  FunctionComponent,
-  ChangeEvent,
-} from "react";
+import { useEffect, useState, FunctionComponent, ChangeEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setRangeValue,
@@ -18,7 +13,7 @@ import {
   AutoCompleteInitialState,
   RangeSliderState,
 } from "@/share/InterfaceTypes";
-import { fetchRangeSliderData } from "@/fetchAPI/fetchAggregationsSlider";
+import { fetchRangeSliderData } from "@/fetchAPI/fetchRangeSliderData";
 
 interface GetSliderProps {}
 
