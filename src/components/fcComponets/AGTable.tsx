@@ -1,110 +1,87 @@
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { ColDef } from "ag-grid-community";
-import { getEnumColumnParams } from "../../utils/getEnumColumnParams";
-import rowData from "../../utils/data";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import "@/style/table.scss";
+import CustomHeader from "./customHeader";
+import TABLE_FLAT from "@/utils/example_voyages_table_flatfile.json";
+import { TableColumnProps } from "@/share/InterfaceTypes";
 
-const boolEnum = {
-  true: "Yes",
-  false: "No",
-};
-
-const colorEnum = {
-  "#ff0000": "Red",
-  "#00ff00": "Green",
-  "#0000ff": "Blue",
-};
-
-type GridData = {
-  id: string;
-  isActive: boolean;
-  color: string;
-  name: string;
-};
-
-const App = () => {
-  const columnDefs: ColDef<GridData>[] = [
+const AGTable: React.FC = () => {
+  const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
+  const gridStyle = useMemo(() => ({ height: 500, width: "100%" }), []);
+  const [rowData, setRowData] = useState<any[]>();
+  const [columnDefs, setColumnDefs] = useState<any[]>([
+    { field: "athlete", suppressMenu: true, minWidth: 120 },
     {
-      field: "name",
-      headerName: "Name",
+      field: "age",
+      sortable: false,
+      headerComponentParams: { menuIcon: "fa-external-link-alt" },
     },
+    { field: "country", suppressMenu: true, minWidth: 120 },
+    { field: "year", sortable: false },
+    { field: "date", suppressMenu: true },
+    { field: "sport", sortable: false },
     {
-      field: "isActive",
-      headerName: "Active",
-      cellRenderer: "booleanCellRenderer",
-      filter: "agSetColumnFilter",
-      filterParams: {
-        values: ["true", "false"],
+      field: "gold",
+      headerComponentParams: { menuIcon: "fa-cog" },
+      minWidth: 120,
+    },
+    { field: "silver", sortable: false },
+    { field: "bronze", suppressMenu: true, minWidth: 120 },
+    { field: "total", sortable: false },
+  ]);
+  const components = useMemo(() => {
+    return {
+      agColumnHeader: CustomHeader,
+    };
+  }, []);
+  const defaultColDef = useMemo(() => {
+    return {
+      editable: true,
+      sortable: true,
+      flex: 1,
+      minWidth: 100,
+      filter: true,
+      resizable: true,
+      headerComponentParams: {
+        menuIcon: "fa-bars",
       },
-    },
-    {
-      field: "color",
-      headerName: "Color",
-      cellRenderer: "colorCellRenderer",
-    },
-  ];
+    };
+  }, []);
 
-  const frameworkComponents = {
-    booleanCellRenderer: "booleanCellRenderer",
-    colorCellRenderer: "colorCellRenderer",
-  };
+  const onGridReady = useCallback(() => {
+    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        // console.log("data", data);
+        setRowData(data);
+      });
+  }, []);
 
-  const [api, setApi] = useState<any>(null);
-  const [columnApi, setColumnApi] = useState<any>(null);
+  const VoyageTableFlatData = useCallback(() => {
+    TABLE_FLAT.forEach((value: TableColumnProps) => {});
+  }, []);
 
   useEffect(() => {
-    if (api && columnApi) {
-      // Perform any necessary operations with the API and Column API
-    }
+    VoyageTableFlatData();
+  }, []);
 
-    return () => {
-      // Cleanup function
-    };
-  }, [api, columnApi]);
-  const onGridReady = (params: any) => {
-    setApi(params.api);
-    setColumnApi(params.columnApi);
-  };
+  // console.log("columnDefs", columnDefs);
 
   return (
-    <div className="grid-container">
-      <div id="myGrid" className="ag-grid ag-theme-alpine">
+    <div style={containerStyle}>
+      <div style={gridStyle} className="ag-theme-alpine">
         <AgGridReact
-          columnDefs={columnDefs}
           rowData={rowData}
-          suppressRowClickSelection
-          defaultColDef={{
-            sortable: true,
-            flex: 1,
-            minWidth: 200,
-            resizable: true,
-            cellClass: "cell-wrap-text ag-grid-cell",
-            autoHeight: true,
-            filter: "agTextColumnFilter",
-            filterParams: {
-              buttons: ["reset", "apply"],
-              closeOnApply: true,
-              suppressAndOrCondition: true,
-            },
-          }}
-          columnTypes={{
-            booleanColumn: {
-              ...getEnumColumnParams(boolEnum),
-            },
-            colorColumn: {
-              ...getEnumColumnParams(colorEnum),
-            },
-          }}
-          animateRows
-          rowModelType="clientSide"
+          columnDefs={columnDefs}
+          suppressMenuHide={true}
+          components={components}
+          defaultColDef={defaultColDef}
           onGridReady={onGridReady}
         />
       </div>
     </div>
   );
 };
-
-export default App;
+export default AGTable;

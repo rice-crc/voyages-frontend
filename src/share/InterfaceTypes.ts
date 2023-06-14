@@ -164,3 +164,33 @@ export interface CanscandingMenuProps {
     isFilter?: boolean;
     window?: () => Window;
 }
+
+export interface ColumnObjectProps {
+    [key: string]: string;
+}
+
+
+export interface TableColumnProps {
+    header_label: string
+    cell_type: string
+    order_by_var: string
+    cell_fields: CellVal
+}
+
+export interface CellVal {
+    display: string
+}
+
+export interface RowData {
+    [key: string]: string | unknown;
+}
+
+export interface ColumnDef {
+    headerName: string;
+    field: string;
+    sortable: boolean;
+    resizable: boolean;
+    filter: boolean;
+    valueGetter: (params: any) => any;
+    rowData: RowData[];
+}
