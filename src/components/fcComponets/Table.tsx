@@ -14,12 +14,14 @@ import { fetchVoyageOptionsPagination } from "@/fetchAPI/fetchVoyageOptionsPagin
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import CustomHeader from "./customHeader";
+import { createRowData } from "@/utils/createRowData";
+import { VoyageOptionsGropProps } from "@/share/InterfaceTypesTable";
 
 const Table: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: 500, width: "100%" }), []);
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<VoyageOptionsGropProps[]>([]);
   const [columnDefs, setColumnDefs] = useState<ColumnDef[]>([]);
   const [rowData, setRowData] = useState<RowData[]>([]);
   const [tableOptions, setTableOptions] = useState<ColumnObjectProps>({});
@@ -80,13 +82,14 @@ const Table: React.FC = () => {
     const regex = /__(.+)/;
     const match = fieldName.match(regex);
     const cellFields = match ? match[1] : "";
-    const tableVal = Object.values(tableOptions); // Need to check if value change from flatfile
+    const tableVal = Object.values(tableOptions); // Need to check if value change from
     const rowData = params.data;
     if (tableVal.includes(cellFields)) {
       return rowData[cellFields];
     }
     return null;
   }
+
   useEffect(() => {
     VoyageTableOptions();
     // Generate column definitions
@@ -101,36 +104,15 @@ const Table: React.FC = () => {
           resizable: true,
           filter: true,
           //   maxWidth: 150,
-          rowData: createRowData(),
+          rowData: createRowData(data, tableOptions),
         };
         columns.push(columnDef);
       });
 
       setColumnDefs(columns);
-      setRowData(createRowData());
+      setRowData(createRowData(data, tableOptions));
     }
   }, [data]);
-
-  // Generate row data
-  function createRowData() {
-    const rows: RowData[] = [];
-    data.forEach((row) => {
-      const rowData: RowData = {};
-      Object.entries(row).forEach(([key, value]) => {
-        if (typeof value === "object" && value !== null) {
-          Object.entries(value).forEach(([subKey, subValue]) => {
-            if (tableOptions[key] === subKey) {
-              rowData[subKey] = subValue;
-            }
-          });
-        } else {
-          rowData[key] = value;
-        }
-      });
-      rows.push(rowData);
-    });
-    return rows;
-  }
 
   return (
     <div style={containerStyle}>
