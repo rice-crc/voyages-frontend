@@ -33,6 +33,26 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
 
   // Scroll to next page and page hide other page
   useEffect(() => {
+    const handleTouchStart = (event: TouchEvent) => {
+      const touch = event.touches[0]; // Get the first touch point
+      console.log("touch", touch);
+      const initialTouchX = touch.clientX; // Store the initial touch X coordinate
+      const initialTouchY = touch.clientY; // Store the initial touch Y coordinate
+
+      // Store the initial touch position in a variable or state
+      // Example: setInitialTouchPosition({ x: initialTouchX, y: initialTouchY });
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      // Calculate the touch delta
+      // Determine the scrolling direction
+      // Scroll to the next page if necessary
+    };
+
+    const handleTouchEnd = () => {
+      // Reset any stored touch position or values
+    };
+
     const handleScroll = (event: WheelEvent) => {
       const { deltaY } = event;
       const nextPage = deltaY > 0 ? currentPage + 1 : currentPage - 1;
@@ -48,8 +68,14 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
       }, 400);
     };
     window.addEventListener("wheel", handleScroll);
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchmove", handleTouchMove);
+    window.addEventListener("touchend", handleTouchEnd);
     return () => {
       window.removeEventListener("wheel", handleScroll);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
     };
   }, [currentPage, isOpenDialog]);
 

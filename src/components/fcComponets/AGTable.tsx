@@ -1,13 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import "@/style/table.scss";
-import CustomHeader from "./customHeader";
-import TABLE_FLAT from "@/utils/example_voyages_table_flatfile.json";
-import { TableColumnProps } from "@/share/InterfaceTypes";
+import CustomHeader from "./customHeader.js";
 
-const AGTable: React.FC = () => {
+const GridExample = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: 500, width: "100%" }), []);
   const [rowData, setRowData] = useState<any[]>();
@@ -50,24 +48,13 @@ const AGTable: React.FC = () => {
     };
   }, []);
 
-  const onGridReady = useCallback(() => {
+  const onGridReady = useCallback((params: any) => {
     fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
       .then((resp) => resp.json())
       .then((data) => {
-        // console.log("data", data);
         setRowData(data);
       });
   }, []);
-
-  const VoyageTableFlatData = useCallback(() => {
-    TABLE_FLAT.forEach((value: TableColumnProps) => {});
-  }, []);
-
-  useEffect(() => {
-    VoyageTableFlatData();
-  }, []);
-
-  // console.log("columnDefs", columnDefs);
 
   return (
     <div style={containerStyle}>
@@ -79,9 +66,10 @@ const AGTable: React.FC = () => {
           components={components}
           defaultColDef={defaultColDef}
           onGridReady={onGridReady}
-        />
+        ></AgGridReact>
       </div>
     </div>
   );
 };
-export default AGTable;
+
+export default GridExample;

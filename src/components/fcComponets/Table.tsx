@@ -3,27 +3,29 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import TABLE_FLAT from "@/utils/example_voyages_table_flatfile.json";
-import {
-  ColumnDef,
-  ColumnObjectProps,
-  RowData,
-  TableColumnProps,
-} from "@/share/InterfaceTypes";
+import { ColumnObjectProps, TableColumnProps } from "@/share/InterfaceTypes";
 import "@/style/table.scss";
 import { fetchVoyageOptionsPagination } from "@/fetchAPI/fetchVoyageOptionsPagination";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
 import CustomHeader from "./customHeader";
 import { createRowData } from "@/utils/createRowData";
-import { VoyageOptionsGropProps } from "@/share/InterfaceTypesTable";
+import {
+  ColumnDef,
+  StateRowData,
+  VoyageOptionsGropProps,
+} from "@/share/InterfaceTypesTable";
+import GridExample from "./AGTable";
+import { setColumnDefs, setRowData } from "@/redux/getTableSlice";
 
 const Table: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
+  const { rowData, columnDefs } = useSelector(
+    (state: RootState) => state.getTableData as StateRowData
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: 500, width: "100%" }), []);
   const [data, setData] = useState<VoyageOptionsGropProps[]>([]);
-  const [columnDefs, setColumnDefs] = useState<ColumnDef[]>([]);
-  const [rowData, setRowData] = useState<RowData[]>([]);
   const [tableOptions, setTableOptions] = useState<ColumnObjectProps>({});
   const defaultColDef = useMemo(() => {
     return {
@@ -43,7 +45,7 @@ const Table: React.FC = () => {
     const fetchData = async () => {
       const newFormData: FormData = new FormData();
       newFormData.append("results_page", "1"); // results_page will set function to set which page we on
-      newFormData.append("results_per_page", "10"); // results_per_page will set function to select how many per page
+      newFormData.append("results_per_page", "5"); // results_per_page will set function to select how many per page
       try {
         const response = await dispatch(
           fetchVoyageOptionsPagination(newFormData)
@@ -109,8 +111,8 @@ const Table: React.FC = () => {
         columns.push(columnDef);
       });
 
-      setColumnDefs(columns);
-      setRowData(createRowData(data, tableOptions));
+      dispatch(setColumnDefs(columns));
+      dispatch(setRowData(createRowData(data, tableOptions)));
     }
   }, [data]);
 
@@ -121,10 +123,12 @@ const Table: React.FC = () => {
           rowData={rowData}
           columnDefs={columnDefs}
           suppressMenuHide={true}
+          pagination={true}
           defaultColDef={defaultColDef}
           components={components}
         />
       </div>
+      {/* <GridExample /> */}
     </div>
   );
 };

@@ -181,16 +181,3 @@ export interface CellVal {
     display: string
 }
 
-export interface RowData {
-    [key: string]: string | unknown;
-}
-
-export interface ColumnDef {
-    headerName: string;
-    field: string;
-    sortable: boolean;
-    resizable: boolean;
-    filter: boolean;
-    valueGetter: (params: any) => any;
-    rowData: RowData[];
-}

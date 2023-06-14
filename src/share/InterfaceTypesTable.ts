@@ -816,3 +816,21 @@ export interface Source {
     full_ref: string
     source_type: number
 }
+export interface RowData {
+    [key: string]: string | unknown;
+}
+
+export interface ColumnDef {
+    headerName: string;
+    field: string;
+    sortable: boolean;
+    resizable: boolean;
+    filter: boolean;
+    valueGetter: (params: any) => any;
+    rowData: RowData[];
+}
+export interface StateRowData {
+    rowData: RowData[];
+    columnDefs: ColumnDef[];
+}
+
