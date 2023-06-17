@@ -817,20 +817,40 @@ export interface Source {
     source_type: number
 }
 export interface RowData {
-    [key: string]: string | unknown;
+    [key: string]: string | unknown | number | any
 }
 
 export interface ColumnDef {
     headerName: string;
+    valueGetter: (params: any) => void;
     field: string;
     sortable: boolean;
     resizable: boolean;
     filter: boolean;
-    valueGetter: (params: any) => any;
-    rowData: RowData[];
+    tooltipValueGetter?: (params: any) => any;
+    tooltipComponent?: React.FC<any>;
 }
 export interface StateRowData {
-    rowData: RowData[];
+    data: VoyageOptionsGropProps[]
+    rowData: Record<string, any>[]
     columnDefs: ColumnDef[];
+    tableOptions: {}
 }
 
+export interface VoyageTableCellStructure {
+    header_label: string
+    cell_type: string
+    order_by: string[]
+    colID: string
+    cell_val: CellVal
+}
+
+export interface CellVal {
+    fields: Field[]
+    join?: string
+}
+
+export interface Field {
+    var_name: string
+    cell_fn: string
+}

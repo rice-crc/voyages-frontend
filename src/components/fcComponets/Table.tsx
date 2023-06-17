@@ -1,32 +1,132 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  CSSProperties,
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import TABLE_FLAT from "@/utils/example_voyages_table_flatfile.json";
-import { ColumnObjectProps, TableColumnProps } from "@/share/InterfaceTypes";
-import "@/style/table.scss";
+import TABLE_FLAT from "@/utils/voyages_example_table_flatfile.json";
 import { fetchVoyageOptionsPagination } from "@/fetchAPI/fetchVoyageOptionsPagination";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import CustomHeader from "./customHeader";
-import { createRowData } from "@/utils/createRowData";
-import {
-  ColumnDef,
-  StateRowData,
-  VoyageOptionsGropProps,
-} from "@/share/InterfaceTypesTable";
-import GridExample from "./AGTable";
-import { setColumnDefs, setRowData } from "@/redux/getTableSlice";
+import { generateRowsData } from "@/utils/generateRowsData";
+import { ColumnDef, StateRowData } from "@/share/InterfaceTypesTable";
+import { setColumnDefs, setRowData, setData } from "@/redux/getTableSlice";
+import CustomTooltip from "./CustomTooltip";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import "@/style/table.scss";
 
 const Table: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { rowData, columnDefs } = useSelector(
+  const { columnDefs, data, rowData } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
-  const gridStyle = useMemo(() => ({ height: 500, width: "100%" }), []);
-  const [data, setData] = useState<VoyageOptionsGropProps[]>([]);
-  const [tableOptions, setTableOptions] = useState<ColumnObjectProps>({});
+  const gridStyle = useMemo(
+    () => ({
+      height: 500,
+      width: "100%",
+    }),
+    []
+  );
+  const [loading, setLoading] = useState(false);
+  const gridRef = useRef<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const newFormData: FormData = new FormData();
+      newFormData.append("results_page", "1");
+      newFormData.append("results_per_page", "5");
+      try {
+        const response = await dispatch(
+          fetchVoyageOptionsPagination(newFormData)
+        ).unwrap();
+        if (response) {
+          dispatch(setData(response));
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log("error", error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      const finalRowData = generateRowsData(data);
+      const columns: ColumnDef[] = [];
+
+      TABLE_FLAT.forEach((value: any) => {
+        const columnDef = {
+          headerName: value.header_label,
+          field: value.colID,
+          cellRenderer: (params: any) => {
+            const values = params.value;
+            if (Array.isArray(values)) {
+              const style: CSSProperties = {
+                backgroundColor: "#e5e5e5",
+                borderRadius: "8px",
+                padding: "4px 6px",
+                margin: "5px",
+                height: 500,
+                whiteSpace: "pre-line",
+                overflow: "auto",
+              };
+              const renderedValues = values.map(
+                (value: string, index: number) => (
+                  <span key={index} style={style}>
+                    {`${value}\n`}
+                  </span>
+                )
+              );
+              return <div>{renderedValues}</div>;
+            } else {
+              return values;
+            }
+          },
+          valueGetter: (params: any) => {
+            const finalData = [];
+            const data = params.data;
+            const fields = value.cell_val.fields;
+
+            if (fields.length === 1) {
+              return data[fields[0].var_name] ?? "--";
+            } else {
+              const joinDelimiter: string = value.cell_val.join;
+              const firstData = data[fields[0].var_name];
+              for (let i = 0; i < firstData?.length; i++) {
+                const dataResult = [];
+                for (let j = 0; j < fields.length; j++) {
+                  const fieldName = fields[j].var_name;
+                  const fieldValue = data[fieldName][i];
+                  dataResult.push(String(fieldValue));
+                }
+                finalData.push(dataResult.join(joinDelimiter));
+              }
+            }
+            return finalData.length !== 0 ? finalData : "--";
+          },
+          sortable: true,
+          resizable: true,
+          filter: true,
+          tooltipValueGetter: tooltipValueGetter,
+          tooltipComponent: CustomTooltip,
+        };
+        columns.push(columnDef);
+      });
+      dispatch(setColumnDefs(columns));
+      dispatch(setRowData(finalRowData));
+    }
+  }, [data]);
+
   const defaultColDef = useMemo(() => {
     return {
       editable: true,
@@ -41,94 +141,80 @@ const Table: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const newFormData: FormData = new FormData();
-      newFormData.append("results_page", "1"); // results_page will set function to set which page we on
-      newFormData.append("results_per_page", "5"); // results_per_page will set function to select how many per page
-      try {
-        const response = await dispatch(
-          fetchVoyageOptionsPagination(newFormData)
-        ).unwrap();
-        if (response) {
-          setData(response);
-        }
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-    fetchData();
-  }, [dispatch]);
-
-  const VoyageTableOptions = useCallback(() => {
-    const columnObject: ColumnObjectProps = {};
-    TABLE_FLAT.map((value: TableColumnProps) => {
-      const cellFields = value.cell_fields.display.split("__");
-      columnObject[cellFields[0]] = cellFields[1];
-    });
-    setTableOptions({
-      ...tableOptions,
-      ...columnObject,
-    });
-    return columnObject;
-  }, []);
-
   const components = useMemo(() => {
     return {
       agColumnHeader: CustomHeader,
     };
   }, []);
 
-  function hashValueGetter(params: any) {
-    const fieldName = params.colDef.field;
-    const regex = /__(.+)/;
-    const match = fieldName.match(regex);
-    const cellFields = match ? match[1] : "";
-    const tableVal = Object.values(tableOptions); // Need to check if value change from
-    const rowData = params.data;
-    if (tableVal.includes(cellFields)) {
-      return rowData[cellFields];
-    }
-    return null;
-  }
+  const getRowRowStyle = (params: any) => {
+    return {
+      fontSize: 14,
+      fontWeight: 500,
+      color: "#000",
+      fontFamily: `Roboto`,
+    };
+  };
 
-  useEffect(() => {
-    VoyageTableOptions();
-    // Generate column definitions
-    if (data.length > 0) {
-      const columns: ColumnDef[] = [];
-      TABLE_FLAT.forEach((key) => {
-        const columnDef = {
-          headerName: key.header_label,
-          valueGetter: hashValueGetter,
-          field: key.cell_fields.display,
-          sortable: true,
-          resizable: true,
-          filter: true,
-          //   maxWidth: 150,
-          rowData: createRowData(data, tableOptions),
-        };
-        columns.push(columnDef);
-      });
+  const tooltipValueGetter = (params: any) => ({ value: params.value });
 
-      dispatch(setColumnDefs(columns));
-      dispatch(setRowData(createRowData(data, tableOptions)));
-    }
-  }, [data]);
+  const getRowHeight = (params: any) => {
+    const data = params.data;
+    const lineHeight = 42;
+    let numLines = 1;
+    Object.entries(data).forEach(([key, value]) => {
+      console.log("value", value);
+      if (Array.isArray(value)) {
+        numLines = value.length;
+      }
+    });
+    return numLines * lineHeight;
+  };
+
+  const gridOptions = useMemo(
+    () => ({
+      getRowHeight,
+    }),
+    []
+  );
+
+  const onPageSizeChanged = useCallback(
+    (event: ChangeEvent<HTMLSelectElement>) => {
+      const value = event.target.value;
+      gridRef.current.api.paginationSetPageSize(Number(value));
+    },
+    []
+  );
 
   return (
     <div style={containerStyle}>
-      <div style={gridStyle} className="ag-theme-alpine">
-        <AgGridReact
-          rowData={rowData}
-          columnDefs={columnDefs}
-          suppressMenuHide={true}
-          pagination={true}
-          defaultColDef={defaultColDef}
-          components={components}
-        />
-      </div>
-      {/* <GridExample /> */}
+      {loading ? (
+        <div>Loading data...</div>
+      ) : (
+        <>
+          <div style={gridStyle} className="ag-theme-alpine">
+            <AgGridReact
+              rowData={rowData}
+              gridOptions={gridOptions}
+              columnDefs={columnDefs}
+              suppressMenuHide={true}
+              pagination={true}
+              defaultColDef={defaultColDef}
+              components={components}
+              getRowStyle={getRowRowStyle}
+            />
+            {/* <div className="page-size">
+              Page Size:
+              <select onChange={onPageSizeChanged} id="page-size">
+                <option value="10">10</option>
+                <option value="100">100</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+              </select>
+            </div> */}
+          </div>
+        </>
+      )}
     </div>
   );
 };

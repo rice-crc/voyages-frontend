@@ -1,13 +1,15 @@
 import { fetchVoyageSortedData } from "@/fetchAPI/fetchVoyageSortedData";
-import { setRowData } from "@/redux/getTableSlice";
+import { setData } from "@/redux/getTableSlice";
 import { AppDispatch } from "@/redux/store";
-import { RowData } from "@/share/InterfaceTypesTable";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import "@/style/table.scss";
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
   column: {
+    colId: string;
+    sort: string | null;
     isSortAscending: () => boolean;
     isSortDescending: () => boolean;
     addEventListener: (event: string, callback: () => void) => void;
@@ -29,6 +31,7 @@ const CustomHeader: React.FC<Props> = (props) => {
     enableSorting,
     displayName,
   } = props;
+
   const dispatch: AppDispatch = useDispatch();
   const [ascSort, setAscSort] = useState<string>("inactive");
   const [descSort, setDescSort] = useState<string>("inactive");
@@ -38,74 +41,53 @@ const CustomHeader: React.FC<Props> = (props) => {
     showColumnMenu(refButton);
   };
 
-  const onSortChanged = () => {
-    setAscSort(column.isSortAscending() ? "active" : "inactive");
-    setDescSort(column.isSortDescending() ? "active" : "inactive");
-    setNoSort(
-      !column.isSortAscending() && !column.isSortDescending()
-        ? "active"
-        : "inactive"
-    );
-  };
-
   const onSortRequested = (
     order: string,
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
     setSort(order, event.shiftKey);
+    onSortChanged();
+  };
+
+  const fetchData = async (sortOrder: string, colId: any) => {
+    const newFormData: FormData = new FormData();
+    if (sortOrder === "asc") {
+      newFormData.append("order_by", colId);
+    } else if (sortOrder === "desc") {
+      newFormData.append("order_by", `-${colId}`);
+    }
+    try {
+      const response = await dispatch(
+        fetchVoyageSortedData(newFormData)
+      ).unwrap();
+      if (response) {
+        dispatch(setData(response));
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  let isMounted = true;
+
+  const onSortChanged = () => {
+    if (isMounted) {
+      console.log("column--", column);
+      setAscSort(column.isSortAscending() ? "active" : "inactive");
+      setDescSort(column.isSortDescending() ? "active" : "inactive");
+      setNoSort(
+        !column.isSortAscending() && !column.isSortDescending()
+          ? "active"
+          : "inactive"
+      );
+      const sortOrder = column.isSortAscending() ? "asc" : "desc";
+      fetchData(sortOrder, column.colId);
+    }
   };
 
   useEffect(() => {
-    let isMounted = true;
-    const fetchData = async (sortOrder: string) => {
-      console.log("sortOrder", sortOrder);
-      const newFormData: FormData = new FormData();
-      if (sortOrder === "ascending") {
-        newFormData.append(
-          "order_by",
-          "voyage_slaves_numbers__imp_total_num_slaves_embarked"
-        );
-      } else if (sortOrder === "descending") {
-        newFormData.append(
-          "order_by",
-          "-voyage_slaves_numbers__imp_total_num_slaves_embarked"
-        );
-      }
-
-      try {
-        const response = await dispatch(
-          fetchVoyageSortedData(newFormData)
-        ).unwrap();
-        if (response) {
-          console.log("response", response);
-          // dispatch(setRowData(response));
-        }
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-    const onSortChanged = () => {
-      if (isMounted) {
-        setAscSort(column.isSortAscending() ? "active" : "inactive");
-        setDescSort(column.isSortDescending() ? "active" : "inactive");
-        setNoSort(
-          !column.isSortAscending() && !column.isSortDescending()
-            ? "active"
-            : "inactive"
-        );
-
-        const sortOrder = column.isSortAscending() ? "ascending" : "descending";
-        fetchData(sortOrder);
-      }
-    };
-
     column.addEventListener("sortChanged", onSortChanged);
-    onSortChanged();
-
-    // Clean up the event listener and set mounted flag to false when the component unmounts
     return () => {
       isMounted = false;
-      // You may need to remove the event listener here if it's supported by your specific implementation
     };
   }, []);
 
@@ -121,11 +103,16 @@ const CustomHeader: React.FC<Props> = (props) => {
       </div>
     );
   }
+  //
 
   let sort: React.ReactNode = null;
   if (enableSorting) {
     sort = (
-      <div style={{ display: "inline-block" }}>
+      <div
+        style={{
+          display: "inline-block",
+        }}
+      >
         <div
           onClick={(event) => onSortRequested("asc", event)}
           onTouchEnd={(event) => onSortRequested("asc", event)}
@@ -153,7 +140,6 @@ const CustomHeader: React.FC<Props> = (props) => {
 
   return (
     <div>
-      {menu}
       <div className="customHeaderLabel">{displayName}</div>
       {sort}
     </div>
