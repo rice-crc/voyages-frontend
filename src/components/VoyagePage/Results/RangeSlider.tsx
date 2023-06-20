@@ -26,7 +26,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
   const { autoCompleteValue } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-
+  const [loading, setLoading] = useState(false);
   const rangeMinMax = rangeSliderMinMax?.[varName] ||
     rangeValue?.[varName] || [0, 0];
 
@@ -38,11 +38,13 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
   >(rangeMinMax);
 
   useEffect(() => {
-    const formData: FormData = new FormData();
-    formData.append("aggregate_fields", varName);
-    dispatch(fetchRangeSliderData(formData))
-      .unwrap()
-      .then((response: any) => {
+    const fetchRangeSlider = async () => {
+      const formData: FormData = new FormData();
+      formData.append("aggregate_fields", varName);
+      try {
+        const response = await dispatch(
+          fetchRangeSliderData(formData)
+        ).unwrap();
         if (response) {
           const initialValue: number[] = [
             response[varName].min,
@@ -56,10 +58,14 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
             })
           );
         }
-      })
-      .catch((error: any) => {
+      } catch (error) {
         console.log("error", error);
-      });
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRangeSlider();
   }, [dispatch, varName]);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
@@ -107,7 +113,6 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
       <Input
         color="secondary"
         name="start"
-        style={{ fontSize: 22, fontWeight: 500 }}
         value={rangeMinMax[0]}
         size="small"
         onChange={handleInputChange}
@@ -125,7 +130,6 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
         value={rangeMinMax[1]}
         size="small"
         onChange={handleInputChange}
-        style={{ fontSize: 22, fontWeight: 500 }}
         inputProps={{
           step: max - min > 20 ? 10 : 1,
           min: min,

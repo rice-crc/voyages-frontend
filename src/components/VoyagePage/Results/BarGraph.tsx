@@ -71,6 +71,7 @@ function BarGraph() {
 
   useEffect(() => {
     VoyageBargraphOptions();
+    let subscribed = true;
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
     const fetchData = async () => {
@@ -103,7 +104,7 @@ function BarGraph() {
           fetchVoyageGraphGroupby(newFormData)
         ).unwrap();
 
-        if (response) {
+        if (subscribed) {
           const keys = Object.keys(response);
           const values = Object.values(response);
           for (const [index, [key, value]] of Object.entries(
@@ -118,7 +119,6 @@ function BarGraph() {
               });
             }
           }
-
           setBarData(data);
           setBarOptions({
             x_vars: keys[0] || "",
@@ -130,6 +130,9 @@ function BarGraph() {
       }
     };
     fetchData();
+    return () => {
+      subscribed = false;
+    };
   }, [
     dispatch,
     options_flat,

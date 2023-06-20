@@ -1,5 +1,5 @@
 
-import TABLE_FLAT from "@/utils/voyages_example_table_flatfile.json";
+import TABLE_FLAT from "@/utils/voyage_table_cell_structure__updated.json";
 export const VoyageTableOptions = (): Record<string, any> => {
 
     const columnObject: Record<string, any> = {};
@@ -21,7 +21,7 @@ export const VoyageTableOptions = (): Record<string, any> => {
             });
         });
     };
-    TABLE_FLAT.forEach((value) => {
+    TABLE_FLAT.cell_structure.forEach((value) => {
         const fieldsData = value.cell_val.fields;
         processFieldsData(fieldsData);
     });

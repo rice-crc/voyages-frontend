@@ -33,7 +33,7 @@ const CustomTooltip: FC<Props> = (props) => {
   ) : (
     <div className="custom-tooltip">
       <p>
-        <span>Athlete's Name:</span>
+        <span>--</span>
       </p>
       <p>
         <span>{valueToDisplay}</span>

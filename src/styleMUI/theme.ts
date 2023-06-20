@@ -15,9 +15,6 @@ export const theme = createTheme({
         },
     },
     spacing: [0, 4, 8, 16, 32, 64],
-    typography: {
-        fontFamily: `Cormorant Garamond`,
-    },
     palette: {
         background: {
             default: MAINBGGREEN,

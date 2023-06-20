@@ -74,6 +74,7 @@ function Scatter() {
 
   useEffect(() => {
     VoyageScatterOptions();
+    let subscribed = true;
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
     const fetchData = async () => {
@@ -108,7 +109,7 @@ function Scatter() {
           fetchVoyageGraphGroupby(newFormData)
         ).unwrap();
 
-        if (response) {
+        if (subscribed) {
           const keys = Object.keys(response);
           const values = Object.values(response);
 
@@ -139,6 +140,9 @@ function Scatter() {
     };
 
     fetchData();
+    return () => {
+      subscribed = false;
+    };
   }, [
     dispatch,
     options_flat,

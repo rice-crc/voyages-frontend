@@ -1,6 +1,6 @@
 
 import { styled } from "@mui/material/styles";
-import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button } from "@mui/material";
+import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button, TablePagination } from "@mui/material";
 import MuiInput from "@mui/material/Input";
 import NestedMenuItem from "../components/canscanding/NestedMenuItem";
 import { SxProps } from "@mui/material";
@@ -127,10 +127,24 @@ export const ButtonNav = styled(Button)`
     margin: 6px 0;
     font-size: 14px;
     font-weight: 600;
-
+    font-family:  "Cormorant Garamond";
     &:hover {
       background-color: #54bfb6;
       color: white
     }
   }
 `;
+
+export const CustomTablePagination = styled(TablePagination)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  borderTop: `1px solid ${theme.palette.divider}`,
+  padding: theme.spacing(1),
+  fontFamily: `sans-serif`,
+  '& .MuiToolbar-root': {
+    minHeight: 'auto',
+  },
+  '& .MuiSelect-root': {
+    marginRight: theme.spacing(2),
+  },
+}));

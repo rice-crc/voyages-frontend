@@ -6,7 +6,7 @@ import store from "./redux/store";
 import HOME from "./components/Home";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./styleMUI/theme";
-import Table from "./components/fcComponets/Table";
+import Table from "./components/voyagePage/Results/Table";
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();

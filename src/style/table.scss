@@ -7,15 +7,25 @@
   float: left;
   margin: 0 0 0 3px;
 }
+div .customHeaderLabel{
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  width: 85%;
+  color: #008ca8;
+}
 
 .customSortDownLabel {
   float: left;
   margin: 0 0 0 3px;
+  padding: 0 2px;
+  cursor: pointer;
 }
 
 .customSortUpLabel {
   float: left;
   margin: 0;
+  cursor: pointer;
 }
 
 .customSortRemoveLabel {
@@ -26,4 +36,24 @@
 
 .active {
   color: cornflowerblue;
+}
+
+.pagination-div{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.ag-theme-alpine .ag-row-hover {
+  background-color: #85d4cb; /* Define the desired hover background color */
+  /* Add any other styles for the hover effect */
+}
+.pagination-div > nav > ul > li >  button{
+  font-size: 0.875rem;
+  font-family: sans-serif;
+}
+.Skeleton-loading{
+  position: relative;
+  top: 5rem;
 }

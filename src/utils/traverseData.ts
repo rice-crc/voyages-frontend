@@ -4,11 +4,9 @@ export const traverseData = (data: any, varArray: string[]): any => {
     const key = varArray[0];
     if (varArray.length > 1) {
         if (typeof data === "object" && dataKeys.includes(key)) {
-            // console.log('data object-->', data)
             const value = data[key];
             data = traverseData(value, varArray.slice(1));
         } else if (Array.isArray(data)) {
-            // console.log('data-->', data)
             const results: any[] = [];
             data.forEach((element) => {
                 const result = traverseData(element, varArray);

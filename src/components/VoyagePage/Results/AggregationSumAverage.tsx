@@ -45,10 +45,7 @@ export const AggregationSumAverage: FunctionComponent<
   return (
     <div>
       <FormControl>
-        <FormLabel
-          id="demo-controlled-radio-buttons-group"
-          style={{ fontSize: 18, fontWeight: 600 }}
-        >
+        <FormLabel id="demo-controlled-radio-buttons-group">
           Aggregation Function
         </FormLabel>
         <RadioGroup
@@ -61,26 +58,12 @@ export const AggregationSumAverage: FunctionComponent<
           <FormControlLabel
             value="sum"
             control={<Radio />}
-            label={
-              <Typography
-                variant="body1"
-                style={{ fontSize: 18, fontWeight: 600 }}
-              >
-                Sum
-              </Typography>
-            }
+            label={<Typography variant="body1">Sum</Typography>}
           />
           <FormControlLabel
             value="mean"
             control={<Radio />}
-            label={
-              <Typography
-                variant="body1"
-                style={{ fontSize: 18, fontWeight: 600 }}
-              >
-                Average
-              </Typography>
-            }
+            label={<Typography variant="body1">Average</Typography>}
           />
         </RadioGroup>
       </FormControl>

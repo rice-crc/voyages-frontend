@@ -13,8 +13,7 @@ export const fetchVoyageOptionsPagination = createAsyncThunk(
                     headers: { 'Authorization': AUTHTOKEN },
                 }
             );
-
-            return response.data;
+            return response;
         } catch (error) {
             throw new Error('Failed to fetchVoyageOptionsPagination data');
         }

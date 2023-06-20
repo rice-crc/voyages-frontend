@@ -56,7 +56,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             onClick={() => handleSelectMenu(item)}
           >
             <ListItemButton sx={{ textAlign: "center", fontSize: "16px" }}>
-              <ListItemText primary={item} />
+              <ListItemText className="menu-nav-bar" primary={item} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -106,6 +106,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               onClick={() => {
                 console.log("go to HOME");
               }}
+              className="voyages-header"
             >
               Voyages Database
             </div>
@@ -120,7 +121,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
                   alignItems: "center",
                   display: "flex",
                   margin: "10px 0",
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: 600,
                 }}
                 onClick={() => setIsFilter(!isFilter)}
@@ -128,7 +129,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
                 {currentPage !== 1 && (
                   <>
                     <img src={FilterICON} alt="logo" />
-                    <div> Filter Search</div>
+                    <div className="menu-nav-bar"> Filter Search</div>
                   </>
                 )}
               </Typography>
@@ -154,7 +155,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
                   fontSize: 20,
                 }}
               >
-                {item}
+                <div className="menu-nav-bar">{item}</div>
               </Button>
             ))}
           </Box>

@@ -1,4 +1,4 @@
-import { useEffect, FunctionComponent } from "react";
+import { useEffect, FunctionComponent, useState } from "react";
 import { Grid, Hidden } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -12,6 +12,7 @@ import VoyagesPage from "./VoyagePage";
 import "@/style/page.scss";
 import Scatter from "./Results/Scatter";
 import BarGraph from "./Results/BarGraph";
+import Table from "./Results/Table";
 
 interface ScrollPageProps {
   isFilter: boolean;
@@ -24,6 +25,7 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
+  const [isShowScrollTopButton, setShowScrollTopButton] = useState(false);
   const isSmallScreen = useMediaQuery(theme.breakpoints.up("md"));
   const { currentPage, isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as currentPageInitialState
@@ -32,65 +34,65 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
   const totalPageCount = pageList.length;
 
   // Scroll to next page and page hide other page
-  useEffect(() => {
-    const handleTouchStart = (event: TouchEvent) => {
-      const touch = event.touches[0]; // Get the first touch point
-      console.log("touch", touch);
-      const initialTouchX = touch.clientX; // Store the initial touch X coordinate
-      const initialTouchY = touch.clientY; // Store the initial touch Y coordinate
+  // useEffect(() => {
+  //   const handleTouchStart = (event: TouchEvent) => {
+  //     const touch = event.touches[0]; // Get the first touch point
+  //     console.log("touch", touch);
+  //     const initialTouchX = touch.clientX; // Store the initial touch X coordinate
+  //     const initialTouchY = touch.clientY; // Store the initial touch Y coordinate
 
-      // Store the initial touch position in a variable or state
-      // Example: setInitialTouchPosition({ x: initialTouchX, y: initialTouchY });
-    };
+  //     // Store the initial touch position in a variable or state
+  //     // Example: setInitialTouchPosition({ x: initialTouchX, y: initialTouchY });
+  //   };
 
-    const handleTouchMove = (event: TouchEvent) => {
-      // Calculate the touch delta
-      // Determine the scrolling direction
-      // Scroll to the next page if necessary
-    };
+  //   const handleTouchMove = (event: TouchEvent) => {
+  //     // Calculate the touch delta
+  //     // Determine the scrolling direction
+  //     // Scroll to the next page if necessary
+  //   };
 
-    const handleTouchEnd = () => {
-      // Reset any stored touch position or values
-    };
+  //   const handleTouchEnd = () => {
+  //     // Reset any stored touch position or values
+  //   };
 
-    const handleScroll = (event: WheelEvent) => {
-      const { deltaY } = event;
-      const nextPage = deltaY > 0 ? currentPage + 1 : currentPage - 1;
+  //   const handleScroll = (event: WheelEvent) => {
+  //     const { deltaY } = event;
+  //     const nextPage = deltaY > 0 ? currentPage + 1 : currentPage - 1;
 
-      setTimeout(() => {
-        if (nextPage >= 1 && nextPage <= totalPageCount) {
-          dispatch(setCurrentPage(nextPage));
-          smoothScrollToTop();
-          dispatch(setIsOpenDialog(false));
-        }
-        setIsFilter(false);
-        dispatch(setIsOpenDialog(false));
-      }, 400);
-    };
-    window.addEventListener("wheel", handleScroll);
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchmove", handleTouchMove);
-    window.addEventListener("touchend", handleTouchEnd);
-    return () => {
-      window.removeEventListener("wheel", handleScroll);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, [currentPage, isOpenDialog]);
+  //     setTimeout(() => {
+  //       if (nextPage >= 1 && nextPage <= totalPageCount) {
+  //         dispatch(setCurrentPage(nextPage));
+  //         smoothScrollToTop();
+  //         dispatch(setIsOpenDialog(false));
+  //       }
+  //       setIsFilter(false);
+  //       dispatch(setIsOpenDialog(false));
+  //     }, 400);
+  //   };
+  //   window.addEventListener("wheel", handleScroll);
+  //   window.addEventListener("touchstart", handleTouchStart);
+  //   window.addEventListener("touchmove", handleTouchMove);
+  //   window.addEventListener("touchend", handleTouchEnd);
+  //   return () => {
+  //     window.removeEventListener("wheel", handleScroll);
+  //     window.removeEventListener("touchstart", handleTouchStart);
+  //     window.removeEventListener("touchmove", handleTouchMove);
+  //     window.removeEventListener("touchend", handleTouchEnd);
+  //   };
+  // }, [currentPage, isOpenDialog]);
 
-  const smoothScrollToTop = () => {
-    const contentContainer = document.getElementById("content-container");
-    if (contentContainer) {
-      contentContainer.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
+  // const smoothScrollToTop = () => {
+  //   const contentContainer = document.getElementById("content-container");
+  //   if (contentContainer) {
+  //     contentContainer.scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "start",
+  //     });
+  //   }
+  // };
 
-  /*  Scrool to next page and also still see prev page 2
-   const scrollThreshold = 800;
+  /*  Scrool to next page and also still see prev page 2*/
+  const scrollThreshold = 800;
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > scrollThreshold) {
@@ -109,7 +111,7 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []); */
+  }, []);
 
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentPage(page));
@@ -127,7 +129,11 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
       {currentPage === 2 && <Scatter />}
       {currentPage === 3 && <BarGraph />}
       {currentPage === 4 && <h1 style={{ marginTop: 50 }}>PIE</h1>}
-      {currentPage === 5 && <h1 style={{ marginTop: 50 }}>TABLE</h1>}
+      {currentPage === 5 && (
+        <h1 style={{ marginTop: 50 }}>
+          <Table />
+        </h1>
+      )}
       {currentPage === 6 && <h1 style={{ marginTop: 50 }}>PIVOT</h1>}
       {currentPage === 7 && <h1 style={{ marginTop: 50 }}>MAP</h1>}
     </motion.div>

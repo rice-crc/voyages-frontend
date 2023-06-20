@@ -37,7 +37,7 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
   const {
     parentMenuOpen,
     label,
-    rightIcon = <ArrowRight style={{ fontSize: 16 }} />,
+    rightIcon = <ArrowRight style={{ fontSize: 14 }} />,
     keepOpen,
     childrenFilter,
     varName,

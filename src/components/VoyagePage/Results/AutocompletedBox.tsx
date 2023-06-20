@@ -98,12 +98,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         onInputChange={handleInputChange}
         inputValue={autoValue}
         renderOption={(props, option) => (
-          <Box
-            component="li"
-            {...props}
-            key={option.id}
-            sx={{ fontSize: 18, fontWeight: 600 }}
-          >
+          <Box component="li" {...props} key={option.id} sx={{ fontSize: 16 }}>
             {option.label}
           </Box>
         )}
@@ -112,15 +107,12 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
           <TextField
             {...params}
             label={
-              <Typography
-                variant="body1"
-                style={{ fontSize: 20, fontWeight: 500 }}
-              >
+              <Typography variant="body1" style={{ fontSize: 16 }}>
                 field
               </Typography>
             }
             placeholder="SelectedOptions"
-            style={{ marginTop: 20, fontSize: 20, fontWeight: 600 }}
+            style={{ marginTop: 20 }}
           />
         )}
       />

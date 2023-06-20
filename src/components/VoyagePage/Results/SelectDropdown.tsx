@@ -62,12 +62,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
     <div>
       <Box sx={{ maxWidth, my: 4 }}>
         <FormControl fullWidth>
-          <InputLabel
-            id="x-field-label"
-            style={{ fontSize: 16, fontWeight: 600 }}
-          >
-            {XFieldText}
-          </InputLabel>
+          <InputLabel id="x-field-label">{XFieldText}</InputLabel>
           <Select
             sx={{
               height: 42,
@@ -86,7 +81,6 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
             id="x-field-select"
             value={selectedOptions.x_vars}
             label="X Field"
-            style={{ fontSize: 16, fontWeight: 600 }}
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, "x_vars");
             }}
@@ -97,7 +91,6 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
                 key={`${option.label}-${index}`}
                 value={option.var_name}
                 disabled={isDisabledX(option)}
-                style={{ fontSize: 16, fontWeight: 600 }}
               >
                 {option.label}
               </MenuItem>
@@ -107,19 +100,13 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
       </Box>
       <Box sx={{ maxWidth, my: 2 }}>
         <FormControl fullWidth>
-          <InputLabel
-            id="demo-multiple-chip-label"
-            style={{ fontSize: 16, fontWeight: 600 }}
-          >
-            {YFieldText}
-          </InputLabel>
+          <InputLabel id="demo-multiple-chip-label">{YFieldText}</InputLabel>
           <Select
             MenuProps={MenuProps}
             labelId="demo-multiple-chip-label"
             id="demo-multiple-chip"
             multiple
             label={YFieldText}
-            style={{ fontSize: 16, fontWeight: 600 }}
             value={chips}
             onChange={(event: SelectChangeEvent<string[]>) => {
               handleChangeChipYSelected(event, "y_vars");
@@ -132,8 +119,6 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
                 {value.map((option: string, index: number) => (
                   <Chip
                     style={{
-                      fontSize: 16,
-                      fontWeight: 600,
                       margin: 2,
                       border: "1px solid #54bfb6",
                     }}
@@ -149,7 +134,6 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
                 key={`${option.label}-${index}`}
                 value={option.var_name}
                 disabled={isDisabledY(option)}
-                style={{ fontSize: 16, fontWeight: 600 }}
               >
                 {option.label}
               </MenuItem>

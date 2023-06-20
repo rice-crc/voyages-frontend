@@ -18,6 +18,5 @@ export const generateRowsData = (
         });
         finalRowArr.push(finalRowObj)
     })
-    // console.log('generateRowsData', finalRowArr)
     return finalRowArr;
 };

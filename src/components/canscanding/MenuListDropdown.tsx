@@ -70,7 +70,7 @@ export function MenuListDropdown() {
       return (
         <DropdownNestedMenuItem
           onClickMenu={handleClickMenu}
-          sx={{ fontSize: 18, paddingTop: 0, paddingBottom: 0 }}
+          sx={{ fontSize: 16, paddingTop: 0, paddingBottom: 0 }}
           label={childItem.label}
           key={`${childItem.label}-${index}`}
           varName={childItem.var_name}
@@ -87,7 +87,7 @@ export function MenuListDropdown() {
                   data-type={nodeChild.type}
                   data-label={nodeChild.label}
                   onClick={handleClickMenu}
-                  sx={{ fontSize: 18, paddingTop: 0, paddingBottom: 0 }}
+                  sx={{ fontSize: 16, paddingTop: 0, paddingBottom: 0 }}
                 >
                   {nodeChild.label}
                 </DropdownMenuItem>
@@ -108,9 +108,7 @@ export function MenuListDropdown() {
             onClick={(event: any) => handleClickMenu(event)}
             sx={{
               color: "#000",
-              fontWeight: 600,
               textTransform: "none",
-              fontSize: 18,
             }}
           >
             {item.label}
@@ -122,9 +120,7 @@ export function MenuListDropdown() {
               <Button
                 sx={{
                   color: "#000",
-                  fontWeight: 600,
                   textTransform: "none",
-                  fontSize: 18,
                 }}
               >
                 {item.label}
@@ -142,11 +138,8 @@ export function MenuListDropdown() {
         PaperComponent={PaperDraggable}
         aria-labelledby="draggable-dialog-title"
       >
-        <DialogTitle
-          sx={{ cursor: "move", fontWeight: 600 }}
-          id="draggable-dialog-title"
-        >
-          {label}
+        <DialogTitle sx={{ cursor: "move" }} id="draggable-dialog-title">
+          <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: "center" }}>
           {varName && type === TYPES.CharField && <AutocompleteBox />}
@@ -157,7 +150,7 @@ export function MenuListDropdown() {
           <Button
             autoFocus
             onClick={handleCloseDialog}
-            sx={{ color: BLACK, fontSize: 16, fontWeight: 600 }}
+            sx={{ color: BLACK, fontSize: 15 }}
           >
             Cancel
           </Button>

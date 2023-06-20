@@ -10,6 +10,7 @@ interface Props {
   column: {
     colId: string;
     sort: string | null;
+    colDef: any;
     isSortAscending: () => boolean;
     isSortDescending: () => boolean;
     addEventListener: (event: string, callback: () => void) => void;
@@ -45,22 +46,33 @@ const CustomHeader: React.FC<Props> = (props) => {
     order: string,
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
+    console.log("enableSorting", enableSorting);
+    console.log(" event.shiftKey", event.shiftKey);
     setSort(order, event.shiftKey);
     onSortChanged();
   };
 
-  const fetchData = async (sortOrder: string, colId: any) => {
+  const fetchData = async (sortOrder: string, sortingOrder: string[]) => {
     const newFormData: FormData = new FormData();
     if (sortOrder === "asc") {
-      newFormData.append("order_by", colId);
+      if (sortingOrder.length > 0) {
+        sortingOrder.forEach((sort: string) =>
+          newFormData.append("order_by", sort)
+        );
+      }
     } else if (sortOrder === "desc") {
-      newFormData.append("order_by", `-${colId}`);
+      if (sortingOrder.length > 0) {
+        sortingOrder.forEach((sort: string) =>
+          newFormData.append("order_by", `-${sort}`)
+        );
+      }
     }
     try {
       const response = await dispatch(
         fetchVoyageSortedData(newFormData)
       ).unwrap();
       if (response) {
+        console.log("response-->", response);
         dispatch(setData(response));
       }
     } catch (error) {
@@ -71,7 +83,6 @@ const CustomHeader: React.FC<Props> = (props) => {
 
   const onSortChanged = () => {
     if (isMounted) {
-      console.log("column--", column);
       setAscSort(column.isSortAscending() ? "active" : "inactive");
       setDescSort(column.isSortDescending() ? "active" : "inactive");
       setNoSort(
@@ -79,8 +90,10 @@ const CustomHeader: React.FC<Props> = (props) => {
           ? "active"
           : "inactive"
       );
+
       const sortOrder = column.isSortAscending() ? "asc" : "desc";
-      fetchData(sortOrder, column.colId);
+      console.log("sortOrder-->", sortOrder);
+      fetchData(sortOrder, column.colDef.sortingOrder);
     }
   };
 
@@ -127,19 +140,12 @@ const CustomHeader: React.FC<Props> = (props) => {
         >
           <i className="fa fa-long-arrow-alt-up"></i>
         </div>
-        <div
-          onClick={(event) => onSortRequested("", event)}
-          onTouchEnd={(event) => onSortRequested("", event)}
-          className={`customSortRemoveLabel ${noSort}`}
-        >
-          <i className="fa fa-times"></i>
-        </div>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="customHeaderLabel-box">
       <div className="customHeaderLabel">{displayName}</div>
       {sort}
     </div>
