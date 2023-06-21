@@ -7,6 +7,7 @@
   float: left;
   margin: 0 0 0 3px;
 }
+
 div .customHeaderLabel{
   white-space: nowrap; 
   overflow: hidden;
@@ -20,12 +21,16 @@ div .customHeaderLabel{
   margin: 0 0 0 3px;
   padding: 0 2px;
   cursor: pointer;
+  font-size: 11px;
+  color: #979595;
 }
 
 .customSortUpLabel {
   float: left;
   margin: 0;
   cursor: pointer;
+  font-size: 11px;
+  color: #979595;
 }
 
 .customSortRemoveLabel {
@@ -56,4 +61,17 @@ div .customHeaderLabel{
 .Skeleton-loading{
   position: relative;
   top: 5rem;
+}
+
+.div-value {
+  width: 160px;
+  .value {
+    white-space: pre-line;
+    overflow-wrap: break-word;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1rem;
+  }
 }

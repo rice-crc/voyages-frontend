@@ -135,16 +135,3 @@ export const ButtonNav = styled(Button)`
   }
 `;
 
-export const CustomTablePagination = styled(TablePagination)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  borderTop: `1px solid ${theme.palette.divider}`,
-  padding: theme.spacing(1),
-  fontFamily: `sans-serif`,
-  '& .MuiToolbar-root': {
-    minHeight: 'auto',
-  },
-  '& .MuiSelect-root': {
-    marginRight: theme.spacing(2),
-  },
-}));

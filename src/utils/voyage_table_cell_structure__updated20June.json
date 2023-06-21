@@ -1,0 +1,1304 @@
+{
+	"cell_structure":[
+		{
+			"header_label": "Voyage ID",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_id"
+			],
+			"colID": "voyage_id",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_id",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Captain",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_captainconnection__captain__name"
+			],
+			"colID": "voyage_enslavers",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_captainconnection__captain__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Crew died during complete voyage",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_crew__crew_died_complete_voyage"
+			],
+			"colID": "voyage_crew__crew_died_complete_voyage",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_crew__crew_died_complete_voyage",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Source",
+			"cell_type": "literal-concat",
+			"order_by": [
+				"voyage_sourceconnection__source__short_ref"
+			],
+			"colID": "voyage_sources",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_sourceconnection__source__short_ref",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "voyage_sourceconnection__text_ref",
+						"cell_fn": "literal"
+					}
+				],
+				"join": " : "
+			}
+		},
+		{
+			"header_label": "Date vessel's voyage began (DATEDEPB,A,C)",
+			"cell_type": "literal-concat",
+			"order_by": [
+				"voyage_dates__voyage_began_dd",
+				"voyage_dates__voyage_began_mm",
+				"voyage_dates__voyage_began_yyyy"
+			],
+			"colID": "voyage_dates__voyage_began",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_dates__voyage_began_dd",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "voyage_dates__voyage_began_mm",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "voyage_dates__voyage_began_yyyy",
+						"cell_fn": "literal"
+					}
+				],
+				"join": ","
+				}
+		},
+		{
+			"header_label": "Date captive embarkation began (D1SLATRB,A,C)",
+			"cell_type": "literal-concat",
+			"order_by": [
+				"voyage_dates__slave_purchase_began_dd",
+				"voyage_dates__slave_purchase_began_mm",
+				"voyage_dates__slave_purchase_began_yyyy"
+			],
+			"colID": "voyage_dates__slave_purchase_began",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_dates__slave_purchase_began_dd",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "voyage_dates__slave_purchase_began_mm",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "voyage_dates__slave_purchase_began_yyyy",
+						"cell_fn": "literal"
+					}
+				],
+				"join": ","
+				}
+		},
+		{
+			"header_label": "Vessel name",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_ship__ship_name"
+			],
+			"colID": "voyage_ship__ship_name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__ship_name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Year constructed",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_ship__year_of_construction"
+			],
+			"colID": "voyage_ship__year_of_construction",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__year_of_construction",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Place constructed",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_ship__vessel_construction_place__geo_location__name"
+			],
+			"colID": "voyage_ship__vessel_construction_place__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__vessel_construction_place__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Year registered",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_ship__registered_year"
+			],
+			"colID": "voyage_ship__registered_year",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__registered_year",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Place registered",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_ship__registered_place__geo_location__name"
+			],
+			"colID": "voyage_ship__registered_place__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__registered_place__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Flag of vessel",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_ship__nationality_ship__name"
+			],
+			"colID": "voyage_ship__nationality_ship__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__nationality_ship__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Flag of vessel (imp*)",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_ship__imputed_nationality__name"
+			],
+			"colID": "voyage_ship__imputed_nationality__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__imputed_nationality__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Rig or type of vessel",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_ship__rig_of_vessel__name"
+			],
+			"colID": "voyage_ship__rig_of_vessel__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__rig_of_vessel__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Tonnage",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_ship__tonnage"
+			],
+			"colID": "voyage_ship__tonnage",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__tonnage",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Standardized tonnage (imp*)",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_ship__tonnage_mod"
+			],
+			"colID": "voyage_ship__tonnage_mod",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__tonnage_mod",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Guns mounted",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_ship__guns_mounted"
+			],
+			"colID": "voyage_ship__guns_mounted",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__guns_mounted",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Crew at voyage outset",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_crew__crew_voyage_outset"
+			],
+			"colID": "voyage_crew__crew_voyage_outset",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_crew__crew_voyage_outset",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Crew at first landing of captives",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_crew__crew_first_landing"
+			],
+			"colID": "voyage_crew__crew_first_landing",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_crew__crew_first_landing",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Crew deaths during complete voyage",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_crew__crew_died_complete_voyage"
+			],
+			"colID": "voyage_crew__crew_died_complete_voyage",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_crew__crew_died_complete_voyage",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Place where vessel's voyage began (*imp)",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_itinerary__imp_port_voyage_begin__geo_location__name"
+			],
+			"colID": "voyage_itinerary__imp_port_voyage_begin__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__imp_port_voyage_begin__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Principal place where captives were purchased",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name"
+			],
+			"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "First place where captives were purchased",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_itinerary__first_place_slave_purchase__geo_location__name"
+			],
+			"colID": "voyage_itinerary__first_place_slave_purchase__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__first_place_slave_purchase__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Second place where captives were purchased",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_itinerary__second_place_slave_purchase__geo_location__name"
+			],
+			"colID": "voyage_itinerary__second_place_slave_purchase__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__second_place_slave_purchase__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Third place where captives were purchased",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_itinerary__third_place_slave_purchase__geo_location__name"
+			],
+			"colID": "voyage_itinerary__third_place_slave_purchase__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__third_place_slave_purchase__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Places of call before Atlantic crossing",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_itinerary__port_of_call_before_atl_crossing__geo_location__name"
+			],
+			"colID": "voyage_itinerary__port_of_call_before_atl_crossing__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__port_of_call_before_atl_crossing__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Principal place where captives were landed (*imp)",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_itinerary__imp_principal_port_slave_dis__geo_location__name"
+			],
+			"colID": "voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "First place where captives were landed",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_itinerary__first_landing_place__geo_location__name"
+			],
+			"colID": "voyage_itinerary__first_landing_place__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__first_landing_place__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Second place where captives were landed",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_itinerary__second_landing_place__geo_location__name"
+			],
+			"colID": "voyage_itinerary__second_landing_place__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__second_landing_place__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Third place where captives were landed",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_itinerary__third_landing_place__geo_location__name"
+			],
+			"colID": "voyage_itinerary__third_landing_place__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__third_landing_place__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Place where vessel's voyage ended",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_itinerary__place_voyage_ended__geo_location__name"
+			],
+			"colID": "voyage_itinerary__place_voyage_ended__geo_location__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__place_voyage_ended__geo_location__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Total embarked (*imp)",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__imp_total_num_slaves_embarked"
+			],
+			"colID": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Total embarked",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__total_num_slaves_purchased"
+			],
+			"colID": "voyage_slaves_numbers__total_num_slaves_purchased",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__total_num_slaves_purchased",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Total disembarked (*imp)",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__imp_total_num_slaves_disembarked"
+			],
+			"colID": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Total disembarked",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__total_num_slaves_arr_first_port_embark"
+			],
+			"colID": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Captives intended to be purchased at 1st place",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__num_slaves_intended_first_port"
+			],
+			"colID": "voyage_slaves_numbers__num_slaves_intended_first_port",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_intended_first_port",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Captives carried from 1st port",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__num_slaves_carried_first_port"
+			],
+			"colID": "voyage_slaves_numbers__num_slaves_carried_first_port",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_carried_first_port",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Captives carried from 2nd port",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__num_slaves_carried_second_port"
+			],
+			"colID": "voyage_slaves_numbers__num_slaves_carried_second_port",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_carried_second_port",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Captives carried from 3rd port",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__num_slaves_carried_third_port"
+			],
+			"colID": "voyage_slaves_numbers__num_slaves_carried_third_port",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_carried_third_port",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Captives landed at 1st port",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__num_slaves_disembark_first_place"
+			],
+			"colID": "voyage_slaves_numbers__num_slaves_disembark_first_place",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_disembark_first_place",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Captives landed at 2nd port",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__num_slaves_disembark_second_place"
+			],
+			"colID": "voyage_slaves_numbers__num_slaves_disembark_second_place",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_disembark_second_place",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Captives landed at 3rd port",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__num_slaves_disembark_third_place"
+			],
+			"colID": "voyage_slaves_numbers__num_slaves_disembark_third_place",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_disembark_third_place",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Percent men",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__percentage_men_among_embarked_slaves"
+			],
+			"colID": "voyage_slaves_numbers__percentage_men_among_embarked_slaves",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__percentage_men_among_embarked_slaves",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Percent women",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__percentage_women_among_embarked_slaves"
+			],
+			"colID": "voyage_slaves_numbers__percentage_women_among_embarked_slaves",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__percentage_women_among_embarked_slaves",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Percent boys",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__percentage_boys_among_embarked_slaves"
+			],
+			"colID": "voyage_slaves_numbers__percentage_boys_among_embarked_slaves",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__percentage_boys_among_embarked_slaves",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Percent girls",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__percentage_girls_among_embarked_slaves"
+			],
+			"colID": "voyage_slaves_numbers__percentage_girls_among_embarked_slaves",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__percentage_girls_among_embarked_slaves",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Percent males",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__male_ratio_among_embarked_slaves"
+			],
+			"colID": "voyage_slaves_numbers__male_ratio_among_embarked_slaves",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__male_ratio_among_embarked_slaves",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Percent children",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__child_ratio_among_embarked_slaves"
+			],
+			"colID": "voyage_slaves_numbers__child_ratio_among_embarked_slaves",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__child_ratio_among_embarked_slaves",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Sterling cash price in Jamaica (*imp)",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__imp_jamaican_cash_price"
+			],
+			"colID": "voyage_slaves_numbers__imp_jamaican_cash_price",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__imp_jamaican_cash_price",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Captive deaths during crossing",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__imp_mortality_during_voyage"
+			],
+			"colID": "voyage_slaves_numbers__imp_mortality_during_voyage",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__imp_mortality_during_voyage",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Percentage of captives who died during crossing (*imp)",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_slaves_numbers__imp_mortality_ratio"
+			],
+			"colID": "voyage_slaves_numbers__imp_mortality_ratio",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__imp_mortality_ratio",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Year arrived with captives",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_dates__imp_arrival_at_port_of_dis_yyyy"
+			],
+			"colID": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Duration of captives' crossing (in days)",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_dates__length_middle_passage_days"
+			],
+			"colID": "voyage_dates__length_middle_passage_days",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_dates__length_middle_passage_days",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Voyage duration, homepart to disembarkation (in days)",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_dates__imp_length_home_to_disembark"
+			],
+			"colID": "voyage_dates__imp_length_home_to_disembark",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_dates__imp_length_home_to_disembark",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Date vessel arrived with captives",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_dates__imp_arrival_at_port_of_dis"
+			],
+			"colID": "voyage_dates__imp_arrival_at_port_of_dis",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_dates__imp_arrival_at_port_of_dis",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Date departed for homeport",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_dates__departure_last_place_of_landing"
+			],
+			"colID": "voyage_dates__departure_last_place_of_landing",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_dates__departure_last_place_of_landing",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Date vessel arrived at homeport",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_dates__voyage_completed"
+			],
+			"colID": "voyage_dates__voyage_completed",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_dates__voyage_completed",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Particular outcome of voyage",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_outcome__particular_outcome__name"
+			],
+			"colID": "voyage_outcome__particular_outcome__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_outcome__particular_outcome__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Outcome of voyage for captives",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_outcome__outcome_slaves__name"
+			],
+			"colID": "voyage_outcome__outcome_slaves__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_outcome__outcome_slaves__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Outcome of voyage if ship captured",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_outcome__vessel_captured_outcome__name"
+			],
+			"colID": "voyage_outcome__vessel_captured_outcome__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_outcome__vessel_captured_outcome__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Outcome of voyage for owner",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_outcome__outcome_owner__name"
+			],
+			"colID": "voyage_outcome__outcome_owner__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_outcome__outcome_owner__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Resistance",
+			"cell_type": "literal",
+			"order_by": [
+				"voyage_outcome__resistance__name"
+			],
+			"colID": "voyage_outcome__resistance__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_outcome__resistance__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		}
+	],
+	"column_selector_tree":[
+		{
+			"label": "Ship, Nation",
+			"children": [
+				{
+					"colID": "voyage_id",
+					"label": "Voyage ID"
+				},
+				{
+					"colID": "voyage_ship__ship_name",
+					"label": "Vessel name"
+				},
+				{
+					"colID": "voyage_ship__year_of_construction",
+					"label": "Year constructed"
+				},
+				{
+					"colID": "voyage_ship__vessel_construction_place__geo_location__name",
+					"label": "Place constructed"
+				},
+				{
+					"colID": "voyage_ship__registered_year",
+					"label": "Year registered"
+				},
+				{
+					"colID": "voyage_ship__registered_place__geo_location__name",
+					"label": "Place registered"
+				},
+				{
+					"colID": "voyage_ship__nationality_ship__name",
+					"label": "Flag of vessel"
+				},
+				{
+					"colID": "voyage_ship__imputed_nationality__name",
+					"label": "Flag of vessel (imp*)"
+				},
+				{
+					"colID": "voyage_ship__rig_of_vessel__name",
+					"label": "Rig or type of vessel"
+				},
+				{
+					"colID": "voyage_ship__tonnage",
+					"label": "Tonnage"
+				},
+				{
+					"colID": "voyage_ship__tonnage_mod",
+					"label": "Standardized tonnage (imp*)"
+				},
+				{
+					"colID": "voyage_ship__guns_mounted",
+					"label": "Guns mounted"
+				}
+			]
+		},
+		{
+			"label": "Enslavers",
+			"children": [
+				{
+					"colID": "voyage_enslavers",
+					"label": "Name(s) of Captain(s)"
+				},
+				{
+					"colID": "voyage_crew__crew_voyage_outset",
+					"label": "Crew at voyage outset"
+				},
+				{
+					"colID": "voyage_crew__crew_first_landing",
+					"label": "Crew at first landing of captives"
+				},
+				{
+					"colID": "voyage_crew__crew_died_complete_voyage",
+					"label": "Crew deaths during complete voyage"
+				}
+			]
+		},	
+		{
+			"label": "Itinerary",
+			"children": [
+				{
+					"colID": "voyage_itinerary__imp_port_voyage_begin__geo_location__name",
+					"label": "Place where vessel's voyage began (*imp)"
+				},
+				{
+					"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+					"label": "Principal place where captives were purchased"
+				},
+				{
+					"colID": "voyage_itinerary__first_place_slave_purchase__geo_location__name",
+					"label": "First place where captives were purchased"
+				},
+				{
+					"colID": "voyage_itinerary__second_place_slave_purchase__geo_location__name",
+					"label": "Second place where captives were purchased"
+				},
+				{
+					"colID": "voyage_itinerary__third_place_slave_purchase__geo_location__name",
+					"label": "Third place where captives were purchased"
+				},
+				{
+					"colID": "voyage_itinerary__port_of_call_before_atl_crossing__geo_location__name",
+					"label": "Places of call before Atlantic crossing"
+				},
+				{
+					"colID": "voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+					"label": "Principal place where captives were landed (*imp)"
+				},
+				{
+					"colID": "voyage_itinerary__first_landing_place__geo_location__name",
+					"label": "First place where captives were landed"
+				},
+				{
+					"colID": "voyage_itinerary__second_landing_place__geo_location__name",
+					"label": "Second place where captives were landed"
+				},
+				{
+					"colID": "voyage_itinerary__third_landing_place__geo_location__name",
+					"label": "Third place where captives were landed"
+				},
+				{
+					"colID": "voyage_itinerary__place_voyage_ended__geo_location__name",
+					"label": "Place where vessel's voyage ended"
+				}
+			]
+		},
+		{
+			"label": "Enslaved people numbers",
+			"children": [
+				{
+					"colID":"voyage_slaves_numbers__imp_total_num_slaves_embarked",
+					"label": "Total embarked (*imp)"
+				},
+				{
+					"colID":"voyage_slaves_numbers__total_num_slaves_purchased",
+					"label": "Total embarked"
+				},
+				{
+					"colID":"voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+					"label": "Total disembarked (*imp)"
+				},
+				{
+					"colID":"voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
+					"label": "Total disembarked"
+				},
+				{
+					"colID":"voyage_slaves_numbers__num_slaves_intended_first_port",
+					"label": "Captives intended to be purchased at 1st place"
+				},
+				{
+					"colID":"voyage_slaves_numbers__num_slaves_carried_first_port",
+					"label": "Captives carried from 1st port"
+				},
+				{
+					"colID":"voyage_slaves_numbers__num_slaves_carried_second_port",
+					"label": "Captives carried from 2nd port"
+				},
+				{
+					"colID":"voyage_slaves_numbers__num_slaves_carried_third_port",
+					"label": "Captives carried from 3rd port"
+				},
+				{
+					"colID":"voyage_slaves_numbers__num_slaves_disembark_first_place",
+					"label": "Captives landed at 1st port"
+				},
+				{
+					"colID":"voyage_slaves_numbers__num_slaves_disembark_second_place",
+					"label": "Captives landed at 2nd port"
+				},
+				{
+					"colID":"voyage_slaves_numbers__num_slaves_disembark_third_place",
+					"label": "Captives landed at 3rd port"
+				},
+				{
+					"colID":"voyage_slaves_numbers__percentage_men_among_embarked_slaves",
+					"label": "Percent men"
+				},
+				{
+					"colID":"voyage_slaves_numbers__percentage_women_among_embarked_slaves",
+					"label": "Percent women"
+				},
+				{
+					"colID":"voyage_slaves_numbers__percentage_boys_among_embarked_slaves",
+					"label": "Percent boys"
+				},
+				{
+					"colID":"voyage_slaves_numbers__percentage_girls_among_embarked_slaves",
+					"label": "Percent girls"
+				},
+				{
+					"colID":"voyage_slaves_numbers__male_ratio_among_embarked_slaves",
+					"label": "Percent males"
+				},
+				{
+					"colID":"voyage_slaves_numbers__child_ratio_among_embarked_slaves",
+					"label": "Percent children"
+				},
+				{
+					"colID":"voyage_slaves_numbers__imp_jamaican_cash_price",
+					"label": "Sterling cash price in Jamaica (*imp)"
+				},
+				{
+					"colID":"voyage_slaves_numbers__imp_mortality_during_voyage",
+					"label": "Captive deaths during crossing"
+				},
+				{
+					"colID":"voyage_slaves_numbers__imp_mortality_ratio",
+					"label": "Percentage of captives who died during crossing (*imp)"
+				}
+			]
+		},
+		{
+			"label": "Dates",
+			"children": [
+				{
+					"colID": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+					"label": "Year arrived with captives"
+				},
+				{
+					"colID": "voyage_dates__length_middle_passage_days",
+					"label": "Duration of captives' crossing (in days)"
+				},
+				{
+					"colID": "voyage_dates__imp_length_home_to_disembark",
+					"label": "Voyage duration, homepart to disembarkation (in days)"
+				},
+				{
+					"colID": "voyage_dates__voyage_began",
+					"label": "Date vessel's voyage began"
+				},
+				{
+					"colID": "voyage_dates__slave_purchase_began",
+					"label": "Date captive embarkation began"
+				},
+				{
+					"colID": "voyage_dates__imp_arrival_at_port_of_dis",
+					"label": "Date vessel arrived with captives"
+				},
+				{
+					"colID": "voyage_dates__departure_last_place_of_landing",
+					"label": "Date departed for homeport"
+				},
+				{
+					"colID": "voyage_dates__voyage_completed",
+					"label": "Date vessel arrived at homeport"
+				}
+			]
+		},
+		{
+			"label": "Outcome",
+			"children": [
+				{
+					"colID":"voyage_outcome__particular_outcome__name",
+					"label": "Particular outcome of voyage"
+				},
+				{
+					"colID":"voyage_outcome__outcome_slaves__name",
+					"label": "Outcome of voyage for captives"
+				},
+				{
+					"colID":"voyage_outcome__vessel_captured_outcome__name",
+					"label": "Outcome of voyage if ship captured"
+				},
+				{
+					"colID":"voyage_outcome__outcome_owner__name",
+					"label": "Outcome of voyage for owner"
+				},
+				{
+					"colID":"voyage_outcome__resistance__name",
+					"label": "Resistance"
+				}
+			]
+		},
+		{
+			"label": "Documentary Sources",
+			"children": [
+				{
+					"colID": "voyage_sources",
+					"label": "Source(s)"
+				}
+			]
+		}
+	]
+}

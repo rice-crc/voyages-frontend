@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { AgGridReact } from "ag-grid-react";
-import TABLE_FLAT from "@/utils/voyage_table_cell_structure__updated.json";
+import TABLE_FLAT from "@/utils/voyage_table_cell_structure__updated21June.json";
 import { fetchVoyageOptionsPagination } from "@/fetchAPI/fetchVoyageOptionsPagination";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -16,22 +16,37 @@ import { generateRowsData } from "@/utils/generateRowsData";
 import {
   ColumnDef,
   StateRowData,
+  VoyageOptionsGropProps,
   VoyageTableCellStructure,
 } from "@/share/InterfaceTypesTable";
 import { setColumnDefs, setRowData, setData } from "@/redux/getTableSlice";
-import CustomTooltip from "../../fcComponets/CustomTooltip";
-import { ICellRendererParams } from "ag-grid-community";
+import { ICellRendererParams, ITooltipParams } from "ag-grid-community";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import "@/style/table.scss";
 import { useWindowSize } from "@react-hook/window-size";
-import { Pagination, Skeleton } from "@mui/material";
-import { CustomTablePagination } from "@/styleMUI";
+import { Pagination, Skeleton, TablePagination } from "@mui/material";
+import {
+  AutoCompleteInitialState,
+  RangeSliderState,
+  currentPageInitialState,
+} from "@/share/InterfaceTypes";
 
 const Table: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { columnDefs, data, rowData } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
+  );
+  const {
+    rangeSliderMinMax: rang,
+    varName,
+    isChange,
+  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+  const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
+    (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
+  );
+  const { currentPage } = useSelector(
+    (state: RootState) => state.getScrollPage as currentPageInitialState
   );
   const [width, height] = useWindowSize();
   const maxWidth =
@@ -60,6 +75,27 @@ const Table: React.FC = () => {
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
 
+  const saveDataToLocalStorage = (data: VoyageOptionsGropProps[]) => {
+    localStorage.setItem("data", JSON.stringify(data));
+  };
+
+  const fetchDataFromLocalStorage = () => {
+    const storedData = localStorage.getItem("data");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      console.log("parsedData", parsedData);
+      // Do something with the retrieved data
+    }
+  };
+
+  useEffect(() => {
+    saveDataToLocalStorage(data);
+  }, [data]);
+
+  useEffect(() => {
+    fetchDataFromLocalStorage();
+  }, []);
+
   useEffect(() => {
     let subscribed = true;
     const fetchData = async () => {
@@ -67,13 +103,25 @@ const Table: React.FC = () => {
       const newFormData: FormData = new FormData();
       newFormData.append("results_page", String(page + 1));
       newFormData.append("results_page", String(page + 1));
+      if (isChange && rang[varName] && currentPage === 5) {
+        newFormData.append(varName, String(rang[varName][0]));
+        newFormData.append(varName, String(rang[varName][1]));
+      }
+
+      if (autoCompleteValue && varName && isChangeAuto) {
+        for (let i = 0; i < autoLabelName.length; i++) {
+          const label = autoLabelName[i];
+          newFormData.append(varName, label);
+        }
+      }
       try {
         const response = await dispatch(
           fetchVoyageOptionsPagination(newFormData)
         ).unwrap();
         if (subscribed) {
-          setTotalResultsCount(response.headers.total_results_count);
+          setTotalResultsCount(Number(response.headers.total_results_count));
           dispatch(setData(response.data));
+          saveDataToLocalStorage(response.data);
         }
       } catch (error) {
         console.log("error", error);
@@ -86,7 +134,18 @@ const Table: React.FC = () => {
     return () => {
       subscribed = false;
     };
-  }, [dispatch, rowsPerPage, page]);
+  }, [
+    dispatch,
+    rowsPerPage,
+    page,
+    currentPage,
+    varName,
+    rang,
+    isChange,
+    autoCompleteValue,
+    autoLabelName,
+    isChangeAuto,
+  ]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -98,27 +157,42 @@ const Table: React.FC = () => {
         const columnDef = {
           headerName: value.header_label,
           field: value.colID,
+          sortable: true,
           sortingOrder: value.order_by,
+          headerTooltip: value.header_label,
+          resizable: true,
+          filter: true,
           cellRenderer: (params: ICellRendererParams) => {
             const values = params.value;
             if (Array.isArray(values)) {
               const style: CSSProperties = {
                 backgroundColor: "#e5e5e5",
                 borderRadius: "8px",
-                padding: "4px 6px",
-                margin: "5px",
-                whiteSpace: "pre-line",
+                padding: "0px 10px 5px 10px",
+                height: "25px",
+                whiteSpace: "nowrap",
+                width: "160px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                margin: "5px 0",
+                textAlign: "center",
+                lineHeight: "25px",
+                fontSize: "13px",
               };
               const renderedValues = values.map(
                 (value: string, index: number) => (
-                  <span key={`${index}-${value}`} style={style}>
-                    {`${value}\n`}
+                  <span key={`${index}-${value}`}>
+                    <div style={style}>{`${value}\n`}</div>
                   </span>
                 )
               );
               return <div>{renderedValues}</div>;
             } else {
-              return values;
+              return (
+                <div className="div-value">
+                  <div className="value">{values}</div>
+                </div>
+              );
             }
           },
           valueGetter: (params: ICellRendererParams) => {
@@ -156,10 +230,6 @@ const Table: React.FC = () => {
               return result;
             }
           },
-          sortable: true,
-          resizable: true,
-          filter: true,
-          tooltipComponent: CustomTooltip,
         };
         columns.push(columnDef);
       });
@@ -170,14 +240,12 @@ const Table: React.FC = () => {
 
   const defaultColDef = useMemo(() => {
     return {
-      enableRowGroup: true,
-      enablePivot: true,
-      enableValue: true,
       sortable: true,
       resizable: true,
       filter: true,
-      flex: 1,
-      minWidth: 150,
+      initialWidth: 200,
+      wrapHeaderText: true,
+      autoHeaderHeight: true,
     };
   }, []);
 
@@ -189,7 +257,7 @@ const Table: React.FC = () => {
 
   const getRowRowStyle = () => {
     return {
-      fontSize: 14,
+      fontSize: 13,
       fontWeight: 500,
       color: "#000",
       fontFamily: `Roboto`,
@@ -199,8 +267,8 @@ const Table: React.FC = () => {
 
   const getRowHeight = (params: any) => {
     const data = params.data;
-    const lineHeight = 42;
-    let numLines = 1;
+    const lineHeight = 32.5;
+    let numLines = 1.2;
     Object.values(data).forEach((value) => {
       if (Array.isArray(value)) {
         if (value.length > numLines) {
@@ -227,7 +295,7 @@ const Table: React.FC = () => {
 
   const handleChangeRowsPerPage = useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setRowsPerPage(parseInt(event.target.value, 10));
+      setRowsPerPage(parseInt(event.target.value));
       setPage(0);
     },
     [page, rowsPerPage]
@@ -253,15 +321,16 @@ const Table: React.FC = () => {
             className="ag-theme-alpine"
             style={{ height: "calc(100% - 25px)" }}
           >
-            <CustomTablePagination
-              count={totalResultsCount}
-              page={page}
-              onPageChange={handleChangePage}
-              rowsPerPageOptions={[10, 15, 20, 25]}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
             <div style={style}>
+              <TablePagination
+                component="div"
+                count={totalResultsCount}
+                page={page}
+                onPageChange={handleChangePage}
+                rowsPerPageOptions={[10, 15, 20, 25]}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
               <AgGridReact
                 ref={gridRef}
                 rowData={rowData}
@@ -273,6 +342,8 @@ const Table: React.FC = () => {
                 defaultColDef={defaultColDef}
                 components={components}
                 getRowStyle={getRowRowStyle}
+                tooltipShowDelay={0}
+                tooltipHideDelay={1000}
               />
               <div className="pagination-div">
                 <Pagination

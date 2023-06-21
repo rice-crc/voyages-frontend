@@ -167,7 +167,7 @@ function Scatter() {
     []
   );
 
-  const handleChangeVoyageOption = useCallback(
+  const handleChangeScatterOption = useCallback(
     (event: SelectChangeEvent<string>, name: string) => {
       const value = event.target.value;
       setScatterOptions((prevOptions) => ({
@@ -212,8 +212,8 @@ function Scatter() {
         selectedY={scatterSelectedY}
         chips={chips}
         selectedOptions={scatterOptions}
-        handleChange={handleChangeVoyageOption}
-        handleChangeChipYSelected={handleChangeScatterChipYSelected}
+        handleChange={handleChangeScatterOption}
+        handleChangeMultipleYSelected={handleChangeScatterChipYSelected}
         maxWidth={maxWidth}
         XFieldText="X Field"
         YFieldText="Multi-Selector Y-Feild"
@@ -223,7 +223,7 @@ function Scatter() {
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
         showAlert={showAlert}
-        scatterOptions={scatterOptions}
+        aggregatioOptions={scatterOptions}
         optionFlat={optionFlat}
       />
       <Grid>

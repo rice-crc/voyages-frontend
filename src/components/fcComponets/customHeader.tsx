@@ -116,7 +116,6 @@ const CustomHeader: React.FC<Props> = (props) => {
       </div>
     );
   }
-  //
 
   let sort: React.ReactNode = null;
   if (enableSorting) {

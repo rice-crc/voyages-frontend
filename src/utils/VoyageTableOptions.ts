@@ -1,5 +1,5 @@
 
-import TABLE_FLAT from "@/utils/voyage_table_cell_structure__updated.json";
+import TABLE_FLAT from "@/utils/voyage_table_cell_structure__updated21June.json";
 export const VoyageTableOptions = (): Record<string, any> => {
 
     const columnObject: Record<string, any> = {};

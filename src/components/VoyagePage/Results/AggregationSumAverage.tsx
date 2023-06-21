@@ -15,13 +15,18 @@ interface AggregationSumAverageProps {
   aggregation: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
   optionFlat: Options;
-  scatterOptions: VoyagesOptionProps;
+  aggregatioOptions: VoyagesOptionProps;
 }
 export const AggregationSumAverage: FunctionComponent<
   AggregationSumAverageProps
 > = (props) => {
-  const { showAlert, aggregation, optionFlat, handleChange, scatterOptions } =
-    props;
+  const {
+    showAlert,
+    aggregation,
+    optionFlat,
+    handleChange,
+    aggregatioOptions,
+  } = props;
 
   const alertBar = () => {
     if (showAlert) {
@@ -33,8 +38,8 @@ export const AggregationSumAverage: FunctionComponent<
           </AlertTitle>
           <AlertTitle>
             The {aggregation} of{" "}
-            {optionFlat[scatterOptions.x_vars]?.label || ""},{" "}
-            {optionFlat[scatterOptions.y_vars]?.label || ""} Pie Graph
+            {optionFlat[aggregatioOptions.x_vars]?.label || ""},{" "}
+            {optionFlat[aggregatioOptions.y_vars]?.label || ""} Pie Graph
           </AlertTitle>
         </Alert>
       );

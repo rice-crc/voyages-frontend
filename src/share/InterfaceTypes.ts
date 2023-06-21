@@ -120,15 +120,35 @@ export interface plotXYProps {
 
 export interface PlotXYVar {
     var_name: string
-    type: string
+    type?: string
+    label: string
+}
+export interface PlotPieProps {
+    x_vars: PlotPIEX[]
+    y_vars: PlotPIEY[]
+}
+
+export interface PlotPIEX {
+    var_name: string
     label: string
 }
 
+export interface PlotPIEY {
+    var_name: string
+    label: string
+}
 export interface BargraphXYVar {
     var_name: string
     type: string
     label: string
 }
+
+export interface PiegraphXYVar {
+    var_name: string
+    type: string
+    label: string
+}
+
 export interface ScatterOptionsXYResponse {
     [key: string]: [];
 }
@@ -136,6 +156,7 @@ export interface VoyagesOptionProps {
     x_vars: string;
     y_vars: string;
 }
+
 
 export interface AutocompleteBoxProps {
     value?: AutoCompleteOption[];

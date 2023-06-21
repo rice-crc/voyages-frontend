@@ -14,6 +14,7 @@ export const generateRowsData = (
             const varArray = varName.split("__");
 
             const output = traverseData(data, varArray);
+
             finalRowObj[varName] = output;
         });
         finalRowArr.push(finalRowObj)

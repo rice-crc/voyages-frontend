@@ -13,6 +13,7 @@ import "@/style/page.scss";
 import Scatter from "./Results/Scatter";
 import BarGraph from "./Results/BarGraph";
 import Table from "./Results/Table";
+import PieGraph from "./Results/PieGraph";
 
 interface ScrollPageProps {
   isFilter: boolean;
@@ -128,7 +129,11 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
       {currentPage === 1 && <VoyagesPage />}
       {currentPage === 2 && <Scatter />}
       {currentPage === 3 && <BarGraph />}
-      {currentPage === 4 && <h1 style={{ marginTop: 50 }}>PIE</h1>}
+      {currentPage === 4 && (
+        <h1 style={{ marginTop: 50 }}>
+          <PieGraph />
+        </h1>
+      )}
       {currentPage === 5 && (
         <h1 style={{ marginTop: 50 }}>
           <Table />

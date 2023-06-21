@@ -8,16 +8,16 @@ import {
   Chip,
   OutlinedInput,
 } from "@mui/material";
-import { FunctionComponent, ReactNode } from "react";
+import { ChangeEvent, FunctionComponent, ReactNode } from "react";
 import { PlotXYVar, VoyagesOptionProps } from "@/share/InterfaceTypes";
 
 interface SelectDropdownScatterProps {
   selectedX: PlotXYVar[];
   selectedY: PlotXYVar[];
-  chips: string[];
+  chips?: string[];
   selectedOptions: VoyagesOptionProps;
   handleChange: (event: SelectChangeEvent<string>, name: string) => void;
-  handleChangeChipYSelected: (
+  handleChangeMultipleYSelected: (
     event: SelectChangeEvent<string[]>,
     name: string
   ) => void;
@@ -25,15 +25,17 @@ interface SelectDropdownScatterProps {
   XFieldText?: string;
   YFieldText?: string;
   optionsFlatY: PlotXYVar[];
+  graphType?: string;
 }
 
 export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
   selectedX,
   selectedY,
+  graphType,
   chips,
   selectedOptions,
   handleChange,
-  handleChangeChipYSelected,
+  handleChangeMultipleYSelected,
   maxWidth,
   XFieldText,
   YFieldText,
@@ -80,7 +82,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
             labelId="x-field-label"
             id="x-field-select"
             value={selectedOptions.x_vars}
-            label="X Field"
+            label={XFieldText}
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, "x_vars");
             }}
@@ -98,49 +100,91 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
           </Select>
         </FormControl>
       </Box>
-      <Box sx={{ maxWidth, my: 2 }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-multiple-chip-label">{YFieldText}</InputLabel>
-          <Select
-            MenuProps={MenuProps}
-            labelId="demo-multiple-chip-label"
-            id="demo-multiple-chip"
-            multiple
-            label={YFieldText}
-            value={chips}
-            onChange={(event: SelectChangeEvent<string[]>) => {
-              handleChangeChipYSelected(event, "y_vars");
-            }}
-            input={
-              <OutlinedInput id="select-multiple-chip" label={YFieldText} />
-            }
-            renderValue={(value): ReactNode => (
-              <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-                {value.map((option: string, index: number) => (
-                  <Chip
-                    style={{
-                      margin: 2,
-                      border: "1px solid #54bfb6",
-                    }}
-                    key={`${option}-${index}`}
-                    label={optionsFlatY[index].label}
-                  />
-                ))}
-              </Box>
-            )}
-          >
-            {selectedY.map((option: PlotXYVar, index: number) => (
-              <MenuItem
-                key={`${option.label}-${index}`}
-                value={option.var_name}
-                disabled={isDisabledY(option)}
-              >
-                {option.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
+      {graphType !== "PIE" ? (
+        <Box sx={{ maxWidth, my: 2 }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-multiple-chip-label">{YFieldText}</InputLabel>
+            <Select
+              MenuProps={MenuProps}
+              labelId="demo-multiple-chip-label"
+              id="demo-multiple-chip"
+              multiple
+              label={YFieldText}
+              value={chips}
+              name="y_vars"
+              onChange={(event: SelectChangeEvent<string[]>) => {
+                handleChangeMultipleYSelected(event, "y_vars");
+              }}
+              input={
+                <OutlinedInput id="select-multiple-chip" label={YFieldText} />
+              }
+              renderValue={(value): ReactNode => (
+                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                  {value.map((option: string, index: number) => (
+                    <Chip
+                      style={{
+                        margin: 2,
+                        border: "1px solid #54bfb6",
+                      }}
+                      key={`${option}-${index}`}
+                      label={optionsFlatY[index].label}
+                    />
+                  ))}
+                </Box>
+              )}
+            >
+              {selectedY.map((option: PlotXYVar, index: number) => (
+                <MenuItem
+                  key={`${option.label}-${index}`}
+                  value={option.var_name}
+                  disabled={isDisabledY(option)}
+                >
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+      ) : (
+        <Box sx={{ maxWidth, my: 2 }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">{XFieldText}</InputLabel>
+            <Select
+              sx={{
+                height: 42,
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    height: 380,
+                    "& .MuiMenuItem-root": {
+                      padding: 2,
+                    },
+                  },
+                },
+              }}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={selectedOptions.y_vars}
+              label={XFieldText}
+              onChange={(event: SelectChangeEvent<string>) => {
+                handleChange(event, "y_vars");
+              }}
+              name="y_vars"
+            >
+              {selectedY.map((option: PlotXYVar, index: number) => (
+                <MenuItem
+                  key={`${option.label}-${index}`}
+                  value={option.var_name}
+                  disabled={isDisabledX(option)}
+                >
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+      )}
     </div>
   );
 };

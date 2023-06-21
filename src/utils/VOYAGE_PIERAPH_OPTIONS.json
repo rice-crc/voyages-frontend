@@ -1,0 +1,122 @@
+{
+	"x_vars": [
+		{
+			"var_name": "voyage_itinerary__region_of_return__geo_location__name",
+			"label": "Region of return (RETRNREG)"
+		},
+		{
+			"var_name": "voyage_itinerary__place_voyage_ended__geo_location__name",
+			"label": "Place at which voyage ended (PORTRET)"
+		},
+		{
+			"var_name": "voyage_itinerary__imp_broad_region_slave_dis__geo_location__name",
+			"label": "Imputed broad region of slave disembarkation (MJSELIMP1)"
+		},
+		{
+			"var_name": "voyage_itinerary__imp_principal_region_slave_dis__geo_location__name",
+			"label": "Imputed principal region of slave disembarkation (MJSELIMP)"
+		},
+		{
+			"var_name": "voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+			"label": "Imputed principal port of slave disembarkation (MJSLPTIMP)"
+		},
+		{
+			"var_name": "voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
+			"label": "Imputed principal region of slave purchase (MAJBYIMP)"
+		},
+		{
+			"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+			"label": "Imputed principal place of slave purchase (MJBYPTIMP)"
+		},
+		{
+			"var_name": "voyage_itinerary__imp_region_voyage_begin__geo_location__name",
+			"label": "Imputed region where voyage began (DEPTREGIMP)"
+		},
+		{
+			"var_name": "voyage_itinerary__imp_port_voyage_begin__geo_location__name",
+			"label": "Imputed port where voyage began (PTDEPIMP)"
+		},
+		{
+			"var_name": "voyage_outcome__vessel_captured_outcome__name",
+			"label": "Vessel Captured Outcome"
+		},
+		{
+			"var_name": "voyage_outcome__resistance__name",
+			"label": "Resistance"
+		},
+		{
+			"var_name": "voyage_outcome__outcome_slaves__name",
+			"label": "Slaves Outcome"
+		},
+		{
+			"var_name": "voyage_outcome__outcome_owner__name",
+			"label": "Owner Outcome"
+		},
+		{
+			"var_name": "voyage_outcome__particular_outcome__name",
+			"label": "Particular Outcome"
+		},
+		{
+			"var_name": "voyage_ship__rig_of_vessel__name",
+			"label": "Rig of Vessel"
+		},
+		{
+			"var_name": "voyage_ship__imputed_nationality__name",
+			"label": "Imputed Ship Nationality"
+		}
+	],
+	"y_vars": [
+		{
+			"var_name": "voyage_ship__tonnage_mod",
+			"label": "Tonnage standardized on British measured tons 1773-1870"
+		},
+		{
+			"var_name": "voyage_dates__imp_length_home_to_disembark",
+			"label": "Voyage length from home port to disembarkation (days) (VOY1IMP)"
+		},
+		{
+			"var_name": "voyage_dates__length_middle_passage_days",
+			"label": "Length of Middle Passage in (days) (VOYAGE)"
+		},
+		{
+			"var_name": "voyage_crew__crew_first_landing",
+			"label": "Crew at first landing of slaves"
+		},
+		{
+			"var_name": "voyage_crew__crew_voyage_outset",
+			"label": "Crew at voyage outset"
+		},
+		{
+			"var_name": "voyage_slaves_numbers__percentage_male",
+			"label": "Percentage male on voyage (MALRAT7)"
+		},
+		{
+			"var_name": "voyage_slaves_numbers__percentage_child",
+			"label": "Percentage children on voyage (CHILRAT7)"
+		},
+		{
+			"var_name": "voyage_slaves_numbers__percentage_girl",
+			"label": "Percentage girl on voyage (GIRLRAT7)"
+		},
+		{
+			"var_name": "voyage_slaves_numbers__percentage_boy",
+			"label": "Percentage boy on voyage (BOYRAT7)"
+		},
+		{
+			"var_name": "voyage_slaves_numbers__percentage_women",
+			"label": "Percentage women on voyage (WOMRAT7)"
+		},
+		{
+			"var_name": "voyage_slaves_numbers__percentage_men",
+			"label": "Percentage men on voyage (MENRAT7)"
+		},
+		{
+			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+			"label": "Total slaves disembarked imputed * (SLAMIMP)"
+		},
+		{
+			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+			"label": "Total slaves embarked imputed * (slaximp)"
+		}
+	]
+}
