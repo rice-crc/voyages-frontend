@@ -1,7 +1,7 @@
 import { useState, useEffect, ChangeEvent, useCallback, useMemo } from "react";
 import Plot from "react-plotly.js";
 import VOYAGE_PIEGRAPH_OPTIONS from "@/utils/VOYAGE_PIERAPH_OPTIONS.json";
-import { Grid, SelectChangeEvent } from "@mui/material";
+import { Grid, SelectChangeEvent, Skeleton } from "@mui/material";
 import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,8 +24,8 @@ function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
   const {
     data: options_flat,
-    isLoading,
     isSuccess,
+    isLoading,
   } = useGetOptionsQuery(datas);
   const dispatch: AppDispatch = useDispatch();
   const {
@@ -47,6 +47,7 @@ function PieGraph() {
   const [pieGraphSelectedY, setSelectedY] = useState<PlotPIEY[]>([]);
   const [plotX, setPlotX] = useState<any[]>([]);
   const [plotY, setPlotY] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const [pieGraphOptions, setPieOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_PIEGRAPH_OPTIONS.x_vars[0].var_name,
@@ -73,6 +74,7 @@ function PieGraph() {
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
     const fetchData = async () => {
+      setLoading(true);
       const newFormData: FormData = new FormData();
       newFormData.append("groupby_by", pieGraphOptions.x_vars);
       newFormData.append("groupby_cols", pieGraphOptions.y_vars);
@@ -111,6 +113,9 @@ function PieGraph() {
         }
       } catch (error) {
         console.log("error", error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -142,18 +147,12 @@ function PieGraph() {
   const handleChangeSingleSelect = useMemo(() => {
     return (event: SelectChangeEvent<string>, name: string) => {
       const value = event.target.value;
-      console.log("name", name);
-      console.log("value", value);
       setPieOptions((prevVoygOption) => ({
         ...prevVoygOption,
         [name]: value,
       }));
     };
   }, [pieGraphOptions]);
-
-  if (isLoading) {
-    return <div className="spinner"></div>;
-  }
 
   const maxWidth =
     width > 1024
@@ -165,6 +164,13 @@ function PieGraph() {
       : width < 768
       ? width * 0.92
       : width * 0.95;
+  if (isLoading) {
+    <div className="Skeleton-loading">
+      <Skeleton />
+      <Skeleton animation="wave" />
+      <Skeleton animation={false} />
+    </div>;
+  }
 
   return (
     <div>
@@ -202,25 +208,25 @@ function PieGraph() {
           ]}
           layout={{
             width: maxWidth,
-            height: height * 0.45,
+            height: height * 0.5,
             title: `The ${aggregation} of ${
               optionFlat[pieGraphOptions.x_vars]?.label || ""
             } vs <br> ${
               optionFlat[pieGraphOptions.y_vars]?.label || ""
             } Pie Graph`,
 
-            // xaxis: {
-            //   title: {
-            //     text: optionFlat[pieGraphOptions.x_vars]?.label || "",
-            //   },
-            //   fixedrange: true,
-            // },
-            // yaxis: {
-            //   title: {
-            //     text: optionFlat[pieGraphOptions.y_vars]?.label || "",
-            //   },
-            //   fixedrange: true,
-            // },
+            xaxis: {
+              title: {
+                text: optionFlat[pieGraphOptions.x_vars]?.label || "",
+              },
+              fixedrange: true,
+            },
+            yaxis: {
+              title: {
+                text: optionFlat[pieGraphOptions.y_vars]?.label || "",
+              },
+              fixedrange: true,
+            },
           }}
           config={{ responsive: true }}
         />

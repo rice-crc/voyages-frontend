@@ -37,12 +37,10 @@ const Table: React.FC = () => {
   const { columnDefs, data, rowData } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
-  const {
-    rangeSliderMinMax: rang,
-    varName,
-    isChange,
-  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
-  const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
+  const { rangeSliderMinMax: rang, varName } = useSelector(
+    (state: RootState) => state.rangeSlider as RangeSliderState
+  );
+  const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
   const { currentPage } = useSelector(
@@ -103,12 +101,12 @@ const Table: React.FC = () => {
       const newFormData: FormData = new FormData();
       newFormData.append("results_page", String(page + 1));
       newFormData.append("results_page", String(page + 1));
-      if (isChange && rang[varName] && currentPage === 5) {
+      if (rang[varName] && currentPage === 5) {
         newFormData.append(varName, String(rang[varName][0]));
         newFormData.append(varName, String(rang[varName][1]));
       }
 
-      if (autoCompleteValue && varName && isChangeAuto) {
+      if (autoCompleteValue && varName) {
         for (let i = 0; i < autoLabelName.length; i++) {
           const label = autoLabelName[i];
           newFormData.append(varName, label);
@@ -141,10 +139,8 @@ const Table: React.FC = () => {
     currentPage,
     varName,
     rang,
-    isChange,
     autoCompleteValue,
     autoLabelName,
-    isChangeAuto,
   ]);
 
   useEffect(() => {

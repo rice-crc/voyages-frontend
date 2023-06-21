@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, ChangeEvent, useCallback } from "react";
 import Plot from "react-plotly.js";
 import { Data } from "plotly.js";
 import VOYAGE_SCATTER_OPTIONS from "@/utils/VOYAGE_SCATTER_OPTIONS.json";
-import { Grid, SelectChangeEvent } from "@mui/material";
+import { Grid, SelectChangeEvent, Skeleton } from "@mui/material";
 import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,8 +27,8 @@ function Scatter() {
   );
   const {
     data: options_flat,
-    isLoading,
     isSuccess,
+    isLoading,
   } = useGetOptionsQuery(datas);
   const dispatch: AppDispatch = useDispatch();
   const {
@@ -138,7 +138,6 @@ function Scatter() {
         console.log("error", error);
       }
     };
-
     fetchData();
     return () => {
       subscribed = false;
@@ -190,10 +189,6 @@ function Scatter() {
     []
   );
 
-  if (isLoading) {
-    return <div className="spinner"></div>;
-  }
-
   const maxWidth =
     width > 1024
       ? width > 1440
@@ -204,6 +199,14 @@ function Scatter() {
       : width < 768
       ? width * 0.92
       : width * 0.95;
+
+  if (isLoading) {
+    <div className="Skeleton-loading">
+      <Skeleton />
+      <Skeleton animation="wave" />
+      <Skeleton animation={false} />
+    </div>;
+  }
 
   return (
     <div>

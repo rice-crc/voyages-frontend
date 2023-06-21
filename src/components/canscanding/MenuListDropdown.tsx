@@ -35,7 +35,9 @@ export function MenuListDropdown() {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
     (state: RootState) => state.optionFlatMenu.value
   );
-
+  const { currentPage } = useSelector(
+    (state: RootState) => state.getScrollPage as currentPageInitialState
+  );
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
@@ -49,6 +51,7 @@ export function MenuListDropdown() {
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
   ) => {
     const { value, type, label } = event.currentTarget.dataset;
+    event.stopPropagation();
     if (value && type && label) {
       dispatch(setKeyValue(value));
       setType(type);
@@ -58,11 +61,15 @@ export function MenuListDropdown() {
   };
 
   const handleCloseDialog = (event: any) => {
-    const value = event.cancelable;
-    dispatch(setIsChange(!value));
-    dispatch(setIsChangeAuto(!value));
-    dispatch(setIsOpenDialog(false));
     event.stopPropagation();
+    dispatch(setIsOpenDialog(false));
+    const value = event.cancelable;
+    // dispatch(setIsChange(!value));
+    // dispatch(setIsChangeAuto(!value));
+    if (currentPage !== 5) {
+      dispatch(setIsChange(!value));
+      dispatch(setIsChangeAuto(!value));
+    }
   };
 
   const renderDropdownMenu = (children?: ChildrenFilter[]) =>

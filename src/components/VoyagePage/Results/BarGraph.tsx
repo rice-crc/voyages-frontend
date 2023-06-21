@@ -2,7 +2,7 @@ import { useState, useEffect, ChangeEvent, useCallback } from "react";
 import Plot from "react-plotly.js";
 import { Data } from "plotly.js";
 import VOYAGE_BARGRAPH_OPTIONS from "@/utils/VOYAGE_BARGRAPH_OPTIONS.json";
-import { Grid, SelectChangeEvent } from "@mui/material";
+import { Grid, SelectChangeEvent, Skeleton } from "@mui/material";
 import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,8 +25,8 @@ function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
   const {
     data: options_flat,
-    isLoading,
     isSuccess,
+    isLoading,
   } = useGetOptionsQuery(datas);
   const dispatch: AppDispatch = useDispatch();
   const {
@@ -180,10 +180,6 @@ function BarGraph() {
     []
   );
 
-  if (isLoading) {
-    return <div className="spinner"></div>;
-  }
-
   const maxWidth =
     width > 1024
       ? width > 1440
@@ -194,6 +190,13 @@ function BarGraph() {
       : width < 768
       ? width * 0.92
       : width * 0.95;
+  if (isLoading) {
+    <div className="Skeleton-loading">
+      <Skeleton />
+      <Skeleton animation="wave" />
+      <Skeleton animation={false} />
+    </div>;
+  }
 
   return (
     <div>
