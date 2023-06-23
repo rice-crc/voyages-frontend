@@ -1,7 +1,17 @@
-import * as React from "react";
+import React, {
+  useRef,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  Ref,
+  RefObject,
+  MouseEvent,
+} from "react";
 import { Menu, MenuItem } from "@mui/material";
 import { MenuItemProps } from "@mui/material/MenuItem";
 import ArrowRight from "@mui/icons-material/ArrowRight";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface NestedMenuItemProps extends Omit<MenuItemProps, "ref"> {
   parentMenuOpen?: boolean;
@@ -12,6 +22,9 @@ interface NestedMenuItemProps extends Omit<MenuItemProps, "ref"> {
   customTheme?: any;
   rightAnchored?: boolean;
   menu?: React.ReactElement[];
+  onClickMenu?: (
+    event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
+  ) => void;
 }
 
 const NestedMenuColumnItem = React.forwardRef<
@@ -28,13 +41,14 @@ const NestedMenuColumnItem = React.forwardRef<
     className,
     tabIndex: tabIndexProp,
     rightAnchored,
+    onClickMenu,
     ...menuItemProps
   } = props;
 
   const menuItemRef = React.useRef<HTMLLIElement | null>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const menuContainerRef = React.useRef<HTMLDivElement>(null);
-
+  const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [isSubMenuOpen, setIsSubMenuOpen] = React.useState(false);
 
   const handleMouseEnter = (event: React.MouseEvent<HTMLLIElement>) => {
@@ -105,6 +119,7 @@ const NestedMenuColumnItem = React.forwardRef<
   if (!props.disabled) {
     tabIndex = tabIndexProp !== undefined ? tabIndexProp : -1;
   }
+  console.log("isFilter", isFilter);
 
   return (
     <MenuItem
@@ -122,6 +137,7 @@ const NestedMenuColumnItem = React.forwardRef<
       {label}
       <div style={{ flexGrow: 1 }} />
       {rightIcon}
+      {/* isFilter &&  */}
       <Menu
         hideBackdrop
         style={{ pointerEvents: "none" }}

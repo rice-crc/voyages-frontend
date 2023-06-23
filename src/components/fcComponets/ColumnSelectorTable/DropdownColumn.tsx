@@ -19,6 +19,7 @@ interface DropdownProps {
   keepOpen?: boolean;
   isOpen?: boolean;
   onOpen?: (event: MouseEvent<Element, MouseEvent> | null) => void;
+  onClick?: () => void;
 }
 
 export const DropdownColumn = forwardRef<HTMLDivElement, DropdownProps>(
@@ -29,7 +30,7 @@ export const DropdownColumn = forwardRef<HTMLDivElement, DropdownProps>(
     const [isInternalOpen, setInternalOpen] = useState<HTMLElement | null>(
       null
     );
-
+    console.log("isOpen==>", controlledIsOpen);
     const isOpen = controlledIsOpen || isInternalOpen !== null;
     const anchorRef = useRef<HTMLDivElement | null>(null);
 

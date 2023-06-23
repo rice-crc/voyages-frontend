@@ -15,17 +15,10 @@ import BarGraph from "./Results/BarGraph";
 import Table from "./Results/Table";
 import PieGraph from "./Results/PieGraph";
 
-interface ScrollPageProps {
-  isFilter: boolean;
-  setIsFilter: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const ScrollPage: FunctionComponent<ScrollPageProps> = ({
-  isFilter,
-  setIsFilter,
-}) => {
+const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
+  const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [isShowScrollTopButton, setShowScrollTopButton] = useState(false);
   const isSmallScreen = useMediaQuery(theme.breakpoints.up("md"));
   const { currentPage, isOpenDialog } = useSelector(
@@ -130,17 +123,17 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
       {currentPage === 2 && <Scatter />}
       {currentPage === 3 && <BarGraph />}
       {currentPage === 4 && (
-        <h1 style={{ marginTop: 50 }}>
+        <h1 style={{ marginTop: 40 }}>
           <PieGraph />
         </h1>
       )}
       {currentPage === 5 && (
-        <h1 style={{ marginTop: 50 }}>
+        <h1 style={{ marginTop: 40 }}>
           <Table />
         </h1>
       )}
-      {currentPage === 6 && <h1 style={{ marginTop: 50 }}>PIVOT</h1>}
-      {currentPage === 7 && <h1 style={{ marginTop: 50 }}>MAP</h1>}
+      {currentPage === 6 && <h1 style={{ marginTop: 40 }}>PIVOT</h1>}
+      {currentPage === 7 && <h1 style={{ marginTop: 40 }}>MAP</h1>}
     </motion.div>
   );
 
@@ -148,12 +141,12 @@ const ScrollPage: FunctionComponent<ScrollPageProps> = ({
     <div
       style={{
         position: "relative",
-        top: !isSmallScreen ? 120 : isFilter ? 230 : 175,
+        top: !isSmallScreen ? 100 : isFilter ? 230 : 175,
         padding: currentPage !== 1 ? "0 20px" : "",
       }}
       id="content-container"
     >
-      <Hidden mdDown>
+      <Hidden>
         <div className="navbar-wrapper">
           <nav className="nav-button">
             {pageList.map((page, index) => {

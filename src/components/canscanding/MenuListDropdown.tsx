@@ -30,6 +30,7 @@ import { PaperDraggable } from "./PaperDraggable";
 import { setIsChange, setKeyValue } from "@/redux/rangeSliderSlice";
 import { setIsChangeAuto } from "@/redux/getAutoCompleteSlice";
 import { setIsOpenDialog } from "@/redux/getScrollPageSlice";
+import { ArrowDropDown, ArrowRight } from "@mui/icons-material";
 
 export const MenuListDropdown = () => {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
@@ -44,8 +45,9 @@ export const MenuListDropdown = () => {
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as currentPageInitialState
   );
-
+  console.log("isOpenDialog-->", isOpenDialog);
   const dispatch: AppDispatch = useDispatch();
+  const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [label, setLabel] = useState<string>("");
   const [type, setType] = useState<string>("");
 
@@ -54,18 +56,20 @@ export const MenuListDropdown = () => {
   ) => {
     const { value, type, label } = event.currentTarget.dataset;
     event.stopPropagation();
+    setIsClickMenu(!isClickMenu);
     if (value && type && label) {
       dispatch(setKeyValue(value));
       setType(type);
       setLabel(label);
-      dispatch(setIsOpenDialog(!isOpenDialog));
+      dispatch(setIsOpenDialog(true));
     }
   };
 
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
     const value = event.cancelable;
-    dispatch(setIsOpenDialog(!isOpenDialog));
+    setIsClickMenu(!isClickMenu);
+    dispatch(setIsOpenDialog(false));
     if (currentPage !== 5) {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
@@ -130,6 +134,30 @@ export const MenuListDropdown = () => {
                   color: "#000",
                   textTransform: "none",
                 }}
+                endIcon={
+                  <span>
+                    <ArrowRight
+                      sx={{
+                        display: {
+                          xs: "flex",
+                          sm: "flex",
+                          md: "none",
+                        },
+                        fontSize: 16,
+                      }}
+                    />
+                    <ArrowDropDown
+                      sx={{
+                        display: {
+                          xs: "none",
+                          sm: "none",
+                          md: "flex",
+                        },
+                        fontSize: 16,
+                      }}
+                    />
+                  </span>
+                }
               >
                 {item.label}
               </Button>

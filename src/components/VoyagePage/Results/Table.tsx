@@ -31,7 +31,7 @@ import {
   RangeSliderState,
   currentPageInitialState,
 } from "@/share/InterfaceTypes";
-import ColumnSelector from "@/components/fcComponets/ColumnSelector";
+import ColumnSelector from "@/components/fcComponets/ColumnSelectorTable/ColumnSelector";
 
 const Table: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -56,11 +56,11 @@ const Table: React.FC = () => {
       : width === 1024
       ? width * 0.895
       : width < 768
-      ? width * 0.92
-      : width * 0.95;
+      ? width * 0.8
+      : width * 0.75;
   const [style, setStyle] = useState({
     width: maxWidth,
-    height: height * 0.6,
+    height: height * 0.62,
   });
 
   const containerStyle = useMemo(

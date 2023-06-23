@@ -4,7 +4,7 @@ import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button } from "@mui/m
 import MuiInput from "@mui/material/Input";
 import NestedMenuItem from "../components/canscanding/NestedMenuItem";
 import { SxProps } from "@mui/material";
-import NestedMenuColumnItem from "@/components/fcComponets/NestedMenuColumnItem";
+import NestedMenuColumnItem from "@/components/fcComponets/ColumnSelectorTable/NestedMenuColumnItem";
 
 const blue500 = "#42a5f5";
 export const MAINBGGREEN = "rgba(0, 128, 128, 0.5)"
@@ -107,7 +107,6 @@ export const StyleDialog: SxProps = {
 export const StyleDiver = styled(Divider)`
 border-width: 0.25px;
 border-color: rgb(0 0 0 / 50%);
-width: 480px;
 `;
 
 export const Tag = styled("div")(({ theme }) => ({

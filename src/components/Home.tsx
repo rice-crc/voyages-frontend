@@ -7,8 +7,8 @@ const HOME: React.FC = () => {
   return (
     <>
       <HeaderLogoSearch />
-      <HeaderNavBar isFilter={isFilter} setIsFilter={setIsFilter} />
-      <ScrollPage isFilter={isFilter} setIsFilter={setIsFilter} />
+      <HeaderNavBar />
+      <ScrollPage />
     </>
   );
 };
