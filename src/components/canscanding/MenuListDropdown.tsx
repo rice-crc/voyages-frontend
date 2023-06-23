@@ -31,7 +31,7 @@ import { setIsChange, setKeyValue } from "@/redux/rangeSliderSlice";
 import { setIsChangeAuto } from "@/redux/getAutoCompleteSlice";
 import { setIsOpenDialog } from "@/redux/getScrollPageSlice";
 
-export function MenuListDropdown() {
+export const MenuListDropdown = () => {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
     (state: RootState) => state.optionFlatMenu.value
   );
@@ -44,9 +44,11 @@ export function MenuListDropdown() {
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as currentPageInitialState
   );
+
   const dispatch: AppDispatch = useDispatch();
   const [label, setLabel] = useState<string>("");
   const [type, setType] = useState<string>("");
+
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
   ) => {
@@ -56,16 +58,14 @@ export function MenuListDropdown() {
       dispatch(setKeyValue(value));
       setType(type);
       setLabel(label);
-      dispatch(setIsOpenDialog(true));
+      dispatch(setIsOpenDialog(!isOpenDialog));
     }
   };
 
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
-    dispatch(setIsOpenDialog(false));
     const value = event.cancelable;
-    // dispatch(setIsChange(!value));
-    // dispatch(setIsChangeAuto(!value));
+    dispatch(setIsOpenDialog(!isOpenDialog));
     if (currentPage !== 5) {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
@@ -103,6 +103,7 @@ export function MenuListDropdown() {
         </DropdownNestedMenuItem>
       );
     });
+
   return (
     <Box>
       {menuOptionFlat.map((item: FilterMenu, index: number) => {
@@ -165,4 +166,4 @@ export function MenuListDropdown() {
       </Dialog>
     </Box>
   );
-}
+};

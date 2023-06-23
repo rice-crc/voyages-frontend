@@ -80,6 +80,7 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
       ContainerProps.onMouseLeave(event);
     }
   };
+
   const handleOnClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (ContainerProps?.onClick) {
       ContainerProps.onClick(event);
@@ -139,7 +140,7 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
   if (!disabled) {
     tabIndex = tabIndexProp !== undefined ? tabIndexProp : -1;
   }
-  const isOneChild = childrenFilter?.children?.length === 1;
+
   return (
     <div
       {...ContainerProps}

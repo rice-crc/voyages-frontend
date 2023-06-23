@@ -1,0 +1,153 @@
+import * as React from "react";
+import { Menu, MenuItem } from "@mui/material";
+import { MenuItemProps } from "@mui/material/MenuItem";
+import ArrowRight from "@mui/icons-material/ArrowRight";
+
+interface NestedMenuItemProps extends Omit<MenuItemProps, "ref"> {
+  parentMenuOpen?: boolean;
+  label: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  keepOpen?: boolean;
+  children?: React.ReactNode;
+  customTheme?: any;
+  rightAnchored?: boolean;
+  menu?: React.ReactElement[];
+}
+
+const NestedMenuColumnItem = React.forwardRef<
+  HTMLLIElement | null,
+  NestedMenuItemProps
+>((props, ref) => {
+  const {
+    parentMenuOpen,
+    label,
+    rightIcon = <ArrowRight style={{ fontSize: 16 }} />,
+    keepOpen,
+    children,
+    customTheme,
+    className,
+    tabIndex: tabIndexProp,
+    rightAnchored,
+    ...menuItemProps
+  } = props;
+
+  const menuItemRef = React.useRef<HTMLLIElement | null>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const menuContainerRef = React.useRef<HTMLDivElement>(null);
+
+  const [isSubMenuOpen, setIsSubMenuOpen] = React.useState(false);
+
+  const handleMouseEnter = (event: React.MouseEvent<HTMLLIElement>) => {
+    setIsSubMenuOpen(true);
+
+    if (menuItemProps?.onMouseEnter) {
+      menuItemProps.onMouseEnter(event);
+    }
+  };
+
+  const handleMouseLeave = (event: React.MouseEvent<HTMLLIElement>) => {
+    setIsSubMenuOpen(false);
+
+    if (menuItemProps?.onMouseLeave) {
+      menuItemProps.onMouseLeave(event);
+    }
+  };
+
+  const isSubmenuFocused = (): boolean => {
+    const active = containerRef.current?.ownerDocument?.activeElement;
+
+    for (const child of menuContainerRef.current?.children ?? []) {
+      if (child === active) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const handleFocus = (event: React.FocusEvent<HTMLLIElement>) => {
+    if (event.target === menuItemRef.current) {
+      setIsSubMenuOpen(true);
+    }
+
+    if (menuItemProps?.onFocus) {
+      menuItemProps.onFocus(event);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLLIElement>) => {
+    if (event.key === "Escape") {
+      return;
+    }
+
+    if (isSubmenuFocused()) {
+      event.stopPropagation();
+    }
+
+    const active = containerRef.current?.ownerDocument?.activeElement;
+
+    if (event.key === "ArrowLeft" && isSubmenuFocused()) {
+      containerRef.current?.focus();
+    }
+
+    if (
+      event.key === "ArrowRight" &&
+      event.target === containerRef.current &&
+      event.target === active
+    ) {
+      const firstChild = menuContainerRef.current?.children[0];
+      // firstChild?.focus();
+    }
+  };
+
+  const open = isSubMenuOpen && parentMenuOpen;
+
+  let tabIndex: number | undefined;
+  if (!props.disabled) {
+    tabIndex = tabIndexProp !== undefined ? tabIndexProp : -1;
+  }
+
+  return (
+    <MenuItem
+      dense
+      {...menuItemProps}
+      data-open={!!open || undefined}
+      className={className}
+      ref={menuItemRef}
+      onFocus={handleFocus}
+      tabIndex={tabIndex}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onKeyDown={handleKeyDown}
+    >
+      {label}
+      <div style={{ flexGrow: 1 }} />
+      {rightIcon}
+      <Menu
+        hideBackdrop
+        style={{ pointerEvents: "none" }}
+        anchorEl={menuItemRef.current}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: rightAnchored ? "left" : "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: rightAnchored ? "right" : "left",
+        }}
+        open={!!open}
+        autoFocus={false}
+        disableAutoFocus
+        disableEnforceFocus
+        onClose={() => {
+          setIsSubMenuOpen(false);
+        }}
+      >
+        <div ref={menuContainerRef} style={{ pointerEvents: "auto" }}>
+          {children}
+        </div>
+      </Menu>
+    </MenuItem>
+  );
+});
+
+export default NestedMenuColumnItem;

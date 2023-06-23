@@ -31,6 +31,7 @@ import {
   RangeSliderState,
   currentPageInitialState,
 } from "@/share/InterfaceTypes";
+import ColumnSelector from "@/components/fcComponets/ColumnSelector";
 
 const Table: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -318,15 +319,19 @@ const Table: React.FC = () => {
             style={{ height: "calc(100% - 25px)" }}
           >
             <div style={style}>
-              <TablePagination
-                component="div"
-                count={totalResultsCount}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPageOptions={[10, 15, 20, 25]}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
+              <span>
+                <ColumnSelector />
+                <TablePagination
+                  component="div"
+                  count={totalResultsCount}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  rowsPerPageOptions={[10, 15, 20, 25]}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </span>
+
               <AgGridReact
                 ref={gridRef}
                 rowData={rowData}

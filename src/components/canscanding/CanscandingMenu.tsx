@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu as MenuIcon } from "@mui/icons-material";
-import { AppBar, IconButton, Menu, Toolbar, Hidden } from "@mui/material";
+import { IconButton, Menu, Toolbar, Hidden } from "@mui/material";
 import { MenuListDropdownStyle } from "@/styleMUI";
 import { MenuListDropdown } from "./MenuListDropdown";
 import { CanscandingMenuProps } from "@/share/InterfaceTypes";

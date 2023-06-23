@@ -1,9 +1,10 @@
 
 import { styled } from "@mui/material/styles";
-import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button, TablePagination } from "@mui/material";
+import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button } from "@mui/material";
 import MuiInput from "@mui/material/Input";
 import NestedMenuItem from "../components/canscanding/NestedMenuItem";
 import { SxProps } from "@mui/material";
+import NestedMenuColumnItem from "@/components/fcComponets/NestedMenuColumnItem";
 
 const blue500 = "#42a5f5";
 export const MAINBGGREEN = "rgba(0, 128, 128, 0.5)"
@@ -65,7 +66,6 @@ export const StyleMenuItem = styled('div')(({ theme }) => ({
 }));
 
 export const DropdownMenuItem = styled(MenuItem)`
-  fontSize: '22px';
   display: flex;
   justify-content: space-between !important;
   & > svg {
@@ -135,3 +135,22 @@ export const ButtonNav = styled(Button)`
   }
 `;
 
+
+export const DropdownMenuColumnItem = styled(MenuItem)`
+  display: flex;
+  justify-content: space-between !important;
+  & > ul {
+    font-size: '12px';
+  }
+  & > svg {
+    margin-left: 32px;
+  }
+`;
+export const DropdownNestedMenuColumnItem = styled(NestedMenuColumnItem)`
+  display: flex;
+  justify-content: space-between !important;
+
+  & > svg {
+    margin-left: 32px;
+  }
+`;

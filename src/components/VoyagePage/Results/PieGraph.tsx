@@ -19,6 +19,9 @@ import {
   PlotPIEY,
 } from "@/share/InterfaceTypes";
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
+import createPlotlyComponent from "react-plotly.js/factory";
+
+const Plotly = createPlotlyComponent(Plot);
 
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -164,6 +167,7 @@ function PieGraph() {
       : width < 768
       ? width * 0.92
       : width * 0.95;
+
   if (isLoading) {
     <div className="Skeleton-loading">
       <Skeleton />
@@ -204,6 +208,9 @@ function PieGraph() {
               values: plotY,
               type: "pie",
               mode: "lines+markers",
+              textinfo: "label+percent",
+              insidetextorientation: "radial",
+              hole: 0.25,
             },
           ]}
           layout={{
@@ -214,18 +221,19 @@ function PieGraph() {
             } vs <br> ${
               optionFlat[pieGraphOptions.y_vars]?.label || ""
             } Pie Graph`,
-
-            xaxis: {
-              title: {
-                text: optionFlat[pieGraphOptions.x_vars]?.label || "",
-              },
-              fixedrange: true,
+            font: {
+              family: "Arial, sans-serif",
+              size: 12,
+              color: "#333333",
             },
-            yaxis: {
-              title: {
-                text: optionFlat[pieGraphOptions.y_vars]?.label || "",
+            legend: {
+              x: 0.73,
+              y: 0.9,
+              font: {
+                family: "Arial, sans-serif",
+                size: 12,
+                color: "#666666",
               },
-              fixedrange: true,
             },
           }}
           config={{ responsive: true }}
