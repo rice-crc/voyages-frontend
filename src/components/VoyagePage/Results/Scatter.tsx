@@ -14,7 +14,7 @@ import {
   Options,
   RangeSliderState,
   AutoCompleteInitialState,
-  currentPageInitialState,
+  CurrentPageInitialState,
 } from "@/share/InterfaceTypes";
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
 import "@/style/page.scss";
@@ -40,7 +40,7 @@ function Scatter() {
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as currentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
@@ -199,7 +199,7 @@ function Scatter() {
       : width < 768
       ? width * 0.8
       : width * 0.75;
-  console.log("maxWidth", maxWidth);
+
   if (isLoading) {
     <div className="Skeleton-loading">
       <Skeleton />

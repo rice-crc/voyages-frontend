@@ -17,7 +17,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { HeaderNavBarMenuProps } from "@/share/InterfaceTypes";
 import CanscandingMenu from "../canscanding/CanscandingMenu";
 import { useDispatch, useSelector } from "react-redux";
-import { currentPageInitialState } from "@/share/InterfaceTypes";
+import { CurrentPageInitialState } from "@/share/InterfaceTypes";
 import "@/style/Nav.scss";
 
 import CanscandingMenuMobile from "../canscanding/CanscandingMenuMobile";
@@ -29,7 +29,7 @@ const navItems = ["About", "Vessels", "Itinerary", "Collections"];
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as currentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

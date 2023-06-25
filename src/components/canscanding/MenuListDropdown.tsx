@@ -15,7 +15,7 @@ import {
   TYPES,
   VoyagaesFilterMenu,
   FilterMenu,
-  currentPageInitialState,
+  CurrentPageInitialState,
 } from "@/share/InterfaceTypes";
 import {
   BLACK,
@@ -37,13 +37,13 @@ export const MenuListDropdown = () => {
     (state: RootState) => state.optionFlatMenu.value
   );
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as currentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
   const { isOpenDialog } = useSelector(
-    (state: RootState) => state.getScrollPage as currentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   console.log("isOpenDialog-->", isOpenDialog);
   const dispatch: AppDispatch = useDispatch();

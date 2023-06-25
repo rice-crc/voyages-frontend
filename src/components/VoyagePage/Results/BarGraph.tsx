@@ -16,7 +16,7 @@ import {
   Options,
   RangeSliderState,
   AutoCompleteInitialState,
-  currentPageInitialState,
+  CurrentPageInitialState,
   BargraphXYVar,
 } from "@/share/InterfaceTypes";
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
@@ -38,7 +38,7 @@ function BarGraph() {
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as currentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});

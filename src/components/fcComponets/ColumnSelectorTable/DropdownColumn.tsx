@@ -30,7 +30,6 @@ export const DropdownColumn = forwardRef<HTMLDivElement, DropdownProps>(
     const [isInternalOpen, setInternalOpen] = useState<HTMLElement | null>(
       null
     );
-    console.log("isOpen==>", controlledIsOpen);
     const isOpen = controlledIsOpen || isInternalOpen !== null;
     const anchorRef = useRef<HTMLDivElement | null>(null);
 
@@ -73,18 +72,10 @@ export const DropdownColumn = forwardRef<HTMLDivElement, DropdownProps>(
 
     const renderMenu = (menuItem: ReactElement, index: number): ReactNode => {
       const { ...props } = menuItem.props;
-      let extraProps: { parentMenuOpen: boolean } = { parentMenuOpen: isOpen };
-      if (props.menu) {
-        extraProps = {
-          ...extraProps,
-          parentMenuOpen: isOpen,
-        };
-      }
 
       return createElement(menuItem.type, {
         ...props,
         key: index,
-        ...extraProps,
         children: props.menu
           ? Children.map(props.menu, renderMenu)
           : props.children,

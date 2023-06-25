@@ -16,6 +16,7 @@ import { generateRowsData } from "@/utils/generateRowsData";
 import {
   ColumnDef,
   StateRowData,
+  TableCellStructureInitialStateProp,
   VoyageOptionsGropProps,
   VoyageTableCellStructure,
 } from "@/share/InterfaceTypesTable";
@@ -28,13 +29,15 @@ import { useWindowSize } from "@react-hook/window-size";
 import { Pagination, Skeleton, TablePagination } from "@mui/material";
 import {
   AutoCompleteInitialState,
+  CurrentPageInitialState,
   RangeSliderState,
-  currentPageInitialState,
 } from "@/share/InterfaceTypes";
 import ColumnSelector from "@/components/fcComponets/ColumnSelectorTable/ColumnSelector";
+import { setVisibleColumn } from "@/redux/getColumnSlice";
 
 const Table: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
+  const tablesCell = TABLE_FLAT.cell_structure;
   const { columnDefs, data, rowData } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
@@ -45,8 +48,12 @@ const Table: React.FC = () => {
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as currentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+  const { visibleColumnCells } = useSelector(
+    (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
+  );
+
   const [width, height] = useWindowSize();
   const maxWidth =
     width > 1024
@@ -61,6 +68,7 @@ const Table: React.FC = () => {
   const [style, setStyle] = useState({
     width: maxWidth,
     height: height * 0.62,
+    // height: "calc(100vh - 200px)",
   });
 
   const containerStyle = useMemo(
@@ -74,21 +82,29 @@ const Table: React.FC = () => {
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
 
-  const saveDataToLocalStorage = (data: VoyageOptionsGropProps[]) => {
+  const saveDataToLocalStorage = (
+    data: VoyageOptionsGropProps[],
+    visibleColumnCells: string[]
+  ) => {
     localStorage.setItem("data", JSON.stringify(data));
+    localStorage.setItem(
+      "visibleColumnCells",
+      JSON.stringify(visibleColumnCells)
+    );
   };
 
   const fetchDataFromLocalStorage = () => {
     const storedData = localStorage.getItem("data");
+    const storedVisibleColumnCells = localStorage.getItem("data");
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      console.log("parsedData", parsedData);
+      // console.log("parsedData", parsedData);
       // Do something with the retrieved data
     }
   };
 
   useEffect(() => {
-    saveDataToLocalStorage(data);
+    saveDataToLocalStorage(data, visibleColumnCells);
   }, [data]);
 
   useEffect(() => {
@@ -120,7 +136,7 @@ const Table: React.FC = () => {
         if (subscribed) {
           setTotalResultsCount(Number(response.headers.total_results_count));
           dispatch(setData(response.data));
-          saveDataToLocalStorage(response.data);
+          saveDataToLocalStorage(response.data, visibleColumnCells);
         }
       } catch (error) {
         console.log("error", error);
@@ -143,97 +159,102 @@ const Table: React.FC = () => {
     autoCompleteValue,
     autoLabelName,
   ]);
+  useEffect(() => {
+    const visibleColumns = tablesCell
+      .filter((cell) => cell.visible)
+      .map((cell) => cell.colID);
+    dispatch(setVisibleColumn(visibleColumns));
+  }, [dispatch]);
 
   useEffect(() => {
     if (data.length > 0) {
       const finalRowData = generateRowsData(data);
-      const columns: ColumnDef[] = [];
-      const tablesCell = TABLE_FLAT.cell_structure;
-
-      tablesCell.forEach((value: VoyageTableCellStructure) => {
-        const columnDef = {
-          headerName: value.header_label,
-          field: value.colID,
-          sortable: true,
-          sortingOrder: value.order_by,
-          headerTooltip: value.header_label,
-          resizable: true,
-          filter: true,
-          cellRenderer: (params: ICellRendererParams) => {
-            const values = params.value;
-            if (Array.isArray(values)) {
-              const style: CSSProperties = {
-                backgroundColor: "#e5e5e5",
-                borderRadius: "8px",
-                padding: "0px 10px 5px 10px",
-                height: "25px",
-                whiteSpace: "nowrap",
-                width: "160px",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                margin: "5px 0",
-                textAlign: "center",
-                lineHeight: "25px",
-                fontSize: "13px",
-              };
-              const renderedValues = values.map(
-                (value: string, index: number) => (
-                  <span key={`${index}-${value}`}>
-                    <div style={style}>{`${value}\n`}</div>
-                  </span>
-                )
-              );
-              return <div>{renderedValues}</div>;
-            } else {
-              return (
-                <div className="div-value">
-                  <div className="value">{values}</div>
-                </div>
-              );
-            }
-          },
-          valueGetter: (params: ICellRendererParams) => {
-            const finalData: string[] = [];
-            const data = params.data;
-            const fields = value.cell_val.fields;
-            const firstData = data[fields[0].var_name];
-            const joinDelimiter: string | undefined = value.cell_val.join;
-            if (value.cell_type === "literal") {
-              return data[fields[0].var_name] ?? "--";
-            } else if (
-              value.cell_type === "literal-concat" &&
-              Array.isArray(firstData)
-            ) {
-              for (let i = 0; i < firstData?.length; i++) {
-                const dataResult = [];
-                for (let j = 0; j < fields.length; j++) {
-                  const fieldName = fields[j].var_name;
-                  const fieldValue = data[fieldName][i];
-                  dataResult.push(String(fieldValue));
-                }
-                finalData.push(dataResult.join(joinDelimiter));
+      const newColumnDefs: ColumnDef[] = tablesCell.map(
+        (value: VoyageTableCellStructure) => {
+          const columnDef = {
+            headerName: value.header_label,
+            field: value.colID,
+            sortable: true,
+            sortingOrder: value.order_by,
+            headerTooltip: value.header_label,
+            hide: !visibleColumnCells.includes(value.colID),
+            filter: true,
+            cellRenderer: (params: ICellRendererParams) => {
+              const values = params.value;
+              if (Array.isArray(values)) {
+                const style: CSSProperties = {
+                  backgroundColor: "#e5e5e5",
+                  borderRadius: "8px",
+                  padding: "0px 10px 5px 10px",
+                  height: "25px",
+                  whiteSpace: "nowrap",
+                  width: "160px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  margin: "5px 0",
+                  textAlign: "center",
+                  lineHeight: "25px",
+                  fontSize: "13px",
+                };
+                const renderedValues = values.map(
+                  (value: string, index: number) => (
+                    <span key={`${index}-${value}`}>
+                      <div style={style}>{`${value}\n`}</div>
+                    </span>
+                  )
+                );
+                return <div>{renderedValues}</div>;
+              } else {
+                return (
+                  <div className="div-value">
+                    <div className="value">{values}</div>
+                  </div>
+                );
               }
-              return finalData.length !== 0 ? finalData : "--";
-            } else if (value.cell_type === "literal-concat") {
-              let dataValue: string = "";
-              for (let i = 0; i < fields.length; i++) {
-                const fieldName = fields[i].var_name;
-                const fieldValue = data[fieldName];
-                if (fieldValue !== null) {
-                  dataValue += fieldValue + ",";
+            },
+            valueGetter: (params: ICellRendererParams) => {
+              const finalData: string[] = [];
+              const data = params.data;
+              const fields = value.cell_val.fields;
+              const firstData = data[fields[0].var_name];
+              const joinDelimiter: string | undefined = value.cell_val.join;
+              if (value.cell_type === "literal") {
+                return data[fields[0].var_name] ?? "--";
+              } else if (
+                value.cell_type === "literal-concat" &&
+                Array.isArray(firstData)
+              ) {
+                for (let i = 0; i < firstData?.length; i++) {
+                  const dataResult = [];
+                  for (let j = 0; j < fields.length; j++) {
+                    const fieldName = fields[j].var_name;
+                    const fieldValue = data[fieldName][i];
+                    dataResult.push(String(fieldValue));
+                  }
+                  finalData.push(dataResult.join(joinDelimiter));
                 }
+                return finalData.length !== 0 ? finalData : "--";
+              } else if (value.cell_type === "literal-concat") {
+                let dataValue: string = "";
+                for (let i = 0; i < fields.length; i++) {
+                  const fieldName = fields[i].var_name;
+                  const fieldValue = data[fieldName];
+                  if (fieldValue !== null) {
+                    dataValue += fieldValue + ",";
+                  }
+                }
+                const result = dataValue.substring(0, dataValue.length - 1);
+                return result;
               }
-              const result = dataValue.substring(0, dataValue.length - 1);
-              return result;
-            }
-          },
-        };
-        columns.push(columnDef);
-      });
-      dispatch(setColumnDefs(columns));
+            },
+          };
+          return columnDef;
+        }
+      );
+      dispatch(setColumnDefs(newColumnDefs));
       dispatch(setRowData(finalRowData));
     }
-  }, [data]);
+  }, [data, visibleColumnCells, dispatch]);
 
   const defaultColDef = useMemo(() => {
     return {
@@ -279,6 +300,8 @@ const Table: React.FC = () => {
   const gridOptions = useMemo(
     () => ({
       getRowHeight,
+      headerHeight: 40,
+      suppressHorizontalScroll: true,
     }),
     []
   );
@@ -303,9 +326,17 @@ const Table: React.FC = () => {
     },
     [page]
   );
+  const handleColumnVisibleChange = (params: any) => {
+    const { columnApi } = params;
+    const allColumns = columnApi.getAllColumns();
+    const visibleColumns = allColumns
+      .filter((column: any) => column.isVisible())
+      .map((column: any) => column.getColId());
+    dispatch(setVisibleColumn(visibleColumns));
+  };
 
   return (
-    <div style={containerStyle}>
+    <div>
       {loading ? (
         <div className="Skeleton-loading">
           <Skeleton />
@@ -313,50 +344,52 @@ const Table: React.FC = () => {
           <Skeleton animation={false} />
         </div>
       ) : (
-        <>
-          <div
-            className="ag-theme-alpine"
-            style={{ height: "calc(100% - 25px)" }}
-          >
-            <div style={style}>
-              <span>
-                <ColumnSelector />
-                <TablePagination
-                  component="div"
-                  count={totalResultsCount}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  rowsPerPageOptions={[10, 15, 20, 25]}
-                  rowsPerPage={rowsPerPage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </span>
-
-              <AgGridReact
-                ref={gridRef}
-                rowData={rowData}
-                gridOptions={gridOptions}
-                columnDefs={columnDefs}
-                suppressMenuHide={true}
-                animateRows={true}
-                paginationPageSize={rowsPerPage}
-                defaultColDef={defaultColDef}
-                components={components}
-                getRowStyle={getRowRowStyle}
-                tooltipShowDelay={0}
-                tooltipHideDelay={1000}
+        <div style={containerStyle} className="ag-theme-alpine grid-container">
+          <div style={style}>
+            <span
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <ColumnSelector />
+              <TablePagination
+                component="div"
+                count={totalResultsCount}
+                page={page}
+                onPageChange={handleChangePage}
+                rowsPerPageOptions={[10, 15, 20, 25]}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
               />
-              <div className="pagination-div">
-                <Pagination
-                  color="primary"
-                  count={Math.ceil(totalResultsCount / rowsPerPage)}
-                  page={page + 1}
-                  onChange={handleChangePagePagination}
-                />
-              </div>
+            </span>
+
+            <AgGridReact
+              ref={gridRef}
+              rowData={rowData}
+              onColumnVisible={handleColumnVisibleChange}
+              gridOptions={gridOptions}
+              columnDefs={columnDefs}
+              suppressMenuHide={true}
+              animateRows={true}
+              paginationPageSize={rowsPerPage}
+              defaultColDef={defaultColDef}
+              components={components}
+              getRowStyle={getRowRowStyle}
+              tooltipShowDelay={0}
+              tooltipHideDelay={1000}
+            />
+            <div className="pagination-div">
+              <Pagination
+                color="primary"
+                count={Math.ceil(totalResultsCount / rowsPerPage)}
+                page={page + 1}
+                onChange={handleChangePagePagination}
+              />
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

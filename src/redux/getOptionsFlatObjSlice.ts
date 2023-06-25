@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import jsonData from '@/utils/transatlantic_voyages_filter_menuTEST.json'
+import jsonData from '@/utils/transatlantic_voyages_filter_menu.json'
 const initialState = {
     value: jsonData
 };

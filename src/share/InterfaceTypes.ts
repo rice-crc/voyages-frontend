@@ -162,7 +162,7 @@ export interface AutocompleteBoxProps {
     value?: AutoCompleteOption[];
 }
 
-export interface currentPageInitialState {
+export interface CurrentPageInitialState {
     currentPage: number;
     isOpenDialog: boolean
 }

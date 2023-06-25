@@ -20,7 +20,7 @@ import {
   RangeSliderState,
   TYPES,
   VoyagaesFilterMenu,
-  currentPageInitialState,
+  CurrentPageInitialState,
 } from "@/share/InterfaceTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -40,13 +40,13 @@ const CanscandingMenuMobile: React.FC<CanscandingMenuMobileProps> = () => {
     (state: RootState) => state.optionFlatMenu.value
   );
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as currentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
   const { isOpenDialog } = useSelector(
-    (state: RootState) => state.getScrollPage as currentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const dispatch: AppDispatch = useDispatch();
@@ -71,7 +71,6 @@ const CanscandingMenuMobile: React.FC<CanscandingMenuMobileProps> = () => {
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
     const value = event.cancelable;
-    console.log("value==>", value);
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialog(false));
     dispatch(setIsFilter(false));

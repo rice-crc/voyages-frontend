@@ -5,35 +5,63 @@ import {
   DropdownMenuColumnItem,
   DropdownNestedMenuColumnItem,
 } from "@/styleMUI";
-import { VoyagaesFilterMenu } from "@/share/InterfaceTypes";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-interface ButtonComponentProps {}
-const ButtonDropdownSelectoreColumn: React.FC<ButtonComponentProps> = () => {
-  const menuOptionFlat: VoyagaesFilterMenu = useSelector(
-    (state: RootState) => state.optionFlatMenu.value
+import { MouseEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { setVisibleColumn } from "@/redux/getColumnSlice";
+import { TableCellStructureInitialStateProp } from "@/share/InterfaceTypesTable";
+
+const ButtonDropdownSelectoreColumn = () => {
+  const dispatch: AppDispatch = useDispatch();
+
+  const { valueCells, visibleColumnCells } = useSelector(
+    (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
+
+  const menuValueCells = valueCells.column_selector_tree;
+
+  const handleColumnVisibilityChange = (
+    event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
+  ) => {
+    const target = event.currentTarget as HTMLLIElement | HTMLDivElement;
+    const colID = target.dataset.colid;
+    if (colID) {
+      const updatedVisibleColumns = visibleColumnCells.includes(colID)
+        ? visibleColumnCells.filter((column: string) => column !== colID)
+        : [...visibleColumnCells, colID];
+      dispatch(setVisibleColumn(updatedVisibleColumns));
+    }
+  };
+
   function renderMenuItems(nodes: any[]) {
     return nodes.map((node) => {
-      const { label, children } = node;
+      const { label, children, var_name, colID } = node;
       const hasChildren = children && children.length > 1;
 
       if (hasChildren) {
         return (
           <DropdownNestedMenuColumnItem
             label={`${label}`}
+            dense
+            data-colid={colID}
+            data-value={var_name}
+            data-label={label}
             rightIcon={<ArrowRight />}
+            onClickMenu={handleColumnVisibilityChange}
             menu={renderMenuItems(children)}
+            disabled={visibleColumnCells.includes(colID)}
           />
         );
       }
 
       return (
         <DropdownMenuColumnItem
-          onClick={() => {
-            console.log("clicked");
-          }}
+          onClick={handleColumnVisibilityChange}
+          data-colid={colID}
+          data-value={var_name}
+          data-label={label}
           dense
+          disabled={visibleColumnCells.includes(colID)}
         >
           {label}
         </DropdownMenuColumnItem>
@@ -56,7 +84,7 @@ const ButtonDropdownSelectoreColumn: React.FC<ButtonComponentProps> = () => {
           </Button>
         </span>
       }
-      menu={renderMenuItems(menuOptionFlat)}
+      menu={renderMenuItems(menuValueCells)}
     />
   );
 };

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage, setIsOpenDialog } from "@/redux/getScrollPageSlice";
 import { AppDispatch, RootState } from "@/redux/store";
-import { currentPageInitialState } from "@/share/InterfaceTypes";
+import { CurrentPageInitialState } from "@/share/InterfaceTypes";
 import { ButtonNav } from "@/styleMUI";
 import VoyagesPage from "./VoyagePage";
 import "@/style/page.scss";
@@ -22,7 +22,7 @@ const ScrollPage = () => {
   const [isShowScrollTopButton, setShowScrollTopButton] = useState(false);
   const isSmallScreen = useMediaQuery(theme.breakpoints.up("md"));
   const { currentPage, isOpenDialog } = useSelector(
-    (state: RootState) => state.getScrollPage as currentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const pageList = ["map", "pivot", "table", "pie", "bar", "scatter", "main"];
   const totalPageCount = pageList.length;
@@ -122,18 +122,14 @@ const ScrollPage = () => {
       {currentPage === 1 && <VoyagesPage />}
       {currentPage === 2 && <Scatter />}
       {currentPage === 3 && <BarGraph />}
-      {currentPage === 4 && (
-        <h1 style={{ marginTop: 40 }}>
-          <PieGraph />
-        </h1>
-      )}
+      {currentPage === 4 && <PieGraph />}
       {currentPage === 5 && (
-        <h1 style={{ marginTop: 40 }}>
+        <div style={{ marginTop: isFilter ? 30 : 0 }}>
           <Table />
-        </h1>
+        </div>
       )}
-      {currentPage === 6 && <h1 style={{ marginTop: 40 }}>PIVOT</h1>}
-      {currentPage === 7 && <h1 style={{ marginTop: 40 }}>MAP</h1>}
+      {currentPage === 6 && <h1>PIVOT</h1>}
+      {currentPage === 7 && <h1>MAP</h1>}
     </motion.div>
   );
 

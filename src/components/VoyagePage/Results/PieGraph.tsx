@@ -14,7 +14,7 @@ import {
   Options,
   RangeSliderState,
   AutoCompleteInitialState,
-  currentPageInitialState,
+  CurrentPageInitialState,
   PlotPIEX,
   PlotPIEY,
 } from "@/share/InterfaceTypes";
@@ -40,7 +40,7 @@ function PieGraph() {
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as currentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});

@@ -825,7 +825,6 @@ export interface ColumnDef {
     valueGetter: (params: any) => void;
     field: string;
     sortable: boolean;
-    resizable: boolean;
     filter: boolean;
     tooltipValueGetter?: (params: any) => any;
     tooltipComponent?: React.FC<any>;
@@ -840,6 +839,7 @@ export interface StateRowData {
 export interface VoyageTableCellStructure {
     header_label: string
     cell_type: string
+    visible: boolean
     order_by: string[]
     colID: string
     cell_val: CellVal
@@ -853,4 +853,21 @@ export interface CellVal {
 export interface Field {
     var_name: string
     cell_fn: string
+}
+export interface TableCellStructureInitialStateProp {
+    valueCells: TableCellStructureProps,
+    visibleColumnCells: string[]
+}
+export interface TableCellStructureProps {
+    cell_structure: VoyageTableCellStructure[]
+    column_selector_tree: ColumnSelectorTree[]
+}
+export interface ColumnSelectorTree {
+    label: string
+    children: Children[]
+}
+
+export interface Children {
+    colID: string
+    label: string
 }

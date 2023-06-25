@@ -8,6 +8,7 @@ import getTableSlice from './getTableSlice'
 import { voyagesApi } from '../fetchAPI/fetchApiService';
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import getFilterSlice from "./getFilterSlice";
+import getColumnsSlice from "./getColumnSlice";
 
 
 const store = configureStore({
@@ -19,6 +20,7 @@ const store = configureStore({
         getScrollPage: getScrollPageSlice,
         getTableData: getTableSlice,
         getFilter: getFilterSlice,
+        getColumns: getColumnsSlice,
         [voyagesApi.reducerPath]: voyagesApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
