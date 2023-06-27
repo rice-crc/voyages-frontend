@@ -68,7 +68,6 @@ const Table: React.FC = () => {
   const [style, setStyle] = useState({
     width: maxWidth,
     height: height * 0.62,
-    // height: "calc(100vh - 200px)",
   });
 
   const containerStyle = useMemo(
@@ -171,12 +170,17 @@ const Table: React.FC = () => {
       const finalRowData = generateRowsData(data);
       const newColumnDefs: ColumnDef[] = tablesCell.map(
         (value: VoyageTableCellStructure) => {
+          console.log("value.colID", value.colID);
           const columnDef = {
             headerName: value.header_label,
             field: value.colID,
+            width: value.colID === "voyage_sources" ? 300 : 200,
             sortable: true,
+            autoHeight: true,
+            wrapText: true,
             sortingOrder: value.order_by,
             headerTooltip: value.header_label,
+            tooltipField: value.colID,
             hide: !visibleColumnCells.includes(value.colID),
             filter: true,
             cellRenderer: (params: ICellRendererParams) => {
@@ -185,12 +189,13 @@ const Table: React.FC = () => {
                 const style: CSSProperties = {
                   backgroundColor: "#e5e5e5",
                   borderRadius: "8px",
-                  padding: "0px 10px 5px 10px",
+                  padding: "0px 10px",
                   height: "25px",
                   whiteSpace: "nowrap",
-                  width: "160px",
+                  width: value.colID === "voyage_sources" ? 240 : 145,
                   overflow: "hidden",
-                  textOverflow: "ellipsis",
+                  textOverflow:
+                    value.colID === "voyage_sources" ? "inherit" : "ellipsis", // "ellipsis",
                   margin: "5px 0",
                   textAlign: "center",
                   lineHeight: "25px",
@@ -283,25 +288,23 @@ const Table: React.FC = () => {
     };
   };
 
-  const getRowHeight = (params: any) => {
-    const data = params.data;
-    const lineHeight = 32.5;
-    let numLines = 1.2;
-    Object.values(data).forEach((value) => {
-      if (Array.isArray(value)) {
-        if (value.length > numLines) {
-          numLines = value.length;
-        }
-      }
-    });
-    return numLines * lineHeight;
-  };
+  const handleColumnVisibleChange = (params: any) => {
+    const { columnApi } = params;
+    const allColumns = columnApi.getAllColumns();
+    const visibleColumns = allColumns
+      .filter((column: any) => column.isVisible())
+      .map((column: any) => column.getColId());
 
+    dispatch(setVisibleColumn(visibleColumns));
+  };
   const gridOptions = useMemo(
     () => ({
-      getRowHeight,
       headerHeight: 40,
       suppressHorizontalScroll: true,
+      onGridReady: (params: any) => {
+        const { columnApi } = params;
+        columnApi.autoSizeColumns();
+      },
     }),
     []
   );
@@ -326,15 +329,6 @@ const Table: React.FC = () => {
     },
     [page]
   );
-  const handleColumnVisibleChange = (params: any) => {
-    const { columnApi } = params;
-    const allColumns = columnApi.getAllColumns();
-    const visibleColumns = allColumns
-      .filter((column: any) => column.isVisible())
-      .map((column: any) => column.getColId());
-
-    dispatch(setVisibleColumn(visibleColumns));
-  };
 
   return (
     <div>
@@ -378,6 +372,7 @@ const Table: React.FC = () => {
               defaultColDef={defaultColDef}
               components={components}
               getRowStyle={getRowRowStyle}
+              enableBrowserTooltips={true}
               tooltipShowDelay={0}
               tooltipHideDelay={1000}
             />
