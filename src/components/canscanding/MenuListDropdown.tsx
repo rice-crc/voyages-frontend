@@ -81,7 +81,7 @@ export const MenuListDropdown = () => {
       return (
         <DropdownNestedMenuItem
           onClickMenu={handleClickMenu}
-          sx={{ fontSize: 16, paddingTop: 0, paddingBottom: 0 }}
+          sx={{ fontSize: 14, paddingTop: 0, paddingBottom: 0 }}
           label={childItem.label}
           key={`${childItem.label}-${index}`}
           varName={childItem.var_name}
@@ -98,7 +98,7 @@ export const MenuListDropdown = () => {
                   data-type={nodeChild.type}
                   data-label={nodeChild.label}
                   onClick={handleClickMenu}
-                  sx={{ fontSize: 16, paddingTop: 0, paddingBottom: 0 }}
+                  sx={{ fontSize: 14, paddingTop: 0, paddingBottom: 0 }}
                 >
                   {nodeChild.label}
                 </DropdownMenuItem>
@@ -121,6 +121,7 @@ export const MenuListDropdown = () => {
             sx={{
               color: "#000",
               textTransform: "none",
+              fontSize: 14,
             }}
           >
             {item.label}
@@ -133,6 +134,7 @@ export const MenuListDropdown = () => {
                 sx={{
                   color: "#000",
                   textTransform: "none",
+                  fontSize: 14,
                 }}
                 endIcon={
                   <span>
@@ -143,7 +145,7 @@ export const MenuListDropdown = () => {
                           sm: "flex",
                           md: "none",
                         },
-                        fontSize: 16,
+                        fontSize: 14,
                       }}
                     />
                     <ArrowDropDown

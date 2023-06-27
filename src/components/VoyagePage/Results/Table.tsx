@@ -332,6 +332,7 @@ const Table: React.FC = () => {
     const visibleColumns = allColumns
       .filter((column: any) => column.isVisible())
       .map((column: any) => column.getColId());
+
     dispatch(setVisibleColumn(visibleColumns));
   };
 

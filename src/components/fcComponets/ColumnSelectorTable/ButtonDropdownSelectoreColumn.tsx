@@ -36,7 +36,7 @@ const ButtonDropdownSelectoreColumn = () => {
   function renderMenuItems(nodes: any[]) {
     return nodes.map((node) => {
       const { label, children, var_name, colID } = node;
-      const hasChildren = children && children.length > 1;
+      const hasChildren = children && children.length > 0;
 
       if (hasChildren) {
         return (
