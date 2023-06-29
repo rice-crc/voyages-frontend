@@ -23,7 +23,7 @@ import RangeSlider from "../voyagePage/Results/RangeSlider";
 
 const TableRangeSlider = () => {
   const datas = useSelector((state: RootState) => state.getOptions.value);
-  const { data, isLoading, isSuccess } = useGetOptionsQuery(datas);
+  const { isLoading } = useGetOptionsQuery(datas);
   const colunmName = ["Label", "Range-Slider", "Display"];
   const [optionsLabel, setOptionsLabel] = useState<Flatlabel[]>([]);
   const [isShow, setIsShow] = useState<IsShowProp>({});

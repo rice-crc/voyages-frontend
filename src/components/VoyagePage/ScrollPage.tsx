@@ -1,4 +1,4 @@
-import { useEffect, FunctionComponent, useState } from "react";
+import { useEffect, useState } from "react";
 import { Grid, Hidden } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -6,7 +6,10 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage, setIsOpenDialog } from "@/redux/getScrollPageSlice";
 import { AppDispatch, RootState } from "@/redux/store";
-import { CurrentPageInitialState } from "@/share/InterfaceTypes";
+import {
+  CurrentPageInitialState,
+  TYPESOFDATASET,
+} from "@/share/InterfaceTypes";
 import { ButtonNav } from "@/styleMUI";
 import VoyagesPage from "./VoyagePage";
 import "@/style/page.scss";
@@ -14,22 +17,21 @@ import Scatter from "./Results/Scatter";
 import BarGraph from "./Results/BarGraph";
 import Table from "./Results/Table";
 import PieGraph from "./Results/PieGraph";
-import { getColorBackground } from "@/utils/getColorStyle";
+import { getColorBackground, getColorBoxShadow } from "@/utils/getColorStyle";
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [isShowScrollTopButton, setShowScrollTopButton] = useState(false);
-  const { value, selectDataset } = useSelector(
-    (state: RootState) => state.getDataSetMenu
+  const { styleName, blocks } = useSelector(
+    (state: RootState) => state.getDataSetCollection
   );
-  const isSmallScreen = useMediaQuery(theme.breakpoints.up("md"));
-  const { currentPage, isOpenDialog } = useSelector(
+  const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const pageList = ["map", "pivot", "table", "pie", "bar", "scatter", "main"];
-  const totalPageCount = pageList.length;
+  const isSmallScreen = useMediaQuery(theme.breakpoints.up("md"));
+  const totalPageCount = blocks?.length;
 
   // Scroll to next page and page hide other page
   // useEffect(() => {
@@ -149,7 +151,7 @@ const ScrollPage = () => {
       <Hidden>
         <div className="navbar-wrapper">
           <nav className="nav-button">
-            {pageList.map((page, index) => {
+            {blocks.map((page, index) => {
               const buttonIndex = totalPageCount - index;
               return (
                 <ButtonNav
@@ -158,7 +160,8 @@ const ScrollPage = () => {
                   style={{
                     width: "80px",
                     height: "32",
-                    backgroundColor: getColorBackground(selectDataset),
+                    backgroundColor: getColorBackground(styleName),
+                    boxShadow: getColorBoxShadow(styleName),
                     fontSize: currentPage === buttonIndex ? 15 : 14,
                     color: currentPage === buttonIndex ? "white" : "black",
                     fontWeight: currentPage === buttonIndex ? 900 : 600,

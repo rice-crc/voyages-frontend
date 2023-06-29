@@ -1,35 +1,163 @@
-.header-nav-bar{
+@mixin breakpoint-standard($size) {
+    @if $size==0 {
+        @media only screen and (max-width: 374px) {
+            @content;
+        }
+    }
+
+    @else if $size==1 {
+        @media only screen and (min-width: 375px) and (max-width: 479px) {
+            @content;
+        }
+    }
+
+    @else if $size==2 {
+        @media only screen and (min-width: 480px) and (max-width: 575px) {
+            @content;
+        }
+    }
+
+    @else if $size==3 {
+        @media only screen and (min-width: 576px) and (max-width: 767px) {
+            @content;
+        }
+    }
+
+    @else if $size==4 {
+        @media only screen and (min-width: 768px) and (max-width: 991px) {
+            @content;
+        }
+    }
+
+    @else if $size==5 {
+        @media only screen and (min-width: 992px) and (max-width: 1024px) {
+            @content;
+        }
+    }
+
+    @else if $size==6 {
+        @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+            @content;
+        }
+    }
+
+    @else if $size==7 {
+        @media only screen and (max-width: 1440px) {
+            @content;
+        }
+    }
+}
+
+.header-nav-bar {
     height: 150px;
 }
-.list-menu{
+
+.list-menu {
     font-size: 20px;
 }
-.voyages-header{
-    font-family:  "Cormorant Garamond";
+
+.voyages-header {
+    font-family: "Cormorant Garamond";
     display: flex;
     align-items: center;
     cursor: pointer;
+    font-size: 60px;
+    @include breakpoint-standard(5) {
+        font-size: 50px;
+    }
+    @include breakpoint-standard(5) {
+        font-size: 46px;
+       
+    }
+    @include breakpoint-standard(4) {
+        font-size: 36px;
+    }
+    @include breakpoint-standard(3) {
+        font-size: 30px;
+    }
+    @include breakpoint-standard(2) {
+        font-size: 28px;
+    }
+    @include breakpoint-standard(1) {
+        font-size: 22px;
+    }
+    @include breakpoint-standard(0) {
+        font-size: 22px;
+    }
 }
 
-.voyages-header-subtitle{
+.voyages-header-subtitle {
     display: flex;
     font-size: 30px;
     padding-left: 5px;
     position: relative;
     font-weight: 600;
     top: 8px;
+    @include breakpoint-standard(5) {
+        font-size: 26px;
+        top: 6px;
+    }
+    @include breakpoint-standard(5) {
+        font-size: 26px;
+        top: 2px;
+    }
+    @include breakpoint-standard(4) {
+        font-size: 22px;
+        top: 2px;
+    }
+    @include breakpoint-standard(3) {
+        font-size: 20px;
+        top: 2px;
+    }
+    @include breakpoint-standard(2) {
+        font-size: 16px;
+        top: 2px;
+    }
+    @include breakpoint-standard(1) {
+        font-size: 16px;
+        top: 2px;
+    }
+    @include breakpoint-standard(0) {
+        font-size: 16px;
+        top: 2px;
+    }
 
 }
-.voyages-title{
+
+.voyages-title {
     padding: 0 5px;
 }
 
-.menu-nav-bar{
-    font-family:  "Cormorant Garamond";
+.menu-nav-bar {
+    font-family: "Cormorant Garamond";
     color: black;
 }
-.menu-nav-bar-select{
-    font-family:  "Cormorant Garamond";
+.menu-nav-bar-select-box{
+
+    @include breakpoint-standard(5) {
+        position: relative;
+        left: 20px;
+        bottom: 6px;
+        font-size: 20px;
+    }
+    @include breakpoint-standard(4) {
+        display: none;
+    }
+    @include breakpoint-standard(3) {
+        display: none;
+    }
+    @include breakpoint-standard(2) {
+        display: none;
+    }
+    @include breakpoint-standard(1) {
+        display: none;
+    }
+    @include breakpoint-standard(0) {
+        display: none;
+    }
+}
+.menu-nav-bar-select {
+    font-family: "Cormorant Garamond";
     color: black;
     text-transform: uppercase;
 }

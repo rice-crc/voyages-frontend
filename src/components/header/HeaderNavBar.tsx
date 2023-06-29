@@ -24,13 +24,22 @@ import CanscandingMenuMobile from "../canscanding/CanscandingMenuMobile";
 
 import { setIsFilter } from "@/redux/getFilterSlice";
 import { ColumnSelector } from "../fcComponets/ColumnSelectorTable/ColumnSelector";
-import { setSelectDataset } from "@/redux/getDataSetMenuSlice";
+import {
+  setBaseFilterDataKey,
+  setBaseFilterDataSetValue,
+  setBaseFilterDataValue,
+  setBlocksMenuList,
+  setDataSetHeader,
+  setStyleName,
+  setTextIntro,
+} from "@/redux/getDataSetCollectionSlice";
 
 import {
   getColorBackground,
   getColorHoverBackground,
   getColorNavbarBackground,
   getTextColor,
+  getColorBoxShadow,
 } from "@/utils/getColorStyle";
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
@@ -38,8 +47,8 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { value, selectDataset } = useSelector(
-    (state: RootState) => state.getDataSetMenu
+  const { value, textHeader, styleName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
   );
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -47,8 +56,22 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
 
-  const handleSelectDataset = (name: string) => {
-    dispatch(setSelectDataset(name));
+  const handleSelectDataset = (
+    base_filter: any,
+    textHeder: string,
+    textIntro: string,
+    styleName: string,
+    blocks: string[]
+  ) => {
+    for (const base of base_filter) {
+      dispatch(setBaseFilterDataKey(base.var_name));
+      dispatch(setBaseFilterDataValue(base.value));
+    }
+    dispatch(setBaseFilterDataSetValue(base_filter));
+    dispatch(setDataSetHeader(textHeder));
+    dispatch(setTextIntro(textIntro));
+    dispatch(setStyleName(styleName));
+    dispatch(setBlocksMenuList(blocks));
   };
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -62,22 +85,33 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleSelectMenu = (name: string) => {
-    handleMenuClose();
-  };
-
-  const drawer = value.map((item, index) => (
-    <MenuList dense style={{ padding: 0 }} key={`${item.label}-${index}`}>
-      <MenuItem>
-        <ListItemText
-          className="menu-nposition: relative;
-          right: 5.5%;av-bar"
-          onClick={() => handleSelectMenu(item.label)}
-          primary={item.label}
-        />
-      </MenuItem>
-    </MenuList>
-  ));
+  const drawer = value.map((item: any, index: number) => {
+    const { base_filter, headers, style_name, blocks } = item;
+    return (
+      <MenuList
+        dense
+        style={{ padding: 0 }}
+        key={`${item.headers.label}-${index}`}
+      >
+        <MenuItem>
+          <ListItemText
+            className="menu-nposition: relative;
+            right: 5.5%;av-bar"
+            onClick={() =>
+              handleSelectDataset(
+                base_filter,
+                headers.label,
+                headers.text_introduce,
+                style_name,
+                blocks
+              )
+            }
+            primary={item.headers.label}
+          />
+        </MenuItem>
+      </MenuList>
+    );
+  });
 
   return (
     <Box
@@ -88,7 +122,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: getColorNavbarBackground(selectDataset),
+          backgroundColor: getColorNavbarBackground(styleName),
           fontSize: 12,
           boxShadow: "none",
           marginTop: "2.5rem",
@@ -110,21 +144,20 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             component="div"
             sx={{
               flexGrow: 1,
-              fontSize: { xs: 20, sm: 32, md: 60 },
               width: { xs: 200, sm: 220 },
               fontWeight: { sm: 600, md: 500 },
             }}
           >
             <div
               className="voyages-header"
-              style={{ color: getTextColor(selectDataset) }}
+              style={{ color: getTextColor(styleName) }}
             >
               Voyages Database<span className="voyages-title">:</span>
-              <div className="voyages-header-subtitle">{selectDataset}</div>
+              <div className="voyages-header-subtitle">{textHeader}</div>
             </div>
             <Divider
               sx={{
-                width: { xs: 300, sm: 400, md: 600, lg: 800, xl: 900 },
+                width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
                 borderWidth: "0.25px",
                 borderClor: "rgb(0 0 0 / 50%)",
               }}
@@ -157,13 +190,14 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             </Typography>
           </Typography>
           <CanscandingMenuMobile />
-
           <Box
+            className="menu-nav-bar-select-box"
             sx={{
               display: {
                 xs: "none",
                 sm: "none",
                 md: "block",
+                lg: "block",
                 textAlign: "center",
                 paddingRight: 40,
                 fontWeight: 600,
@@ -173,29 +207,41 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
           >
             <Box
               className="menu-nav-bar-select"
-              style={{ color: getTextColor(selectDataset) }}
+              style={{ color: getTextColor(styleName) }}
             >
               Select dataset
             </Box>
-            {value.map((item, index) => (
-              <Button
-                key={`${item}-${index}`}
-                onClick={() => handleSelectDataset(item.label)}
-                sx={{
-                  color: "#ffffff",
-                  fontWeight: 600,
-                  height: 32,
-                  fontSize: 12,
-                  margin: item.label === "Trans-Atlantic" ? "0 8px" : 0,
-                  backgroundColor: getColorBackground(item.label),
-                  "&:hover": {
-                    backgroundColor: getColorHoverBackground(item.label),
-                  },
-                }}
-              >
-                <div>{item.label}</div>
-              </Button>
-            ))}
+            {value.map((item, index) => {
+              const { base_filter, headers, style_name, blocks } = item;
+              return (
+                <Button
+                  key={`${item}-${index}`}
+                  onClick={() =>
+                    handleSelectDataset(
+                      base_filter,
+                      headers.label,
+                      headers.text_introduce,
+                      style_name,
+                      blocks
+                    )
+                  }
+                  sx={{
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    height: 32,
+                    fontSize: 12,
+                    margin: "0 2px",
+                    boxShadow: getColorBoxShadow(style_name),
+                    backgroundColor: getColorBackground(style_name),
+                    "&:hover": {
+                      backgroundColor: getColorHoverBackground(style_name),
+                    },
+                  }}
+                >
+                  <div>{headers.label}</div>
+                </Button>
+              );
+            })}
           </Box>
         </Toolbar>
         <Hidden mdDown>
@@ -206,7 +252,6 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClick={handleMenuClose}
-            onMouseMove={handleMenuClose}
           >
             {drawer}
           </Menu>

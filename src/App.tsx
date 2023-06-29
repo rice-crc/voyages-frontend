@@ -11,10 +11,10 @@ import { RootState } from "./redux/store";
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
-  const selectDataset = useSelector(
-    (state: RootState) => state.getDataSetMenu.selectDataset
+  const { styleName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
   );
-  const updatedTheme = updateThemeBackground(selectDataset);
+  const updatedTheme = updateThemeBackground(styleName);
 
   return (
     <ThemeProvider theme={updatedTheme}>

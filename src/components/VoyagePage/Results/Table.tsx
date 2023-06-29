@@ -31,6 +31,7 @@ import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
   RangeSliderState,
+  TYPESOFDATASET,
 } from "@/share/InterfaceTypes";
 import { ColumnSelector } from "@/components/fcComponets/ColumnSelectorTable/ColumnSelector";
 import { setVisibleColumn } from "@/redux/getColumnSlice";
@@ -53,6 +54,8 @@ const Table: React.FC = () => {
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
+  const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
+    useSelector((state: RootState) => state.getDataSetCollection);
 
   const [width, height] = useWindowSize();
   const maxWidth =
@@ -92,23 +95,9 @@ const Table: React.FC = () => {
     );
   };
 
-  const fetchDataFromLocalStorage = () => {
-    const storedData = localStorage.getItem("data");
-    const storedVisibleColumnCells = localStorage.getItem("data");
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      // console.log("parsedData", parsedData);
-      // Do something with the retrieved data
-    }
-  };
-
   useEffect(() => {
     saveDataToLocalStorage(data, visibleColumnCells);
   }, [data]);
-
-  useEffect(() => {
-    fetchDataFromLocalStorage();
-  }, []);
 
   useEffect(() => {
     let subscribed = true;
@@ -128,6 +117,13 @@ const Table: React.FC = () => {
           newFormData.append(varName, label);
         }
       }
+
+      if (styleName !== TYPESOFDATASET.allVoyages) {
+        for (const value of dataSetValue) {
+          newFormData.append(dataSetKey, value);
+        }
+      }
+
       try {
         const response = await dispatch(
           fetchVoyageOptionsPagination(newFormData)
@@ -157,6 +153,10 @@ const Table: React.FC = () => {
     rang,
     autoCompleteValue,
     autoLabelName,
+    dataSetValue,
+    dataSetKey,
+    dataSetValueBaseFilter,
+    styleName,
   ]);
   useEffect(() => {
     const visibleColumns = tablesCell

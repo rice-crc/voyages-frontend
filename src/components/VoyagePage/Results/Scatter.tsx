@@ -15,6 +15,7 @@ import {
   RangeSliderState,
   AutoCompleteInitialState,
   CurrentPageInitialState,
+  TYPESOFDATASET,
 } from "@/share/InterfaceTypes";
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
 import "@/style/page.scss";
@@ -42,6 +43,8 @@ function Scatter() {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+  const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
+    useSelector((state: RootState) => state.getDataSetCollection);
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
@@ -92,6 +95,11 @@ function Scatter() {
       newFormData.append("agg_fn", aggregation);
       newFormData.append("cachename", "voyage_xyscatter");
 
+      if (styleName !== TYPESOFDATASET.allVoyages) {
+        for (const value of dataSetValue) {
+          newFormData.append(dataSetKey, value);
+        }
+      }
       if (isChange && rang[varName] && currentPage === 2) {
         newFormData.append(varName, String(rang[varName][0]));
         newFormData.append(varName, String(rang[varName][1]));
@@ -156,6 +164,10 @@ function Scatter() {
     chips,
     currentPage,
     isSuccess,
+    dataSetValue,
+    dataSetKey,
+    dataSetValueBaseFilter,
+    styleName,
     VoyageScatterOptions,
   ]);
 

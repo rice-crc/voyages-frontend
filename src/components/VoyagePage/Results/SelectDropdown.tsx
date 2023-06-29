@@ -8,8 +8,11 @@ import {
   Chip,
   OutlinedInput,
 } from "@mui/material";
-import { ChangeEvent, FunctionComponent, ReactNode } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import { PlotXYVar, VoyagesOptionProps } from "@/share/InterfaceTypes";
+import { getBoderColor } from "@/utils/getColorStyle";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface SelectDropdownScatterProps {
   selectedX: PlotXYVar[];
@@ -51,6 +54,9 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
       },
     },
   };
+  const { styleName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
+  );
 
   const isDisabledX = (option: PlotXYVar) => {
     return option.var_name === selectedOptions.y_vars;
@@ -124,7 +130,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
                     <Chip
                       style={{
                         margin: 2,
-                        border: "1px solid #54bfb6",
+                        border: getBoderColor(styleName),
                       }}
                       key={`${option}-${index}`}
                       label={optionsFlatY[index].label}

@@ -9,7 +9,7 @@ import { voyagesApi } from '../fetchAPI/fetchApiService';
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import getFilterSlice from "./getFilterSlice";
 import getColumnsSlice from "./getColumnSlice";
-import getDataSetMenuSlice from './getDataSetMenuSlice'
+import getDataSetCollectionSlice from './getDataSetCollectionSlice'
 
 
 const store = configureStore({
@@ -22,7 +22,7 @@ const store = configureStore({
         getTableData: getTableSlice,
         getFilter: getFilterSlice,
         getColumns: getColumnsSlice,
-        getDataSetMenu: getDataSetMenuSlice,
+        getDataSetCollection: getDataSetCollectionSlice,
         [voyagesApi.reducerPath]: voyagesApi.reducer
     },
     middleware: (getDefaultMiddleware) =>

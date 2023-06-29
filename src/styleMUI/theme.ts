@@ -5,12 +5,14 @@ export const MAINBGGREEN = "#93D0CB";
 let MAINColorBG = MAINBGGREEN;
 
 export const generateThemeGB = (state: any) => {
-    if (state === "All Voyages") {
+    if (state === "all-voyages") {
         MAINColorBG = "#93D0CB";
-    } else if (state === "Trans-Atlantic") {
+    } else if (state === "transatlantic") {
         MAINColorBG = "rgba(56, 116, 203, 0.8)";
-    } else if (state === "Intra-american") {
+    } else if (state === "intra-american") {
         MAINColorBG = "rgba(127, 118, 191)";
+    } else if (state === "texas") {
+        MAINColorBG = "rgba(187, 105, 46)";
     }
     return MAINColorBG;
 };

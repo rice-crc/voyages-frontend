@@ -18,6 +18,7 @@ import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
   BargraphXYVar,
+  TYPESOFDATASET,
 } from "@/share/InterfaceTypes";
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
 
@@ -40,6 +41,9 @@ function BarGraph() {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+
+  const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
+    useSelector((state: RootState) => state.getDataSetCollection);
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
@@ -87,6 +91,11 @@ function BarGraph() {
       newFormData.append("agg_fn", aggregation);
       newFormData.append("cachename", "voyage_bar_and_donut_charts");
 
+      if (styleName !== TYPESOFDATASET.allVoyages) {
+        for (const value of dataSetValue) {
+          newFormData.append(dataSetKey, value);
+        }
+      }
       if (isChange && rang[varName] && currentPage === 3) {
         newFormData.append(varName, String(rang[varName][0]));
         newFormData.append(varName, String(rang[varName][1]));
@@ -147,6 +156,10 @@ function BarGraph() {
     chips,
     currentPage,
     isSuccess,
+    dataSetValue,
+    dataSetKey,
+    styleName,
+    dataSetValueBaseFilter,
     VoyageBargraphOptions,
   ]);
 

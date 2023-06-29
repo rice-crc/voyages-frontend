@@ -55,6 +55,17 @@ export const TYPES: {
     CharField: 'CharField'
 };
 
+export const TYPESOFDATASET: {
+    allVoyages: string;
+    intraAmerican: string;
+    transatlantic: string;
+    texas: string
+} = {
+    allVoyages: "all-voyages",
+    intraAmerican: "intra-american",
+    transatlantic: "transatlantic",
+    texas: "texas"
+};
 
 export interface AutoCompleteSliceLists {
     results: string[]

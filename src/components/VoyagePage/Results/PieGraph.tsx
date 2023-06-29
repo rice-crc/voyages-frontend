@@ -17,6 +17,7 @@ import {
   CurrentPageInitialState,
   PlotPIEX,
   PlotPIEY,
+  TYPESOFDATASET,
 } from "@/share/InterfaceTypes";
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
 import createPlotlyComponent from "react-plotly.js/factory";
@@ -40,6 +41,8 @@ function PieGraph() {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+  const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
+    useSelector((state: RootState) => state.getDataSetCollection);
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
@@ -48,7 +51,6 @@ function PieGraph() {
   const [pieGraphSelectedY, setSelectedY] = useState<PlotPIEY[]>([]);
   const [plotX, setPlotX] = useState<any[]>([]);
   const [plotY, setPlotY] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const [pieGraphOptions, setPieOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_PIEGRAPH_OPTIONS.x_vars[0].var_name,
@@ -75,12 +77,17 @@ function PieGraph() {
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
     const fetchData = async () => {
-      setLoading(true);
       const newFormData: FormData = new FormData();
       newFormData.append("groupby_by", pieGraphOptions.x_vars);
       newFormData.append("groupby_cols", pieGraphOptions.y_vars);
       newFormData.append("agg_fn", aggregation);
       newFormData.append("cachename", "voyage_bar_and_donut_charts");
+
+      if (styleName !== TYPESOFDATASET.allVoyages) {
+        for (const value of dataSetValue) {
+          newFormData.append(dataSetKey, value);
+        }
+      }
 
       if (isChange && rang[varName] && currentPage === 4) {
         newFormData.append(varName, String(rang[varName][0]));
@@ -97,6 +104,7 @@ function PieGraph() {
         const response = await dispatch(
           fetchVoyageGraphGroupby(newFormData)
         ).unwrap();
+        console.log("response--", response);
 
         if (subscribed) {
           const keys = Object.keys(response);
@@ -114,9 +122,8 @@ function PieGraph() {
         }
       } catch (error) {
         console.log("error", error);
-        setLoading(false);
       } finally {
-        setLoading(false);
+        console.log("done");
       }
     };
     fetchData();
@@ -136,6 +143,10 @@ function PieGraph() {
     autoLabelName,
     currentPage,
     isSuccess,
+    dataSetValue,
+    dataSetKey,
+    dataSetValueBaseFilter,
+    styleName,
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -218,7 +229,7 @@ function PieGraph() {
               optionFlat[pieGraphOptions.x_vars]?.label || ""
             } vs <br> ${
               optionFlat[pieGraphOptions.y_vars]?.label || ""
-            } Pie Graph`,
+            } Pie Chart`,
             font: {
               family: "Arial, sans-serif",
               size: 12,
