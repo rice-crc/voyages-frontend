@@ -148,7 +148,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
       ) : (
         <Box sx={{ maxWidth, my: 2 }}>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">{XFieldText}</InputLabel>
+            <InputLabel id="demo-simple-select-label">{YFieldText}</InputLabel>
             <Select
               sx={{
                 height: 42,
@@ -176,7 +176,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
                 <MenuItem
                   key={`${option.label}-${index}`}
                   value={option.var_name}
-                  disabled={isDisabledX(option)}
+                  disabled={isDisabledY(option)}
                 >
                   {option.label}
                 </MenuItem>

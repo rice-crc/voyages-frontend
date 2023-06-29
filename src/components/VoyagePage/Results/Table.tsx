@@ -32,7 +32,7 @@ import {
   CurrentPageInitialState,
   RangeSliderState,
 } from "@/share/InterfaceTypes";
-import ColumnSelector from "@/components/fcComponets/ColumnSelectorTable/ColumnSelector";
+import { ColumnSelector } from "@/components/fcComponets/ColumnSelectorTable/ColumnSelector";
 import { setVisibleColumn } from "@/redux/getColumnSlice";
 
 const Table: React.FC = () => {
@@ -170,7 +170,6 @@ const Table: React.FC = () => {
       const finalRowData = generateRowsData(data);
       const newColumnDefs: ColumnDef[] = tablesCell.map(
         (value: VoyageTableCellStructure) => {
-          console.log("value.colID", value.colID);
           const columnDef = {
             headerName: value.header_label,
             field: value.colID,

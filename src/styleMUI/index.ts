@@ -122,7 +122,6 @@ export const ButtonNav = styled(Button)`
   && {
     color: black;
     width: 70px;
-    background-color: #93d0cb;
     margin: 6px 0;
     font-size: 14px;
     font-weight: 600;

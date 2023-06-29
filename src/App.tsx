@@ -1,29 +1,33 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./redux/store";
+import { Provider, useSelector } from "react-redux";
+
 import HOME from "./components/Home";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./styleMUI/theme";
+import { updateThemeBackground } from "./styleMUI/theme";
 import Table from "./components/voyagePage/Results/Table";
+import { RootState } from "./redux/store";
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
+  const selectDataset = useSelector(
+    (state: RootState) => state.getDataSetMenu.selectDataset
+  );
+  const updatedTheme = updateThemeBackground(selectDataset);
 
   return (
-    <Provider store={store}>
+    <ThemeProvider theme={updatedTheme}>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<HOME />} />
-              <Route path="/table" element={<Table />} />
-            </Routes>
-          </BrowserRouter>
-        </ThemeProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HOME />} />
+            <Route path="/table" element={<Table />} />
+          </Routes>
+        </BrowserRouter>
       </QueryClientProvider>
-    </Provider>
+    </ThemeProvider>
   );
 };
+
 export default App;

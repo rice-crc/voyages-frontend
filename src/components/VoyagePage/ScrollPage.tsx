@@ -14,12 +14,16 @@ import Scatter from "./Results/Scatter";
 import BarGraph from "./Results/BarGraph";
 import Table from "./Results/Table";
 import PieGraph from "./Results/PieGraph";
+import { getColorBackground } from "@/utils/getColorStyle";
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [isShowScrollTopButton, setShowScrollTopButton] = useState(false);
+  const { value, selectDataset } = useSelector(
+    (state: RootState) => state.getDataSetMenu
+  );
   const isSmallScreen = useMediaQuery(theme.breakpoints.up("md"));
   const { currentPage, isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -137,7 +141,7 @@ const ScrollPage = () => {
     <div
       style={{
         position: "relative",
-        top: !isSmallScreen ? 100 : isFilter ? 230 : 175,
+        top: !isSmallScreen ? 100 : isFilter ? 230 : 170,
         padding: currentPage !== 1 ? "0 20px" : "",
       }}
       id="content-container"
@@ -152,10 +156,12 @@ const ScrollPage = () => {
                   key={`${page}-${buttonIndex}`}
                   onClick={() => handlePageNavigation(buttonIndex)}
                   style={{
-                    backgroundColor:
-                      currentPage === buttonIndex ? "#54bfb6" : "#93D0CB",
-                    color: currentPage === buttonIndex ? "#000aff" : "black",
-                    fontWeight: currentPage === buttonIndex ? 700 : 500,
+                    width: "80px",
+                    height: "32",
+                    backgroundColor: getColorBackground(selectDataset),
+                    fontSize: currentPage === buttonIndex ? 15 : 14,
+                    color: currentPage === buttonIndex ? "white" : "black",
+                    fontWeight: currentPage === buttonIndex ? 900 : 600,
                   }}
                   variant={
                     currentPage === buttonIndex ? "contained" : "outlined"

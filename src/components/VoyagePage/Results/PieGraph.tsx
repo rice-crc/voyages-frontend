@@ -21,8 +21,6 @@ import {
 import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
 import createPlotlyComponent from "react-plotly.js/factory";
 
-const Plotly = createPlotlyComponent(Plot);
-
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
   const {

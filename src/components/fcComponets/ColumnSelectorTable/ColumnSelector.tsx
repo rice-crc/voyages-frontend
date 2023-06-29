@@ -1,5 +1,5 @@
-import { ColumnMenuItems } from "./ColumnMenuItems";
+import ButtonDropdownSelectoreColumn from "./ButtonDropdownSelectoreColumn";
 
-export default function ColumnsSelector() {
-  return <ColumnMenuItems />;
-}
+export const ColumnSelector = () => {
+  return <ButtonDropdownSelectoreColumn />;
+};

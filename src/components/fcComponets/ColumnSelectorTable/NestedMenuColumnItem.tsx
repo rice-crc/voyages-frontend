@@ -131,7 +131,6 @@ const NestedMenuColumnItem = React.forwardRef<any, NestedMenuItemProps>(
         {label}
         <div style={{ flexGrow: 1 }} />
         {rightIcon}
-        {/* isFilter &&  */}
         <Menu
           hideBackdrop
           style={{ pointerEvents: "none" }}

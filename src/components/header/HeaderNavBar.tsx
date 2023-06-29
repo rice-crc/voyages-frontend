@@ -10,7 +10,7 @@ import {
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-import { MenuListDropdownStyle, StyleDiver } from "@/styleMUI";
+import { MenuListDropdownStyle } from "@/styleMUI";
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import FilterICON from "@/assets/filterICON.svg";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -21,15 +21,25 @@ import { CurrentPageInitialState } from "@/share/InterfaceTypes";
 import "@/style/Nav.scss";
 
 import CanscandingMenuMobile from "../canscanding/CanscandingMenuMobile";
-import { ColumnMenuItems } from "../fcComponets/ColumnSelectorTable/ColumnMenuItems";
-import { setIsFilter } from "@/redux/getFilterSlice";
 
-const navItems = ["About", "Vessels", "Itinerary", "Collections"];
+import { setIsFilter } from "@/redux/getFilterSlice";
+import { ColumnSelector } from "../fcComponets/ColumnSelectorTable/ColumnSelector";
+import { setSelectDataset } from "@/redux/getDataSetMenuSlice";
+
+import {
+  getColorBackground,
+  getColorHoverBackground,
+  getColorNavbarBackground,
+  getTextColor,
+} from "@/utils/getColorStyle";
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
+  );
+  const { value, selectDataset } = useSelector(
+    (state: RootState) => state.getDataSetMenu
   );
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -37,10 +47,9 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
 
-  const handleMenuFilterMobileOpen = (event: any) => {
-    setAnchorFilterMobileEl(event.currentTarget);
+  const handleSelectDataset = (name: string) => {
+    dispatch(setSelectDataset(name));
   };
-
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
   };
@@ -57,14 +66,14 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     handleMenuClose();
   };
 
-  const drawer = navItems.map((item, index) => (
-    <MenuList dense style={{ padding: 0 }} key={`${item}-${index}`}>
+  const drawer = value.map((item, index) => (
+    <MenuList dense style={{ padding: 0 }} key={`${item.label}-${index}`}>
       <MenuItem>
         <ListItemText
           className="menu-nposition: relative;
           right: 5.5%;av-bar"
-          onClick={() => handleSelectMenu(item)}
-          primary={item}
+          onClick={() => handleSelectMenu(item.label)}
+          primary={item.label}
         />
       </MenuItem>
     </MenuList>
@@ -79,8 +88,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: "#93D0CB",
-          color: "black",
+          backgroundColor: getColorNavbarBackground(selectDataset),
           fontSize: 12,
           boxShadow: "none",
           marginTop: "2.5rem",
@@ -102,19 +110,17 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             component="div"
             sx={{
               flexGrow: 1,
-              color: "#000000",
               fontSize: { xs: 20, sm: 32, md: 60 },
               width: { xs: 200, sm: 220 },
               fontWeight: { sm: 600, md: 500 },
             }}
           >
             <div
-              onClick={() => {
-                console.log("go to HOME");
-              }}
               className="voyages-header"
+              style={{ color: getTextColor(selectDataset) }}
             >
-              Voyages Database
+              Voyages Database<span className="voyages-title">:</span>
+              <div className="voyages-header-subtitle">{selectDataset}</div>
             </div>
             <Divider
               sx={{
@@ -151,27 +157,43 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             </Typography>
           </Typography>
           <CanscandingMenuMobile />
+
           <Box
             sx={{
               display: {
                 xs: "none",
                 sm: "none",
                 md: "block",
+                textAlign: "center",
                 paddingRight: 40,
+                fontWeight: 600,
+                fontSize: 20,
               },
             }}
           >
-            {navItems.map((item) => (
+            <Box
+              className="menu-nav-bar-select"
+              style={{ color: getTextColor(selectDataset) }}
+            >
+              Select dataset
+            </Box>
+            {value.map((item, index) => (
               <Button
-                key={item}
+                key={`${item}-${index}`}
+                onClick={() => handleSelectDataset(item.label)}
                 sx={{
-                  color: "#000",
+                  color: "#ffffff",
                   fontWeight: 600,
-                  textTransform: "none",
-                  fontSize: 20,
+                  height: 32,
+                  fontSize: 12,
+                  margin: item.label === "Trans-Atlantic" ? "0 8px" : 0,
+                  backgroundColor: getColorBackground(item.label),
+                  "&:hover": {
+                    backgroundColor: getColorHoverBackground(item.label),
+                  },
                 }}
               >
-                <div className="menu-nav-bar">{item}</div>
+                <div>{item.label}</div>
               </Button>
             ))}
           </Box>
@@ -196,7 +218,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
         onClick={handleMenuFilterMobileClose}
       >
         <MenuListDropdownStyle>
-          <ColumnMenuItems />
+          <ColumnSelector />
         </MenuListDropdownStyle>
       </Menu>
     </Box>
