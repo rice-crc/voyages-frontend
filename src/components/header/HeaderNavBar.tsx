@@ -41,6 +41,8 @@ import {
   getTextColor,
   getColorBoxShadow,
 } from "@/utils/getColorStyle";
+import { DrawerMenuBar } from "./drawerMenuBar";
+import { BaseFilter } from "@/share/InterfactTypesDatasetCollection";
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -57,7 +59,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     useState<null | HTMLElement>(null);
 
   const handleSelectDataset = (
-    base_filter: any,
+    base_filter: BaseFilter[],
     textHeder: string,
     textIntro: string,
     styleName: string,
@@ -85,33 +87,33 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     setAnchorEl(event.currentTarget);
   };
 
-  const drawer = value.map((item: any, index: number) => {
-    const { base_filter, headers, style_name, blocks } = item;
-    return (
-      <MenuList
-        dense
-        style={{ padding: 0 }}
-        key={`${item.headers.label}-${index}`}
-      >
-        <MenuItem>
-          <ListItemText
-            className="menu-nposition: relative;
-            right: 5.5%;av-bar"
-            onClick={() =>
-              handleSelectDataset(
-                base_filter,
-                headers.label,
-                headers.text_introduce,
-                style_name,
-                blocks
-              )
-            }
-            primary={item.headers.label}
-          />
-        </MenuItem>
-      </MenuList>
-    );
-  });
+  // const drawer = value.map((item: any, index: number) => {
+  //   const { base_filter, headers, style_name, blocks } = item;
+  //   return (
+  //     <MenuList
+  //       dense
+  //       style={{ padding: 0 }}
+  //       key={`${item.headers.label}-${index}`}
+  //     >
+  //       <MenuItem>
+  //         <ListItemText
+  //           className="menu-nposition: relative;
+  //           right: 5.5%;av-bar"
+  //           onClick={() =>
+  //             handleSelectDataset(
+  //               base_filter,
+  //               headers.label,
+  //               headers.text_introduce,
+  //               style_name,
+  //               blocks
+  //             )
+  //           }
+  //           primary={item.headers.label}
+  //         />
+  //       </MenuItem>
+  //     </MenuList>
+  //   );
+  // });
 
   return (
     <Box
@@ -125,7 +127,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
           backgroundColor: getColorNavbarBackground(styleName),
           fontSize: 12,
           boxShadow: "none",
-          marginTop: "2.5rem",
+          marginTop: "3rem",
         }}
       >
         <Toolbar sx={{ display: "flex", alignItems: "center" }}>
@@ -253,7 +255,10 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             open={Boolean(anchorEl)}
             onClick={handleMenuClose}
           >
-            {drawer}
+            <DrawerMenuBar
+              value={value}
+              handleSelectDataset={handleSelectDataset}
+            />
           </Menu>
         </Box>
       </AppBar>

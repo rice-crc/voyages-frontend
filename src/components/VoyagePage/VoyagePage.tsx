@@ -1,6 +1,4 @@
 import { RootState } from "@/redux/store";
-import { TYPESOFDATASET } from "@/share/InterfaceTypes";
-import "@/style/page.scss";
 import {
   getIdStyleName,
   getIntroBackgroundColor,
@@ -8,12 +6,14 @@ import {
 } from "@/utils/getColorStyle";
 import { Grid } from "@mui/material";
 import { useSelector } from "react-redux";
+import "@/style/page.scss";
 
 const VoyagesPage = () => {
   const { styleName, textIntroduce } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
   return (
     <div className="page" id={getIdStyleName(styleName)}>
       <Grid className="main-script-text-box">
@@ -27,6 +27,8 @@ const VoyagesPage = () => {
           {textIntroduce}
         </span>
       </Grid>
+
+      <div className="credit-bottom-right">{`Credit: Artist Name ${currentYear}`}</div>
     </div>
   );
 };

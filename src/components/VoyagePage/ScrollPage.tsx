@@ -30,8 +30,9 @@ const ScrollPage = () => {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const isSmallScreen = useMediaQuery(theme.breakpoints.up("md"));
-  const totalPageCount = blocks?.length;
+  const newBlock = [...blocks].reverse();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.up("lg"));
+  const totalPageCount = newBlock?.length;
 
   // Scroll to next page and page hide other page
   // useEffect(() => {
@@ -129,11 +130,7 @@ const ScrollPage = () => {
       {currentPage === 2 && <Scatter />}
       {currentPage === 3 && <BarGraph />}
       {currentPage === 4 && <PieGraph />}
-      {currentPage === 5 && (
-        <div style={{ marginTop: isFilter ? 30 : 0 }}>
-          <Table />
-        </div>
-      )}
+      {currentPage === 5 && <Table />}
       {currentPage === 6 && <h1>PIVOT</h1>}
       {currentPage === 7 && <h1>MAP</h1>}
     </motion.div>
@@ -143,7 +140,7 @@ const ScrollPage = () => {
     <div
       style={{
         position: "relative",
-        top: !isSmallScreen ? 100 : isFilter ? 230 : 170,
+        top: !isSmallScreen ? 130 : currentPage !== 1 && isFilter ? 230 : 170,
         padding: currentPage !== 1 ? "0 20px" : "",
       }}
       id="content-container"
@@ -151,7 +148,7 @@ const ScrollPage = () => {
       <Hidden>
         <div className="navbar-wrapper">
           <nav className="nav-button">
-            {blocks.map((page, index) => {
+            {newBlock.map((page, index) => {
               const buttonIndex = totalPageCount - index;
               return (
                 <ButtonNav

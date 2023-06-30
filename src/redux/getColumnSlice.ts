@@ -1,17 +1,19 @@
+import { InitialStateColumnProps, TableCellStructureProps } from '@/share/InterfaceTypesTable';
 import jsonData from '@/utils/voyage_table_cell_structure__updated21June.json'
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-const initialState = {
+
+const initialState: InitialStateColumnProps = {
     valueCells: jsonData,
-    visibleColumnCells: [] // Initialize as an empty array
+    visibleColumnCells: []
 };
 export const getColumnsSlice = createSlice({
     name: "getColumns",
     initialState,
     reducers: {
-        getColumnsSelectorTree: (state, action) => {
+        getColumnsSelectorTree: (state, action: PayloadAction<TableCellStructureProps>) => {
             state.valueCells = action.payload;
         },
-        setVisibleColumn: (state, action) => {
+        setVisibleColumn: (state, action: PayloadAction<string[]>) => {
             state.visibleColumnCells = action.payload;
         },
     },

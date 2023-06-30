@@ -1,13 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import jsonData from '@/utils/transatlantic_voyages_filter_menu.json'
-const initialState = {
+import { FilterMenu, InitialStateFilterMenu } from "@/share/InterfaceTypes";
+const initialState: InitialStateFilterMenu = {
     value: jsonData
 };
 export const getOptionsFlatObjSlice = createSlice({
     name: "optionFlatMenu",
     initialState,
     reducers: {
-        getOptionsFlatMenu: (state, action) => {
+        getOptionsFlatMenu: (state, action: PayloadAction<FilterMenu[]>) => {
             state.value = action.payload;
         }
     }

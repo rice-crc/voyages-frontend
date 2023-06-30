@@ -73,11 +73,17 @@ const ButtonDropdownSelectoreColumn = () => {
       trigger={
         <span style={{ display: "flex", alignItems: "center" }}>
           <Button
-            style={{
-              fontSize: 12,
+            sx={{
+              fontSize: 10,
               backgroundColor: "#17a2b8",
+              fontWeight: 600,
               color: "#ffffff",
+              width: { xs: 160, sm: 160 },
+              "&:hover": {
+                backgroundColor: "rgb(84, 191, 182)",
+              },
             }}
+            className="configureColumnsButton"
             endIcon={<ArrowDropDown />}
           >
             configure columns

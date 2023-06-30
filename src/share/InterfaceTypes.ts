@@ -82,7 +82,9 @@ export interface AutoCompleteOption {
     id: number
     label: string
 }
-
+export interface InitialStateFilterMenu {
+    value: FilterMenu[]
+}
 
 export type VoyagaesFilterMenu = FilterMenu[]
 

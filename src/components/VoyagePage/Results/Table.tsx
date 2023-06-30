@@ -21,7 +21,7 @@ import {
   VoyageTableCellStructure,
 } from "@/share/InterfaceTypesTable";
 import { setColumnDefs, setRowData, setData } from "@/redux/getTableSlice";
-import { ICellRendererParams, ITooltipParams } from "ag-grid-community";
+import { ICellRendererParams } from "ag-grid-community";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import "@/style/table.scss";
@@ -35,6 +35,7 @@ import {
 } from "@/share/InterfaceTypes";
 import { ColumnSelector } from "@/components/fcComponets/ColumnSelectorTable/ColumnSelector";
 import { setVisibleColumn } from "@/redux/getColumnSlice";
+import { getRowsPerPage } from "@/utils/getBreakPoints";
 
 const Table: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -56,6 +57,15 @@ const Table: React.FC = () => {
   );
   const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
     useSelector((state: RootState) => state.getDataSetCollection);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState<number>(0);
+  // const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+  const [rowsPerPage, setRowsPerPage] = useState(
+    getRowsPerPage(window.innerWidth, window.innerHeight)
+  );
+
+  const [totalResultsCount, setTotalResultsCount] = useState(0);
+  const gridRef = useRef<any>(null);
 
   const [width, height] = useWindowSize();
   const maxWidth =
@@ -78,11 +88,24 @@ const Table: React.FC = () => {
     []
   );
 
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-  const [totalResultsCount, setTotalResultsCount] = useState(0);
-  const gridRef = useRef<any>(null);
+  useEffect(() => {
+    const handleResize = () => {
+      setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    setStyle({
+      width: maxWidth,
+      height: height * 0.65,
+    });
+  }, [width, height, maxWidth]);
 
   const saveDataToLocalStorage = (
     data: VoyageOptionsGropProps[],
@@ -105,7 +128,7 @@ const Table: React.FC = () => {
       setLoading(true);
       const newFormData: FormData = new FormData();
       newFormData.append("results_page", String(page + 1));
-      newFormData.append("results_page", String(page + 1));
+      newFormData.append("results_per_page", String(rowsPerPage));
       if (rang[varName] && currentPage === 5) {
         newFormData.append(varName, String(rang[varName][0]));
         newFormData.append(varName, String(rang[varName][1]));
@@ -120,7 +143,7 @@ const Table: React.FC = () => {
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
-          newFormData.append(dataSetKey, value);
+          newFormData.append(dataSetKey, String(value));
         }
       }
 
@@ -256,7 +279,7 @@ const Table: React.FC = () => {
         }
       );
       dispatch(setColumnDefs(newColumnDefs));
-      dispatch(setRowData(finalRowData));
+      dispatch(setRowData(finalRowData as Record<string, any>[]));
     }
   }, [data, visibleColumnCells, dispatch]);
 
@@ -322,6 +345,7 @@ const Table: React.FC = () => {
     },
     [page, rowsPerPage]
   );
+
   const handleChangePagePagination = useCallback(
     (event: any, newPage: number) => {
       setPage(newPage - 1);
@@ -340,20 +364,14 @@ const Table: React.FC = () => {
       ) : (
         <div style={containerStyle} className="ag-theme-alpine grid-container">
           <div style={style}>
-            <span
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
+            <span className="tableContainer">
               <ColumnSelector />
               <TablePagination
                 component="div"
                 count={totalResultsCount}
                 page={page}
                 onPageChange={handleChangePage}
-                rowsPerPageOptions={[10, 15, 20, 25]}
+                rowsPerPageOptions={[5, 10, 12, 15, 20, 25, 30, 45, 50, 100]}
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />

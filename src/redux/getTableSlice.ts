@@ -16,7 +16,7 @@ export const getTableSlice = createSlice({
         setData: (state, action: PayloadAction<VoyageOptionsGropProps[]>) => {
             state.data = action.payload;
         },
-        setRowData: (state, action) => {
+        setRowData: (state, action: PayloadAction<Record<string, any>[]>) => {
             state.rowData = action.payload;
         },
         setColumnDefs:

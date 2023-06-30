@@ -1,6 +1,7 @@
+import { BaseFilter, DataSetCollectionProps, InitialStateDataSetCollection } from '@/share/InterfactTypesDatasetCollection';
 import jsonData from '@/utils/VOYAGE_COLLECTIONS.json'
-import { createSlice } from "@reduxjs/toolkit"
-const initialState = {
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+const initialState: InitialStateDataSetCollection = {
     value: jsonData,
     textHeader: jsonData[0].headers.label,
     textIntroduce: jsonData[0].headers.text_introduce,
@@ -8,32 +9,32 @@ const initialState = {
     dataSetValueBaseFilter: [],
     dataSetKey: '',
     dataSetValue: [],
-    blocks: jsonData[0].blocks.reverse()
+    blocks: jsonData[0].blocks
 }
 
 export const getDataSetCollectionSlice = createSlice({
     name: "getDataSetCollection",
     initialState,
     reducers: {
-        setBaseFilterDataSetValue: (state, action) => {
+        setBaseFilterDataSetValue: (state, action: PayloadAction<BaseFilter[]>) => {
             state.dataSetValueBaseFilter = action.payload;
         },
-        setBaseFilterDataKey: (state, action) => {
+        setBaseFilterDataKey: (state, action: PayloadAction<string>) => {
             state.dataSetKey = action.payload;
         },
-        setBaseFilterDataValue: (state, action) => {
+        setBaseFilterDataValue: (state, action: PayloadAction<string[] | number[]>) => {
             state.dataSetValue = action.payload;
         },
-        setDataSetHeader: (state, action) => {
+        setDataSetHeader: (state, action: PayloadAction<string>) => {
             state.textHeader = action.payload
         },
-        setTextIntro: (state, action) => {
+        setTextIntro: (state, action: PayloadAction<string>) => {
             state.textIntroduce = action.payload
         },
-        setStyleName: (state, action) => {
+        setStyleName: (state, action: PayloadAction<string>) => {
             state.styleName = action.payload
         },
-        setBlocksMenuList: (state, action) => {
+        setBlocksMenuList: (state, action: PayloadAction<string[]>) => {
             state.blocks = action.payload
         },
 

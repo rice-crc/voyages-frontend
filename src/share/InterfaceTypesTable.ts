@@ -870,3 +870,7 @@ export interface Children {
     colID: string
     label: string
 }
+export interface InitialStateColumnProps {
+    valueCells: TableCellStructureProps
+    visibleColumnCells: string[]
+}
