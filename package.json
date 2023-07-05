@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "vite --host --port 3000",
     "build": "vite build",
-    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --quiet",
     "preview": "vite preview",
+    "coverage": "vitest run --coverage",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",

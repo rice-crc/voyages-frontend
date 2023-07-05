@@ -1,6 +1,6 @@
 import { useState, useEffect, ChangeEvent, useCallback, useMemo } from "react";
 import Plot from "react-plotly.js";
-import VOYAGE_PIEGRAPH_OPTIONS from "@/utils/VOYAGE_PIERAPH_OPTIONS.json";
+import PIECHART_OPTIONS from "@/utils/VOYAGE_PIECHART_OPTIONS.json";
 import { Grid, SelectChangeEvent, Skeleton } from "@mui/material";
 import { useWindowSize } from "@react-hook/window-size";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -53,13 +53,13 @@ function PieGraph() {
   const [plotY, setPlotY] = useState<any[]>([]);
 
   const [pieGraphOptions, setPieOptions] = useState<VoyagesOptionProps>({
-    x_vars: VOYAGE_PIEGRAPH_OPTIONS.x_vars[0].var_name,
-    y_vars: VOYAGE_PIEGRAPH_OPTIONS.y_vars[0].var_name,
+    x_vars: PIECHART_OPTIONS.x_vars[0].var_name,
+    y_vars: PIECHART_OPTIONS.y_vars[0].var_name,
   });
   const [aggregation, setAggregation] = useState<string>("sum");
 
   const VoyagepieGraphOptions = () => {
-    Object.entries(VOYAGE_PIEGRAPH_OPTIONS).forEach(
+    Object.entries(PIECHART_OPTIONS).forEach(
       ([key, value]: [string, PlotPIEX[]]) => {
         if (key === "x_vars") {
           setSelectedX(value);
@@ -197,7 +197,7 @@ function PieGraph() {
         maxWidth={maxWidth}
         XFieldText={"Sectors"}
         YFieldText={"Values"}
-        optionsFlatY={VOYAGE_PIEGRAPH_OPTIONS.y_vars}
+        optionsFlatY={PIECHART_OPTIONS.y_vars}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}

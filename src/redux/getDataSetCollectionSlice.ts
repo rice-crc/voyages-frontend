@@ -1,7 +1,7 @@
-import { BaseFilter, DataSetCollectionProps, InitialStateDataSetCollection } from '@/share/InterfactTypesDatasetCollection';
+import { BaseFilter, InitialStateDataSetCollection } from '@/share/InterfactTypesDatasetCollection';
 import jsonData from '@/utils/VOYAGE_COLLECTIONS.json'
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-const initialState: InitialStateDataSetCollection = {
+export const initialState: InitialStateDataSetCollection = {
     value: jsonData,
     textHeader: jsonData[0].headers.label,
     textIntroduce: jsonData[0].headers.text_introduce,

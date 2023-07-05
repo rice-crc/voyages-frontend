@@ -24,7 +24,7 @@ import {
 } from "@/share/InterfaceTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { DropdownColumn } from "../fcComponets/ColumnSelectorTable/DropdownColumn";
+import { DropdownColumn } from "../FcComponents/ColumnSelectorTable/DropdownColumn";
 import { useState, MouseEvent } from "react";
 import { setIsChange, setKeyValue } from "@/redux/rangeSliderSlice";
 import { setIsOpenDialog } from "@/redux/getScrollPageSlice";
