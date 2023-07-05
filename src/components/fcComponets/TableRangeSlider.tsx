@@ -14,11 +14,10 @@ import {
 } from "@mui/material";
 import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
 import { useSelector } from "react-redux";
-import { Flatlabel, IsShowProp, Options } from "@/share/InterfaceTypes";
+import { Flatlabel, IsShowProp } from "@/share/InterfaceTypes";
 
 import { StyledTableRow } from "@/styleMUI";
 import { RootState } from "@/redux/store";
-import { fetchOptionsDataIntegerField } from "@/fetchAPI/fetchOptionsData";
 import RangeSlider from "../voyagePage/Results/RangeSlider";
 
 const TableRangeSlider = () => {

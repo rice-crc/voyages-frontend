@@ -1,7 +1,7 @@
 [
 	{
 		"label": "Year Range",
-		"var_name": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+		"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 		"type": "IntegerField",
 		"flatlabel": "Year of arrival at port of disembarkation (YEARAM)"
 	},
@@ -24,10 +24,10 @@
 						"flatlabel": "Name of vessel"
 					},
 					{
-						"var_name": "voyage_shipownerconnection__owner__name",
+						"var_name": "voyage_enslaver_connection__enslaver_alias__alias",
 						"type": "CharField",
-						"label": "Ship Owner",
-						"flatlabel": "Ship Owner"
+						"label": "Enslavers",
+						"flatlabel": "Enslavers"
 					}
 				]
 			},
@@ -103,52 +103,25 @@
 		]
 	},
 	{
-		"label": "Owner, Crew, & Captain",
+		"label": "Crew",
 		"children": [
 			{
-				"label": "Ship Owner Name",
-				"children": [
-					{
-						"var_name": "voyage_shipownerconnection__owner__name",
-						"type": "CharField",
-						"label": "Ship Owner",
-						"flatlabel": "Ship Owner"
-					}
-				]
+				"var_name": "voyage_crew__crew_died_complete_voyage",
+				"type": "IntegerField",
+				"label": "Crew died during complete voyage",
+				"flatlabel": "Crew died during complete voyage"
 			},
 			{
-				"label": "Captain's name",
-				"children": [
-					{
-						"var_name": "voyage_captainconnection__captain__name",
-						"type": "CharField",
-						"label": "Ship Captain",
-						"flatlabel": "Ship Captain"
-					}
-				]
+				"var_name": "voyage_crew__crew_first_landing",
+				"type": "IntegerField",
+				"label": "Crew at first landing of slaves",
+				"flatlabel": "Crew at first landing of slaves"
 			},
 			{
-				"label": "Crew",
-				"children": [
-					{
-						"var_name": "voyage_crew__crew_died_complete_voyage",
-						"type": "IntegerField",
-						"label": "Crew died during complete voyage",
-						"flatlabel": "Crew died during complete voyage"
-					},
-					{
-						"var_name": "voyage_crew__crew_first_landing",
-						"type": "IntegerField",
-						"label": "Crew at first landing of slaves",
-						"flatlabel": "Crew at first landing of slaves"
-					},
-					{
-						"var_name": "voyage_crew__crew_voyage_outset",
-						"type": "IntegerField",
-						"label": "Crew at voyage outset",
-						"flatlabel": "Crew at voyage outset"
-					}
-				]
+				"var_name": "voyage_crew__crew_voyage_outset",
+				"type": "IntegerField",
+				"label": "Crew at voyage outset",
+				"flatlabel": "Crew at voyage outset"
 			}
 		]
 	},
@@ -416,7 +389,7 @@
 				"label": "Dates during voyage",
 				"children": [
 					{
-						"var_name": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+						"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 						"type": "IntegerField",
 						"label": "Year of arrival at port of disembarkation (YEARAM)",
 						"flatlabel": "Year of arrival at port of disembarkation (YEARAM)"
@@ -426,14 +399,8 @@
 		]
 	},
 	{
-		"label": "Captain and crew",
+		"label": "Crew",
 		"children": [
-			{
-				"var_name": "voyage_captainconnection__captain__name",
-				"type": "CharField",
-				"label": "Captain's name",
-				"flatlabel": "Captain's name"
-			},
 			{
 				"var_name": "voyage_crew__crew_died_complete_voyage",
 				"type": "IntegerField",
@@ -458,31 +425,31 @@
 		"label": "Outcome",
 		"children": [
 			{
-				"var_name": "voyage_outcome__vessel_captured_outcome__name",
+				"var_name": "voyage_name_outcome__vessel_captured_outcome__name",
 				"type": "CharField",
 				"label": "Vessel Captured Outcome",
 				"flatlabel": "Vessel Captured Outcome"
 			},
 			{
-				"var_name": "voyage_outcome__resistance__name",
+				"var_name": "voyage_name_outcome__resistance__name",
 				"type": "CharField",
 				"label": "Resistance",
 				"flatlabel": "Resistance"
 			},
 			{
-				"var_name": "voyage_outcome__outcome_owner__name",
+				"var_name": "voyage_name_outcome__outcome_owner__name",
 				"type": "CharField",
 				"label": "Owner Outcome",
 				"flatlabel": "Owner Outcome"
 			},
 			{
-				"var_name": "voyage_outcome__outcome_slaves__name",
+				"var_name": "voyage_name_outcome__outcome_slaves__name",
 				"type": "CharField",
 				"label": "Slaves Outcome",
 				"flatlabel": "Slaves Outcome"
 			},
 			{
-				"var_name": "voyage_outcome__particular_outcome__name",
+				"var_name": "voyage_name_outcome__particular_outcome__name",
 				"type": "CharField",
 				"label": "Particular Outcome",
 				"flatlabel": "Particular Outcome"
@@ -491,7 +458,7 @@
 	},
 	{
 		"label": "Sources",
-		"var_name": "voyage_sourceconnection__source__full_ref",
+		"var_name": "voyage_zoterorefs__legacy_source__full_ref",
 		"type": "CharField",
 		"flatlabel": "Source, full reference"
 	}

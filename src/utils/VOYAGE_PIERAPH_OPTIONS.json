@@ -37,23 +37,23 @@
 			"label": "Imputed port where voyage began (PTDEPIMP)"
 		},
 		{
-			"var_name": "voyage_outcome__vessel_captured_outcome__name",
+			"var_name": "voyage_name_outcome__vessel_captured_outcome__name",
 			"label": "Vessel Captured Outcome"
 		},
 		{
-			"var_name": "voyage_outcome__resistance__name",
+			"var_name": "voyage_name_outcome__resistance__name",
 			"label": "Resistance"
 		},
 		{
-			"var_name": "voyage_outcome__outcome_slaves__name",
+			"var_name": "voyage_name_outcome__outcome_slaves__name",
 			"label": "Slaves Outcome"
 		},
 		{
-			"var_name": "voyage_outcome__outcome_owner__name",
+			"var_name": "voyage_name_outcome__outcome_owner__name",
 			"label": "Owner Outcome"
 		},
 		{
-			"var_name": "voyage_outcome__particular_outcome__name",
+			"var_name": "voyage_name_outcome__particular_outcome__name",
 			"label": "Particular Outcome"
 		},
 		{

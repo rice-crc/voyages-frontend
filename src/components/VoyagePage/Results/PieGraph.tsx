@@ -85,7 +85,7 @@ function PieGraph() {
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
-          newFormData.append(dataSetKey, value);
+          newFormData.append(dataSetKey, String(value));
         }
       }
 
@@ -104,8 +104,6 @@ function PieGraph() {
         const response = await dispatch(
           fetchVoyageGraphGroupby(newFormData)
         ).unwrap();
-        console.log("response--", response);
-
         if (subscribed) {
           const keys = Object.keys(response);
           setPieOptions({

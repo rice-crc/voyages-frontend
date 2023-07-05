@@ -72,7 +72,6 @@ const CustomHeader: React.FC<Props> = (props) => {
         fetchVoyageSortedData(newFormData)
       ).unwrap();
       if (response) {
-        console.log("response-->", response);
         dispatch(setData(response));
       }
     } catch (error) {

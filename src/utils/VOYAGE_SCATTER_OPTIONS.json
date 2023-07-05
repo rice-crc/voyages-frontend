@@ -1,7 +1,7 @@
 {
 	"x_vars": [
 		{
-			"var_name": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+			"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 			"type": "Integer",
 			"label": "Year of arrival at port of disembarkation (YEARAM)"
 		},

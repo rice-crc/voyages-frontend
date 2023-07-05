@@ -5,13 +5,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"voyage_dates__imp_arrival_at_port_of_dis_yyyy"
+				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
 			],
-			"colID": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+			"colID": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+						"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 						"cell_fn": "literal"
 					}
 				]
@@ -120,17 +120,17 @@
 			}
 		},
 		{
-			"header_label": "Captain",
+			"header_label": "Enslavers",
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"voyage_captainconnection__captain__name"
+				"voyage_enslaver_connection__enslaver_alias__alias"
 			],
 			"colID": "voyage_enslavers",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_captainconnection__captain__name",
+						"var_name": "voyage_enslaver_connection__enslaver_alias__alias",
 						"cell_fn": "literal"
 					}
 				]
@@ -164,11 +164,11 @@
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_sourceconnection__source__short_ref",
+						"var_name": "voyage_zoterorefs__legacy_source__full_ref",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "voyage_sourceconnection__text_ref",
+						"var_name": "voyage_zoterorefs__zotero_title",
 						"cell_fn": "literal"
 					}
 				],
@@ -180,23 +180,23 @@
 			"cell_type": "literal-concat",
 			"visible": false,
 			"order_by": [
-				"voyage_dates__voyage_began_dd",
-				"voyage_dates__voyage_began_mm",
-				"voyage_dates__voyage_began_yyyy"
+				"voyage_dates__voyage_began_sparsedate__day",
+				"voyage_dates__voyage_began_sparsedate__month",
+				"voyage_dates__voyage_began_sparsedate__year"
 			],
 			"colID": "voyage_dates__voyage_began",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__voyage_began_dd",
+						"var_name": "voyage_dates__voyage_began_sparsedate__day",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "voyage_dates__voyage_began_mm",
+						"var_name": "voyage_dates__voyage_began_sparsedate__month",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "voyage_dates__voyage_began_yyyy",
+						"var_name": "voyage_dates__voyage_began_sparsedate__year",
 						"cell_fn": "literal"
 					}
 				],
@@ -208,23 +208,23 @@
 			"cell_type": "literal-concat",
 			"visible": false,
 			"order_by": [
-				"voyage_dates__slave_purchase_began_dd",
-				"voyage_dates__slave_purchase_began_mm",
-				"voyage_dates__slave_purchase_began_yyyy"
+				"voyage_dates__slave_purchase_began_sparsedate__day",
+				"voyage_dates__slave_purchase_began_sparsedate__month",
+				"voyage_dates__slave_purchase_began_sparsedate__year"
 			],
 			"colID": "voyage_dates__slave_purchase_began",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__slave_purchase_began_dd",
+						"var_name": "voyage_dates__slave_purchase_began_sparsedate__day",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "voyage_dates__slave_purchase_began_mm",
+						"var_name": "voyage_dates__slave_purchase_began_sparsedate__month",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "voyage_dates__slave_purchase_began_yyyy",
+						"var_name": "voyage_dates__slave_purchase_began_sparsedate__year",
 						"cell_fn": "literal"
 					}
 				],
@@ -294,23 +294,6 @@
 				"fields": [
 					{
 						"var_name": "voyage_ship__registered_place__geo_location__name",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": "Flag of vessel",
-			"cell_type": "literal",
-			"visible": false,
-			"order_by": [
-				"voyage_ship__nationality_ship__name"
-			],
-			"colID": "voyage_ship__nationality_ship__name",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage_ship__nationality_ship__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1001,13 +984,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_outcome__particular_outcome__name"
+				"voyage_name_outcome__particular_outcome__name"
 			],
-			"colID": "voyage_outcome__particular_outcome__name",
+			"colID": "voyage_name_outcome__particular_outcome__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_outcome__particular_outcome__name",
+						"var_name": "voyage_name_outcome__particular_outcome__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1018,13 +1001,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_outcome__outcome_slaves__name"
+				"voyage_name_outcome__outcome_slaves__name"
 			],
-			"colID": "voyage_outcome__outcome_slaves__name",
+			"colID": "voyage_name_outcome__outcome_slaves__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_outcome__outcome_slaves__name",
+						"var_name": "voyage_name_outcome__outcome_slaves__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1035,13 +1018,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_outcome__vessel_captured_outcome__name"
+				"voyage_name_outcome__vessel_captured_outcome__name"
 			],
-			"colID": "voyage_outcome__vessel_captured_outcome__name",
+			"colID": "voyage_name_outcome__vessel_captured_outcome__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_outcome__vessel_captured_outcome__name",
+						"var_name": "voyage_name_outcome__vessel_captured_outcome__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1052,13 +1035,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_outcome__outcome_owner__name"
+				"voyage_name_outcome__outcome_owner__name"
 			],
-			"colID": "voyage_outcome__outcome_owner__name",
+			"colID": "voyage_name_outcome__outcome_owner__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_outcome__outcome_owner__name",
+						"var_name": "voyage_name_outcome__outcome_owner__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1069,13 +1052,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_outcome__resistance__name"
+				"voyage_name_outcome__resistance__name"
 			],
-			"colID": "voyage_outcome__resistance__name",
+			"colID": "voyage_name_outcome__resistance__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_outcome__resistance__name",
+						"var_name": "voyage_name_outcome__resistance__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1141,7 +1124,7 @@
 			"children": [
 				{
 					"colID": "voyage_enslavers",
-					"label": "Name(s) of Captain(s)"
+					"label": "Name(s) of Enslaver(s)"
 				},
 				{
 					"colID": "voyage_crew__crew_voyage_outset",
@@ -1295,7 +1278,7 @@
 			"label": "Dates",
 			"children": [
 				{
-					"colID": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+					"colID": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 					"label": "Year arrived with captives"
 				},
 				{
@@ -1332,23 +1315,23 @@
 			"label": "Outcome",
 			"children": [
 				{
-					"colID": "voyage_outcome__particular_outcome__name",
+					"colID": "voyage_name_outcome__particular_outcome__name",
 					"label": "Particular outcome of voyage"
 				},
 				{
-					"colID": "voyage_outcome__outcome_slaves__name",
+					"colID": "voyage_name_outcome__outcome_slaves__name",
 					"label": "Outcome of voyage for captives"
 				},
 				{
-					"colID": "voyage_outcome__vessel_captured_outcome__name",
+					"colID": "voyage_name_outcome__vessel_captured_outcome__name",
 					"label": "Outcome of voyage if ship captured"
 				},
 				{
-					"colID": "voyage_outcome__outcome_owner__name",
+					"colID": "voyage_name_outcome__outcome_owner__name",
 					"label": "Outcome of voyage for owner"
 				},
 				{
-					"colID": "voyage_outcome__resistance__name",
+					"colID": "voyage_name_outcome__resistance__name",
 					"label": "Resistance"
 				}
 			]

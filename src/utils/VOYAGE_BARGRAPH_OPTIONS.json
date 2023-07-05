@@ -1,37 +1,37 @@
 {
 	"x_vars": [
 		{
-			"var_name": "voyage_dates__imp_arrival_at_port_of_dis_yyyy",
+			"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 			"type": "<class 'rest_framework.fields.IntegerField'>",
 			"label": "Year of arrival at port of disembarkation (YEARAM)"
 		},
 		{
-			"var_name": "voyage_dates__voyage_completed_mm",
+			"var_name": "voyage_dates__voyage_completed_sparsedate__month",
 			"type": "<class 'rest_framework.fields.IntegerField'>",
 			"label": "Month on which slave voyage completed (DATARR44,43,45)"
 		},
 		{
-			"var_name": "voyage_dates__departure_last_place_of_landing_mm",
+			"var_name": "voyage_dates__departure_last_place_of_landing_sparsedate__month",
 			"type": "<class 'rest_framework.fields.IntegerField'>",
 			"label": "Month of departure from last place of landing (DDEPAMB,*,C)"
 		},
 		{
-			"var_name": "voyage_dates__date_departed_africa_mm",
+			"var_name": "voyage_dates__date_departed_africa_sparsedate__month",
 			"type": "<class 'rest_framework.fields.IntegerField'>",
 			"label": "Month vessel departed Africa (DATELEFTAFR)"
 		},
 		{
-			"var_name": "voyage_dates__first_dis_of_slaves_mm",
+			"var_name": "voyage_dates__first_dis_of_slaves_sparsedate__month",
 			"type": "<class 'rest_framework.fields.IntegerField'>",
 			"label": "Month of first disembarkation of slaves (DATARR33,32,34)"
 		},
 		{
-			"var_name": "voyage_dates__slave_purchase_began_mm",
+			"var_name": "voyage_dates__slave_purchase_began_sparsedate__month",
 			"type": "<class 'rest_framework.fields.IntegerField'>",
 			"label": "Month that slave purchase began (D1SLATRB,A,C)"
 		},
 		{
-			"var_name": "voyage_dates__voyage_began_mm",
+			"var_name": "voyage_dates__voyage_began_sparsedate__month",
 			"type": "<class 'rest_framework.fields.IntegerField'>",
 			"label": "Month that voyage began (DATEDEPB,A,C)"
 		},
@@ -81,27 +81,27 @@
 			"label": "Imputed port where voyage began (PTDEPIMP)"
 		},
 		{
-			"var_name": "voyage_outcome__vessel_captured_outcome__name",
+			"var_name": "voyage_name_outcome__vessel_captured_outcome__name",
 			"type": "<class 'rest_framework.fields.CharField'>",
 			"label": "Vessel Captured Outcome"
 		},
 		{
-			"var_name": "voyage_outcome__resistance__name",
+			"var_name": "voyage_name_outcome__resistance__name",
 			"type": "<class 'rest_framework.fields.CharField'>",
 			"label": "Resistance"
 		},
 		{
-			"var_name": "voyage_outcome__outcome_slaves__name",
+			"var_name": "voyage_name_outcome__outcome_slaves__name",
 			"type": "<class 'rest_framework.fields.CharField'>",
 			"label": "Slaves Outcome"
 		},
 		{
-			"var_name": "voyage_outcome__outcome_owner__name",
+			"var_name": "voyage_name_outcome__outcome_owner__name",
 			"type": "<class 'rest_framework.fields.CharField'>",
 			"label": "Owner Outcome"
 		},
 		{
-			"var_name": "voyage_outcome__particular_outcome__name",
+			"var_name": "voyage_name_outcome__particular_outcome__name",
 			"type": "<class 'rest_framework.fields.CharField'>",
 			"label": "Particular Outcome"
 		},

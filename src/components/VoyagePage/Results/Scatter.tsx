@@ -97,7 +97,7 @@ function Scatter() {
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
-          newFormData.append(dataSetKey, value);
+          newFormData.append(dataSetKey, String(value));
         }
       }
       if (isChange && rang[varName] && currentPage === 2) {

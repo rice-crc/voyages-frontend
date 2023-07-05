@@ -3,11 +3,10 @@ import { resolve } from 'path';
 import dotenv from 'dotenv';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import { HOST } from '@/share/AUTH_BASEURL';
 
 dotenv.config({ path: resolve(__dirname, '.env') });
 
-export default defineConfig({
+export default defineConfig(() => ({
   plugins: [react()],
   resolve: {
     alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
@@ -21,4 +20,8 @@ export default defineConfig({
       // Add any preprocessor options if necessary
     },
   },
-});
+  test: {
+    globals: true,
+    environment: 'happy-dom'
+  },
+}));
