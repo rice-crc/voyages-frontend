@@ -167,7 +167,7 @@ range-slider/
   │   │     │     │      ├── SelectDropdown
   │   │     │     │      ├── Table
   │   │     │     ├── ScrollPage
-  │   │     │     ├── VoyagePage
+  │   │     │     ├── VoyagesHompPage
   │   │     │── Home
   │   │── fetchAPI
   │   │     ├── fetchApiService
@@ -179,6 +179,9 @@ range-slider/
   │   │     ├── fetchVoyageOptionsPagination
   │   │     ├── fetchVoyagesOptionsApi
   │   │     ├── fetchVoyageSortedData
+  │   │── pages
+  │   │     ├── Home
+  │   │     ├── VoyagesPage
   │   │── redux
   │   │     ├── getAutoCompleteSlice
   │   │     ├── getColumnSlice
@@ -196,6 +199,7 @@ range-slider/
   │   │     ├── InterfaceTypesTable
   │   │     ├── InterfactTypesDatasetCollection
   │   │── style
+  │   │     ├── homepage.scss
   │   │     ├── index.css
   │   │     ├── Nav.scss
   │   │     ├── page.scss

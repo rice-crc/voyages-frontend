@@ -2,6 +2,7 @@ import { AppBar, Box, CssBaseline, Typography, Toolbar } from "@mui/material";
 import { WHITE } from "@/styleMUI";
 import LOGOVoyages from "@/assets/sv-logo_v2.svg";
 import SearchVoyages from "@/assets/searchICON.svg";
+import { Link } from "react-router-dom";
 
 export default function HeaderLogoSearch() {
   return (
@@ -24,11 +25,13 @@ export default function HeaderLogoSearch() {
           }}
         >
           <Typography component="div" sx={{ cursor: "pointer" }}>
-            <img
-              src={LOGOVoyages}
-              alt="logo"
-              style={{ position: "relative", bottom: 5 }}
-            />
+            <Link to={"/"} style={{ textDecoration: "none" }}>
+              <img
+                src={LOGOVoyages}
+                alt="logo"
+                style={{ position: "relative", bottom: 5 }}
+              />
+            </Link>
           </Typography>
 
           <Typography component="div" sx={{ cursor: "pointer" }}>

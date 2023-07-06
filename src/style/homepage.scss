@@ -1,0 +1,144 @@
+@mixin breakpoint-standard($size) {
+    @if $size==0 {
+      @media only screen and (max-width: 374px) {
+        @content;
+      }
+    } @else if $size==1 {
+      @media only screen and (min-width: 375px) and (max-width: 479px) {
+        @content;
+      }
+    } @else if $size==2 {
+      @media only screen and (min-width: 480px) and (max-width: 575px) {
+        @content;
+      }
+    } @else if $size==3 {
+      @media only screen and (min-width: 576px) and (max-width: 767px) {
+        @content;
+      }
+    } @else if $size==4 {
+      @media only screen and (min-width: 768px) and (max-width: 991px) {
+        @content;
+      }
+    } @else if $size==5 {
+      @media only screen and (min-width: 992px) and (max-width: 1024px) {
+        @content;
+      }
+    } @else if $size==6 {
+      @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+        @content;
+      }
+    } @else if $size==7 {
+      @media only screen and (max-width: 1440px) {
+        @content;
+      }
+    }
+  }
+  
+
+#home-voyagepage-container{
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: 
+      url("../assets/Black\ and\ White\ Waves.svg") center / cover;
+}
+.home-voyagepage-content{
+    text-align: center;
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    @include breakpoint-standard(7) {
+      top: 40%;
+      left: 40%;
+      transform: translate(-40%, -40%);
+    }
+}
+.menu-home-page{
+    padding: 5px 10px;
+}
+.header-logo-slave-voyages{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+}
+.voyage-text-box{
+    margin:  0 1rem;
+}
+.voyage-description{
+    color: #e8e8e8;
+    font-family: 'Helvetica Neue';
+    font-style: italic;
+    font-weight: 300;
+    font-size: 18px;
+    margin-top: 5px;
+}
+.voyages-search-box{
+    text-align: center;
+}
+.voyages-people-places{
+    padding: 3rem 0 2rem 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+.voyages-people-places-title{
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Helvetica Neue';
+   text-transform: uppercase;
+}
+.voyages-people-places-subtitle{
+    font-size: 16px;
+    font-weight: normal;
+    font-family: 'Helvetica Neue';
+}
+.voyage-page-box{
+    cursor: pointer;
+}
+.people-page-box{
+    cursor: pointer;
+}
+.place-page-box{
+    cursor: pointer;
+}
+.document-resources{
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+}
+.document-resources-text{
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Helvetica Neue';
+    position: relative;
+    top: 45%
+}
+.document-cycle{
+    cursor: pointer;
+}
+.resourc-cycle{
+    z-index: 2;
+    position: relative;
+    cursor: pointer;
+}
+
+.about-project {
+    display: flex;
+    justify-content: center;  
+    align-items: center;
+}
+.about-project-btn{
+    width: 160px;
+    background-color: #BAA372;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'Helvetica Neue';
+    font-weight: bold;
+    height: 38px;
+    line-height: 38px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow:2px 3px 3px #00000085;
+    border-color: #707070;
+}

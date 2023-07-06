@@ -1,7 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
-export const MAINBGGREEN = "#93D0CB";
-
+export const MAINBGGREEN = "transparent";
 let MAINColorBG = MAINBGGREEN;
 
 export const generateThemeGB = (state: any) => {
@@ -30,7 +29,7 @@ export const theme = createTheme({
     spacing: [0, 4, 8, 16, 32, 64],
     palette: {
         background: {
-            default: MAINBGGREEN, // Set the initial background color
+            // default: MAINBGGREEN, // Set the initial background color
         },
     },
 });

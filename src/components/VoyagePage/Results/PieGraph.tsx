@@ -218,6 +218,7 @@ function PieGraph() {
               textinfo: "label+percent",
               insidetextorientation: "radial",
               hole: 0.25,
+              textposition: "inside",
             },
           ]}
           layout={{

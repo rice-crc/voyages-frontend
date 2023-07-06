@@ -11,7 +11,7 @@ import {
   TYPESOFDATASET,
 } from "@/share/InterfaceTypes";
 import { ButtonNav } from "@/styleMUI";
-import VoyagesPage from "./VoyagePage";
+import VoyagesHompPage from "./VoyagesHompPage";
 import "@/style/page.scss";
 import Scatter from "./Results/Scatter";
 import BarGraph from "./Results/BarGraph";
@@ -126,7 +126,7 @@ const ScrollPage = () => {
       }
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      {currentPage === 1 && <VoyagesPage />}
+      {currentPage === 1 && <VoyagesHompPage />}
       {currentPage === 2 && <Scatter />}
       {currentPage === 3 && <BarGraph />}
       {currentPage === 4 && <PieGraph />}

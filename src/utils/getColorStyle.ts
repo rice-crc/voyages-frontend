@@ -13,9 +13,8 @@ export const getColorBackground = (item: string) => {
     }
     return background;
 };
+
 export const getTextColor = (item: string) => {
-
-
     let textColor = "#000000";
     if (item === TYPESOFDATASET.allVoyages) {
         textColor = "#000000";
@@ -24,6 +23,7 @@ export const getTextColor = (item: string) => {
     }
     return textColor;
 };
+
 export const getColorNavbarBackground = (item: string) => {
     let background = "#93D0CB";
     if (item === TYPESOFDATASET.allVoyages) {

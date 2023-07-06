@@ -1,10 +1,12 @@
 
-import { styled } from "@mui/material/styles";
+
 import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button } from "@mui/material";
 import MuiInput from "@mui/material/Input";
 import NestedMenuItem from "../components/canscanding/NestedMenuItem";
-import { SxProps } from "@mui/material";
+import { SxProps, InputBase } from "@mui/material";
 import NestedMenuColumnItem from "@/components/FcComponents/ColumnSelectorTable/NestedMenuColumnItem";
+import { styled, alpha } from "@mui/material/styles";
+
 
 const blue500 = "#42a5f5";
 export const MAINBGGREEN = "rgba(0, 128, 128, 0.5)"
@@ -152,3 +154,48 @@ export const DropdownNestedMenuColumnItem = styled(NestedMenuColumnItem)`
     margin-left: 32px;
   }
 `;
+
+
+export const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  marginTop: '2rem',
+  // borderRadius: theme.shape.borderRadius,
+  borderRadius: '24px',
+  backgroundColor: alpha(theme.palette.common.white, 1),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.9),
+  },
+  marginLeft: 0,
+  width: "100%",
+  height: '52px',
+  [theme.breakpoints.up("sm")]: {
+    width: "100%",
+  },
+}));
+
+export const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+export const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(3, 3, 3, 0),
+    fontSize: '16px',
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "12ch",
+      "&:focus": {
+        width: "20ch",
+      },
+    },
+  },
+}));

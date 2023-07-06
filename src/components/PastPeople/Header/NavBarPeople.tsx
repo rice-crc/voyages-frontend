@@ -6,16 +6,12 @@ import { MenuListDropdownStyle } from "@/styleMUI";
 import { Button, Menu, Typography } from "@mui/material";
 import FilterICON from "@/assets/filterICON.svg";
 import { AppDispatch, RootState } from "@/redux/store";
-import { HeaderNavBarMenuProps } from "@/share/InterfaceTypes";
-import CanscandingMenu from "../canscanding/CanscandingMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { CurrentPageInitialState } from "@/share/InterfaceTypes";
 import "@/style/Nav.scss";
 
-import CanscandingMenuMobile from "../canscanding/CanscandingMenuMobile";
-
 import { setIsFilter } from "@/redux/getFilterSlice";
-import { ColumnSelector } from "../FcComponents/ColumnSelectorTable/ColumnSelector";
+
 import {
   setBaseFilterDataKey,
   setBaseFilterDataSetValue,
@@ -33,15 +29,17 @@ import {
   getTextColor,
   getColorBoxShadow,
 } from "@/utils/getColorStyle";
-import { DrawerMenuBar } from "./drawerMenuBar";
-import { BaseFilter } from "@/share/InterfactTypesDatasetCollection";
 
-export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
+import { BaseFilter } from "@/share/InterfactTypesDatasetCollection";
+import { ColumnSelector } from "@/components/FcComponents/ColumnSelectorTable/ColumnSelector";
+import { DrawerMenuBar } from "@/components/header/drawerMenuBar";
+const value = ["About", "Enslaved", "Enslavers"];
+export default function NavBarPeople() {
   const dispatch: AppDispatch = useDispatch();
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { value, textHeader, styleName } = useSelector(
+  const { textHeader, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
@@ -50,23 +48,6 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
 
-  const handleSelectDataset = (
-    base_filter: BaseFilter[],
-    textHeder: string,
-    textIntro: string,
-    styleName: string,
-    blocks: string[]
-  ) => {
-    for (const base of base_filter) {
-      dispatch(setBaseFilterDataKey(base.var_name));
-      dispatch(setBaseFilterDataValue(base.value));
-    }
-    dispatch(setBaseFilterDataSetValue(base_filter));
-    dispatch(setDataSetHeader(textHeder));
-    dispatch(setTextIntro(textIntro));
-    dispatch(setStyleName(styleName));
-    dispatch(setBlocksMenuList(blocks));
-  };
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
   };
@@ -88,7 +69,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: getColorNavbarBackground(styleName),
+          backgroundColor: "#ffffff",
           fontSize: 12,
           boxShadow: "none",
           marginTop: "3rem",
@@ -118,8 +99,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               className="voyages-header"
               style={{ color: getTextColor(styleName) }}
             >
-              Voyages Database<span className="voyages-title">:</span>
-              <div className="voyages-header-subtitle">{textHeader}</div>
+              People Database
             </div>
             <Divider
               sx={{
@@ -155,7 +135,6 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               )}
             </Typography>
           </Typography>
-          <CanscandingMenuMobile />
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -171,58 +150,40 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               },
             }}
           >
-            <Box
-              className="menu-nav-bar-select"
-              style={{ color: getTextColor(styleName) }}
-            >
-              Select dataset
-            </Box>
             {value.map((item, index) => {
-              const { base_filter, headers, style_name, blocks } = item;
               return (
                 <Button
                   key={`${item}-${index}`}
-                  onClick={() =>
-                    handleSelectDataset(
-                      base_filter,
-                      headers.label,
-                      headers.text_introduce,
-                      style_name,
-                      blocks
-                    )
-                  }
                   sx={{
-                    color: "#ffffff",
+                    color: "#000000",
                     fontWeight: 600,
-                    height: 32,
-                    fontSize: 12,
+                    fontSize: 20,
                     margin: "0 2px",
-                    boxShadow: getColorBoxShadow(style_name),
-                    backgroundColor: getColorBackground(style_name),
-                    "&:hover": {
-                      backgroundColor: getColorHoverBackground(style_name),
-                    },
+                    textTransform: "none",
+                    fontFamily: "Cormorant Garamond",
+                    // boxShadow: getColorBoxShadow(style_name),
+                    // backgroundColor: getColorBackground(style_name),
+                    // "&:hover": {
+                    //   backgroundColor: getColorHoverBackground(style_name),
+                    // },
                   }}
                 >
-                  <div>{headers.label}</div>
+                  <div>{item}</div>
                 </Button>
               );
             })}
           </Box>
         </Toolbar>
-        <Hidden mdDown>
-          {currentPage !== 1 && isFilter && <CanscandingMenu />}
-        </Hidden>
         <Box component="nav">
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClick={handleMenuClose}
           >
-            <DrawerMenuBar
+            {/* <DrawerMenuBar
               value={value}
               handleSelectDataset={handleSelectDataset}
-            />
+            /> */}
           </Menu>
         </Box>
       </AppBar>

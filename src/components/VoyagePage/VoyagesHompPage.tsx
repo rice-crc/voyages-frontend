@@ -8,7 +8,7 @@ import { Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import "@/style/page.scss";
 
-const VoyagesPage = () => {
+const VoyagesHompPage = () => {
   const { styleName, textIntroduce } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
@@ -33,4 +33,4 @@ const VoyagesPage = () => {
   );
 };
 
-export default VoyagesPage;
+export default VoyagesHompPage;

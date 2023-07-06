@@ -1,13 +1,14 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Provider, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import HOME from "./components/Home";
+import VoyagesPage from "./pages/VoyagesPage";
 import { ThemeProvider } from "@mui/material/styles";
 import { updateThemeBackground } from "./styleMUI/theme";
-import Table from "./components/voyagePage/Results/Table";
 import { RootState } from "./redux/store";
+import HomePage from "./pages/Home";
+import PastHomePage from "./pages/PastPage";
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
@@ -21,8 +22,9 @@ const App: React.FC = () => {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<HOME />} />
-            <Route path="/table" element={<Table />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/voyages" element={<VoyagesPage />} />
+            <Route path="/past" element={<PastHomePage />} />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

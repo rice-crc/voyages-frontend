@@ -1,0 +1,26 @@
+#main-page-past-home {
+    height: 55vw;
+    background-repeat: no-repeat;
+    background: linear-gradient(rgba(127, 118, 191, 0.85),
+            rgba(127, 118, 191, 0.8)),
+        url("../assets/intra-american.jpeg") center / cover;
+}
+
+
+
+.grid-people-image >img {
+    width: 105%;
+    padding-top: 3rem;
+}
+
+.flipped-image {
+    transform: scaleX(-1);
+}
+.grid-people-introduction > div{
+    position: relative;
+    top: 10%;
+    padding: 2rem 6rem 0 4rem;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 20px;
+}
