@@ -1,50 +1,86 @@
 import { Box, Grid } from "@mui/material";
-import PersonImage from "@/assets/personImg.png";
-import PEOPLE from "@/utils/peopel_page_data.json";
-import "@/style/page-pase.scss";
-import { Link } from "react-router-dom";
-import HeaderLogoSearch from "@/components/header/HeaderSearchLogo";
-import HeaderEnslavedNavBar from "./Header/HeaderEnslavedNavBar";
+import "@/style/page-past.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import {
+  BaseFilter,
+  DataSetCollectionProps,
+} from "@/share/InterfactTypesDatasetCollection";
+import {
+  setBaseFilterPeopleDataKey,
+  setBaseFilterPeopleDataSetValue,
+  setBaseFilterPeopleDataValue,
+  setDataSetPeopleHeader,
+  setPeopleBlocksMenuList,
+  setPeopleStyleName,
+  setPeopleTextIntro,
+} from "@/redux/getPeopleDataSetCollectionSlice";
+import { useNavigate } from "react-router-dom";
 
 const EnslavedPage = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
+  const { value, styleName, textIntroduce } = useSelector(
+    (state: RootState) => state.getPeopleDataSetCollection
+  );
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSelectEnslavedDataset = (
+    base_filter: BaseFilter[],
+    textHeder: string,
+    textIntro: string,
+    styleName: string,
+    blocks: string[]
+  ) => {
+    for (const base of base_filter) {
+      dispatch(setBaseFilterPeopleDataKey(base.var_name));
+      dispatch(setBaseFilterPeopleDataValue(base.value));
+    }
+    dispatch(setBaseFilterPeopleDataSetValue(base_filter));
+    dispatch(setDataSetPeopleHeader(textHeder));
+    dispatch(setPeopleTextIntro(textIntro));
+    dispatch(setPeopleStyleName(styleName));
+    dispatch(setPeopleBlocksMenuList(blocks));
+    const url = `/past/enslaved/${styleName}`;
+    navigate(url);
+  };
   return (
     <>
-      <HeaderLogoSearch />
-      <HeaderEnslavedNavBar />
-      <div className="page" id="main-page-past-home">
+      {/* Filter */}
+      <div className="page" id="main-enslaved-home">
         <Box
-          sx={{
-            flexGrow: 1,
-            marginTop: {
-              sm: "2rem",
-              md: "8%",
-            },
-          }}
+        // sx={{
+        //   flexGrow: 1,
+        //   // marginTop: {
+        //   //   sm: "2rem",
+        //   //   md: "8%",
+        //   // },
+        // }}
         >
           <Grid container spacing={2}>
-            <Grid item xs={4} className="grid-people-image">
-              <img
-                className="flipped-image"
-                src={PersonImage}
-                alt="PersonImage"
-              />
-            </Grid>
-            <Grid item xs={8} className="grid-people-introduction">
-              {PEOPLE.map((item, index) => (
-                <div key={index}>
-                  <div>{item.text_introuduce}</div>
-                  <div>{item.text_description}</div>
-                </div>
-              ))}
-              <div className="btn-Enslaved-enslavers">
-                <Link to="/past/enslaved" style={{ textDecoration: "none" }}>
-                  <div className="enslaved-btn">Enslaved</div>
-                </Link>
-                <Link to="/past/enslaver" style={{ textDecoration: "none" }}>
-                  <div className="enslavers-btn">Enslavers</div>
-                </Link>
+            <Grid item xs={12} className="grid-enslaved-introduction">
+              <div>{textIntroduce}</div>
+              <div className="btn-enslave-box">
+                {value.map((item: DataSetCollectionProps, index: number) => {
+                  const { base_filter, headers, style_name, blocks } = item;
+                  return (
+                    <div
+                      onClick={() =>
+                        handleSelectEnslavedDataset(
+                          base_filter,
+                          headers.label,
+                          headers.text_introduce,
+                          style_name,
+                          blocks
+                        )
+                      }
+                      key={`${item}-${index}`}
+                      className="enslave-nav-btn"
+                    >
+                      {headers.label}
+                    </div>
+                  );
+                })}
               </div>
             </Grid>
           </Grid>

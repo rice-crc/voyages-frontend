@@ -13,10 +13,10 @@ export const getColorBackground = (item: string) => {
     }
     return background;
 };
-export const getColorBackgroundEnslaved = (item: string) => {
-    let background = "rgb(55 163 154)";
+export const getColorBTNBackgroundEnslaved = (item: string) => {
+    let background = "#906866";
     if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
-        background = "rgb(55 163 154)";
+        background = "#906866";
     } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
         background = "rgb(56, 116, 203)";
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
@@ -35,6 +35,7 @@ export const getTextColor = (item: string) => {
     return textColor;
 };
 
+
 export const getColorNavbarBackground = (item: string) => {
     let background = "#93D0CB";
     if (item === TYPESOFDATASET.allVoyages) {
@@ -49,6 +50,10 @@ export const getColorNavbarBackground = (item: string) => {
     return background;
 };
 
+export const getColorNavbarEnslavedBackground = (item: string) => {
+    let background = "#b29493";
+    return background;
+};
 export const getColorHoverBackground = (item: string) => {
     let background = "rgb(84, 191, 182)";
     if (item === TYPESOFDATASET.allVoyages) {
@@ -63,6 +68,17 @@ export const getColorHoverBackground = (item: string) => {
     return background;
 };
 
+export const getColorBTNHoverEnslavedBackground = (item: string) => {
+    let background = "#884d4b";
+    if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
+        background = "#884d4b";
+    } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        background = "#42a5f5";
+    } else if (item === TYPESOFDATASETPEOPLE.texas) {
+        background = "rgb(216 93 5)";
+    }
+    return background;
+};
 export const getColorBoxShadow = (item: string) => {
     let boxShadow = "1px 2px 8px rgb(11 196 181)";
     if (item === TYPESOFDATASET.allVoyages) {
@@ -72,6 +88,17 @@ export const getColorBoxShadow = (item: string) => {
     } else if (item === TYPESOFDATASET.intraAmerican) {
         boxShadow = "1px 2px 8px  #e286f1";
     } else if (item === TYPESOFDATASET.texas) {
+        boxShadow = "1px 2px 8px rgb(216 93 5)";
+    }
+    return boxShadow;
+};
+export const getColorBoxShadowEnslaved = (item: string) => {
+    let boxShadow = "1px 2px 8px#9c8180";
+    if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
+        boxShadow = "1px 2px 8px #9c8180";
+    } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        boxShadow = "1px 2px 8px #42a5f5";
+    } else if (item === TYPESOFDATASETPEOPLE.texas) {
         boxShadow = "1px 2px 8px rgb(216 93 5)";
     }
     return boxShadow;
