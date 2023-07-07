@@ -1,4 +1,4 @@
-import { TYPESOFDATASET } from "@/share/InterfaceTypes";
+import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from "@/share/InterfaceTypes";
 
 export const getColorBackground = (item: string) => {
     let background = "rgb(55 163 154)";
@@ -9,6 +9,17 @@ export const getColorBackground = (item: string) => {
     } else if (item === TYPESOFDATASET.intraAmerican) {
         background = "#ab47bc";
     } else if (item === TYPESOFDATASET.texas) {
+        background = "rgb(167 70 0)";
+    }
+    return background;
+};
+export const getColorBackgroundEnslaved = (item: string) => {
+    let background = "rgb(55 163 154)";
+    if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
+        background = "rgb(55 163 154)";
+    } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        background = "rgb(56, 116, 203)";
+    } else if (item === TYPESOFDATASETPEOPLE.texas) {
         background = "rgb(167 70 0)";
     }
     return background;

@@ -94,25 +94,25 @@ const ScrollPage = () => {
 
   /*  Scrool to next page and also still see prev page 2*/
   const scrollThreshold = 800;
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > scrollThreshold) {
-        setShowScrollTopButton(true);
-        const nextPage = Math.floor(window.scrollY / scrollThreshold) + 1;
-        dispatch(setCurrentPage(nextPage));
-      } else {
-        setShowScrollTopButton(false);
-        dispatch(setCurrentPage(1));
-      }
-      dispatch(setIsOpenDialog(false));
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > scrollThreshold) {
+  //       setShowScrollTopButton(true);
+  //       const nextPage = Math.floor(window.scrollY / scrollThreshold) + 1;
+  //       dispatch(setCurrentPage(nextPage));
+  //     } else {
+  //       setShowScrollTopButton(false);
+  //       dispatch(setCurrentPage(1));
+  //     }
+  //     dispatch(setIsOpenDialog(false));
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentPage(page));

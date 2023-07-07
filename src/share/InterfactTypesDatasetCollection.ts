@@ -28,3 +28,13 @@ export interface InitialStateDataSetCollection {
     dataSetValue: string[] | number[];
     blocks: string[];
 }
+export interface InitialStateDataPeopleSetCollection {
+    value: DataSetCollectionProps[];
+    textHeader: string;
+    textIntroduce: string;
+    styleName: string;
+    dataSetValueBaseFilter: BaseFilter[];
+    dataSetKey: string;
+    dataSetValue: string[] | number[];
+    blocks: string[];
+}

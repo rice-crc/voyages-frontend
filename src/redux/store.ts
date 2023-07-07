@@ -10,6 +10,7 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import getFilterSlice from "./getFilterSlice";
 import getColumnsSlice from "./getColumnSlice";
 import getDataSetCollectionSlice from './getDataSetCollectionSlice'
+import getPeopleDataSetCollectionSlice from "./getPeopleDataSetCollectionSlice";
 
 
 const store = configureStore({
@@ -23,6 +24,7 @@ const store = configureStore({
         getFilter: getFilterSlice,
         getColumns: getColumnsSlice,
         getDataSetCollection: getDataSetCollectionSlice,
+        getPeopleDataSetCollection: getPeopleDataSetCollectionSlice,
         [voyagesApi.reducerPath]: voyagesApi.reducer
     },
     middleware: (getDefaultMiddleware) =>

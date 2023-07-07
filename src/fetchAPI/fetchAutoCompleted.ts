@@ -7,7 +7,7 @@ export const fetchAutoComplete = createAsyncThunk(
     async (keyOptions: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}voyage/autocomplete2`, //autocomplete
+                `${BASEURL}voyage/autocomplete`,
                 keyOptions,
                 {
                     headers: { 'Authorization': AUTHTOKEN },

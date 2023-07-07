@@ -45,7 +45,7 @@ const HomePage: React.FC = () => {
         </div>
         <div className="voyages-people-places">
           <div className="voyage-page-box">
-            <div className="voyages-people-places-title">Voyoages</div>
+            <div className="voyages-people-places-title">Voyages</div>
             <Link to="/voyages">
               <img src={voyageIcon} alt="voyages" />
             </Link>

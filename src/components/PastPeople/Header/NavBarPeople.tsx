@@ -8,6 +8,7 @@ import FilterICON from "@/assets/filterICON.svg";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { CurrentPageInitialState } from "@/share/InterfaceTypes";
+import PEOPLE from "@/utils/peopel_page_data.json";
 import "@/style/Nav.scss";
 
 import { setIsFilter } from "@/redux/getFilterSlice";
@@ -33,15 +34,17 @@ import {
 import { BaseFilter } from "@/share/InterfactTypesDatasetCollection";
 import { ColumnSelector } from "@/components/FcComponents/ColumnSelectorTable/ColumnSelector";
 import { DrawerMenuBar } from "@/components/header/drawerMenuBar";
-const value = ["About", "Enslaved", "Enslavers"];
+import { POPELETILET } from "@/share/CONST_DATA";
+import { useNavigate } from "react-router-dom";
+import { DrawerMenuPeopleBar } from "./DrawerMenuPeopleBar";
+
 export default function NavBarPeople() {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { textHeader, styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
+
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -58,6 +61,19 @@ export default function NavBarPeople() {
 
   const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleSelectMenuItems = (item: string) => {
+    // Define the logic for navigating to the desired path based on the value of 'item'
+    if (item === "About") {
+      navigate("/past");
+    } else if (item === "Enslaved") {
+      navigate("/past/enslaved");
+    } else if (item === "Enslavers") {
+      navigate("/past/enslaver");
+    } else {
+      navigate("/");
+    }
   };
 
   return (
@@ -79,7 +95,6 @@ export default function NavBarPeople() {
           <Hidden mdUp>
             <IconButton
               edge="start"
-              color="inherit"
               aria-label="menu"
               onClick={handleMenuOpen}
               sx={{ mr: 2, display: { md: "none" } }}
@@ -95,12 +110,7 @@ export default function NavBarPeople() {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <div
-              className="voyages-header"
-              style={{ color: getTextColor(styleName) }}
-            >
-              People Database
-            </div>
+            <div className="people-header">{POPELETILET}</div>
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
@@ -150,9 +160,10 @@ export default function NavBarPeople() {
               },
             }}
           >
-            {value.map((item, index) => {
+            {PEOPLE[0].header?.map((item, index) => {
               return (
                 <Button
+                  onClick={() => handleSelectMenuItems(item)}
                   key={`${item}-${index}`}
                   sx={{
                     color: "#000000",
@@ -161,11 +172,6 @@ export default function NavBarPeople() {
                     margin: "0 2px",
                     textTransform: "none",
                     fontFamily: "Cormorant Garamond",
-                    // boxShadow: getColorBoxShadow(style_name),
-                    // backgroundColor: getColorBackground(style_name),
-                    // "&:hover": {
-                    //   backgroundColor: getColorHoverBackground(style_name),
-                    // },
                   }}
                 >
                   <div>{item}</div>
@@ -180,10 +186,10 @@ export default function NavBarPeople() {
             open={Boolean(anchorEl)}
             onClick={handleMenuClose}
           >
-            {/* <DrawerMenuBar
-              value={value}
-              handleSelectDataset={handleSelectDataset}
-            /> */}
+            <DrawerMenuPeopleBar
+              value={PEOPLE[0]?.header}
+              handleSelectMenuItems={handleSelectMenuItems}
+            />
           </Menu>
         </Box>
       </AppBar>

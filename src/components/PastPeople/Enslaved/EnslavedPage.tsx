@@ -1,20 +1,18 @@
-import { RootState } from "@/redux/store";
 import { Box, Grid } from "@mui/material";
-import { useSelector } from "react-redux";
-import HeaderLogoSearch from "../header/HeaderSearchLogo";
-import NavBarPeople from "./Header/NavBarPeople";
 import PersonImage from "@/assets/personImg.png";
 import PEOPLE from "@/utils/peopel_page_data.json";
 import "@/style/page-pase.scss";
 import { Link } from "react-router-dom";
+import HeaderLogoSearch from "@/components/header/HeaderSearchLogo";
+import HeaderEnslavedNavBar from "./Header/HeaderEnslavedNavBar";
 
-const PastPeoplePage = () => {
+const EnslavedPage = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   return (
     <>
       <HeaderLogoSearch />
-      <NavBarPeople />
+      <HeaderEnslavedNavBar />
       <div className="page" id="main-page-past-home">
         <Box
           sx={{
@@ -58,4 +56,4 @@ const PastPeoplePage = () => {
   );
 };
 
-export default PastPeoplePage;
+export default EnslavedPage;

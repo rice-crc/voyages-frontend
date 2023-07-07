@@ -55,6 +55,16 @@ export const TYPES: {
     CharField: 'CharField'
 };
 
+export const TYPESOFDATASETPEOPLE: {
+    allEnslaved: string;
+    africanOrigins: string;
+    texas: string
+} = {
+    allEnslaved: "all-enslaved",
+    africanOrigins: "african-origins",
+    texas: "texas"
+};
+
 export const TYPESOFDATASET: {
     allVoyages: string;
     intraAmerican: string;
@@ -66,6 +76,7 @@ export const TYPESOFDATASET: {
     transatlantic: "transatlantic",
     texas: "texas"
 };
+
 
 export interface AutoCompleteSliceLists {
     results: string[]
