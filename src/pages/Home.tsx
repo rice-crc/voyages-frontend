@@ -10,8 +10,13 @@ import { Search, SearchIconWrapper, StyledInputBase } from "@/styleMUI";
 import MenuButtonHomePage from "@/components/Home/Menu";
 import { Link } from "react-router-dom";
 import "@/style/homepage.scss";
+import { setStyleName } from "@/redux/getDataSetCollectionSlice";
+import { AppDispatch } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { setPeopleStyleName } from "@/redux/getPeopleDataSetCollectionSlice";
 
 const HomePage: React.FC = () => {
+  const dispatch: AppDispatch = useDispatch();
   return (
     <div id="home-voyagepage-container">
       <div className="menu-home-page">
@@ -46,7 +51,10 @@ const HomePage: React.FC = () => {
         <div className="voyages-people-places">
           <div className="voyage-page-box">
             <div className="voyages-people-places-title">Voyages</div>
-            <Link to="/voyages">
+            <Link
+              to="/voyages"
+              onClick={() => dispatch(setStyleName("all-voyages"))}
+            >
               <img src={voyageIcon} alt="voyages" />
             </Link>
             <div className="voyages-people-places-subtitle">
@@ -55,7 +63,10 @@ const HomePage: React.FC = () => {
           </div>
           <div className="people-page-box">
             <div className="voyages-people-places-title">People</div>
-            <Link to="/past">
+            <Link
+              to="/past"
+              onClick={() => dispatch(setPeopleStyleName("all-enslaved"))}
+            >
               <img src={peopleIcon} alt="voyages" />
             </Link>
             <div className="voyages-people-places-subtitle">Find a person</div>

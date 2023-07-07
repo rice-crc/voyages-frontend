@@ -5,7 +5,7 @@ import HeaderLogoSearch from "../header/HeaderSearchLogo";
 import NavBarPeople from "./Header/NavBarPeople";
 import PersonImage from "@/assets/personImg.png";
 import PEOPLE from "@/utils/peopel_page_data.json";
-import "@/style/page-pase.scss";
+import "@/style/page-past.scss";
 import { Link } from "react-router-dom";
 
 const PastPeoplePage = () => {

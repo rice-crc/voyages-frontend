@@ -104,6 +104,17 @@
   align-items: flex-start;
   padding-right: 5px;
 }
+.nav-button-enslaved {
+  position: fixed;
+  top: 10%;
+  right: 0;
+  transform: translate(0, -50%);
+  height: 100vh;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  padding-right: 5px;
+}
 
 #main-voyagepage {
   height: 95vh;

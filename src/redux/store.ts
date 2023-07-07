@@ -11,6 +11,7 @@ import getFilterSlice from "./getFilterSlice";
 import getColumnsSlice from "./getColumnSlice";
 import getDataSetCollectionSlice from './getDataSetCollectionSlice'
 import getPeopleDataSetCollectionSlice from "./getPeopleDataSetCollectionSlice";
+import getScrollEnslavedPageSlice from "./getScrollEnslavedPageSlice";
 
 
 const store = configureStore({
@@ -25,6 +26,7 @@ const store = configureStore({
         getColumns: getColumnsSlice,
         getDataSetCollection: getDataSetCollectionSlice,
         getPeopleDataSetCollection: getPeopleDataSetCollectionSlice,
+        getScrollEnslavedPage: getScrollEnslavedPageSlice,
         [voyagesApi.reducerPath]: voyagesApi.reducer
     },
     middleware: (getDefaultMiddleware) =>

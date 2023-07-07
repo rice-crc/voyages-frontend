@@ -49,7 +49,7 @@
 }
 
 #main-page-past-home {
-    height: 55vw;
+    height: 100vh;
     background-repeat: no-repeat;
     background: linear-gradient(rgba(127, 118, 191, 0.85),
             rgba(127, 118, 191, 0.8)),
@@ -140,5 +140,141 @@
     }
     @include breakpoint-standard(0) {
         font-size: 22px;
+    }
+}
+
+
+// Enslaved
+#main-enslaved-home{
+    position: relative;
+    bottom: 0.5rem;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background: linear-gradient(rgb(144, 104, 102, 0.85),
+    rgb(144, 104, 102, 0.8)),
+        url("../assets/enslavedBG.jpeg") center / cover;
+}
+
+.enslaved-header{
+    font-family: "Cormorant Garamond";
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 60px;
+    @include breakpoint-standard(6) {
+        font-size: 50px;
+    }
+    @include breakpoint-standard(5) {
+        font-size: 42px;
+    }
+    @include breakpoint-standard(4) {
+        font-size: 36px;
+    }
+    @include breakpoint-standard(3) {
+        font-size: 30px;
+    }
+    @include breakpoint-standard(2) {
+        font-size: 28px;
+    }
+    @include breakpoint-standard(1) {
+        font-size: 22px;
+    }
+    @include breakpoint-standard(0) {
+        font-size: 22px;
+    }
+}
+.enslaved-header-subtitle {
+    display: flex;
+    font-size: 30px;
+    padding-left: 5px;
+    position: relative;
+    font-weight: 600;
+    top: 8px;
+    @include breakpoint-standard(5) {
+        font-size: 26px;
+        top: 6px;
+    }
+    @include breakpoint-standard(5) {
+        font-size: 26px;
+        top: 2px;
+    }
+    @include breakpoint-standard(4) {
+        font-size: 22px;
+        top: 2px;
+    }
+    @include breakpoint-standard(3) {
+        font-size: 20px;
+        top: 2px;
+    }
+    @include breakpoint-standard(2) {
+        font-size: 16px;
+        top: 2px;
+    }
+    @include breakpoint-standard(1) {
+        font-size: 16px;
+        top: 2px;
+    }
+    @include breakpoint-standard(0) {
+        font-size: 16px;
+        top: 2px;
+    }
+
+}
+.grid-enslaved-introduction > div{
+    position: relative;
+    top: 10%;
+    padding: 8rem 20rem 0 10rem;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+}
+.african-btn{
+    background-color: #ffffff;
+    color: black;
+    margin-right: 15px;
+    padding: 0 10px;
+    font-size: 16px;
+    line-height: 28px;
+    width: 150px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow:2px 3px 2px #8f7271;
+    &:hover{
+      background-color: #9c8180;
+    }
+}
+.oceans-btn{
+    background-color: #ffffff;
+    color: black;
+    margin-left: 15px;
+    border-radius: 12px;
+    border-radius: 12px;
+    font-size: 16px;
+    line-height: 28px;
+    width: 150px;
+    cursor: pointer;
+    box-shadow:2px 3px 2px #8f7271;
+    &:hover{
+        background-color: #9c8180;
+      }
+}
+.btn-enslave-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .enslave-nav-btn{
+        background-color: #ffffff;
+        color: black;
+        margin: 2px 8px;
+        padding: 0 10px;
+        font-size: 16px;
+        line-height: 28px;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow:2px 3px 2px #e6e6e6;
+        &:hover{
+          background-color: #fae9e9;
+        }
     }
 }

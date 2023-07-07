@@ -32,5 +32,4 @@ const VoyagesHompPage = () => {
     </div>
   );
 };
-
 export default VoyagesHompPage;

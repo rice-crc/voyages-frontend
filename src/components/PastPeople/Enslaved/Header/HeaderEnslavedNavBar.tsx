@@ -12,14 +12,16 @@ import { Link, useNavigate } from "react-router-dom";
 import "@/style/Nav.scss";
 import { setIsFilter } from "@/redux/getFilterSlice";
 import {
-  getColorHoverBackground,
-  getColorNavbarBackground,
-  getTextColor,
-  getColorBoxShadow,
-  getColorBackgroundEnslaved,
+  getColorNavbarEnslavedBackground,
+  getColorBoxShadowEnslaved,
+  getColorBTNBackgroundEnslaved,
+  getColorBTNHoverEnslavedBackground,
 } from "@/utils/getColorStyle";
 
-import { BaseFilter } from "@/share/InterfactTypesDatasetCollection";
+import {
+  BaseFilter,
+  DataSetCollectionProps,
+} from "@/share/InterfactTypesDatasetCollection";
 import { EnslavedTitle } from "@/share/CONST_DATA";
 import CanscandingMenuMobile from "@/components/canscanding/CanscandingMenuMobile";
 import CanscandingMenu from "@/components/canscanding/CanscandingMenu";
@@ -37,21 +39,21 @@ import {
 
 export default function HeaderEnslavedNavBar() {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { value, textHeader, styleName } = useSelector(
     (state: RootState) => state.getPeopleDataSetCollection
   );
-  console.log("styleName-->", styleName);
+
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
-  const navigate = useNavigate();
 
-  const handleSelectDataset = (
+  const handleSelectEnslavedDataset = (
     base_filter: BaseFilter[],
     textHeder: string,
     textIntro: string,
@@ -67,8 +69,7 @@ export default function HeaderEnslavedNavBar() {
     dispatch(setPeopleTextIntro(textIntro));
     dispatch(setPeopleStyleName(styleName));
     dispatch(setPeopleBlocksMenuList(blocks));
-
-    const url = `/past/enslaved${styleName}`;
+    const url = `/past/enslaved/${styleName}`;
     navigate(url);
   };
   const handleMenuFilterMobileClose = () => {
@@ -92,7 +93,7 @@ export default function HeaderEnslavedNavBar() {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: getColorNavbarBackground(styleName),
+          backgroundColor: getColorNavbarEnslavedBackground(styleName),
           fontSize: 12,
           boxShadow: "none",
           marginTop: "3rem",
@@ -118,15 +119,12 @@ export default function HeaderEnslavedNavBar() {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <div
-              className="enslaved-header"
-              style={{ color: getTextColor(styleName) }}
-            >
+            <div className="enslaved-header" style={{ color: "#000000" }}>
               <Link
                 to="/past/enslaved"
                 style={{
                   textDecoration: "none",
-                  color: getTextColor(styleName),
+                  color: "#000000",
                 }}
               >
                 {EnslavedTitle}
@@ -184,19 +182,16 @@ export default function HeaderEnslavedNavBar() {
               },
             }}
           >
-            <Box
-              className="menu-nav-bar-select"
-              style={{ color: getTextColor(styleName) }}
-            >
+            <Box className="menu-nav-bar-select" style={{ color: "#000000" }}>
               Select dataset
             </Box>
-            {value.map((item, index) => {
+            {value.map((item: DataSetCollectionProps, index: number) => {
               const { base_filter, headers, style_name, blocks } = item;
               return (
                 <Button
                   key={`${item}-${index}`}
                   onClick={() =>
-                    handleSelectDataset(
+                    handleSelectEnslavedDataset(
                       base_filter,
                       headers.label,
                       headers.text_introduce,
@@ -210,10 +205,11 @@ export default function HeaderEnslavedNavBar() {
                     height: 32,
                     fontSize: 12,
                     margin: "0 2px",
-                    boxShadow: getColorBoxShadow(style_name),
-                    backgroundColor: getColorBackgroundEnslaved(style_name),
+                    boxShadow: getColorBoxShadowEnslaved(style_name),
+                    backgroundColor: getColorBTNBackgroundEnslaved(style_name),
                     "&:hover": {
-                      backgroundColor: getColorHoverBackground(style_name),
+                      backgroundColor:
+                        getColorBTNHoverEnslavedBackground(style_name),
                     },
                   }}
                 >

@@ -4,20 +4,17 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPage, setIsOpenDialog } from "@/redux/getScrollPageSlice";
+import { setCurrentPage } from "@/redux/getScrollPageSlice";
 import { AppDispatch, RootState } from "@/redux/store";
-import {
-  CurrentPageInitialState,
-  TYPESOFDATASET,
-} from "@/share/InterfaceTypes";
+import { CurrentPageInitialState } from "@/share/InterfaceTypes";
 import { ButtonNav } from "@/styleMUI";
-import VoyagesHompPage from "./VoyagesHompPage";
 import "@/style/page.scss";
+import { getColorBackground, getColorBoxShadow } from "@/utils/getColorStyle";
+import VoyagesHompPage from "./Results/VoyagesHompPage";
 import Scatter from "./Results/Scatter";
 import BarGraph from "./Results/BarGraph";
-import Table from "./Results/Table";
 import PieGraph from "./Results/PieGraph";
-import { getColorBackground, getColorBoxShadow } from "@/utils/getColorStyle";
+import Table from "./Results/Table";
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
