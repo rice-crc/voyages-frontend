@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Grid, Hidden } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -7,13 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentEnslavedPage } from "@/redux/getScrollEnslavedPageSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { ButtonNav } from "@/styleMUI";
-import "@/style/page.scss";
 import {
   getColorBTNBackgroundEnslaved,
   getColorBoxShadowEnslaved,
 } from "@/utils/getColorStyle";
 import EnslavedPage from "./EnslavedPage";
 import EnslavedTable from "./EnslavedTable";
+import "@/style/page.scss";
 
 const EnslavePageScrolling = () => {
   const dispatch: AppDispatch = useDispatch();

@@ -66,11 +66,11 @@ export default function NavBarPeople() {
   const handleSelectMenuItems = (item: string) => {
     // Define the logic for navigating to the desired path based on the value of 'item'
     if (item === "About") {
-      navigate("/past");
+      navigate("/PastHomePage");
     } else if (item === "Enslaved") {
-      navigate("/past/enslaved");
+      navigate("/PastHomePage/enslaved");
     } else if (item === "Enslavers") {
-      navigate("/past/enslaver");
+      navigate("/PastHomePage/enslaver");
     } else {
       navigate("/");
     }

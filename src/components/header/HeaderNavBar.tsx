@@ -10,7 +10,7 @@ import { HeaderNavBarMenuProps } from "@/share/InterfaceTypes";
 import CanscandingMenu from "../canscanding/CanscandingMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { CurrentPageInitialState } from "@/share/InterfaceTypes";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "@/style/Nav.scss";
 
 import CanscandingMenuMobile from "../canscanding/CanscandingMenuMobile";
@@ -51,8 +51,6 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
-  const navigate = useNavigate();
-
   const handleSelectDataset = (
     base_filter: BaseFilter[],
     textHeder: string,
@@ -69,9 +67,6 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     dispatch(setTextIntro(textIntro));
     dispatch(setStyleName(styleName));
     dispatch(setBlocksMenuList(blocks));
-
-    const url = `/voyages/${styleName}`;
-    navigate(url);
   };
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -125,7 +120,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               style={{ color: getTextColor(styleName) }}
             >
               <Link
-                to="/voyages"
+                to="/VoyagesPage"
                 style={{
                   textDecoration: "none",
                   color: getTextColor(styleName),

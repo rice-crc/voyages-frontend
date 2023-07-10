@@ -69,7 +69,7 @@ export default function HeaderEnslavedNavBar() {
     dispatch(setPeopleTextIntro(textIntro));
     dispatch(setPeopleStyleName(styleName));
     dispatch(setPeopleBlocksMenuList(blocks));
-    const url = `/past/enslaved/${styleName}`;
+    const url = `/PastHomePage/enslaved/${styleName}`;
     navigate(url);
   };
   const handleMenuFilterMobileClose = () => {
@@ -121,7 +121,7 @@ export default function HeaderEnslavedNavBar() {
           >
             <div className="enslaved-header" style={{ color: "#000000" }}>
               <Link
-                to="/past/enslaved"
+                to="/PastHomePage/enslaved"
                 style={{
                   textDecoration: "none",
                   color: "#000000",

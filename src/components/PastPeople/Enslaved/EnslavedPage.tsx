@@ -41,7 +41,7 @@ const EnslavedPage = () => {
     dispatch(setPeopleTextIntro(textIntro));
     dispatch(setPeopleStyleName(styleName));
     dispatch(setPeopleBlocksMenuList(blocks));
-    const url = `/past/enslaved/${styleName}`;
+    const url = `/PastHomePage/enslaved/${styleName}`;
     navigate(url);
   };
   return (

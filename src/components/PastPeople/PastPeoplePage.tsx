@@ -41,10 +41,16 @@ const PastPeoplePage = () => {
                 </div>
               ))}
               <div className="btn-Enslaved-enslavers">
-                <Link to="/past/enslaved" style={{ textDecoration: "none" }}>
+                <Link
+                  to="/PastHomePage/enslaved"
+                  style={{ textDecoration: "none" }}
+                >
                   <div className="enslaved-btn">Enslaved</div>
                 </Link>
-                <Link to="/past/enslaver" style={{ textDecoration: "none" }}>
+                <Link
+                  to="/PastHomePage/enslaver"
+                  style={{ textDecoration: "none" }}
+                >
                   <div className="enslavers-btn">Enslavers</div>
                 </Link>
               </div>

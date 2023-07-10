@@ -36,11 +36,14 @@
 
 .page {
   position: relative;
-  height: 100vh;
   width: 100%;
   z-index: 0;
 }
-
+.voyages-home-page{
+padding: 0;
+margin: 0;
+height: 100vh;
+}
 .text-container.in-sight {
   opacity: 1;
   visibility: visible;

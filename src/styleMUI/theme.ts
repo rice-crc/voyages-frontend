@@ -64,7 +64,6 @@ export const updateThemeBackground = (state: any) => {
 
 // Function to update the theme based on state changes
 export const updateThemeEnslaveBackground = (state: any) => {
-
     const updatedTheme = createTheme({
         ...theme,
         palette: {

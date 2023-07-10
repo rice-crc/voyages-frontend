@@ -133,11 +133,21 @@ const ScrollPage = () => {
     </motion.div>
   );
 
+  let topPosition;
+  if (!isSmallScreen) {
+    topPosition = 130;
+  } else if (currentPage !== 1 && isFilter) {
+    topPosition = 230;
+  } else if (currentPage === 1) {
+    topPosition = 160;
+  } else {
+    topPosition = 170;
+  }
   return (
     <div
       style={{
         position: "relative",
-        top: !isSmallScreen ? 130 : currentPage !== 1 && isFilter ? 230 : 170,
+        top: topPosition,
         padding: currentPage !== 1 ? "0 20px" : "",
       }}
       id="content-container"

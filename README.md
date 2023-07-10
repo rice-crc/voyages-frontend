@@ -4,7 +4,7 @@ This is a sample React application for the CRC Voyages exercise. The application
 
 [![](https://img.shields.io/badge/npm-v8.12.2-brightgreen)](https://shields.io) [![](https://img.shields.io/badge/node-v16.15.1-orange)](https://shields.io)
 
-Website Link: [OCI](https://voyages3-react.crc.rice.edu)
+Website Link: [OCI](https://voyages-staging.crc.rice.edu/)
 
 ## The branch we except to deploy is: **production**
 

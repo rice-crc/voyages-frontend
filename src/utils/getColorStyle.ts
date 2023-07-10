@@ -1,5 +1,21 @@
 import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from "@/share/InterfaceTypes";
 
+export const getColorVoyagePageBackground = (item: string, currentPage: number) => {
+    let background = "rgba(147, 208, 203)";
+    if (item === TYPESOFDATASET.allVoyages && currentPage !== 1) {
+        background = "rgba(147, 208, 203)";
+    } else if (item === TYPESOFDATASET.allVoyages && currentPage === 1) {
+        background = "transparent";
+    } else if (item === TYPESOFDATASET.intraAmerican) {
+        background = 'rgba(127, 118, 191)';
+    } else if (item === TYPESOFDATASET.transatlantic) {
+        console.log("item-->", item) //#1976d2
+        background = "#1976d2";
+    } else if (item === TYPESOFDATASET.texas) {
+        background = "rgba(187, 105, 46)";
+    }
+    return background;
+};
 export const getColorBackground = (item: string) => {
     let background = "rgb(55 163 154)";
     if (item === TYPESOFDATASET.allVoyages) {
@@ -37,13 +53,16 @@ export const getTextColor = (item: string) => {
 
 
 export const getColorNavbarBackground = (item: string) => {
+
     let background = "#93D0CB";
     if (item === TYPESOFDATASET.allVoyages) {
         background = "#93D0CB";
-    } else if (item === TYPESOFDATASET.transatlantic) {
-        background = "rgba(56, 116, 203, 0)";
     } else if (item === TYPESOFDATASET.intraAmerican) {
         background = 'rgba(127, 118, 191)';
+    }
+    else if (item === TYPESOFDATASET.transatlantic) {
+        console.log("item-->", item) //#1976d2
+        background = "#1976d2";
     } else if (item === TYPESOFDATASET.texas) {
         background = "rgba(187, 105, 46)";
     }
@@ -114,7 +133,6 @@ export const getIdStyleName = (idStyle: string) => {
     } else if (idStyle === TYPESOFDATASET.texas) {
         idName = "main-voyagepage-texas";
     }
-
     return idName;
 };
 

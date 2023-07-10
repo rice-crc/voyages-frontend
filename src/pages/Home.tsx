@@ -52,7 +52,7 @@ const HomePage: React.FC = () => {
           <div className="voyage-page-box">
             <div className="voyages-people-places-title">Voyages</div>
             <Link
-              to="/voyages"
+              to="/VoyagesPage"
               onClick={() => dispatch(setStyleName("all-voyages"))}
             >
               <img src={voyageIcon} alt="voyages" />
@@ -64,7 +64,7 @@ const HomePage: React.FC = () => {
           <div className="people-page-box">
             <div className="voyages-people-places-title">People</div>
             <Link
-              to="/past"
+              to="/PastHomePage"
               onClick={() => dispatch(setPeopleStyleName("all-enslaved"))}
             >
               <img src={peopleIcon} alt="voyages" />
