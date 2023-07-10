@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { NestedSelect } from "multi-nested-select";
+import React, { useEffect, useRef, useState } from 'react';
+import { NestedSelect } from 'multi-nested-select';
 
 interface Country {
   name: string;
@@ -21,12 +21,12 @@ const AutocompleteBox: React.FC = () => {
   const [response, setResponse] = useState<Country[]>([]);
   const data: Country[] = [
     {
-      name: "Afghanistan",
-      code: "AF",
+      name: 'Afghanistan',
+      code: 'AF',
       disabled: true,
       zones: [],
-      continent: "Asia",
-      provinceKey: "REGION"
+      continent: 'Asia',
+      provinceKey: 'REGION',
     },
     // Rest of the data...
   ];
@@ -43,37 +43,38 @@ const AutocompleteBox: React.FC = () => {
       }
     };
 
-    document.addEventListener("click", handleClickOutside, true);
+    document.addEventListener('click', handleClickOutside, true);
 
     return () => {
-      document.removeEventListener("click", handleClickOutside, true);
+      document.removeEventListener('click', handleClickOutside, true);
     };
   }, []);
 
   return (
-      <div className="center-component" ref={ref}>
-        <NestedSelect
-          enableButton={true}
-          state={true}
-          width={450}
-          height={200}
-          leading={true}
-          chip={true}
-          // limit={5}
-          placeholderCtx={true}
-          trailing={true}
-          trailingIcon={true}
-          inputClass="myCustom_text"
-          continent={false}
-          selectAllOption={true}
-          dropDownClass="myCustom_dropbox"
-          selectedValue={data}
-          onViewmore={(v:any) => alert("viewed")}
-          onChipDelete={(v:any) => alert("deleted")}
-          onChange={(v:any) => console.log("okay", v)}
-          callback={(val:any) => callbackFunction(val)}
-        />
-      </div>
-)}
+    <div className="center-component" ref={ref}>
+      <NestedSelect
+        enableButton={true}
+        state={true}
+        width={450}
+        height={200}
+        leading={true}
+        chip={true}
+        // limit={5}
+        placeholderCtx={true}
+        trailing={true}
+        trailingIcon={true}
+        inputClass="myCustom_text"
+        continent={false}
+        selectAllOption={true}
+        dropDownClass="myCustom_dropbox"
+        selectedValue={data}
+        onViewmore={(v: any) => alert('viewed')}
+        onChipDelete={(v: any) => alert('deleted')}
+        onChange={(v: any) => console.log('okay', v)}
+        callback={(val: any) => callbackFunction(val)}
+      />
+    </div>
+  );
+};
 
-export default AutocompleteBox
+export default AutocompleteBox;

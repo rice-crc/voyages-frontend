@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ColumnDef, RowData, StateRowData, VoyageOptionsGropProps } from '@/share/InterfaceTypesTable'
-import { ColumnObjectProps } from "@/share/InterfaceTypes";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ColumnDef, StateRowData, VoyageOptionsGropProps } from '@/share/InterfaceTypesTable'
+import { ColumnObjectProps } from '@/share/InterfaceTypes';
 
 
 const initialState: StateRowData = {
@@ -10,7 +10,7 @@ const initialState: StateRowData = {
     tableOptions: {}
 };
 export const getTableSlice = createSlice({
-    name: "getTableData",
+    name: 'getTableData',
     initialState,
     reducers: {
         setData: (state, action: PayloadAction<VoyageOptionsGropProps[]>) => {

@@ -1,15 +1,15 @@
-import { ArrowDropDown, ArrowRight } from "@mui/icons-material";
-import { Button } from "@mui/material";
-import { DropdownColumn } from "./DropdownColumn";
+import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import { DropdownColumn } from './DropdownColumn';
 import {
   DropdownMenuColumnItem,
   DropdownNestedMenuColumnItem,
-} from "@/styleMUI";
-import { MouseEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
-import { setVisibleColumn } from "@/redux/getColumnSlice";
-import { TableCellStructureInitialStateProp } from "@/share/InterfaceTypesTable";
+} from '@/styleMUI';
+import { MouseEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { setVisibleColumn } from '@/redux/getColumnSlice';
+import { TableCellStructureInitialStateProp } from '@/share/InterfaceTypesTable';
 
 const ButtonDropdownSelectoreColumn = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -71,16 +71,16 @@ const ButtonDropdownSelectoreColumn = () => {
   return (
     <DropdownColumn
       trigger={
-        <span style={{ display: "flex", alignItems: "center" }}>
+        <span style={{ display: 'flex', alignItems: 'center' }}>
           <Button
             sx={{
               fontSize: 10,
-              backgroundColor: "#17a2b8",
+              backgroundColor: '#17a2b8',
               fontWeight: 600,
-              color: "#ffffff",
+              color: '#ffffff',
               width: { xs: 160, sm: 160 },
-              "&:hover": {
-                backgroundColor: "rgb(84, 191, 182)",
+              '&:hover': {
+                backgroundColor: 'rgb(84, 191, 182)',
               },
             }}
             className="configureColumnsButton"

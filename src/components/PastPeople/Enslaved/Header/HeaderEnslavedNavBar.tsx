@@ -7,8 +7,7 @@ import { Button, Menu, Typography } from "@mui/material";
 import FilterICON from "@/assets/filterICON.svg";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { CurrentPageInitialState } from "@/share/InterfaceTypes";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "@/style/Nav.scss";
 import { setIsFilter } from "@/redux/getFilterSlice";
 import {
@@ -16,7 +15,7 @@ import {
   getColorBoxShadowEnslaved,
   getColorBTNBackgroundEnslaved,
   getColorBTNHoverEnslavedBackground,
-} from "@/utils/getColorStyle";
+} from "@/utils/functions/getColorStyle";
 
 import {
   BaseFilter,
@@ -39,9 +38,8 @@ import {
 
 export default function HeaderEnslavedNavBar() {
   const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
-  const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
+  const { currentEnslavedPage } = useSelector(
+    (state: RootState) => state.getScrollEnslavedPage
   );
   const { value, textHeader, styleName } = useSelector(
     (state: RootState) => state.getPeopleDataSetCollection
@@ -69,8 +67,6 @@ export default function HeaderEnslavedNavBar() {
     dispatch(setPeopleTextIntro(textIntro));
     dispatch(setPeopleStyleName(styleName));
     dispatch(setPeopleBlocksMenuList(blocks));
-    const url = `/PastHomePage/enslaved/${styleName}`;
-    navigate(url);
   };
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -158,7 +154,7 @@ export default function HeaderEnslavedNavBar() {
               }}
               onClick={() => dispatch(setIsFilter(!isFilter))}
             >
-              {currentPage !== 1 && (
+              {currentEnslavedPage !== 1 && (
                 <>
                   <img src={FilterICON} alt="logo" />
                   <div className="menu-nav-bar"> Filter Search</div>
@@ -220,7 +216,7 @@ export default function HeaderEnslavedNavBar() {
           </Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentPage !== 1 && isFilter && <CanscandingMenu />}
+          {currentEnslavedPage !== 1 && isFilter && <CanscandingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu

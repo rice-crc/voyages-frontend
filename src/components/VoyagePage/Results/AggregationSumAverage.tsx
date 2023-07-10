@@ -7,9 +7,9 @@ import {
   Radio,
   RadioGroup,
   Typography,
-} from "@mui/material";
-import { ChangeEvent, FunctionComponent } from "react";
-import { Options, VoyagesOptionProps } from "@/share/InterfaceTypes";
+} from '@mui/material';
+import { ChangeEvent, FunctionComponent } from 'react';
+import { Options, VoyagesOptionProps } from '@/share/InterfaceTypes';
 interface AggregationSumAverageProps {
   showAlert: boolean;
   aggregation: string;
@@ -37,14 +37,14 @@ export const AggregationSumAverage: FunctionComponent<
             Sorry, these particular variables don't graph well together:
           </AlertTitle>
           <AlertTitle>
-            The {aggregation} of{" "}
-            {optionFlat[aggregatioOptions.x_vars]?.label || ""},{" "}
-            {optionFlat[aggregatioOptions.y_vars]?.label || ""} Pie Graph
+            The {aggregation} of{' '}
+            {optionFlat[aggregatioOptions.x_vars]?.label || ''},{' '}
+            {optionFlat[aggregatioOptions.y_vars]?.label || ''} Pie Graph
           </AlertTitle>
         </Alert>
       );
     } else {
-      return "";
+      return '';
     }
   };
   return (

@@ -1,13 +1,13 @@
-import React from "react";
-import HeaderLogoSearch from "../components/header/HeaderSearchLogo";
-import HeaderNavBar from "../components/header/HeaderNavBar";
-import ScrollPage from "@/components/VoyagePage/ScrollPage";
-import "@/style/page.scss";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { getColorVoyagePageBackground } from "@/utils/getColorStyle";
-import { CurrentPageInitialState } from "@/share/InterfaceTypes";
-import { current } from "@reduxjs/toolkit";
+import React from 'react';
+import HeaderLogoSearch from '../components/header/HeaderSearchLogo';
+import HeaderNavBar from '../components/header/HeaderNavBar';
+import ScrollPage from '@/components/VoyagePage/ScrollPage';
+import '@/style/page.scss';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { getColorVoyagePageBackground } from '@/utils/functions/getColorStyle';
+import { CurrentPageInitialState } from '@/share/InterfaceTypes';
+import { current } from '@reduxjs/toolkit';
 
 const VoyagesPage: React.FC = () => {
   const { styleName } = useSelector(

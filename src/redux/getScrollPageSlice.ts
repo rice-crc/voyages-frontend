@@ -1,8 +1,8 @@
 
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const getScrollPageSlice = createSlice({
-    name: "getScrollPage",
+    name: 'getScrollPage',
     initialState: {
         currentPage: 1,
         isOpenDialog: false,

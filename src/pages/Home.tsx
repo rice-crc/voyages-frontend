@@ -1,19 +1,19 @@
-import React from "react";
-import voyageLogo from "@/assets/logo-voyage.svg";
-import voyageText from "@/assets/slave-text.svg";
-import SearchIcon from "@mui/icons-material/Search";
-import voyageIcon from "@/assets/voyage-cycle.svg";
-import peopleIcon from "@/assets/people-cycle.svg";
-import documentIcon from "@/assets/documents.svg";
-import resourceIcon from "@/assets/resources.svg";
-import { Search, SearchIconWrapper, StyledInputBase } from "@/styleMUI";
-import MenuButtonHomePage from "@/components/Home/Menu";
-import { Link } from "react-router-dom";
-import "@/style/homepage.scss";
-import { setStyleName } from "@/redux/getDataSetCollectionSlice";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
-import { setPeopleStyleName } from "@/redux/getPeopleDataSetCollectionSlice";
+import React from 'react';
+import voyageLogo from '@/assets/logo-voyage.svg';
+import voyageText from '@/assets/slave-text.svg';
+import SearchIcon from '@mui/icons-material/Search';
+import voyageIcon from '@/assets/voyage-cycle.svg';
+import peopleIcon from '@/assets/people-cycle.svg';
+import documentIcon from '@/assets/documents.svg';
+import resourceIcon from '@/assets/resources.svg';
+import { Search, SearchIconWrapper, StyledInputBase } from '@/styleMUI';
+import MenuButtonHomePage from '@/components/Home/Menu';
+import { Link } from 'react-router-dom';
+import '@/style/homepage.scss';
+import { setStyleName } from '@/redux/getDataSetCollectionSlice';
+import { AppDispatch } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { setPeopleStyleName } from '@/redux/getPeopleDataSetCollectionSlice';
 
 const HomePage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -44,7 +44,7 @@ const HomePage: React.FC = () => {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder=""
-              inputProps={{ "aria-label": "search" }}
+              inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
         </div>
@@ -53,7 +53,7 @@ const HomePage: React.FC = () => {
             <div className="voyages-people-places-title">Voyages</div>
             <Link
               to="/VoyagesPage"
-              onClick={() => dispatch(setStyleName("all-voyages"))}
+              onClick={() => dispatch(setStyleName('all-voyages'))}
             >
               <img src={voyageIcon} alt="voyages" />
             </Link>
@@ -65,7 +65,7 @@ const HomePage: React.FC = () => {
             <div className="voyages-people-places-title">People</div>
             <Link
               to="/PastHomePage"
-              onClick={() => dispatch(setPeopleStyleName("all-enslaved"))}
+              onClick={() => dispatch(setPeopleStyleName('all-enslaved'))}
             >
               <img src={peopleIcon} alt="voyages" />
             </Link>

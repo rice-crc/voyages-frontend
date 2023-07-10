@@ -1,6 +1,7 @@
 
-import TABLE_FLAT from "@/utils/voyage_table_cell_structure__updated21June.json";
-export const VoyageTableOptions = (): Record<string, any> => {
+import TABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
+
+export const TableCollectionsOptions = (): Record<string, any> => {
 
     const columnObject: Record<string, any> = {};
 
@@ -9,13 +10,13 @@ export const VoyageTableOptions = (): Record<string, any> => {
         fieldsData.forEach((field) => {
             Object.entries(field).forEach(([key, value]) => {
 
-                if (typeof value === "string") {
+                if (typeof value === 'string') {
                     if (columnObject[key]) {
                         columnObject[key].push(value);
                     } else {
                         columnObject[key] = [value];
                     }
-                } else if (typeof value === "object" && value !== null) {
+                } else if (typeof value === 'object' && value !== null) {
                     processFieldsData([value]);
                 }
             });

@@ -60,9 +60,9 @@ export const TYPESOFDATASETPEOPLE: {
     africanOrigins: string;
     texas: string
 } = {
-    allEnslaved: "all-enslaved",
-    africanOrigins: "african-origins",
-    texas: "texas"
+    allEnslaved: 'all-enslaved',
+    africanOrigins: 'african-origins',
+    texas: 'texas'
 };
 
 export const TYPESOFDATASET: {
@@ -71,10 +71,10 @@ export const TYPESOFDATASET: {
     transatlantic: string;
     texas: string
 } = {
-    allVoyages: "all-voyages",
-    intraAmerican: "intra-american",
-    transatlantic: "transatlantic",
-    texas: "texas"
+    allVoyages: 'all-voyages',
+    intraAmerican: 'intra-american',
+    transatlantic: 'transatlantic',
+    texas: 'texas'
 };
 
 

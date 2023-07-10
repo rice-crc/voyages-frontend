@@ -9,9 +9,9 @@ import {
   Children,
   cloneElement,
   useEffect,
-} from "react";
-import Menu from "@mui/material/Menu";
-import { List } from "@mui/material";
+} from 'react';
+import Menu from '@mui/material/Menu';
+import { List } from '@mui/material';
 
 interface DropdownProps {
   trigger: ReactElement;
@@ -46,10 +46,10 @@ export const DropdownColumn = forwardRef<HTMLDivElement, DropdownProps>(
         handleForceClose();
       };
 
-      document.addEventListener("click", handleClose);
+      document.addEventListener('click', handleClose);
 
       return () => {
-        document.removeEventListener("click", handleClose);
+        document.removeEventListener('click', handleClose);
       };
     }, []);
 

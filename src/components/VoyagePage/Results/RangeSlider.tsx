@@ -1,19 +1,19 @@
-import { useEffect, useState, FunctionComponent, ChangeEvent } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState, FunctionComponent, ChangeEvent } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   setRangeValue,
   setKeyValue,
   setIsChange,
   setRangeSliderValue,
-} from "@/redux/rangeSliderSlice";
-import { Grid } from "@mui/material";
-import { CustomSlider, Input } from "@/styleMUI";
-import { AppDispatch, RootState } from "@/redux/store";
+} from '@/redux/rangeSliderSlice';
+import { Grid } from '@mui/material';
+import { CustomSlider, Input } from '@/styleMUI';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   AutoCompleteInitialState,
   RangeSliderState,
-} from "@/share/InterfaceTypes";
-import { fetchRangeSliderData } from "@/fetchAPI/fetchRangeSliderData";
+} from '@/share/InterfaceTypes';
+import { fetchRangeSliderData } from '@/fetchAPI/fetchRangeSliderData';
 
 interface GetSliderProps {}
 
@@ -40,7 +40,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
   useEffect(() => {
     const fetchRangeSlider = async () => {
       const formData: FormData = new FormData();
-      formData.append("aggregate_fields", varName);
+      formData.append('aggregate_fields', varName);
       try {
         const response = await dispatch(
           fetchRangeSliderData(formData)
@@ -59,7 +59,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
           );
         }
       } catch (error) {
-        console.log("error", error);
+        console.log('error', error);
         setLoading(false);
       } finally {
         setLoading(false);
@@ -85,7 +85,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
       autoCompleteValue,
     };
     const filterObjectString = JSON.stringify(filterObject);
-    localStorage.setItem("filterObject", filterObjectString);
+    localStorage.setItem('filterObject', filterObjectString);
   };
 
   const handleInputChange = (
@@ -93,7 +93,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
   ) => {
     const { name, value } = event.target;
     const updatedSliderValue = [...rangeMinMax];
-    updatedSliderValue[name === "start" ? 0 : 1] = Number(value);
+    updatedSliderValue[name === 'start' ? 0 : 1] = Number(value);
     dispatch(
       setRangeSliderValue({
         ...rangeSliderMinMax,
@@ -105,7 +105,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
       autoCompleteValue,
     };
     const filterObjectString = JSON.stringify(filterObject);
-    localStorage.setItem("filterObject", filterObjectString);
+    localStorage.setItem('filterObject', filterObjectString);
   };
 
   return (
@@ -120,9 +120,9 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
           step: max - min > 20 ? 10 : 1,
           min: min,
           max: max,
-          type: "number",
-          "aria-labelledby": "input-slider",
-          position: "left",
+          type: 'number',
+          'aria-labelledby': 'input-slider',
+          position: 'left',
         }}
       />
       <Input
@@ -134,9 +134,9 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
           step: max - min > 20 ? 10 : 1,
           min: min,
           max: max,
-          type: "number",
-          "aria-labelledby": "input-slider",
-          position: "left",
+          type: 'number',
+          'aria-labelledby': 'input-slider',
+          position: 'left',
         }}
       />
       <CustomSlider

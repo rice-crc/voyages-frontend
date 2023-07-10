@@ -1,18 +1,18 @@
-import { Grid, Hidden } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { motion } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentEnslavedPage } from "@/redux/getScrollEnslavedPageSlice";
-import { AppDispatch, RootState } from "@/redux/store";
-import { ButtonNav } from "@/styleMUI";
+import { Grid, Hidden } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { motion } from 'framer-motion';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { ButtonNav } from '@/styleMUI';
 import {
   getColorBTNBackgroundEnslaved,
   getColorBoxShadowEnslaved,
-} from "@/utils/getColorStyle";
-import EnslavedPage from "./EnslavedPage";
-import EnslavedTable from "./EnslavedTable";
-import "@/style/page.scss";
+} from '@/utils/functions/getColorStyle';
+import EnslavedPage from './EnslavedPage';
+import EnslavedTable from './EnslavedTable';
+import '@/style/page.scss';
 
 const EnslavePageScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -25,7 +25,7 @@ const EnslavePageScrolling = () => {
     (state: RootState) => state.getScrollEnslavedPage
   );
   const newBlock = [...blocks].reverse();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.up("lg"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.up('lg'));
   const totalPageCount = newBlock?.length;
 
   const handlePageNavigation = (page: number) => {
@@ -33,14 +33,14 @@ const EnslavePageScrolling = () => {
   };
   const displayPage = (
     <motion.div
-      initial={"initial"}
-      animate={"animate"}
+      initial={'initial'}
+      animate={'animate'}
       variants={
         currentEnslavedPage - 1 > -1
           ? pageVariantsFromTop
           : pageVariantsFromBottom
       }
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       {currentEnslavedPage === 1 && <EnslavedPage />}
       {currentEnslavedPage === 2 && <EnslavedTable />}
@@ -50,13 +50,13 @@ const EnslavePageScrolling = () => {
   return (
     <div
       style={{
-        position: "relative",
+        position: 'relative',
         top: !isSmallScreen
           ? 130
           : currentEnslavedPage !== 1 && isFilter
           ? 230
           : 170,
-        padding: currentEnslavedPage !== 1 ? "0 20px" : "",
+        padding: currentEnslavedPage !== 1 ? '0 20px' : '',
       }}
       id="content-container"
     >
@@ -70,19 +70,19 @@ const EnslavePageScrolling = () => {
                   key={`${page}-${buttonIndex}`}
                   onClick={() => handlePageNavigation(buttonIndex)}
                   style={{
-                    width: "80px",
-                    height: "32",
+                    width: '80px',
+                    height: '32',
                     backgroundColor: getColorBTNBackgroundEnslaved(styleName),
                     boxShadow: getColorBoxShadowEnslaved(styleName),
                     fontSize: currentEnslavedPage === buttonIndex ? 15 : 14,
                     color:
-                      currentEnslavedPage === buttonIndex ? "white" : "black",
+                      currentEnslavedPage === buttonIndex ? 'white' : 'black',
                     fontWeight: currentEnslavedPage === buttonIndex ? 900 : 600,
                   }}
                   variant={
                     currentEnslavedPage === buttonIndex
-                      ? "contained"
-                      : "outlined"
+                      ? 'contained'
+                      : 'outlined'
                   }
                 >
                   {page.toUpperCase()}

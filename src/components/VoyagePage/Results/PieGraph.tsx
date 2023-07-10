@@ -1,14 +1,14 @@
-import { useState, useEffect, ChangeEvent, useCallback, useMemo } from "react";
-import Plot from "react-plotly.js";
-import PIECHART_OPTIONS from "@/utils/VOYAGE_PIECHART_OPTIONS.json";
-import { Grid, SelectChangeEvent, Skeleton } from "@mui/material";
-import { useWindowSize } from "@react-hook/window-size";
-import { AppDispatch, RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
-import { SelectDropdown } from "./SelectDropdown";
-import { AggregationSumAverage } from "./AggregationSumAverage";
-import { fetchVoyageGraphGroupby } from "@/fetchAPI/fetchVoyageGroupby";
+import { useState, useEffect, ChangeEvent, useCallback, useMemo } from 'react';
+import Plot from 'react-plotly.js';
+import PIECHART_OPTIONS from '@/utils/flatfiles/VOYAGE_PIECHART_OPTIONS.json';
+import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
+import { useWindowSize } from '@react-hook/window-size';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetOptionsQuery } from '@/fetchAPI/fetchApiService';
+import { SelectDropdown } from './SelectDropdown';
+import { AggregationSumAverage } from './AggregationSumAverage';
+import { fetchVoyageGraphGroupby } from '@/fetchAPI/fetchVoyageGroupby';
 import {
   VoyagesOptionProps,
   Options,
@@ -18,9 +18,9 @@ import {
   PlotPIEX,
   PlotPIEY,
   TYPESOFDATASET,
-} from "@/share/InterfaceTypes";
-import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
-import createPlotlyComponent from "react-plotly.js/factory";
+} from '@/share/InterfaceTypes';
+import { fetchOptionsFlat } from '@/fetchAPI/fetchOptionsFlat';
+import createPlotlyComponent from 'react-plotly.js/factory';
 
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -56,15 +56,15 @@ function PieGraph() {
     x_vars: PIECHART_OPTIONS.x_vars[0].var_name,
     y_vars: PIECHART_OPTIONS.y_vars[0].var_name,
   });
-  const [aggregation, setAggregation] = useState<string>("sum");
+  const [aggregation, setAggregation] = useState<string>('sum');
 
   const VoyagepieGraphOptions = () => {
     Object.entries(PIECHART_OPTIONS).forEach(
       ([key, value]: [string, PlotPIEX[]]) => {
-        if (key === "x_vars") {
+        if (key === 'x_vars') {
           setSelectedX(value);
         }
-        if (key === "y_vars") {
+        if (key === 'y_vars') {
           setSelectedY(value);
         }
       }
@@ -78,10 +78,10 @@ function PieGraph() {
 
     const fetchData = async () => {
       const newFormData: FormData = new FormData();
-      newFormData.append("groupby_by", pieGraphOptions.x_vars);
-      newFormData.append("groupby_cols", pieGraphOptions.y_vars);
-      newFormData.append("agg_fn", aggregation);
-      newFormData.append("cachename", "voyage_bar_and_donut_charts");
+      newFormData.append('groupby_by', pieGraphOptions.x_vars);
+      newFormData.append('groupby_cols', pieGraphOptions.y_vars);
+      newFormData.append('agg_fn', aggregation);
+      newFormData.append('cachename', 'voyage_bar_and_donut_charts');
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
@@ -107,8 +107,8 @@ function PieGraph() {
         if (subscribed) {
           const keys = Object.keys(response);
           setPieOptions({
-            x_vars: keys[0] || "",
-            y_vars: keys[1] || "",
+            x_vars: keys[0] || '',
+            y_vars: keys[1] || '',
           });
 
           if (keys[0]) {
@@ -119,9 +119,9 @@ function PieGraph() {
           }
         }
       } catch (error) {
-        console.log("error", error);
+        console.log('error', error);
       } finally {
-        console.log("done");
+        console.log('done');
       }
     };
     fetchData();
@@ -191,12 +191,12 @@ function PieGraph() {
         selectedOptions={pieGraphOptions}
         handleChange={handleChangeSingleSelect}
         handleChangeMultipleYSelected={() =>
-          console.log("handleChangeMultipleYSelected optional for PIE")
+          console.log('handleChangeMultipleYSelected optional for PIE')
         }
         graphType="PIE"
         maxWidth={maxWidth}
-        XFieldText={"Sectors"}
-        YFieldText={"Values"}
+        XFieldText={'Sectors'}
+        YFieldText={'Values'}
         optionsFlatY={PIECHART_OPTIONS.y_vars}
       />
       <AggregationSumAverage
@@ -213,34 +213,34 @@ function PieGraph() {
             {
               labels: plotX,
               values: plotY,
-              type: "pie",
-              mode: "lines+markers",
-              textinfo: "label+percent",
-              insidetextorientation: "radial",
+              type: 'pie',
+              mode: 'lines+markers',
+              textinfo: 'label+percent',
+              insidetextorientation: 'radial',
               hole: 0.25,
-              textposition: "inside",
+              textposition: 'inside',
             },
           ]}
           layout={{
             width: maxWidth,
             height: height * 0.5,
             title: `The ${aggregation} of ${
-              optionFlat[pieGraphOptions.x_vars]?.label || ""
+              optionFlat[pieGraphOptions.x_vars]?.label || ''
             } vs <br> ${
-              optionFlat[pieGraphOptions.y_vars]?.label || ""
+              optionFlat[pieGraphOptions.y_vars]?.label || ''
             } Pie Chart`,
             font: {
-              family: "Arial, sans-serif",
+              family: 'Arial, sans-serif',
               size: 12,
-              color: "#333333",
+              color: '#333333',
             },
             legend: {
               x: 0.73,
               y: 0.9,
               font: {
-                family: "Arial, sans-serif",
+                family: 'Arial, sans-serif',
                 size: 12,
-                color: "#666666",
+                color: '#666666',
               },
             },
           }}

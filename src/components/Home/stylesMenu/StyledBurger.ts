@@ -1,6 +1,6 @@
 import styled from "styled-components";
 interface StyledBurgerProps {
-    open: boolean;
+  open: boolean;
 }
 
 export const StyledBurger = styled.button<StyledBurgerProps>`

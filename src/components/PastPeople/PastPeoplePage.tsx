@@ -1,12 +1,12 @@
-import { RootState } from "@/redux/store";
-import { Box, Grid } from "@mui/material";
-import { useSelector } from "react-redux";
-import HeaderLogoSearch from "../header/HeaderSearchLogo";
-import NavBarPeople from "./Header/NavBarPeople";
-import PersonImage from "@/assets/personImg.png";
-import PEOPLE from "@/utils/peopel_page_data.json";
-import "@/style/page-past.scss";
-import { Link } from "react-router-dom";
+import { RootState } from '@/redux/store';
+import { Box, Grid } from '@mui/material';
+import { useSelector } from 'react-redux';
+import HeaderLogoSearch from '../header/HeaderSearchLogo';
+import NavBarPeople from './Header/NavBarPeople';
+import PersonImage from '@/assets/personImg.png';
+import PEOPLE from '@/utils/flatfiles/peopel_page_data.json';
+import '@/style/page-past.scss';
+import { Link } from 'react-router-dom';
 
 const PastPeoplePage = () => {
   const currentDate = new Date();
@@ -20,8 +20,8 @@ const PastPeoplePage = () => {
           sx={{
             flexGrow: 1,
             marginTop: {
-              sm: "2rem",
-              md: "8%",
+              sm: '2rem',
+              md: '8%',
             },
           }}
         >
@@ -43,13 +43,13 @@ const PastPeoplePage = () => {
               <div className="btn-Enslaved-enslavers">
                 <Link
                   to="/PastHomePage/enslaved"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
                   <div className="enslaved-btn">Enslaved</div>
                 </Link>
                 <Link
                   to="/PastHomePage/enslaver"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
                   <div className="enslavers-btn">Enslavers</div>
                 </Link>

@@ -1,15 +1,15 @@
-import { useState, useEffect, ChangeEvent, useCallback } from "react";
-import Plot from "react-plotly.js";
-import { Data } from "plotly.js";
-import VOYAGE_BARGRAPH_OPTIONS from "@/utils/VOYAGE_BARGRAPH_OPTIONS.json";
-import { Grid, SelectChangeEvent, Skeleton } from "@mui/material";
-import { useWindowSize } from "@react-hook/window-size";
-import { AppDispatch, RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
-import { SelectDropdown } from "./SelectDropdown";
-import { AggregationSumAverage } from "./AggregationSumAverage";
-import { fetchVoyageGraphGroupby } from "@/fetchAPI/fetchVoyageGroupby";
+import { useState, useEffect, ChangeEvent, useCallback } from 'react';
+import Plot from 'react-plotly.js';
+import { Data } from 'plotly.js';
+import VOYAGE_BARGRAPH_OPTIONS from '@/utils/flatfiles/VOYAGE_BARGRAPH_OPTIONS.json';
+import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
+import { useWindowSize } from '@react-hook/window-size';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetOptionsQuery } from '@/fetchAPI/fetchApiService';
+import { SelectDropdown } from './SelectDropdown';
+import { AggregationSumAverage } from './AggregationSumAverage';
+import { fetchVoyageGraphGroupby } from '@/fetchAPI/fetchVoyageGroupby';
 import {
   PlotXYVar,
   VoyagesOptionProps,
@@ -19,8 +19,8 @@ import {
   CurrentPageInitialState,
   BargraphXYVar,
   TYPESOFDATASET,
-} from "@/share/InterfaceTypes";
-import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
+} from '@/share/InterfaceTypes';
+import { fetchOptionsFlat } from '@/fetchAPI/fetchOptionsFlat';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -59,14 +59,14 @@ function BarGraph() {
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
     y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   });
-  const [aggregation, setAggregation] = useState<string>("sum");
+  const [aggregation, setAggregation] = useState<string>('sum');
   const VoyageBargraphOptions = useCallback(() => {
     Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(
       ([key, value]: [string, BargraphXYVar[]]) => {
-        if (key === "x_vars") {
+        if (key === 'x_vars') {
           setSelectedX(value);
         }
-        if (key === "y_vars") {
+        if (key === 'y_vars') {
           setSelectedY(value);
         }
       }
@@ -80,20 +80,20 @@ function BarGraph() {
 
     const fetchData = async () => {
       const newFormData: FormData = new FormData();
-      newFormData.append("groupby_by", barGraphOptions.x_vars);
+      newFormData.append('groupby_by', barGraphOptions.x_vars);
       const yfieldArr: string[] = [];
       if (currentPage === 3) {
         for (const chip of chips) {
-          newFormData.append("groupby_cols", chip);
+          newFormData.append('groupby_cols', chip);
           yfieldArr.push(chip);
         }
       }
-      newFormData.append("agg_fn", aggregation);
-      newFormData.append("cachename", "voyage_bar_and_donut_charts");
+      newFormData.append('agg_fn', aggregation);
+      newFormData.append('cachename', 'voyage_bar_and_donut_charts');
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
-          newFormData.append(dataSetKey, value);
+          newFormData.append(dataSetKey, String(value));
         }
       }
       if (isChange && rang[varName] && currentPage === 3) {
@@ -123,19 +123,19 @@ function BarGraph() {
               data.push({
                 x: values[0] as number[],
                 y: value as number[],
-                type: "bar",
+                type: 'bar',
                 name: `aggregation: ${aggregation} label: ${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
               });
             }
           }
           setBarData(data);
           setBarOptions({
-            x_vars: keys[0] || "",
-            y_vars: keys[1] || "",
+            x_vars: keys[0] || '',
+            y_vars: keys[1] || '',
           });
         }
       } catch (error) {
-        console.log("error", error);
+        console.log('error', error);
       }
     };
     fetchData();
@@ -184,7 +184,7 @@ function BarGraph() {
   const handleChangeBarGraphChipYSelected = useCallback(
     (event: SelectChangeEvent<string[]>, name: string) => {
       const value = event.target.value;
-      setChips(typeof value === "string" ? value.split(",") : value);
+      setChips(typeof value === 'string' ? value.split(',') : value);
       setBarOptions((prevVoyageOption) => ({
         ...prevVoyageOption,
         [name]: value,
@@ -221,8 +221,8 @@ function BarGraph() {
         handleChange={handleChangeBarGraphOption}
         handleChangeMultipleYSelected={handleChangeBarGraphChipYSelected}
         maxWidth={maxWidth}
-        XFieldText={"X Field"}
-        YFieldText={"Multi-Selector Y-Feild"}
+        XFieldText={'X Field'}
+        YFieldText={'Multi-Selector Y-Feild'}
         optionsFlatY={VOYAGE_BARGRAPH_OPTIONS.y_vars}
       />
       <AggregationSumAverage
@@ -240,20 +240,20 @@ function BarGraph() {
             width: maxWidth,
             height: height * 0.45,
             title: `The ${aggregation} of ${
-              optionFlat[barGraphOptions.x_vars]?.label || ""
+              optionFlat[barGraphOptions.x_vars]?.label || ''
             } vs <br> ${
-              optionFlat[barGraphOptions.y_vars]?.label || ""
+              optionFlat[barGraphOptions.y_vars]?.label || ''
             } Bar Graph`,
 
             xaxis: {
               title: {
-                text: optionFlat[barGraphOptions.x_vars]?.label || "",
+                text: optionFlat[barGraphOptions.x_vars]?.label || '',
               },
               fixedrange: true,
             },
             yaxis: {
               title: {
-                text: optionFlat[barGraphOptions.y_vars]?.label || "",
+                text: optionFlat[barGraphOptions.y_vars]?.label || '',
               },
               fixedrange: true,
             },

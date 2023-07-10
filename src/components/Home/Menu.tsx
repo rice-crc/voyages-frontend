@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
-import { BurgerMenu } from "./BurgerMenu";
-import { MenuDropdown } from "./MenuDropdownProps";
+import React, { useState, useRef, useEffect } from 'react';
+import { BurgerMenu } from './BurgerMenu';
+import { MenuDropdown } from './MenuDropdownProps';
 
 const MenuButtonHomePage: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -13,10 +13,10 @@ const MenuButtonHomePage: React.FC = () => {
       }
       setOpen(false);
     };
-    document.addEventListener("mousedown", listener);
+    document.addEventListener('mousedown', listener);
 
     return () => {
-      document.removeEventListener("mousedown", listener);
+      document.removeEventListener('mousedown', listener);
     };
   }, []);
 

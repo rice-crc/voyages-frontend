@@ -1,20 +1,20 @@
 import { BaseFilter, InitialStateDataPeopleSetCollection } from '@/share/InterfactTypesDatasetCollection';
-import jsonData from '@/utils/PEOPLE_COLLECTIONS.json'
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const initialState: InitialStateDataPeopleSetCollection = {
-    value: jsonData,
-    textHeader: jsonData[0].headers.label,
-    textIntroduce: jsonData[0].headers.text_introduce,
-    styleName: jsonData[0].style_name,
+    value: jsonDataPEOPLECOLLECTIONS,
+    textHeader: jsonDataPEOPLECOLLECTIONS[0].headers.label,
+    textIntroduce: jsonDataPEOPLECOLLECTIONS[0].headers.text_introduce,
+    styleName: jsonDataPEOPLECOLLECTIONS[0].style_name,
     dataSetValueBaseFilter: [],
     dataSetKey: '',
     dataSetValue: [],
-    blocks: jsonData[0].blocks
+    blocks: jsonDataPEOPLECOLLECTIONS[0].blocks
 }
 
 export const getPeopleDataSetCollectionSlice = createSlice({
-    name: "getPeopleDataSetCollectionSlice",
+    name: 'getPeopleDataSetCollectionSlice',
     initialState,
     reducers: {
         setBaseFilterPeopleDataSetValue: (state, action: PayloadAction<BaseFilter[]>) => {
