@@ -30,10 +30,10 @@ import { setIsChange, setKeyValue } from '@/redux/rangeSliderSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { PaperDraggable } from './PaperDraggable';
 
-import RangeSlider from '../voyagePage/Results/RangeSlider';
+import RangeSlider from '../Voyages/Results/RangeSlider';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsFilter } from '@/redux/getFilterSlice';
-import AutocompleteBox from '../FcComponents/AutocompletedTree';
+import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 
 interface CanscandingMenuMobileProps {}
 const CanscandingMenuMobile: React.FC<CanscandingMenuMobileProps> = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import HeaderLogoSearch from '../components/header/HeaderSearchLogo';
 import HeaderNavBar from '../components/header/HeaderNavBar';
-import ScrollPage from '@/components/VoyagePage/ScrollPage';
+import ScrollPage from '@/components/Voyages/ScrollPage';
 import '@/style/page.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';

@@ -31,8 +31,8 @@ import { setIsChange, setKeyValue } from '@/redux/rangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
-import AutocompleteBox from '../voyagePage/Results/AutocompletedBox';
-import RangeSlider from '../voyagePage/Results/RangeSlider';
+import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
+import RangeSlider from '../Voyages/Results/RangeSlider';
 
 export const MenuListDropdown = () => {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
