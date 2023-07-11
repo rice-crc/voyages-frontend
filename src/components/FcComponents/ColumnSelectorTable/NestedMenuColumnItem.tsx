@@ -1,17 +1,9 @@
-import React, {
-  useRef,
-  useState,
-  forwardRef,
-  useImperativeHandle,
-  Ref,
-  RefObject,
-  MouseEvent,
-} from "react";
-import { Menu, MenuItem } from "@mui/material";
-import { MenuItemProps } from "@mui/material/MenuItem";
-import ArrowRight from "@mui/icons-material/ArrowRight";
+import React, { MouseEvent } from 'react';
+import { Menu, MenuItem } from '@mui/material';
+import { MenuItemProps } from '@mui/material/MenuItem';
+import ArrowRight from '@mui/icons-material/ArrowRight';
 
-interface NestedMenuItemProps extends Omit<MenuItemProps, "ref"> {
+interface NestedMenuItemProps extends Omit<MenuItemProps, 'ref'> {
   label: React.ReactNode;
   rightIcon?: React.ReactNode;
   keepOpen?: boolean;
@@ -82,7 +74,7 @@ const NestedMenuColumnItem = React.forwardRef<any, NestedMenuItemProps>(
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLLIElement>) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         return;
       }
 
@@ -92,12 +84,12 @@ const NestedMenuColumnItem = React.forwardRef<any, NestedMenuItemProps>(
 
       const active = containerRef.current?.ownerDocument?.activeElement;
 
-      if (event.key === "ArrowLeft" && isSubmenuFocused()) {
+      if (event.key === 'ArrowLeft' && isSubmenuFocused()) {
         containerRef.current?.focus();
       }
 
       if (
-        event.key === "ArrowRight" &&
+        event.key === 'ArrowRight' &&
         event.target === containerRef.current &&
         event.target === active
       ) {
@@ -133,15 +125,15 @@ const NestedMenuColumnItem = React.forwardRef<any, NestedMenuItemProps>(
         {rightIcon}
         <Menu
           hideBackdrop
-          style={{ pointerEvents: "none" }}
+          style={{ pointerEvents: 'none' }}
           anchorEl={menuItemRef.current}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: rightAnchored ? "left" : "right",
+            vertical: 'top',
+            horizontal: rightAnchored ? 'left' : 'right',
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: rightAnchored ? "right" : "left",
+            vertical: 'top',
+            horizontal: rightAnchored ? 'right' : 'left',
           }}
           open={!!open}
           autoFocus={false}
@@ -151,7 +143,7 @@ const NestedMenuColumnItem = React.forwardRef<any, NestedMenuItemProps>(
             setIsSubMenuOpen(false);
           }}
         >
-          <div ref={menuContainerRef} style={{ pointerEvents: "auto" }}>
+          <div ref={menuContainerRef} style={{ pointerEvents: 'auto' }}>
             {children}
           </div>
         </Menu>

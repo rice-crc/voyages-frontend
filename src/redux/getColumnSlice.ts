@@ -1,13 +1,13 @@
 import { InitialStateColumnProps, TableCellStructureProps } from '@/share/InterfaceTypesTable';
-import jsonData from '@/utils/voyage_table_cell_structure__updated21June.json'
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import jsonDataTable from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const initialState: InitialStateColumnProps = {
-    valueCells: jsonData,
+    valueCells: jsonDataTable,
     visibleColumnCells: []
 };
 export const getColumnsSlice = createSlice({
-    name: "getColumns",
+    name: 'getColumns',
     initialState,
     reducers: {
         setColumnsSelectorTree: (state, action: PayloadAction<TableCellStructureProps>) => {

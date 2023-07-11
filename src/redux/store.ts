@@ -1,16 +1,17 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 import getOptionsDataSlice from './getOptionsDataSlice';
 import rangeSliderSlice from './rangeSliderSlice';
 import getAutoCompleteList from './getAutoCompleteSlice'
 import getOptionsFlatMenu from './getOptionsFlatObjSlice'
-import getScrollPageSlice from "./getScrollPageSlice"
+import getScrollPageSlice from './getScrollPageSlice'
 import getTableSlice from './getTableSlice'
 import { voyagesApi } from '../fetchAPI/fetchApiService';
-import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import getFilterSlice from "./getFilterSlice";
-import getColumnsSlice from "./getColumnSlice";
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
+import getFilterSlice from './getFilterSlice';
+import getColumnsSlice from './getColumnSlice';
 import getDataSetCollectionSlice from './getDataSetCollectionSlice'
-import getPeopleDataSetCollectionSlice from "./getPeopleDataSetCollectionSlice";
+import getPeopleDataSetCollectionSlice from './getPeopleDataSetCollectionSlice';
+import getScrollEnslavedPageSlice from './getScrollEnslavedPageSlice';
 
 
 const store = configureStore({
@@ -25,6 +26,7 @@ const store = configureStore({
         getColumns: getColumnsSlice,
         getDataSetCollection: getDataSetCollectionSlice,
         getPeopleDataSetCollection: getPeopleDataSetCollectionSlice,
+        getScrollEnslavedPage: getScrollEnslavedPageSlice,
         [voyagesApi.reducerPath]: voyagesApi.reducer
     },
     middleware: (getDefaultMiddleware) =>

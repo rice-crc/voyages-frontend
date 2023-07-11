@@ -1,0 +1,284 @@
+@mixin breakpoint-standard($size) {
+    @if $size==0 {
+        @media only screen and (max-width: 374px) {
+            @content;
+        }
+    }
+
+    @else if $size==1 {
+        @media only screen and (min-width: 375px) and (max-width: 479px) {
+            @content;
+        }
+    }
+
+    @else if $size==2 {
+        @media only screen and (min-width: 480px) and (max-width: 575px) {
+            @content;
+        }
+    }
+
+    @else if $size==3 {
+        @media only screen and (min-width: 576px) and (max-width: 767px) {
+            @content;
+        }
+    }
+
+    @else if $size==4 {
+        @media only screen and (min-width: 768px) and (max-width: 991px) {
+            @content;
+        }
+    }
+
+    @else if $size==5 {
+        @media only screen and (min-width: 992px) and (max-width: 1024px) {
+            @content;
+        }
+    }
+
+    @else if $size==6 {
+        @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+            @content;
+        }
+    }
+
+    @else if $size==7 {
+        @media only screen and (max-width: 1440px) {
+            @content;
+        }
+    }
+}
+
+#main-page-past-home {
+    height: 100vh;
+    background-repeat: no-repeat;
+    background: linear-gradient(rgba(127, 118, 191, 0.85),
+            rgba(127, 118, 191, 0.8)),
+        url("../assets/intra-american.jpeg") center / cover;
+}
+
+
+
+.grid-people-image >img {
+    width: 105%;
+    padding-top: 3rem;
+}
+
+.flipped-image {
+    transform: scaleX(-1);
+}
+.grid-people-introduction > div{
+    position: relative;
+    top: 10%;
+    padding: 2rem 6rem 0 4rem;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+}
+.btn-Enslaved-enslavers{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.enslaved-btn{
+  background-color: #ffffff;
+  color: black;
+  margin-right: 15px;
+  padding: 0 10px;
+  font-size: 16px;
+  line-height: 28px;
+  width: 100px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow:2px 3px 2px #c7c5c5;
+  &:hover{
+    background-color: rgb(219 214 251);
+  }
+}
+
+.enslavers-btn{
+    background-color: #ffffff;
+    color: black;
+    margin-left: 15px;
+    border-radius: 12px;
+    border-radius: 12px;
+    font-size: 16px;
+    line-height: 28px;
+    width: 100px;
+    cursor: pointer;
+    box-shadow:2px 3px 2px #c7c5c5;
+    &:hover{
+        background-color: rgb(219 214 251);
+      }
+}
+
+
+.people-header {
+    font-family: "Cormorant Garamond";
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 60px;
+    color: black;
+    @include breakpoint-standard(6) {
+        font-size: 50px;
+    }
+    @include breakpoint-standard(5) {
+        font-size: 42px;
+    }
+    @include breakpoint-standard(4) {
+        font-size: 36px;
+    }
+    @include breakpoint-standard(3) {
+        font-size: 30px;
+    }
+    @include breakpoint-standard(2) {
+        font-size: 28px;
+    }
+    @include breakpoint-standard(1) {
+        font-size: 22px;
+    }
+    @include breakpoint-standard(0) {
+        font-size: 22px;
+    }
+}
+
+
+// Enslaved
+#enslaved-home-page{
+padding: 0;
+margin: 0;
+background-color: #b29493;
+height: 100vh;
+}
+#main-enslaved-home{
+    height: 100vh;
+    background-repeat: no-repeat;
+    background: linear-gradient(rgb(144, 104, 102, 0.85),
+    rgb(144, 104, 102, 0.8)),
+        url("../assets/enslavedBG.jpeg") center / cover;
+}
+
+.enslaved-header{
+    font-family: "Cormorant Garamond";
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 60px;
+    @include breakpoint-standard(6) {
+        font-size: 50px;
+    }
+    @include breakpoint-standard(5) {
+        font-size: 42px;
+    }
+    @include breakpoint-standard(4) {
+        font-size: 36px;
+    }
+    @include breakpoint-standard(3) {
+        font-size: 30px;
+    }
+    @include breakpoint-standard(2) {
+        font-size: 28px;
+    }
+    @include breakpoint-standard(1) {
+        font-size: 22px;
+    }
+    @include breakpoint-standard(0) {
+        font-size: 22px;
+    }
+}
+.enslaved-header-subtitle {
+    display: flex;
+    font-size: 30px;
+    padding-left: 5px;
+    position: relative;
+    font-weight: 600;
+    top: 8px;
+    @include breakpoint-standard(5) {
+        font-size: 26px;
+        top: 6px;
+    }
+    @include breakpoint-standard(5) {
+        font-size: 26px;
+        top: 2px;
+    }
+    @include breakpoint-standard(4) {
+        font-size: 22px;
+        top: 2px;
+    }
+    @include breakpoint-standard(3) {
+        font-size: 20px;
+        top: 2px;
+    }
+    @include breakpoint-standard(2) {
+        font-size: 16px;
+        top: 2px;
+    }
+    @include breakpoint-standard(1) {
+        font-size: 16px;
+        top: 2px;
+    }
+    @include breakpoint-standard(0) {
+        font-size: 16px;
+        top: 2px;
+    }
+
+}
+.grid-enslaved-introduction > div{
+    position: relative;
+    top: 10%;
+    padding: 8rem 20rem 0 10rem;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+}
+.african-btn{
+    background-color: #ffffff;
+    color: black;
+    margin-right: 15px;
+    padding: 0 10px;
+    font-size: 16px;
+    line-height: 28px;
+    width: 150px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow:2px 3px 2px #8f7271;
+    &:hover{
+      background-color: #9c8180;
+    }
+}
+.oceans-btn{
+    background-color: #ffffff;
+    color: black;
+    margin-left: 15px;
+    border-radius: 12px;
+    border-radius: 12px;
+    font-size: 16px;
+    line-height: 28px;
+    width: 150px;
+    cursor: pointer;
+    box-shadow:2px 3px 2px #8f7271;
+    &:hover{
+        background-color: #9c8180;
+      }
+}
+.btn-enslave-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .enslave-nav-btn{
+        background-color: #ffffff;
+        color: black;
+        margin: 2px 8px;
+        padding: 0 10px;
+        font-size: 16px;
+        line-height: 28px;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow:2px 3px 2px #e6e6e6;
+        &:hover{
+          background-color: #fae9e9;
+        }
+    }
+}

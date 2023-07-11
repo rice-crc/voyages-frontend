@@ -1,22 +1,22 @@
-import { MouseEventHandler, useState } from "react";
-import { AppBar, Box, IconButton, Hidden, Divider } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import { MenuListDropdownStyle } from "@/styleMUI";
-import { Button, Menu, Typography } from "@mui/material";
-import FilterICON from "@/assets/filterICON.svg";
-import { AppDispatch, RootState } from "@/redux/store";
-import { HeaderNavBarMenuProps } from "@/share/InterfaceTypes";
-import CanscandingMenu from "../canscanding/CanscandingMenu";
-import { useDispatch, useSelector } from "react-redux";
-import { CurrentPageInitialState } from "@/share/InterfaceTypes";
-import { Link, useNavigate } from "react-router-dom";
-import "@/style/Nav.scss";
+import { MouseEventHandler, useState } from 'react';
+import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import { MenuListDropdownStyle } from '@/styleMUI';
+import { Button, Menu, Typography } from '@mui/material';
+import FilterICON from '@/assets/filterICON.svg';
+import { AppDispatch, RootState } from '@/redux/store';
+import { HeaderNavBarMenuProps } from '@/share/InterfaceTypes';
+import CanscandingMenu from '../canscanding/CanscandingMenu';
+import { useDispatch, useSelector } from 'react-redux';
+import { CurrentPageInitialState } from '@/share/InterfaceTypes';
+import { Link } from 'react-router-dom';
+import '@/style/Nav.scss';
 
-import CanscandingMenuMobile from "../canscanding/CanscandingMenuMobile";
+import CanscandingMenuMobile from '../canscanding/CanscandingMenuMobile';
 
-import { setIsFilter } from "@/redux/getFilterSlice";
-import { ColumnSelector } from "../FcComponents/ColumnSelectorTable/ColumnSelector";
+import { setIsFilter } from '@/redux/getFilterSlice';
+import { ColumnSelector } from '../FcComponents/ColumnSelectorTable/ColumnSelector';
 import {
   setBaseFilterDataKey,
   setBaseFilterDataSetValue,
@@ -25,7 +25,7 @@ import {
   setDataSetHeader,
   setStyleName,
   setTextIntro,
-} from "@/redux/getDataSetCollectionSlice";
+} from '@/redux/getDataSetCollectionSlice';
 
 import {
   getColorBackground,
@@ -33,10 +33,10 @@ import {
   getColorNavbarBackground,
   getTextColor,
   getColorBoxShadow,
-} from "@/utils/getColorStyle";
-import { DrawerMenuBar } from "./drawerMenuBar";
-import { BaseFilter } from "@/share/InterfactTypesDatasetCollection";
-import { VOYAGETILE } from "@/share/CONST_DATA";
+} from '@/utils/functions/getColorStyle';
+import { DrawerMenuBar } from './drawerMenuBar';
+import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
+import { VOYAGETILE } from '@/share/CONST_DATA';
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -51,8 +51,6 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
-  const navigate = useNavigate();
-
   const handleSelectDataset = (
     base_filter: BaseFilter[],
     textHeder: string,
@@ -69,9 +67,6 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     dispatch(setTextIntro(textIntro));
     dispatch(setStyleName(styleName));
     dispatch(setBlocksMenuList(blocks));
-
-    const url = `/voyages/${styleName}`;
-    navigate(url);
   };
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -88,7 +83,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   return (
     <Box
       sx={{
-        display: "flex",
+        display: 'flex',
       }}
     >
       <AppBar
@@ -96,18 +91,18 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
         style={{
           backgroundColor: getColorNavbarBackground(styleName),
           fontSize: 12,
-          boxShadow: "none",
-          marginTop: "3rem",
+          boxShadow: 'none',
+          marginTop: '3rem',
         }}
       >
-        <Toolbar sx={{ display: "flex", alignItems: "center" }}>
+        <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
           <Hidden mdUp>
             <IconButton
               edge="start"
               color="inherit"
               aria-label="menu"
               onClick={handleMenuOpen}
-              sx={{ mr: 2, display: { md: "none" } }}
+              sx={{ mr: 2, display: { md: 'none' } }}
             >
               <MenuIcon />
             </IconButton>
@@ -125,9 +120,9 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               style={{ color: getTextColor(styleName) }}
             >
               <Link
-                to="/voyages"
+                to="/VoyagesPage"
                 style={{
-                  textDecoration: "none",
+                  textDecoration: 'none',
                   color: getTextColor(styleName),
                 }}
               >
@@ -139,8 +134,8 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
-                borderWidth: "0.25px",
-                borderClor: "rgb(0 0 0 / 50%)",
+                borderWidth: '0.25px',
+                borderClor: 'rgb(0 0 0 / 50%)',
               }}
             />
             <Typography
@@ -148,15 +143,15 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               variant="body1"
               fontWeight="500"
               sx={{
-                cursor: "pointer",
-                alignItems: "center",
+                cursor: 'pointer',
+                alignItems: 'center',
                 display: {
-                  xs: "none",
-                  sm: "none",
-                  md: "flex",
+                  xs: 'none',
+                  sm: 'none',
+                  md: 'flex',
                   paddingRight: 40,
                 },
-                margin: "10px 0",
+                margin: '10px 0',
                 fontSize: 18,
                 fontWeight: 600,
               }}
@@ -175,11 +170,11 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             className="menu-nav-bar-select-box"
             sx={{
               display: {
-                xs: "none",
-                sm: "none",
-                md: "block",
-                lg: "block",
-                textAlign: "center",
+                xs: 'none',
+                sm: 'none',
+                md: 'block',
+                lg: 'block',
+                textAlign: 'center',
                 paddingRight: 40,
                 fontWeight: 600,
                 fontSize: 20,
@@ -207,14 +202,14 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
                     )
                   }
                   sx={{
-                    color: "#ffffff",
+                    color: '#ffffff',
                     fontWeight: 600,
                     height: 32,
                     fontSize: 12,
-                    margin: "0 2px",
+                    margin: '0 2px',
                     boxShadow: getColorBoxShadow(style_name),
                     backgroundColor: getColorBackground(style_name),
-                    "&:hover": {
+                    '&:hover': {
                       backgroundColor: getColorHoverBackground(style_name),
                     },
                   }}

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Table,
   Box,
@@ -11,26 +11,26 @@ import {
   Paper,
   Stack,
   TablePagination,
-} from "@mui/material";
+} from '@mui/material';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 import {
   AutoCompleteOption,
   Flatlabel,
   IsShowProp,
   Options,
-} from "@/share/InterfaceTypes";
-import { StyledTableRow } from "@/styleMUI";
-import { fetchOptionsData } from "@/fetchAPI/fetchOptionsData";
-import { RootState } from "@/redux/store";
-import AutocompleteBox from "../voyagePage/Results/AutocompletedBox";
-import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
+} from '@/share/InterfaceTypes';
+import { StyledTableRow } from '@/styleMUI';
+import { fetchOptionsData } from '@/fetchAPI/fetchOptionsData';
+import { RootState } from '@/redux/store';
+import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
+import { useGetOptionsQuery } from '@/fetchAPI/fetchApiService';
 
 const TableCharacter = () => {
   const datas = useSelector((state: RootState) => state.getOptions.value);
   const [optionsLabel, setOptionsLabel] = useState<Flatlabel[]>([]);
   const { data, isLoading, isSuccess } = useGetOptionsQuery(datas);
-  const colunmName = ["Label", "Auto Complete", "Display"];
+  const colunmName = ['Label', 'Auto Complete', 'Display'];
   const [isShow, setIsShow] = useState<IsShowProp>({});
   const [value, setValue] = useState<AutoCompleteOption[]>([]);
   const [page, setPage] = useState<number>(0);
@@ -76,11 +76,11 @@ const TableCharacter = () => {
             <TableRow>
               {colunmName.map((value, key) => (
                 <TableCell
-                  key={"title-" + key}
+                  key={'title-' + key}
                   style={{
-                    width: "33%",
-                    color: "#389c90",
-                    borderRight: "1px solid #ddd",
+                    width: '33%',
+                    color: '#389c90',
+                    borderRight: '1px solid #ddd',
                   }}
                 >
                   {value}
@@ -95,10 +95,10 @@ const TableCharacter = () => {
                 return (
                   <StyledTableRow
                     key={`row${row.key}`}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: 'pointer' }}
                       onClick={() => handleShowSearch(row)}
                       component="th"
                       scope="row"
@@ -108,7 +108,7 @@ const TableCharacter = () => {
                     <TableCell>
                       {isShow[row.key] && <AutocompleteBox value={value} />}
                     </TableCell>
-                    <TableCell style={{ textAlign: "center" }}>
+                    <TableCell style={{ textAlign: 'center' }}>
                       {isShow[row.key] && value && value?.length > 0 ? (
                         value.map((value) => <div key={value.id}>----</div>)
                       ) : (

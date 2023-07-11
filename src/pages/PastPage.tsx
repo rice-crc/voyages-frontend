@@ -1,5 +1,5 @@
-import React from "react";
-import PastPeoplePage from "@/components/PastPeople/PastPeoplePage";
+import React from 'react';
+import PastPeoplePage from '@/components/PastPeople/PastPeoplePage';
 
 const PastHomePage: React.FC = () => {
   return (

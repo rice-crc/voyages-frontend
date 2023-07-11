@@ -1,15 +1,15 @@
 export const getEnumColumnParams = (enumMap: Record<string, string>) => {
   return {
     cellRenderer: (params: any) => {
-      if (!params.data) return "";
+      if (!params.data) return ';
       const { value } = params;
       return enumMap[value];
     },
     filterParams: {
-      buttons: ["reset", "apply"],
+      buttons: ['reset', 'apply'],
       closeOnApply: true,
       filterOptions: [
-        "empty",
+        'empty',
         ...Object.keys(enumMap).map((key) => {
           return {
             displayKey: key,

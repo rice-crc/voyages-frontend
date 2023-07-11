@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OptionsDataState } from '@/share/InterfaceTypes'
 
 const initialState: OptionsDataState = {
@@ -6,7 +6,7 @@ const initialState: OptionsDataState = {
 };
 
 export const getOptionsDataSlice = createSlice({
-    name: "optionsData",
+    name: 'optionsData',
     initialState,
     reducers: {
         getOptions: (state, action: PayloadAction<Record<string, never>>) => {

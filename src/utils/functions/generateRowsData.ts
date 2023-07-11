@@ -1,17 +1,21 @@
-import { VoyageOptionsGropProps } from "@/share/InterfaceTypesTable";
-import { traverseData } from "./traverseData";
-import { VoyageTableOptions } from "./VoyageTableOptions";
+import { VoyageOptionsGropProps } from '@/share/InterfaceTypesTable';
+import { traverseData } from './traverseData';
+import { TableCollectionsOptions } from './TableCollectionsOptions';
+
 export const generateRowsData = (
-    dataRow: VoyageOptionsGropProps[]
+    dataRow: VoyageOptionsGropProps[],
+    file?: string,
 ): Record<string, any> => {
     const finalRowArr: Record<string, any>[] = [];
-    const columns = VoyageTableOptions();
+    const columns = TableCollectionsOptions(file);
+    console.log('file-->', file)
+    console.log('columns-->', columns)
     const varNames = columns.var_name;
     dataRow.forEach((data) => {
         const finalRowObj: Record<string, any> = {};
         varNames.forEach((varName: string) => {
 
-            const varArray = varName.split("__");
+            const varArray = varName.split('__');
 
             const output = traverseData(data, varArray);
 

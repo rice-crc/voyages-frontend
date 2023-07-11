@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
-import { Grid, Hidden } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { motion } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPage, setIsOpenDialog } from "@/redux/getScrollPageSlice";
-import { AppDispatch, RootState } from "@/redux/store";
+import { useEffect, useState } from 'react';
+import { Grid, Hidden } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { motion } from 'framer-motion';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentPage } from '@/redux/getScrollPageSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { CurrentPageInitialState } from '@/share/InterfaceTypes';
+import { ButtonNav } from '@/styleMUI';
+import '@/style/page.scss';
 import {
-  CurrentPageInitialState,
-  TYPESOFDATASET,
-} from "@/share/InterfaceTypes";
-import { ButtonNav } from "@/styleMUI";
-import VoyagesHompPage from "./VoyagesHompPage";
-import "@/style/page.scss";
-import Scatter from "./Results/Scatter";
-import BarGraph from "./Results/BarGraph";
-import Table from "./Results/Table";
-import PieGraph from "./Results/PieGraph";
-import { getColorBackground, getColorBoxShadow } from "@/utils/getColorStyle";
+  getColorBackground,
+  getColorBoxShadow,
+} from '@/utils/functions/getColorStyle';
+import VoyagesHompPage from './Results/VoyagesHompPage';
+import Scatter from './Results/Scatter';
+import BarGraph from './Results/BarGraph';
+import PieGraph from './Results/PieGraph';
+import VoyagesTable from './Results/VoyagesTable';
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -31,7 +31,7 @@ const ScrollPage = () => {
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const newBlock = [...blocks].reverse();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.up("lg"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.up('lg'));
   const totalPageCount = newBlock?.length;
 
   // Scroll to next page and page hide other page
@@ -119,29 +119,39 @@ const ScrollPage = () => {
   };
   const displayPage = (
     <motion.div
-      initial={"initial"}
-      animate={"animate"}
+      initial={'initial'}
+      animate={'animate'}
       variants={
         currentPage - 1 > -1 ? pageVariantsFromTop : pageVariantsFromBottom
       }
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       {currentPage === 1 && <VoyagesHompPage />}
       {currentPage === 2 && <Scatter />}
       {currentPage === 3 && <BarGraph />}
       {currentPage === 4 && <PieGraph />}
-      {currentPage === 5 && <Table />}
+      {currentPage === 5 && <VoyagesTable />}
       {currentPage === 6 && <h1>PIVOT</h1>}
       {currentPage === 7 && <h1>MAP</h1>}
     </motion.div>
   );
 
+  let topPosition;
+  if (!isSmallScreen) {
+    topPosition = 130;
+  } else if (currentPage !== 1 && isFilter) {
+    topPosition = 230;
+  } else if (currentPage === 1) {
+    topPosition = 160;
+  } else {
+    topPosition = 170;
+  }
   return (
     <div
       style={{
-        position: "relative",
-        top: !isSmallScreen ? 130 : currentPage !== 1 && isFilter ? 230 : 170,
-        padding: currentPage !== 1 ? "0 20px" : "",
+        position: 'relative',
+        top: topPosition,
+        padding: currentPage !== 1 ? '0 20px' : '',
       }}
       id="content-container"
     >
@@ -155,16 +165,16 @@ const ScrollPage = () => {
                   key={`${page}-${buttonIndex}`}
                   onClick={() => handlePageNavigation(buttonIndex)}
                   style={{
-                    width: "80px",
-                    height: "32",
+                    width: '80px',
+                    height: '32',
                     backgroundColor: getColorBackground(styleName),
                     boxShadow: getColorBoxShadow(styleName),
                     fontSize: currentPage === buttonIndex ? 15 : 14,
-                    color: currentPage === buttonIndex ? "white" : "black",
+                    color: currentPage === buttonIndex ? 'white' : 'black',
                     fontWeight: currentPage === buttonIndex ? 900 : 600,
                   }}
                   variant={
-                    currentPage === buttonIndex ? "contained" : "outlined"
+                    currentPage === buttonIndex ? 'contained' : 'outlined'
                   }
                 >
                   {page.toUpperCase()}

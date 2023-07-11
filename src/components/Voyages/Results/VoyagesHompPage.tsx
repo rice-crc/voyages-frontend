@@ -3,7 +3,7 @@ import {
   getIdStyleName,
   getIntroBackgroundColor,
   getTextColor,
-} from "@/utils/getColorStyle";
+} from "@/utils/functions/getColorStyle";
 import { Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import "@/style/page.scss";
@@ -32,5 +32,4 @@ const VoyagesHompPage = () => {
     </div>
   );
 };
-
 export default VoyagesHompPage;

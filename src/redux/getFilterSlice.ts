@@ -1,8 +1,8 @@
 
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const getFilterSlice = createSlice({
-    name: "getFilter",
+    name: 'getFilter',
     initialState: {
         isFilter: false
     },

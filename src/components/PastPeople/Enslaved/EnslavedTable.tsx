@@ -5,41 +5,43 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from "react";
-import { AgGridReact } from "ag-grid-react";
-import TABLE_FLAT from "@/utils/voyage_table_cell_structure__updated21June.json";
-import { fetchVoyageOptionsPagination } from "@/fetchAPI/fetchVoyageOptionsPagination";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
-import CustomHeader from "../../FcComponents/CustomHeader";
-import { generateRowsData } from "@/utils/generateRowsData";
+} from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import CustomHeader from '../../FcComponents/CustomHeader';
+import { generateRowsData } from '@/utils/functions/generateRowsData';
+import { setColumnDefs, setRowData, setData } from '@/redux/getTableSlice';
+import { setVisibleColumn } from '@/redux/getColumnSlice';
+import { getRowsPerPage } from '@/utils/functions/getBreakPoints';
+import { useWindowSize } from '@react-hook/window-size';
+import { Pagination, Skeleton, TablePagination } from '@mui/material';
+import { ColumnSelector } from '@/components/FcComponents/ColumnSelectorTable/ColumnSelector';
 import {
   ColumnDef,
   StateRowData,
   TableCellStructureInitialStateProp,
   VoyageOptionsGropProps,
   VoyageTableCellStructure,
-} from "@/share/InterfaceTypesTable";
-import { setColumnDefs, setRowData, setData } from "@/redux/getTableSlice";
-import { ICellRendererParams } from "ag-grid-community";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import "@/style/table.scss";
-import { useWindowSize } from "@react-hook/window-size";
-import { Pagination, Skeleton, TablePagination } from "@mui/material";
+} from '@/share/InterfaceTypesTable';
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
   RangeSliderState,
-  TYPESOFDATASET,
-} from "@/share/InterfaceTypes";
-import { ColumnSelector } from "@/components/FcComponents/ColumnSelectorTable/ColumnSelector";
-import { setVisibleColumn } from "@/redux/getColumnSlice";
-import { getRowsPerPage } from "@/utils/getBreakPoints";
+  TYPESOFDATASETPEOPLE,
+} from '@/share/InterfaceTypes';
+import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
+import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
+import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
+import { ICellRendererParams } from 'ag-grid-community';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import '@/style/table.scss';
+import { fetchEnslavedOptionsList } from '@/fetchAPI/fetchEnslavedOptionsList';
 
-const Table: React.FC = () => {
+const EnslavedTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const tablesCell = TABLE_FLAT.cell_structure;
+
   const { columnDefs, data, rowData } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
@@ -55,17 +57,24 @@ const Table: React.FC = () => {
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
-  const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
-    useSelector((state: RootState) => state.getDataSetCollection);
+  const {
+    dataSetKey,
+    dataSetValue,
+    dataSetValueBaseFilter,
+    styleName,
+    tableFlatfile: tableFileName,
+  } = useSelector((state: RootState) => state.getPeopleDataSetCollection);
+
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(0);
-  // const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [rowsPerPage, setRowsPerPage] = useState(
     getRowsPerPage(window.innerWidth, window.innerHeight)
   );
 
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
+  // const tablesCell = TABLE_FLAT.cell_structure;
+  const [tablesCell, setTableCell] = useState<VoyageTableCellStructure[]>([]);
 
   const [width, height] = useWindowSize();
   const maxWidth =
@@ -85,18 +94,48 @@ const Table: React.FC = () => {
 
   const containerStyle = useMemo(
     () => ({ width: maxWidth, height: height * 0.7 }),
-    []
+    [maxWidth, height]
   );
+
+  useEffect(() => {
+    const loadTableCellStructure = async () => {
+      try {
+        // Need to refactor later
+        if (styleName === TYPESOFDATASETPEOPLE.allEnslaved) {
+          console.log('allEnslaved', styleName);
+          setTableCell(ENSLAVED_TABLE.cell_structure);
+        } else if (styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
+          console.log('africanOrigins', styleName);
+          setTableCell(AFRICANORIGINS_TABLE.cell_structure);
+        } else if (styleName === TYPESOFDATASETPEOPLE.texas) {
+          setTableCell(TEXAS_TABLE.cell_structure);
+        }
+      } catch (error) {
+        console.error('Failed to load table cell structure:', error);
+      }
+    };
+
+    loadTableCellStructure();
+  }, [tableFileName]);
+
+  useEffect(() => {
+    if (tablesCell.length > 0) {
+      const visibleColumns = tablesCell
+        .filter((cell: any) => cell.visible)
+        .map((cell: any) => cell.colID);
+      dispatch(setVisibleColumn(visibleColumns));
+    }
+  }, [tablesCell, dispatch]);
 
   useEffect(() => {
     const handleResize = () => {
       setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -107,16 +146,16 @@ const Table: React.FC = () => {
     });
   }, [width, height, maxWidth]);
 
-  const saveDataToLocalStorage = (
-    data: VoyageOptionsGropProps[],
-    visibleColumnCells: string[]
-  ) => {
-    localStorage.setItem("data", JSON.stringify(data));
-    localStorage.setItem(
-      "visibleColumnCells",
-      JSON.stringify(visibleColumnCells)
-    );
-  };
+  const saveDataToLocalStorage = useCallback(
+    (data: VoyageOptionsGropProps[], visibleColumnCells: string[]) => {
+      localStorage.setItem('data', JSON.stringify(data));
+      localStorage.setItem(
+        'visibleColumnCells',
+        JSON.stringify(visibleColumnCells)
+      );
+    },
+    []
+  );
 
   useEffect(() => {
     saveDataToLocalStorage(data, visibleColumnCells);
@@ -127,37 +166,41 @@ const Table: React.FC = () => {
     const fetchData = async () => {
       setLoading(true);
       const newFormData: FormData = new FormData();
-      newFormData.append("results_page", String(page + 1));
-      newFormData.append("results_per_page", String(rowsPerPage));
-      if (rang[varName] && currentPage === 5) {
-        newFormData.append(varName, String(rang[varName][0]));
-        newFormData.append(varName, String(rang[varName][1]));
-      }
+      newFormData.append('results_page', String(page + 1));
+      newFormData.append('results_per_page', String(rowsPerPage));
+      // if (rang[varName] && currentPage === 5) {
+      //   newFormData.append(varName, String(rang[varName][0]));
+      //   newFormData.append(varName, String(rang[varName][1]));
+      // }
 
-      if (autoCompleteValue && varName) {
-        for (let i = 0; i < autoLabelName.length; i++) {
-          const label = autoLabelName[i];
-          newFormData.append(varName, label);
-        }
-      }
+      // if (autoCompleteValue && varName) {
+      //   for (let i = 0; i < autoLabelName.length; i++) {
+      //     const label = autoLabelName[i];
+      //     newFormData.append(varName, label);
+      //   }
+      // }
 
-      if (styleName !== TYPESOFDATASET.allVoyages) {
+      if (styleName !== TYPESOFDATASETPEOPLE.allEnslaved) {
+        // console.log('dataSetValue-->', dataSetValue);
         for (const value of dataSetValue) {
+          // console.log('value-->', value);
+          // console.log('dataSetKey-->', dataSetKey);
           newFormData.append(dataSetKey, String(value));
         }
       }
 
       try {
         const response = await dispatch(
-          fetchVoyageOptionsPagination(newFormData)
+          fetchEnslavedOptionsList(newFormData)
         ).unwrap();
         if (subscribed) {
           setTotalResultsCount(Number(response.headers.total_results_count));
+
           dispatch(setData(response.data));
           saveDataToLocalStorage(response.data, visibleColumnCells);
         }
       } catch (error) {
-        console.log("error", error);
+        console.log('error', error);
         setLoading(false);
       } finally {
         setLoading(false);
@@ -180,23 +223,18 @@ const Table: React.FC = () => {
     dataSetKey,
     dataSetValueBaseFilter,
     styleName,
+    saveDataToLocalStorage,
+    visibleColumnCells,
   ]);
-  useEffect(() => {
-    const visibleColumns = tablesCell
-      .filter((cell) => cell.visible)
-      .map((cell) => cell.colID);
-    dispatch(setVisibleColumn(visibleColumns));
-  }, [dispatch]);
 
   useEffect(() => {
     if (data.length > 0) {
-      const finalRowData = generateRowsData(data);
+      const finalRowData = generateRowsData(data, tableFileName);
       const newColumnDefs: ColumnDef[] = tablesCell.map(
         (value: VoyageTableCellStructure) => {
           const columnDef = {
             headerName: value.header_label,
             field: value.colID,
-            width: value.colID === "voyage_sources" ? 300 : 200,
             sortable: true,
             autoHeight: true,
             wrapText: true,
@@ -209,19 +247,16 @@ const Table: React.FC = () => {
               const values = params.value;
               if (Array.isArray(values)) {
                 const style: CSSProperties = {
-                  backgroundColor: "#e5e5e5",
-                  borderRadius: "8px",
-                  padding: "0px 10px",
-                  height: "25px",
-                  whiteSpace: "nowrap",
-                  width: value.colID === "voyage_sources" ? 240 : 145,
-                  overflow: "hidden",
-                  textOverflow:
-                    value.colID === "voyage_sources" ? "inherit" : "ellipsis", // "ellipsis",
-                  margin: "5px 0",
-                  textAlign: "center",
-                  lineHeight: "25px",
-                  fontSize: "13px",
+                  backgroundColor: '#e5e5e5',
+                  borderRadius: '8px',
+                  padding: '0px 10px',
+                  height: '25px',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  margin: '5px 0',
+                  textAlign: 'center',
+                  lineHeight: '25px',
+                  fontSize: '13px',
                 };
                 const renderedValues = values.map(
                   (value: string, index: number) => (
@@ -245,10 +280,10 @@ const Table: React.FC = () => {
               const fields = value.cell_val.fields;
               const firstData = data[fields[0].var_name];
               const joinDelimiter: string | undefined = value.cell_val.join;
-              if (value.cell_type === "literal") {
-                return data[fields[0].var_name] ?? "--";
+              if (value.cell_type === 'literal') {
+                return data[fields[0].var_name] ?? '--';
               } else if (
-                value.cell_type === "literal-concat" &&
+                value.cell_type === 'literal-concat' &&
                 Array.isArray(firstData)
               ) {
                 for (let i = 0; i < firstData?.length; i++) {
@@ -260,14 +295,14 @@ const Table: React.FC = () => {
                   }
                   finalData.push(dataResult.join(joinDelimiter));
                 }
-                return finalData.length !== 0 ? finalData : "--";
-              } else if (value.cell_type === "literal-concat") {
-                let dataValue: string = "";
+                return finalData.length !== 0 ? finalData : '--';
+              } else if (value.cell_type === 'literal-concat') {
+                let dataValue: string = '';
                 for (let i = 0; i < fields.length; i++) {
                   const fieldName = fields[i].var_name;
                   const fieldValue = data[fieldName];
                   if (fieldValue !== null) {
-                    dataValue += fieldValue + ",";
+                    dataValue += fieldValue + ',';
                   }
                 }
                 const result = dataValue.substring(0, dataValue.length - 1);
@@ -278,47 +313,56 @@ const Table: React.FC = () => {
           return columnDef;
         }
       );
+
       dispatch(setColumnDefs(newColumnDefs));
       dispatch(setRowData(finalRowData as Record<string, any>[]));
     }
-  }, [data, visibleColumnCells, dispatch]);
+  }, [data, visibleColumnCells, dispatch]); //
 
-  const defaultColDef = useMemo(() => {
-    return {
+  const defaultColDef = useMemo(
+    () => ({
       sortable: true,
       resizable: true,
       filter: true,
       initialWidth: 200,
       wrapHeaderText: true,
       autoHeaderHeight: true,
-    };
-  }, []);
+    }),
+    []
+  );
 
-  const components = useMemo(() => {
-    return {
+  const components = useMemo(
+    () => ({
       agColumnHeader: CustomHeader,
-    };
-  }, []);
+    }),
+    []
+  );
 
-  const getRowRowStyle = () => {
-    return {
+  const getRowRowStyle = useCallback(
+    () => ({
       fontSize: 13,
       fontWeight: 500,
-      color: "#000",
-      fontFamily: `Roboto`,
-      paddingLeft: "20px",
-    };
-  };
+      color: '#000',
+      fontFamily: 'Roboto',
+      paddingLeft: '20px',
+    }),
+    []
+  );
 
-  const handleColumnVisibleChange = (params: any) => {
-    const { columnApi } = params;
-    const allColumns = columnApi.getAllColumns();
-    const visibleColumns = allColumns
-      .filter((column: any) => column.isVisible())
-      .map((column: any) => column.getColId());
+  const handleColumnVisibleChange = useCallback(
+    (params: any) => {
+      const { columnApi } = params;
+      const allColumns = columnApi.getAllColumns();
+      const visibleColumns = allColumns
+        .filter((column: any) => column.isVisible())
+        .map((column: any) => column.getColId());
 
-    dispatch(setVisibleColumn(visibleColumns));
-  };
+      dispatch(setVisibleColumn(visibleColumns));
+    },
+    [dispatch]
+  );
+  // console.log('visibleColumns-->', visibleColumnCells);
+
   const gridOptions = useMemo(
     () => ({
       headerHeight: 40,
@@ -331,26 +375,23 @@ const Table: React.FC = () => {
     []
   );
 
-  const handleChangePage = useCallback(
-    (event: any, newPage: number) => {
-      setPage(newPage);
-    },
-    [page]
-  );
+  const handleChangePage = useCallback((event: any, newPage: number) => {
+    setPage(newPage);
+  }, []);
 
   const handleChangeRowsPerPage = useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setRowsPerPage(parseInt(event.target.value));
       setPage(0);
     },
-    [page, rowsPerPage]
+    []
   );
 
   const handleChangePagePagination = useCallback(
     (event: any, newPage: number) => {
       setPage(newPage - 1);
     },
-    [page]
+    []
   );
 
   return (
@@ -408,4 +449,4 @@ const Table: React.FC = () => {
   );
 };
 
-export default Table;
+export default EnslavedTable;

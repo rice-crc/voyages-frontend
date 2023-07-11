@@ -36,11 +36,14 @@
 
 .page {
   position: relative;
-  height: 100vh;
   width: 100%;
   z-index: 0;
 }
-
+.voyages-home-page{
+padding: 0;
+margin: 0;
+height: 100vh;
+}
 .text-container.in-sight {
   opacity: 1;
   visibility: visible;
@@ -96,6 +99,17 @@
 .nav-button {
   position: fixed;
   top: 22%;
+  right: 0;
+  transform: translate(0, -50%);
+  height: 100vh;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  padding-right: 5px;
+}
+.nav-button-enslaved {
+  position: fixed;
+  top: 10%;
   right: 0;
   transform: translate(0, -50%);
   height: 100vh;

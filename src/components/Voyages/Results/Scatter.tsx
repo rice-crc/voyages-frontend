@@ -1,15 +1,13 @@
-import { useState, useEffect, ChangeEvent, useCallback } from "react";
-import Plot from "react-plotly.js";
-import { Data } from "plotly.js";
-import VOYAGE_BARGRAPH_OPTIONS from "@/utils/VOYAGE_BARGRAPH_OPTIONS.json";
-import { Grid, SelectChangeEvent, Skeleton } from "@mui/material";
-import { useWindowSize } from "@react-hook/window-size";
-import { AppDispatch, RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
-import { SelectDropdown } from "./SelectDropdown";
-import { AggregationSumAverage } from "./AggregationSumAverage";
-import { fetchVoyageGraphGroupby } from "@/fetchAPI/fetchVoyageGroupby";
+import { useState, useEffect, useMemo, ChangeEvent, useCallback } from 'react';
+import Plot from 'react-plotly.js';
+import { Data } from 'plotly.js';
+import VOYAGE_SCATTER_OPTIONS from '@/utils/flatfiles/VOYAGE_SCATTER_OPTIONS.json';
+import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
+import { useWindowSize } from '@react-hook/window-size';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetOptionsQuery } from '@/fetchAPI/fetchApiService';
+import { fetchVoyageGraphGroupby } from '@/fetchAPI/fetchVoyageGroupby';
 import {
   PlotXYVar,
   VoyagesOptionProps,
@@ -17,13 +15,17 @@ import {
   RangeSliderState,
   AutoCompleteInitialState,
   CurrentPageInitialState,
-  BargraphXYVar,
   TYPESOFDATASET,
-} from "@/share/InterfaceTypes";
-import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
+} from '@/share/InterfaceTypes';
+import { fetchOptionsFlat } from '@/fetchAPI/fetchOptionsFlat';
+import '@/style/page.scss';
+import { SelectDropdown } from './SelectDropdown';
+import { AggregationSumAverage } from './AggregationSumAverage';
 
-function BarGraph() {
-  const datas = useSelector((state: RootState) => state.getOptions?.value);
+function Scatter() {
+  const datas = useSelector(
+    (state: RootState | any) => state.getOptions?.value
+  );
   const {
     data: options_flat,
     isSuccess,
@@ -41,32 +43,32 @@ function BarGraph() {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-
   const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
     useSelector((state: RootState) => state.getDataSetCollection);
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [showAlert, setAlert] = useState(false);
-  const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
-  const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
-  const [barData, setBarData] = useState<Data[]>([]);
+  const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
+  const [scatterSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
+  const [scatterData, setScatterData] = useState<Data[]>([]);
   const [chips, setChips] = useState<string[]>([
-    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
+    VOYAGE_SCATTER_OPTIONS.y_vars[0].var_name,
   ]);
-
-  const [barGraphOptions, setBarOptions] = useState<VoyagesOptionProps>({
-    x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
-    y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
+  const [scatterOptions, setScatterOptions] = useState<VoyagesOptionProps>({
+    x_vars: VOYAGE_SCATTER_OPTIONS.x_vars[0].var_name,
+    y_vars: VOYAGE_SCATTER_OPTIONS.y_vars[0].var_name,
   });
-  const [aggregation, setAggregation] = useState<string>("sum");
-  const VoyageBargraphOptions = useCallback(() => {
-    Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(
-      ([key, value]: [string, BargraphXYVar[]]) => {
-        if (key === "x_vars") {
+
+  const [aggregation, setAggregation] = useState<string>('sum');
+
+  const VoyageScatterOptions = useCallback(() => {
+    Object.entries(VOYAGE_SCATTER_OPTIONS).forEach(
+      ([key, value]: [string, PlotXYVar[]]) => {
+        if (key === 'x_vars') {
           setSelectedX(value);
         }
-        if (key === "y_vars") {
+        if (key === 'y_vars') {
           setSelectedY(value);
         }
       }
@@ -74,35 +76,37 @@ function BarGraph() {
   }, []);
 
   useEffect(() => {
-    VoyageBargraphOptions();
+    VoyageScatterOptions();
     let subscribed = true;
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
     const fetchData = async () => {
       const newFormData: FormData = new FormData();
-      newFormData.append("groupby_by", barGraphOptions.x_vars);
+      newFormData.append('groupby_by', scatterOptions.x_vars);
       const yfieldArr: string[] = [];
-      if (currentPage === 3) {
+
+      if (currentPage === 2) {
         for (const chip of chips) {
-          newFormData.append("groupby_cols", chip);
+          newFormData.append('groupby_cols', chip);
           yfieldArr.push(chip);
         }
       }
-      newFormData.append("agg_fn", aggregation);
-      newFormData.append("cachename", "voyage_bar_and_donut_charts");
+
+      newFormData.append('agg_fn', aggregation);
+      newFormData.append('cachename', 'voyage_xyscatter');
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
-          newFormData.append(dataSetKey, value);
+          newFormData.append(dataSetKey, String(value));
         }
       }
-      if (isChange && rang[varName] && currentPage === 3) {
+      if (isChange && rang[varName] && currentPage === 2) {
         newFormData.append(varName, String(rang[varName][0]));
         newFormData.append(varName, String(rang[varName][1]));
       }
+
       if (autoCompleteValue && varName && isChangeAuto) {
-        for (let i = 0; i < autoLabelName.length; i++) {
-          const label = autoLabelName[i];
+        for (const label of autoLabelName) {
           newFormData.append(varName, label);
         }
       }
@@ -116,26 +120,30 @@ function BarGraph() {
         if (subscribed) {
           const keys = Object.keys(response);
           const values = Object.values(response);
+
           for (const [index, [key, value]] of Object.entries(
             response
           ).entries()) {
-            if (key !== barGraphOptions.x_vars && Array.isArray(value)) {
+            if (key !== scatterOptions.x_vars && Array.isArray(value)) {
               data.push({
                 x: values[0] as number[],
                 y: value as number[],
-                type: "bar",
-                name: `aggregation: ${aggregation} label: ${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
+                type: 'scatter',
+                mode: 'lines',
+                line: { shape: 'spline' },
+                name: `aggregation: ${aggregation} label: ${VOYAGE_SCATTER_OPTIONS.y_vars[index].label}`,
               });
             }
           }
-          setBarData(data);
-          setBarOptions({
-            x_vars: keys[0] || "",
-            y_vars: keys[1] || "",
+
+          setScatterData(data);
+          setScatterOptions({
+            x_vars: keys[0] || '',
+            y_vars: keys[1] || '',
           });
         }
       } catch (error) {
-        console.log("error", error);
+        console.log('error', error);
       }
     };
     fetchData();
@@ -145,8 +153,8 @@ function BarGraph() {
   }, [
     dispatch,
     options_flat,
-    barGraphOptions.x_vars,
-    barGraphOptions.y_vars,
+    scatterOptions.x_vars,
+    scatterOptions.y_vars,
     aggregation,
     rang,
     varName,
@@ -158,9 +166,9 @@ function BarGraph() {
     isSuccess,
     dataSetValue,
     dataSetKey,
-    styleName,
     dataSetValueBaseFilter,
-    VoyageBargraphOptions,
+    styleName,
+    VoyageScatterOptions,
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -170,23 +178,23 @@ function BarGraph() {
     []
   );
 
-  const handleChangeBarGraphOption = useCallback(
+  const handleChangeScatterOption = useCallback(
     (event: SelectChangeEvent<string>, name: string) => {
       const value = event.target.value;
-      setBarOptions((prevVoyageOption) => ({
-        ...prevVoyageOption,
+      setScatterOptions((prevOptions) => ({
+        ...prevOptions,
         [name]: value,
       }));
     },
     []
   );
 
-  const handleChangeBarGraphChipYSelected = useCallback(
+  const handleChangeScatterChipYSelected = useCallback(
     (event: SelectChangeEvent<string[]>, name: string) => {
       const value = event.target.value;
-      setChips(typeof value === "string" ? value.split(",") : value);
-      setBarOptions((prevVoyageOption) => ({
-        ...prevVoyageOption,
+      setChips(typeof value === 'string' ? value.split(',') : value);
+      setScatterOptions((prevOptions) => ({
+        ...prevOptions,
         [name]: value,
       }));
     },
@@ -203,6 +211,7 @@ function BarGraph() {
       : width < 768
       ? width * 0.8
       : width * 0.75;
+
   if (isLoading) {
     <div className="Skeleton-loading">
       <Skeleton />
@@ -214,46 +223,44 @@ function BarGraph() {
   return (
     <div>
       <SelectDropdown
-        selectedX={barGraphSelectedX}
+        selectedX={scatterSelectedX}
+        selectedY={scatterSelectedY}
         chips={chips}
-        selectedY={barGraphSelectedY}
-        selectedOptions={barGraphOptions}
-        handleChange={handleChangeBarGraphOption}
-        handleChangeMultipleYSelected={handleChangeBarGraphChipYSelected}
+        selectedOptions={scatterOptions}
+        handleChange={handleChangeScatterOption}
+        handleChangeMultipleYSelected={handleChangeScatterChipYSelected}
         maxWidth={maxWidth}
-        XFieldText={"X Field"}
-        YFieldText={"Multi-Selector Y-Feild"}
-        optionsFlatY={VOYAGE_BARGRAPH_OPTIONS.y_vars}
+        XFieldText="X Field"
+        YFieldText="Multi-Selector Y-Feild"
+        optionsFlatY={VOYAGE_SCATTER_OPTIONS.y_vars}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
         showAlert={showAlert}
-        aggregatioOptions={barGraphOptions}
+        aggregatioOptions={scatterOptions}
         optionFlat={optionFlat}
       />
-
       <Grid>
         <Plot
-          data={barData}
+          data={scatterData}
           layout={{
             width: maxWidth,
             height: height * 0.45,
             title: `The ${aggregation} of ${
-              optionFlat[barGraphOptions.x_vars]?.label || ""
-            } vs <br> ${
-              optionFlat[barGraphOptions.y_vars]?.label || ""
-            } Bar Graph`,
-
+              optionFlat[scatterOptions.x_vars]?.label || ''
+            } vs  <br>${
+              optionFlat[scatterOptions.y_vars]?.label || ''
+            } Scatter Graph`,
             xaxis: {
               title: {
-                text: optionFlat[barGraphOptions.x_vars]?.label || "",
+                text: optionFlat[scatterOptions.x_vars]?.label || '',
               },
               fixedrange: true,
             },
             yaxis: {
               title: {
-                text: optionFlat[barGraphOptions.y_vars]?.label || "",
+                text: optionFlat[scatterOptions.y_vars]?.label || '',
               },
               fixedrange: true,
             },
@@ -265,4 +272,4 @@ function BarGraph() {
   );
 }
 
-export default BarGraph;
+export default Scatter;

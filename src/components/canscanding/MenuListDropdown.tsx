@@ -5,10 +5,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-} from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { Dropdown } from "./Dropdown";
-import { AppDispatch, RootState } from "@/redux/store";
+} from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { Dropdown } from './Dropdown';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   ChildrenFilter,
   RangeSliderState,
@@ -16,21 +16,23 @@ import {
   VoyagaesFilterMenu,
   FilterMenu,
   CurrentPageInitialState,
-} from "@/share/InterfaceTypes";
+} from '@/share/InterfaceTypes';
 import {
   BLACK,
   DropdownMenuItem,
   DropdownNestedMenuItem,
   StyleDialog,
-} from "@/styleMUI";
-import RangeSlider from "../voyagePage/Results/RangeSlider";
-import { useState, MouseEvent } from "react";
-import AutocompleteBox from "../voyagePage/Results/AutocompletedBox";
-import { PaperDraggable } from "./PaperDraggable";
-import { setIsChange, setKeyValue } from "@/redux/rangeSliderSlice";
-import { setIsChangeAuto } from "@/redux/getAutoCompleteSlice";
-import { setIsOpenDialog } from "@/redux/getScrollPageSlice";
-import { ArrowDropDown, ArrowRight } from "@mui/icons-material";
+} from '@/styleMUI';
+
+import { useState, MouseEvent } from 'react';
+
+import { PaperDraggable } from './PaperDraggable';
+import { setIsChange, setKeyValue } from '@/redux/rangeSliderSlice';
+import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
+import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
+import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
+import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
+import RangeSlider from '../Voyages/Results/RangeSlider';
 
 export const MenuListDropdown = () => {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
@@ -45,11 +47,11 @@ export const MenuListDropdown = () => {
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  console.log("isOpenDialog-->", isOpenDialog);
+  console.log('isOpenDialog-->', isOpenDialog);
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
-  const [label, setLabel] = useState<string>("");
-  const [type, setType] = useState<string>("");
+  const [label, setLabel] = useState<string>('');
+  const [type, setType] = useState<string>('');
 
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -119,8 +121,8 @@ export const MenuListDropdown = () => {
             data-label={item.label}
             onClick={(event: any) => handleClickMenu(event)}
             sx={{
-              color: "#000",
-              textTransform: "none",
+              color: '#000',
+              textTransform: 'none',
               fontSize: 14,
             }}
           >
@@ -132,8 +134,8 @@ export const MenuListDropdown = () => {
             trigger={
               <Button
                 sx={{
-                  color: "#000",
-                  textTransform: "none",
+                  color: '#000',
+                  textTransform: 'none',
                   fontSize: 14,
                 }}
                 endIcon={
@@ -141,9 +143,9 @@ export const MenuListDropdown = () => {
                     <ArrowRight
                       sx={{
                         display: {
-                          xs: "flex",
-                          sm: "flex",
-                          md: "none",
+                          xs: 'flex',
+                          sm: 'flex',
+                          md: 'none',
                         },
                         fontSize: 14,
                       }}
@@ -151,9 +153,9 @@ export const MenuListDropdown = () => {
                     <ArrowDropDown
                       sx={{
                         display: {
-                          xs: "none",
-                          sm: "none",
-                          md: "flex",
+                          xs: 'none',
+                          sm: 'none',
+                          md: 'flex',
                         },
                         fontSize: 16,
                       }}
@@ -169,17 +171,17 @@ export const MenuListDropdown = () => {
         );
       })}
       <Dialog
-        BackdropProps={{ style: { backgroundColor: "transparent" } }}
+        BackdropProps={{ style: { backgroundColor: 'transparent' } }}
         sx={StyleDialog}
         open={isOpenDialog}
         onClose={handleCloseDialog}
         PaperComponent={PaperDraggable}
         aria-labelledby="draggable-dialog-title"
       >
-        <DialogTitle sx={{ cursor: "move" }} id="draggable-dialog-title">
+        <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
           <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
         </DialogTitle>
-        <DialogContent style={{ textAlign: "center" }}>
+        <DialogContent style={{ textAlign: 'center' }}>
           {varName && type === TYPES.CharField && <AutocompleteBox />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField)) && <RangeSlider />}

@@ -148,7 +148,7 @@
 			"order_by": [
 				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
-				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
+				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day"
 			],
 			"colID": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
 			"cell_val": {
@@ -221,7 +221,7 @@
 					{
 						"var_name": "voyage__voyage_sources__zotero_title",
 						"cell_fn": "literal"
-					},
+					}
 				],
 				"join": ":"
 			}
@@ -297,6 +297,5 @@
 				}
 			]
 		}
-
 	]
 }

@@ -1,17 +1,17 @@
-import { MouseEventHandler, useState } from "react";
-import { AppBar, Box, IconButton, Hidden, Divider } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import { MenuListDropdownStyle } from "@/styleMUI";
-import { Button, Menu, Typography } from "@mui/material";
-import FilterICON from "@/assets/filterICON.svg";
-import { AppDispatch, RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { CurrentPageInitialState } from "@/share/InterfaceTypes";
-import PEOPLE from "@/utils/peopel_page_data.json";
-import "@/style/Nav.scss";
+import { MouseEventHandler, useState } from 'react';
+import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import { MenuListDropdownStyle } from '@/styleMUI';
+import { Button, Menu, Typography } from '@mui/material';
+import FilterICON from '@/assets/filterICON.svg';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { CurrentPageInitialState } from '@/share/InterfaceTypes';
+import PEOPLE from '@/utils/flatfiles/peopel_page_data.json';
+import '@/style/Nav.scss';
 
-import { setIsFilter } from "@/redux/getFilterSlice";
+import { setIsFilter } from '@/redux/getFilterSlice';
 
 import {
   setBaseFilterDataKey,
@@ -21,7 +21,7 @@ import {
   setDataSetHeader,
   setStyleName,
   setTextIntro,
-} from "@/redux/getDataSetCollectionSlice";
+} from '@/redux/getDataSetCollectionSlice';
 
 import {
   getColorBackground,
@@ -29,14 +29,14 @@ import {
   getColorNavbarBackground,
   getTextColor,
   getColorBoxShadow,
-} from "@/utils/getColorStyle";
+} from '@/utils/functions/getColorStyle';
 
-import { BaseFilter } from "@/share/InterfactTypesDatasetCollection";
-import { ColumnSelector } from "@/components/FcComponents/ColumnSelectorTable/ColumnSelector";
-import { DrawerMenuBar } from "@/components/header/drawerMenuBar";
-import { POPELETILET } from "@/share/CONST_DATA";
-import { useNavigate } from "react-router-dom";
-import { DrawerMenuPeopleBar } from "./DrawerMenuPeopleBar";
+import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
+import { ColumnSelector } from '@/components/FcComponents/ColumnSelectorTable/ColumnSelector';
+import { DrawerMenuBar } from '@/components/header/drawerMenuBar';
+import { POPELETILET } from '@/share/CONST_DATA';
+import { useNavigate } from 'react-router-dom';
+import { DrawerMenuPeopleBar } from './DrawerMenuPeopleBar';
 
 export default function NavBarPeople() {
   const dispatch: AppDispatch = useDispatch();
@@ -65,39 +65,39 @@ export default function NavBarPeople() {
 
   const handleSelectMenuItems = (item: string) => {
     // Define the logic for navigating to the desired path based on the value of 'item'
-    if (item === "About") {
-      navigate("/past");
-    } else if (item === "Enslaved") {
-      navigate("/past/enslaved");
-    } else if (item === "Enslavers") {
-      navigate("/past/enslaver");
+    if (item === 'About') {
+      navigate('/PastHomePage');
+    } else if (item === 'Enslaved') {
+      navigate('/PastHomePage/enslaved');
+    } else if (item === 'Enslavers') {
+      navigate('/PastHomePage/enslaver');
     } else {
-      navigate("/");
+      navigate('/');
     }
   };
 
   return (
     <Box
       sx={{
-        display: "flex",
+        display: 'flex',
       }}
     >
       <AppBar
         component="nav"
         style={{
-          backgroundColor: "#ffffff",
+          backgroundColor: '#ffffff',
           fontSize: 12,
-          boxShadow: "none",
-          marginTop: "3rem",
+          boxShadow: 'none',
+          marginTop: '3rem',
         }}
       >
-        <Toolbar sx={{ display: "flex", alignItems: "center" }}>
+        <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
           <Hidden mdUp>
             <IconButton
               edge="start"
               aria-label="menu"
               onClick={handleMenuOpen}
-              sx={{ mr: 2, display: { md: "none" } }}
+              sx={{ mr: 2, display: { md: 'none' } }}
             >
               <MenuIcon />
             </IconButton>
@@ -114,8 +114,8 @@ export default function NavBarPeople() {
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
-                borderWidth: "0.25px",
-                borderClor: "rgb(0 0 0 / 50%)",
+                borderWidth: '0.25px',
+                borderClor: 'rgb(0 0 0 / 50%)',
               }}
             />
             <Typography
@@ -123,15 +123,15 @@ export default function NavBarPeople() {
               variant="body1"
               fontWeight="500"
               sx={{
-                cursor: "pointer",
-                alignItems: "center",
+                cursor: 'pointer',
+                alignItems: 'center',
                 display: {
-                  xs: "none",
-                  sm: "none",
-                  md: "flex",
+                  xs: 'none',
+                  sm: 'none',
+                  md: 'flex',
                   paddingRight: 40,
                 },
-                margin: "10px 0",
+                margin: '10px 0',
                 fontSize: 18,
                 fontWeight: 600,
               }}
@@ -149,11 +149,11 @@ export default function NavBarPeople() {
             className="menu-nav-bar-select-box"
             sx={{
               display: {
-                xs: "none",
-                sm: "none",
-                md: "block",
-                lg: "block",
-                textAlign: "center",
+                xs: 'none',
+                sm: 'none',
+                md: 'block',
+                lg: 'block',
+                textAlign: 'center',
                 paddingRight: 40,
                 fontWeight: 600,
                 fontSize: 20,
@@ -166,12 +166,12 @@ export default function NavBarPeople() {
                   onClick={() => handleSelectMenuItems(item)}
                   key={`${item}-${index}`}
                   sx={{
-                    color: "#000000",
+                    color: '#000000',
                     fontWeight: 600,
                     fontSize: 20,
-                    margin: "0 2px",
-                    textTransform: "none",
-                    fontFamily: "Cormorant Garamond",
+                    margin: '0 2px',
+                    textTransform: 'none',
+                    fontFamily: 'Cormorant Garamond',
                   }}
                 >
                   <div>{item}</div>

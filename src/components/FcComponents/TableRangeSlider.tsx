@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Table,
   Box,
@@ -11,22 +11,22 @@ import {
   Paper,
   Stack,
   TablePagination,
-} from "@mui/material";
-import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
-import { useSelector } from "react-redux";
-import { Flatlabel, IsShowProp } from "@/share/InterfaceTypes";
+} from '@mui/material';
+import { useGetOptionsQuery } from '@/fetchAPI/fetchApiService';
+import { useSelector } from 'react-redux';
+import { Flatlabel, IsShowProp } from '@/share/InterfaceTypes';
 
-import { StyledTableRow } from "@/styleMUI";
-import { RootState } from "@/redux/store";
-import RangeSlider from "../voyagePage/Results/RangeSlider";
+import { StyledTableRow } from '@/styleMUI';
+import { RootState } from '@/redux/store';
+import RangeSlider from '../Voyages/Results/RangeSlider';
 
 const TableRangeSlider = () => {
   const datas = useSelector((state: RootState) => state.getOptions.value);
   const { isLoading } = useGetOptionsQuery(datas);
-  const colunmName = ["Label", "Range-Slider", "Display"];
+  const colunmName = ['Label', 'Range-Slider', 'Display'];
   const [optionsLabel, setOptionsLabel] = useState<Flatlabel[]>([]);
   const [isShow, setIsShow] = useState<IsShowProp>({});
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState<string>('');
   const [rangeValue, setRangeValue] = useState<Record<string, number[]>>({});
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
@@ -48,13 +48,13 @@ const TableRangeSlider = () => {
       [row.key]: true,
     }));
     if (message) {
-      setMessage("");
+      setMessage('');
     }
   };
 
   if (isLoading) {
     return (
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         <h1>Loading</h1>
       </div>
     );
@@ -68,11 +68,11 @@ const TableRangeSlider = () => {
             <TableRow>
               {colunmName.map((value, key) => (
                 <TableCell
-                  key={"title-" + key}
+                  key={'title-' + key}
                   style={{
-                    width: "33%",
-                    color: "#389c90",
-                    borderRight: "1px solid #ddd",
+                    width: '33%',
+                    color: '#389c90',
+                    borderRight: '1px solid #ddd',
                   }}
                 >
                   {value}
@@ -87,10 +87,10 @@ const TableRangeSlider = () => {
                 return (
                   <StyledTableRow
                     key={`row${row.key}`}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: 'pointer' }}
                       onClick={() => handleShowRangeSlide(row)}
                       component="th"
                       scope="row"
@@ -105,7 +105,7 @@ const TableRangeSlider = () => {
                         </>
                       )}
                     </TableCell>
-                    <TableCell style={{ textAlign: "center" }}>
+                    <TableCell style={{ textAlign: 'center' }}>
                       {isShow[row.key] && (
                         <>
                           <div>{row.key}</div>
@@ -114,7 +114,7 @@ const TableRangeSlider = () => {
                               rangeValue?.[row.key][1]
                             }`}</div>
                           )}
-                          <div style={{ color: "red" }}>
+                          <div style={{ color: 'red' }}>
                             {rangeValue && message}
                           </div>
                         </>
