@@ -23,7 +23,7 @@ import {
 import { StyledTableRow } from '@/styleMUI';
 import { fetchOptionsData } from '@/fetchAPI/fetchOptionsData';
 import { RootState } from '@/redux/store';
-import AutocompleteBox from '../voyagePage/Results/AutocompletedBox';
+import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import { useGetOptionsQuery } from '@/fetchAPI/fetchApiService';
 
 const TableCharacter = () => {

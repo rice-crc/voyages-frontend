@@ -18,7 +18,7 @@ import { Flatlabel, IsShowProp } from '@/share/InterfaceTypes';
 
 import { StyledTableRow } from '@/styleMUI';
 import { RootState } from '@/redux/store';
-import RangeSlider from '../voyagePage/Results/RangeSlider';
+import RangeSlider from '../Voyages/Results/RangeSlider';
 
 const TableRangeSlider = () => {
   const datas = useSelector((state: RootState) => state.getOptions.value);

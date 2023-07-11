@@ -30,8 +30,10 @@ import {
   RangeSliderState,
   TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
+import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
+import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
+import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
 import { ICellRendererParams } from 'ag-grid-community';
-import TABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
@@ -71,9 +73,8 @@ const EnslavedTable: React.FC = () => {
 
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
-  const [tablesCell, setTableCell] = useState<VoyageTableCellStructure[]>(
-    TABLE_FLAT.cell_structure
-  );
+  // const tablesCell = TABLE_FLAT.cell_structure;
+  const [tablesCell, setTableCell] = useState<VoyageTableCellStructure[]>([]);
 
   const [width, height] = useWindowSize();
   const maxWidth =
@@ -101,20 +102,13 @@ const EnslavedTable: React.FC = () => {
       try {
         // Need to refactor later
         if (styleName === TYPESOFDATASETPEOPLE.allEnslaved) {
-          const response = await import(
-            '@/utils/flatfiles/enslaved_table_cell_structure.json'
-          );
-          setTableCell(response.default.cell_structure);
-        } else if (tableFileName === TYPESOFDATASETPEOPLE.africanOrigins) {
-          const response = await import(
-            '@/utils/flatfiles/african_origins_table_cell_structure.json'
-          );
-          setTableCell(response.default.cell_structure);
-        } else if (tableFileName === TYPESOFDATASETPEOPLE.texas) {
-          const response = await import(
-            '@/utils/flatfiles/texas_table_cell_structure.json'
-          );
-          setTableCell(response.default.cell_structure);
+          console.log('allEnslaved', styleName);
+          setTableCell(ENSLAVED_TABLE.cell_structure);
+        } else if (styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
+          console.log('africanOrigins', styleName);
+          setTableCell(AFRICANORIGINS_TABLE.cell_structure);
+        } else if (styleName === TYPESOFDATASETPEOPLE.texas) {
+          setTableCell(TEXAS_TABLE.cell_structure);
         }
       } catch (error) {
         console.error('Failed to load table cell structure:', error);
@@ -241,8 +235,6 @@ const EnslavedTable: React.FC = () => {
           const columnDef = {
             headerName: value.header_label,
             field: value.colID,
-            // change this line
-            // width: value.colID === 'voyage_sources' ? 300 : 200,
             sortable: true,
             autoHeight: true,
             wrapText: true,
@@ -260,10 +252,7 @@ const EnslavedTable: React.FC = () => {
                   padding: '0px 10px',
                   height: '25px',
                   whiteSpace: 'nowrap',
-                  width: value.colID === 'voyage_sources' ? 240 : 145,
                   overflow: 'hidden',
-                  textOverflow:
-                    value.colID === 'voyage_sources' ? 'inherit' : 'ellipsis',
                   margin: '5px 0',
                   textAlign: 'center',
                   lineHeight: '25px',
@@ -324,7 +313,7 @@ const EnslavedTable: React.FC = () => {
           return columnDef;
         }
       );
-      console.log('visibleColumnCells-->', visibleColumnCells);
+
       dispatch(setColumnDefs(newColumnDefs));
       dispatch(setRowData(finalRowData as Record<string, any>[]));
     }
