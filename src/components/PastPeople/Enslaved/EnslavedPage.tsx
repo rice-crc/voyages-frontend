@@ -1,11 +1,11 @@
-import { Box, Grid } from "@mui/material";
-import "@/style/page-past.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
+import { Box, Grid } from '@mui/material';
+import '@/style/page-past.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   BaseFilter,
   DataSetCollectionProps,
-} from "@/share/InterfactTypesDatasetCollection";
+} from '@/share/InterfactTypesDatasetCollection';
 import {
   setBaseFilterPeopleDataKey,
   setBaseFilterPeopleDataSetValue,
@@ -14,17 +14,15 @@ import {
   setPeopleBlocksMenuList,
   setPeopleStyleName,
   setPeopleTextIntro,
-} from "@/redux/getPeopleDataSetCollectionSlice";
-import { useNavigate } from "react-router-dom";
+} from '@/redux/getPeopleDataSetCollectionSlice';
 
 const EnslavedPage = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
-  const { value, styleName, textIntroduce } = useSelector(
+  const { value, textIntroduce } = useSelector(
     (state: RootState) => state.getPeopleDataSetCollection
   );
   const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
   const handleSelectEnslavedDataset = (
     base_filter: BaseFilter[],
     textHeder: string,
@@ -41,22 +39,11 @@ const EnslavedPage = () => {
     dispatch(setPeopleTextIntro(textIntro));
     dispatch(setPeopleStyleName(styleName));
     dispatch(setPeopleBlocksMenuList(blocks));
-    const url = `/past/enslaved/${styleName}`;
-    navigate(url);
   };
   return (
     <>
-      {/* Filter */}
       <div className="page" id="main-enslaved-home">
-        <Box
-        // sx={{
-        //   flexGrow: 1,
-        //   // marginTop: {
-        //   //   sm: "2rem",
-        //   //   md: "8%",
-        //   // },
-        // }}
-        >
+        <Box>
           <Grid container spacing={2}>
             <Grid item xs={12} className="grid-enslaved-introduction">
               <div>{textIntroduce}</div>

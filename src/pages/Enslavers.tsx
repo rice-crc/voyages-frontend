@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const EnslaversHomePage: React.FC = () => {
   return <div>Enslavers</div>;

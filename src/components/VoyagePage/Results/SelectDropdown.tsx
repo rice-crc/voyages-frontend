@@ -7,12 +7,12 @@ import {
   SelectChangeEvent,
   Chip,
   OutlinedInput,
-} from "@mui/material";
-import { FunctionComponent, ReactNode } from "react";
-import { PlotXYVar, VoyagesOptionProps } from "@/share/InterfaceTypes";
-import { getBoderColor } from "@/utils/getColorStyle";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+} from '@mui/material';
+import { FunctionComponent, ReactNode } from 'react';
+import { PlotXYVar, VoyagesOptionProps } from '@/share/InterfaceTypes';
+import { getBoderColor } from '@/utils/functions/getColorStyle';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 interface SelectDropdownScatterProps {
   selectedX: PlotXYVar[];
@@ -79,7 +79,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
               PaperProps: {
                 sx: {
                   height: 380,
-                  "& .MuiMenuItem-root": {
+                  '& .MuiMenuItem-root': {
                     padding: 2,
                   },
                 },
@@ -90,7 +90,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
             value={selectedOptions.x_vars}
             label={XFieldText}
             onChange={(event: SelectChangeEvent<string>) => {
-              handleChange(event, "x_vars");
+              handleChange(event, 'x_vars');
             }}
             name="x_vars"
           >
@@ -106,7 +106,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
           </Select>
         </FormControl>
       </Box>
-      {graphType !== "PIE" ? (
+      {graphType !== 'PIE' ? (
         <Box sx={{ maxWidth, my: 2 }}>
           <FormControl fullWidth>
             <InputLabel id="demo-multiple-chip-label">{YFieldText}</InputLabel>
@@ -119,13 +119,13 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
               value={chips}
               name="y_vars"
               onChange={(event: SelectChangeEvent<string[]>) => {
-                handleChangeMultipleYSelected(event, "y_vars");
+                handleChangeMultipleYSelected(event, 'y_vars');
               }}
               input={
                 <OutlinedInput id="select-multiple-chip" label={YFieldText} />
               }
               renderValue={(value): ReactNode => (
-                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                   {value.map((option: string, index: number) => (
                     <Chip
                       style={{
@@ -163,7 +163,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
                 PaperProps: {
                   sx: {
                     height: 380,
-                    "& .MuiMenuItem-root": {
+                    '& .MuiMenuItem-root': {
                       padding: 2,
                     },
                   },
@@ -174,7 +174,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
               value={selectedOptions.y_vars}
               label={XFieldText}
               onChange={(event: SelectChangeEvent<string>) => {
-                handleChange(event, "y_vars");
+                handleChange(event, 'y_vars');
               }}
               name="y_vars"
             >

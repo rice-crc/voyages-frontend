@@ -13,9 +13,9 @@
 				"label": "Age"
 			},
 			{
-				"var_name": "age",
+				"var_name": "gender",
 				"type": "IntegerField",
-				"label": "Age"
+				"label": "Gender"
 			},
 			{
 				"var_name": "height",
@@ -32,12 +32,7 @@
 				"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias",
 				"type": "CharField",
 				"label": "Individual Enslavers"
-			},
-			{
-				"var_name": "voyage__voyage_enslaver_connection__enslaver_alias",
-				"type": "CharField",
-				"label": "Vessel Owners and Captains"
-			},
+			}
 		]
 	},
 	{
@@ -64,6 +59,11 @@
 				"label": "Year of arrival"
 			}
 		]
+	},
+	{
+		"label": "Cultural Association",
+		"var_name": "language_group__name",
+		"type": "CharField"
 	},
 	{
 		"label": "Fate",

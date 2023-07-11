@@ -1,8 +1,8 @@
 
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const getScrollEnslavedPageSlice = createSlice({
-    name: "getScrollEnslavedPage",
+    name: 'getScrollEnslavedPage',
     initialState: {
         currentEnslavedPage: 1,
     },

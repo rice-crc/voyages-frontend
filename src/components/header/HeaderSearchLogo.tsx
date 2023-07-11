@@ -1,8 +1,8 @@
-import { AppBar, Box, CssBaseline, Typography, Toolbar } from "@mui/material";
-import { WHITE } from "@/styleMUI";
-import LOGOVoyages from "@/assets/sv-logo_v2.svg";
-import SearchVoyages from "@/assets/searchICON.svg";
-import { Link } from "react-router-dom";
+import { AppBar, Box, CssBaseline, Typography, Toolbar } from '@mui/material';
+import { WHITE } from '@/styleMUI';
+import LOGOVoyages from '@/assets/sv-logo_v2.svg';
+import SearchVoyages from '@/assets/searchICON.svg';
+import { Link } from 'react-router-dom';
 
 export default function HeaderLogoSearch() {
   return (
@@ -13,28 +13,28 @@ export default function HeaderLogoSearch() {
         style={{
           backgroundColor: WHITE,
           zIndex: 2000,
-          boxShadow: "none",
+          boxShadow: 'none',
           height: 50,
         }}
       >
         <Toolbar
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          <Typography component="div" sx={{ cursor: "pointer" }}>
-            <Link to={"/"} style={{ textDecoration: "none" }}>
+          <Typography component="div" sx={{ cursor: 'pointer' }}>
+            <Link to={'/'} style={{ textDecoration: 'none' }}>
               <img
                 src={LOGOVoyages}
                 alt="logo"
-                style={{ position: "relative", bottom: 5 }}
+                style={{ position: 'relative', bottom: 5 }}
               />
             </Link>
           </Typography>
 
-          <Typography component="div" sx={{ cursor: "pointer" }}>
+          <Typography component="div" sx={{ cursor: 'pointer' }}>
             <img src={SearchVoyages} alt="search" height={40} />
           </Typography>
         </Toolbar>

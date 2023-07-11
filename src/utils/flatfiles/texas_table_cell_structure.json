@@ -108,6 +108,23 @@
 			}
 		},
 		{
+			"header_label": "Vessel Owners and Captains",
+			"cell_type": "literal",
+			"visible": true,
+			"order_by": [
+				"voyage__voyage_enslaver_connection__enslaver_alias__alias"
+			],
+			"colID": "voyage__voyage_enslaver_connection__enslaver_alias__alias",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage__voyage_enslaver_connection__enslaver_alias__alias",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
 			"header_label": "Embarkation Port",
 			"cell_type": "literal",
 			"visible": true,
@@ -148,7 +165,7 @@
 			"order_by": [
 				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
-				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
+				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day"
 			],
 			"colID": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
 			"cell_val": {
@@ -206,22 +223,22 @@
 		{
 			"header_label": "Documentary Sources",
 			"cell_type": "literal-concat",
-			"visible": false,
+			"visible": true,
 			"order_by": [
-				"voyage__voyage_sources__legacy_source__short_ref",
-				"voyage__voyage_sources__zotero_title"
+				"voyage__voyage_zoterorefs__legacy_source__full_ref",
+				"voyage__voyage_zoterorefs__zotero_title"
 			],
 			"colID": "voyage__voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage__voyage_sources__legacy_source__short_ref",
+						"var_name": "voyage__voyage_zoterorefs__legacy_source__full_ref",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "voyage__voyage_sources__zotero_title",
+						"var_name": "voyage__voyage_zoterorefs__zotero_title",
 						"cell_fn": "literal"
-					},
+					}
 				],
 				"join": ":"
 			}
@@ -297,6 +314,5 @@
 				}
 			]
 		}
-
 	]
 }

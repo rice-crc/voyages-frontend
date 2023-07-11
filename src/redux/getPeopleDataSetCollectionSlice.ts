@@ -1,20 +1,22 @@
 import { BaseFilter, InitialStateDataPeopleSetCollection } from '@/share/InterfactTypesDatasetCollection';
-import jsonData from '@/utils/PEOPLE_COLLECTIONS.json'
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const initialState: InitialStateDataPeopleSetCollection = {
-    value: jsonData,
-    textHeader: jsonData[0].headers.label,
-    textIntroduce: jsonData[0].headers.text_introduce,
-    styleName: jsonData[0].style_name,
+    value: jsonDataPEOPLECOLLECTIONS,
+    textHeader: jsonDataPEOPLECOLLECTIONS[0].headers.label,
+    textIntroduce: jsonDataPEOPLECOLLECTIONS[0].headers.text_introduce,
+    styleName: jsonDataPEOPLECOLLECTIONS[0].style_name,
     dataSetValueBaseFilter: [],
     dataSetKey: '',
     dataSetValue: [],
-    blocks: jsonData[0].blocks
+    blocks: jsonDataPEOPLECOLLECTIONS[0].blocks,
+    filterMenuFlatfile: jsonDataPEOPLECOLLECTIONS[0].filter_menu_flatfile,
+    tableFlatfile: jsonDataPEOPLECOLLECTIONS[0].table_flatfile
 }
 
 export const getPeopleDataSetCollectionSlice = createSlice({
-    name: "getPeopleDataSetCollectionSlice",
+    name: 'getPeopleDataSetCollectionSlice',
     initialState,
     reducers: {
         setBaseFilterPeopleDataSetValue: (state, action: PayloadAction<BaseFilter[]>) => {
@@ -38,12 +40,17 @@ export const getPeopleDataSetCollectionSlice = createSlice({
         setPeopleBlocksMenuList: (state, action: PayloadAction<string[]>) => {
             state.blocks = action.payload
         },
-
+        setPeopleFilterMenuFlatfile: (state, action: PayloadAction<string>) => {
+            state.filterMenuFlatfile = action.payload
+        },
+        setPeopleTableFlatfile: (state, action: PayloadAction<string>) => {
+            state.tableFlatfile = action.payload
+        },
     },
 });
 
 export const { setBaseFilterPeopleDataSetValue,
-    setBaseFilterPeopleDataKey, setBaseFilterPeopleDataValue,
+    setBaseFilterPeopleDataKey, setBaseFilterPeopleDataValue, setPeopleFilterMenuFlatfile, setPeopleTableFlatfile,
     setDataSetPeopleHeader, setPeopleTextIntro, setPeopleStyleName, setPeopleBlocksMenuList } = getPeopleDataSetCollectionSlice.actions;
 
 export default getPeopleDataSetCollectionSlice.reducer;

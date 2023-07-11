@@ -6,7 +6,7 @@ const initialState: RangeSliderState = {
     rangeValue: {},
     loading: false,
     error: false,
-    varName: "",
+    varName: '',
     isChange: false,
     rangeSliderMinMax: {},
 };

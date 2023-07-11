@@ -1,4 +1,4 @@
-import { StyledMenu } from "./stylesMenu/StyledMenu";
+import { StyledMenu } from './stylesMenu/StyledMenu';
 
 interface MenuDropdownProps {
   open: boolean;

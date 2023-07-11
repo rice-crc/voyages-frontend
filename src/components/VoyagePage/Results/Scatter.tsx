@@ -1,13 +1,13 @@
-import { useState, useEffect, useMemo, ChangeEvent, useCallback } from "react";
-import Plot from "react-plotly.js";
-import { Data } from "plotly.js";
-import VOYAGE_SCATTER_OPTIONS from "@/utils/VOYAGE_SCATTER_OPTIONS.json";
-import { Grid, SelectChangeEvent, Skeleton } from "@mui/material";
-import { useWindowSize } from "@react-hook/window-size";
-import { AppDispatch, RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { useGetOptionsQuery } from "@/fetchAPI/fetchApiService";
-import { fetchVoyageGraphGroupby } from "@/fetchAPI/fetchVoyageGroupby";
+import { useState, useEffect, useMemo, ChangeEvent, useCallback } from 'react';
+import Plot from 'react-plotly.js';
+import { Data } from 'plotly.js';
+import VOYAGE_SCATTER_OPTIONS from '@/utils/flatfiles/VOYAGE_SCATTER_OPTIONS.json';
+import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
+import { useWindowSize } from '@react-hook/window-size';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetOptionsQuery } from '@/fetchAPI/fetchApiService';
+import { fetchVoyageGraphGroupby } from '@/fetchAPI/fetchVoyageGroupby';
 import {
   PlotXYVar,
   VoyagesOptionProps,
@@ -16,11 +16,11 @@ import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
   TYPESOFDATASET,
-} from "@/share/InterfaceTypes";
-import { fetchOptionsFlat } from "@/fetchAPI/fetchOptionsFlat";
-import "@/style/page.scss";
-import { SelectDropdown } from "./SelectDropdown";
-import { AggregationSumAverage } from "./AggregationSumAverage";
+} from '@/share/InterfaceTypes';
+import { fetchOptionsFlat } from '@/fetchAPI/fetchOptionsFlat';
+import '@/style/page.scss';
+import { SelectDropdown } from './SelectDropdown';
+import { AggregationSumAverage } from './AggregationSumAverage';
 
 function Scatter() {
   const datas = useSelector(
@@ -60,15 +60,15 @@ function Scatter() {
     y_vars: VOYAGE_SCATTER_OPTIONS.y_vars[0].var_name,
   });
 
-  const [aggregation, setAggregation] = useState<string>("sum");
+  const [aggregation, setAggregation] = useState<string>('sum');
 
   const VoyageScatterOptions = useCallback(() => {
     Object.entries(VOYAGE_SCATTER_OPTIONS).forEach(
       ([key, value]: [string, PlotXYVar[]]) => {
-        if (key === "x_vars") {
+        if (key === 'x_vars') {
           setSelectedX(value);
         }
-        if (key === "y_vars") {
+        if (key === 'y_vars') {
           setSelectedY(value);
         }
       }
@@ -82,18 +82,18 @@ function Scatter() {
 
     const fetchData = async () => {
       const newFormData: FormData = new FormData();
-      newFormData.append("groupby_by", scatterOptions.x_vars);
+      newFormData.append('groupby_by', scatterOptions.x_vars);
       const yfieldArr: string[] = [];
 
       if (currentPage === 2) {
         for (const chip of chips) {
-          newFormData.append("groupby_cols", chip);
+          newFormData.append('groupby_cols', chip);
           yfieldArr.push(chip);
         }
       }
 
-      newFormData.append("agg_fn", aggregation);
-      newFormData.append("cachename", "voyage_xyscatter");
+      newFormData.append('agg_fn', aggregation);
+      newFormData.append('cachename', 'voyage_xyscatter');
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
@@ -128,9 +128,9 @@ function Scatter() {
               data.push({
                 x: values[0] as number[],
                 y: value as number[],
-                type: "scatter",
-                mode: "lines",
-                line: { shape: "spline" },
+                type: 'scatter',
+                mode: 'lines',
+                line: { shape: 'spline' },
                 name: `aggregation: ${aggregation} label: ${VOYAGE_SCATTER_OPTIONS.y_vars[index].label}`,
               });
             }
@@ -138,12 +138,12 @@ function Scatter() {
 
           setScatterData(data);
           setScatterOptions({
-            x_vars: keys[0] || "",
-            y_vars: keys[1] || "",
+            x_vars: keys[0] || '',
+            y_vars: keys[1] || '',
           });
         }
       } catch (error) {
-        console.log("error", error);
+        console.log('error', error);
       }
     };
     fetchData();
@@ -192,7 +192,7 @@ function Scatter() {
   const handleChangeScatterChipYSelected = useCallback(
     (event: SelectChangeEvent<string[]>, name: string) => {
       const value = event.target.value;
-      setChips(typeof value === "string" ? value.split(",") : value);
+      setChips(typeof value === 'string' ? value.split(',') : value);
       setScatterOptions((prevOptions) => ({
         ...prevOptions,
         [name]: value,
@@ -248,19 +248,19 @@ function Scatter() {
             width: maxWidth,
             height: height * 0.45,
             title: `The ${aggregation} of ${
-              optionFlat[scatterOptions.x_vars]?.label || ""
+              optionFlat[scatterOptions.x_vars]?.label || ''
             } vs  <br>${
-              optionFlat[scatterOptions.y_vars]?.label || ""
+              optionFlat[scatterOptions.y_vars]?.label || ''
             } Scatter Graph`,
             xaxis: {
               title: {
-                text: optionFlat[scatterOptions.x_vars]?.label || "",
+                text: optionFlat[scatterOptions.x_vars]?.label || '',
               },
               fixedrange: true,
             },
             yaxis: {
               title: {
-                text: optionFlat[scatterOptions.y_vars]?.label || "",
+                text: optionFlat[scatterOptions.y_vars]?.label || '',
               },
               fixedrange: true,
             },

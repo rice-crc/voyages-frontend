@@ -4,24 +4,24 @@ import {
   useState,
   useMemo,
   SyntheticEvent,
-} from "react";
-import { AppDispatch, RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAutoComplete } from "@/fetchAPI/fetchAutoCompleted";
-import { Autocomplete, Stack, TextField, Box, Typography } from "@mui/material";
-import "@/style/table.scss";
-import "react-dropdown-tree-select/dist/styles.css";
+} from 'react';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAutoComplete } from '@/fetchAPI/fetchAutoCompleted';
+import { Autocomplete, Stack, TextField, Box, Typography } from '@mui/material';
+import '@/style/table.scss';
+import 'react-dropdown-tree-select/dist/styles.css';
 import {
   AutoCompleteInitialState,
   AutoCompleteOption,
   AutocompleteBoxProps,
   RangeSliderState,
-} from "@/share/InterfaceTypes";
+} from '@/share/InterfaceTypes';
 import {
   setAutoCompleteValue,
   setAutoLabel,
   setIsChangeAuto,
-} from "@/redux/getAutoCompleteSlice";
+} from '@/redux/getAutoCompleteSlice';
 
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
@@ -32,7 +32,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   );
   const [autoList, setAutoLists] = useState<AutoCompleteOption[]>([]);
   const [selectedValue, setSelectedValue] = useState<AutoCompleteOption[]>([]);
-  const [autoValue, setAutoValue] = useState<string>("");
+  const [autoValue, setAutoValue] = useState<string>('');
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -47,7 +47,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         }
       })
       .catch((error: Error) => {
-        console.log("error", error);
+        console.log('error', error);
       });
   }, [dispatch, varName, autoValue]);
 
@@ -79,7 +79,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         autoCompleteValue: { ...autoCompleteValue, [varName]: autuLabel },
       };
       const filterObjectString = JSON.stringify(filterObject);
-      localStorage.setItem("filterObject", filterObjectString);
+      localStorage.setItem('filterObject', filterObjectString);
     }
   };
 

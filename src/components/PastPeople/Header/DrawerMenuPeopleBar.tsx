@@ -1,4 +1,4 @@
-import { ListItemText, MenuItem, MenuList } from "@mui/material";
+import { ListItemText, MenuItem, MenuList } from '@mui/material';
 interface DrawerMenuPeopleBarProps {
   value?: string[];
   handleSelectMenuItems: (item: string) => void;

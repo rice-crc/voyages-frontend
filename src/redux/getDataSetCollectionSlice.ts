@@ -1,19 +1,19 @@
 import { BaseFilter, InitialStateDataSetCollection } from '@/share/InterfactTypesDatasetCollection';
-import jsonData from '@/utils/VOYAGE_COLLECTIONS.json'
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 export const initialState: InitialStateDataSetCollection = {
-    value: jsonData,
-    textHeader: jsonData[0].headers.label,
-    textIntroduce: jsonData[0].headers.text_introduce,
-    styleName: jsonData[0].style_name,
+    value: jsonDataVoyageCollection,
+    textHeader: jsonDataVoyageCollection[0].headers.label,
+    textIntroduce: jsonDataVoyageCollection[0].headers.text_introduce,
+    styleName: jsonDataVoyageCollection[0].style_name,
     dataSetValueBaseFilter: [],
     dataSetKey: '',
     dataSetValue: [],
-    blocks: jsonData[0].blocks
+    blocks: jsonDataVoyageCollection[0].blocks
 }
 
 export const getDataSetCollectionSlice = createSlice({
-    name: "getDataSetCollection",
+    name: 'getDataSetCollection',
     initialState,
     reducers: {
         setBaseFilterDataSetValue: (state, action: PayloadAction<BaseFilter[]>) => {

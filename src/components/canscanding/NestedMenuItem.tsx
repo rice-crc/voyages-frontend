@@ -6,10 +6,10 @@ import React, {
   Ref,
   RefObject,
   MouseEvent,
-} from "react";
-import { Menu, MenuItem } from "@mui/material";
-import { ArrowRight } from "@mui/icons-material";
-import { ChildrenFilter } from "@/share/InterfaceTypes";
+} from 'react';
+import { Menu, MenuItem } from '@mui/material';
+import { ArrowRight } from '@mui/icons-material';
+import { ChildrenFilter } from '@/share/InterfaceTypes';
 
 interface NestedMenuItemProps {
   parentMenuOpen?: boolean;
@@ -110,7 +110,7 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       return;
     }
 
@@ -120,12 +120,12 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
 
     const active = containerRef.current?.ownerDocument?.activeElement;
 
-    if (event.key === "ArrowLeft" && isSubmenuFocused()) {
+    if (event.key === 'ArrowLeft' && isSubmenuFocused()) {
       containerRef.current?.focus();
     }
 
     if (
-      event.key === "ArrowRight" &&
+      event.key === 'ArrowRight' &&
       event.target === containerRef.current &&
       event.target === active
     ) {
@@ -169,15 +169,15 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
       {children && (
         <Menu
           hideBackdrop
-          style={{ pointerEvents: "none" }}
+          style={{ pointerEvents: 'none' }}
           anchorEl={menuItemRef.current}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: rightAnchored ? "left" : "right",
+            vertical: 'top',
+            horizontal: rightAnchored ? 'left' : 'right',
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: rightAnchored ? "right" : "left",
+            vertical: 'top',
+            horizontal: rightAnchored ? 'right' : 'left',
           }}
           sx={customTheme}
           open={!!open}
@@ -188,7 +188,7 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
             setIsSubMenuOpen(false);
           }}
         >
-          <div ref={menuContainerRef} style={{ pointerEvents: "auto" }}>
+          <div ref={menuContainerRef} style={{ pointerEvents: 'auto' }}>
             {children}
           </div>
         </Menu>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 interface StyledMenuProps {
-    open: boolean;
+  open: boolean;
 }
 
 export const StyledMenu = styled.nav<StyledMenuProps>`

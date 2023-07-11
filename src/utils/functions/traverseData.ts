@@ -1,11 +1,10 @@
 
 export const traverseData = (data: any, varArray: string[]): any => {
-    // console.log("traverseData--", data)
     if (data) {
         const dataKeys = Object.keys(data);
         const key = varArray[0];
         if (varArray.length > 1) {
-            if (typeof data === "object" && dataKeys.includes(key)) {
+            if (typeof data === 'object' && dataKeys.includes(key)) {
                 const value = data[key];
                 data = traverseData(value, varArray.slice(1));
             } else if (Array.isArray(data)) {
@@ -17,7 +16,7 @@ export const traverseData = (data: any, varArray: string[]): any => {
                 return results;
             }
         } else {
-            if (typeof data === "object" && dataKeys.includes(key)) {
+            if (typeof data === 'object' && dataKeys.includes(key)) {
                 return data[key];
             } else if (Array.isArray(data)) {
                 const results: any[] = [];

@@ -1,4 +1,4 @@
-import { StyledBurger } from "./stylesMenu/StyledBurger";
+import { StyledBurger } from './stylesMenu/StyledBurger';
 
 interface BurgerMenuProps {
   open: boolean;
