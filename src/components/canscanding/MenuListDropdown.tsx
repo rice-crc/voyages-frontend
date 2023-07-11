@@ -47,7 +47,7 @@ export const MenuListDropdown = () => {
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  console.log('isOpenDialog-->', isOpenDialog);
+
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [label, setLabel] = useState<string>('');
@@ -76,6 +76,21 @@ export const MenuListDropdown = () => {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
+  };
+  const handleResetDataDialog = (event: any) => {
+    event.stopPropagation();
+    const value = event.cancelable;
+    setIsClickMenu(!isClickMenu);
+    dispatch(setIsOpenDialog(false));
+    if (currentPage !== 5) {
+      dispatch(setIsChange(!value));
+      dispatch(setIsChangeAuto(!value));
+    }
+    // Reset data in localStorage
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
   };
 
   const renderDropdownMenu = (children?: ChildrenFilter[]) =>
@@ -189,10 +204,10 @@ export const MenuListDropdown = () => {
         <DialogActions>
           <Button
             autoFocus
-            onClick={handleCloseDialog}
+            onClick={handleResetDataDialog}
             sx={{ color: BLACK, fontSize: 15 }}
           >
-            Cancel
+            RESET
           </Button>
         </DialogActions>
       </Dialog>
