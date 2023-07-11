@@ -1,5 +1,5 @@
 import { fetchVoyagesOptionsApi } from '@/fetchAPI/fetchVoyagesOptionsApi';
-import dataVoyageScatterOptions from "@/utils/VOYAGE_SCATTER_OPTIONS.json";
+import dataVoyageScatterOptions from "@/utils/flatfiles/VOYAGE_BARGRAPH_OPTIONS.json";
 import { expect, test, vi, describe } from "vitest";
 
 global.fetch = vi.fn()

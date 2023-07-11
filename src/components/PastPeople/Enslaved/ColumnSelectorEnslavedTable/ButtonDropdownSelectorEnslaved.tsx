@@ -1,23 +1,42 @@
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { DropdownColumn } from './DropdownColumn';
+
 import {
   DropdownMenuColumnItem,
   DropdownNestedMenuColumnItem,
 } from '@/styleMUI';
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
-import { TableCellStructureInitialStateProp } from '@/share/InterfaceTypesTable';
+import {
+  ColumnSelectorTree,
+  TableCellStructureInitialStateProp,
+} from '@/share/InterfaceTypesTable';
+import TABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
+import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
+import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
+import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
+import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
+import { DropdownColumn } from '@/components/FcComponents/ColumnSelectorTable/DropdownColumn';
 
-const ButtonDropdownSelectoreColumn = () => {
+const ButtonDropdownSelectorEnslaved = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { valueCells, visibleColumnCells } = useSelector(
+
+  const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
+  const { styleName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
+  );
 
-  const menuValueCells = valueCells.column_selector_tree;
+  const { styleNamePeople } = useSelector(
+    (state: RootState) => state.getPeopleDataSetCollection
+  );
+
+  const [menuValueCells, setMenuValueCells] = useState<ColumnSelectorTree[]>(
+    []
+  );
 
   const handleColumnVisibilityChange = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -31,6 +50,23 @@ const ButtonDropdownSelectoreColumn = () => {
       dispatch(setVisibleColumn(updatedVisibleColumns));
     }
   };
+
+  useEffect(() => {
+    const loadMenuValueCellStructure = async () => {
+      try {
+        if (styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved) {
+          setMenuValueCells(ENSLAVED_TABLE.column_selector_tree);
+        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins) {
+          setMenuValueCells(AFRICANORIGINS_TABLE.column_selector_tree);
+        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.texas) {
+          setMenuValueCells(TEXAS_TABLE.column_selector_tree);
+        }
+      } catch (error) {
+        console.error('Failed to load table cell structure:', error);
+      }
+    };
+    loadMenuValueCellStructure();
+  }, [menuValueCells]);
 
   function renderMenuItems(nodes: any[]) {
     return nodes.map((node) => {
@@ -93,4 +129,4 @@ const ButtonDropdownSelectoreColumn = () => {
     />
   );
 };
-export default ButtonDropdownSelectoreColumn;
+export default ButtonDropdownSelectorEnslaved;

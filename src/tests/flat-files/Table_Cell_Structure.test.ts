@@ -1,4 +1,4 @@
-import TABLE_FLAT from "@/utils/voyage_table_cell_structure__updated21June.json";
+import TABLE_FLAT from "@/utils/flatfiles/voyage_table_cell_structure__updated21June.json";
 import { expect, test, vi, describe } from "vitest";
 import getColumnsReducer, {
     initialState,

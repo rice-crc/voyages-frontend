@@ -34,11 +34,11 @@ export interface InitialStateDataPeopleSetCollection {
     value: DataSetCollectionProps[];
     textHeader: string;
     textIntroduce: string;
-    styleName: string;
+    styleNamePeople: string;
     dataSetValueBaseFilter: BaseFilter[];
-    dataSetKey: string;
-    dataSetValue: string[] | number[];
-    blocks: string[];
+    dataSetKeyPeople: string;
+    dataSetValuePeople: string[] | number[];
+    blocksPeople: string[];
     filterMenuFlatfile: string,
     tableFlatfile: string
 }
