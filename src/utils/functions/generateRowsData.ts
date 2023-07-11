@@ -3,10 +3,13 @@ import { traverseData } from './traverseData';
 import { TableCollectionsOptions } from './TableCollectionsOptions';
 
 export const generateRowsData = (
-    dataRow: VoyageOptionsGropProps[]
+    dataRow: VoyageOptionsGropProps[],
+    file?: string,
 ): Record<string, any> => {
     const finalRowArr: Record<string, any>[] = [];
-    const columns = TableCollectionsOptions();
+    const columns = TableCollectionsOptions(file);
+    console.log('file-->', file)
+    console.log('columns-->', columns)
     const varNames = columns.var_name;
     dataRow.forEach((data) => {
         const finalRowObj: Record<string, any> = {};

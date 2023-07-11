@@ -10,7 +10,9 @@ export const initialState: InitialStateDataPeopleSetCollection = {
     dataSetValueBaseFilter: [],
     dataSetKey: '',
     dataSetValue: [],
-    blocks: jsonDataPEOPLECOLLECTIONS[0].blocks
+    blocks: jsonDataPEOPLECOLLECTIONS[0].blocks,
+    filterMenuFlatfile: jsonDataPEOPLECOLLECTIONS[0].filter_menu_flatfile,
+    tableFlatfile: jsonDataPEOPLECOLLECTIONS[0].table_flatfile
 }
 
 export const getPeopleDataSetCollectionSlice = createSlice({
@@ -38,12 +40,17 @@ export const getPeopleDataSetCollectionSlice = createSlice({
         setPeopleBlocksMenuList: (state, action: PayloadAction<string[]>) => {
             state.blocks = action.payload
         },
-
+        setPeopleFilterMenuFlatfile: (state, action: PayloadAction<string>) => {
+            state.filterMenuFlatfile = action.payload
+        },
+        setPeopleTableFlatfile: (state, action: PayloadAction<string>) => {
+            state.tableFlatfile = action.payload
+        },
     },
 });
 
 export const { setBaseFilterPeopleDataSetValue,
-    setBaseFilterPeopleDataKey, setBaseFilterPeopleDataValue,
+    setBaseFilterPeopleDataKey, setBaseFilterPeopleDataValue, setPeopleFilterMenuFlatfile, setPeopleTableFlatfile,
     setDataSetPeopleHeader, setPeopleTextIntro, setPeopleStyleName, setPeopleBlocksMenuList } = getPeopleDataSetCollectionSlice.actions;
 
 export default getPeopleDataSetCollectionSlice.reducer;

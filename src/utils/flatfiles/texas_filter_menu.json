@@ -29,12 +29,12 @@
 		"label": "Enslavers",
 		"children": [
 			{
-				"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias",
+				"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
 				"type": "CharField",
 				"label": "Individual Enslavers"
 			},
 			{
-				"var_name": "voyage__voyage_enslaver_connection__enslaver_alias",
+				"var_name": "voyage__voyage_enslaver_connection__enslaver_alias__alias",
 				"type": "CharField",
 				"label": "Vessel Owners and Captains"
 			}
@@ -89,7 +89,7 @@
 		"label": "Sources",
 		"children": [
 			{
-				"var_name": "voyage__voyage_sources__legacy_source__full_ref",
+				"var_name": "voyage__voyage_zoterorefs__legacy_source__full_ref",
 				"type": "CharField",
 				"label": "Post-Disembark Location"
 			}

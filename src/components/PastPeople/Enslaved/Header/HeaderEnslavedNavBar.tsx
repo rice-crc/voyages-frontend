@@ -1,47 +1,50 @@
-import { MouseEventHandler, useState } from "react";
-import { AppBar, Box, IconButton, Hidden, Divider } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import { MenuListDropdownStyle } from "@/styleMUI";
-import { Button, Menu, Typography } from "@mui/material";
-import FilterICON from "@/assets/filterICON.svg";
-import { AppDispatch, RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import "@/style/Nav.scss";
-import { setIsFilter } from "@/redux/getFilterSlice";
+import { MouseEventHandler, useState } from 'react';
+import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import { MenuListDropdownStyle } from '@/styleMUI';
+import { Button, Menu, Typography } from '@mui/material';
+import FilterICON from '@/assets/filterICON.svg';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import '@/style/Nav.scss';
+import { setIsFilter } from '@/redux/getFilterSlice';
 import {
   getColorNavbarEnslavedBackground,
   getColorBoxShadowEnslaved,
   getColorBTNBackgroundEnslaved,
   getColorBTNHoverEnslavedBackground,
-} from "@/utils/functions/getColorStyle";
+} from '@/utils/functions/getColorStyle';
 
 import {
   BaseFilter,
   DataSetCollectionProps,
-} from "@/share/InterfactTypesDatasetCollection";
-import { EnslavedTitle } from "@/share/CONST_DATA";
-import CanscandingMenuMobile from "@/components/canscanding/CanscandingMenuMobile";
-import CanscandingMenu from "@/components/canscanding/CanscandingMenu";
-import { DrawerMenuPeopleBar } from "../../Header/DrawerMenuPeopleBar";
-import { ColumnSelector } from "@/components/FcComponents/ColumnSelectorTable/ColumnSelector";
+} from '@/share/InterfactTypesDatasetCollection';
+import { EnslavedTitle } from '@/share/CONST_DATA';
+import CanscandingMenuMobile from '@/components/canscanding/CanscandingMenuMobile';
+import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
+import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
+import { ColumnSelector } from '@/components/FcComponents/ColumnSelectorTable/ColumnSelector';
 import {
   setBaseFilterPeopleDataKey,
   setBaseFilterPeopleDataSetValue,
   setBaseFilterPeopleDataValue,
   setDataSetPeopleHeader,
   setPeopleBlocksMenuList,
+  setPeopleFilterMenuFlatfile,
   setPeopleStyleName,
+  setPeopleTableFlatfile,
   setPeopleTextIntro,
-} from "@/redux/getPeopleDataSetCollectionSlice";
+} from '@/redux/getPeopleDataSetCollectionSlice';
 
-export default function HeaderEnslavedNavBar() {
+const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
-  const { value, textHeader, styleName } = useSelector(
+
+  const { value, textHeader, styleName, tableFlatfile } = useSelector(
     (state: RootState) => state.getPeopleDataSetCollection
   );
 
@@ -56,7 +59,9 @@ export default function HeaderEnslavedNavBar() {
     textHeder: string,
     textIntro: string,
     styleName: string,
-    blocks: string[]
+    blocks: string[],
+    filter_menu_flatfile: string,
+    table_flatfile: string
   ) => {
     for (const base of base_filter) {
       dispatch(setBaseFilterPeopleDataKey(base.var_name));
@@ -67,6 +72,8 @@ export default function HeaderEnslavedNavBar() {
     dispatch(setPeopleTextIntro(textIntro));
     dispatch(setPeopleStyleName(styleName));
     dispatch(setPeopleBlocksMenuList(blocks));
+    setPeopleFilterMenuFlatfile(filter_menu_flatfile);
+    dispatch(setPeopleTableFlatfile(table_flatfile));
   };
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -83,7 +90,7 @@ export default function HeaderEnslavedNavBar() {
   return (
     <Box
       sx={{
-        display: "flex",
+        display: 'flex',
       }}
     >
       <AppBar
@@ -91,18 +98,18 @@ export default function HeaderEnslavedNavBar() {
         style={{
           backgroundColor: getColorNavbarEnslavedBackground(styleName),
           fontSize: 12,
-          boxShadow: "none",
-          marginTop: "3rem",
+          boxShadow: 'none',
+          marginTop: '3rem',
         }}
       >
-        <Toolbar sx={{ display: "flex", alignItems: "center" }}>
+        <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
           <Hidden mdUp>
             <IconButton
               edge="start"
               color="inherit"
               aria-label="menu"
               onClick={handleMenuOpen}
-              sx={{ mr: 2, display: { md: "none" } }}
+              sx={{ mr: 2, display: { md: 'none' } }}
             >
               <MenuIcon />
             </IconButton>
@@ -115,12 +122,12 @@ export default function HeaderEnslavedNavBar() {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <div className="enslaved-header" style={{ color: "#000000" }}>
+            <div className="enslaved-header" style={{ color: '#000000' }}>
               <Link
                 to="/PastHomePage/enslaved"
                 style={{
-                  textDecoration: "none",
-                  color: "#000000",
+                  textDecoration: 'none',
+                  color: '#000000',
                 }}
               >
                 {EnslavedTitle}
@@ -131,8 +138,8 @@ export default function HeaderEnslavedNavBar() {
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
-                borderWidth: "0.25px",
-                borderClor: "rgb(0 0 0 / 50%)",
+                borderWidth: '0.25px',
+                borderClor: 'rgb(0 0 0 / 50%)',
               }}
             />
             <Typography
@@ -140,15 +147,15 @@ export default function HeaderEnslavedNavBar() {
               variant="body1"
               fontWeight="500"
               sx={{
-                cursor: "pointer",
-                alignItems: "center",
+                cursor: 'pointer',
+                alignItems: 'center',
                 display: {
-                  xs: "none",
-                  sm: "none",
-                  md: "flex",
+                  xs: 'none',
+                  sm: 'none',
+                  md: 'flex',
                   paddingRight: 40,
                 },
-                margin: "10px 0",
+                margin: '10px 0',
                 fontSize: 18,
                 fontWeight: 600,
               }}
@@ -167,22 +174,29 @@ export default function HeaderEnslavedNavBar() {
             className="menu-nav-bar-select-box"
             sx={{
               display: {
-                xs: "none",
-                sm: "none",
-                md: "block",
-                lg: "block",
-                textAlign: "center",
+                xs: 'none',
+                sm: 'none',
+                md: 'block',
+                lg: 'block',
+                textAlign: 'center',
                 paddingRight: 40,
                 fontWeight: 600,
                 fontSize: 20,
               },
             }}
           >
-            <Box className="menu-nav-bar-select" style={{ color: "#000000" }}>
+            <Box className="menu-nav-bar-select" style={{ color: '#000000' }}>
               Select dataset
             </Box>
             {value.map((item: DataSetCollectionProps, index: number) => {
-              const { base_filter, headers, style_name, blocks } = item;
+              const {
+                base_filter,
+                headers,
+                style_name,
+                blocks,
+                table_flatfile,
+                filter_menu_flatfile,
+              } = item;
               return (
                 <Button
                   key={`${item}-${index}`}
@@ -192,18 +206,20 @@ export default function HeaderEnslavedNavBar() {
                       headers.label,
                       headers.text_introduce,
                       style_name,
-                      blocks
+                      blocks,
+                      filter_menu_flatfile,
+                      table_flatfile
                     )
                   }
                   sx={{
-                    color: "#ffffff",
+                    color: '#ffffff',
                     fontWeight: 600,
                     height: 32,
                     fontSize: 12,
-                    margin: "0 2px",
+                    margin: '0 2px',
                     boxShadow: getColorBoxShadowEnslaved(style_name),
                     backgroundColor: getColorBTNBackgroundEnslaved(style_name),
-                    "&:hover": {
+                    '&:hover': {
                       backgroundColor:
                         getColorBTNHoverEnslavedBackground(style_name),
                     },
@@ -242,4 +258,6 @@ export default function HeaderEnslavedNavBar() {
       </Menu>
     </Box>
   );
-}
+};
+
+export default HeaderEnslavedNavBar;

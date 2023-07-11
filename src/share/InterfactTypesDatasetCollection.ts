@@ -5,6 +5,8 @@ export interface DataSetCollectionProps {
     base_filter: BaseFilter[]
     style_name: string
     blocks: string[]
+    filter_menu_flatfile: string
+    table_flatfile: string
 }
 
 export interface Headers {
@@ -37,4 +39,6 @@ export interface InitialStateDataPeopleSetCollection {
     dataSetKey: string;
     dataSetValue: string[] | number[];
     blocks: string[];
+    filterMenuFlatfile: string,
+    tableFlatfile: string
 }

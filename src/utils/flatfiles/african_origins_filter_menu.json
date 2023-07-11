@@ -32,7 +32,7 @@
 				"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias",
 				"type": "CharField",
 				"label": "Individual Enslavers"
-			},
+			}
 		]
 	},
 	{

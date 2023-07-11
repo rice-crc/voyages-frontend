@@ -826,7 +826,7 @@ export interface ColumnDef {
     field: string;
     sortable: boolean;
     filter: boolean;
-    tooltipField: string// React.FC<any>;
+    tooltipField: string
 }
 export interface StateRowData {
     data: VoyageOptionsGropProps[]
