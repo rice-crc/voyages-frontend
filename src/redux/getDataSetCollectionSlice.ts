@@ -9,7 +9,8 @@ export const initialState: InitialStateDataSetCollection = {
     dataSetValueBaseFilter: [],
     dataSetKey: '',
     dataSetValue: [],
-    blocks: jsonDataVoyageCollection[0].blocks
+    blocks: jsonDataVoyageCollection[0].blocks,
+    pathName: ''
 }
 
 export const getDataSetCollectionSlice = createSlice({
@@ -37,10 +38,12 @@ export const getDataSetCollectionSlice = createSlice({
         setBlocksMenuList: (state, action: PayloadAction<string[]>) => {
             state.blocks = action.payload
         },
-
+        setPathName: (state, action: PayloadAction<string>) => {
+            state.pathName = action.payload
+        },
     },
 });
 
-export const { setBaseFilterDataSetValue, setBlocksMenuList, setBaseFilterDataValue, setBaseFilterDataKey, setDataSetHeader, setTextIntro, setStyleName } = getDataSetCollectionSlice.actions;
+export const { setBaseFilterDataSetValue, setPathName, setBlocksMenuList, setBaseFilterDataValue, setBaseFilterDataKey, setDataSetHeader, setTextIntro, setStyleName } = getDataSetCollectionSlice.actions;
 
 export default getDataSetCollectionSlice.reducer;

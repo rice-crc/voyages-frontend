@@ -12,7 +12,7 @@ import {
   Stack,
   TablePagination,
 } from '@mui/material';
-import { useGetOptionsQuery } from '@/fetchAPI/fetchApiService';
+import { useGetOptionsQuery } from '@/fetchAPI/voyagesApi/fetchApiService';
 import { useSelector } from 'react-redux';
 import { Flatlabel, IsShowProp } from '@/share/InterfaceTypes';
 

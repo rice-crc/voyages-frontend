@@ -1,4 +1,4 @@
-import { fetchVoyageSortedData } from '@/fetchAPI/fetchVoyageSortedData';
+import { fetchVoyageSortedData } from '@/fetchAPI/voyagesApi/fetchVoyageSortedData';
 import { setData } from '@/redux/getTableSlice';
 import { AppDispatch } from '@/redux/store';
 import React, { useEffect, useRef, useState } from 'react';

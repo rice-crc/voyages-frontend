@@ -8,8 +8,6 @@ export const generateRowsData = (
 ): Record<string, any> => {
     const finalRowArr: Record<string, any>[] = [];
     const columns = TableCollectionsOptions(file);
-    console.log('file-->', file)
-    console.log('columns-->', columns)
     const varNames = columns.var_name;
     dataRow.forEach((data) => {
         const finalRowObj: Record<string, any> = {};

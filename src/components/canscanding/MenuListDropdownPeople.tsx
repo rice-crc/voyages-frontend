@@ -16,6 +16,9 @@ import {
   VoyagaesFilterMenu,
   FilterMenu,
   CurrentPageInitialState,
+  TYPESOFDATASETPEOPLE,
+  FilterPeopleMenuProps,
+  FilterPeopleMenu,
 } from '@/share/InterfaceTypes';
 import {
   BLACK,
@@ -23,8 +26,7 @@ import {
   DropdownNestedMenuItem,
   StyleDialog,
 } from '@/styleMUI';
-
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useEffect } from 'react';
 import { PaperDraggable } from './PaperDraggable';
 import { setIsChange, setKeyValue } from '@/redux/rangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
@@ -33,10 +35,14 @@ import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import RangeSlider from '../Voyages/Results/RangeSlider';
 
-export const MenuListDropdown = () => {
-  const menuOptionFlat: VoyagaesFilterMenu = useSelector(
-    (state: RootState) => state.optionFlatMenu.value
+export const MenuListDropdownPeople = () => {
+  const { styleNamePeople } = useSelector(
+    (state: RootState) => state.getPeopleDataSetCollection
   );
+  const { valueEnslaved, valueAfricanOrigin, valueTexas } = useSelector(
+    (state: RootState) => state.getFilterPeople.value
+  );
+
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -124,9 +130,30 @@ export const MenuListDropdown = () => {
       );
     });
 
+  const [filterPeopleMenu, setFilterPeopleMenu] = useState<FilterPeopleMenu[]>(
+    []
+  );
+
+  useEffect(() => {
+    const loadTableCellStructure = async () => {
+      try {
+        if (styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved) {
+          setFilterPeopleMenu(valueEnslaved);
+        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins) {
+          setFilterPeopleMenu(valueAfricanOrigin);
+        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.texas) {
+          setFilterPeopleMenu(valueTexas);
+        }
+      } catch (error) {
+        console.error('Failed to load table cell structure:', error);
+      }
+    };
+    loadTableCellStructure();
+  }, [styleNamePeople]);
+
   return (
     <Box>
-      {menuOptionFlat.map((item: FilterMenu, index: number) => {
+      {filterPeopleMenu.map((item: FilterPeopleMenu, index: number) => {
         return item.var_name ? (
           <Button
             key={`${item.label}-${index}`}

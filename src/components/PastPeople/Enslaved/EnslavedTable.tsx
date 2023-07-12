@@ -16,7 +16,6 @@ import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getBreakPoints';
 import { useWindowSize } from '@react-hook/window-size';
 import { Pagination, Skeleton, TablePagination } from '@mui/material';
-import { ColumnSelector } from '@/components/FcComponents/ColumnSelectorTable/ColumnSelector';
 import {
   ColumnDef,
   StateRowData,
@@ -37,7 +36,9 @@ import { ICellRendererParams } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
-import { fetchEnslavedOptionsList } from '@/fetchAPI/fetchEnslavedOptionsList';
+import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchEnslavedOptionsList';
+import ButtonDropdownSelectorEnslaved from './ColumnSelectorEnslavedTable/ButtonDropdownSelectorEnslaved';
+import { hasValueGetter } from '@/utils/functions/hasValueGetter';
 
 const EnslavedTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -58,10 +59,10 @@ const EnslavedTable: React.FC = () => {
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
   const {
-    dataSetKey,
-    dataSetValue,
+    dataSetKeyPeople,
+    dataSetValuePeople,
     dataSetValueBaseFilter,
-    styleName,
+    styleNamePeople,
     tableFlatfile: tableFileName,
   } = useSelector((state: RootState) => state.getPeopleDataSetCollection);
 
@@ -70,12 +71,12 @@ const EnslavedTable: React.FC = () => {
   const [rowsPerPage, setRowsPerPage] = useState(
     getRowsPerPage(window.innerWidth, window.innerHeight)
   );
-
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
-  // const tablesCell = TABLE_FLAT.cell_structure;
   const [tablesCell, setTableCell] = useState<VoyageTableCellStructure[]>([]);
-
+  const { currentEnslavedPage } = useSelector(
+    (state: RootState) => state.getScrollEnslavedPage
+  );
   const [width, height] = useWindowSize();
   const maxWidth =
     width > 1024
@@ -100,23 +101,20 @@ const EnslavedTable: React.FC = () => {
   useEffect(() => {
     const loadTableCellStructure = async () => {
       try {
-        // Need to refactor later
-        if (styleName === TYPESOFDATASETPEOPLE.allEnslaved) {
-          console.log('allEnslaved', styleName);
+        // ** TODO Need to refactor later
+        if (styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved) {
           setTableCell(ENSLAVED_TABLE.cell_structure);
-        } else if (styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
-          console.log('africanOrigins', styleName);
+        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins) {
           setTableCell(AFRICANORIGINS_TABLE.cell_structure);
-        } else if (styleName === TYPESOFDATASETPEOPLE.texas) {
+        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.texas) {
           setTableCell(TEXAS_TABLE.cell_structure);
         }
       } catch (error) {
         console.error('Failed to load table cell structure:', error);
       }
     };
-
     loadTableCellStructure();
-  }, [tableFileName]);
+  }, [tableFileName, styleNamePeople]);
 
   useEffect(() => {
     if (tablesCell.length > 0) {
@@ -131,9 +129,7 @@ const EnslavedTable: React.FC = () => {
     const handleResize = () => {
       setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
     };
-
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -168,24 +164,22 @@ const EnslavedTable: React.FC = () => {
       const newFormData: FormData = new FormData();
       newFormData.append('results_page', String(page + 1));
       newFormData.append('results_per_page', String(rowsPerPage));
-      // if (rang[varName] && currentPage === 5) {
-      //   newFormData.append(varName, String(rang[varName][0]));
-      //   newFormData.append(varName, String(rang[varName][1]));
-      // }
 
-      // if (autoCompleteValue && varName) {
-      //   for (let i = 0; i < autoLabelName.length; i++) {
-      //     const label = autoLabelName[i];
-      //     newFormData.append(varName, label);
-      //   }
-      // }
+      if (rang[varName] && currentEnslavedPage === 2) {
+        newFormData.append(varName, String(rang[varName][0]));
+        newFormData.append(varName, String(rang[varName][1]));
+      }
 
-      if (styleName !== TYPESOFDATASETPEOPLE.allEnslaved) {
-        // console.log('dataSetValue-->', dataSetValue);
-        for (const value of dataSetValue) {
-          // console.log('value-->', value);
-          // console.log('dataSetKey-->', dataSetKey);
-          newFormData.append(dataSetKey, String(value));
+      if (autoCompleteValue && varName) {
+        for (let i = 0; i < autoLabelName.length; i++) {
+          const label = autoLabelName[i];
+          newFormData.append(varName, label);
+        }
+      }
+
+      if (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved) {
+        for (const value of dataSetValuePeople) {
+          newFormData.append(dataSetKeyPeople, String(value));
         }
       }
 
@@ -219,10 +213,10 @@ const EnslavedTable: React.FC = () => {
     rang,
     autoCompleteValue,
     autoLabelName,
-    dataSetValue,
-    dataSetKey,
+    dataSetValuePeople,
+    dataSetKeyPeople,
     dataSetValueBaseFilter,
-    styleName,
+    styleNamePeople,
     saveDataToLocalStorage,
     visibleColumnCells,
   ]);
@@ -274,41 +268,8 @@ const EnslavedTable: React.FC = () => {
                 );
               }
             },
-            valueGetter: (params: ICellRendererParams) => {
-              const finalData: string[] = [];
-              const data = params.data;
-              const fields = value.cell_val.fields;
-              const firstData = data[fields[0].var_name];
-              const joinDelimiter: string | undefined = value.cell_val.join;
-              if (value.cell_type === 'literal') {
-                return data[fields[0].var_name] ?? '--';
-              } else if (
-                value.cell_type === 'literal-concat' &&
-                Array.isArray(firstData)
-              ) {
-                for (let i = 0; i < firstData?.length; i++) {
-                  const dataResult = [];
-                  for (let j = 0; j < fields.length; j++) {
-                    const fieldName = fields[j].var_name;
-                    const fieldValue = data[fieldName][i];
-                    dataResult.push(String(fieldValue));
-                  }
-                  finalData.push(dataResult.join(joinDelimiter));
-                }
-                return finalData.length !== 0 ? finalData : '--';
-              } else if (value.cell_type === 'literal-concat') {
-                let dataValue: string = '';
-                for (let i = 0; i < fields.length; i++) {
-                  const fieldName = fields[i].var_name;
-                  const fieldValue = data[fieldName];
-                  if (fieldValue !== null) {
-                    dataValue += fieldValue + ',';
-                  }
-                }
-                const result = dataValue.substring(0, dataValue.length - 1);
-                return result;
-              }
-            },
+            valueGetter: (params: ICellRendererParams) =>
+              hasValueGetter(params, value),
           };
           return columnDef;
         }
@@ -361,7 +322,6 @@ const EnslavedTable: React.FC = () => {
     },
     [dispatch]
   );
-  // console.log('visibleColumns-->', visibleColumnCells);
 
   const gridOptions = useMemo(
     () => ({
@@ -406,7 +366,7 @@ const EnslavedTable: React.FC = () => {
         <div style={containerStyle} className="ag-theme-alpine grid-container">
           <div style={style}>
             <span className="tableContainer">
-              <ColumnSelector />
+              <ButtonDropdownSelectorEnslaved />
               <TablePagination
                 component="div"
                 count={totalResultsCount}
