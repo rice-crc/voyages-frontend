@@ -1,9 +1,11 @@
 import { fetchVoyageSortedData } from '@/fetchAPI/voyagesApi/fetchVoyageSortedData';
 import { setData } from '@/redux/getTableSlice';
-import { AppDispatch } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
+import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
+import { fetchVoyageSortedEnslavedTableData } from '@/fetchAPI/pastEnslavedApi/fetchVoyageSortedEnslavedTableData';
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
@@ -41,13 +43,14 @@ const CustomHeader: React.FC<Props> = (props) => {
   const onMenuClicked = () => {
     showColumnMenu(refButton);
   };
+  const { pathName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
+  );
 
   const onSortRequested = (
     order: string,
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
-    console.log('enableSorting', enableSorting);
-    console.log(' event.shiftKey', event.shiftKey);
     setSort(order, event.shiftKey);
     onSortChanged();
   };
@@ -68,9 +71,14 @@ const CustomHeader: React.FC<Props> = (props) => {
       }
     }
     try {
-      const response = await dispatch(
-        fetchVoyageSortedData(newFormData)
-      ).unwrap();
+      let response;
+      if (pathName === ALLVOYAGES) {
+        response = await dispatch(fetchVoyageSortedData(newFormData)).unwrap();
+      } else if (pathName === ALLENSLAVED) {
+        response = await dispatch(
+          fetchVoyageSortedEnslavedTableData(newFormData)
+        ).unwrap();
+      }
       if (response) {
         dispatch(setData(response));
       }
@@ -78,6 +86,7 @@ const CustomHeader: React.FC<Props> = (props) => {
       console.log('error', error);
     }
   };
+
   let isMounted = true;
 
   const onSortChanged = () => {
@@ -91,7 +100,6 @@ const CustomHeader: React.FC<Props> = (props) => {
       );
 
       const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
-      console.log('sortOrder-->', sortOrder);
       fetchData(sortOrder, column.colDef.sortingOrder);
     }
   };

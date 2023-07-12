@@ -108,6 +108,23 @@
 			}
 		},
 		{
+			"header_label": "Vessel Owners and Captains",
+			"cell_type": "literal",
+			"visible": true,
+			"order_by": [
+				"voyage__voyage_enslaver_connection__enslaver_alias__alias"
+			],
+			"colID": "voyage__voyage_enslaver_connection__enslaver_alias__alias",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage__voyage_enslaver_connection__enslaver_alias__alias",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
 			"header_label": "Embarkation Port",
 			"cell_type": "literal",
 			"visible": true,
