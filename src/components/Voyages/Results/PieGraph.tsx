@@ -5,10 +5,10 @@ import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetOptionsQuery } from '@/fetchAPI/fetchApiService';
+import { useGetOptionsQuery } from '@/fetchAPI/voyagesApi/fetchApiService';
 import { SelectDropdown } from './SelectDropdown';
 import { AggregationSumAverage } from './AggregationSumAverage';
-import { fetchVoyageGraphGroupby } from '@/fetchAPI/fetchVoyageGroupby';
+import { fetchVoyageGraphGroupby } from '@/fetchAPI/voyagesApi/fetchVoyageGroupby';
 import {
   VoyagesOptionProps,
   Options,
@@ -19,8 +19,7 @@ import {
   PlotPIEY,
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
-import { fetchOptionsFlat } from '@/fetchAPI/fetchOptionsFlat';
-import createPlotlyComponent from 'react-plotly.js/factory';
+import { fetchOptionsFlat } from '@/fetchAPI/voyagesApi/fetchOptionsFlat';
 
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);

@@ -1,5 +1,5 @@
-import { fetchVoyagesOptionsApi } from '@/fetchAPI/fetchVoyagesOptionsApi';
-import dataVoyageBarGraphOptions from "@/utils/VOYAGE_BARGRAPH_OPTIONS.json";
+import { fetchVoyagesOptionsApi } from '@/fetchAPI/voyagesApi/fetchVoyagesOptionsApi';
+import dataVoyageBarGraphOptions from "@/utils/flatfiles/VOYAGE_BARGRAPH_OPTIONS.json";
 import { expect, test, vi, describe } from "vitest";
 
 global.fetch = vi.fn()

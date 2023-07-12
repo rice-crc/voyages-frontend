@@ -21,7 +21,7 @@ import {
   BaseFilter,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
-import { EnslavedTitle } from '@/share/CONST_DATA';
+import { ALLENSLAVED, EnslavedTitle } from '@/share/CONST_DATA';
 import CanscandingMenuMobile from '@/components/canscanding/CanscandingMenuMobile';
 import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
 import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
@@ -37,6 +37,7 @@ import {
   setPeopleTableFlatfile,
   setPeopleTextIntro,
 } from '@/redux/getPeopleDataSetCollectionSlice';
+import { setPathName } from '@/redux/getDataSetCollectionSlice';
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -44,7 +45,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     (state: RootState) => state.getScrollEnslavedPage
   );
 
-  const { value, textHeader, styleName, tableFlatfile } = useSelector(
+  const { value, textHeader, styleNamePeople, tableFlatfile } = useSelector(
     (state: RootState) => state.getPeopleDataSetCollection
   );
 
@@ -96,7 +97,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: getColorNavbarEnslavedBackground(styleName),
+          backgroundColor: getColorNavbarEnslavedBackground(styleNamePeople),
           fontSize: 12,
           boxShadow: 'none',
           marginTop: '3rem',
@@ -124,7 +125,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
           >
             <div className="enslaved-header" style={{ color: '#000000' }}>
               <Link
-                to="/PastHomePage/enslaved"
+                to="/PastHomePage"
                 style={{
                   textDecoration: 'none',
                   color: '#000000',
@@ -159,7 +160,10 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 fontSize: 18,
                 fontWeight: 600,
               }}
-              onClick={() => dispatch(setIsFilter(!isFilter))}
+              onClick={() => {
+                dispatch(setIsFilter(!isFilter));
+                dispatch(setPathName(ALLENSLAVED));
+              }}
             >
               {currentEnslavedPage !== 1 && (
                 <>

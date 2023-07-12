@@ -189,6 +189,7 @@ export interface AutocompleteBoxProps {
 export interface CurrentPageInitialState {
     currentPage: number;
     isOpenDialog: boolean
+    isOpenDialogMobile: boolean;
 }
 
 export interface HeaderNavBarMenuProps {
@@ -220,3 +221,25 @@ export interface CellVal {
     display: string
 }
 
+export interface InitialStateFilterPeopleMenu {
+    value: ValuePeopleFilter
+}
+export interface ValuePeopleFilter {
+    valueEnslaved: FilterPeopleMenu[]
+    valueAfricanOrigin: FilterPeopleMenu[]
+    valueTexas: FilterPeopleMenu[]
+}
+export type FilterPeopleMenuProps = FilterPeopleMenu[]
+export interface FilterPeopleMenu {
+    label: string
+    var_name?: string
+    type?: string
+    children?: ChildrenPeopleMenu[]
+}
+
+export interface ChildrenPeopleMenu {
+    var_name: string
+    type: string
+    label: string
+    flatlabel?: string
+}

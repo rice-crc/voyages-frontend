@@ -13,7 +13,9 @@ import {
   AutoCompleteInitialState,
   RangeSliderState,
 } from '@/share/InterfaceTypes';
-import { fetchRangeSliderData } from '@/fetchAPI/fetchRangeSliderData';
+import { fetchRangeSliderData } from '@/fetchAPI/voyagesApi/fetchRangeSliderData';
+import { fetchPastEnslavedRangeSliderData } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedRangeSliderData';
+import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
 
 interface GetSliderProps {}
 
@@ -23,6 +25,10 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
   const { rangeValue, varName, rangeSliderMinMax } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
+  const { pathName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
+  );
+
   const { autoCompleteValue } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
@@ -38,13 +44,19 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
   >(rangeMinMax);
 
   useEffect(() => {
+    //fetchPastEnslavedRangeSliderData
     const fetchRangeSlider = async () => {
       const formData: FormData = new FormData();
       formData.append('aggregate_fields', varName);
       try {
-        const response = await dispatch(
-          fetchRangeSliderData(formData)
-        ).unwrap();
+        let response;
+        if (pathName === ALLVOYAGES) {
+          response = await dispatch(fetchRangeSliderData(formData)).unwrap();
+        } else if (pathName === ALLENSLAVED) {
+          response = await dispatch(
+            fetchPastEnslavedRangeSliderData(formData)
+          ).unwrap();
+        }
         if (response) {
           const initialValue: number[] = [
             response[varName].min,
@@ -66,7 +78,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
       }
     };
     fetchRangeSlider();
-  }, [dispatch, varName]);
+  }, [dispatch, varName, pathName]);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setCurrentSliderValue(newValue);

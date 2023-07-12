@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAutoComplete } from '@/fetchAPI/fetchAutoCompleted';
+import { fetchAutoComplete } from '@/fetchAPI/voyagesApi/fetchAutoCompleted';
 import { Autocomplete, Stack, TextField, Box, Typography } from '@mui/material';
 import '@/style/table.scss';
 import 'react-dropdown-tree-select/dist/styles.css';
@@ -22,10 +22,15 @@ import {
   setAutoLabel,
   setIsChangeAuto,
 } from '@/redux/getAutoCompleteSlice';
+import { fetchPastEnslavedAutoComplete } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedAutoCompleted';
+import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
 
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
+  );
+  const { pathName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
   );
   const { autoCompleteValue } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
@@ -35,21 +40,34 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const [autoValue, setAutoValue] = useState<string>('');
 
   const dispatch: AppDispatch = useDispatch();
-
   useEffect(() => {
     const formData: FormData = new FormData();
     formData.append(varName, autoValue);
-    dispatch(fetchAutoComplete(formData))
-      .unwrap()
-      .then((response: any) => {
-        if (response) {
-          setAutoLists(response?.results);
-        }
-      })
-      .catch((error: Error) => {
-        console.log('error', error);
-      });
-  }, [dispatch, varName, autoValue]);
+
+    if (pathName === ALLVOYAGES) {
+      dispatch(fetchAutoComplete(formData))
+        .unwrap()
+        .then((response: any) => {
+          if (response) {
+            setAutoLists(response?.results);
+          }
+        })
+        .catch((error: Error) => {
+          console.log('error', error);
+        });
+    } else if (pathName === ALLENSLAVED) {
+      dispatch(fetchPastEnslavedAutoComplete(formData))
+        .unwrap()
+        .then((response: any) => {
+          if (response) {
+            setAutoLists(response?.results);
+          }
+        })
+        .catch((error: Error) => {
+          console.log('error', error);
+        });
+    }
+  }, [dispatch, varName, autoValue, pathName]);
 
   const handleInputChange = useMemo(
     () => (event: React.SyntheticEvent<Element, Event>, value: string) => {
@@ -99,7 +117,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         inputValue={autoValue}
         renderOption={(props, option) => (
           <Box component="li" {...props} key={option.id} sx={{ fontSize: 16 }}>
-            {option.label}
+            {option.label ? option.label : '--'}
           </Box>
         )}
         filterSelectedOptions

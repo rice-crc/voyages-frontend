@@ -18,13 +18,13 @@ const EnslavePageScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
-  const { styleName, blocks } = useSelector(
+  const { styleNamePeople, blocksPeople } = useSelector(
     (state: RootState) => state.getPeopleDataSetCollection
   );
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
-  const newBlock = [...blocks].reverse();
+  const newBlock = [...blocksPeople].reverse();
   const isSmallScreen = useMediaQuery(theme.breakpoints.up('lg'));
   const totalPageCount = newBlock?.length;
 
@@ -72,8 +72,9 @@ const EnslavePageScrolling = () => {
                   style={{
                     width: '80px',
                     height: '32',
-                    backgroundColor: getColorBTNBackgroundEnslaved(styleName),
-                    boxShadow: getColorBoxShadowEnslaved(styleName),
+                    backgroundColor:
+                      getColorBTNBackgroundEnslaved(styleNamePeople),
+                    boxShadow: getColorBoxShadowEnslaved(styleNamePeople),
                     fontSize: currentEnslavedPage === buttonIndex ? 15 : 14,
                     color:
                       currentEnslavedPage === buttonIndex ? 'white' : 'black',

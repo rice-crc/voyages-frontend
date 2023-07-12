@@ -13,11 +13,6 @@
 				"label": "Age"
 			},
 			{
-				"var_name": "age",
-				"type": "IntegerField",
-				"label": "Age"
-			},
-			{
 				"var_name": "height",
 				"type": "IntegerField",
 				"label": "Height (inches)",
@@ -37,7 +32,7 @@
 				"var_name": "voyage__voyage_enslaver_connection__enslaver_alias",
 				"type": "CharField",
 				"label": "Vessel Owners and Captains"
-			},
+			}
 		]
 	},
 	{

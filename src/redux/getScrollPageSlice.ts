@@ -6,6 +6,7 @@ export const getScrollPageSlice = createSlice({
     initialState: {
         currentPage: 1,
         isOpenDialog: false,
+        isOpenDialogMobile: false
     },
     reducers: {
         setCurrentPage: (state, action: PayloadAction<number>) => {
@@ -14,8 +15,11 @@ export const getScrollPageSlice = createSlice({
         setIsOpenDialog: (state, action: PayloadAction<boolean>) => {
             state.isOpenDialog = action.payload;
         },
+        setIsOpenDialogMobile: (state, action: PayloadAction<boolean>) => {
+            state.isOpenDialogMobile = action.payload;
+        },
     }
 })
 
-export const { setCurrentPage, setIsOpenDialog } = getScrollPageSlice.actions;
+export const { setCurrentPage, setIsOpenDialog, setIsOpenDialogMobile } = getScrollPageSlice.actions;
 export default getScrollPageSlice.reducer;

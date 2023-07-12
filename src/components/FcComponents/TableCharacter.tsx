@@ -21,10 +21,10 @@ import {
   Options,
 } from '@/share/InterfaceTypes';
 import { StyledTableRow } from '@/styleMUI';
-import { fetchOptionsData } from '@/fetchAPI/fetchOptionsData';
+import { fetchOptionsData } from '@/fetchAPI/voyagesApi/fetchOptionsData';
 import { RootState } from '@/redux/store';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
-import { useGetOptionsQuery } from '@/fetchAPI/fetchApiService';
+import { useGetOptionsQuery } from '@/fetchAPI/voyagesApi/fetchApiService';
 
 const TableCharacter = () => {
   const datas = useSelector((state: RootState) => state.getOptions.value);

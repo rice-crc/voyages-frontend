@@ -1,4 +1,4 @@
-import TransAtLantic from "@/utils/transatlantic_voyages_filter_menu.json";
+import TransAtLantic from "@/utils/flatfiles/transatlantic_voyages_filter_menu.json";
 import { expect, test, vi, describe } from "vitest";
 
 global.fetch = vi.fn()

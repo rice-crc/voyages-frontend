@@ -10,13 +10,14 @@ import { Search, SearchIconWrapper, StyledInputBase } from '@/styleMUI';
 import MenuButtonHomePage from '@/components/Home/Menu';
 import { Link } from 'react-router-dom';
 import '@/style/homepage.scss';
-import { setStyleName } from '@/redux/getDataSetCollectionSlice';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
-import { setPeopleStyleName } from '@/redux/getPeopleDataSetCollectionSlice';
+import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
+import { setPathName } from '@/redux/getDataSetCollectionSlice';
 
 const HomePage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
+
   return (
     <div id="home-voyagepage-container">
       <div className="menu-home-page">
@@ -53,7 +54,7 @@ const HomePage: React.FC = () => {
             <div className="voyages-people-places-title">Voyages</div>
             <Link
               to="/VoyagesPage"
-              onClick={() => dispatch(setStyleName('all-voyages'))}
+              onClick={() => dispatch(setPathName(ALLVOYAGES))}
             >
               <img src={voyageIcon} alt="voyages" />
             </Link>
@@ -65,7 +66,7 @@ const HomePage: React.FC = () => {
             <div className="voyages-people-places-title">People</div>
             <Link
               to="/PastHomePage"
-              onClick={() => dispatch(setPeopleStyleName('all-enslaved'))}
+              onClick={() => dispatch(setPathName(ALLENSLAVED))}
             >
               <img src={peopleIcon} alt="voyages" />
             </Link>
@@ -73,7 +74,7 @@ const HomePage: React.FC = () => {
           </div>
           <div className="place-page-box">
             <div className="voyages-people-places-title">Documents</div>
-            <Link to="/places">
+            <Link to="#">
               <img src={documentIcon} alt="voyages" width={129} />
             </Link>
             <div className="voyages-people-places-subtitle">
@@ -82,7 +83,7 @@ const HomePage: React.FC = () => {
           </div>
           <div className="place-page-box">
             <div className="voyages-people-places-title">Writing</div>
-            <Link to="/places">
+            <Link to="#">
               <img src={resourceIcon} alt="voyages" width={129} />
             </Link>
             <div className="voyages-people-places-subtitle">

@@ -9,7 +9,6 @@ export const getColorVoyagePageBackground = (item: string, currentPage: number) 
     } else if (item === TYPESOFDATASET.intraAmerican) {
         background = 'rgba(127, 118, 191)';
     } else if (item === TYPESOFDATASET.transatlantic) {
-        console.log('item-->', item) //#1976d2
         background = '#1976d2';
     } else if (item === TYPESOFDATASET.texas) {
         background = 'rgba(187, 105, 46)';
@@ -61,7 +60,6 @@ export const getColorNavbarBackground = (item: string) => {
         background = 'rgba(127, 118, 191)';
     }
     else if (item === TYPESOFDATASET.transatlantic) {
-        console.log('item-->', item) //#1976d2
         background = '#1976d2';
     } else if (item === TYPESOFDATASET.texas) {
         background = 'rgba(187, 105, 46)';
