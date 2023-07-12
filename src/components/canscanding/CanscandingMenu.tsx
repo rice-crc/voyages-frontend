@@ -10,7 +10,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
   const { pathName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-  console.log('pathAuto canscanding menu -->', pathName);
+
   return (
     <div
       style={{

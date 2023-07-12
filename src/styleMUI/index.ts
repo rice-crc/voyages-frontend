@@ -159,7 +159,6 @@ export const DropdownNestedMenuColumnItem = styled(NestedMenuColumnItem)`
 export const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   marginTop: '2rem',
-  // borderRadius: theme.shape.borderRadius,
   borderRadius: '24px',
   backgroundColor: alpha(theme.palette.common.white, 1),
   '&:hover': {
