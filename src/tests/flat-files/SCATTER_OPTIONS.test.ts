@@ -1,4 +1,4 @@
-import { fetchVoyagesOptionsApi } from '@/fetchAPI/fetchVoyagesOptionsApi';
+import { fetchVoyagesOptionsApi } from '@/fetchAPI/voyagesApi/fetchVoyagesOptionsApi';
 import dataVoyageScatterOptions from "@/utils/flatfiles/VOYAGE_BARGRAPH_OPTIONS.json";
 import { expect, test, vi, describe } from "vitest";
 

@@ -36,7 +36,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
-import { fetchEnslavedOptionsList } from '@/fetchAPI/fetchEnslavedOptionsList';
+import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchEnslavedOptionsList';
 import ButtonDropdownSelectorEnslaved from './ColumnSelectorEnslavedTable/ButtonDropdownSelectorEnslaved';
 import { hasValueGetter } from '@/utils/functions/hasValueGetter';
 
@@ -74,7 +74,9 @@ const EnslavedTable: React.FC = () => {
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
   const [tablesCell, setTableCell] = useState<VoyageTableCellStructure[]>([]);
-
+  const { currentEnslavedPage } = useSelector(
+    (state: RootState) => state.getScrollEnslavedPage
+  );
   const [width, height] = useWindowSize();
   const maxWidth =
     width > 1024
@@ -112,7 +114,7 @@ const EnslavedTable: React.FC = () => {
       }
     };
     loadTableCellStructure();
-  }, [tableFileName]);
+  }, [tableFileName, styleNamePeople]);
 
   useEffect(() => {
     if (tablesCell.length > 0) {
@@ -162,23 +164,21 @@ const EnslavedTable: React.FC = () => {
       const newFormData: FormData = new FormData();
       newFormData.append('results_page', String(page + 1));
       newFormData.append('results_per_page', String(rowsPerPage));
-      // if (rang[varName] && currentPage === 5) {
-      //   newFormData.append(varName, String(rang[varName][0]));
-      //   newFormData.append(varName, String(rang[varName][1]));
-      // }
 
-      // if (autoCompleteValue && varName) {
-      //   for (let i = 0; i < autoLabelName.length; i++) {
-      //     const label = autoLabelName[i];
-      //     newFormData.append(varName, label);
-      //   }
-      // }
+      if (rang[varName] && currentEnslavedPage === 2) {
+        newFormData.append(varName, String(rang[varName][0]));
+        newFormData.append(varName, String(rang[varName][1]));
+      }
+
+      if (autoCompleteValue && varName) {
+        for (let i = 0; i < autoLabelName.length; i++) {
+          const label = autoLabelName[i];
+          newFormData.append(varName, label);
+        }
+      }
 
       if (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved) {
-        // console.log('dataSetValue-->', dataSetValue);
         for (const value of dataSetValuePeople) {
-          // console.log('value-->', value);
-          // console.log('dataSetKey-->', dataSetKey);
           newFormData.append(dataSetKeyPeople, String(value));
         }
       }

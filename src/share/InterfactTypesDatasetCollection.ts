@@ -29,6 +29,7 @@ export interface InitialStateDataSetCollection {
     dataSetKey: string;
     dataSetValue: string[] | number[];
     blocks: string[];
+    pathName: string
 }
 export interface InitialStateDataPeopleSetCollection {
     value: DataSetCollectionProps[];

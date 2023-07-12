@@ -23,6 +23,7 @@ import {
   setBaseFilterDataValue,
   setBlocksMenuList,
   setDataSetHeader,
+  setPathName,
   setStyleName,
   setTextIntro,
 } from '@/redux/getDataSetCollectionSlice';
@@ -36,7 +37,7 @@ import {
 } from '@/utils/functions/getColorStyle';
 import { DrawerMenuBar } from './drawerMenuBar';
 import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
-import { VOYAGETILE } from '@/share/CONST_DATA';
+import { ALLVOYAGES, VOYAGETILE } from '@/share/CONST_DATA';
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -155,12 +156,15 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
                 fontSize: 18,
                 fontWeight: 600,
               }}
-              onClick={() => dispatch(setIsFilter(!isFilter))}
+              onClick={() => {
+                dispatch(setIsFilter(!isFilter));
+                dispatch(setPathName(ALLVOYAGES));
+              }}
             >
               {currentPage !== 1 && (
                 <>
                   <img src={FilterICON} alt="logo" />
-                  <div className="menu-nav-bar"> Filter Search</div>
+                  <div className="menu-nav-bar">Filter Search</div>
                 </>
               )}
             </Typography>

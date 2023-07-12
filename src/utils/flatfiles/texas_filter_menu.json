@@ -13,11 +13,6 @@
 				"label": "Age"
 			},
 			{
-				"var_name": "age",
-				"type": "IntegerField",
-				"label": "Age"
-			},
-			{
 				"var_name": "height",
 				"type": "IntegerField",
 				"label": "Height (inches)",

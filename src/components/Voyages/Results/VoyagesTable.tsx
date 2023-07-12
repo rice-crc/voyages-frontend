@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import TABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
-import { fetchVoyageOptionsPagination } from '@/fetchAPI/fetchVoyageOptionsPagination';
+import { fetchVoyageOptionsPagination } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsPagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeader from '../../FcComponents/CustomHeader';
