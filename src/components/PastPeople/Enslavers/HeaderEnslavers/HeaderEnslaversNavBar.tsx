@@ -21,7 +21,7 @@ import {
   BaseFilter,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
-import { ALLENSLAVED, EnslavedTitle } from '@/share/CONST_DATA';
+import { ALLENSLAVED, EnslaversTitle } from '@/share/CONST_DATA';
 import CanscandingMenuMobile from '@/components/canscanding/CanscandingMenuMobile';
 import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
 import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
@@ -97,7 +97,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: getColorNavbarEnslavedBackground(styleNamePeople),
+          backgroundColor: '#3f967d',
           fontSize: 12,
           boxShadow: 'none',
           marginTop: '3rem',
@@ -123,15 +123,15 @@ const HeaderEnslaversNavBar: React.FC = () => {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <div className="enslaved-header" style={{ color: '#000000' }}>
+            <div className="enslaved-header" style={{ color: '#ffffff' }}>
               <Link
                 to="/PastHomePage"
                 style={{
                   textDecoration: 'none',
-                  color: '#000000',
+                  color: '#ffffff',
                 }}
               >
-                {EnslavedTitle}
+                {EnslaversTitle}
               </Link>
               <span className="enslaved-title">:</span>
               <div className="enslaved-header-subtitle">{textHeader}</div>
@@ -189,7 +189,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
               },
             }}
           >
-            <Box className="menu-nav-bar-select" style={{ color: '#000000' }}>
+            <Box className="menu-nav-bar-select" style={{ color: '#ffffff' }}>
               Select dataset
             </Box>
             {value.map((item: DataSetCollectionProps, index: number) => {

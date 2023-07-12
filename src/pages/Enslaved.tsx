@@ -1,4 +1,4 @@
-import EnslavePageScrolling from '@/components/PastPeople/Enslaved/EnslavePageScrolling';
+import EnslavedPageScrolling from '@/components/PastPeople/Enslaved/EnslavedPageScrolling';
 import HeaderEnslavedNavBar from '@/components/PastPeople/Enslaved/HeaderEnslaved/HeaderEnslavedNavBar';
 import HeaderLogoSearch from '@/components/header/HeaderSearchLogo';
 import React from 'react';
@@ -9,7 +9,7 @@ const EnslavedHomePage: React.FC = () => {
     <div id="enslaved-home-page">
       <HeaderLogoSearch />
       <HeaderEnslavedNavBar />
-      <EnslavePageScrolling />
+      <EnslavedPageScrolling />
     </div>
   );
 };

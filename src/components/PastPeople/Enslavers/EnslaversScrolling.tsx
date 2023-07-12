@@ -10,11 +10,11 @@ import {
   getColorBTNBackgroundEnslaved,
   getColorBoxShadowEnslaved,
 } from '@/utils/functions/getColorStyle';
-import EnslavedPage from './EnslavedPage';
-import EnslavedTable from './EnslavedTable';
+import EnslaversPage from './EnslaversPage';
+import EnslaversTable from './EnslaversTable';
 import '@/style/page.scss';
 
-const EnslavePageScrolling = () => {
+const EnslaversScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
@@ -42,8 +42,8 @@ const EnslavePageScrolling = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentEnslavedPage === 1 && <EnslavedPage />}
-      {currentEnslavedPage === 2 && <EnslavedTable />}
+      {currentEnslavedPage === 1 && <EnslaversPage />}
+      {currentEnslavedPage === 2 && <EnslaversTable />}
     </motion.div>
   );
 
@@ -98,7 +98,7 @@ const EnslavePageScrolling = () => {
   );
 };
 
-export default EnslavePageScrolling;
+export default EnslaversScrolling;
 
 const pageVariantsFromTop = {
   initial: { opacity: 0, y: -1000 },

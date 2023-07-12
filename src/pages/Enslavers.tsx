@@ -4,7 +4,7 @@ import React from 'react';
 
 const EnslaversHomePage: React.FC = () => {
   return (
-    <div id="enslaved-home-page">
+    <div id="enslavers-home-page">
       <HeaderLogoSearch />
       <HeaderEnslaversNavBar />
     </div>
