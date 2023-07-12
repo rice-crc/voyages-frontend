@@ -125,6 +125,23 @@
 			}
 		},
 		{
+			"header_label": "Individual Owners and Traders",
+			"cell_type": "literal",
+			"visible": true,
+			"order_by": [
+				"enslaved_relations__relation__relation_enslavers__enslaver_alias__alias"
+			],
+			"colID": "enslaved_relations__relation__relation_enslavers__enslaver",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
 			"header_label": "Embarkation Port",
 			"cell_type": "literal",
 			"visible": true,
@@ -302,6 +319,19 @@
 				{
 					"colID": "post_disembark_location__geo_location__name",
 					"label": "Post-Disembark Location"
+				}
+			]
+		},
+		{
+			"label": "Enslavers",
+			"children": [
+				{
+					"colID": "enslaved_relations__relation__relation_enslavers__enslaver",
+					"label": "Individual Owners and Traders"
+				},
+				{
+					"colID": "voyage__voyage_enslaver_connection__enslaver_alias__alias",
+					"label": "Vessel Owners and Captains"
 				}
 			]
 		},
