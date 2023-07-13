@@ -40,7 +40,7 @@ Since we found `package-lock.json` will casuse `OCI` deployment process error, w
 **1. Clone the project to local**
 
 ```
-git clone git@github.com:ThasaneePuttamadilok/CRC-Voyages-React-App-Exercise.git
+git clone https://github.com/ThasaneePuttamadilok/voyages-frontend.git
 ```
 
 **2. Run `npm install`**
@@ -140,6 +140,7 @@ range-slider/
   │   │     │     ├── CanscandingMenuMobile
   │   │     │     ├── Dropdown
   │   │     │     ├── MenuListDropdown
+  │   │     │     ├── MenuListDropdownPeople.tsx
   │   │     │     ├── NestedMenuItem
   │   │     │     ├── PaperDraggable
   │   │     ├── FcComponents
@@ -156,6 +157,34 @@ range-slider/
   │   │     │     ├── drawerMenuBar
   │   │     │     ├── HeaderNavar
   │   │     │     ├── HeaderSearchLogo
+  │   │     │── Home
+  │   │     │     ├── stylesMenu
+  │   │     │     │      ├── StyledBurger
+  │   │     │     │      ├── SytledMenu
+  │   │     │     ├── BurgerMenu
+  │   │     │     ├── Menu
+  │   │     │     ├── MenuDropdownProps
+  │   │     │── PastPeople
+  │   │     │     ├── Enslaved
+  │   │     │     │      ├── ColumnSelectorEnslavedTable
+  |   │     │     │      │      ├── ButtonDropdownSelectorEnslaved
+  │   │     │     │      ├── HeaderEnslaved
+  |   │     │     │      │      ├── HeaderEnslavedNavBar
+  │   │     │     |      ├── EnslavedPage
+  │   │     │     |      ├── EnslavedPageScrolling
+  │   │     │     |      ├── EnslavedTable
+  │   │     │     ├── Enslaved
+  │   │     │     │      ├── ColumnSelectorEnslaversTable
+  |   │     │     │      │      ├── ButtonDropdownSelectorEnslavers
+  │   │     │     │      ├── HeaderEnslavers
+  |   │     │     │      │      ├── HeaderEnslaversNavBar
+  │   │     │     |      ├── EnslaversPage
+  │   │     │     |      ├── EnslaversPageScrolling
+  │   │     │     |      ├── EnslaversTable
+  │   │     │     ├── Header
+  │   │     │     │      ├── DrawerMenuPeopleBar
+  |   │     │     │      ├── NavBarPeople
+  │   │     │     ├── PastPeoplePage
   │   │     │── voyagePage
   │   │     │     ├── Results
   │   │     │     │      ├── AggregationSumAverage
@@ -165,43 +194,59 @@ range-slider/
   │   │     │     │      ├── RangeSlider
   │   │     │     │      ├── Scatter
   │   │     │     │      ├── SelectDropdown
-  │   │     │     │      ├── Table
+  │   │     │     │      ├── VoyagesHompPage
+  │   │     │     │      ├── VoyagesTable
   │   │     │     ├── ScrollPage
-  │   │     │     ├── VoyagesHompPage
-  │   │     │── Home
   │   │── fetchAPI
-  │   │     ├── fetchApiService
-  │   │     ├── fetchAutoCompleted
-  │   │     ├── fetchOptionsData
-  │   │     ├── fetchOptionsFlat
-  │   │     ├── fetchRangeSliderData
-  │   │     ├── fetchVoyageGroupby
-  │   │     ├── fetchVoyageOptionsPagination
-  │   │     ├── fetchVoyagesOptionsApi
-  │   │     ├── fetchVoyageSortedData
+  │   │     ├── pastEnslavedApi
+  │   │     │     ├── fetchEnslavedOptionsList
+  │   │     │     ├── fetchPastEnslavedApiService
+  │   │     │     ├── fetchPastEnslavedAutoCompleted
+  │   │     │     ├── fetchPastEnslavedRangeSliderData
+  │   │     │     ├── fetchVoyageSortedEnslavedTableData
+  │   │     ├── voyagesApi
+  │   │     │     ├── fetchApiService
+  │   │     │     ├── fetchAutoCompleted
+  │   │     │     ├── fetchOptionsData
+  │   │     │     ├── fetchOptionsFlat
+  │   │     │     ├── fetchRangeSliderData
+  │   │     │     ├── fetchVoyageGroupby
+  │   │     │     ├── fetchVoyageOptionsPagination
+  │   │     │     ├── fetchVoyagesOptionsApi
+  │   │     │     ├── fetchVoyageSortedData
   │   │── pages
+  │   │     ├── Enslaved
+  │   │     ├── Enslavers
   │   │     ├── Home
+  │   │     ├── PastPage
   │   │     ├── VoyagesPage
   │   │── redux
   │   │     ├── getAutoCompleteSlice
   │   │     ├── getColumnSlice
   │   │     ├── getDataSetCollectionSlice
+  │   │     ├── getFilterPeopleObjectSlice
   │   │     ├── getFilterSlice
+  │   │     ├── getOptionsDataPastPeopleEnslavedSlice
   │   │     ├── getOptionsDataSlice
   │   │     ├── getOptionsFlatObjSlice
+  │   │     ├── getPeopleDataSetCollectionSlice
+  │   │     ├── getScrollEnlavedPageSlice
   │   │     ├── getScrollPageSlice
   │   │     ├── getTableSlice
   │   │     ├── rangeSliderSlice
   │   │     ├── store
   │   │── share
   │   │     ├── AUTH_BASEURL
+  │   │     ├── CONST_DATA
   │   │     ├── InterfaceTypes
   │   │     ├── InterfaceTypesTable
   │   │     ├── InterfactTypesDatasetCollection
+  │   │     ├── PeopleCollectionType
   │   │── style
   │   │     ├── homepage.scss
   │   │     ├── index.css
   │   │     ├── Nav.scss
+  │   │     ├── page-past.scss
   │   │     ├── page.scss
   │   │     ├── Slider.scss
   │   │     ├── table.scss
@@ -218,23 +263,35 @@ range-slider/
   │   │     │     ├── transatlantic_voyages_filter_menu.test.ts
   │   │     ├── redux-test
   │   │     │     ├── getDataSetCollection.test.ts
-  │   │     │     ├── getColumns.test.ts
+  │   │     ├── untils-test
+  │   │     │     ├── valueGetter.test.ts
   │   │── utils
-  │   │     ├── data.ts
-  │   │     ├── generateRowsData.ts
-  │   │     ├── getBreakPoints.ts
-  │   │     ├── getColorStyle.ts
-  │   │     ├── getEnumColumnParams.ts
-  │   │     ├── transatlantic_voyages_filter_menu.json
-  │   │     ├── traverseData.ts
-  │   │     ├── varnamechecker.py
-  │   │     ├── VOYAGE_BARGRAPH_OPTIONS.json
-  │   │     ├── VOYAGE_COLLECTIONS.json
-  │   │     ├── VOYAGE_MENU_WEB.json
-  │   │     ├── VOYAGE_PIECHART_OPTIONS.json
-  │   │     ├── VOYAGE_SCATTER_OPTIONS.json
-  │   │     ├── voyage_table_cell_structure__updated21June.json
-  │   │     ├── VoyageTableOptions.ts
+  │   │     ├── flatfiles
+  │   │     │     ├── african_origins_filter_menu.json
+  │   │     │     ├── african_origins_table_cell_structure.json
+  │   │     │     ├── enslaved_filter_menu.json
+  │   │     │     ├── enslaved_options.json
+  │   │     │     ├── enslaved_table_cell_structure.json
+  │   │     │     ├── enslaver_options.json
+  │   │     │     ├── people_page_data.json
+  │   │     │     ├── texas_filter_menu.json
+  │   │     │     ├── texas_table_cell_structure.json
+  │   │     │     ├── transatlantic_voyages_filter_menu_SIMPLE.json
+  │   │     │     ├── transatlantic_voyages_filter_menu.json
+  │   │     │     ├── varnamechecker.py
+  │   │     │     ├── VOYAGE_BARGRAPH_OPTIONS.json
+  │   │     │     ├── VOYAGE_COLLECTIONS.json
+  │   │     │     ├── VOYAGE_PIECHART_OPTIONS.json
+  │   │     │     ├── VOYAGE_SCATTER_OPTIONS.json
+  │   │     │     ├── voyage_table_cell_structure__updated21June.json
+  │   │     ├── functions
+  │   │     │     ├── generateRowsData.ts
+  │   │     │     ├── getBreakPoints.ts
+  │   │     │     ├── getColorStyle.ts
+  │   │     │     ├── getEnumColumnParams.ts
+  │   │     │     ├── hasValueGetter.ts
+  │   │     │     ├── TableCollectionsOptions.ts
+  │   │     │     ├── traverseData.ts
   │   │── App.tsx
   │   └── main.tsx
   |── .env

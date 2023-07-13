@@ -1,13 +1,10 @@
 import { MouseEventHandler, useState } from 'react';
-import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
+import { AppBar, Box, IconButton, Hidden } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Button, Menu } from '@mui/material';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { CurrentPageInitialState } from '@/share/InterfaceTypes';
-import PEOPLE from '@/utils/flatfiles/peopel_page_data.json';
+import PEOPLE from '@/utils/flatfiles/people_page_data.json';
 import { ColumnSelector } from '@/components/FcComponents/ColumnSelectorTable/ColumnSelector';
 import { useNavigate } from 'react-router-dom';
 import { DrawerMenuPeopleBar } from './DrawerMenuPeopleBar';

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import HeaderLogoSearch from '../header/HeaderSearchLogo';
 import NavBarPeople from './Header/NavBarPeople';
 import PersonImage from '@/assets/personImg.png';
-import PEOPLE from '@/utils/flatfiles/peopel_page_data.json';
+import PEOPLE from '@/utils/flatfiles/people_page_data.json';
 import '@/style/page-past.scss';
 import { Link } from 'react-router-dom';
 

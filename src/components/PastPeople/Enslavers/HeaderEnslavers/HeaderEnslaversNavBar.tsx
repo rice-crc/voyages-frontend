@@ -11,10 +11,9 @@ import { Link } from 'react-router-dom';
 import '@/style/Nav.scss';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import {
-  getColorNavbarEnslavedBackground,
-  getColorBoxShadowEnslaved,
-  getColorBTNBackgroundEnslaved,
-  getColorBTNHoverEnslavedBackground,
+  getColorBTNBackgroundEnslavers,
+  getColorBTNHoverEnslaversBackground,
+  getColorBoxShadowEnslavers,
 } from '@/utils/functions/getColorStyle';
 
 import {
@@ -221,11 +220,11 @@ const HeaderEnslaversNavBar: React.FC = () => {
                     height: 32,
                     fontSize: 12,
                     margin: '0 2px',
-                    boxShadow: getColorBoxShadowEnslaved(style_name),
-                    backgroundColor: getColorBTNBackgroundEnslaved(style_name),
+                    boxShadow: getColorBoxShadowEnslavers(style_name),
+                    backgroundColor: getColorBTNBackgroundEnslavers(style_name),
                     '&:hover': {
                       backgroundColor:
-                        getColorBTNHoverEnslavedBackground(style_name),
+                        getColorBTNHoverEnslaversBackground(style_name),
                     },
                   }}
                 >
