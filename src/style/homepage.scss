@@ -48,14 +48,17 @@
   @include breakpoint-standard(2) {
     display: inline-block;
     text-align: center;
+    height: auto;
   }
   @include breakpoint-standard(1) {
     display: inline-block;
     text-align: center;
+    // height: auto;
   }
   @include breakpoint-standard(0) {
     display: inline-block;
     text-align: center;
+    height: auto
   }
 }
 .home-voyagepage-content {
@@ -298,19 +301,51 @@
   }
   @include breakpoint-standard(1) {
     font-size: 12px;
+    line-height: 0px;
   }
   @include breakpoint-standard(0) {
     font-size: 12px;
+    line-height: 0px;
   }
 }
 .voyage-page-box {
   cursor: pointer;
+  @include breakpoint-standard(1) {
+    img{
+      width: 60%;
+    }
+  }
+  @include breakpoint-standard(0) {
+    img{
+      width: 60%;
+    }
+  }
 }
 .people-page-box {
   cursor: pointer;
+  @include breakpoint-standard(1) {
+    img{
+      width: 60%;
+    }
+  }
+  @include breakpoint-standard(0) {
+    img{
+      width: 60%;
+    }
+  }
 }
 .place-page-box {
   cursor: pointer;
+  @include breakpoint-standard(1) {
+    img{
+      width: 60%;
+    }
+  }
+  @include breakpoint-standard(0) {
+    img{
+      width: 60%;
+    }
+  }
 }
 .document-resources {
   display: flex;
@@ -339,10 +374,10 @@
   align-items: center;
   text-align: center;
   @include breakpoint-standard(1) {
-    margin-top: 1.5rem;
+    margin: 2rem 0;
   }
   @include breakpoint-standard(0) {
-    margin-top: 1.5rem;
+    margin: 2rem 0;
   }
 }
 .about-project-btn {

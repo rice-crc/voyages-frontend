@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage } from '@/redux/getScrollPageSlice';
+import { setCurrentPage, setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import { ButtonNav } from '@/styleMUI';
@@ -18,103 +18,23 @@ import Scatter from './Results/Scatter';
 import BarGraph from './Results/BarGraph';
 import PieGraph from './Results/PieGraph';
 import VoyagesTable from './Results/VoyagesTable';
+import { setIsFilter } from '@/redux/getFilterSlice';
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
-  const [isShowScrollTopButton, setShowScrollTopButton] = useState(false);
   const { styleName, blocks } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const newBlock = [...blocks].reverse();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.up('lg'));
-  const totalPageCount = newBlock?.length;
-
-  // Scroll to next page and page hide other page
-  // useEffect(() => {
-  //   const handleTouchStart = (event: TouchEvent) => {
-  //     const touch = event.touches[0]; // Get the first touch point
-  //     console.log("touch", touch);
-  //     const initialTouchX = touch.clientX; // Store the initial touch X coordinate
-  //     const initialTouchY = touch.clientY; // Store the initial touch Y coordinate
-
-  //     // Store the initial touch position in a variable or state
-  //     // Example: setInitialTouchPosition({ x: initialTouchX, y: initialTouchY });
-  //   };
-
-  //   const handleTouchMove = (event: TouchEvent) => {
-  //     // Calculate the touch delta
-  //     // Determine the scrolling direction
-  //     // Scroll to the next page if necessary
-  //   };
-
-  //   const handleTouchEnd = () => {
-  //     // Reset any stored touch position or values
-  //   };
-
-  //   const handleScroll = (event: WheelEvent) => {
-  //     const { deltaY } = event;
-  //     const nextPage = deltaY > 0 ? currentPage + 1 : currentPage - 1;
-
-  //     setTimeout(() => {
-  //       if (nextPage >= 1 && nextPage <= totalPageCount) {
-  //         dispatch(setCurrentPage(nextPage));
-  //         smoothScrollToTop();
-  //         dispatch(setIsOpenDialog(false));
-  //       }
-  //       setIsFilter(false);
-  //       dispatch(setIsOpenDialog(false));
-  //     }, 400);
-  //   };
-  //   window.addEventListener("wheel", handleScroll);
-  //   window.addEventListener("touchstart", handleTouchStart);
-  //   window.addEventListener("touchmove", handleTouchMove);
-  //   window.addEventListener("touchend", handleTouchEnd);
-  //   return () => {
-  //     window.removeEventListener("wheel", handleScroll);
-  //     window.removeEventListener("touchstart", handleTouchStart);
-  //     window.removeEventListener("touchmove", handleTouchMove);
-  //     window.removeEventListener("touchend", handleTouchEnd);
-  //   };
-  // }, [currentPage, isOpenDialog]);
-
-  // const smoothScrollToTop = () => {
-  //   const contentContainer = document.getElementById("content-container");
-  //   if (contentContainer) {
-  //     contentContainer.scrollIntoView({
-  //       behavior: "smooth",
-  //       block: "start",
-  //     });
-  //   }
-  // };
-
-  /*  Scrool to next page and also still see prev page 2*/
-  const scrollThreshold = 800;
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > scrollThreshold) {
-  //       setShowScrollTopButton(true);
-  //       const nextPage = Math.floor(window.scrollY / scrollThreshold) + 1;
-  //       dispatch(setCurrentPage(nextPage));
-  //     } else {
-  //       setShowScrollTopButton(false);
-  //       dispatch(setCurrentPage(1));
-  //     }
-  //     dispatch(setIsOpenDialog(false));
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
 
   const handlePageNavigation = (page: number) => {
+    if (page === 1) {
+      dispatch(setIsFilter(false));
+    }
     dispatch(setCurrentPage(page));
   };
   const displayPage = (
@@ -135,17 +55,19 @@ const ScrollPage = () => {
       {currentPage === 7 && <h1>MAP</h1>}
     </motion.div>
   );
-
   let topPosition;
-  if (!isSmallScreen) {
-    topPosition = 130;
-  } else if (currentPage !== 1 && isFilter) {
-    topPosition = 230;
-  } else if (currentPage === 1) {
-    topPosition = 158;
+  if (currentPage === 1) {
+    topPosition = 100;
+  } else if (currentPage === 5 && isFilter) {
+    topPosition = 225;
+  } else if (currentPage === 5) {
+    topPosition = 160;
+  } else if (isFilter) {
+    topPosition = 227;
   } else {
     topPosition = 170;
   }
+
   return (
     <div
       style={{
@@ -158,18 +80,16 @@ const ScrollPage = () => {
       <Hidden>
         <div className="navbar-wrapper">
           <nav className="nav-button">
-            {newBlock.map((page, index) => {
-              const buttonIndex = totalPageCount - index;
+            {blocks.map((page, index) => {
+              const buttonIndex = index + 1;
               return (
                 <ButtonNav
                   key={`${page}-${buttonIndex}`}
                   onClick={() => handlePageNavigation(buttonIndex)}
+                  className="nav-button-page"
                   style={{
-                    width: '80px',
-                    height: '32',
                     backgroundColor: getColorBackground(styleName),
                     boxShadow: getColorBoxShadow(styleName),
-                    fontSize: currentPage === buttonIndex ? 15 : 14,
                     color: currentPage === buttonIndex ? 'white' : 'black',
                     fontWeight: currentPage === buttonIndex ? 900 : 600,
                   }}
@@ -185,28 +105,6 @@ const ScrollPage = () => {
         </div>
       </Hidden>
       <Grid id="content-container">{displayPage}</Grid>
-
-      {/* Scrolling up to next page version 2
-      <Container>
-        <Box className="page">
-          <Scatter />
-        </Box>
-        <Box className="page">
-          <BarGraph />
-        </Box>
-        <Box className="page">
-          <h1>PIE</h1>
-        </Box>
-        <Box className="page">
-          <h1>TABLE</h1>
-        </Box>
-        <Box className="page">
-          <h1>PIVOT</h1>
-        </Box>
-        <Box className="page">
-          <h1>MAP</h1>
-        </Box>
-      </Container> */}
     </div>
   );
 };

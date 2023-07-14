@@ -4,10 +4,14 @@
       @content;
     }
   } @else if $size==1 {
-    @media only screen and (min-width: 375px) and (max-width: 479px) {
+    @media only screen and (min-width: 375px) and (max-width: 424px) {
       @content;
     }
-  } @else if $size==2 {
+  } @else if $size==1.1 {
+    @media only screen and (min-width: 425px) and (max-width: 479px) {
+      @content;
+    }
+  }@else if $size==2 {
     @media only screen and (min-width: 480px) and (max-width: 575px) {
       @content;
     }
@@ -39,10 +43,16 @@
   width: 100%;
   z-index: 0;
 }
-.voyages-home-page{
-padding: 0;
-margin: 0;
-height: 100vh;
+.voyages-home-page {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  @include breakpoint-standard(1.1) {
+    height: 115vh;
+  }
+  @include breakpoint-standard(1) {
+    height: 115vh;
+  }
 }
 .text-container.in-sight {
   opacity: 1;
@@ -98,25 +108,141 @@ height: 100vh;
 
 .nav-button {
   position: fixed;
-  top: 22%;
+  top: 45%;
   right: 0;
-  transform: translate(0, -50%);
   height: 100vh;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: flex-start;
   padding-right: 5px;
+  @include breakpoint-standard(6) {
+    top: 35%;
+    align-items: center;
+  }
+  @include breakpoint-standard(5) {
+    top: 35%;
+    align-items: center;
+  }
+
+  @include breakpoint-standard(4) {
+    top: 17%;
+    right: 25%;
+    height: auto;
+    display: inline;
+    align-items: flex-start;
+    padding-right: 5px;
+  }
+  @include breakpoint-standard(3) {
+    top: 14%;
+    height: auto;
+    display: inline;
+    align-items: center;
+    padding-right: 5px;
+    right: 5%;
+  }
+  @include breakpoint-standard(2) {
+    top: 15%;
+    height: auto;
+    display: inline;
+    align-items: center;
+    padding-right: 5px;
+    right: 10%;
+  }
+  @include breakpoint-standard(1.1) {
+    top: 15%;
+    height: auto;
+    display: inline;
+    align-items: center;
+    padding-right: 5px;
+    right: 10%;
+  }
+  @include breakpoint-standard(1) {
+    top: 15%;
+    height: auto;
+    display: inline;
+    align-items: center;
+    padding-right: 5px;
+    right: 4%;
+  }
+  @include breakpoint-standard(0) {
+    top: 18%;
+    height: auto;
+    display: inline;
+    align-items: center;
+    padding-right: 5px;
+    right: 2%;
+  }
+}
+
+.nav-button-page {
+  width: 72px !important;
+  height: 32px;
+  font-size: 15px !important;
+
+  @include breakpoint-standard(4) {
+    width: 70px !important;
+    height: 32px;
+    font-size: 12px !important;
+    min-width: 75px !important;
+    margin: 0 2px !important;
+  }
+  @include breakpoint-standard(3) {
+    width: 45px !important;
+    height: 24px;
+    font-size: 10px !important;
+    min-width: 48px !important;
+    margin: 0 2px !important;
+  }
+  @include breakpoint-standard(2) {
+    width: 45px !important;
+    height: 24px;
+    font-size: 10px !important;
+    min-width: 48px !important;
+    margin: 0 2px !important;
+  }
+  @include breakpoint-standard(1.1) {
+    width: 43px !important;
+    height: 24px;
+    font-size: 10px !important;
+    min-width: 46px !important;
+    margin: 0 2px !important;
+  }
+  @include breakpoint-standard(1) {
+    width: 43px !important;
+    height: 24px;
+    font-size: 10px !important;
+    min-width: 45px !important;
+    margin: 0 2px !important;
+  }
+  @include breakpoint-standard(0) {
+    width: 43px !important;
+    height: 24px;
+    font-size: 10px !important;
+    min-width: 45px !important;
+    margin: 0 2px !important;
+  }
 }
 .nav-button-enslaved {
   position: fixed;
-  top: 10%;
+  top: 45%;
   right: 0;
-  transform: translate(0, -50%);
   height: 100vh;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: flex-start;
   padding-right: 5px;
+  @include breakpoint-standard(5) {
+    top: 36%;
+    align-items: center;
+  }
+  @include breakpoint-standard(4) {
+    top: 15%;
+    align-items: center;
+  }
+  @include breakpoint-standard(3) {
+    top: 15%;
+    align-items: center;
+  }
 }
 
 #main-voyagepage {
@@ -126,13 +252,13 @@ height: 100vh;
       rgba(147, 208, 203, 0.5),
       rgba(147, 208, 203, 0.4)
     ),
-    url("../assets/bgsueArt.svg") center / cover;
+    url('../assets/bgsueArt.svg') center / cover;
 }
 #main-voyagepage-Trans-atlantic {
   height: 95vh;
   background-repeat: no-repeat;
   background: linear-gradient(rgba(56, 116, 203, 0.8), rgba(56, 116, 203, 0.8)),
-    url("../assets/Transatlantic.JPG") center / cover;
+    url('../assets/Transatlantic.JPG') center / cover;
 }
 #main-voyagepage-intra-american {
   height: 95vh;
@@ -141,13 +267,14 @@ height: 100vh;
       rgba(127, 118, 191, 0.8),
       rgba(127, 118, 191, 0.8)
     ),
-    url("../assets/intra-american.jpeg") center / cover;
+    url('../assets/intra-american.jpeg') center / cover;
+
 }
 #main-voyagepage-texas {
   height: 95vh;
   background-repeat: no-repeat;
   background: linear-gradient(rgba(187, 105, 46, 0.8), rgba(187, 105, 46, 0.8)),
-    url("../assets/TexasImg.jpg") center / cover;
+    url('../assets/TexasImg.jpg') center / cover;
 }
 
 .credit-bottom-right {
@@ -171,29 +298,34 @@ height: 100vh;
     left: 3%;
   }
   @include breakpoint-standard(4) {
-    width: 80%;
-    top: 5%;
+    width: 90%;
+    top: 12%;
     left: 5%;
   }
   @include breakpoint-standard(3) {
-    width: 70%;
-    top: 5%;
-    left: 2%;
+    width: 90%;
+    top: 8%;
+    left: 5%;
   }
   @include breakpoint-standard(2) {
-    width: 70%;
-    top: 2%;
-    left: 2%;
+    width: 90%;
+    top: 12%;
+    left: 5%;
+  }
+  @include breakpoint-standard(1.1) {
+    width: 90%;
+    top: 12%;
+    left: 5%;
   }
   @include breakpoint-standard(1) {
-    width: 73%;
-    top: 2%;
-    left: 2%;
+    width: 90%;
+    top: 12%;
+    left: 5%;
   }
   @include breakpoint-standard(0) {
-    width: 70%;
-    top: 2%;
-    left: 2%;
+    width: 90%;
+    top: 12%;
+    left: 5%;
   }
 }
 .main-script-text {
@@ -206,27 +338,31 @@ height: 100vh;
   font-size: 26px;
   @include breakpoint-standard(0) {
     padding: 2%;
-    font-size: 16px;
+    font-size: 14px;
   }
   @include breakpoint-standard(1) {
     padding: 2%;
-    font-size: 16px;
+    font-size: 14px;
+  }
+  @include breakpoint-standard(1.1) {
+    padding: 2%;
+    font-size: 14px;
   }
   @include breakpoint-standard(2) {
     padding: 2%;
-    font-size: 18px;
+    font-size: 14px;
   }
   @include breakpoint-standard(3) {
     padding: 2%;
-    font-size: 18px;
+    font-size: 14px;
   }
   @include breakpoint-standard(4) {
     padding: 2%;
-    font-size: 22px;
+    font-size: 18px;
   }
   @include breakpoint-standard(5) {
     padding: 2% 3%;
-    font-size: 24px;
+    font-size: 22px;
   }
   @include breakpoint-standard(6) {
     padding: 3%;

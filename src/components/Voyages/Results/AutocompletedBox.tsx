@@ -77,6 +77,18 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     []
   );
 
+  useEffect(() => {
+    const storedValue = localStorage.getItem('filterObject');
+    if (storedValue) {
+      const parsedValue = JSON.parse(storedValue);
+      const { autoCompleteValue } = parsedValue;
+      for (const autoValue in autoCompleteValue) {
+        const autoValueList = autoCompleteValue[autoValue];
+        setSelectedValue(autoValueList);
+      }
+    }
+  }, []);
+
   const handleAutuCompletedChange = (
     event: SyntheticEvent<Element, Event>,
     newValue: AutoCompleteOption[]
@@ -88,18 +100,20 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
       dispatch(
         setAutoCompleteValue({
           ...autoCompleteValue,
-          [varName]: autuLabel,
+          [varName]: newValue,
         })
       );
       dispatch(setAutoLabel(autuLabel));
+      console.log('newValue', newValue);
       const filterObject = {
         rangeValue,
-        autoCompleteValue: { ...autoCompleteValue, [varName]: autuLabel },
+        autoCompleteValue: { ...autoCompleteValue, [varName]: newValue },
       };
       const filterObjectString = JSON.stringify(filterObject);
       localStorage.setItem('filterObject', filterObjectString);
     }
   };
+  console.log('autoCompleteValue', autoCompleteValue);
 
   return (
     <Stack spacing={3} sx={{ width: 350 }}>

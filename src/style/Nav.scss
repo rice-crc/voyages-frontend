@@ -63,25 +63,29 @@
     cursor: pointer;
     font-size: 60px;
     @include breakpoint-standard(6) {
-        font-size: 50px;
+        font-size: 44px;
     }
     @include breakpoint-standard(5) {
-        font-size: 42px;
-    }
-    @include breakpoint-standard(4) {
         font-size: 36px;
     }
-    @include breakpoint-standard(3) {
+    @include breakpoint-standard(4) {
         font-size: 30px;
     }
+    @include breakpoint-standard(3) {
+        font-size: 20px;
+        font-weight: 600;
+    }
     @include breakpoint-standard(2) {
-        font-size: 28px;
+        font-size: 16px;
+        font-weight: 600;
     }
     @include breakpoint-standard(1) {
-        font-size: 22px;
+        font-size: 16px;
+        font-weight: 600;
     }
     @include breakpoint-standard(0) {
-        font-size: 22px;
+        font-size: 16px;
+        font-weight: 600;
     }
 }
 
@@ -101,23 +105,24 @@
         top: 2px;
     }
     @include breakpoint-standard(4) {
-        font-size: 22px;
-        top: 2px;
-    }
-    @include breakpoint-standard(3) {
         font-size: 20px;
         top: 2px;
     }
-    @include breakpoint-standard(2) {
+    @include breakpoint-standard(3) {
         font-size: 16px;
         top: 2px;
     }
+    @include breakpoint-standard(2) {
+        font-size: 14px;
+        top: 2px;
+        font-weight: 600;
+    }
     @include breakpoint-standard(1) {
-        font-size: 16px;
+        font-size: 14px;
         top: 2px;
     }
     @include breakpoint-standard(0) {
-        font-size: 16px;
+        font-size: 14px;
         top: 2px;
     }
 
