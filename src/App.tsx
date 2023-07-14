@@ -1,12 +1,10 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import VoyagesPage from './pages/VoyagesPage';
-import { RootState } from './redux/store';
 import HomePage from './pages/Home';
-import PastHomePage from './pages/PastPage';
+import PastHomePage from './pages/PastHomePage';
 import EnslavedHomePage from './pages/Enslaved';
 import EnslaversHomePage from './pages/Enslavers';
 
