@@ -24,7 +24,7 @@ import { ALLENSLAVED, EnslaversTitle } from '@/share/CONST_DATA';
 import CanscandingMenuMobile from '@/components/canscanding/CanscandingMenuMobile';
 import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
 import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
-import { ColumnSelector } from '@/components/FcComponents/ColumnSelectorTable/ColumnSelector';
+import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
 import {
   setBaseFilterPeopleDataKey,
   setBaseFilterPeopleDataSetValue,

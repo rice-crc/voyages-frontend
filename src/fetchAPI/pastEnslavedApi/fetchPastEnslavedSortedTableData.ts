@@ -2,7 +2,7 @@ import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchVoyageSortedEnslavedTableData = createAsyncThunk(
+export const fetchPastEnslavedSortedTableData = createAsyncThunk(
     'enslavedOptions/fetchVoyageSortedEnslavedTableData',
     async (formData: FormData) => {
         try {
@@ -16,7 +16,7 @@ export const fetchVoyageSortedEnslavedTableData = createAsyncThunk(
 
             return response.data;
         } catch (error) {
-            throw new Error('Failed to fetchVoyageSortedEnslavedTableData data');
+            throw new Error('Failed to fetchPastEnslavedSortedTableData data');
         }
     }
 );

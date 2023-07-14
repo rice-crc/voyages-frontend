@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
 import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
-import { fetchVoyageSortedEnslavedTableData } from '@/fetchAPI/pastEnslavedApi/fetchVoyageSortedEnslavedTableData';
+import { fetchPastEnslavedSortedTableData } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedSortedTableData';
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
@@ -76,7 +76,7 @@ const CustomHeader: React.FC<Props> = (props) => {
         response = await dispatch(fetchVoyageSortedData(newFormData)).unwrap();
       } else if (pathName === ALLENSLAVED) {
         response = await dispatch(
-          fetchVoyageSortedEnslavedTableData(newFormData)
+          fetchPastEnslavedSortedTableData(newFormData)
         ).unwrap();
       }
       if (response) {

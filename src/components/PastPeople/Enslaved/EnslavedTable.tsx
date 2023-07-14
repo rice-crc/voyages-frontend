@@ -9,7 +9,7 @@ import React, {
 import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import CustomHeader from '../../FcComponents/CustomHeader';
+import CustomHeader from '../../FunctionComponents/CustomHeader';
 import { generateRowsData } from '@/utils/functions/generateRowsData';
 import { setColumnDefs, setRowData, setData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
@@ -36,7 +36,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
-import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchEnslavedOptionsList';
+import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsList';
 import ButtonDropdownSelectorEnslaved from './ColumnSelectorEnslavedTable/ButtonDropdownSelectorEnslaved';
 import { hasValueGetter } from '@/utils/functions/hasValueGetter';
 

@@ -16,7 +16,7 @@ import '@/style/Nav.scss';
 import CanscandingMenuMobile from '../canscanding/CanscandingMenuMobile';
 
 import { setIsFilter } from '@/redux/getFilterSlice';
-import { ColumnSelector } from '../FcComponents/ColumnSelectorTable/ColumnSelector';
+import { ColumnSelector } from '../FunctionComponents/ColumnSelectorTable/ColumnSelector';
 import {
   setBaseFilterDataKey,
   setBaseFilterDataSetValue,

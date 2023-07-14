@@ -1,6 +1,4 @@
-import { RootState } from '@/redux/store';
 import { Box, Grid } from '@mui/material';
-import { useSelector } from 'react-redux';
 import HeaderLogoSearch from '../header/HeaderSearchLogo';
 import NavBarPeople from './Header/NavBarPeople';
 import PersonImage from '@/assets/personImg.png';

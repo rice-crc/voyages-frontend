@@ -11,7 +11,7 @@ import TABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21
 import { fetchVoyageOptionsPagination } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsPagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import CustomHeader from '../../FcComponents/CustomHeader';
+import CustomHeader from '../../FunctionComponents/CustomHeader';
 import { generateRowsData } from '@/utils/functions/generateRowsData';
 import {
   ColumnDef,
@@ -33,7 +33,7 @@ import {
   RangeSliderState,
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
-import { ColumnSelector } from '@/components/FcComponents/ColumnSelectorTable/ColumnSelector';
+import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getBreakPoints';
 import { hasValueGetter } from '@/utils/functions/hasValueGetter';

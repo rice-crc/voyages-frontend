@@ -17,16 +17,13 @@ import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
 import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
 import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
-import { DropdownColumn } from '@/components/FcComponents/ColumnSelectorTable/DropdownColumn';
+import { DropdownColumn } from '@/components/FunctionComponents/ColumnSelectorTable/DropdownColumn';
 
 const ButtonDropdownSelectorEnslaved = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
-  );
-  const { styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
   );
 
   const { styleNamePeople } = useSelector(

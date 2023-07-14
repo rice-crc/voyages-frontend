@@ -143,7 +143,7 @@ range-slider/
   │   │     │     ├── MenuListDropdownPeople.tsx
   │   │     │     ├── NestedMenuItem
   │   │     │     ├── PaperDraggable
-  │   │     ├── FcComponents
+  │   │     ├── FunctionComponents
   │   │     │     ├──  ColumnSelectorTable
   │   │     │     │      ├── ButtonDropdownSelectoreColumn
   │   │     │     │      ├── ColumnSelector
