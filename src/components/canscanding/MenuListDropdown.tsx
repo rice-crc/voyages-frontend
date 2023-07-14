@@ -86,7 +86,7 @@ export const MenuListDropdown = () => {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
-    // Reset data in localStorage
+
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
