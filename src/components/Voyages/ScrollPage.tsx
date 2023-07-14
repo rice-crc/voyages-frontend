@@ -142,7 +142,7 @@ const ScrollPage = () => {
   } else if (currentPage !== 1 && isFilter) {
     topPosition = 230;
   } else if (currentPage === 1) {
-    topPosition = 160;
+    topPosition = 158;
   } else {
     topPosition = 170;
   }

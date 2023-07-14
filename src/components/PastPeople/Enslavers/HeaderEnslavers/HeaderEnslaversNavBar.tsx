@@ -11,21 +11,20 @@ import { Link } from 'react-router-dom';
 import '@/style/Nav.scss';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import {
-  getColorNavbarEnslavedBackground,
-  getColorBoxShadowEnslaved,
-  getColorBTNBackgroundEnslaved,
-  getColorBTNHoverEnslavedBackground,
+  getColorBTNBackgroundEnslavers,
+  getColorBTNHoverEnslaversBackground,
+  getColorBoxShadowEnslavers,
 } from '@/utils/functions/getColorStyle';
 
 import {
   BaseFilter,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
-import { ALLENSLAVED, EnslavedTitle } from '@/share/CONST_DATA';
+import { ALLENSLAVED, EnslaversTitle } from '@/share/CONST_DATA';
 import CanscandingMenuMobile from '@/components/canscanding/CanscandingMenuMobile';
 import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
 import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
-import { ColumnSelector } from '@/components/FcComponents/ColumnSelectorTable/ColumnSelector';
+import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
 import {
   setBaseFilterPeopleDataKey,
   setBaseFilterPeopleDataSetValue,
@@ -39,7 +38,7 @@ import {
 } from '@/redux/getPeopleDataSetCollectionSlice';
 import { setPathName } from '@/redux/getDataSetCollectionSlice';
 
-const HeaderEnslavedNavBar: React.FC = () => {
+const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
@@ -97,7 +96,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: getColorNavbarEnslavedBackground(styleNamePeople),
+          backgroundColor: '#3f967d',
           fontSize: 12,
           boxShadow: 'none',
           marginTop: '3rem',
@@ -123,15 +122,15 @@ const HeaderEnslavedNavBar: React.FC = () => {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <div className="enslaved-header" style={{ color: '#000000' }}>
+            <div className="enslaved-header" style={{ color: '#ffffff' }}>
               <Link
                 to="/PastHomePage"
                 style={{
                   textDecoration: 'none',
-                  color: '#000000',
+                  color: '#ffffff',
                 }}
               >
-                {EnslavedTitle}
+                {EnslaversTitle}
               </Link>
               <span className="enslaved-title">:</span>
               <div className="enslaved-header-subtitle">{textHeader}</div>
@@ -189,7 +188,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
               },
             }}
           >
-            <Box className="menu-nav-bar-select" style={{ color: '#000000' }}>
+            <Box className="menu-nav-bar-select" style={{ color: '#ffffff' }}>
               Select dataset
             </Box>
             {value.map((item: DataSetCollectionProps, index: number) => {
@@ -221,11 +220,11 @@ const HeaderEnslavedNavBar: React.FC = () => {
                     height: 32,
                     fontSize: 12,
                     margin: '0 2px',
-                    boxShadow: getColorBoxShadowEnslaved(style_name),
-                    backgroundColor: getColorBTNBackgroundEnslaved(style_name),
+                    boxShadow: getColorBoxShadowEnslavers(style_name),
+                    backgroundColor: getColorBTNBackgroundEnslavers(style_name),
                     '&:hover': {
                       backgroundColor:
-                        getColorBTNHoverEnslavedBackground(style_name),
+                        getColorBTNHoverEnslaversBackground(style_name),
                     },
                   }}
                 >
@@ -264,4 +263,4 @@ const HeaderEnslavedNavBar: React.FC = () => {
   );
 };
 
-export default HeaderEnslavedNavBar;
+export default HeaderEnslaversNavBar;

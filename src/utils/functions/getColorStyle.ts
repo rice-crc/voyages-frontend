@@ -39,6 +39,17 @@ export const getColorBTNBackgroundEnslaved = (item: string) => {
     }
     return background;
 };
+export const getColorBTNBackgroundEnslavers = (item: string) => {
+    let background = '#30725f';
+    if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
+        background = '#30725f';
+    } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        background = 'rgb(56, 116, 203)';
+    } else if (item === TYPESOFDATASETPEOPLE.texas) {
+        background = 'rgb(167 70 0)';
+    }
+    return background;
+};
 
 export const getTextColor = (item: string) => {
     let textColor = '#000000';
@@ -96,6 +107,17 @@ export const getColorBTNHoverEnslavedBackground = (item: string) => {
     }
     return background;
 };
+export const getColorBTNHoverEnslaversBackground = (item: string) => {
+    let background = '#3f9d82';
+    if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
+        background = '#3f9d82';
+    } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        background = '#42a5f5';
+    } else if (item === TYPESOFDATASETPEOPLE.texas) {
+        background = 'rgb(216 93 5)';
+    }
+    return background;
+};
 export const getColorBoxShadow = (item: string) => {
     let boxShadow = '1px 2px 8px rgb(11 196 181)';
     if (item === TYPESOFDATASET.allVoyages) {
@@ -113,6 +135,17 @@ export const getColorBoxShadowEnslaved = (item: string) => {
     let boxShadow = '1px 2px 8px#9c8180';
     if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
         boxShadow = '1px 2px 8px #9c8180';
+    } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        boxShadow = '1px 2px 8px #42a5f5';
+    } else if (item === TYPESOFDATASETPEOPLE.texas) {
+        boxShadow = '1px 2px 8px rgb(216 93 5)';
+    }
+    return boxShadow;
+};
+export const getColorBoxShadowEnslavers = (item: string) => {
+    let boxShadow = '1px 2px 8px#3ec59e';
+    if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
+        boxShadow = '1px 2px 8px #3ec59e';
     } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
         boxShadow = '1px 2px 8px #42a5f5';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {

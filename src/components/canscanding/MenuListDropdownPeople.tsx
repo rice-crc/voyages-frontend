@@ -13,11 +13,8 @@ import {
   ChildrenFilter,
   RangeSliderState,
   TYPES,
-  VoyagaesFilterMenu,
-  FilterMenu,
   CurrentPageInitialState,
   TYPESOFDATASETPEOPLE,
-  FilterPeopleMenuProps,
   FilterPeopleMenu,
 } from '@/share/InterfaceTypes';
 import {

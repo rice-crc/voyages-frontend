@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BurgerMenu } from './BurgerMenu';
-import { MenuDropdown } from './MenuDropdownProps';
+import { MenuDropdown } from './MenuDropdown';
 
 const MenuButtonHomePage: React.FC = () => {
   const [open, setOpen] = useState(false);

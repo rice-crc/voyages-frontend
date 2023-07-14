@@ -6,68 +6,75 @@ import { MenuListDropdownStyle } from '@/styleMUI';
 import { Button, Menu, Typography } from '@mui/material';
 import FilterICON from '@/assets/filterICON.svg';
 import { AppDispatch, RootState } from '@/redux/store';
-import { HeaderNavBarMenuProps } from '@/share/InterfaceTypes';
-import CanscandingMenu from '../canscanding/CanscandingMenu';
 import { useDispatch, useSelector } from 'react-redux';
-import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import { Link } from 'react-router-dom';
 import '@/style/Nav.scss';
-
-import CanscandingMenuMobile from '../canscanding/CanscandingMenuMobile';
-
 import { setIsFilter } from '@/redux/getFilterSlice';
-import { ColumnSelector } from '../FunctionComponents/ColumnSelectorTable/ColumnSelector';
 import {
-  setBaseFilterDataKey,
-  setBaseFilterDataSetValue,
-  setBaseFilterDataValue,
-  setBlocksMenuList,
-  setDataSetHeader,
-  setPathName,
-  setStyleName,
-  setTextIntro,
-} from '@/redux/getDataSetCollectionSlice';
-
-import {
-  getColorBackground,
-  getColorHoverBackground,
-  getColorNavbarBackground,
-  getTextColor,
-  getColorBoxShadow,
+  getColorNavbarEnslavedBackground,
+  getColorBoxShadowEnslaved,
+  getColorBTNBackgroundEnslaved,
+  getColorBTNHoverEnslavedBackground,
 } from '@/utils/functions/getColorStyle';
-import { DrawerMenuBar } from './drawerMenuBar';
-import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
-import { ALLVOYAGES, VOYAGETILE } from '@/share/CONST_DATA';
 
-export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
+import {
+  BaseFilter,
+  DataSetCollectionProps,
+} from '@/share/InterfactTypesDatasetCollection';
+import { ALLENSLAVED, EnslavedTitle } from '@/share/CONST_DATA';
+import CanscandingMenuMobile from '@/components/canscanding/CanscandingMenuMobile';
+import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
+import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
+import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
+import {
+  setBaseFilterPeopleDataKey,
+  setBaseFilterPeopleDataSetValue,
+  setBaseFilterPeopleDataValue,
+  setDataSetPeopleHeader,
+  setPeopleBlocksMenuList,
+  setPeopleFilterMenuFlatfile,
+  setPeopleStyleName,
+  setPeopleTableFlatfile,
+  setPeopleTextIntro,
+} from '@/redux/getPeopleDataSetCollectionSlice';
+import { setPathName } from '@/redux/getDataSetCollectionSlice';
+
+const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
+  const { currentEnslavedPage } = useSelector(
+    (state: RootState) => state.getScrollEnslavedPage
   );
-  const { value, textHeader, styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
+
+  const { value, textHeader, styleNamePeople, tableFlatfile } = useSelector(
+    (state: RootState) => state.getPeopleDataSetCollection
   );
+
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
-  const handleSelectDataset = (
+
+  const handleSelectEnslavedDataset = (
     base_filter: BaseFilter[],
     textHeder: string,
     textIntro: string,
     styleName: string,
-    blocks: string[]
+    blocks: string[],
+    filter_menu_flatfile: string,
+    table_flatfile: string
   ) => {
     for (const base of base_filter) {
-      dispatch(setBaseFilterDataKey(base.var_name));
-      dispatch(setBaseFilterDataValue(base.value));
+      dispatch(setBaseFilterPeopleDataKey(base.var_name));
+      dispatch(setBaseFilterPeopleDataValue(base.value));
     }
-    dispatch(setBaseFilterDataSetValue(base_filter));
-    dispatch(setDataSetHeader(textHeder));
-    dispatch(setTextIntro(textIntro));
-    dispatch(setStyleName(styleName));
-    dispatch(setBlocksMenuList(blocks));
+    dispatch(setBaseFilterPeopleDataSetValue(base_filter));
+    dispatch(setDataSetPeopleHeader(textHeder));
+    dispatch(setPeopleTextIntro(textIntro));
+    dispatch(setPeopleStyleName(styleName));
+    dispatch(setPeopleBlocksMenuList(blocks));
+    setPeopleFilterMenuFlatfile(filter_menu_flatfile);
+    dispatch(setPeopleTableFlatfile(table_flatfile));
   };
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -90,7 +97,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: getColorNavbarBackground(styleName),
+          backgroundColor: getColorNavbarEnslavedBackground(styleNamePeople),
           fontSize: 12,
           boxShadow: 'none',
           marginTop: '3rem',
@@ -116,21 +123,18 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <div
-              className="voyages-header"
-              style={{ color: getTextColor(styleName) }}
-            >
+            <div className="enslaved-header" style={{ color: '#000000' }}>
               <Link
-                to="/VoyagesPage"
+                to="/PastHomePage"
                 style={{
                   textDecoration: 'none',
-                  color: getTextColor(styleName),
+                  color: '#000000',
                 }}
               >
-                {VOYAGETILE}
+                {EnslavedTitle}
               </Link>
-              <span className="voyages-title">:</span>
-              <div className="voyages-header-subtitle">{textHeader}</div>
+              <span className="enslaved-title">:</span>
+              <div className="enslaved-header-subtitle">{textHeader}</div>
             </div>
             <Divider
               sx={{
@@ -158,13 +162,13 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               }}
               onClick={() => {
                 dispatch(setIsFilter(!isFilter));
-                dispatch(setPathName(ALLVOYAGES));
+                dispatch(setPathName(ALLENSLAVED));
               }}
             >
-              {currentPage !== 1 && (
+              {currentEnslavedPage !== 1 && (
                 <>
                   <img src={FilterICON} alt="logo" />
-                  <div className="menu-nav-bar">Filter Search</div>
+                  <div className="menu-nav-bar"> Filter Search</div>
                 </>
               )}
             </Typography>
@@ -185,24 +189,30 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               },
             }}
           >
-            <Box
-              className="menu-nav-bar-select"
-              style={{ color: getTextColor(styleName) }}
-            >
+            <Box className="menu-nav-bar-select" style={{ color: '#000000' }}>
               Select dataset
             </Box>
-            {value.map((item, index) => {
-              const { base_filter, headers, style_name, blocks } = item;
+            {value.map((item: DataSetCollectionProps, index: number) => {
+              const {
+                base_filter,
+                headers,
+                style_name,
+                blocks,
+                table_flatfile,
+                filter_menu_flatfile,
+              } = item;
               return (
                 <Button
                   key={`${item}-${index}`}
                   onClick={() =>
-                    handleSelectDataset(
+                    handleSelectEnslavedDataset(
                       base_filter,
                       headers.label,
                       headers.text_introduce,
                       style_name,
-                      blocks
+                      blocks,
+                      filter_menu_flatfile,
+                      table_flatfile
                     )
                   }
                   sx={{
@@ -211,10 +221,11 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
                     height: 32,
                     fontSize: 12,
                     margin: '0 2px',
-                    boxShadow: getColorBoxShadow(style_name),
-                    backgroundColor: getColorBackground(style_name),
+                    boxShadow: getColorBoxShadowEnslaved(style_name),
+                    backgroundColor: getColorBTNBackgroundEnslaved(style_name),
                     '&:hover': {
-                      backgroundColor: getColorHoverBackground(style_name),
+                      backgroundColor:
+                        getColorBTNHoverEnslavedBackground(style_name),
                     },
                   }}
                 >
@@ -225,7 +236,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
           </Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentPage !== 1 && isFilter && <CanscandingMenu />}
+          {currentEnslavedPage !== 1 && isFilter && <CanscandingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu
@@ -233,10 +244,10 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             open={Boolean(anchorEl)}
             onClick={handleMenuClose}
           >
-            <DrawerMenuBar
+            {/* <DrawerMenuPeopleBar
               value={value}
               handleSelectDataset={handleSelectDataset}
-            />
+            /> */}
           </Menu>
         </Box>
       </AppBar>
@@ -251,4 +262,6 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
       </Menu>
     </Box>
   );
-}
+};
+
+export default HeaderEnslavedNavBar;

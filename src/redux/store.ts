@@ -14,7 +14,7 @@ import getPeopleDataSetCollectionSlice from './getPeopleDataSetCollectionSlice';
 import getScrollEnslavedPageSlice from './getScrollEnslavedPageSlice';
 import getFilterPeopleObjectSlice from './getFilterPeopleObjectSlice';
 import getOptionsDataPastPeopleEnslavedSlice from './getOptionsDataPastPeopleEnslavedSlice';
-import { pastEnslavedApi } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedApiService';
+import { pastEnslavedApiService } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedApiService';
 
 const store = configureStore({
     reducer: {
@@ -31,13 +31,13 @@ const store = configureStore({
         getScrollEnslavedPage: getScrollEnslavedPageSlice,
         getFilterPeople: getFilterPeopleObjectSlice,
         getOptionsEnslaved: getOptionsDataPastPeopleEnslavedSlice,
-        [pastEnslavedApi.reducerPath]: pastEnslavedApi.reducer,
+        [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
         [voyagesApi.reducerPath]: voyagesApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,
-        }).concat([voyagesApi.middleware, pastEnslavedApi.middleware])
+        }).concat([voyagesApi.middleware, pastEnslavedApiService.middleware])
 });
 
 setupListeners(store.dispatch);

@@ -19,11 +19,14 @@ import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
 import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { DropdownColumn } from '@/components/FunctionComponents/ColumnSelectorTable/DropdownColumn';
 
-const ButtonDropdownSelectorEnslaved = () => {
+const ButtonDropdownSelectorEnslavers = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
+  );
+  const { styleName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
   );
 
   const { styleNamePeople } = useSelector(
@@ -125,4 +128,4 @@ const ButtonDropdownSelectorEnslaved = () => {
     />
   );
 };
-export default ButtonDropdownSelectorEnslaved;
+export default ButtonDropdownSelectorEnslavers;
