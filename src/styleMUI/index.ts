@@ -198,3 +198,10 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
+export const DialogModalStyle = {
+  backgroundColor: 'transparent',
+};
+export const PaperDraggableStyle = {
+  maxWidth: 400
+}

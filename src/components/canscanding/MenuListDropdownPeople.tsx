@@ -19,6 +19,7 @@ import {
 } from '@/share/InterfaceTypes';
 import {
   BLACK,
+  DialogModalStyle,
   DropdownMenuItem,
   DropdownNestedMenuItem,
   StyleDialog,
@@ -209,7 +210,9 @@ export const MenuListDropdownPeople = () => {
         );
       })}
       <Dialog
-        BackdropProps={{ style: { backgroundColor: 'transparent' } }}
+        BackdropProps={{
+          style: DialogModalStyle,
+        }}
         sx={StyleDialog}
         open={isOpenDialog}
         onClose={handleCloseDialog}

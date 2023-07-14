@@ -24,9 +24,8 @@ const EnslavedPageScrolling = () => {
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
-  const newBlock = [...blocksPeople].reverse();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.up('lg'));
-  const totalPageCount = newBlock?.length;
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentEnslavedPage(page));
@@ -63,15 +62,14 @@ const EnslavedPageScrolling = () => {
       <Hidden>
         <div className="navbar-wrapper">
           <nav className="nav-button-enslaved">
-            {newBlock.map((page, index) => {
-              const buttonIndex = totalPageCount - index;
+            {blocksPeople.map((page, index) => {
+              const buttonIndex = index + 1;
               return (
                 <ButtonNav
                   key={`${page}-${buttonIndex}`}
                   onClick={() => handlePageNavigation(buttonIndex)}
+                  className="nav-button-page"
                   style={{
-                    width: '80px',
-                    height: '32',
                     backgroundColor:
                       getColorBTNBackgroundEnslaved(styleNamePeople),
                     boxShadow: getColorBoxShadowEnslaved(styleNamePeople),

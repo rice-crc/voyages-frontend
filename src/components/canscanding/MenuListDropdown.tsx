@@ -19,6 +19,7 @@ import {
 } from '@/share/InterfaceTypes';
 import {
   BLACK,
+  DialogModalStyle,
   DropdownMenuItem,
   DropdownNestedMenuItem,
   StyleDialog,
@@ -85,7 +86,7 @@ export const MenuListDropdown = () => {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
-    // Reset data in localStorage
+
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -185,7 +186,9 @@ export const MenuListDropdown = () => {
         );
       })}
       <Dialog
-        BackdropProps={{ style: { backgroundColor: 'transparent' } }}
+        BackdropProps={{
+          style: DialogModalStyle,
+        }}
         sx={StyleDialog}
         open={isOpenDialog}
         onClose={handleCloseDialog}
