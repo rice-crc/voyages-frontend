@@ -20,9 +20,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div id="home-voyagepage-container">
-      <div className="menu-home-page">
-        <MenuButtonHomePage />
-      </div>
+      <MenuButtonHomePage />
       <div className="home-voyagepage-content">
         <div className="header-logo-slave-voyages">
           <div className="voyageLogo-img">
@@ -39,7 +37,7 @@ const HomePage: React.FC = () => {
           </div>
         </div>
         <div className="voyages-search-box">
-          <Search>
+          <Search className="voyages-search-box-content">
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>

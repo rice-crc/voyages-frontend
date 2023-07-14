@@ -37,10 +37,11 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
 import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsList';
-import ButtonDropdownSelectorEnslaved from './ColumnSelectorEnslavedTable/ButtonDropdownSelectorEnslaved';
-import { hasValueGetter } from '@/utils/functions/hasValueGetter';
 
-const EnslavedTable: React.FC = () => {
+import { hasValueGetter } from '@/utils/functions/hasValueGetter';
+import ButtonDropdownSelectorEnslavers from './ColumnSelectorEnslaversTable/ButtonDropdownSelectorEnslavers';
+
+const EnslaversTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const { columnDefs, data, rowData } = useSelector(
@@ -366,7 +367,7 @@ const EnslavedTable: React.FC = () => {
         <div style={containerStyle} className="ag-theme-alpine grid-container">
           <div style={style}>
             <span className="tableContainer">
-              <ButtonDropdownSelectorEnslaved />
+              <ButtonDropdownSelectorEnslavers />
               <TablePagination
                 component="div"
                 count={totalResultsCount}
@@ -409,4 +410,4 @@ const EnslavedTable: React.FC = () => {
   );
 };
 
-export default EnslavedTable;
+export default EnslaversTable;

@@ -1,144 +1,361 @@
 @mixin breakpoint-standard($size) {
-    @if $size==0 {
-      @media only screen and (max-width: 374px) {
-        @content;
-      }
-    } @else if $size==1 {
-      @media only screen and (min-width: 375px) and (max-width: 479px) {
-        @content;
-      }
-    } @else if $size==2 {
-      @media only screen and (min-width: 480px) and (max-width: 575px) {
-        @content;
-      }
-    } @else if $size==3 {
-      @media only screen and (min-width: 576px) and (max-width: 767px) {
-        @content;
-      }
-    } @else if $size==4 {
-      @media only screen and (min-width: 768px) and (max-width: 991px) {
-        @content;
-      }
-    } @else if $size==5 {
-      @media only screen and (min-width: 992px) and (max-width: 1024px) {
-        @content;
-      }
-    } @else if $size==6 {
-      @media only screen and (min-width: 1025px) and (max-width: 1366px) {
-        @content;
-      }
-    } @else if $size==7 {
-      @media only screen and (max-width: 1440px) {
-        @content;
-      }
+  @if $size==0 {
+    @media only screen and (max-width: 374px) {
+      @content;
+    }
+  } @else if $size==1 {
+    @media only screen and (min-width: 375px) and (max-width: 479px) {
+      @content;
+    }
+  } @else if $size==2 {
+    @media only screen and (min-width: 480px) and (max-width: 575px) {
+      @content;
+    }
+  } @else if $size==3 {
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+      @content;
+    }
+  } @else if $size==4 {
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+      @content;
+    }
+  } @else if $size==5 {
+    @media only screen and (min-width: 992px) and (max-width: 1024px) {
+      @content;
+    }
+  } @else if $size==6 {
+    @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+      @content;
+    }
+  } @else if $size==7 {
+    @media only screen and (max-width: 1440px) {
+      @content;
     }
   }
-  
+}
 
-#home-voyagepage-container{
-    height: 100vh;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background: 
-      url("../assets/Black\ and\ White\ Waves.svg") center / cover;
-}
-.home-voyagepage-content{
+#home-voyagepage-container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background: url('../assets/Black\ and\ White\ Waves.svg') center / cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include breakpoint-standard(2) {
+    display: inline-block;
     text-align: center;
-    position: fixed;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    @include breakpoint-standard(7) {
-      top: 40%;
-      left: 40%;
-      transform: translate(-40%, -40%);
+  }
+  @include breakpoint-standard(1) {
+    display: inline-block;
+    text-align: center;
+  }
+  @include breakpoint-standard(0) {
+    display: inline-block;
+    text-align: center;
+  }
+}
+.home-voyagepage-content {
+  margin: auto;
+}
+
+.header-logo-slave-voyages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  @include breakpoint-standard(7) {
+    padding: 0;
+  }
+  @include breakpoint-standard(6) {
+    padding: 0;
+  }
+  @include breakpoint-standard(5) {
+    padding: 0 4rem;
+  }
+  @include breakpoint-standard(4) {
+    padding: 0 5rem;
+  }
+  @include breakpoint-standard(3) {
+    display: inline-block;
+    text-align: center;
+  }
+  @include breakpoint-standard(2) {
+    display: inline-block;
+    text-align: center;
+    padding-top: 2rem;
+  }
+  @include breakpoint-standard(1) {
+    display: inline-block;
+    text-align: center;
+    padding-top: 2rem;
+  }
+  @include breakpoint-standard(0) {
+    display: inline-block;
+    text-align: center;
+    padding-top: 2rem;
+  }
+}
+.voyageLogo-img {
+  @include breakpoint-standard(2) {
+    img {
+      width: 25%;
     }
+  }
+  @include breakpoint-standard(1) {
+    img {
+      width: 25%;
+    }
+  }
+  @include breakpoint-standard(0) {
+    img {
+      width: 25%;
+    }
+  }
 }
-.menu-home-page{
-    padding: 5px 10px;
+.voyage-text-box {
+  margin: 0 1rem;
+  @include breakpoint-standard(2) {
+    img {
+      width: 50%;
+    }
+  }
+  @include breakpoint-standard(1) {
+    img {
+      width: 50%;
+    }
+  }
+  @include breakpoint-standard(0) {
+    img {
+      width: 50%;
+    }
+  }
 }
-.header-logo-slave-voyages{
+.voyage-description {
+  color: #e8e8e8;
+  font-family: 'Helvetica Neue';
+  font-style: italic;
+  font-weight: 300;
+  font-size: 18px;
+  margin-top: 5px;
+  font-size: 22px;
+  @include breakpoint-standard(7) {
+    font-size: 20px;
+  }
+  @include breakpoint-standard(6) {
+    font-size: 18px;
+  }
+  @include breakpoint-standard(5) {
+    font-size: 16px;
+  }
+  @include breakpoint-standard(4) {
+    font-size: 16px;
+  }
+  @include breakpoint-standard(3) {
+    font-size: 16px;
+  }
+  @include breakpoint-standard(2) {
+    font-size: 14px;
+    padding: 0 3rem;
+  }
+  @include breakpoint-standard(1) {
+    font-size: 14px;
+    padding: 0 1.5rem;
+  }
+  @include breakpoint-standard(0) {
+    font-size: 14px;
+    padding: 0 1rem;
+  }
+}
+.voyages-search-box {
+  text-align: center;
+  @include breakpoint-standard(5) {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: left;
-}
-.voyage-text-box{
-    margin:  0 1rem;
-}
-.voyage-description{
-    color: #e8e8e8;
-    font-family: 'Helvetica Neue';
-    font-style: italic;
-    font-weight: 300;
-    font-size: 18px;
-    margin-top: 5px;
-}
-.voyages-search-box{
-    text-align: center;
-}
-.voyages-people-places{
-    padding: 3rem 0 2rem 0;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-}
-.voyages-people-places-title{
-    font-size: 20px;
-    font-weight: bold;
-    font-family: 'Helvetica Neue';
-   text-transform: uppercase;
-}
-.voyages-people-places-subtitle{
-    font-size: 16px;
-    font-weight: normal;
-    font-family: 'Helvetica Neue';
-}
-.voyage-page-box{
-    cursor: pointer;
-}
-.people-page-box{
-    cursor: pointer;
-}
-.place-page-box{
-    cursor: pointer;
-}
-.document-resources{
+    .voyages-search-box-content {
+      width: 70%;
+      height: 45px;
+    }
+  }
+  @include breakpoint-standard(4) {
     display: flex;
     justify-content: center;
-    margin: 1rem;
+    align-items: center;
+    .voyages-search-box-content {
+      width: 70%;
+      height: 45px;
+    }
+  }
+  @include breakpoint-standard(3) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .voyages-search-box-content {
+      width: 70%;
+      height: 40px;
+    }
+  }
+  @include breakpoint-standard(2) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .voyages-search-box-content {
+      width: 70%;
+      height: 40px;
+    }
+  }
+  @include breakpoint-standard(1) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .voyages-search-box-content {
+      width: 70%;
+      height: 40px;
+    }
+  }
+  @include breakpoint-standard(0) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .voyages-search-box-content {
+      width: 70%;
+      height: 40px;
+    }
+  }
 }
-.document-resources-text{
+.voyages-people-places {
+  padding: 3rem 0 2rem 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+  @include breakpoint-standard(4) {
+    padding: 2rem 5rem;
+  }
+  @include breakpoint-standard(3) {
+    padding: 2rem 5rem;
+  }
+  @include breakpoint-standard(2) {
+    padding: 0;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include breakpoint-standard(1) {
+    padding: 0;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include breakpoint-standard(0) {
+    padding: 0;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.voyages-people-places-title {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Helvetica Neue';
+  text-transform: uppercase;
+  @include breakpoint-standard(5) {
+    font-size: 20px;
+  }
+  @include breakpoint-standard(4) {
+    font-size: 16px;
+    margin-top: 1rem;
+  }
+  @include breakpoint-standard(3) {
+    font-size: 16px;
+    margin-top: 1rem;
+  }
+  @include breakpoint-standard(2) {
+    font-size: 16px;
+    margin-top: 1rem;
+  }
+  @include breakpoint-standard(1) {
+    font-size: 14px;
+    margin-top: 1rem;
+  }
+  @include breakpoint-standard(0) {
+    font-size: 14px;
+    margin-top: 1rem;
+  }
+}
+.voyages-people-places-subtitle {
+  font-size: 16px;
+  font-weight: normal;
+  font-family: 'Helvetica Neue';
+  @include breakpoint-standard(5) {
+    font-size: 14px;
+  }
+  @include breakpoint-standard(4) {
     font-size: 12px;
-    font-weight: bold;
-    font-family: 'Helvetica Neue';
-    position: relative;
-    top: 45%
+  }
+  @include breakpoint-standard(3) {
+    font-size: 12px;
+  }
+  @include breakpoint-standard(2) {
+    font-size: 12px;
+  }
+  @include breakpoint-standard(1) {
+    font-size: 12px;
+  }
+  @include breakpoint-standard(0) {
+    font-size: 12px;
+  }
 }
-.document-cycle{
-    cursor: pointer;
+.voyage-page-box {
+  cursor: pointer;
 }
-.resourc-cycle{
-    z-index: 2;
-    position: relative;
-    cursor: pointer;
+.people-page-box {
+  cursor: pointer;
+}
+.place-page-box {
+  cursor: pointer;
+}
+.document-resources {
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+}
+.document-resources-text {
+  font-size: 12px;
+  font-weight: bold;
+  font-family: 'Helvetica Neue';
+  position: relative;
+  top: 45%;
+}
+.document-cycle {
+  cursor: pointer;
+}
+.resourc-cycle {
+  z-index: 2;
+  position: relative;
+  cursor: pointer;
 }
 
 .about-project {
-    display: flex;
-    justify-content: center;  
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  @include breakpoint-standard(1) {
+    margin-top: 1.5rem;
+  }
+  @include breakpoint-standard(0) {
+    margin-top: 1.5rem;
+  }
 }
-.about-project-btn{
-    width: 160px;
-    background-color: #BAA372;
-    color: #ffffff;
-    font-size: 14px;
-    font-family: 'Helvetica Neue';
-    font-weight: bold;
-    height: 38px;
-    line-height: 38px;
-    border-radius: 20px;
-    cursor: pointer;
-    box-shadow:2px 3px 3px #00000085;
-    border-color: #707070;
+.about-project-btn {
+  width: 160px;
+  background-color: #baa372;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: 'Helvetica Neue';
+  font-weight: bold;
+  height: 38px;
+  line-height: 38px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 2px 3px 3px #00000085;
+  border-color: #707070;
 }

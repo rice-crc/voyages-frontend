@@ -17,7 +17,7 @@ export const StyledMenu = styled.nav<StyledMenuProps>`
     transition: transform 0.3s ease-in-out;
     width: 170px;
     @media (max-width: 576px) {
-      width: 100%;
+      width: 50%;
     }
   
     a {
@@ -28,10 +28,10 @@ export const StyledMenu = styled.nav<StyledMenuProps>`
       text-decoration: none;
       transition: color 0.3s linear;
       @media (max-width: 576px) {
-        font-size: 1.5rem;
-        text-align: center;
+        font-size: 1rem;
+        text-align: left;
+        adding-left: 2rem;
       }
-  
       &:hover {
         color: #343078;
       }
