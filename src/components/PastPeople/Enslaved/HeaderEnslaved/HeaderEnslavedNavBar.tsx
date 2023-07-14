@@ -22,7 +22,6 @@ import {
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
 import { ALLENSLAVED, EnslavedTitle } from '@/share/CONST_DATA';
-import CanscandingMenuMobile from '@/components/canscanding/CanscandingMenuMobile';
 import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
 import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
 import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
@@ -38,6 +37,7 @@ import {
   setPeopleTextIntro,
 } from '@/redux/getPeopleDataSetCollectionSlice';
 import { setPathName } from '@/redux/getDataSetCollectionSlice';
+import CanscandingMenuEnslavedMobile from '@/components/canscanding/CanscandingMenuEnslavedMobile';
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -173,7 +173,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
               )}
             </Typography>
           </Typography>
-          <CanscandingMenuMobile />
+          <CanscandingMenuEnslavedMobile />
           <Box
             className="menu-nav-bar-select-box"
             sx={{

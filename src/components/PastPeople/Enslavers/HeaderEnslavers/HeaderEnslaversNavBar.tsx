@@ -21,7 +21,7 @@ import {
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
 import { ALLENSLAVED, EnslaversTitle } from '@/share/CONST_DATA';
-import CanscandingMenuMobile from '@/components/canscanding/CanscandingMenuMobile';
+import CanscandingMenuMobile from '@/components/canscanding/CanscandingMenuEnslavedMobile';
 import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
 import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
 import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';

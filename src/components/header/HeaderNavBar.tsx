@@ -13,8 +13,6 @@ import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import { Link } from 'react-router-dom';
 import '@/style/Nav.scss';
 
-import CanscandingMenuMobile from '../canscanding/CanscandingMenuMobile';
-
 import { setIsFilter } from '@/redux/getFilterSlice';
 import { ColumnSelector } from '../FunctionComponents/ColumnSelectorTable/ColumnSelector';
 import {
@@ -38,6 +36,7 @@ import {
 import { DrawerMenuBar } from './drawerMenuBar';
 import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
 import { ALLVOYAGES, VOYAGETILE } from '@/share/CONST_DATA';
+import CanscandingMenuVoyagesMobile from '../canscanding/CanscandingMenuVoyagesMobile';
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -169,7 +168,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               )}
             </Typography>
           </Typography>
-          <CanscandingMenuMobile />
+          <CanscandingMenuVoyagesMobile />
           <Box
             className="menu-nav-bar-select-box"
             sx={{
