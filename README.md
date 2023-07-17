@@ -130,7 +130,6 @@ npm run test
 ### Code Structure
 
 ```javscript
-range-slider/
   │── public/
   │── src/
   │   ├── assets
@@ -286,9 +285,8 @@ range-slider/
   │   │     │     ├── voyage_table_cell_structure__updated21June.json
   │   │     ├── functions
   │   │     │     ├── generateRowsData.ts
-  │   │     │     ├── getBreakPoints.ts
+  │   │     │     ├── getRowsPerPage.ts
   │   │     │     ├── getColorStyle.ts
-  │   │     │     ├── getEnumColumnParams.ts
   │   │     │     ├── hasValueGetter.ts
   │   │     │     ├── TableCollectionsOptions.ts
   │   │     │     ├── traverseData.ts

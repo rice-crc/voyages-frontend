@@ -4,7 +4,7 @@ import { CanscandingMenuProps } from '@/share/InterfaceTypes';
 import { MenuListDropdownPeople } from './MenuListDropdownPeople';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
+import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
 
 export default function CanscandingMenu(props: CanscandingMenuProps) {
   const { pathName } = useSelector(
@@ -20,8 +20,13 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
     >
       <Toolbar>
         <Hidden smDown>
-          {pathName === ALLVOYAGES && <MenuListDropdown />}
-          {pathName === ALLENSLAVED && <MenuListDropdownPeople />}
+          <div>
+            {pathName === ALLENSLAVED || pathName === ALLENSLAVERS ? (
+              <MenuListDropdownPeople />
+            ) : (
+              <MenuListDropdown />
+            )}
+          </div>
         </Hidden>
       </Toolbar>
     </div>

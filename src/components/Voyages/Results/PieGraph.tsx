@@ -183,7 +183,7 @@ function PieGraph() {
       <Skeleton animation={false} />
     </div>;
   }
-
+  console.log('maxWidth', maxWidth);
   return (
     <div>
       <SelectDropdown
@@ -218,7 +218,7 @@ function PieGraph() {
               mode: 'lines+markers',
               textinfo: 'label+percent',
               insidetextorientation: 'radial',
-              hole: 0.25,
+              hole: 0.2,
               textposition: 'inside',
             },
           ]}
@@ -232,17 +232,8 @@ function PieGraph() {
             } Pie Chart`,
             font: {
               family: 'Arial, sans-serif',
-              size: 12,
+              size: maxWidth < 400 ? 7 : 10,
               color: '#333333',
-            },
-            legend: {
-              x: 0.73,
-              y: 0.9,
-              font: {
-                family: 'Arial, sans-serif',
-                size: 12,
-                color: '#666666',
-              },
             },
           }}
           config={{ responsive: true }}

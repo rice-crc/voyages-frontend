@@ -40,14 +40,7 @@ export const getColorBTNBackgroundEnslaved = (item: string) => {
     return background;
 };
 export const getColorBTNBackgroundEnslavers = (item: string) => {
-    let background = '#30725f';
-    if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
-        background = '#30725f';
-    } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
-        background = 'rgb(56, 116, 203)';
-    } else if (item === TYPESOFDATASETPEOPLE.texas) {
-        background = 'rgb(167 70 0)';
-    }
+    let background = 'rgb(41 136 109)';
     return background;
 };
 
@@ -56,6 +49,8 @@ export const getTextColor = (item: string) => {
     if (item === TYPESOFDATASET.allVoyages) {
         textColor = '#000000';
     } else if (item === TYPESOFDATASET.transatlantic || item === TYPESOFDATASET.intraAmerican || item === TYPESOFDATASET.texas) {
+        textColor = '#ffffff';
+    } else if (item === TYPESOFDATASETPEOPLE.allEnslavers) {
         textColor = '#ffffff';
     }
     return textColor;

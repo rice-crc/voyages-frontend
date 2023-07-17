@@ -23,12 +23,14 @@ import {
   setIsChangeAuto,
 } from '@/redux/getAutoCompleteSlice';
 import { fetchPastEnslavedAutoComplete } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedAutoCompleted';
-import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
+import { ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
+import { fetchPastEnslaversAutoCompleted } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversAutoCompleted';
 
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
+
   const { pathName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
@@ -45,6 +47,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     formData.append(varName, autoValue);
 
     if (pathName === ALLVOYAGES) {
+      console.log('Voyayge', pathName);
       dispatch(fetchAutoComplete(formData))
         .unwrap()
         .then((response: any) => {
@@ -56,7 +59,20 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
           console.log('error', error);
         });
     } else if (pathName === ALLENSLAVED) {
+      console.log('Enslaved', pathName);
       dispatch(fetchPastEnslavedAutoComplete(formData))
+        .unwrap()
+        .then((response: any) => {
+          if (response) {
+            setAutoLists(response?.results);
+          }
+        })
+        .catch((error: Error) => {
+          console.log('error', error);
+        });
+    } else if (pathName === ALLENSLAVERS) {
+      console.log('Enslavers--->', pathName);
+      dispatch(fetchPastEnslaversAutoCompleted(formData))
         .unwrap()
         .then((response: any) => {
           if (response) {
@@ -104,7 +120,6 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         })
       );
       dispatch(setAutoLabel(autuLabel));
-      console.log('newValue', newValue);
       const filterObject = {
         rangeValue,
         autoCompleteValue: { ...autoCompleteValue, [varName]: newValue },
@@ -113,7 +128,6 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
       localStorage.setItem('filterObject', filterObjectString);
     }
   };
-  console.log('autoCompleteValue', autoCompleteValue);
 
   return (
     <Stack spacing={3} sx={{ width: 350 }}>
