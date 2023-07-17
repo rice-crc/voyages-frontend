@@ -39,6 +39,7 @@ import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { hasValueGetter } from '@/utils/functions/hasValueGetter';
 import { ENSLAVERS_TABLE_FILE } from '@/share/CONST_DATA';
 import { fetchEnslaversOptionsList } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversOptionsList';
+import ButtonDropdownSelectorEnslavers from './ColumnSelectorEnslaversTable/ButtonDropdownSelectorEnslavers';
 
 const EnslaversTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -341,7 +342,7 @@ const EnslaversTable: React.FC = () => {
         <div style={containerStyle} className="ag-theme-alpine grid-container">
           <div style={style}>
             <span className="tableContainer">
-              <ColumnSelector />
+              <ButtonDropdownSelectorEnslavers />
               <TablePagination
                 component="div"
                 count={totalResultsCount}

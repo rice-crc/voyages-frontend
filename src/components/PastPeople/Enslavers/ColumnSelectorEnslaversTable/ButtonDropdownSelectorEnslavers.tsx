@@ -1,41 +1,23 @@
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import { Button } from '@mui/material';
-
+import { DropdownColumn } from '@/components/FunctionComponents/ColumnSelectorTable/DropdownColumn';
 import {
   DropdownMenuColumnItem,
   DropdownNestedMenuColumnItem,
 } from '@/styleMUI';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
-import {
-  ColumnSelectorTree,
-  TableCellStructureInitialStateProp,
-} from '@/share/InterfaceTypesTable';
-import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
-import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
-import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
-import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
-import { DropdownColumn } from '@/components/FunctionComponents/ColumnSelectorTable/DropdownColumn';
+import { TableCellStructureInitialStateProp } from '@/share/InterfaceTypesTable';
+import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.json';
 
 const ButtonDropdownSelectorEnslavers = () => {
   const dispatch: AppDispatch = useDispatch();
-
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
-  const { styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
-
-  const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleDataSetCollection
-  );
-
-  const [menuValueCells, setMenuValueCells] = useState<ColumnSelectorTree[]>(
-    []
-  );
+  const menuValueCells = ENSLAVERS_TABLE.column_selector_tree;
 
   const handleColumnVisibilityChange = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -49,23 +31,6 @@ const ButtonDropdownSelectorEnslavers = () => {
       dispatch(setVisibleColumn(updatedVisibleColumns));
     }
   };
-
-  useEffect(() => {
-    const loadMenuValueCellStructure = async () => {
-      try {
-        if (styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved) {
-          setMenuValueCells(ENSLAVED_TABLE.column_selector_tree);
-        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins) {
-          setMenuValueCells(AFRICANORIGINS_TABLE.column_selector_tree);
-        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.texas) {
-          setMenuValueCells(TEXAS_TABLE.column_selector_tree);
-        }
-      } catch (error) {
-        console.error('Failed to load table cell structure:', error);
-      }
-    };
-    loadMenuValueCellStructure();
-  }, [menuValueCells]);
 
   function renderMenuItems(nodes: any[]) {
     return nodes.map((node) => {

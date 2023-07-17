@@ -256,7 +256,7 @@ function Scatter() {
             } Scatter Graph`,
             font: {
               family: 'Arial, sans-serif',
-              size: 10,
+              size: maxWidth < 400 ? 7 : 10,
               color: '#333333',
             },
             xaxis: {
