@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Button, Menu, Typography } from '@mui/material';
-import FilterICON from '@/assets/filterICON.svg';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -167,7 +167,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
             >
               {currentEnslavedPage !== 1 && (
                 <>
-                  <img src={FilterICON} alt="logo" />
+                  <FilterAltIcon style={{ color: '#000000' }} />
                   <div className="menu-nav-bar"> Filter Search</div>
                 </>
               )}

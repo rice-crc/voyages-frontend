@@ -57,10 +57,12 @@ export const TYPES: {
 
 export const TYPESOFDATASETPEOPLE: {
     allEnslaved: string;
+    allEnslavers: string
     africanOrigins: string;
     texas: string
 } = {
     allEnslaved: 'all-enslaved',
+    allEnslavers: 'all-enslavers',
     africanOrigins: 'african-origins',
     texas: 'texas'
 };
@@ -228,6 +230,7 @@ export interface ValuePeopleFilter {
     valueEnslaved: FilterPeopleMenu[]
     valueAfricanOrigin: FilterPeopleMenu[]
     valueTexas: FilterPeopleMenu[]
+    valueEnslavers: FilterPeopleMenu[]
 }
 export type FilterPeopleMenuProps = FilterPeopleMenu[]
 export interface FilterPeopleMenu {

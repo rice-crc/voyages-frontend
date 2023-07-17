@@ -158,6 +158,13 @@ height: 100vh;
     rgb(144, 104, 102, 0.8)),
         url("../assets/enslavedBG.jpeg") center / cover;
 }
+#main-enslavers-home{
+    height: 100vh;
+    background-repeat: no-repeat;
+    background: linear-gradient(rgb(63, 150, 125, 0.85),
+    rgb(63, 150, 125, 0.8)),
+        url("../assets/enslaverBG.gif") center / cover;
+}
 
 .enslaved-header{
     font-family: "Cormorant Garamond";

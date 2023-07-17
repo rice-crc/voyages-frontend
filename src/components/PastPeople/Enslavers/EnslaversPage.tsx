@@ -42,33 +42,12 @@ const EnslaversPage = () => {
   };
   return (
     <>
-      <div className="page" id="main-enslaved-home">
+      <div className="page" id="main-enslavers-home">
         <Box>
           <Grid container spacing={2}>
             <Grid item xs={12} className="grid-enslaved-introduction">
-              <div>{textIntroduce}</div>
-              <div className="btn-enslave-box">
-                {value.map((item: DataSetCollectionProps, index: number) => {
-                  const { base_filter, headers, style_name, blocks } = item;
-                  return (
-                    <div
-                      onClick={() =>
-                        handleSelectEnslavedDataset(
-                          base_filter,
-                          headers.label,
-                          headers.text_introduce,
-                          style_name,
-                          blocks
-                        )
-                      }
-                      key={`${item}-${index}`}
-                      className="enslave-nav-btn"
-                    >
-                      {headers.label}
-                    </div>
-                  );
-                })}
-              </div>
+              <div>Enslaver Intro</div>
+              <div className="btn-enslave-box"></div>
             </Grid>
           </Grid>
         </Box>

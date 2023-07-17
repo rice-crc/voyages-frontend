@@ -5,10 +5,15 @@ import PersonImage from '@/assets/personImg.png';
 import PEOPLE from '@/utils/flatfiles/people_page_data.json';
 import '@/style/page-past.scss';
 import { Link } from 'react-router-dom';
+import { setPathName } from '@/redux/getDataSetCollectionSlice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
 
 const PastPeoplePage = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
+  const dispatch: AppDispatch = useDispatch();
   return (
     <>
       <HeaderLogoSearch />
@@ -42,12 +47,14 @@ const PastPeoplePage = () => {
                 <Link
                   to="/PastHomePage/enslaved"
                   style={{ textDecoration: 'none' }}
+                  onClick={() => dispatch(setPathName(ALLENSLAVED))}
                 >
                   <div className="enslaved-btn">Enslaved</div>
                 </Link>
                 <Link
                   to="/PastHomePage/enslaver"
                   style={{ textDecoration: 'none' }}
+                  onClick={() => dispatch(setPathName(ALLENSLAVERS))}
                 >
                   <div className="enslavers-btn">Enslavers</div>
                 </Link>

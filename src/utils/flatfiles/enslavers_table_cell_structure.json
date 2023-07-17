@@ -1,0 +1,33 @@
+{
+	"cell_structure": [
+		{
+			"header_label": "Names",
+			"cell_type": "literal-concat",
+			"visible": true,
+			"order_by": [
+				"principal_alias"
+			],
+			"colID": "aliases",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "principal_alias",
+						"cell_fn": "literal"
+					}
+				],
+				"join": " / "
+			}
+		}
+	],
+	"column_selector_tree": [
+		{
+			"label": "Names",
+			"children": [
+				{
+					"colID": "aliases",
+					"label": "Names"
+				}
+			]
+		}
+	]
+}

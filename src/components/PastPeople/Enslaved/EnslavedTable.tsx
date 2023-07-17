@@ -52,9 +52,6 @@ const EnslavedTable: React.FC = () => {
   const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-  const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
-  );
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
@@ -208,7 +205,7 @@ const EnslavedTable: React.FC = () => {
     dispatch,
     rowsPerPage,
     page,
-    currentPage,
+    currentEnslavedPage,
     varName,
     rang,
     autoCompleteValue,

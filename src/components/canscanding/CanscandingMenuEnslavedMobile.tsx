@@ -41,9 +41,6 @@ import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
 import { ColumnSelectorTree } from '@/share/InterfaceTypesTable';
 
 const CanscandingMenuEnslavedMobile = () => {
-  const menuOptionFlat: VoyagaesFilterMenu = useSelector(
-    (state: RootState) => state.optionFlatMenu.value
-  );
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -67,7 +64,6 @@ const CanscandingMenuEnslavedMobile = () => {
   const [menuValueFilter, setMenuValueFilter] = useState<
     ColumnSelectorTree[] | FilterMenu[]
   >([]);
-  console.log('styleNamePeople', styleNamePeople);
 
   useEffect(() => {
     const loadMenuValueCellStructure = async () => {
@@ -78,8 +74,6 @@ const CanscandingMenuEnslavedMobile = () => {
           setMenuValueFilter(AFRICANORIGINS_TABLE.column_selector_tree);
         } else if (styleNamePeople === TYPESOFDATASETPEOPLE.texas) {
           setMenuValueFilter(TEXAS_TABLE.column_selector_tree);
-        } else {
-          setMenuValueFilter(menuOptionFlat);
         }
       } catch (error) {
         console.error('Failed to load table cell structure:', error);

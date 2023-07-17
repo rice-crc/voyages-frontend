@@ -32,15 +32,18 @@ import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import RangeSlider from '../Voyages/Results/RangeSlider';
+import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
 
 export const MenuListDropdownPeople = () => {
   const { styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleDataSetCollection
   );
-  const { valueEnslaved, valueAfricanOrigin, valueTexas } = useSelector(
-    (state: RootState) => state.getFilterPeople.value
-  );
 
+  const { valueEnslaved, valueAfricanOrigin, valueTexas, valueEnslavers } =
+    useSelector((state: RootState) => state.getFilterPeople.value);
+  const { pathName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
+  );
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -135,12 +138,23 @@ export const MenuListDropdownPeople = () => {
   useEffect(() => {
     const loadTableCellStructure = async () => {
       try {
-        if (styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved) {
+        if (
+          styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved &&
+          pathName === ALLENSLAVED
+        ) {
           setFilterPeopleMenu(valueEnslaved);
-        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins) {
+        } else if (
+          styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins &&
+          pathName === ALLENSLAVED
+        ) {
           setFilterPeopleMenu(valueAfricanOrigin);
-        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.texas) {
+        } else if (
+          styleNamePeople === TYPESOFDATASETPEOPLE.texas &&
+          pathName === ALLENSLAVED
+        ) {
           setFilterPeopleMenu(valueTexas);
+        } else if (pathName === ALLENSLAVERS) {
+          setFilterPeopleMenu(valueEnslavers);
         }
       } catch (error) {
         console.error('Failed to load table cell structure:', error);
@@ -160,7 +174,7 @@ export const MenuListDropdownPeople = () => {
             data-label={item.label}
             onClick={(event: any) => handleClickMenu(event)}
             sx={{
-              color: '#000',
+              color: pathName === ALLENSLAVERS ? '#ffffff' : '#000000',
               textTransform: 'none',
               fontSize: 14,
             }}
@@ -173,7 +187,7 @@ export const MenuListDropdownPeople = () => {
             trigger={
               <Button
                 sx={{
-                  color: '#000',
+                  color: pathName === ALLENSLAVERS ? '#ffffff' : '#000000',
                   textTransform: 'none',
                   fontSize: 14,
                 }}
