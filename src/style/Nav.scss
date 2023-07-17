@@ -79,8 +79,12 @@
         font-size: 16px;
         font-weight: 600;
     }
+    @include breakpoint-standard(1.1) {
+        font-size: 15px;
+        font-weight: 600;
+    }
     @include breakpoint-standard(1) {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 600;
     }
     @include breakpoint-standard(0) {
@@ -117,8 +121,12 @@
         top: 2px;
         font-weight: 600;
     }
-    @include breakpoint-standard(1) {
+    @include breakpoint-standard(1.1) {
         font-size: 14px;
+        top: 2px;
+    }
+    @include breakpoint-standard(1) {
+        font-size: 12px;
         top: 2px;
     }
     @include breakpoint-standard(0) {

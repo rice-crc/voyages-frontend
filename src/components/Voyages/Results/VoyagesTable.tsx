@@ -35,7 +35,7 @@ import {
 } from '@/share/InterfaceTypes';
 import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
-import { getRowsPerPage } from '@/utils/functions/getBreakPoints';
+import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { hasValueGetter } from '@/utils/functions/hasValueGetter';
 
 const VoyagesTable: React.FC = () => {

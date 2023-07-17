@@ -254,6 +254,11 @@ function Scatter() {
             } vs  <br>${
               optionFlat[scatterOptions.y_vars]?.label || ''
             } Scatter Graph`,
+            font: {
+              family: 'Arial, sans-serif',
+              size: 10,
+              color: '#333333',
+            },
             xaxis: {
               title: {
                 text: optionFlat[scatterOptions.x_vars]?.label || '',

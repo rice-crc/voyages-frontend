@@ -13,7 +13,7 @@ import CustomHeader from '../../FunctionComponents/CustomHeader';
 import { generateRowsData } from '@/utils/functions/generateRowsData';
 import { setColumnDefs, setRowData, setData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
-import { getRowsPerPage } from '@/utils/functions/getBreakPoints';
+import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { useWindowSize } from '@react-hook/window-size';
 import { Pagination, Skeleton, TablePagination } from '@mui/material';
 import {

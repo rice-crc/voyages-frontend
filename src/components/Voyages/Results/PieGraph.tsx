@@ -218,7 +218,7 @@ function PieGraph() {
               mode: 'lines+markers',
               textinfo: 'label+percent',
               insidetextorientation: 'radial',
-              hole: 0.25,
+              hole: 0.2,
               textposition: 'inside',
             },
           ]}
@@ -232,15 +232,15 @@ function PieGraph() {
             } Pie Chart`,
             font: {
               family: 'Arial, sans-serif',
-              size: 12,
+              size: 10,
               color: '#333333',
             },
             legend: {
-              x: 0.73,
+              x: 0.9,
               y: 0.9,
               font: {
                 family: 'Arial, sans-serif',
-                size: 12,
+                size: 10,
                 color: '#666666',
               },
             },
