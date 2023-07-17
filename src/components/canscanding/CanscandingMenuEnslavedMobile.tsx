@@ -7,7 +7,7 @@ import {
   DialogTitle,
   IconButton,
 } from '@mui/material';
-import FilterICON from '@/assets/filterICON.svg';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {
   BLACK,
   DialogModalStyle,
@@ -20,7 +20,6 @@ import {
   FilterMenu,
   RangeSliderState,
   TYPES,
-  VoyagaesFilterMenu,
   CurrentPageInitialState,
   TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
@@ -181,7 +180,7 @@ const CanscandingMenuEnslavedMobile = () => {
           >
             {currentEnslavedPage !== 1 && (
               <span style={{ display: 'flex' }}>
-                <img src={FilterICON} alt="logo" style={{ width: 18 }} />
+                <FilterAltIcon style={{ color: '#000000' }} />
                 <div className="menu-nav-bar">Filter Search</div>
               </span>
             )}

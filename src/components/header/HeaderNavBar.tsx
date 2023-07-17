@@ -99,7 +99,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
           <Hidden mdUp>
             <IconButton
               edge="start"
-              color="inherit"
+              color="default"
               aria-label="menu"
               onClick={handleMenuOpen}
               sx={{ mr: 2, display: { md: 'none' } }}

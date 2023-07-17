@@ -145,6 +145,7 @@ const CanscandingMenuVoyagesMobile = () => {
               color="inherit"
               aria-label="menu"
               sx={{
+                color: '#000000',
                 display: {
                   xs: 'flex',
                   sm: 'flex',
@@ -159,7 +160,7 @@ const CanscandingMenuVoyagesMobile = () => {
               }}
             >
               <span style={{ display: 'flex' }}>
-                <FilterAltIcon />
+                <FilterAltIcon style={{ color: '#000000' }} />
                 <div className="menu-nav-bar">Filter Search</div>
               </span>
             </IconButton>
