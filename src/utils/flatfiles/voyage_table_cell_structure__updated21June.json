@@ -155,24 +155,19 @@
 		},
 		{
 			"header_label": "Source",
-			"cell_type": "literal-concat",
+			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_sourceconnection__source__short_ref"
+				"voyage_zotero_connections__zotero_source__zotero_title"
 			],
 			"colID": "voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_zoterorefs__legacy_source__full_ref",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_zoterorefs__zotero_title",
+						"var_name": "voyage_zotero_connections__zotero_source__zotero_title",
 						"cell_fn": "literal"
 					}
-				],
-				"join": " : "
+				]
 			}
 		},
 		{
