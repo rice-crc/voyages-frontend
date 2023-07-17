@@ -2,13 +2,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 import { Options } from '@vitejs/plugin-react-refresh';
 
-export const pastEnslavedApiService = createApi({
+export const pastEnslaversApiService = createApi({
     reducerPath: 'pastEnslavedApiService',
     baseQuery: fetchBaseQuery({ baseUrl: BASEURL }),
     endpoints: (builder) => ({
         getOptions: builder.query({
             query: () => ({
-                url: 'past/enslaved/?hierarchical=False ',
+                url: 'past/enslaver/?hierarchical=False',
                 method: 'OPTIONS',
                 headers: { 'Authorization': AUTHTOKEN }
             }),
@@ -19,4 +19,4 @@ export const pastEnslavedApiService = createApi({
     })
 });
 
-export const { useGetOptionsQuery } = pastEnslavedApiService;
+export const { useGetOptionsQuery } = pastEnslaversApiService;

@@ -25,8 +25,6 @@ const EnslavedPageScrolling = () => {
     (state: RootState) => state.getScrollEnslavedPage
   );
 
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('xs'));
-
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentEnslavedPage(page));
   };
@@ -46,15 +44,23 @@ const EnslavedPageScrolling = () => {
     </motion.div>
   );
 
+  let topPosition;
+  if (currentEnslavedPage === 1) {
+    topPosition = 100;
+  } else if (currentEnslavedPage === 2 && isFilter) {
+    topPosition = 225;
+  } else if (currentEnslavedPage === 2) {
+    topPosition = 160;
+  } else if (isFilter) {
+    topPosition = 227;
+  } else {
+    topPosition = 170;
+  }
   return (
     <div
       style={{
         position: 'relative',
-        top: !isSmallScreen
-          ? 130
-          : currentEnslavedPage !== 1 && isFilter
-          ? 230
-          : 170,
+        top: topPosition,
         padding: currentEnslavedPage !== 1 ? '0 20px' : '',
       }}
       id="content-container"

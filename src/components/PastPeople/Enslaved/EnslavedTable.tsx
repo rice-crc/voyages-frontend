@@ -13,7 +13,7 @@ import CustomHeader from '../../FunctionComponents/CustomHeader';
 import { generateRowsData } from '@/utils/functions/generateRowsData';
 import { setColumnDefs, setRowData, setData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
-import { getRowsPerPage } from '@/utils/functions/getBreakPoints';
+import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { useWindowSize } from '@react-hook/window-size';
 import { Pagination, Skeleton, TablePagination } from '@mui/material';
 import {
@@ -51,9 +51,6 @@ const EnslavedTable: React.FC = () => {
   );
   const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
-  );
-  const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
@@ -208,7 +205,7 @@ const EnslavedTable: React.FC = () => {
     dispatch,
     rowsPerPage,
     page,
-    currentPage,
+    currentEnslavedPage,
     varName,
     rang,
     autoCompleteValue,

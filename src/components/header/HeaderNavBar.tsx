@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Button, Menu, Typography } from '@mui/material';
-import FilterICON from '@/assets/filterICON.svg';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { AppDispatch, RootState } from '@/redux/store';
 import { HeaderNavBarMenuProps } from '@/share/InterfaceTypes';
 import CanscandingMenu from '../canscanding/CanscandingMenu';
@@ -99,7 +99,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
           <Hidden mdUp>
             <IconButton
               edge="start"
-              color="inherit"
+              color="default"
               aria-label="menu"
               onClick={handleMenuOpen}
               sx={{ mr: 2, display: { md: 'none' } }}
@@ -162,7 +162,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             >
               {currentPage !== 1 && (
                 <>
-                  <img src={FilterICON} alt="logo" />
+                  <FilterAltIcon style={{ color: '#000000' }} />
                   <div className="menu-nav-bar">Filter Search</div>
                 </>
               )}

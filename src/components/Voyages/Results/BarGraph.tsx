@@ -246,7 +246,11 @@ function BarGraph() {
             } vs <br> ${
               optionFlat[barGraphOptions.y_vars]?.label || ''
             } Bar Graph`,
-
+            font: {
+              family: 'Arial, sans-serif',
+              size: maxWidth < 400 ? 7 : 10,
+              color: '#333333',
+            },
             xaxis: {
               title: {
                 text: optionFlat[barGraphOptions.x_vars]?.label || '',

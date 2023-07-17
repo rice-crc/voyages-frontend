@@ -7,7 +7,7 @@ import {
   DialogTitle,
   IconButton,
 } from '@mui/material';
-import FilterICON from '@/assets/filterICON.svg';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {
   BLACK,
   DialogModalStyle,
@@ -20,7 +20,6 @@ import {
   FilterMenu,
   RangeSliderState,
   TYPES,
-  VoyagaesFilterMenu,
   CurrentPageInitialState,
   TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
@@ -41,9 +40,6 @@ import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
 import { ColumnSelectorTree } from '@/share/InterfaceTypesTable';
 
 const CanscandingMenuEnslavedMobile = () => {
-  const menuOptionFlat: VoyagaesFilterMenu = useSelector(
-    (state: RootState) => state.optionFlatMenu.value
-  );
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -67,7 +63,6 @@ const CanscandingMenuEnslavedMobile = () => {
   const [menuValueFilter, setMenuValueFilter] = useState<
     ColumnSelectorTree[] | FilterMenu[]
   >([]);
-  console.log('styleNamePeople', styleNamePeople);
 
   useEffect(() => {
     const loadMenuValueCellStructure = async () => {
@@ -78,8 +73,6 @@ const CanscandingMenuEnslavedMobile = () => {
           setMenuValueFilter(AFRICANORIGINS_TABLE.column_selector_tree);
         } else if (styleNamePeople === TYPESOFDATASETPEOPLE.texas) {
           setMenuValueFilter(TEXAS_TABLE.column_selector_tree);
-        } else {
-          setMenuValueFilter(menuOptionFlat);
         }
       } catch (error) {
         console.error('Failed to load table cell structure:', error);
@@ -187,7 +180,7 @@ const CanscandingMenuEnslavedMobile = () => {
           >
             {currentEnslavedPage !== 1 && (
               <span style={{ display: 'flex' }}>
-                <img src={FilterICON} alt="logo" style={{ width: 18 }} />
+                <FilterAltIcon style={{ color: '#000000' }} />
                 <div className="menu-nav-bar">Filter Search</div>
               </span>
             )}

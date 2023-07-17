@@ -7,15 +7,12 @@ import React, {
   useState,
 } from 'react';
 import { AgGridReact } from 'ag-grid-react';
+import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.json';
+import { fetchVoyageOptionsPagination } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsPagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeader from '../../FunctionComponents/CustomHeader';
 import { generateRowsData } from '@/utils/functions/generateRowsData';
-import { setColumnDefs, setRowData, setData } from '@/redux/getTableSlice';
-import { setVisibleColumn } from '@/redux/getColumnSlice';
-import { getRowsPerPage } from '@/utils/functions/getBreakPoints';
-import { useWindowSize } from '@react-hook/window-size';
-import { Pagination, Skeleton, TablePagination } from '@mui/material';
 import {
   ColumnDef,
   StateRowData,
@@ -23,27 +20,30 @@ import {
   VoyageOptionsGropProps,
   VoyageTableCellStructure,
 } from '@/share/InterfaceTypesTable';
-import {
-  AutoCompleteInitialState,
-  CurrentPageInitialState,
-  RangeSliderState,
-  TYPESOFDATASETPEOPLE,
-} from '@/share/InterfaceTypes';
-import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
-import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
-import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
+import { setColumnDefs, setRowData, setData } from '@/redux/getTableSlice';
 import { ICellRendererParams } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
-import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsList';
-
+import { useWindowSize } from '@react-hook/window-size';
+import { Pagination, Skeleton, TablePagination } from '@mui/material';
+import {
+  AutoCompleteInitialState,
+  CurrentPageInitialState,
+  RangeSliderState,
+  TYPESOFDATASET,
+} from '@/share/InterfaceTypes';
+import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
+import { setVisibleColumn } from '@/redux/getColumnSlice';
+import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { hasValueGetter } from '@/utils/functions/hasValueGetter';
+import { ENSLAVERS_TABLE_FILE } from '@/share/CONST_DATA';
+import { fetchEnslaversOptionsList } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversOptionsList';
 import ButtonDropdownSelectorEnslavers from './ColumnSelectorEnslaversTable/ButtonDropdownSelectorEnslavers';
 
 const EnslaversTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-
+  const tablesCell = ENSLAVERS_TABLE.cell_structure;
   const { columnDefs, data, rowData } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
@@ -59,25 +59,20 @@ const EnslaversTable: React.FC = () => {
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
-  const {
-    dataSetKeyPeople,
-    dataSetValuePeople,
-    dataSetValueBaseFilter,
-    styleNamePeople,
-    tableFlatfile: tableFileName,
-  } = useSelector((state: RootState) => state.getPeopleDataSetCollection);
-
+  const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
+    useSelector((state: RootState) => state.getDataSetCollection);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState(
-    getRowsPerPage(window.innerWidth, window.innerHeight)
-  );
-  const [totalResultsCount, setTotalResultsCount] = useState(0);
-  const gridRef = useRef<any>(null);
-  const [tablesCell, setTableCell] = useState<VoyageTableCellStructure[]>([]);
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
+  const [rowsPerPage, setRowsPerPage] = useState(
+    getRowsPerPage(window.innerWidth, window.innerHeight)
+  );
+
+  const [totalResultsCount, setTotalResultsCount] = useState(0);
+  const gridRef = useRef<any>(null);
+
   const [width, height] = useWindowSize();
   const maxWidth =
     width > 1024
@@ -86,8 +81,10 @@ const EnslaversTable: React.FC = () => {
         : width * 0.92
       : width === 1024
       ? width * 0.895
+      : width === 768
+      ? width * 0.95
       : width < 768
-      ? width * 0.8
+      ? width * 0.92
       : width * 0.75;
   const [style, setStyle] = useState({
     width: maxWidth,
@@ -96,41 +93,16 @@ const EnslaversTable: React.FC = () => {
 
   const containerStyle = useMemo(
     () => ({ width: maxWidth, height: height * 0.7 }),
-    [maxWidth, height]
+    []
   );
-
-  useEffect(() => {
-    const loadTableCellStructure = async () => {
-      try {
-        // ** TODO Need to refactor later
-        if (styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved) {
-          setTableCell(ENSLAVED_TABLE.cell_structure);
-        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins) {
-          setTableCell(AFRICANORIGINS_TABLE.cell_structure);
-        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.texas) {
-          setTableCell(TEXAS_TABLE.cell_structure);
-        }
-      } catch (error) {
-        console.error('Failed to load table cell structure:', error);
-      }
-    };
-    loadTableCellStructure();
-  }, [tableFileName, styleNamePeople]);
-
-  useEffect(() => {
-    if (tablesCell.length > 0) {
-      const visibleColumns = tablesCell
-        .filter((cell: any) => cell.visible)
-        .map((cell: any) => cell.colID);
-      dispatch(setVisibleColumn(visibleColumns));
-    }
-  }, [tablesCell, dispatch]);
 
   useEffect(() => {
     const handleResize = () => {
       setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
     };
+
     window.addEventListener('resize', handleResize);
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -143,16 +115,16 @@ const EnslaversTable: React.FC = () => {
     });
   }, [width, height, maxWidth]);
 
-  const saveDataToLocalStorage = useCallback(
-    (data: VoyageOptionsGropProps[], visibleColumnCells: string[]) => {
-      localStorage.setItem('data', JSON.stringify(data));
-      localStorage.setItem(
-        'visibleColumnCells',
-        JSON.stringify(visibleColumnCells)
-      );
-    },
-    []
-  );
+  const saveDataToLocalStorage = (
+    data: VoyageOptionsGropProps[],
+    visibleColumnCells: string[]
+  ) => {
+    localStorage.setItem('data', JSON.stringify(data));
+    localStorage.setItem(
+      'visibleColumnCells',
+      JSON.stringify(visibleColumnCells)
+    );
+  };
 
   useEffect(() => {
     saveDataToLocalStorage(data, visibleColumnCells);
@@ -178,19 +150,18 @@ const EnslaversTable: React.FC = () => {
         }
       }
 
-      if (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved) {
-        for (const value of dataSetValuePeople) {
-          newFormData.append(dataSetKeyPeople, String(value));
+      if (styleName !== TYPESOFDATASET.allVoyages) {
+        for (const value of dataSetValue) {
+          newFormData.append(dataSetKey, String(value));
         }
       }
 
       try {
         const response = await dispatch(
-          fetchEnslavedOptionsList(newFormData)
+          fetchEnslaversOptionsList(newFormData)
         ).unwrap();
         if (subscribed) {
           setTotalResultsCount(Number(response.headers.total_results_count));
-
           dispatch(setData(response.data));
           saveDataToLocalStorage(response.data, visibleColumnCells);
         }
@@ -209,27 +180,33 @@ const EnslaversTable: React.FC = () => {
     dispatch,
     rowsPerPage,
     page,
+    currentEnslavedPage,
     currentPage,
     varName,
     rang,
     autoCompleteValue,
     autoLabelName,
-    dataSetValuePeople,
-    dataSetKeyPeople,
+    dataSetValue,
+    dataSetKey,
     dataSetValueBaseFilter,
-    styleNamePeople,
-    saveDataToLocalStorage,
-    visibleColumnCells,
+    styleName,
   ]);
+  useEffect(() => {
+    const visibleColumns = tablesCell
+      .filter((cell) => cell.visible)
+      .map((cell) => cell.colID);
+    dispatch(setVisibleColumn(visibleColumns));
+  }, [dispatch]);
 
   useEffect(() => {
     if (data.length > 0) {
-      const finalRowData = generateRowsData(data, tableFileName);
+      const finalRowData = generateRowsData(data, ENSLAVERS_TABLE_FILE);
       const newColumnDefs: ColumnDef[] = tablesCell.map(
         (value: VoyageTableCellStructure) => {
           const columnDef = {
             headerName: value.header_label,
             field: value.colID,
+            width: value.colID === 'voyage_sources' ? 300 : 200,
             sortable: true,
             autoHeight: true,
             wrapText: true,
@@ -247,7 +224,10 @@ const EnslaversTable: React.FC = () => {
                   padding: '0px 10px',
                   height: '25px',
                   whiteSpace: 'nowrap',
+                  width: value.colID === 'voyage_sources' ? 240 : 145,
                   overflow: 'hidden',
+                  textOverflow:
+                    value.colID === 'voyage_sources' ? 'inherit' : 'ellipsis', // "ellipsis",
                   margin: '5px 0',
                   textAlign: 'center',
                   lineHeight: '25px',
@@ -275,55 +255,47 @@ const EnslaversTable: React.FC = () => {
           return columnDef;
         }
       );
-
       dispatch(setColumnDefs(newColumnDefs));
       dispatch(setRowData(finalRowData as Record<string, any>[]));
     }
-  }, [data, visibleColumnCells, dispatch]); //
+  }, [data, visibleColumnCells, dispatch]);
 
-  const defaultColDef = useMemo(
-    () => ({
+  const defaultColDef = useMemo(() => {
+    return {
       sortable: true,
       resizable: true,
       filter: true,
       initialWidth: 200,
       wrapHeaderText: true,
       autoHeaderHeight: true,
-    }),
-    []
-  );
+    };
+  }, []);
 
-  const components = useMemo(
-    () => ({
+  const components = useMemo(() => {
+    return {
       agColumnHeader: CustomHeader,
-    }),
-    []
-  );
+    };
+  }, []);
 
-  const getRowRowStyle = useCallback(
-    () => ({
+  const getRowRowStyle = () => {
+    return {
       fontSize: 13,
       fontWeight: 500,
       color: '#000',
-      fontFamily: 'Roboto',
+      fontFamily: `Roboto`,
       paddingLeft: '20px',
-    }),
-    []
-  );
+    };
+  };
 
-  const handleColumnVisibleChange = useCallback(
-    (params: any) => {
-      const { columnApi } = params;
-      const allColumns = columnApi.getAllColumns();
-      const visibleColumns = allColumns
-        .filter((column: any) => column.isVisible())
-        .map((column: any) => column.getColId());
+  const handleColumnVisibleChange = (params: any) => {
+    const { columnApi } = params;
+    const allColumns = columnApi.getAllColumns();
+    const visibleColumns = allColumns
+      .filter((column: any) => column.isVisible())
+      .map((column: any) => column.getColId());
 
-      dispatch(setVisibleColumn(visibleColumns));
-    },
-    [dispatch]
-  );
-
+    dispatch(setVisibleColumn(visibleColumns));
+  };
   const gridOptions = useMemo(
     () => ({
       headerHeight: 40,
@@ -336,23 +308,26 @@ const EnslaversTable: React.FC = () => {
     []
   );
 
-  const handleChangePage = useCallback((event: any, newPage: number) => {
-    setPage(newPage);
-  }, []);
+  const handleChangePage = useCallback(
+    (event: any, newPage: number) => {
+      setPage(newPage);
+    },
+    [page]
+  );
 
   const handleChangeRowsPerPage = useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setRowsPerPage(parseInt(event.target.value));
       setPage(0);
     },
-    []
+    [page, rowsPerPage]
   );
 
   const handleChangePagePagination = useCallback(
     (event: any, newPage: number) => {
       setPage(newPage - 1);
     },
-    []
+    [page]
   );
 
   return (

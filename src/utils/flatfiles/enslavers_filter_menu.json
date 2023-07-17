@@ -1,0 +1,7 @@
+[
+	{
+		"label": "Name",
+		"var_name": "principal_alias",
+		"type": "CharField"
+	}
+]

@@ -6,6 +6,7 @@ export const generateRowsData = (
     dataRow: VoyageOptionsGropProps[],
     file?: string,
 ): Record<string, any> => {
+
     const finalRowArr: Record<string, any>[] = [];
     const columns = TableCollectionsOptions(file);
     const varNames = columns.var_name;
@@ -19,7 +20,9 @@ export const generateRowsData = (
 
             finalRowObj[varName] = output;
         });
+
         finalRowArr.push(finalRowObj)
     })
+
     return finalRowArr;
 };

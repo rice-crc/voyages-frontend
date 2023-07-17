@@ -7,8 +7,8 @@ import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { ButtonNav } from '@/styleMUI';
 import {
-  getColorBTNBackgroundEnslaved,
-  getColorBoxShadowEnslaved,
+  getColorBTNBackgroundEnslavers,
+  getColorBoxShadowEnslavers,
 } from '@/utils/functions/getColorStyle';
 import EnslaversPage from './EnslaversPage';
 import EnslaversTable from './EnslaversTable';
@@ -18,15 +18,13 @@ const EnslaversScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
-  const { styleNamePeople, blocksPeople } = useSelector(
+  const { styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleDataSetCollection
   );
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
-  const newBlock = [...blocksPeople].reverse();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.up('lg'));
-  const totalPageCount = newBlock?.length;
+  const blocksPeople = ['Intro', 'Table'];
 
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentEnslavedPage(page));
@@ -47,15 +45,23 @@ const EnslaversScrolling = () => {
     </motion.div>
   );
 
+  let topPosition;
+  if (currentEnslavedPage === 1) {
+    topPosition = 100;
+  } else if (currentEnslavedPage === 2 && isFilter) {
+    topPosition = 225;
+  } else if (currentEnslavedPage === 2) {
+    topPosition = 160;
+  } else if (isFilter) {
+    topPosition = 227;
+  } else {
+    topPosition = 170;
+  }
   return (
     <div
       style={{
         position: 'relative',
-        top: !isSmallScreen
-          ? 130
-          : currentEnslavedPage !== 1 && isFilter
-          ? 230
-          : 170,
+        top: topPosition,
         padding: currentEnslavedPage !== 1 ? '0 20px' : '',
       }}
       id="content-container"
@@ -63,8 +69,8 @@ const EnslaversScrolling = () => {
       <Hidden>
         <div className="navbar-wrapper">
           <nav className="nav-button-enslaved">
-            {newBlock.map((page, index) => {
-              const buttonIndex = totalPageCount - index;
+            {blocksPeople.map((page, index) => {
+              const buttonIndex = index + 1;
               return (
                 <ButtonNav
                   key={`${page}-${buttonIndex}`}
@@ -72,9 +78,9 @@ const EnslaversScrolling = () => {
                   style={{
                     width: '80px',
                     height: '32',
+                    boxShadow: getColorBoxShadowEnslavers(styleNamePeople),
                     backgroundColor:
-                      getColorBTNBackgroundEnslaved(styleNamePeople),
-                    boxShadow: getColorBoxShadowEnslaved(styleNamePeople),
+                      getColorBTNBackgroundEnslavers(styleNamePeople),
                     fontSize: currentEnslavedPage === buttonIndex ? 15 : 14,
                     color:
                       currentEnslavedPage === buttonIndex ? 'white' : 'black',
