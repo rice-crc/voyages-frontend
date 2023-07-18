@@ -107,9 +107,10 @@
 				]
 			}
 		},
+
 		{
 			"header_label": "Vessel Owners and Captains",
-			"cell_type": "literal",
+			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
 				"voyage__voyage_enslaver_connection__enslaver_alias__alias"
@@ -120,13 +121,19 @@
 					{
 						"var_name": "voyage__voyage_enslaver_connection__enslaver_alias__alias",
 						"cell_fn": "literal"
+					},
+					{
+						"var_name": "voyage__voyage_enslaver_connection__role__name",
+						"cell_fn": "literal"
 					}
-				]
+				],
+				"join":" : "
 			}
 		},
+
 		{
 			"header_label": "Individual Owners and Traders",
-			"cell_type": "literal",
+			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
 				"enslaved_relations__relation__relation_enslavers__enslaver_alias__alias"
@@ -137,8 +144,13 @@
 					{
 						"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
 						"cell_fn": "literal"
+					},
+					{
+						"var_name": "enslaved_relations__relation__relation_enslavers__role__name",
+						"cell_fn": "literal"
 					}
-				]
+				],
+				"join":" : "
 			}
 		},
 		{
