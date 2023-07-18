@@ -179,7 +179,7 @@ const CanscandingMenuEnslavedMobile = () => {
             }}
           >
             {currentEnslavedPage !== 1 && (
-              <span style={{ display: 'flex' }}>
+              <span style={{ display: 'flex', alignItems: 'center' }}>
                 <FilterAltIcon style={{ color: '#000000' }} />
                 <div className="menu-nav-bar">Filter Search</div>
               </span>

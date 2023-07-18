@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, ChangeEvent, useCallback } from 'react';
+import { useState, useEffect, ChangeEvent, useCallback } from 'react';
 import Plot from 'react-plotly.js';
 import { Data } from 'plotly.js';
 import VOYAGE_SCATTER_OPTIONS from '@/utils/flatfiles/VOYAGE_SCATTER_OPTIONS.json';

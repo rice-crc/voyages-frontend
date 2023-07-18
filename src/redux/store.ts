@@ -32,8 +32,8 @@ const store = configureStore({
         getScrollEnslavedPage: getScrollEnslavedPageSlice,
         getFilterPeople: getFilterPeopleObjectSlice,
         getOptionsEnslaved: getOptionsDataPastPeopleEnslavedSlice,
-        [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
         [voyagesApi.reducerPath]: voyagesApi.reducer,
+        [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
         [pastEnslaversApiService.reducerPath]: pastEnslaversApiService.reducer,
     },
     middleware: (getDefaultMiddleware) =>
