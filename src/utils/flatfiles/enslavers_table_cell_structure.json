@@ -105,29 +105,19 @@
 		},
 		{
 			"header_label": "Enslavement Relations",
-			"cell_type": "literal-concat",
+			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
-				"aliases__enslaver_relations__role__name"
+				"aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name"
 			],
 			"colID": "enslavement_relations",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "aliases__enslaver_relations__role__name",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "aliases__enslaver_relations__relation__date",
-						"cell_fn": "literal"
-					},
-					{
 						"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
 						"cell_fn": "literal"
 					}
-				],
-				"join": " : "
+				]
 			}
 			
 		}
