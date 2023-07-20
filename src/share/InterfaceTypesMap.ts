@@ -14,8 +14,8 @@ export interface DataAggroutes {
 }
 
 export interface Weights {
-    disembarkation?: number
-    embarkation?: number
+    disembarkation: number
+    embarkation: number
 }
 export interface Edges {
     disposition?: Disposition[]
