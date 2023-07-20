@@ -29,6 +29,7 @@
     "ag-grid-community": "^30.0.0",
     "ag-grid-react": "^30.0.0",
     "axios": "^1.4.0",
+    "d3": "^7.8.5",
     "framer-motion": "^10.12.16",
     "leaflet": "^1.9.4",
     "multi-nested-select": "^1.2.1",
@@ -58,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "@types/d3": "^7.4.0",
     "@types/leaflet": "^1.9.3",
     "@types/node": "^20.3.3",
     "@types/react": "^18.0.21",

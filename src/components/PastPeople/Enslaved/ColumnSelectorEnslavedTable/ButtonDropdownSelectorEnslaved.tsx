@@ -27,7 +27,7 @@ const ButtonDropdownSelectorEnslaved = () => {
   );
 
   const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleDataSetCollection
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
   const [menuValueCells, setMenuValueCells] = useState<ColumnSelectorTree[]>(

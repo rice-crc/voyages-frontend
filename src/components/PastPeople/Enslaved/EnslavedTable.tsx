@@ -61,7 +61,9 @@ const EnslavedTable: React.FC = () => {
     dataSetValueBaseFilter,
     styleNamePeople,
     tableFlatfile: tableFileName,
-  } = useSelector((state: RootState) => state.getPeopleDataSetCollection);
+  } = useSelector(
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
+  );
 
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(0);

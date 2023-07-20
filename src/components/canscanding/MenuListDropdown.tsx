@@ -128,6 +128,7 @@ export const MenuListDropdown = () => {
   return (
     <Box>
       {menuOptionFlat.map((item: FilterMenu, index: number) => {
+        console.log('type-->', item.type);
         return item.var_name ? (
           <Button
             key={`${item.label}-${index}`}

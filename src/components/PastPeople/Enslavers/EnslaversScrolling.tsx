@@ -1,9 +1,6 @@
 import { Grid, Hidden } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { ButtonNav } from '@/styleMUI';
 import {
@@ -13,44 +10,45 @@ import {
 import EnslaversPage from './EnslaversPage';
 import EnslaversTable from './EnslaversTable';
 import '@/style/page.scss';
+import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 
 const EnslaversScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
-  const theme = useTheme();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
-  const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleDataSetCollection
+  const { styleNamePeople, blocksPeople } = useSelector(
+    (state: RootState) => state.getEnslaverDataSetCollections
   );
-  const { currentEnslavedPage } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
+  const { currentEnslaversPage } = useSelector(
+    (state: RootState) => state.getScrollEnslaversPage
   );
-  const blocksPeople = ['Intro', 'Table'];
+
+  // const blocksPeople = ['Intro', 'Table'];
 
   const handlePageNavigation = (page: number) => {
-    dispatch(setCurrentEnslavedPage(page));
+    dispatch(setCurrentEnslaversPage(page));
   };
   const displayPage = (
     <motion.div
       initial={'initial'}
       animate={'animate'}
       variants={
-        currentEnslavedPage - 1 > -1
+        currentEnslaversPage - 1 > -1
           ? pageVariantsFromTop
           : pageVariantsFromBottom
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentEnslavedPage === 1 && <EnslaversPage />}
-      {currentEnslavedPage === 2 && <EnslaversTable />}
+      {currentEnslaversPage === 1 && <EnslaversPage />}
+      {currentEnslaversPage === 2 && <EnslaversTable />}
     </motion.div>
   );
 
   let topPosition;
-  if (currentEnslavedPage === 1) {
+  if (currentEnslaversPage === 1) {
     topPosition = 100;
-  } else if (currentEnslavedPage === 2 && isFilter) {
+  } else if (currentEnslaversPage === 2 && isFilter) {
     topPosition = 225;
-  } else if (currentEnslavedPage === 2) {
+  } else if (currentEnslaversPage === 2) {
     topPosition = 160;
   } else if (isFilter) {
     topPosition = 227;
@@ -62,7 +60,7 @@ const EnslaversScrolling = () => {
       style={{
         position: 'relative',
         top: topPosition,
-        padding: currentEnslavedPage !== 1 ? '0 20px' : '',
+        padding: currentEnslaversPage !== 1 ? '0 20px' : '',
       }}
       id="content-container"
     >
@@ -81,13 +79,14 @@ const EnslaversScrolling = () => {
                     boxShadow: getColorBoxShadowEnslavers(styleNamePeople),
                     backgroundColor:
                       getColorBTNBackgroundEnslavers(styleNamePeople),
-                    fontSize: currentEnslavedPage === buttonIndex ? 15 : 14,
+                    fontSize: currentEnslaversPage === buttonIndex ? 15 : 14,
                     color:
-                      currentEnslavedPage === buttonIndex ? 'white' : 'black',
-                    fontWeight: currentEnslavedPage === buttonIndex ? 900 : 600,
+                      currentEnslaversPage === buttonIndex ? 'white' : 'black',
+                    fontWeight:
+                      currentEnslaversPage === buttonIndex ? 900 : 600,
                   }}
                   variant={
-                    currentEnslavedPage === buttonIndex
+                    currentEnslaversPage === buttonIndex
                       ? 'contained'
                       : 'outlined'
                   }

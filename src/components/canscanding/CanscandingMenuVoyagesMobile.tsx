@@ -49,7 +49,7 @@ const CanscandingMenuVoyagesMobile = () => {
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleDataSetCollection
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
