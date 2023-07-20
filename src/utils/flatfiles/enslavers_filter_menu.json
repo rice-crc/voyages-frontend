@@ -61,16 +61,6 @@
 				"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
 				"type": "CharField",
 				"label": "Documented Name of Enslaved Person"
-			},
-			{
-				"var_name": "aliases__enslaver_relations__role__name",
-				"type": "CharField",
-				"label": "Enslaver Role"
-			},
-			{
-				"var_name": "aliases__enslaver_relations__relation__date",
-				"type": "CharField",
-				"label": "Date of Enslavement"
 			}
 		]
 	}

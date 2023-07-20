@@ -5,7 +5,7 @@ import {
   Marker,
   Popup,
   Polyline,
-  Circle,
+  CircleMarker,
 } from 'react-leaflet';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
@@ -74,8 +74,8 @@ function VoyagesMap() {
       }
     }
   });
-  const minradiusinpixels = 1000;
-  const maxradiusinpixels = 200000;
+  const minradiusinpixels = 3;
+  const maxradiusinpixels = 25;
 
   const nodelogvaluescale = d3.scaleLog(
     [minNodeSize, maxNodeSize],
@@ -95,7 +95,7 @@ function VoyagesMap() {
         //   <Popup>{name}</Popup>
         // </Marker>
         <>
-          <Circle center={[lat, lon]} radius={radius} key={uuid} />
+          <CircleMarker center={[lat, lon]} radius={radius} key={uuid} />
         </>
       )
     );
