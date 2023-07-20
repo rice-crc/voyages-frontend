@@ -1,7 +1,6 @@
 import { NodeAggroutes } from "@/share/InterfaceTypesMap";
 import { getNodeSize } from "./getNodeSize";
 
-
 export const getMinValueNode = (nodesData: NodeAggroutes[]) => {
     let minNodeSize = Infinity;
     nodesData.forEach((node) => {
