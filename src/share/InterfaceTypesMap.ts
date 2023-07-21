@@ -37,4 +37,17 @@ export interface Transportation {
     s: string
     t: string
     w: number
-} //
+}
+export interface PathOptions {
+    color: string
+}
+
+export interface PolylineMapProps {
+    transportation: Transportation[];
+    nodesData: NodeAggroutes[];
+    pathOptions: PathOptions;
+}
+
+export interface NodeMarkerMapProps {
+    nodesData: NodeAggroutes[];
+}

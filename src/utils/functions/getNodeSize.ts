@@ -1,4 +1,4 @@
-import { NodeAggroutes } from "@/share/InterfaceTypesMap";
+import { NodeAggroutes, Transportation } from "@/share/InterfaceTypesMap";
 
 export function getNodeSize(node: NodeAggroutes): number | null {
     const weightsVal = Object.keys(node.weights).length !== 0;
@@ -6,7 +6,12 @@ export function getNodeSize(node: NodeAggroutes): number | null {
         const w = node.weights;
         return w.disembarkation + w.embarkation;
     }
-    else {
-        return null;
+    return null;
+}
+
+export function getEdgesSize(edges: Transportation) {
+    if (edges) {
+        return edges.w;
     }
+    return null;
 }
