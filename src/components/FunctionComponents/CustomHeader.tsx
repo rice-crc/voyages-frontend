@@ -4,8 +4,9 @@ import { AppDispatch, RootState } from '@/redux/store';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
-import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
+import { ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
 import { fetchPastEnslavedSortedTableData } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedSortedTableData';
+import { fetchPastEnslaversSortedTableData } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversSortedTableData';
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
@@ -77,6 +78,10 @@ const CustomHeader: React.FC<Props> = (props) => {
       } else if (pathName === ALLENSLAVED) {
         response = await dispatch(
           fetchPastEnslavedSortedTableData(newFormData)
+        ).unwrap();
+      } else if (pathName === ALLENSLAVERS) {
+        response = await dispatch(
+          fetchPastEnslaversSortedTableData(newFormData)
         ).unwrap();
       }
       if (response) {

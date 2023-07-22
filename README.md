@@ -228,7 +228,7 @@ npm run test
   │   │     ├── getOptionsDataPastPeopleEnslavedSlice
   │   │     ├── getOptionsDataSlice
   │   │     ├── getOptionsFlatObjSlice
-  │   │     ├── getPeopleDataSetCollectionSlice
+  │   │     ├── getPeopleEnlavedDataSetCollectionSlice
   │   │     ├── getScrollEnlavedPageSlice
   │   │     ├── getScrollPageSlice
   │   │     ├── getTableSlice

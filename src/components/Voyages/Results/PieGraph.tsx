@@ -183,7 +183,7 @@ function PieGraph() {
       <Skeleton animation={false} />
     </div>;
   }
-  console.log('maxWidth', maxWidth);
+
   return (
     <div>
       <SelectDropdown

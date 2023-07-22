@@ -84,7 +84,7 @@
 		"label": "Sources",
 		"children": [
 			{
-				"var_name": "voyage__voyage_sources__legacy_source__full_ref",
+				"var_name": "voyage__voyage_zotero_connections__zotero_source__zotero_title",
 				"type": "CharField",
 				"label": "Post-Disembark Location"
 			}

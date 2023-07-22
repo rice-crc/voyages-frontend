@@ -1,27 +1,50 @@
 import { MouseEventHandler, useState } from 'react';
 import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
-import { Menu, Typography } from '@mui/material';
+import { Button, Menu, Typography } from '@mui/material';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '@/style/Nav.scss';
 import { setIsFilter } from '@/redux/getFilterSlice';
-import { ALLENSLAVERS, EnslaversTitle } from '@/share/CONST_DATA';
-import CanscandingMenuMobile from '@/components/canscanding/CanscandingMenuEnslavedMobile';
-import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
-import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
-import { setPathName } from '@/redux/getDataSetCollectionSlice';
+import {
+  getColorNavbarEnslavedBackground,
+  getColorBoxShadowEnslaved,
+  getColorBTNBackgroundEnslaved,
+  getColorBTNHoverEnslavedBackground,
+} from '@/utils/functions/getColorStyle';
 
-const HeaderEnslaversNavBar: React.FC = () => {
+import {
+  BaseFilter,
+  DataSetCollectionProps,
+} from '@/share/InterfactTypesDatasetCollection';
+import {
+  ALLENSLAVED,
+  ALLENSLAVERS,
+  EnslavedTitle,
+  EnslaversTitle,
+} from '@/share/CONST_DATA';
+import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
+
+import { setPathName } from '@/redux/getDataSetCollectionSlice';
+import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
+
+import ButtonDropdownSelectorEnslavers from '../ColumnSelectorEnslaversTable/ButtonDropdownSelectorEnslavers';
+import CanscandingMenuEnslaversMobile from '@/components/canscanding/CanscandingMenuEnslaversMobile';
+
+const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { currentEnslavedPage } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
+  const { currentEnslaversPage } = useSelector(
+    (state: RootState) => state.getScrollEnslaversPage
   );
 
+  const { value, textHeader, styleNamePeople, tableFlatfile } = useSelector(
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
+  );
+  console.log('value', value);
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -85,9 +108,6 @@ const HeaderEnslaversNavBar: React.FC = () => {
               >
                 {EnslaversTitle}
               </Link>
-              <span className="enslaved-title">:</span>
-              {/* Will need to update on each state change
-              <div className="enslaved-header-subtitle">{textHeader}</div> */}
             </div>
             <Divider
               sx={{
@@ -118,7 +138,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
                 dispatch(setPathName(ALLENSLAVERS));
               }}
             >
-              {currentEnslavedPage !== 1 && (
+              {currentEnslaversPage !== 1 && (
                 <>
                   <FilterAltIcon />
                   <div
@@ -131,7 +151,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
               )}
             </Typography>
           </Typography>
-          <CanscandingMenuMobile />
+          <CanscandingMenuEnslaversMobile />
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -146,62 +166,22 @@ const HeaderEnslaversNavBar: React.FC = () => {
                 fontSize: 20,
               },
             }}
-          >
-            <Box className="menu-nav-bar-select" style={{ color: '#ffffff' }}>
-              Select dataset
-            </Box>
-            {/* {value.map((item: DataSetCollectionProps, index: number) => {
-              const {
-                base_filter,
-                headers,
-                style_name,
-                blocks,
-                table_flatfile,
-                filter_menu_flatfile,
-              } = item;
-              return (
-                <Button
-                  key={`${item}-${index}`}
-                  onClick={() =>
-                    handleSelectEnslavedDataset(
-                      base_filter,
-                      headers.label,
-                      headers.text_introduce,
-                      style_name,
-                      blocks,
-                      filter_menu_flatfile,
-                      table_flatfile
-                    )
-                  }
-                  sx={{
-                    color: '#ffffff',
-                    fontWeight: 600,
-                    height: 32,
-                    fontSize: 12,
-                    margin: '0 2px',
-                    boxShadow: getColorBoxShadowEnslavers(style_name),
-                    backgroundColor: getColorBTNBackgroundEnslavers(style_name),
-                    '&:hover': {
-                      backgroundColor:
-                        getColorBTNHoverEnslaversBackground(style_name),
-                    },
-                  }}
-                >
-                  <div>{headers.label}</div>
-                </Button>
-              );
-            })} */}
-          </Box>
+          ></Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentEnslavedPage !== 1 && isFilter && <CanscandingMenu />}
+          {currentEnslaversPage !== 1 && isFilter && <CanscandingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClick={handleMenuClose}
-          ></Menu>
+          >
+            {/* <DrawerMenuPeopleBar
+              value={value}
+              handleSelectDataset={handleSelectDataset}
+            /> */}
+          </Menu>
         </Box>
       </AppBar>
       <Menu
@@ -210,11 +190,11 @@ const HeaderEnslaversNavBar: React.FC = () => {
         onClick={handleMenuFilterMobileClose}
       >
         <MenuListDropdownStyle>
-          <ColumnSelector />
+          <ButtonDropdownSelectorEnslavers />
         </MenuListDropdownStyle>
       </Menu>
     </Box>
   );
 };
 
-export default HeaderEnslaversNavBar;
+export default HeaderEnslavedNavBar;

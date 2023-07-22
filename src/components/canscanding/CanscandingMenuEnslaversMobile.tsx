@@ -21,27 +21,21 @@ import {
   RangeSliderState,
   TYPES,
   CurrentPageInitialState,
-  TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { DropdownColumn } from '../FunctionComponents/ColumnSelectorTable/DropdownColumn';
-import { useState, MouseEvent, useEffect } from 'react';
-import { setIsChange, setKeyValue } from '@/redux/rangeSliderSlice';
+import { useState, MouseEvent } from 'react';
+import { setKeyValue } from '@/redux/rangeSliderSlice';
 import { setIsOpenDialogMobile } from '@/redux/getScrollPageSlice';
 import { PaperDraggable } from './PaperDraggable';
 import RangeSlider from '../Voyages/Results/RangeSlider';
-import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
-import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
-import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
-import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
-import { ColumnSelectorTree } from '@/share/InterfaceTypesTable';
 
-const CanscandingMenuEnslavedMobile = () => {
-  const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
+const CanscandingMenuEnslaversMobile = () => {
+  const menuValueFilter = useSelector(
+    (state: RootState) => state.getFilterPeople.value.valueEnslavers
   );
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
@@ -49,37 +43,14 @@ const CanscandingMenuEnslavedMobile = () => {
   const { isOpenDialogMobile } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleEnlavedDataSetCollection
-  );
-  const { currentEnslavedPage } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
+  const { currentEnslaversPage } = useSelector(
+    (state: RootState) => state.getScrollEnslaversPage
   );
 
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [label, setLabel] = useState<string>('');
   const [type, setType] = useState<string>('');
-  const [menuValueFilter, setMenuValueFilter] = useState<
-    ColumnSelectorTree[] | FilterMenu[]
-  >([]);
-
-  useEffect(() => {
-    const loadMenuValueCellStructure = async () => {
-      try {
-        if (styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved) {
-          setMenuValueFilter(ENSLAVED_TABLE.column_selector_tree);
-        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins) {
-          setMenuValueFilter(AFRICANORIGINS_TABLE.column_selector_tree);
-        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.texas) {
-          setMenuValueFilter(TEXAS_TABLE.column_selector_tree);
-        }
-      } catch (error) {
-        console.error('Failed to load table cell structure:', error);
-      }
-    };
-    loadMenuValueCellStructure();
-  }, [menuValueFilter]);
 
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -101,20 +72,12 @@ const CanscandingMenuEnslavedMobile = () => {
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialogMobile(false));
     dispatch(setIsFilter(false));
-    if (currentPage !== 5) {
-      dispatch(setIsChange(!value));
-      dispatch(setIsChangeAuto(!value));
-    }
   };
   const handleResetDataDialog = (event: any) => {
     event.stopPropagation();
     const value = event.cancelable;
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialogMobile(false));
-    if (currentPage !== 5) {
-      dispatch(setIsChange(!value));
-      dispatch(setIsChangeAuto(!value));
-    }
 
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
@@ -178,10 +141,12 @@ const CanscandingMenuEnslavedMobile = () => {
               fontWeight: 600,
             }}
           >
-            {currentEnslavedPage !== 1 && (
+            {currentEnslaversPage !== 1 && (
               <span style={{ display: 'flex', alignItems: 'center' }}>
-                <FilterAltIcon style={{ color: '#000000' }} />
-                <div className="menu-nav-bar">Filter Search</div>
+                <FilterAltIcon style={{ color: '#ffffff' }} />
+                <div className="menu-nav-bar" style={{ color: '#ffffff' }}>
+                  Filter Search
+                </div>
               </span>
             )}
           </IconButton>
@@ -220,4 +185,4 @@ const CanscandingMenuEnslavedMobile = () => {
   );
 };
 
-export default CanscandingMenuEnslavedMobile;
+export default CanscandingMenuEnslaversMobile;

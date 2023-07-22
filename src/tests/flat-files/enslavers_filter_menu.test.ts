@@ -1,21 +1,21 @@
 import { expect, test, vi, describe } from "vitest";
-import TransatlanticVoyages_FILTER_MENU from '@/utils/flatfiles/transatlantic_voyages_filter_menu.json';
+import ENSLAVERS_FILTER_MENU from '@/utils/flatfiles/enslavers_filter_menu.json';
 import { extractTestVarNamesFlatFiles } from "@/utils/functions/extractVarNamesTest";
-import { fetchVoyagesOptionsApi } from "@/fetchAPI/voyagesApi/fetchVoyagesOptionsApi";
+import { fetchPastEnslaversOptionsApi } from "@/fetchAPI/pastEnslaversApi/fetchPastEnslaversOptionsApi";
 
-const fileName = 'transatlantic_voyages_filter_menu.json';
-const EndPoint = 'voyage/?hierarchical=False'
+const fileName = 'enslavers_filter_menu.json';
+const EndPoint = 'past/enslaved/?hierarchical=False'
 global.fetch = vi.fn();
 describe(fileName, () => {
-    test.todo('To check TransatlanticVoyages_FILTER_MENU var_name equal to key of enslavedOptions request from API')
+    test.todo('To ENSLAVERS_FILTER_MENU var_name equal to key of enslavedOptions request from API')
 })
 
-
-test("Transatlantic Voyages Filter Menu should check for missing names a variable", async () => {
-    const response = await fetchVoyagesOptionsApi();
+// Test the african_origins_filter_menu data
+test("Enslavers Filter Menu should check for missing names a variable", async () => {
+    const response = await fetchPastEnslaversOptionsApi();
     const data = response.data;
     const keyEnslavedOptions = Object.keys(data);
-    const varNameArr = await extractTestVarNamesFlatFiles(TransatlanticVoyages_FILTER_MENU);
+    const varNameArr = await extractTestVarNamesFlatFiles(ENSLAVERS_FILTER_MENU);
     const missingVarName: string[] = [];
     const optionsVarName: string[] = [];
     for (const key of varNameArr) {
@@ -25,8 +25,8 @@ test("Transatlantic Voyages Filter Menu should check for missing names a variabl
             optionsVarName.push(key);
         }
     }
-    if (missingVarName.length > 0) {
 
+    if (missingVarName.length > 0) {
         throw new Error(`Warning: flat file ${fileName} names variables ${missingVarName.join(", ")} that is not present in ${EndPoint}`);
 
     }

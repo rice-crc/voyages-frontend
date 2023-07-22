@@ -23,21 +23,21 @@ import {
 } from '@/share/InterfactTypesDatasetCollection';
 import { ALLENSLAVED, EnslavedTitle } from '@/share/CONST_DATA';
 import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
-import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
-import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
-import {
-  setBaseFilterPeopleDataKey,
-  setBaseFilterPeopleDataSetValue,
-  setBaseFilterPeopleDataValue,
-  setDataSetPeopleHeader,
-  setPeopleBlocksMenuList,
-  setPeopleFilterMenuFlatfile,
-  setPeopleStyleName,
-  setPeopleTableFlatfile,
-  setPeopleTextIntro,
-} from '@/redux/getPeopleDataSetCollectionSlice';
+
 import { setPathName } from '@/redux/getDataSetCollectionSlice';
 import CanscandingMenuEnslavedMobile from '@/components/canscanding/CanscandingMenuEnslavedMobile';
+import ButtonDropdownSelectorEnslaved from '../ColumnSelectorEnslavedTable/ButtonDropdownSelectorEnslaved';
+import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
+import {
+  setBaseFilterPeopleEnslavedDataKey,
+  setBaseFilterPeopleEnslavedDataSetValue,
+  setBaseFilterPeopleEnslavedDataValue,
+  setDataSetPeopleEnslavedHeader,
+  setPeopleEnslavedBlocksMenuList,
+  setPeopleEnslavedStyleName,
+  setPeopleEnslavedTextIntro,
+  setPeopleTableEnslavedFlatfile,
+} from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -45,10 +45,10 @@ const HeaderEnslavedNavBar: React.FC = () => {
     (state: RootState) => state.getScrollEnslavedPage
   );
 
-  const { value, textHeader, styleNamePeople, tableFlatfile } = useSelector(
-    (state: RootState) => state.getPeopleDataSetCollection
+  const { value, textHeader, styleNamePeople } = useSelector(
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
-
+  console.log('value', value);
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -65,16 +65,17 @@ const HeaderEnslavedNavBar: React.FC = () => {
     table_flatfile: string
   ) => {
     for (const base of base_filter) {
-      dispatch(setBaseFilterPeopleDataKey(base.var_name));
-      dispatch(setBaseFilterPeopleDataValue(base.value));
+      dispatch(setBaseFilterPeopleEnslavedDataKey(base.var_name));
+      dispatch(setPeopleEnslavedStyleName(styleName));
+      dispatch(setBaseFilterPeopleEnslavedDataValue(base.value));
     }
-    dispatch(setBaseFilterPeopleDataSetValue(base_filter));
-    dispatch(setDataSetPeopleHeader(textHeder));
-    dispatch(setPeopleTextIntro(textIntro));
-    dispatch(setPeopleStyleName(styleName));
-    dispatch(setPeopleBlocksMenuList(blocks));
-    setPeopleFilterMenuFlatfile(filter_menu_flatfile);
-    dispatch(setPeopleTableFlatfile(table_flatfile));
+    dispatch(setBaseFilterPeopleEnslavedDataSetValue(base_filter));
+    dispatch(setDataSetPeopleEnslavedHeader(textHeder));
+    dispatch(setPeopleEnslavedTextIntro(textIntro));
+    dispatch(setPeopleEnslavedStyleName(styleName));
+    dispatch(setPeopleEnslavedBlocksMenuList(blocks));
+    setPeopleEnslavedFilterMenuFlatfile(filter_menu_flatfile);
+    dispatch(setPeopleTableEnslavedFlatfile(table_flatfile));
   };
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -257,7 +258,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
         onClick={handleMenuFilterMobileClose}
       >
         <MenuListDropdownStyle>
-          <ColumnSelector />
+          <ButtonDropdownSelectorEnslaved />
         </MenuListDropdownStyle>
       </Menu>
     </Box>
@@ -265,3 +266,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
 };
 
 export default HeaderEnslavedNavBar;
+function setPeopleEnslavedFilterMenuFlatfile(filter_menu_flatfile: string) {
+  throw new Error('Function not implemented.');
+}

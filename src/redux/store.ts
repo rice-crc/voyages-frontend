@@ -10,12 +10,14 @@ import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import getFilterSlice from './getFilterSlice';
 import getColumnsSlice from './getColumnSlice';
 import getDataSetCollectionSlice from './getDataSetCollectionSlice'
-import getPeopleDataSetCollectionSlice from './getPeopleDataSetCollectionSlice';
+import getPeopleEnslavedDataSetCollectionSlice from './getPeopleEnslavedDataSetCollectionSlice';
 import getScrollEnslavedPageSlice from './getScrollEnslavedPageSlice';
 import getFilterPeopleObjectSlice from './getFilterPeopleObjectSlice';
 import getOptionsDataPastPeopleEnslavedSlice from './getOptionsDataPastPeopleEnslavedSlice';
 import { pastEnslavedApiService } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedApiService';
 import { pastEnslaversApiService } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversApiService';
+import getScrollEnslaversPageSlice from './getScrollEnslaversPageSlice';
+import getPeopleEnslaversDataSetCollectionSlice from './getPeopleEnslaversDataSetCollectionSlice';
 
 const store = configureStore({
     reducer: {
@@ -28,12 +30,14 @@ const store = configureStore({
         getFilter: getFilterSlice,
         getColumns: getColumnsSlice,
         getDataSetCollection: getDataSetCollectionSlice,
-        getPeopleDataSetCollection: getPeopleDataSetCollectionSlice,
+        getPeopleEnlavedDataSetCollection: getPeopleEnslavedDataSetCollectionSlice,
+        getEnslaverDataSetCollections: getPeopleEnslaversDataSetCollectionSlice,
         getScrollEnslavedPage: getScrollEnslavedPageSlice,
+        getScrollEnslaversPage: getScrollEnslaversPageSlice,
         getFilterPeople: getFilterPeopleObjectSlice,
         getOptionsEnslaved: getOptionsDataPastPeopleEnslavedSlice,
-        [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
         [voyagesApi.reducerPath]: voyagesApi.reducer,
+        [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
         [pastEnslaversApiService.reducerPath]: pastEnslaversApiService.reducer,
     },
     middleware: (getDefaultMiddleware) =>

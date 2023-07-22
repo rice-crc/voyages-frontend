@@ -458,8 +458,8 @@
 	},
 	{
 		"label": "Sources",
-		"var_name": "voyage_zoterorefs__legacy_source__full_ref",
+		"var_name": "voyage_zotero_connections__zotero_source__zotero_title",
 		"type": "CharField",
-		"flatlabel": "Source, full reference"
+		"flatlabel": "Sources"
 	}
 ]

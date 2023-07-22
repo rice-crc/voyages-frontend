@@ -1,6 +1,4 @@
 import { Grid, Hidden } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
@@ -16,10 +14,9 @@ import '@/style/page.scss';
 
 const EnslavedPageScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
-  const theme = useTheme();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const { styleNamePeople, blocksPeople } = useSelector(
-    (state: RootState) => state.getPeopleDataSetCollection
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
