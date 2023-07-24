@@ -19,7 +19,7 @@ const HomePage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   return (
-    <div id="home-voyagepage-container">
+    <div id="home-voyagepage-container" style={{ zIndex: 100 }}>
       <MenuButtonHomePage />
       <div className="home-voyagepage-content">
         <div className="header-logo-slave-voyages">

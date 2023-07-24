@@ -41,10 +41,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
     (state: RootState) => state.getScrollEnslaversPage
   );
 
-  const { value, textHeader, styleNamePeople, tableFlatfile } = useSelector(
-    (state: RootState) => state.getPeopleEnlavedDataSetCollection
-  );
-  console.log('value', value);
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 

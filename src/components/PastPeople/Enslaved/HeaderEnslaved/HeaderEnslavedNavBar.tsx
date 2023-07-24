@@ -27,7 +27,6 @@ import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
 import { setPathName } from '@/redux/getDataSetCollectionSlice';
 import CanscandingMenuEnslavedMobile from '@/components/canscanding/CanscandingMenuEnslavedMobile';
 import ButtonDropdownSelectorEnslaved from '../ColumnSelectorEnslavedTable/ButtonDropdownSelectorEnslaved';
-import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
 import {
   setBaseFilterPeopleEnslavedDataKey,
   setBaseFilterPeopleEnslavedDataSetValue,
@@ -48,7 +47,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const { value, textHeader, styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
-  console.log('value', value);
+
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
