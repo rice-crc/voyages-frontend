@@ -84,9 +84,9 @@
 		"label": "Sources",
 		"children": [
 			{
-				"var_name": "voyage__voyage_zotero_connections__zotero_source__zotero_title",
+				"var_name": "enslaved_zotero_connections__zotero_source__zotero_title",
 				"type": "CharField",
-				"label": "Post-Disembark Location"
+				"label": "Documentary Sources"
 			}
 		]
 	}
