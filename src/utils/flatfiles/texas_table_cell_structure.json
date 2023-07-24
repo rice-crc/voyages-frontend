@@ -229,6 +229,15 @@
 					"label": "Arrival Date"
 				}
 			]
+		},
+		{
+			"label": "Sources",
+			"children": [
+				{
+					"colID": "voyage__voyage_sources",
+					"label": "Sources"
+				}
+			]
 		}
 		
 	]
