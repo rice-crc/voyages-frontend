@@ -276,13 +276,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"voyage__voyage_zotero_connections__zotero_source__zotero_title"
+				"enslaved_zotero_connections__zotero_source__zotero_title"
 			],
 			"colID": "voyage__voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage__voyage_zotero_connections__zotero_source__zotero_title",
+						"var_name": "enslaved_zotero_connections__zotero_source__zotero_title",
 						"cell_fn": "literal"
 					}
 				]
