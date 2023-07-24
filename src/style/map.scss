@@ -73,9 +73,15 @@
         margin: auto;
         height: 75vh;
         > img{
-            width: 25%;
-            @include breakpoint-standard(7) {
-                width: 30%;
+            width: 15%;
+            @include breakpoint-standard(5) {
+                width: 10%;
+            }
+            @include breakpoint-standard(4) {
+                width: 10%;
+            }
+            @include breakpoint-standard(3) {
+                width: 10%;
             }
         }
     }
