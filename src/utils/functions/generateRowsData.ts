@@ -1,5 +1,5 @@
 import { VoyageOptionsGropProps } from '@/share/InterfaceTypesTable';
-import { traverseData } from './traverseData';
+import { traverseData2 } from './traverseData';
 import { TableCollectionsOptions } from './TableCollectionsOptions';
 
 export const generateRowsData = (
@@ -16,7 +16,7 @@ export const generateRowsData = (
 
             const varArray = varName.split('__');
 
-            const output = traverseData(data, varArray);
+            const output = traverseData2(data, varArray);
 
             finalRowObj[varName] = output;
         });
