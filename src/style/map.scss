@@ -51,7 +51,6 @@
 
 .map-container {
     width: 95%;
-    background-color:rgb(147, 208, 203);
     @include breakpoint-standard(7) {
         width: 90%;
     }
@@ -64,7 +63,6 @@
     .lealfetMap-container{
         height: 75vh;
         width: 100%;
-        background-color:rgb(147, 208, 203);
     }
     .loading-logo{
         display: flex;

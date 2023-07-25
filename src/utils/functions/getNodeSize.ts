@@ -3,8 +3,10 @@ import { NodeAggroutes, Transportation } from "@/share/InterfaceTypesMap";
 export function getNodeSize(node: NodeAggroutes): number | null {
     const weightsVal = Object.keys(node.weights).length !== 0;
     if (weightsVal) {
-        const w = node.weights;
-        return w.disembarkation + w.embarkation;
+        const weights = node.weights;
+        const originValue = weights.origin !== undefined ? weights.origin : 0;
+        const postDisembarkationValue = weights["post-disembarkation"] ? weights["post-disembarkation"] : 0
+        return weights.disembarkation + weights.embarkation + originValue + postDisembarkationValue;
     }
     return null;
 }

@@ -8,7 +8,11 @@ export const ENSLAVED_TABLE_FILE = 'enslaved_table_cell_structure.json';
 export const AFRICANORIGINS_TABLE_FILE = 'african_origins_table_cell_structure.json';
 export const TEXAS_TABLE_FILE = 'texas_table_cell_structure.json';
 export const ALLVOYAGES = 'all-voyages'
+export const VOYAGESPAGE = 'VoyagesPage'
+
 export const ALLENSLAVED = 'all-enslaved'
+export const ENSALVEDPAGE = 'enslaved'
+
 export const ALLENSLAVERS = 'all-enslavers'
 export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGhqMXZ5YmxjZCJ9.eP7ZuC68Q5iBZQa8I13AGw`;
 

@@ -7,15 +7,15 @@ import { getNodeColorMapVoyagesStyle } from '@/utils/functions/getNodeColorStyle
 import { getNodeSize } from '@/utils/functions/getNodeSize';
 import { CircleMarker, Popup } from 'react-leaflet';
 import * as d3 from 'd3';
-import { useState } from 'react';
 
-const NodeMarkerMap = ({ nodesData }: NodeMarkerMapProps) => {
+const NodeMarkerEnslavedMap = ({ nodesData }: NodeMarkerMapProps) => {
   const minRadiusInpixels = 3;
   const maxRadiusInPixels = 25;
   const nodeLogValueScale = d3
     .scaleLog()
     .domain([getMinValueNode(nodesData), getMaxValueNode(nodesData)])
     .range([minRadiusInpixels, maxRadiusInPixels]);
+
   const nodeMarker = nodesData.map((node, index) => {
     const { data } = node;
     const { lat, lon, uuid, name } = data;
@@ -33,7 +33,7 @@ const NodeMarkerMap = ({ nodesData }: NodeMarkerMapProps) => {
             center={[lat ?? 0, lon ?? 0]}
             radius={radius}
             key={`${uuid}-${name}-${index}`}
-            weight={2}
+            weight={1.5}
             color="#000000"
             fillColor={nodeColor}
             fillOpacity={0.8}
@@ -46,4 +46,4 @@ const NodeMarkerMap = ({ nodesData }: NodeMarkerMapProps) => {
   });
   return nodeMarker;
 };
-export default NodeMarkerMap;
+export default NodeMarkerEnslavedMap;
