@@ -22,8 +22,6 @@ const EnslaversScrolling = () => {
     (state: RootState) => state.getScrollEnslaversPage
   );
 
-  // const blocksPeople = ['Intro', 'Table'];
-
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentEnslaversPage(page));
   };

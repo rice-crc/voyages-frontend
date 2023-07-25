@@ -1,5 +1,4 @@
 import React, {
-  CSSProperties,
   useCallback,
   useEffect,
   useMemo,
@@ -17,11 +16,9 @@ import {
   ColumnDef,
   StateRowData,
   TableCellStructureInitialStateProp,
-  VoyageOptionsGropProps,
-  VoyageTableCellStructure,
+  TableCellStructure,
 } from '@/share/InterfaceTypesTable';
 import { setColumnDefs, setRowData, setData } from '@/redux/getTableSlice';
-import { ICellRendererParams } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
@@ -36,14 +33,15 @@ import {
 import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
-import { hasValueGetter } from '@/utils/functions/hasValueGetter';
+import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 
 const VoyagesTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const tablesCell = TABLE_FLAT.cell_structure;
-  const { columnDefs, data, rowData } = useSelector(
+  const { columnDefs, data, rowData, loading } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
+
   const { rangeSliderMinMax: rang, varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
@@ -58,7 +56,6 @@ const VoyagesTable: React.FC = () => {
   );
   const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
     useSelector((state: RootState) => state.getDataSetCollection);
-  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(0);
 
   const [rowsPerPage, setRowsPerPage] = useState(
@@ -111,7 +108,7 @@ const VoyagesTable: React.FC = () => {
   }, [width, height, maxWidth]);
 
   const saveDataToLocalStorage = (
-    data: VoyageOptionsGropProps[],
+    data: Record<string, any>[],
     visibleColumnCells: string[]
   ) => {
     localStorage.setItem('data', JSON.stringify(data));
@@ -128,7 +125,6 @@ const VoyagesTable: React.FC = () => {
   useEffect(() => {
     let subscribed = true;
     const fetchData = async () => {
-      setLoading(true);
       const newFormData: FormData = new FormData();
       newFormData.append('results_page', String(page + 1));
       newFormData.append('results_per_page', String(rowsPerPage));
@@ -161,9 +157,6 @@ const VoyagesTable: React.FC = () => {
         }
       } catch (error) {
         console.log('error', error);
-        setLoading(false);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();
@@ -195,58 +188,8 @@ const VoyagesTable: React.FC = () => {
     if (data.length > 0) {
       const finalRowData = generateRowsData(data);
       const newColumnDefs: ColumnDef[] = tablesCell.map(
-        (value: VoyageTableCellStructure) => {
-          const columnDef = {
-            headerName: value.header_label,
-            field: value.colID,
-            width: value.colID === 'voyage_sources' ? 300 : 200,
-            sortable: true,
-            autoHeight: true,
-            wrapText: true,
-            sortingOrder: value.order_by,
-            headerTooltip: value.header_label,
-            tooltipField: value.colID,
-            hide: !visibleColumnCells.includes(value.colID),
-            filter: true,
-            cellRenderer: (params: ICellRendererParams) => {
-              const values = params.value;
-              if (Array.isArray(values)) {
-                const style: CSSProperties = {
-                  backgroundColor: '#e5e5e5',
-                  borderRadius: '8px',
-                  padding: '0px 10px',
-                  height: '25px',
-                  whiteSpace: 'nowrap',
-                  width: value.colID === 'voyage_sources' ? 240 : 145,
-                  overflow: 'hidden',
-                  textOverflow:
-                    value.colID === 'voyage_sources' ? 'inherit' : 'ellipsis', // "ellipsis",
-                  margin: '5px 0',
-                  textAlign: 'center',
-                  lineHeight: '25px',
-                  fontSize: '13px',
-                };
-                const renderedValues = values.map(
-                  (value: string, index: number) => (
-                    <span key={`${index}-${value}`}>
-                      <div style={style}>{`${value}\n`}</div>
-                    </span>
-                  )
-                );
-                return <div>{renderedValues}</div>;
-              } else {
-                return (
-                  <div className="div-value">
-                    <div className="value">{values}</div>
-                  </div>
-                );
-              }
-            },
-            valueGetter: (params: ICellRendererParams) =>
-              hasValueGetter(params, value),
-          };
-          return columnDef;
-        }
+        (value: TableCellStructure) =>
+          generateColumnDef(value, visibleColumnCells)
       );
       dispatch(setColumnDefs(newColumnDefs));
       dispatch(setRowData(finalRowData as Record<string, any>[]));

@@ -33,6 +33,7 @@ import {
   setBaseFilterPeopleEnslavedDataValue,
   setDataSetPeopleEnslavedHeader,
   setPeopleEnslavedBlocksMenuList,
+  setPeopleEnslavedFilterMenuFlatfile,
   setPeopleEnslavedStyleName,
   setPeopleEnslavedTextIntro,
   setPeopleTableEnslavedFlatfile,
@@ -73,7 +74,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     dispatch(setPeopleEnslavedTextIntro(textIntro));
     dispatch(setPeopleEnslavedStyleName(styleName));
     dispatch(setPeopleEnslavedBlocksMenuList(blocks));
-    setPeopleEnslavedFilterMenuFlatfile(filter_menu_flatfile);
+    dispatch(setPeopleEnslavedFilterMenuFlatfile(filter_menu_flatfile));
     dispatch(setPeopleTableEnslavedFlatfile(table_flatfile));
   };
   const handleMenuFilterMobileClose = () => {
@@ -265,6 +266,3 @@ const HeaderEnslavedNavBar: React.FC = () => {
 };
 
 export default HeaderEnslavedNavBar;
-function setPeopleEnslavedFilterMenuFlatfile(filter_menu_flatfile: string) {
-  throw new Error('Function not implemented.');
-}

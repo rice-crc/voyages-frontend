@@ -9,6 +9,8 @@ import { setPathName } from '@/redux/getDataSetCollectionSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
+import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
+import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 
 const PastPeoplePage = () => {
   const currentDate = new Date();
@@ -47,14 +49,20 @@ const PastPeoplePage = () => {
                 <Link
                   to="/PastHomePage/enslaved"
                   style={{ textDecoration: 'none' }}
-                  onClick={() => dispatch(setPathName(ALLENSLAVED))}
+                  onClick={() => {
+                    dispatch(setCurrentEnslavedPage(1));
+                    dispatch(setPathName(ALLENSLAVED));
+                  }}
                 >
                   <div className="enslaved-btn">Enslaved</div>
                 </Link>
                 <Link
                   to="/PastHomePage/enslaver"
                   style={{ textDecoration: 'none' }}
-                  onClick={() => dispatch(setPathName(ALLENSLAVERS))}
+                  onClick={() => {
+                    dispatch(setCurrentEnslaversPage(1));
+                    dispatch(setPathName(ALLENSLAVERS));
+                  }}
                 >
                   <div className="enslavers-btn">Enslavers</div>
                 </Link>
