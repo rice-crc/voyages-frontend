@@ -1,5 +1,4 @@
 import React, {
-  CSSProperties,
   useCallback,
   useEffect,
   useMemo,
@@ -30,7 +29,6 @@ import {
 import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
 import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
-import { ICellRendererParams } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
@@ -314,7 +312,7 @@ const EnslavedTable: React.FC = () => {
                 count={totalResultsCount}
                 page={page}
                 onPageChange={handleChangePage}
-                rowsPerPageOptions={[5, 10, 12, 15, 20, 25, 30, 45, 50, 100]}
+                rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 45, 50, 100]}
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />

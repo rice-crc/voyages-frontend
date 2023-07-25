@@ -25,9 +25,8 @@ import { useWindowSize } from '@react-hook/window-size';
 import { Pagination, Skeleton, TablePagination } from '@mui/material';
 import {
   AutoCompleteInitialState,
-  CurrentPageInitialState,
   RangeSliderState,
-  TYPESOFDATASET,
+  TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
@@ -48,18 +47,20 @@ const EnslaversTable: React.FC = () => {
   const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-  const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
-  );
+
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
 
-  const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
-    useSelector((state: RootState) => state.getDataSetCollection);
+  const {
+    dataSetKeyPeople,
+    dataSetValuePeople,
+    dataSetValueBaseFilter,
+    styleNamePeople,
+  } = useSelector((state: RootState) => state.getEnslaverDataSetCollections);
   const [page, setPage] = useState<number>(0);
-  const { currentEnslavedPage } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
+  const { currentEnslaversPage } = useSelector(
+    (state: RootState) => state.getScrollEnslaversPage
   );
   const [rowsPerPage, setRowsPerPage] = useState(
     getRowsPerPage(window.innerWidth, window.innerHeight)
@@ -131,7 +132,7 @@ const EnslaversTable: React.FC = () => {
       newFormData.append('results_page', String(page + 1));
       newFormData.append('results_per_page', String(rowsPerPage));
 
-      if (rang[varName] && currentEnslavedPage === 2) {
+      if (rang[varName] && currentEnslaversPage === 2) {
         newFormData.append(varName, String(rang[varName][0]));
         newFormData.append(varName, String(rang[varName][1]));
       }
@@ -142,10 +143,9 @@ const EnslaversTable: React.FC = () => {
           newFormData.append(varName, label);
         }
       }
-
-      if (styleName !== TYPESOFDATASET.allVoyages) {
-        for (const value of dataSetValue) {
-          newFormData.append(dataSetKey, String(value));
+      if (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslavers) {
+        for (const value of dataSetValuePeople) {
+          newFormData.append(dataSetKeyPeople, String(value));
         }
       }
 
@@ -171,16 +171,15 @@ const EnslaversTable: React.FC = () => {
     dispatch,
     rowsPerPage,
     page,
-    currentEnslavedPage,
-    currentPage,
+    currentEnslaversPage,
     varName,
     rang,
     autoCompleteValue,
     autoLabelName,
-    dataSetValue,
-    dataSetKey,
+    dataSetValuePeople,
+    dataSetKeyPeople,
     dataSetValueBaseFilter,
-    styleName,
+    styleNamePeople,
   ]);
 
   useEffect(() => {
@@ -291,7 +290,7 @@ const EnslaversTable: React.FC = () => {
                 count={totalResultsCount}
                 page={page}
                 onPageChange={handleChangePage}
-                rowsPerPageOptions={[5, 10, 12, 15, 20, 25, 30, 45, 50, 100]}
+                rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 45, 50, 100]}
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
