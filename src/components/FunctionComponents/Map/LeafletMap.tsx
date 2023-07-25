@@ -86,28 +86,38 @@ export const LeafletMap = () => {
     setLoading(true);
     const newFormData: FormData = new FormData();
     // WAIT FOR John to fix data and will uncomment :
-    // if (zoomLevel <= 6) {
-    //   newFormData.append('zoomlevel', 'region');
-    // }
-    // if (zoomLevel > 6) {
-    //   newFormData.append('zoomlevel', 'place');
-    // }
-    // console.log('currentPage-->', currentPage);
-    if (pathName === VOYAGESPAGE) {
-      if (zoomLevel <= 6) {
-        newFormData.append('zoomlevel', 'region');
-      }
-      if (zoomLevel > 6) {
-        newFormData.append('zoomlevel', 'place');
-      }
-    } else {
+    if (zoomLevel <= 6) {
+      newFormData.append('zoomlevel', 'region');
+    }
+    if (zoomLevel > 6) {
       newFormData.append('zoomlevel', 'place');
     }
-    if (isChange && rang[varName] && currentPage === 7) {
+
+    // if (pathName === VOYAGESPAGE) {
+    //   if (zoomLevel <= 6) {
+    //     newFormData.append('zoomlevel', 'region');
+    //   }
+    //   if (zoomLevel > 6) {
+    //     newFormData.append('zoomlevel', 'place');
+    //   }
+    // } else {
+    //   newFormData.append('zoomlevel', 'place');
+    // }
+    if (
+      isChange &&
+      rang[varName] &&
+      currentPage === 7 &&
+      pathName === VOYAGESPAGE
+    ) {
       newFormData.append(varName, String(rang[varName][0]));
       newFormData.append(varName, String(rang[varName][1]));
     }
-    if (isChange && rang[varName] && currentEnslavedPage === 3) {
+    if (
+      isChange &&
+      rang[varName] &&
+      currentEnslavedPage === 3 &&
+      pathName === ENSALVEDPAGE
+    ) {
       newFormData.append(varName, String(rang[varName][0]));
       newFormData.append(varName, String(rang[varName][1]));
     }
