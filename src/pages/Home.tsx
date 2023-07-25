@@ -14,12 +14,15 @@ import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
 import { setPathName } from '@/redux/getDataSetCollectionSlice';
+import VideoBackground from '../components/Home/VideoBackground';
+import { setCurrentPage } from '@/redux/getScrollPageSlice';
 
 const HomePage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   return (
-    <div id="home-voyagepage-container">
+    <div id="home-voyagepage-container" style={{ zIndex: 100 }}>
+      <VideoBackground />
       <MenuButtonHomePage />
       <div className="home-voyagepage-content">
         <div className="header-logo-slave-voyages">
@@ -52,7 +55,10 @@ const HomePage: React.FC = () => {
             <div className="voyages-people-places-title">Voyages</div>
             <Link
               to="/VoyagesPage"
-              onClick={() => dispatch(setPathName(ALLVOYAGES))}
+              onClick={() => {
+                dispatch(setCurrentPage(1));
+                dispatch(setPathName(ALLVOYAGES));
+              }}
             >
               <img src={voyageIcon} alt="voyages" />
             </Link>

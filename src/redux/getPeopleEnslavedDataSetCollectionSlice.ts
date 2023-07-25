@@ -75,7 +75,7 @@ export const {
     setPeopleTableEnslavedFlatfile,
     setPeopleEnslavedTextIntro,
     setPeopleEnslavedStyleName,
-    setPeopleEnslavedBlocksMenuList,
+    setPeopleEnslavedBlocksMenuList, setPeopleEnslavedFilterMenuFlatfile
 } = getPeopleEnslavedDataSetCollectionSlice.actions;
 
 export default getPeopleEnslavedDataSetCollectionSlice.reducer;

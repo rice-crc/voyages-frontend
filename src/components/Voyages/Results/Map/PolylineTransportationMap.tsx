@@ -3,7 +3,9 @@ import { createNodeDict } from '@/utils/functions/createNodeDict';
 import { getMaxEdges, getMinEdges } from '@/utils/functions/getMinMaxEdges';
 import { getEdgesSize } from '@/utils/functions/getNodeSize';
 import * as d3 from 'd3';
-import { Polyline } from 'react-leaflet';
+import { Polyline, GeoJSON } from 'react-leaflet';
+import { default as bezierSpline } from '@turf/bezier-spline';
+import * as helpers from '@turf/helpers';
 
 const PolylineTransportationMap = (props: PolylineMapProps) => {
   const { transportation, nodesData, pathOptions } = props;

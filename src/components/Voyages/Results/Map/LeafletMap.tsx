@@ -31,6 +31,7 @@ import {
 import PolylineTransportationMap from './PolylineTransportationMap';
 import NodeMarkerMap from './NodeMarkerMap';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
+
 export const LeafletMap = () => {
   const dispatch: AppDispatch = useDispatch();
   const [nodesData, setNodesData] = useState<NodeAggroutes[]>([]);
@@ -111,6 +112,7 @@ export const LeafletMap = () => {
       }
     }
   };
+
   useEffect(() => {
     fetchData();
     return () => {
@@ -134,7 +136,6 @@ export const LeafletMap = () => {
       subscribed = false;
     };
   }, [zoomLevel]);
-  console.log('loading', loading);
 
   return loading ? (
     <div className="loading-logo">

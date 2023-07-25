@@ -2,25 +2,24 @@ import { MouseEventHandler, useState } from 'react';
 import { AppBar, Box, IconButton, Hidden, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import { MenuListDropdownStyle } from '@/styleMUI';
 import { Button, Menu } from '@mui/material';
 import PEOPLE from '@/utils/flatfiles/people_page_data.json';
-import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
 import { useNavigate } from 'react-router-dom';
 import { DrawerMenuPeopleBar } from './DrawerMenuPeopleBar';
 import '@/style/Nav.scss';
-import { POPELETILET } from '@/share/CONST_DATA';
+import { ALLENSLAVED, ALLENSLAVERS, POPELETILET } from '@/share/CONST_DATA';
+import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
+import { setPathName } from '@/redux/getDataSetCollectionSlice';
 
 export default function NavBarPeople() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
+  const dispatch: AppDispatch = useDispatch();
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
-
-  const handleMenuFilterMobileClose = () => {
-    setAnchorFilterMobileEl(null);
-  };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -36,8 +35,12 @@ export default function NavBarPeople() {
       navigate('/PastHomePage');
     } else if (item === 'Enslaved') {
       navigate('/PastHomePage/enslaved');
+      dispatch(setCurrentEnslavedPage(1));
+      dispatch(setPathName(ALLENSLAVED));
     } else if (item === 'Enslavers') {
       navigate('/PastHomePage/enslaver');
+      dispatch(setCurrentEnslaversPage(1));
+      dispatch(setPathName(ALLENSLAVERS));
     } else {
       navigate('/');
     }

@@ -1,9 +1,9 @@
-import { VoyageTableCellStructure } from "@/share/InterfaceTypesTable";
+import { TableCellStructure } from "@/share/InterfaceTypesTable";
 import { ICellRendererParams } from "ag-grid-community";
 
 export function hasValueGetter(
     params: ICellRendererParams,
-    value: VoyageTableCellStructure
+    value: TableCellStructure
 ) {
 
     const finalData: string[] = [];

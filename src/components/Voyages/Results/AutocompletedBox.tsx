@@ -71,7 +71,6 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
           console.log('error', error);
         });
     } else if (pathName === ALLENSLAVERS) {
-      console.log('Enslavers--->', pathName);
       dispatch(fetchPastEnslaversAutoCompleted(formData))
         .unwrap()
         .then((response: any) => {

@@ -63,5 +63,15 @@
 				"label": "Documented Name of Enslaved Person"
 			}
 		]
+	},
+	{
+		"label": "Sources",
+		"children": [
+			{
+				"var_name": "enslaver_zotero_connections__zotero_source__zotero_title",
+				"type": "CharField",
+				"label": "Documentary Sources"
+			}
+		]
 	}
 ]
