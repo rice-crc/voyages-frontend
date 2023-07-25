@@ -16,16 +16,18 @@ const VoyagesPage: React.FC = () => {
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   return (
-    <div
-      className="voyages-home-page"
-      style={{
-        backgroundColor: getColorVoyagePageBackground(styleName, currentPage),
-      }}
-    >
+    <>
       <HeaderLogoSearch />
       <HeaderNavBar />
-      <ScrollPage />
-    </div>
+      <div
+        className="voyages-home-page"
+        style={{
+          backgroundColor: getColorVoyagePageBackground(styleName, currentPage),
+        }}
+      >
+        <ScrollPage />
+      </div>
+    </>
   );
 };
 

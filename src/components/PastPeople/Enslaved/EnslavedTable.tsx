@@ -20,12 +20,10 @@ import {
   ColumnDef,
   StateRowData,
   TableCellStructureInitialStateProp,
-  VoyageOptionsGropProps,
-  VoyageTableCellStructure,
+  TableCellStructure,
 } from '@/share/InterfaceTypesTable';
 import {
   AutoCompleteInitialState,
-  CurrentPageInitialState,
   RangeSliderState,
   TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
@@ -38,12 +36,12 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
 import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsList';
 import ButtonDropdownSelectorEnslaved from './ColumnSelectorEnslavedTable/ButtonDropdownSelectorEnslaved';
-import { hasValueGetter } from '@/utils/functions/hasValueGetter';
+import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 
 const EnslavedTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
-  const { columnDefs, data, rowData } = useSelector(
+  const { columnDefs, data, rowData, loading } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
   const { rangeSliderMinMax: rang, varName } = useSelector(
@@ -65,14 +63,13 @@ const EnslavedTable: React.FC = () => {
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
-  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState(
     getRowsPerPage(window.innerWidth, window.innerHeight)
   );
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
-  const [tablesCell, setTableCell] = useState<VoyageTableCellStructure[]>([]);
+  const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
@@ -142,7 +139,7 @@ const EnslavedTable: React.FC = () => {
   }, [width, height, maxWidth]);
 
   const saveDataToLocalStorage = useCallback(
-    (data: VoyageOptionsGropProps[], visibleColumnCells: string[]) => {
+    (data: Record<string, any>[], visibleColumnCells: string[]) => {
       localStorage.setItem('data', JSON.stringify(data));
       localStorage.setItem(
         'visibleColumnCells',
@@ -155,11 +152,9 @@ const EnslavedTable: React.FC = () => {
   useEffect(() => {
     saveDataToLocalStorage(data, visibleColumnCells);
   }, [data]);
-
   useEffect(() => {
     let subscribed = true;
     const fetchData = async () => {
-      setLoading(true);
       const newFormData: FormData = new FormData();
       newFormData.append('results_page', String(page + 1));
       newFormData.append('results_per_page', String(rowsPerPage));
@@ -188,15 +183,11 @@ const EnslavedTable: React.FC = () => {
         ).unwrap();
         if (subscribed) {
           setTotalResultsCount(Number(response.headers.total_results_count));
-
           dispatch(setData(response.data));
           saveDataToLocalStorage(response.data, visibleColumnCells);
         }
       } catch (error) {
         console.log('error', error);
-        setLoading(false);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();
@@ -216,7 +207,6 @@ const EnslavedTable: React.FC = () => {
     dataSetKeyPeople,
     dataSetValueBaseFilter,
     styleNamePeople,
-    saveDataToLocalStorage,
     visibleColumnCells,
   ]);
 
@@ -224,60 +214,13 @@ const EnslavedTable: React.FC = () => {
     if (data.length > 0) {
       const finalRowData = generateRowsData(data, tableFileName);
       const newColumnDefs: ColumnDef[] = tablesCell.map(
-        (value: VoyageTableCellStructure) => {
-          const columnDef = {
-            headerName: value.header_label,
-            field: value.colID,
-            sortable: true,
-            autoHeight: true,
-            wrapText: true,
-            sortingOrder: value.order_by,
-            headerTooltip: value.header_label,
-            tooltipField: value.colID,
-            hide: !visibleColumnCells.includes(value.colID),
-            filter: true,
-            cellRenderer: (params: ICellRendererParams) => {
-              const values = params.value;
-              if (Array.isArray(values)) {
-                const style: CSSProperties = {
-                  backgroundColor: '#e5e5e5',
-                  borderRadius: '8px',
-                  padding: '0px 10px',
-                  height: '25px',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  margin: '5px 0',
-                  textAlign: 'center',
-                  lineHeight: '25px',
-                  fontSize: '13px',
-                };
-                const renderedValues = values.map(
-                  (value: string, index: number) => (
-                    <span key={`${index}-${value}`}>
-                      <div style={style}>{`${value}\n`}</div>
-                    </span>
-                  )
-                );
-                return <div>{renderedValues}</div>;
-              } else {
-                return (
-                  <div className="div-value">
-                    <div className="value">{values}</div>
-                  </div>
-                );
-              }
-            },
-            valueGetter: (params: ICellRendererParams) =>
-              hasValueGetter(params, value),
-          };
-          return columnDef;
-        }
+        (value: TableCellStructure) =>
+          generateColumnDef(value, visibleColumnCells)
       );
-
       dispatch(setColumnDefs(newColumnDefs));
       dispatch(setRowData(finalRowData as Record<string, any>[]));
     }
-  }, [data, visibleColumnCells, dispatch]); //
+  }, [data, visibleColumnCells, dispatch]);
 
   const defaultColDef = useMemo(
     () => ({

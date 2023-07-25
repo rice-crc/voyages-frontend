@@ -15,7 +15,7 @@ export const fetchEnslavedOptionsList = createAsyncThunk(
             );
             return response;
         } catch (error) {
-            throw new Error('Failed to fetchVoyageOptionsPagination data');
+            throw new Error('Failed to fetchEnslavedOptionsList data');
         }
     }
 );

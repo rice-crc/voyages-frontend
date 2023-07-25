@@ -1,4 +1,3 @@
-
 export const traverseData = (data: any, varArray: string[]): any => {
     if (data) {
         const dataKeys = Object.keys(data);
@@ -30,5 +29,5 @@ export const traverseData = (data: any, varArray: string[]): any => {
             }
         }
     }
-    return data ?? null
+    return data ?? null;
 };

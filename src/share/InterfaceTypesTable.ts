@@ -829,13 +829,15 @@ export interface ColumnDef {
     tooltipField: string
 }
 export interface StateRowData {
-    data: VoyageOptionsGropProps[]
+    data: Record<string, any>[]
     rowData: Record<string, any>[]
     columnDefs: ColumnDef[];
     tableOptions: {}
+    loading: boolean
+    error: null | any;
 }
 
-export interface VoyageTableCellStructure {
+export interface TableCellStructure {
     header_label: string
     cell_type: string
     visible: boolean
@@ -858,7 +860,7 @@ export interface TableCellStructureInitialStateProp {
     visibleColumnCells: string[]
 }
 export interface TableCellStructureProps {
-    cell_structure: VoyageTableCellStructure[]
+    cell_structure: TableCellStructure[]
     column_selector_tree: ColumnSelectorTree[]
 }
 export interface ColumnSelectorTree {
