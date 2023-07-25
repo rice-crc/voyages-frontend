@@ -1,0 +1,82 @@
+@mixin breakpoint-standard($size) {
+    @if $size==0 {
+        @media only screen and (max-width: 374px) {
+            @content;
+        }
+    }
+
+    @else if $size==1 {
+        @media only screen and (min-width: 375px) and (max-width: 479px) {
+            @content;
+        }
+    }
+
+    @else if $size==2 {
+        @media only screen and (min-width: 480px) and (max-width: 575px) {
+            @content;
+        }
+    }
+
+    @else if $size==3 {
+        @media only screen and (min-width: 576px) and (max-width: 767px) {
+            @content;
+        }
+    }
+
+    @else if $size==4 {
+        @media only screen and (min-width: 768px) and (max-width: 991px) {
+            @content;
+        }
+    }
+
+    @else if $size==5 {
+        @media only screen and (min-width: 992px) and (max-width: 1024px) {
+            @content;
+        }
+    }
+
+    @else if $size==6 {
+        @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+            @content;
+        }
+    }
+
+    @else if $size==7 {
+        @media only screen and (max-width: 1440px) {
+            @content;
+        }
+    }
+}
+
+
+.map-container {
+    width: 95%;
+    background-color:rgb(147, 208, 203);
+    @include breakpoint-standard(7) {
+        width: 90%;
+    }
+    @include breakpoint-standard(6) {
+        width: 90%;
+    }
+    @include breakpoint-standard(5) {
+        width: 90%;
+    }
+    .lealfetMap-container{
+        height: 75vh;
+        width: 100%;
+        background-color:rgb(147, 208, 203);
+    }
+    .loading-logo{
+        display: flex;
+        justify-content: center;
+        animation: center;
+        margin: auto;
+        height: 75vh;
+        > img{
+            width: 25%;
+            @include breakpoint-standard(7) {
+                width: 30%;
+            }
+        }
+    }
+}

@@ -7,20 +7,20 @@ import {
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
 import {
-  setBaseFilterPeopleDataKey,
-  setBaseFilterPeopleDataSetValue,
-  setBaseFilterPeopleDataValue,
-  setDataSetPeopleHeader,
-  setPeopleBlocksMenuList,
-  setPeopleStyleName,
-  setPeopleTextIntro,
-} from '@/redux/getPeopleDataSetCollectionSlice';
+  setBaseFilterPeopleEnslavedDataKey,
+  setBaseFilterPeopleEnslavedDataSetValue,
+  setBaseFilterPeopleEnslavedDataValue,
+  setDataSetPeopleEnslavedHeader,
+  setPeopleEnslavedBlocksMenuList,
+  setPeopleEnslavedStyleName,
+  setPeopleEnslavedTextIntro,
+} from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 
 const EnslavedPage = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const { value, textIntroduce } = useSelector(
-    (state: RootState) => state.getPeopleDataSetCollection
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
   const dispatch: AppDispatch = useDispatch();
   const handleSelectEnslavedDataset = (
@@ -31,14 +31,14 @@ const EnslavedPage = () => {
     blocks: string[]
   ) => {
     for (const base of base_filter) {
-      dispatch(setBaseFilterPeopleDataKey(base.var_name));
-      dispatch(setBaseFilterPeopleDataValue(base.value));
+      dispatch(setBaseFilterPeopleEnslavedDataKey(base.var_name));
+      dispatch(setBaseFilterPeopleEnslavedDataValue(base.value));
     }
-    dispatch(setBaseFilterPeopleDataSetValue(base_filter));
-    dispatch(setDataSetPeopleHeader(textHeder));
-    dispatch(setPeopleTextIntro(textIntro));
-    dispatch(setPeopleStyleName(styleName));
-    dispatch(setPeopleBlocksMenuList(blocks));
+    dispatch(setBaseFilterPeopleEnslavedDataSetValue(base_filter));
+    dispatch(setDataSetPeopleEnslavedHeader(textHeder));
+    dispatch(setPeopleEnslavedTextIntro(textIntro));
+    dispatch(setPeopleEnslavedStyleName(styleName));
+    dispatch(setPeopleEnslavedBlocksMenuList(blocks));
   };
   return (
     <>

@@ -139,9 +139,9 @@
 		]
 	},
 	{
-		"label": "Sources",
-		"var_name": "voyage_sourceconnection__source__full_ref",
+		"label": "Documentary Sources",
+		"var_name": "voyage_zotero_connections",
 		"type": "CharField",
-		"flatlabel": "Source, full reference"
+		"flatlabel": "Documentary Source"
 	}
 ]

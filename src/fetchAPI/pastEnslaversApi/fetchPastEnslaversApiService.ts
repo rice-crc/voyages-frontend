@@ -3,7 +3,7 @@ import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 import { Options } from '@vitejs/plugin-react-refresh';
 
 export const pastEnslaversApiService = createApi({
-    reducerPath: 'pastEnslavedApiService',
+    reducerPath: 'pastEnslaversApiService',
     baseQuery: fetchBaseQuery({ baseUrl: BASEURL }),
     endpoints: (builder) => ({
         getOptions: builder.query({

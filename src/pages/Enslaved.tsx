@@ -2,6 +2,7 @@ import EnslavedPageScrolling from '@/components/PastPeople/Enslaved/EnslavedPage
 import HeaderEnslavedNavBar from '@/components/PastPeople/Enslaved/HeaderEnslaved/HeaderEnslavedNavBar';
 import HeaderLogoSearch from '@/components/header/HeaderSearchLogo';
 import React from 'react';
+
 import '@/style/page-past.scss';
 
 const EnslavedHomePage: React.FC = () => {

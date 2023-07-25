@@ -36,7 +36,7 @@ import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
 
 export const MenuListDropdownPeople = () => {
   const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleDataSetCollection
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
   const { valueEnslaved, valueAfricanOrigin, valueTexas, valueEnslavers } =

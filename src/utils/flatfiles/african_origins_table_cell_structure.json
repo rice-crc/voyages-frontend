@@ -273,25 +273,19 @@
 		},
 		{
 			"header_label": "Documentary Sources",
-			"cell_type": "literal-concat",
+			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"voyage__voyage_zoterorefs__legacy_source__full_ref",
-				"voyage__voyage_zoterorefs__zotero_title"
+				"voyage__voyage_zotero_connections__zotero_source__zotero_title"
 			],
 			"colID": "voyage__voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage__voyage_zoterorefs__legacy_source__full_ref",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage__voyage_zoterorefs__zotero_title",
+						"var_name": "voyage__voyage_zotero_connections__zotero_source__zotero_title",
 						"cell_fn": "literal"
 					}
-				],
-				"join": ":"
+				]
 			}
 		}
 	],
@@ -377,7 +371,7 @@
 			"label": "Sources",
 			"children": [
 				{
-					"colID": "voyage__voyage_sources",
+					"colID": "voyage_sources",
 					"label": "Sources"
 				}
 			]

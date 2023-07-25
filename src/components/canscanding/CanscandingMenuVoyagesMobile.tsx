@@ -49,7 +49,7 @@ const CanscandingMenuVoyagesMobile = () => {
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleDataSetCollection
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
@@ -159,7 +159,7 @@ const CanscandingMenuVoyagesMobile = () => {
                 fontWeight: 600,
               }}
             >
-              <span style={{ display: 'flex' }}>
+              <span style={{ display: 'flex', alignItems: 'center' }}>
                 <FilterAltIcon style={{ color: '#000000' }} />
                 <div className="menu-nav-bar">Filter Search</div>
               </span>

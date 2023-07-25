@@ -2,7 +2,7 @@
 	"cell_structure": [
 		{
 			"header_label": "Names",
-			"cell_type": "literal-concat",
+			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
 				"principal_alias"
@@ -14,18 +14,154 @@
 						"var_name": "principal_alias",
 						"cell_fn": "literal"
 					}
-				],
-				"join": " / "
+				]
 			}
+		},
+		{
+			"header_label": "Birth",
+			"cell_type": "literal-concat",
+			"visible": true,
+			"order_by": [
+				"birth_place__geo_location__name",
+				"birth_year"
+			],
+			"colID": "birth",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "birth_place__geo_location__name",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "birth_year",
+						"cell_fn": "literal"
+					}
+				],
+				"join": " : "
+			}
+		},
+		{
+			"header_label": "Death",
+			"cell_type": "literal-concat",
+			"visible": true,
+			"order_by": [
+				"death_place__geo_location__name",
+				"death_year"
+			],
+			"colID": "death",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "death_place__geo_location__name",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "death_year",
+						"cell_fn": "literal"
+					}
+				],
+				"join": " : "
+			}
+		},
+		{
+			"header_label": "Voyages",
+			"cell_type": "literal-concat",
+			"visible": true,
+			"order_by": [
+				"aliases__enslaver_voyage_connection__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+				"aliases__enslaver_voyage_connection__voyage__voyage_ship__ship_name",
+				"aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
+				"aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name"
+				
+			],
+			"colID": "voyages",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_enslaver_connection__role__name",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_ship__ship_name",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+						"cell_fn": "literal"
+					}
+					
+				],
+				"join": " : "
+			}
+			
+		},
+		{
+			"header_label": "Enslavement Relations",
+			"cell_type": "literal",
+			"visible": true,
+			"order_by": [
+				"aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name"
+			],
+			"colID": "enslavement_relations",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+			
 		}
+		
+		
 	],
 	"column_selector_tree": [
 		{
-			"label": "Names",
+			"label": "Name",
 			"children": [
 				{
 					"colID": "aliases",
 					"label": "Names"
+				}
+			]
+		},
+		{
+			"label": "Personal Data",
+			"children": [
+				{
+					"colID": "birth",
+					"label": "Birth"
+				},
+				{
+					"colID": "death",
+					"label": "Death"
+				}
+			]
+		},
+		{
+			"label": "Voyages",
+			"children": [
+				{
+					"colID": "voyages",
+					"label": "Voyages"
+				}
+			]
+		},
+		{
+			"label": "Enslavement Relations",
+			"children": [
+				{
+					"colID": "enslavement_relations",
+					"label": "Enslavement Relations"
 				}
 			]
 		}
