@@ -179,7 +179,7 @@ const EnslavedTable: React.FC = () => {
         const response = await dispatch(
           fetchEnslavedOptionsList(newFormData)
         ).unwrap();
-        if (subscribed) {
+        if (response) {
           setTotalResultsCount(Number(response.headers.total_results_count));
           dispatch(setData(response.data));
           saveDataToLocalStorage(response.data, visibleColumnCells);

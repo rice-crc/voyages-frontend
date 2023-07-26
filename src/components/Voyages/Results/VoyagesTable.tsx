@@ -150,7 +150,7 @@ const VoyagesTable: React.FC = () => {
         const response = await dispatch(
           fetchVoyageOptionsPagination(newFormData)
         ).unwrap();
-        if (subscribed) {
+        if (response) {
           setTotalResultsCount(Number(response.headers.total_results_count));
           dispatch(setData(response.data));
           saveDataToLocalStorage(response.data, visibleColumnCells);

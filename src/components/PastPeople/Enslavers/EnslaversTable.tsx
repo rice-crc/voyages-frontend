@@ -153,7 +153,7 @@ const EnslaversTable: React.FC = () => {
         const response = await dispatch(
           fetchEnslaversOptionsList(newFormData)
         ).unwrap();
-        if (subscribed) {
+        if (response) {
           setTotalResultsCount(Number(response.headers.total_results_count));
 
           dispatch(setData(response.data));

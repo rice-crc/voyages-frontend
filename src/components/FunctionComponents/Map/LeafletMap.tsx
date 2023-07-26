@@ -85,24 +85,12 @@ export const LeafletMap = () => {
   const fetchData = async () => {
     setLoading(true);
     const newFormData: FormData = new FormData();
-    // WAIT FOR John to fix data and will uncomment :
     if (zoomLevel <= 6) {
       newFormData.append('zoomlevel', 'region');
     }
     if (zoomLevel > 6) {
       newFormData.append('zoomlevel', 'place');
     }
-
-    // if (pathName === VOYAGESPAGE) {
-    //   if (zoomLevel <= 6) {
-    //     newFormData.append('zoomlevel', 'region');
-    //   }
-    //   if (zoomLevel > 6) {
-    //     newFormData.append('zoomlevel', 'place');
-    //   }
-    // } else {
-    //   newFormData.append('zoomlevel', 'place');
-    // }
     if (
       isChange &&
       rang[varName] &&
