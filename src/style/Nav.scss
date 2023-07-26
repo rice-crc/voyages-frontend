@@ -122,15 +122,15 @@
         font-weight: 600;
     }
     @include breakpoint-standard(1.1) {
-        font-size: 14px;
+        font-size:  0.75rem;
         top: 2px;
     }
     @include breakpoint-standard(1) {
-        font-size: 12px;
+        font-size:  0.75rem;
         top: 2px;
     }
     @include breakpoint-standard(0) {
-        font-size: 14px;
+        font-size:0.72rem;
         top: 2px;
     }
 
@@ -143,6 +143,14 @@
 .menu-nav-bar {
     font-family: "Cormorant Garamond";
     color: black;
+    @include breakpoint-standard(1) {
+        font-size: 12px;
+
+    }
+    @include breakpoint-standard(0) {
+        font-size: 12px;
+  
+    }
 }
 .menu-filter-search-enslavers {
     font-family: "Cormorant Garamond";

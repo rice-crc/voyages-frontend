@@ -21,6 +21,7 @@ import {
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetchAPI/voyagesApi/fetchOptionsFlat';
+import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -59,6 +60,7 @@ function BarGraph() {
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
     y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   });
+  const maxWidth = maxWidthSize(width);
   const [aggregation, setAggregation] = useState<string>('sum');
   const VoyageBargraphOptions = useCallback(() => {
     Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(
@@ -193,18 +195,6 @@ function BarGraph() {
     []
   );
 
-  const maxWidth =
-    width > 1024
-      ? width > 1440
-        ? width * 0.88
-        : width * 0.92
-      : width === 1024
-      ? width * 0.895
-      : width === 768
-      ? width * 0.95
-      : width < 768
-      ? width * 0.92
-      : width * 0.75;
   if (isLoading) {
     <div className="Skeleton-loading">
       <Skeleton />
