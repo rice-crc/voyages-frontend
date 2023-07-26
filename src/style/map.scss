@@ -48,9 +48,30 @@
     }
 }
 
-
+  
 .map-container {
     width: 95%;
+    .leaflet-top {
+        top: 12px;
+        @include breakpoint-standard(5) {
+            top: 50px;
+        }
+        @include breakpoint-standard(4) {
+            top:0;
+        }
+        @include breakpoint-standard(3) {
+            top:0;
+        }
+        @include breakpoint-standard(2) {
+            top:0;
+        }
+        @include breakpoint-standard(1) {
+            top:0;
+        }
+        @include breakpoint-standard(0) {
+            top:0;
+        }
+    }
     @include breakpoint-standard(7) {
         width: 90%;
     }
@@ -63,6 +84,7 @@
     .lealfetMap-container{
         height: 75vh;
         width: 100%;
+      
     }
     .loading-logo{
         display: flex;

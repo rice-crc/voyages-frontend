@@ -38,6 +38,7 @@ import {
   setPeopleEnslavedTextIntro,
   setPeopleTableEnslavedFlatfile,
 } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -76,6 +77,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
     dispatch(setPeopleEnslavedBlocksMenuList(blocks));
     dispatch(setPeopleEnslavedFilterMenuFlatfile(filter_menu_flatfile));
     dispatch(setPeopleTableEnslavedFlatfile(table_flatfile));
+    if (currentEnslavedPage === 3) {
+      dispatch(setCurrentEnslavedPage(1));
+    }
   };
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
