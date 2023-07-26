@@ -12,7 +12,8 @@ export function hasValueGetter(
     const firstData = data[fields[0].var_name];
     const joinDelimiter: string | undefined = value.cell_val.join;
     if (value.cell_type === 'literal') {
-        return data[fields[0].var_name] ?? '--';
+        const dataDisplay = data[fields[0].var_name]
+        return dataDisplay ? dataDisplay : '--'
     } else if (
         value.cell_type === 'literal-concat' &&
         Array.isArray(firstData)
@@ -33,10 +34,10 @@ export function hasValueGetter(
             const fieldName = fields[i].var_name;
             const fieldValue = data[fieldName];
             if (fieldValue !== null) {
-                dataValue += fieldValue + ',';
+                dataValue += fieldValue + '  ';
             }
         }
         const result = dataValue.substring(0, dataValue.length - 1);
-        return result;
+        return result
     }
 }

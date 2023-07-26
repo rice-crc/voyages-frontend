@@ -1,8 +1,9 @@
+import BackGroundVideo from '@/assets/BlackWhiteWaves.mp4';
 const VideoBackground = () => {
   return (
     <div className="video-background">
       <video autoPlay muted loop>
-        <source src="./src/assets/BlackWhiteWaves.mp4" type="video/mp4" />
+        <source src={BackGroundVideo} type="video/mp4" />
       </video>
     </div>
   );

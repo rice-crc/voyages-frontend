@@ -19,7 +19,7 @@ import BarGraph from './Results/BarGraph';
 import PieGraph from './Results/PieGraph';
 import VoyagesTable from './Results/VoyagesTable';
 import { setIsFilter } from '@/redux/getFilterSlice';
-import VoyagesMap from './Results/VoyagesMap';
+import VoyagesMaps from '../FunctionComponents/Map/VoyageMap';
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -53,7 +53,7 @@ const ScrollPage = () => {
       {currentPage === 4 && <PieGraph />}
       {currentPage === 5 && <VoyagesTable />}
       {currentPage === 6 && <h1>PIVOT</h1>}
-      {currentPage === 7 && <VoyagesMap />}
+      {currentPage === 7 && <VoyagesMaps />}
     </motion.div>
   );
   let topPosition;

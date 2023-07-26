@@ -1,10 +1,17 @@
+
 import { NodeAggroutes } from "@/share/InterfaceTypesMap";
 
 export const createNodeDict = (nodesData: NodeAggroutes[]) => {
-    const nodesDict: { [key: string]: any } = {};
+    const nodesDict: { [key: string]: [number, number] | null } = {};
     nodesData.forEach((node) => {
-        nodesDict[node.id] = [node.data.lat, node.data.lon];
+        const latitude = node?.data?.lat;
+        const longitude = node?.data?.lon;
 
+        if (latitude !== undefined && longitude !== undefined) {
+            nodesDict[node.id] = [latitude, longitude];
+        } else {
+            nodesDict[node.id] = null; // Set as null when lat or lon is undefined
+        }
     });
     return nodesDict;
 };

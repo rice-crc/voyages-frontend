@@ -150,7 +150,7 @@ const VoyagesTable: React.FC = () => {
         const response = await dispatch(
           fetchVoyageOptionsPagination(newFormData)
         ).unwrap();
-        if (subscribed) {
+        if (response) {
           setTotalResultsCount(Number(response.headers.total_results_count));
           dispatch(setData(response.data));
           saveDataToLocalStorage(response.data, visibleColumnCells);
@@ -284,7 +284,7 @@ const VoyagesTable: React.FC = () => {
                 count={totalResultsCount}
                 page={page}
                 onPageChange={handleChangePage}
-                rowsPerPageOptions={[5, 10, 12, 15, 20, 25, 30, 45, 50, 100]}
+                rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 45, 50, 100]}
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />

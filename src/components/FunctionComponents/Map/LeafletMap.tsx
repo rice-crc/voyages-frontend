@@ -6,11 +6,14 @@ import {
   useMapEvents,
   useMapEvent,
 } from 'react-leaflet';
+import { useLocation } from 'react-router-dom';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVoyagesMap } from '@/fetchAPI/voyagesApi/fetchVoyagesMap';
 import {
+  Dispositions,
   NodeAggroutes,
+  Originations,
   PathOptions,
   Transportation,
 } from '@/share/InterfaceTypesMap';
@@ -21,26 +24,32 @@ import {
   RangeSliderState,
 } from '@/share/InterfaceTypes';
 import {
+  ENSALVEDPAGE,
   MAP_CENTER,
   MAXIMUM_ZOOM,
   MINIMUM_ZOOM,
+  VOYAGESPAGE,
   mappingSpecialists,
   mappingSpecialistsCountries,
   mappingSpecialistsRivers,
 } from '@/share/CONST_DATA';
-import PolylineTransportationMap from './PolylineTransportationMap';
-import NodeMarkerMap from './NodeMarkerMap';
+import PolylineEnslavedMap from './PolylineMap';
+import NodeMarkerEnslavedMap from '../../PastPeople/Enslaved/NodeMarkerEnslavedMap';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
+import { fetchEnslavedMap } from '@/fetchAPI/pastEnslavedApi/fetchEnslavedMap';
 
 export const LeafletMap = () => {
   const dispatch: AppDispatch = useDispatch();
+  const location = useLocation();
+  const pathNameArr = location.pathname.split('/');
+  const pathName = pathNameArr[pathNameArr.length - 1];
   const [nodesData, setNodesData] = useState<NodeAggroutes[]>([]);
   const [transportation, setTransportation] = useState<Transportation[]>([]);
+  const [disposition, setDisposition] = useState<Dispositions[]>([]);
+  const [origination, setOrigination] = useState<Originations[]>([]);
   const [zoomLevel, setZoomLevel] = useState<number>(3);
   const [loading, setLoading] = useState<boolean>(false);
-  const [pathOptions, setPathOptions] = useState<PathOptions>({
-    color: '#e286f1',
-  });
+
   const {
     rangeSliderMinMax: rang,
     varName,
@@ -48,6 +57,9 @@ export const LeafletMap = () => {
   } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
+  );
+  const { currentEnslavedPage } = useSelector(
+    (state: RootState) => state.getScrollEnslavedPage
   );
   const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
@@ -69,6 +81,7 @@ export const LeafletMap = () => {
       setZoomLevel(mapEvents.getZoom());
     },
   });
+
   const fetchData = async () => {
     setLoading(true);
     const newFormData: FormData = new FormData();
@@ -78,7 +91,21 @@ export const LeafletMap = () => {
     if (zoomLevel > 6) {
       newFormData.append('zoomlevel', 'place');
     }
-    if (isChange && rang[varName] && currentPage === 7) {
+    if (
+      isChange &&
+      rang[varName] &&
+      currentPage === 7 &&
+      pathName === VOYAGESPAGE
+    ) {
+      newFormData.append(varName, String(rang[varName][0]));
+      newFormData.append(varName, String(rang[varName][1]));
+    }
+    if (
+      isChange &&
+      rang[varName] &&
+      currentEnslavedPage === 3 &&
+      pathName === ENSALVEDPAGE
+    ) {
       newFormData.append(varName, String(rang[varName][0]));
       newFormData.append(varName, String(rang[varName][1]));
     }
@@ -88,11 +115,18 @@ export const LeafletMap = () => {
         newFormData.append(varName, label);
       }
     }
+
     if (subscribed) {
-      const response = await dispatch(fetchVoyagesMap(newFormData)).unwrap();
+      let response;
+      if (pathName === VOYAGESPAGE) {
+        response = await dispatch(fetchVoyagesMap(newFormData)).unwrap();
+      } else if (pathName === ENSALVEDPAGE) {
+        response = await dispatch(fetchEnslavedMap(newFormData)).unwrap();
+      }
+
       if (response) {
         const { nodes, edges } = response;
-        const { transportation } = edges;
+        const { transportation, disposition, origination } = edges;
         try {
           // Save the fetched data in localStorage
           if (zoomLevel < 6) {
@@ -101,10 +135,14 @@ export const LeafletMap = () => {
               'transportation',
               JSON.stringify(transportation)
             );
+            localStorage.setItem('disposition', JSON.stringify(disposition));
+            localStorage.setItem('origination', JSON.stringify(origination));
           }
           // Update the state with fetched data
           setNodesData(nodes);
           setTransportation(transportation);
+          setDisposition(disposition);
+          setOrigination(origination);
           setLoading(false);
         } catch (error) {
           console.log('error', error);
@@ -118,7 +156,15 @@ export const LeafletMap = () => {
     return () => {
       subscribed = false;
     };
-  }, [rang, varName, isChange, autoCompleteValue, autoLabelName, currentPage]);
+  }, [
+    rang,
+    varName,
+    isChange,
+    autoCompleteValue,
+    autoLabelName,
+    currentPage,
+    pathName,
+  ]);
 
   // Effect to handle zoomLevel changes and check localStorage
   useEffect(() => {
@@ -162,12 +208,13 @@ export const LeafletMap = () => {
           <TileLayer url={mappingSpecialistsCountries} />
         </LayersControl.Overlay>
       </LayersControl>
-      <PolylineTransportationMap
+      <PolylineEnslavedMap
+        origination={origination}
+        disposition={disposition}
         transportation={transportation}
         nodesData={nodesData}
-        pathOptions={pathOptions}
       />
-      <NodeMarkerMap nodesData={nodesData} />
+      <NodeMarkerEnslavedMap nodesData={nodesData} />
     </MapContainer>
   );
 };
