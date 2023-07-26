@@ -44,7 +44,6 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
   >(rangeMinMax);
 
   useEffect(() => {
-    //fetchPastEnslavedRangeSliderData
     const fetchRangeSlider = async () => {
       const formData: FormData = new FormData();
       formData.append('aggregate_fields', varName);

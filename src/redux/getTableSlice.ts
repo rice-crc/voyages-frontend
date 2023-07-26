@@ -32,49 +32,7 @@ export const getTableSlice = createSlice({
             (state, action: PayloadAction<ColumnObjectProps>) => {
                 state.tableOptions = action.payload;
             },
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchVoyageOptionsPagination.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(fetchVoyageOptionsPagination.fulfilled, (state, action) => {
-                state.loading = false;
-                state.error = null;
-                state.data = action.payload.data;
-            })
-            .addCase(fetchVoyageOptionsPagination.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload;
-            })
-            .addCase(fetchEnslavedOptionsList.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(fetchEnslavedOptionsList.fulfilled, (state, action) => {
-                state.loading = false;
-                state.error = null;
-                state.data = action.payload.data;
-            })
-            .addCase(fetchEnslavedOptionsList.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload;
-            })
-            .addCase(fetchEnslaversOptionsList.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(fetchEnslaversOptionsList.fulfilled, (state, action) => {
-                state.loading = false;
-                state.error = null;
-                state.data = action.payload.data;
-            })
-            .addCase(fetchEnslaversOptionsList.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload;
-            });
-    },
+    }
 });
 
 export const { setData, setRowData, setColumnDefs, setTableOptions } = getTableSlice.actions;

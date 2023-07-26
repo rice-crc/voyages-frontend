@@ -103,6 +103,7 @@ function PieGraph() {
         const response = await dispatch(
           fetchVoyageGraphGroupby(newFormData)
         ).unwrap();
+        console.log('response->', response);
         if (subscribed) {
           const keys = Object.keys(response);
           setPieOptions({

@@ -4,6 +4,7 @@ import { CSSProperties } from 'react';
 export const generateCellTableRenderer =
   () => (params: ICellRendererParams) => {
     const values = params.value;
+
     if (Array.isArray(values)) {
       const style: CSSProperties = {
         backgroundColor: '#e5e5e5',
@@ -23,10 +24,16 @@ export const generateCellTableRenderer =
         </span>
       ));
       return <div>{renderedValues}</div>;
+    } else if (typeof values !== 'object') {
+      return (
+        <div className="div-value">
+          <div className="value">{values ? values : '--'}</div>
+        </div>
+      );
     } else {
       return (
         <div className="div-value">
-          <div className="value">{values}</div>
+          <div className="value">--</div>
         </div>
       );
     }

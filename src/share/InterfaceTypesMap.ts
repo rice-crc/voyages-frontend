@@ -16,19 +16,21 @@ export interface DataAggroutes {
 export interface Weights {
     disembarkation: number
     embarkation: number
+    origin?: number
+    "post-disembarkation"?: number;
 }
 export interface Edges {
-    disposition?: Disposition[]
-    origination?: Origination[]
+    disposition?: Dispositions[]
+    origination?: Originations[]
     transportation: Transportation[]
 
 }
-export interface Disposition {
+export interface Dispositions {
     s: string
     t: string
     w: number
 }
-export interface Origination {
+export interface Originations {
     s: string
     t: string
     w: number
@@ -38,14 +40,16 @@ export interface Transportation {
     t: string
     w: number
 }
+
 export interface PathOptions {
     color: string
 }
 
 export interface PolylineMapProps {
     transportation: Transportation[];
+    disposition?: Dispositions[];
+    origination?: Originations[]
     nodesData: NodeAggroutes[];
-    pathOptions: PathOptions;
 }
 
 export interface NodeMarkerMapProps {

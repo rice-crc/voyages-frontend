@@ -11,6 +11,7 @@ import {
 import EnslavedPage from './EnslavedPage';
 import EnslavedTable from './EnslavedTable';
 import '@/style/page.scss';
+import VoyagesMaps from '@/components/FunctionComponents/Map/VoyageMap';
 
 const EnslavedPageScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -25,6 +26,7 @@ const EnslavedPageScrolling = () => {
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentEnslavedPage(page));
   };
+
   const displayPage = (
     <motion.div
       initial={'initial'}
@@ -38,6 +40,7 @@ const EnslavedPageScrolling = () => {
     >
       {currentEnslavedPage === 1 && <EnslavedPage />}
       {currentEnslavedPage === 2 && <EnslavedTable />}
+      {currentEnslavedPage === 3 && <VoyagesMaps />}
     </motion.div>
   );
 
