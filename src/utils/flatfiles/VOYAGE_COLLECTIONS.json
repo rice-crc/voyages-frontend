@@ -39,6 +39,7 @@
 			"INTRO",
 			"SCATTER",
 			"BAR",
+			"PIE",
 			"TABLE",
 			"PIVOT",
 			"MAP"
