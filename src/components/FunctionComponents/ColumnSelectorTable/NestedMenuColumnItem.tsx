@@ -2,7 +2,8 @@ import React, { MouseEvent } from 'react';
 import { Menu, MenuItem } from '@mui/material';
 import { MenuItemProps } from '@mui/material/MenuItem';
 import ArrowRight from '@mui/icons-material/ArrowRight';
-
+import { useWindowSize } from '@react-hook/window-size';
+import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 interface NestedMenuItemProps extends Omit<MenuItemProps, 'ref'> {
   label: React.ReactNode;
   rightIcon?: React.ReactNode;
@@ -35,10 +36,10 @@ const NestedMenuColumnItem = React.forwardRef<any, NestedMenuItemProps>(
     const containerRef = React.useRef<HTMLDivElement>(null);
     const menuContainerRef = React.useRef<HTMLDivElement>(null);
     const [isSubMenuOpen, setIsSubMenuOpen] = React.useState(false);
-
+    const [width] = useWindowSize();
+    const maxWidth = maxWidthSize(width);
     const handleMouseEnter = (event: React.MouseEvent<HTMLLIElement>) => {
       setIsSubMenuOpen(true);
-
       if (menuItemProps?.onMouseEnter) {
         menuItemProps.onMouseEnter(event);
       }
@@ -116,6 +117,7 @@ const NestedMenuColumnItem = React.forwardRef<any, NestedMenuItemProps>(
         ref={menuItemRef}
         onFocus={handleFocus}
         tabIndex={tabIndex}
+        onMouseOver={maxWidth < 400 ? onClickMenu : undefined}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onKeyDown={handleKeyDown}

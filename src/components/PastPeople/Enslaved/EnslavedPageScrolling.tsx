@@ -52,7 +52,7 @@ const EnslavedPageScrolling = () => {
   } else if (currentEnslavedPage === 2) {
     topPosition = 160;
   } else if (isFilter) {
-    topPosition = 227;
+    topPosition = 235;
   } else {
     topPosition = 170;
   }

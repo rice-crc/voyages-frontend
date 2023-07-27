@@ -9,21 +9,25 @@ export function hasValueGetter(
     const finalData: string[] = [];
     const data = params.data;
     const fields = value.cell_val.fields;
-    const firstData = data[fields[0].var_name];
+    const firstData = data[fields[0]?.var_name];
     const joinDelimiter: string | undefined = value.cell_val.join;
+
     if (value.cell_type === 'literal') {
         const dataDisplay = data[fields[0].var_name]
         return dataDisplay ? dataDisplay : '--'
-    } else if (
-        value.cell_type === 'literal-concat' &&
-        Array.isArray(firstData)
-    ) {
+    } else if (value.cell_type === 'literal-concat' && Array.isArray(firstData)) {
+
         for (let i = 0; i < firstData?.length; i++) {
             const dataResult = [];
-            for (let j = 0; j < fields.length; j++) {
+            for (let j = 0; j < fields?.length; j++) {
                 const fieldName = fields[j].var_name;
-                const fieldValue = data[fieldName][i];
-                dataResult.push(String(fieldValue));
+
+                const fieldValue = data[fieldName] ? data[fieldName][i] : '--';
+                if (fieldValue !== undefined) {
+                    dataResult.push(String(fieldValue ?? ""));
+                } else {
+                    dataResult.push(String('-'));
+                }
             }
             finalData.push(dataResult.join(joinDelimiter));
         }
