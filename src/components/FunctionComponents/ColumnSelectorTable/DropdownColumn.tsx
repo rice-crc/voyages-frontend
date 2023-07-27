@@ -93,6 +93,7 @@ export const DropdownColumn = forwardRef<HTMLDivElement, DropdownProps>(
           anchorEl={isOpen ? anchorRef.current : null}
           open={isOpen}
           onClose={handleClose}
+          disableScrollLock={true}
         >
           <List>{menu?.map(renderMenu)}</List>
         </Menu>

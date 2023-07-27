@@ -174,7 +174,7 @@ export const MenuListDropdownPeople = () => {
             data-label={item.label}
             onClick={(event: any) => handleClickMenu(event)}
             sx={{
-              color: pathName === ALLENSLAVERS ? '#ffffff' : '#000000',
+              color: '#000000',
               textTransform: 'none',
               fontSize: 14,
             }}
@@ -187,7 +187,7 @@ export const MenuListDropdownPeople = () => {
             trigger={
               <Button
                 sx={{
-                  color: pathName === ALLENSLAVERS ? '#ffffff' : '#000000',
+                  color: '#000000',
                   textTransform: 'none',
                   fontSize: 14,
                 }}
@@ -227,6 +227,7 @@ export const MenuListDropdownPeople = () => {
         BackdropProps={{
           style: DialogModalStyle,
         }}
+        disableScrollLock={true}
         sx={StyleDialog}
         open={isOpenDialog}
         onClose={handleCloseDialog}

@@ -133,6 +133,7 @@ const RangeSlider = () => {
           type: 'number',
           'aria-labelledby': 'input-slider',
           position: 'left',
+          MenuProps: { disablePortal: true },
         }}
       />
       <Input

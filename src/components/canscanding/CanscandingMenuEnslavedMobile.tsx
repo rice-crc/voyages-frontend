@@ -192,6 +192,7 @@ const CanscandingMenuEnslavedMobile = () => {
         BackdropProps={{
           style: DialogModalStyle,
         }}
+        disableScrollLock={true}
         sx={StyleDialog}
         open={isOpenDialogMobile}
         onClose={handleCloseDialog}

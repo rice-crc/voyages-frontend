@@ -59,7 +59,6 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
           console.log('error', error);
         });
     } else if (pathName === ALLENSLAVED) {
-      console.log('Enslaved', pathName);
       dispatch(fetchPastEnslavedAutoComplete(formData))
         .unwrap()
         .then((response: any) => {
