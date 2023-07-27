@@ -16,10 +16,9 @@ import {
 import { fetchRangeSliderData } from '@/fetchAPI/voyagesApi/fetchRangeSliderData';
 import { fetchPastEnslavedRangeSliderData } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedRangeSliderData';
 import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
+import '@/style/Slider.scss';
 
-interface GetSliderProps {}
-
-const RangeSlider: FunctionComponent<GetSliderProps> = () => {
+const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const { rangeValue, varName, rangeSliderMinMax } = useSelector(
@@ -120,7 +119,7 @@ const RangeSlider: FunctionComponent<GetSliderProps> = () => {
   };
 
   return (
-    <Grid sx={{ width: 350 }}>
+    <Grid className="autocomplete-modal-box">
       <Input
         color="secondary"
         name="start"
