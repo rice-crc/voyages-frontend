@@ -127,6 +127,7 @@ const NestedMenuColumnItem = React.forwardRef<any, NestedMenuItemProps>(
         {rightIcon}
         <Menu
           hideBackdrop
+          disableScrollLock={true}
           style={{ pointerEvents: 'none' }}
           anchorEl={menuItemRef.current}
           anchorOrigin={{

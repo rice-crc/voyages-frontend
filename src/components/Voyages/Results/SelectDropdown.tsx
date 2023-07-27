@@ -47,6 +47,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
+    disableScrollLock: true,
     PaperProps: {
       style: {
         maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
@@ -76,6 +77,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
               height: 42,
             }}
             MenuProps={{
+              disableScrollLock: true,
               PaperProps: {
                 sx: {
                   height: 380,

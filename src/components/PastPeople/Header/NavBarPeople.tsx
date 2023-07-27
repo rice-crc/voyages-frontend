@@ -119,6 +119,7 @@ export default function NavBarPeople() {
         </Toolbar>
         <Box component="nav">
           <Menu
+            disableScrollLock={true}
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClick={handleMenuClose}
