@@ -6,10 +6,10 @@ import { ListItemText, MenuItem, MenuList } from '@mui/material';
 interface DrawerMenuBarProps {
   value: DataSetCollectionProps[];
   handleSelectDataset: (
-    base_filter: BaseFilter[],
-    label: string,
-    text_introduce: string,
-    style_name: string,
+    baseFilter: BaseFilter[],
+    textHeder: string,
+    textIntro: string,
+    styleName: string,
     blocks: string[]
   ) => void;
 }

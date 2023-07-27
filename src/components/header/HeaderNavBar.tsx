@@ -3,17 +3,12 @@ import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
-import { Button, Menu, Typography } from '@mui/material';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { HeaderNavBarMenuProps } from '@/share/InterfaceTypes';
 import CanscandingMenu from '../canscanding/CanscandingMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
-import { Link } from 'react-router-dom';
-import '@/style/Nav.scss';
-
-import { setIsFilter } from '@/redux/getFilterSlice';
 import { ColumnSelector } from '../FunctionComponents/ColumnSelectorTable/ColumnSelector';
 import {
   setBaseFilterDataKey,
@@ -21,11 +16,9 @@ import {
   setBaseFilterDataValue,
   setBlocksMenuList,
   setDataSetHeader,
-  setPathName,
   setStyleName,
   setTextIntro,
 } from '@/redux/getDataSetCollectionSlice';
-
 import {
   getColorBackground,
   getColorHoverBackground,
@@ -34,9 +27,16 @@ import {
   getColorBoxShadow,
 } from '@/utils/functions/getColorStyle';
 import { DrawerMenuBar } from './drawerMenuBar';
-import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
+import { HeaderTitle } from '@/components/FunctionComponents/HeaderTitle';
+import { FilterButton } from '@/components/FunctionComponents/FilterButton';
+import { DatasetButton } from '@/components/FunctionComponents/DatasetButton';
+import {
+  BaseFilter,
+  DataSetCollectionProps,
+} from '@/share/InterfactTypesDatasetCollection';
 import { ALLVOYAGES, VOYAGETILE } from '@/share/CONST_DATA';
 import CanscandingMenuVoyagesMobile from '../canscanding/CanscandingMenuVoyagesMobile';
+import '@/style/Nav.scss';
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -67,6 +67,14 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     dispatch(setTextIntro(textIntro));
     dispatch(setStyleName(styleName));
     dispatch(setBlocksMenuList(blocks));
+    /* === Reset the filter as you move between the different collections, 
+    if later need can remove line below === */
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      if (key === 'filterObject') {
+        localStorage.removeItem(key);
+      }
+    });
   };
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -115,22 +123,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <div
-              className="voyages-header"
-              style={{ color: getTextColor(styleName) }}
-            >
-              <Link
-                to="/VoyagesPage"
-                style={{
-                  textDecoration: 'none',
-                  color: getTextColor(styleName),
-                }}
-              >
-                {VOYAGETILE}
-              </Link>
-              <span className="voyages-title">:</span>
-              <div className="voyages-header-subtitle">{textHeader}</div>
-            </div>
+            <HeaderTitle textHeader={textHeader} HeaderTitle={VOYAGETILE} />
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
@@ -143,7 +136,6 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               variant="body1"
               fontWeight="500"
               sx={{
-                cursor: 'pointer',
                 alignItems: 'center',
                 display: {
                   xs: 'none',
@@ -155,17 +147,8 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
                 fontSize: 18,
                 fontWeight: 600,
               }}
-              onClick={() => {
-                dispatch(setIsFilter(!isFilter));
-                dispatch(setPathName(ALLVOYAGES));
-              }}
             >
-              {currentPage !== 1 && (
-                <>
-                  <FilterAltIcon style={{ color: '#000000' }} />
-                  <div className="menu-nav-bar">Filter Search</div>
-                </>
-              )}
+              <FilterButton pathName={ALLVOYAGES} currentPage={currentPage} />
             </Typography>
           </Typography>
           <CanscandingMenuVoyagesMobile />
@@ -190,37 +173,17 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             >
               Select dataset
             </Box>
-            {value.map((item, index) => {
-              const { base_filter, headers, style_name, blocks } = item;
-              return (
-                <Button
-                  key={`${item}-${index}`}
-                  onClick={() =>
-                    handleSelectDataset(
-                      base_filter,
-                      headers.label,
-                      headers.text_introduce,
-                      style_name,
-                      blocks
-                    )
-                  }
-                  sx={{
-                    color: '#ffffff',
-                    fontWeight: 600,
-                    height: 32,
-                    fontSize: 12,
-                    margin: '0 2px',
-                    boxShadow: getColorBoxShadow(style_name),
-                    backgroundColor: getColorBackground(style_name),
-                    '&:hover': {
-                      backgroundColor: getColorHoverBackground(style_name),
-                    },
-                  }}
-                >
-                  <div>{headers.label}</div>
-                </Button>
-              );
-            })}
+            {value.map((item: DataSetCollectionProps, index) => (
+              <DatasetButton
+                key={`${item}-${index}`}
+                item={item}
+                index={index}
+                handleSelectDataset={handleSelectDataset}
+                getColorBoxShadow={getColorBoxShadow}
+                getColorBTNBackground={getColorBackground}
+                getColorHover={getColorHoverBackground}
+              />
+            ))}
           </Box>
         </Toolbar>
         <Hidden mdDown>
@@ -231,6 +194,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClick={handleMenuClose}
+            disableScrollLock={true}
           >
             <DrawerMenuBar
               value={value}
@@ -243,6 +207,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
         anchorEl={anchorFilterMobileEl}
         open={Boolean(anchorFilterMobileEl)}
         onClick={handleMenuFilterMobileClose}
+        disableScrollLock={true}
       >
         <MenuListDropdownStyle>
           <ColumnSelector />

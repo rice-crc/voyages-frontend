@@ -155,16 +155,6 @@ export const MenuListDropdown = () => {
                 }}
                 endIcon={
                   <span>
-                    <ArrowRight
-                      sx={{
-                        display: {
-                          xs: 'flex',
-                          sm: 'flex',
-                          md: 'none',
-                        },
-                        fontSize: 14,
-                      }}
-                    />
                     <ArrowDropDown
                       sx={{
                         display: {
@@ -186,6 +176,7 @@ export const MenuListDropdown = () => {
         );
       })}
       <Dialog
+        disableScrollLock={true}
         BackdropProps={{
           style: DialogModalStyle,
         }}

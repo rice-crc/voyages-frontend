@@ -35,12 +35,15 @@ export const theme = createTheme({
                     fontSize: '1rem',
                 },
             },
+            defaultProps: {
+                disableRipple: true,
+            },
         },
     },
     spacing: [0, 4, 8, 16, 32, 64],
     palette: {
         background: {
-            default: MAINBGGREEN,
+            default: '#ffffff',
         },
     },
 });

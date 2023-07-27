@@ -161,6 +161,7 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
         data-type={type}
         data-label={label}
         onClick={onClickMenu}
+        dense={true}
       >
         {label}
         <div style={{ flexGrow: 1 }} />
@@ -169,6 +170,7 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
       {children && (
         <Menu
           hideBackdrop
+          disableScrollLock={true}
           style={{ pointerEvents: 'none' }}
           anchorEl={menuItemRef.current}
           anchorOrigin={{

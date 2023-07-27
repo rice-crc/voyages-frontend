@@ -1,39 +1,21 @@
-import { MouseEventHandler, useState } from 'react';
-import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { useState } from 'react';
+import { AppBar, Box, Hidden, Divider } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
-import { Button, Menu, Typography } from '@mui/material';
+import { Menu, Typography } from '@mui/material';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import '@/style/Nav.scss';
 import { setIsFilter } from '@/redux/getFilterSlice';
-import {
-  getColorNavbarEnslavedBackground,
-  getColorBoxShadowEnslaved,
-  getColorBTNBackgroundEnslaved,
-  getColorBTNHoverEnslavedBackground,
-} from '@/utils/functions/getColorStyle';
-
-import {
-  BaseFilter,
-  DataSetCollectionProps,
-} from '@/share/InterfactTypesDatasetCollection';
-import {
-  ALLENSLAVED,
-  ALLENSLAVERS,
-  EnslavedTitle,
-  EnslaversTitle,
-} from '@/share/CONST_DATA';
+import { ALLENSLAVERS, EnslaversTitle } from '@/share/CONST_DATA';
 import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
-
 import { setPathName } from '@/redux/getDataSetCollectionSlice';
-import { DrawerMenuPeopleBar } from '../../Header/DrawerMenuPeopleBar';
-
+import { HeaderTitle } from '@/components/FunctionComponents/HeaderTitle';
+import { FilterButton } from '@/components/FunctionComponents/FilterButton';
 import ButtonDropdownSelectorEnslavers from '../ColumnSelectorEnslaversTable/ButtonDropdownSelectorEnslavers';
 import CanscandingMenuEnslaversMobile from '@/components/canscanding/CanscandingMenuEnslaversMobile';
+import '@/style/Nav.scss';
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -49,14 +31,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
-    setAnchorEl(event.currentTarget);
   };
 
   return (
@@ -75,17 +49,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
-          <Hidden mdUp>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={handleMenuOpen}
-              sx={{ mr: 2, display: { md: 'none' } }}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
           <Typography
             component="div"
             sx={{
@@ -94,17 +57,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <div className="enslaved-header" style={{ color: '#ffffff' }}>
-              <Link
-                to="/PastHomePage"
-                style={{
-                  textDecoration: 'none',
-                  color: '#ffffff',
-                }}
-              >
-                {EnslaversTitle}
-              </Link>
-            </div>
+            <HeaderTitle textHeader={''} HeaderTitle={EnslaversTitle} />
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
@@ -117,7 +70,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
               variant="body1"
               fontWeight="500"
               sx={{
-                cursor: 'pointer',
                 alignItems: 'center',
                 display: {
                   xs: 'none',
@@ -129,22 +81,11 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 fontSize: 18,
                 fontWeight: 600,
               }}
-              onClick={() => {
-                dispatch(setIsFilter(!isFilter));
-                dispatch(setPathName(ALLENSLAVERS));
-              }}
             >
-              {currentEnslaversPage !== 1 && (
-                <>
-                  <FilterAltIcon />
-                  <div
-                    className="menu-filter-search-enslavers"
-                    style={{ color: 'ffffff' }}
-                  >
-                    Filter Search
-                  </div>
-                </>
-              )}
+              <FilterButton
+                pathName={ALLENSLAVERS}
+                currentPage={currentEnslaversPage}
+              />
             </Typography>
           </Typography>
           <CanscandingMenuEnslaversMobile />
@@ -167,20 +108,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
         <Hidden mdDown>
           {currentEnslaversPage !== 1 && isFilter && <CanscandingMenu />}
         </Hidden>
-        <Box component="nav">
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClick={handleMenuClose}
-          >
-            {/* <DrawerMenuPeopleBar
-              value={value}
-              handleSelectDataset={handleSelectDataset}
-            /> */}
-          </Menu>
-        </Box>
       </AppBar>
       <Menu
+        disableScrollLock={true}
         anchorEl={anchorFilterMobileEl}
         open={Boolean(anchorFilterMobileEl)}
         onClick={handleMenuFilterMobileClose}
