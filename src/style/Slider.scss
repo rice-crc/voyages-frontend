@@ -1,4 +1,65 @@
+@mixin breakpoint-standard($size) {
+    @if $size==0 {
+      @media only screen and (max-width: 374px) {
+        @content;
+      }
+    } @else if $size==1 {
+      @media only screen and (min-width: 375px) and (max-width: 424px) {
+        @content;
+      }
+    } @else if $size==1.1 {
+      @media only screen and (min-width: 425px) and (max-width: 479px) {
+        @content;
+      }
+    }@else if $size==2 {
+      @media only screen and (min-width: 480px) and (max-width: 575px) {
+        @content;
+      }
+    } @else if $size==3 {
+      @media only screen and (min-width: 576px) and (max-width: 767px) {
+        @content;
+      }
+    } @else if $size==4 {
+      @media only screen and (min-width: 768px) and (max-width: 991px) {
+        @content;
+      }
+    } @else if $size==5 {
+      @media only screen and (min-width: 992px) and (max-width: 1024px) {
+        @content;
+      }
+    } @else if $size==6 {
+      @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+        @content;
+      }
+    } @else if $size==7 {
+      @media only screen and (max-width: 1440px) {
+        @content;
+      }
+    }
+  }
+
 .sliderInputs{
     display: flex;
     justify-content: space-between;
+}
+.autocomplete-modal-box{
+    width: 350px;
+    @include breakpoint-standard(4) {
+         width: 320px;
+    }
+    @include breakpoint-standard(3) {
+         width: 300px;
+    }
+    @include breakpoint-standard(2) {
+         width: 300px;
+    }
+    @include breakpoint-standard(1.1) {
+         width: 300px;
+    }
+    @include breakpoint-standard(1) {
+         width: 260px;
+    }
+    @include breakpoint-standard(0) {
+         width: 250px;
+    }
 }

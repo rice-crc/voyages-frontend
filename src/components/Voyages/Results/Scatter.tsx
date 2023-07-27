@@ -21,6 +21,7 @@ import { fetchOptionsFlat } from '@/fetchAPI/voyagesApi/fetchOptionsFlat';
 import '@/style/page.scss';
 import { SelectDropdown } from './SelectDropdown';
 import { AggregationSumAverage } from './AggregationSumAverage';
+import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 
 function Scatter() {
   const datas = useSelector(
@@ -61,7 +62,7 @@ function Scatter() {
   });
 
   const [aggregation, setAggregation] = useState<string>('sum');
-
+  const maxWidth = maxWidthSize(width);
   const VoyageScatterOptions = useCallback(() => {
     Object.entries(VOYAGE_SCATTER_OPTIONS).forEach(
       ([key, value]: [string, PlotXYVar[]]) => {
@@ -200,19 +201,6 @@ function Scatter() {
     },
     []
   );
-
-  const maxWidth =
-    width > 1024
-      ? width > 1440
-        ? width * 0.88
-        : width * 0.92
-      : width === 1024
-      ? width * 0.895
-      : width === 768
-      ? width * 0.95
-      : width < 768
-      ? width * 0.92
-      : width * 0.75;
 
   if (isLoading) {
     <div className="Skeleton-loading">

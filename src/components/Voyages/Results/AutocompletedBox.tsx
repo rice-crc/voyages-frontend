@@ -9,7 +9,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAutoComplete } from '@/fetchAPI/voyagesApi/fetchAutoCompleted';
 import { Autocomplete, Stack, TextField, Box, Typography } from '@mui/material';
-import '@/style/table.scss';
+
 import 'react-dropdown-tree-select/dist/styles.css';
 import {
   AutoCompleteInitialState,
@@ -25,7 +25,8 @@ import {
 import { fetchPastEnslavedAutoComplete } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedAutoCompleted';
 import { ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
 import { fetchPastEnslaversAutoCompleted } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversAutoCompleted';
-
+import '@/style/Slider.scss';
+import '@/style/table.scss';
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
@@ -47,7 +48,6 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     formData.append(varName, autoValue);
 
     if (pathName === ALLVOYAGES) {
-      console.log('Voyayge', pathName);
       dispatch(fetchAutoComplete(formData))
         .unwrap()
         .then((response: any) => {
@@ -129,7 +129,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   };
 
   return (
-    <Stack spacing={3} sx={{ width: 350 }}>
+    <Stack spacing={3} className="autocomplete-modal-box">
       <Autocomplete
         multiple
         id="tags-outlined"

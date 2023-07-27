@@ -20,6 +20,7 @@ import {
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetchAPI/voyagesApi/fetchOptionsFlat';
+import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -50,6 +51,7 @@ function PieGraph() {
   const [pieGraphSelectedY, setSelectedY] = useState<PlotPIEY[]>([]);
   const [plotX, setPlotX] = useState<any[]>([]);
   const [plotY, setPlotY] = useState<any[]>([]);
+  const maxWidth = maxWidthSize(width);
 
   const [pieGraphOptions, setPieOptions] = useState<VoyagesOptionProps>({
     x_vars: PIECHART_OPTIONS.x_vars[0].var_name,
@@ -103,7 +105,6 @@ function PieGraph() {
         const response = await dispatch(
           fetchVoyageGraphGroupby(newFormData)
         ).unwrap();
-        console.log('response->', response);
         if (subscribed) {
           const keys = Object.keys(response);
           setPieOptions({
@@ -164,19 +165,6 @@ function PieGraph() {
     };
   }, [pieGraphOptions]);
 
-  const maxWidth =
-    width > 1024
-      ? width > 1440
-        ? width * 0.88
-        : width * 0.92
-      : width === 1024
-      ? width * 0.895
-      : width === 768
-      ? width * 0.95
-      : width < 768
-      ? width * 0.92
-      : width * 0.75;
-
   if (isLoading) {
     <div className="Skeleton-loading">
       <Skeleton />
@@ -221,6 +209,7 @@ function PieGraph() {
               insidetextorientation: 'radial',
               hole: 0.2,
               textposition: 'inside',
+              showlegend: maxWidth < 400 ? false : true,
             },
           ]}
           layout={{

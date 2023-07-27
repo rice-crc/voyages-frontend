@@ -34,6 +34,7 @@ import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTa
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
+import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 
 const VoyagesTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -66,18 +67,7 @@ const VoyagesTable: React.FC = () => {
   const gridRef = useRef<any>(null);
 
   const [width, height] = useWindowSize();
-  const maxWidth =
-    width > 1024
-      ? width > 1440
-        ? width * 0.88
-        : width * 0.92
-      : width === 1024
-      ? width * 0.895
-      : width === 768
-      ? width * 0.95
-      : width < 768
-      ? width * 0.92
-      : width * 0.75;
+  const maxWidth = maxWidthSize(width);
   const [style, setStyle] = useState({
     width: maxWidth,
     height: height * 0.62,

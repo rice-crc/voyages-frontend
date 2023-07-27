@@ -35,6 +35,7 @@ import '@/style/table.scss';
 import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsList';
 import ButtonDropdownSelectorEnslaved from './ColumnSelectorEnslavedTable/ButtonDropdownSelectorEnslaved';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
+import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 
 const EnslavedTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -72,16 +73,7 @@ const EnslavedTable: React.FC = () => {
     (state: RootState) => state.getScrollEnslavedPage
   );
   const [width, height] = useWindowSize();
-  const maxWidth =
-    width > 1024
-      ? width > 1440
-        ? width * 0.88
-        : width * 0.92
-      : width === 1024
-      ? width * 0.895
-      : width < 768
-      ? width * 0.8
-      : width * 0.75;
+  const maxWidth = maxWidthSize(width);
   const [style, setStyle] = useState({
     width: maxWidth,
     height: height * 0.62,
