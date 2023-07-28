@@ -188,10 +188,10 @@ height: 100vh;
         font-size: 28px;
     }
     @include breakpoint-standard(1) {
-        font-size: 22px;
+        font-size: 18px;
     }
     @include breakpoint-standard(0) {
-        font-size: 22px;
+        font-size: 18px;
     }
 }
 .enslaved-header-subtitle {
@@ -222,11 +222,11 @@ height: 100vh;
         top: 2px;
     }
     @include breakpoint-standard(1) {
-        font-size: 16px;
+        font-size: 12px;
         top: 2px;
     }
     @include breakpoint-standard(0) {
-        font-size: 16px;
+        font-size: 12px;
         top: 2px;
     }
 }

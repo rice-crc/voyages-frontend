@@ -1,7 +1,7 @@
 import { TableCellStructure } from "@/share/InterfaceTypesTable";
 import { ICellRendererParams } from "ag-grid-community";
-import { generateCellTableRenderer } from "./generateCellTableRenderer";
 import { hasValueGetter } from "./hasValueGetter";
+import { GenerateCellTableRenderer } from "@/components/FunctionComponents/GenerateCellTableRenderer";
 
 export const generateColumnDef = (value: TableCellStructure, visibleColumnCells: string[]) => {
     return {
@@ -15,7 +15,7 @@ export const generateColumnDef = (value: TableCellStructure, visibleColumnCells:
         tooltipField: value.colID,
         hide: !visibleColumnCells.includes(value.colID),
         filter: true,
-        cellRenderer: generateCellTableRenderer(),
+        cellRenderer: GenerateCellTableRenderer(),
         valueGetter: (params: ICellRendererParams) => hasValueGetter(params, value),
     };
 };

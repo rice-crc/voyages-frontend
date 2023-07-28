@@ -8,7 +8,13 @@ import { Link } from 'react-router-dom';
 import { setPathName } from '@/redux/getDataSetCollectionSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
+import {
+  ALLENSLAVED,
+  ALLENSLAVERS,
+  ENSALVEDPAGE,
+  ENSALVERSPAGE,
+  PASTHOMEPAGE,
+} from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 
@@ -47,7 +53,7 @@ const PastPeoplePage = () => {
               ))}
               <div className="btn-Enslaved-enslavers">
                 <Link
-                  to="/PastHomePage/enslaved"
+                  to={`/${PASTHOMEPAGE}${ENSALVEDPAGE}`}
                   style={{ textDecoration: 'none' }}
                   onClick={() => {
                     dispatch(setCurrentEnslavedPage(1));
@@ -57,7 +63,7 @@ const PastPeoplePage = () => {
                   <div className="enslaved-btn">Enslaved</div>
                 </Link>
                 <Link
-                  to="/PastHomePage/enslaver"
+                  to={`/${PASTHOMEPAGE}${ENSALVERSPAGE}`}
                   style={{ textDecoration: 'none' }}
                   onClick={() => {
                     dispatch(setCurrentEnslaversPage(1));

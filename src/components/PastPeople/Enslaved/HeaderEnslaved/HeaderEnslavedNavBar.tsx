@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getColorBTNBackgroundEnslaved,
@@ -12,12 +13,21 @@ import {
   getColorBoxShadowEnslaved,
   getColorNavbarEnslavedBackground,
 } from '@/utils/functions/getColorStyle';
-import { EnslavedTitle } from '@/share/CONST_DATA';
+import {
+  AFRICANORIGINS,
+  AFRICANORIGINSPAGE,
+  ALLENSLAVEDPAGE,
+  ENSALVEDPAGE,
+  ENSLAVEDTEXASPAGE,
+  EnslavedTitle,
+  PASTHOMEPAGE,
+  ENSLAVEDTEXAS,
+  ALLENSLAVED,
+} from '@/share/CONST_DATA';
 import {
   BaseFilter,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
-import { ALLENSLAVED } from '@/share/CONST_DATA';
 import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
 import CanscandingMenuEnslavedMobile from '@/components/canscanding/CanscandingMenuEnslavedMobile';
 import ButtonDropdownSelectorEnslaved from '../ColumnSelectorEnslavedTable/ButtonDropdownSelectorEnslaved';
@@ -41,6 +51,7 @@ import '@/style/Nav.scss';
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
@@ -82,6 +93,13 @@ const HeaderEnslavedNavBar: React.FC = () => {
     );
     if (currentEnslavedPage === 3) {
       dispatch(setCurrentEnslavedPage(1));
+    }
+    if (styleName === ALLENSLAVED) {
+      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`);
+    } else if (styleName === AFRICANORIGINS) {
+      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`);
+    } else if (styleName === ENSLAVEDTEXAS) {
+      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`);
     }
     /* === Reset the filter as you move between the different collections, 
     if later need can remove line below === */
@@ -139,7 +157,11 @@ const HeaderEnslavedNavBar: React.FC = () => {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <HeaderTitle textHeader={textHeader} HeaderTitle={EnslavedTitle} />
+            <HeaderTitle
+              textHeader={textHeader}
+              HeaderTitle={EnslavedTitle}
+              pathLink={PASTHOMEPAGE}
+            />
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
@@ -188,7 +210,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
             <Box className="menu-nav-bar-select" style={{ color: '#000000' }}>
               Select dataset
             </Box>
-            {value.map((item: DataSetCollectionProps, index) => (
+            {value.map((item: DataSetCollectionProps, index: number) => (
               <DatasetButton
                 key={`${item}-${index}`}
                 item={item}

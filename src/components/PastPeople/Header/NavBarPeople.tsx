@@ -7,7 +7,16 @@ import PEOPLE from '@/utils/flatfiles/people_page_data.json';
 import { useNavigate } from 'react-router-dom';
 import { DrawerMenuPeopleBar } from './DrawerMenuPeopleBar';
 import '@/style/Nav.scss';
-import { ALLENSLAVED, ALLENSLAVERS, POPELETILET } from '@/share/CONST_DATA';
+import {
+  ALLENSLAVED,
+  ALLENSLAVERS,
+  ENSALVEDPAGE,
+  ENSALVERSPAGE,
+  Enslaved,
+  POPELETILET,
+  PASTHOMEPAGE,
+  EnslaversTitle,
+} from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
@@ -30,15 +39,14 @@ export default function NavBarPeople() {
   };
 
   const handleSelectMenuItems = (item: string) => {
-    // Define the logic for navigating to the desired path based on the value of 'item'
     if (item === 'About') {
-      navigate('/PastHomePage');
-    } else if (item === 'Enslaved') {
-      navigate('/PastHomePage/enslaved');
+      navigate(`/${PASTHOMEPAGE}`);
+    } else if (item === Enslaved) {
+      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}`);
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setPathName(ALLENSLAVED));
-    } else if (item === 'Enslavers') {
-      navigate('/PastHomePage/enslaver');
+    } else if (item === EnslaversTitle) {
+      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}`);
       dispatch(setCurrentEnslaversPage(1));
       dispatch(setPathName(ALLENSLAVERS));
     } else {

@@ -14,7 +14,6 @@ import {
   Dispositions,
   NodeAggroutes,
   Originations,
-  PathOptions,
   Transportation,
 } from '@/share/InterfaceTypesMap';
 import '@/style/map.scss';
@@ -24,7 +23,7 @@ import {
   RangeSliderState,
 } from '@/share/InterfaceTypes';
 import {
-  ENSALVEDPAGE,
+  PASTHOMEPAGE,
   MAP_CENTER,
   MAXIMUM_ZOOM,
   MINIMUM_ZOOM,
@@ -42,7 +41,7 @@ export const LeafletMap = () => {
   const dispatch: AppDispatch = useDispatch();
   const location = useLocation();
   const pathNameArr = location.pathname.split('/');
-  const pathName = pathNameArr[pathNameArr.length - 1];
+  const pathName = pathNameArr[1];
   const [nodesData, setNodesData] = useState<NodeAggroutes[]>([]);
   const [transportation, setTransportation] = useState<Transportation[]>([]);
   const [disposition, setDisposition] = useState<Dispositions[]>([]);
@@ -104,7 +103,7 @@ export const LeafletMap = () => {
       isChange &&
       rang[varName] &&
       currentEnslavedPage === 3 &&
-      pathName === ENSALVEDPAGE
+      pathName === PASTHOMEPAGE
     ) {
       newFormData.append(varName, String(rang[varName][0]));
       newFormData.append(varName, String(rang[varName][1]));
@@ -120,7 +119,7 @@ export const LeafletMap = () => {
       let response;
       if (pathName === VOYAGESPAGE) {
         response = await dispatch(fetchVoyagesMap(newFormData)).unwrap();
-      } else if (pathName === ENSALVEDPAGE) {
+      } else if (pathName === PASTHOMEPAGE) {
         response = await dispatch(fetchEnslavedMap(newFormData)).unwrap();
       }
 
@@ -128,7 +127,6 @@ export const LeafletMap = () => {
         const { nodes, edges } = response;
         const { transportation, disposition, origination } = edges;
         try {
-          // Save the fetched data in localStorage
           if (zoomLevel < 6) {
             localStorage.setItem('nodesData', JSON.stringify(nodes));
             localStorage.setItem(
@@ -138,7 +136,7 @@ export const LeafletMap = () => {
             localStorage.setItem('disposition', JSON.stringify(disposition));
             localStorage.setItem('origination', JSON.stringify(origination));
           }
-          // Update the state with fetched data
+
           setNodesData(nodes);
           setTransportation(transportation);
           setDisposition(disposition);

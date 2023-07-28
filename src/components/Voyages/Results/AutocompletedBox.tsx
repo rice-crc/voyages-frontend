@@ -96,9 +96,11 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     if (storedValue) {
       const parsedValue = JSON.parse(storedValue);
       const { autoCompleteValue } = parsedValue;
-      for (const autoValue in autoCompleteValue) {
-        const autoValueList = autoCompleteValue[autoValue];
-        setSelectedValue(autoValueList);
+      for (const autoKey in autoCompleteValue) {
+        if (varName === autoKey) {
+          const autoValueList = autoCompleteValue[autoKey];
+          setSelectedValue(autoValueList);
+        }
       }
     }
   }, []);
