@@ -1,7 +1,7 @@
 import { ICellRendererParams } from 'ag-grid-community';
 import { CSSProperties } from 'react';
 
-export const generateCellTableRenderer =
+export const GenerateCellTableRenderer =
   () => (params: ICellRendererParams) => {
     const values = params.value;
 

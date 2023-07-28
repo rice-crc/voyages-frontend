@@ -15,6 +15,17 @@ import {
   setPeopleEnslavedStyleName,
   setPeopleEnslavedTextIntro,
 } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import {
+  AFRICANORIGINS,
+  AFRICANORIGINSPAGE,
+  ALLENSLAVEDPAGE,
+  ENSALVEDPAGE,
+  ENSLAVEDTEXASPAGE,
+  PASTHOMEPAGE,
+  ENSLAVEDTEXAS,
+  ALLENSLAVED,
+} from '@/share/CONST_DATA';
+import { useNavigate } from 'react-router-dom';
 
 const EnslavedPage = () => {
   const currentDate = new Date();
@@ -23,6 +34,7 @@ const EnslavedPage = () => {
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSelectEnslavedDataset = (
     base_filter: BaseFilter[],
     textHeder: string,
@@ -39,6 +51,13 @@ const EnslavedPage = () => {
     dispatch(setPeopleEnslavedTextIntro(textIntro));
     dispatch(setPeopleEnslavedStyleName(styleName));
     dispatch(setPeopleEnslavedBlocksMenuList(blocks));
+    if (styleName === ALLENSLAVED) {
+      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`);
+    } else if (styleName === AFRICANORIGINS) {
+      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`);
+    } else if (styleName === ENSLAVEDTEXAS) {
+      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`);
+    }
   };
   return (
     <>

@@ -161,7 +161,7 @@ export const MenuListDropdownPeople = () => {
       }
     };
     loadTableCellStructure();
-  }, [styleNamePeople]);
+  }, [styleNamePeople, pathName]);
 
   return (
     <Box>

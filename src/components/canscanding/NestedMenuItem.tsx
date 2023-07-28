@@ -170,7 +170,6 @@ const NestedMenuItem = forwardRef<any, NestedMenuItemProps>((props, ref) => {
       {children && (
         <Menu
           hideBackdrop
-          disableScrollLock={true}
           style={{ pointerEvents: 'none' }}
           anchorEl={menuItemRef.current}
           anchorOrigin={{

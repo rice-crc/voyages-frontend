@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
-export const HeaderTitle = ({
-  textHeader,
-  HeaderTitle,
-}: {
+interface HeaderTitleProps {
   textHeader: string;
   HeaderTitle: string;
-}) => {
+  pathLink: string;
+}
+export const HeaderTitle = (props: HeaderTitleProps) => {
+  const { textHeader, HeaderTitle, pathLink } = props;
   return (
     <div className="enslaved-header" style={{ color: '#000000' }}>
       <Link
-        to="/PastHomePage"
+        to={`/${pathLink}`}
         style={{
           textDecoration: 'none',
           color: textHeader ? '#000000' : '#ffffff',

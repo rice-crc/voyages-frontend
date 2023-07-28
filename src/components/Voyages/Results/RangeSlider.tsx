@@ -78,6 +78,21 @@ const RangeSlider = () => {
     fetchRangeSlider();
   }, [dispatch, varName, pathName]);
 
+  useEffect(() => {
+    const storedValue = localStorage.getItem('filterObject');
+    if (storedValue) {
+      const parsedValue = JSON.parse(storedValue);
+      const { rangeValue } = parsedValue;
+      setCurrentSliderValue;
+      for (const rangKey in rangeValue) {
+        if (varName === rangKey) {
+          const rangeMinMax = rangeValue[rangKey];
+          setCurrentSliderValue(rangeMinMax);
+        }
+      }
+    }
+  }, []);
+
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setCurrentSliderValue(newValue);
   };
@@ -133,7 +148,6 @@ const RangeSlider = () => {
           type: 'number',
           'aria-labelledby': 'input-slider',
           position: 'left',
-          MenuProps: { disablePortal: true },
         }}
       />
       <Input
