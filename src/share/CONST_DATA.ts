@@ -7,13 +7,35 @@ export const pathFlatFile = '@/utils/flatfiles/';
 export const ENSLAVED_TABLE_FILE = 'enslaved_table_cell_structure.json';
 export const AFRICANORIGINS_TABLE_FILE = 'african_origins_table_cell_structure.json';
 export const TEXAS_TABLE_FILE = 'texas_table_cell_structure.json';
-export const ALLVOYAGES = 'all-voyages'
-export const VOYAGESPAGE = 'VoyagesPage'
 
+export const VOYAGESPAGE = 'VoyagesPage'
+export const ALLVOYAGES = 'all-voyages'
+export const ALLVOYAGESPAGE = '/voyage/all-voyages'
+export const INTRAAMERICAN = 'intra-american'
+export const INTRAAMERICANPAGE = '/voyage/intra-american'
+export const TRANSATLANTIC = 'transatlantic'
+export const TRANSATLANTICPATH = 'trans-atlantic'
+export const TRANSATLANTICPAGE = '/voyage/trans-atlantic'
+export const VOYAGESTEXAS = 'texas'
+export const VOYAGESTEXASPAGE = '/voyage/texas'
+
+export const PASTHOMEPAGE = 'PastHomePage'
+export const Enslaved = 'Enslaved'
 export const ALLENSLAVED = 'all-enslaved'
-export const ENSALVEDPAGE = 'enslaved'
+export const ALLENSLAVEDPAGE = '/all-enslaved'
+export const ENSALVEDPAGE = '/enslaved'
+export const AFRICANORIGINS = 'african-origins'
+export const AFRICANORIGINSPAGE = '/african-origins'
+export const ENSLAVEDTEXAS = 'texas'
+
+export const ENSLAVEDTEXASPAGE = '/texas'
+export const DOCUMENTPAGE = 'DocumentPage'
+export const BLOGPAGE = 'BlogPage'
 
 export const ALLENSLAVERS = 'all-enslavers'
+export const ENSALVERSPAGE = '/enslaver'
+
+
 export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGhqMXZ5YmxjZCJ9.eP7ZuC68Q5iBZQa8I13AGw`;
 
 export const mappingSpecialists = `https://api.mapbox.com/styles/v1/jcm10/clbmdqh2q000114o328k5yjpf/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;

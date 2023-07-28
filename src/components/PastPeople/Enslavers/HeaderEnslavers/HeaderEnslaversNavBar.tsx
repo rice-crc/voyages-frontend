@@ -3,14 +3,10 @@ import { AppBar, Box, Hidden, Divider } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { setIsFilter } from '@/redux/getFilterSlice';
-import { ALLENSLAVERS, EnslaversTitle } from '@/share/CONST_DATA';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+import { ALLENSLAVERS, EnslaversTitle, PASTHOMEPAGE } from '@/share/CONST_DATA';
 import CanscandingMenu from '@/components/canscanding/CanscandingMenu';
-import { setPathName } from '@/redux/getDataSetCollectionSlice';
 import { HeaderTitle } from '@/components/FunctionComponents/HeaderTitle';
 import { FilterButton } from '@/components/FunctionComponents/FilterButton';
 import ButtonDropdownSelectorEnslavers from '../ColumnSelectorEnslaversTable/ButtonDropdownSelectorEnslavers';
@@ -18,13 +14,11 @@ import CanscandingMenuEnslaversMobile from '@/components/canscanding/Canscanding
 import '@/style/Nav.scss';
 
 const HeaderEnslavedNavBar: React.FC = () => {
-  const dispatch: AppDispatch = useDispatch();
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
 
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
@@ -57,7 +51,11 @@ const HeaderEnslavedNavBar: React.FC = () => {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <HeaderTitle textHeader={''} HeaderTitle={EnslaversTitle} />
+            <HeaderTitle
+              textHeader={''}
+              HeaderTitle={EnslaversTitle}
+              pathLink={PASTHOMEPAGE}
+            />
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },

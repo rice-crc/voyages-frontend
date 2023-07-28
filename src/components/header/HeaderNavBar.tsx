@@ -1,6 +1,7 @@
 import { MouseEventHandler, useState } from 'react';
 import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from 'react-router-dom';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
@@ -34,12 +35,24 @@ import {
   BaseFilter,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
-import { ALLVOYAGES, VOYAGETILE } from '@/share/CONST_DATA';
+import {
+  ALLVOYAGES,
+  ALLVOYAGESPAGE,
+  INTRAAMERICAN,
+  INTRAAMERICANPAGE,
+  TRANSATLANTIC,
+  TRANSATLANTICPAGE,
+  VOYAGESPAGE,
+  VOYAGESTEXAS,
+  VOYAGESTEXASPAGE,
+  VOYAGETILE,
+} from '@/share/CONST_DATA';
 import CanscandingMenuVoyagesMobile from '../canscanding/CanscandingMenuVoyagesMobile';
 import '@/style/Nav.scss';
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -67,6 +80,17 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     dispatch(setTextIntro(textIntro));
     dispatch(setStyleName(styleName));
     dispatch(setBlocksMenuList(blocks));
+
+    if (styleName === ALLVOYAGES) {
+      navigate(`/${VOYAGESPAGE}${ALLVOYAGESPAGE}`);
+    } else if (styleName === INTRAAMERICAN) {
+      navigate(`/${VOYAGESPAGE}${INTRAAMERICANPAGE}`);
+    } else if (styleName === TRANSATLANTIC) {
+      navigate(`/${VOYAGESPAGE}${TRANSATLANTICPAGE}`);
+    } else if (styleName === VOYAGESTEXAS) {
+      navigate(`/${VOYAGESPAGE}${VOYAGESTEXASPAGE}`);
+    }
+
     /* === Reset the filter as you move between the different collections, 
     if later need can remove line below === */
     const keysToRemove = Object.keys(localStorage);
@@ -123,7 +147,11 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <HeaderTitle textHeader={textHeader} HeaderTitle={VOYAGETILE} />
+            <HeaderTitle
+              textHeader={textHeader}
+              HeaderTitle={VOYAGETILE}
+              pathLink={VOYAGESPAGE}
+            />
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },

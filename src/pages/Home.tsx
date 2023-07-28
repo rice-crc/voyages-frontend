@@ -12,7 +12,14 @@ import { Link } from 'react-router-dom';
 import '@/style/homepage.scss';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
-import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
+import {
+  ALLENSLAVED,
+  ALLVOYAGES,
+  BLOGPAGE,
+  DOCUMENTPAGE,
+  PASTHOMEPAGE,
+  VOYAGESPAGE,
+} from '@/share/CONST_DATA';
 import { setPathName } from '@/redux/getDataSetCollectionSlice';
 import VideoBackground from '../components/Home/VideoBackground';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
@@ -54,7 +61,7 @@ const HomePage: React.FC = () => {
           <div className="voyage-page-box">
             <div className="voyages-people-places-title">Voyages</div>
             <Link
-              to="/VoyagesPage"
+              to={`/${VOYAGESPAGE}`}
               onClick={() => {
                 dispatch(setCurrentPage(1));
                 dispatch(setPathName(ALLVOYAGES));
@@ -69,7 +76,7 @@ const HomePage: React.FC = () => {
           <div className="people-page-box">
             <div className="voyages-people-places-title">People</div>
             <Link
-              to="/PastHomePage"
+              to={`/${PASTHOMEPAGE}`}
               onClick={() => dispatch(setPathName(ALLENSLAVED))}
             >
               <img src={peopleIcon} alt="voyages" />
@@ -78,7 +85,7 @@ const HomePage: React.FC = () => {
           </div>
           <div className="place-page-box">
             <div className="voyages-people-places-title">Documents</div>
-            <Link to="#">
+            <Link to={`/${DOCUMENTPAGE}`}>
               <img src={documentIcon} alt="voyages" width={129} />
             </Link>
             <div className="voyages-people-places-subtitle">
@@ -87,7 +94,7 @@ const HomePage: React.FC = () => {
           </div>
           <div className="place-page-box">
             <div className="voyages-people-places-title">Writing</div>
-            <Link to="#">
+            <Link to={`/${BLOGPAGE}`}>
               <img src={resourceIcon} alt="voyages" width={129} />
             </Link>
             <div className="voyages-people-places-subtitle">
