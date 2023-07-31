@@ -51,25 +51,25 @@ const App: React.FC = () => {
             path={`${VOYAGESPAGE}${VOYAGESTEXASPAGE}`}
             element={<VoyagesPage />}
           />
-          <Route path={`/${PASTHOMEPAGE}`} element={<PastHomePage />} />
+          <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
           <Route
-            path={`/${PASTHOMEPAGE}${ENSALVEDPAGE}`}
+            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}`}
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
+            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
+            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
+            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`/${PASTHOMEPAGE}${ENSALVERSPAGE}`}
+            path={`${PASTHOMEPAGE}${ENSALVERSPAGE}`}
             element={<EnslaversHomePage />}
           />
           <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />

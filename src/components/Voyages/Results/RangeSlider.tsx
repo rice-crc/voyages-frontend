@@ -83,7 +83,7 @@ const RangeSlider = () => {
     if (storedValue) {
       const parsedValue = JSON.parse(storedValue);
       const { rangeValue } = parsedValue;
-      setCurrentSliderValue;
+
       for (const rangKey in rangeValue) {
         if (varName === rangKey) {
           const rangeMinMax = rangeValue[rangKey];
