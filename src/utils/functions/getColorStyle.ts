@@ -15,6 +15,7 @@ export const getColorVoyagePageBackground = (item: string, currentPage: number) 
     }
     return background;
 };
+
 export const getColorBackground = (item: string) => {
     let background = 'rgb(55 163 154)';
     if (item === TYPESOFDATASET.allVoyages) {

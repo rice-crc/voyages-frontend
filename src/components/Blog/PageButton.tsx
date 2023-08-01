@@ -1,11 +1,11 @@
-import { BlogProps } from '@/share/InterfaceTypeBlog';
+import { BlogDataProps } from '@/share/InterfaceTypesBlog';
 import { Link } from 'react-router-dom';
 
 interface PageButtonBlogProp {
   setCurrentBlogPage: React.Dispatch<React.SetStateAction<number>>;
   currentBlogPage: number;
   imagesPerPage: number;
-  BlogData: BlogProps[];
+  BlogData: BlogDataProps[];
 }
 const BlogPageButton = (props: PageButtonBlogProp) => {
   const { setCurrentBlogPage, currentBlogPage, imagesPerPage, BlogData } =
