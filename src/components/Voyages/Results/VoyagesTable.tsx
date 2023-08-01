@@ -55,8 +55,9 @@ const VoyagesTable: React.FC = () => {
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
-  const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
-    useSelector((state: RootState) => state.getDataSetCollection);
+  const { dataSetKey, dataSetValue, styleName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
+  );
   const [page, setPage] = useState<number>(0);
 
   const [rowsPerPage, setRowsPerPage] = useState(
@@ -164,7 +165,6 @@ const VoyagesTable: React.FC = () => {
     autoLabelName,
     dataSetValue,
     dataSetKey,
-    dataSetValueBaseFilter,
     styleName,
   ]);
   useEffect(() => {

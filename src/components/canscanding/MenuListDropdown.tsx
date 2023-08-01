@@ -27,7 +27,11 @@ import {
 
 import { useState, MouseEvent } from 'react';
 import { PaperDraggable } from './PaperDraggable';
-import { setIsChange, setKeyValue } from '@/redux/rangeSliderSlice';
+import {
+  setIsChange,
+  setKeyValue,
+  setRangeSliderValue,
+} from '@/redux/rangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
@@ -86,7 +90,7 @@ export const MenuListDropdown = () => {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
-
+    dispatch(setRangeSliderValue({}));
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
