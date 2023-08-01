@@ -27,7 +27,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { DropdownColumn } from '../FunctionComponents/ColumnSelectorTable/DropdownColumn';
 import { useState, MouseEvent } from 'react';
-import { setIsChange, setKeyValue } from '@/redux/rangeSliderSlice';
+import {
+  setIsChange,
+  setKeyValue,
+  setRangeSliderValue,
+} from '@/redux/rangeSliderSlice';
 import { setIsOpenDialogMobile } from '@/redux/getScrollPageSlice';
 import { PaperDraggable } from './PaperDraggable';
 import RangeSlider from '../Voyages/Results/RangeSlider';
@@ -94,7 +98,7 @@ const CanscandingMenuVoyagesMobile = () => {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
-
+    dispatch(setRangeSliderValue({}));
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
