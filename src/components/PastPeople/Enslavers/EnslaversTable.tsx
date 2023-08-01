@@ -53,12 +53,9 @@ const EnslaversTable: React.FC = () => {
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
 
-  const {
-    dataSetKeyPeople,
-    dataSetValuePeople,
-    dataSetValueBaseFilter,
-    styleNamePeople,
-  } = useSelector((state: RootState) => state.getEnslaverDataSetCollections);
+  const { dataSetKeyPeople, dataSetValuePeople, styleNamePeople } = useSelector(
+    (state: RootState) => state.getEnslaverDataSetCollections
+  );
   const [page, setPage] = useState<number>(0);
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
@@ -168,7 +165,6 @@ const EnslaversTable: React.FC = () => {
     autoLabelName,
     dataSetValuePeople,
     dataSetKeyPeople,
-    dataSetValueBaseFilter,
     styleNamePeople,
   ]);
 

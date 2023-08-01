@@ -21,6 +21,7 @@ import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
   RangeSliderState,
+  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import {
   PASTHOMEPAGE,
@@ -48,6 +49,9 @@ export const LeafletMap = () => {
   const [origination, setOrigination] = useState<Originations[]>([]);
   const [zoomLevel, setZoomLevel] = useState<number>(3);
   const [loading, setLoading] = useState<boolean>(false);
+  const { dataSetKey, dataSetValue, styleName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
+  );
 
   const {
     rangeSliderMinMax: rang,
@@ -89,6 +93,12 @@ export const LeafletMap = () => {
     }
     if (zoomLevel > 6) {
       newFormData.append('zoomlevel', 'place');
+    }
+    // PASS dataSetKey only not allVoyages
+    if (styleName !== TYPESOFDATASET.allVoyages) {
+      for (const value of dataSetValue) {
+        newFormData.append(dataSetKey, String(value));
+      }
     }
     if (
       isChange &&
@@ -162,6 +172,9 @@ export const LeafletMap = () => {
     autoLabelName,
     currentPage,
     pathName,
+    dataSetKey,
+    dataSetValue,
+    styleName,
   ]);
 
   // Effect to handle zoomLevel changes and check localStorage

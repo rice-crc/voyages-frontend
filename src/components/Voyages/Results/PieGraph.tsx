@@ -41,8 +41,9 @@ function PieGraph() {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { dataSetKey, dataSetValue, dataSetValueBaseFilter, styleName } =
-    useSelector((state: RootState) => state.getDataSetCollection);
+  const { dataSetKey, dataSetValue, styleName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
+  );
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
@@ -144,7 +145,6 @@ function PieGraph() {
     isSuccess,
     dataSetValue,
     dataSetKey,
-    dataSetValueBaseFilter,
     styleName,
   ]);
 
