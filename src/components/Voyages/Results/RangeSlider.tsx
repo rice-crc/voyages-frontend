@@ -80,6 +80,7 @@ const RangeSlider = () => {
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
+    console.log('storedValue', storedValue);
     if (storedValue) {
       const parsedValue = JSON.parse(storedValue);
       const { rangeValue } = parsedValue;
@@ -132,6 +133,7 @@ const RangeSlider = () => {
     const filterObjectString = JSON.stringify(filterObject);
     localStorage.setItem('filterObject', filterObjectString);
   };
+  console.log('rangeMinMax', rangeMinMax);
 
   return (
     <Grid className="autocomplete-modal-box">

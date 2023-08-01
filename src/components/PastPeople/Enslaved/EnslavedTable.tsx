@@ -55,7 +55,6 @@ const EnslavedTable: React.FC = () => {
   const {
     dataSetKeyPeople,
     dataSetValuePeople,
-    dataSetValueBaseFilter,
     styleNamePeople,
     tableFlatfile: tableFileName,
   } = useSelector(
@@ -195,7 +194,6 @@ const EnslavedTable: React.FC = () => {
     autoLabelName,
     dataSetValuePeople,
     dataSetKeyPeople,
-    dataSetValueBaseFilter,
     styleNamePeople,
     visibleColumnCells,
   ]);
