@@ -29,20 +29,23 @@ export interface Tags {
     slug: string
     intro: string
 }
+export interface SearchBlogProps {
+    search: string
+    tag: string
+    title: string
+}
+export const SearchBlogData: SearchBlogProps[] = [
+    { search: 'Authors Name', tag: 'authors__name', title: 'authors' },
+    { search: 'Tags Name', tag: 'tags__name', title: 'tags' },
+    { search: 'Title', tag: 'title', title: 'title' },
+]
+
 
 export interface InitialStateBlogProps {
-    data: BlogDataProps[],
+    data: BlogDataProps[]
     post: BlogDataProps
-    // title: string,
-    // authors: Authors[],
-    // tags: Tags[],
-    // language: string
-    // subtitle?: string
-    // slug: string
-    // updated_on: string
-    // content: string
-    // created_on: string
-    // thumbnail: string
+    searchTitle: string
+    searchValue: string
 }
 export const InitialStateBlogProps: InitialStateBlogProps = {
     data: [],
@@ -59,5 +62,7 @@ export const InitialStateBlogProps: InitialStateBlogProps = {
         created_on: '',
         status: 0,
         thumbnail: ''
-    }
+    },
+    searchTitle: 'authors',
+    searchValue: ''
 }

@@ -1,5 +1,5 @@
 
-import { Authors, BlogDataProps, InitialStateBlogProps, Tags } from '@/share/InterfaceTypesBlog';
+import { BlogDataProps, InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const getBlogDataSlice = createSlice({
@@ -12,39 +12,16 @@ export const getBlogDataSlice = createSlice({
         setBlogPost: (state, action: PayloadAction<BlogDataProps>) => {
             state.post = action.payload;
         },
-        // setTitle: (state, action: PayloadAction<string>) => {
-        //     state.title = action.payload;
-        // },
-        // setAuthors: (state, action: PayloadAction<Authors[]>) => {
-        //     state.authors = action.payload;
-        // },
-        // setTags: (state, action: PayloadAction<Tags[]>) => {
-        //     state.tags = action.payload;
-        // },
-        // setSubTitle: (state, action: PayloadAction<string>) => {
-        //     state.subtitle = action.payload;
-        // },
-        // setLanguage: (state, action: PayloadAction<string>) => {
-        //     state.language = action.payload;
-        // },
-        // setSlug: (state, action: PayloadAction<string>) => {
-        //     state.slug = action.payload;
-        // },
-        // setUpdateOn: (state, action: PayloadAction<string>) => {
-        //     state.updated_on = action.payload;
-        // },
-        // setCreateOn: (state, action: PayloadAction<string>) => {
-        //     state.created_on = action.payload;
-        // },
-        // setContent: (state, action: PayloadAction<string>) => {
-        //     state.content = action.payload;
-        // },
-        // setThumbnail: (state, action: PayloadAction<string>) => {
-        //     state.thumbnail = action.payload;
-        // },
+        setSearchBlogByValue:
+            (state, action: PayloadAction<string>) => {
+                state.searchValue = action.payload;
+            },
+        setSearchBlogTitle: (state, action: PayloadAction<string>) => {
+            state.searchTitle = action.payload;
+        },
     },
 });
 
-export const { setBlogData, setBlogPost } = getBlogDataSlice.actions;
+export const { setBlogData, setBlogPost, setSearchBlogByValue, setSearchBlogTitle } = getBlogDataSlice.actions;
 
 export default getBlogDataSlice.reducer;

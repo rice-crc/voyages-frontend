@@ -12,8 +12,8 @@ import {
   InitialStateBlogProps,
 } from '@/share/InterfaceTypesBlog';
 import { formatTextURL } from '@/utils/functions/formatText';
+import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
 import '@/style/blogs.scss';
-import { LinkThumbnail } from '@/share/CONST_DATA';
 
 const BlogResultsList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -58,7 +58,7 @@ const BlogResultsList: React.FC = () => {
             <div className="card" key={`${value.id}${value.title}`}>
               <Link to={`/BlogPage/${formatTextURL(value.title)}/${value.id}`}>
                 <img
-                  src={`${LinkThumbnail}${value.thumbnail}`}
+                  src={`${BASTURLBLOG}${value.thumbnail}`}
                   alt={value.title}
                   className="card-img img-fluid content-image "
                 />

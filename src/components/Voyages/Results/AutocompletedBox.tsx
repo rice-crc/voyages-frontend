@@ -105,7 +105,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     }
   }, []);
 
-  const handleAutuCompletedChange = (
+  const handleAutoCompletedChange = (
     event: SyntheticEvent<Element, Event>,
     newValue: AutoCompleteOption[]
   ) => {
@@ -144,7 +144,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         }}
         getOptionLabel={(option) => option.label}
         value={selectedValue}
-        onChange={handleAutuCompletedChange}
+        onChange={handleAutoCompletedChange}
         onInputChange={handleInputChange}
         inputValue={autoValue}
         renderOption={(props, option) => (
