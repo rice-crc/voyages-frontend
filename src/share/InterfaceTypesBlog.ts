@@ -32,13 +32,32 @@ export interface Tags {
 
 export interface InitialStateBlogProps {
     data: BlogDataProps[],
-    title: string,
-    authors: string[],
-    tags: string[],
+    post: BlogDataProps
+    // title: string,
+    // authors: Authors[],
+    // tags: Tags[],
+    // language: string
+    // subtitle?: string
+    // slug: string
+    // updated_on: string
+    // content: string
+    // created_on: string
+    // thumbnail: string
 }
 export const InitialStateBlogProps: InitialStateBlogProps = {
     data: [],
-    title: '',
-    authors: [],
-    tags: [],
+    post: {
+        id: 0,
+        authors: [],
+        tags: [],
+        title: '',
+        language: '',
+        subtitle: '',
+        slug: '',
+        updated_on: '',
+        content: '',
+        created_on: '',
+        status: 0,
+        thumbnail: ''
+    }
 }

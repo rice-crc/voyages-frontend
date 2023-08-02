@@ -76,7 +76,7 @@ const App: React.FC = () => {
           <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
           <Route path={`${BLOGPAGE}`} element={<BlogPage />} />
           <Route
-            path={`${BLOGPAGE}/:blogTitle`}
+            path={`${BLOGPAGE}/:blogTitle/:ID`}
             element={<BlogDetailsPost />}
           />
         </Routes>

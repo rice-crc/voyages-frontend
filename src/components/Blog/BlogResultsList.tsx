@@ -1,4 +1,3 @@
-import { BlogData } from '@/utils/data/blogs';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -6,27 +5,30 @@ import HeaderLogoSearch from '../header/HeaderSearchLogo';
 import BlogPageButton from './PageButton';
 import NavBlog from './NavBlog';
 import { fetchBlogData } from '@/fetchAPI/blogApi/fetchBlogData';
-import '@/style/blogs.scss';
 import { AppDispatch, RootState } from '@/redux/store';
-import { setBlogData } from '@/redux/getBlogDataSlice';
-import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
-const LinkThumbnil = 'https://www.slavevoyages.org/documents/';
+import { setBlogData, setBlogPost } from '@/redux/getBlogDataSlice';
+import {
+  BlogDataProps,
+  InitialStateBlogProps,
+} from '@/share/InterfaceTypesBlog';
+import { formatTextURL } from '@/utils/functions/formatText';
+import '@/style/blogs.scss';
+import { LinkThumbnail } from '@/share/CONST_DATA';
 
-const BlogResults: React.FC = () => {
+const BlogResultsList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const imagesPerPage = 12;
   const [currentBlogPage, setCurrentBlogPage] = useState<number>(1);
-  // Calculate the index range for the images to display on the current page
   const startIndex = (currentBlogPage - 1) * imagesPerPage;
   const endIndex = startIndex + imagesPerPage;
-  const { data: BlogData } = useSelector(
+  const { data: BlogData, post } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
 
-  // Extract the subset of images to display on the current page
   const imagesOnCurrentPage = BlogData.slice(startIndex, endIndex);
+
   useEffect(() => {
-    let subscribed = true; //fetchBlogData
+    let subscribed = true;
     const fetchDataBlog = async () => {
       const newFormData: FormData = new FormData();
       try {
@@ -42,16 +44,10 @@ const BlogResults: React.FC = () => {
     fetchDataBlog();
     return () => {
       subscribed = false;
+      dispatch(setBlogPost({} as BlogDataProps));
     };
   }, [dispatch]);
-  function formatText(inputText: string) {
-    return inputText
-      .toLowerCase() // Convert the text to lowercase
-      .replace(/[^\w\s]/g, '') // Remove all punctuation marks except spaces
-      .replace(/\s+/g, '-') // Replace spaces with dashes
-      .replace(/\b\w\b/g, ''); // Remove single-letter words
-  }
-  const handleSetDataBlog = () => {};
+
   return (
     <>
       <HeaderLogoSearch />
@@ -59,14 +55,10 @@ const BlogResults: React.FC = () => {
       <div className="container-new">
         <div className="card-columns">
           {imagesOnCurrentPage.map((value) => (
-            <div
-              className="card"
-              key={`${value.id}${value.title}`}
-              onClick={handleSetDataBlog}
-            >
-              <Link to={`/BlogPage/${formatText(value.title)}`}>
+            <div className="card" key={`${value.id}${value.title}`}>
+              <Link to={`/BlogPage/${formatTextURL(value.title)}/${value.id}`}>
                 <img
-                  src={`${LinkThumbnil}${value.thumbnail}`}
+                  src={`${LinkThumbnail}${value.thumbnail}`}
                   alt={value.title}
                   className="card-img img-fluid content-image "
                 />
@@ -95,4 +87,4 @@ const BlogResults: React.FC = () => {
     </>
   );
 };
-export default BlogResults;
+export default BlogResultsList;

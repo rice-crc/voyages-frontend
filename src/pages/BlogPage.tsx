@@ -1,8 +1,8 @@
-import BlogResults from '@/components/Blog/BlogResults';
+import BlogResultsList from '@/components/Blog/BlogResultsList';
 import React from 'react';
 
 const BlogPage: React.FC = () => {
-  return <BlogResults />;
+  return <BlogResultsList />;
 };
 
 export default BlogPage;

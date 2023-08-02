@@ -245,3 +245,44 @@ h4 {
   font-size: 1rem;
   font-weight: 500;
 }
+.card-content{
+  margin: 1.5rem;
+}
+.card-body{
+  padding: 1.25rem;
+}
+.blog-detail-thumbnail {
+  height: 300px;
+}
+.text-muted {
+  color: #6c757d;
+}
+.h6 {
+  font-size: 1rem;
+}
+.titleText{
+  font-size: 1.8em;
+    margin-bottom: 2rem;
+}
+.subtitle{
+  font-size: 1.1em;
+}
+.media {
+  display: flex;
+  -webkit-box-align: start;
+  align-items: flex-start;
+}
+.rounded-circle {
+  border-radius: 50%;
+  margin: 2px;
+}
+.media-body{
+  font-size: 0.75em;
+  font-weight: 500;
+}
+.media-heading > a{
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #db7333;
+  text-decoration: none;
+}
