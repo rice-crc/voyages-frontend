@@ -47,3 +47,5 @@ export const MAP_CENTER: [number, number] = [5.486678, -35.59375];
 export const MAXIMUM_NATIVE_ZOOM = 10;
 export const MINIMUM_ZOOM = 2;
 export const MAXIMUM_ZOOM = 22;
+
+export const LinkThumbnail = 'https://www.slavevoyages.org/documents/';
