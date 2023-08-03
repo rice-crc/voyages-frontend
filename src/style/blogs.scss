@@ -340,7 +340,7 @@ h4 {
   align-items: center;
 }
 .autocomplete-blog-search{
-  width: 250px;
+  width: 300px;
   > label{
     color: #fff !important;
   }
@@ -375,4 +375,18 @@ h4 {
           width: 10%;
       }
   }
+}
+.dropdown-item {
+  display: block;
+  width: 100%;
+  border: 0;
+   > a {
+    text-decoration: none;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+   }
 }

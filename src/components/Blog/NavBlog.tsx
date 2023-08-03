@@ -5,7 +5,6 @@ import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { Link, useParams } from 'react-router-dom';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import LanguagesDropdown from '../FunctionComponents/LanguagesDropdown';
-import SelectBlogDropdown from './SelectBlogDropdown';
 import AutoCompletedSearhBlog from './AutoCompletedSearhBlog';
 
 const NavBlog: React.FC = () => {
@@ -34,7 +33,6 @@ const NavBlog: React.FC = () => {
         <div>
           {!blogTitle && <LanguagesDropdown />}
           <div className="search-autocomplete-blog">
-            <SelectBlogDropdown />
             <AutoCompletedSearhBlog />
           </div>
         </div>

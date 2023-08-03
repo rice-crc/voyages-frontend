@@ -1,9 +1,9 @@
-import { useState, MouseEvent, useCallback, useMemo } from 'react';
+import { useState, MouseEvent, useCallback, useMemo, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
-import { ArrowDropDown } from '@mui/icons-material';
+import { ArrowDropDown, Link } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import {
@@ -11,48 +11,48 @@ import {
   setSearchAutoValue,
   setSearchBlogTitle,
 } from '@/redux/getBlogDataSlice';
-import { SearchBlogData } from '@/share/InterfaceTypesBlog';
+import { ResultAutoList, SearchBlogData } from '@/share/InterfaceTypesBlog';
+import { BLOGPAGE } from '@/share/CONST_DATA';
+import { useParams } from 'react-router-dom';
+interface SelectBlogDropdownProps {
+  handleReset: () => void;
+}
 
-export default function SelectBlogDropdown() {
+export default function SelectBlogDropdown({
+  handleReset,
+}: SelectBlogDropdownProps) {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { searchTitle, searchAutoValue } = useSelector(
-    (state: RootState) => state.getBlogData
-  );
-
+  const { searchTitle } = useSelector((state: RootState) => state.getBlogData);
+  const { blogTitle } = useParams();
   const open = Boolean(anchorEl);
 
-  const handleClick = useCallback((event: MouseEvent<HTMLElement>) => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-    dispatch(setSearchAutoValue(''));
-  }, []);
-  console.log('searchAutoValue-->', searchAutoValue);
-  const handleClose = () => {
-    setAnchorEl(null);
-    dispatch(setSearchAutoValue(''));
-  };
-  const onClickButton = () => {
-    dispatch(setSearchAutoValue(''));
+    handleReset();
   };
 
-  const handleChangeSearch = useCallback(
-    (value: string, title: string) => {
-      dispatch(setSearchAutoValue(''));
-      dispatch(setSearchAutoKey(value));
-      dispatch(setSearchBlogTitle(title));
-    },
-    [searchAutoValue]
-  );
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleChangeSearch = useCallback((value: string, title: string) => {
+    dispatch(setSearchAutoKey(value));
+    dispatch(setSearchBlogTitle(title));
+  }, []);
 
   return (
     <div>
       <Button
         id="fade-button"
-        style={{ color: '#ffffff', fontSize: 12, fontWeight: 600 }}
+        style={{
+          color: '#ffffff',
+          fontSize: 12,
+          fontWeight: 600,
+        }}
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onMouseLeave={onClickButton}
         onClick={handleClick}
         endIcon={
           <span>
@@ -80,12 +80,25 @@ export default function SelectBlogDropdown() {
         TransitionComponent={Fade}
       >
         {SearchBlogData.map((value) => (
-          <MenuItem
-            key={value.tag}
-            onClick={() => handleChangeSearch(value.tag, value.title)}
-          >
-            {value.search}
-          </MenuItem>
+          <div className="dropdown-item" key={value.tag}>
+            {blogTitle ? (
+              <a href={`/${BLOGPAGE}`}>
+                <MenuItem
+                  key={value.tag}
+                  onClick={() => handleChangeSearch(value.tag, value.title)}
+                >
+                  {value.search}
+                </MenuItem>
+              </a>
+            ) : (
+              <MenuItem
+                key={value.tag}
+                onClick={() => handleChangeSearch(value.tag, value.title)}
+              >
+                {value.search}
+              </MenuItem>
+            )}
+          </div>
         ))}
       </Menu>
     </div>
