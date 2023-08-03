@@ -78,13 +78,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"voyage__voyage_id"
+				"enslaved_relations__relation__voyage__voyage_id"
 			],
-			"colID": "voyage__voyage_id",
+			"colID": "enslaved_relations__relation__voyage__voyage_id",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage__voyage_id",
+						"var_name": "enslaved_relations__relation__voyage__voyage_id",
 						"cell_fn": "literal"
 					}
 				]
@@ -95,38 +95,16 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"voyage__voyage_ship__ship_name"
+				"enslaved_relations__relation__voyage__voyage_ship__ship_name"
 			],
-			"colID": "voyage__voyage_ship__ship_name",
+			"colID": "enslaved_relations__relation__voyage__voyage_ship__ship_name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage__voyage_ship__ship_name",
+						"var_name": "enslaved_relations__relation__voyage__voyage_ship__ship_name",
 						"cell_fn": "literal"
 					}
 				]
-			}
-		},
-		{
-			"header_label": "Vessel Owners and Captains",
-			"cell_type": "literal-concat",
-			"visible": true,
-			"order_by": [
-				"voyage__voyage_enslaver_connection__enslaver_alias__alias"
-			],
-			"colID": "voyage__voyage_enslaver_connection__enslaver_alias__alias",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage__voyage_enslaver_connection__enslaver_alias__alias",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage__voyage_enslaver_connection__role__name",
-						"cell_fn": "literal"
-					}
-				],
-				"join":" : "
 			}
 		},
 		{
@@ -158,11 +136,11 @@
 			"order_by": [
 				"voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name"
 			],
-			"colID": "voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+			"colID": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+						"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -173,13 +151,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name"
+				"enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name"
 			],
-			"colID": "voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+			"colID": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+						"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -190,23 +168,23 @@
 			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
-				"voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-				"voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
-				"voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day"
+				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
+				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day"
 			],
-			"colID": "voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
+			"colID": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+						"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
+						"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
+						"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
 						"cell_fn": "literal"
 					}
 				],
@@ -254,7 +232,7 @@
 			"order_by": [
 				"enslaved_zotero_connections__zotero_source__zotero_title"
 			],
-			"colID": "voyage__voyage_sources",
+			"colID": "voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
@@ -296,19 +274,19 @@
 			"label": "Itinerary",
 			"children": [
 				{
-					"colID": "voyage__voyage_id",
+					"colID": "enslaved_relations__relation__voyage__voyage_id",
 					"label": "Voyage ID"
 				},
 				{
-					"colID": "voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+					"colID": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
 					"label": "Embarkation Port"
 				},
 				{
-					"colID": "voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+					"colID": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
 					"label": "Disembarkation Port"
 				},
 				{
-					"colID": "voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
+					"colID": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
 					"label": "Arrival Date"
 				}
 			]
@@ -331,11 +309,7 @@
 			"children": [
 				{
 					"colID": "enslaved_relations__relation__relation_enslavers__enslaver",
-					"label": "Individual Owners and Traders"
-				},
-				{
-					"colID": "voyage__voyage_enslaver_connection__enslaver_alias__alias",
-					"label": "Vessel Owners and Captains"
+					"label": "Enslavers"
 				}
 			]
 		},
@@ -343,7 +317,7 @@
 			"label": "Sources",
 			"children": [
 				{
-					"colID": "voyage__voyage_sources",
+					"colID": "voyage_sources",
 					"label": "Sources"
 				}
 			]

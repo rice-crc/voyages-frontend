@@ -261,7 +261,7 @@
 			"order_by": [
 				"voyage__voyage_name_outcome__particular_outcome__name"
 			],
-			"colID": "voyage__voyage_name_outcome__particular_outcome__name",
+			"colID": "voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
