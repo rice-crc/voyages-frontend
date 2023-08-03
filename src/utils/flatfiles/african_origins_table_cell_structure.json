@@ -324,7 +324,7 @@
 					"label": "Voyage ID"
 				},
 				{
-					"colID": "voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+					"colID": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
 					"label": "Embarkation Port"
 				},
 				{

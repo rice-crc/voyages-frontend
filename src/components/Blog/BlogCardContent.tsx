@@ -1,4 +1,4 @@
-import ReactHtmlParser from 'react-html-parser';
+import ReactHtmlParser from 'html-react-parser';
 import { RootState } from '@/redux/store';
 import { BlogDataProps } from '@/share/InterfaceTypesBlog';
 import { useSelector } from 'react-redux';

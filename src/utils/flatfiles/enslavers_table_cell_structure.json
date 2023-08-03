@@ -68,33 +68,33 @@
 			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
-				"aliases__enslaver_voyage_connection__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-				"aliases__enslaver_voyage_connection__voyage__voyage_ship__ship_name",
-				"aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
-				"aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name"
+				"aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+				"aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
+				"aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
+				"aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name"
 				
 			],
 			"colID": "voyages",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_id",
+						"var_name": "aliases__enslaver_relations__relation__voyage__voyage_id",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_ship__ship_name",
+						"var_name": "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+						"var_name": "aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
+						"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+						"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
 						"cell_fn": "literal"
 					}
 					
