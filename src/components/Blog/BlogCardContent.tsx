@@ -9,6 +9,10 @@ const BlogCardContent = () => {
   );
   const { content } = post;
 
-  return <div className="card-content-body">{ReactHtmlParser(content)}</div>;
+  return (
+    <div className="card-content-body">
+      {content ? ReactHtmlParser(content) : null}
+    </div>
+  );
 };
 export default BlogCardContent;
