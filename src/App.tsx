@@ -25,6 +25,7 @@ import {
 } from './share/CONST_DATA';
 import DocumentPage from './pages/DocumentPage';
 import BlogPage from './pages/BlogPage';
+import BlogDetailsPost from './components/Blog/BlogDetailsPost';
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
@@ -51,29 +52,33 @@ const App: React.FC = () => {
             path={`${VOYAGESPAGE}${VOYAGESTEXASPAGE}`}
             element={<VoyagesPage />}
           />
-          <Route path={`/${PASTHOMEPAGE}`} element={<PastHomePage />} />
+          <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
           <Route
-            path={`/${PASTHOMEPAGE}${ENSALVEDPAGE}`}
+            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}`}
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
+            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
+            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
+            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`/${PASTHOMEPAGE}${ENSALVERSPAGE}`}
+            path={`${PASTHOMEPAGE}${ENSALVERSPAGE}`}
             element={<EnslaversHomePage />}
           />
           <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
           <Route path={`${BLOGPAGE}`} element={<BlogPage />} />
+          <Route
+            path={`${BLOGPAGE}/:blogTitle/:ID`}
+            element={<BlogDetailsPost />}
+          />
         </Routes>
       </QueryClientProvider>
     </ThemeProvider>

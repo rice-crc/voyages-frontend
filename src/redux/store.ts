@@ -18,6 +18,8 @@ import { pastEnslavedApiService } from '@/fetchAPI/pastEnslavedApi/fetchPastEnsl
 import { pastEnslaversApiService } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversApiService';
 import getScrollEnslaversPageSlice from './getScrollEnslaversPageSlice';
 import getPeopleEnslaversDataSetCollectionSlice from './getPeopleEnslaversDataSetCollectionSlice';
+import getBlogDataSlice from './getBlogDataSlice';
+import getLanguagesSlice from './getLanguagesSlice';
 
 const store = configureStore({
     reducer: {
@@ -36,6 +38,8 @@ const store = configureStore({
         getScrollEnslaversPage: getScrollEnslaversPageSlice,
         getFilterPeople: getFilterPeopleObjectSlice,
         getOptionsEnslaved: getOptionsDataPastPeopleEnslavedSlice,
+        getBlogData: getBlogDataSlice,
+        getLanguages: getLanguagesSlice,
         [voyagesApi.reducerPath]: voyagesApi.reducer,
         [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
         [pastEnslaversApiService.reducerPath]: pastEnslaversApiService.reducer,
