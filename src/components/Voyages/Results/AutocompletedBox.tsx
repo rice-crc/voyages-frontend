@@ -95,17 +95,17 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     const storedValue = localStorage.getItem('filterObject');
     if (storedValue) {
       const parsedValue = JSON.parse(storedValue);
-      const { autoCompleteValue } = parsedValue;
-      for (const autoKey in autoCompleteValue) {
+      const { filterObject } = parsedValue;
+      for (const autoKey in filterObject) {
         if (varName === autoKey) {
-          const autoValueList = autoCompleteValue[autoKey];
+          const autoValueList = filterObject[autoKey];
           setSelectedValue(autoValueList);
         }
       }
     }
   }, []);
 
-  const handleAutuCompletedChange = (
+  const handleAutoCompletedChange = (
     event: SyntheticEvent<Element, Event>,
     newValue: AutoCompleteOption[]
   ) => {
@@ -120,9 +120,13 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         })
       );
       dispatch(setAutoLabel(autuLabel));
+
       const filterObject = {
-        rangeValue,
-        autoCompleteValue: { ...autoCompleteValue, [varName]: newValue },
+        filterObject: {
+          ...autoCompleteValue,
+          ...rangeValue,
+          [varName]: newValue,
+        },
       };
       const filterObjectString = JSON.stringify(filterObject);
       localStorage.setItem('filterObject', filterObjectString);
@@ -140,7 +144,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         }}
         getOptionLabel={(option) => option.label}
         value={selectedValue}
-        onChange={handleAutuCompletedChange}
+        onChange={handleAutoCompletedChange}
         onInputChange={handleInputChange}
         inputValue={autoValue}
         renderOption={(props, option) => (

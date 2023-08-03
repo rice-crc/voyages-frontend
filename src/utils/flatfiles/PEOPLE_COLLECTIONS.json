@@ -43,7 +43,7 @@
 		},
 		"base_filter": [
 			{
-				"var_name": "voyage__voyage_itinerary__imp_principal_region_slave_dis__geo_location__name",
+				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_region_slave_dis__geo_location__name",
 				"value": [
 					"Texas"
 				]

@@ -80,14 +80,13 @@ const RangeSlider = () => {
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
-    console.log('storedValue', storedValue);
     if (storedValue) {
       const parsedValue = JSON.parse(storedValue);
-      const { rangeValue } = parsedValue;
-      setCurrentSliderValue;
-      for (const rangKey in rangeValue) {
+      const { filterObject } = parsedValue;
+
+      for (const rangKey in filterObject) {
         if (varName === rangKey) {
-          const rangeMinMax = rangeValue[rangKey];
+          const rangeMinMax = filterObject[rangKey];
           setCurrentSliderValue(rangeMinMax);
         }
       }
@@ -106,9 +105,13 @@ const RangeSlider = () => {
         [varName]: currentSliderValue as number[],
       })
     );
+
     const filterObject = {
-      rangeValue: { ...rangeSliderMinMax, [varName]: currentSliderValue },
-      autoCompleteValue,
+      filterObject: {
+        ...rangeSliderMinMax,
+        ...autoCompleteValue,
+        [varName]: currentSliderValue,
+      },
     };
     const filterObjectString = JSON.stringify(filterObject);
     localStorage.setItem('filterObject', filterObjectString);
@@ -126,14 +129,17 @@ const RangeSlider = () => {
         [varName]: updatedSliderValue,
       })
     );
+
     const filterObject = {
-      rangeValue: { ...rangeSliderMinMax, [varName]: updatedSliderValue },
-      autoCompleteValue,
+      filterObject: {
+        ...rangeSliderMinMax,
+        ...autoCompleteValue,
+        [varName]: currentSliderValue,
+      },
     };
     const filterObjectString = JSON.stringify(filterObject);
     localStorage.setItem('filterObject', filterObjectString);
   };
-  console.log('rangeMinMax', rangeMinMax);
 
   return (
     <Grid className="autocomplete-modal-box">

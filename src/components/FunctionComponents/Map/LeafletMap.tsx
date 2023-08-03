@@ -37,6 +37,7 @@ import PolylineEnslavedMap from './PolylineMap';
 import NodeMarkerEnslavedMap from '../../PastPeople/Enslaved/NodeMarkerEnslavedMap';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetchAPI/pastEnslavedApi/fetchEnslavedMap';
+import { getMapBackgroundColor } from '@/utils/functions/getMapBackgroundColor';
 
 export const LeafletMap = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -88,13 +89,13 @@ export const LeafletMap = () => {
   const fetchData = async () => {
     setLoading(true);
     const newFormData: FormData = new FormData();
-    if (zoomLevel <= 6) {
+    if (zoomLevel <= 5) {
       newFormData.append('zoomlevel', 'region');
     }
-    if (zoomLevel > 6) {
+    if (zoomLevel > 5) {
       newFormData.append('zoomlevel', 'place');
     }
-    // PASS dataSetKey only not allVoyages
+    // PASS dataSetKey only for intra-american / trans-atlantic / texas bound
     if (styleName !== TYPESOFDATASET.allVoyages) {
       for (const value of dataSetValue) {
         newFormData.append(dataSetKey, String(value));
@@ -158,6 +159,7 @@ export const LeafletMap = () => {
       }
     }
   };
+  console.log('zoomLevel', zoomLevel);
 
   useEffect(() => {
     fetchData();
@@ -175,11 +177,10 @@ export const LeafletMap = () => {
     dataSetKey,
     dataSetValue,
     styleName,
+    zoomLevel,
   ]);
 
-  // Effect to handle zoomLevel changes and check localStorage
   useEffect(() => {
-    // Check if data is available in localStorage
     const savedNodesData = localStorage.getItem('nodesData');
     const savedTransportation = localStorage.getItem('transportation');
     if (savedNodesData && savedTransportation) {
@@ -194,38 +195,42 @@ export const LeafletMap = () => {
     };
   }, [zoomLevel]);
 
-  return loading ? (
-    <div className="loading-logo">
-      <img src={LOADINGLOGO} />
+  return (
+    <div style={{ backgroundColor: getMapBackgroundColor(styleName) }}>
+      {loading ? (
+        <div className="loading-logo">
+          <img src={LOADINGLOGO} />
+        </div>
+      ) : (
+        <MapContainer
+          ref={mapRef}
+          center={MAP_CENTER}
+          fadeAnimation
+          zoom={zoomLevel}
+          className="lealfetMap-container"
+          maxZoom={MAXIMUM_ZOOM}
+          minZoom={MINIMUM_ZOOM}
+          attributionControl={false}
+        >
+          <HandleZoomEvent />
+          <TileLayer url={mappingSpecialists} />
+          <LayersControl position="topright">
+            <LayersControl.Overlay name="River">
+              <TileLayer url={mappingSpecialistsRivers} />
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Modern Countries">
+              <TileLayer url={mappingSpecialistsCountries} />
+            </LayersControl.Overlay>
+          </LayersControl>
+          <PolylineEnslavedMap
+            origination={origination}
+            disposition={disposition}
+            transportation={transportation}
+            nodesData={nodesData}
+          />
+          <NodeMarkerEnslavedMap nodesData={nodesData} />
+        </MapContainer>
+      )}
     </div>
-  ) : (
-    <MapContainer
-      ref={mapRef}
-      center={MAP_CENTER}
-      fadeAnimation
-      zoom={zoomLevel}
-      className="lealfetMap-container"
-      maxZoom={MAXIMUM_ZOOM}
-      minZoom={MINIMUM_ZOOM}
-      attributionControl={false}
-    >
-      <HandleZoomEvent />
-      <TileLayer url={mappingSpecialists} />
-      <LayersControl position="topright">
-        <LayersControl.Overlay name="River">
-          <TileLayer url={mappingSpecialistsRivers} />
-        </LayersControl.Overlay>
-        <LayersControl.Overlay name="Modern Countries">
-          <TileLayer url={mappingSpecialistsCountries} />
-        </LayersControl.Overlay>
-      </LayersControl>
-      <PolylineEnslavedMap
-        origination={origination}
-        disposition={disposition}
-        transportation={transportation}
-        nodesData={nodesData}
-      />
-      <NodeMarkerEnslavedMap nodesData={nodesData} />
-    </MapContainer>
   );
 };

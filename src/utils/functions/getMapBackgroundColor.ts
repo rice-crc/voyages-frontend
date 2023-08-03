@@ -1,19 +1,20 @@
 import { ALLVOYAGES, VOYAGESPAGE, INTRAAMERICAN, TRANSATLANTICPATH, VOYAGESTEXAS, AFRICANORIGINS } from "@/share/CONST_DATA";
+import { TYPESOFDATASET } from "@/share/InterfaceTypes";
+import { Item } from "@/styleMUI";
 
 
 export const getMapBackgroundColor = (item: string) => {
-
-    let bgColor = 'rgb(147, 208, 203)';
-    if (item === VOYAGESPAGE || item === ALLVOYAGES) {
-        bgColor = 'rgb(147, 208, 203)';
-    } else if (item === INTRAAMERICAN) {
-        bgColor = 'rgb(127, 118, 191)';
-    } else if (item === TRANSATLANTICPATH) {
-        bgColor = 'rgb(25, 118, 210)';
-    } else if (item === VOYAGESTEXAS) {
-        bgColor = 'rgb(187, 105, 46)';
-    } else if (item === AFRICANORIGINS) {
-        bgColor = '#b29493';
+    let background = 'rgba(147, 208, 203)';
+    if (item === TYPESOFDATASET.allVoyages) {
+        background = 'rgba(147, 208, 203)';
+    } else if (item === TYPESOFDATASET.allVoyages) {
+        background = 'transparent';
+    } else if (item === TYPESOFDATASET.intraAmerican) {
+        background = 'rgba(127, 118, 191)';
+    } else if (item === TYPESOFDATASET.transatlantic) {
+        background = '#1976d2';
+    } else if (item === TYPESOFDATASET.texas) {
+        background = 'rgba(187, 105, 46)';
     }
-    return bgColor;
+    return background;
 };

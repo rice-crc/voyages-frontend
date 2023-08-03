@@ -39,22 +39,22 @@
 		"label": "Itinerary",
 		"children": [
 			{
-				"var_name": "voyage__voyage_ship__ship_name",
+				"var_name": "enslaved_relations__relation__voyage__voyage_ship__ship_name",
 				"type": "CharField",
 				"label": "Ship Name"
 			},
 			{
-				"var_name": "voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
 				"type": "CharField",
 				"label": "Place of embarkation"
 			},
 			{
-				"var_name": "voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
 				"type": "CharField",
 				"label": "Place of disembarkation"
 			},
 			{
-				"var_name": "voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
+				"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
 				"type": "IntegerField",
 				"label": "Year of arrival"
 			}
@@ -79,7 +79,7 @@
 				"label": "Post-Disembark Location"
 			},
 			{
-				"var_name": "voyage__voyage_name_outcome__particular_outcome__name",
+				"var_name": "enslaved_relations__relation__voyage__voyage_name_outcome__particular_outcome__name",
 				"type": "CharField",
 				"label": "Vessel Fate"
 			}
