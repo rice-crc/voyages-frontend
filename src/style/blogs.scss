@@ -341,4 +341,38 @@ h4 {
 }
 .autocomplete-blog-search{
   width: 250px;
+  > label{
+    color: #fff !important;
+  }
+}
+.input-blog-autosearch{
+ border-radius: 5px;
+ height: 38px;
+
+}
+.tags-name-blog{
+  display: flex;
+  .tags-name-list{
+    margin-top: 1rem;
+    margin-right: 4px;
+  }
+}
+.loading-logo{
+  display: flex;
+  justify-content: center;
+  animation: center;
+  margin: auto;
+  height: 75vh;
+  > img{
+      width: 15%;
+      @include breakpoint-standard(5) {
+          width: 10%;
+      }
+      @include breakpoint-standard(4) {
+          width: 10%;
+      }
+      @include breakpoint-standard(3) {
+          width: 10%;
+      }
+  }
 }

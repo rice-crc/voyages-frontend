@@ -1,76 +1,92 @@
-import { useEffect, useState, useMemo, SyntheticEvent } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { Autocomplete, Stack, TextField, Box, Typography } from '@mui/material';
-import { AutoCompleteOption } from '@/share/InterfaceTypes';
-import '@/style/blogs.scss';
-import React from 'react';
+import { Autocomplete, Stack, TextField, Typography, Box } from '@mui/material';
+import { setBlogAutoLists, setSearchAutoValue } from '@/redux/getBlogDataSlice';
+import { fetchBlogAutoCompleted } from '@/fetchAPI/blogApi/fetchBlogAutoCompleted';
+import { ResultAutoList } from '@/share/InterfaceTypesBlog';
 
 const AutoCompletedSearhBlog = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [autoList, setAutoLists] = useState<AutoCompleteOption[]>([]);
-  const [selectedValue, setSelectedValue] = useState<any>('');
-  const [autoValue, setAutoValue] = useState<string>('');
-  const { searchTitle, searchValue } = useSelector(
-    (state: RootState) => state.getBlogData
-  );
+  const { searchTitle, searchAutoKey, searchAutoValue, blogAutoLists } =
+    useSelector((state: RootState) => state.getBlogData);
+  useEffect(() => {
+    let subscribed = true;
+    const formData: FormData = new FormData();
+    formData.append(searchAutoKey, searchAutoValue);
+
+    const fetchAutoBlogList = async () => {
+      try {
+        const response = await dispatch(
+          fetchBlogAutoCompleted(formData)
+        ).unwrap();
+
+        if (subscribed && response) {
+          dispatch(setBlogAutoLists(response?.results));
+        }
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchAutoBlogList();
+    return () => {
+      subscribed = false;
+    };
+  }, [dispatch, searchAutoKey, searchAutoValue]);
+
   const handleInputChange = useMemo(
     () => (event: React.SyntheticEvent<Element, Event>, value: string) => {
-      event.preventDefault();
-      setAutoValue(value);
+      dispatch(setSearchAutoValue(value)); // Set the value in the Autocomplete box
     },
     []
   );
 
-  const handleAutoSearchBlog = (
-    event: SyntheticEvent<Element, Event>,
-    newValue: AutoCompleteOption[]
-  ) => {};
-
-  const OPTIONS = ['aa', 'bb', 'cc', 'dd'];
   return (
-    <Stack spacing={1} className="autocomplete-blog-search">
-      <Autocomplete
-        multiple={false}
-        id="tags-outlined"
-        options={OPTIONS}
-        value={selectedValue}
-        onChange={handleAutoSearchBlog}
-        onInputChange={handleInputChange}
-        inputValue={autoValue}
-        renderOption={(props, option) => (
-          <Box component="li" {...props} key={option} sx={{ fontSize: 16 }}>
-            {option ? option : '--'}
-          </Box>
-        )}
-        filterSelectedOptions
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label={
-              <Typography
-                variant="body1"
-                style={{
-                  fontSize: 16,
-                }}
-              >
-                Search by {searchTitle}
-              </Typography>
-            }
-            InputLabelProps={{ style: { textAlign: 'center' } }} // Set text alignment to center
-            InputProps={{
-              ...params.InputProps,
-              style: {
-                borderRadius: 5,
-                height: 38,
-              },
-            }}
-            placeholder={searchTitle}
-            style={{ padding: 8 }}
-          />
-        )}
-      />
-    </Stack>
+    <>
+      <Stack spacing={1} className="autocomplete-blog-search">
+        <Autocomplete
+          multiple={false}
+          id="tags-outlined"
+          options={blogAutoLists}
+          onInputChange={handleInputChange}
+          inputValue={searchAutoValue}
+          filterSelectedOptions
+          renderOption={(props, option) => (
+            <Box
+              component="li"
+              {...props}
+              key={option.id}
+              sx={{ fontSize: 16 }}
+            >
+              {option.label ? option.label : '--'}
+            </Box>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={
+                <Typography
+                  variant="body1"
+                  style={{
+                    fontSize: 16,
+                  }}
+                  color="#ffffff"
+                >
+                  Search by {searchTitle}
+                </Typography>
+              }
+              InputLabelProps={{ style: { textAlign: 'center' } }}
+              InputProps={{
+                ...params.InputProps,
+                className: 'input-blog-autosearch',
+              }}
+              placeholder={searchTitle}
+              style={{ padding: 8 }}
+            />
+          )}
+        />
+      </Stack>
+    </>
   );
 };
 

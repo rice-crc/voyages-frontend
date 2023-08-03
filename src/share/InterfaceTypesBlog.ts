@@ -35,8 +35,8 @@ export interface SearchBlogProps {
     title: string
 }
 export const SearchBlogData: SearchBlogProps[] = [
-    { search: 'Authors Name', tag: 'authors__name', title: 'authors' },
     { search: 'Tags Name', tag: 'tags__name', title: 'tags' },
+    { search: 'Authors Name', tag: 'authors__name', title: 'authors' },
     { search: 'Title', tag: 'title', title: 'title' },
 ]
 
@@ -45,7 +45,9 @@ export interface InitialStateBlogProps {
     data: BlogDataProps[]
     post: BlogDataProps
     searchTitle: string
-    searchValue: string
+    searchAutoKey: string
+    searchAutoValue: string
+    blogAutoLists: ResultAutoList[]
 }
 export const InitialStateBlogProps: InitialStateBlogProps = {
     data: [],
@@ -63,6 +65,19 @@ export const InitialStateBlogProps: InitialStateBlogProps = {
         status: 0,
         thumbnail: ''
     },
-    searchTitle: 'authors',
-    searchValue: ''
+    searchTitle: 'tags',
+    searchAutoKey: 'tags__name',
+    searchAutoValue: '',
+    blogAutoLists: []
+
+}
+
+export interface BlogAutoCompletedProps {
+    totalResultsCount: number
+    results: ResultAutoList[]
+}
+
+export interface ResultAutoList {
+    id: number
+    label: string
 }

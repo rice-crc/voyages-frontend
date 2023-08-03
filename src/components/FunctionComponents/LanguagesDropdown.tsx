@@ -8,11 +8,17 @@ import { LanguageOptions } from '@/utils/functions/languages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { setLanguages } from '@/redux/getLanguagesSlice';
+import { setBlogPost } from '@/redux/getBlogDataSlice';
+import { BlogDataProps } from '@/share/InterfaceTypesBlog';
 
 export default function LanguagesDropdown() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { language } = useSelector((state: RootState) => state.getLanguages);
+  const post = useSelector(
+    (state: RootState) => state.getBlogData.post as BlogDataProps
+  );
+
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -21,8 +27,8 @@ export default function LanguagesDropdown() {
     setAnchorEl(null);
   };
   const handleChangeLanguage = (value: string) => {
-    console.log('lang', value);
     dispatch(setLanguages(value));
+    dispatch(setBlogPost(post as BlogDataProps));
   };
 
   return (

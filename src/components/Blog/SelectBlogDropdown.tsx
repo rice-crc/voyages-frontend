@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useCallback, useMemo } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -7,28 +7,42 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import {
-  setSearchBlogByValue,
+  setSearchAutoKey,
+  setSearchAutoValue,
   setSearchBlogTitle,
 } from '@/redux/getBlogDataSlice';
 import { SearchBlogData } from '@/share/InterfaceTypesBlog';
 
-export default function SelectSearchBlogDropdown() {
+export default function SelectBlogDropdown() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { searchTitle, searchValue } = useSelector(
+  const { searchTitle, searchAutoValue } = useSelector(
     (state: RootState) => state.getBlogData
   );
+
   const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
+
+  const handleClick = useCallback((event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-  };
+    dispatch(setSearchAutoValue(''));
+  }, []);
+  console.log('searchAutoValue-->', searchAutoValue);
   const handleClose = () => {
     setAnchorEl(null);
+    dispatch(setSearchAutoValue(''));
   };
-  const handleChangeSearch = (value: string, title: string) => {
-    dispatch(setSearchBlogByValue(value));
-    dispatch(setSearchBlogTitle(title));
+  const onClickButton = () => {
+    dispatch(setSearchAutoValue(''));
   };
+
+  const handleChangeSearch = useCallback(
+    (value: string, title: string) => {
+      dispatch(setSearchAutoValue(''));
+      dispatch(setSearchAutoKey(value));
+      dispatch(setSearchBlogTitle(title));
+    },
+    [searchAutoValue]
+  );
 
   return (
     <div>
@@ -38,6 +52,8 @@ export default function SelectSearchBlogDropdown() {
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
+        onMouseLeave={onClickButton}
+        onClick={handleClick}
         endIcon={
           <span>
             <ArrowDropDown
@@ -52,7 +68,6 @@ export default function SelectSearchBlogDropdown() {
             />
           </span>
         }
-        onClick={handleClick}
       >
         {searchTitle}
       </Button>

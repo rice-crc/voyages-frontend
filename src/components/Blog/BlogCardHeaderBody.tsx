@@ -1,7 +1,7 @@
 import { fetchBlogData } from '@/fetchAPI/blogApi/fetchBlogData';
 import { setBlogPost } from '@/redux/getBlogDataSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { BlogDataProps } from '@/share/InterfaceTypesBlog';
+import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faWhatsapp,
@@ -18,10 +18,10 @@ import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
 const BlogCardHeaderBody = () => {
   const { ID } = useParams();
   const dispatch: AppDispatch = useDispatch();
-  const post = useSelector(
-    (state: RootState) => state.getBlogData.post as BlogDataProps
-  );
 
+  const { data: BlogData, post } = useSelector(
+    (state: RootState) => state.getBlogData as InitialStateBlogProps
+  );
   const { title, thumbnail, authors, subtitle, tags, updated_on } = post;
 
   useEffect(() => {
@@ -44,6 +44,7 @@ const BlogCardHeaderBody = () => {
       subscribed = false;
     };
   }, [dispatch, ID]);
+
   const dateObj = updated_on ? new Date(updated_on) : new Date(updated_on);
 
   const formattedDate = dateObj.toLocaleDateString('en-US', {
@@ -58,8 +59,6 @@ const BlogCardHeaderBody = () => {
   });
 
   const formattedDateTime = `${formattedDate}, ${formattedTime}`;
-  const autherImage = authors?.map((photo) => photo.photo);
-
   const tagsName = tags?.map((tag) => tag.name);
 
   return (
@@ -72,39 +71,42 @@ const BlogCardHeaderBody = () => {
       <h1 className="titleText">{title ? title : ''}</h1>
       <h3 className="subtitle">{subtitle ? subtitle : ''}</h3>
       <p className="card-text text-muted">{formattedDateTime}</p>
-      <div className="media ">
-        {autherImage?.length > 0 &&
-          autherImage?.map((image, index) => (
-            <div className="media-left media-top" key={`${index}-${image}`}>
+      {authors?.length > 0 &&
+        authors?.map((author, index) => (
+          <div className="media" key={`${author.id}-${index}`}>
+            <div
+              className="media-left media-top"
+              key={`${index}-${author.photo}`}
+            >
               <Link to="#">
                 <img
                   className="rounded-circle"
-                  src={`${BASTURLBLOG}${image}`}
+                  src={`${BASTURLBLOG}${author.photo}`}
                   width="40"
                   height="40"
                 />
               </Link>
             </div>
-          ))}
-        {authors?.length > 0 &&
-          authors?.map((author, index) => (
             <div className="media-body" key={`${index}-${author.name}`}>
               <h4 className="media-heading">
                 <Link to="#">{author.name}</Link>
               </h4>
               {author.description}
             </div>
-          ))}
-      </div>
-      {tagsName?.length > 0 &&
-        tagsName?.map((name, index) => (
-          <div key={`${index}-${name}`} style={{ marginTop: '1rem' }}>
-            {/* Link to Search by Tag for "ele" (replace "ele" with the actual tag value) */}
-            <a href={`#`}>
-              <div className="badge badge-secondary">{name}</div>
-            </a>
           </div>
         ))}
+      <div className="tags-name-blog">
+        {tagsName?.length > 0 &&
+          tagsName?.map((name, index) => (
+            <div key={`${index}-${name}`} className="tags-name-list">
+              {/* Link to Search by Tag for "ele" (replace "ele" with the actual tag value) */}
+              <a href={`#`}>
+                <div className="badge badge-secondary">{name}</div>
+              </a>
+            </div>
+          ))}
+      </div>
+
       <div className="social">
         <a
           href="#"

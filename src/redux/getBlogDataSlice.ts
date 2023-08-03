@@ -1,5 +1,5 @@
 
-import { BlogDataProps, InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
+import { BlogDataProps, InitialStateBlogProps, ResultAutoList } from '@/share/InterfaceTypesBlog';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const getBlogDataSlice = createSlice({
@@ -12,16 +12,23 @@ export const getBlogDataSlice = createSlice({
         setBlogPost: (state, action: PayloadAction<BlogDataProps>) => {
             state.post = action.payload;
         },
-        setSearchBlogByValue:
+        setSearchAutoKey:
             (state, action: PayloadAction<string>) => {
-                state.searchValue = action.payload;
+                state.searchAutoKey = action.payload;
+            },
+        setSearchAutoValue:
+            (state, action: PayloadAction<string>) => {
+                state.searchAutoValue = action.payload;
             },
         setSearchBlogTitle: (state, action: PayloadAction<string>) => {
             state.searchTitle = action.payload;
         },
+        setBlogAutoLists: (state, action: PayloadAction<ResultAutoList[]>) => {
+            state.blogAutoLists = action.payload;
+        },
     },
 });
 
-export const { setBlogData, setBlogPost, setSearchBlogByValue, setSearchBlogTitle } = getBlogDataSlice.actions;
+export const { setBlogData, setBlogPost, setBlogAutoLists, setSearchAutoKey, setSearchAutoValue, setSearchBlogTitle } = getBlogDataSlice.actions;
 
 export default getBlogDataSlice.reducer;

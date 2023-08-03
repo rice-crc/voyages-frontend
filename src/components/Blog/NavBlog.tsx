@@ -2,17 +2,18 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import '@/style/blogs.scss';
 import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import LanguagesDropdown from '../FunctionComponents/LanguagesDropdown';
-import SelectSearchBlogDropdown from './SelectSearchBlogDropdown';
+import SelectBlogDropdown from './SelectBlogDropdown';
 import AutoCompletedSearhBlog from './AutoCompletedSearhBlog';
 
 const NavBlog: React.FC = () => {
-  const { post, searchValue, searchTitle } = useSelector(
+  const { blogTitle } = useParams();
+  const { post, searchTitle } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
-  const { title, subtitle } = post;
+  const { title } = post;
 
   return (
     <>
@@ -25,18 +26,15 @@ const NavBlog: React.FC = () => {
             <div>{`Echoes: The SlaveVoyages Blog ${
               '-' && title ? title : ''
             }`}</div>
-            {/* WAIT TO DISPLAY Auto Title from user select 
-            <div className="navbar-blog-subtitle">{subtitle ? subtitle : ''}</div> */}
             <div className="navbar-blog-subtitle">
-              {subtitle ? 'all post' : ''}
+              {searchTitle ? searchTitle.toUpperCase() : ''}
             </div>
           </Link>
         </div>
         <div>
-          <LanguagesDropdown />
+          {!blogTitle && <LanguagesDropdown />}
           <div className="search-autocomplete-blog">
-            <SelectSearchBlogDropdown />
-            {}
+            <SelectBlogDropdown />
             <AutoCompletedSearhBlog />
           </div>
         </div>
