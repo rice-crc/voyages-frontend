@@ -46,6 +46,9 @@
   top: 3.15rem;
   width: 100%;
   z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .navbar-blog-subtitle {
   font-weight: 500;
@@ -256,10 +259,12 @@ h4 {
 }
 .text-muted {
   color: #6c757d;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 600;
 }
-.h6 {
-  font-size: 1rem;
-}
+
 .titleText{
   font-size: 1.8em;
     margin-bottom: 2rem;
@@ -285,4 +290,89 @@ h4 {
   font-weight: 600;
   color: #db7333;
   text-decoration: none;
+}
+
+.badge-secondary {
+  color: #fff;
+  background-color: #6c757d;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+.social{
+  margin: 5px;
+}
+.icon-share{
+  color:#c96318 ;
+  margin-right: 4px;
+  font-size: 2.4em;
+  &:hover{
+    color: #db7333;
+  }
+}
+.card-content-body{
+  margin: 1rem;
+   p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  a{
+    color: #c96318;
+    font-weight: 400;
+    text-decoration: none;
+  }
+}
+.select-languages{
+  text-align: right;
+}
+.search-autocomplete-blog{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.autocomplete-blog-search{
+  width: 250px;
+  > label{
+    color: #fff !important;
+  }
+}
+.input-blog-autosearch{
+ border-radius: 5px;
+ height: 38px;
+
+}
+.tags-name-blog{
+  display: flex;
+  .tags-name-list{
+    margin-top: 1rem;
+    margin-right: 4px;
+  }
+}
+.loading-logo{
+  display: flex;
+  justify-content: center;
+  animation: center;
+  margin: auto;
+  height: 75vh;
+  > img{
+      width: 15%;
+      @include breakpoint-standard(5) {
+          width: 10%;
+      }
+      @include breakpoint-standard(4) {
+          width: 10%;
+      }
+      @include breakpoint-standard(3) {
+          width: 10%;
+      }
+  }
 }

@@ -89,10 +89,10 @@ export const LeafletMap = () => {
   const fetchData = async () => {
     setLoading(true);
     const newFormData: FormData = new FormData();
-    if (zoomLevel <= 6) {
+    if (zoomLevel <= 5) {
       newFormData.append('zoomlevel', 'region');
     }
-    if (zoomLevel > 6) {
+    if (zoomLevel > 5) {
       newFormData.append('zoomlevel', 'place');
     }
     // PASS dataSetKey only for intra-american / trans-atlantic / texas bound
@@ -159,6 +159,7 @@ export const LeafletMap = () => {
       }
     }
   };
+  console.log('zoomLevel', zoomLevel);
 
   useEffect(() => {
     fetchData();
@@ -176,6 +177,7 @@ export const LeafletMap = () => {
     dataSetKey,
     dataSetValue,
     styleName,
+    zoomLevel,
   ]);
 
   useEffect(() => {

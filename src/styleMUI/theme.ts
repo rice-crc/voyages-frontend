@@ -39,13 +39,43 @@ export const theme = createTheme({
                 disableRipple: true,
             },
         },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    fontSize: '0.95rem',
+                    color: '#ffffff',
+                    "&$focused": {
+                        color: "#ffffff"
+                    },
+                    ".MuiFormControl-root:hover &:not($focused)": {
+                        color: "red"
+                    }
+                },
+                shrink: {
+                    transform: 'translate(14px, -8px) scale(1) !important',
+                },
+                outlined: {
+                    transform: 'translate(14px, 16px) scale(1)',
+                },
+            },
+        },
     },
     spacing: [0, 4, 8, 16, 32, 64],
     palette: {
         background: {
             default: '#ffffff',
         },
+        primary: {
+            main: "#556cd6"
+        },
+        secondary: {
+            main: "#19857b"
+        },
+        error: {
+            main: '#bf0505'
+        },
     },
+
 });
 
 // Function to update the theme based on state changes

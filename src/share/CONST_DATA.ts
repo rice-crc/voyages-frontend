@@ -48,4 +48,3 @@ export const MAXIMUM_NATIVE_ZOOM = 10;
 export const MINIMUM_ZOOM = 2;
 export const MAXIMUM_ZOOM = 22;
 
-export const LinkThumbnail = 'https://www.slavevoyages.org/documents/';
