@@ -40,7 +40,32 @@
   padding: 0.5rem 4rem 0;
   font-size: 1rem;
   font-weight: bold;
+
+  @include breakpoint-standard(4) {
+    padding: 0.5rem 1.2rem 0;
+  }
+
+  @include breakpoint-standard(3) {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+
+  @include breakpoint-standard(2) {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+
+  @include breakpoint-standard(1) {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+
+  @include breakpoint-standard(0) {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
 }
+
 .nav-blog-header-sticky {
   position: sticky;
   top: 3.15rem;
@@ -50,6 +75,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .navbar-blog-subtitle {
   font-weight: 500;
   font-size: 0.8rem;
@@ -59,18 +85,90 @@
 
 .container-new {
   margin: 5rem 4rem;
+
+  @include breakpoint-standard(4) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(3) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(2) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(1) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(0) {
+    margin: 5rem 1.5rem;
+  }
 }
+
+.container-new-author-head {
+  margin: 5rem 4rem 1rem 4rem;
+
+  @include breakpoint-standard(4) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(3) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(2) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(1) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(0) {
+    margin: 5rem 1.5rem;
+  }
+}
+
+.container-new-author {
+  margin: 1rem 4rem;
+
+  @include breakpoint-standard(4) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(3) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(2) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(1) {
+    margin: 5rem 1.5rem;
+  }
+
+  @include breakpoint-standard(0) {
+    margin: 5rem 1.5rem;
+  }
+}
+
 .content-image {
   width: 100%;
   height: auto;
 }
+
 .card-img {
   border-radius: calc(0.25rem - 1px);
 }
+
 .img-fluid {
   max-width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
+
 .card-columns {
   -webkit-column-count: 3;
   -moz-column-count: 3;
@@ -78,9 +176,11 @@
   -webkit-column-gap: 1.25rem;
   -moz-column-gap: 1.25rem;
   column-gap: 1.25rem;
+
   @include breakpoint-standard(4) {
     column-count: 2;
   }
+
   @include breakpoint-standard(3) {
     column-count: 1;
   }
@@ -97,6 +197,7 @@
     column-count: 1;
   }
 }
+
 .card {
   position: relative;
   overflow: hidden;
@@ -149,6 +250,7 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out 0s;
 }
+
 .content-overlay {
   position: absolute;
   top: 0;
@@ -159,6 +261,7 @@
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+
 .content-details h3 {
   color: #fff;
   font-weight: 600;
@@ -166,33 +269,52 @@
   margin-bottom: 0.5em;
   text-transform: uppercase;
   font-size: 1.2em;
+
   @include breakpoint-standard(5) {
     font-size: 1em;
   }
+
   @include breakpoint-standard(4) {
     font-size: 1em;
   }
+
   @include breakpoint-standard(3) {
     font-size: 1em;
   }
+
   @include breakpoint-standard(2) {
     font-size: 1em;
   }
+
   @include breakpoint-standard(1) {
     font-size: 1em;
   }
+
   @include breakpoint-standard(0) {
     font-size: 1em;
   }
 }
+
 h4 {
   font-size: 0.99999em;
-  color: #db7333;
+  color: inherit;
 }
+
+.auther-name {
+  font-size: 0.99999em;
+  color: inherit;
+}
+
 .content-details p {
   color: #fff;
   font-weight: 500;
   font-size: 0.9em;
+}
+
+.text-secondary-author {
+  color: #6c757d;
+  font-weight: 500;
+  margin: 0.45rem;
 }
 
 .fadeIn-bottom {
@@ -206,18 +328,46 @@ h4 {
 .card:hover .fadeIn-bottom {
   top: 50%;
 }
+
 .card:hover .content-details {
   opacity: 1;
 }
+
 .row-next {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
 }
+
+.row-next-author {
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  @include breakpoint-standard(4) {
+    justify-content: center;
+    text-align: center;
+  }
+
+  @include breakpoint-standard(3) {
+    justify-content: center;
+    text-align: center;
+  }
+
+  @include breakpoint-standard(2) {
+    justify-content: center;
+    text-align: center;
+  }
+
+  @include breakpoint-standard(1) {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
 .col-pagination {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 100%;
@@ -226,6 +376,7 @@ h4 {
   padding: 1rem;
   padding-bottom: 3rem;
 }
+
 .pagination {
   display: flex;
   padding-left: 0;
@@ -248,47 +399,79 @@ h4 {
   font-size: 1rem;
   font-weight: 500;
 }
-.card-content{
+
+.card-content {
   margin: 1.5rem;
 }
-.card-body{
+
+.card-body {
   padding: 1.25rem;
+
+  @include breakpoint-standard(2) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(1) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(0) {
+    padding: 0;
+  }
 }
+
 .blog-detail-thumbnail {
   height: 300px;
 }
+
 .text-muted {
   color: #6c757d;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    font-family: inherit;
-    font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+  font-weight: 600;
 }
 
-.titleText{
+.titleText {
   font-size: 1.8em;
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
-.subtitle{
+
+.subtitle {
   font-size: 1.1em;
 }
+
 .media {
   display: flex;
   -webkit-box-align: start;
   align-items: flex-start;
 }
+
 .rounded-circle {
   border-radius: 50%;
   margin: 2px;
 }
-.media-body{
+
+.media-body {
   font-size: 0.75em;
   font-weight: 500;
 }
-.media-heading > a{
+
+.media-heading {
   font-size: 1.2em;
   font-weight: 600;
   color: #db7333;
+  margin-bottom: 1rem;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.author-universityname > a {
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #c96318;
   text-decoration: none;
 }
 
@@ -308,71 +491,194 @@ h4 {
   vertical-align: baseline;
   border-radius: 0.25rem;
 }
-.social{
+
+.social {
   margin: 5px;
 }
-.icon-share{
-  color:#c96318 ;
+
+.icon-share {
+  color: #c96318;
   margin-right: 4px;
   font-size: 2.4em;
-  &:hover{
+
+  &:hover {
     color: #db7333;
   }
 }
-.card-content-body{
+
+.card-content-body {
   margin: 1rem;
-   p {
+
+  p {
     margin-top: 0;
     margin-bottom: 1rem;
   }
-  a{
+
+  a {
     color: #c96318;
     font-weight: 400;
     text-decoration: none;
   }
 }
-.select-languages{
+
+.select-languages {
   text-align: right;
 }
-.search-autocomplete-blog{
+
+.search-autocomplete-blog {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.autocomplete-blog-search{
-  width: 250px;
-  > label{
+
+.autocomplete-blog-search {
+  width: 300px;
+
+  > label {
     color: #fff !important;
   }
-}
-.input-blog-autosearch{
- border-radius: 5px;
- height: 38px;
 
+  @include breakpoint-standard(5) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(4) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(3) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(2) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(1) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(0) {
+    width: 100%;
+  }
 }
-.tags-name-blog{
+
+.input-blog-autosearch {
+  border-radius: 5px;
+  height: 38px;
+}
+
+.tags-name-blog {
   display: flex;
-  .tags-name-list{
+
+  .tags-name-list {
     margin-top: 1rem;
     margin-right: 4px;
   }
 }
-.loading-logo{
+
+.loading-logo {
   display: flex;
   justify-content: center;
   animation: center;
   margin: auto;
   height: 75vh;
-  > img{
-      width: 15%;
-      @include breakpoint-standard(5) {
-          width: 10%;
-      }
-      @include breakpoint-standard(4) {
-          width: 10%;
-      }
-      @include breakpoint-standard(3) {
-          width: 10%;
-      }
+
+  > img {
+    width: 15%;
+
+    @include breakpoint-standard(5) {
+      width: 10%;
+    }
+
+    @include breakpoint-standard(4) {
+      width: 10%;
+    }
+
+    @include breakpoint-standard(3) {
+      width: 10%;
+    }
+  }
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  border: 0;
+
+  > a {
+    text-decoration: none;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+  }
+}
+
+.col-lg-4 {
+  text-align: center;
+  width: 35%;
+
+  @include breakpoint-standard(5) {
+    max-width: 35%;
+  }
+
+  @include breakpoint-standard(4) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(3) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(2) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(1) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(0) {
+    width: 100%;
+  }
+}
+
+.description-author {
+  width: 15%;
+  text-align: center;
+  margin-top: 1.2rem;
+  @include breakpoint-standard(7) {
+    width: 20%;
+  }
+
+  @include breakpoint-standard(6) {
+    width: 20%;
+  }
+
+  @include breakpoint-standard(5) {
+    width: 30%;
+  }
+
+  @include breakpoint-standard(4) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(3) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(2) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(1) {
+    width: 100%;
+  }
+
+  @include breakpoint-standard(0) {
+    width: 100%;
   }
 }

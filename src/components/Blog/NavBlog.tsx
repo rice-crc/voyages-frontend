@@ -5,11 +5,10 @@ import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { Link, useParams } from 'react-router-dom';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import LanguagesDropdown from '../FunctionComponents/LanguagesDropdown';
-import SelectBlogDropdown from './SelectBlogDropdown';
 import AutoCompletedSearhBlog from './AutoCompletedSearhBlog';
 
 const NavBlog: React.FC = () => {
-  const { blogTitle } = useParams();
+  const { blogTitle, authorName } = useParams();
   const { post, searchTitle } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
@@ -32,9 +31,8 @@ const NavBlog: React.FC = () => {
           </Link>
         </div>
         <div>
-          {!blogTitle && <LanguagesDropdown />}
+          {!blogTitle && !authorName && <LanguagesDropdown />}
           <div className="search-autocomplete-blog">
-            <SelectBlogDropdown />
             <AutoCompletedSearhBlog />
           </div>
         </div>

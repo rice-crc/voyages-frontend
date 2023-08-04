@@ -14,12 +14,14 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
+import { BLOGPAGE } from '@/share/CONST_DATA';
+import { convertToSlug } from '@/utils/functions/convertToSlug';
 
 const BlogCardHeaderBody = () => {
   const { ID } = useParams();
   const dispatch: AppDispatch = useDispatch();
 
-  const { data: BlogData, post } = useSelector(
+  const { post } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
   const { title, thumbnail, authors, subtitle, tags, updated_on } = post;
@@ -78,7 +80,11 @@ const BlogCardHeaderBody = () => {
               className="media-left media-top"
               key={`${index}-${author.photo}`}
             >
-              <Link to="#">
+              <Link
+                to={`/${BLOGPAGE}/author/${convertToSlug(author?.name)}/${
+                  author?.id
+                }/`}
+              >
                 <img
                   className="rounded-circle"
                   src={`${BASTURLBLOG}${author.photo}`}
@@ -89,7 +95,13 @@ const BlogCardHeaderBody = () => {
             </div>
             <div className="media-body" key={`${index}-${author.name}`}>
               <h4 className="media-heading">
-                <Link to="#">{author.name}</Link>
+                <Link
+                  to={`/${BLOGPAGE}/author/${convertToSlug(author?.name)}/${
+                    author?.id
+                  }/`}
+                >
+                  {author.name}
+                </Link>
               </h4>
               {author.description}
             </div>

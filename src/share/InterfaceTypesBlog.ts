@@ -1,6 +1,6 @@
 export interface BlogDataProps {
     id: number
-    authors: Authors[]
+    authors: Author[]
     tags: Tags[]
     title: string
     language: string
@@ -13,13 +13,14 @@ export interface BlogDataProps {
     thumbnail: string
 }
 
-export interface Authors {
+export interface Author {
     id: number
+    posts: Post[]
+    photo: string
     name: string
-    description?: string
+    description: any
     slug: string
     role: string
-    photo: string
     institution: number
 }
 
@@ -28,6 +29,20 @@ export interface Tags {
     name: string
     slug: string
     intro: string
+}
+
+export interface Post {
+    id: number
+    tags: Tags[]
+    thumbnail: string
+    title: string
+    language: string
+    subtitle?: string
+    slug: string
+    updated_on: string
+    content: string
+    created_on: string
+    status: number
 }
 export interface SearchBlogProps {
     search: string
@@ -48,6 +63,8 @@ export interface InitialStateBlogProps {
     searchAutoKey: string
     searchAutoValue: string
     blogAutoLists: ResultAutoList[]
+    author: Author
+    authorPost: Post[]
 }
 export const InitialStateBlogProps: InitialStateBlogProps = {
     data: [],
@@ -68,7 +85,18 @@ export const InitialStateBlogProps: InitialStateBlogProps = {
     searchTitle: 'tags',
     searchAutoKey: 'tags__name',
     searchAutoValue: '',
-    blogAutoLists: []
+    blogAutoLists: [],
+    author: {
+        id: 0,
+        posts: [],
+        name: "",
+        description: null,
+        slug: "",
+        role: "",
+        photo: "",
+        institution: 0
+    },
+    authorPost: []
 
 }
 
