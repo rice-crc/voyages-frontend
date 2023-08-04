@@ -32,6 +32,7 @@ const BlogResultsList: React.FC = () => {
   const { language } = useSelector((state: RootState) => state.getLanguages);
   const [loading, setLoading] = useState(false);
   const imagesOnCurrentPage = BlogData.slice(startIndex, endIndex);
+
   useEffect(() => {
     let subscribed = true;
     const fetchDataBlog = async () => {

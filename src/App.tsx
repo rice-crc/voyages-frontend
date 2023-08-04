@@ -26,6 +26,7 @@ import {
 import DocumentPage from './pages/DocumentPage';
 import BlogPage from './pages/BlogPage';
 import BlogDetailsPost from './components/Blog/BlogDetailsPost';
+import AuthorPage from './pages/AuthorPage';
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
@@ -78,6 +79,10 @@ const App: React.FC = () => {
           <Route
             path={`${BLOGPAGE}/:blogTitle/:ID`}
             element={<BlogDetailsPost />}
+          />
+          <Route
+            path={`${BLOGPAGE}/author/:authorName/:ID/`}
+            element={<AuthorPage />}
           />
         </Routes>
       </QueryClientProvider>

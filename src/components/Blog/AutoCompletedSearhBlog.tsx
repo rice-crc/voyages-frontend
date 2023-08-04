@@ -1,15 +1,24 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { Autocomplete, Stack, TextField, Typography, Box } from '@mui/material';
+import {
+  Autocomplete,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { setBlogAutoLists, setSearchAutoValue } from '@/redux/getBlogDataSlice';
 import { fetchBlogAutoCompleted } from '@/fetchAPI/blogApi/fetchBlogAutoCompleted';
 import { ResultAutoList } from '@/share/InterfaceTypesBlog';
+import SelectBlogDropdown from './SelectBlogDropdown';
 
 const AutoCompletedSearhBlog = () => {
   const dispatch: AppDispatch = useDispatch();
   const { searchTitle, searchAutoKey, searchAutoValue, blogAutoLists } =
     useSelector((state: RootState) => state.getBlogData);
+  const [inputValue, setInputValue] = useState<ResultAutoList | ''>('');
+
   useEffect(() => {
     let subscribed = true;
     const formData: FormData = new FormData();
@@ -34,33 +43,35 @@ const AutoCompletedSearhBlog = () => {
     };
   }, [dispatch, searchAutoKey, searchAutoValue]);
 
-  const handleInputChange = useMemo(
-    () => (event: React.SyntheticEvent<Element, Event>, value: string) => {
-      dispatch(setSearchAutoValue(value)); // Set the value in the Autocomplete box
-    },
-    []
-  );
-
+  const handleInputChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: string
+  ) => {
+    dispatch(setSearchAutoValue(value));
+  };
+  const handleAutocompleteChange = (
+    event: React.SyntheticEvent,
+    newValue: ResultAutoList | null
+  ) => {
+    setInputValue(newValue || '');
+  };
+  const handleReset = () => {
+    setInputValue('');
+  };
   return (
     <>
+      <SelectBlogDropdown handleReset={handleReset} />
       <Stack spacing={1} className="autocomplete-blog-search">
         <Autocomplete
           multiple={false}
           id="tags-outlined"
           options={blogAutoLists}
+          getOptionLabel={(option) => option.label || '--'}
           onInputChange={handleInputChange}
+          value={inputValue === '' ? null : inputValue}
+          onChange={handleAutocompleteChange}
           inputValue={searchAutoValue}
           filterSelectedOptions
-          renderOption={(props, option) => (
-            <Box
-              component="li"
-              {...props}
-              key={option.id}
-              sx={{ fontSize: 16 }}
-            >
-              {option.label ? option.label : '--'}
-            </Box>
-          )}
           renderInput={(params) => (
             <TextField
               {...params}
