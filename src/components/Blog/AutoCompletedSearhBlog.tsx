@@ -1,13 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Autocomplete,
-  Button,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Autocomplete, Stack, TextField, Typography } from '@mui/material';
 import { setBlogAutoLists, setSearchAutoValue } from '@/redux/getBlogDataSlice';
 import { fetchBlogAutoCompleted } from '@/fetchAPI/blogApi/fetchBlogAutoCompleted';
 import { ResultAutoList } from '@/share/InterfaceTypesBlog';
