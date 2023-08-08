@@ -33,8 +33,8 @@ import {
   mappingSpecialistsCountries,
   mappingSpecialistsRivers,
 } from '@/share/CONST_DATA';
-import PolylineEnslavedMap from './PolylineMap';
-import NodeMarkerEnslavedMap from '../../PastPeople/Enslaved/NodeMarkerEnslavedMap';
+import PolylineMap from './PolylineMap';
+import NodeMarkerMap from './NodeMarkerMap';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetchAPI/pastEnslavedApi/fetchEnslavedMap';
 import { getMapBackgroundColor } from '@/utils/functions/getMapBackgroundColor';
@@ -222,13 +222,13 @@ export const LeafletMap = () => {
               <TileLayer url={mappingSpecialistsCountries} />
             </LayersControl.Overlay>
           </LayersControl>
-          <PolylineEnslavedMap
+          <PolylineMap
             origination={origination}
             disposition={disposition}
             transportation={transportation}
             nodesData={nodesData}
           />
-          <NodeMarkerEnslavedMap nodesData={nodesData} />
+          <NodeMarkerMap nodesData={nodesData} />
         </MapContainer>
       )}
     </div>
