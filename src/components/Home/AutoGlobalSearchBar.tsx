@@ -41,11 +41,9 @@ const AutoGlobalSearchBar = () => {
         // Use the signal from useRef as the fetch signal
         const signal = signalRef.current;
         if (!signal) return;
-        console.log('signal', signal);
         try {
           setIsFetching(true);
           const response = await fetchSearchGlobalApi(formData, signal.signal);
-          console.log('response', response);
           if (response && currentRequestId === requestId) {
             dispatch(setSearchGlobalData(response));
           }

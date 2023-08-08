@@ -48,3 +48,8 @@ export const MAXIMUM_NATIVE_ZOOM = 10;
 export const MINIMUM_ZOOM = 2;
 export const MAXIMUM_ZOOM = 22;
 
+export const VOYAGESTYPE = 'voyages'
+export const ENSALVEDTYPE = 'enslaved'
+export const ENSLAVERSTYPE = 'enslavers'
+export const BLOGTYPE = 'blog'
+
