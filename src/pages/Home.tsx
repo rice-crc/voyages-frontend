@@ -18,6 +18,7 @@ const HomePage: React.FC = () => {
             <AutoGlobalSearchBar />
           </div>
         </div>
+
         <HomeListCard />
         <div className="document-resources-container">
           <div className="about-project">

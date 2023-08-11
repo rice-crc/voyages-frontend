@@ -21,6 +21,7 @@ import getPeopleEnslaversDataSetCollectionSlice from './getPeopleEnslaversDataSe
 import getBlogDataSlice from './getBlogDataSlice';
 import getLanguagesSlice from './getLanguagesSlice';
 import getCommonGlobalSearchResultSlice from './getCommonGlobalSearchResultSlice';
+import getPastNetworksGraphDataSlice from './getPastNetworksGraphDataSlice';
 
 const store = configureStore({
     reducer: {
@@ -42,6 +43,7 @@ const store = configureStore({
         getBlogData: getBlogDataSlice,
         getLanguages: getLanguagesSlice,
         getCommonGlobalSearch: getCommonGlobalSearchResultSlice,
+        getPastNetworksGraphData: getPastNetworksGraphDataSlice,
         [voyagesApi.reducerPath]: voyagesApi.reducer,
         [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
         [pastEnslaversApiService.reducerPath]: pastEnslaversApiService.reducer,
