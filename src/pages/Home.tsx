@@ -5,7 +5,6 @@ import HomeListCard from '@/components/Home/HomeSearch';
 import '@/style/homepage.scss';
 import SlaveVoyageLogo from '@/components/Home/SlaveVoyageLogo';
 import AutoGlobalSearchBar from '@/components/Home/AutoGlobalSearchBar';
-
 const HomePage: React.FC = () => {
   return (
     <div id="home-voyagepage-container" style={{ zIndex: 100 }}>

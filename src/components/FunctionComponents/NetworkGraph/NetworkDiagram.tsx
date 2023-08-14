@@ -17,13 +17,13 @@ export const NetworkDiagram = ({
 }: NetworkDiagramProps) => {
   // The force simulation mutates links and nodes, so create a copy first
   // Node positions are initialized by d3
-
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const transformRef = useRef(d3.zoomIdentity);
   const simulationRef = useRef<d3.Simulation<Nodes, Edges> | null>(null);
   // Create new arrays for edges and nodes
   const edges: Edges[] = data.edges.map((d) => ({ ...d }));
   const nodes: Nodes[] = data.nodes.map((d) => ({ ...d }));
+
   // Create an array of node IDs for faster lookups
   const nodeIds = new Set(nodes.map((node) => node.uuid));
 
