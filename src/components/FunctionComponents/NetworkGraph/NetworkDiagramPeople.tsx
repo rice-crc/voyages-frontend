@@ -5,7 +5,6 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPastNetworksGraphApi } from '@/fetchAPI/pastEnslavedApi/fetchPastNetworksGraph';
 import { setPastNetworksData } from '@/redux/getPastNetworksGraphDataSlice';
-import GraphDiagramNetwork from './jsGraph/GraphDiagramNetwork.jsx';
 
 export const NetworkDiagramPeople = ({ width = 800, height = 600 }) => {
   const dispatch: AppDispatch = useDispatch();
@@ -45,8 +44,7 @@ export const NetworkDiagramPeople = ({ width = 800, height = 600 }) => {
   }
   return (
     <div style={{ marginTop: '6rem' }}>
-      <GraphDiagramNetwork />
-      {/* <NetworkDiagram data={datas} width={width} height={height} /> */}
+      <NetworkDiagram data={datas} width={width} height={height} />
     </div>
   );
 };
