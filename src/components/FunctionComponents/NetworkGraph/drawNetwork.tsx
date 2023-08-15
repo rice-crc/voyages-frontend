@@ -1,7 +1,7 @@
 import { Edges, Nodes } from '@/utils/mockDataGraph';
 import { scaleOrdinal, schemeSet3 } from 'd3';
 
-export const RADIUS = 6;
+export const RADIUS = 15;
 export const drawNetwork = (
   context: CanvasRenderingContext2D,
   width: number,
@@ -40,7 +40,7 @@ export const drawNetwork = (
     context.beginPath();
     context.moveTo(node.x + RADIUS, node.y);
     context.arc(node.x, node.y, RADIUS, 0, 2 * Math.PI);
-    context.ellipse(node.x, node.y, 30, 15, Math.PI / 180, 0, 2 * Math.PI);
+    // context.ellipse(node.x, node.y, 30, 15, Math.PI / 180, 0, 2 * Math.PI);
 
     // context.fillStyle = colorScale(String(node.uuid));
     context.fillStyle = colorScale(String(node.node_class));
@@ -49,10 +49,10 @@ export const drawNetwork = (
     context.stroke();
     context.fill();
     context.fillStyle = '#000';
-    context.font = '10px Arial';
+    context.font = '8px Arial';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
-    const textHeight = -15;
+    const textHeight = -25;
     const labelX = node.x;
     const labelY = node.y + RADIUS + textHeight / 2;
     context.fillText(String(node.id), labelX, labelY);

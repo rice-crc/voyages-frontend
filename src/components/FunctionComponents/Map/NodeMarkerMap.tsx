@@ -10,7 +10,7 @@ import * as d3 from 'd3';
 
 const NodeMarkerMap = ({ nodesData }: NodeMarkerMapProps) => {
   const minRadiusInpixels = 3;
-  const maxRadiusInPixels = 25;
+  const maxRadiusInPixels = 15;
   const nodeLogValueScale = d3
     .scaleLog()
     .domain([getMinValueNode(nodesData), getMaxValueNode(nodesData)])

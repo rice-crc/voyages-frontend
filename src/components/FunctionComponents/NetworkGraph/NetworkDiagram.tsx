@@ -48,7 +48,7 @@ export const NetworkDiagram = ({
           d3
             .forceLink<Nodes, Edges>(validEdges)
             .id((uuid) => uuid.uuid)
-            .distance(150)
+            .distance(120)
         )
         .force('charge', d3.forceManyBody())
         .force('center', d3.forceCenter(width / 2, height / 2))
