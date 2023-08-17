@@ -48,7 +48,7 @@ export const NetworkDiagram = ({
           d3
             .forceLink<Nodes, Edges>(validEdges)
             .id((uuid) => uuid.uuid)
-            .distance(120)
+            .distance(100)
         )
         .force('charge', d3.forceManyBody())
         .force('center', d3.forceCenter(width / 2, height / 2))
@@ -132,12 +132,20 @@ export const NetworkDiagram = ({
   }, [width, height, edges, nodes]);
 
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
+      <div>
+        <canvas></canvas>
+        <div></div>
+      </div>
+
       <canvas
+        id="networkCanvas labelsContainer"
         ref={canvasRef}
         style={{
           width,
           height,
+          // position: 'absolute',
+          pointerEvents: 'none',
         }}
         width={width}
         height={height}
