@@ -85,6 +85,8 @@
 
 .container-new {
   margin: 5rem 4rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
   @include breakpoint-standard(4) {
     margin: 5rem 1.5rem;
@@ -109,6 +111,8 @@
 
 .container-new-author-head {
   margin: 5rem 4rem 1rem 4rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
   @include breakpoint-standard(4) {
     margin: 5rem 1.5rem;
@@ -453,18 +457,17 @@ h4 {
 }
 
 .media-body {
-  font-size: 0.75em;
+  font-size: 0.85em;
   font-weight: 500;
 }
 
 .media-heading {
   font-size: 1.2em;
   font-weight: 600;
-  color: #db7333;
-  margin-bottom: 1rem;
-
-  a {
+  margin-bottom: 0.75rem;
+  > a {
     text-decoration: none;
+    color: #c96318;
   }
 }
 

@@ -26,6 +26,7 @@ import {
   ALLENSLAVED,
 } from '@/share/CONST_DATA';
 import { useNavigate } from 'react-router-dom';
+import { NetworkDiagramPeople } from '@/components/FunctionComponents/NetworkGraph/NetworkDiagramPeople';
 
 const EnslavedPage = () => {
   const currentDate = new Date();
@@ -63,8 +64,12 @@ const EnslavedPage = () => {
     <>
       <div className="page" id="main-enslaved-home">
         <Box>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <NetworkDiagramPeople />
+          </div>
+
           <Grid container spacing={2}>
-            <Grid item xs={12} className="grid-enslaved-introduction">
+            <Grid item xs={10} className="grid-enslaved-introduction">
               <div>{textIntroduce}</div>
               <div className="btn-enslave-box">
                 {value.map((item: DataSetCollectionProps, index: number) => {
@@ -91,7 +96,6 @@ const EnslavedPage = () => {
             </Grid>
           </Grid>
         </Box>
-
         <div className="credit-bottom-right">{`Credit: Artist Name ${currentYear}`}</div>
       </div>
     </>

@@ -1,5 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
+const setSelectedLanguageToLocalStorage = (language: string) => {
+    localStorage.setItem('languages', language);
+};
+
 export const getLanguagesSlice = createSlice({
     name: 'getLanguagesSlice',
     initialState: {
@@ -8,6 +12,7 @@ export const getLanguagesSlice = createSlice({
     reducers: {
         setLanguages: (state, action: PayloadAction<string>) => {
             state.language = action.payload;
+            setSelectedLanguageToLocalStorage(action.payload);
         },
     },
 });

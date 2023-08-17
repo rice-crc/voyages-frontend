@@ -1,7 +1,7 @@
 import { MapContainer } from 'react-leaflet';
 import { LeafletMap } from './LeafletMap';
 
-function VoyagesMaps() {
+function MAPS() {
   return (
     <MapContainer className="map-container">
       <LeafletMap />
@@ -9,4 +9,4 @@ function VoyagesMaps() {
   );
 }
 
-export default VoyagesMaps;
+export default MAPS;
