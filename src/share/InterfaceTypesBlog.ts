@@ -12,7 +12,13 @@ export interface BlogDataProps {
     status: number
     thumbnail: string
 }
-
+export interface InstitutionProps {
+    id: number
+    name: string
+    description: string
+    slug: string
+    image: string
+}
 export interface Author {
     id: number
     posts: Post[]
@@ -21,7 +27,7 @@ export interface Author {
     description: any
     slug: string
     role: string
-    institution: number
+    institution: InstitutionProps
 }
 
 export interface Tags {
@@ -94,7 +100,14 @@ export const InitialStateBlogProps: InitialStateBlogProps = {
         slug: "",
         role: "",
         photo: "",
-        institution: 0
+        institution: {
+
+            "id": 0,
+            "name": "",
+            "description": "",
+            "slug": "",
+            "image": ""
+        },
     },
     authorPost: []
 

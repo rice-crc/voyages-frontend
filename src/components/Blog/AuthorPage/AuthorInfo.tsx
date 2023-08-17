@@ -24,6 +24,7 @@ const AuthorInfo: React.FC = () => {
   );
 
   const { name, description, role, photo, institution } = author;
+  const { id: institutionID, name: institutionName } = institution;
   useEffect(() => {
     let subscribed = true;
     const fetchDataBlog = async () => {
@@ -70,9 +71,9 @@ const AuthorInfo: React.FC = () => {
                       <Link
                         to={`/${BLOGPAGE}/${
                           description && convertToSlug(description)
-                        }/${institution}`}
+                        }/${institutionID}`}
                       >
-                        <span>MOCK : University of California, Santa Cruz</span>
+                        <span>{institutionName}</span>
                       </Link>
                     </p>
                   </div>
