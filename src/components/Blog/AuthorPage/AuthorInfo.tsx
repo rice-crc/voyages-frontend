@@ -1,5 +1,5 @@
 import HeaderLogoSearch from '@/components/header/HeaderSearchLogo';
-import NavBlog from '../NavBlog';
+import NavBlog from '../NavBarBlog';
 import { Divider } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 import { AppDispatch } from '@/redux/store';
@@ -69,8 +69,8 @@ const AuthorInfo: React.FC = () => {
                     <p className="text-secondary-author">{role}</p>
                     <p className="author-universityname">
                       <Link
-                        to={`/${BLOGPAGE}/${
-                          description && convertToSlug(description)
+                        to={`/${BLOGPAGE}/institution/${
+                          institutionName && convertToSlug(institutionName)
                         }/${institutionID}`}
                       >
                         <span>{institutionName}</span>

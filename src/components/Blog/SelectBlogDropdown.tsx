@@ -82,14 +82,14 @@ export default function SelectBlogDropdown({
         {SearchBlogData.map((value) => (
           <div className="dropdown-item" key={value.tag}>
             {blogTitle || authorName ? (
-              <a href={`/${BLOGPAGE}`}>
+              <Link to={`/${BLOGPAGE}`}>
                 <MenuItem
                   key={value.tag}
                   onClick={() => handleChangeSearch(value.tag, value.title)}
                 >
                   {value.search}
                 </MenuItem>
-              </a>
+              </Link>
             ) : (
               <MenuItem
                 key={value.tag}

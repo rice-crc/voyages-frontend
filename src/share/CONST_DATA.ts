@@ -30,7 +30,7 @@ export const ENSLAVEDTEXAS = 'texas'
 
 export const ENSLAVEDTEXASPAGE = '/texas'
 export const DOCUMENTPAGE = 'DocumentPage'
-export const BLOGPAGE = 'BlogPage'
+export const BLOGPAGE = 'Blog'
 
 export const ALLENSLAVERS = 'all-enslavers'
 export const ENSALVERSPAGE = '/enslaver'

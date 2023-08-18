@@ -5,6 +5,7 @@ import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
 import { formatTextURL } from '@/utils/functions/formatText';
 import { Link } from 'react-router-dom';
 import '@/style/blogs.scss';
+import { BLOGPAGE } from '@/share/CONST_DATA';
 
 const AuthorPostList: React.FC = () => {
   const { authorPost } = useSelector(
@@ -18,7 +19,7 @@ const AuthorPostList: React.FC = () => {
     const { id, title, thumbnail, subtitle, language } = value;
     return (
       <div className="card" key={`${id}${title}`}>
-        <Link to={`/BlogPage/${formatTextURL(title)}/${id}`}>
+        <Link to={`/${BLOGPAGE}/${formatTextURL(title)}/${id}`}>
           {language === Lang && (
             <img
               src={`${BASTURLBLOG}${thumbnail}`}

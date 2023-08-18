@@ -7,12 +7,15 @@ import { BLOGPAGE } from '@/share/CONST_DATA';
 import LanguagesDropdown from '../FunctionComponents/LanguagesDropdown';
 import AutoCompletedSearhBlog from './AutoCompletedSearhBlog';
 
-const NavBlog: React.FC = () => {
-  const { blogTitle } = useParams();
+const NavBarBlog: React.FC = () => {
+  const { blogTitle, institutionName } = useParams();
   const { post, searchTitle } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
   const { title } = post;
+  const handleReloadPage = () => {
+    window.location.href = `/${BLOGPAGE}`;
+  };
 
   return (
     <>
@@ -21,6 +24,7 @@ const NavBlog: React.FC = () => {
           <Link
             to={`/${BLOGPAGE}`}
             style={{ textDecoration: 'none', color: '#ffffff' }}
+            onClick={handleReloadPage}
           >
             <div>{`Echoes: The SlaveVoyages Blog ${
               '-' && title ? title : ''
@@ -31,7 +35,7 @@ const NavBlog: React.FC = () => {
           </Link>
         </div>
         <div>
-          {!blogTitle && <LanguagesDropdown />}
+          {!blogTitle && !institutionName && <LanguagesDropdown />}
           <div className="search-autocomplete-blog">
             <AutoCompletedSearhBlog />
           </div>
@@ -40,4 +44,4 @@ const NavBlog: React.FC = () => {
     </>
   );
 };
-export default NavBlog;
+export default NavBarBlog;

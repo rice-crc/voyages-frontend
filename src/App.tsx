@@ -24,9 +24,10 @@ import {
   VOYAGESTEXASPAGE,
 } from './share/CONST_DATA';
 import DocumentPage from './pages/DocumentPage';
-import BlogPage from './pages/BlogPage';
+import Blog from './pages/Blog';
 import BlogDetailsPost from './components/Blog/BlogDetailsPost';
 import AuthorPage from './pages/AuthorPage';
+import InstitutionAuthorsPage from './pages/InstitutionAuthorsPage';
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
@@ -75,7 +76,8 @@ const App: React.FC = () => {
             element={<EnslaversHomePage />}
           />
           <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
-          <Route path={`${BLOGPAGE}`} element={<BlogPage />} />
+          <Route path={`${BLOGPAGE}`} element={<Blog />} />
+          <Route path={`${BLOGPAGE}/tag/:tagName/:tagID`} element={<Blog />} />
           <Route
             path={`${BLOGPAGE}/:blogTitle/:ID`}
             element={<BlogDetailsPost />}
@@ -83,6 +85,10 @@ const App: React.FC = () => {
           <Route
             path={`${BLOGPAGE}/author/:authorName/:ID/`}
             element={<AuthorPage />}
+          />
+          <Route
+            path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
+            element={<InstitutionAuthorsPage />}
           />
         </Routes>
       </QueryClientProvider>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import HeaderLogoSearch from '../header/HeaderSearchLogo';
 import BlogPageButton from './PageButton';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
-import NavBlog from './NavBlog';
+import NavBlog from './NavBarBlog';
 import { fetchBlogData } from '@/fetchAPI/blogApi/fetchBlogData';
 import { AppDispatch, RootState } from '@/redux/store';
 import { setBlogData, setBlogPost } from '@/redux/getBlogDataSlice';
@@ -15,6 +15,7 @@ import {
 import { formatTextURL } from '@/utils/functions/formatText';
 import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
 import '@/style/blogs.scss';
+import { BLOGPAGE } from '@/share/CONST_DATA';
 
 const BlogResultsList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -77,7 +78,7 @@ const BlogResultsList: React.FC = () => {
             {imagesOnCurrentPage.map((value) => (
               <div className="card" key={`${value.id}${value.title}`}>
                 <Link
-                  to={`/BlogPage/${formatTextURL(value.title)}/${value.id}`}
+                  to={`/${BLOGPAGE}/${formatTextURL(value.title)}/${value.id}`}
                 >
                   <img
                     src={`${BASTURLBLOG}${value.thumbnail}`}
