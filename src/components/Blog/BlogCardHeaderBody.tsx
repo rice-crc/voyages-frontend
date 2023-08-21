@@ -24,6 +24,7 @@ const BlogCardHeaderBody = () => {
   const { post } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
+
   const { title, thumbnail, authors, subtitle, tags, updated_on } = post;
 
   useEffect(() => {
@@ -61,7 +62,6 @@ const BlogCardHeaderBody = () => {
   });
 
   const formattedDateTime = `${formattedDate}, ${formattedTime}`;
-  const tagsName = tags?.map((tag) => tag.name);
 
   return (
     <div className="card-body">
@@ -108,13 +108,12 @@ const BlogCardHeaderBody = () => {
           </div>
         ))}
       <div className="tags-name-blog">
-        {tagsName?.length > 0 &&
-          tagsName?.map((name, index) => (
-            <div key={`${index}-${name}`} className="tags-name-list">
-              {/* Link to Search by Tag for "ele" (replace "ele" with the actual tag value) */}
-              <a href={`#`}>
-                <div className="badge badge-secondary">{name}</div>
-              </a>
+        {tags?.length > 0 &&
+          tags?.map((tag, index) => (
+            <div key={`${index}-${tag.slug}`} className="tags-name-list">
+              <Link to={`/${BLOGPAGE}/tag/${tag.slug}/${tag.id}`}>
+                <div className="badge badge-secondary">{tag.name}</div>
+              </Link>
             </div>
           ))}
       </div>

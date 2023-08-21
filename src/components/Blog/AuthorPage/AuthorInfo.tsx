@@ -1,5 +1,5 @@
 import HeaderLogoSearch from '@/components/header/HeaderSearchLogo';
-import NavBlog from '../NavBlog';
+import NavBlog from '../NavBarBlog';
 import { Divider } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 import { AppDispatch } from '@/redux/store';
@@ -22,7 +22,9 @@ const AuthorInfo: React.FC = () => {
   const { author } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
+
   const { name, description, role, photo, institution } = author;
+  const { id: institutionID, name: institutionName } = institution;
   useEffect(() => {
     let subscribed = true;
     const fetchDataBlog = async () => {
@@ -67,11 +69,11 @@ const AuthorInfo: React.FC = () => {
                     <p className="text-secondary-author">{role}</p>
                     <p className="author-universityname">
                       <Link
-                        to={`/${BLOGPAGE}/${
-                          description && convertToSlug(description)
-                        }/${institution}`}
+                        to={`/${BLOGPAGE}/institution/${
+                          institutionName && convertToSlug(institutionName)
+                        }/${institutionID}`}
                       >
-                        <p>University of California, Santa Cruz</p>
+                        <span>{institutionName}</span>
                       </Link>
                     </p>
                   </div>
