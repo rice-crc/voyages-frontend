@@ -1,6 +1,6 @@
 
 
-import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button } from '@mui/material';
+import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button, TextField } from '@mui/material';
 import MuiInput from '@mui/material/Input';
 import NestedMenuItem from '../components/canscanding/NestedMenuItem';
 import { SxProps, InputBase } from '@mui/material';
@@ -41,7 +41,7 @@ export const Input = styled(MuiInput)`
 
 export const CustomSlider = styled(Slider)(() => ({
   color: blue500,
-  width: '70%',
+  width: '75%',
   height: '5px',
   '& .MuiSlider-thumb': {
     backgroundColor: blue500,
@@ -155,53 +155,19 @@ export const DropdownNestedMenuColumnItem = styled(NestedMenuColumnItem)`
   }
 `;
 
-
-export const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  marginTop: '2rem',
-  borderRadius: '24px',
-  backgroundColor: alpha(theme.palette.common.white, 1),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.9),
-  },
-  marginLeft: 0,
-  width: '100%',
-  height: '52px',
-  [theme.breakpoints.up('sm')]: {
-    width: '100%',
-  },
-}));
-
-export const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-export const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(3, 3, 3, 0),
-    fontSize: '16px',
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
-
 export const DialogModalStyle = {
   backgroundColor: 'transparent',
 };
 export const PaperDraggableStyle = {
   maxWidth: 400
 }
+export const TextFieldSearch = styled(TextField)`
+  & label.Mui-focused {
+    color: white;
+  }
+  & .MuiOutlinedInput-root {
+    &.Mui-focused fieldset {
+      border-color: white;
+    }
+  }
+`;

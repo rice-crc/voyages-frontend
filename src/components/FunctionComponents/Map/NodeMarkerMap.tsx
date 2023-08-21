@@ -8,9 +8,9 @@ import { getNodeSize } from '@/utils/functions/getNodeSize';
 import { CircleMarker, Popup } from 'react-leaflet';
 import * as d3 from 'd3';
 
-const NodeMarkerEnslavedMap = ({ nodesData }: NodeMarkerMapProps) => {
+const NodeMarkerMap = ({ nodesData }: NodeMarkerMapProps) => {
   const minRadiusInpixels = 3;
-  const maxRadiusInPixels = 25;
+  const maxRadiusInPixels = 15;
   const nodeLogValueScale = d3
     .scaleLog()
     .domain([getMinValueNode(nodesData), getMaxValueNode(nodesData)])
@@ -46,4 +46,4 @@ const NodeMarkerEnslavedMap = ({ nodesData }: NodeMarkerMapProps) => {
   });
   return nodeMarker;
 };
-export default NodeMarkerEnslavedMap;
+export default NodeMarkerMap;

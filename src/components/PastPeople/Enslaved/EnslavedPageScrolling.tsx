@@ -11,7 +11,7 @@ import {
 import EnslavedPage from './EnslavedPage';
 import EnslavedTable from './EnslavedTable';
 import '@/style/page.scss';
-import VoyagesMaps from '@/components/FunctionComponents/Map/VoyageMap';
+import VoyagesMaps from '@/components/FunctionComponents/Map/MAPS';
 
 const EnslavedPageScrolling = () => {
   const dispatch: AppDispatch = useDispatch();

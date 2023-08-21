@@ -5,31 +5,41 @@ import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
 import { formatTextURL } from '@/utils/functions/formatText';
 import { Link } from 'react-router-dom';
 import '@/style/blogs.scss';
+import { BLOGPAGE } from '@/share/CONST_DATA';
 
 const AuthorPostList: React.FC = () => {
   const { authorPost } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
+  const { language: Lang } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
+
+  const displayListPost = authorPost.map((value) => {
+    const { id, title, thumbnail, subtitle, language } = value;
+    return (
+      <div className="card" key={`${id}${title}`}>
+        <Link to={`/${BLOGPAGE}/${formatTextURL(title)}/${id}`}>
+          {language === Lang && (
+            <img
+              src={`${BASTURLBLOG}${thumbnail}`}
+              alt={title}
+              className="card-img img-fluid content-image "
+            />
+          )}
+          <div className="content-details fadeIn-bottom">
+            <h3 className="content-title">{title}</h3>
+            <h4 className="content-title">{subtitle}</h4>
+          </div>
+        </Link>
+      </div>
+    );
+  });
+
   return (
     <div className="container-new-author">
       <h3>Author's posts:</h3>
-      <div className="card-columns">
-        {authorPost.map((value) => (
-          <div className="card" key={`${value.id}${value.title}`}>
-            <Link to={`/BlogPage/${formatTextURL(value.title)}/${value.id}`}>
-              <img
-                src={`${BASTURLBLOG}${value.thumbnail}`}
-                alt={value.title}
-                className="card-img img-fluid content-image "
-              />
-              <div className="content-details fadeIn-bottom">
-                <h3 className="content-title">{value.title}</h3>
-                <h4 className="content-title">{value.subtitle}</h4>
-              </div>
-            </Link>
-          </div>
-        ))}
-      </div>
+      <div className="card-columns">{displayListPost}</div>
     </div>
   );
 };

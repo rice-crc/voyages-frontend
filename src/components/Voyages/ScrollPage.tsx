@@ -19,7 +19,7 @@ import BarGraph from './Results/BarGraph';
 import PieGraph from './Results/PieGraph';
 import VoyagesTable from './Results/VoyagesTable';
 import { setIsFilter } from '@/redux/getFilterSlice';
-import VoyagesMaps from '../FunctionComponents/Map/VoyageMap';
+import VoyagesMaps from '../FunctionComponents/Map/MAPS';
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
