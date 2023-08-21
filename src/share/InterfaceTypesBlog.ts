@@ -12,7 +12,13 @@ export interface BlogDataProps {
     status: number
     thumbnail: string
 }
-
+export interface InstitutionProps {
+    id: number
+    name: string
+    description: string
+    slug: string
+    image: string
+}
 export interface Author {
     id: number
     posts: Post[]
@@ -21,7 +27,7 @@ export interface Author {
     description: any
     slug: string
     role: string
-    institution: number
+    institution: InstitutionProps
 }
 
 export interface Tags {
@@ -65,6 +71,9 @@ export interface InitialStateBlogProps {
     blogAutoLists: ResultAutoList[]
     author: Author
     authorPost: Post[]
+    institutionData: InstitutionAuthorProps
+    institutionList: InstitutionAuthor[]
+
 }
 export const InitialStateBlogProps: InitialStateBlogProps = {
     data: [],
@@ -94,10 +103,24 @@ export const InitialStateBlogProps: InitialStateBlogProps = {
         slug: "",
         role: "",
         photo: "",
-        institution: 0
+        institution: {
+            "id": 0,
+            "name": "",
+            "description": "",
+            "slug": "",
+            "image": ""
+        },
     },
-    authorPost: []
-
+    authorPost: [],
+    institutionData: {
+        id: 0,
+        institution_authors: [],
+        name: "",
+        description: "",
+        slug: "",
+        image: ""
+    },
+    institutionList: []
 }
 
 export interface BlogAutoCompletedProps {
@@ -108,4 +131,54 @@ export interface BlogAutoCompletedProps {
 export interface ResultAutoList {
     id: number
     label: string
+}
+
+
+export interface InstitutionAuthorProps {
+    id: number
+    institution_authors: InstitutionAuthor[]
+    name: string
+    description: string
+    slug: string
+    image: string
+}
+
+export interface InstitutionAuthor {
+    id: number
+    posts: Post[]
+    photo: string
+    institution: Institution
+    name: string
+    description?: string
+    slug: string
+    role: string
+}
+
+export interface Post {
+    id: number
+    tags: Tag[]
+    thumbnail: string
+    title: string
+    language: string
+    subtitle?: string
+    slug: string
+    updated_on: string
+    content: string
+    created_on: string
+    status: number
+}
+
+export interface Tag {
+    id: number
+    name: string
+    slug: string
+    intro: string
+}
+
+export interface Institution {
+    id: number
+    name: string
+    description: string
+    slug: string
+    image: string
 }
