@@ -72,7 +72,6 @@
 				"aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
 				"aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
 				"aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name"
-				
 			],
 			"colID": "voyages",
 			"cell_val": {
@@ -97,11 +96,9 @@
 						"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
 						"cell_fn": "literal"
 					}
-					
 				],
 				"join": " : "
 			}
-			
 		},
 		{
 			"header_label": "Enslavement Relations",
@@ -119,7 +116,6 @@
 					}
 				]
 			}
-			
 		},
 		{
 			"header_label": "Documentary Sources",
@@ -137,9 +133,22 @@
 					}
 				]
 			}
-			
+		},
+		{
+			"header_label": "Connections",
+			"cell_type": "network_modal",
+			"visible": true,
+			"order_by": [],
+			"colID": "connections",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "id",
+						"cell_fn": "enslavers"
+					}
+				]
+			}
 		}
-
 	],
 	"column_selector_tree": [
 		{

@@ -108,6 +108,21 @@
 			}
 		},
 		{
+			"header_label": "Connections",
+			"cell_type": "network_modal",
+			"visible": true,
+			"order_by": [],
+			"colID": "connections",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "id",
+						"cell_fn": "enslaved"
+					}
+				]
+			}
+		},
+		{
 			"header_label": "Individual Owners and Traders",
 			"cell_type": "literal-concat",
 			"visible": true,
@@ -126,7 +141,7 @@
 						"cell_fn": "literal"
 					}
 				],
-				"join":" : "
+				"join": " : "
 			}
 		},
 		{

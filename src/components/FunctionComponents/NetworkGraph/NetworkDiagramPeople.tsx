@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPastNetworksGraphApi } from '@/fetchAPI/pastEnslavedApi/fetchPastNetworksGraph';
 import { setPastNetworksData } from '@/redux/getPastNetworksGraphDataSlice';
+import { Nodes } from '@/share/InterfaceTypePastNetworks';
 
 export const NetworkDiagramPeople = ({ width = 800, height = 600 }) => {
   const dispatch: AppDispatch = useDispatch();
@@ -12,16 +13,46 @@ export const NetworkDiagramPeople = ({ width = 800, height = 600 }) => {
     (state: RootState) => state.getPastNetworksGraphData
   );
 
-  // Where key and value of each group from ???
-  const keyEnslaved = 'enslaved'; // Value === 6
-  const keyEnslavers = 'enslavers'; // Value === 1039715
-  const keyVoyages = 'voyages'; // Value === 100
-  const keyEnslavementRelations = 'enslavement_relations'; // Value === 200
+  const { networkID, networkKEY } = useSelector(
+    (state: RootState) => state.getPastNetworksGraphData
+  );
+  const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
+    // Assuming your API endpoint and parameters are correctly set
+    try {
+      const formData: FormData = new FormData();
+      formData.append(nodeClass, String(nodeId));
+      // Append any additional parameters needed for fetching new nodes
+
+      const response = await dispatch(
+        fetchPastNetworksGraphApi(formData)
+      ).unwrap(); // Implement this function to fetch new nodes
+      if (response) {
+        // Generate unique UUIDs for the new nodes
+        const newNodes = response.nodes.filter((newNode: Nodes) => {
+          return !data.nodes.some(
+            (existingNode: Nodes) => existingNode.uuid === newNode.uuid
+          );
+        });
+        const newData = {
+          ...data,
+          nodes: [...data.nodes, ...newNodes], // Append new nodes
+          edges: [...data.edges, ...response.edges], // Append new edges
+        };
+        dispatch(setPastNetworksData(newData));
+
+        // Optionally, update your D3 simulation with the new nodes and links
+        // You may need to update your simulationRef here.
+        // Ensure that you also update the nodeIds set.
+      }
+    } catch (error) {
+      console.error('Error fetching new nodes:', error);
+    }
+  };
 
   useEffect(() => {
     let subscribed = true;
     const formData: FormData = new FormData();
-    formData.append(keyEnslaved, String(6));
+    formData.append(networkKEY, String(networkID));
     const fetchPastNetworksGraph = async () => {
       try {
         const response = await dispatch(
@@ -43,8 +74,20 @@ export const NetworkDiagramPeople = ({ width = 800, height = 600 }) => {
     return null;
   }
   return (
-    <div style={{ marginTop: '6rem' }}>
-      <NetworkDiagram data={datas} width={width} height={height} />
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '10%',
+      }}
+    >
+      <NetworkDiagram
+        data={data}
+        width={width}
+        height={height}
+        handleNodeDoubleClick={handleNodeDoubleClick}
+      />
     </div>
   );
 };

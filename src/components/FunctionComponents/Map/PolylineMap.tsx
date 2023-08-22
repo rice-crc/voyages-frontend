@@ -1,12 +1,16 @@
+import { RootState } from '@/redux/store';
 import { PolylineMapProps, Transportation } from '@/share/InterfaceTypesMap';
 import { createNodeDict } from '@/utils/functions/createNodeDict';
 import { getMaxEdges, getMinEdges } from '@/utils/functions/getMinMaxEdges';
 import { getEdgesSize } from '@/utils/functions/getNodeSize';
 import * as d3 from 'd3';
 import { Polyline } from 'react-leaflet';
+import { useSelector } from 'react-redux';
 
-const PolylineMap = (props: PolylineMapProps) => {
-  const { transportation, nodesData, origination, disposition } = props;
+const PolylineMap = () => {
+  const { nodesData, transportation, disposition, origination } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
   const minWeightInpixels = 3;
   const maxWeightInPixels = 10;
   const nodeLogValueWeight = d3
