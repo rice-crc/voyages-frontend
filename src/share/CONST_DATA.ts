@@ -56,3 +56,9 @@ export const BLOGTYPE = 'blog'
 export const minRadiusInpixels = 3;
 export const maxRadiusInPixels = 20;
 export const maxRadiusInPixelsNode = 15;
+
+// Network Graph Node Type
+export const ENSLAVEDNODE = 'enslaved'
+export const ENSLAVERSNODE = 'enslavers'
+export const VOYAGESNODE = 'voyages'
+export const ENSLAVEMENTNODE = 'enslavement_relations'
