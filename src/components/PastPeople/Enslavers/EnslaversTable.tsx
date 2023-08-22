@@ -35,6 +35,7 @@ import { fetchEnslaversOptionsList } from '@/fetchAPI/pastEnslaversApi/fetchPast
 import ButtonDropdownSelectorEnslavers from './ColumnSelectorEnslaversTable/ButtonDropdownSelectorEnslavers';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import ModalNetworksGraph from '@/components/FunctionComponents/NetworkGraph/ModalNetworksGraph';
 
 const EnslaversTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -140,9 +141,8 @@ const EnslaversTable: React.FC = () => {
         const response = await dispatch(
           fetchEnslaversOptionsList(newFormData)
         ).unwrap();
-        if (response) {
+        if (response && subscribed) {
           setTotalResultsCount(Number(response.headers.total_results_count));
-
           dispatch(setData(response.data));
           saveDataToLocalStorage(response.data, visibleColumnCells);
         }
@@ -309,6 +309,9 @@ const EnslaversTable: React.FC = () => {
           </div>
         </div>
       )}
+      <div>
+        <ModalNetworksGraph />
+      </div>
     </div>
   );
 };

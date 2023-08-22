@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -20,15 +20,19 @@ export default function LanguagesDropdown() {
   );
 
   const open = Boolean(anchorEl);
+
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const handleChangeLanguage = (value: string) => {
     dispatch(setLanguages(value));
     dispatch(setBlogPost(post as BlogDataProps));
+    localStorage.setItem('languages', value);
   };
 
   return (

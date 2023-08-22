@@ -64,8 +64,8 @@ const EnslavedPage = () => {
       <div className="page" id="main-enslaved-home">
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12} className="grid-enslaved-introduction">
-              <div>{textIntroduce}</div>
+            <Grid className="grid-enslaved-introduction">
+              <div className="intro-box">{textIntroduce}</div>
               <div className="btn-enslave-box">
                 {value.map((item: DataSetCollectionProps, index: number) => {
                   const { base_filter, headers, style_name, blocks } = item;
@@ -91,7 +91,6 @@ const EnslavedPage = () => {
             </Grid>
           </Grid>
         </Box>
-
         <div className="credit-bottom-right">{`Credit: Artist Name ${currentYear}`}</div>
       </div>
     </>

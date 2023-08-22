@@ -11,7 +11,7 @@ import {
   setSearchAutoValue,
   setSearchBlogTitle,
 } from '@/redux/getBlogDataSlice';
-import { ResultAutoList, SearchBlogData } from '@/share/InterfaceTypesBlog';
+import { SearchBlogData } from '@/share/InterfaceTypesBlog';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import { useParams } from 'react-router-dom';
 interface SelectBlogDropdownProps {
@@ -24,7 +24,7 @@ export default function SelectBlogDropdown({
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { searchTitle } = useSelector((state: RootState) => state.getBlogData);
-  const { blogTitle } = useParams();
+  const { blogTitle, authorName } = useParams();
   const open = Boolean(anchorEl);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -81,7 +81,7 @@ export default function SelectBlogDropdown({
       >
         {SearchBlogData.map((value) => (
           <div className="dropdown-item" key={value.tag}>
-            {blogTitle ? (
+            {blogTitle || authorName ? (
               <a href={`/${BLOGPAGE}`}>
                 <MenuItem
                   key={value.tag}

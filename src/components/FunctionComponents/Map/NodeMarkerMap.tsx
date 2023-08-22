@@ -1,4 +1,3 @@
-import { NodeMarkerMapProps } from '@/share/InterfaceTypesMap';
 import {
   getMaxValueNode,
   getMinValueNode,
@@ -7,14 +6,19 @@ import { getNodeColorMapVoyagesStyle } from '@/utils/functions/getNodeColorStyle
 import { getNodeSize } from '@/utils/functions/getNodeSize';
 import { CircleMarker, Popup } from 'react-leaflet';
 import * as d3 from 'd3';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+import { maxRadiusInPixelsNode, minRadiusInpixels } from '@/share/CONST_DATA';
 
-const NodeMarkerEnslavedMap = ({ nodesData }: NodeMarkerMapProps) => {
-  const minRadiusInpixels = 3;
-  const maxRadiusInPixels = 25;
+const NodeMarkerMap = () => {
+  const { nodesData } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
+
   const nodeLogValueScale = d3
     .scaleLog()
     .domain([getMinValueNode(nodesData), getMaxValueNode(nodesData)])
-    .range([minRadiusInpixels, maxRadiusInPixels]);
+    .range([minRadiusInpixels, maxRadiusInPixelsNode]);
 
   const nodeMarker = nodesData.map((node, index) => {
     const { data } = node;
@@ -46,4 +50,4 @@ const NodeMarkerEnslavedMap = ({ nodesData }: NodeMarkerMapProps) => {
   });
   return nodeMarker;
 };
-export default NodeMarkerEnslavedMap;
+export default NodeMarkerMap;

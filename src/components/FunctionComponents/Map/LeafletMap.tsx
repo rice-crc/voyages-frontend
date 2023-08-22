@@ -4,18 +4,11 @@ import {
   TileLayer,
   LayersControl,
   useMapEvents,
-  useMapEvent,
 } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVoyagesMap } from '@/fetchAPI/voyagesApi/fetchVoyagesMap';
-import {
-  Dispositions,
-  NodeAggroutes,
-  Originations,
-  Transportation,
-} from '@/share/InterfaceTypesMap';
 import '@/style/map.scss';
 import {
   AutoCompleteInitialState,
@@ -28,32 +21,36 @@ import {
   MAP_CENTER,
   MAXIMUM_ZOOM,
   MINIMUM_ZOOM,
+  ZOOM_LEVEL_THRESHOLD,
   VOYAGESPAGE,
   mappingSpecialists,
   mappingSpecialistsCountries,
   mappingSpecialistsRivers,
 } from '@/share/CONST_DATA';
-import PolylineEnslavedMap from './PolylineMap';
-import NodeMarkerEnslavedMap from '../../PastPeople/Enslaved/NodeMarkerEnslavedMap';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetchAPI/pastEnslavedApi/fetchEnslavedMap';
 import { getMapBackgroundColor } from '@/utils/functions/getMapBackgroundColor';
+import NodeCurvedLinesMap from './NodeCurvedLinesMap';
+import {
+  setDisposition,
+  setNodesData,
+  setOrigination,
+  setTransportation,
+} from '@/redux/getNodeEdgesAggroutesMapDataSlice';
 
 export const LeafletMap = () => {
   const dispatch: AppDispatch = useDispatch();
+  const mapRef = useRef(null);
   const location = useLocation();
   const pathNameArr = location.pathname.split('/');
   const pathName = pathNameArr[1];
-  const [nodesData, setNodesData] = useState<NodeAggroutes[]>([]);
-  const [transportation, setTransportation] = useState<Transportation[]>([]);
-  const [disposition, setDisposition] = useState<Dispositions[]>([]);
-  const [origination, setOrigination] = useState<Originations[]>([]);
+
   const [zoomLevel, setZoomLevel] = useState<number>(3);
+  const [isCallFetchData, setIsCallFetchData] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-
   const {
     rangeSliderMinMax: rang,
     varName,
@@ -69,32 +66,25 @@ export const LeafletMap = () => {
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
 
-  const mapRef = useRef(null);
-  function HandleZoomEvent() {
-    const map = useMapEvent('zoomend', () => {
-      const newZoom = map.getZoom();
-      setZoomLevel(newZoom);
+  const HandleZoomEvent = () => {
+    const map = useMapEvents({
+      zoomend: () => {
+        const newZoomLevel = map.getZoom();
+        setZoomLevel(newZoomLevel);
+        if (newZoomLevel >= ZOOM_LEVEL_THRESHOLD) {
+          setIsCallFetchData(true);
+        } else {
+          setIsCallFetchData(false);
+        }
+      },
     });
     return null;
-  }
-
-  let subscribed = true;
-  const mapEvents = useMapEvents({
-    zoomend: () => {
-      console.log(mapEvents.getZoom());
-      setZoomLevel(mapEvents.getZoom());
-    },
-  });
+  };
 
   const fetchData = async () => {
     setLoading(true);
-    const newFormData: FormData = new FormData();
-    if (zoomLevel <= 5) {
-      newFormData.append('zoomlevel', 'region');
-    }
-    if (zoomLevel > 5) {
-      newFormData.append('zoomlevel', 'place');
-    }
+    const newFormData = new FormData();
+    newFormData.append('zoomlevel', isCallFetchData ? 'place' : 'region');
     // PASS dataSetKey only for intra-american / trans-atlantic / texas bound
     if (styleName !== TYPESOFDATASET.allVoyages) {
       for (const value of dataSetValue) {
@@ -126,45 +116,45 @@ export const LeafletMap = () => {
       }
     }
 
-    if (subscribed) {
-      let response;
-      if (pathName === VOYAGESPAGE) {
-        response = await dispatch(fetchVoyagesMap(newFormData)).unwrap();
-      } else if (pathName === PASTHOMEPAGE) {
-        response = await dispatch(fetchEnslavedMap(newFormData)).unwrap();
-      }
+    let response;
+    if (pathName === VOYAGESPAGE) {
+      response = await dispatch(fetchVoyagesMap(newFormData)).unwrap();
+    } else if (pathName === PASTHOMEPAGE) {
+      response = await dispatch(fetchEnslavedMap(newFormData)).unwrap();
+    }
 
-      if (response) {
-        const { nodes, edges } = response;
-        const { transportation, disposition, origination } = edges;
-        try {
-          if (zoomLevel < 6) {
-            localStorage.setItem('nodesData', JSON.stringify(nodes));
-            localStorage.setItem(
-              'transportation',
-              JSON.stringify(transportation)
-            );
-            localStorage.setItem('disposition', JSON.stringify(disposition));
-            localStorage.setItem('origination', JSON.stringify(origination));
-          }
-
-          setNodesData(nodes);
-          setTransportation(transportation);
-          setDisposition(disposition);
-          setOrigination(origination);
-          setLoading(false);
-        } catch (error) {
-          console.log('error', error);
+    if (response) {
+      setLoading(false);
+      const { nodes, edges } = response;
+      const { transportation, disposition, origination } = edges;
+      try {
+        if (zoomLevel < ZOOM_LEVEL_THRESHOLD) {
+          localStorage.setItem('nodesData', JSON.stringify(nodes));
+          localStorage.setItem(
+            'transportation',
+            JSON.stringify(transportation)
+          );
+          localStorage.setItem('disposition', JSON.stringify(disposition));
+          localStorage.setItem('origination', JSON.stringify(origination));
         }
+
+        dispatch(setNodesData(nodes));
+        dispatch(setTransportation(transportation));
+        dispatch(setDisposition(disposition));
+        dispatch(setOrigination(origination));
+      } catch (error) {
+        console.log('error', error);
       }
     }
   };
-  console.log('zoomLevel', zoomLevel);
 
   useEffect(() => {
     fetchData();
     return () => {
-      subscribed = false;
+      dispatch(setNodesData([]));
+      dispatch(setTransportation([]));
+      dispatch(setDisposition([]));
+      dispatch(setOrigination([]));
     };
   }, [
     rang,
@@ -177,7 +167,7 @@ export const LeafletMap = () => {
     dataSetKey,
     dataSetValue,
     styleName,
-    zoomLevel,
+    isCallFetchData,
   ]);
 
   useEffect(() => {
@@ -187,11 +177,11 @@ export const LeafletMap = () => {
       setNodesData(JSON.parse(savedNodesData));
       setTransportation(JSON.parse(savedTransportation));
     }
-    if (zoomLevel > 6) {
+    if (zoomLevel === MAXIMUM_ZOOM) {
       fetchData();
     }
     return () => {
-      subscribed = false;
+      setNodesData([]);
     };
   }, [zoomLevel]);
 
@@ -205,12 +195,13 @@ export const LeafletMap = () => {
         <MapContainer
           ref={mapRef}
           center={MAP_CENTER}
-          fadeAnimation
           zoom={zoomLevel}
           className="lealfetMap-container"
           maxZoom={MAXIMUM_ZOOM}
           minZoom={MINIMUM_ZOOM}
           attributionControl={false}
+          zoomControl={true}
+          scrollWheelZoom={true}
         >
           <HandleZoomEvent />
           <TileLayer url={mappingSpecialists} />
@@ -221,14 +212,21 @@ export const LeafletMap = () => {
             <LayersControl.Overlay name="Modern Countries">
               <TileLayer url={mappingSpecialistsCountries} />
             </LayersControl.Overlay>
+            {/*<LayersControl.Overlay checked name="Voyages">
+              HOW TO ADD 
+              <div>HOW TO ADD Component Here</div>
+            </LayersControl.Overlay>*/}
           </LayersControl>
-          <PolylineEnslavedMap
-            origination={origination}
-            disposition={disposition}
-            transportation={transportation}
-            nodesData={nodesData}
-          />
-          <NodeMarkerEnslavedMap nodesData={nodesData} />
+          <NodeCurvedLinesMap />
+
+          {/* 
+           ===== POLY Line without curve =====
+          <PolylineMap />
+          ===== POLY Line with curve =====
+           <CurvedPolyLine />
+          ===== NODE Marker =====
+            <NodeMarkerMap/>
+         */}
         </MapContainer>
       )}
     </div>

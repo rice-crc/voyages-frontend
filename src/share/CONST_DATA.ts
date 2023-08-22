@@ -47,4 +47,18 @@ export const MAP_CENTER: [number, number] = [5.486678, -35.59375];
 export const MAXIMUM_NATIVE_ZOOM = 10;
 export const MINIMUM_ZOOM = 2;
 export const MAXIMUM_ZOOM = 22;
+export const ZOOM_LEVEL_THRESHOLD = 6;
+export const VOYAGESTYPE = 'voyages'
+export const ENSALVEDTYPE = 'enslaved'
+export const ENSLAVERSTYPE = 'enslavers'
+export const BLOGTYPE = 'blog'
 
+export const minRadiusInpixels = 3;
+export const maxRadiusInPixels = 20;
+export const maxRadiusInPixelsNode = 15;
+
+// Network Graph Node Type
+export const ENSLAVEDNODE = 'enslaved'
+export const ENSLAVERSNODE = 'enslavers'
+export const VOYAGESNODE = 'voyages'
+export const ENSLAVEMENTNODE = 'enslavement_relations'

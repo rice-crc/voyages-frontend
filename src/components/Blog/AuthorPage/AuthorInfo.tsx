@@ -22,6 +22,7 @@ const AuthorInfo: React.FC = () => {
   const { author } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
+
   const { name, description, role, photo, institution } = author;
   useEffect(() => {
     let subscribed = true;
@@ -71,7 +72,7 @@ const AuthorInfo: React.FC = () => {
                           description && convertToSlug(description)
                         }/${institution}`}
                       >
-                        <p>University of California, Santa Cruz</p>
+                        <span>MOCK : University of California, Santa Cruz</span>
                       </Link>
                     </p>
                   </div>

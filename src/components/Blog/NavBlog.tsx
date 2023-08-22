@@ -8,7 +8,7 @@ import LanguagesDropdown from '../FunctionComponents/LanguagesDropdown';
 import AutoCompletedSearhBlog from './AutoCompletedSearhBlog';
 
 const NavBlog: React.FC = () => {
-  const { blogTitle, authorName } = useParams();
+  const { blogTitle } = useParams();
   const { post, searchTitle } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
@@ -31,7 +31,7 @@ const NavBlog: React.FC = () => {
           </Link>
         </div>
         <div>
-          {!blogTitle && !authorName && <LanguagesDropdown />}
+          {!blogTitle && <LanguagesDropdown />}
           <div className="search-autocomplete-blog">
             <AutoCompletedSearhBlog />
           </div>
