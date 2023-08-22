@@ -35,6 +35,7 @@ import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import ModalNetworksGraph from '@/components/FunctionComponents/NetworkGraph/ModalNetworksGraph';
 
 const VoyagesTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -307,6 +308,9 @@ const VoyagesTable: React.FC = () => {
           </div>
         </div>
       )}
+      <div>
+        <ModalNetworksGraph />
+      </div>
     </div>
   );
 };

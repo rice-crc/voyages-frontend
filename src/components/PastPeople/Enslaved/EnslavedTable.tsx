@@ -36,6 +36,7 @@ import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEn
 import ButtonDropdownSelectorEnslaved from './ColumnSelectorEnslavedTable/ButtonDropdownSelectorEnslaved';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import ModalNetworksGraph from '@/components/FunctionComponents/NetworkGraph/ModalNetworksGraph';
 
 const EnslavedTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -43,6 +44,7 @@ const EnslavedTable: React.FC = () => {
   const { columnDefs, data, rowData, loading } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
+
   const { rangeSliderMinMax: rang, varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
@@ -142,7 +144,6 @@ const EnslavedTable: React.FC = () => {
     saveDataToLocalStorage(data, visibleColumnCells);
   }, [data]);
   useEffect(() => {
-    let subscribed = true;
     const fetchData = async () => {
       const newFormData: FormData = new FormData();
       newFormData.append('results_page', String(page + 1));
@@ -181,7 +182,7 @@ const EnslavedTable: React.FC = () => {
     };
     fetchData();
     return () => {
-      subscribed = false;
+      dispatch(setData([]));
     };
   }, [
     dispatch,
@@ -201,6 +202,7 @@ const EnslavedTable: React.FC = () => {
   useEffect(() => {
     if (data.length > 0) {
       const finalRowData = generateRowsData(data, tableFileName);
+
       const newColumnDefs: ColumnDef[] = tablesCell.map(
         (value: TableCellStructure) =>
           generateColumnDef(value, visibleColumnCells)
@@ -335,6 +337,9 @@ const EnslavedTable: React.FC = () => {
           </div>
         </div>
       )}
+      <div>
+        <ModalNetworksGraph />
+      </div>
     </div>
   );
 };

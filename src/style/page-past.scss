@@ -230,15 +230,19 @@ height: 100vh;
         top: 2px;
     }
 }
-.grid-enslaved-introduction > div{
+.grid-enslaved-introduction {
     position: relative;
-    top: 0;
-    // padding: 8rem 20rem 0 5rem;
-    padding: 8rem 1rem 0 5rem;
-    color: #ffffff;
-    font-weight: 500;
-    font-size: 20px;
-    text-align: center;
+    top: 20%;
+    padding: 12rem 8rem 8rem 5rem;
+    width: 90%;
+    .intro-box{
+        color: #ffffff;
+        font-weight: 500;
+        font-size: 20px;
+        text-align: center;
+        padding: 5rem;
+        background: rgb(178, 148, 147, 0.5);
+    }
 }
 .african-btn{
     background-color: #ffffff;
@@ -274,6 +278,7 @@ height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 3%;
     .enslave-nav-btn{
         background-color: #ffffff;
         color: black;
