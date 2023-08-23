@@ -6,7 +6,10 @@ import { fetchPastNetworksGraphApi } from '@/fetchAPI/pastEnslavedApi/fetchPastN
 import { setPastNetworksData } from '@/redux/getPastNetworksGraphDataSlice';
 import { Nodes } from '@/share/InterfaceTypePastNetworks';
 
-export const NetworkDiagramPeople = ({ width = 800, height = 600 }) => {
+export const NetworkDiagramPeople = ({
+  widthPercentage = 75,
+  heigthPercentage = 70,
+}) => {
   const dispatch: AppDispatch = useDispatch();
   const { data } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
@@ -15,6 +18,11 @@ export const NetworkDiagramPeople = ({ width = 800, height = 600 }) => {
   const { networkID, networkKEY } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
+  // Calculate the width in pixels based on the percentage and modal width
+  const modalWidth = window.innerWidth;
+  const modalHeight = window.innerHeight;
+  const width = (modalWidth * widthPercentage) / 100;
+  const height = (modalHeight * heigthPercentage) / 100;
   const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
     try {
       const formData: FormData = new FormData();
@@ -71,15 +79,17 @@ export const NetworkDiagramPeople = ({ width = 800, height = 600 }) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: '10%',
+        paddingTop: '2.5%',
       }}
     >
-      <NetworkDiagram
-        data={data}
-        width={width}
-        height={height}
-        handleNodeDoubleClick={handleNodeDoubleClick}
-      />
+      <div style={{ width: `${width}px`, height: `${height}px` }}>
+        <NetworkDiagram
+          data={data}
+          width={width}
+          height={height}
+          handleNodeDoubleClick={handleNodeDoubleClick}
+        />
+      </div>
     </div>
   );
 };

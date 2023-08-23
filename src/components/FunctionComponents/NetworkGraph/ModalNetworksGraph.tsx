@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NetworkDiagramPeople } from './NetworkDiagramPeople';
 import { styleModalNetworks } from '@/styleMUI';
 import NETWORKICON from '@/assets/networksIcon.png';
+
 const ModalNetworksGraph = () => {
   const dispatch = useDispatch();
   const { openModal } = useSelector(
@@ -22,6 +23,7 @@ const ModalNetworksGraph = () => {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      sx={{ styleModalNetworks }}
     >
       <Box sx={styleModalNetworks}>
         <div
