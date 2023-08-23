@@ -66,6 +66,6 @@ export const classToColor = {
     enslaved: '#906866',
     enslavers: '#46A88C',
     enslavement_relations: '#ab47bc',
-    voyages: '#93D0CB',
+    voyages: '#F2EE0A',
 };
 export const RADIUSNODE = 8;

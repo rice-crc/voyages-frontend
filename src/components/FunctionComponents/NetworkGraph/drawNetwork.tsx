@@ -14,7 +14,8 @@ export const drawNetwork = (
   nodes: Nodes[],
   edges: Edges[],
   newNode: any | Nodes | null,
-  transform: d3.ZoomTransform
+  transform: d3.ZoomTransform,
+  hoveredNode: boolean
 ) => {
   context.clearRect(0, 0, width, height);
   // Save the current context state
@@ -35,6 +36,7 @@ export const drawNetwork = (
     // Apply the transformation to the edge's source and target positions
     const sourceNode = nodes.find((node) => node.uuid === link.source.uuid);
     const targetNode = nodes.find((node) => node.uuid === link.target.uuid);
+
     if (sourceNode && targetNode) {
       const sourceX = sourceNode.x ?? 0;
       const sourceY = sourceNode.y ?? 0;
@@ -46,7 +48,8 @@ export const drawNetwork = (
       context.moveTo(sourceX, sourceY);
       context.lineTo(targetX, targetY);
       context.stroke();
-      if (labelEdge && newNode && link.source.id === newNode?.source?.id) {
+
+      if (newNode && newNode.id === sourceNode.id && hoveredNode) {
         const angle = Math.atan2(
           link.target.y - link.source.y,
           link.target.x - link.source.x
@@ -66,6 +69,23 @@ export const drawNetwork = (
         context.fillStyle = '#fff';
         context.font = '9px Arial'; // Adjust the font style as needed
         context.fillText(labelEdge, offset, -3); // Place the label at (offset, 0) after rotation
+        context.restore();
+      }
+      // Check if the target node is the hovered node
+      if (newNode && newNode.id === targetNode.id && hoveredNode) {
+        const labelEdge = createdLableEdges(link);
+        const angle = Math.atan2(sourceY - targetY, sourceX - targetX);
+        const midpointX = (sourceX + targetX) / 2;
+        const midpointY = (sourceY + targetY) / 2;
+
+        context.save();
+        context.translate(midpointX, midpointY);
+        context.rotate(angle + Math.PI);
+
+        const offset = -15;
+        context.fillStyle = '#fff';
+        context.font = '9px Arial';
+        context.fillText(labelEdge, offset, -3);
         context.restore();
       }
     }
@@ -108,7 +128,7 @@ export const drawNetwork = (
       context.restore();
     }
     const labelNodeHover = createdLableNodeHover(node);
-    if (labelNodeHover && newNode && node.id === newNode.id) {
+    if (labelNodeHover && newNode && node.id === newNode.id && hoveredNode) {
       const padding = 2;
       const textWidth = context.measureText(labelNodeHover).width + 35;
       context.fillStyle = 'rgba(255, 255, 255)';
@@ -159,7 +179,7 @@ export const drawNetwork = (
       context.fill();
       context.fillStyle = '#000';
       context.font = '500 11px Arial';
-      context.fillText(labelNodeHover, labelX + 2, labelY + 2); // Adjust the position as needed
+      context.fillText(labelNodeHover, labelX + 2, labelY + 2);
     }
   });
 };

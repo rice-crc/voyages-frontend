@@ -8,7 +8,7 @@ import { Nodes } from '@/share/InterfaceTypePastNetworks';
 
 export const NetworkDiagramPeople = ({
   widthPercentage = 75,
-  heigthPercentage = 70,
+  heigthPercentage = 65,
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const { data } = useSelector(
@@ -76,9 +76,6 @@ export const NetworkDiagramPeople = ({
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         paddingTop: '2.5%',
       }}
     >

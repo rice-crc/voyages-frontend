@@ -1,10 +1,11 @@
 import * as d3 from 'd3';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { drawNetwork } from './drawNetwork';
 import { Datas, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
 import { findNode } from './findNode';
 import { RADIUSNODE } from '@/share/CONST_DATA';
 import { findHoveredEdge } from './findHoveredEdge';
+import ShowsAcoloredNodeKey from './ShowsAcoloredNodeKey';
 
 type NetworkDiagramProps = {
   width: number;
@@ -22,9 +23,10 @@ export const NetworkDiagram = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const transformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
   const simulationRef = useRef<d3.Simulation<Nodes, Edges> | null>(null);
-  const isDraggingRef = useRef(false); // Flag to track drag state
-  const isZoomingRef = useRef(false); // Flag to track zoom state
-  const hoverEnabledRef = useRef(true); // Flag to enable/disable hover
+  const isDraggingRef = useRef(false);
+  const isZoomingRef = useRef(false);
+  const hoverEnabledRef = useRef(true);
+  const [hoveredNode, setHoveredNode] = useState<boolean>(false);
 
   // Create new arrays for edges and nodes
   const edges: Edges[] = data.edges.map((d) => ({ ...d }));
@@ -87,7 +89,8 @@ export const NetworkDiagram = ({
             nodes,
             validEdges,
             null,
-            transformRef.current
+            transformRef.current,
+            hoveredNode
           );
         });
     }
@@ -114,9 +117,11 @@ export const NetworkDiagram = ({
     // };
 
     if (canvas && context) {
-      canvas.addEventListener('mousemove', checkMouseoverNode);
+      canvas.addEventListener('mousemove', (event) => {
+        checkMouseoverNode(event);
+        checkMouseoverEdges(event);
+      });
       canvas.addEventListener('dblclick', handleDoubleClick);
-      canvas.addEventListener('mousemove', checkMouseoverEdges);
       const dragBehavior = d3.drag<HTMLCanvasElement, unknown>();
 
       dragBehavior
@@ -134,9 +139,11 @@ export const NetworkDiagram = ({
       // );
 
       return () => {
-        canvas.removeEventListener('mousemove', checkMouseoverNode);
+        canvas.removeEventListener('mousemove', (event) => {
+          checkMouseoverNode(event);
+          checkMouseoverEdges(event);
+        });
         canvas.removeEventListener('dblclick', handleDoubleClick);
-        canvas.removeEventListener('mousemove', checkMouseoverEdges);
         dragBehavior.on('start', null).on('drag', null).on('end', null);
       };
     }
@@ -153,11 +160,12 @@ export const NetworkDiagram = ({
       const x = event.clientX - canvas.getBoundingClientRect().left;
       const y = event.clientY - canvas.getBoundingClientRect().top;
       const node = findNode(nodes, x, y, RADIUSNODE);
+
       // Ensure that node is either a valid object or null
       const newNode = node || null;
-
       // Check if the hovered node has changed before updating state
       if (newNode) {
+        setHoveredNode(true);
         drawNetwork(
           context,
           width,
@@ -165,7 +173,8 @@ export const NetworkDiagram = ({
           nodes,
           validEdges,
           newNode,
-          transformRef.current
+          transformRef.current,
+          hoveredNode
         );
       }
     }
@@ -186,6 +195,7 @@ export const NetworkDiagram = ({
       const newEdge = edgesHover || null;
       // Check if the hovered edge has changed before updating state
       if (newEdge) {
+        setHoveredNode(true);
         drawNetwork(
           context,
           width,
@@ -193,7 +203,8 @@ export const NetworkDiagram = ({
           nodes,
           validEdges,
           newEdge,
-          transformRef.current
+          transformRef.current,
+          hoveredNode
         );
       }
     }
@@ -254,15 +265,18 @@ export const NetworkDiagram = ({
   }
 
   return (
-    <canvas
-      id="networkCanvas labelsContainer"
-      ref={canvasRef}
-      style={{
-        width,
-        height,
-      }}
-      width={width}
-      height={height}
-    />
+    <>
+      <canvas
+        id="networkCanvas labelsContainer"
+        ref={canvasRef}
+        style={{
+          width,
+          height,
+        }}
+        width={width}
+        height={height}
+      />
+      <ShowsAcoloredNodeKey />
+    </>
   );
 };
