@@ -4,9 +4,31 @@ import {
     VOYAGESNODE,
     ENSLAVEMENTNODE,
 } from '@/share/CONST_DATA';
-import { Nodes } from '@/share/InterfaceTypePastNetworks';
+import { Nodes, Edges } from '@/share/InterfaceTypePastNetworks';
 
 export const createdLableNode = (node: Nodes) => {
+    const {
+        node_class, documented_name,
+        voyage_ship__ship_name: shipName,
+        voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year: year,
+        principal_alias: alias,
+    } = node;
+    let LableNode;
+    if (node_class === ENSLAVEDNODE) {
+        LableNode = documented_name
+    } else if (node_class === ENSLAVERSNODE) {
+        LableNode = alias
+    }
+    else if (node_class === ENSLAVEMENTNODE) {
+        LableNode = ''
+    }
+    else if (node_class === VOYAGESNODE) {
+        LableNode = `${shipName ?? shipName},${year}`
+    }
+    return LableNode;
+};
+
+export const createdLableNodeHover = (node: Nodes) => {
     const {
         node_class, documented_name,
         voyage_ship__ship_name: shipName,
@@ -31,3 +53,27 @@ export const createdLableNode = (node: Nodes) => {
     return LableNode;
 };
 
+export const createdLableEdges = (edge: Edges) => {
+    let LableNode = ''
+    if (edge?.data?.role__name) {
+        LableNode = edge.data.role__name
+        return LableNode;
+    } else {
+        return LableNode;
+    }
+
+};
+
+export const createSrokeColor = (edge: Edges) => {
+    let colorStork = '#aaa'
+    if (edge?.data?.role__name) {
+        if (edge?.data?.role__name === 'Captain') {
+            colorStork = 'rgb(55, 163, 154)'
+        } else if (edge?.data?.role__name === 'Owner') {
+            colorStork = '#556cd6'
+        } else {
+            return colorStork;
+        }
+    }
+    return colorStork
+}

@@ -1,5 +1,5 @@
 import HeaderLogoSearch from '../header/HeaderSearchLogo';
-import NavBlog from './NavBlog';
+import NavBlog from './NavBarBlog';
 import BlogCardHeaderBody from './BlogCardHeaderBody';
 import '@/style/blogs.scss';
 import { Divider } from '@mui/material';

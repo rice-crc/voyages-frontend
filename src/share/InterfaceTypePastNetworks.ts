@@ -17,9 +17,14 @@ export interface Nodes extends d3.SimulationNodeDatum {
 }
 
 export interface Edges extends d3.SimulationLinkDatum<Nodes> {
+    data?: RoleName;
+    source: string | Nodes;
+    target: string | Nodes;
+}
+export interface EdgesProps extends d3.SimulationLinkDatum<Nodes> {
     data?: RoleName
-    source: string
-    target: string
+    source: Nodes
+    target: Nodes
 }
 
 export interface RoleName {

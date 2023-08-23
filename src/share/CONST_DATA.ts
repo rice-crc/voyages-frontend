@@ -30,7 +30,7 @@ export const ENSLAVEDTEXAS = 'texas'
 
 export const ENSLAVEDTEXASPAGE = '/texas'
 export const DOCUMENTPAGE = 'DocumentPage'
-export const BLOGPAGE = 'BlogPage'
+export const BLOGPAGE = 'Blog'
 
 export const ALLENSLAVERS = 'all-enslavers'
 export const ENSALVERSPAGE = '/enslaver'
@@ -62,3 +62,10 @@ export const ENSLAVEDNODE = 'enslaved'
 export const ENSLAVERSNODE = 'enslavers'
 export const VOYAGESNODE = 'voyages'
 export const ENSLAVEMENTNODE = 'enslavement_relations'
+export const classToColor = {
+    enslaved: '#906866',
+    enslavers: '#46A88C',
+    enslavement_relations: '#ab47bc',
+    voyages: '#93D0CB',
+};
+export const RADIUSNODE = 8;
