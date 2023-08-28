@@ -1,12 +1,12 @@
-import { RootState } from "@/redux/store";
+import { RootState } from '@/redux/store';
 import {
   getIdStyleName,
   getIntroBackgroundColor,
   getTextColor,
-} from "@/utils/functions/getColorStyle";
-import { Grid } from "@mui/material";
-import { useSelector } from "react-redux";
-import "@/style/page.scss";
+} from '@/utils/functions/getColorStyle';
+import { Grid } from '@mui/material';
+import { useSelector } from 'react-redux';
+import '@/style/page.scss';
 
 const VoyagesHompPage = () => {
   const { styleName, textIntroduce } = useSelector(
@@ -27,7 +27,6 @@ const VoyagesHompPage = () => {
           {textIntroduce}
         </span>
       </Grid>
-
       <div className="credit-bottom-right">{`Credit: Artist Name ${currentYear}`}</div>
     </div>
   );

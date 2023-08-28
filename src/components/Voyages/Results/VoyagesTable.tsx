@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import TABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
-import { fetchVoyageOptionsPagination } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsPagination';
+import { fetchVoyageOptionsAPI } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsAPI';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeader from '../../FunctionComponents/CustomHeader';
@@ -35,6 +35,10 @@ import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import ModalNetworksGraph from '@/components/FunctionComponents/NetworkGraph/ModalNetworksGraph';
+import { VOYAGESTABLEFILE } from '@/share/CONST_DATA';
+import CardModal from '@/components/FunctionComponents/Cards/CardModal';
+import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
 
 const VoyagesTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -112,44 +116,44 @@ const VoyagesTable: React.FC = () => {
   useEffect(() => {
     saveDataToLocalStorage(data, visibleColumnCells);
   }, [data]);
+  const fetchData = async () => {
+    const newFormData: FormData = new FormData();
+    newFormData.append('results_page', String(page + 1));
+    newFormData.append('results_per_page', String(rowsPerPage));
+    if (rang[varName] && currentPage === 5) {
+      newFormData.append(varName, String(rang[varName][0]));
+      newFormData.append(varName, String(rang[varName][1]));
+    }
+
+    if (autoCompleteValue && varName) {
+      for (let i = 0; i < autoLabelName.length; i++) {
+        const label = autoLabelName[i];
+        newFormData.append(varName, label);
+      }
+    }
+
+    if (styleName !== TYPESOFDATASET.allVoyages) {
+      for (const value of dataSetValue) {
+        newFormData.append(dataSetKey, String(value));
+      }
+    }
+
+    try {
+      const response = await dispatch(
+        fetchVoyageOptionsAPI(newFormData)
+      ).unwrap();
+      if (response) {
+        setTotalResultsCount(Number(response.headers.total_results_count));
+        dispatch(setData(response.data));
+        saveDataToLocalStorage(response.data, visibleColumnCells);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   useEffect(() => {
     let subscribed = true;
-    const fetchData = async () => {
-      const newFormData: FormData = new FormData();
-      newFormData.append('results_page', String(page + 1));
-      newFormData.append('results_per_page', String(rowsPerPage));
-      if (rang[varName] && currentPage === 5) {
-        newFormData.append(varName, String(rang[varName][0]));
-        newFormData.append(varName, String(rang[varName][1]));
-      }
-
-      if (autoCompleteValue && varName) {
-        for (let i = 0; i < autoLabelName.length; i++) {
-          const label = autoLabelName[i];
-          newFormData.append(varName, label);
-        }
-      }
-
-      if (styleName !== TYPESOFDATASET.allVoyages) {
-        for (const value of dataSetValue) {
-          newFormData.append(dataSetKey, String(value));
-        }
-      }
-
-      try {
-        const response = await dispatch(
-          fetchVoyageOptionsPagination(newFormData)
-        ).unwrap();
-        if (response) {
-          setTotalResultsCount(Number(response.headers.total_results_count));
-          dispatch(setData(response.data));
-          saveDataToLocalStorage(response.data, visibleColumnCells);
-        }
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
     fetchData();
     return () => {
       subscribed = false;
@@ -167,6 +171,7 @@ const VoyagesTable: React.FC = () => {
     dataSetKey,
     styleName,
   ]);
+
   useEffect(() => {
     const visibleColumns = tablesCell
       .filter((cell) => cell.visible)
@@ -175,15 +180,13 @@ const VoyagesTable: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (data.length > 0) {
-      const finalRowData = generateRowsData(data);
-      const newColumnDefs: ColumnDef[] = tablesCell.map(
-        (value: TableCellStructure) =>
-          generateColumnDef(value, visibleColumnCells)
-      );
-      dispatch(setColumnDefs(newColumnDefs));
-      dispatch(setRowData(finalRowData as Record<string, any>[]));
-    }
+    updateColumnDefsAndRowData(
+      data,
+      visibleColumnCells,
+      dispatch,
+      VOYAGESTABLEFILE,
+      tablesCell
+    );
   }, [data, visibleColumnCells, dispatch]);
 
   const defaultColDef = useMemo(() => {
@@ -307,6 +310,12 @@ const VoyagesTable: React.FC = () => {
           </div>
         </div>
       )}
+      <div>
+        <ModalNetworksGraph />
+      </div>
+      <div>
+        <CardModal />
+      </div>
     </div>
   );
 };

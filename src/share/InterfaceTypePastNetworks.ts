@@ -13,12 +13,18 @@ export interface Nodes extends d3.SimulationNodeDatum {
     voyage_ship__ship_name?: string
     alias?: string
     identity?: number
+    principal_alias?: string;
 }
 
 export interface Edges extends d3.SimulationLinkDatum<Nodes> {
+    data?: RoleName;
+    source: string | Nodes;
+    target: string | Nodes;
+}
+export interface EdgesProps extends d3.SimulationLinkDatum<Nodes> {
     data?: RoleName
-    source: string
-    target: string
+    source: Nodes
+    target: Nodes
 }
 
 export interface RoleName {
@@ -30,5 +36,8 @@ export type Datas = {
 };
 
 export interface InitialStatePastNetworksData {
-    data: Datas
+    data: Datas,
+    openModal: boolean;
+    networkID: number,
+    networkKEY: string,
 }

@@ -1,13 +1,13 @@
 import React from 'react';
 import { PolylineMapProps } from '@/share/InterfaceTypesMap';
-import { renderPolylineMap } from './RenderPolylineMap';
+import { renderPolylineMap } from './renderPolylineMap';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const CurvedPolyLine: React.FC<PolylineMapProps> = ({
-  transportation,
-  nodesData,
-  origination,
-  disposition,
-}) => {
+const CurvedPolyLine = () => {
+  const { nodesData, transportation, disposition, origination } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
   transportation.forEach((edge) =>
     renderPolylineMap(nodesData, transportation, edge, 'transportation')
   );

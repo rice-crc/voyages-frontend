@@ -7,7 +7,7 @@ export const fetchRangeSliderData = createAsyncThunk(
     async (formData: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}voyage/aggregations`,
+                `${BASEURL}/voyage/aggregations`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },

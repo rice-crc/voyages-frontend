@@ -7,7 +7,7 @@ export const fetchVoyagesMap = createAsyncThunk(
     async (formData?: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}voyage/aggroutes`,
+                `${BASEURL}/voyage/aggroutes`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },

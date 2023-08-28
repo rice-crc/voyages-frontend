@@ -1,11 +1,11 @@
 
 
-import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button, TextField } from '@mui/material';
+import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button, TextField, CardHeader } from '@mui/material';
 import MuiInput from '@mui/material/Input';
 import NestedMenuItem from '../components/canscanding/NestedMenuItem';
-import { SxProps, InputBase } from '@mui/material';
+import { SxProps, } from '@mui/material';
 import NestedMenuColumnItem from '@/components/FunctionComponents/ColumnSelectorTable/NestedMenuColumnItem';
-import { styled, alpha } from '@mui/material/styles';
+import { styled, } from '@mui/material/styles';
 
 
 const blue500 = '#42a5f5';
@@ -136,6 +136,17 @@ export const ButtonNav = styled(Button)`
 `;
 
 
+export const CardHeaderCustom = styled(CardHeader)`
+  && {
+    color: black;
+    background-color: #eaeaea;
+    padding: 6px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+`;
+
 export const DropdownMenuColumnItem = styled(MenuItem)`
   display: flex;
   justify-content: space-between !important;
@@ -171,3 +182,31 @@ export const TextFieldSearch = styled(TextField)`
     }
   }
 `;
+
+export const styleModalNetworks = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '80%',
+  height: '85%',
+  bgcolor: '#222',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+export const styleModalCard = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '70%',
+  maxWidth: '90vw',
+  maxHeight: '90vh',
+  bgcolor: '#fff',
+  border: '2px solid #000',
+  overflowY: 'auto',
+  boxShadow: 24,
+  p: '10px 20px',
+};

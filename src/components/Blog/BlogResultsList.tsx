@@ -13,7 +13,7 @@ import {
   InitialStateBlogProps,
 } from '@/share/InterfaceTypesBlog';
 import { formatTextURL } from '@/utils/functions/formatText';
-import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
+import { BASEURL } from '@/share/AUTH_BASEURL';
 import '@/style/blogs.scss';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 
@@ -81,7 +81,7 @@ const BlogResultsList: React.FC = () => {
                   to={`/${BLOGPAGE}/${formatTextURL(value.title)}/${value.id}`}
                 >
                   <img
-                    src={`${BASTURLBLOG}${value.thumbnail}`}
+                    src={`${BASEURL}${value.thumbnail}`}
                     alt={value.title}
                     className="card-img img-fluid content-image "
                   />

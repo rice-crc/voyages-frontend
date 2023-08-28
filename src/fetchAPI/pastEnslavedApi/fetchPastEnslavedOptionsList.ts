@@ -7,7 +7,7 @@ export const fetchEnslavedOptionsList = createAsyncThunk(
     async (formData: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}past/enslaved/`,
+                `${BASEURL}/past/enslaved/`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },
