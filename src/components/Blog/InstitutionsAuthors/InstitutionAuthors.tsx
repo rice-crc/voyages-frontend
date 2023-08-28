@@ -1,7 +1,7 @@
 import { AppDispatch, RootState } from '@/redux/store';
 import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { useDispatch, useSelector } from 'react-redux';
-import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
+import { BASEURL } from '@/share/AUTH_BASEURL';
 import '@/style/blogs.scss';
 import { Divider } from '@mui/material';
 import HeaderLogoSearch from '@/components/header/HeaderSearchLogo';
@@ -61,7 +61,7 @@ const InstitutionAuthors: React.FC = () => {
             <div className="card-body">
               <div className="d-flex flex-column align-items-center text-center">
                 <img
-                  src={image ? `${BASTURLBLOG}${image}` : IMGMOCK}
+                  src={image ? `${BASEURL}${image}` : IMGMOCK}
                   alt={name}
                   className="rounded-circle"
                   width="300"

@@ -1,14 +1,13 @@
-import { TableCellStructure } from "@/share/InterfaceTypesTable";
-import { ICellRendererParams } from "ag-grid-community";
 
-export function hasValueGetter(
-    params: ICellRendererParams,
-    value: TableCellStructure
+export function generateCardsData(
+    data: any,
+    value: any
 ) {
     const finalData: string[] = [];
-    const data = params.data;
     const fields = value.cell_val.fields;
+
     const firstData = data[fields[0]?.var_name];
+
 
     const joinDelimiter: string | undefined = value.cell_val.join;
     if (value.cell_type === 'literal') {
@@ -30,7 +29,6 @@ export function hasValueGetter(
             }
             finalData.push(dataResult.join(joinDelimiter));
         }
-
         return finalData.length !== 0 ? finalData : '--';
     } else if (value.cell_type === 'literal-concat') {
         let dataValue: string = '';

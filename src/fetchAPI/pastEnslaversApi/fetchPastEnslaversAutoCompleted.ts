@@ -7,7 +7,7 @@ export const fetchPastEnslaversAutoCompleted = createAsyncThunk(
     async (keyOptions: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}past/enslaver/autocomplete`,
+                `${BASEURL}/past/enslaver/autocomplete`,
                 keyOptions,
                 {
                     headers: { 'Authorization': AUTHTOKEN },

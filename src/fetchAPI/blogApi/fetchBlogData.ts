@@ -7,7 +7,7 @@ export const fetchBlogData = createAsyncThunk(
     async (formData?: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}blog/`,
+                `${BASEURL}/blog/`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },

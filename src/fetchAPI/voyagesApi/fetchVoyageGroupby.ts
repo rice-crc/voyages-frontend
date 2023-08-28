@@ -7,7 +7,7 @@ export const fetchVoyageGraphGroupby = createAsyncThunk(
     async (formData: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}voyage/groupby`,
+                `${BASEURL}/voyage/groupby`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },

@@ -8,13 +8,15 @@ import {
   setNetWorksKEY,
   setsetOpenModalNetworks,
 } from '@/redux/getPastNetworksGraphDataSlice';
+import { setCardRowID, setIsModalCard } from '@/redux/getCardsFlatObjSlice';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
-  colID: string,
+  colID?: string,
   cellFN?: string
 ) => {
   const values = params.value;
+  const ID = params.data.id;
   const dispatch = useDispatch();
   if (Array.isArray(values)) {
     const style: CSSProperties = {
@@ -32,18 +34,31 @@ export const GenerateCellTableRenderer = (
 
     const renderedValues = values.map((value: string, index: number) => (
       <span key={`${index}-${value}`}>
-        <div style={style}>{`${value}\n`}</div>
+        <div
+          style={style}
+          onClick={() => {
+            dispatch(setCardRowID(ID));
+            dispatch(setIsModalCard(true));
+          }}
+        >{`${value}\n`}</div>
       </span>
     ));
     return <div>{renderedValues}</div>;
   } else if (typeof values !== 'object' && colID !== 'connections') {
     return (
       <div className="div-value">
-        <div className="value">{values}</div>
+        <div
+          className="value"
+          onClick={() => {
+            dispatch(setCardRowID(ID));
+            dispatch(setIsModalCard(true));
+          }}
+        >
+          {values}
+        </div>
       </div>
     );
   } else if (colID === 'connections' && cellFN) {
-    const ID = values;
     const KEY = cellFN;
     return (
       <div className="network-icon">

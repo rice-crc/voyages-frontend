@@ -10,14 +10,11 @@ import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.js
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeader from '../../FunctionComponents/CustomHeader';
-import { generateRowsData } from '@/utils/functions/generateRowsData';
 import {
-  ColumnDef,
   StateRowData,
   TableCellStructureInitialStateProp,
-  TableCellStructure,
 } from '@/share/InterfaceTypesTable';
-import { setColumnDefs, setRowData, setData } from '@/redux/getTableSlice';
+import { setData } from '@/redux/getTableSlice';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
@@ -36,6 +33,8 @@ import ButtonDropdownSelectorEnslavers from './ColumnSelectorEnslaversTable/Butt
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/FunctionComponents/NetworkGraph/ModalNetworksGraph';
+import CardModal from '@/components/FunctionComponents/Cards/CardModal';
+import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
 
 const EnslaversTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -176,16 +175,13 @@ const EnslaversTable: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (data.length > 0) {
-      const finalRowData = generateRowsData(data, ENSLAVERS_TABLE_FILE);
-
-      const newColumnDefs: ColumnDef[] = tablesCell.map(
-        (value: TableCellStructure) =>
-          generateColumnDef(value, visibleColumnCells)
-      );
-      dispatch(setColumnDefs(newColumnDefs));
-      dispatch(setRowData(finalRowData as Record<string, any>[]));
-    }
+    updateColumnDefsAndRowData(
+      data,
+      visibleColumnCells,
+      dispatch,
+      ENSLAVERS_TABLE_FILE,
+      ENSLAVERS_TABLE.cell_structure
+    );
   }, [data, visibleColumnCells, dispatch]);
 
   const defaultColDef = useMemo(() => {
@@ -311,6 +307,9 @@ const EnslaversTable: React.FC = () => {
       )}
       <div>
         <ModalNetworksGraph />
+      </div>
+      <div>
+        <CardModal />
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { GenerateCellTableRenderer } from "@/components/FunctionComponents/Gener
 
 export const generateColumnDef = (value: TableCellStructure, visibleColumnCells: string[]) => {
     const CELLFN = value?.cell_val?.fields[0]?.cell_fn
+
     return {
         headerName: value.header_label,
         field: value.colID,

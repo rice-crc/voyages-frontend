@@ -246,3 +246,30 @@ export interface ChildrenPeopleMenu {
     label: string
     flatlabel?: string
 }
+export interface InitialStateTransatlanticCard {
+    cardData: Record<string, any>[]
+    isModalCard: boolean
+    cardRowID: number
+}
+export interface TransatlanticCardProps {
+    label: string
+    children: ChildrenCard[]
+}
+
+export interface ChildrenCard {
+    cell_type: string
+    cell_val?: CellValCard
+    type: string
+    label: string
+    var_names?: string
+    join?: string
+}
+
+export interface CellValCard {
+    fields: FieldCard[]
+}
+
+export interface FieldCard {
+    var_name: string
+    cell_fn: string
+}
