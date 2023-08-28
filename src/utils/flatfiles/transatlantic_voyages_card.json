@@ -339,7 +339,7 @@
 							"cell_fn": "literal"
 						}
 					]
-				},
+				}
 			},
 			{
 				"cell_type": "literal",
@@ -710,7 +710,7 @@
 							"cell_fn": "literal"
 						}
 					],
-					"join": " : ",
+					"join": " : "
 				},
 				"label": "Data Sources"
 			}
