@@ -12,7 +12,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Voyage ID"
 			},
 			{
@@ -25,7 +24,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Name of vessel"
 			},
 			{
@@ -38,8 +36,19 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Enslavers"
+			},
+			{
+				"header_label": "Enslaver Connections",
+				"cell_type": "network_modal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "voyage_enslaver_connection__enslaver_alias__identity__id",
+							"cell_fn": "enslavers"
+						}
+					]
+				}
 			},
 			{
 				"cell_type": "literal",
@@ -51,7 +60,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Place where vessel registered"
 			},
 			{
@@ -64,7 +72,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Year of vessel's registration"
 			},
 			{
@@ -77,7 +84,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Year of vessel's construction"
 			},
 			{
@@ -90,7 +96,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Imputed Ship Nationality"
 			},
 			{
@@ -103,7 +108,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Rig of Vessel"
 			},
 			{
@@ -116,7 +120,6 @@
 						}
 					]
 				},
-				"type": "DecimalField",
 				"label": "Tonnage standardized on British measured tons 1773-1870"
 			},
 			{
@@ -129,7 +132,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Tonnage of vessel"
 			},
 			{
@@ -142,7 +144,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Guns mounted"
 			}
 		]
@@ -160,7 +161,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Crew died during complete voyage"
 			},
 			{
@@ -173,7 +173,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Crew at first landing of slaves"
 			},
 			{
@@ -186,7 +185,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Crew at voyage outset"
 			}
 		]
@@ -204,7 +202,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Port of departure (PORTDEP)"
 			},
 			{
@@ -217,7 +214,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Third place of slave purchase (PLAC3TRA)"
 			},
 			{
@@ -230,7 +226,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Location name"
 			},
 			{
@@ -243,7 +238,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "First place of slave purchase (PLAC1TRA)"
 			},
 			{
@@ -256,7 +250,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Imputed principal place of slave purchase (MJBYPTIMP)"
 			},
 			{
@@ -269,7 +262,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Port of call before Atlantic crossing (NPAFTTRA)"
 			},
 			{
@@ -282,7 +274,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Third place of slave landing (ADPSALE2)"
 			},
 			{
@@ -295,7 +286,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Second place of slave landing (ADPSALE1)"
 			},
 			{
@@ -308,7 +298,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "First place of slave landing (SLA1PORT)"
 			},
 			{
@@ -321,7 +310,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Imputed principal port of slave disembarkation (MJSLPTIMP)"
 			},
 			{
@@ -334,7 +322,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Place at which voyage ended (PORTRET)"
 			}
 		]
@@ -353,7 +340,6 @@
 						}
 					]
 				},
-				"type": "IntegerField"
 			},
 			{
 				"cell_type": "literal",
@@ -365,7 +351,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Voyage length from home port to disembarkation (days) (VOY1IMP)"
 			},
 			{
@@ -378,7 +363,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Length of Middle Passage in (days) (VOYAGE)"
 			},
 			{
@@ -391,8 +375,36 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Year of arrival at port of disembarkation (YEARAM)"
+			}
+		]
+	},
+	{
+		"label": "Names of Enslaved People",
+		"children": [
+			{
+				"header_label": "Enslaved People Connections",
+				"cell_type": "network_modal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "voyage_enslaved_people__id",
+							"cell_fn": "enslaved"
+						}
+					]
+				}
+			},
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "voyage_enslaved_people__documented_name",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Names of Enslaved People"
 			}
 		]
 	},
@@ -409,7 +421,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Total slaves disembarked imputed * (SLAMIMP)"
 			},
 			{
@@ -422,7 +433,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Total slaves embarked imputed * (slaximp)"
 			},
 			{
@@ -435,7 +445,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Number of slaves carried from third port of purchase (NCAR17)"
 			},
 			{
@@ -448,7 +457,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Number of slaves carried from second port of purchase (NCAR15)"
 			},
 			{
@@ -461,7 +469,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Number of slaves carried from first port of purchase (NCAR13)"
 			},
 			{
@@ -474,7 +481,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Number of slaves intended from first port of purchase (SLINTEND)"
 			},
 			{
@@ -487,7 +493,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Number of slaves disembarked at third place (SLAS39)"
 			},
 			{
@@ -500,7 +505,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Number of slaves disembarked at second place (SLAS36)"
 			},
 			{
@@ -513,7 +517,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Number of slaves disembarked at first place (SLAS32)"
 			},
 			{
@@ -526,7 +529,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Total slaves arrived at first port of disembarkation (SLAARRIV)"
 			},
 			{
@@ -539,7 +541,6 @@
 						}
 					]
 				},
-				"type": "FloatField",
 				"label": "Percentage children on voyage (CHILRAT7)"
 			},
 			{
@@ -552,7 +553,6 @@
 						}
 					]
 				},
-				"type": "FloatField",
 				"label": "Percentage male on voyage (MALRAT7)"
 			},
 			{
@@ -565,7 +565,6 @@
 						}
 					]
 				},
-				"type": "FloatField",
 				"label": "Percentage girl on voyage (GIRLRAT7)"
 			},
 			{
@@ -578,7 +577,6 @@
 						}
 					]
 				},
-				"type": "FloatField",
 				"label": "Percentage boy on voyage (BOYRAT7)"
 			},
 			{
@@ -591,7 +589,6 @@
 						}
 					]
 				},
-				"type": "FloatField",
 				"label": "Percentage women on voyage (WOMRAT7)"
 			},
 			{
@@ -604,7 +601,6 @@
 						}
 					]
 				},
-				"type": "FloatField",
 				"label": "Imputed mortality ratio (VYMRTRAT)"
 			},
 			{
@@ -617,7 +613,6 @@
 						}
 					]
 				},
-				"type": "IntegerField",
 				"label": "Imputed number of slave deaths during Middle Passage (VYMRTIMP)"
 			},
 			{
@@ -630,7 +625,6 @@
 						}
 					]
 				},
-				"type": "DecimalField",
 				"label": "Sterling cash price in Jamaica* (imputed)"
 			}
 		]
@@ -648,7 +642,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Vessel Captured Outcome"
 			},
 			{
@@ -661,7 +654,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Resistance"
 			},
 			{
@@ -674,7 +666,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Owner Outcome"
 			},
 			{
@@ -687,7 +678,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Slaves Outcome"
 			},
 			{
@@ -700,7 +690,6 @@
 						}
 					]
 				},
-				"type": "CharField",
 				"label": "Particular Outcome"
 			}
 		]
@@ -720,10 +709,9 @@
 							"var_name": "voyage_zotero_connections__zotero_source__zotero_title",
 							"cell_fn": "literal"
 						}
-					]
+					],
+					"join": " : ",
 				},
-				"join": " : ",
-				"type": "CharField",
 				"label": "Data Sources"
 			}
 		]

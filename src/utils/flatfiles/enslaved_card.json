@@ -3,7 +3,6 @@
 		"label": "Bio Data",
 		"children": [
 			{
-				"label": "Names",
 				"cell_type": "literal-concat",
 				"cell_val": {
 					"fields": [
@@ -17,10 +16,10 @@
 						}
 					],
 					"join": " / "
-				}
+				},
+				"label": "Names"
 			},
 			{
-				"label": "Age",
 				"cell_type": "literal",
 				"cell_val": {
 					"fields": [
@@ -29,10 +28,10 @@
 							"cell_fn": "literal"
 						}
 					]
-				}
+				},
+				"label": "Age"
 			},
 			{
-				"label": "Gender",
 				"cell_type": "literal",
 				"cell_val": {
 					"fields": [
@@ -41,10 +40,10 @@
 							"cell_fn": "literal"
 						}
 					]
-				}
+				},
+				"label": "Gender"
 			},
 			{
-				"label": "Height",
 				"cell_type": "literal",
 				"cell_val": {
 					"fields": [
@@ -53,26 +52,44 @@
 							"cell_fn": "literal"
 						}
 					]
-				}
+				},
+				"label": "Height"
 			}
 		]
 	},
 	{
 		"label": "Enslavers",
-		"cell_type": "literal-concat",
-		"cell_val": {
-			"fields": [
-				{
-					"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "enslaved_relations__relation__relation_enslavers__role__name",
-					"cell_fn": "literal"
+		"children":[
+			{
+				"label": "Enslavers"
+				"cell_type": "literal-concat",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
+							"cell_fn": "literal"
+						},
+						{
+							"var_name": "enslaved_relations__relation__relation_enslavers__role__name",
+							"cell_fn": "literal"
+						}
+					],
+					"join": " : "
 				}
-			],
-			"join": " : "
-		}
+			},
+			{
+				"header_label": "Enslaver Connections",
+				"cell_type": "network_modal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__identity__id",
+							"cell_fn": "enslavers"
+						}
+					]
+				}
+			}
+		]
 	},
 	{
 		"label": "Itinerary",

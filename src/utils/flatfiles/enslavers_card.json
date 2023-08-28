@@ -1,30 +1,53 @@
 [
 	{
-		"label": "Name",
-		"var_name": "principal_alias",
-		"type": "CharField"
-	},
-	{
 		"label": "Voyages",
 		"children": [
 			{
-				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
-				"type": "CharField",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
+							"cell_fn": "literal"
+						}
+					]
+				},
 				"label": "Ship Name"
 			},
 			{
-				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-				"type": "IntegerField",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+							"cell_fn": "literal"
+						}
+					]
+				},
 				"label": "Year of Arrival"
 			},
 			{
-				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
-				"type": "CharField",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
+							"cell_fn": "literal"
+						}
+					]
+				},
 				"label": "Port of Embarkation"
 			},
 			{
-				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
-				"type": "CharField",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+							"cell_fn": "literal"
+						}
+					]
+				},
 				"label": "Port of Disembarkation"
 			}
 		]
@@ -33,23 +56,63 @@
 		"label": "Personal Data",
 		"children": [
 			{
-				"var_name": "birth_place__geo_location__name",
-				"type": "CharField",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "principal_alias",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Name"
+			},
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "birth_place__geo_location__name",
+							"cell_fn": "literal"
+						}
+					]
+				},
 				"label": "Birth Place"
 			},
 			{
-				"var_name": "birth_year",
-				"type": "IntegerField",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "birth_year",
+							"cell_fn": "literal"
+						}
+					]
+				},
 				"label": "Birth Year"
 			},
 			{
-				"var_name": "death_place__geo_location__name",
-				"type": "CharField",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "death_place__geo_location__name",
+							"cell_fn": "literal"
+						}
+					]
+				},
 				"label": "Death Place"
 			},
 			{
-				"var_name": "death_year",
-				"type": "IntegerField",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "death_year",
+							"cell_fn": "literal"
+						}
+					]
+				},
 				"label": "Death Year"
 			}
 		]
@@ -58,9 +121,28 @@
 		"label": "Enslavement Relations",
 		"children": [
 			{
-				"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
-				"type": "CharField",
-				"label": "Documented Name of Enslaved Person"
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Enslaved People"
+			},
+			{
+				"header_label": "Enslaved People Connections",
+				"cell_type": "network_modal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__id",
+							"cell_fn": "enslaved"
+						}
+					]
+				}
 			}
 		]
 	},
@@ -68,8 +150,15 @@
 		"label": "Sources",
 		"children": [
 			{
-				"var_name": "enslaver_zotero_connections__zotero_source__zotero_title",
-				"type": "CharField",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "enslaver_zotero_connections__zotero_source__zotero_title",
+							"cell_fn": "literal"
+						}
+					]
+				},
 				"label": "Documentary Sources"
 			}
 		]
