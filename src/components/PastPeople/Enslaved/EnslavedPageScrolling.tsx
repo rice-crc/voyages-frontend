@@ -12,6 +12,8 @@ import EnslavedPage from './EnslavedPage';
 import EnslavedTable from './EnslavedTable';
 import '@/style/page.scss';
 import VoyagesMaps from '@/components/FunctionComponents/Map/MAPS';
+import { setPathName } from '@/redux/getDataSetCollectionSlice';
+import { ALLENSLAVED } from '@/share/CONST_DATA';
 
 const EnslavedPageScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -25,6 +27,9 @@ const EnslavedPageScrolling = () => {
 
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentEnslavedPage(page));
+    if (page === 2) {
+      dispatch(setPathName(ALLENSLAVED));
+    }
   };
 
   const displayPage = (

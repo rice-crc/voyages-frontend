@@ -112,7 +112,8 @@
 				"fields": [
 					{
 						"var_name": "id",
-						"cell_fn": "voyages"
+						"cell_fn": "networks",
+						"node_class": "voyages"
 					}
 				]
 			}
@@ -147,6 +148,11 @@
 					{
 						"var_name": "voyage_enslaver_connection__enslaver_alias__alias",
 						"cell_fn": "literal"
+					},
+					{
+						"var_name": "voyage_enslaver_connection__enslaver_alias__identity__id",
+						"cell_fn": "card",
+						"node_class": "enslavers"
 					}
 				]
 			}

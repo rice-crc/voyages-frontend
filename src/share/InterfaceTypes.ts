@@ -250,6 +250,9 @@ export interface InitialStateTransatlanticCard {
     cardData: Record<string, any>[]
     isModalCard: boolean
     cardRowID: number
+    cardFileName: string
+    cardDataArray: TransatlanticCardProps[]
+    nodeType: string
 }
 export interface TransatlanticCardProps {
     label: string
@@ -259,14 +262,14 @@ export interface TransatlanticCardProps {
 export interface ChildrenCard {
     cell_type: string
     cell_val?: CellValCard
-    type: string
     label: string
     var_names?: string
-    join?: string
+
 }
 
 export interface CellValCard {
-    fields: FieldCard[]
+    fields: FieldCard[],
+    join?: string
 }
 
 export interface FieldCard {

@@ -1,33 +1,95 @@
 import { Card, Collapse } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { CardHeaderCustom } from '@/styleMUI';
-import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVoyageOptionsAPI } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsAPI';
-import { setCardData } from '@/redux/getCardsFlatObjSlice';
+import {
+  setCardData,
+  setCardDataArray,
+  setCardFileName,
+} from '@/redux/getCardFlatObjectSlice';
 import { processCardData } from '@/utils/functions/processCardData';
+
+import CARDS_VOYAGES_COLLECTION from '@/utils/flatfiles/transatlantic_voyages_card.json';
+import CARDS_ENSLAVED_COLLECTION from '@/utils/flatfiles/enslaved_card.json';
+import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers_card.json';
+import {
+  ENSLAVEDCARDFILE,
+  ENSLAVEDNODE,
+  ENSLAVERSCARDFILE,
+  ENSLAVERSNODE,
+  VOYAGESNODE,
+  YOYAGESCARDFILE,
+} from '@/share/CONST_DATA';
 import '@/style/cards.scss';
+import { TransatlanticCardProps } from '@/share/InterfaceTypes';
+import { AppDispatch, RootState } from '@/redux/store';
+import { CardHeaderCustom } from '@/styleMUI';
+import { fetchVoyageOptionsAPI } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsAPI';
+import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsList';
+import { fetchEnslaversOptionsList } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversOptionsList';
 
 const VoyageCard = () => {
   const dispatch: AppDispatch = useDispatch();
-
   const [globalExpand, setGlobalExpand] = useState(false);
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
-
-  const { cardData, cardRowID } = useSelector(
-    (state: RootState) => state.getCardFlatObjectData
+  const { cardData, cardRowID, cardFileName, cardDataArray, nodeType } =
+    useSelector((state: RootState) => state.getCardFlatObjectData);
+  const { networkID } = useSelector(
+    (state: RootState) => state.getPastNetworksGraphData
   );
+
+  useEffect(() => {
+    let newCardFileName: string = '';
+    const newCardDataArray: TransatlanticCardProps[] = [];
+    switch (nodeType) {
+      case VOYAGESNODE:
+        newCardFileName = YOYAGESCARDFILE;
+        newCardDataArray.push(...CARDS_VOYAGES_COLLECTION);
+        break;
+      case ENSLAVEDNODE:
+        newCardFileName = ENSLAVEDCARDFILE;
+        newCardDataArray.push(...CARDS_ENSLAVED_COLLECTION);
+        break;
+      case ENSLAVERSNODE:
+        newCardFileName = ENSLAVERSCARDFILE;
+        newCardDataArray.push(...CARDS_ENSLAVERS_COLLECTION);
+        break;
+      default:
+        newCardFileName = '';
+    }
+    dispatch(setCardFileName(newCardFileName));
+    dispatch(setCardDataArray(newCardDataArray));
+  }, [nodeType]);
 
   useEffect(() => {
     let subscribed = true;
     const fetchData = async () => {
-      const newFormData: FormData = new FormData();
-      newFormData.append('id', String(cardRowID));
-      newFormData.append('id', String(cardRowID));
+      const newFormData = new FormData();
+      const id = networkID || cardRowID;
+      newFormData.append('id', String(id));
+      newFormData.append('id', String(id));
+
       try {
-        const response = await dispatch(
-          fetchVoyageOptionsAPI(newFormData)
-        ).unwrap();
+        let response = null;
+
+        switch (nodeType) {
+          case VOYAGESNODE:
+            response = await dispatch(
+              fetchVoyageOptionsAPI(newFormData)
+            ).unwrap();
+            break;
+          case ENSLAVEDNODE:
+            response = await dispatch(
+              fetchEnslavedOptionsList(newFormData)
+            ).unwrap();
+            break;
+          case ENSLAVERSNODE:
+            response = await dispatch(
+              fetchEnslaversOptionsList(newFormData)
+            ).unwrap();
+            break;
+          default:
+            response = null;
+        }
         if (response && subscribed) {
           dispatch(setCardData(response.data));
         }
@@ -35,21 +97,24 @@ const VoyageCard = () => {
         console.log('error', error);
       }
     };
+
     fetchData();
+
     return () => {
       subscribed = false;
+      dispatch(setCardData([]));
     };
-  }, [dispatch]);
+  }, [dispatch, nodeType]);
 
-  const newCardData = processCardData(cardData);
+  const newCardData = processCardData(cardData, cardDataArray, cardFileName);
 
   const toggleExpand = (header: string, isExpanded: boolean) => {
     if (header === 'all') {
       setGlobalExpand(!globalExpand);
       setExpandedHeaders([]);
     } else if (isExpanded) {
-      setExpandedHeaders((prevHeders) =>
-        prevHeders.filter((prevHeder) => prevHeder !== header)
+      setExpandedHeaders((prevHeaders) =>
+        prevHeaders.filter((prevHeader) => prevHeader !== header)
       );
     } else {
       setExpandedHeaders((prevHeaders) => [...prevHeaders, header]);
@@ -71,6 +136,7 @@ const VoyageCard = () => {
             const childValue = element.childValue;
             const isExpanded =
               expandedHeaders.includes(element.header) || globalExpand;
+
             return (
               <div key={`${element.label}-${index}`}>
                 <CardHeaderCustom
@@ -82,15 +148,24 @@ const VoyageCard = () => {
                 />
                 <Collapse in={!isExpanded}>
                   <div className="container-card-body">
-                    {childValue.map((child: any) => (
-                      <div
-                        className="grid-container-card-body"
-                        key={`${child.label}-${index}`}
-                      >
-                        <div className="grid-item-card">{child.label}</div>
-                        <div className="grid-item-card">{child.value}</div>
-                      </div>
-                    ))}
+                    {childValue.map((child: any) => {
+                      const value = child.value;
+                      const displayValue = Array.isArray(value)
+                        ? value.join(', ') || '--'
+                        : value || '--';
+
+                      return (
+                        <div
+                          className="grid-container-card-body"
+                          key={`${child.label}-${index}`}
+                        >
+                          <div className="grid-item-card">{child.label}</div>
+                          <div className="grid-itenewCardDatam-card">
+                            {displayValue}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </Collapse>
               </div>
@@ -100,4 +175,5 @@ const VoyageCard = () => {
     </div>
   );
 };
+
 export default VoyageCard;

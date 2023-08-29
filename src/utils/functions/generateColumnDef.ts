@@ -4,7 +4,8 @@ import { hasValueGetter } from "./hasValueGetter";
 import { GenerateCellTableRenderer } from "@/components/FunctionComponents/GenerateCellTableRenderer";
 
 export const generateColumnDef = (value: TableCellStructure, visibleColumnCells: string[]) => {
-    const CELLFN = value?.cell_val?.fields[0]?.cell_fn
+    const nodeClass = value?.cell_val?.fields[0]?.node_class;
+    const CELLFN = value?.cell_val?.fields[0]?.cell_fn;
 
     return {
         headerName: value.header_label,
@@ -17,7 +18,7 @@ export const generateColumnDef = (value: TableCellStructure, visibleColumnCells:
         tooltipField: value.colID,
         hide: !visibleColumnCells.includes(value.colID),
         filter: true,
-        cellRenderer: (params: ICellRendererParams) => GenerateCellTableRenderer(params, value.colID, CELLFN),
+        cellRenderer: (params: ICellRendererParams) => GenerateCellTableRenderer(params, CELLFN, nodeClass),
         valueGetter: (params: ICellRendererParams) => hasValueGetter(params, value),
     };
 };

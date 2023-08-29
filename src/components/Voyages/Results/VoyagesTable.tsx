@@ -11,14 +11,11 @@ import { fetchVoyageOptionsAPI } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsA
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeader from '../../FunctionComponents/CustomHeader';
-import { generateRowsData } from '@/utils/functions/generateRowsData';
 import {
-  ColumnDef,
   StateRowData,
   TableCellStructureInitialStateProp,
-  TableCellStructure,
 } from '@/share/InterfaceTypesTable';
-import { setColumnDefs, setRowData, setData } from '@/redux/getTableSlice';
+import { setData } from '@/redux/getTableSlice';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
@@ -33,7 +30,6 @@ import {
 import { ColumnSelector } from '@/components/FunctionComponents/ColumnSelectorTable/ColumnSelector';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
-import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/FunctionComponents/NetworkGraph/ModalNetworksGraph';
 import { VOYAGESTABLEFILE } from '@/share/CONST_DATA';

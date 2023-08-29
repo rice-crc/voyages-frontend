@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { getColorVoyagePageBackground } from '@/utils/functions/getColorStyle';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
-import VoyageCard from '@/components/FunctionComponents/Cards/Cards';
 
 const VoyagesPage: React.FC = () => {
   const { styleName } = useSelector(

@@ -3,7 +3,7 @@ import { Box, Divider, IconButton, Modal, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import VoyageCard from './Cards';
 import { RootState } from '@/redux/store';
-import { setIsModalCard } from '@/redux/getCardsFlatObjSlice';
+import { setIsModalCard } from '@/redux/getCardFlatObjectSlice';
 import CloseIcon from '@mui/icons-material/Close';
 
 const CardModal = () => {

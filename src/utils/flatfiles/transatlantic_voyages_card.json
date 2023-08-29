@@ -39,7 +39,6 @@
 				"label": "Enslavers"
 			},
 			{
-				"header_label": "Enslaver Connections",
 				"cell_type": "network_modal",
 				"cell_val": {
 					"fields": [
@@ -48,7 +47,8 @@
 							"cell_fn": "enslavers"
 						}
 					]
-				}
+				},
+				"label": "Enslaver Connections"
 			},
 			{
 				"cell_type": "literal",
@@ -330,7 +330,6 @@
 		"label": "Dates",
 		"children": [
 			{
-				"label": "Year captives were landed",
 				"cell_type": "literal",
 				"cell_val": {
 					"fields": [
@@ -340,6 +339,7 @@
 						}
 					]
 				},
+				"label": "Year captives were landed"
 			},
 			{
 				"cell_type": "literal",
@@ -383,7 +383,6 @@
 		"label": "Names of Enslaved People",
 		"children": [
 			{
-				"header_label": "Enslaved People Connections",
 				"cell_type": "network_modal",
 				"cell_val": {
 					"fields": [
@@ -392,7 +391,8 @@
 							"cell_fn": "enslaved"
 						}
 					]
-				}
+				},
+				"label": "Enslaved People Connections"
 			},
 			{
 				"cell_type": "literal",
@@ -709,8 +709,7 @@
 							"var_name": "voyage_zotero_connections__zotero_source__zotero_title",
 							"cell_fn": "literal"
 						}
-					],
-					"join": " : ",
+					]
 				},
 				"label": "Data Sources"
 			}

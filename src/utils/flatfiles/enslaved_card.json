@@ -58,40 +58,6 @@
 		]
 	},
 	{
-		"label": "Enslavers",
-		"children":[
-			{
-				"label": "Enslavers"
-				"cell_type": "literal-concat",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "enslaved_relations__relation__relation_enslavers__role__name",
-							"cell_fn": "literal"
-						}
-					],
-					"join": " : "
-				}
-			},
-			{
-				"header_label": "Enslaver Connections",
-				"cell_type": "network_modal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__identity__id",
-							"cell_fn": "enslavers"
-						}
-					]
-				}
-			}
-		]
-	},
-	{
 		"label": "Itinerary",
 		"children": [
 			{

@@ -17,7 +17,6 @@ export const drawNetwork = (
   transform: d3.ZoomTransform
 ) => {
   context.clearRect(0, 0, width, height);
-  // Save the current context state
   context.save();
 
   // Apply the zoom transformation to the context
@@ -95,7 +94,7 @@ export const drawNetwork = (
     context.closePath();
     context.fill();
     const textHeight = -15;
-    const labelNode = createdLableNode(node);
+    const labelNode = createdLableNodeHover(node); //createdLableNode(node);
     const labelX = node.x + 12;
     const labelY = node.y + RADIUSNODE + textHeight / 2;
     context.beginPath();
@@ -107,59 +106,60 @@ export const drawNetwork = (
       context.fillText(labelNode, labelX - 1, labelY + 1);
       context.restore();
     }
-    const labelNodeHover = createdLableNodeHover(node);
-    if (labelNodeHover && newNode && node.id === newNode.id) {
-      const padding = 2;
-      const textWidth = context.measureText(labelNodeHover).width + 35;
-      context.fillStyle = 'rgba(255, 255, 255)';
-      const borderRadius = 4;
-      const labelX = node.x + 12;
-      const labelY = node.y + RADIUSNODE + textHeight / 2;
-      const labelLeft = labelX - padding;
-      const labelRight = labelX + textWidth + padding;
-      const labelTop = labelY - 8 - padding;
-      const labelBottom = labelY + 4 + padding;
+    // ===== Hide Hover with Heigh Light on Node =====
+    // const labelNodeHover = createdLableNodeHover(node);
+    // if (labelNodeHover && newNode && node.id === newNode.id) {
+    //   const padding = 2;
+    //   const textWidth = context.measureText(labelNodeHover).width + 35;
+    //   context.fillStyle = 'rgba(255, 255, 255)';
+    //   const borderRadius = 4;
+    //   const labelX = node.x + 12;
+    //   const labelY = node.y + RADIUSNODE + textHeight / 2;
+    //   const labelLeft = labelX - padding;
+    //   const labelRight = labelX + textWidth + padding;
+    //   const labelTop = labelY - 8 - padding;
+    //   const labelBottom = labelY + 4 + padding;
 
-      context.beginPath();
-      context.moveTo(labelX + borderRadius, labelY - 10);
-      context.lineTo(labelRight - borderRadius, labelTop);
-      context.arc(
-        labelRight - borderRadius,
-        labelTop + borderRadius,
-        borderRadius,
-        -Math.PI / 2,
-        0
-      );
-      context.lineTo(labelRight, labelBottom - borderRadius);
-      context.arc(
-        labelRight - borderRadius,
-        labelBottom - borderRadius,
-        borderRadius,
-        0,
-        Math.PI / 2
-      );
-      context.lineTo(labelLeft + borderRadius, labelBottom);
-      context.arc(
-        labelLeft + borderRadius,
-        labelBottom - borderRadius,
-        borderRadius,
-        0,
-        Math.PI
-      );
-      context.lineTo(labelLeft, labelTop + borderRadius);
-      context.arc(
-        labelLeft + borderRadius,
-        labelTop + borderRadius,
-        borderRadius,
-        Math.PI,
-        -Math.PI / 2,
-        false
-      );
-      context.closePath();
-      context.fill();
-      context.fillStyle = '#000';
-      context.font = '500 11px Arial';
-      context.fillText(labelNodeHover, labelX + 2, labelY + 2); // Adjust the position as needed
-    }
+    //   context.beginPath();
+    //   context.moveTo(labelX + borderRadius, labelY - 10);
+    //   context.lineTo(labelRight - borderRadius, labelTop);
+    //   context.arc(
+    //     labelRight - borderRadius,
+    //     labelTop + borderRadius,
+    //     borderRadius,
+    //     -Math.PI / 2,
+    //     0
+    //   );
+    //   context.lineTo(labelRight, labelBottom - borderRadius);
+    //   context.arc(
+    //     labelRight - borderRadius,
+    //     labelBottom - borderRadius,
+    //     borderRadius,
+    //     0,
+    //     Math.PI / 2
+    //   );
+    //   context.lineTo(labelLeft + borderRadius, labelBottom);
+    //   context.arc(
+    //     labelLeft + borderRadius,
+    //     labelBottom - borderRadius,
+    //     borderRadius,
+    //     0,
+    //     Math.PI
+    //   );
+    //   context.lineTo(labelLeft, labelTop + borderRadius);
+    //   context.arc(
+    //     labelLeft + borderRadius,
+    //     labelTop + borderRadius,
+    //     borderRadius,
+    //     Math.PI,
+    //     -Math.PI / 2,
+    //     false
+    //   );
+    //   context.closePath();
+    //   context.fill();
+    //   context.fillStyle = '#000';
+    //   context.font = '500 11px Arial';
+    //   context.fillText(labelNodeHover, labelX + 2, labelY + 2); // Adjust the position as needed
+    // }
   });
 };

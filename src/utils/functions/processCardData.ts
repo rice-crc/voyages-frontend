@@ -1,24 +1,24 @@
-import { YOYAGESCARDFILE } from "@/share/CONST_DATA";
 import { generateRowsData } from "./generateRowsData";
 import { generateCardsData } from "./generateCardsData";
-import CARDS_COLLECTION from '@/utils/flatfiles/transatlantic_voyages_card.json';
+import { TransatlanticCardProps } from "@/share/InterfaceTypes";
 
-const cardDataArray = CARDS_COLLECTION;
-export const processCardData = (data: Record<string, any>[]) => {
+export const processCardData = (data: Record<string, any>[], cardDataArray: TransatlanticCardProps[], fileCardName: string) => {
+
     if (data.length > 0) {
-        const finalData = generateRowsData(data, YOYAGESCARDFILE);
-
+        const finalData = generateRowsData(data, fileCardName);
         const newCardData: Record<string, any>[] = cardDataArray.map((value) => {
             const cardGroup = {
                 header: value.label,
-                childValue: value.children.map((child) => ({
-                    label: child.label,
-                    value: generateCardsData(finalData[0], child),
-                })),
+                childValue: value?.children?.map((child) => {
+                    return ({
+                        label: child.label,
+                        value: generateCardsData(finalData[0], child),
+                    })
+                }),
             };
+
             return cardGroup;
         });
-
         return newCardData;
     }
     return [];

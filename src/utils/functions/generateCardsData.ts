@@ -5,16 +5,12 @@ export function generateCardsData(
 ) {
     const finalData: string[] = [];
     const fields = value.cell_val.fields;
-
     const firstData = data[fields[0]?.var_name];
-
 
     const joinDelimiter: string | undefined = value.cell_val.join;
     if (value.cell_type === 'literal') {
         const dataDisplay = data[fields[0].var_name]
         return dataDisplay ? dataDisplay : '--'
-    } else if (value.colID === 'connections') {
-        return data.id
     } else if (value.cell_type === 'literal-concat' && Array.isArray(firstData)) {
         for (let i = 0; i < firstData?.length; i++) {
             const dataResult = [];

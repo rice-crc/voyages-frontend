@@ -30,7 +30,6 @@ import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { ENSLAVERS_TABLE_FILE } from '@/share/CONST_DATA';
 import { fetchEnslaversOptionsList } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversOptionsList';
 import ButtonDropdownSelectorEnslavers from './ColumnSelectorEnslaversTable/ButtonDropdownSelectorEnslavers';
-import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/FunctionComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/FunctionComponents/Cards/CardModal';

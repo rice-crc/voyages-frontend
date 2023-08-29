@@ -23,7 +23,7 @@ import getLanguagesSlice from './getLanguagesSlice';
 import getCommonGlobalSearchResultSlice from './getCommonGlobalSearchResultSlice';
 import getPastNetworksGraphDataSlice from './getPastNetworksGraphDataSlice';
 import getNodeEdgesAggroutesMapDataSlice from './getNodeEdgesAggroutesMapDataSlice';
-import getCardFlatObjectSlice from './getCardsFlatObjSlice';
+import getCardFlatObjectSlice from './getCardFlatObjectSlice';
 
 const store = configureStore({
     reducer: {

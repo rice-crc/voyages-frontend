@@ -133,7 +133,6 @@
 				"label": "Enslaved People"
 			},
 			{
-				"header_label": "Enslaved People Connections",
 				"cell_type": "network_modal",
 				"cell_val": {
 					"fields": [
@@ -142,7 +141,8 @@
 							"cell_fn": "enslaved"
 						}
 					]
-				}
+				},
+				"label": "Enslaved People Connections"
 			}
 		]
 	},
