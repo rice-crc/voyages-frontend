@@ -3,52 +3,25 @@
 		"label": "Voyages",
 		"children": [
 			{
-				"cell_type": "literal",
+				"cell_type": "literal-concat",
 				"cell_val": {
 					"fields": [
 						{
+							"var_name": "aliases__enslaver_relations__relation__voyage__id",
+							"cell_fn": "literal"
+						},
+						{
 							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
 							"cell_fn": "literal"
-						}
-					]
-				},
-				"label": "Ship Name"
-			},
-			{
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
+						},
 						{
 							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 							"cell_fn": "literal"
 						}
-					]
+					],
+					"join": "-"
 				},
-				"label": "Year of Arrival"
-			},
-			{
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
-							"cell_fn": "literal"
-						}
-					]
-				},
-				"label": "Port of Embarkation"
-			},
-			{
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
-							"cell_fn": "literal"
-						}
-					]
-				},
-				"label": "Port of Disembarkation"
+				"label": "Voyage ID, Ship Name, and Year"
 			}
 		]
 	},
@@ -131,18 +104,6 @@
 					]
 				},
 				"label": "Enslaved People"
-			},
-			{
-				"cell_type": "network_modal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__id",
-							"cell_fn": "enslaved"
-						}
-					]
-				},
-				"label": "Enslaved People Connections"
 			}
 		]
 	},

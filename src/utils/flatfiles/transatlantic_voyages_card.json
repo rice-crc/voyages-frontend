@@ -380,20 +380,8 @@
 		]
 	},
 	{
-		"label": "Names of Enslaved People",
+		"label": "Enslaved People",
 		"children": [
-			{
-				"cell_type": "network_modal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "voyage_enslaved_people__id",
-							"cell_fn": "enslaved"
-						}
-					]
-				},
-				"label": "Enslaved People Connections"
-			},
 			{
 				"cell_type": "literal",
 				"cell_val": {
@@ -405,12 +393,7 @@
 					]
 				},
 				"label": "Names of Enslaved People"
-			}
-		]
-	},
-	{
-		"label": "Numbers of Enslaved People",
-		"children": [
+			},
 			{
 				"cell_type": "literal",
 				"cell_val": {
