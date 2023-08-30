@@ -26,11 +26,14 @@ import { CardHeaderCustom } from '@/styleMUI';
 import { fetchVoyageOptionsAPI } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsAPI';
 import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversOptionsList';
+import { styleCard } from '@/styleMUI/customStyle';
+import { sleep } from 'react-query/types/core/utils';
 
 const VoyageCard = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [globalExpand, setGlobalExpand] = useState(false);
+  const [globalExpand, setGlobalExpand] = useState(true);
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
+  // const [expandedHeaders, setExpandedHeaders] = useState<boolean>(false);
   const { cardData, cardRowID, cardFileName, cardDataArray, nodeType } =
     useSelector((state: RootState) => state.getCardFlatObjectData);
   const { networkID } = useSelector(
@@ -108,25 +111,49 @@ const VoyageCard = () => {
 
   const newCardData = processCardData(cardData, cardDataArray, cardFileName);
 
-  const toggleExpand = (header: string, isExpanded: boolean) => {
-    if (header === 'all') {
-      setGlobalExpand(!globalExpand);
-      setExpandedHeaders([]);
-    } else if (isExpanded) {
-      setExpandedHeaders((prevHeaders) =>
-        prevHeaders.filter((prevHeader) => prevHeader !== header)
-      );
+  const toggleExpand = (header: string) => {
+    if (!globalExpand) {
+      // If globalExpand is false, just toggle the individual header
+      if (expandedHeaders.includes(header)) {
+        // If the header is already expanded, collapse it
+        setExpandedHeaders((prevHeaders) =>
+          prevHeaders.filter((prevHeader) => prevHeader !== header)
+        );
+      } else {
+        // If the header is not expanded, expand it
+        setExpandedHeaders((prevHeaders) => [...prevHeaders, header]);
+      }
     } else {
-      setExpandedHeaders((prevHeaders) => [...prevHeaders, header]);
+      // Then toggle the individual header
+      if (expandedHeaders.includes(header)) {
+        // If the header is already expanded, keep it expanded
+        setExpandedHeaders((prevHeaders) => [...prevHeaders]);
+      } else {
+        // If the header is not expanded, expand it
+        setExpandedHeaders((prevHeaders) => [...prevHeaders, header]);
+      }
+      // If globalExpand is true, toggle the globalExpand state
+      setGlobalExpand(!globalExpand);
     }
+  };
+
+  const toggleExpandAll = () => {
+    if (globalExpand) {
+      // If globalExpand is true, collapse all headers
+      setExpandedHeaders([]);
+    } else {
+      // If globalExpand is false, expand all headers
+      setExpandedHeaders(newCardData.map((element) => element.header));
+    }
+    setGlobalExpand(!globalExpand);
   };
 
   return (
     <div>
       <p className="body-text">
         Here are the currently available details for this voyage.{' '}
-        <a href="#" onClick={() => toggleExpand('all', false)}>
-          Expand/Collapse
+        <a href="#" onClick={toggleExpandAll}>
+          {!globalExpand ? 'Expand All' : 'Collapse All'}
         </a>{' '}
         to see/hide all.
       </p>
@@ -141,30 +168,56 @@ const VoyageCard = () => {
               <div key={`${element.label}-${index}`}>
                 <CardHeaderCustom
                   style={{ border: '1px solid rgba(0,0,0,.1)' }}
-                  onClick={() => toggleExpand(element.header, isExpanded)}
+                  onClick={() => toggleExpand(element.header)}
                   subheader={
                     <div style={{ fontSize: 14 }}>{element.header}</div>
                   }
                 />
-                <Collapse in={!isExpanded}>
+
+                <Collapse in={isExpanded}>
                   <div className="container-card-body">
                     {childValue.map((child: any) => {
                       const value = child.value;
-                      const displayValue = Array.isArray(value)
-                        ? value.join(', ') || '--'
-                        : value || '--';
 
-                      return (
-                        <div
-                          className="grid-container-card-body"
-                          key={`${child.label}-${index}`}
-                        >
-                          <div className="grid-item-card">{child.label}</div>
-                          <div className="grid-itenewCardDatam-card">
-                            {displayValue}
+                      if (Array.isArray(value)) {
+                        const renderedValues = value.map(
+                          (value: string, index: number) => (
+                            <span
+                              key={`${index}-${value}`}
+                              style={styleCard}
+                            >{`${value}`}</span>
+                          )
+                        );
+                        return (
+                          <div
+                            className="grid-container-card-body"
+                            key={`${child.label}-${index}`}
+                          >
+                            <div className="grid-item-card">{child.label}</div>
+                            <div
+                              className="grid-itenewCardDatam-card"
+                              style={{ maxWidth: '100%', overflowX: 'auto' }}
+                            >
+                              {renderedValues}
+                            </div>
                           </div>
-                        </div>
-                      );
+                        );
+                      } else {
+                        return (
+                          <div
+                            className="grid-container-card-body"
+                            key={`${child.label}-${index}`}
+                          >
+                            <div className="grid-item-card">{child.label}</div>
+                            <div
+                              className="grid-itenewCardDatam-card"
+                              style={{ display: 'block' }}
+                            >
+                              {value}
+                            </div>
+                          </div>
+                        );
+                      }
                     })}
                   </div>
                 </Collapse>
