@@ -1,7 +1,7 @@
 import { RootState } from '@/redux/store';
 import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { useSelector } from 'react-redux';
-import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
+import { BASEURL } from '@/share/AUTH_BASEURL';
 import { formatTextURL } from '@/utils/functions/formatText';
 import { Link } from 'react-router-dom';
 import '@/style/blogs.scss';
@@ -22,7 +22,7 @@ const AuthorPostList: React.FC = () => {
         <Link to={`/${BLOGPAGE}/${formatTextURL(title)}/${id}`}>
           {language === Lang && (
             <img
-              src={`${BASTURLBLOG}${thumbnail}`}
+              src={`${BASEURL}${thumbnail}`}
               alt={title}
               className="card-img img-fluid content-image "
             />

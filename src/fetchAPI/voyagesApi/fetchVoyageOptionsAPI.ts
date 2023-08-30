@@ -2,12 +2,12 @@ import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchVoyageOptionsPagination = createAsyncThunk(
-    'voyageOptions/fetchVoyageOptionsPagination',
+export const fetchVoyageOptionsAPI = createAsyncThunk(
+    'voyageOptions/fetchVoyageOptionsAPI',
     async (formData: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}voyage/`,
+                `${BASEURL}/voyage/`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },
@@ -15,7 +15,7 @@ export const fetchVoyageOptionsPagination = createAsyncThunk(
             );
             return response;
         } catch (error) {
-            throw new Error('Failed to fetchVoyageOptionsPagination data');
+            throw new Error('Failed to fetchVoyageOptionsAPI data');
         }
     }
 );

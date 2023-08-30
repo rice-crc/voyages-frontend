@@ -22,7 +22,6 @@
 				"join": " / "
 			}
 		},
-
 		{
 			"header_label": "Enslavers",
 			"cell_type": "literal-concat",
@@ -42,7 +41,7 @@
 						"cell_fn": "literal"
 					}
 				],
-				"join":" : "
+				"join": " : "
 			}
 		},
 		{
@@ -62,7 +61,7 @@
 				]
 			}
 		},
-				{
+		{
 			"header_label": "Disembarkation Port",
 			"cell_type": "literal",
 			"visible": true,
@@ -114,6 +113,22 @@
 			}
 		},
 		{
+			"header_label": "Connections",
+			"cell_type": "network_modal",
+			"visible": true,
+			"order_by": [],
+			"colID": "connections",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "id",
+						"cell_fn": "networks",
+						"node_class": "enslaved"
+					}
+				]
+			}
+		},
+		{
 			"header_label": "Date of Arrival",
 			"cell_type": "literal-concat",
 			"visible": true,
@@ -141,7 +156,6 @@
 				"join": ","
 			}
 		},
-
 		{
 			"header_label": "Captive Fate",
 			"cell_type": "literal",
@@ -182,7 +196,8 @@
 					"label": "Post-Disembark Location"
 				}
 			]
-		},		{
+		},
+		{
 			"label": "Itinerary",
 			"children": [
 				{
@@ -212,6 +227,5 @@
 				}
 			]
 		}
-		
 	]
 }

@@ -55,3 +55,10 @@ export interface PolylineMapProps {
 export interface NodeMarkerMapProps {
     nodesData: NodeAggroutes[];
 }
+
+export interface InitialStateNodeEdgesAggroutesMapData {
+    nodesData: NodeAggroutes[],
+    transportation: Transportation[],
+    disposition?: Dispositions[],
+    origination?: Originations[]
+}

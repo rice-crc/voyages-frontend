@@ -9,14 +9,12 @@ import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeader from '../../FunctionComponents/CustomHeader';
-import { generateRowsData } from '@/utils/functions/generateRowsData';
-import { setColumnDefs, setRowData, setData } from '@/redux/getTableSlice';
+import { setData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { useWindowSize } from '@react-hook/window-size';
 import { Pagination, Skeleton, TablePagination } from '@mui/material';
 import {
-  ColumnDef,
   StateRowData,
   TableCellStructureInitialStateProp,
   TableCellStructure,
@@ -34,8 +32,10 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
 import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsList';
 import ButtonDropdownSelectorEnslaved from './ColumnSelectorEnslavedTable/ButtonDropdownSelectorEnslaved';
-import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import ModalNetworksGraph from '@/components/FunctionComponents/NetworkGraph/ModalNetworksGraph';
+import CardModal from '@/components/FunctionComponents/Cards/CardModal';
+import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
 
 const EnslavedTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -43,6 +43,7 @@ const EnslavedTable: React.FC = () => {
   const { columnDefs, data, rowData, loading } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
+
   const { rangeSliderMinMax: rang, varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
@@ -141,8 +142,8 @@ const EnslavedTable: React.FC = () => {
   useEffect(() => {
     saveDataToLocalStorage(data, visibleColumnCells);
   }, [data]);
+
   useEffect(() => {
-    let subscribed = true;
     const fetchData = async () => {
       const newFormData: FormData = new FormData();
       newFormData.append('results_page', String(page + 1));
@@ -181,7 +182,7 @@ const EnslavedTable: React.FC = () => {
     };
     fetchData();
     return () => {
-      subscribed = false;
+      dispatch(setData([]));
     };
   }, [
     dispatch,
@@ -199,15 +200,13 @@ const EnslavedTable: React.FC = () => {
   ]);
 
   useEffect(() => {
-    if (data.length > 0) {
-      const finalRowData = generateRowsData(data, tableFileName);
-      const newColumnDefs: ColumnDef[] = tablesCell.map(
-        (value: TableCellStructure) =>
-          generateColumnDef(value, visibleColumnCells)
-      );
-      dispatch(setColumnDefs(newColumnDefs));
-      dispatch(setRowData(finalRowData as Record<string, any>[]));
-    }
+    updateColumnDefsAndRowData(
+      data,
+      visibleColumnCells,
+      dispatch,
+      tableFileName,
+      tablesCell
+    );
   }, [data, visibleColumnCells, dispatch]);
 
   const defaultColDef = useMemo(
@@ -335,6 +334,12 @@ const EnslavedTable: React.FC = () => {
           </div>
         </div>
       )}
+      <div>
+        <ModalNetworksGraph />
+      </div>
+      <div>
+        <CardModal />
+      </div>
     </div>
   );
 };

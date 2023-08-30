@@ -7,7 +7,7 @@ export const fetchVoyageSortedData = createAsyncThunk(
     async (formData: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}voyage/`,
+                `${BASEURL}/voyage/`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },

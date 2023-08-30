@@ -854,6 +854,7 @@ export interface CellVal {
 export interface Field {
     var_name: string
     cell_fn: string
+    node_class?: string
 }
 export interface TableCellStructureInitialStateProp {
     valueCells: TableCellStructureProps,

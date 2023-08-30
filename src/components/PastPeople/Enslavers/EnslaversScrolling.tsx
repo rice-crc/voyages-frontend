@@ -11,6 +11,8 @@ import EnslaversPage from './EnslaversPage';
 import EnslaversTable from './EnslaversTable';
 import '@/style/page.scss';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
+import { setPathName } from '@/redux/getDataSetCollectionSlice';
+import { ALLENSLAVERS } from '@/share/CONST_DATA';
 
 const EnslaversScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -24,6 +26,9 @@ const EnslaversScrolling = () => {
 
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentEnslaversPage(page));
+    if (page === 2) {
+      dispatch(setPathName(ALLENSLAVERS));
+    }
   };
   const displayPage = (
     <motion.div
