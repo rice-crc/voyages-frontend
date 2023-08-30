@@ -1,16 +1,23 @@
 import { NetworkDiagram } from './NetworkDiagram';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPastNetworksGraphApi } from '@/fetchAPI/pastEnslavedApi/fetchPastNetworksGraph';
-import { setPastNetworksData } from '@/redux/getPastNetworksGraphDataSlice';
-import { Nodes } from '@/share/InterfaceTypePastNetworks';
+import {
+  setNetWorksID,
+  setPastNetworksData,
+} from '@/redux/getPastNetworksGraphDataSlice';
+import { Datas, Nodes } from '@/share/InterfaceTypePastNetworks';
+import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
+import { ENSLAVEMENTNODE } from '@/share/CONST_DATA';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 
 export const NetworkDiagramPeople = ({
   widthPercentage = 75,
   heigthPercentage = 65,
 }) => {
   const dispatch: AppDispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const { data } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
@@ -18,11 +25,12 @@ export const NetworkDiagramPeople = ({
   const { networkID, networkKEY } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
-  // Calculate the width in pixels based on the percentage and modal width
+
   const modalWidth = window.innerWidth;
   const modalHeight = window.innerHeight;
   const width = (modalWidth * widthPercentage) / 100;
   const height = (modalHeight * heigthPercentage) / 100;
+
   const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
     try {
       const formData: FormData = new FormData();
@@ -37,7 +45,7 @@ export const NetworkDiagramPeople = ({
             (existingNode: Nodes) => existingNode.uuid === newNode.uuid
           );
         });
-        const newData = {
+        const newData: Datas = {
           ...data,
           nodes: [...data.nodes, ...newNodes],
           edges: [...data.edges, ...response.edges],
@@ -49,19 +57,30 @@ export const NetworkDiagramPeople = ({
     }
   };
 
+  const handleClickNodeShowCard = async (nodeId: number, nodeClass: string) => {
+    if (nodeClass !== ENSLAVEMENTNODE) {
+      dispatch(setIsModalCard(true));
+      dispatch(setNodeClass(nodeClass));
+      dispatch(setNetWorksID(nodeId));
+    }
+  };
+
   useEffect(() => {
     let subscribed = true;
     const formData: FormData = new FormData();
     formData.append(networkKEY, String(networkID));
     const fetchPastNetworksGraph = async () => {
+      setIsLoading(true);
       try {
         const response = await dispatch(
           fetchPastNetworksGraphApi(formData)
         ).unwrap();
         if (response && subscribed) {
-          dispatch(setPastNetworksData(response));
+          setIsLoading(false);
+          dispatch(setPastNetworksData(response as Datas));
         }
       } catch (error) {
+        setIsLoading(false);
         console.log('error', error);
       }
     };
@@ -79,14 +98,21 @@ export const NetworkDiagramPeople = ({
         paddingTop: '2.5%',
       }}
     >
-      <div style={{ width: `${width}px`, height: `${height}px` }}>
-        <NetworkDiagram
-          data={data}
-          width={width}
-          height={height}
-          handleNodeDoubleClick={handleNodeDoubleClick}
-        />
-      </div>
+      {isLoading ? (
+        <div className="loading-logo">
+          <img src={LOADINGLOGO} />
+        </div>
+      ) : (
+        <div style={{ width: `${width}px`, height: `${height}px` }}>
+          <NetworkDiagram
+            data={data}
+            width={width}
+            height={height}
+            handleNodeDoubleClick={handleNodeDoubleClick}
+            handleClickNodeShowCard={handleClickNodeShowCard}
+          />
+        </div>
+      )}
     </div>
   );
 };

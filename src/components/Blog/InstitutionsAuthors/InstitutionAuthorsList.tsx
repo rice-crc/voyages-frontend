@@ -1,7 +1,7 @@
 import { RootState } from '@/redux/store';
 import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { useSelector } from 'react-redux';
-import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
+import { BASEURL } from '@/share/AUTH_BASEURL';
 import { Link } from 'react-router-dom';
 import '@/style/blogs.scss';
 import { BLOGPAGE } from '@/share/CONST_DATA';
@@ -26,7 +26,7 @@ const InstitutionAuthorsList: React.FC = () => {
               >
                 <img
                   className="rounded-circle"
-                  src={`${BASTURLBLOG}${institution.photo}`}
+                  src={`${BASEURL}${institution.photo}`}
                   width="64"
                   height="64"
                 />

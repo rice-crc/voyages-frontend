@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { drawNetwork } from './drawNetwork';
 import { Datas, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
 import { findNode } from './findNode';
@@ -12,6 +12,7 @@ type NetworkDiagramProps = {
   height: number;
   data: Datas;
   handleNodeDoubleClick: (nodeId: number, nodeClass: string) => Promise<void>;
+  handleClickNodeShowCard: (nodeId: number, nodeClass: string) => Promise<void>;
 };
 
 export const NetworkDiagram = ({
@@ -19,23 +20,19 @@ export const NetworkDiagram = ({
   height,
   data,
   handleNodeDoubleClick,
+  handleClickNodeShowCard,
 }: NetworkDiagramProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const transformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
   const simulationRef = useRef<d3.Simulation<Nodes, Edges> | null>(null);
-  const isDraggingRef = useRef(false);
-  const isZoomingRef = useRef(false);
-  const hoverEnabledRef = useRef(true);
-  const [hoveredNode, setHoveredNode] = useState<boolean>(false);
-
-  // Create new arrays for edges and nodes
+  const isDraggingRef = useRef(false); // Flag to track drag state
+  const isZoomingRef = useRef(false); // Flag to track zoom state
+  const hoverEnabledRef = useRef(true); // Flag to enable/disable hover
   const edges: Edges[] = data.edges.map((d) => ({ ...d }));
   const nodes: Nodes[] = data.nodes.map((d) => ({ ...d }));
 
-  // Create an array of node IDs for faster lookups
   const nodeIds = new Set(nodes.map((node) => node.uuid));
 
-  // Filter the edges to include only those with source and target nodes in the simulation
   const validEdges = edges.filter(
     (edge) =>
       nodeIds.has(edge.source as string) && nodeIds.has(edge.target as string)
@@ -49,17 +46,29 @@ export const NetworkDiagram = ({
       return;
     }
 
-    // Define a function to handle the double-click event on a node
     const handleDoubleClick = (event: MouseEvent) => {
       if (!canvas || !context) {
         return;
       }
-
       const x = event.clientX - canvas.getBoundingClientRect().left;
       const y = event.clientY - canvas.getBoundingClientRect().top;
       const node = findNode(nodes, x, y, RADIUSNODE);
+
       if (node) {
         handleNodeDoubleClick(node.id, node.node_class);
+      }
+    };
+
+    const handleClickNodeCard = (event: MouseEvent) => {
+      if (!canvas || !context) {
+        return;
+      }
+      const x = event.clientX - canvas.getBoundingClientRect().left;
+      const y = event.clientY - canvas.getBoundingClientRect().top;
+      const node = findNode(nodes, x, y, RADIUSNODE);
+
+      if (node) {
+        handleClickNodeShowCard(node.id, node.node_class);
       }
     };
 
@@ -89,39 +98,50 @@ export const NetworkDiagram = ({
             nodes,
             validEdges,
             null,
-            transformRef.current,
-            hoveredNode
+            transformRef.current
           );
         });
     }
 
-    // const zoomed = (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
-    //   transformRef.current = event.transform;
-    //   isZoomingRef.current = true;
-    //   hoverEnabledRef.current = false;
-    //   isDraggingRef.current = false;
-    //   context?.clearRect(0, 0, width, height);
-    //   context?.save();
-    //   context?.translate(transformRef.current.x, transformRef.current.y);
-    //   context?.scale(transformRef.current.k, transformRef.current.k);
-    //   drawNetwork(
-    //     context,
-    //     width,
-    //     height,
-    //     nodes,
-    //     validEdges,
-    //     null,
-    //     transformRef.current
-    //   );
-    //   context?.restore();
-    // };
+    const zoomed = (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
+      transformRef.current = event.transform;
+      isZoomingRef.current = true;
+      hoverEnabledRef.current = false;
+      isDraggingRef.current = false;
+      context?.clearRect(0, 0, width, height);
+      context?.save();
+      context?.translate(transformRef.current.x, transformRef.current.y);
+      context?.scale(transformRef.current.k, transformRef.current.k);
+      drawNetwork(
+        context,
+        width,
+        height,
+        nodes,
+        validEdges,
+        null,
+        transformRef.current
+      );
+      context?.restore();
+    };
 
     if (canvas && context) {
-      canvas.addEventListener('mousemove', (event) => {
-        checkMouseoverNode(event);
-        checkMouseoverEdges(event);
+      let click = 0;
+      canvas.addEventListener('mousemove', checkMouseoverNode);
+      canvas.addEventListener('mousemove', checkMouseoverEdges);
+      canvas.addEventListener('click', (event) => {
+        click++;
+        if (click == 1) {
+          setTimeout(function () {
+            if (click == 1) {
+              handleClickNodeCard(event);
+            } else {
+              handleDoubleClick(event);
+            }
+            click = 0;
+          }, 300);
+        }
       });
-      canvas.addEventListener('dblclick', handleDoubleClick);
+
       const dragBehavior = d3.drag<HTMLCanvasElement, unknown>();
 
       dragBehavior
@@ -139,11 +159,10 @@ export const NetworkDiagram = ({
       // );
 
       return () => {
-        canvas.removeEventListener('mousemove', (event) => {
-          checkMouseoverNode(event);
-          checkMouseoverEdges(event);
-        });
+        canvas.removeEventListener('mousemove', checkMouseoverNode);
         canvas.removeEventListener('dblclick', handleDoubleClick);
+        canvas.removeEventListener('click', handleClickNodeCard);
+        canvas.removeEventListener('mousemove', checkMouseoverEdges);
         dragBehavior.on('start', null).on('drag', null).on('end', null);
       };
     }
@@ -158,14 +177,14 @@ export const NetworkDiagram = ({
     }
     if (!isDraggingRef.current && !isZoomingRef.current) {
       const x = event.clientX - canvas.getBoundingClientRect().left;
+
       const y = event.clientY - canvas.getBoundingClientRect().top;
+
       const node = findNode(nodes, x, y, RADIUSNODE);
 
-      // Ensure that node is either a valid object or null
       const newNode = node || null;
-      // Check if the hovered node has changed before updating state
+
       if (newNode) {
-        setHoveredNode(true);
         drawNetwork(
           context,
           width,
@@ -173,8 +192,7 @@ export const NetworkDiagram = ({
           nodes,
           validEdges,
           newNode,
-          transformRef.current,
-          hoveredNode
+          transformRef.current
         );
       }
     }
@@ -190,12 +208,10 @@ export const NetworkDiagram = ({
     if (!isDraggingRef.current && !isZoomingRef.current) {
       const x = event.clientX - canvas.getBoundingClientRect().left;
       const y = event.clientY - canvas.getBoundingClientRect().top;
-      // Find the edge at the mouse position
+
       const edgesHover = findHoveredEdge(validEdges, nodes, x, y);
       const newEdge = edgesHover || null;
-      // Check if the hovered edge has changed before updating state
       if (newEdge) {
-        setHoveredNode(true);
         drawNetwork(
           context,
           width,
@@ -203,8 +219,7 @@ export const NetworkDiagram = ({
           nodes,
           validEdges,
           newEdge,
-          transformRef.current,
-          hoveredNode
+          transformRef.current
         );
       }
     }

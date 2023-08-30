@@ -9,7 +9,7 @@ export const fetchPastNetworksGraphApi = createAsyncThunk(
     async (formData: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}past/networks`,
+                `${BASEURL}/past/networks`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },

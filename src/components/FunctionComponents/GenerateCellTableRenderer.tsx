@@ -1,21 +1,49 @@
 import { ICellRendererParams } from 'ag-grid-community';
 import { CSSProperties } from 'react';
 import NETWORKICON from '@/assets/networksIcon.png';
-import '@/style/table.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setNetWorksID,
   setNetWorksKEY,
   setsetOpenModalNetworks,
 } from '@/redux/getPastNetworksGraphDataSlice';
+import {
+  setCardRowID,
+  setIsModalCard,
+  setNodeClass,
+} from '@/redux/getCardFlatObjectSlice';
+import { RootState } from '@/redux/store';
+import '@/style/table.scss';
+import {
+  ALLENSLAVED,
+  ALLENSLAVERS,
+  ALLVOYAGES,
+  ENSLAVEDNODE,
+  ENSLAVERSNODE,
+  VOYAGESNODE,
+} from '@/share/CONST_DATA';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
-  colID: string,
-  cellFN?: string
+  cellFN: string,
+  nodeClass?: string
 ) => {
   const values = params.value;
+  const ID = params.data.id;
+
   const dispatch = useDispatch();
+  const { pathName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
+  );
+  let nodeType: string = '';
+  if (pathName === ALLVOYAGES) {
+    nodeType = VOYAGESNODE;
+  } else if (pathName === ALLENSLAVED) {
+    nodeType = ENSLAVEDNODE;
+  } else if (pathName === ALLENSLAVERS) {
+    nodeType = ENSLAVERSNODE;
+  }
+
   if (Array.isArray(values)) {
     const style: CSSProperties = {
       backgroundColor: '#e5e5e5',
@@ -28,23 +56,38 @@ export const GenerateCellTableRenderer = (
       textAlign: 'center',
       lineHeight: '25px',
       fontSize: '13px',
+      cursor: 'pointer',
     };
 
     const renderedValues = values.map((value: string, index: number) => (
       <span key={`${index}-${value}`}>
-        <div style={style}>{`${value}\n`}</div>
+        <div
+          style={style}
+          onClick={() => {
+            dispatch(setCardRowID(ID));
+            dispatch(setIsModalCard(true));
+            dispatch(setNodeClass(nodeType));
+          }}
+        >{`${value}\n`}</div>
       </span>
     ));
     return <div>{renderedValues}</div>;
-  } else if (typeof values !== 'object' && colID !== 'connections') {
+  } else if (typeof values !== 'object' && cellFN !== 'networks') {
     return (
       <div className="div-value">
-        <div className="value">{values}</div>
+        <div
+          className="value"
+          onClick={() => {
+            dispatch(setCardRowID(ID));
+            dispatch(setIsModalCard(true));
+            dispatch(setNodeClass(nodeType));
+          }}
+        >
+          {values}
+        </div>
       </div>
     );
-  } else if (colID === 'connections' && cellFN) {
-    const ID = values;
-    const KEY = cellFN;
+  } else if (cellFN === 'networks' && nodeClass) {
     return (
       <div className="network-icon">
         <img
@@ -53,7 +96,8 @@ export const GenerateCellTableRenderer = (
           onClick={() => {
             dispatch(setsetOpenModalNetworks(true));
             dispatch(setNetWorksID(ID));
-            dispatch(setNetWorksKEY(KEY));
+            dispatch(setNetWorksKEY(nodeType || nodeClass));
+            dispatch(setCardRowID(ID));
           }}
         />
       </div>

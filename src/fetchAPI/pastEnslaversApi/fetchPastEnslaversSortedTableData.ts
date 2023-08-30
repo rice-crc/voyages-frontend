@@ -7,7 +7,7 @@ export const fetchPastEnslaversSortedTableData = createAsyncThunk(
     async (formData: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}past/enslaver/`,
+                `${BASEURL}/past/enslaver/`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },
