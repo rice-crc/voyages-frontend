@@ -27,13 +27,12 @@ import { fetchVoyageOptionsAPI } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsA
 import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversOptionsList';
 import { styleCard } from '@/styleMUI/customStyle';
-import { sleep } from 'react-query/types/core/utils';
 
 const VoyageCard = () => {
   const dispatch: AppDispatch = useDispatch();
   const [globalExpand, setGlobalExpand] = useState(true);
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
-  // const [expandedHeaders, setExpandedHeaders] = useState<boolean>(false);
+
   const { cardData, cardRowID, cardFileName, cardDataArray, nodeType } =
     useSelector((state: RootState) => state.getCardFlatObjectData);
   const { networkID } = useSelector(
