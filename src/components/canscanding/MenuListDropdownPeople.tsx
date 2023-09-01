@@ -33,6 +33,7 @@ import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import RangeSlider from '../Voyages/Results/RangeSlider';
 import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
+import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
 
 export const MenuListDropdownPeople = () => {
   const { styleNamePeople } = useSelector(
@@ -231,13 +232,14 @@ export const MenuListDropdownPeople = () => {
         sx={StyleDialog}
         open={isOpenDialog}
         onClose={handleCloseDialog}
-        PaperComponent={PaperDraggable}
+        PaperComponent={(props) => <PaperDraggable {...props} type={type} />}
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
           <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
+          {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <AutocompleteBox />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField)) && <RangeSlider />}

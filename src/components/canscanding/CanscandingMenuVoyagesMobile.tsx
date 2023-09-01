@@ -38,6 +38,7 @@ import RangeSlider from '../Voyages/Results/RangeSlider';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
+import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
 
 const CanscandingMenuVoyagesMobile = () => {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
@@ -180,13 +181,14 @@ const CanscandingMenuVoyagesMobile = () => {
         sx={StyleDialog}
         open={isOpenDialogMobile}
         onClose={handleCloseDialog}
-        PaperComponent={PaperDraggable}
+        PaperComponent={(props) => <PaperDraggable {...props} type={type} />}
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
           <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
+          {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <AutocompleteBox />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField)) && <RangeSlider />}

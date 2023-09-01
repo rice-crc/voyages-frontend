@@ -37,6 +37,7 @@ import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import RangeSlider from '../Voyages/Results/RangeSlider';
+import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
 
 export const MenuListDropdown = () => {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
@@ -74,13 +75,14 @@ export const MenuListDropdown = () => {
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
     const value = event.cancelable;
-    setIsClickMenu(!isClickMenu);
+    setIsClickMenu(false);
     dispatch(setIsOpenDialog(false));
     if (currentPage !== 5) {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
   };
+
   const handleResetDataDialog = (event: any) => {
     event.stopPropagation();
     const value = event.cancelable;
@@ -187,13 +189,14 @@ export const MenuListDropdown = () => {
         sx={StyleDialog}
         open={isOpenDialog}
         onClose={handleCloseDialog}
-        PaperComponent={PaperDraggable}
+        PaperComponent={(props) => <PaperDraggable {...props} type={type} />}
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
           <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
+          {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <AutocompleteBox />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField)) && <RangeSlider />}
