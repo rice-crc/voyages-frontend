@@ -9,12 +9,6 @@ import { useLocation } from 'react-router-dom';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVoyagesMap } from '@/fetchAPI/voyagesApi/fetchVoyagesMap';
-import {
-  Dispositions,
-  NodeAggroutes,
-  Originations,
-  Transportation,
-} from '@/share/InterfaceTypesMap';
 import '@/style/map.scss';
 import {
   AutoCompleteInitialState,
@@ -37,16 +31,20 @@ import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetchAPI/pastEnslavedApi/fetchEnslavedMap';
 import { getMapBackgroundColor } from '@/utils/functions/getMapBackgroundColor';
 import NodeCurvedLinesMap from './NodeCurvedLinesMap';
+import {
+  setDisposition,
+  setNodesData,
+  setOrigination,
+  setTransportation,
+} from '@/redux/getNodeEdgesAggroutesMapDataSlice';
 
 export const LeafletMap = () => {
   const dispatch: AppDispatch = useDispatch();
+  const mapRef = useRef(null);
   const location = useLocation();
   const pathNameArr = location.pathname.split('/');
   const pathName = pathNameArr[1];
-  const [nodesData, setNodesData] = useState<NodeAggroutes[]>([]);
-  const [transportation, setTransportation] = useState<Transportation[]>([]);
-  const [disposition, setDisposition] = useState<Dispositions[]>([]);
-  const [origination, setOrigination] = useState<Originations[]>([]);
+
   const [zoomLevel, setZoomLevel] = useState<number>(3);
   const [isCallFetchData, setIsCallFetchData] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -68,8 +66,6 @@ export const LeafletMap = () => {
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
 
-  const mapRef = useRef(null);
-
   const HandleZoomEvent = () => {
     const map = useMapEvents({
       zoomend: () => {
@@ -84,7 +80,7 @@ export const LeafletMap = () => {
     });
     return null;
   };
-  let subscribed = true;
+
   const fetchData = async () => {
     setLoading(true);
     const newFormData = new FormData();
@@ -142,10 +138,10 @@ export const LeafletMap = () => {
           localStorage.setItem('origination', JSON.stringify(origination));
         }
 
-        setNodesData(nodes);
-        setTransportation(transportation);
-        setDisposition(disposition);
-        setOrigination(origination);
+        dispatch(setNodesData(nodes));
+        dispatch(setTransportation(transportation));
+        dispatch(setDisposition(disposition));
+        dispatch(setOrigination(origination));
       } catch (error) {
         console.log('error', error);
       }
@@ -155,7 +151,10 @@ export const LeafletMap = () => {
   useEffect(() => {
     fetchData();
     return () => {
-      subscribed = false;
+      dispatch(setNodesData([]));
+      dispatch(setTransportation([]));
+      dispatch(setDisposition([]));
+      dispatch(setOrigination([]));
     };
   }, [
     rang,
@@ -196,7 +195,6 @@ export const LeafletMap = () => {
         <MapContainer
           ref={mapRef}
           center={MAP_CENTER}
-          fadeAnimation
           zoom={zoomLevel}
           className="lealfetMap-container"
           maxZoom={MAXIMUM_ZOOM}
@@ -214,34 +212,21 @@ export const LeafletMap = () => {
             <LayersControl.Overlay name="Modern Countries">
               <TileLayer url={mappingSpecialistsCountries} />
             </LayersControl.Overlay>
-            <LayersControl.Overlay name="Voyages">
-              {/* HOW TO ADD */}
-            </LayersControl.Overlay>
+            {/*<LayersControl.Overlay checked name="Voyages">
+              HOW TO ADD 
+              <div>HOW TO ADD Component Here</div>
+            </LayersControl.Overlay>*/}
           </LayersControl>
-          <NodeCurvedLinesMap
-            origination={origination}
-            disposition={disposition}
-            transportation={transportation}
-            nodesData={nodesData}
-          />
+          <NodeCurvedLinesMap />
 
           {/* 
            ===== POLY Line without curve =====
-          <PolylineMap
-            origination={origination}
-            disposition={disposition}
-            transportation={transportation}
-            nodesData={nodesData}
-          /> 
+          <PolylineMap />
           ===== POLY Line with curve =====
-           <CurvedPolyLine
-            origination={origination}
-            disposition={disposition}
-            transportation={transportation}
-            nodesData={nodesData}
-          />
+           <CurvedPolyLine />
           ===== NODE Marker =====
-          <NodeMarkerMap nodesData={nodesData} /> */}
+            <NodeMarkerMap/>
+         */}
         </MapContainer>
       )}
     </div>

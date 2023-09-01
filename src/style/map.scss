@@ -106,3 +106,16 @@
         }
     }
 }
+.animated-line {
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: dash 5s linear infinite; /* Adjust animation duration as needed */
+  }
+  
+  @keyframes dash {
+    to {
+      stroke-dashoffset: 10; /* Adjust the value to control the animation speed */
+    }
+  }
