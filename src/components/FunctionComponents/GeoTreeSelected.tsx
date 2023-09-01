@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
 import { fetchGeoTreeSelectLists } from '@/fetchAPI/geoApi/fetchGeoTreeSelect';
 import { TreeSelect } from 'antd';
+const { SHOW_PARENT } = TreeSelect;
 import '@/style/page.scss';
 
 const GeoTreeSelected: React.FC = () => {
@@ -108,6 +109,7 @@ const GeoTreeSelected: React.FC = () => {
           multiple
           treeCheckable={true}
           onChange={onChange}
+          showCheckedStrategy={SHOW_PARENT}
           treeDefaultExpandAll={false}
           treeDefaultExpandedKeys={['select-all']}
           treeData={dataForTreeSelect}
