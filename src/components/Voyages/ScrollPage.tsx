@@ -20,6 +20,8 @@ import PieGraph from './Results/PieGraph';
 import VoyagesTable from './Results/VoyagesTable';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import VoyagesMaps from '../FunctionComponents/Map/MAPS';
+import { setPathName } from '@/redux/getDataSetCollectionSlice';
+import { ALLVOYAGES } from '@/share/CONST_DATA';
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -35,6 +37,8 @@ const ScrollPage = () => {
   const handlePageNavigation = (page: number) => {
     if (page === 1) {
       dispatch(setIsFilter(false));
+    } else if (page === 5) {
+      dispatch(setPathName(ALLVOYAGES));
     }
     dispatch(setCurrentPage(page));
   };

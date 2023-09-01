@@ -8,7 +8,7 @@ export const voyagesApi = createApi({
     endpoints: (builder) => ({
         getOptions: builder.query({
             query: () => ({
-                url: 'voyage/?hierarchical=False',
+                url: '/voyage/?hierarchical=False',
                 method: 'OPTIONS',
                 headers: { 'Authorization': AUTHTOKEN }
             }),

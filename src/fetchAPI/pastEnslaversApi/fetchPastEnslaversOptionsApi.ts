@@ -4,7 +4,7 @@ import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 export const fetchPastEnslaversOptionsApi = async () => {
     try {
         const response = await axios.options(
-            `${BASEURL}past/enslaver/?hierarchical=False`,
+            `${BASEURL}/past/enslaver/?hierarchical=False`,
             {
                 headers: { 'Authorization': AUTHTOKEN },
             }

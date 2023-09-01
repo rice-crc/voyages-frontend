@@ -1,36 +1,86 @@
-import { datas } from '@/utils/mockDataGraph';
 import { NetworkDiagram } from './NetworkDiagram';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPastNetworksGraphApi } from '@/fetchAPI/pastEnslavedApi/fetchPastNetworksGraph';
-import { setPastNetworksData } from '@/redux/getPastNetworksGraphDataSlice';
+import {
+  setNetWorksID,
+  setPastNetworksData,
+} from '@/redux/getPastNetworksGraphDataSlice';
+import { Datas, Nodes } from '@/share/InterfaceTypePastNetworks';
+import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
+import { ENSLAVEMENTNODE } from '@/share/CONST_DATA';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 
-export const NetworkDiagramPeople = ({ width = 800, height = 600 }) => {
+export const NetworkDiagramPeople = ({
+  widthPercentage = 75,
+  heigthPercentage = 65,
+}) => {
   const dispatch: AppDispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const { data } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
 
-  // Where key and value of each group from ???
-  const keyEnslaved = 'enslaved'; // Value === 6
-  const keyEnslavers = 'enslavers'; // Value === 1039715
-  const keyVoyages = 'voyages'; // Value === 100
-  const keyEnslavementRelations = 'enslavement_relations'; // Value === 200
+  const { networkID, networkKEY } = useSelector(
+    (state: RootState) => state.getPastNetworksGraphData
+  );
+
+  const modalWidth = window.innerWidth;
+  const modalHeight = window.innerHeight;
+  const width = (modalWidth * widthPercentage) / 100;
+  const height = (modalHeight * heigthPercentage) / 100;
+
+  const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
+    try {
+      const formData: FormData = new FormData();
+      formData.append(nodeClass, String(nodeId));
+
+      const response = await dispatch(
+        fetchPastNetworksGraphApi(formData)
+      ).unwrap();
+      if (response) {
+        const newNodes = response.nodes.filter((newNode: Nodes) => {
+          return !data.nodes.some(
+            (existingNode: Nodes) => existingNode.uuid === newNode.uuid
+          );
+        });
+        const newData: Datas = {
+          ...data,
+          nodes: [...data.nodes, ...newNodes],
+          edges: [...data.edges, ...response.edges],
+        };
+        dispatch(setPastNetworksData(newData));
+      }
+    } catch (error) {
+      console.error('Error fetching new nodes:', error);
+    }
+  };
+
+  const handleClickNodeShowCard = async (nodeId: number, nodeClass: string) => {
+    if (nodeClass !== ENSLAVEMENTNODE) {
+      dispatch(setIsModalCard(true));
+      dispatch(setNodeClass(nodeClass));
+      dispatch(setNetWorksID(nodeId));
+    }
+  };
 
   useEffect(() => {
     let subscribed = true;
     const formData: FormData = new FormData();
-    formData.append(keyEnslaved, String(6));
+    formData.append(networkKEY, String(networkID));
     const fetchPastNetworksGraph = async () => {
+      setIsLoading(true);
       try {
         const response = await dispatch(
           fetchPastNetworksGraphApi(formData)
         ).unwrap();
         if (response && subscribed) {
-          dispatch(setPastNetworksData(response));
+          setIsLoading(false);
+          dispatch(setPastNetworksData(response as Datas));
         }
       } catch (error) {
+        setIsLoading(false);
         console.log('error', error);
       }
     };
@@ -43,8 +93,26 @@ export const NetworkDiagramPeople = ({ width = 800, height = 600 }) => {
     return null;
   }
   return (
-    <div style={{ marginTop: '6rem' }}>
-      <NetworkDiagram data={datas} width={width} height={height} />
+    <div
+      style={{
+        paddingTop: '2.5%',
+      }}
+    >
+      {isLoading ? (
+        <div className="loading-logo">
+          <img src={LOADINGLOGO} />
+        </div>
+      ) : (
+        <div style={{ width: `${width}px`, height: `${height}px` }}>
+          <NetworkDiagram
+            data={data}
+            width={width}
+            height={height}
+            handleNodeDoubleClick={handleNodeDoubleClick}
+            handleClickNodeShowCard={handleClickNodeShowCard}
+          />
+        </div>
+      )}
     </div>
   );
 };

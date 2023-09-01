@@ -4,7 +4,7 @@ import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 export const fetchVoyagesOptionsApi = async () => {
     try {
         const response = await axios.options(
-            `${BASEURL}voyage/?hierarchical=False`,
+            `${BASEURL}/voyage/?hierarchical=False`,
             {
                 headers: { 'Authorization': AUTHTOKEN },
             }

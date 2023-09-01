@@ -129,6 +129,7 @@ div .customHeaderLabel{
 
 .div-value {
   width: 160px;
+  cursor: pointer;
   .value {
     white-space: pre-line;
     overflow-wrap: break-word;
@@ -144,4 +145,14 @@ div .customHeaderLabel{
   font-size: 12 !important;
   background-color: "#17a2b8" !important;
   color: "#ffffff" !important;
+}
+.network-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  img {
+    width: 12%;
+    cursor: pointer;
+  }
 }

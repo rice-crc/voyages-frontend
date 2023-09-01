@@ -7,7 +7,7 @@ export const fetchPastEnslaversRangeSliderData = createAsyncThunk(
     async (formData: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}past/enslaver/aggregations`,
+                `${BASEURL}/past/enslaver/aggregations`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },
