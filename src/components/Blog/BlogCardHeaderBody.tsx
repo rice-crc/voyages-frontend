@@ -13,7 +13,7 @@ import { faSquareEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
+import { BASEURL } from '@/share/AUTH_BASEURL';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import { convertToSlug } from '@/utils/functions/convertToSlug';
 
@@ -67,7 +67,7 @@ const BlogCardHeaderBody = () => {
     <div className="card-body">
       <img
         className="blog-detail-thumbnail"
-        src={`${BASTURLBLOG}${thumbnail ? thumbnail : ''}`}
+        src={`${BASEURL}${thumbnail ? thumbnail : ''}`}
         alt={title ? title : ''}
       />
       <h1 className="titleText">{title ? title : ''}</h1>
@@ -87,7 +87,7 @@ const BlogCardHeaderBody = () => {
               >
                 <img
                   className="rounded-circle"
-                  src={`${BASTURLBLOG}${author.photo}`}
+                  src={`${BASEURL}${author.photo}`}
                   width="40"
                   height="40"
                 />

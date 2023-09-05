@@ -13,6 +13,5 @@ export function findNode(nodes: Nodes[], x: number, y: number, radius: number) {
             }
         }
     }
-
     return undefined;
 }

@@ -2,6 +2,10 @@ export const VOYAGETILE = 'Voyages Database'
 export const POPELETILET = 'People Database';
 export const EnslavedTitle = 'Enslaved People'
 export const EnslaversTitle = 'Enslavers'
+export const VOYAGESTABLEFILE = 'voyages_table'
+export const YOYAGESCARDFILE = 'transatlantic_voyages_card.json'
+export const ENSLAVEDCARDFILE = 'enslaved_card.json'
+export const ENSLAVERSCARDFILE = 'enslavers_card.json'
 export const ENSLAVERS_TABLE_FILE = 'enslavers_table_cell_structure.json'
 export const pathFlatFile = '@/utils/flatfiles/';
 export const ENSLAVED_TABLE_FILE = 'enslaved_table_cell_structure.json';
@@ -66,7 +70,7 @@ export const classToColor = {
     enslaved: '#906866',
     enslavers: '#46A88C',
     enslavement_relations: '#ab47bc',
-    voyages: '#93D0CB',
+    voyages: '#F2EE0A',
 };
 export const RADIUSNODE = 8;
 export const cachenamePivot = `voyage_pivot_tables`;

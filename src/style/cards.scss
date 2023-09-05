@@ -1,0 +1,23 @@
+.container-card-body {
+  padding: 0.75rem 0;
+  .grid-container-card-body {
+    display: grid;
+    grid-template-columns: 30% 70%; 
+    grid-gap: 10px;
+  }
+
+  .grid-item-card {
+    padding: 5px 20px;
+    text-align: left;
+    font-size: 14px;
+  }
+}
+
+.body-text {
+  padding: 15px 0;
+  font-size: 14px;
+  & a {
+    color: #008ca8;
+  }
+}
+

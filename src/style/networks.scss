@@ -1,0 +1,31 @@
+.colored-box {
+  position: relative;
+  width: 200px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  color: #000;
+  .div-box {
+    display: flex;
+  }
+  .circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+  .voyages {
+    background-color: #F2EE0A;
+  }
+  .enslaved {
+    background-color: #906866;
+  }
+  .enslavers {
+    background-color: #46a88c;
+  }
+  .connection {
+    background-color: #ab47bc;
+  }
+  p {
+    padding-left: 0.5rem;
+  }
+}
