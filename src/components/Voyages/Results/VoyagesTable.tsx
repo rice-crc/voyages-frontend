@@ -23,7 +23,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
 import { useWindowSize } from '@react-hook/window-size';
-import { Pagination, Skeleton, TablePagination } from '@mui/material';
+import { Pagination, TablePagination } from '@mui/material';
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
@@ -36,6 +36,7 @@ import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/FunctionComponents/NetworkGraph/ModalNetworksGraph';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 
 const VoyagesTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -260,10 +261,8 @@ const VoyagesTable: React.FC = () => {
   return (
     <div>
       {loading ? (
-        <div className="Skeleton-loading">
-          <Skeleton />
-          <Skeleton animation="wave" />
-          <Skeleton animation={false} />
+        <div className="loading-logo">
+          <img src={LOADINGLOGO} />
         </div>
       ) : (
         <div style={containerStyle} className="ag-theme-alpine grid-container">

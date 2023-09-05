@@ -1,10 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ColumnDef, StateRowData } from '@/share/InterfaceTypesTable'
 import { ColumnObjectProps } from '@/share/InterfaceTypes';
-import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsList';
-import { fetchVoyageOptionsPagination } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsPagination';
-import { fetchEnslaversOptionsList } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversOptionsList';
-
 
 const initialState: StateRowData = {
     data: [],

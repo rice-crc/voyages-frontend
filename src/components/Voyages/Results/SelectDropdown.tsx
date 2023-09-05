@@ -108,7 +108,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
           </Select>
         </FormControl>
       </Box>
-      {graphType !== 'PIE' ? (
+      {graphType !== 'PIVOT' && graphType !== 'PIE' ? (
         <Box sx={{ maxWidth, my: 2 }}>
           <FormControl fullWidth>
             <InputLabel id="demo-multiple-chip-label">{YFieldText}</InputLabel>
@@ -154,44 +154,48 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
           </FormControl>
         </Box>
       ) : (
-        <Box sx={{ maxWidth, my: 2 }}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">{YFieldText}</InputLabel>
-            <Select
-              sx={{
-                height: 42,
-              }}
-              MenuProps={{
-                PaperProps: {
-                  sx: {
-                    height: 380,
-                    '& .MuiMenuItem-root': {
-                      padding: 2,
+        graphType !== 'PIVOT' && (
+          <Box sx={{ maxWidth, my: 2 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">
+                {YFieldText}
+              </InputLabel>
+              <Select
+                sx={{
+                  height: 42,
+                }}
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      height: 380,
+                      '& .MuiMenuItem-root': {
+                        padding: 2,
+                      },
                     },
                   },
-                },
-              }}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={selectedOptions.y_vars}
-              label={XFieldText}
-              onChange={(event: SelectChangeEvent<string>) => {
-                handleChange(event, 'y_vars');
-              }}
-              name="y_vars"
-            >
-              {selectedY.map((option: PlotXYVar, index: number) => (
-                <MenuItem
-                  key={`${option.label}-${index}`}
-                  value={option.var_name}
-                  disabled={isDisabledY(option)}
-                >
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+                }}
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedOptions.y_vars}
+                label={XFieldText}
+                onChange={(event: SelectChangeEvent<string>) => {
+                  handleChange(event, 'y_vars');
+                }}
+                name="y_vars"
+              >
+                {selectedY.map((option: PlotXYVar, index: number) => (
+                  <MenuItem
+                    key={`${option.label}-${index}`}
+                    value={option.var_name}
+                    disabled={isDisabledY(option)}
+                  >
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        )
       )}
     </div>
   );

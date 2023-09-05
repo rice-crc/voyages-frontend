@@ -69,3 +69,4 @@ export const classToColor = {
     voyages: '#93D0CB',
 };
 export const RADIUSNODE = 8;
+export const cachenamePivot = `voyage_pivot_tables`;

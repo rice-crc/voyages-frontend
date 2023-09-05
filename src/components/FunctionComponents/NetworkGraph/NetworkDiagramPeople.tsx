@@ -86,7 +86,7 @@ export const NetworkDiagramPeople = ({
         <NetworkDiagram
           data={data}
           width={width}
-          height={height}
+          height={height - 150}
           handleNodeDoubleClick={handleNodeDoubleClick}
         />
       </div>
