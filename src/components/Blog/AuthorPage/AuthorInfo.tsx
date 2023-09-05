@@ -10,7 +10,7 @@ import { RootState } from '@/redux/store';
 import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { useSelector } from 'react-redux';
 import AuthorPostList from './AuthorPostList';
-import { BASTURLBLOG } from '@/share/AUTH_BASEURL';
+import { BASEURL } from '@/share/AUTH_BASEURL';
 import '@/style/blogs.scss';
 import { setAuthorData, setAuthorPost } from '@/redux/getBlogDataSlice';
 import { BLOGPAGE } from '@/share/CONST_DATA';
@@ -58,7 +58,7 @@ const AuthorInfo: React.FC = () => {
               <div className="card-body">
                 <div className="d-flex flex-column align-items-center text-center">
                   <img
-                    src={`${BASTURLBLOG}${photo ? photo : ''}`}
+                    src={`${BASEURL}${photo ? photo : ''}`}
                     alt="Greg O'Malley"
                     className="rounded-circle "
                     width="300"

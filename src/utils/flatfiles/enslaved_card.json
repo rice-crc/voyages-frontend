@@ -1,0 +1,168 @@
+[
+	{
+		"label": "Bio Data",
+		"children": [
+			{
+				"cell_type": "literal-concat",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "documented_name",
+							"cell_fn": "literal"
+						},
+						{
+							"var_name": "modern_name",
+							"cell_fn": "literal"
+						}
+					],
+					"join": " / "
+				},
+				"label": "Names"
+			},
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "age",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Age"
+			},
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "gender",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Gender"
+			},
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "height",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Height"
+			}
+		]
+	},
+	{
+		"label": "Itinerary",
+		"children": [
+			{
+				"label": "Ship Name",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "enslaved_relations__relation__voyage__voyage_ship__ship_name",
+							"cell_fn": "literal"
+						}
+					]
+				}
+			},
+			{
+				"label": "Embarkation Port",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+							"cell_fn": "literal"
+						}
+					]
+				}
+			},
+			{
+				"label": "Disembarkation Port",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+							"cell_fn": "literal"
+						}
+					]
+				}
+			},
+			{
+				"label": "Date of Arrival",
+				"cell_type": "literal-concat",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+							"cell_fn": "literal"
+						},
+						{
+							"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
+							"cell_fn": "literal"
+						},
+						{
+							"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
+							"cell_fn": "literal"
+						}
+					],
+					"join": ","
+				}
+			},
+			{
+				"label": "Post-Disembarkation Location",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "post_disembark_location__geo_location__name",
+							"cell_fn": "literal"
+						}
+					]
+				}
+			}
+		]
+	},
+	{
+		"label": "Fate",
+		"children": [
+			{
+				"label": "Captive Fate",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "captive_fate__name",
+							"cell_fn": "literal"
+						}
+					]
+				}
+			}
+		]
+	},
+	{
+		"label": "Sources",
+		"children": [
+			{
+				"label": "Documentary Sources",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "enslaved_zotero_connections__zotero_source__zotero_title",
+							"cell_fn": "literal"
+						}
+					]
+				}
+			}
+		]
+	}
+]

@@ -7,7 +7,7 @@ export const fetchEnslavedMap = createAsyncThunk(
     async (formData?: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}past/enslaved/aggroutes`,
+                `${BASEURL}/past/enslaved/aggroutes`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },

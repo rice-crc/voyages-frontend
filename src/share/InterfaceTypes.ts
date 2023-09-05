@@ -49,10 +49,12 @@ export const TYPES: {
     IntegerField: string;
     DecimalField: string;
     CharField: string;
+    GeoTreeSelect: string;
 } = {
     IntegerField: 'IntegerField',
     DecimalField: 'DecimalField',
-    CharField: 'CharField'
+    CharField: 'CharField',
+    GeoTreeSelect: 'GeoTreeSelect',
 };
 
 export const TYPESOFDATASETPEOPLE: {
@@ -245,4 +247,73 @@ export interface ChildrenPeopleMenu {
     type: string
     label: string
     flatlabel?: string
+}
+export interface InitialStateTransatlanticCard {
+    cardData: Record<string, any>[]
+    isModalCard: boolean
+    cardRowID: number
+    cardFileName: string
+    cardDataArray: TransatlanticCardProps[]
+    nodeType: string
+}
+export interface TransatlanticCardProps {
+    label: string
+    children: ChildrenCard[]
+}
+
+export interface ChildrenCard {
+    cell_type: string
+    cell_val?: CellValCard
+    label: string
+    var_names?: string
+
+}
+
+export interface CellValCard {
+    fields: FieldCard[],
+    join?: string
+}
+
+export interface FieldCard {
+    var_name: string
+    cell_fn: string
+}
+
+export interface GeoTreeSelectInitialState {
+    results: [],
+
+}
+
+export interface GeoTreeSelectValueInitialState {
+    [key: string]: string[]
+}
+
+export interface GeoTreeSelectDataProps {
+    id: number;
+    name: string;
+    value: number,
+    children?: GeoTreeSelectDataProps[];
+}
+export interface TreeSelectItem {
+    id: number;
+    key: string;
+    title: string;
+    value: string;
+    children?: TreeSelectItem[];
+}
+export interface GeoTreeSelectChildren {
+    id: number
+    name: string
+    longitude?: string
+    latitude?: string
+    value: number
+    children: GeoTreeSelectGrandChildren[]
+}
+
+export interface GeoTreeSelectGrandChildren {
+    id: number
+    name: string
+    longitude?: string
+    latitude?: string
+    value: number
 }

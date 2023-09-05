@@ -1,0 +1,127 @@
+[
+	{
+		"label": "Voyages",
+		"children": [
+			{
+				"cell_type": "literal-concat",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "aliases__enslaver_relations__relation__voyage__id",
+							"cell_fn": "literal"
+						},
+						{
+							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
+							"cell_fn": "literal"
+						},
+						{
+							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+							"cell_fn": "literal"
+						}
+					],
+					"join": "-"
+				},
+				"label": "Voyage ID, Ship Name, and Year"
+			}
+		]
+	},
+	{
+		"label": "Personal Data",
+		"children": [
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "principal_alias",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Name"
+			},
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "birth_place__geo_location__name",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Birth Place"
+			},
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "birth_year",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Birth Year"
+			},
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "death_place__geo_location__name",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Death Place"
+			},
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "death_year",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Death Year"
+			}
+		]
+	},
+	{
+		"label": "Enslavement Relations",
+		"children": [
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Enslaved People"
+			}
+		]
+	},
+	{
+		"label": "Sources",
+		"children": [
+			{
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "enslaver_zotero_connections__zotero_source__zotero_title",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Documentary Sources"
+			}
+		]
+	}
+]

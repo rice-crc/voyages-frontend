@@ -7,7 +7,7 @@ export const fetchBlogAutoCompleted = createAsyncThunk(
     async (formData?: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}blog/autocomplete`,
+                `${BASEURL}/blog/autocomplete`,
                 formData,
                 {
                     headers: { 'Authorization': AUTHTOKEN },
