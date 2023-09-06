@@ -66,7 +66,9 @@
   float: left;
   margin: 0 0 0 3px;
 }
-
+.ag-header-group-cell-with-group {
+  color: #008ca8;
+}
 .customHeaderLabel {
   float: left;
   margin: 0 0 0 3px;
@@ -155,4 +157,22 @@ div .customHeaderLabel{
     width: 12%;
     cursor: pointer;
   }
+}
+.pivot-table-flex-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;
+  width: 90%;
+}
+
+.pivot-table-flex-item {
+  padding: 10px 20px;
+  width:33%;
+  margin-top: 10px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
 }

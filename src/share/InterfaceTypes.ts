@@ -248,6 +248,30 @@ export interface ChildrenPeopleMenu {
     label: string
     flatlabel?: string
 }
+
+
+export interface PivotTablesProps {
+    row_vars: string
+    rows_label: string
+    column_vars: string[]
+    cell_vars: string
+    cachename: string
+}
+
+export interface PivotRowVar {
+    var_name: string
+    label: string
+}
+
+export interface PivotColumnVar {
+    var_name: string[]
+    label: string
+}
+
+export interface PivotCellVar {
+    var_name: string
+    label: string
+}
 export interface InitialStateTransatlanticCard {
     cardData: Record<string, any>[]
     isModalCard: boolean

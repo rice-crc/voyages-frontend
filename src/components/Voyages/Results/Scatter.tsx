@@ -2,7 +2,8 @@ import { useState, useEffect, ChangeEvent, useCallback } from 'react';
 import Plot from 'react-plotly.js';
 import { Data } from 'plotly.js';
 import VOYAGE_SCATTER_OPTIONS from '@/utils/flatfiles/VOYAGE_SCATTER_OPTIONS.json';
-import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
+import { Grid, SelectChangeEvent } from '@mui/material';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { useWindowSize } from '@react-hook/window-size';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -212,10 +213,8 @@ function Scatter() {
   );
 
   if (isLoading) {
-    <div className="Skeleton-loading">
-      <Skeleton />
-      <Skeleton animation="wave" />
-      <Skeleton animation={false} />
+    <div className="loading-logo">
+      <img src={LOADINGLOGO} />
     </div>;
   }
 
