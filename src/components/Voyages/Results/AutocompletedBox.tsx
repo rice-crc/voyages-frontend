@@ -9,8 +9,6 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAutoComplete } from '@/fetchAPI/voyagesApi/fetchAutoCompleted';
 import { Autocomplete, Stack, TextField, Box, Typography } from '@mui/material';
-
-import 'react-dropdown-tree-select/dist/styles.css';
 import {
   AutoCompleteInitialState,
   AutoCompleteOption,
