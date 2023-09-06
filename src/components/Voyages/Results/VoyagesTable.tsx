@@ -58,6 +58,10 @@ const VoyagesTable: React.FC = () => {
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+
+  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
   const [page, setPage] = useState<number>(0);
 
   const [rowsPerPage, setRowsPerPage] = useState(
@@ -134,6 +138,12 @@ const VoyagesTable: React.FC = () => {
       }
     }
 
+    if (isChangeGeoTree && varName && geoTreeValue) {
+      for (const value of geoTreeSelectValue) {
+        newFormData.append(varName, value);
+      }
+    }
+
     try {
       const response = await dispatch(
         fetchVoyageOptionsAPI(newFormData)
@@ -166,6 +176,7 @@ const VoyagesTable: React.FC = () => {
     dataSetValue,
     dataSetKey,
     styleName,
+    geoTreeValue,
   ]);
 
   useEffect(() => {

@@ -232,7 +232,7 @@ export const MenuListDropdownPeople = () => {
         sx={StyleDialog}
         open={isOpenDialog}
         onClose={handleCloseDialog}
-        PaperComponent={(props) => <PaperDraggable {...props} type={type} />}
+        PaperComponent={PaperDraggable}
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">

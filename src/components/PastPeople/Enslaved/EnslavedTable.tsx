@@ -61,6 +61,9 @@ const EnslavedTable: React.FC = () => {
   } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
+  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
 
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState(
@@ -166,6 +169,11 @@ const EnslavedTable: React.FC = () => {
           newFormData.append(dataSetKeyPeople, String(value));
         }
       }
+      if (isChangeGeoTree && varName && geoTreeValue) {
+        for (const value of geoTreeSelectValue) {
+          newFormData.append(varName, value);
+        }
+      }
 
       try {
         const response = await dispatch(
@@ -197,6 +205,7 @@ const EnslavedTable: React.FC = () => {
     dataSetKeyPeople,
     styleNamePeople,
     visibleColumnCells,
+    geoTreeValue,
   ]);
 
   useEffect(() => {

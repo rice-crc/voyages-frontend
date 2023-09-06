@@ -290,6 +290,8 @@ export interface GeoTreeSelectValueInitialState {
 
 export interface GeoTreeSelectDataProps {
     id: number;
+    latitude: number;
+    longitude: number;
     name: string;
     value: number,
     children?: GeoTreeSelectDataProps[];
@@ -316,4 +318,10 @@ export interface GeoTreeSelectGrandChildren {
     longitude?: string
     latitude?: string
     value: number
+}
+export interface TreeSelectItemInitialState {
+    geoTreeList: GeoTreeSelectDataProps[],
+    geoTreeValue: Record<string, TreeSelectItem[] | string[]>;
+    geoTreeSelectValue: string[]
+    isChangeGeoTree: boolean
 }

@@ -14,7 +14,7 @@ const EnslaversPage = () => {
     <div className="page" id="main-enslavers-home">
       <Box>
         <Grid container spacing={2}>
-          <Grid className="grid-enslaved-introduction">
+          <Grid className="grid-enslavers-introduction">
             <div className="intro-box-enslavers">{textIntroduce}</div>
             <div className="btn-enslave-box"></div>
           </Grid>

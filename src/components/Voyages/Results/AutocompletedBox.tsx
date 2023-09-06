@@ -31,7 +31,9 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
-
+  const { geoTreeValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
   const { pathName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
@@ -125,6 +127,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         filterObject: {
           ...autoCompleteValue,
           ...rangeValue,
+          ...geoTreeValue,
           [varName]: newValue,
         },
       };

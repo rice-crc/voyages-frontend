@@ -2,12 +2,12 @@ import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchGeoTreeSelectLists = createAsyncThunk(
-    'geoTreeSelect/fetchGeoTreeSelectLists',
+export const fetchEnslavedGeoTreeSelect = createAsyncThunk(
+    'geoTreeSelect/fetchEnslavedGeoTreeSelect',
     async (keyOptions: FormData) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/geo/`,
+                `${BASEURL}/past/enslaved/geotree`,
                 keyOptions,
                 {
                     headers: { 'Authorization': AUTHTOKEN },
@@ -15,7 +15,7 @@ export const fetchGeoTreeSelectLists = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            throw new Error('Failed to fetch fetchGeoTreeSelectLists data');
+            throw new Error('Failed to fetch fetchEnslavedGeoTreeSelect data');
         }
     }
 );

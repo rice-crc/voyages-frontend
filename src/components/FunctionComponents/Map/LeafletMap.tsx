@@ -65,7 +65,9 @@ export const LeafletMap = () => {
   const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-
+  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
   const HandleZoomEvent = () => {
     const map = useMapEvents({
       zoomend: () => {
@@ -115,7 +117,11 @@ export const LeafletMap = () => {
         newFormData.append(varName, label);
       }
     }
-
+    if (isChangeGeoTree && varName && geoTreeValue) {
+      for (const value of geoTreeSelectValue) {
+        newFormData.append(varName, value);
+      }
+    }
     let response;
     if (pathName === VOYAGESPAGE) {
       response = await dispatch(fetchVoyagesMap(newFormData)).unwrap();
@@ -168,6 +174,7 @@ export const LeafletMap = () => {
     dataSetValue,
     styleName,
     isCallFetchData,
+    geoTreeValue,
   ]);
 
   useEffect(() => {

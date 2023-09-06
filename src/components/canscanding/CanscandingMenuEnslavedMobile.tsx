@@ -201,7 +201,7 @@ const CanscandingMenuEnslavedMobile = () => {
         sx={StyleDialog}
         open={isOpenDialogMobile}
         onClose={handleCloseDialog}
-        PaperComponent={(props) => <PaperDraggable {...props} type={type} />}
+        PaperComponent={PaperDraggable}
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
