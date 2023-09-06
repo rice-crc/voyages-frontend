@@ -15,7 +15,7 @@ interface AggregationSumAverageProps {
   aggregation: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
   optionFlat: Options;
-  aggregatioOptions: VoyagesOptionProps;
+  aggregatioOptions?: VoyagesOptionProps;
 }
 export const AggregationSumAverage: FunctionComponent<
   AggregationSumAverageProps
@@ -38,8 +38,14 @@ export const AggregationSumAverage: FunctionComponent<
           </AlertTitle>
           <AlertTitle>
             The {aggregation} of{' '}
-            {optionFlat[aggregatioOptions.x_vars]?.label || ''},{' '}
-            {optionFlat[aggregatioOptions.y_vars]?.label || ''} Pie Graph
+            {(aggregatioOptions &&
+              optionFlat[aggregatioOptions.x_vars]?.label) ||
+              ''}
+            ,{' '}
+            {(aggregatioOptions &&
+              optionFlat[aggregatioOptions.y_vars]?.label) ||
+              ''}{' '}
+            Pie Graph
           </AlertTitle>
         </Alert>
       );

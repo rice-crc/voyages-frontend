@@ -23,39 +23,41 @@ import getLanguagesSlice from './getLanguagesSlice';
 import getCommonGlobalSearchResultSlice from './getCommonGlobalSearchResultSlice';
 import getPastNetworksGraphDataSlice from './getPastNetworksGraphDataSlice';
 import getNodeEdgesAggroutesMapDataSlice from './getNodeEdgesAggroutesMapDataSlice';
+import getPivotTablesDataSlice from './getPivotTablesDataSlice';
 import getCardFlatObjectSlice from './getCardFlatObjectSlice';
 
 const store = configureStore({
-    reducer: {
-        getOptions: getOptionsDataSlice,
-        rangeSlider: rangeSliderSlice,
-        autoCompleteList: getAutoCompleteList,
-        optionFlatMenu: getOptionsFlatMenu,
-        getScrollPage: getScrollPageSlice,
-        getTableData: getTableSlice,
-        getFilter: getFilterSlice,
-        getColumns: getColumnsSlice,
-        getDataSetCollection: getDataSetCollectionSlice,
-        getPeopleEnlavedDataSetCollection: getPeopleEnslavedDataSetCollectionSlice,
-        getEnslaverDataSetCollections: getPeopleEnslaversDataSetCollectionSlice,
-        getScrollEnslavedPage: getScrollEnslavedPageSlice,
-        getScrollEnslaversPage: getScrollEnslaversPageSlice,
-        getFilterPeople: getFilterPeopleObjectSlice,
-        getOptionsEnslaved: getOptionsDataPastPeopleEnslavedSlice,
-        getBlogData: getBlogDataSlice,
-        getLanguages: getLanguagesSlice,
-        getCommonGlobalSearch: getCommonGlobalSearchResultSlice,
-        getPastNetworksGraphData: getPastNetworksGraphDataSlice,
-        getNodeEdgesAggroutesMapData: getNodeEdgesAggroutesMapDataSlice,
-        getCardFlatObjectData: getCardFlatObjectSlice,
-        [voyagesApi.reducerPath]: voyagesApi.reducer,
-        [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
-        [pastEnslaversApiService.reducerPath]: pastEnslaversApiService.reducer,
-    },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: false,
-        }).concat([voyagesApi.middleware, pastEnslavedApiService.middleware, pastEnslaversApiService.middleware])
+        reducer: {
+                getOptions: getOptionsDataSlice,
+                rangeSlider: rangeSliderSlice,
+                autoCompleteList: getAutoCompleteList,
+                optionFlatMenu: getOptionsFlatMenu,
+                getScrollPage: getScrollPageSlice,
+                getTableData: getTableSlice,
+                getFilter: getFilterSlice,
+                getColumns: getColumnsSlice,
+                getDataSetCollection: getDataSetCollectionSlice,
+                getPeopleEnlavedDataSetCollection: getPeopleEnslavedDataSetCollectionSlice,
+                getEnslaverDataSetCollections: getPeopleEnslaversDataSetCollectionSlice,
+                getScrollEnslavedPage: getScrollEnslavedPageSlice,
+                getScrollEnslaversPage: getScrollEnslaversPageSlice,
+                getFilterPeople: getFilterPeopleObjectSlice,
+                getOptionsEnslaved: getOptionsDataPastPeopleEnslavedSlice,
+                getBlogData: getBlogDataSlice,
+                getLanguages: getLanguagesSlice,
+                getCommonGlobalSearch: getCommonGlobalSearchResultSlice,
+                getPastNetworksGraphData: getPastNetworksGraphDataSlice,
+                getNodeEdgesAggroutesMapData: getNodeEdgesAggroutesMapDataSlice,
+                getPivotTablesData: getPivotTablesDataSlice,
+                getCardFlatObjectData: getCardFlatObjectSlice,
+                [voyagesApi.reducerPath]: voyagesApi.reducer,
+                [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
+                [pastEnslaversApiService.reducerPath]: pastEnslaversApiService.reducer,
+        },
+        middleware: (getDefaultMiddleware) =>
+                getDefaultMiddleware({
+                        serializableCheck: false,
+                }).concat([voyagesApi.middleware, pastEnslavedApiService.middleware, pastEnslaversApiService.middleware])
 });
 
 setupListeners(store.dispatch);

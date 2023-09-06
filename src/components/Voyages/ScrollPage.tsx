@@ -20,12 +20,13 @@ import PieGraph from './Results/PieGraph';
 import VoyagesTable from './Results/VoyagesTable';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import VoyagesMaps from '../FunctionComponents/Map/MAPS';
+import PivotTables from '../FunctionComponents/PivotTables/PivotTables';
 import { setPathName } from '@/redux/getDataSetCollectionSlice';
 import { ALLVOYAGES } from '@/share/CONST_DATA';
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
-  const theme = useTheme();
+
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const { styleName, blocks } = useSelector(
     (state: RootState) => state.getDataSetCollection
@@ -42,6 +43,7 @@ const ScrollPage = () => {
     }
     dispatch(setCurrentPage(page));
   };
+
   const displayPage = (
     <motion.div
       initial={'initial'}
@@ -56,7 +58,7 @@ const ScrollPage = () => {
       {currentPage === 3 && <BarGraph />}
       {currentPage === 4 && <PieGraph />}
       {currentPage === 5 && <VoyagesTable />}
-      {currentPage === 6 && <h1>PIVOT</h1>}
+      {currentPage === 6 && <PivotTables />}
       {currentPage === 7 && <VoyagesMaps />}
     </motion.div>
   );
