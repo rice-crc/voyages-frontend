@@ -44,7 +44,9 @@ function PieGraph() {
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-
+  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [showAlert, setAlert] = useState(false);
@@ -101,7 +103,11 @@ function PieGraph() {
           newFormData.append(varName, label);
         }
       }
-
+      if (isChangeGeoTree && varName && geoTreeValue) {
+        for (const value of geoTreeSelectValue) {
+          newFormData.append(varName, value);
+        }
+      }
       try {
         const response = await dispatch(
           fetchVoyageGraphGroupby(newFormData)
@@ -146,6 +152,7 @@ function PieGraph() {
     dataSetValue,
     dataSetKey,
     styleName,
+    geoTreeSelectValue,
   ]);
 
   const handleChangeAggregation = useCallback(

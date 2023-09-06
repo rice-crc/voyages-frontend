@@ -1,154 +1,77 @@
 [
 	{
-		"label": "Bio Data",
-		"children":[
-			{
-				"label": "Names",
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "principal_alias",
-							"cell_fn": "literal"
-						}
-					]
-				}
-			},
-			{
-				"label": "Birth",
-				"cell_type": "literal-concat",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "birth_place__geo_location__name",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "birth_year",
-							"cell_fn": "literal"
-						}
-					],
-					"join": " : "
-				}
-			},
-			{
-				"label": "Death",
-				"cell_type": "literal-concat",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "death_place__geo_location__name",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "death_year",
-							"cell_fn": "literal"
-						}
-					],
-					"join": " : "
-				}
-			}
-		]
+		"label": "Name",
+		"var_name": "principal_alias",
+		"type": "CharField"
 	},
 	{
 		"label": "Voyages",
 		"children": [
-
 			{
-				"header_label": "Connections",
-				"cell_type": "network_modal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_id",
-							"cell_fn": "voyages"
-						}
-					]
-				}
+				"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_ship__ship_name",
+				"type": "CharField",
+				"label": "Ship Name"
 			},
-			
 			{
-				"header_label": "Voyages",
-				"cell_type": "literal-concat",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_id",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
-							"cell_fn": "literal"
-						}
-					],
-					"join": " : "
-				}
+				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+				"type": "IntegerField",
+				"label": "Year of Arrival"
+			},
+			{
+				"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__value",
+				"type": "GeoTreeSelect",
+				"label": "Port of Embarkation"
+			},
+			{
+				"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__value",
+				"type": "GeoTreeSelect",
+				"label": "Port of Disembarkation"
+			}
+		]
+	},
+	{
+		"label": "Personal Data",
+		"children": [
+			{
+				"var_name": "birth_place__geo_location__value",
+				"type": "GeoTreeSelect",
+				"label": "Birth Place"
+			},
+			{
+				"var_name": "birth_year",
+				"type": "IntegerField",
+				"label": "Birth Year"
+			},
+			{
+				"var_name": "death_place__geo_location__value",
+				"type": "GeoTreeSelect",
+				"label": "Death Place"
+			},
+			{
+				"var_name": "death_year",
+				"type": "IntegerField",
+				"label": "Death Year"
 			}
 		]
 	},
 	{
 		"label": "Enslavement Relations",
 		"children": [
-			
 			{
-				"header_label": "Connections",
-				"cell_type": "network_modal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__id",
-							"cell_fn": "enslaved"
-						}
-					]
-				}
+				"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
+				"type": "CharField",
+				"label": "Documented Name of Enslaved Person"
 			},
-			
 			{
-				"label": "Enslaved People",
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
-							"cell_fn": "literal"
-						}
-					]
-				}
-			}
-			
-
-
-		]
-	},
-	{
-		"label": "Documentary Sources",
-		"children": [
-
+				"var_name": "aliases__enslaver_relations__role__name",
+				"type": "CharField",
+				"label": "Enslaver Role"
+			},
 			{
-				"label": "Sources",
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "enslaver_zotero_connections__zotero_source__zotero_title",
-							"cell_fn": "literal"
-						}
-					]
-				}
+				"var_name": "aliases__enslaver_relations__relation__date",
+				"type": "CharField",
+				"label": "Date of Enslavement"
 			}
-
 		]
 	}
 ]

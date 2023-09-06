@@ -34,7 +34,7 @@ import {
 } from '@/redux/rangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
-import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
+import { ArrowDropDown } from '@mui/icons-material';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import RangeSlider from '../Voyages/Results/RangeSlider';
 import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
@@ -46,6 +46,7 @@ export const MenuListDropdown = () => {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
@@ -189,7 +190,7 @@ export const MenuListDropdown = () => {
         sx={StyleDialog}
         open={isOpenDialog}
         onClose={handleCloseDialog}
-        PaperComponent={(props) => <PaperDraggable {...props} type={type} />}
+        PaperComponent={PaperDraggable}
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">

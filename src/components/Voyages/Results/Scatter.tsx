@@ -38,6 +38,10 @@ function Scatter() {
     varName,
     isChange,
   } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+
+  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
   const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
@@ -112,7 +116,11 @@ function Scatter() {
           newFormData.append(varName, label);
         }
       }
-
+      if (isChangeGeoTree && varName && geoTreeValue) {
+        for (const value of geoTreeSelectValue) {
+          newFormData.append(varName, value);
+        }
+      }
       try {
         const data: Data[] = [];
         const response = await dispatch(
@@ -169,6 +177,7 @@ function Scatter() {
     dataSetValue,
     dataSetKey,
     styleName,
+    geoTreeSelectValue,
     VoyageScatterOptions,
   ]);
 

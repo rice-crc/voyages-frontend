@@ -15,8 +15,9 @@ import {
 } from '@/share/InterfaceTypes';
 import { fetchRangeSliderData } from '@/fetchAPI/voyagesApi/fetchRangeSliderData';
 import { fetchPastEnslavedRangeSliderData } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedRangeSliderData';
-import { ALLENSLAVED, ALLVOYAGES } from '@/share/CONST_DATA';
+import { ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
 import '@/style/Slider.scss';
+import { fetchPastEnslaversRangeSliderData } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversRangeSliderData';
 
 const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -27,7 +28,9 @@ const RangeSlider = () => {
   const { pathName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-
+  const { geoTreeValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
   const { autoCompleteValue } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
@@ -43,6 +46,7 @@ const RangeSlider = () => {
   >(rangeMinMax);
 
   useEffect(() => {
+    let subscribed = true;
     const fetchRangeSlider = async () => {
       const formData: FormData = new FormData();
       formData.append('aggregate_fields', varName);
@@ -53,6 +57,10 @@ const RangeSlider = () => {
         } else if (pathName === ALLENSLAVED) {
           response = await dispatch(
             fetchPastEnslavedRangeSliderData(formData)
+          ).unwrap();
+        } else if (pathName === ALLENSLAVERS) {
+          response = await dispatch(
+            fetchPastEnslaversRangeSliderData(formData)
           ).unwrap();
         }
         if (response) {
@@ -76,6 +84,9 @@ const RangeSlider = () => {
       }
     };
     fetchRangeSlider();
+    return () => {
+      subscribed = false;
+    };
   }, [dispatch, varName, pathName]);
 
   useEffect(() => {
@@ -83,7 +94,6 @@ const RangeSlider = () => {
     if (storedValue) {
       const parsedValue = JSON.parse(storedValue);
       const { filterObject } = parsedValue;
-
       for (const rangKey in filterObject) {
         if (varName === rangKey) {
           const rangeMinMax = filterObject[rangKey];
@@ -110,6 +120,7 @@ const RangeSlider = () => {
       filterObject: {
         ...rangeSliderMinMax,
         ...autoCompleteValue,
+        ...geoTreeValue,
         [varName]: currentSliderValue,
       },
     };
@@ -121,6 +132,7 @@ const RangeSlider = () => {
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const { name, value } = event.target;
+
     const updatedSliderValue = [...rangeMinMax];
     updatedSliderValue[name === 'start' ? 0 : 1] = Number(value);
     dispatch(
@@ -134,7 +146,8 @@ const RangeSlider = () => {
       filterObject: {
         ...rangeSliderMinMax,
         ...autoCompleteValue,
-        [varName]: currentSliderValue,
+        ...geoTreeValue,
+        [varName]: updatedSliderValue,
       },
     };
     const filterObjectString = JSON.stringify(filterObject);

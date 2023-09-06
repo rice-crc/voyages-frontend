@@ -1,100 +1,150 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  GeoTreeSelectDataProps,
+  AutoCompleteInitialState,
   RangeSliderState,
-  TreeSelectItem,
 } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
 import { ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
-import { fetchGeoTreeSelectLists } from '@/fetchAPI/geoApi/fetchGeoTreeSelect';
+import { fetcVoyagesGeoTreeSelectLists } from '@/fetchAPI/geoApi/fetchVoyagesGeoTreeSelect';
 import { TreeSelect } from 'antd';
-const { SHOW_PARENT } = TreeSelect;
 import '@/style/page.scss';
+import {
+  setGeoTreeValues,
+  setGeoTreeValueList,
+  setIsChangeGeoTree,
+  setGeoTreeValueSelect,
+} from '@/redux/getGeoTreeDataSlice';
+import { convertDataToGeoTreeSelectFormat } from '@/utils/functions/convertDataToGeoTreeSelectFormat';
+import { fetchEnslavedGeoTreeSelect } from '@/fetchAPI/geoApi/fetchEnslavedGeoTreeSelect';
+import { fetchEnslaversGeoTreeSelect } from '@/fetchAPI/geoApi/fetchEnslaversGeoTreeSelect';
 
 const GeoTreeSelected: React.FC = () => {
-  const [value, setValue] = useState<string>();
-  const onChange = (newValue: string) => {
-    console.log(newValue);
-    setValue(newValue);
-  };
-
-  console.log('value', value);
   const ref = useRef<HTMLDivElement>(null);
   const dispatch: AppDispatch = useDispatch();
-  const { varName } = useSelector(
+  const [selectedValue, setSelectedValue] = useState<string[]>([]);
+  const { geoTreeList, geoTreeValue, geoTreeSelectValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
+
+  const { varName, rangeSliderMinMax: rangeValue } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
   const { pathName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-
-  const [geoTreeList, setGeoTreeLists] = useState<GeoTreeSelectDataProps[]>([]);
+  const { autoCompleteValue, autoLabelName } = useSelector(
+    (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
+  );
 
   useEffect(() => {
-    const formData: FormData = new FormData();
+    const storedValue = localStorage.getItem('filterObject');
+    if (storedValue) {
+      const parsedValue = JSON.parse(storedValue);
+      const { filterObject } = parsedValue;
 
-    if (pathName === ALLVOYAGES) {
-      dispatch(fetchGeoTreeSelectLists(formData))
-        .unwrap()
-        .then((response: GeoTreeSelectDataProps[]) => {
-          if (response) {
-            setGeoTreeLists(response);
-          }
-        })
-        .catch((error: Error) => {
-          console.log('error', error);
-        });
-    } else if (pathName === ALLENSLAVED) {
-      // Handle ALLENSLAVED case if needed
-    } else if (pathName === ALLENSLAVERS) {
-      // Handle ALLENSLAVERS case if needed
+      for (const valueKey in filterObject) {
+        if (varName === valueKey) {
+          const geoList = filterObject[valueKey];
+          console.log('geoList', geoList);
+          setSelectedValue(geoList);
+        }
+      }
     }
+  }, []);
+
+  useEffect(() => {
+    let subscribed = true;
+
+    const fetchGeoTreeSelectList = async () => {
+      const formData: FormData = new FormData();
+      formData.append('geotree_valuefields', varName);
+
+      if (geoTreeSelectValue.length > 0) {
+        for (const value of geoTreeSelectValue) {
+          formData.append(varName, value);
+        }
+      }
+
+      if (autoCompleteValue && varName) {
+        for (const autoKey in autoCompleteValue) {
+          const autoCompleteOption = autoCompleteValue[autoKey];
+          if (typeof autoCompleteOption !== 'string') {
+            for (const keyValue of autoCompleteOption) {
+              if (typeof keyValue === 'object' && 'label' in keyValue) {
+                formData.append(autoKey, keyValue.label);
+              }
+            }
+          }
+        }
+      }
+
+      if (rangeValue && varName) {
+        for (const rangeKey in rangeValue) {
+          formData.append(rangeKey, String(rangeValue[rangeKey][0]));
+          formData.append(rangeKey, String(rangeValue[rangeKey][1]));
+        }
+      }
+
+      let response;
+      try {
+        if (pathName === ALLVOYAGES) {
+          response = await dispatch(
+            fetcVoyagesGeoTreeSelectLists(formData)
+          ).unwrap();
+          if (subscribed && response) {
+            dispatch(setGeoTreeValueList(response));
+          }
+        } else if (pathName === ALLENSLAVED) {
+          response = await dispatch(
+            fetchEnslavedGeoTreeSelect(formData)
+          ).unwrap();
+          if (subscribed && response) {
+            dispatch(setGeoTreeValueList(response));
+          }
+        } else if (pathName === ALLENSLAVERS) {
+          response = await dispatch(
+            fetchEnslaversGeoTreeSelect(formData)
+          ).unwrap();
+          if (subscribed && response) {
+            dispatch(setGeoTreeValueList(response));
+          }
+        }
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchGeoTreeSelectList();
+    return () => {
+      subscribed = false;
+    };
   }, [dispatch, varName, pathName]);
 
-  const convertDataToTreeSelectFormat = (
-    data: GeoTreeSelectDataProps[],
-    includeSelectAll: boolean = true
-  ): TreeSelectItem[] => {
-    const treeData: TreeSelectItem[] = [];
+  const handleTreeOnChange = (newValue: string[]) => {
+    dispatch(setIsChangeGeoTree(true));
+    setSelectedValue(newValue);
+    const valueSelect: string[] = newValue.map((ele) => ele);
+    dispatch(setGeoTreeValueSelect(valueSelect));
+    dispatch(
+      setGeoTreeValues({
+        ...geoTreeValue,
+        [varName]: newValue,
+      })
+    );
 
-    if (includeSelectAll) {
-      const selectAllItem: TreeSelectItem = {
-        id: 0,
-        key: 'select-all',
-        title: 'Select All',
-        value: 'select-all',
-        children: [],
-      };
-      treeData.push(selectAllItem);
-    }
-
-    data.forEach((item) => {
-      const treeItem: TreeSelectItem = {
-        id: item.id,
-        key: item.value.toString(),
-        title: item.name,
-        value: item.value.toString(),
-        children: item.children
-          ? convertDataToTreeSelectFormat(item.children, false)
-          : [],
-      };
-
-      if (includeSelectAll && treeData.length > 0) {
-        // Check if treeData has items before accessing its first element
-        const firstItem = treeData[0];
-        if (firstItem && firstItem.children) {
-          firstItem.children.push(treeItem);
-        }
-      } else {
-        treeData.push(treeItem);
-      }
-    });
-
-    return treeData;
+    const filterObject = {
+      filterObject: {
+        ...geoTreeValue,
+        ...autoCompleteValue,
+        ...rangeValue,
+        [varName]: newValue,
+      },
+    };
+    const filterObjectString = JSON.stringify(filterObject);
+    localStorage.setItem('filterObject', filterObjectString);
   };
 
-  const dataForTreeSelect = convertDataToTreeSelectFormat(geoTreeList);
+  const dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeList);
 
   return (
     <div ref={ref}>
@@ -102,17 +152,20 @@ const GeoTreeSelected: React.FC = () => {
         <TreeSelect
           showSearch
           style={{ width: 450 }}
-          value={value}
+          value={selectedValue}
           dropdownStyle={{ overflow: 'auto', zIndex: 1301 }}
           placeholder="Please select"
           allowClear
           multiple
           treeCheckable={true}
-          onChange={onChange}
-          showCheckedStrategy={SHOW_PARENT}
+          onChange={handleTreeOnChange}
           treeDefaultExpandAll={false}
           treeDefaultExpandedKeys={['select-all']}
           treeData={dataForTreeSelect}
+          maxTagCount={8}
+          maxTagPlaceholder={(selectedValue) =>
+            `+ ${selectedValue.length} locations ...`
+          }
         />
       )}
     </div>

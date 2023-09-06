@@ -3,12 +3,9 @@ import { useRef } from 'react';
 import Draggable from 'react-draggable';
 import { PaperProps } from '@mui/material/Paper';
 import { PaperDraggableStyle } from '@/styleMUI';
-import { TYPES } from '@/share/InterfaceTypes';
 
-export function PaperDraggable(props: PaperProps & { type: string }) {
+export function PaperDraggable(props: PaperProps) {
   const paperRef = useRef<HTMLDivElement>(null);
-  const maxWidth = props.type === TYPES.GeoTreeSelect ? 500 : 400;
-  const height = props.type === TYPES.GeoTreeSelect ? '50%' : 'auto';
 
   return (
     <Draggable
@@ -16,11 +13,7 @@ export function PaperDraggable(props: PaperProps & { type: string }) {
       cancel={'[class*="MuiDialogContent-root"]'}
       nodeRef={paperRef}
     >
-      <Paper
-        {...props}
-        ref={paperRef}
-        style={{ ...PaperDraggableStyle, maxWidth, height }}
-      />
+      <Paper {...props} ref={paperRef} style={{ ...PaperDraggableStyle }} />
     </Draggable>
   );
 }

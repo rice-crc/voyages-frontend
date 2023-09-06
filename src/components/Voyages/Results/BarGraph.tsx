@@ -46,7 +46,9 @@ function BarGraph() {
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-
+  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [showAlert, setAlert] = useState(false);
@@ -109,6 +111,11 @@ function BarGraph() {
           newFormData.append(varName, label);
         }
       }
+      if (isChangeGeoTree && varName && geoTreeValue) {
+        for (const value of geoTreeSelectValue) {
+          newFormData.append(varName, value);
+        }
+      }
 
       try {
         const data: Data[] = [];
@@ -162,6 +169,7 @@ function BarGraph() {
     dataSetValue,
     dataSetKey,
     styleName,
+    geoTreeSelectValue,
     VoyageBargraphOptions,
   ]);
 
