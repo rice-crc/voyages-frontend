@@ -3,7 +3,7 @@ import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchVoyageGraphGroupby = createAsyncThunk(
-    'VoyageGroupby/fetchVoyageScatterGroupby',
+    'VoyageGroupby/fetchVoyageGraphGroupby',
     async (formData: FormData) => {
         try {
             const response = await axios.post(
@@ -15,7 +15,7 @@ export const fetchVoyageGraphGroupby = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            throw new Error('Failed to fetch fetchVoyageScatterGroupby data');
+            throw new Error('Failed to fetch fetchVoyageGraphGroupby data');
         }
     }
 );

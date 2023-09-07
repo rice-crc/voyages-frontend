@@ -251,8 +251,6 @@ const PivotTables = () => {
           <AggregationSumAverage
             handleChange={handleChangeAggregation}
             aggregation={aggregation}
-            showAlert={showAlert}
-            optionFlat={optionFlat}
           />
           <div style={style}>
             <AgGridReact

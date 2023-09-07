@@ -124,7 +124,6 @@ function BarGraph() {
         ).unwrap();
 
         if (subscribed) {
-          const keys = Object.keys(response);
           const values = Object.values(response);
           for (const [index, [key, value]] of Object.entries(
             response
@@ -139,10 +138,6 @@ function BarGraph() {
             }
           }
           setBarData(data);
-          setBarOptions({
-            x_vars: keys[0] || '',
-            y_vars: keys[1] || '',
-          });
         }
       } catch (error) {
         console.log('error', error);
@@ -228,9 +223,6 @@ function BarGraph() {
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
-        showAlert={showAlert}
-        aggregatioOptions={barGraphOptions}
-        optionFlat={optionFlat}
       />
 
       <Grid>

@@ -9,50 +9,16 @@ import {
   Typography,
 } from '@mui/material';
 import { ChangeEvent, FunctionComponent } from 'react';
-import { Options, VoyagesOptionProps } from '@/share/InterfaceTypes';
+
 interface AggregationSumAverageProps {
-  showAlert: boolean;
   aggregation: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
-  optionFlat: Options;
-  aggregatioOptions?: VoyagesOptionProps;
 }
 export const AggregationSumAverage: FunctionComponent<
   AggregationSumAverageProps
 > = (props) => {
-  const {
-    showAlert,
-    aggregation,
-    optionFlat,
-    handleChange,
-    aggregatioOptions,
-  } = props;
+  const { aggregation, handleChange } = props;
 
-  const alertBar = () => {
-    if (showAlert) {
-      return (
-        <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
-          <AlertTitle>
-            Sorry, these particular variables don't graph well together:
-          </AlertTitle>
-          <AlertTitle>
-            The {aggregation} of{' '}
-            {(aggregatioOptions &&
-              optionFlat[aggregatioOptions.x_vars]?.label) ||
-              ''}
-            ,{' '}
-            {(aggregatioOptions &&
-              optionFlat[aggregatioOptions.y_vars]?.label) ||
-              ''}{' '}
-            Pie Graph
-          </AlertTitle>
-        </Alert>
-      );
-    } else {
-      return '';
-    }
-  };
   return (
     <div>
       <FormControl>
@@ -78,7 +44,6 @@ export const AggregationSumAverage: FunctionComponent<
           />
         </RadioGroup>
       </FormControl>
-      {alertBar()}
     </div>
   );
 };
