@@ -13,7 +13,7 @@ export function PaperDraggable(props: PaperProps) {
       cancel={'[class*="MuiDialogContent-root"]'}
       nodeRef={paperRef}
     >
-      <Paper {...props} ref={paperRef} style={PaperDraggableStyle} />
+      <Paper {...props} ref={paperRef} style={{ ...PaperDraggableStyle }} />
     </Draggable>
   );
 }

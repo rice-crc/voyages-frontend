@@ -25,6 +25,7 @@ import getPastNetworksGraphDataSlice from './getPastNetworksGraphDataSlice';
 import getNodeEdgesAggroutesMapDataSlice from './getNodeEdgesAggroutesMapDataSlice';
 import getPivotTablesDataSlice from './getPivotTablesDataSlice';
 import getCardFlatObjectSlice from './getCardFlatObjectSlice';
+import getGeoTreeDataSlice from './getGeoTreeDataSlice';
 
 const store = configureStore({
         reducer: {
@@ -48,8 +49,8 @@ const store = configureStore({
                 getCommonGlobalSearch: getCommonGlobalSearchResultSlice,
                 getPastNetworksGraphData: getPastNetworksGraphDataSlice,
                 getNodeEdgesAggroutesMapData: getNodeEdgesAggroutesMapDataSlice,
-                getPivotTablesData: getPivotTablesDataSlice,
                 getCardFlatObjectData: getCardFlatObjectSlice,
+                getGeoTreeData: getGeoTreeDataSlice,
                 [voyagesApi.reducerPath]: voyagesApi.reducer,
                 [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
                 [pastEnslaversApiService.reducerPath]: pastEnslaversApiService.reducer,

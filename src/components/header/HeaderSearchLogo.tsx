@@ -12,7 +12,7 @@ export default function HeaderLogoSearch() {
         component="nav"
         style={{
           backgroundColor: WHITE,
-          zIndex: 2000,
+          zIndex: 100,
           boxShadow: 'none',
           height: 50,
         }}

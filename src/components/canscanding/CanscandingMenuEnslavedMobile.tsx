@@ -42,6 +42,7 @@ import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
 import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
 import { ColumnSelectorTree } from '@/share/InterfaceTypesTable';
+import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
 
 const CanscandingMenuEnslavedMobile = () => {
   const { currentPage } = useSelector(
@@ -207,6 +208,7 @@ const CanscandingMenuEnslavedMobile = () => {
           <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
+          {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <AutocompleteBox />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField)) && <RangeSlider />}

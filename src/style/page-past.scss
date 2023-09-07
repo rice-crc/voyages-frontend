@@ -164,6 +164,27 @@ height: 100vh;
     background: linear-gradient(rgb(63, 150, 125, 0.85),
     rgb(63, 150, 125, 0.8)),
         url("../assets/enslaverBG.gif") center / cover;
+        @include breakpoint-standard(7) {
+            height: auto;
+        }
+        @include breakpoint-standard(6) {
+            height: auto;
+        }
+        @include breakpoint-standard(5) {
+            height: auto;
+        }
+        @include breakpoint-standard(4) {
+            height: auto;
+        }
+        @include breakpoint-standard(3) {
+            height: auto;
+        }
+        @include breakpoint-standard(2) {
+            height: auto;
+        }
+        @include breakpoint-standard(1) {
+            height: auto;
+        }
 }
 
 .enslaved-header{
@@ -233,8 +254,78 @@ height: 100vh;
 .grid-enslaved-introduction {
     position: relative;
     top: 20%;
-    padding: 12rem 8rem 8rem 5rem;
+    padding: 8rem 8rem 8rem 5rem;
     width: 90%;
+    > .grid-enslavers-introduction {
+        @include breakpoint-standard(7) {
+            padding: 2rem 2rem 2rem 1rem;
+        }
+        @include breakpoint-standard(6) {
+            padding: 2rem 2rem 2rem 1rem;
+        }
+        @include breakpoint-standard(5) {
+            padding: 1rem;
+        }
+        @include breakpoint-standard(4) {
+            padding: 1rem;
+        }
+        @include breakpoint-standard(3) {
+            padding: 1rem;
+        }
+        @include breakpoint-standard(2) {
+            padding: 1rem;
+        }
+        @include breakpoint-standard(1) {
+            padding: 1rem;
+        }
+    }
+    
+    .intro-box{
+        color: #ffffff;
+        font-weight: 500;
+        font-size: 20px;
+        text-align: center;
+        padding: 5rem;
+        background: rgb(178, 148, 147, 0.5);
+    }
+    .intro-box-enslavers{
+        color: #ffffff;
+        font-weight: 500;
+        font-size: 20px;
+        text-align: center;
+        padding: 5rem;
+        background: rgb(63, 150, 125,0.5);
+    }
+}
+.grid-enslavers-introduction {
+    position: relative;
+    top: 20%;
+    padding: 8rem 8rem 8rem 5rem;
+    width: 90%;
+
+        @include breakpoint-standard(7) {
+            padding: 2rem 2rem 2rem 1rem;
+        }
+        @include breakpoint-standard(6) {
+            padding: 2rem 2rem 2rem 1rem;
+        }
+        @include breakpoint-standard(5) {
+            padding: 1rem;
+        }
+        @include breakpoint-standard(4) {
+            padding: 1rem;
+        }
+        @include breakpoint-standard(3) {
+            padding: 1rem;
+        }
+        @include breakpoint-standard(2) {
+            padding: 1rem;
+        }
+        @include breakpoint-standard(1) {
+            padding: 1rem;
+        }
+
+    
     .intro-box{
         color: #ffffff;
         font-weight: 500;

@@ -34,9 +34,10 @@ import {
 } from '@/redux/rangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
-import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
+import { ArrowDropDown } from '@mui/icons-material';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import RangeSlider from '../Voyages/Results/RangeSlider';
+import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
 
 export const MenuListDropdown = () => {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
@@ -45,6 +46,7 @@ export const MenuListDropdown = () => {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
@@ -74,13 +76,14 @@ export const MenuListDropdown = () => {
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
     const value = event.cancelable;
-    setIsClickMenu(!isClickMenu);
+    setIsClickMenu(false);
     dispatch(setIsOpenDialog(false));
     if (currentPage !== 5) {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
   };
+
   const handleResetDataDialog = (event: any) => {
     event.stopPropagation();
     const value = event.cancelable;
@@ -194,6 +197,7 @@ export const MenuListDropdown = () => {
           <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
+          {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <AutocompleteBox />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField)) && <RangeSlider />}
