@@ -50,6 +50,7 @@ const store = configureStore({
                 getPastNetworksGraphData: getPastNetworksGraphDataSlice,
                 getNodeEdgesAggroutesMapData: getNodeEdgesAggroutesMapDataSlice,
                 getCardFlatObjectData: getCardFlatObjectSlice,
+                getPivotTablesData: getPivotTablesDataSlice,
                 getGeoTreeData: getGeoTreeDataSlice,
                 [voyagesApi.reducerPath]: voyagesApi.reducer,
                 [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
