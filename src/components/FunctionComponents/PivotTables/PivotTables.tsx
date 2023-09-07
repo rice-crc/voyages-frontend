@@ -20,7 +20,6 @@ import {
   Options,
   RangeSliderState,
   TYPESOFDATASET,
-  VoyagesOptionProps,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
 import CustomHeader from '../CustomHeader';
