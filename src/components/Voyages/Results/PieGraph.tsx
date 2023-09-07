@@ -49,7 +49,6 @@ function PieGraph() {
   );
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
-  const [showAlert, setAlert] = useState(false);
   const [pieGraphSelectedX, setSelectedX] = useState<PlotPIEX[]>([]);
   const [pieGraphSelectedY, setSelectedY] = useState<PlotPIEY[]>([]);
   const [plotX, setPlotX] = useState<any[]>([]);
@@ -114,11 +113,6 @@ function PieGraph() {
         ).unwrap();
         if (subscribed) {
           const keys = Object.keys(response);
-          setPieOptions({
-            x_vars: keys[0] || '',
-            y_vars: keys[1] || '',
-          });
-
           if (keys[0]) {
             setPlotX(response[keys[0]]);
           }
@@ -128,8 +122,6 @@ function PieGraph() {
         }
       } catch (error) {
         console.log('error', error);
-      } finally {
-        console.log('done');
       }
     };
     fetchData();
@@ -199,9 +191,6 @@ function PieGraph() {
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
-        showAlert={showAlert}
-        aggregatioOptions={pieGraphOptions}
-        optionFlat={optionFlat}
       />
 
       <Grid>

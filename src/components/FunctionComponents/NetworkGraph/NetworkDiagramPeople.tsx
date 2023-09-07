@@ -93,11 +93,7 @@ export const NetworkDiagramPeople = ({
     return null;
   }
   return (
-    <div
-      style={{
-        paddingTop: '2.5%',
-      }}
-    >
+    <div>
       {isLoading ? (
         <div className="loading-logo">
           <img src={LOADINGLOGO} />

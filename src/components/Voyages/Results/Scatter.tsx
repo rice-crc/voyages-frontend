@@ -55,7 +55,6 @@ function Scatter() {
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
-  const [showAlert, setAlert] = useState(false);
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [scatterSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
   const [scatterData, setScatterData] = useState<Data[]>([]);
@@ -129,7 +128,6 @@ function Scatter() {
         ).unwrap();
 
         if (subscribed) {
-          const keys = Object.keys(response);
           const values = Object.values(response);
 
           for (const [index, [key, value]] of Object.entries(
@@ -146,12 +144,7 @@ function Scatter() {
               });
             }
           }
-
           setScatterData(data);
-          setScatterOptions({
-            x_vars: keys[0] || '',
-            y_vars: keys[1] || '',
-          });
         }
       } catch (error) {
         console.log('error', error);
@@ -235,9 +228,6 @@ function Scatter() {
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
-        showAlert={showAlert}
-        aggregatioOptions={scatterOptions}
-        optionFlat={optionFlat}
       />
       <Grid>
         <Plot
