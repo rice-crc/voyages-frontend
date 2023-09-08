@@ -24,6 +24,7 @@ import {
   DropdownNestedMenuItem,
   StyleDialog,
 } from '@/styleMUI';
+import '@/style/homepage.scss';
 
 import { useState, MouseEvent } from 'react';
 import { PaperDraggable } from './PaperDraggable';
@@ -38,6 +39,7 @@ import { ArrowDropDown } from '@mui/icons-material';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import RangeSlider from '../Voyages/Results/RangeSlider';
 import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
+import { setData } from '@/redux/getTableSlice';
 
 export const MenuListDropdown = () => {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
@@ -100,6 +102,13 @@ export const MenuListDropdown = () => {
     });
   };
 
+  const handleResetAll = () => {
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
+
   const renderDropdownMenu = (children?: ChildrenFilter[]) =>
     children?.map((childItem: ChildrenFilter, index: number) => {
       return (
@@ -133,55 +142,61 @@ export const MenuListDropdown = () => {
     });
 
   return (
-    <Box>
-      {menuOptionFlat.map((item: FilterMenu, index: number) => {
-        return item.var_name ? (
-          <Button
-            key={`${item.label}-${index}`}
-            data-value={item.var_name}
-            data-type={item.type}
-            data-label={item.label}
-            onClick={(event: any) => handleClickMenu(event)}
-            sx={{
-              color: '#000',
-              textTransform: 'none',
-              fontSize: 14,
-            }}
-          >
-            {item.label}
-          </Button>
-        ) : (
-          <Dropdown
-            key={`${item.label}-${index}`}
-            trigger={
-              <Button
-                sx={{
-                  color: '#000',
-                  textTransform: 'none',
-                  fontSize: 14,
-                }}
-                endIcon={
-                  <span>
-                    <ArrowDropDown
-                      sx={{
-                        display: {
-                          xs: 'none',
-                          sm: 'none',
-                          md: 'flex',
-                        },
-                        fontSize: 16,
-                      }}
-                    />
-                  </span>
-                }
-              >
-                {item.label}
-              </Button>
-            }
-            menu={renderDropdownMenu(item.children)}
-          />
-        );
-      })}
+    <div>
+      <Box className="filter-menu-bar">
+        {menuOptionFlat.map((item: FilterMenu, index: number) => {
+          return item.var_name ? (
+            <Button
+              key={`${item.label}-${index}`}
+              data-value={item.var_name}
+              data-type={item.type}
+              data-label={item.label}
+              onClick={(event: any) => handleClickMenu(event)}
+              sx={{
+                color: '#000',
+                textTransform: 'none',
+                fontSize: 14,
+              }}
+            >
+              {item.label}
+            </Button>
+          ) : (
+            <Dropdown
+              key={`${item.label}-${index}`}
+              trigger={
+                <Button
+                  sx={{
+                    color: '#000',
+                    textTransform: 'none',
+                    fontSize: 14,
+                  }}
+                  endIcon={
+                    <span>
+                      <ArrowDropDown
+                        sx={{
+                          display: {
+                            xs: 'none',
+                            sm: 'none',
+                            md: 'flex',
+                          },
+                          fontSize: 16,
+                        }}
+                      />
+                    </span>
+                  }
+                >
+                  {item.label}
+                </Button>
+              }
+              menu={renderDropdownMenu(item.children)}
+            />
+          );
+        })}
+        <div className="btn-navbar-reset-all" onClick={handleResetAll}>
+          <i aria-hidden="true" className="fa fa-times"></i>
+          <span>Reset all</span>
+        </div>
+      </Box>
       <Dialog
         disableScrollLock={true}
         BackdropProps={{
@@ -212,6 +227,6 @@ export const MenuListDropdown = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </div>
   );
 };

@@ -140,8 +140,6 @@ export const LeafletMap = () => {
             'transportation',
             JSON.stringify(transportation)
           );
-          localStorage.setItem('disposition', JSON.stringify(disposition));
-          localStorage.setItem('origination', JSON.stringify(origination));
         }
 
         dispatch(setNodesData(nodes));

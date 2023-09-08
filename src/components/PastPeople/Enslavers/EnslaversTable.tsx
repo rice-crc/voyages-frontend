@@ -158,6 +158,7 @@ const EnslaversTable: React.FC = () => {
     };
     fetchData();
     return () => {
+      dispatch(setData([]));
       subscribed = false;
     };
   }, [

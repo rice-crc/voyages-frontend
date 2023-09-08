@@ -121,15 +121,23 @@ const VoyagesTable: React.FC = () => {
     const newFormData: FormData = new FormData();
     newFormData.append('results_page', String(page + 1));
     newFormData.append('results_per_page', String(rowsPerPage));
-    if (rang[varName] && currentPage === 5) {
-      newFormData.append(varName, String(rang[varName][0]));
-      newFormData.append(varName, String(rang[varName][1]));
+
+    if (currentPage === 5) {
+      for (const rangKey in rang) {
+        newFormData.append(rangKey, String(rang[rangKey][0]));
+        newFormData.append(rangKey, String(rang[rangKey][1]));
+      }
     }
 
     if (autoCompleteValue && varName) {
-      for (let i = 0; i < autoLabelName.length; i++) {
-        const label = autoLabelName[i];
-        newFormData.append(varName, label);
+      for (const autoKey in autoCompleteValue) {
+        for (const autoCompleteOption of autoCompleteValue[autoKey]) {
+          if (typeof autoCompleteOption !== 'string') {
+            const { label } = autoCompleteOption;
+            console.log('autoKey', autoKey);
+            newFormData.append(autoKey, label);
+          }
+        }
       }
     }
 
@@ -140,8 +148,10 @@ const VoyagesTable: React.FC = () => {
     }
 
     if (isChangeGeoTree && varName && geoTreeValue) {
-      for (const value of geoTreeSelectValue) {
-        newFormData.append(varName, value);
+      for (const keyValue in geoTreeValue) {
+        for (const keyGeoValue of geoTreeValue[keyValue]) {
+          newFormData.append(keyValue, String(keyGeoValue));
+        }
       }
     }
 

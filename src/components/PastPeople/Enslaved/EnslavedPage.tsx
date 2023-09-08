@@ -58,6 +58,10 @@ const EnslavedPage = () => {
     } else if (styleName === ENSLAVEDTEXAS) {
       navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`);
     }
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
   };
   return (
     <>

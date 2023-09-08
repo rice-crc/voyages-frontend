@@ -5,6 +5,12 @@ import SearchVoyages from '@/assets/searchICON.svg';
 import { Link } from 'react-router-dom';
 
 export default function HeaderLogoSearch() {
+  const onChangePath = () => {
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
   return (
     <Box>
       <CssBaseline />
@@ -25,7 +31,11 @@ export default function HeaderLogoSearch() {
           }}
         >
           <Typography component="div" sx={{ cursor: 'pointer' }}>
-            <Link to={'/'} style={{ textDecoration: 'none' }}>
+            <Link
+              to={'/'}
+              style={{ textDecoration: 'none' }}
+              onClick={onChangePath}
+            >
               <img
                 src={LOGOVoyages}
                 alt="logo"

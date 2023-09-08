@@ -17,6 +17,7 @@ import {
   TYPESOFDATASETPEOPLE,
   FilterPeopleMenu,
 } from '@/share/InterfaceTypes';
+import '@/style/homepage.scss';
 import {
   BLACK,
   DialogModalStyle,
@@ -32,8 +33,14 @@ import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import RangeSlider from '../Voyages/Results/RangeSlider';
-import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
+import {
+  ALLENSLAVED,
+  ALLENSLAVERS,
+  ENSALVERSPAGE,
+  PASTHOMEPAGE,
+} from '@/share/CONST_DATA';
 import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
+import { useNavigate } from 'react-router-dom';
 
 export const MenuListDropdownPeople = () => {
   const { styleNamePeople } = useSelector(
@@ -48,13 +55,16 @@ export const MenuListDropdownPeople = () => {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+  const { currentEnslaversPage } = useSelector(
+    (state: RootState) => state.getScrollEnslaversPage
+  );
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-
+  const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [label, setLabel] = useState<string>('');
@@ -94,6 +104,16 @@ export const MenuListDropdownPeople = () => {
       dispatch(setIsChangeAuto(!value));
     }
     // Reset data in localStorage
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
+
+  const handleResetAll = () => {
+    if (currentEnslaversPage === 2) {
+      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}/table`);
+    }
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -165,65 +185,71 @@ export const MenuListDropdownPeople = () => {
   }, [styleNamePeople, pathName]);
 
   return (
-    <Box>
-      {filterPeopleMenu.map((item: FilterPeopleMenu, index: number) => {
-        return item.var_name ? (
-          <Button
-            key={`${item.label}-${index}`}
-            data-value={item.var_name}
-            data-type={item.type}
-            data-label={item.label}
-            onClick={(event: any) => handleClickMenu(event)}
-            sx={{
-              color: '#000000',
-              textTransform: 'none',
-              fontSize: 14,
-            }}
-          >
-            {item.label}
-          </Button>
-        ) : (
-          <Dropdown
-            key={`${item.label}-${index}`}
-            trigger={
-              <Button
-                sx={{
-                  color: '#000000',
-                  textTransform: 'none',
-                  fontSize: 14,
-                }}
-                endIcon={
-                  <span>
-                    <ArrowRight
-                      sx={{
-                        display: {
-                          xs: 'flex',
-                          sm: 'flex',
-                          md: 'none',
-                        },
-                        fontSize: 14,
-                      }}
-                    />
-                    <ArrowDropDown
-                      sx={{
-                        display: {
-                          xs: 'none',
-                          sm: 'none',
-                          md: 'flex',
-                        },
-                        fontSize: 16,
-                      }}
-                    />
-                  </span>
-                }
-              >
-                {item.label}
-              </Button>
-            }
-            menu={renderDropdownMenu(item.children)}
-          />
-        );
-      })}
+    <div>
+      <Box className="filter-menu-bar">
+        {filterPeopleMenu.map((item: FilterPeopleMenu, index: number) => {
+          return item.var_name ? (
+            <Button
+              key={`${item.label}-${index}`}
+              data-value={item.var_name}
+              data-type={item.type}
+              data-label={item.label}
+              onClick={(event: any) => handleClickMenu(event)}
+              sx={{
+                color: '#000000',
+                textTransform: 'none',
+                fontSize: 14,
+              }}
+            >
+              {item.label}
+            </Button>
+          ) : (
+            <Dropdown
+              key={`${item.label}-${index}`}
+              trigger={
+                <Button
+                  sx={{
+                    color: '#000000',
+                    textTransform: 'none',
+                    fontSize: 14,
+                  }}
+                  endIcon={
+                    <span>
+                      <ArrowRight
+                        sx={{
+                          display: {
+                            xs: 'flex',
+                            sm: 'flex',
+                            md: 'none',
+                          },
+                          fontSize: 14,
+                        }}
+                      />
+                      <ArrowDropDown
+                        sx={{
+                          display: {
+                            xs: 'none',
+                            sm: 'none',
+                            md: 'flex',
+                          },
+                          fontSize: 16,
+                        }}
+                      />
+                    </span>
+                  }
+                >
+                  {item.label}
+                </Button>
+              }
+              menu={renderDropdownMenu(item.children)}
+            />
+          );
+        })}
+        <div className="btn-navbar-reset-all" onClick={handleResetAll}>
+          <i aria-hidden="true" className="fa fa-times"></i>
+          <span>Reset all</span>
+        </div>
+      </Box>
       <Dialog
         BackdropProps={{
           style: DialogModalStyle,
@@ -254,6 +280,6 @@ export const MenuListDropdownPeople = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </div>
   );
 };

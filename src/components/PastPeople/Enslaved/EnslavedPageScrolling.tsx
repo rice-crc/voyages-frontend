@@ -29,6 +29,11 @@ const EnslavedPageScrolling = () => {
     dispatch(setCurrentEnslavedPage(page));
     if (page === 2) {
       dispatch(setPathName(ALLENSLAVED));
+    } else {
+      const keysToRemove = Object.keys(localStorage);
+      keysToRemove.forEach((key) => {
+        localStorage.removeItem(key);
+      });
     }
   };
 
