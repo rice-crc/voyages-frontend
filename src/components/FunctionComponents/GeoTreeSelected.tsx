@@ -56,33 +56,17 @@ const GeoTreeSelected: React.FC = () => {
       for (const valueKey in filterObject) {
         if (varName === valueKey) {
           const geoList = filterObject[valueKey];
-          const filteredArray = geoList.filter((item: string) => {
+          const filteredValueGeoTreeStorage = geoList.filter((item: string) => {
             return item !== '*';
           });
-          const filteredArray2 = geoTreeListValue.filter((item: string) =>
-            filteredArray.includes(item)
+          const filteredSelect = geoTreeListValue.filter((item: string) =>
+            filteredValueGeoTreeStorage.includes(item)
           );
-          setSelectedValue(filteredArray2);
+          setSelectedValue(filteredSelect);
         }
       }
     }
-  }, [varName]);
-  // console.log('select-->', selectedValue);
-
-  function isValueInGeoTreeListArray(
-    data: GeoTreeSelectDataProps[],
-    value: string
-  ) {
-    for (const item of data) {
-      if (String(item.value) === value) {
-        return true;
-      }
-      if (item.children && isValueInGeoTreeListArray(item.children, value)) {
-        return true;
-      }
-    }
-    return false;
-  }
+  }, [varName, geoTreeList]);
 
   useEffect(() => {
     let subscribed = true;
@@ -92,7 +76,6 @@ const GeoTreeSelected: React.FC = () => {
       if (isChangeGeoTree && varName && geoTreeValue) {
         for (const keyValue in geoTreeValue) {
           for (const keyGeoValue of geoTreeValue[keyValue]) {
-            console.log();
             if (varName !== keyValue) {
               formData.append(keyValue, String(keyGeoValue));
             }
@@ -136,20 +119,17 @@ const GeoTreeSelected: React.FC = () => {
           ).unwrap();
         }
         if (subscribed && response) {
-          if (response.length === 0) {
-            setSelectedValue([]);
-          } else {
-            console.log('response-->', response);
-            dispatch(setGeoTreeValueList(response));
-          }
+          dispatch(setGeoTreeValueList(response));
         }
       } catch (error) {
         console.log('error', error);
       }
     };
     fetchGeoTreeSelectList();
+
     return () => {
       subscribed = false;
+      dispatch(setGeoTreeValueList([]));
     };
   }, [dispatch, varName, pathName]);
 

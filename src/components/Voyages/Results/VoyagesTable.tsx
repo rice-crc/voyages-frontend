@@ -134,7 +134,7 @@ const VoyagesTable: React.FC = () => {
         for (const autoCompleteOption of autoCompleteValue[autoKey]) {
           if (typeof autoCompleteOption !== 'string') {
             const { label } = autoCompleteOption;
-            console.log('autoKey', autoKey);
+
             newFormData.append(autoKey, label);
           }
         }

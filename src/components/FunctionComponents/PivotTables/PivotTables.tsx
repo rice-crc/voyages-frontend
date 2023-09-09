@@ -46,14 +46,19 @@ const PivotTables = () => {
   const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-  const { rangeSliderMinMax: rang, varName } = useSelector(
-    (state: RootState) => state.rangeSlider as RangeSliderState
-  );
+  const {
+    rangeSliderMinMax: rang,
+    varName,
+    isChange,
+  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
+  );
+  const { isChangeGeoTree, geoTreeValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
   );
   const components = useMemo(() => {
     return {
@@ -144,16 +149,32 @@ const PivotTables = () => {
       newFormData.append('value_field', cell_vars);
       newFormData.append('cachename', cachename);
 
-      if (rang[varName] && currentPage === 6) {
-        newFormData.append(varName, String(rang[varName][0]));
-        newFormData.append(varName, String(rang[varName][1]));
-      }
-      if (autoCompleteValue && varName) {
-        for (let i = 0; i < autoLabelName.length; i++) {
-          const label = autoLabelName[i];
-          newFormData.append(varName, label);
+      if (isChange && rang && currentPage === 6) {
+        for (const rangKey in rang) {
+          newFormData.append(rangKey, String(rang[rangKey][0]));
+          newFormData.append(rangKey, String(rang[rangKey][1]));
         }
       }
+      if (autoCompleteValue && varName && currentPage === 6) {
+        for (const autoKey in autoCompleteValue) {
+          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
+            if (typeof autoCompleteOption !== 'string') {
+              const { label } = autoCompleteOption;
+
+              newFormData.append(autoKey, label);
+            }
+          }
+        }
+      }
+
+      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 6) {
+        for (const keyValue in geoTreeValue) {
+          for (const keyGeoValue of geoTreeValue[keyValue]) {
+            newFormData.append(keyValue, String(keyGeoValue));
+          }
+        }
+      }
+
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
           newFormData.append(dataSetKey, String(value));
@@ -190,6 +211,7 @@ const PivotTables = () => {
     autoLabelName,
     dataSetValue,
     dataSetKey,
+    geoTreeValue,
   ]);
 
   const gridOptions = useMemo(

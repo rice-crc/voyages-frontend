@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAutoComplete } from '@/fetchAPI/voyagesApi/fetchAutoCompleted';
+import { fetchAutoVoyageComplete } from '@/fetchAPI/voyagesApi/fetchAutoVoyageComplete';
 import { Autocomplete, Stack, TextField, Box, Typography } from '@mui/material';
 import {
   AutoCompleteInitialState,
@@ -25,6 +25,7 @@ import { ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
 import { fetchPastEnslaversAutoCompleted } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversAutoCompleted';
 import '@/style/Slider.scss';
 import '@/style/table.scss';
+
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
@@ -44,43 +45,37 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    const formData: FormData = new FormData();
-    formData.append(varName, autoValue);
+    let subscribed = true;
+    const fetchAutoCompletedList = async () => {
+      const formData: FormData = new FormData();
+      console.log('autoValue-->', autoValue);
+      formData.append(varName, autoValue);
+      let response = [];
+      try {
+        if (pathName === ALLVOYAGES) {
+          response = await dispatch(fetchAutoVoyageComplete(formData)).unwrap();
+        } else if (pathName === ALLENSLAVED) {
+          response = await dispatch(
+            fetchPastEnslavedAutoComplete(formData)
+          ).unwrap();
+        } else if (pathName === ALLENSLAVERS) {
+          response = await dispatch(
+            fetchPastEnslaversAutoCompleted(formData)
+          ).unwrap();
+        }
+        if (response && subscribed) {
+          setAutoLists(response?.results);
+        }
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
 
-    if (pathName === ALLVOYAGES) {
-      dispatch(fetchAutoComplete(formData))
-        .unwrap()
-        .then((response: any) => {
-          if (response) {
-            setAutoLists(response?.results);
-          }
-        })
-        .catch((error: Error) => {
-          console.log('error', error);
-        });
-    } else if (pathName === ALLENSLAVED) {
-      dispatch(fetchPastEnslavedAutoComplete(formData))
-        .unwrap()
-        .then((response: any) => {
-          if (response) {
-            setAutoLists(response?.results);
-          }
-        })
-        .catch((error: Error) => {
-          console.log('error', error);
-        });
-    } else if (pathName === ALLENSLAVERS) {
-      dispatch(fetchPastEnslaversAutoCompleted(formData))
-        .unwrap()
-        .then((response: any) => {
-          if (response) {
-            setAutoLists(response?.results);
-          }
-        })
-        .catch((error: Error) => {
-          console.log('error', error);
-        });
-    }
+    fetchAutoCompletedList();
+    return () => {
+      subscribed = false;
+      setAutoLists([]);
+    };
   }, [dispatch, varName, autoValue, pathName]);
 
   const handleInputChange = useMemo(

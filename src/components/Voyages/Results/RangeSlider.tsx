@@ -84,6 +84,7 @@ const RangeSlider = () => {
     };
     fetchRangeSlider();
     return () => {
+      dispatch(setRangeValue({}));
       subscribed = false;
     };
   }, [dispatch, varName, pathName]);

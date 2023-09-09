@@ -51,7 +51,6 @@ function BarGraph() {
   );
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
-  const [showAlert, setAlert] = useState(false);
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
   const [barData, setBarData] = useState<Data[]>([]);
@@ -101,19 +100,30 @@ function BarGraph() {
           newFormData.append(dataSetKey, String(value));
         }
       }
-      if (isChange && rang[varName] && currentPage === 3) {
-        newFormData.append(varName, String(rang[varName][0]));
-        newFormData.append(varName, String(rang[varName][1]));
-      }
-      if (autoCompleteValue && varName && isChangeAuto) {
-        for (let i = 0; i < autoLabelName.length; i++) {
-          const label = autoLabelName[i];
-          newFormData.append(varName, label);
+
+      if (isChange && rang && currentPage === 3) {
+        for (const rangKey in rang) {
+          newFormData.append(rangKey, String(rang[rangKey][0]));
+          newFormData.append(rangKey, String(rang[rangKey][1]));
         }
       }
-      if (isChangeGeoTree && varName && geoTreeValue) {
-        for (const value of geoTreeSelectValue) {
-          newFormData.append(varName, value);
+      if (autoCompleteValue && varName && currentPage === 3) {
+        for (const autoKey in autoCompleteValue) {
+          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
+            if (typeof autoCompleteOption !== 'string') {
+              const { label } = autoCompleteOption;
+
+              newFormData.append(autoKey, label);
+            }
+          }
+        }
+      }
+
+      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 3) {
+        for (const keyValue in geoTreeValue) {
+          for (const keyGeoValue of geoTreeValue[keyValue]) {
+            newFormData.append(keyValue, String(keyGeoValue));
+          }
         }
       }
 
@@ -166,6 +176,7 @@ function BarGraph() {
     styleName,
     geoTreeSelectValue,
     VoyageBargraphOptions,
+    geoTreeValue,
   ]);
 
   const handleChangeAggregation = useCallback(
