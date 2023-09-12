@@ -64,10 +64,21 @@ export const getPeopleEnslaversDataSetCollectionSlice = createSlice({
         setPeopleTableEnslavedFlatfile: (state, action: PayloadAction<string>) => {
             state.tableFlatfile = action.payload;
         },
+        resetSlice: (state) => {
+            state.dataSetValueBaseFilter,
+                state.dataSetKeyPeople,
+                state.dataSetValuePeople,
+                state.textHeader,
+                state.textIntroduce,
+                state.blocksPeople,
+                state.filterMenuFlatfile,
+                state.tableFlatfile
+        }
     },
 });
 
 export const {
+    resetSlice,
     setBaseFilterEnslaversDataSetValue,
     setBaseFilterEnslaversDataKey,
     setBaseFilterEnslaversDataValue,

@@ -24,7 +24,7 @@
 		"label": "Enslavers",
 		"children": [
 			{
-				"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias",
+				"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
 				"type": "CharField",
 				"label": "Individual Enslavers"
 			}

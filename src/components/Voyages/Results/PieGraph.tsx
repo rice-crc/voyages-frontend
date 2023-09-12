@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useGetOptionsQuery } from '@/fetchAPI/voyagesApi/fetchApiService';
 import { SelectDropdown } from './SelectDropdown';
 import { AggregationSumAverage } from './AggregationSumAverage';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchVoyageGraphGroupby } from '@/fetchAPI/voyagesApi/fetchVoyageGroupby';
 import {
   VoyagesOptionProps,
@@ -120,7 +121,8 @@ function PieGraph() {
         const response = await dispatch(
           fetchVoyageGraphGroupby(newFormData)
         ).unwrap();
-        if (subscribed) {
+
+        if (subscribed && response) {
           const keys = Object.keys(response);
           if (keys[0]) {
             setPlotX(response[keys[0]]);
@@ -174,14 +176,7 @@ function PieGraph() {
     };
   }, [pieGraphOptions]);
 
-  if (isLoading) {
-    <div className="Skeleton-loading">
-      <Skeleton />
-      <Skeleton animation="wave" />
-      <Skeleton animation={false} />
-    </div>;
-  }
-
+  const isPlotYZeroAll = plotY.every((item) => item === 0);
   return (
     <div>
       <SelectDropdown
@@ -202,39 +197,44 @@ function PieGraph() {
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-
-      <Grid>
-        <Plot
-          data={[
-            {
-              labels: plotX,
-              values: plotY,
-              type: 'pie',
-              mode: 'lines+markers',
-              textinfo: 'label+percent',
-              insidetextorientation: 'radial',
-              hole: 0.2,
-              textposition: 'inside',
-              showlegend: maxWidth < 400 ? false : true,
-            },
-          ]}
-          layout={{
-            width: maxWidth,
-            height: height * 0.5,
-            title: `The ${aggregation} of ${
-              optionFlat[pieGraphOptions.x_vars]?.label || ''
-            } vs <br> ${
-              optionFlat[pieGraphOptions.y_vars]?.label || ''
-            } Pie Chart`,
-            font: {
-              family: 'Arial, sans-serif',
-              size: maxWidth < 400 ? 7 : 10,
-              color: '#333333',
-            },
-          }}
-          config={{ responsive: true }}
-        />
-      </Grid>
+      {plotX.length > 0 && !isPlotYZeroAll ? (
+        <Grid>
+          <Plot
+            data={[
+              {
+                labels: plotX,
+                values: plotY,
+                type: 'pie',
+                mode: 'lines+markers',
+                textinfo: 'label+percent',
+                insidetextorientation: 'radial',
+                hole: 0.2,
+                textposition: 'inside',
+                showlegend: maxWidth < 400 ? false : true,
+              },
+            ]}
+            layout={{
+              width: maxWidth,
+              height: height * 0.5,
+              title: `The ${aggregation} of ${
+                optionFlat[pieGraphOptions.x_vars]?.label || ''
+              } vs <br> ${
+                optionFlat[pieGraphOptions.y_vars]?.label || ''
+              } Pie Chart`,
+              font: {
+                family: 'Arial, sans-serif',
+                size: maxWidth < 400 ? 7 : 10,
+                color: '#333333',
+              },
+            }}
+            config={{ responsive: true }}
+          />
+        </Grid>
+      ) : (
+        <div className="loading-logo">
+          <img src={LOADINGLOGO} />
+        </div>
+      )}
     </div>
   );
 }

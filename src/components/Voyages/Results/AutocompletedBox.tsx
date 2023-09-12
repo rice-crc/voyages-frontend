@@ -33,9 +33,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
-  const { pathName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
+  const { pathName } = useSelector((state: RootState) => state.getPathName);
   const { autoCompleteValue } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
@@ -48,7 +46,6 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     let subscribed = true;
     const fetchAutoCompletedList = async () => {
       const formData: FormData = new FormData();
-      console.log('autoValue-->', autoValue);
       formData.append(varName, autoValue);
       let response = [];
       try {
@@ -64,7 +61,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
           ).unwrap();
         }
         if (response && subscribed) {
-          setAutoLists(response?.results);
+          setAutoLists(response?.results || []);
         }
       } catch (error) {
         console.log('error', error);

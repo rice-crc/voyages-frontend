@@ -13,6 +13,7 @@ export const convertDataToGeoTreeSelectFormat = (
             title: 'Select All',
             value: 'select-all',
             children: [],
+            disabled: data.length === 0
         };
         treeData.push(selectAllItem);
     }

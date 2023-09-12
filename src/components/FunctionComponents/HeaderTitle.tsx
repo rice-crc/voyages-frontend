@@ -3,13 +3,16 @@ interface HeaderTitleProps {
   textHeader: string;
   HeaderTitle: string;
   pathLink: string;
+  onClickReset: () => void;
 }
 export const HeaderTitle = (props: HeaderTitleProps) => {
-  const { textHeader, HeaderTitle, pathLink } = props;
+  const { textHeader, HeaderTitle, pathLink, onClickReset } = props;
+
   return (
     <div className="enslaved-header" style={{ color: '#000000' }}>
       <Link
         to={`/${pathLink}`}
+        onClick={onClickReset}
         style={{
           textDecoration: 'none',
           color: textHeader ? '#000000' : '#ffffff',

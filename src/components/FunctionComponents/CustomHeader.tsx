@@ -44,9 +44,7 @@ const CustomHeader: React.FC<Props> = (props) => {
   const onMenuClicked = () => {
     showColumnMenu(refButton);
   };
-  const { pathName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
+  const { pathName } = useSelector((state: RootState) => state.getPathName);
 
   const onSortRequested = (
     order: string,

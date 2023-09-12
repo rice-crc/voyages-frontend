@@ -11,9 +11,9 @@ import EnslaversPage from './EnslaversPage';
 import EnslaversTable from './EnslaversTable';
 import '@/style/page.scss';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
-import { setPathName } from '@/redux/getDataSetCollectionSlice';
-import { ALLENSLAVERS, ENSALVERSPAGE, PASTHOMEPAGE } from '@/share/CONST_DATA';
+import { ENSALVERSPAGE, PASTHOMEPAGE } from '@/share/CONST_DATA';
 import { useNavigate } from 'react-router-dom';
+import { resetAll } from '@/redux/resetAllSlice';
 
 const EnslaversScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -25,19 +25,15 @@ const EnslaversScrolling = () => {
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
-  console.log('currentEnslaversPage', currentEnslaversPage);
+
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentEnslaversPage(page));
-    if (page === 2) {
-      dispatch(setPathName(ALLENSLAVERS));
-      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}/table`);
-    } else {
-      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}`);
-      const keysToRemove = Object.keys(localStorage);
-      keysToRemove.forEach((key) => {
-        localStorage.removeItem(key);
-      });
-    }
+    navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}`);
+    dispatch(resetAll());
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
   };
   const displayPage = (
     <motion.div

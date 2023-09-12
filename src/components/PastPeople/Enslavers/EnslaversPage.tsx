@@ -6,7 +6,7 @@ import { RootState } from '@/redux/store';
 const EnslaversPage = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
-  const { value, textHeader, textIntroduce } = useSelector(
+  const { textIntroduce } = useSelector(
     (state: RootState) => state.getEnslaverDataSetCollections
   );
 

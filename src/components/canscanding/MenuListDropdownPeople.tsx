@@ -33,14 +33,10 @@ import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import RangeSlider from '../Voyages/Results/RangeSlider';
-import {
-  ALLENSLAVED,
-  ALLENSLAVERS,
-  ENSALVERSPAGE,
-  PASTHOMEPAGE,
-} from '@/share/CONST_DATA';
+import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
 import { useNavigate } from 'react-router-dom';
+import { resetAll } from '@/redux/resetAllSlice';
 
 export const MenuListDropdownPeople = () => {
   const { styleNamePeople } = useSelector(
@@ -49,15 +45,11 @@ export const MenuListDropdownPeople = () => {
 
   const { valueEnslaved, valueAfricanOrigin, valueTexas, valueEnslavers } =
     useSelector((state: RootState) => state.getFilterPeople.value);
-  const { pathName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
+  const { pathName } = useSelector((state: RootState) => state.getPathName);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { currentEnslaversPage } = useSelector(
-    (state: RootState) => state.getScrollEnslaversPage
-  );
+
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
@@ -103,7 +95,7 @@ export const MenuListDropdownPeople = () => {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
-    // Reset data in localStorage
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -111,9 +103,7 @@ export const MenuListDropdownPeople = () => {
   };
 
   const handleResetAll = () => {
-    if (currentEnslaversPage === 2) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}/table`);
-    }
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -245,10 +235,12 @@ export const MenuListDropdownPeople = () => {
             />
           );
         })}
-        <div className="btn-navbar-reset-all" onClick={handleResetAll}>
-          <i aria-hidden="true" className="fa fa-times"></i>
-          <span>Reset all</span>
-        </div>
+        {varName && (
+          <div className="btn-navbar-reset-all" onClick={handleResetAll}>
+            <i aria-hidden="true" className="fa fa-times"></i>
+            <span>Reset all</span>
+          </div>
+        )}
       </Box>
       <Dialog
         BackdropProps={{

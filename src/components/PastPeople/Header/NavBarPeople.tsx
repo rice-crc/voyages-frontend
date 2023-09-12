@@ -21,7 +21,8 @@ import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
-import { setPathName } from '@/redux/getDataSetCollectionSlice';
+import { setPathName } from '@/redux/getDataPathNameSlice';
+import { resetAll } from '@/redux/resetAllSlice';
 
 export default function NavBarPeople() {
   const navigate = useNavigate();
@@ -39,6 +40,11 @@ export default function NavBarPeople() {
   };
 
   const handleSelectMenuItems = (item: string) => {
+    dispatch(resetAll());
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
     if (item === 'About') {
       navigate(`/${PASTHOMEPAGE}`);
     } else if (item === Enslaved) {

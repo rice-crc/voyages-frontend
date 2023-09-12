@@ -39,6 +39,7 @@ import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
+import { resetAll } from '@/redux/resetAllSlice';
 
 const CanscandingMenuVoyagesMobile = () => {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
@@ -99,7 +100,7 @@ const CanscandingMenuVoyagesMobile = () => {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
-    dispatch(setRangeSliderValue({}));
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);

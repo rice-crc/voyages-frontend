@@ -1,4 +1,4 @@
-import { useEffect, useState, FunctionComponent, ChangeEvent } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setRangeValue,
@@ -25,9 +25,7 @@ const RangeSlider = () => {
   const { rangeValue, varName, rangeSliderMinMax } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
-  const { pathName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
+  const { pathName } = useSelector((state: RootState) => state.getPathName);
 
   const { geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
@@ -49,6 +47,7 @@ const RangeSlider = () => {
 
   useEffect(() => {
     let subscribed = true;
+
     const fetchRangeSlider = async () => {
       const formData: FormData = new FormData();
       formData.append('aggregate_fields', varName);
@@ -82,7 +81,9 @@ const RangeSlider = () => {
         console.log('error', error);
       }
     };
+
     fetchRangeSlider();
+
     return () => {
       dispatch(setRangeValue({}));
       subscribed = false;

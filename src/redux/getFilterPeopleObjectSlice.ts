@@ -18,9 +18,10 @@ export const getFilterPeopleObjectSlice = createSlice({
     reducers: {
         getFilterPeopleObject: (state, action: PayloadAction<ValuePeopleFilter>) => {
             state.value = action.payload;
-        }
+        },
+        resetSlice: (state) => initialState,
     }
 })
 
-export const { getFilterPeopleObject } = getFilterPeopleObjectSlice.actions;
+export const { getFilterPeopleObject, resetSlice } = getFilterPeopleObjectSlice.actions;
 export default getFilterPeopleObjectSlice.reducer;

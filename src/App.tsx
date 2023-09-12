@@ -75,10 +75,6 @@ const App: React.FC = () => {
             path={`${PASTHOMEPAGE}${ENSALVERSPAGE}`}
             element={<EnslaversHomePage />}
           />
-          <Route
-            path={`${PASTHOMEPAGE}${ENSALVERSPAGE}/table`}
-            element={<EnslaversHomePage />}
-          />
           <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
           <Route path={`${BLOGPAGE}`} element={<Blog />} />
           <Route path={`${BLOGPAGE}/tag/:tagName/:tagID`} element={<Blog />} />
