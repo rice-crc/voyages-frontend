@@ -28,10 +28,11 @@ export const getAutoCompleteSlice = createSlice({
         setIsChangeAuto: (state, action: PayloadAction<boolean>) => {
             state.isChangeAuto = action.payload;
         },
+        resetSlice: (state) => initialState,
     },
 });
 
-export const { getAutoCompleteList, setAutoCompleteValue, setAutoLabel, setIsChangeAuto } =
+export const { getAutoCompleteList, setAutoCompleteValue, resetSlice, setAutoLabel, setIsChangeAuto } =
     getAutoCompleteSlice.actions;
 
 export default getAutoCompleteSlice.reducer;

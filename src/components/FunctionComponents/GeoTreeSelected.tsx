@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   AutoCompleteInitialState,
-  GeoTreeSelectDataProps,
   RangeSliderState,
 } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -19,50 +18,45 @@ import {
 import { convertDataToGeoTreeSelectFormat } from '@/utils/functions/convertDataToGeoTreeSelectFormat';
 import { fetchEnslavedGeoTreeSelect } from '@/fetchAPI/geoApi/fetchEnslavedGeoTreeSelect';
 import { fetchEnslaversGeoTreeSelect } from '@/fetchAPI/geoApi/fetchEnslaversGeoTreeSelect';
+import { getGeoValuesCheck } from '@/utils/functions/getGeovaluesCheck';
 
 const GeoTreeSelected: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch: AppDispatch = useDispatch();
   const [selectedValue, setSelectedValue] = useState<string[]>([]);
-  const { isChangeGeoTree, geoTreeList, geoTreeValue, geoTreeSelectValue } =
-    useSelector((state: RootState) => state.getGeoTreeData);
+  const { isChangeGeoTree, geoTreeList, geoTreeValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
 
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
-  const { pathName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
+  const { pathName } = useSelector((state: RootState) => state.getPathName);
   const { autoCompleteValue } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-
-  function getgeovalues(values: any[], geo_array: any[]) {
-    geo_array.forEach((child) => {
-      values.push(String(child.value));
-      if (child.children) {
-        getgeovalues(values, child.children);
-      }
-    });
-    return values;
-  }
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
     if (storedValue) {
       const parsedValue = JSON.parse(storedValue);
       const { filterObject } = parsedValue;
-      const geoTreeListValue = getgeovalues([], geoTreeList);
+      const geoTreeListValue = getGeoValuesCheck([], geoTreeList);
+
       for (const valueKey in filterObject) {
-        if (varName === valueKey) {
-          const geoList = filterObject[valueKey];
-          const filteredValueGeoTreeStorage = geoList.filter((item: string) => {
-            return item !== '*';
-          });
-          const filteredSelect = geoTreeListValue.filter((item: string) =>
-            filteredValueGeoTreeStorage.includes(item)
-          );
-          setSelectedValue(filteredSelect);
+        if (geoTreeListValue.length > 0) {
+          if (varName === valueKey) {
+            const geoList = filterObject[valueKey];
+            const filteredValueGeoTreeStorage = geoList.filter(
+              (item: string) => {
+                return item !== '*';
+              }
+            );
+            const filteredSelect = geoTreeListValue.filter((item: string) =>
+              filteredValueGeoTreeStorage.includes(item)
+            );
+            setSelectedValue(filteredSelect);
+          }
         }
       }
     }
@@ -118,6 +112,7 @@ const GeoTreeSelected: React.FC = () => {
             fetchEnslaversGeoTreeSelect(formData)
           ).unwrap();
         }
+
         if (subscribed && response) {
           dispatch(setGeoTreeValueList(response));
         }
@@ -126,7 +121,6 @@ const GeoTreeSelected: React.FC = () => {
       }
     };
     fetchGeoTreeSelectList();
-
     return () => {
       subscribed = false;
       dispatch(setGeoTreeValueList([]));

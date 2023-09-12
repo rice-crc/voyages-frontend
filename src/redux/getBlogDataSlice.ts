@@ -1,10 +1,10 @@
 
-import { Author, BlogDataProps, InitialStateBlogProps, InstitutionAuthor, InstitutionAuthorProps, Post, ResultAutoList } from '@/share/InterfaceTypesBlog';
+import { Author, BlogDataProps, InitialStateBlog, InstitutionAuthor, InstitutionAuthorProps, Post, ResultAutoList } from '@/share/InterfaceTypesBlog';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const getBlogDataSlice = createSlice({
     name: 'getBlogSlice',
-    initialState: InitialStateBlogProps,
+    initialState: InitialStateBlog,
     reducers: {
         setBlogData: (state, action: PayloadAction<BlogDataProps[]>) => {
             state.data = action.payload;
@@ -41,6 +41,7 @@ export const getBlogDataSlice = createSlice({
             (state, action: PayloadAction<InstitutionAuthor[]>) => {
                 state.institutionList = action.payload;
             },
+
     },
 });
 

@@ -12,8 +12,9 @@ import EnslavedPage from './EnslavedPage';
 import EnslavedTable from './EnslavedTable';
 import '@/style/page.scss';
 import VoyagesMaps from '@/components/FunctionComponents/Map/MAPS';
-import { setPathName } from '@/redux/getDataSetCollectionSlice';
+import { setPathName } from '@/redux/getDataPathNameSlice';
 import { ALLENSLAVED } from '@/share/CONST_DATA';
+import { resetAll } from '@/redux/resetAllSlice';
 
 const EnslavedPageScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -27,6 +28,7 @@ const EnslavedPageScrolling = () => {
 
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentEnslavedPage(page));
+    dispatch(resetAll());
     if (page === 2) {
       dispatch(setPathName(ALLENSLAVED));
     } else {
@@ -78,7 +80,7 @@ const EnslavedPageScrolling = () => {
       <Hidden>
         <div className="navbar-wrapper">
           <nav className="nav-button-enslaved">
-            {blocksPeople.map((page, index) => {
+            {blocksPeople.map((page: string, index: number) => {
               const buttonIndex = index + 1;
               return (
                 <ButtonNav

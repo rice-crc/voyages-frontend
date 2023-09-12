@@ -49,6 +49,7 @@ import {
 } from '@/share/CONST_DATA';
 import CanscandingMenuVoyagesMobile from '../canscanding/CanscandingMenuVoyagesMobile';
 import '@/style/Nav.scss';
+import { resetAll } from '@/redux/resetAllSlice';
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -90,14 +91,13 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     } else if (styleName === VOYAGESTEXAS) {
       navigate(`/${VOYAGESPAGE}${VOYAGESTEXASPAGE}`);
     }
-
-    /* === Reset the filter as you move between the different collections, 
-    if later need can remove line below === */
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
   };
+
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
   };
@@ -109,7 +109,13 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  const onClickReset = () => {
+    dispatch(resetAll());
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
   return (
     <Box
       sx={{
@@ -149,6 +155,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               textHeader={textHeader}
               HeaderTitle={VOYAGETILE}
               pathLink={VOYAGESPAGE}
+              onClickReset={onClickReset}
             />
             <Divider
               sx={{

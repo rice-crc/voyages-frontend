@@ -7,9 +7,7 @@ import { RootState } from '@/redux/store';
 import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
 
 export default function CanscandingMenu(props: CanscandingMenuProps) {
-  const { pathName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
+  const { pathName } = useSelector((state: RootState) => state.getPathName);
 
   return (
     <div

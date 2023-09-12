@@ -326,6 +326,7 @@ export interface TreeSelectItem {
     title: string;
     value: string;
     children?: TreeSelectItem[];
+    disabled?: boolean
 }
 export interface GeoTreeSelectChildren {
     id: number

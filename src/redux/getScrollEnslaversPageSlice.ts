@@ -10,8 +10,11 @@ export const getScrollEnslaversPageSlice = createSlice({
         setCurrentEnslaversPage: (state, action: PayloadAction<number>) => {
             state.currentEnslaversPage = action.payload;
         },
+        resetSlice: (state) => {
+            state.currentEnslaversPage
+        },
     }
 })
 
-export const { setCurrentEnslaversPage } = getScrollEnslaversPageSlice.actions;
+export const { resetSlice, setCurrentEnslaversPage } = getScrollEnslaversPageSlice.actions;
 export default getScrollEnslaversPageSlice.reducer;

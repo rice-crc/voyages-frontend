@@ -29,7 +29,7 @@
 		"label": "Enslavers",
 		"children": [
 			{
-				"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias",
+				"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
 				"type": "CharField",
 				"label": "Individual Enslavers"
 			}
@@ -44,17 +44,17 @@
 				"label": "Ship Name"
 			},
 			{
-				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
-				"type": "CharField",
+				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__value",
+				"type": "GeoTreeSelect",
 				"label": "Place of embarkation"
 			},
 			{
-				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
-				"type": "CharField",
+				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__value",
+				"type": "GeoTreeSelect",
 				"label": "Place of disembarkation"
 			},
 			{
-				"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
+				"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 				"type": "IntegerField",
 				"label": "Year of arrival"
 			}

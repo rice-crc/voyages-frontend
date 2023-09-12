@@ -1,8 +1,8 @@
-import { setPathName } from '@/redux/getDataSetCollectionSlice';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { setPathName } from '@/redux/getDataPathNameSlice';
 
 interface FilterButtonProps {
   pathName: string;

@@ -8,9 +8,6 @@ export interface StatePivotRowData {
     data: Record<string, any>[]
     rowData: Record<string, any>[]
     columnDefs: PivotColumnDef[];
-    tableOptions: {}
-    loading: boolean
-    error: null | any;
 }
 export interface PivotColumnDef {
     headerName: string;

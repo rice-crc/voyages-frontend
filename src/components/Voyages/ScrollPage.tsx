@@ -21,8 +21,9 @@ import VoyagesTable from './Results/VoyagesTable';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import VoyagesMaps from '../FunctionComponents/Map/MAPS';
 import PivotTables from '../FunctionComponents/PivotTables/PivotTables';
-import { setPathName } from '@/redux/getDataSetCollectionSlice';
+import { setPathName } from '@/redux/getDataPathNameSlice';
 import { ALLVOYAGES } from '@/share/CONST_DATA';
+import { resetAll } from '@/redux/resetAllSlice';
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -46,7 +47,12 @@ const ScrollPage = () => {
     } else if (page === 5) {
       dispatch(setPathName(ALLVOYAGES));
     }
+    dispatch(resetAll());
     dispatch(setCurrentPage(page));
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
   };
 
   const displayPage = (

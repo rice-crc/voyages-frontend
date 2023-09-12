@@ -43,6 +43,7 @@ import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_s
 import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
 import { ColumnSelectorTree } from '@/share/InterfaceTypesTable';
 import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
+import { resetAll } from '@/redux/resetAllSlice';
 
 const CanscandingMenuEnslavedMobile = () => {
   const { currentPage } = useSelector(
@@ -120,7 +121,7 @@ const CanscandingMenuEnslavedMobile = () => {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
-    dispatch(setRangeSliderValue({}));
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);

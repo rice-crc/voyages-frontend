@@ -3,9 +3,14 @@ import { WHITE } from '@/styleMUI';
 import LOGOVoyages from '@/assets/sv-logo_v2.svg';
 import SearchVoyages from '@/assets/searchICON.svg';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { resetAll } from '@/redux/resetAllSlice';
 
 export default function HeaderLogoSearch() {
+  const dispatch: AppDispatch = useDispatch();
   const onChangePath = () => {
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);

@@ -26,7 +26,7 @@ const pastNetworksSlice = createSlice({
         },
         setNetWorksKEY: (state, action: PayloadAction<string>) => {
             state.networkKEY = action.payload;
-        },
+        }
     }
 });
 

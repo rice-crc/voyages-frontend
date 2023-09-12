@@ -28,18 +28,14 @@ import '@/style/homepage.scss';
 
 import { useState, MouseEvent } from 'react';
 import { PaperDraggable } from './PaperDraggable';
-import {
-  setIsChange,
-  setKeyValue,
-  setRangeSliderValue,
-} from '@/redux/rangeSliderSlice';
+import { setIsChange, setKeyValue } from '@/redux/rangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown } from '@mui/icons-material';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import RangeSlider from '../Voyages/Results/RangeSlider';
 import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
-import { setData } from '@/redux/getTableSlice';
+import { resetAll } from '@/redux/resetAllSlice';
 
 export const MenuListDropdown = () => {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
@@ -52,6 +48,7 @@ export const MenuListDropdown = () => {
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
+
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -95,7 +92,7 @@ export const MenuListDropdown = () => {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
-    dispatch(setRangeSliderValue({}));
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -103,6 +100,7 @@ export const MenuListDropdown = () => {
   };
 
   const handleResetAll = () => {
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -192,10 +190,12 @@ export const MenuListDropdown = () => {
             />
           );
         })}
-        <div className="btn-navbar-reset-all" onClick={handleResetAll}>
-          <i aria-hidden="true" className="fa fa-times"></i>
-          <span>Reset all</span>
-        </div>
+        {varName && (
+          <div className="btn-navbar-reset-all" onClick={handleResetAll}>
+            <i aria-hidden="true" className="fa fa-times"></i>
+            <span>Reset all</span>
+          </div>
+        )}
       </Box>
       <Dialog
         disableScrollLock={true}

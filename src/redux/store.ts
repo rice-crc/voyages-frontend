@@ -26,6 +26,7 @@ import getNodeEdgesAggroutesMapDataSlice from './getNodeEdgesAggroutesMapDataSli
 import getPivotTablesDataSlice from './getPivotTablesDataSlice';
 import getCardFlatObjectSlice from './getCardFlatObjectSlice';
 import getGeoTreeDataSlice from './getGeoTreeDataSlice';
+import getDataPathNameSlice from './getDataPathNameSlice';
 
 const store = configureStore({
         reducer: {
@@ -52,6 +53,7 @@ const store = configureStore({
                 getCardFlatObjectData: getCardFlatObjectSlice,
                 getPivotTablesData: getPivotTablesDataSlice,
                 getGeoTreeData: getGeoTreeDataSlice,
+                getPathName: getDataPathNameSlice,
                 [voyagesApi.reducerPath]: voyagesApi.reducer,
                 [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
                 [pastEnslaversApiService.reducerPath]: pastEnslaversApiService.reducer,

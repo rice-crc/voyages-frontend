@@ -32,7 +32,6 @@ import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/FunctionComponents/NetworkGraph/ModalNetworksGraph';
-import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { VOYAGESTABLEFILE } from '@/share/CONST_DATA';
 import CardModal from '@/components/FunctionComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
@@ -40,7 +39,7 @@ import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAn
 const VoyagesTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const tablesCell = TABLE_FLAT.cell_structure;
-  const { columnDefs, data, rowData, loading } = useSelector(
+  const { columnDefs, data, rowData } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
 
@@ -60,7 +59,7 @@ const VoyagesTable: React.FC = () => {
     (state: RootState) => state.getDataSetCollection
   );
 
-  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+  const { isChangeGeoTree, geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
   const [page, setPage] = useState<number>(0);
@@ -279,53 +278,47 @@ const VoyagesTable: React.FC = () => {
 
   return (
     <div>
-      {loading ? (
-        <div className="loading-logo">
-          <img src={LOADINGLOGO} />
-        </div>
-      ) : (
-        <div style={containerStyle} className="ag-theme-alpine grid-container">
-          <div style={style}>
-            <span className="tableContainer">
-              <ColumnSelector />
-              <TablePagination
-                component="div"
-                count={totalResultsCount}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 45, 50, 100]}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </span>
-
-            <AgGridReact
-              ref={gridRef}
-              rowData={rowData}
-              onColumnVisible={handleColumnVisibleChange}
-              gridOptions={gridOptions}
-              columnDefs={columnDefs}
-              suppressMenuHide={true}
-              animateRows={true}
-              paginationPageSize={rowsPerPage}
-              defaultColDef={defaultColDef}
-              components={components}
-              getRowStyle={getRowRowStyle}
-              enableBrowserTooltips={true}
-              tooltipShowDelay={0}
-              tooltipHideDelay={1000}
+      <div style={containerStyle} className="ag-theme-alpine grid-container">
+        <div style={style}>
+          <span className="tableContainer">
+            <ColumnSelector />
+            <TablePagination
+              component="div"
+              count={totalResultsCount}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 45, 50, 100]}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
             />
-            <div className="pagination-div">
-              <Pagination
-                color="primary"
-                count={Math.ceil(totalResultsCount / rowsPerPage)}
-                page={page + 1}
-                onChange={handleChangePagePagination}
-              />
-            </div>
+          </span>
+
+          <AgGridReact
+            ref={gridRef}
+            rowData={rowData}
+            onColumnVisible={handleColumnVisibleChange}
+            gridOptions={gridOptions}
+            columnDefs={columnDefs}
+            suppressMenuHide={true}
+            animateRows={true}
+            paginationPageSize={rowsPerPage}
+            defaultColDef={defaultColDef}
+            components={components}
+            getRowStyle={getRowRowStyle}
+            enableBrowserTooltips={true}
+            tooltipShowDelay={0}
+            tooltipHideDelay={1000}
+          />
+          <div className="pagination-div">
+            <Pagination
+              color="primary"
+              count={Math.ceil(totalResultsCount / rowsPerPage)}
+              page={page + 1}
+              onChange={handleChangePagePagination}
+            />
           </div>
         </div>
-      )}
+      </div>
       <div>
         <ModalNetworksGraph />
       </div>

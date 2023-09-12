@@ -17,7 +17,6 @@ import {
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
-  Options,
   RangeSliderState,
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
@@ -31,16 +30,13 @@ import {
   PivotCellVar,
   PivotTablesProps,
 } from '@/share/InterfaceTypes';
-import { cachenamePivot } from '@/share/CONST_DATA';
 
 const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [optionFlat, setOptionsFlat] = useState<Options>({});
-  const [showAlert, setAlert] = useState(false);
 
   const [aggregation, setAggregation] = useState<string>('sum');
 
-  const { columnDefs, rowData, loading } = useSelector(
+  const { columnDefs, rowData } = useSelector(
     (state: RootState) => state.getPivotTablesData
   );
   const { autoCompleteValue, autoLabelName } = useSelector(
@@ -72,6 +68,7 @@ const PivotTables = () => {
     width: maxWidth,
     height: height * 0.6,
   });
+  const [loading, setLoading] = useState<boolean>(false);
   const [rowVars, setSelectRowValue] = useState<PivotRowVar[]>([]);
   const [columnVars, setSelectColumnValue] = useState<PivotColumnVar[]>([]);
   const [cellVars, setSelectCellValue] = useState<PivotCellVar[]>([]);
@@ -180,7 +177,7 @@ const PivotTables = () => {
           newFormData.append(dataSetKey, String(value));
         }
       }
-
+      setLoading(true);
       try {
         const response = await dispatch(
           fetchApiPivotCrosstabsTables(newFormData)
@@ -188,9 +185,11 @@ const PivotTables = () => {
         if (response && subscribed) {
           dispatch(setPivotTablColumnDefs(response.data.tablestructure));
           dispatch(setRowPivotTableData(response.data.data));
+          setLoading(false);
         }
       } catch (error) {
         console.log('error', error);
+        setLoading(false);
       }
     };
 
@@ -207,11 +206,14 @@ const PivotTables = () => {
     pivotValueOptions.rows_label,
     aggregation,
     varName,
+    rang,
     currentPage,
     autoLabelName,
     dataSetValue,
     dataSetKey,
     geoTreeValue,
+    isChange,
+    styleName,
   ]);
 
   const gridOptions = useMemo(
@@ -243,7 +245,6 @@ const PivotTables = () => {
   const handleChangeOptions = useCallback(
     (event: SelectChangeEvent<string>, name: string) => {
       const value = event.target.value;
-      console.log('value-->', value);
       setPivotValueOptions((prevVoyageOption) => ({
         ...prevVoyageOption,
         [name]: value,
@@ -257,23 +258,23 @@ const PivotTables = () => {
 
   return (
     <>
-      {loading ? (
-        <div className="loading-logo">
-          <img src={LOADINGLOGO} />
-        </div>
-      ) : (
-        <div className="ag-theme-alpine grid-container">
-          <SelectDropdownPivotable
-            selectedPivottablesOptions={pivotValueOptions}
-            selectRowValue={rowVars}
-            selectColumnValue={columnVars}
-            selectCellValue={cellVars}
-            handleChangeOptions={handleChangeOptions}
-          />
-          <AggregationSumAverage
-            handleChange={handleChangeAggregation}
-            aggregation={aggregation}
-          />
+      <div className="ag-theme-alpine grid-container">
+        <SelectDropdownPivotable
+          selectedPivottablesOptions={pivotValueOptions}
+          selectRowValue={rowVars}
+          selectColumnValue={columnVars}
+          selectCellValue={cellVars}
+          handleChangeOptions={handleChangeOptions}
+        />
+        <AggregationSumAverage
+          handleChange={handleChangeAggregation}
+          aggregation={aggregation}
+        />
+        {loading ? (
+          <div className="loading-logo">
+            <img src={LOADINGLOGO} />
+          </div>
+        ) : (
           <div style={style}>
             <AgGridReact
               rowData={newRowsData}
@@ -293,8 +294,8 @@ const PivotTables = () => {
               pinnedBottomRowData={pinnedBottomRowData}
             />
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };

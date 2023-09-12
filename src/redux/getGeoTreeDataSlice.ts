@@ -27,10 +27,11 @@ export const getGeoTreeDataSlice = createSlice({
         setIsChangeGeoTree: (state, action: PayloadAction<boolean>) => {
             state.isChangeGeoTree = action.payload;
         },
+        resetSlice: (state) => initialState,
     },
 });
 
-export const { setGeoTreeValueList, setGeoTreeValues, setGeoTreeValueSelect, setIsChangeGeoTree } =
+export const { setGeoTreeValueList, setGeoTreeValues, setGeoTreeValueSelect, setIsChangeGeoTree, resetSlice } =
     getGeoTreeDataSlice.actions;
 
 export default getGeoTreeDataSlice.reducer;

@@ -12,8 +12,9 @@ export const getOptionsDataPastPeopleEnslavedSlice = createSlice({
         getOptionsEnslaved: (state, action: PayloadAction<Record<string, never>>) => {
             state.value = action.payload;
         },
+        resetSlice: (state) => initialState,
     },
 });
 
-export const { getOptionsEnslaved } = getOptionsDataPastPeopleEnslavedSlice.actions;
+export const { resetSlice, getOptionsEnslaved } = getOptionsDataPastPeopleEnslavedSlice.actions;
 export default getOptionsDataPastPeopleEnslavedSlice.reducer;

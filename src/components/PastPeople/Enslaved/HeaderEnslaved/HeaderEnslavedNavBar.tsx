@@ -48,6 +48,7 @@ import { HeaderTitle } from '@/components/FunctionComponents/HeaderTitle';
 import { FilterButton } from '@/components/FunctionComponents/FilterButton';
 import { DatasetButton } from '@/components/FunctionComponents/DatasetButton';
 import '@/style/Nav.scss';
+import { resetAll } from '@/redux/resetAllSlice';
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -101,8 +102,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     } else if (styleName === ENSLAVEDTEXAS) {
       navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`);
     }
-    /* === Reset the filter as you move between the different collections, 
-    if later need can remove line below === */
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
 
     keysToRemove.forEach((key) => {
@@ -120,7 +120,13 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  const onClickReset = () => {
+    dispatch(resetAll());
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
   return (
     <Box
       sx={{
@@ -160,6 +166,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
               textHeader={textHeader}
               HeaderTitle={EnslavedTitle}
               pathLink={PASTHOMEPAGE}
+              onClickReset={onClickReset}
             />
             <Divider
               sx={{

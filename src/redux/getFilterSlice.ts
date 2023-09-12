@@ -10,9 +10,12 @@ export const getFilterSlice = createSlice({
         setIsFilter: (state, action: PayloadAction<boolean>) => {
             state.isFilter = action.payload;
         },
+        resetSlice: (state) => {
+            state.isFilter = false
+        }
     },
 });
 
-export const { setIsFilter } = getFilterSlice.actions;
+export const { resetSlice, setIsFilter } = getFilterSlice.actions;
 
 export default getFilterSlice.reducer;
