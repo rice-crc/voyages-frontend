@@ -65,7 +65,7 @@ export const LeafletMap = () => {
   const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+  const { isChangeGeoTree, geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
   const HandleZoomEvent = () => {
@@ -93,35 +93,84 @@ export const LeafletMap = () => {
         newFormData.append(dataSetKey, String(value));
       }
     }
-    if (
-      isChange &&
-      rang[varName] &&
-      currentPage === 7 &&
-      pathName === VOYAGESPAGE
-    ) {
-      newFormData.append(varName, String(rang[varName][0]));
-      newFormData.append(varName, String(rang[varName][1]));
+    if (isChange && rang && currentPage === 7 && pathName === VOYAGESPAGE) {
+      for (const rangKey in rang) {
+        newFormData.append(rangKey, String(rang[rangKey][0]));
+        newFormData.append(rangKey, String(rang[rangKey][1]));
+      }
     }
     if (
       isChange &&
-      rang[varName] &&
+      rang &&
       currentEnslavedPage === 3 &&
       pathName === PASTHOMEPAGE
     ) {
-      newFormData.append(varName, String(rang[varName][0]));
-      newFormData.append(varName, String(rang[varName][1]));
-    }
-    if (autoCompleteValue && varName && isChangeAuto) {
-      for (let i = 0; i < autoLabelName.length; i++) {
-        const label = autoLabelName[i];
-        newFormData.append(varName, label);
+      for (const rangKey in rang) {
+        newFormData.append(rangKey, String(rang[rangKey][0]));
+        newFormData.append(rangKey, String(rang[rangKey][1]));
       }
     }
-    if (isChangeGeoTree && varName && geoTreeValue) {
-      for (const value of geoTreeSelectValue) {
-        newFormData.append(varName, value);
+
+    if (
+      autoCompleteValue &&
+      isChangeAuto &&
+      currentPage === 7 &&
+      pathName === VOYAGESPAGE
+    ) {
+      for (const autoKey in autoCompleteValue) {
+        for (const autoCompleteOption of autoCompleteValue[autoKey]) {
+          if (typeof autoCompleteOption !== 'string') {
+            const { label } = autoCompleteOption;
+
+            newFormData.append(autoKey, label);
+          }
+        }
       }
     }
+
+    if (
+      autoCompleteValue &&
+      isChangeAuto &&
+      currentEnslavedPage === 3 &&
+      pathName === PASTHOMEPAGE
+    ) {
+      for (const autoKey in autoCompleteValue) {
+        for (const autoCompleteOption of autoCompleteValue[autoKey]) {
+          if (typeof autoCompleteOption !== 'string') {
+            const { label } = autoCompleteOption;
+
+            newFormData.append(autoKey, label);
+          }
+        }
+      }
+    }
+
+    if (
+      isChangeGeoTree &&
+      geoTreeValue &&
+      currentPage === 7 &&
+      pathName === VOYAGESPAGE
+    ) {
+      for (const keyValue in geoTreeValue) {
+        for (const keyGeoValue of geoTreeValue[keyValue]) {
+          newFormData.append(keyValue, String(keyGeoValue));
+        }
+      }
+    }
+
+    if (
+      isChangeGeoTree &&
+      geoTreeValue &&
+      currentEnslavedPage === 3 &&
+      pathName === PASTHOMEPAGE
+    ) {
+      for (const keyValue in geoTreeValue) {
+        for (const keyGeoValue of geoTreeValue[keyValue]) {
+          newFormData.append(keyValue, String(keyGeoValue));
+        }
+      }
+    }
+
     let response;
     if (pathName === VOYAGESPAGE) {
       response = await dispatch(fetchVoyagesMap(newFormData)).unwrap();
@@ -140,8 +189,6 @@ export const LeafletMap = () => {
             'transportation',
             JSON.stringify(transportation)
           );
-          localStorage.setItem('disposition', JSON.stringify(disposition));
-          localStorage.setItem('origination', JSON.stringify(origination));
         }
 
         dispatch(setNodesData(nodes));

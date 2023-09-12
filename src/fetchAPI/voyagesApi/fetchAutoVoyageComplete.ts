@@ -2,8 +2,8 @@ import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchAutoComplete = createAsyncThunk(
-    'autoComplete/fetchAutoCompleteLists',
+export const fetchAutoVoyageComplete = createAsyncThunk(
+    'autoComplete/fetchAutoVoyageComplete',
     async (keyOptions: FormData) => {
         try {
             const response = await axios.post(
@@ -15,7 +15,7 @@ export const fetchAutoComplete = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            throw new Error('Failed to fetch AutoCompleteLists data');
+            throw new Error('Failed to fetch fetchAutoVoyageComplete data');
         }
     }
 );

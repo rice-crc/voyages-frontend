@@ -95,9 +95,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     if later need can remove line below === */
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
-      if (key === 'filterObject') {
-        localStorage.removeItem(key);
-      }
+      localStorage.removeItem(key);
     });
   };
   const handleMenuFilterMobileClose = () => {

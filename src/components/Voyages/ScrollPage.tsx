@@ -38,6 +38,11 @@ const ScrollPage = () => {
   const handlePageNavigation = (page: number) => {
     if (page === 1) {
       dispatch(setIsFilter(false));
+
+      const keysToRemove = Object.keys(localStorage);
+      keysToRemove.forEach((key) => {
+        localStorage.removeItem(key);
+      });
     } else if (page === 5) {
       dispatch(setPathName(ALLVOYAGES));
     }

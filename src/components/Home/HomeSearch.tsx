@@ -29,6 +29,10 @@ const HomeSearch = () => {
           onClick={() => {
             dispatch(setCurrentPage(1));
             dispatch(setPathName(ALLVOYAGES));
+            const keysToRemove = Object.keys(localStorage);
+            keysToRemove.forEach((key) => {
+              localStorage.removeItem(key);
+            });
           }}
         >
           <img src={voyageIcon} alt="voyages" />
@@ -39,7 +43,13 @@ const HomeSearch = () => {
         <div className="voyages-people-places-title">People</div>
         <Link
           to={`/${PASTHOMEPAGE}`}
-          onClick={() => dispatch(setPathName(ALLENSLAVED))}
+          onClick={() => {
+            const keysToRemove = Object.keys(localStorage);
+            keysToRemove.forEach((key) => {
+              localStorage.removeItem(key);
+            });
+            dispatch(setPathName(ALLENSLAVED));
+          }}
         >
           <img src={peopleIcon} alt="voyages" />
         </Link>

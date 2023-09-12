@@ -28,13 +28,15 @@ const RangeSlider = () => {
   const { pathName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+
   const { geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
+
   const { autoCompleteValue } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-  const [loading, setLoading] = useState(false);
+
   const rangeMinMax = rangeSliderMinMax?.[varName] ||
     rangeValue?.[varName] || [0, 0];
 
@@ -78,13 +80,11 @@ const RangeSlider = () => {
         }
       } catch (error) {
         console.log('error', error);
-        setLoading(false);
-      } finally {
-        setLoading(false);
       }
     };
     fetchRangeSlider();
     return () => {
+      dispatch(setRangeValue({}));
       subscribed = false;
     };
   }, [dispatch, varName, pathName]);

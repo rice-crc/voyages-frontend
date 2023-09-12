@@ -104,10 +104,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
     /* === Reset the filter as you move between the different collections, 
     if later need can remove line below === */
     const keysToRemove = Object.keys(localStorage);
+
     keysToRemove.forEach((key) => {
-      if (key === 'filterObject') {
-        localStorage.removeItem(key);
-      }
+      localStorage.removeItem(key);
     });
   };
   const handleMenuFilterMobileClose = () => {
