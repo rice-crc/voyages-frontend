@@ -52,6 +52,9 @@ function Scatter() {
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
@@ -90,30 +93,33 @@ function Scatter() {
       const newFormData: FormData = new FormData();
       newFormData.append('groupby_by', scatterOptions.x_vars);
       const yfieldArr: string[] = [];
+      newFormData.append('agg_fn', aggregation);
+      newFormData.append('cachename', 'voyage_xyscatter');
 
-      if (currentPage === 2) {
+      if (currentPage === 3) {
         for (const chip of chips) {
           newFormData.append('groupby_cols', chip);
           yfieldArr.push(chip);
         }
       }
 
-      newFormData.append('agg_fn', aggregation);
-      newFormData.append('cachename', 'voyage_xyscatter');
+      if (inputSearchValue) {
+        newFormData.append('global_search', String(inputSearchValue));
+      }
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
           newFormData.append(dataSetKey, String(value));
         }
       }
-      if (isChange && rang && currentPage === 2) {
+      if (isChange && rang && currentPage === 3) {
         for (const rangKey in rang) {
           newFormData.append(rangKey, String(rang[rangKey][0]));
           newFormData.append(rangKey, String(rang[rangKey][1]));
         }
       }
 
-      if (autoCompleteValue && varName && currentPage === 2) {
+      if (autoCompleteValue && varName && currentPage === 3) {
         for (const autoKey in autoCompleteValue) {
           for (const autoCompleteOption of autoCompleteValue[autoKey]) {
             if (typeof autoCompleteOption !== 'string') {
@@ -125,7 +131,7 @@ function Scatter() {
         }
       }
 
-      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 2) {
+      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 3) {
         for (const keyValue in geoTreeValue) {
           for (const keyGeoValue of geoTreeValue[keyValue]) {
             newFormData.append(keyValue, String(keyGeoValue));
@@ -186,6 +192,7 @@ function Scatter() {
     geoTreeSelectValue,
     VoyageScatterOptions,
     geoTreeValue,
+    inputSearchValue,
   ]);
 
   const handleChangeAggregation = useCallback(

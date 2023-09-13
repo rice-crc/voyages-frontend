@@ -9,7 +9,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeader from '../../FunctionComponents/CustomHeader';
-import { setData } from '@/redux/getTableSlice';
+import { setData, setRowData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { useWindowSize } from '@react-hook/window-size';
@@ -81,7 +81,9 @@ const EnslavedTable: React.FC = () => {
     width: maxWidth,
     height: height * 0.62,
   });
-
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const containerStyle = useMemo(
     () => ({ width: maxWidth, height: height * 0.7 }),
     [maxWidth, height]
@@ -151,7 +153,9 @@ const EnslavedTable: React.FC = () => {
       const newFormData: FormData = new FormData();
       newFormData.append('results_page', String(page + 1));
       newFormData.append('results_per_page', String(rowsPerPage));
-
+      if (inputSearchValue) {
+        newFormData.append('global_search', String(inputSearchValue));
+      }
       if (rang[varName] && currentEnslavedPage === 2) {
         for (const rangKey in rang) {
           newFormData.append(rangKey, String(rang[rangKey][0]));
@@ -200,6 +204,7 @@ const EnslavedTable: React.FC = () => {
     fetchData();
     return () => {
       dispatch(setData([]));
+      dispatch(setRowData([]));
     };
   }, [
     dispatch,
@@ -215,6 +220,8 @@ const EnslavedTable: React.FC = () => {
     styleNamePeople,
     visibleColumnCells,
     geoTreeValue,
+    inputSearchValue,
+    styleNamePeople,
   ]);
 
   useEffect(() => {

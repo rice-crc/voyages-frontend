@@ -6,16 +6,20 @@ import { Link, useParams } from 'react-router-dom';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import LanguagesDropdown from '../FunctionComponents/LanguagesDropdown';
 import AutoCompletedSearhBlog from './AutoCompletedSearhBlog';
+import GlobalSearchButton from '../FunctionComponents/GlobalSearchButton';
 
 const NavBarBlog: React.FC = () => {
   const { blogTitle, institutionName } = useParams();
-  const { post, searchTitle } = useSelector(
+  const { post } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
   const { title } = post;
   const handleReloadPage = () => {
     window.location.href = `/${BLOGPAGE}`;
   };
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
 
   return (
     <>
@@ -29,15 +33,16 @@ const NavBarBlog: React.FC = () => {
             <div>{`Echoes: The SlaveVoyages Blog ${
               '-' && title ? title : ''
             }`}</div>
-            <div className="navbar-blog-subtitle">
-              {searchTitle ? searchTitle.toUpperCase() : ''}
-            </div>
           </Link>
         </div>
         <div>
           {!blogTitle && !institutionName && <LanguagesDropdown />}
           <div className="search-autocomplete-blog">
-            <AutoCompletedSearhBlog />
+            {inputSearchValue ? (
+              <GlobalSearchButton />
+            ) : (
+              <AutoCompletedSearhBlog />
+            )}
           </div>
         </div>
       </div>

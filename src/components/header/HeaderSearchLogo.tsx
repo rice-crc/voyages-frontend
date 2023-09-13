@@ -6,11 +6,57 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { resetAll } from '@/redux/resetAllSlice';
+import {
+  setBlocksMenuList,
+  setDataSetHeader,
+  setStyleName,
+  setTextIntro,
+} from '@/redux/getDataSetCollectionSlice';
+import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json';
+import { setInputSearchValue } from '@/redux/getCommonGlobalSearchResultSlice';
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
+import {
+  setDataSetPeopleEnslavedHeader,
+  setPeopleEnslavedBlocksMenuList,
+  setPeopleEnslavedFilterMenuFlatfile,
+  setPeopleEnslavedStyleName,
+  setPeopleEnslavedTextIntro,
+  setPeopleTableEnslavedFlatfile,
+} from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 
 export default function HeaderLogoSearch() {
   const dispatch: AppDispatch = useDispatch();
   const onChangePath = () => {
     dispatch(resetAll());
+    dispatch(setInputSearchValue(''));
+    dispatch(setDataSetHeader(jsonDataVoyageCollection[0].headers.label));
+    dispatch(setTextIntro(jsonDataVoyageCollection[0].headers.text_introduce));
+    dispatch(setStyleName(jsonDataVoyageCollection[0].style_name));
+    dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
+    dispatch(
+      setDataSetPeopleEnslavedHeader(jsonDataPEOPLECOLLECTIONS[0].headers.label)
+    );
+    dispatch(
+      setPeopleEnslavedTextIntro(
+        jsonDataPEOPLECOLLECTIONS[0].headers.text_introduce
+      )
+    );
+    dispatch(
+      setPeopleEnslavedStyleName(jsonDataPEOPLECOLLECTIONS[0].style_name)
+    );
+    dispatch(
+      setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[0].blocks)
+    );
+    dispatch(
+      setPeopleEnslavedFilterMenuFlatfile(
+        jsonDataPEOPLECOLLECTIONS[0].filter_menu_flatfile
+      )
+    );
+    dispatch(
+      setPeopleTableEnslavedFlatfile(
+        jsonDataPEOPLECOLLECTIONS[0].table_flatfile
+      )
+    );
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);

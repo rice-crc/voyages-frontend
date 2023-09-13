@@ -13,7 +13,7 @@ import '@/style/page.scss';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 import { ENSALVERSPAGE, PASTHOMEPAGE } from '@/share/CONST_DATA';
 import { useNavigate } from 'react-router-dom';
-import { resetAll } from '@/redux/resetAllSlice';
+import { setIsFilter } from '@/redux/getFilterSlice';
 
 const EnslaversScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -28,12 +28,11 @@ const EnslaversScrolling = () => {
 
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentEnslaversPage(page));
-    navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}`);
-    dispatch(resetAll());
-    const keysToRemove = Object.keys(localStorage);
-    keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
-    });
+    if (page === 1) {
+      dispatch(setIsFilter(false));
+    } else if (page === 2) {
+      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}`);
+    }
   };
   const displayPage = (
     <motion.div
@@ -57,7 +56,7 @@ const EnslaversScrolling = () => {
   } else if (currentEnslaversPage === 2 && isFilter) {
     topPosition = 225;
   } else if (currentEnslaversPage === 2) {
-    topPosition = 160;
+    topPosition = 170;
   } else if (isFilter) {
     topPosition = 227;
   } else {

@@ -20,22 +20,19 @@ import '@/style/homepage.scss';
 
 const HomeSearch = () => {
   const dispatch: AppDispatch = useDispatch();
-
+  const handleHomeSearch = () => {
+    dispatch(setCurrentPage(1));
+    dispatch(setPathName(ALLVOYAGES));
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
   return (
     <div className="voyages-people-places">
       <div className="voyage-page-box">
         <div className="voyages-people-places-title">Voyages</div>
-        <Link
-          to={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`}
-          onClick={() => {
-            dispatch(setCurrentPage(1));
-            dispatch(setPathName(ALLVOYAGES));
-            const keysToRemove = Object.keys(localStorage);
-            keysToRemove.forEach((key) => {
-              localStorage.removeItem(key);
-            });
-          }}
-        >
+        <Link to={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`} onClick={handleHomeSearch}>
           <img src={voyageIcon} alt="voyages" />
         </Link>
         <div className="voyages-people-places-subtitle">Search by vessel</div>

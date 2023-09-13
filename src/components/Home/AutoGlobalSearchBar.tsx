@@ -5,20 +5,60 @@ import { TextFieldSearch } from '@/styleMUI';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSearchGlobalApi } from '@/fetchAPI/homeApi/fetchSearchGlobal';
-import { setSearchGlobalData } from '@/redux/getCommonGlobalSearchResultSlice';
+import {
+  setInputSearchValue,
+  setRequestId,
+  setSearchGlobalData,
+  setTypePage,
+} from '@/redux/getCommonGlobalSearchResultSlice';
 import { GlobalSearchProp } from '@/share/InterfaceTypesGlobalSearch';
-import { getOptionLabelSearchGlobal } from './getOptionLabelSearchGlobal';
+import {
+  getOptionLabelSearchGlobal,
+  shouldDisable,
+} from './getOptionLabelSearchGlobal';
 import debounce from 'lodash.debounce';
 import '@/style/homepage.scss';
+import {
+  AutoCompleteInitialState,
+  RangeSliderState,
+} from '@/share/InterfaceTypes';
+import { useNavigate } from 'react-router-dom';
+import {
+  ALLENSLAVEDPAGE,
+  ALLVOYAGESPAGE,
+  BLOGPAGE,
+  ENSALVEDPAGE,
+  ENSALVERSPAGE,
+  GlobalSearchBlogType,
+  GlobalSearchEnslavedType,
+  GlobalSearchEnslaversType,
+  GlobalSearchVoyagesType,
+  PASTHOMEPAGE,
+  VOYAGESPAGE,
+} from '@/share/CONST_DATA';
+import { setCurrentPage } from '@/redux/getScrollPageSlice';
+import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
+import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 
 const AutoGlobalSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { data } = useSelector(
+  const navigate = useNavigate();
+  const { data, inputSearchValue, requestId } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const [inputSearchValue, setInputSearchValue] = useState<string>('');
+  const { rangeSliderMinMax } = useSelector(
+    (state: RootState) => state.rangeSlider as RangeSliderState
+  );
+
+  const { geoTreeValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
+
+  const { autoCompleteValue } = useSelector(
+    (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
+  );
+
   const [showClearButton, setShowClearButton] = useState<boolean>(false);
-  const [requestId, setRequestId] = useState<number | null>(null);
   const [calledIds, setCalledIds] = useState<Set<number>>(new Set());
   const [isFetching, setIsFetching] = useState(false);
   const signalRef = useRef<AbortController | null>(null);
@@ -67,19 +107,19 @@ const AutoGlobalSearchBar = () => {
 
   const handleInputChangeDebounced = useCallback(
     debounce((value: string) => {
-      setInputSearchValue(value);
-    }, 300), // Adjust the debounce delay here (e.g., 300ms)
+      dispatch(setInputSearchValue(value));
+    }, 300),
     []
   );
 
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
-      setInputSearchValue(value);
+      dispatch(setInputSearchValue(value));
       setShowClearButton(value !== '');
       handleInputChangeDebounced(value);
       const newRequestId = Date.now();
-      setRequestId(newRequestId);
+      dispatch(setRequestId(newRequestId));
 
       // Cancel any ongoing fetch request using the previous signal
       if (signalRef.current) {
@@ -94,16 +134,38 @@ const AutoGlobalSearchBar = () => {
     [handleInputChangeDebounced]
   );
 
-  // WAIT : What acction when user Select data
   const handleSelect = (option: GlobalSearchProp | null) => {
     if (option) {
-      console.log('Selected:', option.type, option.results_count, option.ids);
-    } else {
-      console.log('Selected: null');
+      const { type } = option;
+      dispatch(setTypePage(type));
+
+      if (type === GlobalSearchVoyagesType) {
+        dispatch(setCurrentPage(2));
+        navigate(`${VOYAGESPAGE}${ALLVOYAGESPAGE}`);
+      } else if (type === GlobalSearchEnslavedType) {
+        dispatch(setCurrentEnslavedPage(2));
+        navigate(`${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`);
+      } else if (type === GlobalSearchEnslaversType) {
+        dispatch(setCurrentEnslaversPage(2));
+        navigate(`${PASTHOMEPAGE}${ENSALVERSPAGE}`);
+      } else if (type === GlobalSearchBlogType) {
+        navigate(`${BLOGPAGE}`);
+      }
+      const filterObject = {
+        filterObject: {
+          ...rangeSliderMinMax,
+          ...autoCompleteValue,
+          ...geoTreeValue,
+          ['global_search']: inputSearchValue,
+        },
+      };
+      const filterObjectString = JSON.stringify(filterObject);
+      localStorage.setItem('filterObject', filterObjectString);
     }
   };
+
   const handleClearSearch = () => {
-    setInputSearchValue('');
+    dispatch(setInputSearchValue(''));
     setShowClearButton(false);
     dispatch(setSearchGlobalData([]));
   };
@@ -136,12 +198,16 @@ const AutoGlobalSearchBar = () => {
       {isFetching && <div>Loading...</div>}
       {data.length > 0 && (
         <Stack className="stack-search-global">
-          {data.map((option, index) => (
+          {data.map((option: GlobalSearchProp, index: number) => (
             <List
               key={`${option.type}-${index}`}
               className="list-search-global"
             >
-              <ListItem button onClick={() => handleSelect(option)}>
+              <ListItem
+                button
+                onClick={() => handleSelect(option)}
+                disabled={shouldDisable(option)}
+              >
                 <ListItemText primary={getOptionLabelSearchGlobal(option)} />
               </ListItem>
             </List>
