@@ -20,30 +20,28 @@ export const AggregationSumAverage: FunctionComponent<
   const { aggregation, handleChange } = props;
 
   return (
-    <div>
-      <FormControl>
-        <FormLabel id="demo-controlled-radio-buttons-group">
-          Aggregation Function
-        </FormLabel>
-        <RadioGroup
-          aria-labelledby="demo-controlled-radio-buttons-group"
-          name="controlled-radio-buttons-group"
-          value={aggregation}
-          onChange={handleChange}
-          row
-        >
-          <FormControlLabel
-            value="sum"
-            control={<Radio />}
-            label={<Typography variant="body1">Sum</Typography>}
-          />
-          <FormControlLabel
-            value="mean"
-            control={<Radio />}
-            label={<Typography variant="body1">Average</Typography>}
-          />
-        </RadioGroup>
-      </FormControl>
-    </div>
+    <FormControl>
+      <FormLabel id="demo-controlled-radio-buttons-group">
+        Aggregation Function
+      </FormLabel>
+      <RadioGroup
+        aria-labelledby="demo-controlled-radio-buttons-group"
+        name="controlled-radio-buttons-group"
+        value={aggregation}
+        onChange={handleChange}
+        row
+      >
+        <FormControlLabel
+          value="sum"
+          control={<Radio />}
+          label={<Typography variant="body1">Sum</Typography>}
+        />
+        <FormControlLabel
+          value="mean"
+          control={<Radio />}
+          label={<Typography variant="body1">Average</Typography>}
+        />
+      </RadioGroup>
+    </FormControl>
   );
 };

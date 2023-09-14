@@ -1,4 +1,11 @@
-import { useMemo, useState, useEffect, useCallback, ChangeEvent } from 'react';
+import {
+  useMemo,
+  useState,
+  useEffect,
+  useCallback,
+  ChangeEvent,
+  useRef,
+} from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { SelectChangeEvent } from '@mui/material';
@@ -35,7 +42,7 @@ const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const [aggregation, setAggregation] = useState<string>('sum');
-
+  const gridRef = useRef<AgGridReact>(null);
   const { columnDefs, rowData } = useSelector(
     (state: RootState) => state.getPivotTablesData
   );
@@ -263,6 +270,10 @@ const PivotTables = () => {
   const newRowsData = rowData.slice(0, -1);
   const pinnedBottomRowData: any[] = [rowData[rowData.length - 1]];
 
+  const handleButtonExportCSV = useCallback(() => {
+    (gridRef.current as AgGridReact<any>).api.exportDataAsCsv();
+  }, []);
+
   return (
     <>
       <div className="ag-theme-alpine grid-container">
@@ -273,10 +284,17 @@ const PivotTables = () => {
           selectCellValue={cellVars}
           handleChangeOptions={handleChangeOptions}
         />
-        <AggregationSumAverage
-          handleChange={handleChangeAggregation}
-          aggregation={aggregation}
-        />
+        <div className="aggregation-export">
+          <AggregationSumAverage
+            handleChange={handleChangeAggregation}
+            aggregation={aggregation}
+          />
+          <div className="button-export-csv">
+            <button onClick={handleButtonExportCSV}>
+              Download CSV Export file
+            </button>
+          </div>
+        </div>
         {loading ? (
           <div className="loading-logo">
             <img src={LOADINGLOGO} />
@@ -284,6 +302,7 @@ const PivotTables = () => {
         ) : (
           <div style={style}>
             <AgGridReact
+              ref={gridRef}
               rowData={newRowsData}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
