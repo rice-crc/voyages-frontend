@@ -68,6 +68,11 @@ export const LeafletMap = () => {
   const { isChangeGeoTree, geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
+
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
+
   const HandleZoomEvent = () => {
     const map = useMapEvents({
       zoomend: () => {
@@ -87,11 +92,14 @@ export const LeafletMap = () => {
     setLoading(true);
     const newFormData = new FormData();
     newFormData.append('zoomlevel', isCallFetchData ? 'place' : 'region');
-    // PASS dataSetKey only for intra-american / trans-atlantic / texas bound
+
     if (styleName !== TYPESOFDATASET.allVoyages) {
       for (const value of dataSetValue) {
         newFormData.append(dataSetKey, String(value));
       }
+    }
+    if (inputSearchValue) {
+      newFormData.append('global_search', String(inputSearchValue));
     }
     if (isChange && rang && currentPage === 7 && pathName === VOYAGESPAGE) {
       for (const rangKey in rang) {
@@ -222,6 +230,7 @@ export const LeafletMap = () => {
     styleName,
     isCallFetchData,
     geoTreeValue,
+    inputSearchValue,
   ]);
 
   useEffect(() => {

@@ -56,6 +56,9 @@ const PivotTables = () => {
   const { isChangeGeoTree, geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const components = useMemo(() => {
     return {
       agColumnHeader: CustomHeader,
@@ -146,6 +149,9 @@ const PivotTables = () => {
       newFormData.append('value_field', cell_vars);
       newFormData.append('cachename', cachename);
 
+      if (inputSearchValue) {
+        newFormData.append('global_search', String(inputSearchValue));
+      }
       if (isChange && rang && currentPage === 6) {
         for (const rangKey in rang) {
           newFormData.append(rangKey, String(rang[rangKey][0]));
@@ -214,6 +220,7 @@ const PivotTables = () => {
     geoTreeValue,
     isChange,
     styleName,
+    inputSearchValue,
   ]);
 
   const gridOptions = useMemo(

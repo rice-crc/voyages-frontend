@@ -74,3 +74,8 @@ export const classToColor = {
 };
 export const RADIUSNODE = 8;
 export const cachenamePivot = `voyage_pivot_tables`;
+// Global search
+export const GlobalSearchVoyagesType = 'voyages'
+export const GlobalSearchEnslavedType = 'enslaved'
+export const GlobalSearchEnslaversType = 'enslavers'
+export const GlobalSearchBlogType = 'blog'

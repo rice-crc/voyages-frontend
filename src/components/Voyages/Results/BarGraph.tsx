@@ -49,6 +49,9 @@ function BarGraph() {
   const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
@@ -86,7 +89,10 @@ function BarGraph() {
       const newFormData: FormData = new FormData();
       newFormData.append('groupby_by', barGraphOptions.x_vars);
       const yfieldArr: string[] = [];
-      if (currentPage === 3) {
+      if (inputSearchValue) {
+        newFormData.append('global_search', String(inputSearchValue));
+      }
+      if (currentPage === 4) {
         for (const chip of chips) {
           newFormData.append('groupby_cols', chip);
           yfieldArr.push(chip);
@@ -101,13 +107,13 @@ function BarGraph() {
         }
       }
 
-      if (isChange && rang && currentPage === 3) {
+      if (isChange && rang && currentPage === 4) {
         for (const rangKey in rang) {
           newFormData.append(rangKey, String(rang[rangKey][0]));
           newFormData.append(rangKey, String(rang[rangKey][1]));
         }
       }
-      if (autoCompleteValue && varName && currentPage === 3) {
+      if (autoCompleteValue && varName && currentPage === 4) {
         for (const autoKey in autoCompleteValue) {
           for (const autoCompleteOption of autoCompleteValue[autoKey]) {
             if (typeof autoCompleteOption !== 'string') {
@@ -119,7 +125,7 @@ function BarGraph() {
         }
       }
 
-      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 3) {
+      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 4) {
         for (const keyValue in geoTreeValue) {
           for (const keyGeoValue of geoTreeValue[keyValue]) {
             newFormData.append(keyValue, String(keyGeoValue));
@@ -177,6 +183,7 @@ function BarGraph() {
     geoTreeSelectValue,
     VoyageBargraphOptions,
     geoTreeValue,
+    inputSearchValue,
   ]);
 
   const handleChangeAggregation = useCallback(

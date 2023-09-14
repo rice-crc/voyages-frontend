@@ -59,6 +59,10 @@ const VoyagesTable: React.FC = () => {
     (state: RootState) => state.getDataSetCollection
   );
 
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
+
   const { isChangeGeoTree, geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
@@ -121,14 +125,17 @@ const VoyagesTable: React.FC = () => {
     newFormData.append('results_page', String(page + 1));
     newFormData.append('results_per_page', String(rowsPerPage));
 
-    if (currentPage === 5) {
+    if (inputSearchValue) {
+      newFormData.append('global_search', String(inputSearchValue));
+    }
+    if (currentPage === 2) {
       for (const rangKey in rang) {
         newFormData.append(rangKey, String(rang[rangKey][0]));
         newFormData.append(rangKey, String(rang[rangKey][1]));
       }
     }
 
-    if (autoCompleteValue && varName) {
+    if (autoCompleteValue && varName && currentPage === 2) {
       for (const autoKey in autoCompleteValue) {
         for (const autoCompleteOption of autoCompleteValue[autoKey]) {
           if (typeof autoCompleteOption !== 'string') {
@@ -187,6 +194,7 @@ const VoyagesTable: React.FC = () => {
     dataSetKey,
     styleName,
     geoTreeValue,
+    inputSearchValue,
   ]);
 
   useEffect(() => {

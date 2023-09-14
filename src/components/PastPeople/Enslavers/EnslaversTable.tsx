@@ -47,7 +47,9 @@ const EnslaversTable: React.FC = () => {
   const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
@@ -120,6 +122,9 @@ const EnslaversTable: React.FC = () => {
       newFormData.append('results_page', String(page + 1));
       newFormData.append('results_per_page', String(rowsPerPage));
 
+      if (inputSearchValue) {
+        newFormData.append('global_search', String(inputSearchValue));
+      }
       if (rang[varName] && currentEnslaversPage === 2) {
         for (const rangKey in rang) {
           newFormData.append(rangKey, String(rang[rangKey][0]));
@@ -183,6 +188,7 @@ const EnslaversTable: React.FC = () => {
     dataSetKeyPeople,
     styleNamePeople,
     geoTreeValue,
+    inputSearchValue,
   ]);
 
   useEffect(() => {

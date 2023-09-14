@@ -13,6 +13,7 @@ import ButtonDropdownSelectorEnslavers from '../ColumnSelectorEnslaversTable/But
 import CanscandingMenuEnslaversMobile from '@/components/canscanding/CanscandingMenuEnslaversMobile';
 import '@/style/Nav.scss';
 import { resetAll } from '@/redux/resetAllSlice';
+import GlobalSearchButton from '@/components/FunctionComponents/GlobalSearchButton';
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -21,6 +22,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
   );
 
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
@@ -89,10 +93,14 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 fontWeight: 600,
               }}
             >
-              <FilterButton
-                pathName={ALLENSLAVERS}
-                currentPage={currentEnslaversPage}
-              />
+              {inputSearchValue ? (
+                <GlobalSearchButton />
+              ) : (
+                <FilterButton
+                  pathName={ALLENSLAVERS}
+                  currentPage={currentEnslaversPage}
+                />
+              )}
             </Typography>
           </Typography>
           <CanscandingMenuEnslaversMobile />

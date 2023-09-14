@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useGetOptionsQuery } from '@/fetchAPI/voyagesApi/fetchApiService';
 import { SelectDropdown } from './SelectDropdown';
 import { AggregationSumAverage } from './AggregationSumAverage';
-import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
+import NODATA from '@/assets/noData.png';
 import { fetchVoyageGraphGroupby } from '@/fetchAPI/voyagesApi/fetchVoyageGroupby';
 import {
   VoyagesOptionProps,
@@ -22,14 +22,11 @@ import {
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetchAPI/voyagesApi/fetchOptionsFlat';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import '@/style/homepage.scss';
 
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
-  const {
-    data: options_flat,
-    isSuccess,
-    isLoading,
-  } = useGetOptionsQuery(datas);
+  const { data: options_flat, isSuccess } = useGetOptionsQuery(datas);
   const dispatch: AppDispatch = useDispatch();
   const {
     rangeSliderMinMax: rang,
@@ -38,6 +35,9 @@ function PieGraph() {
   } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
   const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
+  );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
   );
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -92,13 +92,16 @@ function PieGraph() {
           newFormData.append(dataSetKey, String(value));
         }
       }
-      if (isChange && rang && currentPage === 4) {
+      if (inputSearchValue) {
+        newFormData.append('global_search', String(inputSearchValue));
+      }
+      if (isChange && rang && currentPage === 5) {
         for (const rangKey in rang) {
           newFormData.append(rangKey, String(rang[rangKey][0]));
           newFormData.append(rangKey, String(rang[rangKey][1]));
         }
       }
-      if (autoCompleteValue && varName && currentPage === 4) {
+      if (autoCompleteValue && varName && currentPage === 5) {
         for (const autoKey in autoCompleteValue) {
           for (const autoCompleteOption of autoCompleteValue[autoKey]) {
             if (typeof autoCompleteOption !== 'string') {
@@ -110,7 +113,7 @@ function PieGraph() {
         }
       }
 
-      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 4) {
+      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 5) {
         for (const keyValue in geoTreeValue) {
           for (const keyGeoValue of geoTreeValue[keyValue]) {
             newFormData.append(keyValue, String(keyGeoValue));
@@ -157,6 +160,7 @@ function PieGraph() {
     styleName,
     geoTreeSelectValue,
     geoTreeValue,
+    inputSearchValue,
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -231,8 +235,9 @@ function PieGraph() {
           />
         </Grid>
       ) : (
-        <div className="loading-logo">
-          <img src={LOADINGLOGO} />
+        <div className="no-data-icon">
+          <div>No Result</div>
+          <img src={NODATA} />
         </div>
       )}
     </div>

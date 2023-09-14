@@ -49,6 +49,7 @@ import { FilterButton } from '@/components/FunctionComponents/FilterButton';
 import { DatasetButton } from '@/components/FunctionComponents/DatasetButton';
 import '@/style/Nav.scss';
 import { resetAll } from '@/redux/resetAllSlice';
+import GlobalSearchButton from '@/components/FunctionComponents/GlobalSearchButton';
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -59,6 +60,10 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const { value, textHeader, styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
+
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -191,10 +196,14 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 fontWeight: 600,
               }}
             >
-              <FilterButton
-                pathName={ALLENSLAVED}
-                currentPage={currentEnslavedPage}
-              />
+              {inputSearchValue ? (
+                <GlobalSearchButton />
+              ) : (
+                <FilterButton
+                  pathName={ALLENSLAVED}
+                  currentPage={currentEnslavedPage}
+                />
+              )}
             </Typography>
           </Typography>
           <CanscandingMenuEnslavedMobile />

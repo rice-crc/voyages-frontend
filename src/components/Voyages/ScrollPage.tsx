@@ -1,10 +1,7 @@
-import { useEffect, useState } from 'react';
 import { Grid, Hidden } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage, setIsOpenDialog } from '@/redux/getScrollPageSlice';
+import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import { ButtonNav } from '@/styleMUI';
@@ -23,7 +20,6 @@ import VoyagesMaps from '../FunctionComponents/Map/MAPS';
 import PivotTables from '../FunctionComponents/PivotTables/PivotTables';
 import { setPathName } from '@/redux/getDataPathNameSlice';
 import { ALLVOYAGES } from '@/share/CONST_DATA';
-import { resetAll } from '@/redux/resetAllSlice';
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -37,22 +33,12 @@ const ScrollPage = () => {
   );
 
   const handlePageNavigation = (page: number) => {
+    dispatch(setCurrentPage(page));
     if (page === 1) {
       dispatch(setIsFilter(false));
-
-      const keysToRemove = Object.keys(localStorage);
-      keysToRemove.forEach((key) => {
-        localStorage.removeItem(key);
-      });
     } else if (page === 5) {
       dispatch(setPathName(ALLVOYAGES));
     }
-    dispatch(resetAll());
-    dispatch(setCurrentPage(page));
-    const keysToRemove = Object.keys(localStorage);
-    keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
-    });
   };
 
   const displayPage = (
@@ -65,10 +51,10 @@ const ScrollPage = () => {
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       {currentPage === 1 && <VoyagesHompPage />}
-      {currentPage === 2 && <Scatter />}
-      {currentPage === 3 && <BarGraph />}
-      {currentPage === 4 && <PieGraph />}
-      {currentPage === 5 && <VoyagesTable />}
+      {currentPage === 2 && <VoyagesTable />}
+      {currentPage === 3 && <Scatter />}
+      {currentPage === 4 && <BarGraph />}
+      {currentPage === 5 && <PieGraph />}
       {currentPage === 6 && <PivotTables />}
       {currentPage === 7 && <VoyagesMaps />}
     </motion.div>
@@ -76,10 +62,10 @@ const ScrollPage = () => {
   let topPosition;
   if (currentPage === 1) {
     topPosition = 100;
-  } else if (currentPage === 5 && isFilter) {
+  } else if (currentPage === 2 && isFilter) {
     topPosition = 225;
-  } else if (currentPage === 5) {
-    topPosition = 160;
+  } else if (currentPage === 2) {
+    topPosition = 170;
   } else if (currentPage === 7) {
     topPosition = 235;
   } else if (isFilter) {
