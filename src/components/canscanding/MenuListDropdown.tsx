@@ -24,19 +24,18 @@ import {
   DropdownNestedMenuItem,
   StyleDialog,
 } from '@/styleMUI';
+import '@/style/homepage.scss';
 
 import { useState, MouseEvent } from 'react';
 import { PaperDraggable } from './PaperDraggable';
-import {
-  setIsChange,
-  setKeyValue,
-  setRangeSliderValue,
-} from '@/redux/rangeSliderSlice';
+import { setIsChange, setKeyValue } from '@/redux/rangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
-import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
+import { ArrowDropDown } from '@mui/icons-material';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
 import RangeSlider from '../Voyages/Results/RangeSlider';
+import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
+import { resetAll } from '@/redux/resetAllSlice';
 
 export const MenuListDropdown = () => {
   const menuOptionFlat: VoyagaesFilterMenu = useSelector(
@@ -45,9 +44,11 @@ export const MenuListDropdown = () => {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
+
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -74,13 +75,14 @@ export const MenuListDropdown = () => {
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
     const value = event.cancelable;
-    setIsClickMenu(!isClickMenu);
+    setIsClickMenu(false);
     dispatch(setIsOpenDialog(false));
     if (currentPage !== 5) {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
   };
+
   const handleResetDataDialog = (event: any) => {
     event.stopPropagation();
     const value = event.cancelable;
@@ -90,7 +92,15 @@ export const MenuListDropdown = () => {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
     }
-    dispatch(setRangeSliderValue({}));
+    dispatch(resetAll());
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
+
+  const handleResetAll = () => {
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -130,55 +140,63 @@ export const MenuListDropdown = () => {
     });
 
   return (
-    <Box>
-      {menuOptionFlat.map((item: FilterMenu, index: number) => {
-        return item.var_name ? (
-          <Button
-            key={`${item.label}-${index}`}
-            data-value={item.var_name}
-            data-type={item.type}
-            data-label={item.label}
-            onClick={(event: any) => handleClickMenu(event)}
-            sx={{
-              color: '#000',
-              textTransform: 'none',
-              fontSize: 14,
-            }}
-          >
-            {item.label}
-          </Button>
-        ) : (
-          <Dropdown
-            key={`${item.label}-${index}`}
-            trigger={
-              <Button
-                sx={{
-                  color: '#000',
-                  textTransform: 'none',
-                  fontSize: 14,
-                }}
-                endIcon={
-                  <span>
-                    <ArrowDropDown
-                      sx={{
-                        display: {
-                          xs: 'none',
-                          sm: 'none',
-                          md: 'flex',
-                        },
-                        fontSize: 16,
-                      }}
-                    />
-                  </span>
-                }
-              >
-                {item.label}
-              </Button>
-            }
-            menu={renderDropdownMenu(item.children)}
-          />
-        );
-      })}
+    <div>
+      <Box className="filter-menu-bar">
+        {menuOptionFlat.map((item: FilterMenu, index: number) => {
+          return item.var_name ? (
+            <Button
+              key={`${item.label}-${index}`}
+              data-value={item.var_name}
+              data-type={item.type}
+              data-label={item.label}
+              onClick={(event: any) => handleClickMenu(event)}
+              sx={{
+                color: '#000',
+                textTransform: 'none',
+                fontSize: 14,
+              }}
+            >
+              {item.label}
+            </Button>
+          ) : (
+            <Dropdown
+              key={`${item.label}-${index}`}
+              trigger={
+                <Button
+                  sx={{
+                    color: '#000',
+                    textTransform: 'none',
+                    fontSize: 14,
+                  }}
+                  endIcon={
+                    <span>
+                      <ArrowDropDown
+                        sx={{
+                          display: {
+                            xs: 'none',
+                            sm: 'none',
+                            md: 'flex',
+                          },
+                          fontSize: 16,
+                        }}
+                      />
+                    </span>
+                  }
+                >
+                  {item.label}
+                </Button>
+              }
+              menu={renderDropdownMenu(item.children)}
+            />
+          );
+        })}
+        {varName && (
+          <div className="btn-navbar-reset-all" onClick={handleResetAll}>
+            <i aria-hidden="true" className="fa fa-times"></i>
+            <span>Reset all</span>
+          </div>
+        )}
+      </Box>
       <Dialog
         disableScrollLock={true}
         BackdropProps={{
@@ -194,6 +212,7 @@ export const MenuListDropdown = () => {
           <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
+          {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <AutocompleteBox />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField)) && <RangeSlider />}
@@ -208,6 +227,6 @@ export const MenuListDropdown = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </div>
   );
 };

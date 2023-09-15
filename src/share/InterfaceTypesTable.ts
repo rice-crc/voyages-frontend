@@ -828,6 +828,7 @@ export interface ColumnDef {
     filter: boolean;
     tooltipField: string
 }
+
 export interface StateRowData {
     data: Record<string, any>[]
     rowData: Record<string, any>[]

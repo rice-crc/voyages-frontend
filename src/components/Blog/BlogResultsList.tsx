@@ -33,14 +33,21 @@ const BlogResultsList: React.FC = () => {
   const { language } = useSelector((state: RootState) => state.getLanguages);
   const [loading, setLoading] = useState(false);
   const imagesOnCurrentPage = BlogData.slice(startIndex, endIndex);
-
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   useEffect(() => {
     let subscribed = true;
     const fetchDataBlog = async () => {
       const newFormData: FormData = new FormData();
-      newFormData.append('language', language);
+      if (!inputSearchValue) {
+        newFormData.append('language', language);
+      }
       if (searchAutoValue) {
         newFormData.append(searchAutoKey, searchAutoValue);
+      }
+      if (inputSearchValue) {
+        newFormData.append('global_search', String(inputSearchValue));
       }
       try {
         const response = await dispatch(fetchBlogData(newFormData)).unwrap();
@@ -62,7 +69,7 @@ const BlogResultsList: React.FC = () => {
       dispatch(setBlogPost({} as BlogDataProps));
       subscribed = false;
     };
-  }, [dispatch, language, searchAutoValue, searchAutoKey]);
+  }, [dispatch, language, searchAutoValue, searchAutoKey, inputSearchValue]);
 
   return (
     <>

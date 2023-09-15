@@ -27,6 +27,7 @@ const rangeSliderSlice = createSlice({
         setRangeSliderValue: (state, action: PayloadAction<Record<string, number[]>>) => {
             state.rangeSliderMinMax = action.payload;
         },
+        resetSlice: (state) => initialState,
     },
     extraReducers: (builder) => {
         builder.addCase(fetchRangeSliderData.pending, (state) => {
@@ -44,5 +45,5 @@ const rangeSliderSlice = createSlice({
         });
     },
 });
-export const { setRangeValue, setKeyValue, setIsChange, setRangeSliderValue } = rangeSliderSlice.actions;
+export const { setRangeValue, setKeyValue, setIsChange, resetSlice, setRangeSliderValue } = rangeSliderSlice.actions;
 export default rangeSliderSlice.reducer;

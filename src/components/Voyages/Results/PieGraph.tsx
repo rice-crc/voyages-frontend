@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useGetOptionsQuery } from '@/fetchAPI/voyagesApi/fetchApiService';
 import { SelectDropdown } from './SelectDropdown';
 import { AggregationSumAverage } from './AggregationSumAverage';
+import NODATA from '@/assets/noData.png';
 import { fetchVoyageGraphGroupby } from '@/fetchAPI/voyagesApi/fetchVoyageGroupby';
 import {
   VoyagesOptionProps,
@@ -21,14 +22,11 @@ import {
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetchAPI/voyagesApi/fetchOptionsFlat';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import '@/style/homepage.scss';
 
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
-  const {
-    data: options_flat,
-    isSuccess,
-    isLoading,
-  } = useGetOptionsQuery(datas);
+  const { data: options_flat, isSuccess } = useGetOptionsQuery(datas);
   const dispatch: AppDispatch = useDispatch();
   const {
     rangeSliderMinMax: rang,
@@ -38,16 +36,20 @@ function PieGraph() {
   const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-
+  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
-  const [showAlert, setAlert] = useState(false);
   const [pieGraphSelectedX, setSelectedX] = useState<PlotPIEX[]>([]);
   const [pieGraphSelectedY, setSelectedY] = useState<PlotPIEY[]>([]);
   const [plotX, setPlotX] = useState<any[]>([]);
@@ -90,29 +92,41 @@ function PieGraph() {
           newFormData.append(dataSetKey, String(value));
         }
       }
-
-      if (isChange && rang[varName] && currentPage === 4) {
-        newFormData.append(varName, String(rang[varName][0]));
-        newFormData.append(varName, String(rang[varName][1]));
+      if (inputSearchValue) {
+        newFormData.append('global_search', String(inputSearchValue));
       }
-      if (autoCompleteValue && varName && isChangeAuto) {
-        for (let i = 0; i < autoLabelName.length; i++) {
-          const label = autoLabelName[i];
-          newFormData.append(varName, label);
+      if (isChange && rang && currentPage === 5) {
+        for (const rangKey in rang) {
+          newFormData.append(rangKey, String(rang[rangKey][0]));
+          newFormData.append(rangKey, String(rang[rangKey][1]));
+        }
+      }
+      if (autoCompleteValue && varName && currentPage === 5) {
+        for (const autoKey in autoCompleteValue) {
+          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
+            if (typeof autoCompleteOption !== 'string') {
+              const { label } = autoCompleteOption;
+
+              newFormData.append(autoKey, label);
+            }
+          }
         }
       }
 
+      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 5) {
+        for (const keyValue in geoTreeValue) {
+          for (const keyGeoValue of geoTreeValue[keyValue]) {
+            newFormData.append(keyValue, String(keyGeoValue));
+          }
+        }
+      }
       try {
         const response = await dispatch(
           fetchVoyageGraphGroupby(newFormData)
         ).unwrap();
-        if (subscribed) {
-          const keys = Object.keys(response);
-          setPieOptions({
-            x_vars: keys[0] || '',
-            y_vars: keys[1] || '',
-          });
 
+        if (subscribed && response) {
+          const keys = Object.keys(response);
           if (keys[0]) {
             setPlotX(response[keys[0]]);
           }
@@ -122,8 +136,6 @@ function PieGraph() {
         }
       } catch (error) {
         console.log('error', error);
-      } finally {
-        console.log('done');
       }
     };
     fetchData();
@@ -146,6 +158,9 @@ function PieGraph() {
     dataSetValue,
     dataSetKey,
     styleName,
+    geoTreeSelectValue,
+    geoTreeValue,
+    inputSearchValue,
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -165,14 +180,7 @@ function PieGraph() {
     };
   }, [pieGraphOptions]);
 
-  if (isLoading) {
-    <div className="Skeleton-loading">
-      <Skeleton />
-      <Skeleton animation="wave" />
-      <Skeleton animation={false} />
-    </div>;
-  }
-
+  const isPlotYZeroAll = plotY.every((item) => item === 0);
   return (
     <div>
       <SelectDropdown
@@ -192,43 +200,46 @@ function PieGraph() {
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
-        showAlert={showAlert}
-        aggregatioOptions={pieGraphOptions}
-        optionFlat={optionFlat}
       />
-
-      <Grid>
-        <Plot
-          data={[
-            {
-              labels: plotX,
-              values: plotY,
-              type: 'pie',
-              mode: 'lines+markers',
-              textinfo: 'label+percent',
-              insidetextorientation: 'radial',
-              hole: 0.2,
-              textposition: 'inside',
-              showlegend: maxWidth < 400 ? false : true,
-            },
-          ]}
-          layout={{
-            width: maxWidth,
-            height: height * 0.5,
-            title: `The ${aggregation} of ${
-              optionFlat[pieGraphOptions.x_vars]?.label || ''
-            } vs <br> ${
-              optionFlat[pieGraphOptions.y_vars]?.label || ''
-            } Pie Chart`,
-            font: {
-              family: 'Arial, sans-serif',
-              size: maxWidth < 400 ? 7 : 10,
-              color: '#333333',
-            },
-          }}
-          config={{ responsive: true }}
-        />
-      </Grid>
+      {plotX.length > 0 && !isPlotYZeroAll ? (
+        <Grid>
+          <Plot
+            data={[
+              {
+                labels: plotX,
+                values: plotY,
+                type: 'pie',
+                mode: 'lines+markers',
+                textinfo: 'label+percent',
+                insidetextorientation: 'radial',
+                hole: 0.2,
+                textposition: 'inside',
+                showlegend: maxWidth < 400 ? false : true,
+              },
+            ]}
+            layout={{
+              width: maxWidth,
+              height: height * 0.5,
+              title: `The ${aggregation} of ${
+                optionFlat[pieGraphOptions.x_vars]?.label || ''
+              } vs <br> ${
+                optionFlat[pieGraphOptions.y_vars]?.label || ''
+              } Pie Chart`,
+              font: {
+                family: 'Arial, sans-serif',
+                size: maxWidth < 400 ? 7 : 10,
+                color: '#333333',
+              },
+            }}
+            config={{ responsive: true }}
+          />
+        </Grid>
+      ) : (
+        <div className="no-data-icon">
+          <div>No Result</div>
+          <img src={NODATA} />
+        </div>
+      )}
     </div>
   );
 }

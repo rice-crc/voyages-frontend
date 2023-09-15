@@ -48,6 +48,8 @@ import { HeaderTitle } from '@/components/FunctionComponents/HeaderTitle';
 import { FilterButton } from '@/components/FunctionComponents/FilterButton';
 import { DatasetButton } from '@/components/FunctionComponents/DatasetButton';
 import '@/style/Nav.scss';
+import { resetAll } from '@/redux/resetAllSlice';
+import GlobalSearchButton from '@/components/FunctionComponents/GlobalSearchButton';
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -58,6 +60,10 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const { value, textHeader, styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
+
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -101,13 +107,11 @@ const HeaderEnslavedNavBar: React.FC = () => {
     } else if (styleName === ENSLAVEDTEXAS) {
       navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`);
     }
-    /* === Reset the filter as you move between the different collections, 
-    if later need can remove line below === */
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
+
     keysToRemove.forEach((key) => {
-      if (key === 'filterObject') {
-        localStorage.removeItem(key);
-      }
+      localStorage.removeItem(key);
     });
   };
   const handleMenuFilterMobileClose = () => {
@@ -121,7 +125,13 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  const onClickReset = () => {
+    dispatch(resetAll());
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
   return (
     <Box
       sx={{
@@ -161,6 +171,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
               textHeader={textHeader}
               HeaderTitle={EnslavedTitle}
               pathLink={PASTHOMEPAGE}
+              onClickReset={onClickReset}
             />
             <Divider
               sx={{
@@ -185,10 +196,14 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 fontWeight: 600,
               }}
             >
-              <FilterButton
-                pathName={ALLENSLAVED}
-                currentPage={currentEnslavedPage}
-              />
+              {inputSearchValue ? (
+                <GlobalSearchButton />
+              ) : (
+                <FilterButton
+                  pathName={ALLENSLAVED}
+                  currentPage={currentEnslavedPage}
+                />
+              )}
             </Typography>
           </Typography>
           <CanscandingMenuEnslavedMobile />

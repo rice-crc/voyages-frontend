@@ -39,13 +39,13 @@
 				"label": "Ship Name"
 			},
 			{
-				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
-				"type": "CharField",
+				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__value",
+				"type": "GeoTreeSelect",
 				"label": "Place of embarkation"
 			},
 			{
-				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
-				"type": "CharField",
+				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__value",
+				"type": "GeoTreeSelect",
 				"label": "Place of disembarkation"
 			},
 			{

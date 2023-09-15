@@ -30,9 +30,10 @@ const getNodeEdgesAggroutesMapDataSlice = createSlice({
         },
         setOrigination: (state, action: PayloadAction<Originations[]>) => {
             state.origination = action.payload;
-        }
+        },
+        resetSlice: (state) => initialState,
     }
 });
 
-export const { setNodesData, setTransportation, setDisposition, setOrigination } = getNodeEdgesAggroutesMapDataSlice.actions;
+export const { resetSlice, setNodesData, setTransportation, setDisposition, setOrigination } = getNodeEdgesAggroutesMapDataSlice.actions;
 export default getNodeEdgesAggroutesMapDataSlice.reducer;

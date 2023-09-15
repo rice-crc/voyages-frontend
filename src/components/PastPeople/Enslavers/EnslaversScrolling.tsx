@@ -11,11 +11,13 @@ import EnslaversPage from './EnslaversPage';
 import EnslaversTable from './EnslaversTable';
 import '@/style/page.scss';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
-import { setPathName } from '@/redux/getDataSetCollectionSlice';
-import { ALLENSLAVERS } from '@/share/CONST_DATA';
+import { ENSALVERSPAGE, PASTHOMEPAGE } from '@/share/CONST_DATA';
+import { useNavigate } from 'react-router-dom';
+import { setIsFilter } from '@/redux/getFilterSlice';
 
 const EnslaversScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const { styleNamePeople, blocksPeople } = useSelector(
     (state: RootState) => state.getEnslaverDataSetCollections
@@ -26,8 +28,10 @@ const EnslaversScrolling = () => {
 
   const handlePageNavigation = (page: number) => {
     dispatch(setCurrentEnslaversPage(page));
-    if (page === 2) {
-      dispatch(setPathName(ALLENSLAVERS));
+    if (page === 1) {
+      dispatch(setIsFilter(false));
+    } else if (page === 2) {
+      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}`);
     }
   };
   const displayPage = (
@@ -52,7 +56,7 @@ const EnslaversScrolling = () => {
   } else if (currentEnslaversPage === 2 && isFilter) {
     topPosition = 225;
   } else if (currentEnslaversPage === 2) {
-    topPosition = 160;
+    topPosition = 170;
   } else if (isFilter) {
     topPosition = 227;
   } else {

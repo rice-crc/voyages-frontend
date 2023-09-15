@@ -2,7 +2,8 @@ import { useState, useEffect, ChangeEvent, useCallback } from 'react';
 import Plot from 'react-plotly.js';
 import { Data } from 'plotly.js';
 import VOYAGE_SCATTER_OPTIONS from '@/utils/flatfiles/VOYAGE_SCATTER_OPTIONS.json';
-import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
+import { Grid, SelectChangeEvent } from '@mui/material';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { useWindowSize } from '@react-hook/window-size';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,6 +39,10 @@ function Scatter() {
     varName,
     isChange,
   } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+
+  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
   const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
@@ -47,10 +52,12 @@ function Scatter() {
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
-  const [showAlert, setAlert] = useState(false);
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [scatterSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
   const [scatterData, setScatterData] = useState<Data[]>([]);
@@ -86,30 +93,49 @@ function Scatter() {
       const newFormData: FormData = new FormData();
       newFormData.append('groupby_by', scatterOptions.x_vars);
       const yfieldArr: string[] = [];
+      newFormData.append('agg_fn', aggregation);
+      newFormData.append('cachename', 'voyage_xyscatter');
 
-      if (currentPage === 2) {
+      if (currentPage === 3) {
         for (const chip of chips) {
           newFormData.append('groupby_cols', chip);
           yfieldArr.push(chip);
         }
       }
 
-      newFormData.append('agg_fn', aggregation);
-      newFormData.append('cachename', 'voyage_xyscatter');
+      if (inputSearchValue) {
+        newFormData.append('global_search', String(inputSearchValue));
+      }
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
           newFormData.append(dataSetKey, String(value));
         }
       }
-      if (isChange && rang[varName] && currentPage === 2) {
-        newFormData.append(varName, String(rang[varName][0]));
-        newFormData.append(varName, String(rang[varName][1]));
+      if (isChange && rang && currentPage === 3) {
+        for (const rangKey in rang) {
+          newFormData.append(rangKey, String(rang[rangKey][0]));
+          newFormData.append(rangKey, String(rang[rangKey][1]));
+        }
       }
 
-      if (autoCompleteValue && varName && isChangeAuto) {
-        for (const label of autoLabelName) {
-          newFormData.append(varName, label);
+      if (autoCompleteValue && varName && currentPage === 3) {
+        for (const autoKey in autoCompleteValue) {
+          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
+            if (typeof autoCompleteOption !== 'string') {
+              const { label } = autoCompleteOption;
+
+              newFormData.append(autoKey, label);
+            }
+          }
+        }
+      }
+
+      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 3) {
+        for (const keyValue in geoTreeValue) {
+          for (const keyGeoValue of geoTreeValue[keyValue]) {
+            newFormData.append(keyValue, String(keyGeoValue));
+          }
         }
       }
 
@@ -120,7 +146,6 @@ function Scatter() {
         ).unwrap();
 
         if (subscribed) {
-          const keys = Object.keys(response);
           const values = Object.values(response);
 
           for (const [index, [key, value]] of Object.entries(
@@ -137,12 +162,7 @@ function Scatter() {
               });
             }
           }
-
           setScatterData(data);
-          setScatterOptions({
-            x_vars: keys[0] || '',
-            y_vars: keys[1] || '',
-          });
         }
       } catch (error) {
         console.log('error', error);
@@ -169,7 +189,10 @@ function Scatter() {
     dataSetValue,
     dataSetKey,
     styleName,
+    geoTreeSelectValue,
     VoyageScatterOptions,
+    geoTreeValue,
+    inputSearchValue,
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -203,10 +226,8 @@ function Scatter() {
   );
 
   if (isLoading) {
-    <div className="Skeleton-loading">
-      <Skeleton />
-      <Skeleton animation="wave" />
-      <Skeleton animation={false} />
+    <div className="loading-logo">
+      <img src={LOADINGLOGO} />
     </div>;
   }
 
@@ -227,9 +248,6 @@ function Scatter() {
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
-        showAlert={showAlert}
-        aggregatioOptions={scatterOptions}
-        optionFlat={optionFlat}
       />
       <Grid>
         <Plot

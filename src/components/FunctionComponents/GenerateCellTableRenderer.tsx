@@ -32,9 +32,7 @@ export const GenerateCellTableRenderer = (
   const ID = params.data.id;
 
   const dispatch = useDispatch();
-  const { pathName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
+  const { pathName } = useSelector((state: RootState) => state.getPathName);
   let nodeType: string = '';
   if (pathName === ALLVOYAGES) {
     nodeType = VOYAGESNODE;

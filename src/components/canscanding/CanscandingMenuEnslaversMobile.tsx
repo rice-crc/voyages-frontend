@@ -32,6 +32,8 @@ import { PaperDraggable } from './PaperDraggable';
 import RangeSlider from '../Voyages/Results/RangeSlider';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
+import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
+import { resetAll } from '@/redux/resetAllSlice';
 
 const CanscandingMenuEnslaversMobile = () => {
   const menuValueFilter = useSelector(
@@ -75,11 +77,10 @@ const CanscandingMenuEnslaversMobile = () => {
   };
   const handleResetDataDialog = (event: any) => {
     event.stopPropagation();
-    const value = event.cancelable;
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialogMobile(false));
 
-    dispatch(setRangeSliderValue({}));
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -169,6 +170,7 @@ const CanscandingMenuEnslaversMobile = () => {
           <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
+          {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <AutocompleteBox />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField)) && <RangeSlider />}

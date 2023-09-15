@@ -10,9 +10,10 @@ export const getOptionsFlatObjSlice = createSlice({
     reducers: {
         getOptionsFlatMenu: (state, action: PayloadAction<FilterMenu[]>) => {
             state.value = action.payload;
-        }
+        },
+        resetSlice: (state) => initialState,
     }
 })
 
-export const { getOptionsFlatMenu } = getOptionsFlatObjSlice.actions;
+export const { resetSlice, getOptionsFlatMenu } = getOptionsFlatObjSlice.actions;
 export default getOptionsFlatObjSlice.reducer;

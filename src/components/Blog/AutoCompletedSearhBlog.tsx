@@ -9,6 +9,7 @@ import SelectBlogDropdown from './SelectBlogDropdown';
 import { useNavigate, useParams } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import { BLOGPAGE } from '@/share/CONST_DATA';
+import { resetAll } from '@/redux/resetAllSlice';
 
 const AutoCompletedSearhBlog = () => {
   const { tagID } = useParams();
@@ -72,6 +73,7 @@ const AutoCompletedSearhBlog = () => {
 
   const handleReset = () => {
     setInputValue(null);
+    dispatch(resetAll());
     dispatch(setSearchAutoValue(''));
   };
 

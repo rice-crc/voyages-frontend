@@ -14,3 +14,8 @@ export const getOptionLabelSearchGlobal = ({
     </div>
   );
 };
+
+export const shouldDisable = (option: GlobalSearchProp) => {
+  const countText = formatCount(option.results_count);
+  return countText === 'No';
+};

@@ -49,10 +49,12 @@ export const TYPES: {
     IntegerField: string;
     DecimalField: string;
     CharField: string;
+    GeoTreeSelect: string;
 } = {
     IntegerField: 'IntegerField',
     DecimalField: 'DecimalField',
-    CharField: 'CharField'
+    CharField: 'CharField',
+    GeoTreeSelect: 'GeoTreeSelect',
 };
 
 export const TYPESOFDATASETPEOPLE: {
@@ -246,6 +248,30 @@ export interface ChildrenPeopleMenu {
     label: string
     flatlabel?: string
 }
+
+
+export interface PivotTablesProps {
+    row_vars: string
+    rows_label: string
+    column_vars: string[]
+    cell_vars: string
+    cachename: string
+}
+
+export interface PivotRowVar {
+    var_name: string
+    label: string
+}
+
+export interface PivotColumnVar {
+    var_name: string[]
+    label: string
+}
+
+export interface PivotCellVar {
+    var_name: string
+    label: string
+}
 export interface InitialStateTransatlanticCard {
     cardData: Record<string, any>[]
     isModalCard: boolean
@@ -275,4 +301,52 @@ export interface CellValCard {
 export interface FieldCard {
     var_name: string
     cell_fn: string
+}
+
+export interface GeoTreeSelectInitialState {
+    results: [],
+
+}
+
+export interface GeoTreeSelectValueInitialState {
+    [key: string]: string[]
+}
+
+export interface GeoTreeSelectDataProps {
+    id: number;
+    latitude: number;
+    longitude: number;
+    name: string;
+    value: number,
+    children?: GeoTreeSelectDataProps[];
+}
+export interface TreeSelectItem {
+    id: number;
+    key: string;
+    title: string;
+    value: string;
+    children?: TreeSelectItem[];
+    disabled?: boolean
+}
+export interface GeoTreeSelectChildren {
+    id: number
+    name: string
+    longitude?: string
+    latitude?: string
+    value: number
+    children: GeoTreeSelectGrandChildren[]
+}
+
+export interface GeoTreeSelectGrandChildren {
+    id: number
+    name: string
+    longitude?: string
+    latitude?: string
+    value: number
+}
+export interface TreeSelectItemInitialState {
+    geoTreeList: GeoTreeSelectDataProps[],
+    geoTreeValue: Record<string, TreeSelectItem[] | string[]>;
+    geoTreeSelectValue: string[]
+    isChangeGeoTree: boolean
 }

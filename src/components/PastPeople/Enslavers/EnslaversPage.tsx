@@ -6,7 +6,7 @@ import { RootState } from '@/redux/store';
 const EnslaversPage = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
-  const { value, textHeader, textIntroduce } = useSelector(
+  const { textIntroduce } = useSelector(
     (state: RootState) => state.getEnslaverDataSetCollections
   );
 
@@ -14,7 +14,7 @@ const EnslaversPage = () => {
     <div className="page" id="main-enslavers-home">
       <Box>
         <Grid container spacing={2}>
-          <Grid className="grid-enslaved-introduction">
+          <Grid className="grid-enslavers-introduction">
             <div className="intro-box-enslavers">{textIntroduce}</div>
             <div className="btn-enslave-box"></div>
           </Grid>

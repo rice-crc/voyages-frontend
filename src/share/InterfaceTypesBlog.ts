@@ -75,7 +75,7 @@ export interface InitialStateBlogProps {
     institutionList: InstitutionAuthor[]
 
 }
-export const InitialStateBlogProps: InitialStateBlogProps = {
+export const InitialStateBlog: InitialStateBlogProps = {
     data: [],
     post: {
         id: 0,

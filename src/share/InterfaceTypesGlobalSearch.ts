@@ -7,3 +7,6 @@ export interface GlobalSearchProp {
 export interface InitialStateGlobalSearchProp {
     data: GlobalSearchProp[]
 }
+export const initialStateGlobalSearch = {
+    data: []
+}

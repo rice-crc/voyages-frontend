@@ -6,6 +6,7 @@ import NestedMenuItem from '../components/canscanding/NestedMenuItem';
 import { SxProps, } from '@mui/material';
 import NestedMenuColumnItem from '@/components/FunctionComponents/ColumnSelectorTable/NestedMenuColumnItem';
 import { styled, } from '@mui/material/styles';
+import { height } from '@mui/system';
 
 
 const blue500 = '#42a5f5';
@@ -170,7 +171,7 @@ export const DialogModalStyle = {
   backgroundColor: 'transparent',
 };
 export const PaperDraggableStyle = {
-  maxWidth: 400
+  maxWidth: 500,
 }
 export const TextFieldSearch = styled(TextField)`
   & label.Mui-focused {

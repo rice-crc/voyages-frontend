@@ -66,7 +66,9 @@
   float: left;
   margin: 0 0 0 3px;
 }
-
+.ag-header-group-cell-with-group {
+  color: #008ca8;
+}
 .customHeaderLabel {
   float: left;
   margin: 0 0 0 3px;
@@ -154,5 +156,41 @@ div .customHeaderLabel{
   img {
     width: 12%;
     cursor: pointer;
+  }
+}
+.pivot-table-flex-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;
+  width: 90%;
+}
+
+.pivot-table-flex-item {
+  padding: 10px 20px;
+  width:33%;
+  margin-top: 10px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+.aggregation-export{
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  width: 90%;
+  padding: 5px 0;
+}
+.button-export-csv{
+  > button{
+    border-radius: 4px;
+    padding: 4px;
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    cursor: pointer;
+    box-shadow: #17a2b8 1px 2px 6px;
   }
 }

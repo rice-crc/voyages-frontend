@@ -10,10 +10,10 @@
 		"style_name": "all-voyages",
 		"blocks": [
 			"INTRO",
+			"TABLE",
 			"SCATTER",
 			"BAR",
 			"PIE",
-			"TABLE",
 			"PIVOT",
 			"MAP"
 		]
@@ -37,10 +37,10 @@
 		"style_name": "intra-american",
 		"blocks": [
 			"INTRO",
+			"TABLE",
 			"SCATTER",
 			"BAR",
 			"PIE",
-			"TABLE",
 			"PIVOT",
 			"MAP"
 		]
@@ -64,10 +64,10 @@
 		"style_name": "transatlantic",
 		"blocks": [
 			"INTRO",
+			"TABLE",
 			"SCATTER",
 			"BAR",
 			"PIE",
-			"TABLE",
 			"PIVOT",
 			"MAP"
 		]
@@ -90,10 +90,10 @@
 		"style_name": "texas",
 		"blocks": [
 			"INTRO",
+			"TABLE",
 			"SCATTER",
 			"BAR",
 			"PIE",
-			"TABLE",
 			"PIVOT",
 			"MAP"
 		]

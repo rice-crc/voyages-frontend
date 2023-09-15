@@ -43,7 +43,6 @@ export const theme = createTheme({
             styleOverrides: {
                 root: {
                     fontSize: '0.95rem',
-                    color: '#ffffff',
                     "&$focused": {
                         color: "#ffffff"
                     },

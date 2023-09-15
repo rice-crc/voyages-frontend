@@ -49,16 +49,22 @@ import {
 } from '@/share/CONST_DATA';
 import CanscandingMenuVoyagesMobile from '../canscanding/CanscandingMenuVoyagesMobile';
 import '@/style/Nav.scss';
+import { resetAll } from '@/redux/resetAllSlice';
+import GlobalSearchButton from '../FunctionComponents/GlobalSearchButton';
 
 export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { value, textHeader, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -90,16 +96,13 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
     } else if (styleName === VOYAGESTEXAS) {
       navigate(`/${VOYAGESPAGE}${VOYAGESTEXASPAGE}`);
     }
-
-    /* === Reset the filter as you move between the different collections, 
-    if later need can remove line below === */
+    dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
-      if (key === 'filterObject') {
-        localStorage.removeItem(key);
-      }
+      localStorage.removeItem(key);
     });
   };
+
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
   };
@@ -111,7 +114,13 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
   const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  const onClickReset = () => {
+    dispatch(resetAll());
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
   return (
     <Box
       sx={{
@@ -151,6 +160,7 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
               textHeader={textHeader}
               HeaderTitle={VOYAGETILE}
               pathLink={VOYAGESPAGE}
+              onClickReset={onClickReset}
             />
             <Divider
               sx={{
@@ -176,7 +186,11 @@ export default function HeaderNavBarMenu(props: HeaderNavBarMenuProps) {
                 fontWeight: 600,
               }}
             >
-              <FilterButton pathName={ALLVOYAGES} currentPage={currentPage} />
+              {inputSearchValue ? (
+                <GlobalSearchButton />
+              ) : (
+                <FilterButton pathName={ALLVOYAGES} currentPage={currentPage} />
+              )}
             </Typography>
           </Typography>
           <CanscandingMenuVoyagesMobile />

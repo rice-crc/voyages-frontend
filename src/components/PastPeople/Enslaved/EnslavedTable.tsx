@@ -9,11 +9,11 @@ import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeader from '../../FunctionComponents/CustomHeader';
-import { setData } from '@/redux/getTableSlice';
+import { setData, setRowData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { useWindowSize } from '@react-hook/window-size';
-import { Pagination, Skeleton, TablePagination } from '@mui/material';
+import { Pagination, TablePagination } from '@mui/material';
 import {
   StateRowData,
   TableCellStructureInitialStateProp,
@@ -40,7 +40,7 @@ import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAn
 const EnslavedTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
-  const { columnDefs, data, rowData, loading } = useSelector(
+  const { columnDefs, data, rowData } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
 
@@ -61,6 +61,9 @@ const EnslavedTable: React.FC = () => {
   } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
+  const { isChangeGeoTree, geoTreeValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
 
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState(
@@ -78,7 +81,9 @@ const EnslavedTable: React.FC = () => {
     width: maxWidth,
     height: height * 0.62,
   });
-
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const containerStyle = useMemo(
     () => ({ width: maxWidth, height: height * 0.7 }),
     [maxWidth, height]
@@ -148,22 +153,38 @@ const EnslavedTable: React.FC = () => {
       const newFormData: FormData = new FormData();
       newFormData.append('results_page', String(page + 1));
       newFormData.append('results_per_page', String(rowsPerPage));
-
+      if (inputSearchValue) {
+        newFormData.append('global_search', String(inputSearchValue));
+      }
       if (rang[varName] && currentEnslavedPage === 2) {
-        newFormData.append(varName, String(rang[varName][0]));
-        newFormData.append(varName, String(rang[varName][1]));
+        for (const rangKey in rang) {
+          newFormData.append(rangKey, String(rang[rangKey][0]));
+          newFormData.append(rangKey, String(rang[rangKey][1]));
+        }
       }
 
       if (autoCompleteValue && varName) {
-        for (let i = 0; i < autoLabelName.length; i++) {
-          const label = autoLabelName[i];
-          newFormData.append(varName, label);
+        for (const autoKey in autoCompleteValue) {
+          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
+            if (typeof autoCompleteOption !== 'string') {
+              const { label } = autoCompleteOption;
+              newFormData.append(autoKey, label);
+            }
+          }
         }
       }
 
       if (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved) {
         for (const value of dataSetValuePeople) {
           newFormData.append(dataSetKeyPeople, String(value));
+        }
+      }
+
+      if (isChangeGeoTree && varName && geoTreeValue) {
+        for (const keyValue in geoTreeValue) {
+          for (const keyGeoValue of geoTreeValue[keyValue]) {
+            newFormData.append(keyValue, String(keyGeoValue));
+          }
         }
       }
 
@@ -183,6 +204,7 @@ const EnslavedTable: React.FC = () => {
     fetchData();
     return () => {
       dispatch(setData([]));
+      dispatch(setRowData([]));
     };
   }, [
     dispatch,
@@ -197,6 +219,9 @@ const EnslavedTable: React.FC = () => {
     dataSetKeyPeople,
     styleNamePeople,
     visibleColumnCells,
+    geoTreeValue,
+    inputSearchValue,
+    styleNamePeople,
   ]);
 
   useEffect(() => {
@@ -285,55 +310,47 @@ const EnslavedTable: React.FC = () => {
 
   return (
     <div>
-      {loading ? (
-        <div className="Skeleton-loading">
-          <Skeleton />
-          <Skeleton animation="wave" />
-          <Skeleton animation={false} />
-        </div>
-      ) : (
-        <div style={containerStyle} className="ag-theme-alpine grid-container">
-          <div style={style}>
-            <span className="tableContainer">
-              <ButtonDropdownSelectorEnslaved />
-              <TablePagination
-                component="div"
-                count={totalResultsCount}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 45, 50, 100]}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </span>
-
-            <AgGridReact
-              ref={gridRef}
-              rowData={rowData}
-              onColumnVisible={handleColumnVisibleChange}
-              gridOptions={gridOptions}
-              columnDefs={columnDefs}
-              suppressMenuHide={true}
-              animateRows={true}
-              paginationPageSize={rowsPerPage}
-              defaultColDef={defaultColDef}
-              components={components}
-              getRowStyle={getRowRowStyle}
-              enableBrowserTooltips={true}
-              tooltipShowDelay={0}
-              tooltipHideDelay={1000}
+      <div style={containerStyle} className="ag-theme-alpine grid-container">
+        <div style={style}>
+          <span className="tableContainer">
+            <ButtonDropdownSelectorEnslaved />
+            <TablePagination
+              component="div"
+              count={totalResultsCount}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 45, 50, 100]}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
             />
-            <div className="pagination-div">
-              <Pagination
-                color="primary"
-                count={Math.ceil(totalResultsCount / rowsPerPage)}
-                page={page + 1}
-                onChange={handleChangePagePagination}
-              />
-            </div>
+          </span>
+
+          <AgGridReact
+            ref={gridRef}
+            rowData={rowData}
+            onColumnVisible={handleColumnVisibleChange}
+            gridOptions={gridOptions}
+            columnDefs={columnDefs}
+            suppressMenuHide={true}
+            animateRows={true}
+            paginationPageSize={rowsPerPage}
+            defaultColDef={defaultColDef}
+            components={components}
+            getRowStyle={getRowRowStyle}
+            enableBrowserTooltips={true}
+            tooltipShowDelay={0}
+            tooltipHideDelay={1000}
+          />
+          <div className="pagination-div">
+            <Pagination
+              color="primary"
+              count={Math.ceil(totalResultsCount / rowsPerPage)}
+              page={page + 1}
+              onChange={handleChangePagePagination}
+            />
           </div>
         </div>
-      )}
+      </div>
       <div>
         <ModalNetworksGraph />
       </div>

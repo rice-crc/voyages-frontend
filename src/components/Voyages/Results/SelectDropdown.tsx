@@ -96,15 +96,17 @@ export const SelectDropdown: FunctionComponent<SelectDropdownScatterProps> = ({
             }}
             name="x_vars"
           >
-            {selectedX.map((option: PlotXYVar, index: number) => (
-              <MenuItem
-                key={`${option.label}-${index}`}
-                value={option.var_name}
-                disabled={isDisabledX(option)}
-              >
-                {option.label}
-              </MenuItem>
-            ))}
+            {selectedX.map((option: PlotXYVar, index: number) => {
+              return (
+                <MenuItem
+                  key={`${option.label}-${index}`}
+                  value={option.var_name}
+                  disabled={isDisabledX(option)}
+                >
+                  {option.label}
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
       </Box>

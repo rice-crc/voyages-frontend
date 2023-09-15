@@ -46,10 +46,14 @@ function BarGraph() {
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-
+  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+    (state: RootState) => state.getGeoTreeData
+  );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
-  const [showAlert, setAlert] = useState(false);
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
   const [barData, setBarData] = useState<Data[]>([]);
@@ -85,7 +89,10 @@ function BarGraph() {
       const newFormData: FormData = new FormData();
       newFormData.append('groupby_by', barGraphOptions.x_vars);
       const yfieldArr: string[] = [];
-      if (currentPage === 3) {
+      if (inputSearchValue) {
+        newFormData.append('global_search', String(inputSearchValue));
+      }
+      if (currentPage === 4) {
         for (const chip of chips) {
           newFormData.append('groupby_cols', chip);
           yfieldArr.push(chip);
@@ -99,14 +106,30 @@ function BarGraph() {
           newFormData.append(dataSetKey, String(value));
         }
       }
-      if (isChange && rang[varName] && currentPage === 3) {
-        newFormData.append(varName, String(rang[varName][0]));
-        newFormData.append(varName, String(rang[varName][1]));
+
+      if (isChange && rang && currentPage === 4) {
+        for (const rangKey in rang) {
+          newFormData.append(rangKey, String(rang[rangKey][0]));
+          newFormData.append(rangKey, String(rang[rangKey][1]));
+        }
       }
-      if (autoCompleteValue && varName && isChangeAuto) {
-        for (let i = 0; i < autoLabelName.length; i++) {
-          const label = autoLabelName[i];
-          newFormData.append(varName, label);
+      if (autoCompleteValue && varName && currentPage === 4) {
+        for (const autoKey in autoCompleteValue) {
+          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
+            if (typeof autoCompleteOption !== 'string') {
+              const { label } = autoCompleteOption;
+
+              newFormData.append(autoKey, label);
+            }
+          }
+        }
+      }
+
+      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 4) {
+        for (const keyValue in geoTreeValue) {
+          for (const keyGeoValue of geoTreeValue[keyValue]) {
+            newFormData.append(keyValue, String(keyGeoValue));
+          }
         }
       }
 
@@ -117,7 +140,6 @@ function BarGraph() {
         ).unwrap();
 
         if (subscribed) {
-          const keys = Object.keys(response);
           const values = Object.values(response);
           for (const [index, [key, value]] of Object.entries(
             response
@@ -132,10 +154,6 @@ function BarGraph() {
             }
           }
           setBarData(data);
-          setBarOptions({
-            x_vars: keys[0] || '',
-            y_vars: keys[1] || '',
-          });
         }
       } catch (error) {
         console.log('error', error);
@@ -162,7 +180,10 @@ function BarGraph() {
     dataSetValue,
     dataSetKey,
     styleName,
+    geoTreeSelectValue,
     VoyageBargraphOptions,
+    geoTreeValue,
+    inputSearchValue,
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -220,9 +241,6 @@ function BarGraph() {
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
-        showAlert={showAlert}
-        aggregatioOptions={barGraphOptions}
-        optionFlat={optionFlat}
       />
 
       <Grid>
