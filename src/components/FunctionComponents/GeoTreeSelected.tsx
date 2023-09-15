@@ -18,7 +18,7 @@ import {
 import { convertDataToGeoTreeSelectFormat } from '@/utils/functions/convertDataToGeoTreeSelectFormat';
 import { fetchEnslavedGeoTreeSelect } from '@/fetchAPI/geoApi/fetchEnslavedGeoTreeSelect';
 import { fetchEnslaversGeoTreeSelect } from '@/fetchAPI/geoApi/fetchEnslaversGeoTreeSelect';
-import { getGeoValuesCheck } from '@/utils/functions/getGeovaluesCheck';
+import { getGeoValuesCheck } from '@/utils/functions/getGeoValuesCheck';
 
 const GeoTreeSelected: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
