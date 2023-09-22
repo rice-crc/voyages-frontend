@@ -1,7 +1,7 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { resetSlice as resetOptionsData } from './getOptionsDataSlice';
 import { resetSlice as resetGeoTreeData } from './getGeoTreeDataSlice';
-import { resetSlice as resetRangeSliderData } from './rangeSliderSlice';
+import { resetSlice as resetRangeSliderData } from './getRangeSliderSlice';
 import { resetSlice as resetAutoCompleteData } from './getAutoCompleteSlice';
 import { resetSlice as resetDataSetCollectionData } from './getDataSetCollectionSlice';
 import { resetSlice as resetVoyagesFilter } from './getFilterSlice';

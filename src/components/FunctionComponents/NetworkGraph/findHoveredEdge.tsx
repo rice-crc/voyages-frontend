@@ -1,4 +1,4 @@
-import { Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
+import { Nodes } from '@/share/InterfaceTypePastNetworks';
 
 export function findHoveredEdge(
   edges: any[],

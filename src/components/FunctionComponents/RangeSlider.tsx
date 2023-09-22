@@ -5,7 +5,7 @@ import {
   setKeyValue,
   setIsChange,
   setRangeSliderValue,
-} from '@/redux/rangeSliderSlice';
+} from '@/redux/getRangeSliderSlice';
 import { Grid } from '@mui/material';
 import { CustomSlider, Input } from '@/styleMUI';
 import { AppDispatch, RootState } from '@/redux/store';

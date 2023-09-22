@@ -15,7 +15,7 @@ import { GlobalSearchProp } from '@/share/InterfaceTypesGlobalSearch';
 import {
   getOptionLabelSearchGlobal,
   shouldDisable,
-} from './getOptionLabelSearchGlobal';
+} from '../../utils/functions/getOptionLabelSearchGlobal';
 import debounce from 'lodash.debounce';
 import '@/style/homepage.scss';
 import {

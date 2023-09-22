@@ -11,7 +11,7 @@ const initialState: InitialStatePastNetworksData = {
     networkKEY: '',
 };
 
-const pastNetworksSlice = createSlice({
+const getPastNetworksGraphDataSlice = createSlice({
     name: 'pastNetworks',
     initialState,
     reducers: {
@@ -30,5 +30,5 @@ const pastNetworksSlice = createSlice({
     }
 });
 
-export const { setPastNetworksData, setsetOpenModalNetworks, setNetWorksID, setNetWorksKEY } = pastNetworksSlice.actions;
-export default pastNetworksSlice.reducer;
+export const { setPastNetworksData, setsetOpenModalNetworks, setNetWorksID, setNetWorksKEY } = getPastNetworksGraphDataSlice.actions;
+export default getPastNetworksGraphDataSlice.reducer;

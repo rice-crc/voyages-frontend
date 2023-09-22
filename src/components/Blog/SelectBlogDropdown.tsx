@@ -6,11 +6,7 @@ import Fade from '@mui/material/Fade';
 import { ArrowDropDown, Link } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import {
-  setSearchAutoKey,
-  setSearchAutoValue,
-  setSearchBlogTitle,
-} from '@/redux/getBlogDataSlice';
+import { setSearchAutoKey, setSearchBlogTitle } from '@/redux/getBlogDataSlice';
 import { SearchBlogData } from '@/share/InterfaceTypesBlog';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import { useParams } from 'react-router-dom';

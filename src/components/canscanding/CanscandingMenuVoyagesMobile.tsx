@@ -31,14 +31,14 @@ import {
   setIsChange,
   setKeyValue,
   setRangeSliderValue,
-} from '@/redux/rangeSliderSlice';
+} from '@/redux/getRangeSliderSlice';
 import { setIsOpenDialogMobile } from '@/redux/getScrollPageSlice';
 import { PaperDraggable } from './PaperDraggable';
-import RangeSlider from '../Voyages/Results/RangeSlider';
+import RangeSlider from '../FunctionComponents/RangeSlider';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsFilter } from '@/redux/getFilterSlice';
-import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
-import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
+import AutocompleteBox from '../FunctionComponents/AutocompletedBox';
+import GeoTreeSelected from '../FunctionComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 
 const CanscandingMenuVoyagesMobile = () => {

@@ -30,13 +30,14 @@ import {
 import '@/style/table.scss';
 import CustomHeader from '../CustomHeader';
 import { AggregationSumAverage } from '@/components/Voyages/Results/AggregationSumAverage';
-import { SelectDropdownPivotable } from '@/components/Voyages/Results/SelectDropdownPivotable';
+
 import {
   PivotRowVar,
   PivotColumnVar,
   PivotCellVar,
   PivotTablesProps,
 } from '@/share/InterfaceTypes';
+import { SelectDropdownPivotable } from './SelectDropdownPivotable';
 
 const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
