@@ -1,6 +1,7 @@
 import { GlobalSearchProp } from '@/share/InterfaceTypesGlobalSearch';
-import { formatType } from '../../utils/functionFormat/formatType';
-import { formatCount } from '../../utils/functionFormat/formatCount';
+
+import { formatCount } from './formatCount';
+import { formatType } from './formatType';
 
 export const getOptionLabelSearchGlobal = ({
   type,

@@ -27,14 +27,14 @@ import {
 } from '@/styleMUI';
 import { useState, MouseEvent, useEffect } from 'react';
 import { PaperDraggable } from './PaperDraggable';
-import { setIsChange, setKeyValue } from '@/redux/rangeSliderSlice';
+import { setIsChange, setKeyValue } from '@/redux/getRangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
-import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
-import RangeSlider from '../Voyages/Results/RangeSlider';
+import AutocompleteBox from '../FunctionComponents/AutocompletedBox';
+import RangeSlider from '../FunctionComponents/RangeSlider';
 import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
-import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
+import GeoTreeSelected from '../FunctionComponents/GeoTreeSelect/GeoTreeSelected';
 import { useNavigate } from 'react-router-dom';
 import { resetAll } from '@/redux/resetAllSlice';
 

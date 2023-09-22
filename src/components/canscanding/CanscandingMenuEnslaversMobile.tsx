@@ -26,13 +26,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { DropdownColumn } from '../FunctionComponents/ColumnSelectorTable/DropdownColumn';
 import { useState, MouseEvent } from 'react';
-import { setKeyValue, setRangeSliderValue } from '@/redux/rangeSliderSlice';
+import { setKeyValue } from '@/redux/getRangeSliderSlice';
 import { setIsOpenDialogMobile } from '@/redux/getScrollPageSlice';
 import { PaperDraggable } from './PaperDraggable';
-import RangeSlider from '../Voyages/Results/RangeSlider';
+import RangeSlider from '../FunctionComponents/RangeSlider';
 import { setIsFilter } from '@/redux/getFilterSlice';
-import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
-import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
+import AutocompleteBox from '../FunctionComponents/AutocompletedBox';
+import GeoTreeSelected from '../FunctionComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 
 const CanscandingMenuEnslaversMobile = () => {

@@ -14,6 +14,10 @@ import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 import { ENSALVERSPAGE, PASTHOMEPAGE } from '@/share/CONST_DATA';
 import { useNavigate } from 'react-router-dom';
 import { setIsFilter } from '@/redux/getFilterSlice';
+import {
+  pageVariantsFromBottom,
+  pageVariantsFromTop,
+} from '@/utils/functions/pageVariantsFromTop';
 
 const EnslaversScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -111,12 +115,3 @@ const EnslaversScrolling = () => {
 };
 
 export default EnslaversScrolling;
-
-const pageVariantsFromTop = {
-  initial: { opacity: 0, y: -1000 },
-  animate: { opacity: 1, y: 0 },
-};
-const pageVariantsFromBottom = {
-  initial: { opacity: -1000, y: 0 },
-  animate: { opacity: 0, y: 1 },
-};

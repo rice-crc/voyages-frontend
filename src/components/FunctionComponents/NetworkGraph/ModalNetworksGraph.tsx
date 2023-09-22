@@ -2,7 +2,7 @@ import { setsetOpenModalNetworks } from '@/redux/getPastNetworksGraphDataSlice';
 import { RootState } from '@/redux/store';
 import { Modal, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { NetworkDiagramPeople } from './NetworkDiagramPeople';
+import { NetworkDiagramSlaveVoyages } from './NetworkDiagramSlaveVoyages';
 import { styleModalNetworks } from '@/styleMUI';
 import NETWORKICON from '@/assets/networksIcon.png';
 
@@ -48,7 +48,7 @@ const ModalNetworksGraph = () => {
             style={{ marginLeft: 5 }}
           />
         </div>
-        <NetworkDiagramPeople />
+        <NetworkDiagramSlaveVoyages />
       </Box>
     </Modal>
   );

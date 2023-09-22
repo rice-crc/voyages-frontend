@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import getOptionsDataSlice from './getOptionsDataSlice';
-import rangeSliderSlice from './rangeSliderSlice';
+import rangeSliderSlice from './getRangeSliderSlice';
 import getAutoCompleteList from './getAutoCompleteSlice'
 import getOptionsFlatMenu from './getOptionsFlatObjSlice'
 import getScrollPageSlice from './getScrollPageSlice'

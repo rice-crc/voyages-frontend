@@ -20,6 +20,10 @@ import VoyagesMaps from '../FunctionComponents/Map/MAPS';
 import PivotTables from '../FunctionComponents/PivotTables/PivotTables';
 import { setPathName } from '@/redux/getDataPathNameSlice';
 import { ALLVOYAGES } from '@/share/CONST_DATA';
+import {
+  pageVariantsFromBottom,
+  pageVariantsFromTop,
+} from '@/utils/functions/pageVariantsFromTop';
 
 const ScrollPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -116,12 +120,3 @@ const ScrollPage = () => {
 };
 
 export default ScrollPage;
-
-const pageVariantsFromTop = {
-  initial: { opacity: 0, y: -1000 },
-  animate: { opacity: 1, y: 0 },
-};
-const pageVariantsFromBottom = {
-  initial: { opacity: -1000, y: 0 },
-  animate: { opacity: 0, y: 1 },
-};

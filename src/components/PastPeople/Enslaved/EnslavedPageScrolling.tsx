@@ -15,6 +15,10 @@ import VoyagesMaps from '@/components/FunctionComponents/Map/MAPS';
 import { setPathName } from '@/redux/getDataPathNameSlice';
 import { ALLENSLAVED } from '@/share/CONST_DATA';
 import { setIsFilter } from '@/redux/getFilterSlice';
+import {
+  pageVariantsFromBottom,
+  pageVariantsFromTop,
+} from '@/utils/functions/pageVariantsFromTop';
 
 const EnslavedPageScrolling = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -112,12 +116,3 @@ const EnslavedPageScrolling = () => {
 };
 
 export default EnslavedPageScrolling;
-
-const pageVariantsFromTop = {
-  initial: { opacity: 0, y: -1000 },
-  animate: { opacity: 1, y: 0 },
-};
-const pageVariantsFromBottom = {
-  initial: { opacity: -1000, y: 0 },
-  animate: { opacity: 0, y: 1 },
-};

@@ -27,22 +27,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { DropdownColumn } from '../FunctionComponents/ColumnSelectorTable/DropdownColumn';
 import { useState, MouseEvent, useEffect } from 'react';
-import {
-  setIsChange,
-  setKeyValue,
-  setRangeSliderValue,
-} from '@/redux/rangeSliderSlice';
+import { setIsChange, setKeyValue } from '@/redux/getRangeSliderSlice';
 import { setIsOpenDialogMobile } from '@/redux/getScrollPageSlice';
 import { PaperDraggable } from './PaperDraggable';
-import RangeSlider from '../Voyages/Results/RangeSlider';
+import RangeSlider from '../FunctionComponents/RangeSlider';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsFilter } from '@/redux/getFilterSlice';
-import AutocompleteBox from '../Voyages/Results/AutocompletedBox';
+import AutocompleteBox from '../FunctionComponents/AutocompletedBox';
 import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
 import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
 import { ColumnSelectorTree } from '@/share/InterfaceTypesTable';
-import GeoTreeSelected from '../FunctionComponents/GeoTreeSelected';
+import GeoTreeSelected from '../FunctionComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 
 const CanscandingMenuEnslavedMobile = () => {
