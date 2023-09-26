@@ -1,6 +1,6 @@
 import { expect, test, vi, describe } from "vitest";
 import AFRICAN_FILTER_MENU from '@/utils/flatfiles/african_origins_filter_menu.json';
-import { fetchPastEnslavedApiService } from "@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsApi";
+import { fetchPastEnslavedApiService } from "@/fetch/pastEnslavedFetch/fetchPastEnslavedServiceData";
 import { extractTestVarNamesFlatFiles } from "@/utils/functions/extractVarNamesTest";
 
 const fileName = 'african_origins_filter_menu.json';

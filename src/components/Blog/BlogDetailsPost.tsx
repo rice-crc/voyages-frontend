@@ -1,5 +1,5 @@
-import HeaderLogoSearch from '../header/HeaderSearchLogo';
-import NavBlog from './NavBarBlog';
+import HeaderLogoSearch from '../FunctionComponents/Header/HeaderSearchLogo';
+import HeaderNavBarBlog from '../FunctionComponents/Header/HeaderNavBarBlog';
 import BlogCardHeaderBody from './BlogCardHeaderBody';
 import '@/style/blogs.scss';
 import { Divider } from '@mui/material';
@@ -9,7 +9,7 @@ const BlogDetailsPost: React.FC = () => {
   return (
     <>
       <HeaderLogoSearch />
-      <NavBlog />
+      <HeaderNavBarBlog />
       <div className="container-new">
         <div className="row-next">
           <div className="card-content">

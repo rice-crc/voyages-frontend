@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
-import HeaderLogoSearch from '../header/HeaderSearchLogo';
-import NavBarPeople from './Header/NavBarPeople';
+import HeaderLogoSearch from '../FunctionComponents/Header/HeaderSearchLogo';
+import HeaderPeopleNavBar from '../FunctionComponents/Header/HeaderPeopleNavBar';
 import PersonImage from '@/assets/personImg.png';
 import PEOPLE from '@/utils/flatfiles/people_page_data.json';
 import '@/style/page-past.scss';
@@ -27,7 +27,7 @@ const PastPeoplePage = () => {
   return (
     <>
       <HeaderLogoSearch />
-      <NavBarPeople />
+      <HeaderPeopleNavBar />
       <div className="page" id="main-page-past-home">
         <Box
           sx={{

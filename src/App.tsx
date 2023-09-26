@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import VoyagesPage from './pages/VoyagesPage';
-import HomePage from './pages/Home';
+import Home from './pages/Home';
 import PastHomePage from './pages/PastHomePage';
 import EnslavedHomePage from './pages/Enslaved';
 import EnslaversHomePage from './pages/Enslavers';
@@ -24,7 +24,7 @@ import {
   VOYAGESTEXASPAGE,
 } from './share/CONST_DATA';
 import DocumentPage from './pages/DocumentPage';
-import Blog from './pages/Blog';
+import BlogPage from './pages/BlogPage';
 import BlogDetailsPost from './components/Blog/BlogDetailsPost';
 import AuthorPage from './pages/AuthorPage';
 import InstitutionAuthorsPage from './pages/InstitutionAuthorsPage';
@@ -36,7 +36,7 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Home />} />
           <Route path={`${VOYAGESPAGE}`} element={<VoyagesPage />} />
           <Route
             path={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`}
@@ -76,8 +76,11 @@ const App: React.FC = () => {
             element={<EnslaversHomePage />}
           />
           <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
-          <Route path={`${BLOGPAGE}`} element={<Blog />} />
-          <Route path={`${BLOGPAGE}/tag/:tagName/:tagID`} element={<Blog />} />
+          <Route path={`${BLOGPAGE}`} element={<BlogPage />} />
+          <Route
+            path={`${BLOGPAGE}/tag/:tagName/:tagID`}
+            element={<BlogPage />}
+          />
           <Route
             path={`${BLOGPAGE}/:blogTitle/:ID`}
             element={<BlogDetailsPost />}

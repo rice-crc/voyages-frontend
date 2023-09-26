@@ -1,7 +1,7 @@
 import React from 'react';
-import HeaderLogoSearch from '../components/header/HeaderSearchLogo';
-import HeaderNavBar from '../components/header/HeaderNavBar';
-import ScrollPage from '@/components/Voyages/ScrollPage';
+import HeaderLogoSearch from '../components/FunctionComponents/Header/HeaderSearchLogo';
+import HeaderVoyagesNavBar from '../components/FunctionComponents/Header/HeaderVoyagesNavBar';
+import VoyagesScrollPage from '@/components/FunctionComponents/Scrolling/VoyagesScrollPage';
 import '@/style/page.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -18,14 +18,14 @@ const VoyagesPage: React.FC = () => {
   return (
     <>
       <HeaderLogoSearch />
-      <HeaderNavBar />
+      <HeaderVoyagesNavBar />
       <div
         className="voyages-home-page"
         style={{
           backgroundColor: getColorVoyagePageBackground(styleName, currentPage),
         }}
       >
-        <ScrollPage />
+        <VoyagesScrollPage />
       </div>
     </>
   );

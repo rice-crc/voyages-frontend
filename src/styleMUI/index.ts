@@ -2,7 +2,7 @@
 
 import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button, TextField, CardHeader } from '@mui/material';
 import MuiInput from '@mui/material/Input';
-import NestedMenuItem from '../components/canscanding/NestedMenuItem';
+import NestedMenuItem from '../components/FunctionComponents/Canscanding/NestedMenuItem';
 import { SxProps, } from '@mui/material';
 import NestedMenuColumnItem from '@/components/FunctionComponents/ColumnSelectorTable/NestedMenuColumnItem';
 import { styled, } from '@mui/material/styles';

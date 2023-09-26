@@ -1,11 +1,11 @@
-import HeaderLogoSearch from '@/components/header/HeaderSearchLogo';
-import NavBlog from '../NavBarBlog';
+import HeaderLogoSearch from '@/components/FunctionComponents/Header/HeaderSearchLogo';
+import HeaderNavBarBlog from '../../FunctionComponents/Header/HeaderNavBarBlog';
 import { Divider } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchAuthorData } from '@/fetchAPI/blogApi/fetchAuthorData';
+import { fetchAuthorData } from '@/fetch/blogFetch/fetchAuthorData';
 import { RootState } from '@/redux/store';
 import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { useSelector } from 'react-redux';
@@ -50,7 +50,7 @@ const AuthorInfo: React.FC = () => {
   return (
     <>
       <HeaderLogoSearch />
-      <NavBlog />
+      <HeaderNavBarBlog />
       <div className="container-new-author-head">
         <div className="main-body">
           <div className="row-next-author">

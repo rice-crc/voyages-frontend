@@ -1,7 +1,7 @@
 import { expect, test, vi, describe } from "vitest";
 import TransatlanticVoyages_FILTER_MENU from '@/utils/flatfiles/transatlantic_voyages_filter_menu.json';
 import { extractTestVarNamesFlatFiles } from "@/utils/functions/extractVarNamesTest";
-import { fetchVoyagesOptionsApi } from "@/fetchAPI/voyagesApi/fetchVoyagesOptionsApi";
+import { fetchVoyagesOptionsApi } from "@/fetch/voyagesFetch/fetchVoyagesOptionsApi";
 
 const fileName = 'transatlantic_voyages_filter_menu.json';
 const EndPoint = 'voyage/?hierarchical=False'

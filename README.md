@@ -197,7 +197,7 @@ npm run test
   │   │     │     │      ├── VoyagesTable
   │   │     │     ├── ScrollPage
   │   │── fetchAPI
-  │   │     ├── pastEnslavedApi
+  │   │     ├── pastEnslaved
   │   │     │     ├── fetchEnslavedOptionsList
   │   │     │     ├── fetchPastEnslavedApiService
   │   │     │     ├── fetchPastEnslavedAutoCompleted

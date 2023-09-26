@@ -1,4 +1,4 @@
-import { fetchBlogData } from '@/fetchAPI/blogApi/fetchBlogData';
+import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
 import { setBlogPost } from '@/redux/getBlogDataSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';

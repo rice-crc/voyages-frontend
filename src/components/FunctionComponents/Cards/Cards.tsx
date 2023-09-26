@@ -23,9 +23,9 @@ import '@/style/cards.scss';
 import { TransatlanticCardProps } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
 import { CardHeaderCustom } from '@/styleMUI';
-import { fetchVoyageOptionsAPI } from '@/fetchAPI/voyagesApi/fetchVoyageOptionsAPI';
-import { fetchEnslavedOptionsList } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsList';
-import { fetchEnslaversOptionsList } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversOptionsList';
+import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
+import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
+import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { styleCard } from '@/styleMUI/customStyle';
 
 const VoyageCard = () => {

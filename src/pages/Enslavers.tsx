@@ -1,6 +1,6 @@
-import EnslaversScrolling from '@/components/PastPeople/Enslavers/EnslaversScrolling';
-import HeaderEnslaversNavBar from '@/components/PastPeople/Enslavers/HeaderEnslavers/HeaderEnslaversNavBar';
-import HeaderLogoSearch from '@/components/header/HeaderSearchLogo';
+import EnslaversScrolling from '@/components/FunctionComponents/Scrolling/EnslaversScrolling';
+import HeaderEnslaversNavBar from '@/components/FunctionComponents/Header/HeaderEnslaversNavBar';
+import HeaderLogoSearch from '@/components/FunctionComponents/Header/HeaderSearchLogo';
 import React from 'react';
 
 const EnslaversHomePage: React.FC = () => {

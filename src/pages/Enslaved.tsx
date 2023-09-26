@@ -1,6 +1,6 @@
-import EnslavedPageScrolling from '@/components/PastPeople/Enslaved/EnslavedPageScrolling';
-import HeaderEnslavedNavBar from '@/components/PastPeople/Enslaved/HeaderEnslaved/HeaderEnslavedNavBar';
-import HeaderLogoSearch from '@/components/header/HeaderSearchLogo';
+import EnslavedPageScrolling from '@/components/FunctionComponents/Scrolling/EnslavedPageScrolling';
+import HeaderEnslavedNavBar from '@/components/FunctionComponents/Header/HeaderEnslavedNavBar';
+import HeaderLogoSearch from '@/components/FunctionComponents/Header/HeaderSearchLogo';
 import React from 'react';
 
 import '@/style/page-past.scss';

@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import HeaderLogoSearch from '../header/HeaderSearchLogo';
-import BlogPageButton from './PageButton';
+import HeaderLogoSearch from '../FunctionComponents/Header/HeaderSearchLogo';
+import BlogPageButton from '../FunctionComponents/ButtonComponents/BlogPageButton';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
-import NavBlog from './NavBarBlog';
-import { fetchBlogData } from '@/fetchAPI/blogApi/fetchBlogData';
+import HeaderNavBarBlog from '../FunctionComponents/Header/HeaderNavBarBlog';
+import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
 import { AppDispatch, RootState } from '@/redux/store';
 import { setBlogData, setBlogPost } from '@/redux/getBlogDataSlice';
 import {
@@ -74,7 +74,7 @@ const BlogResultsList: React.FC = () => {
   return (
     <>
       <HeaderLogoSearch />
-      <NavBlog />
+      <HeaderNavBarBlog />
       {loading ? (
         <div className="loading-logo">
           <img src={LOADINGLOGO} />
