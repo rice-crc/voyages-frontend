@@ -1,6 +1,6 @@
 import { expect, test, vi, describe } from "vitest";
 import ENSLAVED_FILTER_MENU from '@/utils/flatfiles/enslaved_filter_menu.json';
-import { fetchPastEnslavedApiService } from "@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsApi";
+import { fetchPastEnslavedApiService } from "@/fetch/pastEnslavedFetch/fetchPastEnslavedServiceData";
 import { extractTestVarNamesFlatFiles, } from "@/utils/functions/extractVarNamesTest";
 
 global.fetch = vi.fn()

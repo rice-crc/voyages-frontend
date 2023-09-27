@@ -1,4 +1,4 @@
-import { fetchPastEnslavedApiService } from "@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsApi";
+import { fetchPastEnslavedService } from "@/fetch/pastEnslavedFetch/fetchPastEnslavedServiceData";
 
 export const extractTestVarNamesFlatFiles = async (menu: any[]): Promise<string[]> => {
     const data = extractVarNames()
@@ -15,7 +15,7 @@ export const extractTestVarNamesFlatFiles = async (menu: any[]): Promise<string[
 };
 
 export const extractVarNames = async (): Promise<void> => {
-    const response = await fetchPastEnslavedApiService();
+    const response = await fetchPastEnslavedService();
     const data = response.data;
     return data;
 };

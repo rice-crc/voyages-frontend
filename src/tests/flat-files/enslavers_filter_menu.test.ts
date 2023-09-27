@@ -1,7 +1,7 @@
 import { expect, test, vi, describe } from "vitest";
 import ENSLAVERS_FILTER_MENU from '@/utils/flatfiles/enslavers_filter_menu.json';
 import { extractTestVarNamesFlatFiles } from "@/utils/functions/extractVarNamesTest";
-import { fetchPastEnslaversOptionsApi } from "@/fetchAPI/pastEnslaversApi/fetchPastEnslaversOptionsApi";
+import { fetchPastEnslaversOptions } from "@/fetch/pastEnslaversFetch/fetchPastEnslaversOptions";
 
 const fileName = 'enslavers_filter_menu.json';
 const EndPoint = 'past/enslaver/?hierarchical=False'
@@ -12,7 +12,7 @@ describe(fileName, () => {
 
 // Test the african_origins_filter_menu data
 test("Enslavers Filter Menu should check for missing names a variable", async () => {
-    const response = await fetchPastEnslaversOptionsApi();
+    const response = await fetchPastEnslaversOptions();
     const data = response.data;
     const keyEnslavedOptions = Object.keys(data);
     const varNameArr = await extractTestVarNamesFlatFiles(ENSLAVERS_FILTER_MENU);

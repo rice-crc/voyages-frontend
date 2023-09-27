@@ -3,10 +3,10 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import VoyagesPage from './pages/VoyagesPage';
-import HomePage from './pages/Home';
+import HomePage from './pages/HomePage';
 import PastHomePage from './pages/PastHomePage';
-import EnslavedHomePage from './pages/Enslaved';
-import EnslaversHomePage from './pages/Enslavers';
+import EnslavedHomePage from './pages/EnslavedPage';
+import EnslaversHomePage from './pages/EnslaversPage';
 import { theme } from './styleMUI/theme';
 import {
   AFRICANORIGINSPAGE,
@@ -24,8 +24,8 @@ import {
   VOYAGESTEXASPAGE,
 } from './share/CONST_DATA';
 import DocumentPage from './pages/DocumentPage';
-import Blog from './pages/Blog';
-import BlogDetailsPost from './components/Blog/BlogDetailsPost';
+import BlogPage from './pages/BlogPage';
+import BlogDetailsPost from './components/BlogComponents/BlogDetailsPost';
 import AuthorPage from './pages/AuthorPage';
 import InstitutionAuthorsPage from './pages/InstitutionAuthorsPage';
 
@@ -76,8 +76,11 @@ const App: React.FC = () => {
             element={<EnslaversHomePage />}
           />
           <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
-          <Route path={`${BLOGPAGE}`} element={<Blog />} />
-          <Route path={`${BLOGPAGE}/tag/:tagName/:tagID`} element={<Blog />} />
+          <Route path={`${BLOGPAGE}`} element={<BlogPage />} />
+          <Route
+            path={`${BLOGPAGE}/tag/:tagName/:tagID`}
+            element={<BlogPage />}
+          />
           <Route
             path={`${BLOGPAGE}/:blogTitle/:ID`}
             element={<BlogDetailsPost />}

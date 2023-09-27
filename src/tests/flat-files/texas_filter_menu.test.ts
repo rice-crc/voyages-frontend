@@ -1,6 +1,6 @@
 import { expect, test, vi, describe } from "vitest";
 import TEXAS_FILTER_MENU from '@/utils/flatfiles/texas_filter_menu.json';
-import { fetchPastEnslavedApiService } from "@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsApi";
+import { fetchPastEnslavedApiService } from "@/fetch/pastEnslavedFetch/fetchPastEnslavedServiceData";
 import { extractTestVarNamesFlatFiles } from "@/utils/functions/extractVarNamesTest";
 
 const fileName = 'texas_filter_menu.json';

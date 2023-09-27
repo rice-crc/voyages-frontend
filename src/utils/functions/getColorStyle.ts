@@ -46,9 +46,10 @@ export const getColorBTNBackgroundEnslavers = (item: string) => {
 };
 
 export const getTextColor = (item: string) => {
-    let textColor = '#000000';
+
+    let textColor = "rgba(0, 0, 0,0.75)";
     if (item === TYPESOFDATASET.allVoyages) {
-        textColor = '#000000';
+        textColor = "rgba(0, 0, 0,0.75)";
     } else if (item === TYPESOFDATASET.transatlantic || item === TYPESOFDATASET.intraAmerican || item === TYPESOFDATASET.texas) {
         textColor = '#ffffff';
     } else if (item === TYPESOFDATASETPEOPLE.allEnslavers) {
@@ -59,7 +60,6 @@ export const getTextColor = (item: string) => {
 
 
 export const getColorNavbarBackground = (item: string) => {
-
     let background = '#93D0CB';
     if (item === TYPESOFDATASET.allVoyages) {
         background = '#93D0CB';
