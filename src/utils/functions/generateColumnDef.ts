@@ -1,7 +1,7 @@
 import { TableCellStructure } from "@/share/InterfaceTypesTable";
 import { ICellRendererParams } from "ag-grid-community";
 import { hasValueGetter } from "./hasValueGetter";
-import { GenerateCellTableRenderer } from "@/components/FunctionComponents/PresentationComponents/Tables/GenerateCellTableRenderer";
+import { GenerateCellTableRenderer } from "@/components/PresentationComponents/Tables/GenerateCellTableRenderer";
 
 export const generateColumnDef = (value: TableCellStructure, visibleColumnCells: string[]) => {
     const nodeClass = value?.cell_val?.fields[0]?.node_class;

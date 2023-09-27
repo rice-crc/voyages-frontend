@@ -3,35 +3,51 @@
     @media only screen and (max-width: 374px) {
       @content;
     }
-  } @else if $size==1 {
+  }
+
+  @else if $size==1 {
     @media only screen and (min-width: 375px) and (max-width: 424px) {
       @content;
     }
-  } @else if $size==1.1 {
+  }
+
+  @else if $size==1.1 {
     @media only screen and (min-width: 425px) and (max-width: 479px) {
       @content;
     }
-  }@else if $size==2 {
+  }
+
+  @else if $size==2 {
     @media only screen and (min-width: 480px) and (max-width: 575px) {
       @content;
     }
-  } @else if $size==3 {
+  }
+
+  @else if $size==3 {
     @media only screen and (min-width: 576px) and (max-width: 767px) {
       @content;
     }
-  } @else if $size==4 {
+  }
+
+  @else if $size==4 {
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       @content;
     }
-  } @else if $size==5 {
+  }
+
+  @else if $size==5 {
     @media only screen and (min-width: 992px) and (max-width: 1024px) {
       @content;
     }
-  } @else if $size==6 {
+  }
+
+  @else if $size==6 {
     @media only screen and (min-width: 1025px) and (max-width: 1366px) {
       @content;
     }
-  } @else if $size==7 {
+  }
+
+  @else if $size==7 {
     @media only screen and (max-width: 1440px) {
       @content;
     }
@@ -48,37 +64,45 @@
   padding: 0;
   margin: 0;
   height: 105vh;
+
   @include breakpoint-standard(1.1) {
     height: 115vh;
   }
+
   @include breakpoint-standard(1) {
     height: 115vh;
   }
 }
+
 .text-container.in-sight {
   opacity: 1;
   visibility: visible;
 }
+
 .text-container h2 {
   font-size: 6vh;
   text-transform: uppercase;
 }
+
 .text-container p {
   font-size: 2vh;
   padding: 1em 0;
 }
+
 .nav-dot-container {
   position: fixed;
   top: 50%;
   right: 20px;
   transform: translateY(-50%);
 }
+
 .nav-dot {
   width: 20px;
   height: 30px;
   padding: 20px 0px;
   margin: auto;
 }
+
 .nav-dot span {
   display: block;
   width: 10px;
@@ -88,14 +112,17 @@
   transition: all 200ms ease;
   margin: auto;
 }
+
 .nav-dot span:hover {
   width: 12px;
   height: 12px;
 }
+
 .nav-dot.dot-active span {
   width: 15px;
   height: 15px;
 }
+
 .navbar-wrapper {
   position: fixed;
   top: 0;
@@ -116,10 +143,12 @@
   flex-direction: column;
   align-items: flex-start;
   padding-right: 5px;
+
   @include breakpoint-standard(6) {
     top: 35%;
     align-items: center;
   }
+
   @include breakpoint-standard(5) {
     top: 35%;
     align-items: center;
@@ -133,6 +162,7 @@
     align-items: flex-start;
     padding-right: 5px;
   }
+
   @include breakpoint-standard(3) {
     top: 14%;
     height: auto;
@@ -141,6 +171,7 @@
     padding-right: 5px;
     right: 5%;
   }
+
   @include breakpoint-standard(2) {
     top: 15%;
     height: auto;
@@ -149,6 +180,7 @@
     padding-right: 5px;
     right: 10%;
   }
+
   @include breakpoint-standard(1.1) {
     top: 15%;
     height: auto;
@@ -157,6 +189,7 @@
     padding-right: 5px;
     right: 10%;
   }
+
   @include breakpoint-standard(1) {
     top: 15%;
     height: auto;
@@ -165,6 +198,7 @@
     padding-right: 5px;
     right: 4%;
   }
+
   @include breakpoint-standard(0) {
     top: 18%;
     height: auto;
@@ -187,6 +221,7 @@
     min-width: 75px !important;
     margin: 0 2px !important;
   }
+
   @include breakpoint-standard(3) {
     width: 45px !important;
     height: 24px;
@@ -194,6 +229,7 @@
     min-width: 48px !important;
     margin: 0 2px !important;
   }
+
   @include breakpoint-standard(2) {
     width: 45px !important;
     height: 24px;
@@ -201,6 +237,7 @@
     min-width: 48px !important;
     margin: 0 2px !important;
   }
+
   @include breakpoint-standard(1.1) {
     width: 43px !important;
     height: 24px;
@@ -208,6 +245,7 @@
     min-width: 46px !important;
     margin: 0 2px !important;
   }
+
   @include breakpoint-standard(1) {
     width: 43px !important;
     height: 24px;
@@ -215,6 +253,7 @@
     min-width: 45px !important;
     margin: 0 2px !important;
   }
+
   @include breakpoint-standard(0) {
     width: 43px !important;
     height: 24px;
@@ -223,6 +262,7 @@
     margin: 0 2px !important;
   }
 }
+
 .nav-button-enslaved {
   position: fixed;
   top: 45%;
@@ -232,14 +272,17 @@
   flex-direction: column;
   align-items: flex-start;
   padding-right: 5px;
+
   @include breakpoint-standard(5) {
     top: 36%;
     align-items: center;
   }
+
   @include breakpoint-standard(4) {
     top: 15%;
     align-items: center;
   }
+
   @include breakpoint-standard(3) {
     top: 15%;
     align-items: center;
@@ -249,28 +292,27 @@
 #main-voyagepage {
   height: 95vh;
   background-repeat: no-repeat;
-  background: linear-gradient(
-      rgba(147, 208, 203, 0.5),
-      rgba(147, 208, 203, 0.4)
-    ),
+  background: linear-gradient(rgba(147, 208, 203, 0.5),
+      rgba(147, 208, 203, 0.4)),
     url('../assets/bgsueArt.svg') center / cover;
 }
+
 #main-voyagepage-Trans-atlantic {
   height: 95vh;
   background-repeat: no-repeat;
   background: linear-gradient(rgba(56, 116, 203, 0.8), rgba(56, 116, 203, 0.8)),
     url('../assets/Transatlantic.JPG') center / cover;
 }
+
 #main-voyagepage-intra-american {
   height: 95vh;
   background-repeat: no-repeat;
-  background: linear-gradient(
-      rgba(127, 118, 191, 0.8),
-      rgba(127, 118, 191, 0.8)
-    ),
+  background: linear-gradient(rgba(127, 118, 191, 0.8),
+      rgba(127, 118, 191, 0.8)),
     url('../assets/intra-american.jpeg') center / cover;
 
 }
+
 #main-voyagepage-texas {
   height: 95vh;
   background-repeat: no-repeat;
@@ -283,88 +325,104 @@
   bottom: 8px;
   right: 16px;
 }
+
 .main-script-text-box {
   width: 75%;
   position: relative;
   top: 20%;
   left: 10%;
+
   @include breakpoint-standard(6) {
     width: 85%;
     top: 10%;
     left: 5%;
   }
+
   @include breakpoint-standard(5) {
     width: 85%;
     top: 10%;
     left: 3%;
   }
+
   @include breakpoint-standard(4) {
     width: 90%;
     top: 12%;
     left: 5%;
   }
+
   @include breakpoint-standard(3) {
     width: 90%;
     top: 8%;
     left: 5%;
   }
+
   @include breakpoint-standard(2) {
     width: 90%;
     top: 12%;
     left: 5%;
   }
+
   @include breakpoint-standard(1.1) {
     width: 90%;
     top: 12%;
     left: 5%;
   }
+
   @include breakpoint-standard(1) {
     width: 90%;
     top: 12%;
     left: 5%;
   }
+
   @include breakpoint-standard(0) {
     width: 90%;
     top: 12%;
     left: 5%;
   }
 }
+
 .main-script-text {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 3%;
-  color: #000000;
-  font-weight: 500;
-  font-size: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3%;
+    font-size: 26px;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
   @include breakpoint-standard(0) {
     padding: 2%;
     font-size: 14px;
   }
+
   @include breakpoint-standard(1) {
     padding: 2%;
     font-size: 14px;
   }
+
   @include breakpoint-standard(1.1) {
     padding: 2%;
     font-size: 14px;
   }
+
   @include breakpoint-standard(2) {
     padding: 2%;
     font-size: 14px;
   }
+
   @include breakpoint-standard(3) {
     padding: 2%;
     font-size: 14px;
   }
+
   @include breakpoint-standard(4) {
     padding: 2%;
     font-size: 18px;
   }
+
   @include breakpoint-standard(5) {
     padding: 2% 3%;
     font-size: 22px;
   }
+
   @include breakpoint-standard(6) {
     padding: 3%;
     font-size: 26px;

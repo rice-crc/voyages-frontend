@@ -3,10 +3,10 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import VoyagesPage from './pages/VoyagesPage';
-import Home from './pages/Home';
+import HomePage from './pages/HomePage';
 import PastHomePage from './pages/PastHomePage';
-import EnslavedHomePage from './pages/Enslaved';
-import EnslaversHomePage from './pages/Enslavers';
+import EnslavedHomePage from './pages/EnslavedPage';
+import EnslaversHomePage from './pages/EnslaversPage';
 import { theme } from './styleMUI/theme';
 import {
   AFRICANORIGINSPAGE,
@@ -25,7 +25,7 @@ import {
 } from './share/CONST_DATA';
 import DocumentPage from './pages/DocumentPage';
 import BlogPage from './pages/BlogPage';
-import BlogDetailsPost from './components/Blog/BlogDetailsPost';
+import BlogDetailsPost from './components/BlogComponents/BlogDetailsPost';
 import AuthorPage from './pages/AuthorPage';
 import InstitutionAuthorsPage from './pages/InstitutionAuthorsPage';
 
@@ -36,7 +36,7 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route path={`${VOYAGESPAGE}`} element={<VoyagesPage />} />
           <Route
             path={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`}
