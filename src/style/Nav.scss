@@ -144,12 +144,10 @@
     font-family: "Cormorant Garamond";
     color: black;
     @include breakpoint-standard(1) {
-        font-size: 12px;
-
+        font-size: 10px;
     }
     @include breakpoint-standard(0) {
-        font-size: 12px;
-  
+        font-size: 10px;
     }
 }
 .menu-filter-search-enslavers {
@@ -157,7 +155,7 @@
     color: #ffffff;
 }
 .menu-nav-bar-select-box{
-
+    padding: 10px;
     @include breakpoint-standard(5) {
         position: relative;
         left: 20px;

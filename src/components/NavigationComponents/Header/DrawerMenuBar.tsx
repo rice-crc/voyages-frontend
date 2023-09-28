@@ -10,7 +10,9 @@ interface DrawerMenuBarProps {
     textHeder: string,
     textIntro: string,
     styleName: string,
-    blocks: string[]
+    blocks: string[],
+    filterMenuFlatfile?: string,
+    tableFlatfile?: string
   ) => void;
 }
 
@@ -18,7 +20,14 @@ export const DrawerMenuBar = (props: DrawerMenuBarProps) => {
   const { value, handleSelectDataset } = props;
 
   return value.map((item: DataSetCollectionProps, index: number) => {
-    const { base_filter, headers, style_name, blocks } = item;
+    const {
+      base_filter,
+      headers,
+      style_name,
+      blocks,
+      table_flatfile,
+      filter_menu_flatfile,
+    } = item;
     return (
       <MenuList
         dense
@@ -35,7 +44,9 @@ export const DrawerMenuBar = (props: DrawerMenuBarProps) => {
                 headers.label,
                 headers.text_introduce,
                 style_name,
-                blocks
+                blocks,
+                filter_menu_flatfile,
+                table_flatfile
               )
             }
             primary={item.headers.label}

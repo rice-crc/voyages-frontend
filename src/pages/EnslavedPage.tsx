@@ -48,6 +48,7 @@ const EnslavedPage: React.FC = () => {
       <HeaderLogoSearch />
       <HeaderEnslavedNavBar />
       <div
+        className={currentEnslavedPage === 2 ? 'table-presentation' : ''}
         style={{
           position: 'relative',
           top: topPosition,

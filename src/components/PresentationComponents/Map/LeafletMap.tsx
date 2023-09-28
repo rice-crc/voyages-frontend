@@ -32,11 +32,12 @@ import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
 import { getMapBackgroundColor } from '@/utils/functions/getMapBackgroundColor';
 import NodeCurvedLinesMap from './NodeCurvedLinesMap';
 import {
-  setDisposition,
+  setEdgesData,
+  setMapData,
   setNodesData,
-  setOrigination,
-  setTransportation,
+  setPathsData,
 } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
+import { AggroutesData } from '@/share/InterfaceTypesMap';
 
 export const LeafletMap = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -188,21 +189,15 @@ export const LeafletMap = () => {
 
     if (response) {
       setLoading(false);
-      const { nodes, edges } = response;
-      const { transportation, disposition, origination } = edges;
+      const { nodes, edges, paths } = response;
       try {
         if (zoomLevel < ZOOM_LEVEL_THRESHOLD) {
           localStorage.setItem('nodesData', JSON.stringify(nodes));
-          localStorage.setItem(
-            'transportation',
-            JSON.stringify(transportation)
-          );
         }
-
+        dispatch(setMapData(response));
         dispatch(setNodesData(nodes));
-        dispatch(setTransportation(transportation));
-        dispatch(setDisposition(disposition));
-        dispatch(setOrigination(origination));
+        dispatch(setEdgesData(edges));
+        dispatch(setPathsData(paths));
       } catch (error) {
         console.log('error', error);
       }
@@ -212,10 +207,10 @@ export const LeafletMap = () => {
   useEffect(() => {
     fetchData();
     return () => {
+      dispatch(setMapData({} as AggroutesData));
       dispatch(setNodesData([]));
-      dispatch(setTransportation([]));
-      dispatch(setDisposition([]));
-      dispatch(setOrigination([]));
+      dispatch(setEdgesData([]));
+      dispatch(setPathsData([]));
     };
   }, [
     rang,
@@ -238,7 +233,6 @@ export const LeafletMap = () => {
     const savedTransportation = localStorage.getItem('transportation');
     if (savedNodesData && savedTransportation) {
       setNodesData(JSON.parse(savedNodesData));
-      setTransportation(JSON.parse(savedTransportation));
     }
     if (zoomLevel === MAXIMUM_ZOOM) {
       fetchData();

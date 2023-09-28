@@ -125,7 +125,7 @@ export const ButtonNav = styled(Button)`
   && {
     color: black;
     width: 70px;
-    margin: 6px 0;
+    margin: 4px;
     font-size: 14px;
     font-weight: 600;
     font-family:  'Cormorant Garamond';

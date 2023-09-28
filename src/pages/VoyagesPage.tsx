@@ -19,10 +19,8 @@ import PivotTables from '@/components/PresentationComponents/PivotTables/PivotTa
 import VoyagesMaps from '@/components/PresentationComponents/Map/MAPS';
 import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import CollectionTabVoyages from '@/components/NavigationComponents/CollectionTab/CollectionTabVoyages';
-import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 
 const VoyagesPage = () => {
-  const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
@@ -48,7 +46,6 @@ const VoyagesPage = () => {
       {currentPage === 7 && <VoyagesMaps />}
     </motion.div>
   );
-  const topPosition = createTopPositionVoyages(currentPage, isFilter);
 
   return (
     <>
@@ -59,7 +56,6 @@ const VoyagesPage = () => {
         style={{
           backgroundColor: getColorVoyagePageBackground(styleName, currentPage),
           position: 'relative',
-          top: topPosition,
           padding: currentPage !== 1 ? '20px' : '',
         }}
         id="content-container"

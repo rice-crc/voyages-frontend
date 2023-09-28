@@ -42,12 +42,11 @@ const CollectionTabEnslavers = () => {
                 key={`${page}-${buttonIndex}`}
                 onClick={() => handlePageNavigation(buttonIndex)}
                 style={{
-                  width: '80px',
-                  height: '32',
+                  width: '70px',
                   boxShadow: getColorBoxShadowEnslavers(styleNamePeople),
                   backgroundColor:
                     getColorBTNBackgroundEnslavers(styleNamePeople),
-                  fontSize: currentEnslaversPage === buttonIndex ? 15 : 14,
+                  fontSize: 14,
                   color:
                     currentEnslaversPage === buttonIndex ? 'white' : 'black',
                   fontWeight: currentEnslaversPage === buttonIndex ? 900 : 600,

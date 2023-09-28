@@ -74,6 +74,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @include breakpoint-standard(3) {
+    font-size: 12px;
+    top: 2.15rem;
+  }
+
+  @include breakpoint-standard(2) {
+    font-size: 12px;
+    top: 2.15rem;
+  }
+
+  @include breakpoint-standard(1) {
+    font-size: 12px;
+    top: 2.15rem;
+  }
+
+  @include breakpoint-standard(0) {
+    font-size: 12px;
+    top: 2.15rem;
+  }
 }
 
 .navbar-blog-subtitle {
@@ -426,6 +445,21 @@ h4 {
 
 .blog-detail-thumbnail {
   height: 300px;
+  @include breakpoint-standard(4) {
+    height: 350px;
+  }
+  @include breakpoint-standard(3) {
+    height: 200px;
+  }
+  @include breakpoint-standard(2) {
+    height: 200px;
+  }
+  @include breakpoint-standard(1) {
+    height: 200px;
+  }
+  @include breakpoint-standard(0) {
+    height: 200px;
+  }
 }
 
 .text-muted {

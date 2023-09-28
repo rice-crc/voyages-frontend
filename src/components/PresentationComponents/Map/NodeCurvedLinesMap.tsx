@@ -14,9 +14,10 @@ import renderAnimatedLines from './renderAnimatedLines';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { maxRadiusInPixels, minRadiusInpixels } from '@/share/CONST_DATA';
+import { EdgesAggroutes } from '@/share/InterfaceTypesMap';
 
 const NodeCurvedLinesMap = () => {
-  const { nodesData, transportation, disposition, origination } = useSelector(
+  const { nodesData, edgesData, mapData, pathsData } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
 
@@ -37,24 +38,15 @@ const NodeCurvedLinesMap = () => {
         }
       });
     };
-  }, [transportation, origination, disposition, nodesData, map]);
+  }, [map, nodesData]);
 
   const animateCurvedLines = () => {
     const newLineCurves: L.Curve[] = [];
-    transportation.forEach((edge) => {
-      renderPolylineNodeMap(edge, 'transportation', newLineCurves, nodesData);
-      renderAnimatedLines(edge, 'transportation', newLineCurves, nodesData);
+    edgesData.forEach((edge: EdgesAggroutes) => {
+      renderPolylineNodeMap(edge, edge.type, newLineCurves, nodesData);
+      renderAnimatedLines(edge, newLineCurves, nodesData);
     });
 
-    disposition?.forEach((edge) => {
-      renderPolylineNodeMap(edge, 'disposition', newLineCurves, nodesData);
-      renderAnimatedLines(edge, 'transportation', newLineCurves, nodesData);
-    });
-
-    origination?.forEach((edge) => {
-      renderPolylineNodeMap(edge, 'origination', newLineCurves, nodesData);
-      renderAnimatedLines(edge, 'transportation', newLineCurves, nodesData);
-    });
     setLineCurves(newLineCurves);
   };
 

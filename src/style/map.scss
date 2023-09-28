@@ -73,13 +73,28 @@
         }
     }
     @include breakpoint-standard(7) {
-        width: 90%;
+        width: 95%;
     }
     @include breakpoint-standard(6) {
-        width: 90%;
+        width: 92%;
     }
     @include breakpoint-standard(5) {
-        width: 90%;
+        width: 93%;
+    }
+    @include breakpoint-standard(4) {
+        width: 100%;
+    }
+    @include breakpoint-standard(3) {
+        width: 100%;
+    }
+    @include breakpoint-standard(2) {
+        width: 100%;
+    }
+    @include breakpoint-standard(1) {
+        width: 100%;
+    }
+    @include breakpoint-standard(0) {
+        width: 100%;
     }
     .lealfetMap-container{
         height: 75vh;

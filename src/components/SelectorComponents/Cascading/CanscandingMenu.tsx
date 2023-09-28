@@ -16,7 +16,13 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
         bottom: 12,
       }}
     >
-      <Toolbar>
+      <Toolbar
+        sx={{
+          '@media (min-width: 600px)': {
+            minHeight: '40px',
+          },
+        }}
+      >
         <Hidden smDown>
           <div>
             {pathName === ALLENSLAVED || pathName === ALLENSLAVERS ? (

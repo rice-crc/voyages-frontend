@@ -32,17 +32,20 @@ const PastPeopleIntro = () => {
               sm: '2rem',
               md: '8%',
             },
+            textAlign: {
+              xs: 'center',
+            },
           }}
         >
           <Grid container spacing={2}>
-            <Grid item xs={4} className="grid-people-image">
+            <Grid item xs={12} sm={4} className="grid-people-image">
               <img
                 className="flipped-image"
                 src={PersonImage}
                 alt="PersonImage"
               />
             </Grid>
-            <Grid item xs={8} className="grid-people-introduction">
+            <Grid item xs={12} sm={8} className="grid-people-introduction">
               {PEOPLE.map((item, index) => (
                 <div key={index}>
                   <div>{item.text_introuduce}</div>

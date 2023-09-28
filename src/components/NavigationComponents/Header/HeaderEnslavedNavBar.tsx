@@ -163,7 +163,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
             component="div"
             sx={{
               flexGrow: 1,
-              width: { xs: 200, sm: 220 },
+              width: { xs: 215, sm: 220 },
               fontWeight: { sm: 600, md: 500 },
             }}
           >

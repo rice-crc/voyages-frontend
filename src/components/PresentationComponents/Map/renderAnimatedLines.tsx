@@ -1,4 +1,4 @@
-import { NodeAggroutes, Transportation } from '@/share/InterfaceTypesMap';
+import { EdgesAggroutes, NodeAggroutes } from '@/share/InterfaceTypesMap';
 import { createNodeDict } from '@/utils/functions/createNodeDict';
 import { getEdgesSize } from '@/utils/functions/getNodeSize';
 import L, { LatLngExpression } from 'leaflet';
@@ -10,8 +10,7 @@ import {
 import { maxRadiusInPixels, minRadiusInpixels } from '@/share/CONST_DATA';
 
 const renderAnimatedLines = (
-  edge: Transportation,
-  type: string,
+  edge: EdgesAggroutes,
   newLineCurves: L.Curve[],
   nodesData: NodeAggroutes[]
 ) => {
@@ -21,39 +20,35 @@ const renderAnimatedLines = (
     .range([minRadiusInpixels, maxRadiusInPixels]);
 
   const nodesDict = createNodeDict(nodesData);
-  const source = nodesDict[edge?.s || 0.15];
-  const target = nodesDict[edge?.t || 0.2];
+  const source = nodesDict[edge?.source || 0.15];
+  const target = nodesDict[edge?.target || 0.2];
   const size = getEdgesSize(edge);
   const weight = size !== null ? nodeLogValueScale(size) / 4 : 0;
 
   if (source && target && weight) {
     const startLatLng: LatLngExpression = [source[0], source[1]];
     const endLatLng: LatLngExpression = [target[0], target[1]];
-    const offsetX = endLatLng[1] - startLatLng[1],
-      offsetY = endLatLng[0] - startLatLng[0];
-
-    const round = Math.sqrt(Math.pow(offsetX, 2) + Math.pow(offsetY, 2)),
-      theta = Math.atan2(offsetY, offsetX);
-    const thetaOffset = 3 / 9;
-
-    const round2 = round / 3 / Math.cos(thetaOffset),
-      theta2 = theta + thetaOffset;
-
-    const midpointX = round2 * Math.cos(theta2) + startLatLng[1],
-      midpointY = round2 * Math.sin(theta2) + startLatLng[0];
-    const midpointLatLng: [number, number] = [midpointY, midpointX];
+    const startControlLatLng: number[] = edge.controls[0];
+    const midpointControlLatLng: number[] = edge.controls[1];
 
     const curve = L.curve(
-      ['M', startLatLng, 'C', startLatLng, midpointLatLng, endLatLng],
+      [
+        'M',
+        startLatLng,
+        'C',
+        startControlLatLng as [number, number] | [number],
+        midpointControlLatLng as [number, number] | [number],
+        endLatLng,
+      ],
       {
-        dashArray: [5, 10, 5],
+        dashArray: [14, 7, 14],
         fill: false,
         weight: weight / 6,
         color: '#0000FF',
-        opacity: 0.5,
+        opacity: 0.7,
         stroke: true,
         interactive: false,
-        animate: { duration: 12000, iterations: Infinity },
+        animate: { duration: 10000, iterations: Infinity },
       }
     );
     newLineCurves.push(curve);
