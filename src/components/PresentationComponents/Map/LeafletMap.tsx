@@ -269,21 +269,8 @@ export const LeafletMap = () => {
             <LayersControl.Overlay name="Modern Countries">
               <TileLayer url={mappingSpecialistsCountries} />
             </LayersControl.Overlay>
-            {/*<LayersControl.Overlay checked name="Voyages">
-              HOW TO ADD 
-              <div>HOW TO ADD Component Here</div>
-            </LayersControl.Overlay>*/}
           </LayersControl>
           <NodeCurvedLinesMap />
-
-          {/* 
-           ===== POLY Line without curve =====
-          <PolylineMap />
-          ===== POLY Line with curve =====
-           <CurvedPolyLine />
-          ===== NODE Marker =====
-            <NodeMarkerMap/>
-         */}
         </MapContainer>
       )}
     </div>
