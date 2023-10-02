@@ -4,7 +4,7 @@
 
 Welcome to the Slave Voyages Application Components README. This document provides an overview of the various components that make up the Slave Voyages Application, which is designed to provide historical information about the transatlantic slave trade. This documentation will help developers understand the architecture, functionality, and usage of each component in the application.
 
-In our application, we have organized components into two main categories:
+In our application, we have organized components into two five categories:
 
 ##
 
@@ -50,6 +50,8 @@ Thank you for your interest in our application's components. If you have any que
 
 The following components have some very specific behavior. We describe how the different typescript files in each of those subfolders work on the following documentation pages:
 
-- ![Cascading Menu Factories](../components/SelectorComponents/Cascading/modules.md)
-- ![Filter Component Factories](../components/FilterComponents/modules.md)
-- ![Presentation Components](../components/PresentationComponents/modules.md)
+- ![Blog Components](./BlogComponents/modules.md)
+- ![Filter Component Factories](./FilterComponents/modules.md)
+- ![Navigation Components](./NavigationComponents/modules.md)
+- ![Presentation Components](./PresentationComponents/modules.md)
+- ![Selector Components](./SelectorComponents/modules.md)

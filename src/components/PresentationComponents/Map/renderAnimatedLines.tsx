@@ -20,6 +20,7 @@ const renderAnimatedLines = (
     .range([minRadiusInpixels, maxRadiusInPixels]);
 
   const nodesDict = createNodeDict(nodesData);
+  console.log('nodesDict-->', nodesDict);
   const source = nodesDict[edge?.source || 0.15];
   const target = nodesDict[edge?.target || 0.2];
   const size = getEdgesSize(edge);
@@ -41,9 +42,9 @@ const renderAnimatedLines = (
         endLatLng,
       ],
       {
-        dashArray: [14, 7, 14],
+        dashArray: '1 19',
         fill: false,
-        weight: weight / 6,
+        weight: weight,
         color: '#0000FF',
         opacity: 0.7,
         stroke: true,
