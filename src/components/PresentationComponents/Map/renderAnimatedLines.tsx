@@ -1,7 +1,7 @@
 import { EdgesAggroutes, NodeAggroutes } from '@/share/InterfaceTypesMap';
 import { createNodeDict } from '@/utils/functions/createNodeDict';
 import { getEdgesSize } from '@/utils/functions/getNodeSize';
-import L, { LatLngExpression } from 'leaflet';
+import L, { CurveOptions, LatLngExpression } from 'leaflet';
 import * as d3 from 'd3';
 import {
   getMaxValueNode,
@@ -42,15 +42,15 @@ const renderAnimatedLines = (
         endLatLng,
       ],
       {
-        dashArray: '1 19',
+        dashArray: '1 9',
         fill: false,
         weight: weight,
         color: '#0000FF',
         opacity: 0.7,
         stroke: true,
         interactive: false,
-        animate: { duration: 10000, iterations: Infinity },
-      }
+        animate: { duration: 1000, iterations: Infinity },
+      } as CurveOptions
     );
     newLineCurves.push(curve);
   }

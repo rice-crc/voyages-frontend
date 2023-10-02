@@ -8,7 +8,7 @@ import {
   getMinValueNode,
 } from '@/utils/functions/getMinMaxValueNode';
 import { getNodeColorMapVoyagesStyle } from '@/utils/functions/getNodeColorStyle';
-import '@elfalem/leaflet-curve';
+import '@johnconnor_mulligan/leaflet.curve';
 import renderPolylineNodeMap from './renderPolylineNodeMap';
 import renderAnimatedLines from './renderAnimatedLines';
 import { RootState } from '@/redux/store';

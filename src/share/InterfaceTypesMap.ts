@@ -72,3 +72,16 @@ export interface InitialStateNodeEdgesAggroutesMapData {
     nodesData: NodeAggroutes[]
     pathsData: PathsAggroutes[]
 }
+export type CurveOptions = {
+    dashArray?: string;
+    fill?: boolean;
+    weight?: number;
+    color?: string;
+    opacity?: number;
+    stroke?: boolean;
+    interactive?: boolean;
+    animate?: {
+        duration: number;
+        iterations: number;
+    };
+};
