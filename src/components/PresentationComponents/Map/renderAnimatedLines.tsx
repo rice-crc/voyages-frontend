@@ -41,9 +41,9 @@ const renderAnimatedLines = (
         endLatLng,
       ],
       {
-        dashArray: [14, 7, 14],
+        dashArray: '1 19',
         fill: false,
-        weight: weight / 6,
+        weight: weight,
         color: '#0000FF',
         opacity: 0.7,
         stroke: true,
