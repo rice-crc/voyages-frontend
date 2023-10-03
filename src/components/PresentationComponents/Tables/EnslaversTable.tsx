@@ -34,6 +34,7 @@ import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
+import { createTopPositionEnslaversPage } from '@/utils/functions/createTopPositionEnslaversPage';
 
 const EnslaversTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -67,6 +68,10 @@ const EnslaversTable: React.FC = () => {
     getRowsPerPage(window.innerWidth, window.innerHeight)
   );
 
+  const { currentEnslavedPage } = useSelector(
+    (state: RootState) => state.getScrollEnslavedPage
+  );
+  const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
 
@@ -277,9 +282,12 @@ const EnslaversTable: React.FC = () => {
     },
     [page]
   );
-
+  const topPosition = createTopPositionEnslaversPage(
+    currentEnslavedPage,
+    isFilter
+  );
   return (
-    <div>
+    <div style={{ marginTop: topPosition }}>
       <div style={containerStyle} className="ag-theme-alpine grid-container">
         <div style={style}>
           <span className="tableContainer">

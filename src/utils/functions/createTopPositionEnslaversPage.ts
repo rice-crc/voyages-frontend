@@ -5,13 +5,9 @@ export const createTopPositionEnslaversPage = (currentEnslaversPage: number, isF
     if (currentEnslaversPage === 1) {
         topPosition = 100;
     } else if (currentEnslaversPage === 2 && isFilter) {
-        topPosition = 225;
+        topPosition = 120;
     } else if (currentEnslaversPage === 2) {
-        topPosition = 170;
-    } else if (isFilter) {
-        topPosition = 227;
-    } else {
-        topPosition = 170;
+        topPosition = 90;
     }
     return topPosition;
 }

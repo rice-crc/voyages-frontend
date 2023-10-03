@@ -1,3 +1,8 @@
+export interface AggroutesData {
+    edges: EdgesAggroutes[]
+    nodes: NodeAggroutes[]
+    paths: PathsAggroutes[]
+}
 export interface NodeAggroutes {
     data: DataAggroutes
     id: string
@@ -14,16 +19,21 @@ export interface DataAggroutes {
 }
 
 export interface Weights {
-    disembarkation: number
-    embarkation: number
+    disembarkation?: number
+    embarkation?: number
     origin?: number
     "post-disembarkation"?: number;
 }
-export interface Edges {
-    disposition?: Dispositions[]
-    origination?: Originations[]
-    transportation: Transportation[]
-
+export interface EdgesAggroutes {
+    controls: number[][]
+    source: string
+    target: string
+    type: string
+    weight: number
+}
+export interface PathsAggroutes {
+    path: any[]
+    weight: number
 }
 export interface Dispositions {
     s: string
@@ -57,8 +67,21 @@ export interface NodeMarkerMapProps {
 }
 
 export interface InitialStateNodeEdgesAggroutesMapData {
-    nodesData: NodeAggroutes[],
-    transportation: Transportation[],
-    disposition?: Dispositions[],
-    origination?: Originations[]
+    mapData: AggroutesData,
+    edgesData: EdgesAggroutes[]
+    nodesData: NodeAggroutes[]
+    pathsData: PathsAggroutes[]
 }
+export type CurveOptions = {
+    dashArray?: string;
+    fill?: boolean;
+    weight?: number;
+    color?: string;
+    opacity?: number;
+    stroke?: boolean;
+    interactive?: boolean;
+    animate?: {
+        duration: number;
+        iterations: number;
+    };
+};

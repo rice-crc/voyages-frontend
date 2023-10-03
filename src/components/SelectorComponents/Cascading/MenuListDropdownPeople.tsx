@@ -145,6 +145,7 @@ export const MenuListDropdownPeople = () => {
   const [filterPeopleMenu, setFilterPeopleMenu] = useState<FilterPeopleMenu[]>(
     []
   );
+  console.log('styleNamePeople', styleNamePeople);
 
   useEffect(() => {
     const loadTableCellStructure = async () => {

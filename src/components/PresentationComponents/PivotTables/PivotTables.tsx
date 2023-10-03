@@ -38,6 +38,7 @@ import {
   PivotTablesProps,
 } from '@/share/InterfaceTypes';
 import { SelectDropdownPivotable } from '../../SelectorComponents/SelectDrowdown/SelectDropdownPivotable';
+import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 
 const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -270,60 +271,61 @@ const PivotTables = () => {
 
   const newRowsData = rowData.slice(0, -1);
   const pinnedBottomRowData: any[] = [rowData[rowData.length - 1]];
-
+  const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const handleButtonExportCSV = useCallback(() => {
     (gridRef.current as AgGridReact<any>).api.exportDataAsCsv();
   }, []);
-
+  const topPosition = createTopPositionVoyages(currentPage, isFilter);
   return (
-    <>
-      <div className="ag-theme-alpine grid-container">
-        <SelectDropdownPivotable
-          selectedPivottablesOptions={pivotValueOptions}
-          selectRowValue={rowVars}
-          selectColumnValue={columnVars}
-          selectCellValue={cellVars}
-          handleChangeOptions={handleChangeOptions}
+    <div
+      className="ag-theme-alpine grid-container"
+      style={{ marginTop: topPosition }}
+    >
+      <SelectDropdownPivotable
+        selectedPivottablesOptions={pivotValueOptions}
+        selectRowValue={rowVars}
+        selectColumnValue={columnVars}
+        selectCellValue={cellVars}
+        handleChangeOptions={handleChangeOptions}
+      />
+      <div className="aggregation-export">
+        <AggregationSumAverage
+          handleChange={handleChangeAggregation}
+          aggregation={aggregation}
         />
-        <div className="aggregation-export">
-          <AggregationSumAverage
-            handleChange={handleChangeAggregation}
-            aggregation={aggregation}
-          />
-          <div className="button-export-csv">
-            <button onClick={handleButtonExportCSV}>
-              Download CSV Export file
-            </button>
-          </div>
+        <div className="button-export-csv">
+          <button onClick={handleButtonExportCSV}>
+            Download CSV Export file
+          </button>
         </div>
-        {loading ? (
-          <div className="loading-logo">
-            <img src={LOADINGLOGO} />
-          </div>
-        ) : (
-          <div style={style}>
-            <AgGridReact
-              ref={gridRef}
-              rowData={newRowsData}
-              columnDefs={columnDefs}
-              defaultColDef={defaultColDef}
-              gridOptions={gridOptions}
-              tooltipShowDelay={0}
-              tooltipHideDelay={1000}
-              paginationPageSize={10}
-              components={components}
-              getRowStyle={getRowRowStyle}
-              enableBrowserTooltips={true}
-              suppressMenuHide={true}
-              animateRows={true}
-              domLayout="autoHeight"
-              pagination={true}
-              pinnedBottomRowData={pinnedBottomRowData}
-            />
-          </div>
-        )}
       </div>
-    </>
+      {loading ? (
+        <div className="loading-logo">
+          <img src={LOADINGLOGO} />
+        </div>
+      ) : (
+        <div style={style}>
+          <AgGridReact
+            ref={gridRef}
+            rowData={newRowsData}
+            columnDefs={columnDefs}
+            defaultColDef={defaultColDef}
+            gridOptions={gridOptions}
+            tooltipShowDelay={0}
+            tooltipHideDelay={1000}
+            paginationPageSize={10}
+            components={components}
+            getRowStyle={getRowRowStyle}
+            enableBrowserTooltips={true}
+            suppressMenuHide={true}
+            animateRows={true}
+            domLayout="autoHeight"
+            pagination={true}
+            pinnedBottomRowData={pinnedBottomRowData}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

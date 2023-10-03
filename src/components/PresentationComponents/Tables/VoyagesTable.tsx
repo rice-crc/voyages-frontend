@@ -35,6 +35,7 @@ import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph
 import { VOYAGESTABLEFILE } from '@/share/CONST_DATA';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
+import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 
 const VoyagesTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -67,7 +68,7 @@ const VoyagesTable: React.FC = () => {
     (state: RootState) => state.getGeoTreeData
   );
   const [page, setPage] = useState<number>(0);
-
+  const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [rowsPerPage, setRowsPerPage] = useState(
     getRowsPerPage(window.innerWidth, window.innerHeight)
   );
@@ -81,7 +82,7 @@ const VoyagesTable: React.FC = () => {
     width: maxWidth,
     height: height * 0.62,
   });
-
+  const topPosition = createTopPositionVoyages(currentPage, isFilter);
   const containerStyle = useMemo(
     () => ({ width: maxWidth, height: height * 0.7 }),
     []
@@ -285,7 +286,7 @@ const VoyagesTable: React.FC = () => {
   );
 
   return (
-    <div>
+    <div style={{ marginTop: topPosition }}>
       <div style={containerStyle} className="ag-theme-alpine grid-container">
         <div style={style}>
           <span className="tableContainer">

@@ -63,7 +63,7 @@
 .voyages-home-page {
   padding: 0;
   margin: 0;
-  height: 105vh;
+  height: 100vh;
 
   @include breakpoint-standard(1.1) {
     height: 115vh;
@@ -131,12 +131,13 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  z-index: 10;
+  z-index: 1;
+  
 }
 
 .nav-button {
   position: fixed;
-  top: 45%;
+  top: 35%;
   right: 0;
   height: 100vh;
   display: flex;
@@ -145,12 +146,12 @@
   padding-right: 5px;
 
   @include breakpoint-standard(6) {
-    top: 35%;
+    top: 30%;
     align-items: center;
   }
 
   @include breakpoint-standard(5) {
-    top: 35%;
+    top: 30%;
     align-items: center;
   }
 
@@ -182,7 +183,7 @@
   }
 
   @include breakpoint-standard(1.1) {
-    top: 15%;
+    top: 12%;
     height: auto;
     display: inline;
     align-items: center;
@@ -191,7 +192,7 @@
   }
 
   @include breakpoint-standard(1) {
-    top: 15%;
+    top: 12%;
     height: auto;
     display: inline;
     align-items: center;
@@ -200,7 +201,7 @@
   }
 
   @include breakpoint-standard(0) {
-    top: 18%;
+    top: 15%;
     height: auto;
     display: inline;
     align-items: center;
@@ -272,25 +273,44 @@
   flex-direction: column;
   align-items: flex-start;
   padding-right: 5px;
-
   @include breakpoint-standard(5) {
     top: 36%;
     align-items: center;
   }
-
   @include breakpoint-standard(4) {
-    top: 15%;
-    align-items: center;
+    display: inline-block;
+    padding-right: 5rem;
+    top: 13%;;
+    height:0;
   }
-
   @include breakpoint-standard(3) {
-    top: 15%;
-    align-items: center;
+    display: inline-block;
+    padding-right: 30px;
+    top: 13%;;
+    height:0;
+  }
+  @include breakpoint-standard(2) {
+    display: inline-block;
+    padding-right: 30px;
+    top: 13%;
+    height:0;
+  }
+  @include breakpoint-standard(1.1) {
+    display: inline-block;
+    padding-right: 30px;
+    top: 13%;
+    height:0;
+  }
+  @include breakpoint-standard(1) {
+    display: inline-block;
+    padding-right: 30px;
+    top: 13%;
+    height:0;
   }
 }
 
 #main-voyagepage {
-  height: 95vh;
+  height: 100vh;
   background-repeat: no-repeat;
   background: linear-gradient(rgba(147, 208, 203, 0.5),
       rgba(147, 208, 203, 0.4)),
@@ -298,14 +318,14 @@
 }
 
 #main-voyagepage-Trans-atlantic {
-  height: 95vh;
+  height: 100vh;
   background-repeat: no-repeat;
   background: linear-gradient(rgba(56, 116, 203, 0.8), rgba(56, 116, 203, 0.8)),
     url('../assets/Transatlantic.JPG') center / cover;
 }
 
 #main-voyagepage-intra-american {
-  height: 95vh;
+  height: 100vh;
   background-repeat: no-repeat;
   background: linear-gradient(rgba(127, 118, 191, 0.8),
       rgba(127, 118, 191, 0.8)),
@@ -314,7 +334,7 @@
 }
 
 #main-voyagepage-texas {
-  height: 95vh;
+  height: 100vh;
   background-repeat: no-repeat;
   background: linear-gradient(rgba(187, 105, 46, 0.8), rgba(187, 105, 46, 0.8)),
     url('../assets/TexasImg.jpg') center / cover;
@@ -391,40 +411,48 @@
   @include breakpoint-standard(0) {
     padding: 2%;
     font-size: 14px;
+    margin-top: 12%;
   }
 
   @include breakpoint-standard(1) {
     padding: 2%;
     font-size: 14px;
+    margin-top: 12%;
   }
 
   @include breakpoint-standard(1.1) {
     padding: 2%;
     font-size: 14px;
+    margin-top: 12%;
   }
 
   @include breakpoint-standard(2) {
     padding: 2%;
     font-size: 14px;
+    margin-top: 10%;
   }
 
   @include breakpoint-standard(3) {
     padding: 2%;
     font-size: 14px;
+    margin-top: 10%;
   }
 
   @include breakpoint-standard(4) {
     padding: 2%;
-    font-size: 18px;
+    font-size: 18px;    
+    margin-top: 10%;
   }
 
   @include breakpoint-standard(5) {
     padding: 2% 3%;
     font-size: 22px;
+    margin-top: 10%;
   }
 
   @include breakpoint-standard(6) {
     padding: 3%;
     font-size: 26px;
+    margin-top: 10%;
   }
 }
