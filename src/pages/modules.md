@@ -46,6 +46,7 @@ The "Enslavers" page delves into the stories and profiles of those who played a 
 ## Blog page
 
 The "Blog" page is dedicated to blog content, providing users with a space to access and engage with blog posts, articles, or related materials.
+
 ![blog](../assets/pages/blog.png)
 
 ##

@@ -2,8 +2,8 @@ import BlogCardHeaderBody from './BlogCardHeaderBody';
 import '@/style/blogs.scss';
 import { Divider } from '@mui/material';
 import BlogCardContent from './BlogCardContent';
-import HeaderLogoSearch from '../NavigationComponents/Header/HeaderSearchLogo';
-import HeaderNavBarBlog from '../NavigationComponents/Header/HeaderNavBarBlog';
+import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
+import HeaderNavBarBlog from '@/components/NavigationComponents/Header/HeaderNavBarBlog';
 
 const BlogDetailsPost: React.FC = () => {
   return (

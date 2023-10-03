@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Welcome to the Slave Voyages Application Components README. This document provides an overview of the various components that make up the Slave Voyages Application, which is designed to provide historical information about the transatlantic slave trade. This documentation will help developers understand the architecture, functionality, and usage of each component in the application.
+This document provides an overview of the various components that make up the Slave Voyages Application, which is designed to provide historical information about the transatlantic slave trade. This documentation will help developers understand the architecture, functionality, and usage of each component in the application.
 
-In our application, we have organized components into two five categories:
+In our application, we have organized components into five categories:
 
 ##
 
@@ -12,9 +12,9 @@ All components, in one way or another, interact with the Redux store. This allow
 
 ![filtercomponentfactory](../assets/filtercomponentfactory.jpg)
 
-## Blog Components:
+## Blog Page Components:
 
-Blog Components play a crucial role in presenting historical narratives, insights, and educational resources to our users. These components are designed to deliver engaging and informative content related to the transatlantic slave trade. Whether it's articles, images, or multimedia, Blog Components are responsible for the presentation and navigation of this valuable information.
+Blog page component is responsible for displaying information about an author, including their name, role, institution, and a list of their blog posts.
 
 ##
 
@@ -50,7 +50,7 @@ Thank you for your interest in our application's components. If you have any que
 
 The following components have some very specific behavior. We describe how the different typescript files in each of those subfolders work on the following documentation pages:
 
-- ![Blog Components](./BlogComponents/modules.md)
+- ![Blog Page Components](./BlogPageComponents/modules.md)
 - ![Filter Component Factories](./FilterComponents/modules.md)
 - ![Navigation Components](./NavigationComponents/modules.md)
 - ![Presentation Components](./PresentationComponents/modules.md)

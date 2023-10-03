@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Autocomplete, Stack, TextField, Typography } from '@mui/material';
 import { setBlogAutoLists, setSearchAutoValue } from '@/redux/getBlogDataSlice';
 import { fetchBlogAutoCompleted } from '@/fetch/blogFetch/fetchBlogAutoCompleted';
 import { ResultAutoList } from '@/share/InterfaceTypesBlog';
-import SelectBlogDropdown from '../SelectorComponents/SelectDrowdown/SelectBlogDropdown';
+import SelectBlogDropdown from '../../SelectorComponents/SelectDrowdown/SelectBlogDropdown';
 import { useNavigate, useParams } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import { BLOGPAGE } from '@/share/CONST_DATA';

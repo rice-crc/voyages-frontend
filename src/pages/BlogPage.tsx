@@ -1,4 +1,4 @@
-import BlogResultsList from '@/components/BlogComponents/BlogResultsList';
+import BlogResultsList from '@/components/BlogPageComponents/Blogcomponents/BlogResultsList';
 import HeaderNavBarBlog from '@/components/NavigationComponents/Header/HeaderNavBarBlog';
 import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import React from 'react';

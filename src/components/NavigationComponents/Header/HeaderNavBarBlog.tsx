@@ -6,7 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import LanguagesDropdown from '../../SelectorComponents/DropDown/LanguagesDropdown';
 import GlobalSearchButton from '../../PresentationComponents/GlobalSearch/GlobalSearchButton';
-import AutoCompletedSearhBlog from '@/components/BlogComponents/AutoCompletedSearhBlog';
+import AutoCompletedSearhBlog from '@/components/FilterComponents/AutoCompletedSearhBlog/AutoCompletedSearhBlog';
 
 const HeaderNavBarBlog: React.FC = () => {
   const { blogTitle, institutionName } = useParams();
