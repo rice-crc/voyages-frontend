@@ -14,7 +14,7 @@ import { formatTextURL } from '@/utils/functions/formatText';
 import { BASEURL } from '@/share/AUTH_BASEURL';
 import '@/style/blogs.scss';
 import { BLOGPAGE } from '@/share/CONST_DATA';
-import BlogPageButton from '../SelectorComponents/ButtonComponents/BlogPageButton';
+import BlogPageButton from '@/components/SelectorComponents/ButtonComponents/BlogPageButton';
 
 const BlogResultsList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();

@@ -25,9 +25,10 @@ import {
 } from './share/CONST_DATA';
 import DocumentPage from './pages/DocumentPage';
 import BlogPage from './pages/BlogPage';
-import BlogDetailsPost from './components/BlogComponents/BlogDetailsPost';
+
 import AuthorPage from './pages/AuthorPage';
 import InstitutionAuthorsPage from './pages/InstitutionAuthorsPage';
+import BlogDetailsPost from './components/BlogPageComponents/Blogcomponents/BlogDetailsPost';
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();

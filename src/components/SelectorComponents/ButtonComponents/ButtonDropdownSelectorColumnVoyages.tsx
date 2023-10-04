@@ -11,7 +11,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { TableCellStructureInitialStateProp } from '@/share/InterfaceTypesTable';
 
-const ButtonDropdownSelectorColumnEnslavers = () => {
+const ButtonDropdownSelectorColumnVoyages = () => {
   const dispatch: AppDispatch = useDispatch();
   const { valueCells, visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
@@ -93,4 +93,4 @@ const ButtonDropdownSelectorColumnEnslavers = () => {
     />
   );
 };
-export default ButtonDropdownSelectorColumnEnslavers;
+export default ButtonDropdownSelectorColumnVoyages;
