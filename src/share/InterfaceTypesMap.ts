@@ -91,3 +91,4 @@ export interface HandleZoomEventProps {
     setZoomLevel: (zoomLevel: number) => void;
     setRegionPlace: (value: string) => void
 }
+

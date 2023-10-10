@@ -9,12 +9,12 @@ export const HandleZoomEvent: React.FC<HandleZoomEventProps> = ({
   setRegionPlace,
 }) => {
   const map = useMap();
-
   const oceanic_animation_edges_layer_group = L.layerGroup();
   const oceanic_main_edges_layer_group = L.layerGroup();
   const oceanic_edges_holding_layer_group = L.layerGroup();
   const endpoint_animation_edges_layer_group = L.layerGroup();
   const endpoint_main_edges_layer_group = L.layerGroup();
+
   useEffect(() => {
     if (!map) return;
     if (map) {
@@ -28,7 +28,6 @@ export const HandleZoomEvent: React.FC<HandleZoomEventProps> = ({
       const initialZoomLevel = map.getZoom();
       setZoomLevel(initialZoomLevel);
     }
-
     return () => {
       if (map) {
         map.removeLayer(endpoint_animation_edges_layer_group);

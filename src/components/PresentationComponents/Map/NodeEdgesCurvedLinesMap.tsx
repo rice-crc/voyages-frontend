@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import L, { LatLngExpression } from 'leaflet';
 import 'leaflet.markercluster';
@@ -12,7 +12,11 @@ import { getNodeColorMapVoyagesStyle } from '@/utils/functions/getNodeColorStyle
 import '@johnconnor_mulligan/leaflet.curve';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
-import { maxRadiusInPixels, minRadiusInPixels } from '@/share/CONST_DATA';
+import {
+  ZOOM_LEVEL_THRESHOLD,
+  maxRadiusInPixels,
+  minRadiusInPixels,
+} from '@/share/CONST_DATA';
 import { EdgesAggroutes, NodeAggroutes } from '@/share/InterfaceTypesMap';
 import * as d3 from 'd3';
 import { getNodeSize } from '@/utils/functions/getNodeSize';
@@ -22,7 +26,6 @@ import renderEdgesAnimatedLines from './renderEdgesAnimatedLines';
 
 class CustomMarker extends L.CircleMarker {
   nodeId: string;
-
   constructor(
     latlng: L.LatLngExpression,
     radius: number,
@@ -41,8 +44,12 @@ class CustomMarker extends L.CircleMarker {
     this.nodeId = nodeId;
   }
 }
-
-const NodeEdgesCurvedLinesMap = () => {
+interface NodeEdgesCurvedLinesMapProps {
+  zoomLevel: number;
+}
+const NodeEdgesCurvedLinesMap: FunctionComponent<
+  NodeEdgesCurvedLinesMapProps
+> = ({ zoomLevel }) => {
   const { nodesData, edgesData } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
@@ -58,6 +65,7 @@ const NodeEdgesCurvedLinesMap = () => {
   const edgesNoOrigin = edgesData.filter(
     (edge) => edge.type !== 'origination' && edge.type !== 'disposition'
   );
+
   const newLineCurves: L.Curve[] = [];
   const animateEdgesCurvedLines = () => {
     edgesNoOrigin.forEach((edge: EdgesAggroutes) => {
@@ -78,6 +86,7 @@ const NodeEdgesCurvedLinesMap = () => {
       if (curve && curveAnimated) {
         curve.addTo(map);
         curveAnimated.addTo(map);
+        newLineCurves.push(curve, curveAnimated);
       }
     });
     setLineCurves(newLineCurves);
@@ -163,7 +172,7 @@ const NodeEdgesCurvedLinesMap = () => {
             });
         });
 
-        for (const [id, [node, edge]] of targetNodeMap) {
+        for (const [, [node, edge]] of targetNodeMap) {
           const { lat, lng } = clusterLatLon;
           const curve = renderPolylineEdgesNodeMap(
             [lat, lng],
@@ -233,27 +242,13 @@ const NodeEdgesCurvedLinesMap = () => {
         map.removeLayer(markerCluster);
       }
     };
-  }, [map, nodesData, nodeLogValueScale]);
+  }, [map, nodesData, nodeLogValueScale, edgesData, zoomLevel]);
+
+  console.log('nodes-->', nodesData.length);
+  console.log('edges-->', edgesData.length);
+  console.log('zommmm-->', zoomLevel);
 
   return null;
 };
 
 export default NodeEdgesCurvedLinesMap;
-
-/*
-What I'm doing is this:
-- When a user hovers over a node, I check all the edges that are "origination" or "disposition" 
-to see if that node's id is the source or target of that edge
-- Then I add that hidden edge to the hidden edges layer group
-
-
-But, in the case of marker clusters, we have 2 extra things we have to do:
-- We have to get all the marker cluster's children node id's, because those are what 
-we need to check all the edges that are "origination" or "disposition". 
-- We have to add up/combine the weights of all those edges, 
-and keep one of those edges as a placeholder/proxy.
-- We have to get the lat/long of the cluster, and, when we draw the placeholder hidden edge, 
-we have to alter its endpoint lat long to point at the cluster, and update its thickness so 
-that it represents that combined weight
-
-*/
