@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import L, { LatLngExpression } from 'leaflet';
 import 'leaflet.markercluster';
@@ -12,11 +12,7 @@ import { getNodeColorMapVoyagesStyle } from '@/utils/functions/getNodeColorStyle
 import '@johnconnor_mulligan/leaflet.curve';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
-import {
-  ZOOM_LEVEL_THRESHOLD,
-  maxRadiusInPixels,
-  minRadiusInPixels,
-} from '@/share/CONST_DATA';
+import { maxRadiusInPixels, minRadiusInPixels } from '@/share/CONST_DATA';
 import { EdgesAggroutes, NodeAggroutes } from '@/share/InterfaceTypesMap';
 import * as d3 from 'd3';
 import { getNodeSize } from '@/utils/functions/getNodeSize';
@@ -44,12 +40,8 @@ class CustomMarker extends L.CircleMarker {
     this.nodeId = nodeId;
   }
 }
-interface NodeEdgesCurvedLinesMapProps {
-  zoomLevel: number;
-}
-const NodeEdgesCurvedLinesMap: FunctionComponent<
-  NodeEdgesCurvedLinesMapProps
-> = ({ zoomLevel }) => {
+
+const NodeEdgesCurvedLinesMap = () => {
   const { nodesData, edgesData } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
@@ -60,15 +52,29 @@ const NodeEdgesCurvedLinesMap: FunctionComponent<
     .range([minRadiusInPixels, maxRadiusInPixels]);
 
   const map = useMap();
-  const [lineCurves, setLineCurves] = useState<L.Curve[]>([]);
 
-  const edgesNoOrigin = edgesData.filter(
-    (edge) => edge.type !== 'origination' && edge.type !== 'disposition'
-  );
+  const updateEdgesAndNodes = () => {
+    // To Clear existing layers on each layers
+    map.eachLayer((layer) => {
+      if (
+        layer instanceof L.Curve ||
+        layer instanceof L.MarkerClusterGroup ||
+        layer instanceof L.CircleMarker
+      ) {
+        map.removeLayer(layer);
+      }
+    });
 
-  const newLineCurves: L.Curve[] = [];
-  const animateEdgesCurvedLines = () => {
-    edgesNoOrigin.forEach((edge: EdgesAggroutes) => {
+    const edgesWithOrigin = edgesData.filter(
+      (edge) => edge.type === 'origination' || edge.type === 'disposition'
+    );
+
+    const edgesToRender = edgesData.filter(
+      (edge) => edge.type !== 'origination' && edge.type !== 'disposition'
+    );
+    const hiddenEdgesLayer = L.layerGroup();
+
+    edgesToRender.forEach((edge: EdgesAggroutes) => {
       const curve = renderPolylineEdgesNodeMap(
         null,
         null,
@@ -86,37 +92,10 @@ const NodeEdgesCurvedLinesMap: FunctionComponent<
       if (curve && curveAnimated) {
         curve.addTo(map);
         curveAnimated.addTo(map);
-        newLineCurves.push(curve, curveAnimated);
       }
     });
-    setLineCurves(newLineCurves);
-  };
 
-  useEffect(() => {
-    animateEdgesCurvedLines();
-    const handleZoomChange = () => {
-      setLineCurves([]);
-    };
-
-    map.on('zoomend', handleZoomChange);
-    return () => {
-      map.off('zoomend', handleZoomChange);
-    };
-  }, [nodesData, edgesData, map]);
-
-  const edgesWithOrigin = edgesData.filter(
-    (edge) => edge.type === 'origination' || edge.type === 'disposition'
-  );
-
-  useEffect(() => {
-    if (map && lineCurves.length > 0) {
-      lineCurves.forEach((curve) => {
-        curve.addTo(map);
-      });
-    }
-
-    const hiddenEdgesLayer = L.layerGroup();
-
+    // Render the updated nodes based on zoomLevel
     const markerCluster = L.markerClusterGroup({
       zoomToBoundsOnClick: false,
       showCoverageOnHover: false,
@@ -188,7 +167,6 @@ const NodeEdgesCurvedLinesMap: FunctionComponent<
             edge.type,
             nodesData
           );
-
           if (curve && curveAnimated) {
             hiddenEdgesLayer.addLayer(curve);
             hiddenEdgesLayer.addLayer(curveAnimated);
@@ -198,11 +176,9 @@ const NodeEdgesCurvedLinesMap: FunctionComponent<
       .on('clustermouseout', () => {
         hiddenEdgesLayer.clearLayers();
       });
-
     if (map) {
       map.addLayer(hiddenEdgesLayer);
     }
-
     nodesData.forEach((node) => {
       const { data, weights } = node;
       const { lat, lon, name } = data;
@@ -235,18 +211,13 @@ const NodeEdgesCurvedLinesMap: FunctionComponent<
     if (map) {
       map.addLayer(markerCluster);
     }
+  };
 
-    return () => {
-      if (map) {
-        map.removeLayer(hiddenEdgesLayer);
-        map.removeLayer(markerCluster);
-      }
-    };
-  }, [map, nodesData, nodeLogValueScale, edgesData, zoomLevel]);
-
-  console.log('nodes-->', nodesData.length);
-  console.log('edges-->', edgesData.length);
-  console.log('zommmm-->', zoomLevel);
+  useEffect(() => {
+    if (map) {
+      updateEdgesAndNodes();
+    }
+  }, [nodesData, edgesData, map]);
 
   return null;
 };

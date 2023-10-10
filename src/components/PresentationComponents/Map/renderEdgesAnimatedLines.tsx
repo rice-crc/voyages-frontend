@@ -49,7 +49,7 @@ const renderEdgesAnimatedLines = (
       {
         dashArray: '1 9',
         fill: false,
-        weight: clusterSource ? weight * 2 : weight / 2,
+        weight: clusterSource ? weight * 2 : weight,
         color: '#0000FF',
         opacity: 0.7,
         stroke: true,

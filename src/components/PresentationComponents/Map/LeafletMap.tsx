@@ -4,7 +4,7 @@ import {
   TileLayer,
   LayersControl,
   useMap,
-  useMapEvents,
+  ZoomControl,
 } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
 import L from 'leaflet';
@@ -46,6 +46,7 @@ import {
 import { AggroutesData } from '@/share/InterfaceTypesMap';
 import { HandleZoomEvent } from './HandleZoomEvent';
 import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
+import NodeCurvedLinesMap from './NodeCurvedLinesMap';
 
 export const LeafletMap = () => {
   const { nodesData, edgesData } = useSelector(
@@ -341,8 +342,8 @@ export const LeafletMap = () => {
           maxZoom={MAXIMUM_ZOOM}
           minZoom={MINIMUM_ZOOM}
           attributionControl={false}
-          zoomControl={true}
           scrollWheelZoom={true}
+          zoomControl={true}
         >
           <HandleZoomEvent
             setZoomLevel={setZoomLevel}
@@ -357,7 +358,7 @@ export const LeafletMap = () => {
               <TileLayer url={mappingSpecialistsCountries} />
             </LayersControl.Overlay>
           </LayersControl>
-          <NodeEdgesCurvedLinesMap zoomLevel={zoomLevel} />
+          <NodeEdgesCurvedLinesMap />
         </MapContainer>
       )}
     </div>

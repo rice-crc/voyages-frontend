@@ -23,11 +23,15 @@ import {
   setPeopleEnslavedTextIntro,
   setPeopleTableEnslavedFlatfile,
 } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
+import { setCurrentPage } from '@/redux/getScrollPageSlice';
 
 export default function HeaderLogoSearch() {
   const dispatch: AppDispatch = useDispatch();
   const onChangePath = () => {
     dispatch(resetAll());
+    dispatch(setCurrentEnslavedPage(1));
+    dispatch(setCurrentPage(1));
     dispatch(setInputSearchValue(''));
     dispatch(setDataSetHeader(jsonDataVoyageCollection[0].headers.label));
     dispatch(setTextIntro(jsonDataVoyageCollection[0].headers.text_introduce));
