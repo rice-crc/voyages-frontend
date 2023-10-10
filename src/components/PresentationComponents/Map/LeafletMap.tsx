@@ -1,11 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import {
-  MapContainer,
-  TileLayer,
-  LayersControl,
-  useMapEvents,
-} from 'react-leaflet';
+import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
+import L from 'leaflet';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVoyagesMap } from '@/fetch/voyagesFetch/fetchVoyagesMap';
@@ -26,18 +22,24 @@ import {
   mappingSpecialists,
   mappingSpecialistsCountries,
   mappingSpecialistsRivers,
+  PLACE,
+  REGION,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
 import { getMapBackgroundColor } from '@/utils/functions/getMapBackgroundColor';
-import NodeCurvedLinesMap from './NodeCurvedLinesMap';
 import {
-  setEdgesData,
+  setEdgesDataPlace,
+  setEdgesDataRegion,
+  setHasFetchedRegion,
   setMapData,
-  setNodesData,
+  setNodesDataPlace,
+  setNodesDataRegion,
   setPathsData,
 } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
 import { AggroutesData } from '@/share/InterfaceTypesMap';
+import { HandleZoomEvent } from './HandleZoomEvent';
+import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
 
 export const LeafletMap = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -47,10 +49,18 @@ export const LeafletMap = () => {
   const pathName = pathNameArr[1];
 
   const [zoomLevel, setZoomLevel] = useState<number>(3);
-  const [isCallFetchData, setIsCallFetchData] = useState<boolean>(false);
+  const [regionPlace, setRegionPlace] = useState<string>('region');
   const [loading, setLoading] = useState<boolean>(false);
+  const hasFetchedPlaceRef = useRef(false);
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
+  );
+  const { styleNamePeople } = useSelector(
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
+  );
+
+  const { hasFetchedRegion } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
   const {
     rangeSliderMinMax: rang,
@@ -74,26 +84,40 @@ export const LeafletMap = () => {
     (state: RootState) => state.getCommonGlobalSearch
   );
 
-  const HandleZoomEvent = () => {
-    const map = useMapEvents({
-      zoomend: () => {
-        const newZoomLevel = map.getZoom();
-        setZoomLevel(newZoomLevel);
-        if (newZoomLevel >= ZOOM_LEVEL_THRESHOLD) {
-          setIsCallFetchData(true);
-        } else {
-          setIsCallFetchData(false);
-        }
-      },
-    });
-    return null;
-  };
+  useEffect(() => {
+    const savedNodesDataRegion = localStorage.getItem('nodesDataregion');
+    const saveEdgesDataRegion = localStorage.getItem('edgesDataregion');
+    const savedNodesDataPlace = localStorage.getItem('nodesDataplace');
+    const saveEdgesDataPlace = localStorage.getItem('edgesDataplace');
 
-  const fetchData = async () => {
-    setLoading(true);
+    if (
+      savedNodesDataRegion &&
+      saveEdgesDataRegion &&
+      saveEdgesDataPlace &&
+      savedNodesDataPlace
+    ) {
+      if (zoomLevel >= ZOOM_LEVEL_THRESHOLD) {
+        dispatch(setNodesDataPlace(JSON.parse(savedNodesDataPlace)));
+        dispatch(setEdgesDataPlace(JSON.parse(saveEdgesDataPlace)));
+        setLoading(false);
+      } else {
+        dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion)));
+        dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion)));
+        setLoading(false);
+      }
+    }
+
+    return () => {
+      dispatch(setNodesDataRegion([]));
+      dispatch(setNodesDataPlace([]));
+      dispatch(setEdgesDataRegion([]));
+      dispatch(setEdgesDataPlace([]));
+    };
+  }, [zoomLevel]);
+
+  const fetchData = async (regionOrPlace: string) => {
     const newFormData = new FormData();
-    newFormData.append('zoomlevel', isCallFetchData ? 'place' : 'region');
-
+    newFormData.append('zoomlevel', regionOrPlace);
     if (styleName !== TYPESOFDATASET.allVoyages) {
       for (const value of dataSetValue) {
         newFormData.append(dataSetKey, String(value));
@@ -180,6 +204,8 @@ export const LeafletMap = () => {
       }
     }
 
+    hasFetchedRegion ? setLoading(true) : setLoading(false);
+
     let response;
     if (pathName === VOYAGESPAGE) {
       response = await dispatch(fetchVoyagesMap(newFormData)).unwrap();
@@ -188,28 +214,20 @@ export const LeafletMap = () => {
     }
 
     if (response) {
+      handleDataResponse(response, regionOrPlace);
+      dispatch(setHasFetchedRegion(false));
       setLoading(false);
-      const { nodes, edges, paths } = response;
-      try {
-        if (zoomLevel < ZOOM_LEVEL_THRESHOLD) {
-          localStorage.setItem('nodesData', JSON.stringify(nodes));
-        }
-        dispatch(setMapData(response));
-        dispatch(setNodesData(nodes));
-        dispatch(setEdgesData(edges));
-        dispatch(setPathsData(paths));
-      } catch (error) {
-        console.log('error', error);
-      }
     }
   };
 
   useEffect(() => {
-    fetchData();
+    if (hasFetchedRegion) {
+      fetchData(REGION);
+    }
     return () => {
       dispatch(setMapData({} as AggroutesData));
-      dispatch(setNodesData([]));
-      dispatch(setEdgesData([]));
+      dispatch(setNodesDataRegion([]));
+      dispatch(setEdgesDataRegion([]));
       dispatch(setPathsData([]));
     };
   }, [
@@ -223,27 +241,83 @@ export const LeafletMap = () => {
     dataSetKey,
     dataSetValue,
     styleName,
-    isCallFetchData,
     geoTreeValue,
     inputSearchValue,
+    regionPlace,
   ]);
 
-  useEffect(() => {
-    const savedNodesData = localStorage.getItem('nodesData');
-    const savedTransportation = localStorage.getItem('transportation');
-    if (savedNodesData && savedTransportation) {
-      setNodesData(JSON.parse(savedNodesData));
-    }
-    if (zoomLevel === MAXIMUM_ZOOM) {
-      fetchData();
-    }
-    return () => {
-      setNodesData([]);
-    };
-  }, [zoomLevel]);
+  const handleDataResponse = (response: any, regionOrPlace: string) => {
+    if (response) {
+      const { nodes, edges, paths } = response;
+      if (zoomLevel < ZOOM_LEVEL_THRESHOLD) {
+        localStorage.setItem(
+          `nodesData${regionOrPlace}`,
+          JSON.stringify(nodes)
+        );
+        localStorage.setItem(
+          `edgesData${regionOrPlace}`,
+          JSON.stringify(edges)
+        );
+      }
 
+      dispatch(setMapData(response));
+
+      if (regionOrPlace === 'region') {
+        setLoading(false);
+        dispatch(setNodesDataRegion(nodes));
+        dispatch(setEdgesDataRegion(edges));
+      } else if (regionOrPlace === 'place') {
+        localStorage.setItem(
+          `nodesData${regionOrPlace}`,
+          JSON.stringify(nodes)
+        );
+        localStorage.setItem(
+          `edgesData${regionOrPlace}`,
+          JSON.stringify(edges)
+        );
+      }
+      dispatch(setPathsData(paths));
+    }
+  };
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout | undefined;
+    if (!hasFetchedPlaceRef.current) {
+      timeout = setTimeout(() => {
+        setLoading(false);
+        fetchData(PLACE);
+        hasFetchedPlaceRef.current = true;
+      }, 4000);
+    }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [hasFetchedRegion]);
+
+  const map = useMap();
+  const oceanic_edges_holding_layer_group = L.layerGroup();
+  const oceanic_main_edges_layer_group = L.layerGroup();
+  const oceanic_animation_edges_layer_group = L.layerGroup();
+  const endpoint_main_edges_layer_group = L.layerGroup();
+  const endpoint_animation_edges_layer_group = L.layerGroup();
+
+  useEffect(() => {
+    if (map) {
+      oceanic_edges_holding_layer_group.addTo(map);
+      oceanic_main_edges_layer_group.addTo(oceanic_edges_holding_layer_group);
+      oceanic_animation_edges_layer_group.addTo(
+        oceanic_edges_holding_layer_group
+      );
+      endpoint_main_edges_layer_group.addTo(map);
+      endpoint_animation_edges_layer_group.addTo(map);
+    }
+  }, []);
+  const backgroundColor = styleNamePeople ? styleNamePeople : styleName;
   return (
-    <div style={{ backgroundColor: getMapBackgroundColor(styleName) }}>
+    <div style={{ backgroundColor: getMapBackgroundColor(backgroundColor) }}>
       {loading ? (
         <div className="loading-logo">
           <img src={LOADINGLOGO} />
@@ -260,7 +334,10 @@ export const LeafletMap = () => {
           zoomControl={true}
           scrollWheelZoom={true}
         >
-          <HandleZoomEvent />
+          <HandleZoomEvent
+            setZoomLevel={setZoomLevel}
+            setRegionPlace={setRegionPlace}
+          />
           <TileLayer url={mappingSpecialists} />
           <LayersControl position="topright">
             <LayersControl.Overlay name="River">
@@ -270,7 +347,7 @@ export const LeafletMap = () => {
               <TileLayer url={mappingSpecialistsCountries} />
             </LayersControl.Overlay>
           </LayersControl>
-          <NodeCurvedLinesMap />
+          <NodeEdgesCurvedLinesMap />
         </MapContainer>
       )}
     </div>

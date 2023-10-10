@@ -7,20 +7,20 @@ import {
   getMaxValueNode,
   getMinValueNode,
 } from '@/utils/functions/getMinMaxValueNode';
-import { maxRadiusInPixels, minRadiusInpixels } from '@/share/CONST_DATA';
+import { maxRadiusInPixels, minRadiusInPixels } from '@/share/CONST_DATA';
 
 const renderAnimatedLines = (
   edge: EdgesAggroutes,
+  type: string,
   newLineCurves: L.Curve[],
   nodesData: NodeAggroutes[]
 ) => {
   const nodeLogValueScale = d3
     .scaleLog()
     .domain([getMinValueNode(nodesData), getMaxValueNode(nodesData)])
-    .range([minRadiusInpixels, maxRadiusInPixels]);
+    .range([minRadiusInPixels, maxRadiusInPixels]);
 
   const nodesDict = createNodeDict(nodesData);
-  console.log('nodesDict-->', nodesDict);
   const source = nodesDict[edge?.source || 0.15];
   const target = nodesDict[edge?.target || 0.2];
   const size = getEdgesSize(edge);
@@ -44,7 +44,7 @@ const renderAnimatedLines = (
       {
         dashArray: '1 9',
         fill: false,
-        weight: weight,
+        weight: weight / 2,
         color: '#0000FF',
         opacity: 0.7,
         stroke: true,

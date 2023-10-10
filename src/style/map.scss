@@ -99,7 +99,7 @@
     .lealfetMap-container{
         height: 75vh;
         width: 100%;
-      
+        z-index: 2 !important;
     }
     .loading-logo{
         display: flex;
@@ -134,3 +134,13 @@
       stroke-dashoffset: 10; /* Adjust the value to control the animation speed */
     }
   }
+
+.marker-cluster-medium {
+    background-color: transparent !important;
+}
+.marker-cluster-large{
+    background-color: transparent !important;
+}
+.marker-cluster-small {
+    background-color: transparent !important;
+}

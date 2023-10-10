@@ -9,12 +9,13 @@ import {
 } from '@/utils/functions/getMinMaxValueNode';
 import { maxRadiusInPixels, minRadiusInPixels } from '@/share/CONST_DATA';
 
-const renderPolylineNodeMap = (
+const renderPolylineEdgesNodeMap = (
+  clusterSource: [number, number] | null,
+  targetNode: [number, number] | null,
   edge: EdgesAggroutes,
   type: string,
-  newLineCurves: L.Curve[],
   nodesData: NodeAggroutes[]
-) => {
+): L.Curve | undefined => {
   const nodeLogValueScale = d3
     .scaleLog()
     .domain([getMinValueNode(nodesData), getMaxValueNode(nodesData)])
@@ -34,8 +35,12 @@ const renderPolylineNodeMap = (
   const weight = size !== null ? nodeLogValueScale(size) / 4 : 0;
 
   if (source && target && weight) {
-    const startLatLng: LatLngExpression = [source[0], source[1]];
-    const endLatLng: LatLngExpression = [target[0], target[1]];
+    const startLatLng: LatLngExpression | null = clusterSource
+      ? clusterSource
+      : [source[0], source[1]];
+    const endLatLng: LatLngExpression | null = targetNode
+      ? targetNode
+      : [target[0], target[1]];
     const startControlLatLng: number[] = edge.controls[0];
     const midpointControlLatLng: number[] = edge.controls[1];
     const curve = L.curve(
@@ -50,11 +55,12 @@ const renderPolylineNodeMap = (
       {
         color: typeColor,
         fill: false,
-        weight: weight / 1.5,
+        weight: clusterSource ? weight * 3 : weight,
         stroke: true,
       }
     );
-    newLineCurves.push(curve);
+    return curve;
   }
+  return undefined;
 };
-export default renderPolylineNodeMap;
+export default renderPolylineEdgesNodeMap;

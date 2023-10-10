@@ -1,7 +1,7 @@
 import { EdgesAggroutes, NodeAggroutes } from '@/share/InterfaceTypesMap';
 import { createNodeDict } from '@/utils/functions/createNodeDict';
 import { getEdgesSize } from '@/utils/functions/getNodeSize';
-import L, { LatLngExpression } from 'leaflet';
+import L, { CurveOptions, LatLngExpression } from 'leaflet';
 import * as d3 from 'd3';
 import {
   getMaxValueNode,
@@ -9,12 +9,13 @@ import {
 } from '@/utils/functions/getMinMaxValueNode';
 import { maxRadiusInPixels, minRadiusInPixels } from '@/share/CONST_DATA';
 
-const renderPolylineNodeMap = (
+const renderEdgesAnimatedLines = (
+  clusterSource: [number, number] | null,
+  targetNode: [number, number] | null,
   edge: EdgesAggroutes,
   type: string,
-  newLineCurves: L.Curve[],
   nodesData: NodeAggroutes[]
-) => {
+): L.Curve | undefined => {
   const nodeLogValueScale = d3
     .scaleLog()
     .domain([getMinValueNode(nodesData), getMaxValueNode(nodesData)])
@@ -23,21 +24,19 @@ const renderPolylineNodeMap = (
   const nodesDict = createNodeDict(nodesData);
   const source = nodesDict[edge?.source || 0.15];
   const target = nodesDict[edge?.target || 0.2];
-  const typeColor =
-    type === 'transportation'
-      ? 'rgb(215, 153, 250)'
-      : type === 'disposition'
-      ? 'rgb(246,193,60)'
-      : 'rgb(96, 192, 171)';
-
   const size = getEdgesSize(edge);
   const weight = size !== null ? nodeLogValueScale(size) / 4 : 0;
 
   if (source && target && weight) {
-    const startLatLng: LatLngExpression = [source[0], source[1]];
-    const endLatLng: LatLngExpression = [target[0], target[1]];
+    const startLatLng: LatLngExpression | null = clusterSource
+      ? clusterSource
+      : [source[0], source[1]];
+    const endLatLng: LatLngExpression | null = targetNode
+      ? targetNode
+      : [target[0], target[1]];
     const startControlLatLng: number[] = edge.controls[0];
     const midpointControlLatLng: number[] = edge.controls[1];
+
     const curve = L.curve(
       [
         'M',
@@ -48,13 +47,18 @@ const renderPolylineNodeMap = (
         endLatLng,
       ],
       {
-        color: typeColor,
+        dashArray: '1 9',
         fill: false,
-        weight: weight / 1.5,
+        weight: clusterSource ? weight * 2 : weight / 2,
+        color: '#0000FF',
+        opacity: 0.7,
         stroke: true,
-      }
+        interactive: false,
+        animate: { duration: 1000, iterations: Infinity },
+      } as CurveOptions
     );
-    newLineCurves.push(curve);
+    return curve;
   }
+  return undefined;
 };
-export default renderPolylineNodeMap;
+export default renderEdgesAnimatedLines;
