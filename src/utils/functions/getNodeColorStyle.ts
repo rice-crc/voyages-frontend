@@ -11,8 +11,9 @@ export const getNodeColorMapVoyagesStyle = (node: NodeAggroutes) => {
             'post-disembarkation': postDisembarkation,
             origin,
         } = node.weights;
-        const disembarkationPercent = disembarkation / totalSize;
-        const embarkationPercent = embarkation / totalSize;
+
+        const disembarkationPercent = disembarkation! / totalSize;
+        const embarkationPercent = embarkation! / totalSize;
 
         if (disembarkation !== 0 || embarkation !== 0) {
             const r = 255 * embarkationPercent;
@@ -21,7 +22,7 @@ export const getNodeColorMapVoyagesStyle = (node: NodeAggroutes) => {
             nodeColor = `rgb(${r}, ${g}, ${b})`;
         } else if (origin && origin > 0) {
             nodeColor = `rgb(96, 192, 171)`;
-        } else if (postDisembarkation && postDisembarkation > 0) {
+        } else if ((Number(postDisembarkation) && Number(postDisembarkation) > 0) && (disembarkation === 0 && embarkation === 0)) {
             nodeColor = `rgb(246,193,60)`;
         }
         return nodeColor;

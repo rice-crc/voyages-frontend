@@ -1,8 +1,9 @@
 import { MapContainer } from 'react-leaflet';
-import { LeafletMap } from './LeafletMap';
+
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
+import { LeafletMap } from './LeafletMap';
 
 function MAPS() {
   const { isFilter } = useSelector((state: RootState) => state.getFilter);

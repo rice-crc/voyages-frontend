@@ -1,5 +1,7 @@
 import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
 import { Button } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 interface DatasetButtonProps {
   item: any;
   index: any;
@@ -12,6 +14,7 @@ interface DatasetButtonProps {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => void;
+
   getColorBoxShadow: (item: string) => string;
   getColorBTNBackground: (item: string) => string;
   getColorHover: (item: string) => string;
@@ -33,10 +36,16 @@ export const DatasetButton = (props: DatasetButtonProps) => {
     table_flatfile,
     filter_menu_flatfile,
   } = item;
-
+  const { styleName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
+  );
+  const { styleNamePeople } = useSelector(
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
+  );
   return (
     <Button
       key={`${item}-${index}`}
+      disabled={styleName === style_name || styleNamePeople === style_name}
       onClick={() =>
         handleSelectDataset(
           base_filter,

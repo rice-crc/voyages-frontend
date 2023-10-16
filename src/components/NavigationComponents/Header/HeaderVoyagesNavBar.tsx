@@ -71,6 +71,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
+
   const handleSelectDataset = (
     base_filter: BaseFilter[],
     textHeder: string,
@@ -216,17 +217,19 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
             >
               Select dataset
             </Box>
-            {value.map((item: DataSetCollectionProps, index) => (
-              <DatasetButton
-                key={`${item}-${index}`}
-                item={item}
-                index={index}
-                handleSelectDataset={handleSelectDataset}
-                getColorBoxShadow={getColorBoxShadow}
-                getColorBTNBackground={getColorBackground}
-                getColorHover={getColorHoverBackground}
-              />
-            ))}
+            {value.map((item: DataSetCollectionProps, index) => {
+              return (
+                <DatasetButton
+                  key={`${item}-${index}`}
+                  item={item}
+                  index={index}
+                  handleSelectDataset={handleSelectDataset}
+                  getColorBoxShadow={getColorBoxShadow}
+                  getColorBTNBackground={getColorBackground}
+                  getColorHover={getColorHoverBackground}
+                />
+              );
+            })}
           </Box>
         </Toolbar>
         <Hidden mdDown>

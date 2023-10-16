@@ -12,8 +12,8 @@ import { resetSlice as resetOptionPlatObjectData } from './getOptionsFlatObjSlic
 import { resetSlice as resetPeopleEnslavedDataSetCollection } from './getPeopleEnslavedDataSetCollectionSlice';
 import { resetSlice as resetPeopleEnslaversDataSetCollection } from './getPeopleEnslaversDataSetCollectionSlice';
 import { resetSlice as resetScroolVoyages } from './getScrollPageSlice';
-import { resetSlice as resetScroolEnslaved } from './getScrollEnslavedPageSlice';
-import { resetSlice as resetScroolEnslavers } from './getScrollEnslaversPageSlice';
+import { resetSlice as resetScrollEnslaved } from './getScrollEnslavedPageSlice';
+import { resetSlice as resetScrollEnslavers } from './getScrollEnslaversPageSlice';
 
 export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetOptionsData());
@@ -29,6 +29,6 @@ export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetPeopleEnslavedDataSetCollection())
     dispatch(resetPeopleEnslaversDataSetCollection())
     dispatch(resetScroolVoyages())
-    dispatch(resetScroolEnslaved())
-    dispatch(resetScroolEnslavers())
+    dispatch(resetScrollEnslaved())
+    dispatch(resetScrollEnslavers())
 };

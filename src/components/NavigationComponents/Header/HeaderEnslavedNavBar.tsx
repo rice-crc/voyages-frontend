@@ -69,7 +69,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
-
+  const [isClick, setIsClick] = useState(false);
   const handleSelectEnslavedDataset = (
     baseFilter: BaseFilter[],
     textHeder: string,
@@ -79,6 +79,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
+    setIsClick(!isClick);
     for (const base of baseFilter) {
       dispatch(setBaseFilterPeopleEnslavedDataKey(base.var_name));
       dispatch(setPeopleEnslavedStyleName(styleName));
@@ -234,6 +235,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 getColorBoxShadow={getColorBoxShadowEnslaved}
                 getColorBTNBackground={getColorBTNBackgroundEnslaved}
                 getColorHover={getColorBTNHoverEnslavedBackground}
+                // disabled={disabled}
               />
             ))}
           </Box>
