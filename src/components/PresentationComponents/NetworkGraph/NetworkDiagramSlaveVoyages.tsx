@@ -13,8 +13,8 @@ import { ENSLAVEMENTNODE } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 
 export const NetworkDiagramSlaveVoyages = ({
-  widthPercentage = 75,
-  heigthPercentage = 65,
+  widthPercentage = 80,
+  heigthPercentage = 75,
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);

@@ -1,3 +1,26 @@
+import L from 'leaflet';
+
+
+export class CustomMarker extends L.CircleMarker {
+    nodeId: string;
+    constructor(
+        latlng: L.LatLngExpression,
+        radius: number,
+        color: string,
+        fillColor: string,
+        fillOpacity: number,
+        nodeId: string
+    ) {
+        super(latlng, {
+            radius: radius,
+            weight: 1,
+            color: color,
+            fillColor: fillColor,
+            fillOpacity: fillOpacity,
+        });
+        this.nodeId = nodeId;
+    }
+}
 export interface AggroutesData {
     edges: EdgesAggroutes[]
     nodes: NodeAggroutes[]
@@ -29,6 +52,13 @@ export interface EdgesAggroutes {
     source: string
     target: string
     type: string
+    weight: number
+}
+export type LatLng = [number, number];
+export interface EdgesAggroutedSourceTarget extends EdgesAggroutes {
+    sourceLatlng: LatLng
+    targetLatlng: LatLng
+    controls: number[][];
     weight: number
 }
 export interface PathsAggroutes {

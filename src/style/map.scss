@@ -1,145 +1,156 @@
 @mixin breakpoint-standard($size) {
-    @if $size==0 {
-        @media only screen and (max-width: 374px) {
-            @content;
-        }
+  @if $size==0 {
+    @media only screen and (max-width: 374px) {
+      @content;
     }
-
-    @else if $size==1 {
-        @media only screen and (min-width: 375px) and (max-width: 479px) {
-            @content;
-        }
+  } @else if $size==1 {
+    @media only screen and (min-width: 375px) and (max-width: 479px) {
+      @content;
     }
-
-    @else if $size==2 {
-        @media only screen and (min-width: 480px) and (max-width: 575px) {
-            @content;
-        }
+  } @else if $size==2 {
+    @media only screen and (min-width: 480px) and (max-width: 575px) {
+      @content;
     }
-
-    @else if $size==3 {
-        @media only screen and (min-width: 576px) and (max-width: 767px) {
-            @content;
-        }
+  } @else if $size==3 {
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+      @content;
     }
-
-    @else if $size==4 {
-        @media only screen and (min-width: 768px) and (max-width: 991px) {
-            @content;
-        }
+  } @else if $size==4 {
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+      @content;
     }
-
-    @else if $size==5 {
-        @media only screen and (min-width: 992px) and (max-width: 1024px) {
-            @content;
-        }
+  } @else if $size==5 {
+    @media only screen and (min-width: 992px) and (max-width: 1024px) {
+      @content;
     }
-
-    @else if $size==6 {
-        @media only screen and (min-width: 1025px) and (max-width: 1366px) {
-            @content;
-        }
+  } @else if $size==6 {
+    @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+      @content;
     }
-
-    @else if $size==7 {
-        @media only screen and (max-width: 1440px) {
-            @content;
-        }
+  } @else if $size==7 {
+    @media only screen and (max-width: 1440px) {
+      @content;
     }
+  }
 }
 
-  
 .map-container {
-    width: 95%;
-    .leaflet-top {
-        top: 12px;
-        @include breakpoint-standard(5) {
-            top: 50px;
-        }
-        @include breakpoint-standard(4) {
-            top:0;
-        }
-        @include breakpoint-standard(3) {
-            top:0;
-        }
-        @include breakpoint-standard(2) {
-            top:0;
-        }
-        @include breakpoint-standard(1) {
-            top:0;
-        }
-        @include breakpoint-standard(0) {
-            top:0;
-        }
-    }
-    @include breakpoint-standard(7) {
-        width: 95%;
-    }
-    @include breakpoint-standard(6) {
-        width: 92%;
-    }
+  width: 95%;
+  .leaflet-top {
+    top: 12px;
     @include breakpoint-standard(5) {
-        width: 93%;
+      top: 50px;
     }
     @include breakpoint-standard(4) {
-        width: 100%;
+      top: 0;
     }
     @include breakpoint-standard(3) {
-        width: 100%;
+      top: 0;
     }
     @include breakpoint-standard(2) {
-        width: 100%;
+      top: 0;
     }
     @include breakpoint-standard(1) {
-        width: 100%;
+      top: 0;
     }
     @include breakpoint-standard(0) {
-        width: 100%;
+      top: 0;
     }
-    .lealfetMap-container{
-        height: 75vh;
-        width: 100%;
+  }
+  @include breakpoint-standard(7) {
+    width: 95%;
+  }
+  @include breakpoint-standard(6) {
+    width: 92%;
+  }
+  @include breakpoint-standard(5) {
+    width: 93%;
+  }
+  @include breakpoint-standard(4) {
+    width: 100%;
+  }
+  @include breakpoint-standard(3) {
+    width: 100%;
+  }
+  @include breakpoint-standard(2) {
+    width: 100%;
+  }
+  @include breakpoint-standard(1) {
+    width: 100%;
+  }
+  @include breakpoint-standard(0) {
+    width: 100%;
+  }
+  .lealfetMap-container {
+    height: 75vh;
+    width: 100%;
+  }
+  .loading-logo {
+    display: flex;
+    justify-content: center;
+    animation: center;
+    margin: auto;
+    height: 75vh;
+    > img {
+      width: 15%;
+      @include breakpoint-standard(5) {
+        width: 10%;
+      }
+      @include breakpoint-standard(4) {
+        width: 10%;
+      }
+      @include breakpoint-standard(3) {
+        width: 10%;
+      }
     }
-    .loading-logo{
-        display: flex;
-        justify-content: center;
-        animation: center;
-        margin: auto;
-        height: 75vh;
-        > img{
-            width: 15%;
-            @include breakpoint-standard(5) {
-                width: 10%;
-            }
-            @include breakpoint-standard(4) {
-                width: 10%;
-            }
-            @include breakpoint-standard(3) {
-                width: 10%;
-            }
-        }
-    }
+  }
 }
 .animated-line {
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    animation: dash 5s linear infinite; /* Adjust animation duration as needed */
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: dash 5s linear infinite; /* Adjust animation duration as needed */
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 10; /* Adjust the value to control the animation speed */
   }
-  
-  @keyframes dash {
-    to {
-      stroke-dashoffset: 10; /* Adjust the value to control the animation speed */
-    }
-  }
+}
 
 .marker-cluster-medium {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
-.marker-cluster-large{
-    background-color: transparent !important;
+.marker-cluster-large {
+  background-color: transparent !important;
 }
 .marker-cluster-small {
-    background-color: transparent !important;
+  background-color: transparent !important;
+}
+.legend {
+  color: #333 !important;
+  font-size: 0.9rem !important;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+.origins {
+  background-color: rgb(167, 224, 169);
+}
+.embarkations {
+  background-color: rgb(255, 0, 0);
+}
+.embark-disembark {
+  background-color: rgb(163, 0, 255);
+}
+.disembarkations {
+  background-color: rgb(0, 0, 255);
+}
+.post-disembark-location {
+  background-color: rgb(246, 193, 60);
 }

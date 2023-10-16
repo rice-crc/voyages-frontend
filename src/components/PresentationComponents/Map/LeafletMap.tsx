@@ -1,11 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import {
-  MapContainer,
-  TileLayer,
-  LayersControl,
-  useMap,
-  ZoomControl,
-} from 'react-leaflet';
+import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
 import L from 'leaflet';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -46,12 +40,9 @@ import {
 import { AggroutesData } from '@/share/InterfaceTypesMap';
 import { HandleZoomEvent } from './HandleZoomEvent';
 import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
-import NodeCurvedLinesMap from './NodeCurvedLinesMap';
+import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
 
 export const LeafletMap = () => {
-  const { nodesData, edgesData } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
-  );
   const dispatch: AppDispatch = useDispatch();
   const mapRef = useRef(null);
   const location = useLocation();
@@ -334,32 +325,35 @@ export const LeafletMap = () => {
           <img src={LOADINGLOGO} />
         </div>
       ) : (
-        <MapContainer
-          ref={mapRef}
-          center={MAP_CENTER}
-          zoom={zoomLevel}
-          className="lealfetMap-container"
-          maxZoom={MAXIMUM_ZOOM}
-          minZoom={MINIMUM_ZOOM}
-          attributionControl={false}
-          scrollWheelZoom={true}
-          zoomControl={true}
-        >
-          <HandleZoomEvent
-            setZoomLevel={setZoomLevel}
-            setRegionPlace={setRegionPlace}
-          />
-          <TileLayer url={mappingSpecialists} />
-          <LayersControl position="topright">
-            <LayersControl.Overlay name="River">
-              <TileLayer url={mappingSpecialistsRivers} />
-            </LayersControl.Overlay>
-            <LayersControl.Overlay name="Modern Countries">
-              <TileLayer url={mappingSpecialistsCountries} />
-            </LayersControl.Overlay>
-          </LayersControl>
-          <NodeEdgesCurvedLinesMap />
-        </MapContainer>
+        <>
+          <MapContainer
+            ref={mapRef}
+            center={MAP_CENTER}
+            zoom={zoomLevel}
+            className="lealfetMap-container"
+            maxZoom={MAXIMUM_ZOOM}
+            minZoom={MINIMUM_ZOOM}
+            attributionControl={false}
+            scrollWheelZoom={true}
+            zoomControl={true}
+          >
+            <HandleZoomEvent
+              setZoomLevel={setZoomLevel}
+              setRegionPlace={setRegionPlace}
+            />
+            <TileLayer url={mappingSpecialists} />
+            <LayersControl position="topright">
+              <LayersControl.Overlay name="River">
+                <TileLayer url={mappingSpecialistsRivers} />
+              </LayersControl.Overlay>
+              <LayersControl.Overlay name="Modern Countries">
+                <TileLayer url={mappingSpecialistsCountries} />
+              </LayersControl.Overlay>
+            </LayersControl>
+            <NodeEdgesCurvedLinesMap />
+          </MapContainer>
+          <ShowsColoredNodeOnMap />
+        </>
       )}
     </div>
   );
