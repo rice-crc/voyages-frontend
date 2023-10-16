@@ -4,18 +4,14 @@ export const createTopPositionVoyages = (currentPage: number, isFilter: boolean)
     if (currentPage === 1) {
         topPosition = 100;
     } else if (currentPage === 2 && isFilter || currentPage === 7) {
-        topPosition = 200;
-    } else if (currentPage === 2) {
         topPosition = 170;
     } else if (isFilter && currentPage === 6) {
-        topPosition = 150;
+        topPosition = 165;
     } else if (isFilter) {
-        topPosition = 215;
-    } else if (currentPage === 6) {
-        topPosition = 160;
+        topPosition = 180;
     }
     else {
-        topPosition = 175;
+        topPosition = 170;
     }
     return topPosition;
 }

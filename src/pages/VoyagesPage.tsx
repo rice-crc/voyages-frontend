@@ -56,7 +56,7 @@ const VoyagesPage = () => {
         style={{
           backgroundColor: getColorVoyagePageBackground(styleName, currentPage),
           position: 'relative',
-          padding: currentPage !== 1 ? '20px' : '',
+          padding: currentPage !== 1 ? '30px' : '',
         }}
         id="content-container"
       >
