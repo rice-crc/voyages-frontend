@@ -49,19 +49,21 @@ const RangeSlider = () => {
     let subscribed = true;
 
     const fetchRangeSlider = async () => {
-      const formData: FormData = new FormData();
-      formData.append('aggregate_fields', varName);
+      const dataSend: { [key: string]: string[] } = {
+        aggregate_fields: [varName],
+      };
+
       try {
         let response;
         if (pathName === ALLVOYAGES) {
-          response = await dispatch(fetchRangeSliderData(formData)).unwrap();
+          response = await dispatch(fetchRangeSliderData(dataSend)).unwrap();
         } else if (pathName === ALLENSLAVED) {
           response = await dispatch(
-            fetchPastEnslavedRangeSliderData(formData)
+            fetchPastEnslavedRangeSliderData(dataSend)
           ).unwrap();
         } else if (pathName === ALLENSLAVERS) {
           response = await dispatch(
-            fetchPastEnslaversRangeSliderData(formData)
+            fetchPastEnslaversRangeSliderData(dataSend)
           ).unwrap();
         }
         if (response) {

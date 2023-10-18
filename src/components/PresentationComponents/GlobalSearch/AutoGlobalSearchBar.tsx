@@ -77,14 +77,14 @@ const AutoGlobalSearchBar = () => {
   useEffect(() => {
     const fetchSearchGlobalData = async (currentRequestId: number) => {
       if (inputSearchValue) {
-        const formData: FormData = new FormData();
-        formData.append('search_string', inputSearchValue);
-        // Use the signal from useRef as the fetch signal
+        const dataSend: { [key: string]: string[] } = {
+          search_string: [inputSearchValue],
+        };
         const signal = signalRef.current;
         if (!signal) return;
         try {
           setIsFetching(true);
-          const response = await fetchSearchGlobal(formData, signal.signal);
+          const response = await fetchSearchGlobal(dataSend, signal.signal);
           if (response && currentRequestId === requestId) {
             dispatch(setSearchGlobalData(response));
           }

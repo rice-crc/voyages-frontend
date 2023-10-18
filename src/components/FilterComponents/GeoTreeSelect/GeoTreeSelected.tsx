@@ -65,13 +65,14 @@ const GeoTreeSelected: React.FC = () => {
   useEffect(() => {
     let subscribed = true;
     const fetchGeoTreeSelectList = async () => {
-      const formData: FormData = new FormData();
-      formData.append('geotree_valuefields', varName);
+      const dataSend: { [key: string]: (string | number)[] } = {};
+
+      dataSend['geotree_valuefields'] = [varName];
       if (isChangeGeoTree && varName && geoTreeValue) {
         for (const keyValue in geoTreeValue) {
           for (const keyGeoValue of geoTreeValue[keyValue]) {
             if (varName !== keyValue) {
-              formData.append(keyValue, String(keyGeoValue));
+              dataSend[keyValue] = [String(keyGeoValue)];
             }
           }
         }
@@ -83,7 +84,7 @@ const GeoTreeSelected: React.FC = () => {
           if (typeof autoCompleteOption !== 'string') {
             for (const keyValue of autoCompleteOption) {
               if (typeof keyValue === 'object' && 'label' in keyValue) {
-                formData.append(autoKey, keyValue.label);
+                dataSend[autoKey] = [keyValue.label];
               }
             }
           }
@@ -91,9 +92,9 @@ const GeoTreeSelected: React.FC = () => {
       }
 
       if (rangeValue && varName) {
-        for (const rangeKey in rangeValue) {
-          formData.append(rangeKey, String(rangeValue[rangeKey][0]));
-          formData.append(rangeKey, String(rangeValue[rangeKey][1]));
+        for (const rangKey in rangeValue) {
+          dataSend[rangKey] = [rangeValue[rangKey][0]];
+          dataSend[rangKey] = [rangeValue[rangKey][1]];
         }
       }
 
@@ -101,15 +102,15 @@ const GeoTreeSelected: React.FC = () => {
       try {
         if (pathName === ALLVOYAGES) {
           response = await dispatch(
-            fetcVoyagesGeoTreeSelectLists(formData)
+            fetcVoyagesGeoTreeSelectLists(dataSend)
           ).unwrap();
         } else if (pathName === ALLENSLAVED) {
           response = await dispatch(
-            fetchEnslavedGeoTreeSelect(formData)
+            fetchEnslavedGeoTreeSelect(dataSend)
           ).unwrap();
         } else if (pathName === ALLENSLAVERS) {
           response = await dispatch(
-            fetchEnslaversGeoTreeSelect(formData)
+            fetchEnslaversGeoTreeSelect(dataSend)
           ).unwrap();
         }
 

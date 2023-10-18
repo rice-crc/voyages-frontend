@@ -86,31 +86,33 @@ function BarGraph() {
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
     const fetchData = async () => {
-      const newFormData: FormData = new FormData();
-      newFormData.append('groupby_by', barGraphOptions.x_vars);
+      const dataSend: { [key: string]: (string | number)[] } = {};
+
+      dataSend['groupby_by'] = [barGraphOptions.x_vars];
+      dataSend['agg_fn'] = [aggregation];
+      dataSend['cachename'] = ['voyage_bar_and_donut_charts'];
+
       const yfieldArr: string[] = [];
       if (inputSearchValue) {
-        newFormData.append('global_search', String(inputSearchValue));
+        dataSend['global_search'] = [String(inputSearchValue)];
       }
       if (currentPage === 4) {
         for (const chip of chips) {
-          newFormData.append('groupby_cols', chip);
+          dataSend['groupby_cols'] = [chip];
           yfieldArr.push(chip);
         }
       }
-      newFormData.append('agg_fn', aggregation);
-      newFormData.append('cachename', 'voyage_bar_and_donut_charts');
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
-          newFormData.append(dataSetKey, String(value));
+          dataSend[dataSetKey] = [String(value)];
         }
       }
 
       if (isChange && rang && currentPage === 4) {
         for (const rangKey in rang) {
-          newFormData.append(rangKey, String(rang[rangKey][0]));
-          newFormData.append(rangKey, String(rang[rangKey][1]));
+          dataSend[rangKey] = [rang[rangKey][0]];
+          dataSend[rangKey] = [rang[rangKey][1]];
         }
       }
       if (autoCompleteValue && varName && currentPage === 4) {
@@ -118,8 +120,7 @@ function BarGraph() {
           for (const autoCompleteOption of autoCompleteValue[autoKey]) {
             if (typeof autoCompleteOption !== 'string') {
               const { label } = autoCompleteOption;
-
-              newFormData.append(autoKey, label);
+              dataSend[autoKey] = [label];
             }
           }
         }
@@ -128,7 +129,7 @@ function BarGraph() {
       if (isChangeGeoTree && varName && geoTreeValue && currentPage === 4) {
         for (const keyValue in geoTreeValue) {
           for (const keyGeoValue of geoTreeValue[keyValue]) {
-            newFormData.append(keyValue, String(keyGeoValue));
+            dataSend[keyValue] = [String(keyGeoValue)];
           }
         }
       }
@@ -136,7 +137,7 @@ function BarGraph() {
       try {
         const data: Data[] = [];
         const response = await dispatch(
-          fetchVoyageGraphGroupby(newFormData)
+          fetchVoyageGraphGroupby(dataSend)
         ).unwrap();
 
         if (subscribed) {

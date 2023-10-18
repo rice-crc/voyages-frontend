@@ -1,4 +1,4 @@
-import BackGroundVideo from '@/assets/BlackWhiteWaves.mp4';
+import BackGroundVideo from '@/assets/wavesBG.mp4';
 const VideoBackground = () => {
   return (
     <div className="video-background">

@@ -15,18 +15,15 @@ import AuthorInfo from './AuthorInfo';
 const AuthorPost: React.FC = () => {
   const { ID } = useParams();
   const dispatch: AppDispatch = useDispatch();
-  const { author } = useSelector(
-    (state: RootState) => state.getBlogData as InitialStateBlogProps
-  );
 
   useEffect(() => {
     let subscribed = true;
     const fetchDataBlog = async () => {
-      const newFormData: FormData = new FormData();
-      newFormData.append('id', String(ID));
-      newFormData.append('id', String(ID));
+      const dataSend: { [key: string]: (string | number)[] } = {
+        id: [parseInt(ID!)],
+      };
       try {
-        const response = await dispatch(fetchAuthorData(newFormData)).unwrap();
+        const response = await dispatch(fetchAuthorData(dataSend)).unwrap();
         if (subscribed && response) {
           dispatch(setAuthorData(response?.[0]));
           dispatch(setAuthorPost(response?.[0]?.posts));

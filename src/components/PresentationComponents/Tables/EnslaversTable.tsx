@@ -54,7 +54,7 @@ const EnslaversTable: React.FC = () => {
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
-  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
+  const { isChangeGeoTree, geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
   const { dataSetKeyPeople, dataSetValuePeople, styleNamePeople } = useSelector(
@@ -123,17 +123,18 @@ const EnslaversTable: React.FC = () => {
   useEffect(() => {
     let subscribed = true;
     const fetchData = async () => {
-      const newFormData: FormData = new FormData();
-      newFormData.append('results_page', String(page + 1));
-      newFormData.append('results_per_page', String(rowsPerPage));
+      const dataSend: { [key: string]: (string | number)[] } = {};
+
+      dataSend['results_page'] = [String(page + 1)];
+      dataSend['results_per_page'] = [String(rowsPerPage)];
 
       if (inputSearchValue) {
-        newFormData.append('global_search', String(inputSearchValue));
+        dataSend['global_search'] = [String(inputSearchValue)];
       }
       if (rang[varName] && currentEnslaversPage === 2) {
         for (const rangKey in rang) {
-          newFormData.append(rangKey, String(rang[rangKey][0]));
-          newFormData.append(rangKey, String(rang[rangKey][1]));
+          dataSend[rangKey] = [rang[rangKey][0]];
+          dataSend[rangKey] = [rang[rangKey][1]];
         }
       }
 
@@ -143,28 +144,28 @@ const EnslaversTable: React.FC = () => {
             if (typeof autoCompleteOption !== 'string') {
               const { label } = autoCompleteOption;
 
-              newFormData.append(autoKey, label);
+              dataSend[autoKey] = [label];
             }
           }
         }
       }
       if (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslavers) {
         for (const value of dataSetValuePeople) {
-          newFormData.append(dataSetKeyPeople, String(value));
+          dataSend[dataSetKeyPeople] = [String(value)];
         }
       }
 
       if (isChangeGeoTree && varName && geoTreeValue) {
         for (const keyValue in geoTreeValue) {
           for (const keyGeoValue of geoTreeValue[keyValue]) {
-            newFormData.append(keyValue, String(keyGeoValue));
+            dataSend[keyValue] = [String(keyGeoValue)];
           }
         }
       }
 
       try {
         const response = await dispatch(
-          fetchEnslaversOptionsList(newFormData)
+          fetchEnslaversOptionsList(dataSend)
         ).unwrap();
         if (response && subscribed) {
           setTotalResultsCount(Number(response.headers.total_results_count));

@@ -175,14 +175,13 @@
 }
 
 .voyage-description {
-  color: #e8e8e8;
+  color: #ffffff;
   font-family: 'Helvetica Neue';
   font-style: italic;
-  font-weight: 300;
-  font-size: 18px;
+  font-weight: 400;
   margin-top: 5px;
   font-size: 22px;
-
+  text-shadow: 1px 1px 1px #000;
   @include breakpoint-standard(7) {
     font-size: 20px;
   }
@@ -364,7 +363,7 @@
   font-weight: bold;
   font-family: 'Helvetica Neue';
   text-transform: uppercase;
-
+  text-shadow: 1px 1px 1px #000;
   @include breakpoint-standard(5) {
     font-size: 20px;
   }
@@ -399,7 +398,7 @@
   font-size: 16px;
   font-weight: normal;
   font-family: 'Helvetica Neue';
-
+ text-shadow: 1px 1px 1px #000000;
   @include breakpoint-standard(5) {
     font-size: 14px;
   }
@@ -429,7 +428,8 @@
 
 .voyage-page-box {
   cursor: pointer;
-
+  color: #ffffff;
+  text-shadow: 1px 1px 1px #000;
   @include breakpoint-standard(1) {
     img {
       width: 60%;
@@ -527,6 +527,7 @@
   cursor: pointer;
   box-shadow: 2px 3px 3px #00000085;
   border-color: #707070;
+  text-shadow: 1px 1px #000000;
 }
 
 .filter-menu-bar {

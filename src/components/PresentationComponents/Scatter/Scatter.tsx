@@ -90,32 +90,33 @@ function Scatter() {
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
     const fetchData = async () => {
-      const newFormData: FormData = new FormData();
-      newFormData.append('groupby_by', scatterOptions.x_vars);
+      const dataSend: { [key: string]: (string | number)[] } = {};
       const yfieldArr: string[] = [];
-      newFormData.append('agg_fn', aggregation);
-      newFormData.append('cachename', 'voyage_xyscatter');
+
+      dataSend['groupby_by'] = [scatterOptions.x_vars];
+      dataSend['agg_fn'] = [aggregation];
+      dataSend['cachename'] = ['voyage_xyscatter'];
 
       if (currentPage === 3) {
         for (const chip of chips) {
-          newFormData.append('groupby_cols', chip);
+          dataSend['groupby_cols'] = [chip];
           yfieldArr.push(chip);
         }
       }
 
       if (inputSearchValue) {
-        newFormData.append('global_search', String(inputSearchValue));
+        dataSend['global_search'] = [String(inputSearchValue)];
       }
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
-          newFormData.append(dataSetKey, String(value));
+          dataSend[dataSetKey] = [String(value)];
         }
       }
       if (isChange && rang && currentPage === 3) {
         for (const rangKey in rang) {
-          newFormData.append(rangKey, String(rang[rangKey][0]));
-          newFormData.append(rangKey, String(rang[rangKey][1]));
+          dataSend[rangKey] = [rang[rangKey][0]];
+          dataSend[rangKey] = [rang[rangKey][1]];
         }
       }
 
@@ -124,8 +125,7 @@ function Scatter() {
           for (const autoCompleteOption of autoCompleteValue[autoKey]) {
             if (typeof autoCompleteOption !== 'string') {
               const { label } = autoCompleteOption;
-
-              newFormData.append(autoKey, label);
+              dataSend[autoKey] = [label];
             }
           }
         }
@@ -134,7 +134,7 @@ function Scatter() {
       if (isChangeGeoTree && varName && geoTreeValue && currentPage === 3) {
         for (const keyValue in geoTreeValue) {
           for (const keyGeoValue of geoTreeValue[keyValue]) {
-            newFormData.append(keyValue, String(keyGeoValue));
+            dataSend[keyValue] = [String(keyGeoValue)];
           }
         }
       }
@@ -142,7 +142,7 @@ function Scatter() {
       try {
         const data: Data[] = [];
         const response = await dispatch(
-          fetchVoyageGraphGroupby(newFormData)
+          fetchVoyageGraphGroupby(dataSend)
         ).unwrap();
 
         if (subscribed) {

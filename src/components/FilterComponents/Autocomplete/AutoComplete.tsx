@@ -45,19 +45,21 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   useEffect(() => {
     let subscribed = true;
     const fetchAutoCompletedList = async () => {
-      const formData: FormData = new FormData();
-      formData.append(varName, autoValue);
+      const dataSend: { [key: string]: string[] } = {
+        [varName]: [autoValue],
+      };
+
       let response = [];
       try {
         if (pathName === ALLVOYAGES) {
-          response = await dispatch(fetchAutoVoyageComplete(formData)).unwrap();
+          response = await dispatch(fetchAutoVoyageComplete(dataSend)).unwrap();
         } else if (pathName === ALLENSLAVED) {
           response = await dispatch(
-            fetchPastEnslavedAutoComplete(formData)
+            fetchPastEnslavedAutoComplete(dataSend)
           ).unwrap();
         } else if (pathName === ALLENSLAVERS) {
           response = await dispatch(
-            fetchPastEnslaversAutoCompleted(formData)
+            fetchPastEnslaversAutoCompleted(dataSend)
           ).unwrap();
         }
         if (response && subscribed) {

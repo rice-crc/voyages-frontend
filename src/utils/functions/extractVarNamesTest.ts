@@ -1,7 +1,6 @@
-import { fetchPastEnslavedService } from "@/fetch/pastEnslavedFetch/fetchPastEnslavedServiceData";
+import { fetchPastEnslavedServiceData } from "@/fetch/pastEnslavedFetch/fetchPastEnslavedServiceData";
 
 export const extractTestVarNamesFlatFiles = async (menu: any[]): Promise<string[]> => {
-    const data = extractVarNames()
     const varNameArr: string[] = [];
     for (const item of menu) {
         if (item.children) {
@@ -15,7 +14,7 @@ export const extractTestVarNamesFlatFiles = async (menu: any[]): Promise<string[
 };
 
 export const extractVarNames = async (): Promise<void> => {
-    const response = await fetchPastEnslavedService();
+    const response = await fetchPastEnslavedServiceData();
     const data = response.data;
     return data;
 };

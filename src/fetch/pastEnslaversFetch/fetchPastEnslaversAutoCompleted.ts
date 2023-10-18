@@ -4,13 +4,16 @@ import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 
 export const fetchPastEnslaversAutoCompleted = createAsyncThunk(
     'autoComplete/fetchPastEnslaversAutoCompleted',
-    async (keyOptions: FormData) => {
+    async (dataSend?: { [key: string]: string[] }) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/past/enslaver/autocomplete`,
-                keyOptions,
+                dataSend,
                 {
-                    headers: { 'Authorization': AUTHTOKEN },
+                    headers: {
+                        'Authorization': AUTHTOKEN,
+                        "Content-Type": "application/json"
+                    }
                 }
             );
             return response.data;
