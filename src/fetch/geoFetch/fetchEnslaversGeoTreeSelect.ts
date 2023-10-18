@@ -4,13 +4,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchEnslaversGeoTreeSelect = createAsyncThunk(
     'geoTreeSelect/fetchEnslaversGeoTreeSelect',
-    async (keyOptions: FormData) => {
+    async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/past/enslaver/geotree`,
-                keyOptions,
+                dataSend,
                 {
-                    headers: { 'Authorization': AUTHTOKEN },
+                    headers: {
+                        'Authorization': AUTHTOKEN,
+                        "Content-Type": "application/json"
+                    }
                 }
             );
             return response.data;

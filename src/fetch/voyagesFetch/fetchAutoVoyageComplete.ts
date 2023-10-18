@@ -4,13 +4,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchAutoVoyageComplete = createAsyncThunk(
     'autoComplete/fetchAutoVoyageComplete',
-    async (keyOptions: FormData) => {
+    async (dataSend?: { [key: string]: string[] }) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/voyage/autocomplete`,
-                keyOptions,
+                dataSend,
                 {
-                    headers: { 'Authorization': AUTHTOKEN },
+                    headers: {
+                        'Authorization': AUTHTOKEN,
+                        "Content-Type": "application/json"
+                    }
                 }
             );
             return response.data;

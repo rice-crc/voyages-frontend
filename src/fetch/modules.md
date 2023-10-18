@@ -20,9 +20,12 @@ Here is an example of how to use the Fetch API folder to make an API request:
 import { fetchRangeSliderData } from '@/fetchAPI/fetchAggregationsSlider';
 
   useEffect(() => {
-    const formData: FormData = new FormData();
-    formData.append("aggregate_fields", varName);
-    dispatch(fetchRangeSliderData(formData))
+
+     const dataSend: { [key: string]: string[] } = {
+        aggregate_fields: [varName],
+      };
+
+    dispatch(fetchRangeSliderData(dataSend))
       .unwrap()
       .then((response: any) => {
         if (response) {

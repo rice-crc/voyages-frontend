@@ -4,13 +4,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchAuthorData = createAsyncThunk(
     'BlogData/fetchAuthorData',
-    async (formData?: FormData) => {
+    async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/blog/author`,
-                formData,
+                dataSend,
                 {
-                    headers: { 'Authorization': AUTHTOKEN },
+                    headers: {
+                        'Authorization': AUTHTOKEN,
+                        "Content-Type": "application/json"
+                    }
                 }
             );
             return response.data;
@@ -19,3 +22,4 @@ export const fetchAuthorData = createAsyncThunk(
         }
     }
 );
+

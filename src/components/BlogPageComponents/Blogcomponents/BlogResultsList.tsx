@@ -15,6 +15,7 @@ import { BASEURL } from '@/share/AUTH_BASEURL';
 import '@/style/blogs.scss';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import BlogPageButton from '@/components/SelectorComponents/ButtonComponents/BlogPageButton';
+import defaultImage from '@/assets/no-imge-default.avif';
 
 const BlogResultsList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -38,18 +39,14 @@ const BlogResultsList: React.FC = () => {
   useEffect(() => {
     let subscribed = true;
     const fetchDataBlog = async () => {
-      const newFormData: FormData = new FormData();
-      if (!inputSearchValue) {
-        newFormData.append('language', language);
-      }
-      if (searchAutoValue) {
-        newFormData.append(searchAutoKey, searchAutoValue);
-      }
-      if (inputSearchValue) {
-        newFormData.append('global_search', String(inputSearchValue));
-      }
+      const dataSend: { [key: string]: (string | number)[] } = {
+        language: [language],
+        [searchAutoKey]: [searchAutoValue],
+        global_search: [inputSearchValue],
+      };
       try {
-        const response = await dispatch(fetchBlogData(newFormData)).unwrap();
+        const response = await dispatch(fetchBlogData(dataSend)).unwrap();
+
         if (response) {
           dispatch(setBlogData(response));
           if (response.length <= 0) {
@@ -80,11 +77,20 @@ const BlogResultsList: React.FC = () => {
         {imagesOnCurrentPage.map((value) => (
           <div className="card" key={`${value.id}${value.title}`}>
             <Link to={`/${BLOGPAGE}/${formatTextURL(value.title)}/${value.id}`}>
-              <img
-                src={`${BASEURL}${value.thumbnail}`}
-                alt={value.title}
-                className="card-img img-fluid content-image "
-              />
+              {value.thumbnail ? (
+                <img
+                  src={`${BASEURL}${value.thumbnail}`}
+                  alt={value.title}
+                  className="card-img img-fluid content-image "
+                />
+              ) : (
+                <img
+                  src={defaultImage}
+                  alt={value.title}
+                  style={{ textAlign: 'center', width: '100%' }}
+                />
+              )}
+
               <div className="content-details fadeIn-bottom">
                 <h3 className="content-title">{value.title}</h3>
 

@@ -1,12 +1,12 @@
-import { fetchVoyageSortedData } from '@/fetch/voyagesFetch/fetchVoyageSortedData';
+import { fetchVoyageOptionsData } from '@/fetch/voyagesFetch/fetchVoyageOptionsData';
 import { setData } from '@/redux/getTableSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
 import { ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
-import { fetchPastEnslavedSortedTableData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedSortedTableData';
-import { fetchPastEnslaversSortedTableData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversSortedTableData';
+import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
+import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
@@ -55,32 +55,26 @@ const CustomHeader: React.FC<Props> = (props) => {
   };
 
   const fetchData = async (sortOrder: string, sortingOrder: string[]) => {
-    const newFormData: FormData = new FormData();
+    const dataSend: { [key: string]: string[] } = {};
     if (sortOrder === 'asc') {
       if (sortingOrder.length > 0) {
-        sortingOrder.forEach((sort: string) =>
-          newFormData.append('order_by', sort)
-        );
+        sortingOrder.forEach((sort: string) => (dataSend['order_by'] = [sort]));
       }
     } else if (sortOrder === 'desc') {
       if (sortingOrder.length > 0) {
-        sortingOrder.forEach((sort: string) =>
-          newFormData.append('order_by', `-${sort}`)
+        sortingOrder.forEach(
+          (sort: string) => (dataSend['order_by'] = [`-${sort}`])
         );
       }
     }
     try {
       let response;
       if (pathName === ALLVOYAGES) {
-        response = await dispatch(fetchVoyageSortedData(newFormData)).unwrap();
+        response = await dispatch(fetchVoyageOptionsData(dataSend)).unwrap();
       } else if (pathName === ALLENSLAVED) {
-        response = await dispatch(
-          fetchPastEnslavedSortedTableData(newFormData)
-        ).unwrap();
+        response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
       } else if (pathName === ALLENSLAVERS) {
-        response = await dispatch(
-          fetchPastEnslaversSortedTableData(newFormData)
-        ).unwrap();
+        response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
       }
       if (response) {
         dispatch(setData(response));

@@ -122,17 +122,17 @@ const VoyagesTable: React.FC = () => {
     saveDataToLocalStorage(data, visibleColumnCells);
   }, [data]);
   const fetchData = async () => {
-    const newFormData: FormData = new FormData();
-    newFormData.append('results_page', String(page + 1));
-    newFormData.append('results_per_page', String(rowsPerPage));
+    const dataSend: { [key: string]: (string | number)[] } = {};
+    dataSend['results_page'] = [page + 1];
+    dataSend['results_per_page'] = [rowsPerPage];
 
     if (inputSearchValue) {
-      newFormData.append('global_search', String(inputSearchValue));
+      dataSend['global_search'] = [String(inputSearchValue)];
     }
     if (currentPage === 2) {
       for (const rangKey in rang) {
-        newFormData.append(rangKey, String(rang[rangKey][0]));
-        newFormData.append(rangKey, String(rang[rangKey][1]));
+        dataSend[rangKey] = [rang[rangKey][0]];
+        dataSend[rangKey] = [rang[rangKey][1]];
       }
     }
 
@@ -141,8 +141,7 @@ const VoyagesTable: React.FC = () => {
         for (const autoCompleteOption of autoCompleteValue[autoKey]) {
           if (typeof autoCompleteOption !== 'string') {
             const { label } = autoCompleteOption;
-
-            newFormData.append(autoKey, label);
+            dataSend[autoKey] = [label];
           }
         }
       }
@@ -150,22 +149,20 @@ const VoyagesTable: React.FC = () => {
 
     if (styleName !== TYPESOFDATASET.allVoyages) {
       for (const value of dataSetValue) {
-        newFormData.append(dataSetKey, String(value));
+        dataSend[dataSetKey] = [String(value)];
       }
     }
 
     if (isChangeGeoTree && varName && geoTreeValue) {
       for (const keyValue in geoTreeValue) {
         for (const keyGeoValue of geoTreeValue[keyValue]) {
-          newFormData.append(keyValue, String(keyGeoValue));
+          dataSend[keyValue] = [String(keyGeoValue)];
         }
       }
     }
 
     try {
-      const response = await dispatch(
-        fetchVoyageOptionsAPI(newFormData)
-      ).unwrap();
+      const response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
       if (response) {
         setTotalResultsCount(Number(response.headers.total_results_count));
         dispatch(setData(response.data));

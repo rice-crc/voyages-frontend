@@ -4,13 +4,17 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchVoyagesMap = createAsyncThunk(
     'voyagesMap/fetchVoyagesMap',
-    async (formData?: FormData) => {
+    async (dataSend?: { [key: string]: (string | number)[] }) => {
+
         try {
             const response = await axios.post(
                 `${BASEURL}/voyage/aggroutes`,
-                formData,
+                dataSend,
                 {
-                    headers: { 'Authorization': AUTHTOKEN },
+                    headers: {
+                        'Authorization': AUTHTOKEN,
+                        "Content-Type": "application/json"
+                    }
                 }
             );
             return response.data;

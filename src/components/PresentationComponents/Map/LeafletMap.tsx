@@ -117,20 +117,20 @@ export const LeafletMap = () => {
   }, [zoomLevel]);
 
   const fetchData = async (regionOrPlace: string) => {
-    const newFormData = new FormData();
-    newFormData.append('zoomlevel', regionOrPlace);
+    const dataSend: { [key: string]: (string | number)[] } = {};
+    dataSend['zoomlevel'] = [regionOrPlace];
     if (styleName !== TYPESOFDATASET.allVoyages) {
       for (const value of dataSetValue) {
-        newFormData.append(dataSetKey, String(value));
+        dataSend[dataSetKey] = [String(value)];
       }
     }
     if (inputSearchValue) {
-      newFormData.append('global_search', String(inputSearchValue));
+      dataSend['global_search'] = [String(inputSearchValue)];
     }
     if (isChange && rang && currentPage === 7 && pathName === VOYAGESPAGE) {
       for (const rangKey in rang) {
-        newFormData.append(rangKey, String(rang[rangKey][0]));
-        newFormData.append(rangKey, String(rang[rangKey][1]));
+        dataSend[rangKey] = [rang[rangKey][0]];
+        dataSend[rangKey] = [rang[rangKey][1]];
       }
     }
     if (
@@ -140,8 +140,8 @@ export const LeafletMap = () => {
       pathName === PASTHOMEPAGE
     ) {
       for (const rangKey in rang) {
-        newFormData.append(rangKey, String(rang[rangKey][0]));
-        newFormData.append(rangKey, String(rang[rangKey][1]));
+        dataSend[rangKey] = [rang[rangKey][0]];
+        dataSend[rangKey] = [rang[rangKey][1]];
       }
     }
 
@@ -156,7 +156,7 @@ export const LeafletMap = () => {
           if (typeof autoCompleteOption !== 'string') {
             const { label } = autoCompleteOption;
 
-            newFormData.append(autoKey, label);
+            dataSend[autoKey] = [label];
           }
         }
       }
@@ -172,8 +172,7 @@ export const LeafletMap = () => {
         for (const autoCompleteOption of autoCompleteValue[autoKey]) {
           if (typeof autoCompleteOption !== 'string') {
             const { label } = autoCompleteOption;
-
-            newFormData.append(autoKey, label);
+            dataSend[autoKey] = [label];
           }
         }
       }
@@ -187,7 +186,7 @@ export const LeafletMap = () => {
     ) {
       for (const keyValue in geoTreeValue) {
         for (const keyGeoValue of geoTreeValue[keyValue]) {
-          newFormData.append(keyValue, String(keyGeoValue));
+          dataSend[keyValue] = [String(keyGeoValue)];
         }
       }
     }
@@ -200,7 +199,7 @@ export const LeafletMap = () => {
     ) {
       for (const keyValue in geoTreeValue) {
         for (const keyGeoValue of geoTreeValue[keyValue]) {
-          newFormData.append(keyValue, String(keyGeoValue));
+          dataSend[keyValue] = [String(keyGeoValue)];
         }
       }
     }
@@ -209,9 +208,9 @@ export const LeafletMap = () => {
 
     let response;
     if (pathName === VOYAGESPAGE) {
-      response = await dispatch(fetchVoyagesMap(newFormData)).unwrap();
+      response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
     } else if (pathName === PASTHOMEPAGE) {
-      response = await dispatch(fetchEnslavedMap(newFormData)).unwrap();
+      response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
     }
 
     if (response) {

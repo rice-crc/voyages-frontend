@@ -24,13 +24,14 @@ const AutoCompletedSearhBlog = () => {
 
   useEffect(() => {
     let subscribed = true;
-    const formData: FormData = new FormData();
-    formData.append(searchAutoKey, searchAutoValue);
+    const dataSend: { [key: string]: string[] } = {
+      [searchAutoKey]: [searchAutoValue],
+    };
 
     const fetchAutoBlogList = async () => {
       try {
         const response = await dispatch(
-          fetchBlogAutoCompleted(formData)
+          fetchBlogAutoCompleted(dataSend)
         ).unwrap();
 
         if (subscribed && response) {

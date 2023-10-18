@@ -8,8 +8,8 @@ export const pastEnslavedService = createApi({
     endpoints: (builder) => ({
         getOptions: builder.query({
             query: () => ({
-                url: '/past/enslaved/?hierarchical=False',
-                method: 'OPTIONS',
+                url: '/common/schemas/?schema_name=Enslaved&hierarchical=False',
+                method: 'GET',
                 headers: { 'Authorization': AUTHTOKEN }
             }),
             transformResponse: (response: Options) => {

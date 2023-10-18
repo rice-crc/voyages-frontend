@@ -36,7 +36,6 @@ test('Test the BARGRAPH_OPTIONS if data does not match with API data', async () 
     const asyncMock = vi.fn().mockResolvedValue(fetchVoyagesOptionsApi())
 
     const response = await asyncMock();
-
     const data = response.data;
 
     const options = Object.keys(data);

@@ -4,7 +4,7 @@ import { extractTestVarNamesFlatFiles } from "@/utils/functions/extractVarNamesT
 import { fetchPastEnslaversOptions } from "@/fetch/pastEnslaversFetch/fetchPastEnslaversOptions";
 
 const fileName = 'enslavers_filter_menu.json';
-const EndPoint = 'past/enslaver/?hierarchical=False'
+const EndPoint = '/common/schemas/?schema_name=Enslaver&hierarchical=False'
 global.fetch = vi.fn();
 describe(fileName, () => {
     test.todo('To ENSLAVERS_FILTER_MENU var_name equal to key of enslavedOptions request from API')

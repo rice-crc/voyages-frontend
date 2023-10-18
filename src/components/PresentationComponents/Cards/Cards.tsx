@@ -65,28 +65,26 @@ const VoyageCard = () => {
   useEffect(() => {
     let subscribed = true;
     const fetchData = async () => {
-      const newFormData = new FormData();
-      const id = networkID || cardRowID;
-      newFormData.append('id', String(id));
-      newFormData.append('id', String(id));
+      const ID = networkID || cardRowID;
+
+      const dataSend: { [key: string]: (string | number)[] } = {
+        id: [Number(ID!)],
+      };
 
       try {
         let response = null;
-
         switch (nodeType) {
           case VOYAGESNODE:
-            response = await dispatch(
-              fetchVoyageOptionsAPI(newFormData)
-            ).unwrap();
+            response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
             break;
           case ENSLAVEDNODE:
             response = await dispatch(
-              fetchEnslavedOptionsList(newFormData)
+              fetchEnslavedOptionsList(dataSend)
             ).unwrap();
             break;
           case ENSLAVERSNODE:
             response = await dispatch(
-              fetchEnslaversOptionsList(newFormData)
+              fetchEnslaversOptionsList(dataSend)
             ).unwrap();
             break;
           default:
