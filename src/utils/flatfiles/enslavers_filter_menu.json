@@ -8,7 +8,7 @@
 		"label": "Voyages",
 		"children": [
 			{
-				"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_ship__ship_name",
+				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
 				"type": "CharField",
 				"label": "Ship Name"
 			},
@@ -18,12 +18,12 @@
 				"label": "Year of Arrival"
 			},
 			{
-				"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__value",
+				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__value",
 				"type": "GeoTreeSelect",
 				"label": "Port of Embarkation"
 			},
 			{
-				"var_name": "aliases__enslaver_voyage_connection__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__value",
+				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__value",
 				"type": "GeoTreeSelect",
 				"label": "Port of Disembarkation"
 			}
