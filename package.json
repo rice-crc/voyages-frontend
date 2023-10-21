@@ -38,6 +38,7 @@
     "antd": "^5.8.5",
     "axios": "^1.4.0",
     "d3": "^7.8.5",
+    "flickity": "^2.3.0",
     "framer-motion": "^10.12.16",
     "html-react-parser": "4.2.0",
     "leaflet": "^1.9.4",
@@ -58,6 +59,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.12.1",
     "react-scroll": "^1.8.9",
+    "react-slick": "^0.29.0",
     "styled-components": "^5.3.11"
   },
   "browserslist": {
@@ -86,6 +88,7 @@
     "@types/react-leaflet": "^3.0.0",
     "@types/react-plotly.js": "^2.6.0",
     "@types/react-scroll": "^1.8.7",
+    "@types/react-slick": "^0.23.11",
     "@types/styled-components": "^5.1.26",
     "@types/testing-library__react": "^10.2.0",
     "@types/webpack-env": "^1.18.1",
@@ -100,16 +103,10 @@
     "node-sass": "^9.0.0",
     "process": "^0.11.10",
     "sass": "^1.62.1",
-<<<<<<< Updated upstream
     "typescript": "^5.2.2",
     "vite": "^4.3.9",
     "vitest-fetch-mock": "^0.2.2",
     "webpack": "^5.88.2"
-=======
-    "typescript": "^5.0.4",
-    "vite": "^4.4.9",
-    "vitest-fetch-mock": "^0.2.2"
->>>>>>> Stashed changes
   },
   "overrides": {
     "react-error-overlay": "6.0.9"
