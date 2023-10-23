@@ -74,7 +74,7 @@
 .container-intra-american {
     width: 100%;
     background-color: var(--color-white);
-    padding: 4rem 0;
+    padding: 3rem 0;
 
     .intra-american {
         display: flex;
@@ -114,37 +114,37 @@
 
             @include breakpoint-standard(5) {
                 width: 100%;
-                padding: 4rem 0;
+                padding: 3rem 0;
                 ;
             }
 
             @include breakpoint-standard(4) {
                 width: 100%;
-                padding: 4rem 0;
+                padding: 3rem 0;
                 ;
             }
 
             @include breakpoint-standard(3) {
                 width: 100%;
-                padding: 4rem 0;
+                padding: 3rem 0;
                 ;
             }
 
             @include breakpoint-standard(2) {
                 width: 100%;
-                padding: 4rem 0;
+                padding: 3rem 0;
                 ;
             }
 
             @include breakpoint-standard(1) {
                 width: 100%;
-                padding: 4rem 0;
+                padding: 3rem 0;
                 ;
             }
 
             @include breakpoint-standard(0) {
                 width: 100%;
-                padding: 4rem 0;
+                padding: 3rem 0;
                 ;
             }
         }
@@ -155,7 +155,7 @@
             color: rgba(0, 0, 0, 0.95);
             text-align: center;
             position: relative;
-            right: 8rem;
+            right: 6rem;
             width: 45%;
 
             @include breakpoint-standard(5) {

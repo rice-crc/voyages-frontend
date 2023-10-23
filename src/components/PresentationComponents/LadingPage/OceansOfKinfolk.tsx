@@ -21,7 +21,7 @@ const OceansOfKinfolk: React.FC = () => {
                         reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
                         pariatur.
                     </p>
-                    <ButtonLearnMore />
+                    <ButtonLearnMore path='' />
                 </div>
                 <div className="texas-bound-bg">
                     <img src={OceansOfKin} alt="logo" className="tx-img" />

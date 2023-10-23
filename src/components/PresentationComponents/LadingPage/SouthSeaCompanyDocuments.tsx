@@ -2,6 +2,7 @@ import React from 'react';
 import '@/style/landing.scss';
 import REGISTERSOUTH from '@/assets/register.png';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
+import { DOCUMENTPAGE } from '@/share/CONST_DATA';
 const SouthSeaCompanyDocuments: React.FC = () => {
     return (
         <div className="container-shouth-sea">
@@ -19,7 +20,7 @@ const SouthSeaCompanyDocuments: React.FC = () => {
                         reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
                         pariatur.
                     </p>
-                    <ButtonLearnMore />
+                    <ButtonLearnMore path={DOCUMENTPAGE} />
                 </div>
             </div>
         </div>

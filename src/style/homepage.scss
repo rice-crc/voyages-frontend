@@ -609,11 +609,6 @@
 }
 
 
-#footer-bg {
-  img {
-    width: 100%;
-  }
-}
 
 .backToTopBtn {
   display: flex;
@@ -630,4 +625,80 @@
     font-weight: bold;
     text-align: center;
   }
+}
+
+// Footer
+.logo-grid-container {
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 0 0;
+  background-color: #BBC2CB;
+}
+
+.logo-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.logo-grid-item {
+  width: 220px;
+  height: 100px;
+  padding: 0 20px;
+  align-items: center;
+  display: flex;
+}
+
+.card-img {
+  width: 100%;
+  border-radius: calc(0.25rem - 1px);
+}
+
+.logo-grid-container:last-child {
+  padding: 2.5rem 0;
+}
+
+
+
+.footer-container {
+  background-color: #5d7b8a;
+}
+
+
+.footer-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 4rem;
+  color: #efefef;
+
+}
+
+.footer-copyrights {
+  margin: 1rem 0;
+}
+
+.copyright {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Proxima Nova", "Helvetica", "Arial", sans-serif !important
+}
+
+.grey {
+  color: #ececec;
+  text-decoration: none;
+}
+
+.link {
+  font-weight: bold;
+  transition: ease 0.3s;
+  text-decoration: none;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.footer-logo {
+  margin: 1rem 0;
+  font-size: 1.15rem;
+  font-weight: 900;
 }

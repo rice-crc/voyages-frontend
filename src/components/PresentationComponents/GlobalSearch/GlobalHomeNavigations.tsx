@@ -33,19 +33,19 @@ const GlobalHomeNavigations = () => {
   return (
     <>
       <div className="voyages-people-places">
-        <div className="voyage-page-box">
+        <div className="place-page-box">
           <div className="voyages-people-places-title">Voyages</div>
           <Link
             to={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`}
             onClick={handleHomeSearch}
           >
-            <img src={voyageIcon} alt="voyages" />
+            <img src={voyageIcon} alt="voyages" style={{ opacity: 0.65 }} />
           </Link>
           <div className="voyages-people-places-subtitle">
             Search by Vessels, Places, and Periods
           </div>
         </div>
-        <div className="people-page-box">
+        <div className="place-page-box">
           <div className="voyages-people-places-title">People</div>
           <Link
             to={`/${PASTHOMEPAGE}`}
@@ -57,14 +57,14 @@ const GlobalHomeNavigations = () => {
               dispatch(setPathName(ALLENSLAVED));
             }}
           >
-            <img src={peopleIcon} alt="voyages" />
+            <img src={peopleIcon} alt="People" style={{ opacity: 0.65 }} />
           </Link>
           <div className="voyages-people-places-subtitle">Find a person</div>
         </div>
         <div className="place-page-box">
           <div className="voyages-people-places-title">Documents</div>
           <Link to={`/${DOCUMENTPAGE}`}>
-            <img src={documentIcon} alt="voyages" width={129} />
+            <img src={documentIcon} alt="Documents" width={129} />
           </Link>
           <div className="voyages-people-places-subtitle">
             Read Primary Sources
@@ -73,7 +73,7 @@ const GlobalHomeNavigations = () => {
         <div className="place-page-box">
           <div className="voyages-people-places-title">Writing</div>
           <Link to={`/${BLOGPAGE}`}>
-            <img src={resourceIcon} alt="voyages" width={129} />
+            <img src={resourceIcon} alt="Writing" width={129} />
           </Link>
           <div className="voyages-people-places-subtitle">
             Lesson Plans, Essays, and More

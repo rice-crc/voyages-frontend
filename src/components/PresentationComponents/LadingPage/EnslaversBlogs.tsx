@@ -2,6 +2,7 @@ import React from 'react';
 import '@/style/landing.scss';
 import ENSLAVERS from '@/assets/enslaver.png';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
+import { ENSALVERSPAGE, PASTHOMEPAGE } from '@/share/CONST_DATA';
 const EnslaversBlogs: React.FC = () => {
     return (
         <div className="container-enslavers">
@@ -19,7 +20,7 @@ const EnslaversBlogs: React.FC = () => {
                         reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
                         pariatur.
                     </p>
-                    <ButtonLearnMore />
+                    <ButtonLearnMore path={`${PASTHOMEPAGE}${ENSALVERSPAGE}`} />
                 </div>
             </div>
         </div>

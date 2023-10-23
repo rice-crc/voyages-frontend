@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import '@/style/homepage.scss';
 import VideoBackground from '@/components/PresentationComponents/VideoBackground/VideoBackground';
 import MenuButtonHomePage from '@/components/SelectorComponents/ButtonComponents/MenuButtonHomePage';
@@ -21,9 +23,9 @@ const HomePage: React.FC = () => {
   const handleBackToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
-    })
-  }
+      behavior: 'smooth',
+    });
+  };
   useEffect(() => {
     const backToTopButton = document.getElementById('backToTop');
 
@@ -42,45 +44,76 @@ const HomePage: React.FC = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [])
-  return (
+  }, []);
 
+  useEffect(() => {
+    AOS.init({ duration: 1800 });
+  }, []);
+  return (
     <div id="home-voyagepage-container">
-      <div className='centered-content'>
+      <div className="centered-content">
         <VideoBackground />
+        <MenuButtonHomePage />
         <div className="home-voyagepage-content">
-          <MenuButtonHomePage />
-          <SlaveVoyageLogo />
+          <div data-aos="flip-up">
+            <SlaveVoyageLogo />
+          </div>
+
           <div className="voyages-search-box">
             <div className="voyages-search-box-content">
               <AutoGlobalSearchBar />
             </div>
           </div>
-          <GlobalHomeNavigations />
+          <div data-aos="fade-up">
+            <GlobalHomeNavigations />
+          </div>
+
           <div className="document-resources-container">
             <div className="about-project">
               <Link to={`/${BLOGPAGE}/slavevoyages-introduction/50`}>
-                <div className="about-project-btn">About the Project</div>
+                <div className="about-project-btn">Learn more</div>
               </Link>
             </div>
           </div>
         </div>
-
       </div>
-      <NewsBlog />
-      <SouthSeaCompanyDocuments />
-      <TexasBound />
-      <ArtInspiredBySlaveVoyages />
-      <EnslaversBlogs />
-      <AfricanOrigins />
-      <IntraAmerican />
-      <TransAtlantic />
+      <div data-aos="fade-down">
+        <NewsBlog />
+      </div>
+      <div data-aos="fade-up">
+        <SouthSeaCompanyDocuments />
+      </div>
+      <div data-aos="fade-up">
+        <TexasBound />
+      </div>
+      <div data-aos="fade-up">
+        <ArtInspiredBySlaveVoyages />
+      </div>
+      <div data-aos="fade-up">
+        <EnslaversBlogs />
+      </div>
+      <div data-aos="fade-up">
+        <AfricanOrigins />
+      </div>
+      <div data-aos="fade-up">
+        <IntraAmerican />
+      </div>
+      <div data-aos="fade-up">
+        <TransAtlantic />
+      </div>
+
       <div className="backToTopBtn">
-        <div className='btn' onClick={handleBackToTop} id="backToTop" title="Go to top">Back to Top</div>
+        <div
+          className="btn"
+          onClick={handleBackToTop}
+          id="backToTop"
+          title="Go to top"
+        >
+          Back to Top
+        </div>
       </div>
       <FooterComponent />
     </div>
-
   );
 };
 

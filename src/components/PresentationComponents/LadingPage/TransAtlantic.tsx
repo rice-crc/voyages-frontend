@@ -3,6 +3,7 @@ import '@/style/landing.scss';
 import TRANSATLANTIC from '@/assets/transAtlantic.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
+import { TRANSATLANTICPAGE, VOYAGESPAGE } from '@/share/CONST_DATA';
 const TransAtlantic: React.FC = () => {
     const lists = [
         'About',
@@ -31,7 +32,7 @@ const TransAtlantic: React.FC = () => {
                         information on the broad origins of enslaved people, the tortuous
                         Middle Passage, and the destinations of Africans in the Americas.
                     </p>
-                    <ButtonLearnMore />
+                    <ButtonLearnMore path={`${VOYAGESPAGE}${TRANSATLANTICPAGE}`} styleName='transatlantic' />
                     <ButtonLists lists={lists} />
                 </div>
             </div>

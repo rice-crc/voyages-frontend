@@ -3,6 +3,7 @@ import '@/style/intra-american.scss';
 import INTRAMERCAN from '@/assets/Intra-American.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
+import { INTRAAMERICANPAGE, VOYAGESPAGE } from '@/share/CONST_DATA';
 
 const IntraAmerican: React.FC = () => {
     const lists = ['About', 'Database', 'Downloads', 'Contribute'];
@@ -20,7 +21,7 @@ const IntraAmerican: React.FC = () => {
                         African survivors of the Atlantic crossing but also displaced
                         enslaved people born in the Americas.
                     </p>
-                    <ButtonLearnMore />
+                    <ButtonLearnMore path={`${VOYAGESPAGE}${INTRAAMERICANPAGE}`} styleName='intra-american' />
                     <ButtonLists lists={lists} />
                 </div>
                 <div className="intra-american-bg">

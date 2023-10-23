@@ -7,9 +7,11 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import { CardNewsBlogs } from './CardNewsBlogs';
+import { ButtonNextPrevBlog } from '@/components/SelectorComponents/ButtonComponents/ButtonNextPrevBlog';
+import { BLOGPAGE } from '@/share/CONST_DATA';
 
 const ArtInspiredBySlaveVoyages: React.FC = () => {
-    const [moveClass, setMoveClass] = useState('prev');
+    const [moveClass, setMoveClass] = useState('slide-track slider');
     const { data: carouselItems } = useSelector(
         (state: RootState) => state.getBlogData as InitialStateBlogProps
     );
@@ -83,18 +85,11 @@ const ArtInspiredBySlaveVoyages: React.FC = () => {
                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
                     commodo consequat.
                 </p>
-                <ButtonLearnMore />
+                <ButtonLearnMore path={BLOGPAGE} />
             </div>
 
             <div className="carouselwrapper module-wrapper">
-                <div className="ui">
-                    <button onClick={() => setMoveClass('next')} className="prev">
-                        <span className="material-icons">chevron_left</span>
-                    </button>
-                    <button onClick={() => setMoveClass('prev')} className="next">
-                        <span className="material-icons">chevron_right</span>
-                    </button>
-                </div>
+                <ButtonNextPrevBlog setMoveClass={setMoveClass} />
                 <ul
                     onAnimationEnd={handleAnimationEnd}
                     className={`${moveClass} carousel`}

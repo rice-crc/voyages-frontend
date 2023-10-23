@@ -4,6 +4,8 @@ import TEXAS from '@/assets/texasbound1.png';
 import TEXASBOUND from '@/assets/Texas Bound.png';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
+import { PASTHOMEPAGE, VOYAGESPAGE, VOYAGESTEXASPAGE } from '@/share/CONST_DATA';
+
 const TexasBound: React.FC = () => {
     const lists = ['About', 'Database', 'Downloads', 'Contribute'];
     return (
@@ -18,7 +20,7 @@ const TexasBound: React.FC = () => {
                         Coast. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                         do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     </p>
-                    <ButtonLearnMore />
+                    <ButtonLearnMore path={`${VOYAGESPAGE}${VOYAGESTEXASPAGE}`} styleName='texas' />
                     <ButtonLists lists={lists} />
                 </div>
                 <div className="texas-bound-bg">

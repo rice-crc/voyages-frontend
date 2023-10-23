@@ -2,6 +2,7 @@ import React from 'react';
 import '@/style/landing.scss';
 import AFRICANORIGINS from '@/assets/People_of_the_Atlantic.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
+import { AFRICANORIGINSPAGE, ENSALVEDPAGE, PASTHOMEPAGE } from '@/share/CONST_DATA';
 
 const AfricanOrigins: React.FC = () => {
     return (
@@ -22,7 +23,7 @@ const AfricanOrigins: React.FC = () => {
                         as well as Series FO84, FO313, CO247 and CO267 held at the British
                         National Archives in London.
                     </p>
-                    <ButtonLearnMore />
+                    <ButtonLearnMore path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`} stylePeopleName={'african-origins'} />
                 </div>
             </div>
         </div>

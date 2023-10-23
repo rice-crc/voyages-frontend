@@ -7,15 +7,17 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { CardNewsBlogs } from './CardNewsBlogs';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
+import { ButtonNextPrevBlog } from '../../SelectorComponents/ButtonComponents/ButtonNextPrevBlog';
+import { BLOGPAGE } from '@/share/CONST_DATA';
 
 const NewsBlog: React.FC = () => {
-  const [moveClass, setMoveClass] = useState('prev');
+
+  const dispatch: AppDispatch = useDispatch();
+  const { language } = useSelector((state: RootState) => state.getLanguages);
   const { data: carouselItems } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
-  const dispatch: AppDispatch = useDispatch();
-
-  const { language } = useSelector((state: RootState) => state.getLanguages);
+  const [moveClass, setMoveClass] = useState('slide-track');
 
   useEffect(() => {
     document.documentElement.style.setProperty('--num', carouselItems.length.toString());
@@ -28,7 +30,6 @@ const NewsBlog: React.FC = () => {
       shiftPrev([...carouselItems]);
     }
     setMoveClass('')
-    // setMoveClass(moveClass === 'prev' ? 'next' : 'prev');
   }
 
   const shiftPrev = (copy: any) => {
@@ -41,9 +42,8 @@ const NewsBlog: React.FC = () => {
     let firstcard = copy.shift();
     copy.splice(copy.length, 0, firstcard);
     dispatch(setBlogData(copy))
+
   }
-
-
 
   useEffect(() => {
     let subscribed = true;
@@ -59,20 +59,17 @@ const NewsBlog: React.FC = () => {
         const response = await dispatch(fetchBlogData(dataSend)).unwrap();
         if (response) {
           dispatch(setBlogData(response));
-
         }
       } catch (error) {
         console.log('error', error);
       }
     };
-
     fetchDataBlog();
 
     return () => {
       subscribed = false;
     };
   }, [dispatch, language]);
-
 
 
   return (
@@ -86,19 +83,11 @@ const NewsBlog: React.FC = () => {
           commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
           velit esse cillum dolore eu fugiat nulla pariatur.
         </p>
-        <ButtonLearnMore />
+        <ButtonLearnMore path={BLOGPAGE} />
       </div>
-
       <div className="carouselwrapper module-wrapper">
-        <div className="ui">
-          <button onClick={() => setMoveClass('next')} className="prev">
-            <span className="material-icons">chevron_left</span>
-          </button>
-          <button onClick={() => setMoveClass('prev')} className="next">
-            <span className="material-icons">chevron_right</span>
-          </button>
-        </div>
-        <ul onAnimationEnd={handleAnimationEnd} className={`${moveClass} carousel`}>
+        <ButtonNextPrevBlog setMoveClass={setMoveClass} />
+        <ul onAnimationEnd={handleAnimationEnd} className={`${moveClass} carousel`} >
           {carouselItems.length > 0 && carouselItems.map((t, index) =>
             <CardNewsBlogs key={t?.title + index} thumbnail={t?.thumbnail!} title={t?.title!} id={t?.id} />
           )}
