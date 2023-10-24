@@ -132,7 +132,7 @@
   justify-content: flex-end;
   align-items: center;
   z-index: 1;
-  
+
 }
 
 .nav-button {
@@ -183,7 +183,7 @@
   }
 
   @include breakpoint-standard(1.1) {
-    top: 12%;
+    top: 14%;
     height: auto;
     display: inline;
     align-items: center;
@@ -192,7 +192,7 @@
   }
 
   @include breakpoint-standard(1) {
-    top: 12%;
+    top: 14%;
     height: auto;
     display: inline;
     align-items: center;
@@ -273,39 +273,47 @@
   flex-direction: column;
   align-items: flex-start;
   padding-right: 5px;
+
   @include breakpoint-standard(5) {
     top: 36%;
     align-items: center;
   }
+
   @include breakpoint-standard(4) {
     display: inline-block;
     padding-right: 5rem;
-    top: 13%;;
-    height:0;
+    top: 13%;
+    ;
+    height: 0;
   }
+
   @include breakpoint-standard(3) {
     display: inline-block;
     padding-right: 30px;
-    top: 13%;;
-    height:0;
+    top: 13%;
+    ;
+    height: 0;
   }
+
   @include breakpoint-standard(2) {
     display: inline-block;
     padding-right: 30px;
     top: 13%;
-    height:0;
+    height: 0;
   }
+
   @include breakpoint-standard(1.1) {
     display: inline-block;
     padding-right: 30px;
     top: 13%;
-    height:0;
+    height: 0;
   }
+
   @include breakpoint-standard(1) {
     display: inline-block;
     padding-right: 30px;
     top: 13%;
-    height:0;
+    height: 0;
   }
 }
 
@@ -402,12 +410,13 @@
 }
 
 .main-script-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 3%;
-    font-size: 26px;
-    font-family: Roboto, Helvetica, Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3%;
+  font-size: 26px;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+
   @include breakpoint-standard(0) {
     padding: 2%;
     font-size: 14px;
@@ -440,7 +449,7 @@
 
   @include breakpoint-standard(4) {
     padding: 2%;
-    font-size: 18px;    
+    font-size: 18px;
     margin-top: 10%;
   }
 

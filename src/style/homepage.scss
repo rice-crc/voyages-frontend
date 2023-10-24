@@ -359,17 +359,17 @@
 
   @include breakpoint-standard(2) {
     padding: 0;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   @include breakpoint-standard(1) {
     padding: 0;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   @include breakpoint-standard(0) {
     padding: 0;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

@@ -150,6 +150,17 @@ $animationSpeed: 100s;
         }
     }
 
+    @include breakpoint-standard(2) {
+        padding: 4rem 0 2rem 0;
+    }
+
+    @include breakpoint-standard(1) {
+        padding: 4rem 0 2rem 0;
+    }
+
+    @include breakpoint-standard(0) {
+        padding: 4rem 0 2rem 0;
+    }
 
 }
 
