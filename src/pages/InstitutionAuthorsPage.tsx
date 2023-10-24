@@ -1,4 +1,4 @@
-import InstitutionAuthors from '@/components/Blog/InstitutionsAuthors/InstitutionAuthors';
+import InstitutionAuthors from '@/components/BlogPageComponents/InstitutionsAuthors/InstitutionAuthors';
 import React from 'react';
 
 const InstitutionAuthorsPage: React.FC = () => {

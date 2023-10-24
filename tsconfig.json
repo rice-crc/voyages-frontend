@@ -1,5 +1,6 @@
 {
  "compilerOptions": {
+  "types": ["@types/leaflet", "dotenv"],
    "target":"ES2022",
    "jsx":"react-jsx",
    "module":"ES2022",

@@ -1,4 +1,4 @@
-import { fetchVoyagesOptionsApi } from '@/fetchAPI/voyagesApi/fetchVoyagesOptionsApi';
+import { fetchVoyagesOptionsApi } from '@/fetch/voyagesFetch/fetchVoyagesOptionsApi';
 import dataVoyageBarGraphOptions from "@/utils/flatfiles/VOYAGE_BARGRAPH_OPTIONS.json";
 import { expect, test, vi, describe } from "vitest";
 
@@ -36,7 +36,6 @@ test('Test the BARGRAPH_OPTIONS if data does not match with API data', async () 
     const asyncMock = vi.fn().mockResolvedValue(fetchVoyagesOptionsApi())
 
     const response = await asyncMock();
-
     const data = response.data;
 
     const options = Object.keys(data);

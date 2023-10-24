@@ -51,13 +51,15 @@ export const MAP_CENTER: [number, number] = [5.486678, -35.59375];
 export const MAXIMUM_NATIVE_ZOOM = 10;
 export const MINIMUM_ZOOM = 2;
 export const MAXIMUM_ZOOM = 22;
-export const ZOOM_LEVEL_THRESHOLD = 6;
+export const ZOOM_LEVEL_THRESHOLD = 5;
 export const VOYAGESTYPE = 'voyages'
 export const ENSALVEDTYPE = 'enslaved'
 export const ENSLAVERSTYPE = 'enslavers'
 export const BLOGTYPE = 'blog'
+export const REGION = 'region'
+export const PLACE = 'place'
 
-export const minRadiusInpixels = 3;
+export const minRadiusInPixels = 3;
 export const maxRadiusInPixels = 20;
 export const maxRadiusInPixelsNode = 15;
 

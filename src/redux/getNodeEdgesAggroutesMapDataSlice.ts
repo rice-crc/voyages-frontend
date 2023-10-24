@@ -1,39 +1,52 @@
 import {
-    Dispositions,
+    EdgesAggroutes,
     InitialStateNodeEdgesAggroutesMapData,
     NodeAggroutes,
-    Originations,
-    Transportation,
+    PathsAggroutes,
 } from '@/share/InterfaceTypesMap';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: InitialStateNodeEdgesAggroutesMapData = {
+    mapData: {
+        edges: [],
+        nodes: [],
+        paths: [],
+    },
+    edgesData: [],
     nodesData: [],
-    transportation: [],
-    disposition: [],
-    origination: []
+    pathsData: [],
+    hasFetchedRegion: true
 };
 
 const getNodeEdgesAggroutesMapDataSlice = createSlice({
     name: 'pastNetworks',
     initialState,
     reducers: {
-        setNodesData: (state, action: PayloadAction<NodeAggroutes[]>) => {
+        setMapData: (state, action: PayloadAction<InitialStateNodeEdgesAggroutesMapData['mapData']>) => {
+            state.mapData = action.payload;
+        },
+        setNodesDataRegion: (state, action: PayloadAction<NodeAggroutes[]>) => {
             state.nodesData = action.payload;
         },
-        setTransportation: (state, action: PayloadAction<Transportation[]>) => {
-            state.transportation = action.payload;
+        setNodesDataPlace: (state, action: PayloadAction<NodeAggroutes[]>) => {
+            state.nodesData = action.payload;
         },
-        setDisposition: (state, action: PayloadAction<Dispositions[]>) => {
-            state.disposition = action.payload;
+        setEdgesDataRegion: (state, action: PayloadAction<EdgesAggroutes[]>) => {
+            state.edgesData = action.payload;
         },
-        setOrigination: (state, action: PayloadAction<Originations[]>) => {
-            state.origination = action.payload;
+        setEdgesDataPlace: (state, action: PayloadAction<EdgesAggroutes[]>) => {
+            state.edgesData = action.payload;
+        },
+        setPathsData: (state, action: PayloadAction<PathsAggroutes[]>) => {
+            state.pathsData = action.payload;
+        },
+        setHasFetchedRegion: (state, action: PayloadAction<boolean>) => {
+            state.hasFetchedRegion = action.payload;
         },
         resetSlice: (state) => initialState,
     }
 });
 
-export const { resetSlice, setNodesData, setTransportation, setDisposition, setOrigination } = getNodeEdgesAggroutesMapDataSlice.actions;
+export const { resetSlice, setNodesDataRegion, setHasFetchedRegion, setNodesDataPlace, setMapData, setEdgesDataRegion, setEdgesDataPlace, setPathsData } = getNodeEdgesAggroutesMapDataSlice.actions;
 export default getNodeEdgesAggroutesMapDataSlice.reducer;

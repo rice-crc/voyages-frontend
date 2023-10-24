@@ -1,6 +1,7 @@
 import React from 'react';
-import HeaderLogoSearch from '../components/header/HeaderSearchLogo';
+
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
+import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 const DocumentPage: React.FC = () => {
   return (
     <>

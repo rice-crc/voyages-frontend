@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import getOptionsDataSlice from './getOptionsDataSlice';
-import rangeSliderSlice from './rangeSliderSlice';
+import rangeSliderSlice from './getRangeSliderSlice';
 import getAutoCompleteList from './getAutoCompleteSlice'
 import getOptionsFlatMenu from './getOptionsFlatObjSlice'
 import getScrollPageSlice from './getScrollPageSlice'
 import getTableSlice from './getTableSlice'
-import { voyagesApi } from '../fetchAPI/voyagesApi/fetchApiService';
+import { voyagesApi } from '../fetch/voyagesFetch/fetchApiService';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import getFilterSlice from './getFilterSlice';
 import getColumnsSlice from './getColumnSlice';
@@ -14,8 +14,8 @@ import getPeopleEnslavedDataSetCollectionSlice from './getPeopleEnslavedDataSetC
 import getScrollEnslavedPageSlice from './getScrollEnslavedPageSlice';
 import getFilterPeopleObjectSlice from './getFilterPeopleObjectSlice';
 import getOptionsDataPastPeopleEnslavedSlice from './getOptionsDataPastPeopleEnslavedSlice';
-import { pastEnslavedApiService } from '@/fetchAPI/pastEnslavedApi/fetchPastEnslavedApiService';
-import { pastEnslaversApiService } from '@/fetchAPI/pastEnslaversApi/fetchPastEnslaversApiService';
+import { pastEnslavedService } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedService';
+import { pastEnslaversService } from '@/fetch/pastEnslaversFetch/pastEnslaversService';
 import getScrollEnslaversPageSlice from './getScrollEnslaversPageSlice';
 import getPeopleEnslaversDataSetCollectionSlice from './getPeopleEnslaversDataSetCollectionSlice';
 import getBlogDataSlice from './getBlogDataSlice';
@@ -55,13 +55,13 @@ const store = configureStore({
                 getGeoTreeData: getGeoTreeDataSlice,
                 getPathName: getDataPathNameSlice,
                 [voyagesApi.reducerPath]: voyagesApi.reducer,
-                [pastEnslavedApiService.reducerPath]: pastEnslavedApiService.reducer,
-                [pastEnslaversApiService.reducerPath]: pastEnslaversApiService.reducer,
+                [pastEnslavedService.reducerPath]: pastEnslavedService.reducer,
+                [pastEnslaversService.reducerPath]: pastEnslaversService.reducer,
         },
         middleware: (getDefaultMiddleware) =>
                 getDefaultMiddleware({
                         serializableCheck: false,
-                }).concat([voyagesApi.middleware, pastEnslavedApiService.middleware, pastEnslaversApiService.middleware])
+                }).concat([voyagesApi.middleware, pastEnslavedService.middleware, pastEnslaversService.middleware])
 });
 
 setupListeners(store.dispatch);

@@ -15,7 +15,7 @@ export default defineConfig(() => ({
     host: '0.0.0.0',
   },
   css: {
-    modules: false, // Disable CSS modules if not needed
+    modules: false as false | undefined,
     preprocessorOptions: {
       // Add any preprocessor options if necessary
     },

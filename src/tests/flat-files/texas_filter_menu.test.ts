@@ -1,10 +1,10 @@
 import { expect, test, vi, describe } from "vitest";
 import TEXAS_FILTER_MENU from '@/utils/flatfiles/texas_filter_menu.json';
-import { fetchPastEnslavedApiService } from "@/fetchAPI/pastEnslavedApi/fetchPastEnslavedOptionsApi";
+import { fetchPastEnslavedServiceData } from "@/fetch/pastEnslavedFetch/fetchPastEnslavedServiceData";
 import { extractTestVarNamesFlatFiles } from "@/utils/functions/extractVarNamesTest";
 
 const fileName = 'texas_filter_menu.json';
-const EndPoint = 'past/enslaved/?hierarchical=False'
+const EndPoint = '/common/schemas/?schema_name=Enslaved&hierarchical=False'
 global.fetch = vi.fn();
 describe(fileName, () => {
     test.todo('To check TEXAS_FILTER_MENU var_name equal to key of enslavedOptions request from API')
@@ -12,7 +12,7 @@ describe(fileName, () => {
 
 
 test("Texas Filter Menu should check for missing names a variable", async () => {
-    const response = await fetchPastEnslavedApiService();
+    const response = await fetchPastEnslavedServiceData();
     const data = response.data;
     const keyEnslavedOptions = Object.keys(data);
     const varNameArr = await extractTestVarNamesFlatFiles(TEXAS_FILTER_MENU);

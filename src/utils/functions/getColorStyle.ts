@@ -1,8 +1,9 @@
 import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 
 export const getColorVoyagePageBackground = (item: string, currentPage: number) => {
+
     let background = 'rgba(147, 208, 203)';
-    if (item === TYPESOFDATASET.allVoyages && currentPage !== 1) {
+    if (item === TYPESOFDATASET.allVoyages) {
         background = 'rgba(147, 208, 203)';
     } else if (item === TYPESOFDATASET.allVoyages && currentPage === 1) {
         background = 'transparent';
@@ -13,6 +14,7 @@ export const getColorVoyagePageBackground = (item: string, currentPage: number) 
     } else if (item === TYPESOFDATASET.texas) {
         background = 'rgba(187, 105, 46)';
     }
+
     return background;
 };
 
@@ -46,9 +48,10 @@ export const getColorBTNBackgroundEnslavers = (item: string) => {
 };
 
 export const getTextColor = (item: string) => {
-    let textColor = '#000000';
+
+    let textColor = "rgba(0, 0, 0,0.75)";
     if (item === TYPESOFDATASET.allVoyages) {
-        textColor = '#000000';
+        textColor = "rgba(0, 0, 0,0.75)";
     } else if (item === TYPESOFDATASET.transatlantic || item === TYPESOFDATASET.intraAmerican || item === TYPESOFDATASET.texas) {
         textColor = '#ffffff';
     } else if (item === TYPESOFDATASETPEOPLE.allEnslavers) {
@@ -59,7 +62,6 @@ export const getTextColor = (item: string) => {
 
 
 export const getColorNavbarBackground = (item: string) => {
-
     let background = '#93D0CB';
     if (item === TYPESOFDATASET.allVoyages) {
         background = '#93D0CB';

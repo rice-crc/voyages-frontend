@@ -1,7 +1,7 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { resetSlice as resetOptionsData } from './getOptionsDataSlice';
 import { resetSlice as resetGeoTreeData } from './getGeoTreeDataSlice';
-import { resetSlice as resetRangeSliderData } from './rangeSliderSlice';
+import { resetSlice as resetRangeSliderData } from './getRangeSliderSlice';
 import { resetSlice as resetAutoCompleteData } from './getAutoCompleteSlice';
 import { resetSlice as resetDataSetCollectionData } from './getDataSetCollectionSlice';
 import { resetSlice as resetVoyagesFilter } from './getFilterSlice';
@@ -12,8 +12,8 @@ import { resetSlice as resetOptionPlatObjectData } from './getOptionsFlatObjSlic
 import { resetSlice as resetPeopleEnslavedDataSetCollection } from './getPeopleEnslavedDataSetCollectionSlice';
 import { resetSlice as resetPeopleEnslaversDataSetCollection } from './getPeopleEnslaversDataSetCollectionSlice';
 import { resetSlice as resetScroolVoyages } from './getScrollPageSlice';
-import { resetSlice as resetScroolEnslaved } from './getScrollEnslavedPageSlice';
-import { resetSlice as resetScroolEnslavers } from './getScrollEnslaversPageSlice';
+import { resetSlice as resetScrollEnslaved } from './getScrollEnslavedPageSlice';
+import { resetSlice as resetScrollEnslavers } from './getScrollEnslaversPageSlice';
 
 export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetOptionsData());
@@ -29,6 +29,6 @@ export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetPeopleEnslavedDataSetCollection())
     dispatch(resetPeopleEnslaversDataSetCollection())
     dispatch(resetScroolVoyages())
-    dispatch(resetScroolEnslaved())
-    dispatch(resetScroolEnslavers())
+    dispatch(resetScrollEnslaved())
+    dispatch(resetScrollEnslavers())
 };

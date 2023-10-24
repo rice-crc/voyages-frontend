@@ -44,6 +44,7 @@ export const getDataSetCollectionSlice = createSlice({
                 state.textHeader,
                 state.textIntroduce,
                 state.blocks
+            state.styleName
         },
     },
 });

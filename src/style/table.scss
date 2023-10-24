@@ -51,15 +51,29 @@
 .grid-container{
   width: 100%;
   height: 100%;
+  @include breakpoint-standard(0) {
+    margin-top: 40%;
+  }
+  @include breakpoint-standard(1) {
+    margin-top: 40%;
+  }
+  @include breakpoint-standard(2) {
+    margin-top: 40%;
+  }
+  @include breakpoint-standard(3) {
+    margin-top: 40%;
+  }
+  @include breakpoint-standard(4) {
+    margin-top: 22%;
+  }
 }
 
 .tableContainer{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
   @include breakpoint-standard(5) {
-    margin-top: 95px;
+    margin-top: 11px;
   }
 }
 .customHeaderMenuButton {
@@ -163,9 +177,29 @@ div .customHeaderLabel{
   flex-flow: row wrap;
   justify-content: space-between;
   padding: 0;
-  margin: 20px 0;
+  margin: 10px 0;
   list-style: none;
   width: 90%;
+  @include breakpoint-standard(0) {
+    width: 100%;
+    flex-direction: column;
+  }
+  @include breakpoint-standard(1) {
+    width: 100%;
+    flex-direction: column;
+  }
+  @include breakpoint-standard(2) {
+    width: 100%;
+    flex-direction: column;
+  }
+  @include breakpoint-standard(3) {
+    width: 100%;
+    flex-direction: column;
+  }
+  @include breakpoint-standard(4) {
+    width: 100%;
+    flex-direction: column;
+  }
 }
 
 .pivot-table-flex-item {
@@ -175,6 +209,26 @@ div .customHeaderLabel{
   color: white;
   font-weight: bold;
   text-align: center;
+  @include breakpoint-standard(0) {
+    width:100%;
+    padding: 10px;
+  }
+  @include breakpoint-standard(1) {
+    width:100%;
+    padding: 10px;
+  }
+  @include breakpoint-standard(2) {
+    width:100%;
+    padding: 10px;
+  }
+  @include breakpoint-standard(3) {
+    width:100%;
+    padding: 10px;
+  }
+  @include breakpoint-standard(4) {
+    width:100%;
+    padding: 10px;
+  }
 }
 .aggregation-export{
   display: flex;
@@ -182,6 +236,26 @@ div .customHeaderLabel{
   align-items: end;
   width: 90%;
   padding: 5px 0;
+  @include breakpoint-standard(0) {
+    width:100%;
+    
+  }
+  @include breakpoint-standard(1) {
+    width:100%;
+    
+  }
+  @include breakpoint-standard(2) {
+    width:100%;
+    
+  }
+  @include breakpoint-standard(3) {
+    width:100%;
+    
+  }
+  @include breakpoint-standard(4) {
+    width:100%;
+    
+  }
 }
 .button-export-csv{
   > button{
@@ -192,5 +266,21 @@ div .customHeaderLabel{
     border-color: #17a2b8;
     cursor: pointer;
     box-shadow: #17a2b8 1px 2px 6px;
+    @include breakpoint-standard(0) {
+    font-size: 11px;
+      
+    }
+    @include breakpoint-standard(1) {
+      font-size: 11px;
+      
+    }
+    @include breakpoint-standard(2) {
+      font-size: 11px;
+      
+    }
+    @include breakpoint-standard(3) {
+      font-size: 12px;
+      
+    }
   }
 }
