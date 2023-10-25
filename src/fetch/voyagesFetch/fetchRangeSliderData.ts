@@ -4,13 +4,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchRangeSliderData = createAsyncThunk(
     'rangeSlider/fetchRangeData',
-    async (formData: FormData) => {
+    async (dataSend?: { [key: string]: string[] }) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/voyage/aggregations`,
-                formData,
+                dataSend,
                 {
-                    headers: { 'Authorization': AUTHTOKEN },
+                    headers: {
+                        'Authorization': AUTHTOKEN,
+                        "Content-Type": "application/json"
+                    }
                 }
             );
 

@@ -10,7 +10,7 @@ export const createNodeDict = (nodesData: NodeAggroutes[]) => {
         if (latitude !== undefined && longitude !== undefined) {
             nodesDict[node.id] = [latitude, longitude];
         } else {
-            nodesDict[node.id] = null; // Set as null when lat or lon is undefined
+            nodesDict[node.id] = null;
         }
     });
     return nodesDict;

@@ -4,13 +4,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchPivotCrosstabsTables = createAsyncThunk(
     'voyage/fetchPivotCrosstabsTables',
-    async (formData: FormData) => {
+    async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/voyage/crosstabs`,
-                formData,
+                dataSend,
                 {
-                    headers: { 'Authorization': AUTHTOKEN },
+                    headers: {
+                        'Authorization': AUTHTOKEN,
+                        "Content-Type": "application/json"
+                    }
                 }
             );
             return response;

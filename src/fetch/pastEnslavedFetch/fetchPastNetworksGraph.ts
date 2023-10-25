@@ -6,13 +6,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchPastNetworksGraphApi = createAsyncThunk(
     'pastNetworks/fetchPastNetworksGraph',
-    async (formData: FormData) => {
+    async (dataSend?: { [key: string]: number[] }) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/past/networks`,
-                formData,
+                dataSend,
                 {
-                    headers: { 'Authorization': AUTHTOKEN },
+                    headers: {
+                        'Authorization': AUTHTOKEN,
+                        "Content-Type": "application/json"
+                    }
                 }
             );
             return response.data;

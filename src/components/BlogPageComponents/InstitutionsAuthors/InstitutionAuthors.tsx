@@ -6,7 +6,6 @@ import '@/style/blogs.scss';
 import { Divider } from '@mui/material';
 import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import HeaderNavBarBlog from '../../NavigationComponents/Header/HeaderNavBarBlog';
-import IMGMOCK from '@/assets/sv-logo-black-01.png';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { fetchInstitutionData } from '@/fetch/blogFetch/fetchInstitutionData';
@@ -15,6 +14,7 @@ import {
   setInstitutionAuthorsList,
 } from '@/redux/getBlogDataSlice';
 import InstitutionAuthorsList from './InstitutionAuthorsList';
+import defaultImage from '@/assets/no-imge-default.avif';
 
 const InstitutionAuthors: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -29,12 +29,12 @@ const InstitutionAuthors: React.FC = () => {
   useEffect(() => {
     let subscribed = true;
     const fetchInstitution = async () => {
-      const newFormData: FormData = new FormData();
-      newFormData.append('id', String(ID));
-      newFormData.append('id', String(ID));
+      const dataSend: { [key: string]: (string | number)[] } = {
+        id: [parseInt(ID!)],
+      };
       try {
         const response = await dispatch(
-          fetchInstitutionData(newFormData)
+          fetchInstitutionData(dataSend)
         ).unwrap();
         if (subscribed && response) {
           dispatch(setInstitutionAuthorsData(response?.[0]));
@@ -51,6 +51,7 @@ const InstitutionAuthors: React.FC = () => {
       subscribed = false;
     };
   }, [dispatch, ID]);
+
   return (
     <div>
       <HeaderLogoSearch />
@@ -60,12 +61,21 @@ const InstitutionAuthors: React.FC = () => {
           <div className="row-next-author">
             <div className="card-body">
               <div className="d-flex flex-column align-items-center text-center">
-                <img
-                  src={image ? `${BASEURL}${image}` : IMGMOCK}
-                  alt={name}
-                  className="rounded-circle"
-                  width="300"
-                />
+                {image ? (
+                  <img
+                    src={`${BASEURL}${image}`}
+                    alt={name}
+                    className="rounded-circle"
+                    width="300"
+                  />
+                ) : (
+                  <img
+                    src={defaultImage}
+                    alt={name}
+                    className="rounded-circle"
+                    width="300"
+                  />
+                )}
                 <div className="mt-3">
                   <h4 className="auther-name">{name}</h4>
                   <p className="text-secondary-author">{description ?? '-'}</p>

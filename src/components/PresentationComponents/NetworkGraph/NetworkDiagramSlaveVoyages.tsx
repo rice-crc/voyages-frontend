@@ -33,11 +33,12 @@ export const NetworkDiagramSlaveVoyages = ({
 
   const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
     try {
-      const formData: FormData = new FormData();
-      formData.append(nodeClass, String(nodeId));
+      const dataSend: { [key: string]: number[] } = {
+        [nodeClass]: [Number(nodeId)],
+      };
 
       const response = await dispatch(
-        fetchPastNetworksGraphApi(formData)
+        fetchPastNetworksGraphApi(dataSend)
       ).unwrap();
       if (response) {
         const newNodes = response.nodes.filter((newNode: Nodes) => {
@@ -67,13 +68,14 @@ export const NetworkDiagramSlaveVoyages = ({
 
   useEffect(() => {
     let subscribed = true;
-    const formData: FormData = new FormData();
-    formData.append(networkKEY, String(networkID));
+    const dataSend: { [key: string]: number[] } = {
+      [networkKEY]: [Number(networkID)],
+    };
     const fetchPastNetworksGraph = async () => {
       setIsLoading(true);
       try {
         const response = await dispatch(
-          fetchPastNetworksGraphApi(formData)
+          fetchPastNetworksGraphApi(dataSend)
         ).unwrap();
         if (response && subscribed) {
           setIsLoading(false);

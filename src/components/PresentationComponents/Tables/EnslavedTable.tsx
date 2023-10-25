@@ -151,16 +151,18 @@ const EnslavedTable: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const newFormData: FormData = new FormData();
-      newFormData.append('results_page', String(page + 1));
-      newFormData.append('results_per_page', String(rowsPerPage));
+      const dataSend: { [key: string]: (string | number)[] } = {};
+
+      dataSend['results_page'] = [page + 1];
+      dataSend['results_per_page'] = [rowsPerPage];
+
       if (inputSearchValue) {
-        newFormData.append('global_search', String(inputSearchValue));
+        dataSend['global_search'] = [String(inputSearchValue)];
       }
       if (rang[varName] && currentEnslavedPage === 2) {
         for (const rangKey in rang) {
-          newFormData.append(rangKey, String(rang[rangKey][0]));
-          newFormData.append(rangKey, String(rang[rangKey][1]));
+          dataSend[rangKey] = [rang[rangKey][0]];
+          dataSend[rangKey] = [rang[rangKey][1]];
         }
       }
 
@@ -169,7 +171,7 @@ const EnslavedTable: React.FC = () => {
           for (const autoCompleteOption of autoCompleteValue[autoKey]) {
             if (typeof autoCompleteOption !== 'string') {
               const { label } = autoCompleteOption;
-              newFormData.append(autoKey, label);
+              dataSend[autoKey] = [label];
             }
           }
         }
@@ -177,21 +179,21 @@ const EnslavedTable: React.FC = () => {
 
       if (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved) {
         for (const value of dataSetValuePeople) {
-          newFormData.append(dataSetKeyPeople, String(value));
+          dataSend[dataSetKeyPeople] = [String(value)];
         }
       }
 
       if (isChangeGeoTree && varName && geoTreeValue) {
         for (const keyValue in geoTreeValue) {
           for (const keyGeoValue of geoTreeValue[keyValue]) {
-            newFormData.append(keyValue, String(keyGeoValue));
+            dataSend[keyValue] = [String(keyGeoValue)];
           }
         }
       }
 
       try {
         const response = await dispatch(
-          fetchEnslavedOptionsList(newFormData)
+          fetchEnslavedOptionsList(dataSend)
         ).unwrap();
         if (response) {
           setTotalResultsCount(Number(response.headers.total_results_count));

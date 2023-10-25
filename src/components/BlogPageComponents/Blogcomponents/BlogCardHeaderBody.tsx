@@ -16,6 +16,7 @@ import { Link, useParams } from 'react-router-dom';
 import { BASEURL } from '@/share/AUTH_BASEURL';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import { convertToSlug } from '@/utils/functions/convertToSlug';
+import defaultImage from '@/assets/no-imge-default.avif';
 
 const BlogCardHeaderBody = () => {
   const { ID } = useParams();
@@ -30,11 +31,11 @@ const BlogCardHeaderBody = () => {
   useEffect(() => {
     let subscribed = true;
     const fetchDataBlog = async () => {
-      const newFormData: FormData = new FormData();
-      newFormData.append('id', String(ID));
-      newFormData.append('id', String(ID));
+      const dataSend: { [key: string]: (string | number)[] } = {
+        id: [parseInt(ID!)],
+      };
       try {
-        const response = await dispatch(fetchBlogData(newFormData)).unwrap();
+        const response = await dispatch(fetchBlogData(dataSend)).unwrap();
         if (subscribed && response) {
           dispatch(setBlogPost(response?.[0]));
         }
@@ -74,39 +75,53 @@ const BlogCardHeaderBody = () => {
       <h3 className="subtitle">{subtitle ? subtitle : ''}</h3>
       <p className="card-text text-muted">{formattedDateTime}</p>
       {authors?.length > 0 &&
-        authors?.map((author, index) => (
-          <div className="media" key={`${author.id}-${index}`}>
-            <div
-              className="media-left media-top"
-              key={`${index}-${author.photo}`}
-            >
-              <Link
-                to={`/${BLOGPAGE}/author/${convertToSlug(author?.name)}/${
-                  author?.id
-                }/`}
+        authors?.map((author, index) => {
+          console.log('author', author);
+          return (
+            <div className="media" key={`${author.id}-${index}`}>
+              <div
+                className="media-left media-top"
+                key={`${index}-${author.photo || author.institution.image}`}
               >
-                <img
-                  className="rounded-circle"
-                  src={`${BASEURL}${author.photo}`}
-                  width="40"
-                  height="40"
-                />
-              </Link>
-            </div>
-            <div className="media-body" key={`${index}-${author.name}`}>
-              <h4 className="media-heading">
                 <Link
                   to={`/${BLOGPAGE}/author/${convertToSlug(author?.name)}/${
                     author?.id
                   }/`}
                 >
-                  {author.name}
+                  {author.photo ? (
+                    <img
+                      className="rounded-circle"
+                      src={`${BASEURL}${author.photo}`}
+                      width="40"
+                      height="40"
+                      alt="author"
+                    />
+                  ) : (
+                    <img
+                      className="rounded-circle"
+                      src={defaultImage}
+                      width="40"
+                      height="40"
+                      alt="author"
+                    />
+                  )}
                 </Link>
-              </h4>
-              {author.description}
+              </div>
+              <div className="media-body" key={`${index}-${author.name}`}>
+                <h4 className="media-heading">
+                  <Link
+                    to={`/${BLOGPAGE}/author/${convertToSlug(author?.name)}/${
+                      author?.id
+                    }/`}
+                  >
+                    {author.name}
+                  </Link>
+                </h4>
+                {author.description}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       <div className="tags-name-blog">
         {tags?.length > 0 &&
           tags?.map((tag, index) => (

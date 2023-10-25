@@ -3,8 +3,8 @@ import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 
 export const fetchPastEnslaversOptions = async () => {
     try {
-        const response = await axios.options(
-            `${BASEURL}/past/enslaver/?hierarchical=False`,
+        const response = await axios.get(
+            `${BASEURL}/common/schemas/?schema_name=Enslaver&hierarchical=False`,
             {
                 headers: { 'Authorization': AUTHTOKEN },
             }

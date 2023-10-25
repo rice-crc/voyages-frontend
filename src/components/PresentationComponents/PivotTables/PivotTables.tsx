@@ -148,23 +148,23 @@ const PivotTables = () => {
       cachename,
     } = pivotValueOptions;
     const fetchData = async () => {
-      const newFormData: FormData = new FormData();
+      const dataSend: { [key: string]: (string | number)[] } = {};
       for (const column of columnVars) {
-        newFormData.append('columns', column);
+        dataSend['columns'] = [column];
       }
-      newFormData.append('rows', row_vars);
-      newFormData.append('rows_label', rows_label);
-      newFormData.append('agg_fn', aggregation);
-      newFormData.append('value_field', cell_vars);
-      newFormData.append('cachename', cachename);
+      dataSend['rows'] = [row_vars];
+      dataSend['rows_label'] = [rows_label];
+      dataSend['agg_fn'] = [aggregation];
+      dataSend['value_field'] = [cell_vars];
+      dataSend['cachename'] = [cachename];
 
       if (inputSearchValue) {
-        newFormData.append('global_search', String(inputSearchValue));
+        dataSend['global_search'] = [String(inputSearchValue)];
       }
       if (isChange && rang && currentPage === 6) {
         for (const rangKey in rang) {
-          newFormData.append(rangKey, String(rang[rangKey][0]));
-          newFormData.append(rangKey, String(rang[rangKey][1]));
+          dataSend[rangKey] = [rang[rangKey][0]];
+          dataSend[rangKey] = [rang[rangKey][1]];
         }
       }
       if (autoCompleteValue && varName && currentPage === 6) {
@@ -172,8 +172,7 @@ const PivotTables = () => {
           for (const autoCompleteOption of autoCompleteValue[autoKey]) {
             if (typeof autoCompleteOption !== 'string') {
               const { label } = autoCompleteOption;
-
-              newFormData.append(autoKey, label);
+              dataSend[autoKey] = [label];
             }
           }
         }
@@ -182,21 +181,22 @@ const PivotTables = () => {
       if (isChangeGeoTree && varName && geoTreeValue && currentPage === 6) {
         for (const keyValue in geoTreeValue) {
           for (const keyGeoValue of geoTreeValue[keyValue]) {
-            newFormData.append(keyValue, String(keyGeoValue));
+            dataSend[keyValue] = [String(keyGeoValue)];
           }
         }
       }
 
       if (styleName !== TYPESOFDATASET.allVoyages) {
         for (const value of dataSetValue) {
-          newFormData.append(dataSetKey, String(value));
+          dataSend[dataSetKey] = [String(value)];
         }
       }
       setLoading(true);
       try {
         const response = await dispatch(
-          fetchPivotCrosstabsTables(newFormData)
+          fetchPivotCrosstabsTables(dataSend)
         ).unwrap();
+
         if (response && subscribed) {
           dispatch(setPivotTablColumnDefs(response.data.tablestructure));
           dispatch(setRowPivotTableData(response.data.data));

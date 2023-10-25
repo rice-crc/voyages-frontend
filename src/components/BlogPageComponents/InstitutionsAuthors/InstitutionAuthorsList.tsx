@@ -5,6 +5,7 @@ import { BASEURL } from '@/share/AUTH_BASEURL';
 import { Link } from 'react-router-dom';
 import '@/style/blogs.scss';
 import { BLOGPAGE } from '@/share/CONST_DATA';
+import defaultImage from '@/assets/no-imge-default.avif';
 
 const InstitutionAuthorsList: React.FC = () => {
   const { institutionList } = useSelector(
@@ -24,12 +25,21 @@ const InstitutionAuthorsList: React.FC = () => {
               <Link
                 to={`/${BLOGPAGE}/author/${institution.name}/${institution?.id}/`}
               >
-                <img
-                  className="rounded-circle"
-                  src={`${BASEURL}${institution.photo}`}
-                  width="64"
-                  height="64"
-                />
+                {institution.photo ? (
+                  <img
+                    className="rounded-circle"
+                    src={`${BASEURL}${institution.photo}`}
+                    width="64"
+                    height="64"
+                  />
+                ) : (
+                  <img
+                    className="rounded-circle"
+                    src={defaultImage}
+                    width="64"
+                    height="64"
+                  />
+                )}
               </Link>
             </div>
             <div className="media-body" key={`${index}-${institution.name}`}>
