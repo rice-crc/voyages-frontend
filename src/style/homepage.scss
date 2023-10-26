@@ -3,31 +3,45 @@
     @media only screen and (max-width: 374px) {
       @content;
     }
-  } @else if $size==1 {
+  }
+
+  @else if $size==1 {
     @media only screen and (min-width: 375px) and (max-width: 479px) {
       @content;
     }
-  } @else if $size==2 {
+  }
+
+  @else if $size==2 {
     @media only screen and (min-width: 480px) and (max-width: 575px) {
       @content;
     }
-  } @else if $size==3 {
+  }
+
+  @else if $size==3 {
     @media only screen and (min-width: 576px) and (max-width: 767px) {
       @content;
     }
-  } @else if $size==4 {
+  }
+
+  @else if $size==4 {
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       @content;
     }
-  } @else if $size==5 {
+  }
+
+  @else if $size==5 {
     @media only screen and (min-width: 992px) and (max-width: 1024px) {
       @content;
     }
-  } @else if $size==6 {
+  }
+
+  @else if $size==6 {
     @media only screen and (min-width: 1025px) and (max-width: 1366px) {
       @content;
     }
-  } @else if $size==7 {
+  }
+
+  @else if $size==7 {
     @media only screen and (max-width: 1440px) {
       @content;
     }
@@ -35,7 +49,7 @@
 }
 
 .video-background {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -46,7 +60,6 @@
 
 .video-background video {
   object-fit: cover;
-  /* Ensure the video covers the entire container */
   width: 100%;
   height: 100%;
 }
@@ -54,14 +67,7 @@
 #home-voyagepage-container {
   margin: 0;
   padding: 0;
-  width: 100%;
-  height: 100vh;
-  background-repeat: no-repeat;
-  background-size: cover;
-  // background: url('../assets/Black\ and\ White\ Waves.svg') center / cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  // background-color: rgba(100, 159, 194, 0.35);
 
   @include breakpoint-standard(2) {
     display: inline-block;
@@ -72,7 +78,6 @@
   @include breakpoint-standard(1) {
     display: inline-block;
     text-align: center;
-    // height: auto;
   }
 
   @include breakpoint-standard(0) {
@@ -80,6 +85,15 @@
     text-align: center;
     height: auto;
   }
+}
+
+.centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 98vh;
+  position: relative;
+  z-index: 1;
 }
 
 .home-voyagepage-content {
@@ -182,6 +196,7 @@
   margin-top: 5px;
   font-size: 22px;
   text-shadow: 1px 1px 1px #000;
+
   @include breakpoint-standard(7) {
     font-size: 20px;
   }
@@ -344,17 +359,17 @@
 
   @include breakpoint-standard(2) {
     padding: 0;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   @include breakpoint-standard(1) {
     padding: 0;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   @include breakpoint-standard(0) {
     padding: 0;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -364,6 +379,7 @@
   font-family: 'Helvetica Neue';
   text-transform: uppercase;
   text-shadow: 1px 1px 1px #000;
+
   @include breakpoint-standard(5) {
     font-size: 20px;
   }
@@ -398,7 +414,8 @@
   font-size: 16px;
   font-weight: normal;
   font-family: 'Helvetica Neue';
- text-shadow: 1px 1px 1px #000000;
+  text-shadow: 1px 1px 1px #000000;
+
   @include breakpoint-standard(5) {
     font-size: 14px;
   }
@@ -430,6 +447,7 @@
   cursor: pointer;
   color: #ffffff;
   text-shadow: 1px 1px 1px #000;
+
   @include breakpoint-standard(1) {
     img {
       width: 60%;
@@ -505,6 +523,10 @@
   align-items: center;
   text-align: center;
 
+  a {
+    text-decoration: none;
+  }
+
   @include breakpoint-standard(1) {
     margin: 2rem 0;
   }
@@ -542,20 +564,24 @@
     border-radius: 3px;
     color: white;
     padding: 0 0.5rem 0 0.35rem;
+
     span {
       margin-left: 4px;
     }
   }
 }
+
 .global-search-button {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 5px 0;
+
   .global-search-text {
     color: black;
     font-size: 15px;
   }
+
   .global-search-exit {
     margin-left: 9px;
     border-radius: 8px;
@@ -567,16 +593,112 @@
     cursor: pointer;
     box-shadow: 1px 2px 8px rgb(11 196 181);
     background-color: rgb(55 163 154);
-    > svg {
+
+    >svg {
       font-size: 16px;
     }
   }
 }
 
-.no-data-icon{
+.no-data-icon {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 45vh;
+}
+
+
+
+.backToTopBtn {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+
+  .btn {
+    width: 150px;
+    border-radius: 8px;
+    border: 1px solid #000000;
+    box-shadow: 1px 1px 1px gray;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+  }
+}
+
+// Footer
+.logo-grid-container {
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 0 0;
+  background-color: #BBC2CB;
+}
+
+.logo-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.logo-grid-item {
+  width: 220px;
+  height: 100px;
+  padding: 0 20px;
+  align-items: center;
+  display: flex;
+}
+
+.card-img {
+  width: 100%;
+  border-radius: calc(0.25rem - 1px);
+}
+
+.logo-grid-container:last-child {
+  padding: 2.5rem 0;
+}
+
+
+
+.footer-container {
+  background-color: #5d7b8a;
+}
+
+
+.footer-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 4rem;
+  color: #efefef;
+
+}
+
+.footer-copyrights {
+  margin: 1rem 0;
+}
+
+.copyright {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Proxima Nova", "Helvetica", "Arial", sans-serif !important
+}
+
+.grey {
+  color: #ececec;
+  text-decoration: none;
+}
+
+.link {
+  font-weight: bold;
+  transition: ease 0.3s;
+  text-decoration: none;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.footer-logo {
+  margin: 1rem 0;
+  font-size: 1.15rem;
+  font-weight: 900;
 }

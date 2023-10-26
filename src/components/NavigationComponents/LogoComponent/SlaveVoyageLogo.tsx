@@ -12,8 +12,7 @@ const SlaveVoyageLogo = () => {
           <img src={voyageText} alt="voyageText" />
         </div>
         <div className="voyage-description">
-          Explore the origins and forced relocations of more than 12 million
-          Enslaved Africans across the world
+          Explore the voyages that relocated more than 12 million enslaved Africans across the world
         </div>
       </div>
     </div>

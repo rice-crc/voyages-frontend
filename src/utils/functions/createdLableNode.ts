@@ -55,8 +55,8 @@ export const createdLableNodeHover = (node: Nodes) => {
 
 export const createdLableEdges = (edge: Edges) => {
     let LableNode = ''
-    if (edge?.data?.role__name) {
-        LableNode = edge.data.role__name
+    if (edge?.data?.role_name) {
+        LableNode = edge.data.role_name
         return LableNode;
     } else {
         return LableNode;
@@ -66,10 +66,10 @@ export const createdLableEdges = (edge: Edges) => {
 
 export const createSrokeColor = (edge: Edges) => {
     let colorStork = '#aaa'
-    if (edge?.data?.role__name) {
-        if (edge?.data?.role__name === 'Captain') {
+    if (edge?.data?.role_name) {
+        if (edge?.data?.role_name === 'Captain') {
             colorStork = 'rgb(55, 163, 154)'
-        } else if (edge?.data?.role__name === 'Owner') {
+        } else if (edge?.data?.role_name === 'Owner') {
             colorStork = '#556cd6'
         } else {
             return colorStork;

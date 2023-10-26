@@ -17,7 +17,6 @@ export default defineConfig(() => ({
   css: {
     modules: false as false | undefined,
     preprocessorOptions: {
-      // Add any preprocessor options if necessary
     },
   },
   test: {
