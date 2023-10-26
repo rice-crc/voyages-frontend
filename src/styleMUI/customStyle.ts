@@ -13,3 +13,12 @@ export const styleCard: CSSProperties = {
   fontSize: '13px',
   cursor: 'pointer',
 };
+export const contentStyle: React.CSSProperties = {
+  height: '200px',
+  color: '#fff',
+  lineHeight: '160px',
+  textAlign: 'center',
+  background: '#364d79',
+  width: '30%',
+  margin: '2%'
+};

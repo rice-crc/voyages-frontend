@@ -118,6 +118,7 @@ export const LeafletMap = () => {
 
   const fetchData = async (regionOrPlace: string) => {
     const dataSend: { [key: string]: (string | number)[] } = {};
+
     dataSend['zoomlevel'] = [regionOrPlace];
     if (styleName !== TYPESOFDATASET.allVoyages) {
       for (const value of dataSetValue) {
@@ -287,7 +288,7 @@ export const LeafletMap = () => {
         setLoading(false);
         fetchData(PLACE);
         hasFetchedPlaceRef.current = true;
-      }, 4000);
+      }, 3000);
     }
 
     return () => {
@@ -298,23 +299,14 @@ export const LeafletMap = () => {
   }, [hasFetchedRegion]);
 
   const map = useMap();
-  const oceanic_edges_holding_layer_group = L.layerGroup();
-  const oceanic_main_edges_layer_group = L.layerGroup();
-  const oceanic_animation_edges_layer_group = L.layerGroup();
-  const endpoint_main_edges_layer_group = L.layerGroup();
-  const endpoint_animation_edges_layer_group = L.layerGroup();
+  map.on('zoomend', () => {
+    const newZoomLevel = map.getZoom();
+  
+    setZoomLevel(newZoomLevel);
+    // Update your data based on the new zoom level here
+    fetchData(regionPlace);
+  });
 
-  useEffect(() => {
-    if (map) {
-      oceanic_edges_holding_layer_group.addTo(map);
-      oceanic_main_edges_layer_group.addTo(oceanic_edges_holding_layer_group);
-      oceanic_animation_edges_layer_group.addTo(
-        oceanic_edges_holding_layer_group
-      );
-      endpoint_main_edges_layer_group.addTo(map);
-      endpoint_animation_edges_layer_group.addTo(map);
-    }
-  }, []);
 
   const backgroundColor = styleNamePeople ? styleNamePeople : styleName;
   return (
