@@ -20,10 +20,15 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
-
+  const { currentPageBlockName } = useSelector(
+    (state: RootState) => state.getScrollEnslavedPage
+  );
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
+  );
+  const { varName } = useSelector(
+    (state: RootState) => state.rangeSlider
   );
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
@@ -32,13 +37,14 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
   };
-  const onClickReset = () => {
+  const onClickResetOnHeader = () => {
     dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
   };
+
   return (
     <Box
       sx={{
@@ -67,7 +73,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
               textHeader={''}
               HeaderTitle={EnslaversTitle}
               pathLink={PASTHOMEPAGE}
-              onClickReset={onClickReset}
+              onClickReset={onClickResetOnHeader}
             />
             <Divider
               sx={{
@@ -96,10 +102,19 @@ const HeaderEnslavedNavBar: React.FC = () => {
               {inputSearchValue ? (
                 <GlobalSearchButton />
               ) : (
-                <FilterButton
-                  pathName={ALLENSLAVERS}
-                  currentPage={currentEnslaversPage}
-                />
+
+                <span className='reset-filter'>
+                  <FilterButton
+                    pathName={ALLENSLAVERS}
+                    currentPage={currentEnslaversPage}
+                  />
+                  {(varName !== '') && (
+                    <div className="btn-navbar-reset-all" onClick={onClickResetOnHeader}>
+                      <i aria-hidden="true" className="fa fa-times"></i>
+                      <span>Reset all</span>
+                    </div>
+                  )}
+                </span>
               )}
             </Typography>
           </Typography>

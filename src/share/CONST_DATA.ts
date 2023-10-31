@@ -58,10 +58,16 @@ export const ENSLAVERSTYPE = 'enslavers'
 export const BLOGTYPE = 'blog'
 export const REGION = 'region'
 export const PLACE = 'place'
-
+export const ORIGINLanguageGroupKEY = 'language_group__name'
+export const postDisembarkLocationKEY = 'post_disembark_location__geo_location__name'
+export const ORIGINATIONNODE = 'origination'
+export const DISPOSTIONNODE = 'disposition'
 export const minRadiusInPixels = 3;
 export const maxRadiusInPixels = 20;
 export const maxRadiusInPixelsNode = 15;
+
+export const nodeTypeOrigin = 'origin'
+export const nodeTypePostDisembarkation = 'postDisembarkation'
 
 // Network Graph Node Type
 export const ENSLAVEDNODE = 'enslaved'

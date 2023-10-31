@@ -1,0 +1,96 @@
+import { EdgesAggroutes, NodeAggroutes } from '@/share/InterfaceTypesMap';
+import { getEdgesSize } from '@/utils/functions/getNodeSize';
+import L from 'leaflet';
+import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
+import { nodeTypeOrigin, nodeTypePostDisembarkation } from '@/share/CONST_DATA';
+import { getCoordinatesLatLng } from './getCoordinatesLatLng';
+import { renderEdgeClusterNodeOnMap } from './renderEdgeClusterNodeOnMap';
+import { TooltipHoverTableOnNode } from './TooltipHoverTableOnNode';
+import { createRoot } from 'react-dom/client';
+import ReactDOMServer from 'react-dom/server';
+
+
+export function handleHoverMarkerCluster(
+  event: L.LeafletEvent,
+  hiddenEdgesLayer: L.LayerGroup<any>,
+  hiddenEdges: EdgesAggroutes[],
+  nodesData: NodeAggroutes[],
+  nodeType: string,
+  handleSetClusterKeyValue: (value: string, nodeType: string) => void
+) {
+
+  hiddenEdgesLayer.clearLayers();
+  const nodeLogValueScale = createLogValueScale(nodesData);
+  const clusterLatLon = event.layer.getLatLng();
+  const clusterChildMarkers = event.layer.getAllChildMarkers();
+  const targetNodeMap = new Map<string, [NodeAggroutes, EdgesAggroutes]>();
+
+  const nodeIdsClusters = clusterChildMarkers.map(
+    (childMarker: any) => childMarker.nodeId
+  );
+
+  // Find nodeClusters Children to get data to draw edges source to target
+  nodeIdsClusters.forEach((childNodeId: string) => {
+    hiddenEdges
+      .filter((edge) => {
+        if (nodeType === nodeTypeOrigin) {
+          return edge.source === childNodeId;
+        } else if (nodeType === nodeTypePostDisembarkation) {
+          return edge.target === childNodeId;
+        }
+        return false;
+      })
+      .forEach((edge) => {
+        const nodes = nodesData.filter((node) => {
+          if (nodeType === nodeTypeOrigin) {
+            return node.id === edge.target;
+          } else if (nodeType === nodeTypePostDisembarkation) {
+            return node.id === edge.source;
+          }
+          return false;
+        });
+        for (const node of nodes) {
+          targetNodeMap.set(node.id, [node, edge]);
+        }
+      });
+  });
+
+  for (const [, [node, edge]] of targetNodeMap) {
+    const { lat: clusterLat, lng: clusterLng } = clusterLatLon;
+    const { lat: nodeLat, lon: nodeLng } = node.data;
+    const size = getEdgesSize(edge);
+    const weightEdges = size !== null ? nodeLogValueScale(size) / 1.4 : 0;
+
+    const [coordinatesStart, coordinatesEnd] = getCoordinatesLatLng(nodeType, clusterLat, clusterLng, nodeLat!, nodeLng!);
+
+    renderEdgeClusterNodeOnMap(hiddenEdgesLayer, edge, node, coordinatesStart, coordinatesEnd, weightEdges, nodeType);
+
+  }
+
+  // ==== Render table pop up 
+  const childNodesData: NodeAggroutes[] = [];
+
+  clusterChildMarkers.forEach((childMarker: any) => {
+    const childNode = nodesData.find((node) => node.id === childMarker.nodeId);
+    if (childNode) {
+      childNodesData.push(childNode);
+    }
+  });
+
+  const popupContainer = document.createElement('center');
+
+  popupContainer.className = 'tablePopup'
+  popupContainer.style.width = '300px'
+  const popupRoot = createRoot(popupContainer);
+
+  popupRoot.render(
+    <TooltipHoverTableOnNode
+      childNodesData={childNodesData}
+      nodeType={nodeType}
+      handleSetClusterKeyValue={handleSetClusterKeyValue}
+    />
+  );
+
+  event.layer.bindPopup(popupContainer).openPopup();
+
+}

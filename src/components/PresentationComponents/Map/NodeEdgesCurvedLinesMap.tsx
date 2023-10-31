@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
+import ReactDOM from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
 import L, { LatLngExpression, Marker } from 'leaflet';
+import '@/style/table-popup.scss';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet/dist/leaflet.css';
@@ -9,27 +12,46 @@ import '@johnconnor_mulligan/leaflet.curve';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import {
-  EdgesAggroutes,
   CustomMarker,
+  EdgesAggroutes,
   LatLng,
+  NodeAggroutes,
 } from '@/share/InterfaceTypesMap';
 import { getEdgesSize, getNodeSize } from '@/utils/functions/getNodeSize';
 import '@/style/map.scss';
 import renderEdgesAnimatedLinesOnMap from './renderEdgesAnimatedLinesOnMap';
 import renderEdgesLinesOnMap from './renderEdgesLinesOnMap';
 import { createNodeDict } from '@/utils/functions/createNodeDict';
-import { handleHoverOriginMarkerCluster } from './handleHoverOriginMarkerCluster';
-import { handleHoverPostDisembarkationsMarkerCluster } from './handleHoverPostDisembarkationsMarkerCluster';
 import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
 import { handleHoverCircleMarker } from './handleHoverCircleMarker';
+import { handleHoverMarkerCluster } from './handleHoverMarkerCluster';
+import { DISPOSTIONNODE, ORIGINATIONNODE, ORIGINLanguageGroupKEY, nodeTypeOrigin, nodeTypePostDisembarkation, postDisembarkLocationKEY } from '@/share/CONST_DATA';
+import { TooltipHoverTableOnNode } from './TooltipHoverTableOnNode';
+import { setClusterNodeKeyVariable, setClusterNodeValue } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
+import { AppDispatch } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { createRoot } from 'react-dom/client';
+
 
 const NodeEdgesCurvedLinesMap = () => {
   const map = useMap();
+  const dispatch: AppDispatch = useDispatch();
 
-  const { nodesData, edgesData } = useSelector(
+  const { nodesData, edgesData, } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
 
+  const handleSetClusterKeyValue = (value: string, nodeType: string) => {
+
+    if (nodeType === nodeTypeOrigin) {
+      dispatch(setClusterNodeKeyVariable(ORIGINLanguageGroupKEY))
+      dispatch(setClusterNodeValue(value))
+    } else if (nodeType === nodeTypePostDisembarkation) {
+      dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY))
+      dispatch(setClusterNodeValue(value))
+    }
+
+  }
   const updateEdgesAndNodes = () => {
     const hiddenEdgesLayer = L.layerGroup();
     map.eachLayer((layer) => {
@@ -43,23 +65,27 @@ const NodeEdgesCurvedLinesMap = () => {
       }
     });
     const nodeLogValueScale = createLogValueScale(nodesData);
+
     const hiddenEdges = edgesData.filter(
-      (edge) => edge.type === 'origination' || edge.type === 'disposition'
+      (edge: EdgesAggroutes) => edge.type === ORIGINATIONNODE || edge.type === DISPOSTIONNODE
     );
 
     const edgesToRender = edgesData.filter(
-      (edge) => edge.type !== 'origination' && edge.type !== 'disposition'
+      (edge: EdgesAggroutes) => edge.type !== ORIGINATIONNODE && edge.type !== DISPOSTIONNODE
     );
 
     const nodesDict = createNodeDict(nodesData);
 
-    edgesToRender.forEach((edge: EdgesAggroutes) => {
+
+    // Render purple edges when page rendering
+    edgesToRender.forEach((edge) => {
+
       const { controls, weight, type } = edge;
       const source = nodesDict[edge?.source || 0.15];
       const target = nodesDict[edge?.target || 0.2];
 
       const size = getEdgesSize(edge);
-      const weightEddg = size !== null ? nodeLogValueScale(size) / 4 : 0;
+      const weightEddg = size !== null ? nodeLogValueScale(size) / 3 : 0;
 
       if (source && target && weight) {
         const startLatLng: LatLng = [source[0], source[1]];
@@ -80,6 +106,23 @@ const NodeEdgesCurvedLinesMap = () => {
         if (curveAnimated && curveLine) {
           curveLine.addTo(map);
           curveAnimated.addTo(map);
+
+          const tooltipContent = `${weight} people transported`;
+          const tooltip = L.tooltip({
+            direction: 'top',
+            permanent: false,
+            opacity: 0.90,
+          }).setContent(tooltipContent);
+
+          curveLine.bindTooltip(tooltip);
+          curveLine.on('mouseover', (e) => {
+            curveLine.openTooltip();
+            tooltip.setLatLng(e.latlng);
+          });
+
+          curveLine.on('mouseout', () => {
+            curveLine.closeTooltip();
+          });
         }
       }
     });
@@ -116,11 +159,13 @@ const NodeEdgesCurvedLinesMap = () => {
         });
       },
     }).on('clustermouseover', async (event) => {
-      handleHoverOriginMarkerCluster(
+      handleHoverMarkerCluster(
         event,
         hiddenEdgesLayer,
         hiddenEdges,
-        nodesData
+        nodesData,
+        nodeTypeOrigin,
+        handleSetClusterKeyValue
       );
     });
 
@@ -139,6 +184,7 @@ const NodeEdgesCurvedLinesMap = () => {
         } else {
           c += 'small';
         }
+
         const backgroundColor = 'rgb(246,193,60)';
         const borderColor = 'black';
         const opacity = 1.5;
@@ -156,13 +202,18 @@ const NodeEdgesCurvedLinesMap = () => {
         });
       },
     }).on('clustermouseover', (event) => {
-      handleHoverPostDisembarkationsMarkerCluster(
+      handleHoverMarkerCluster(
         event,
         hiddenEdgesLayer,
-        edgesData,
-        nodesData
+        hiddenEdges,
+        nodesData,
+        nodeTypePostDisembarkation,
+        handleSetClusterKeyValue
       );
+
     });
+
+
 
     const originNodeMarkersMap = new Map<string, Marker>();
 
@@ -185,15 +236,12 @@ const NodeEdgesCurvedLinesMap = () => {
         const circleMarker = new CustomMarker(
           latlon,
           radius,
-          radius === 0 ? 'transparent' : '#000',
+          radius === 0 ? 'transparent' : '#000000',
           radius === 0 ? 'transparent' : nodeColor,
           0.8,
           nodeID
         );
         const originMarker = L.marker(latlon);
-
-        const popupContent = `<p>${name}</p>`;
-        circleMarker.bindPopup(popupContent);
         circleMarker.on('mousemove', (event) => {
           handleHoverCircleMarker(
             event,
@@ -203,6 +251,19 @@ const NodeEdgesCurvedLinesMap = () => {
             originNodeMarkersMap,
             originMarkerCluster
           );
+
+          const popupContainer = document.createElement('center');
+          popupContainer.className = 'tablePopup'
+          popupContainer.style.width = '300px'
+          const popupRoot = createRoot(popupContainer);
+          popupRoot.render(
+            <TooltipHoverTableOnNode
+              childNodesData={[]}
+              nodeType={''}
+              handleSetClusterKeyValue={handleSetClusterKeyValue}
+            />
+          );
+          event.target.bindPopup(popupContainer).openPopup();
         });
 
         if (disembarkation !== 0 || embarkation !== 0) {
@@ -212,15 +273,14 @@ const NodeEdgesCurvedLinesMap = () => {
           originMarkerCluster.addLayer(circleMarker);
           originMarkerCluster.addLayer(originMarker);
         } else if (
-          Number(postDisembarkation) &&
-          Number(postDisembarkation) > 0 &&
-          disembarkation === 0 &&
-          embarkation === 0
+          (Number(postDisembarkation) && Number(postDisembarkation) > 0) &&
+          (disembarkation === 0 && embarkation === 0)
         ) {
           postDisembarkationsMarkerCluster.addLayer(circleMarker);
         }
       }
     });
+
 
     if (map) {
       map.addLayer(originMarkerCluster);
@@ -238,4 +298,8 @@ const NodeEdgesCurvedLinesMap = () => {
   return null;
 };
 
+
+
+
 export default NodeEdgesCurvedLinesMap;
+

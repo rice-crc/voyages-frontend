@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchRangeSliderData = createAsyncThunk(
     'rangeSlider/fetchRangeData',
-    async (dataSend?: { [key: string]: string[] }) => {
+    async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/voyage/aggregations`,

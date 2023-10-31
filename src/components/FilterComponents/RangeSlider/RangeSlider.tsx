@@ -49,7 +49,7 @@ const RangeSlider = () => {
     let subscribed = true;
 
     const fetchRangeSlider = async () => {
-      const dataSend: { [key: string]: string[] } = {
+      const dataSend: { [key: string]: (string | number)[] } = {
         aggregate_fields: [varName],
       };
 

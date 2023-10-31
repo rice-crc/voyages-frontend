@@ -1,0 +1,27 @@
+.tablePopup {
+    table {
+        font-size: 12px;
+        border-collapse: collapse;
+        font-weight: 500;
+    }
+
+
+    .lgmaptable td {
+        padding: 2px;
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    .leaflet-popup-content {
+        line-height: 1.3;
+    }
+}
+
+.leaflet-container a {
+    color: #0078A8;
+    text-decoration: none;
+}
+
+.embarkations-type {
+    text-align: left;
+}

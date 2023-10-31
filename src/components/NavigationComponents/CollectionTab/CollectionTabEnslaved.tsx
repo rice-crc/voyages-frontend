@@ -1,6 +1,6 @@
 import { Hidden } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
+import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { ButtonNav } from '@/styleMUI';
 import {
@@ -11,8 +11,10 @@ import '@/style/page.scss';
 import { setPathName } from '@/redux/getDataPathNameSlice';
 import { ALLENSLAVED } from '@/share/CONST_DATA';
 import { setIsFilter } from '@/redux/getFilterSlice';
+import { useNavigate } from 'react-router-dom';
 
 const CollectionTabEnslaved = () => {
+  const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { styleNamePeople, blocksPeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
@@ -21,14 +23,16 @@ const CollectionTabEnslaved = () => {
     (state: RootState) => state.getScrollEnslavedPage
   );
 
-  const handlePageNavigation = (page: number) => {
+  const handlePageNavigation = (page: number, blockName: string) => {
     if (page === 1) {
       dispatch(setIsFilter(false));
     }
     dispatch(setCurrentEnslavedPage(page));
+    dispatch(setCurrentBlockName(blockName))
     if (page === 2) {
       dispatch(setPathName(ALLENSLAVED));
     }
+    navigate(`#${(blockName).toLowerCase()}`)
   };
 
   return (
@@ -40,7 +44,7 @@ const CollectionTabEnslaved = () => {
             return (
               <ButtonNav
                 key={`${page}-${buttonIndex}`}
-                onClick={() => handlePageNavigation(buttonIndex)}
+                onClick={() => handlePageNavigation(buttonIndex, page.toLowerCase())}
                 className="nav-button-page"
                 style={{
                   backgroundColor:

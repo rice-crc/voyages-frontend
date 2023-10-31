@@ -6,9 +6,10 @@ import { setPathName } from '@/redux/getDataPathNameSlice';
 
 interface FilterButtonProps {
   pathName: string;
-  currentPage: number;
+  currentPageBlockName?: string
+  currentPage?: number;
 }
-export const FilterButton = ({ pathName, currentPage }: FilterButtonProps) => {
+export const FilterButton = ({ pathName, currentPageBlockName, currentPage }: FilterButtonProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const handleClick = () => {
@@ -17,7 +18,7 @@ export const FilterButton = ({ pathName, currentPage }: FilterButtonProps) => {
   };
 
   return (
-    currentPage !== 1 && (
+    currentPageBlockName !== 'intro' && currentPage !== 1 && (
       <span
         style={{ cursor: 'pointer', display: 'flex' }}
         onClick={handleClick}

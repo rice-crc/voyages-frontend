@@ -282,37 +282,35 @@
   @include breakpoint-standard(4) {
     display: inline-block;
     padding-right: 5rem;
-    top: 13%;
-    ;
+    top: 20%;
     height: 0;
   }
 
   @include breakpoint-standard(3) {
     display: inline-block;
     padding-right: 30px;
-    top: 13%;
-    ;
+    top: 20%;
     height: 0;
   }
 
   @include breakpoint-standard(2) {
     display: inline-block;
     padding-right: 30px;
-    top: 13%;
+    top: 20%;
     height: 0;
   }
 
   @include breakpoint-standard(1.1) {
     display: inline-block;
     padding-right: 30px;
-    top: 13%;
+    top: 20%;
     height: 0;
   }
 
   @include breakpoint-standard(1) {
     display: inline-block;
     padding-right: 30px;
-    top: 13%;
+    top: 20%;
     height: 0;
   }
 }
@@ -414,7 +412,7 @@
   justify-content: center;
   align-items: center;
   padding: 3%;
-  font-size: 26px;
+  font-size: 24px;
   font-family: Roboto, Helvetica, Arial, sans-serif;
 
   @include breakpoint-standard(0) {
@@ -461,7 +459,7 @@
 
   @include breakpoint-standard(6) {
     padding: 3%;
-    font-size: 26px;
+    font-size: 24px;
     margin-top: 10%;
   }
 }

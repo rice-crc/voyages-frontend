@@ -1,11 +1,11 @@
 import HeaderEnslavedNavBar from '@/components/NavigationComponents/Header/HeaderEnslavedNavBar';
 import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import '@/style/page-past.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import { createTopPositionEnslavedPage } from '@/utils/functions/createTopPositionEnslavedPage';
 import EnslavedTable from '@/components/PresentationComponents/Tables/EnslavedTable';
 import {
@@ -15,13 +15,55 @@ import {
 import CollectionTabEnslaved from '@/components/NavigationComponents/CollectionTab/CollectionTabEnslaved';
 import EnslavedMap from '@/components/PresentationComponents/Map/MAPS';
 import EnslavedIntro from '@/components/PresentationComponents/Intro/EnslavedIntro';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setBaseFilterPeopleEnslavedDataKey, setBaseFilterPeopleEnslavedDataValue, setPeopleEnslavedBlocksMenuList, setPeopleEnslavedStyleName } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
+import { AFRICANORIGINS, ALLENSLAVED, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
+import { convertToSlug } from '@/utils/functions/convertToSlug';
+
 
 const EnslavedPage: React.FC = () => {
-  const { isFilter } = useSelector((state: RootState) => state.getFilter);
+  const { styleName, currentBlockName } = usePageRouter();
 
-  const { currentEnslavedPage } = useSelector(
+  const { isFilter } = useSelector((state: RootState) => state.getFilter);
+  const { currentEnslavedPage, currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
+  const { blocksPeople } = useSelector(
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
+  );
+
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    if (styleName) {
+      dispatch(setPeopleEnslavedStyleName(styleName));
+    }
+
+    if (currentBlockName === 'intro') {
+      dispatch(setCurrentEnslavedPage(1));
+      dispatch(setCurrentBlockName(currentBlockName))
+    } else if (currentBlockName === 'table') {
+      dispatch(setCurrentEnslavedPage(2));
+      dispatch(setCurrentBlockName(currentBlockName))
+    } else if (currentBlockName === 'map') {
+      dispatch(setCurrentEnslavedPage(3));
+      dispatch(setCurrentBlockName(currentBlockName))
+      dispatch(
+        setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks)
+      );
+    }
+    if (currentBlockName === 'table' && styleName === AFRICANORIGINS) {
+      dispatch(setBaseFilterPeopleEnslavedDataKey(jsonDataPEOPLECOLLECTIONS[1].base_filter[0].var_name));
+      dispatch(setBaseFilterPeopleEnslavedDataValue(jsonDataPEOPLECOLLECTIONS[1].base_filter[0].value));
+    } else if (currentBlockName === 'table' && styleName === ENSLAVEDTEXAS) {
+      dispatch(setBaseFilterPeopleEnslavedDataKey(jsonDataPEOPLECOLLECTIONS[2].base_filter[0].var_name));
+      dispatch(setBaseFilterPeopleEnslavedDataValue(jsonDataPEOPLECOLLECTIONS[2].base_filter[0].value));
+    }
+  }, [styleName, currentBlockName, currentEnslavedPage, currentPageBlockName]);
+
+
+
   const displayPage = (
     <motion.div
       initial={'initial'}
@@ -33,9 +75,9 @@ const EnslavedPage: React.FC = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentEnslavedPage === 1 && <EnslavedIntro />}
-      {currentEnslavedPage === 2 && <EnslavedTable />}
-      {currentEnslavedPage === 3 && <EnslavedMap />}
+      {currentEnslavedPage === 1 && currentPageBlockName === 'intro' && <EnslavedIntro />}
+      {currentEnslavedPage === 2 && currentPageBlockName === 'table' && <EnslavedTable />}
+      {currentEnslavedPage === 3 && currentPageBlockName === 'map' && <EnslavedMap />}
     </motion.div>
   );
 
@@ -48,11 +90,11 @@ const EnslavedPage: React.FC = () => {
       <HeaderLogoSearch />
       <HeaderEnslavedNavBar />
       <div
-        className={currentEnslavedPage === 2 ? 'table-presentation' : ''}
+        className={currentPageBlockName === 'table' ? 'table-presentation' : ''}
         style={{
           position: 'relative',
           top: topPosition,
-          padding: currentEnslavedPage !== 1 ? '0 20px' : '',
+          padding: currentPageBlockName !== 'intro' ? '0 20px' : '',
         }}
         id="content-container"
       >

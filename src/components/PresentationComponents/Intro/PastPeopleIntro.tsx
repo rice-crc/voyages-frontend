@@ -4,10 +4,11 @@ import PEOPLE from '@/utils/flatfiles/people_page_data.json';
 import '@/style/page-past.scss';
 import { Link } from 'react-router-dom';
 import { setPathName } from '@/redux/getDataPathNameSlice';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   ALLENSLAVED,
+  ALLENSLAVEDPAGE,
   ALLENSLAVERS,
   ENSALVEDPAGE,
   ENSALVERSPAGE,
@@ -21,7 +22,9 @@ const PastPeopleIntro = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const dispatch: AppDispatch = useDispatch();
-
+  const { currentPageBlockName } = useSelector(
+    (state: RootState) => state.getScrollEnslavedPage
+  );
   return (
     <>
       <div className="page" id="main-page-past-home">
@@ -54,7 +57,8 @@ const PastPeopleIntro = () => {
               ))}
               <div className="btn-Enslaved-enslavers">
                 <Link
-                  to={`/${PASTHOMEPAGE}${ENSALVEDPAGE}`}
+                  // to={`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName}`}
+                  to={`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#intro`}
                   style={{ textDecoration: 'none' }}
                   onClick={() => {
                     dispatch(setCurrentEnslavedPage(1));
@@ -69,7 +73,7 @@ const PastPeopleIntro = () => {
                   <div className="enslaved-btn">Enslaved</div>
                 </Link>
                 <Link
-                  to={`/${PASTHOMEPAGE}${ENSALVERSPAGE}`}
+                  to={`/${PASTHOMEPAGE}${ENSALVERSPAGE}#intro`}
                   style={{ textDecoration: 'none' }}
                   onClick={() => {
                     dispatch(setCurrentEnslaversPage(1));

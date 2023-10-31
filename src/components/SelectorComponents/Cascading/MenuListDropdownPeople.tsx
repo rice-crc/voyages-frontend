@@ -102,13 +102,6 @@ export const MenuListDropdownPeople = () => {
     });
   };
 
-  const handleResetAll = () => {
-    dispatch(resetAll());
-    const keysToRemove = Object.keys(localStorage);
-    keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
-    });
-  };
 
   const renderDropdownMenu = (children?: ChildrenFilter[]) =>
     children?.map((childItem: ChildrenFilter, index: number) => {
@@ -235,12 +228,6 @@ export const MenuListDropdownPeople = () => {
             />
           );
         })}
-        {varName && (
-          <div className="btn-navbar-reset-all" onClick={handleResetAll}>
-            <i aria-hidden="true" className="fa fa-times"></i>
-            <span>Reset all</span>
-          </div>
-        )}
       </Box>
       <Dialog
         BackdropProps={{

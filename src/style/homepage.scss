@@ -557,18 +557,27 @@
   justify-content: space-between;
   align-items: center;
 
-  .btn-navbar-reset-all {
-    margin-left: 15px;
-    cursor: pointer;
-    border: 1px white solid;
-    border-radius: 3px;
-    color: white;
-    padding: 0 0.5rem 0 0.35rem;
 
-    span {
-      margin-left: 4px;
-    }
+}
+
+.btn-navbar-reset-all {
+  margin-left: 15px;
+  cursor: pointer;
+  border: 1px white solid;
+  border-radius: 3px;
+  color: white;
+  padding: 0 0.5rem 0 0.35rem;
+  font-size: 0.85rem;
+
+  span {
+    margin-left: 4px;
   }
+}
+
+.reset-filter {
+  display: flex;
+  align-items: center;
+  width: 20%;
 }
 
 .global-search-button {

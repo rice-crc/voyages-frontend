@@ -16,10 +16,11 @@ import {
   POPELETILET,
   PASTHOMEPAGE,
   EnslaversTitle,
+  ALLENSLAVEDPAGE,
 } from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 import { setPathName } from '@/redux/getDataPathNameSlice';
 import { resetAll } from '@/redux/resetAllSlice';
@@ -28,8 +29,10 @@ export default function HeaderPeopleNavBar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const dispatch: AppDispatch = useDispatch();
-  const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
-    useState<null | HTMLElement>(null);
+
+  const { currentPageBlockName } = useSelector(
+    (state: RootState) => state.getScrollEnslavedPage
+  );
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -48,11 +51,11 @@ export default function HeaderPeopleNavBar() {
     if (item === 'About') {
       navigate(`/${PASTHOMEPAGE}`);
     } else if (item === Enslaved) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}`);
+      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#intro`);
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setPathName(ALLENSLAVED));
     } else if (item === EnslaversTitle) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}`);
+      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}#intro`);
       dispatch(setCurrentEnslaversPage(1));
       dispatch(setPathName(ALLENSLAVERS));
     } else {

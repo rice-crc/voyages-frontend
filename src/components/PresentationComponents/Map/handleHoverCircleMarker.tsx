@@ -41,20 +41,21 @@ export function handleHoverCircleMarker(
     const originNode = originNodeMarkersMap.get(sourceNodeId);
     if (originNode) {
       const visibleParent = originMarkerCluster.getVisibleParent(originNode!);
+      if (visibleParent) {
+        const { lat: sourceLat, lng: sourceLng } = visibleParent!.getLatLng();
 
-      const { lat: sourceLat, lng: sourceLng } = visibleParent!.getLatLng();
+        const parentKeyLeaflet = [sourceLat, sourceLng].join();
 
-      const parentKeyLeaflet = [sourceLat, sourceLng].join();
-
-      if (!aggregatedEdges.has(parentKeyLeaflet)) {
-        const newAggregatedEdge: EdgesAggroutedSourceTarget = {
-          ...sourceEdge,
-          sourceLatlng: [sourceLat, sourceLng],
-          targetLatlng: [targetLat!, targetLng!],
-          controls: sourceEdge.controls,
-          weight: sourceEdge.weight,
-        };
-        aggregatedEdges.set(parentKeyLeaflet, newAggregatedEdge);
+        if (!aggregatedEdges.has(parentKeyLeaflet)) {
+          const newAggregatedEdge: EdgesAggroutedSourceTarget = {
+            ...sourceEdge,
+            sourceLatlng: [sourceLat, sourceLng],
+            targetLatlng: [targetLat!, targetLng!],
+            controls: sourceEdge.controls,
+            weight: sourceEdge.weight,
+          };
+          aggregatedEdges.set(parentKeyLeaflet, newAggregatedEdge);
+        }
       }
     }
   });
@@ -63,7 +64,7 @@ export function handleHoverCircleMarker(
     const { sourceLatlng, targetLatlng, controls, type } = edgeData;
 
     const size = getEdgesSize(edgeData);
-    const weightEddg = size !== null ? nodeLogValueScale(size) / 1.5 : 0;
+    const weightEddg = size !== null ? nodeLogValueScale(size) : 0;
 
     const curveAnimated = renderEdgesAnimatedLinesOnMap(
       sourceLatlng,

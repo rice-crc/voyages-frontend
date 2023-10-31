@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchPastEnslaversRangeSliderData = createAsyncThunk(
     'rangeSlider/fetchPastEnslaversRangeSliderData',
-    async (dataSend?: { [key: string]: string[] }) => {
+    async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/past/enslaver/aggregations`,

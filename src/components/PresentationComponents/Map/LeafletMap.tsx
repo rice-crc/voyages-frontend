@@ -41,15 +41,21 @@ import { AggroutesData } from '@/share/InterfaceTypesMap';
 import { HandleZoomEvent } from './HandleZoomEvent';
 import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
 import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
+interface LeafletMapProps {
+  setZoomLevel: React.Dispatch<React.SetStateAction<number>>
+  zoomLevel: number
+}
 
-export const LeafletMap = () => {
+export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const dispatch: AppDispatch = useDispatch();
   const mapRef = useRef(null);
   const location = useLocation();
   const pathNameArr = location.pathname.split('/');
   const pathName = pathNameArr[1];
+  const { nodesData } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
 
-  const [zoomLevel, setZoomLevel] = useState<number>(3);
   const [regionPlace, setRegionPlace] = useState<string>('region');
   const [loading, setLoading] = useState<boolean>(false);
   const hasFetchedPlaceRef = useRef(false);
@@ -60,9 +66,10 @@ export const LeafletMap = () => {
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
-  const { hasFetchedRegion } = useSelector(
+  const { hasFetchedRegion, clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
+
   const {
     rangeSliderMinMax: rang,
     varName,
@@ -108,18 +115,17 @@ export const LeafletMap = () => {
       }
     }
 
-    return () => {
-      dispatch(setNodesDataRegion([]));
-      dispatch(setNodesDataPlace([]));
-      dispatch(setEdgesDataRegion([]));
-      dispatch(setEdgesDataPlace([]));
-    };
   }, [zoomLevel]);
 
   const fetchData = async (regionOrPlace: string) => {
+
     const dataSend: { [key: string]: (string | number)[] } = {};
 
     dataSend['zoomlevel'] = [regionOrPlace];
+    if (clusterNodeKeyVariable && clusterNodeValue) {
+      dataSend[clusterNodeKeyVariable] = [clusterNodeValue]
+    }
+
     if (styleName !== TYPESOFDATASET.allVoyages) {
       for (const value of dataSetValue) {
         dataSend[dataSetKey] = [String(value)];
@@ -224,13 +230,9 @@ export const LeafletMap = () => {
   useEffect(() => {
     if (hasFetchedRegion) {
       fetchData(REGION);
+    } else if (clusterNodeKeyVariable && clusterNodeValue) {
+      fetchData(REGION);
     }
-    return () => {
-      dispatch(setMapData({} as AggroutesData));
-      dispatch(setNodesDataRegion([]));
-      dispatch(setEdgesDataRegion([]));
-      dispatch(setPathsData([]));
-    };
   }, [
     rang,
     varName,
@@ -244,7 +246,7 @@ export const LeafletMap = () => {
     styleName,
     geoTreeValue,
     inputSearchValue,
-    regionPlace,
+    regionPlace, clusterNodeKeyVariable, clusterNodeValue
   ]);
 
   const handleDataResponse = (response: any, regionOrPlace: string) => {
@@ -299,19 +301,17 @@ export const LeafletMap = () => {
   }, [hasFetchedRegion]);
 
   const map = useMap();
+
   map.on('zoomend', () => {
     const newZoomLevel = map.getZoom();
-  
     setZoomLevel(newZoomLevel);
-    // Update your data based on the new zoom level here
     fetchData(regionPlace);
   });
-
 
   const backgroundColor = styleNamePeople ? styleNamePeople : styleName;
   return (
     <div style={{ backgroundColor: getMapBackgroundColor(backgroundColor) }}>
-      {loading ? (
+      {loading || nodesData.length === 0 ? (
         <div className="loading-logo">
           <img src={LOADINGLOGO} />
         </div>
@@ -331,6 +331,7 @@ export const LeafletMap = () => {
             <HandleZoomEvent
               setZoomLevel={setZoomLevel}
               setRegionPlace={setRegionPlace}
+              zoomLevel={zoomLevel}
             />
             <TileLayer url={mappingSpecialists} />
             <LayersControl position="topright">

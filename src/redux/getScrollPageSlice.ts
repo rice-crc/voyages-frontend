@@ -1,13 +1,15 @@
 
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
+const initialState = {
+    currentPage: 1,
+    isOpenDialog: false,
+    isOpenDialogMobile: false
+}
+
 export const getScrollPageSlice = createSlice({
     name: 'getScrollPage',
-    initialState: {
-        currentPage: 1,
-        isOpenDialog: false,
-        isOpenDialogMobile: false
-    },
+    initialState,
     reducers: {
         setCurrentPage: (state, action: PayloadAction<number>) => {
             state.currentPage = action.payload;
@@ -19,10 +21,10 @@ export const getScrollPageSlice = createSlice({
             state.isOpenDialogMobile = action.payload;
         },
         resetSlice: (state) => {
-            state.currentPage,
-                state.isOpenDialog,
-                state.isOpenDialogMobile
-        },
+            state.currentPage = initialState.currentPage;
+            state.isOpenDialog = initialState.isOpenDialog;
+            state.isOpenDialogMobile = initialState.isOpenDialogMobile;
+        }
     }
 })
 

@@ -13,22 +13,21 @@ import { resetSlice as resetPeopleEnslavedDataSetCollection } from './getPeopleE
 import { resetSlice as resetPeopleEnslaversDataSetCollection } from './getPeopleEnslaversDataSetCollectionSlice';
 import { resetSlice as resetScroolVoyages } from './getScrollPageSlice';
 import { resetSlice as resetScrollEnslaved } from './getScrollEnslavedPageSlice';
-import { resetSlice as resetScrollEnslavers } from './getScrollEnslaversPageSlice';
 
 export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetOptionsData());
     dispatch(resetGeoTreeData());
     dispatch(resetRangeSliderData());
     dispatch(resetAutoCompleteData());
-    dispatch(resetDataSetCollectionData())
-    dispatch(resetVoyagesFilter())
-    dispatch(resetFilterPeopleData())
-    dispatch(resetNodeEdgesAggroutesMapData())
-    dispatch(resetOptionDataPastEnslaved())
-    dispatch(resetOptionPlatObjectData())
-    dispatch(resetPeopleEnslavedDataSetCollection())
-    dispatch(resetPeopleEnslaversDataSetCollection())
-    dispatch(resetScroolVoyages())
+    dispatch(resetDataSetCollectionData());
+    dispatch(resetVoyagesFilter());
+    dispatch(resetFilterPeopleData());
+    dispatch(resetNodeEdgesAggroutesMapData());
+    dispatch(resetOptionDataPastEnslaved());
+    dispatch(resetOptionPlatObjectData());
+    dispatch(resetPeopleEnslavedDataSetCollection());
+    dispatch(resetPeopleEnslaversDataSetCollection());
+    dispatch(resetScroolVoyages());
     dispatch(resetScrollEnslaved())
-    dispatch(resetScrollEnslavers())
 };
+
