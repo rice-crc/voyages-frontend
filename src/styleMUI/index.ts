@@ -6,8 +6,6 @@ import NestedMenuItem from '../components/SelectorComponents/Cascading/NestedMen
 import { SxProps, } from '@mui/material';
 import NestedMenuColumnItem from '@/components/SelectorComponents/ColumnSelectorTable/NestedMenuColumnItem';
 import { styled, } from '@mui/material/styles';
-import { height } from '@mui/system';
-
 
 const blue500 = '#42a5f5';
 export const MAINBGGREEN = 'rgba(0, 128, 128, 0.5)'
@@ -189,7 +187,7 @@ export const styleModalNetworks = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '80%',
+  width: '85%',
   height: '85%',
   bgcolor: '#222',
   border: '2px solid #000',

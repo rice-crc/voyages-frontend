@@ -1,4 +1,5 @@
 export function formatTextURL(inputText: string) {
+    if (!inputText) return null;
     return inputText
         .toLowerCase() // Convert the text to lowercase
         .replace(/[^\w\s]/g, '') // Remove all punctuation marks except spaces

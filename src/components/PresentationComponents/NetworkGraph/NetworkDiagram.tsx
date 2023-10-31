@@ -28,9 +28,9 @@ export const NetworkDiagram = ({
   const isDraggingRef = useRef(false); // Flag to track drag state
   const isZoomingRef = useRef(false); // Flag to track zoom state
   const hoverEnabledRef = useRef(true); // Flag to enable/disable hover
+
   const edges: Edges[] = data.edges.map((d) => ({ ...d }));
   const nodes: Nodes[] = data.nodes.map((d) => ({ ...d }));
-
   const nodeIds = new Set(nodes.map((node) => node.uuid));
 
   const validEdges = edges.filter(
@@ -86,20 +86,12 @@ export const NetworkDiagram = ({
           d3
             .forceLink<Nodes, Edges>(validEdges)
             .id((uuid) => uuid.uuid)
-            .distance(80)
+            .distance(120)
         )
         .force('charge', d3.forceManyBody())
         .force('center', d3.forceCenter(width / 2, height / 2))
         .on('tick', () => {
-          drawNetwork(
-            context,
-            width,
-            height,
-            nodes,
-            validEdges,
-            null,
-            transformRef.current
-          );
+          drawNetwork(context, width, height, nodes, validEdges, null);
         });
     }
 
@@ -112,15 +104,7 @@ export const NetworkDiagram = ({
       context?.save();
       context?.translate(transformRef.current.x, transformRef.current.y);
       context?.scale(transformRef.current.k, transformRef.current.k);
-      drawNetwork(
-        context,
-        width,
-        height,
-        nodes,
-        validEdges,
-        null,
-        transformRef.current
-      );
+      drawNetwork(context, width, height, nodes, validEdges, null);
       context?.restore();
     };
 
@@ -150,13 +134,14 @@ export const NetworkDiagram = ({
         .on('start', dragStarted)
         .on('drag', dragged)
         .on('end', dragEnded);
-      d3.select(canvas).call(dragBehavior);
-      // .call(
-      //   d3
-      //     .zoom<HTMLCanvasElement, unknown>()
-      //     .scaleExtent([1 / 10, 8])
-      //     .on('zoom', zoomed)
-      // );
+      d3.select(canvas)
+        .call(dragBehavior)
+        .call(
+          d3
+            .zoom<HTMLCanvasElement, unknown>()
+            .scaleExtent([1 / 10, 8])
+            .on('zoom', zoomed)
+        );
 
       return () => {
         canvas.removeEventListener('mousemove', checkMouseoverNode);
@@ -181,19 +166,14 @@ export const NetworkDiagram = ({
       const y = event.clientY - canvas.getBoundingClientRect().top;
 
       const node = findNode(nodes, x, y, RADIUSNODE);
-
-      const newNode = node || null;
+      const newNode: Nodes | Edges | null = node || null;
 
       if (newNode) {
-        drawNetwork(
-          context,
-          width,
-          height,
-          nodes,
-          validEdges,
-          newNode,
-          transformRef.current
-        );
+        canvas.style.cursor = 'pointer';
+        drawNetwork(context, width, height, nodes, validEdges, newNode);
+      } else {
+
+        canvas.style.cursor = 'default';
       }
     }
   }
@@ -211,16 +191,12 @@ export const NetworkDiagram = ({
 
       const edgesHover = findHoveredEdge(validEdges, nodes, x, y);
       const newEdge = edgesHover || null;
+
       if (newEdge) {
-        drawNetwork(
-          context,
-          width,
-          height,
-          nodes,
-          validEdges,
-          newEdge,
-          transformRef.current
-        );
+        canvas.style.cursor = 'pointer';
+        drawNetwork(context, width, height, nodes, validEdges, newEdge);
+      } else {
+        canvas.style.cursor = 'default';
       }
     }
   }
@@ -284,10 +260,6 @@ export const NetworkDiagram = ({
       <canvas
         id="networkCanvas labelsContainer"
         ref={canvasRef}
-        style={{
-          width,
-          height,
-        }}
         width={width}
         height={height}
       />
