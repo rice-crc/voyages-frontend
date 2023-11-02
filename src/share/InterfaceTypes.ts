@@ -77,7 +77,7 @@ export const TYPESOFDATASET: {
 } = {
     allVoyages: 'all-voyages',
     intraAmerican: 'intra-american',
-    transatlantic: 'transatlantic',
+    transatlantic: 'trans-atlantic',
     texas: 'texas'
 };
 
@@ -194,6 +194,7 @@ export interface CurrentPageInitialState {
     currentPage: number;
     isOpenDialog: boolean
     isOpenDialogMobile: boolean;
+    currentVoyageBlockName: string
 }
 
 export interface HeaderNavBarMenuProps {

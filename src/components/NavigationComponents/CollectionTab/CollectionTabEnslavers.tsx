@@ -53,7 +53,7 @@ const CollectionTabEnslavers = () => {
                   fontSize: 14,
                   color:
                     currentEnslaversPage === buttonIndex ? 'white' : 'black',
-                  fontWeight: currentEnslaversPage === buttonIndex ? 900 : 600,
+                  fontWeight: currentEnslaversPage === buttonIndex ? 700 : 600,
                 }}
                 variant={
                   currentEnslaversPage === buttonIndex

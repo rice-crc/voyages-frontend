@@ -36,7 +36,7 @@ const GlobalHomeNavigations = () => {
         <div className="place-page-box">
           <div className="voyages-people-places-title">Voyages</div>
           <Link
-            to={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`}
+            to={`${VOYAGESPAGE}${ALLVOYAGESPAGE}#intro`}
             onClick={handleHomeSearch}
           >
             <img src={voyageIcon} alt="voyages" style={{ opacity: 0.65 }} />

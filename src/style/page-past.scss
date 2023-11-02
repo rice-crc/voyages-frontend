@@ -60,6 +60,18 @@
   background: linear-gradient(rgba(127, 118, 191, 0.85),
       rgba(127, 118, 191, 0.8)),
     url('../assets/intra-american.jpeg') center / cover;
+
+  @include breakpoint-standard(2) {
+    height: 115vh;
+  }
+
+  @include breakpoint-standard(1) {
+    height: 120vh;
+  }
+
+  @include breakpoint-standard(0) {
+    height: 120vh;
+  }
 }
 
 .grid-people-image>img {
@@ -80,18 +92,18 @@
   }
 
   @include breakpoint-standard(2) {
-    width: 55%;
+    width: 45%;
     padding-top: 5rem;
   }
 
   @include breakpoint-standard(1) {
-    width: 55%;
-    padding-top: 8rem;
+    width: 35%;
+    padding-top: 7rem;
   }
 
   @include breakpoint-standard(0) {
-    width: 55%;
-    padding-top: 8rem;
+    width: 35%;
+    padding-top: 7rem;
   }
 }
 
@@ -276,6 +288,26 @@
   background-repeat: no-repeat;
   background: linear-gradient(rgb(144, 104, 102, 0.85), rgb(144, 104, 102, 0.8)),
     url('../assets/enslavedBG.jpeg') center / cover;
+
+  @include breakpoint-standard(4) {
+    height: auto;
+  }
+
+  @include breakpoint-standard(3) {
+    height: auto;
+  }
+
+  @include breakpoint-standard(2) {
+    height: auto;
+  }
+
+  @include breakpoint-standard(1) {
+    height: 120vh;
+  }
+
+  @include breakpoint-standard(0) {
+    height: 120vh;
+  }
 }
 
 #main-enslavers-home {
@@ -432,6 +464,10 @@
     @include breakpoint-standard(1) {
       padding: 1rem;
     }
+
+    @include breakpoint-standard(0) {
+      padding: 1rem;
+    }
   }
 
   @include breakpoint-standard(4) {
@@ -443,26 +479,29 @@
     padding: 1.5rem;
     width: 100%;
     position: fixed;
-    top: 15%;
+    top: 20%;
   }
 
   @include breakpoint-standard(2) {
     padding: 1.5rem;
     width: 100%;
     position: fixed;
-    top: 15%;
+    top: 20%;
   }
 
   @include breakpoint-standard(1) {
     padding: 1.5rem;
     width: 100%;
     position: fixed;
-    top: 15%;
+    top: 20%;
   }
 
-
-
-
+  @include breakpoint-standard(0) {
+    padding: 1.5rem;
+    width: 100%;
+    position: fixed;
+    top: 20%;
+  }
 }
 
 .intro-box {
@@ -502,6 +541,11 @@
     padding: 1rem;
     font-size: 14px;
   }
+
+  @include breakpoint-standard(0) {
+    padding: 1rem;
+    font-size: 14px;
+  }
 }
 
 .intro-box-enslavers {
@@ -513,12 +557,12 @@
   background: rgb(63, 150, 125, 0.5);
 
   @include breakpoint-standard(5) {
-    padding: 4rem 2rem;
+    padding: 6rem 2rem 2rem 2rem;
     font-size: 20px;
   }
 
   @include breakpoint-standard(4) {
-    padding: 4rem 2rem;
+    padding: 6rem 2rem 2rem 2rem;
     font-size: 16px;
   }
 
@@ -528,7 +572,7 @@
   }
 
   @include breakpoint-standard(2) {
-    padding: 4rem 2rem;
+    padding: 6rem 2rem 2rem 2rem;
     font-size: 14px;
   }
 
@@ -538,6 +582,11 @@
   }
 
   @include breakpoint-standard(1) {
+    padding: 4rem 2rem;
+    font-size: 14px;
+  }
+
+  @include breakpoint-standard(0) {
     padding: 4rem 2rem;
     font-size: 14px;
   }
@@ -580,6 +629,9 @@
     padding: 1rem;
   }
 
+  @include breakpoint-standard(0) {
+    padding: 1rem;
+  }
 
 }
 
@@ -662,6 +714,11 @@
     @include breakpoint-standard(1) {
       font-size: 10px;
       line-height: 12px;
+    }
+
+    @include breakpoint-standard(0) {
+      font-size: 8px;
+      line-height: 10px;
     }
   }
 }

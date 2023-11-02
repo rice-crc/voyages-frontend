@@ -5,7 +5,6 @@ import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { LeafletMap } from './LeafletMap';
 import { useRef, useState } from 'react';
-import { MAP_CENTER, MAXIMUM_ZOOM, MINIMUM_ZOOM } from '@/share/CONST_DATA';
 
 function MAPS() {
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
@@ -24,13 +23,6 @@ function MAPS() {
       <MapContainer
         className="map-container"
         ref={mapRef}
-      // center={MAP_CENTER}
-      // zoom={zoomLevel}
-      // maxZoom={MAXIMUM_ZOOM}
-      // minZoom={MINIMUM_ZOOM}
-      // attributionControl={false}
-      // scrollWheelZoom={true}
-      // zoomControl={true}
       >
         <LeafletMap zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />
       </MapContainer>

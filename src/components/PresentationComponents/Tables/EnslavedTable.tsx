@@ -14,6 +14,7 @@ import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { useWindowSize } from '@react-hook/window-size';
 import { Pagination, TablePagination } from '@mui/material';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import {
   StateRowData,
   TableCellStructureInitialStateProp,
@@ -65,7 +66,7 @@ const EnslavedTable: React.FC = () => {
   const { isChangeGeoTree, geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
-
+  const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState(
     getRowsPerPage(window.innerWidth, window.innerHeight)
@@ -190,7 +191,7 @@ const EnslavedTable: React.FC = () => {
           }
         }
       }
-
+      setLoading(true)
       try {
         const response = await dispatch(
           fetchEnslavedOptionsList(dataSend)
@@ -199,9 +200,11 @@ const EnslavedTable: React.FC = () => {
           setTotalResultsCount(Number(response.headers.total_results_count));
           dispatch(setData(response.data));
           saveDataToLocalStorage(response.data, visibleColumnCells);
+          setLoading(false)
         }
       } catch (error) {
         console.log('error', error);
+        setLoading(false)
       }
     };
     fetchData();
@@ -294,21 +297,21 @@ const EnslavedTable: React.FC = () => {
 
   const handleChangePage = useCallback((event: any, newPage: number) => {
     setPage(newPage);
-  }, []);
+  }, [page]);
 
   const handleChangeRowsPerPage = useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setRowsPerPage(parseInt(event.target.value));
       setPage(0);
     },
-    []
+    [page]
   );
 
   const handleChangePagePagination = useCallback(
     (event: any, newPage: number) => {
       setPage(newPage - 1);
     },
-    []
+    [page]
   );
   const topPosition = createTopPositionEnslavedPage(
     currentEnslavedPage,
@@ -330,31 +333,37 @@ const EnslavedTable: React.FC = () => {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </span>
-
-          <AgGridReact
-            ref={gridRef}
-            rowData={rowData}
-            onColumnVisible={handleColumnVisibleChange}
-            gridOptions={gridOptions}
-            columnDefs={columnDefs}
-            suppressMenuHide={true}
-            animateRows={true}
-            paginationPageSize={rowsPerPage}
-            defaultColDef={defaultColDef}
-            components={components}
-            getRowStyle={getRowRowStyle}
-            enableBrowserTooltips={true}
-            tooltipShowDelay={0}
-            tooltipHideDelay={1000}
-          />
-          <div className="pagination-div">
-            <Pagination
-              color="primary"
-              count={Math.ceil(totalResultsCount / rowsPerPage)}
-              page={page + 1}
-              onChange={handleChangePagePagination}
-            />
-          </div>
+          {loading ? (
+            <div className="loading-logo">
+              <img src={LOADINGLOGO} />
+            </div>
+          ) : (
+            <>
+              <AgGridReact
+                ref={gridRef}
+                rowData={rowData}
+                onColumnVisible={handleColumnVisibleChange}
+                gridOptions={gridOptions}
+                columnDefs={columnDefs}
+                suppressMenuHide={true}
+                animateRows={true}
+                paginationPageSize={rowsPerPage}
+                defaultColDef={defaultColDef}
+                components={components}
+                getRowStyle={getRowRowStyle}
+                enableBrowserTooltips={true}
+                tooltipShowDelay={0}
+                tooltipHideDelay={1000}
+              />
+              <div className="pagination-div">
+                <Pagination
+                  color="primary"
+                  count={Math.ceil(totalResultsCount / rowsPerPage)}
+                  page={page + 1}
+                  onChange={handleChangePagePagination}
+                />
+              </div></>
+          )}
         </div>
       </div>
       <div>

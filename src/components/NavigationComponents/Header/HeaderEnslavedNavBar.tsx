@@ -57,8 +57,6 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { currentBlockName } = usePageRouter()
-
 
   const { currentEnslavedPage, currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage

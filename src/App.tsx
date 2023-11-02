@@ -29,8 +29,6 @@ import BlogPage from './pages/BlogPage';
 import AuthorPage from './pages/AuthorPage';
 import InstitutionAuthorsPage from './pages/InstitutionAuthorsPage';
 import BlogDetailsPost from './components/BlogPageComponents/Blogcomponents/BlogDetailsPost';
-import { useSelector } from 'react-redux';
-import { RootState } from './redux/store';
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();

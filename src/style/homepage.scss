@@ -73,17 +73,20 @@
     display: inline-block;
     text-align: center;
     height: auto;
+    width: 100%;
   }
 
   @include breakpoint-standard(1) {
     display: inline-block;
     text-align: center;
+    width: 100%;
   }
 
   @include breakpoint-standard(0) {
     display: inline-block;
     text-align: center;
     height: auto;
+    width: 100%;
   }
 }
 
@@ -119,7 +122,7 @@
   }
 
   @include breakpoint-standard(4) {
-    padding: 0 5rem;
+    padding: 10rem 5rem 1rem 5rem
   }
 
   @include breakpoint-standard(3) {
@@ -206,15 +209,15 @@
   }
 
   @include breakpoint-standard(5) {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   @include breakpoint-standard(4) {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   @include breakpoint-standard(3) {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   @include breakpoint-standard(2) {
@@ -243,6 +246,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 1;
 
   .voyages-search-box-content {
     width: 80%;
@@ -284,6 +289,26 @@
     border-radius: 20px;
     height: 42px;
     z-index: 3;
+
+    @include breakpoint-standard(4) {
+      height: 40px;
+    }
+
+    @include breakpoint-standard(3) {
+      height: 40px;
+    }
+
+    @include breakpoint-standard(2) {
+      height: 38px;
+    }
+
+    @include breakpoint-standard(1) {
+      height: 35px;
+    }
+
+    @include breakpoint-standard(0) {
+      height: 35px;
+    }
   }
 
   @include breakpoint-standard(4) {
@@ -327,6 +352,7 @@
     .voyages-search-box-content {
       width: 70%;
       height: 40px;
+      margin-top: 5px;
     }
   }
 
@@ -338,6 +364,7 @@
     .voyages-search-box-content {
       width: 70%;
       height: 40px;
+      margin-top: 5px;
     }
   }
 }
@@ -359,17 +386,17 @@
 
   @include breakpoint-standard(2) {
     padding: 0;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   @include breakpoint-standard(1) {
     padding: 0;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   @include breakpoint-standard(0) {
     padding: 0;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -385,17 +412,17 @@
   }
 
   @include breakpoint-standard(4) {
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 1rem;
   }
 
   @include breakpoint-standard(3) {
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 1rem;
   }
 
   @include breakpoint-standard(2) {
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 1rem;
   }
 
@@ -433,13 +460,12 @@
   }
 
   @include breakpoint-standard(1) {
-    font-size: 12px;
-    line-height: 0px;
+    font-size: 10px;
   }
 
   @include breakpoint-standard(0) {
-    font-size: 12px;
-    line-height: 0px;
+    font-size: 10px;
+
   }
 }
 
@@ -479,6 +505,14 @@
 
 .place-page-box {
   cursor: pointer;
+
+
+
+  @include breakpoint-standard(4) {
+    img {
+      width: 75%;
+    }
+  }
 
   @include breakpoint-standard(1) {
     img {
@@ -550,6 +584,15 @@
   box-shadow: 2px 3px 3px #00000085;
   border-color: #707070;
   text-shadow: 1px 1px #000000;
+
+  @include breakpoint-standard(1) {
+    width: 140px;
+  }
+
+  @include breakpoint-standard(0) {
+    width: 140px;
+
+  }
 }
 
 .filter-menu-bar {
@@ -661,6 +704,15 @@
 .card-img {
   width: 100%;
   border-radius: calc(0.25rem - 1px);
+
+  @include breakpoint-standard(1) {
+    width: 75%;
+  }
+
+  @include breakpoint-standard(0) {
+    width: 75%;
+
+  }
 }
 
 .logo-grid-container:last-child {

@@ -19,27 +19,22 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { setBaseFilterPeopleEnslavedDataKey, setBaseFilterPeopleEnslavedDataValue, setPeopleEnslavedBlocksMenuList, setPeopleEnslavedStyleName } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
-import { AFRICANORIGINS, ALLENSLAVED, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
-import { convertToSlug } from '@/utils/functions/convertToSlug';
-
+import { AFRICANORIGINS, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 
 const EnslavedPage: React.FC = () => {
   const { styleName, currentBlockName } = usePageRouter();
-
+  const dispatch: AppDispatch = useDispatch();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const { currentEnslavedPage, currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
-  const { blocksPeople } = useSelector(
-    (state: RootState) => state.getPeopleEnlavedDataSetCollection
-  );
 
-  const dispatch: AppDispatch = useDispatch();
+
+
   useEffect(() => {
     if (styleName) {
       dispatch(setPeopleEnslavedStyleName(styleName));
     }
-
     if (currentBlockName === 'intro') {
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setCurrentBlockName(currentBlockName))

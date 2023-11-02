@@ -61,7 +61,7 @@
 		],
 		"filter_menu_flatfile": "voyage_table_cell_structure__updated21June.json",
 		"table_flatfile": "voyage_table_cell_structure__updated21June.json",
-		"style_name": "transatlantic",
+		"style_name": "trans-atlantic",
 		"blocks": [
 			"INTRO",
 			"VOYAGES",

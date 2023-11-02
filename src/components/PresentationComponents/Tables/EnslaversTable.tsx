@@ -10,6 +10,7 @@ import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.js
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeader from '../../NavigationComponents/Header/CustomHeader';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import {
   StateRowData,
   TableCellStructureInitialStateProp,
@@ -39,7 +40,7 @@ import { createTopPositionEnslaversPage } from '@/utils/functions/createTopPosit
 const EnslaversTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const tablesCell = ENSLAVERS_TABLE.cell_structure;
-  const { columnDefs, data, rowData, loading } = useSelector(
+  const { columnDefs, data, rowData } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
   const { rangeSliderMinMax: rang, varName } = useSelector(
@@ -64,6 +65,7 @@ const EnslaversTable: React.FC = () => {
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
+  const [loading, setLoading] = useState<boolean>(false);
   const [rowsPerPage, setRowsPerPage] = useState(
     getRowsPerPage(window.innerWidth, window.innerHeight)
   );
@@ -162,7 +164,7 @@ const EnslaversTable: React.FC = () => {
           }
         }
       }
-
+      setLoading(true)
       try {
         const response = await dispatch(
           fetchEnslaversOptionsList(dataSend)
@@ -171,9 +173,11 @@ const EnslaversTable: React.FC = () => {
           setTotalResultsCount(Number(response.headers.total_results_count));
           dispatch(setData(response.data));
           saveDataToLocalStorage(response.data, visibleColumnCells);
+          setLoading(false)
         }
       } catch (error) {
         console.log('error', error);
+        setLoading(false)
       }
     };
     fetchData();
@@ -303,31 +307,37 @@ const EnslaversTable: React.FC = () => {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </span>
-
-          <AgGridReact
-            ref={gridRef}
-            rowData={rowData}
-            onColumnVisible={handleColumnVisibleChange}
-            gridOptions={gridOptions}
-            columnDefs={columnDefs}
-            suppressMenuHide={true}
-            animateRows={true}
-            paginationPageSize={rowsPerPage}
-            defaultColDef={defaultColDef}
-            components={components}
-            getRowStyle={getRowRowStyle}
-            enableBrowserTooltips={true}
-            tooltipShowDelay={0}
-            tooltipHideDelay={1000}
-          />
-          <div className="pagination-div">
-            <Pagination
-              color="primary"
-              count={Math.ceil(totalResultsCount / rowsPerPage)}
-              page={page + 1}
-              onChange={handleChangePagePagination}
-            />
-          </div>
+          {loading ? (
+            <div className="loading-logo">
+              <img src={LOADINGLOGO} />
+            </div>
+          ) : (
+            <>
+              <AgGridReact
+                ref={gridRef}
+                rowData={rowData}
+                onColumnVisible={handleColumnVisibleChange}
+                gridOptions={gridOptions}
+                columnDefs={columnDefs}
+                suppressMenuHide={true}
+                animateRows={true}
+                paginationPageSize={rowsPerPage}
+                defaultColDef={defaultColDef}
+                components={components}
+                getRowStyle={getRowRowStyle}
+                enableBrowserTooltips={true}
+                tooltipShowDelay={0}
+                tooltipHideDelay={1000}
+              />
+              <div className="pagination-div">
+                <Pagination
+                  color="primary"
+                  count={Math.ceil(totalResultsCount / rowsPerPage)}
+                  page={page + 1}
+                  onChange={handleChangePagePagination}
+                />
+              </div></>
+          )}
         </div>
       </div>
       <div>

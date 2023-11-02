@@ -142,7 +142,8 @@ const AutoGlobalSearchBar = () => {
 
       if (type === GlobalSearchVoyagesType) {
         dispatch(setCurrentPage(2));
-        navigate(`${VOYAGESPAGE}${ALLVOYAGESPAGE}#table`);
+        dispatch(setCurrentBlockName('voyages'));
+        navigate(`${VOYAGESPAGE}${ALLVOYAGESPAGE}#voyages`);
       } else if (type === GlobalSearchEnslavedType) {
         dispatch(setCurrentEnslavedPage(2));
         dispatch(setCurrentBlockName('table'));

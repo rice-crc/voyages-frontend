@@ -25,7 +25,6 @@ const GlobalSearchButton = () => {
   }, []);
 
   const handleExitGlobalSearch = () => {
-    console.log('handleExitGlobalSearch')
     dispatch(setInputSearchValue(''));
     dispatch(resetAll())
     // Retrieve the filterObject from localStorage

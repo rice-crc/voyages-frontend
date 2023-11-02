@@ -24,6 +24,7 @@ import {
   mappingSpecialistsRivers,
   PLACE,
   REGION,
+  AFRICANORIGINS,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
@@ -37,10 +38,11 @@ import {
   setNodesDataRegion,
   setPathsData,
 } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
-import { AggroutesData } from '@/share/InterfaceTypesMap';
 import { HandleZoomEvent } from './HandleZoomEvent';
 import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
 import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
+import { usePageRouter } from '@/hooks/usePageRouter';
+
 interface LeafletMapProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>
   zoomLevel: number
@@ -62,6 +64,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+
   const { styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
@@ -92,6 +95,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     (state: RootState) => state.getCommonGlobalSearch
   );
 
+
   useEffect(() => {
     const savedNodesDataRegion = localStorage.getItem('nodesDataregion');
     const saveEdgesDataRegion = localStorage.getItem('edgesDataregion');
@@ -117,8 +121,8 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
   }, [zoomLevel]);
 
-  const fetchData = async (regionOrPlace: string) => {
 
+  const fetchData = async (regionOrPlace: string) => {
     const dataSend: { [key: string]: (string | number)[] } = {};
 
     dataSend['zoomlevel'] = [regionOrPlace];
@@ -131,6 +135,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         dataSend[dataSetKey] = [String(value)];
       }
     }
+
     if (inputSearchValue) {
       dataSend['global_search'] = [String(inputSearchValue)];
     }
@@ -262,9 +267,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
           JSON.stringify(edges)
         );
       }
-
       dispatch(setMapData(response));
-
       if (regionOrPlace === 'region') {
         setLoading(false);
         dispatch(setNodesDataRegion(nodes));
@@ -292,7 +295,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         hasFetchedPlaceRef.current = true;
       }, 3000);
     }
-
     return () => {
       if (timeout) {
         clearTimeout(timeout);
@@ -308,7 +310,15 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     fetchData(regionPlace);
   });
 
-  const backgroundColor = styleNamePeople ? styleNamePeople : styleName;
+  let backgroundColor = styleNamePeople;
+  if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
+    backgroundColor = styleName
+  }
+  if (styleNamePeople === AFRICANORIGINS) {
+    backgroundColor = styleNamePeople;
+  }
+
+
   return (
     <div style={{ backgroundColor: getMapBackgroundColor(backgroundColor) }}>
       {loading || nodesData.length === 0 ? (

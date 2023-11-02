@@ -11,6 +11,7 @@ import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAP
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeader from '../../NavigationComponents/Header/CustomHeader';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import {
   StateRowData,
   TableCellStructureInitialStateProp,
@@ -68,6 +69,7 @@ const VoyagesTable: React.FC = () => {
     (state: RootState) => state.getGeoTreeData
   );
   const [page, setPage] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [rowsPerPage, setRowsPerPage] = useState(
     getRowsPerPage(window.innerWidth, window.innerHeight)
@@ -160,16 +162,18 @@ const VoyagesTable: React.FC = () => {
         }
       }
     }
-
+    setLoading(true);
     try {
       const response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
       if (response) {
         setTotalResultsCount(Number(response.headers.total_results_count));
         dispatch(setData(response.data));
         saveDataToLocalStorage(response.data, visibleColumnCells);
+        setLoading(false);
       }
     } catch (error) {
       console.log('error', error);
+      setLoading(false)
     }
   };
 
@@ -298,31 +302,37 @@ const VoyagesTable: React.FC = () => {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </span>
-
-          <AgGridReact
-            ref={gridRef}
-            rowData={rowData}
-            onColumnVisible={handleColumnVisibleChange}
-            gridOptions={gridOptions}
-            columnDefs={columnDefs}
-            suppressMenuHide={true}
-            animateRows={true}
-            paginationPageSize={rowsPerPage}
-            defaultColDef={defaultColDef}
-            components={components}
-            getRowStyle={getRowRowStyle}
-            enableBrowserTooltips={true}
-            tooltipShowDelay={0}
-            tooltipHideDelay={1000}
-          />
-          <div className="pagination-div">
-            <Pagination
-              color="primary"
-              count={Math.ceil(totalResultsCount / rowsPerPage)}
-              page={page + 1}
-              onChange={handleChangePagePagination}
-            />
-          </div>
+          {loading ? (
+            <div className="loading-logo">
+              <img src={LOADINGLOGO} />
+            </div>
+          ) : (
+            <>
+              <AgGridReact
+                ref={gridRef}
+                rowData={rowData}
+                onColumnVisible={handleColumnVisibleChange}
+                gridOptions={gridOptions}
+                columnDefs={columnDefs}
+                suppressMenuHide={true}
+                animateRows={true}
+                paginationPageSize={rowsPerPage}
+                defaultColDef={defaultColDef}
+                components={components}
+                getRowStyle={getRowRowStyle}
+                enableBrowserTooltips={true}
+                tooltipShowDelay={0}
+                tooltipHideDelay={1000}
+              />
+              <div className="pagination-div">
+                <Pagination
+                  color="primary"
+                  count={Math.ceil(totalResultsCount / rowsPerPage)}
+                  page={page + 1}
+                  onChange={handleChangePagePagination}
+                />
+              </div></>
+          )}
         </div>
       </div>
       <div>

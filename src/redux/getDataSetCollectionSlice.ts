@@ -41,10 +41,13 @@ export const getDataSetCollectionSlice = createSlice({
             state.dataSetValueBaseFilter,
                 state.dataSetKey,
                 state.dataSetValue,
+                state.dataSetValueBaseFilter,
+                state.dataSetKey,
+                state.dataSetValue,
                 state.textHeader,
                 state.textIntroduce,
-                state.blocks
-            state.styleName
+                state.blocks,
+                state.styleName = ''
         },
     },
 });
