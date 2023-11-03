@@ -37,7 +37,7 @@
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "enslaved_relations__relation__relation_enslavers__role__name",
+						"var_name": "enslaved_relations__relation__relation_enslavers__roles__name",
 						"cell_fn": "literal"
 					}
 				],

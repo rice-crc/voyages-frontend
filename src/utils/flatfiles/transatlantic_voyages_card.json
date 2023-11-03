@@ -31,7 +31,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_enslaver_connection__enslaver_alias__alias",
+							"var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__alias",
 							"cell_fn": "literal"
 						}
 					]
@@ -43,7 +43,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_enslaver_connection__enslaver_alias__identity__id",
+							"var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id",
 							"cell_fn": "enslavers"
 						}
 					]
@@ -55,7 +55,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_ship__registered_place__geo_location__name",
+							"var_name": "voyage_ship__registered_place__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -197,7 +197,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_itinerary__port_of_departure__geo_location__name",
+							"var_name": "voyage_itinerary__port_of_departure__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -209,7 +209,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_itinerary__third_place_slave_purchase__geo_location__name",
+							"var_name": "voyage_itinerary__third_place_slave_purchase__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -221,7 +221,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_itinerary__second_place_slave_purchase__geo_location__name",
+							"var_name": "voyage_itinerary__second_place_slave_purchase__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -233,7 +233,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_itinerary__first_place_slave_purchase__geo_location__name",
+							"var_name": "voyage_itinerary__first_place_slave_purchase__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -245,7 +245,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+							"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -257,7 +257,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_itinerary__port_of_call_before_atl_crossing__geo_location__name",
+							"var_name": "voyage_itinerary__port_of_call_before_atl_crossing__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -269,7 +269,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_itinerary__third_landing_place__geo_location__name",
+							"var_name": "voyage_itinerary__third_landing_place__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -281,7 +281,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_itinerary__second_landing_place__geo_location__name",
+							"var_name": "voyage_itinerary__second_landing_place__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -293,7 +293,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_itinerary__first_landing_place__geo_location__name",
+							"var_name": "voyage_itinerary__first_landing_place__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -305,7 +305,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+							"var_name": "voyage_itinerary__imp_principal_port_slave_dis__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -317,7 +317,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_itinerary__place_voyage_ended__geo_location__name",
+							"var_name": "voyage_itinerary__place_voyage_ended__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -387,7 +387,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_enslaved_people__documented_name",
+							"var_name": "voyage_enslavement_relations__enslaved_in_relation__enslaved__documented_name",
 							"cell_fn": "literal"
 						}
 					]
@@ -620,7 +620,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_name_outcome__vessel_captured_outcome__name",
+							"var_name": "voyage_outcome__vessel_captured_outcome__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -632,7 +632,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_name_outcome__resistance__name",
+							"var_name": "voyage_outcome__resistance__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -644,7 +644,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_name_outcome__outcome_owner__name",
+							"var_name": "voyage_outcome__outcome_owner__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -656,7 +656,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_name_outcome__outcome_slaves__name",
+							"var_name": "voyage_outcome__outcome_slaves__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -668,7 +668,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_name_outcome__particular_outcome__name",
+							"var_name": "voyage_outcome__particular_outcome__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -685,11 +685,11 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_zotero_connections__zotero_source__short_ref",
+							"var_name": "voyage_source_connections__source__short_ref",
 							"cell_fn": "literal"
 						},
 						{
-							"var_name": "voyage_zotero_connections__zotero_source__zotero_title",
+							"var_name": "voyage_source_connections__source__title",
 							"cell_fn": "literal"
 						}
 					]

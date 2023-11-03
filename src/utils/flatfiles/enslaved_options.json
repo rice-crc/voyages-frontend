@@ -449,27 +449,27 @@
     "label": "Name of vessel",
     "flatlabel": "voyage : voyage ship : Name of vessel"
   },
-  "voyage__voyage_name_outcome": {
+  "voyage__voyage_outcome": {
     "type": "table",
     "label": "Outcome",
     "flatlabel": "voyage : Outcome"
   },
-  "voyage__voyage_name_outcome__particular_outcome": {
+  "voyage__voyage_outcome__particular_outcome": {
     "type": "table",
     "label": "Fate (particular outcome of voyage)",
     "flatlabel": "voyage : Outcome : Fate (particular outcome of voyage)"
   },
-  "voyage__voyage_name_outcome__particular_outcome__id": {
+  "voyage__voyage_outcome__particular_outcome__id": {
     "type": "<class 'rest_framework.fields.IntegerField'>",
     "label": "ID",
     "flatlabel": "voyage : Outcome : Fate (particular outcome of voyage) : ID"
   },
-  "voyage__voyage_name_outcome__particular_outcome__name": {
+  "voyage__voyage_outcome__particular_outcome__name": {
     "type": "<class 'rest_framework.fields.CharField'>",
     "label": "Outcome label",
     "flatlabel": "voyage : Outcome : Fate (particular outcome of voyage) : Outcome label"
   },
-  "voyage__voyage_name_outcome__particular_outcome__value": {
+  "voyage__voyage_outcome__particular_outcome__value": {
     "type": "<class 'rest_framework.fields.IntegerField'>",
     "label": "Code of outcome",
     "flatlabel": "voyage : Outcome : Fate (particular outcome of voyage) : Code of outcome"
@@ -669,17 +669,17 @@
     "label": "Identity",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : Enslaver alias : Identity"
   },
-  "enslaved_relations__relation__relation_enslavers__role": {
+  "enslaved_relations__relation__relation_enslavers__roles": {
     "type": "table",
     "label": "enslaver role",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : enslaver role"
   },
-  "enslaved_relations__relation__relation_enslavers__role__id": {
+  "enslaved_relations__relation__relation_enslavers__roles__id": {
     "type": "<class 'rest_framework.fields.IntegerField'>",
     "label": "ID",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : enslaver role : ID"
   },
-  "enslaved_relations__relation__relation_enslavers__role__name": {
+  "enslaved_relations__relation__relation_enslavers__roles__name": {
     "type": "<class 'rest_framework.fields.CharField'>",
     "label": "Name",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : enslaver role : Name"
