@@ -3,7 +3,7 @@ import PersonImage from '@/assets/personImg.png';
 import PEOPLE from '@/utils/flatfiles/people_page_data.json';
 import '@/style/page-past.scss';
 import { Link } from 'react-router-dom';
-import { setPathName } from '@/redux/getDataPathNameSlice';
+import { setPathEnslavers, setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
@@ -22,9 +22,7 @@ const PastPeopleIntro = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const dispatch: AppDispatch = useDispatch();
-  const { currentPageBlockName } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
-  );
+
   return (
     <>
       <div className="page" id="main-page-past-home">
@@ -57,12 +55,11 @@ const PastPeopleIntro = () => {
               ))}
               <div className="btn-Enslaved-enslavers">
                 <Link
-                  // to={`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName}`}
                   to={`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#intro`}
                   style={{ textDecoration: 'none' }}
                   onClick={() => {
                     dispatch(setCurrentEnslavedPage(1));
-                    dispatch(setPathName(ALLENSLAVED));
+                    dispatch(setPathNameEnslaved(ALLENSLAVED));
                     dispatch(resetAll());
                     const keysToRemove = Object.keys(localStorage);
                     keysToRemove.forEach((key) => {
@@ -77,7 +74,7 @@ const PastPeopleIntro = () => {
                   style={{ textDecoration: 'none' }}
                   onClick={() => {
                     dispatch(setCurrentEnslaversPage(1));
-                    dispatch(setPathName(ALLENSLAVERS));
+                    dispatch(setPathEnslavers(ALLENSLAVERS));
                     dispatch(resetAll());
                     const keysToRemove = Object.keys(localStorage);
                     keysToRemove.forEach((key) => {

@@ -135,8 +135,7 @@ const EnslaversTable: React.FC = () => {
       }
       if (rang[varName] && currentEnslaversPage === 2) {
         for (const rangKey in rang) {
-          dataSend[rangKey] = [rang[rangKey][0]];
-          dataSend[rangKey] = [rang[rangKey][1]];
+          dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
         }
       }
 

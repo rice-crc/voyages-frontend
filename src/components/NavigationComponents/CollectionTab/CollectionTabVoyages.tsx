@@ -10,7 +10,7 @@ import {
   getColorBoxShadow,
 } from '@/utils/functions/getColorStyle';
 import { setIsFilter } from '@/redux/getFilterSlice';
-import { setPathName } from '@/redux/getDataPathNameSlice';
+import { setPathNameVoyages } from '@/redux/getDataPathNameSlice';
 import { ALLVOYAGES } from '@/share/CONST_DATA';
 import { useNavigate } from 'react-router-dom';
 const CollectionTabVoyages = () => {
@@ -28,7 +28,7 @@ const CollectionTabVoyages = () => {
     if (page === 1) {
       dispatch(setIsFilter(false));
     } else if (page === 5) {
-      dispatch(setPathName(ALLVOYAGES));
+      dispatch(setPathNameVoyages(ALLVOYAGES));
     }
     navigate(`#${(blockName).toLowerCase()}`)
   };

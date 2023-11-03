@@ -22,7 +22,7 @@ import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
-import { setPathName } from '@/redux/getDataPathNameSlice';
+import { setPathEnslavers, setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
 import { resetAll } from '@/redux/resetAllSlice';
 
 export default function HeaderPeopleNavBar() {
@@ -49,11 +49,11 @@ export default function HeaderPeopleNavBar() {
     } else if (item === Enslaved) {
       navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#intro`);
       dispatch(setCurrentEnslavedPage(1));
-      dispatch(setPathName(ALLENSLAVED));
+      dispatch(setPathNameEnslaved(ALLENSLAVED));
     } else if (item === EnslaversTitle) {
       navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}#intro`);
       dispatch(setCurrentEnslaversPage(1));
-      dispatch(setPathName(ALLENSLAVERS));
+      dispatch(setPathEnslavers(ALLENSLAVERS));
     } else {
       navigate('/');
     }

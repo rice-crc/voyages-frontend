@@ -32,13 +32,13 @@ export const GenerateCellTableRenderer = (
   const ID = params.data.id;
 
   const dispatch = useDispatch();
-  const { pathName } = useSelector((state: RootState) => state.getPathName);
+  const { pathNameEnslaved, pathNameEnslavers, pathNameVoyages } = useSelector((state: RootState) => state.getPathName);
   let nodeType: string = '';
-  if (pathName === ALLVOYAGES) {
+  if (pathNameVoyages === ALLVOYAGES) {
     nodeType = VOYAGESNODE;
-  } else if (pathName === ALLENSLAVED) {
+  } else if (pathNameEnslaved === ALLENSLAVED) {
     nodeType = ENSLAVEDNODE;
-  } else if (pathName === ALLENSLAVERS) {
+  } else if (pathNameEnslavers === ALLENSLAVERS) {
     nodeType = ENSLAVERSNODE;
   }
 

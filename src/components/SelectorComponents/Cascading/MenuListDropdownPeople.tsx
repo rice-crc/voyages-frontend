@@ -45,7 +45,8 @@ export const MenuListDropdownPeople = () => {
 
   const { valueEnslaved, valueAfricanOrigin, valueTexas, valueEnslavers } =
     useSelector((state: RootState) => state.getFilterPeople.value);
-  const { pathName } = useSelector((state: RootState) => state.getPathName);
+  const { pathNameEnslaved, pathNameEnslavers } = useSelector((state: RootState) => state.getPathName);
+
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -144,20 +145,20 @@ export const MenuListDropdownPeople = () => {
       try {
         if (
           styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved &&
-          pathName === ALLENSLAVED
+          pathNameEnslaved === ALLENSLAVED
         ) {
           setFilterPeopleMenu(valueEnslaved);
         } else if (
           styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins &&
-          pathName === ALLENSLAVED
+          pathNameEnslaved === ALLENSLAVED
         ) {
           setFilterPeopleMenu(valueAfricanOrigin);
         } else if (
           styleNamePeople === TYPESOFDATASETPEOPLE.texas &&
-          pathName === ALLENSLAVED
+          pathNameEnslaved === ALLENSLAVED
         ) {
           setFilterPeopleMenu(valueTexas);
-        } else if (pathName === ALLENSLAVERS) {
+        } else if (pathNameEnslavers === ALLENSLAVERS) {
           setFilterPeopleMenu(valueEnslavers);
         }
       } catch (error) {
@@ -165,7 +166,7 @@ export const MenuListDropdownPeople = () => {
       }
     };
     loadTableCellStructure();
-  }, [styleNamePeople, pathName]);
+  }, [styleNamePeople, pathNameEnslaved, pathNameEnslavers]);
 
   return (
     <div>

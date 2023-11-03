@@ -141,8 +141,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     }
     if (isChange && rang && currentPage === 7 && pathName === VOYAGESPAGE) {
       for (const rangKey in rang) {
-        dataSend[rangKey] = [rang[rangKey][0]];
-        dataSend[rangKey] = [rang[rangKey][1]];
+        dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
       }
     }
     if (
@@ -152,8 +151,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       pathName === PASTHOMEPAGE
     ) {
       for (const rangKey in rang) {
-        dataSend[rangKey] = [rang[rangKey][0]];
-        dataSend[rangKey] = [rang[rangKey][1]];
+        dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
       }
     }
 

@@ -115,8 +115,7 @@ function Scatter() {
       }
       if (isChange && rang && currentPage === 3) {
         for (const rangKey in rang) {
-          dataSend[rangKey] = [rang[rangKey][0]];
-          dataSend[rangKey] = [rang[rangKey][1]];
+          dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
         }
       }
 
@@ -255,11 +254,9 @@ function Scatter() {
           layout={{
             width: maxWidth,
             height: height * 0.45,
-            title: `The ${aggregation} of ${
-              optionFlat[scatterOptions.x_vars]?.label || ''
-            } vs  <br>${
-              optionFlat[scatterOptions.y_vars]?.label || ''
-            } Scatter Graph`,
+            title: `The ${aggregation} of ${optionFlat[scatterOptions.x_vars]?.label || ''
+              } vs  <br>${optionFlat[scatterOptions.y_vars]?.label || ''
+              } Scatter Graph`,
             font: {
               family: 'Arial, sans-serif',
               size: maxWidth < 400 ? 7 : 10,
