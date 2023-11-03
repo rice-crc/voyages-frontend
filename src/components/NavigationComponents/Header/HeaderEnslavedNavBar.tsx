@@ -51,7 +51,6 @@ import { resetAll } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
 import '@/style/homepage.scss';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
-import { usePageRouter } from '@/hooks/usePageRouter';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {

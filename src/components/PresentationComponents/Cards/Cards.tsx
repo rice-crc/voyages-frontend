@@ -7,7 +7,6 @@ import {
   setCardFileName,
 } from '@/redux/getCardFlatObjectSlice';
 import { processCardData } from '@/utils/functions/processCardData';
-
 import CARDS_VOYAGES_COLLECTION from '@/utils/flatfiles/transatlantic_voyages_card.json';
 import CARDS_ENSLAVED_COLLECTION from '@/utils/flatfiles/enslaved_card.json';
 import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers_card.json';
@@ -18,7 +17,8 @@ import {
   ENSLAVERSNODE,
   VOYAGESNODE,
   YOYAGESCARDFILE,
-} from '@/share/CONST_DATA';
+}
+  from '@/share/CONST_DATA';
 import '@/style/cards.scss';
 import { TransatlanticCardProps } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';

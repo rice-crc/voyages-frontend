@@ -7,7 +7,7 @@ export const fetchRangeSliderData = createAsyncThunk(
     async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/voyage/aggregations`,
+                `${BASEURL}/voyage/aggregations/`,
                 dataSend,
                 {
                     headers: {

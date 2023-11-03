@@ -3,7 +3,7 @@ import renderEdgesAnimatedLinesOnMap from "./renderEdgesAnimatedLinesOnMap";
 import renderEdgesLinesOnMap from "./renderEdgesLinesOnMap";
 import L from "leaflet";
 
-import { createTooltipClusterEdges } from "./createTooltipClusterEdges";
+import { createTooltipClusterEdges } from "../../../utils/functions/createTooltipClusterEdges";
 export function renderEdgeClusterNodeOnMap(
     hiddenEdgesLayer: L.LayerGroup<any>,
     edge: EdgesAggroutes,

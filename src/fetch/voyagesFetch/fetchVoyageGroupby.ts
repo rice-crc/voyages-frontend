@@ -7,7 +7,7 @@ export const fetchVoyageGraphGroupby = createAsyncThunk(
     async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/voyage/groupby`,
+                `${BASEURL}/voyage/groupby/`,
                 dataSend,
                 {
                     headers: {

@@ -7,7 +7,7 @@ import { getEdgesSize } from '@/utils/functions/getNodeSize';
 import L from 'leaflet';
 import renderEdgesAnimatedLinesOnMap from './renderEdgesAnimatedLinesOnMap';
 import renderEdgesLinesOnMap from './renderEdgesLinesOnMap';
-import { createSourceEdges } from './createSourceAndTargetDictionaries';
+import { createSourceAndTargetDictionariesNodeEdges } from '../../../utils/functions/createSourceAndTargetDictionariesNodeEdges';
 import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
 
 export function handleHoverCircleMarker(
@@ -31,12 +31,12 @@ export function handleHoverCircleMarker(
 
   const nodeLogValueScale = createLogValueScale(nodesData);
 
-  const sourceEdges = createSourceEdges(nodeHoverID, hiddenEdgesData);
+  const sourceEdges = createSourceAndTargetDictionariesNodeEdges(nodeHoverID, hiddenEdgesData);
 
   const targetNode = nodesData.find((node) => node.id === nodeHoverID)!;
 
   const { lat: targetLat, lon: targetLng } = targetNode?.data!;
-  sourceEdges.forEach((sourceEdge) => {
+  sourceEdges.forEach((sourceEdge: EdgesAggroutes) => {
     const sourceNodeId = sourceEdge.source;
     const originNode = originNodeMarkersMap.get(sourceNodeId);
     if (originNode) {

@@ -15,14 +15,12 @@ import '@/style/Nav.scss';
 import { resetAll } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
 
-const HeaderEnslavedNavBar: React.FC = () => {
+const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
-  const { currentPageBlockName } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
-  );
+
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
@@ -153,4 +151,4 @@ const HeaderEnslavedNavBar: React.FC = () => {
   );
 };
 
-export default HeaderEnslavedNavBar;
+export default HeaderEnslaversNavBar;

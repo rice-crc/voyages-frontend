@@ -2,9 +2,10 @@
 import { EdgesAggroutes, NodeAggroutes } from '@/share/InterfaceTypesMap';
 import { getEdgesSize } from '@/utils/functions/getNodeSize';
 import L from 'leaflet';
-import renderEdgesAnimatedLinesOnMap from './renderEdgesAnimatedLinesOnMap';
-import renderEdgesLinesOnMap from './renderEdgesLinesOnMap';
+
 import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
+import renderEdgesAnimatedLinesOnMap from '@/components/PresentationComponents/Map/renderEdgesAnimatedLinesOnMap';
+import renderEdgesLinesOnMap from '@/components/PresentationComponents/Map/renderEdgesLinesOnMap';
 
 
 export function handleHoverPostDisMultipleEdges(

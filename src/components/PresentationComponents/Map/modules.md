@@ -5,3 +5,11 @@ The `Map components` consist of the LeafletMap Component, which manages map rend
 #
 
 - ![Map](../../../assets/map.png)
+
+#
+
+- ![Map](../../../assets/hover.png)
+
+#
+
+- ![Map](../../../assets/enslaver.png)

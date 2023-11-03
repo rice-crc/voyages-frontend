@@ -3,11 +3,10 @@ import { getEdgesSize } from '@/utils/functions/getNodeSize';
 import L from 'leaflet';
 import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
 import { nodeTypeOrigin, nodeTypePostDisembarkation } from '@/share/CONST_DATA';
-import { getCoordinatesLatLng } from './getCoordinatesLatLng';
 import { renderEdgeClusterNodeOnMap } from './renderEdgeClusterNodeOnMap';
 import { TooltipHoverTableOnNode } from './TooltipHoverTableOnNode';
 import { createRoot } from 'react-dom/client';
-import ReactDOMServer from 'react-dom/server';
+import { getCoordinatesLatLngMap } from '@/utils/functions/getCoordinatesLatLngMap';
 
 
 export function handleHoverMarkerCluster(
@@ -61,7 +60,7 @@ export function handleHoverMarkerCluster(
     const size = getEdgesSize(edge);
     const weightEdges = size !== null ? nodeLogValueScale(size) / 1.4 : 0;
 
-    const [coordinatesStart, coordinatesEnd] = getCoordinatesLatLng(nodeType, clusterLat, clusterLng, nodeLat!, nodeLng!);
+    const [coordinatesStart, coordinatesEnd] = getCoordinatesLatLngMap(nodeType, clusterLat, clusterLng, nodeLat!, nodeLng!);
 
     renderEdgeClusterNodeOnMap(hiddenEdgesLayer, edge, node, coordinatesStart, coordinatesEnd, weightEdges, nodeType);
 

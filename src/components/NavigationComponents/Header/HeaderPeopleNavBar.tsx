@@ -19,8 +19,8 @@ import {
   ALLENSLAVEDPAGE,
 } from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 import { setPathName } from '@/redux/getDataPathNameSlice';
 import { resetAll } from '@/redux/resetAllSlice';
@@ -29,10 +29,6 @@ export default function HeaderPeopleNavBar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const dispatch: AppDispatch = useDispatch();
-
-  const { currentPageBlockName } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
-  );
 
   const handleMenuClose = () => {
     setAnchorEl(null);

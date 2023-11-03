@@ -7,7 +7,7 @@ export const fetchEnslaversGeoTreeSelect = createAsyncThunk(
     async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/past/enslaver/geotree`,
+                `${BASEURL}/past/enslaver/geotree/`,
                 dataSend,
                 {
                     headers: {

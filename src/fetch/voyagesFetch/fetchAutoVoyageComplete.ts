@@ -7,7 +7,7 @@ export const fetchAutoVoyageComplete = createAsyncThunk(
     async (dataSend?: { [key: string]: string[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/voyage/autocomplete`,
+                `${BASEURL}/voyage/autocomplete/`,
                 dataSend,
                 {
                     headers: {

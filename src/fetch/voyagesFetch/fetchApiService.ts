@@ -8,7 +8,7 @@ export const voyagesApi = createApi({
     endpoints: (builder) => ({
         getOptions: builder.query({
             query: () => ({
-                url: '/common/schemas/?schema_name=Voyage&hierarchical=False',
+                url: '/common/schemas/?schema_name=Voyage&hierarchical=False/',
                 method: 'GET',
                 headers: { 'Authorization': AUTHTOKEN }
             }),
