@@ -18,12 +18,12 @@
 				"label": "Year of Arrival"
 			},
 			{
-				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__value",
+				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__value",
 				"type": "GeoTreeSelect",
 				"label": "Port of Embarkation"
 			},
 			{
-				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__value",
+				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__value",
 				"type": "GeoTreeSelect",
 				"label": "Port of Disembarkation"
 			}
@@ -33,7 +33,7 @@
 		"label": "Personal Data",
 		"children": [
 			{
-				"var_name": "birth_place__geo_location__value",
+				"var_name": "birth_place__value",
 				"type": "GeoTreeSelect",
 				"label": "Birth Place"
 			},
@@ -43,7 +43,7 @@
 				"label": "Birth Year"
 			},
 			{
-				"var_name": "death_place__geo_location__value",
+				"var_name": "death_place__value",
 				"type": "GeoTreeSelect",
 				"label": "Death Place"
 			},

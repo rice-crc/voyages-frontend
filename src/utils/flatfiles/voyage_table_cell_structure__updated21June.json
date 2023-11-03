@@ -56,13 +56,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"voyage_itinerary__imp_port_voyage_begin__geo_location__name"
+				"voyage_itinerary__imp_port_voyage_begin__name"
 			],
-			"colID": "voyage_itinerary__imp_port_voyage_begin__geo_location__name",
+			"colID": "voyage_itinerary__imp_port_voyage_begin__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_itinerary__imp_port_voyage_begin__geo_location__name",
+						"var_name": "voyage_itinerary__imp_port_voyage_begin__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -73,13 +73,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name"
+				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
 			],
-			"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+			"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+						"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -90,13 +90,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"voyage_itinerary__imp_principal_port_slave_dis__geo_location__name"
+				"voyage_itinerary__imp_principal_port_slave_dis__name"
 			],
-			"colID": "voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+			"colID": "voyage_itinerary__imp_principal_port_slave_dis__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+						"var_name": "voyage_itinerary__imp_principal_port_slave_dis__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -179,13 +179,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_zotero_connections__zotero_source__zotero_title"
+				"voyage_source_connections__source__title"
 			],
 			"colID": "voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_zotero_connections__zotero_source__zotero_title",
+						"var_name": "voyage_source_connections__source__title",
 						"cell_fn": "literal"
 					}
 				]
@@ -269,13 +269,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_ship__vessel_construction_place__geo_location__name"
+				"voyage_ship__vessel_construction_place__name"
 			],
-			"colID": "voyage_ship__vessel_construction_place__geo_location__name",
+			"colID": "voyage_ship__vessel_construction_place__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_ship__vessel_construction_place__geo_location__name",
+						"var_name": "voyage_ship__vessel_construction_place__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -303,13 +303,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_ship__registered_place__geo_location__name"
+				"voyage_ship__registered_place__name"
 			],
-			"colID": "voyage_ship__registered_place__geo_location__name",
+			"colID": "voyage_ship__registered_place__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_ship__registered_place__geo_location__name",
+						"var_name": "voyage_ship__registered_place__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -456,13 +456,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_itinerary__first_place_slave_purchase__geo_location__name"
+				"voyage_itinerary__first_place_slave_purchase__name"
 			],
-			"colID": "voyage_itinerary__first_place_slave_purchase__geo_location__name",
+			"colID": "voyage_itinerary__first_place_slave_purchase__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_itinerary__first_place_slave_purchase__geo_location__name",
+						"var_name": "voyage_itinerary__first_place_slave_purchase__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -473,13 +473,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_itinerary__second_place_slave_purchase__geo_location__name"
+				"voyage_itinerary__second_place_slave_purchase__name"
 			],
-			"colID": "voyage_itinerary__second_place_slave_purchase__geo_location__name",
+			"colID": "voyage_itinerary__second_place_slave_purchase__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_itinerary__second_place_slave_purchase__geo_location__name",
+						"var_name": "voyage_itinerary__second_place_slave_purchase__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -490,13 +490,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_itinerary__third_place_slave_purchase__geo_location__name"
+				"voyage_itinerary__third_place_slave_purchase__name"
 			],
-			"colID": "voyage_itinerary__third_place_slave_purchase__geo_location__name",
+			"colID": "voyage_itinerary__third_place_slave_purchase__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_itinerary__third_place_slave_purchase__geo_location__name",
+						"var_name": "voyage_itinerary__third_place_slave_purchase__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -507,13 +507,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_itinerary__port_of_call_before_atl_crossing__geo_location__name"
+				"voyage_itinerary__port_of_call_before_atl_crossing__name"
 			],
-			"colID": "voyage_itinerary__port_of_call_before_atl_crossing__geo_location__name",
+			"colID": "voyage_itinerary__port_of_call_before_atl_crossing__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_itinerary__port_of_call_before_atl_crossing__geo_location__name",
+						"var_name": "voyage_itinerary__port_of_call_before_atl_crossing__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -524,13 +524,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_itinerary__first_landing_place__geo_location__name"
+				"voyage_itinerary__first_landing_place__name"
 			],
-			"colID": "voyage_itinerary__first_landing_place__geo_location__name",
+			"colID": "voyage_itinerary__first_landing_place__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_itinerary__first_landing_place__geo_location__name",
+						"var_name": "voyage_itinerary__first_landing_place__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -541,13 +541,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_itinerary__second_landing_place__geo_location__name"
+				"voyage_itinerary__second_landing_place__name"
 			],
-			"colID": "voyage_itinerary__second_landing_place__geo_location__name",
+			"colID": "voyage_itinerary__second_landing_place__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_itinerary__second_landing_place__geo_location__name",
+						"var_name": "voyage_itinerary__second_landing_place__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -558,13 +558,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_itinerary__third_landing_place__geo_location__name"
+				"voyage_itinerary__third_landing_place__name"
 			],
-			"colID": "voyage_itinerary__third_landing_place__geo_location__name",
+			"colID": "voyage_itinerary__third_landing_place__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_itinerary__third_landing_place__geo_location__name",
+						"var_name": "voyage_itinerary__third_landing_place__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -575,13 +575,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_itinerary__place_voyage_ended__geo_location__name"
+				"voyage_itinerary__place_voyage_ended__name"
 			],
-			"colID": "voyage_itinerary__place_voyage_ended__geo_location__name",
+			"colID": "voyage_itinerary__place_voyage_ended__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_itinerary__place_voyage_ended__geo_location__name",
+						"var_name": "voyage_itinerary__place_voyage_ended__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1000,13 +1000,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_name_outcome__particular_outcome__name"
+				"voyage_outcome__particular_outcome__name"
 			],
-			"colID": "voyage_name_outcome__particular_outcome__name",
+			"colID": "voyage_outcome__particular_outcome__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_name_outcome__particular_outcome__name",
+						"var_name": "voyage_outcome__particular_outcome__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1017,13 +1017,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_name_outcome__outcome_slaves__name"
+				"voyage_outcome__outcome_slaves__name"
 			],
-			"colID": "voyage_name_outcome__outcome_slaves__name",
+			"colID": "voyage_outcome__outcome_slaves__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_name_outcome__outcome_slaves__name",
+						"var_name": "voyage_outcome__outcome_slaves__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1034,13 +1034,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_name_outcome__vessel_captured_outcome__name"
+				"voyage_outcome__vessel_captured_outcome__name"
 			],
-			"colID": "voyage_name_outcome__vessel_captured_outcome__name",
+			"colID": "voyage_outcome__vessel_captured_outcome__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_name_outcome__vessel_captured_outcome__name",
+						"var_name": "voyage_outcome__vessel_captured_outcome__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1051,13 +1051,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_name_outcome__outcome_owner__name"
+				"voyage_outcome__outcome_owner__name"
 			],
-			"colID": "voyage_name_outcome__outcome_owner__name",
+			"colID": "voyage_outcome__outcome_owner__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_name_outcome__outcome_owner__name",
+						"var_name": "voyage_outcome__outcome_owner__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1068,13 +1068,13 @@
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [
-				"voyage_name_outcome__resistance__name"
+				"voyage_outcome__resistance__name"
 			],
-			"colID": "voyage_name_outcome__resistance__name",
+			"colID": "voyage_outcome__resistance__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_name_outcome__resistance__name",
+						"var_name": "voyage_outcome__resistance__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -1098,7 +1098,7 @@
 					"label": "Year constructed"
 				},
 				{
-					"colID": "voyage_ship__vessel_construction_place__geo_location__name",
+					"colID": "voyage_ship__vessel_construction_place__name",
 					"label": "Place constructed"
 				},
 				{
@@ -1106,7 +1106,7 @@
 					"label": "Year registered"
 				},
 				{
-					"colID": "voyage_ship__registered_place__geo_location__name",
+					"colID": "voyage_ship__registered_place__name",
 					"label": "Place registered"
 				},
 				{
@@ -1160,47 +1160,47 @@
 			"label": "Itinerary",
 			"children": [
 				{
-					"colID": "voyage_itinerary__imp_port_voyage_begin__geo_location__name",
+					"colID": "voyage_itinerary__imp_port_voyage_begin__name",
 					"label": "Place where vessel's voyage began (*imp)"
 				},
 				{
-					"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+					"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 					"label": "Principal place where captives were purchased"
 				},
 				{
-					"colID": "voyage_itinerary__first_place_slave_purchase__geo_location__name",
+					"colID": "voyage_itinerary__first_place_slave_purchase__name",
 					"label": "First place where captives were purchased"
 				},
 				{
-					"colID": "voyage_itinerary__second_place_slave_purchase__geo_location__name",
+					"colID": "voyage_itinerary__second_place_slave_purchase__name",
 					"label": "Second place where captives were purchased"
 				},
 				{
-					"colID": "voyage_itinerary__third_place_slave_purchase__geo_location__name",
+					"colID": "voyage_itinerary__third_place_slave_purchase__name",
 					"label": "Third place where captives were purchased"
 				},
 				{
-					"colID": "voyage_itinerary__port_of_call_before_atl_crossing__geo_location__name",
+					"colID": "voyage_itinerary__port_of_call_before_atl_crossing__name",
 					"label": "Places of call before Atlantic crossing"
 				},
 				{
-					"colID": "voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+					"colID": "voyage_itinerary__imp_principal_port_slave_dis__name",
 					"label": "Principal place where captives were landed (*imp)"
 				},
 				{
-					"colID": "voyage_itinerary__first_landing_place__geo_location__name",
+					"colID": "voyage_itinerary__first_landing_place__name",
 					"label": "First place where captives were landed"
 				},
 				{
-					"colID": "voyage_itinerary__second_landing_place__geo_location__name",
+					"colID": "voyage_itinerary__second_landing_place__name",
 					"label": "Second place where captives were landed"
 				},
 				{
-					"colID": "voyage_itinerary__third_landing_place__geo_location__name",
+					"colID": "voyage_itinerary__third_landing_place__name",
 					"label": "Third place where captives were landed"
 				},
 				{
-					"colID": "voyage_itinerary__place_voyage_ended__geo_location__name",
+					"colID": "voyage_itinerary__place_voyage_ended__name",
 					"label": "Place where vessel's voyage ended"
 				}
 			]
@@ -1331,23 +1331,23 @@
 			"label": "Outcome",
 			"children": [
 				{
-					"colID": "voyage_name_outcome__particular_outcome__name",
+					"colID": "voyage_outcome__particular_outcome__name",
 					"label": "Particular outcome of voyage"
 				},
 				{
-					"colID": "voyage_name_outcome__outcome_slaves__name",
+					"colID": "voyage_outcome__outcome_slaves__name",
 					"label": "Outcome of voyage for captives"
 				},
 				{
-					"colID": "voyage_name_outcome__vessel_captured_outcome__name",
+					"colID": "voyage_outcome__vessel_captured_outcome__name",
 					"label": "Outcome of voyage if ship captured"
 				},
 				{
-					"colID": "voyage_name_outcome__outcome_owner__name",
+					"colID": "voyage_outcome__outcome_owner__name",
 					"label": "Outcome of voyage for owner"
 				},
 				{
-					"colID": "voyage_name_outcome__resistance__name",
+					"colID": "voyage_outcome__resistance__name",
 					"label": "Resistance"
 				}
 			]

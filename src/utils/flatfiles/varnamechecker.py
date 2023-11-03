@@ -3,14 +3,16 @@ import re
 import json
 import requests
 
-url = "http://127.0.0.1:8000/voyage/?hierarchical=False"
+url = "http://127.0.0.1:8000/common/schemas/?schema_name=Voyage&hierarchical=False"
+
+
 
 payload = {}
 headers = {
-  'Authorization': 'Token 1e22e84d595abfb2c5d3984fba74179e57442fc1'
+  'Authorization': 'Token 1e898427118449e96d62dafcb7ad822e926f7031'
 }
 
-response = requests.request("OPTIONS", url, headers=headers, data=payload)
+response = requests.request("GET", url, headers=headers, data=payload)
 
 print(response.status_code)
 

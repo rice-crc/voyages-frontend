@@ -24,7 +24,7 @@
 						"flatlabel": "Name of vessel"
 					},
 					{
-						"var_name": "voyage_enslaver_connection__enslaver_alias__alias",
+						"var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__alias",
 						"type": "CharField",
 						"label": "Enslavers",
 						"flatlabel": "Enslavers"
@@ -35,13 +35,13 @@
 				"label": "Construction and registration",
 				"children": [
 					{
-						"var_name": "voyage_ship__vessel_construction_region__geo_location__name",
+						"var_name": "voyage_ship__vessel_construction_region__name",
 						"type": "CharField",
 						"label": "Region where vessel constructed",
 						"flatlabel": "Region where vessel constructed"
 					},
 					{
-						"var_name": "voyage_ship__registered_place__geo_location__name",
+						"var_name": "voyage_ship__registered_place__name",
 						"type": "CharField",
 						"label": "Place where vessel registered",
 						"flatlabel": "Place where vessel registered"
@@ -132,7 +132,7 @@
 				"label": "Place of Vessel's Departure",
 				"children": [
 					{
-						"var_name": "voyage_itinerary__port_of_departure__geo_location__value",
+						"var_name": "voyage_itinerary__port_of_departure__value",
 						"type": "GeoTreeSelect",
 						"label": "Port of departure (PORTDEP)",
 						"flatlabel": "Port of departure (PORTDEP)"
@@ -143,25 +143,25 @@
 				"label": "Place where captives were purchased",
 				"children": [
 					{
-						"var_name": "voyage_itinerary__third_place_slave_purchase__geo_location__value",
+						"var_name": "voyage_itinerary__third_place_slave_purchase__value",
 						"type": "GeoTreeSelect",
 						"label": "Third place of slave purchase (PLAC3TRA)",
 						"flatlabel": "Third place of slave purchase (PLAC3TRA)"
 					},
 					{
-						"var_name": "voyage_itinerary__second_place_slave_purchase__geo_location__value",
+						"var_name": "voyage_itinerary__second_place_slave_purchase__value",
 						"type": "GeoTreeSelect",
 						"label": "Location name",
 						"flatlabel": "Second place of slave purchase (PLAC2TRA)"
 					},
 					{
-						"var_name": "voyage_itinerary__first_place_slave_purchase__geo_location__value",
+						"var_name": "voyage_itinerary__first_place_slave_purchase__value",
 						"type": "GeoTreeSelect",
 						"label": "First place of slave purchase (PLAC1TRA)",
 						"flatlabel": "First place of slave purchase (PLAC1TRA)"
 					},
 					{
-						"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__value",
+						"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__value",
 						"type": "GeoTreeSelect",
 						"label": "Imputed principal place of slave purchase (MJBYPTIMP)",
 						"flatlabel": "Imputed principal place of slave purchase (MJBYPTIMP)"
@@ -172,7 +172,7 @@
 				"label": "Places of call before Atlantic crossing",
 				"children": [
 					{
-						"var_name": "voyage_itinerary__port_of_call_before_atl_crossing__geo_location__value",
+						"var_name": "voyage_itinerary__port_of_call_before_atl_crossing__value",
 						"type": "GeoTreeSelect",
 						"label": "Port of call before Atlantic crossing (NPAFTTRA)",
 						"flatlabel": "Port of call before Atlantic crossing (NPAFTTRA)"
@@ -183,25 +183,25 @@
 				"label": "Place where captives were landed",
 				"children": [
 					{
-						"var_name": "voyage_itinerary__third_landing_place__geo_location__value",
+						"var_name": "voyage_itinerary__third_landing_place__value",
 						"type": "GeoTreeSelect",
 						"label": "Third place of slave landing (ADPSALE2)",
 						"flatlabel": "Third place of slave landing (ADPSALE2)"
 					},
 					{
-						"var_name": "voyage_itinerary__second_landing_place__geo_location__value",
+						"var_name": "voyage_itinerary__second_landing_place__value",
 						"type": "GeoTreeSelect",
 						"label": "Second place of slave landing (ADPSALE1)",
 						"flatlabel": "Second place of slave landing (ADPSALE1)"
 					},
 					{
-						"var_name": "voyage_itinerary__first_landing_place__geo_location__value",
+						"var_name": "voyage_itinerary__first_landing_place__value",
 						"type": "GeoTreeSelect",
 						"label": "First place of slave landing (SLA1PORT)",
 						"flatlabel": "First place of slave landing (SLA1PORT)"
 					},
 					{
-						"var_name": "voyage_itinerary__imp_principal_port_slave_dis__geo_location__value",
+						"var_name": "voyage_itinerary__imp_principal_port_slave_dis__value",
 						"type": "GeoTreeSelect",
 						"label": "Imputed principal port of slave disembarkation (MJSLPTIMP)",
 						"flatlabel": "Imputed principal port of slave disembarkation (MJSLPTIMP)"
@@ -212,7 +212,7 @@
 				"label": "Place where vessel's voyage ended",
 				"children": [
 					{
-						"var_name": "voyage_itinerary__place_voyage_ended__geo_location__value",
+						"var_name": "voyage_itinerary__place_voyage_ended__value",
 						"type": "GeoTreeSelect",
 						"label": "Place at which voyage ended (PORTRET)",
 						"flatlabel": "Place at which voyage ended (PORTRET)"
@@ -425,31 +425,31 @@
 		"label": "Outcome",
 		"children": [
 			{
-				"var_name": "voyage_name_outcome__vessel_captured_outcome__name",
+				"var_name": "voyage_outcome__vessel_captured_outcome__name",
 				"type": "CharField",
 				"label": "Vessel Captured Outcome",
 				"flatlabel": "Vessel Captured Outcome"
 			},
 			{
-				"var_name": "voyage_name_outcome__resistance__name",
+				"var_name": "voyage_outcome__resistance__name",
 				"type": "CharField",
 				"label": "Resistance",
 				"flatlabel": "Resistance"
 			},
 			{
-				"var_name": "voyage_name_outcome__outcome_owner__name",
+				"var_name": "voyage_outcome__outcome_owner__name",
 				"type": "CharField",
 				"label": "Owner Outcome",
 				"flatlabel": "Owner Outcome"
 			},
 			{
-				"var_name": "voyage_name_outcome__outcome_slaves__name",
+				"var_name": "voyage_outcome__outcome_slaves__name",
 				"type": "CharField",
 				"label": "Slaves Outcome",
 				"flatlabel": "Slaves Outcome"
 			},
 			{
-				"var_name": "voyage_name_outcome__particular_outcome__name",
+				"var_name": "voyage_outcome__particular_outcome__name",
 				"type": "CharField",
 				"label": "Particular Outcome",
 				"flatlabel": "Particular Outcome"
@@ -458,7 +458,7 @@
 	},
 	{
 		"label": "Sources",
-		"var_name": "voyage_zotero_connections__zotero_source__zotero_title",
+		"var_name": "voyage_source_connections__source__title",
 		"type": "CharField",
 		"flatlabel": "Sources"
 	}
