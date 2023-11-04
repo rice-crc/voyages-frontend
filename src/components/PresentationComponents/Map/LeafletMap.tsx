@@ -124,7 +124,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
   const fetchData = async (regionOrPlace: string) => {
     const dataSend: { [key: string]: (string | number)[] } = {};
-
     dataSend['zoomlevel'] = [regionOrPlace];
     if (clusterNodeKeyVariable && clusterNodeValue) {
       dataSend[clusterNodeKeyVariable] = [clusterNodeValue]
@@ -141,8 +140,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     }
     if (isChange && rang && currentPage === 7 && pathName === VOYAGESPAGE) {
       for (const rangKey in rang) {
-        dataSend[rangKey] = [rang[rangKey][0]];
-        dataSend[rangKey] = [rang[rangKey][1]];
+        dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
       }
     }
     if (
@@ -152,8 +150,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       pathName === PASTHOMEPAGE
     ) {
       for (const rangKey in rang) {
-        dataSend[rangKey] = [rang[rangKey][0]];
-        dataSend[rangKey] = [rang[rangKey][1]];
+        dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
       }
     }
 
@@ -217,7 +214,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     }
 
     hasFetchedRegion ? setLoading(true) : setLoading(false);
-
+    console.log({ dataSend })
     let response;
     if (pathName === VOYAGESPAGE) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();

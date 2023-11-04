@@ -111,8 +111,7 @@ function BarGraph() {
 
       if (isChange && rang && currentPage === 4) {
         for (const rangKey in rang) {
-          dataSend[rangKey] = [rang[rangKey][0]];
-          dataSend[rangKey] = [rang[rangKey][1]];
+          dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
         }
       }
       if (autoCompleteValue && varName && currentPage === 4) {
@@ -250,11 +249,9 @@ function BarGraph() {
           layout={{
             width: maxWidth,
             height: height * 0.45,
-            title: `The ${aggregation} of ${
-              optionFlat[barGraphOptions.x_vars]?.label || ''
-            } vs <br> ${
-              optionFlat[barGraphOptions.y_vars]?.label || ''
-            } Bar Graph`,
+            title: `The ${aggregation} of ${optionFlat[barGraphOptions.x_vars]?.label || ''
+              } vs <br> ${optionFlat[barGraphOptions.y_vars]?.label || ''
+              } Bar Graph`,
             font: {
               family: 'Arial, sans-serif',
               size: maxWidth < 400 ? 7 : 10,

@@ -8,7 +8,7 @@ import {
   getColorBoxShadowEnslaved,
 } from '@/utils/functions/getColorStyle';
 import '@/style/page.scss';
-import { setPathName } from '@/redux/getDataPathNameSlice';
+import { setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
 import { ALLENSLAVED } from '@/share/CONST_DATA';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ const CollectionTabEnslaved = () => {
     dispatch(setCurrentEnslavedPage(page));
     dispatch(setCurrentBlockName(blockName))
     if (page === 2) {
-      dispatch(setPathName(ALLENSLAVED));
+      dispatch(setPathNameEnslaved(ALLENSLAVED));
     }
     navigate(`#${(blockName).toLowerCase()}`)
   };

@@ -48,6 +48,7 @@ const VoyagesTable: React.FC = () => {
   const { rangeSliderMinMax: rang, varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
+
   const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
@@ -133,8 +134,7 @@ const VoyagesTable: React.FC = () => {
     }
     if (currentPage === 2) {
       for (const rangKey in rang) {
-        dataSend[rangKey] = [rang[rangKey][0]];
-        dataSend[rangKey] = [rang[rangKey][1]];
+        dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
       }
     }
 

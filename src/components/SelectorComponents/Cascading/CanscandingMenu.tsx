@@ -7,7 +7,7 @@ import { RootState } from '@/redux/store';
 import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
 
 export default function CanscandingMenu(props: CanscandingMenuProps) {
-  const { pathName } = useSelector((state: RootState) => state.getPathName);
+  const { pathNameEnslaved, pathNameEnslavers } = useSelector((state: RootState) => state.getPathName);
 
   return (
     <div
@@ -25,7 +25,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
       >
         <Hidden smDown>
           <div>
-            {pathName === ALLENSLAVED || pathName === ALLENSLAVERS ? (
+            {pathNameEnslaved === ALLENSLAVED || pathNameEnslavers === ALLENSLAVERS ? (
               <MenuListDropdownPeople />
             ) : (
               <MenuListDropdown />
