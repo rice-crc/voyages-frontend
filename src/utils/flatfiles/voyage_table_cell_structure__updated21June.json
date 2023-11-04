@@ -121,7 +121,7 @@
 		{
 			"header_label": "Captives landed at 1st port",
 			"cell_type": "literal",
-			"visible": true,
+			"visible": false,
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_disembark_first_place"
 			],
@@ -146,11 +146,11 @@
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_enslaver_connection__enslaver_alias__alias",
+						"var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__alias",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "voyage_enslaver_connection__enslaver_alias__identity__id",
+						"var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id",
 						"cell_fn": "card",
 						"node_class": "enslavers"
 					}
@@ -590,7 +590,7 @@
 		{
 			"header_label": "Total embarked (*imp)",
 			"cell_type": "literal",
-			"visible": false,
+			"visible": true,
 			"order_by": [
 				"voyage_slaves_numbers__imp_total_num_slaves_embarked"
 			],
@@ -624,7 +624,7 @@
 		{
 			"header_label": "Total disembarked (*imp)",
 			"cell_type": "literal",
-			"visible": false,
+			"visible": true,
 			"order_by": [
 				"voyage_slaves_numbers__imp_total_num_slaves_disembarked"
 			],
