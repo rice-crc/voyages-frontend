@@ -12,7 +12,7 @@ Cascading filter menus are specified in the utils/flatfiles folder, with filenam
     			"label": "Ship Name"
     		},
     		{
-    			"var_name": "voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__value",
+    			"var_name": "voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__value",
     			"type": "GeoField",
     			"label": "Place of embarkation"
     		},
