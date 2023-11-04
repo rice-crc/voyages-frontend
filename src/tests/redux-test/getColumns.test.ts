@@ -24,9 +24,9 @@ test("setColumnsSelectorTree reducer sets the valueCells", () => {
 test("setVisibleColumn reducer sets the valueCells", () => {
     const visibleColumn = [
         "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-        "voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+        "voyage_itinerary__imp_principal_port_slave_dis__name",
         "voyage_enslavers",
-        "voyage_ship__vessel_construction_place__geo_location__name"
+        "voyage_ship__vessel_construction_place__name"
     ]
     const state = getColumnsReducer(initialState, setVisibleColumn(visibleColumn));
 
