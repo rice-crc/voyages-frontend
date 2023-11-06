@@ -24,24 +24,19 @@
 		},
 		{
 			"header_label": "Enslavers",
-			"cell_type": "literal-concat",
+			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"enslaved_relations__relation__relation_enslavers__enslaver_alias__alias"
+				"enslaved_relations__relation__relation_enslavers__enslaver"
 			],
 			"colID": "enslaved_relations__relation__relation_enslavers__enslaver",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "enslaved_relations__relation__relation_enslavers__roles__name",
+						"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__identity__principal_alias",
 						"cell_fn": "literal"
 					}
-				],
-				"join": " : "
+				]
 			}
 		},
 		{
