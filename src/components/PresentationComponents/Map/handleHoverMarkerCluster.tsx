@@ -84,7 +84,7 @@ export function handleHoverMarkerCluster(
 
   popupRoot.render(
     <TooltipHoverTableOnNode
-      childNodesData={childNodesData}
+      nodesDatas={childNodesData}
       nodeType={nodeType}
       handleSetClusterKeyValue={handleSetClusterKeyValue}
     />

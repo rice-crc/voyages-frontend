@@ -33,16 +33,12 @@ const VoyageCard = () => {
   const [globalExpand, setGlobalExpand] = useState(true);
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
 
-  const { cardData, cardRowID, cardFileName, cardDataArray, nodeType } =
+  const { cardData, cardRowID, cardFileName, cardDataArray, nodeTypeClass } =
     useSelector((state: RootState) => state.getCardFlatObjectData);
-  const { networkID } = useSelector(
-    (state: RootState) => state.getPastNetworksGraphData
-  );
-
   useEffect(() => {
     let newCardFileName: string = '';
     const newCardDataArray: TransatlanticCardProps[] = [];
-    switch (nodeType) {
+    switch (nodeTypeClass) {
       case VOYAGESNODE:
         newCardFileName = YOYAGESCARDFILE;
         newCardDataArray.push(...CARDS_VOYAGES_COLLECTION);
@@ -60,20 +56,21 @@ const VoyageCard = () => {
     }
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
-  }, [nodeType]);
+  }, [nodeTypeClass]);
 
   useEffect(() => {
     let subscribed = true;
     const fetchData = async () => {
-      const ID = networkID || cardRowID;
+      const ID = cardRowID;
 
       const dataSend: { [key: string]: (string | number)[] } = {
         id: [Number(ID!)],
       };
 
+
       try {
         let response = null;
-        switch (nodeType) {
+        switch (nodeTypeClass) {
           case VOYAGESNODE:
             response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
             break;
@@ -104,7 +101,7 @@ const VoyageCard = () => {
       subscribed = false;
       dispatch(setCardData([]));
     };
-  }, [dispatch, nodeType]);
+  }, [dispatch, nodeTypeClass, cardRowID]);
 
   const newCardData = processCardData(cardData, cardDataArray, cardFileName);
 

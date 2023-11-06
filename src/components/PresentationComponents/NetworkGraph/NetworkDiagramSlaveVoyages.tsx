@@ -90,7 +90,7 @@ export const NetworkDiagramSlaveVoyages = ({
     return () => {
       subscribed = false;
     };
-  }, [dispatch]);
+  }, [dispatch, networkID, networkKEY]);
   if (width === 0 || !data) {
     return null;
   }

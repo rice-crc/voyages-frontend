@@ -4,17 +4,17 @@ import { nodeTypeOrigin, nodeTypePostDisembarkation } from '@/share/CONST_DATA';
 import { Divider } from '@mui/material';
 
 interface TooltipHoverTableOnNodeProps {
-    childNodesData: NodeAggroutes[];
+    nodesDatas: NodeAggroutes[];
     nodeType: string;
     handleSetClusterKeyValue: (value: string, nodeType: string) => void
 }
 
 export const TooltipHoverTableOnNode = ({
-    childNodesData, nodeType, handleSetClusterKeyValue
+    nodesDatas, nodeType, handleSetClusterKeyValue
 }: TooltipHoverTableOnNodeProps) => {
     const maxDisplayCount = 4;
 
-    if (!childNodesData) {
+    if (!nodesDatas) {
         return (
             <div>
                 No child nodes available.
@@ -22,16 +22,16 @@ export const TooltipHoverTableOnNode = ({
         );
     }
 
-    const displayedNodes = childNodesData!.slice(0, maxDisplayCount);
-    const remainingNodes = childNodesData!.slice(maxDisplayCount);
-    // const displayedEmbaDisembarkationNode = childNodesData
+    const displayedNodes = nodesDatas!.slice(0, maxDisplayCount);
 
-    const tatalOriginCount = childNodesData?.reduce(
+    const remainingNodes = nodesDatas!.slice(maxDisplayCount);
+
+    const tatalOriginCount = nodesDatas?.reduce(
         (total, node) => total + node.weights.origin!,
         0
     );
 
-    const tatalPostDisembarkationCount = childNodesData?.reduce(
+    const tatalPostDisembarkationCount = nodesDatas?.reduce(
         (total, node) => total + node.weights['post-disembarkation']!,
         0
     );

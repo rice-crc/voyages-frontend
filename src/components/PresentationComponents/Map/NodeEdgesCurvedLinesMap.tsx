@@ -26,11 +26,9 @@ import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
 import { handleHoverCircleMarker } from './handleHoverCircleMarker';
 import { handleHoverMarkerCluster } from './handleHoverMarkerCluster';
 import { DISPOSTIONNODE, ORIGINATIONNODE, ORIGINLanguageGroupKEY, nodeTypeOrigin, nodeTypePostDisembarkation, postDisembarkLocationKEY } from '@/share/CONST_DATA';
-import { TooltipHoverTableOnNode } from './TooltipHoverTableOnNode';
 import { setClusterNodeKeyVariable, setClusterNodeValue } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
-import { createRoot } from 'react-dom/client';
 
 
 const NodeEdgesCurvedLinesMap = () => {
@@ -49,6 +47,9 @@ const NodeEdgesCurvedLinesMap = () => {
     } else if (nodeType === nodeTypePostDisembarkation) {
       dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY))
       dispatch(setClusterNodeValue(value))
+    } else {
+      // dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY))
+      // dispatch(setClusterNodeValue(value))
     }
 
   }
@@ -219,7 +220,7 @@ const NodeEdgesCurvedLinesMap = () => {
 
     nodesData.forEach((node) => {
       const { data, weights, id: nodeID } = node;
-      const { lat, lon, name } = data;
+      const { lat, lon } = data;
       const {
         origin,
         'post-disembarkation': postDisembarkation,
@@ -241,6 +242,10 @@ const NodeEdgesCurvedLinesMap = () => {
           0.8,
           nodeID
         );
+
+        const popupContent = `<p>${name}</p>`;
+        circleMarker.bindPopup(popupContent);
+
         const originMarker = L.marker(latlon);
         circleMarker.on('mousemove', (event) => {
           handleHoverCircleMarker(
@@ -249,21 +254,9 @@ const NodeEdgesCurvedLinesMap = () => {
             edgesData,
             nodesData,
             originNodeMarkersMap,
-            originMarkerCluster
+            originMarkerCluster,
+            handleSetClusterKeyValue
           );
-
-          const popupContainer = document.createElement('center');
-          popupContainer.className = 'tablePopup'
-          popupContainer.style.width = '300px'
-          const popupRoot = createRoot(popupContainer);
-          popupRoot.render(
-            <TooltipHoverTableOnNode
-              childNodesData={nodesData}
-              nodeType={''}
-              handleSetClusterKeyValue={handleSetClusterKeyValue}
-            />
-          );
-          event.target.bindPopup(popupContainer).openPopup();
         });
 
         if (disembarkation !== 0 || embarkation !== 0) {

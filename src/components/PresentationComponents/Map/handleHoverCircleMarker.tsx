@@ -9,6 +9,8 @@ import renderEdgesAnimatedLinesOnMap from './renderEdgesAnimatedLinesOnMap';
 import renderEdgesLinesOnMap from './renderEdgesLinesOnMap';
 import { createSourceAndTargetDictionariesNodeEdges } from '../../../utils/functions/createSourceAndTargetDictionariesNodeEdges';
 import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
+import { createRoot } from 'react-dom/client';
+import { TooltipHoverTableOnNode } from './TooltipHoverTableOnNode';
 
 export function handleHoverCircleMarker(
   event: L.LeafletEvent,
@@ -16,7 +18,8 @@ export function handleHoverCircleMarker(
   edgesData: EdgesAggroutes[],
   nodesData: NodeAggroutes[],
   originNodeMarkersMap: Map<string, L.Marker<any>>,
-  originMarkerCluster: L.MarkerClusterGroup
+  originMarkerCluster: L.MarkerClusterGroup,
+  handleSetClusterKeyValue: (value: string, nodeType: string) => void
 ) {
   const aggregatedEdges = new Map<string, EdgesAggroutedSourceTarget>();
   hiddenEdgesLayer.clearLayers();
@@ -31,7 +34,10 @@ export function handleHoverCircleMarker(
 
   const nodeLogValueScale = createLogValueScale(nodesData);
 
-  const sourceEdges = createSourceAndTargetDictionariesNodeEdges(nodeHoverID, hiddenEdgesData);
+  const sourceEdges = createSourceAndTargetDictionariesNodeEdges(
+    nodeHoverID,
+    hiddenEdgesData
+  );
 
   const targetNode = nodesData.find((node) => node.id === nodeHoverID)!;
 
@@ -59,6 +65,22 @@ export function handleHoverCircleMarker(
       }
     }
   });
+  /**
+   WAIT To discuss Keep the labes for now
+   const popupContainer = document.createElement('center');
+   popupContainer.className = 'tablePopup'
+  popupContainer.style.width = '300px'
+  const popupRoot = createRoot(popupContainer);
+  popupRoot.render(
+    <TooltipHoverTableOnNode
+      nodesDatas={nodesData}
+      nodeType={''}
+      handleSetClusterKeyValue={handleSetClusterKeyValue}
+    />
+  );
+  event.target.bindPopup(popupContainer).openPopup();
+   **/
+
 
   for (const [, edgeData] of aggregatedEdges) {
     const { sourceLatlng, targetLatlng, controls, type } = edgeData;

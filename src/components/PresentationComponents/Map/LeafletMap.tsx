@@ -125,6 +125,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const fetchData = async (regionOrPlace: string) => {
     const dataSend: { [key: string]: (string | number)[] } = {};
     dataSend['zoomlevel'] = [regionOrPlace];
+
     if (clusterNodeKeyVariable && clusterNodeValue) {
       dataSend[clusterNodeKeyVariable] = [clusterNodeValue]
     }

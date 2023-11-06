@@ -15,13 +15,17 @@ import {
 import { RootState } from '@/redux/store';
 import '@/style/table.scss';
 import {
+  AFRICANORIGINS,
   ALLENSLAVED,
   ALLENSLAVERS,
   ALLVOYAGES,
+  ENSALVERSTYLE,
   ENSLAVEDNODE,
   ENSLAVERSNODE,
   VOYAGESNODE,
 } from '@/share/CONST_DATA';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { TYPESOFDATASET } from '@/share/InterfaceTypes';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
@@ -30,15 +34,15 @@ export const GenerateCellTableRenderer = (
 ) => {
   const values = params.value;
   const ID = params.data.id;
-
   const dispatch = useDispatch();
-  const { pathNameEnslaved, pathNameEnslavers, pathNameVoyages } = useSelector((state: RootState) => state.getPathName);
+  const { styleName } = usePageRouter()
+
   let nodeType: string = '';
-  if (pathNameVoyages === ALLVOYAGES) {
+  if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
     nodeType = VOYAGESNODE;
-  } else if (pathNameEnslaved === ALLENSLAVED) {
+  } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
     nodeType = ENSLAVEDNODE;
-  } else if (pathNameEnslavers === ALLENSLAVERS) {
+  } else if (styleName === ENSALVERSTYLE) {
     nodeType = ENSLAVERSNODE;
   }
 

@@ -149,9 +149,7 @@ const PivotTables = () => {
     } = pivotValueOptions;
     const fetchData = async () => {
       const dataSend: { [key: string]: (string | number)[] } = {};
-      for (const column of columnVars) {
-        dataSend['columns'] = [column];
-      }
+      dataSend['columns'] = columnVars;
       dataSend['rows'] = [row_vars];
       dataSend['rows_label'] = [rows_label];
       dataSend['agg_fn'] = [aggregation];

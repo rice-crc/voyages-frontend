@@ -279,7 +279,7 @@ export interface InitialStateTransatlanticCard {
     cardRowID: number
     cardFileName: string
     cardDataArray: TransatlanticCardProps[]
-    nodeType: string
+    nodeTypeClass: string
 }
 export interface TransatlanticCardProps {
     label: string
