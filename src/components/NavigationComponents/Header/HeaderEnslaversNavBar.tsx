@@ -12,8 +12,9 @@ import { FilterButton } from '@/components/SelectorComponents/ButtonComponents/F
 import ButtonDropdownSelectorColumnEnslavers from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslavers';
 import CanscandingMenuEnslaversMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuEnslaversMobile';
 import '@/style/Nav.scss';
-import { resetAll } from '@/redux/resetAllSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
+import { resetAllStateSlice } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -36,7 +37,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
     setAnchorFilterMobileEl(null);
   };
   const onClickResetOnHeader = () => {
-    dispatch(resetAll());
+    dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);

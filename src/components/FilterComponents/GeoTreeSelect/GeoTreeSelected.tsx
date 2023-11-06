@@ -6,7 +6,7 @@ import {
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
-import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
+import { AFRICANORIGINS, ALLENSLAVED, ENSALVERSTYLE } from '@/share/CONST_DATA';
 import { fetcVoyagesGeoTreeSelectLists } from '@/fetch/geoFetch/fetchVoyagesGeoTreeSelect';
 import { TreeSelect } from 'antd';
 import '@/style/page.scss';
@@ -30,8 +30,6 @@ const GeoTreeSelected: React.FC = () => {
     (state: RootState) => state.getGeoTreeData
   );
   const { styleName } = usePageRouter()
-  const { pathNameEnslaved, pathNameVoyages, pathNameEnslavers } = useSelector((state: RootState) => state.getPathName);
-  console.log({ pathNameEnslaved, pathNameVoyages, pathNameEnslavers })
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
@@ -102,15 +100,15 @@ const GeoTreeSelected: React.FC = () => {
 
       let response = [];
       try {
-        if (pathNameVoyages === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
+        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
           response = await dispatch(
             fetcVoyagesGeoTreeSelectLists(dataSend)
           ).unwrap();
-        } else if (pathNameEnslaved === ALLENSLAVED || styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
+        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
           response = await dispatch(
             fetchEnslavedGeoTreeSelect(dataSend)
           ).unwrap();
-        } else if (pathNameEnslavers === ALLENSLAVERS) {
+        } else if (styleName === ENSALVERSTYLE) {
           response = await dispatch(
             fetchEnslaversGeoTreeSelect(dataSend)
           ).unwrap();
@@ -128,7 +126,7 @@ const GeoTreeSelected: React.FC = () => {
       subscribed = false;
       dispatch(setGeoTreeValueList([]));
     };
-  }, [dispatch, varName, pathNameEnslaved, pathNameEnslavers, pathNameVoyages]);
+  }, [dispatch, varName, styleName]);
 
   const handleTreeOnChange = (newValue: string[]) => {
     dispatch(setIsChangeGeoTree(true));

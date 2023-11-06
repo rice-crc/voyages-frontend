@@ -38,6 +38,7 @@ export const BLOGPAGE = 'Blog'
 
 export const ALLENSLAVERS = 'all-enslavers'
 export const ENSALVERSPAGE = '/enslaver'
+export const ENSALVERSTYLE = 'enslaver'
 
 
 export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGhqMXZ5YmxjZCJ9.eP7ZuC68Q5iBZQa8I13AGw`;

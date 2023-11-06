@@ -7,7 +7,7 @@ export const fetchPastEnslaversRangeSliderData = createAsyncThunk(
     async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/past/enslaver/aggregations`,
+                `${BASEURL}/past/enslaver/aggregations/`,
                 dataSend,
                 {
                     headers: {

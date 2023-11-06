@@ -5,7 +5,7 @@ import SearchVoyages from '@/assets/searchICON.svg';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { resetAll } from '@/redux/resetAllSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import {
   setBlocksMenuList,
   setDataSetHeader,
@@ -30,7 +30,7 @@ import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 export default function HeaderLogoSearch() {
   const dispatch: AppDispatch = useDispatch();
   const onChangePath = () => {
-    dispatch(resetAll());
+    dispatch(resetAllStateToInitailState());
     dispatch(resetBlockNameAndPageName())
     dispatch(setCurrentEnslavedPage(1));
     dispatch(setCurrentPage(1));

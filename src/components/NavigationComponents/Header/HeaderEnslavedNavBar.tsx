@@ -47,7 +47,7 @@ import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitl
 import { FilterButton } from '@/components/SelectorComponents/ButtonComponents/FilterButton';
 import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
 import '@/style/Nav.scss';
-import { resetAll } from '@/redux/resetAllSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
 import '@/style/homepage.scss';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
@@ -136,7 +136,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
   };
 
   const handleResetAll = () => {
-    dispatch(resetAll());
+    dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);

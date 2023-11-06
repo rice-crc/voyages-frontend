@@ -48,7 +48,7 @@ import {
 } from '@/share/CONST_DATA';
 import CanscandingMenuVoyagesMobile from '../../SelectorComponents/Cascading/CanscandingMenuVoyagesMobile';
 import '@/style/Nav.scss';
-import { resetAll } from '@/redux/resetAllSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '../../PresentationComponents/GlobalSearch/GlobalSearchButton';
 import { DrawerMenuBar } from './DrawerMenuBar';
 
@@ -120,7 +120,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     setAnchorEl(event.currentTarget);
   };
   const onClickReset = () => {
-    dispatch(resetAll());
+    dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);

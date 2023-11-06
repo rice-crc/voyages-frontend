@@ -23,7 +23,6 @@ const GlobalHomeNavigations = () => {
 
   const handleHomeSearch = () => {
     dispatch(setCurrentPage(1));
-    console.log('handleHomeSearch')
     dispatch(setPathNameVoyages(ALLVOYAGES));
     dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);

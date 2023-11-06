@@ -258,7 +258,7 @@ const NodeEdgesCurvedLinesMap = () => {
           const popupRoot = createRoot(popupContainer);
           popupRoot.render(
             <TooltipHoverTableOnNode
-              childNodesData={[]}
+              childNodesData={nodesData}
               nodeType={''}
               handleSetClusterKeyValue={handleSetClusterKeyValue}
             />

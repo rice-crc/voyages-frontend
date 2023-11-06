@@ -33,10 +33,11 @@ import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import AutocompleteBox from '../../FilterComponents/Autocomplete/AutoComplete';
 import RangeSlider from '../../FilterComponents/RangeSlider/RangeSlider';
-import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
+import { ALLENSLAVED, ALLENSLAVERS, ENSALVERSTYLE, ENSLAVERSTYPE } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { useNavigate } from 'react-router-dom';
 import { resetAll } from '@/redux/resetAllSlice';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 export const MenuListDropdownPeople = () => {
   const { styleNamePeople } = useSelector(
@@ -46,6 +47,7 @@ export const MenuListDropdownPeople = () => {
   const { valueEnslaved, valueAfricanOrigin, valueTexas, valueEnslavers } =
     useSelector((state: RootState) => state.getFilterPeople.value);
   const { pathNameEnslaved, pathNameEnslavers } = useSelector((state: RootState) => state.getPathName);
+  const { styleName } = usePageRouter()
 
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -144,21 +146,18 @@ export const MenuListDropdownPeople = () => {
     const loadTableCellStructure = async () => {
       try {
         if (
-          styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved &&
-          pathNameEnslaved === ALLENSLAVED
+          styleName === TYPESOFDATASETPEOPLE.allEnslaved
         ) {
           setFilterPeopleMenu(valueEnslaved);
         } else if (
-          styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins &&
-          pathNameEnslaved === ALLENSLAVED
+          styleName === TYPESOFDATASETPEOPLE.africanOrigins
         ) {
           setFilterPeopleMenu(valueAfricanOrigin);
         } else if (
-          styleNamePeople === TYPESOFDATASETPEOPLE.texas &&
-          pathNameEnslaved === ALLENSLAVED
+          styleName === TYPESOFDATASETPEOPLE.texas
         ) {
           setFilterPeopleMenu(valueTexas);
-        } else if (pathNameEnslavers === ALLENSLAVERS) {
+        } else if (styleName === ENSALVERSTYLE) {
           setFilterPeopleMenu(valueEnslavers);
         }
       } catch (error) {
@@ -166,7 +165,7 @@ export const MenuListDropdownPeople = () => {
       }
     };
     loadTableCellStructure();
-  }, [styleNamePeople, pathNameEnslaved, pathNameEnslavers]);
+  }, [styleNamePeople, pathNameEnslaved, pathNameEnslavers, styleName]);
 
   return (
     <div>

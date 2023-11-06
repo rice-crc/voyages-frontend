@@ -16,7 +16,7 @@ import {
 } from '@/share/InterfaceTypes';
 import { fetchRangeSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
 import { fetchPastEnslavedRangeSliderData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedRangeSliderData';
-import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
+import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSALVERSTYLE } from '@/share/CONST_DATA';
 import '@/style/Slider.scss';
 import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -24,7 +24,6 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName } = usePageRouter()
-  const { pathNameEnslaved, pathNameVoyages, pathNameEnslavers } = useSelector((state: RootState) => state.getPathName);
 
   const { rangeValue, varName, rangeSliderMinMax } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
@@ -58,13 +57,13 @@ const RangeSlider = () => {
 
       try {
         let response;
-        if (pathNameVoyages === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
+        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
           response = await dispatch(fetchRangeSliderData(dataSend)).unwrap();
-        } else if (pathNameEnslaved === ALLENSLAVED || styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
+        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
           response = await dispatch(
             fetchPastEnslavedRangeSliderData(dataSend)
           ).unwrap();
-        } else if (pathNameEnslavers === ALLENSLAVERS) {
+        } else if (styleName === ENSALVERSTYLE) {
           response = await dispatch(
             fetchPastEnslaversRangeSliderData(dataSend)
           ).unwrap();
@@ -93,7 +92,7 @@ const RangeSlider = () => {
       dispatch(setRangeValue({}));
       subscribed = false;
     };
-  }, [dispatch, varName, pathNameEnslaved, pathNameEnslavers, pathNameVoyages]);
+  }, [dispatch, varName, styleName]);
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');

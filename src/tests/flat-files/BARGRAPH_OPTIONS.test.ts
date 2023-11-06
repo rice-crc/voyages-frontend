@@ -38,7 +38,7 @@ test('VOYAGE_BARGRAPH_OPTIONS.json response data matches expected data', async (
 
     const response = await asyncMock();
     const data = response.data;
-    console.log({ data })
+
 
     const options = Object.keys(data);
 

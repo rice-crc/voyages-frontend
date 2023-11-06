@@ -23,7 +23,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 import { setPathEnslavers, setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
-import { resetAll } from '@/redux/resetAllSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 
 export default function HeaderPeopleNavBar() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function HeaderPeopleNavBar() {
   };
 
   const handleSelectMenuItems = (item: string) => {
-    dispatch(resetAll());
+    dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);

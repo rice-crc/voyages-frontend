@@ -22,7 +22,7 @@ import {
   setIsChangeAuto,
 } from '@/redux/getAutoCompleteSlice';
 import { fetchPastEnslavedAutoComplete } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedAutoCompleted';
-import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
+import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSALVERSTYLE } from '@/share/CONST_DATA';
 import { fetchPastEnslaversAutoCompleted } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversAutoCompleted';
 import '@/style/Slider.scss';
 import '@/style/table.scss';
@@ -54,13 +54,13 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
 
       let response = [];
       try {
-        if (pathNameVoyages === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
+        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
           response = await dispatch(fetchAutoVoyageComplete(dataSend)).unwrap();
-        } else if (pathNameEnslaved === ALLENSLAVED || styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
+        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
           response = await dispatch(
             fetchPastEnslavedAutoComplete(dataSend)
           ).unwrap();
-        } else if (pathNameEnslavers === ALLENSLAVERS) {
+        } else if (styleName === ENSALVERSTYLE) {
           response = await dispatch(
             fetchPastEnslaversAutoCompleted(dataSend)
           ).unwrap();
@@ -78,7 +78,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
       subscribed = false;
       setAutoLists([]);
     };
-  }, [dispatch, varName, autoValue, pathNameEnslaved, pathNameEnslavers, pathNameVoyages]);
+  }, [dispatch, varName, autoValue, pathNameEnslaved, pathNameEnslavers, pathNameVoyages, styleName]);
 
   const handleInputChange = useMemo(
     () => (event: React.SyntheticEvent<Element, Event>, value: string) => {

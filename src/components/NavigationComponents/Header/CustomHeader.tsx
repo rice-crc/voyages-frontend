@@ -76,7 +76,7 @@ const CustomHeader: React.FC<Props> = (props) => {
 
       if (pathNameVoyages === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
         response = await dispatch(fetchVoyageOptionsData(dataSend)).unwrap();
-        console.log({ response })
+
       } else if (pathNameEnslaved === ALLENSLAVED || styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
         response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
       } else if (pathNameEnslavers === ALLENSLAVERS) {

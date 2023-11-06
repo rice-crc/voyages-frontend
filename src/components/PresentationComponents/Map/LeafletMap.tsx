@@ -129,6 +129,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       dataSend[clusterNodeKeyVariable] = [clusterNodeValue]
     }
 
+
     if (styleName !== TYPESOFDATASET.allVoyages) {
       for (const value of dataSetValue) {
         dataSend[dataSetKey] = [String(value)];
@@ -214,7 +215,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     }
 
     hasFetchedRegion ? setLoading(true) : setLoading(false);
-    console.log({ dataSend })
     let response;
     if (pathName === VOYAGESPAGE) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();

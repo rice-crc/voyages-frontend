@@ -24,6 +24,7 @@ export const TooltipHoverTableOnNode = ({
 
     const displayedNodes = childNodesData!.slice(0, maxDisplayCount);
     const remainingNodes = childNodesData!.slice(maxDisplayCount);
+    // const displayedEmbaDisembarkationNode = childNodesData
 
     const tatalOriginCount = childNodesData?.reduce(
         (total, node) => total + node.weights.origin!,
@@ -79,7 +80,7 @@ export const TooltipHoverTableOnNode = ({
 
 
     const textHederOfTableOtherType = <div className="embarkations-type">
-        <a href="#" onClick={() => console.log('textHederOfTableOtherType')}>1926 Liberated Africans embarked</a> in Loango, of whom 707 have been identified as belonging to
+        <a href="#" onClick={() => console.log('textHederOfTableOtherType')}>1926 Liberated Africans embarked</a> in Loango, of whom {tatalPostDisembarkationCount} have been identified as belonging to
         <a href="#" onClick={() => console.log('textHederOfTableOtherType')}>16 language groups</a><Divider style={{ margin: '0.75rem 0', opacity: 0.5 }} />
     </div>
 
