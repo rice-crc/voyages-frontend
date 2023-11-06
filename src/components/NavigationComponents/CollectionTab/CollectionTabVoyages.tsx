@@ -24,6 +24,7 @@ const CollectionTabVoyages = () => {
   );
 
   const handlePageNavigation = (page: number, blockName: string) => {
+
     dispatch(setCurrentPage(page));
     if (page === 1) {
       dispatch(setIsFilter(false));

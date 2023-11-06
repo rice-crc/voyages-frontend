@@ -35,6 +35,7 @@ const VoyageCard = () => {
 
   const { cardData, cardRowID, cardFileName, cardDataArray, nodeTypeClass } =
     useSelector((state: RootState) => state.getCardFlatObjectData);
+
   useEffect(() => {
     let newCardFileName: string = '';
     const newCardDataArray: TransatlanticCardProps[] = [];
@@ -66,7 +67,6 @@ const VoyageCard = () => {
       const dataSend: { [key: string]: (string | number)[] } = {
         id: [Number(ID!)],
       };
-
 
       try {
         let response = null;

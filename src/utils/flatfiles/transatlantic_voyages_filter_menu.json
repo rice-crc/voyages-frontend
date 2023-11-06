@@ -143,22 +143,22 @@
 				"label": "Place where captives were purchased",
 				"children": [
 					{
-						"var_name": "voyage_itinerary__third_place_slave_purchase__value",
-						"type": "GeoTreeSelect",
-						"label": "Third place of slave purchase (PLAC3TRA)",
-						"flatlabel": "Third place of slave purchase (PLAC3TRA)"
-					},
-					{
-						"var_name": "voyage_itinerary__second_place_slave_purchase__value",
-						"type": "GeoTreeSelect",
-						"label": "Location name",
-						"flatlabel": "Second place of slave purchase (PLAC2TRA)"
-					},
-					{
 						"var_name": "voyage_itinerary__first_place_slave_purchase__value",
 						"type": "GeoTreeSelect",
 						"label": "First place of slave purchase (PLAC1TRA)",
 						"flatlabel": "First place of slave purchase (PLAC1TRA)"
+					},
+					{
+						"var_name": "voyage_itinerary__second_place_slave_purchase__value",
+						"type": "GeoTreeSelect",
+						"label": "Second place of slave purchase (PLAC2TRA)",
+						"flatlabel": "Second place of slave purchase (PLAC2TRA)"
+					},
+					{
+						"var_name": "voyage_itinerary__third_place_slave_purchase__value",
+						"type": "GeoTreeSelect",
+						"label": "Third place of slave purchase (PLAC3TRA)",
+						"flatlabel": "Third place of slave purchase (PLAC3TRA)"
 					},
 					{
 						"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__value",

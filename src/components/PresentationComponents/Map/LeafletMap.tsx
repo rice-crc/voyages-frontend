@@ -57,6 +57,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { nodesData } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
+  const { styleName: styleNamePage } = usePageRouter()
 
   const [regionPlace, setRegionPlace] = useState<string>('region');
   const [loading, setLoading] = useState<boolean>(false);
@@ -109,16 +110,16 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       savedNodesDataPlace
     ) {
       if (zoomLevel >= ZOOM_LEVEL_THRESHOLD) {
-        dispatch(setNodesDataPlace(JSON.parse(savedNodesDataPlace)));
-        dispatch(setEdgesDataPlace(JSON.parse(saveEdgesDataPlace)));
+
+        dispatch(setNodesDataPlace(JSON.parse(savedNodesDataPlace!)));
+        dispatch(setEdgesDataPlace(JSON.parse(saveEdgesDataPlace!)));
         setLoading(false);
       } else {
-        dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion)));
-        dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion)));
+        dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion!)));
+        dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion!)));
         setLoading(false);
       }
     }
-
   }, [zoomLevel]);
 
 
@@ -217,9 +218,9 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
     hasFetchedRegion ? setLoading(true) : setLoading(false);
     let response;
-    if (pathName === VOYAGESPAGE) {
+    if (styleNamePage === TYPESOFDATASET.allVoyages || styleNamePage === TYPESOFDATASET.intraAmerican || styleNamePage === TYPESOFDATASET.transatlantic) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
-    } else if (pathName === PASTHOMEPAGE) {
+    } else if (styleNamePage === AFRICANORIGINS) {
       response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
     }
 
@@ -231,15 +232,15 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   };
 
   useEffect(() => {
-    if (hasFetchedRegion) {
+    if (hasFetchedRegion || (clusterNodeKeyVariable && clusterNodeValue)) {
       fetchData(REGION);
-    } else if (clusterNodeKeyVariable && clusterNodeValue) {
+    } else if (rang || varName || autoCompleteValue || autoLabelName || currentEnslavedPage || currentPage || pathName || dataSetKey || dataSetValue
+      || geoTreeValue || inputSearchValue) {
       fetchData(REGION);
     }
   }, [
     rang,
     varName,
-    isChange,
     autoCompleteValue,
     autoLabelName,
     currentPage,
@@ -319,7 +320,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
   return (
     <div style={{ backgroundColor: getMapBackgroundColor(backgroundColor) }}>
-      {loading || nodesData.length === 0 ? (
+      {loading || nodesData?.length === 0 ? (
         <div className="loading-logo">
           <img src={LOADINGLOGO} />
         </div>

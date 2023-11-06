@@ -179,7 +179,6 @@ function Scatter() {
     aggregation,
     rang,
     varName,
-    isChange,
     autoCompleteValue,
     autoLabelName,
     chips,

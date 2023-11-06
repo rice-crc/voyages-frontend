@@ -150,7 +150,6 @@ function PieGraph() {
     aggregation,
     rang,
     varName,
-    isChange,
     autoCompleteValue,
     autoLabelName,
     currentPage,
