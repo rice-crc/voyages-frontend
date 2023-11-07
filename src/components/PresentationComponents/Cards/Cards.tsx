@@ -7,7 +7,6 @@ import {
   setCardFileName,
 } from '@/redux/getCardFlatObjectSlice';
 import { processCardData } from '@/utils/functions/processCardData';
-
 import CARDS_VOYAGES_COLLECTION from '@/utils/flatfiles/transatlantic_voyages_card.json';
 import CARDS_ENSLAVED_COLLECTION from '@/utils/flatfiles/enslaved_card.json';
 import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers_card.json';
@@ -18,7 +17,8 @@ import {
   ENSLAVERSNODE,
   VOYAGESNODE,
   YOYAGESCARDFILE,
-} from '@/share/CONST_DATA';
+}
+  from '@/share/CONST_DATA';
 import '@/style/cards.scss';
 import { TransatlanticCardProps } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -33,16 +33,15 @@ const VoyageCard = () => {
   const [globalExpand, setGlobalExpand] = useState(true);
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
 
-  const { cardData, cardRowID, cardFileName, cardDataArray, nodeType } =
+  const { cardData, cardRowID, cardFileName, cardDataArray, nodeTypeClass } =
     useSelector((state: RootState) => state.getCardFlatObjectData);
   const { networkID } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
-
   useEffect(() => {
     let newCardFileName: string = '';
     const newCardDataArray: TransatlanticCardProps[] = [];
-    switch (nodeType) {
+    switch (nodeTypeClass) {
       case VOYAGESNODE:
         newCardFileName = YOYAGESCARDFILE;
         newCardDataArray.push(...CARDS_VOYAGES_COLLECTION);
@@ -60,7 +59,7 @@ const VoyageCard = () => {
     }
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
-  }, [nodeType]);
+  }, [nodeTypeClass]);
 
   useEffect(() => {
     let subscribed = true;
@@ -73,7 +72,7 @@ const VoyageCard = () => {
 
       try {
         let response = null;
-        switch (nodeType) {
+        switch (nodeTypeClass) {
           case VOYAGESNODE:
             response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
             break;
@@ -104,7 +103,7 @@ const VoyageCard = () => {
       subscribed = false;
       dispatch(setCardData([]));
     };
-  }, [dispatch, nodeType]);
+  }, [dispatch, nodeTypeClass, cardRowID]);
 
   const newCardData = processCardData(cardData, cardDataArray, cardFileName);
 

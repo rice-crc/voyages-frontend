@@ -24,6 +24,7 @@ import {
   mappingSpecialistsRivers,
   PLACE,
   REGION,
+  AFRICANORIGINS,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
@@ -37,32 +38,42 @@ import {
   setNodesDataRegion,
   setPathsData,
 } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
-import { AggroutesData } from '@/share/InterfaceTypesMap';
 import { HandleZoomEvent } from './HandleZoomEvent';
 import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
 import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
-export const LeafletMap = () => {
+interface LeafletMapProps {
+  setZoomLevel: React.Dispatch<React.SetStateAction<number>>
+  zoomLevel: number
+}
+
+export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const dispatch: AppDispatch = useDispatch();
   const mapRef = useRef(null);
   const location = useLocation();
   const pathNameArr = location.pathname.split('/');
   const pathName = pathNameArr[1];
+  const { nodesData } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
+  const { styleName: styleNamePage } = usePageRouter()
 
-  const [zoomLevel, setZoomLevel] = useState<number>(3);
   const [regionPlace, setRegionPlace] = useState<string>('region');
   const [loading, setLoading] = useState<boolean>(false);
   const hasFetchedPlaceRef = useRef(false);
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+
   const { styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
-  const { hasFetchedRegion } = useSelector(
+  const { hasFetchedRegion, clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
+
   const {
     rangeSliderMinMax: rang,
     varName,
@@ -85,6 +96,7 @@ export const LeafletMap = () => {
     (state: RootState) => state.getCommonGlobalSearch
   );
 
+
   useEffect(() => {
     const savedNodesDataRegion = localStorage.getItem('nodesDataregion');
     const saveEdgesDataRegion = localStorage.getItem('edgesDataregion');
@@ -98,40 +110,40 @@ export const LeafletMap = () => {
       savedNodesDataPlace
     ) {
       if (zoomLevel >= ZOOM_LEVEL_THRESHOLD) {
-        dispatch(setNodesDataPlace(JSON.parse(savedNodesDataPlace)));
-        dispatch(setEdgesDataPlace(JSON.parse(saveEdgesDataPlace)));
+
+        dispatch(setNodesDataPlace(JSON.parse(savedNodesDataPlace!)));
+        dispatch(setEdgesDataPlace(JSON.parse(saveEdgesDataPlace!)));
         setLoading(false);
       } else {
-        dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion)));
-        dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion)));
+        dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion!)));
+        dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion!)));
         setLoading(false);
       }
     }
-
-    return () => {
-      dispatch(setNodesDataRegion([]));
-      dispatch(setNodesDataPlace([]));
-      dispatch(setEdgesDataRegion([]));
-      dispatch(setEdgesDataPlace([]));
-    };
   }, [zoomLevel]);
+
 
   const fetchData = async (regionOrPlace: string) => {
     const dataSend: { [key: string]: (string | number)[] } = {};
-
     dataSend['zoomlevel'] = [regionOrPlace];
+
+    if (clusterNodeKeyVariable && clusterNodeValue) {
+      dataSend[clusterNodeKeyVariable] = [clusterNodeValue]
+    }
+
+
     if (styleName !== TYPESOFDATASET.allVoyages) {
       for (const value of dataSetValue) {
         dataSend[dataSetKey] = [String(value)];
       }
     }
+
     if (inputSearchValue) {
       dataSend['global_search'] = [String(inputSearchValue)];
     }
     if (isChange && rang && currentPage === 7 && pathName === VOYAGESPAGE) {
       for (const rangKey in rang) {
-        dataSend[rangKey] = [rang[rangKey][0]];
-        dataSend[rangKey] = [rang[rangKey][1]];
+        dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
       }
     }
     if (
@@ -141,8 +153,7 @@ export const LeafletMap = () => {
       pathName === PASTHOMEPAGE
     ) {
       for (const rangKey in rang) {
-        dataSend[rangKey] = [rang[rangKey][0]];
-        dataSend[rangKey] = [rang[rangKey][1]];
+        dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
       }
     }
 
@@ -206,11 +217,10 @@ export const LeafletMap = () => {
     }
 
     hasFetchedRegion ? setLoading(true) : setLoading(false);
-
     let response;
-    if (pathName === VOYAGESPAGE) {
+    if (styleNamePage === TYPESOFDATASET.allVoyages || styleNamePage === TYPESOFDATASET.intraAmerican || styleNamePage === TYPESOFDATASET.transatlantic) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
-    } else if (pathName === PASTHOMEPAGE) {
+    } else if (styleNamePage === AFRICANORIGINS) {
       response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
     }
 
@@ -222,19 +232,15 @@ export const LeafletMap = () => {
   };
 
   useEffect(() => {
-    if (hasFetchedRegion) {
+    if (hasFetchedRegion || (clusterNodeKeyVariable && clusterNodeValue)) {
+      fetchData(REGION);
+    } else if (rang || varName || autoCompleteValue || autoLabelName || currentEnslavedPage || currentPage || pathName || dataSetKey || dataSetValue
+      || geoTreeValue || inputSearchValue) {
       fetchData(REGION);
     }
-    return () => {
-      dispatch(setMapData({} as AggroutesData));
-      dispatch(setNodesDataRegion([]));
-      dispatch(setEdgesDataRegion([]));
-      dispatch(setPathsData([]));
-    };
   }, [
     rang,
     varName,
-    isChange,
     autoCompleteValue,
     autoLabelName,
     currentPage,
@@ -244,7 +250,7 @@ export const LeafletMap = () => {
     styleName,
     geoTreeValue,
     inputSearchValue,
-    regionPlace,
+    regionPlace, clusterNodeKeyVariable, clusterNodeValue
   ]);
 
   const handleDataResponse = (response: any, regionOrPlace: string) => {
@@ -260,9 +266,7 @@ export const LeafletMap = () => {
           JSON.stringify(edges)
         );
       }
-
       dispatch(setMapData(response));
-
       if (regionOrPlace === 'region') {
         setLoading(false);
         dispatch(setNodesDataRegion(nodes));
@@ -290,7 +294,6 @@ export const LeafletMap = () => {
         hasFetchedPlaceRef.current = true;
       }, 3000);
     }
-
     return () => {
       if (timeout) {
         clearTimeout(timeout);
@@ -299,19 +302,25 @@ export const LeafletMap = () => {
   }, [hasFetchedRegion]);
 
   const map = useMap();
+
   map.on('zoomend', () => {
     const newZoomLevel = map.getZoom();
-  
     setZoomLevel(newZoomLevel);
-    // Update your data based on the new zoom level here
     fetchData(regionPlace);
   });
 
+  let backgroundColor = styleNamePeople;
+  if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
+    backgroundColor = styleName
+  }
+  if (styleNamePeople === AFRICANORIGINS) {
+    backgroundColor = styleNamePeople;
+  }
 
-  const backgroundColor = styleNamePeople ? styleNamePeople : styleName;
+
   return (
     <div style={{ backgroundColor: getMapBackgroundColor(backgroundColor) }}>
-      {loading ? (
+      {loading || nodesData?.length === 0 ? (
         <div className="loading-logo">
           <img src={LOADINGLOGO} />
         </div>
@@ -331,6 +340,7 @@ export const LeafletMap = () => {
             <HandleZoomEvent
               setZoomLevel={setZoomLevel}
               setRegionPlace={setRegionPlace}
+              zoomLevel={zoomLevel}
             />
             <TileLayer url={mappingSpecialists} />
             <LayersControl position="topright">

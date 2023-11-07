@@ -2,22 +2,21 @@ import { setIsFilter } from '@/redux/getFilterSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { setPathName } from '@/redux/getDataPathNameSlice';
 
 interface FilterButtonProps {
   pathName: string;
-  currentPage: number;
+  currentPageBlockName?: string
+  currentPage?: number;
 }
-export const FilterButton = ({ pathName, currentPage }: FilterButtonProps) => {
+export const FilterButton = ({ currentPageBlockName, currentPage }: FilterButtonProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const handleClick = () => {
     dispatch(setIsFilter(!isFilter));
-    dispatch(setPathName(pathName));
   };
 
   return (
-    currentPage !== 1 && (
+    currentPageBlockName !== 'intro' && currentPage !== 1 && (
       <span
         style={{ cursor: 'pointer', display: 'flex' }}
         onClick={handleClick}

@@ -42,6 +42,9 @@ const CanscandingMenuEnslaversMobile = () => {
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
+  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
   const { isOpenDialogMobile } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -79,13 +82,21 @@ const CanscandingMenuEnslaversMobile = () => {
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialogMobile(false));
-
     dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
   };
+
+  const handleResetAll = () => {
+    dispatch(resetAll());
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
+
 
   const renderMenuItems = (nodes: FilterMenu[] | ChildrenFilter[]) => {
     return nodes?.map((node: FilterMenu | ChildrenFilter, index: number) => {
@@ -149,6 +160,12 @@ const CanscandingMenuEnslaversMobile = () => {
                 <div className="menu-nav-bar" style={{ color: '#ffffff' }}>
                   Filter Search
                 </div>
+                {varName || (clusterNodeKeyVariable && clusterNodeValue) && (
+                  <div className="btn-navbar-reset-all" onClick={handleResetAll}>
+                    <i aria-hidden="true" className="fa fa-times"></i>
+                    <span>Reset all</span>
+                  </div>
+                )}
               </span>
             )}
           </IconButton>

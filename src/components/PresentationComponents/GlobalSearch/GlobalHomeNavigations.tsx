@@ -14,7 +14,7 @@ import {
 } from '@/share/CONST_DATA';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
-import { setPathName } from '@/redux/getDataPathNameSlice';
+import { setPathNameEnslaved, setPathNameVoyages } from '@/redux/getDataPathNameSlice';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { resetAll } from '@/redux/resetAllSlice';
 
@@ -23,7 +23,7 @@ const GlobalHomeNavigations = () => {
 
   const handleHomeSearch = () => {
     dispatch(setCurrentPage(1));
-    dispatch(setPathName(ALLVOYAGES));
+    dispatch(setPathNameVoyages(ALLVOYAGES));
     dispatch(resetAll());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
@@ -36,7 +36,7 @@ const GlobalHomeNavigations = () => {
         <div className="place-page-box">
           <div className="voyages-people-places-title">Voyages</div>
           <Link
-            to={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`}
+            to={`${VOYAGESPAGE}${ALLVOYAGESPAGE}#intro`}
             onClick={handleHomeSearch}
           >
             <img src={voyageIcon} alt="voyages" style={{ opacity: 0.65 }} />
@@ -54,7 +54,7 @@ const GlobalHomeNavigations = () => {
               keysToRemove.forEach((key) => {
                 localStorage.removeItem(key);
               });
-              dispatch(setPathName(ALLENSLAVED));
+              dispatch(setPathNameEnslaved(ALLENSLAVED));
             }}
           >
             <img src={peopleIcon} alt="People" style={{ opacity: 0.65 }} />

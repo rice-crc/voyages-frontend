@@ -17,6 +17,8 @@ To use the Fetch API folder in your application, follow these steps:
 Here is an example of how to use the Fetch API folder to make an API request:
 
 ```jsx
+Example:
+
 import { fetchRangeSliderData } from '@/fetchAPI/fetchAggregationsSlider';
 
   useEffect(() => {

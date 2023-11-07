@@ -15,10 +15,11 @@ export const StyledMenu = styled.nav<StyledMenuProps>`
     position: absolute;
     top: 1px;
     left: 0;
+    z-index:2;
     transition: transform 0.3s ease-in-out;
     width: 170px;
     @media (max-width: 576px) {
-      width: 50%;
+      width: 80%;
     }
   
     a {

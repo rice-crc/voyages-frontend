@@ -4,9 +4,11 @@ import { AppDispatch, RootState } from '@/redux/store';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
-import { ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
+import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { TYPESOFDATASET } from '@/share/InterfaceTypes';
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
@@ -44,7 +46,9 @@ const CustomHeader: React.FC<Props> = (props) => {
   const onMenuClicked = () => {
     showColumnMenu(refButton);
   };
-  const { pathName } = useSelector((state: RootState) => state.getPathName);
+  const { styleName } = usePageRouter()
+
+  const { pathNameVoyages, pathNameEnslaved, pathNameEnslavers } = useSelector((state: RootState) => state.getPathName);
 
   const onSortRequested = (
     order: string,
@@ -69,11 +73,13 @@ const CustomHeader: React.FC<Props> = (props) => {
     }
     try {
       let response;
-      if (pathName === ALLVOYAGES) {
+
+      if (pathNameVoyages === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
         response = await dispatch(fetchVoyageOptionsData(dataSend)).unwrap();
-      } else if (pathName === ALLENSLAVED) {
+
+      } else if (pathNameEnslaved === ALLENSLAVED || styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
         response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
-      } else if (pathName === ALLENSLAVERS) {
+      } else if (pathNameEnslavers === ALLENSLAVERS) {
         response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
       }
       if (response) {
@@ -106,7 +112,7 @@ const CustomHeader: React.FC<Props> = (props) => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [pathNameEnslaved, pathNameEnslavers, pathNameVoyages]);
 
   let menu: React.ReactNode = null;
   if (enableMenu) {

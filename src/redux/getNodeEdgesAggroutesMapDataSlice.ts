@@ -16,7 +16,10 @@ const initialState: InitialStateNodeEdgesAggroutesMapData = {
     edgesData: [],
     nodesData: [],
     pathsData: [],
-    hasFetchedRegion: true
+    hasFetchedRegion: true,
+    clusterNodeKeyVariable: '',
+    clusterNodeValue: ''
+
 };
 
 const getNodeEdgesAggroutesMapDataSlice = createSlice({
@@ -44,9 +47,15 @@ const getNodeEdgesAggroutesMapDataSlice = createSlice({
         setHasFetchedRegion: (state, action: PayloadAction<boolean>) => {
             state.hasFetchedRegion = action.payload;
         },
+        setClusterNodeKeyVariable: (state, action: PayloadAction<string>) => {
+            state.clusterNodeKeyVariable = action.payload;
+        },
+        setClusterNodeValue: (state, action: PayloadAction<string>) => {
+            state.clusterNodeValue = action.payload;
+        },
         resetSlice: (state) => initialState,
     }
 });
 
-export const { resetSlice, setNodesDataRegion, setHasFetchedRegion, setNodesDataPlace, setMapData, setEdgesDataRegion, setEdgesDataPlace, setPathsData } = getNodeEdgesAggroutesMapDataSlice.actions;
+export const { resetSlice, setNodesDataRegion, setHasFetchedRegion, setNodesDataPlace, setMapData, setEdgesDataRegion, setEdgesDataPlace, setPathsData, setClusterNodeKeyVariable, setClusterNodeValue } = getNodeEdgesAggroutesMapDataSlice.actions;
 export default getNodeEdgesAggroutesMapDataSlice.reducer;

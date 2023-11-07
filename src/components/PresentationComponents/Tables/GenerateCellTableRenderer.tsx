@@ -15,13 +15,18 @@ import {
 import { RootState } from '@/redux/store';
 import '@/style/table.scss';
 import {
+  AFRICANORIGINS,
   ALLENSLAVED,
   ALLENSLAVERS,
   ALLVOYAGES,
+  ENSALVERSTYLE,
   ENSLAVEDNODE,
+  ENSLAVEDTEXAS,
   ENSLAVERSNODE,
   VOYAGESNODE,
 } from '@/share/CONST_DATA';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { TYPESOFDATASET } from '@/share/InterfaceTypes';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
@@ -30,17 +35,19 @@ export const GenerateCellTableRenderer = (
 ) => {
   const values = params.value;
   const ID = params.data.id;
-
   const dispatch = useDispatch();
-  const { pathName } = useSelector((state: RootState) => state.getPathName);
+  const { styleName } = usePageRouter()
+
+
   let nodeType: string = '';
-  if (pathName === ALLVOYAGES) {
+  if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
     nodeType = VOYAGESNODE;
-  } else if (pathName === ALLENSLAVED) {
+  } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
     nodeType = ENSLAVEDNODE;
-  } else if (pathName === ALLENSLAVERS) {
+  } else if (styleName === ENSALVERSTYLE) {
     nodeType = ENSLAVERSNODE;
   }
+
 
   if (Array.isArray(values)) {
     const style: CSSProperties = {

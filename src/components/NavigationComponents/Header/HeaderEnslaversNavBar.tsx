@@ -12,10 +12,11 @@ import { FilterButton } from '@/components/SelectorComponents/ButtonComponents/F
 import ButtonDropdownSelectorColumnEnslavers from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslavers';
 import CanscandingMenuEnslaversMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuEnslaversMobile';
 import '@/style/Nav.scss';
-import { resetAll } from '@/redux/resetAllSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
+import { resetAllStateSlice } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 
-const HeaderEnslavedNavBar: React.FC = () => {
+const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
@@ -25,6 +26,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+  const { varName } = useSelector(
+    (state: RootState) => state.rangeSlider
+  );
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
@@ -32,13 +36,14 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
   };
-  const onClickReset = () => {
-    dispatch(resetAll());
+  const onClickResetOnHeader = () => {
+    dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
   };
+
   return (
     <Box
       sx={{
@@ -67,7 +72,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
               textHeader={''}
               HeaderTitle={EnslaversTitle}
               pathLink={PASTHOMEPAGE}
-              onClickReset={onClickReset}
+              onClickReset={onClickResetOnHeader}
             />
             <Divider
               sx={{
@@ -96,10 +101,19 @@ const HeaderEnslavedNavBar: React.FC = () => {
               {inputSearchValue ? (
                 <GlobalSearchButton />
               ) : (
-                <FilterButton
-                  pathName={ALLENSLAVERS}
-                  currentPage={currentEnslaversPage}
-                />
+
+                <span className='reset-filter'>
+                  <FilterButton
+                    pathName={ALLENSLAVERS}
+                    currentPage={currentEnslaversPage}
+                  />
+                  {(varName !== '') && (
+                    <div className="btn-navbar-reset-all" onClick={onClickResetOnHeader}>
+                      <i aria-hidden="true" className="fa fa-times"></i>
+                      <span>Reset all</span>
+                    </div>
+                  )}
+                </span>
               )}
             </Typography>
           </Typography>
@@ -138,4 +152,4 @@ const HeaderEnslavedNavBar: React.FC = () => {
   );
 };
 
-export default HeaderEnslavedNavBar;
+export default HeaderEnslaversNavBar;

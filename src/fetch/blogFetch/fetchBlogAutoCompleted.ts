@@ -8,7 +8,7 @@ export const fetchBlogAutoCompleted = createAsyncThunk(
 
         try {
             const response = await axios.post(
-                `${BASEURL}/blog/autocomplete`,
+                `${BASEURL}/blog/autocomplete/`,
                 dataSend,
                 {
                     headers: {

@@ -7,7 +7,7 @@ export const fetchAuthorData = createAsyncThunk(
     async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/blog/author`,
+                `${BASEURL}/blog/author/`,
                 dataSend,
                 {
                     headers: {

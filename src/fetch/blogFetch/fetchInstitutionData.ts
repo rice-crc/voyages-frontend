@@ -7,7 +7,7 @@ export const fetchInstitutionData = createAsyncThunk(
     async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/blog/institution`,
+                `${BASEURL}/blog/institution/`,
                 dataSend,
                 {
                     headers: {

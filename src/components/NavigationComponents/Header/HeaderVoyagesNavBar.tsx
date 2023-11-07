@@ -27,7 +27,6 @@ import {
   getTextColor,
   getColorBoxShadow,
 } from '@/utils/functions/getColorStyle';
-
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import { FilterButton } from '@/components/SelectorComponents/ButtonComponents/FilterButton';
 import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
@@ -49,7 +48,7 @@ import {
 } from '@/share/CONST_DATA';
 import CanscandingMenuVoyagesMobile from '../../SelectorComponents/Cascading/CanscandingMenuVoyagesMobile';
 import '@/style/Nav.scss';
-import { resetAll } from '@/redux/resetAllSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '../../PresentationComponents/GlobalSearch/GlobalSearchButton';
 import { DrawerMenuBar } from './DrawerMenuBar';
 
@@ -59,10 +58,10 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { currentPage } = useSelector(
+  const { currentPage, currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { value, textHeader, styleName } = useSelector(
+  const { value, textHeader, styleName, } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
 
@@ -71,6 +70,13 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
+  const styleNameToPathMap: { [key: string]: string } = {
+    [ALLVOYAGES]: `/${VOYAGESPAGE}${ALLVOYAGESPAGE}#${currentVoyageBlockName}`,
+    [INTRAAMERICAN]: `/${VOYAGESPAGE}${INTRAAMERICANPAGE}#${currentVoyageBlockName}`,
+    [TRANSATLANTIC]: `/${VOYAGESPAGE}${TRANSATLANTICPAGE}#${currentVoyageBlockName}`,
+    [VOYAGESTEXAS]: `/${VOYAGESPAGE}${VOYAGESTEXASPAGE}#${currentVoyageBlockName}`,
+
+  };
 
   const handleSelectDataset = (
     base_filter: BaseFilter[],
@@ -79,9 +85,12 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     styleName: string,
     blocks: string[]
   ) => {
+
+    dispatch(resetAll());
     for (const base of base_filter) {
       dispatch(setBaseFilterDataKey(base.var_name));
       dispatch(setBaseFilterDataValue(base.value));
+
     }
     dispatch(setBaseFilterDataSetValue(base_filter));
     dispatch(setDataSetHeader(textHeder));
@@ -89,16 +98,10 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     dispatch(setStyleName(styleName));
     dispatch(setBlocksMenuList(blocks));
 
-    if (styleName === ALLVOYAGES) {
-      navigate(`/${VOYAGESPAGE}${ALLVOYAGESPAGE}`);
-    } else if (styleName === INTRAAMERICAN) {
-      navigate(`/${VOYAGESPAGE}${INTRAAMERICANPAGE}`);
-    } else if (styleName === TRANSATLANTIC) {
-      navigate(`/${VOYAGESPAGE}${TRANSATLANTICPAGE}`);
-    } else if (styleName === VOYAGESTEXAS) {
-      navigate(`/${VOYAGESPAGE}${VOYAGESTEXASPAGE}`);
+    if (styleNameToPathMap[styleName]) {
+      navigate(styleNameToPathMap[styleName]);
     }
-    dispatch(resetAll());
+
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -117,7 +120,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     setAnchorEl(event.currentTarget);
   };
   const onClickReset = () => {
-    dispatch(resetAll());
+    dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -161,7 +164,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
             <HeaderTitle
               textHeader={textHeader}
               HeaderTitle={VOYAGETILE}
-              pathLink={VOYAGESPAGE}
+              pathLink={`${VOYAGESPAGE}${ALLVOYAGESPAGE}#intro`}
               onClickReset={onClickReset}
             />
             <Divider
@@ -217,7 +220,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
             >
               Select dataset
             </Box>
-            {value.map((item: DataSetCollectionProps, index) => {
+            {value.map((item: DataSetCollectionProps, index: number) => {
               return (
                 <DatasetButton
                   key={`${item}-${index}`}

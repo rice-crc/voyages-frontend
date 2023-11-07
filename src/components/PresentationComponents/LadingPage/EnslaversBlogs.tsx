@@ -1,6 +1,6 @@
 import React from 'react';
 import '@/style/landing.scss';
-import ENSLAVERS from '@/assets/enslaver.png';
+import ENSLAVERS from '@/assets/enslavers-blog.png';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import { ENSALVERSPAGE, PASTHOMEPAGE } from '@/share/CONST_DATA';
 const EnslaversBlogs: React.FC = () => {
@@ -20,7 +20,7 @@ const EnslaversBlogs: React.FC = () => {
                         reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
                         pariatur.
                     </p>
-                    <ButtonLearnMore path={`${PASTHOMEPAGE}${ENSALVERSPAGE}`} />
+                    <ButtonLearnMore path={`${PASTHOMEPAGE}${ENSALVERSPAGE}#intro`} />
                 </div>
             </div>
         </div>

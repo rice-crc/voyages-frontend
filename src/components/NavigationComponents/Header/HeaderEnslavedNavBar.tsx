@@ -42,21 +42,25 @@ import {
   setPeopleEnslavedTextIntro,
   setPeopleTableEnslavedFlatfile,
 } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
-import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { DrawerMenuBar } from '@/components/NavigationComponents/Header/DrawerMenuBar';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import { FilterButton } from '@/components/SelectorComponents/ButtonComponents/FilterButton';
 import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
 import '@/style/Nav.scss';
-import { resetAll } from '@/redux/resetAllSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
+import '@/style/homepage.scss';
+import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
+
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { currentEnslavedPage } = useSelector(
+
+  const { currentEnslavedPage, currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
+
   const { value, textHeader, styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
@@ -64,12 +68,25 @@ const HeaderEnslavedNavBar: React.FC = () => {
     (state: RootState) => state.getCommonGlobalSearch
   );
 
+  const styleNameToPathMap: { [key: string]: string } = {
+    [ALLENSLAVED]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'intro' : currentPageBlockName}`,
+    [AFRICANORIGINS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
+    [ENSLAVEDTEXAS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'intro' : currentPageBlockName}`,
+  };
+
+
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
+  const { varName } = useSelector(
+    (state: RootState) => state.rangeSlider
+  );
+  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
   const [isClick, setIsClick] = useState(false);
+
   const handleSelectEnslavedDataset = (
     baseFilter: BaseFilter[],
     textHeder: string,
@@ -79,11 +96,13 @@ const HeaderEnslavedNavBar: React.FC = () => {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
+    dispatch(resetAll());
+    dispatch(resetBlockNameAndPageName())
     setIsClick(!isClick);
     for (const base of baseFilter) {
       dispatch(setBaseFilterPeopleEnslavedDataKey(base.var_name));
-      dispatch(setPeopleEnslavedStyleName(styleName));
       dispatch(setBaseFilterPeopleEnslavedDataValue(base.value));
+      dispatch(setPeopleEnslavedStyleName(styleName));
     }
     dispatch(setBaseFilterPeopleEnslavedDataSetValue(baseFilter));
     dispatch(setDataSetPeopleEnslavedHeader(textHeder));
@@ -98,26 +117,32 @@ const HeaderEnslavedNavBar: React.FC = () => {
     dispatch(
       setPeopleTableEnslavedFlatfile(tableFlatfile ? tableFlatfile : '')
     );
-    if (currentEnslavedPage === 3) {
-      dispatch(setCurrentEnslavedPage(1));
+
+    if (styleNameToPathMap[styleName]) {
+      navigate(styleNameToPathMap[styleName]);
     }
-    if (styleName === ALLENSLAVED) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`);
-    } else if (styleName === AFRICANORIGINS) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`);
-    } else if (styleName === ENSLAVEDTEXAS) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`);
-    }
-    dispatch(resetAll());
+
     const keysToRemove = Object.keys(localStorage);
 
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
   };
+
+
+
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
   };
+
+  const handleResetAll = () => {
+    dispatch(resetAllStateToInitailState())
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
+
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -126,8 +151,10 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const onClickReset = () => {
+  const onClickResetOnHeader = () => {
     dispatch(resetAll());
+    dispatch(resetBlockNameAndPageName());
+    dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -172,7 +199,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
               textHeader={textHeader}
               HeaderTitle={EnslavedTitle}
               pathLink={PASTHOMEPAGE}
-              onClickReset={onClickReset}
+              onClickReset={onClickResetOnHeader}
             />
             <Divider
               sx={{
@@ -200,10 +227,20 @@ const HeaderEnslavedNavBar: React.FC = () => {
               {inputSearchValue ? (
                 <GlobalSearchButton />
               ) : (
-                <FilterButton
-                  pathName={ALLENSLAVED}
-                  currentPage={currentEnslavedPage}
-                />
+                <span className='reset-filter'>
+                  <FilterButton
+                    pathName={ALLENSLAVED}
+                    currentPageBlockName={currentPageBlockName}
+                    currentPage={currentEnslavedPage}
+                  />
+                  {(varName !== '' || (clusterNodeKeyVariable && clusterNodeValue)) && (
+                    <div className="btn-navbar-reset-all" onClick={handleResetAll}>
+                      <i aria-hidden="true" className="fa fa-times"></i>
+                      <span>Reset all</span>
+                    </div>
+                  )}
+                </span>
+
               )}
             </Typography>
           </Typography>
@@ -235,13 +272,12 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 getColorBoxShadow={getColorBoxShadowEnslaved}
                 getColorBTNBackground={getColorBTNBackgroundEnslaved}
                 getColorHover={getColorBTNHoverEnslavedBackground}
-                // disabled={disabled}
               />
             ))}
           </Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentEnslavedPage !== 1 && isFilter && <CanscandingMenu />}
+          {currentPageBlockName !== 'intro' && isFilter && <CanscandingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu

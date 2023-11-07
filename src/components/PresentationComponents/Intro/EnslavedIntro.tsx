@@ -26,15 +26,27 @@ import {
   ALLENSLAVED,
 } from '@/share/CONST_DATA';
 import { useNavigate } from 'react-router-dom';
+import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
+import { resetAll } from '@/redux/resetAllSlice';
+import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 
 const EnslavedIntro = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const { value, textIntroduce } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
-  const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
+  const { currentEnslavedPage, currentPageBlockName } = useSelector(
+    (state: RootState) => state.getScrollEnslavedPage
+  );
+  const styleNameToPathMap: { [key: string]: string } = {
+    [ALLENSLAVED]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'intro' : currentPageBlockName}`,
+    [AFRICANORIGINS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
+    [ENSLAVEDTEXAS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'intro' : currentPageBlockName}`,
+  };
+
   const handleSelectEnslavedDataset = (
     base_filter: BaseFilter[],
     textHeder: string,
@@ -42,6 +54,8 @@ const EnslavedIntro = () => {
     styleName: string,
     blocks: string[]
   ) => {
+    dispatch(resetAll());
+    dispatch(resetBlockNameAndPageName())
     for (const base of base_filter) {
       dispatch(setBaseFilterPeopleEnslavedDataKey(base.var_name));
       dispatch(setBaseFilterPeopleEnslavedDataValue(base.value));
@@ -51,13 +65,11 @@ const EnslavedIntro = () => {
     dispatch(setPeopleEnslavedTextIntro(textIntro));
     dispatch(setPeopleEnslavedStyleName(styleName));
     dispatch(setPeopleEnslavedBlocksMenuList(blocks));
-    if (styleName === ALLENSLAVED) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`);
-    } else if (styleName === AFRICANORIGINS) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`);
-    } else if (styleName === ENSLAVEDTEXAS) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`);
+
+    if (styleNameToPathMap[styleName]) {
+      navigate(styleNameToPathMap[styleName]);
     }
+
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);

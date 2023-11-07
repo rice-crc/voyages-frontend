@@ -11,6 +11,7 @@ import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 import { ENSALVERSPAGE, PASTHOMEPAGE } from '@/share/CONST_DATA';
 import { useNavigate } from 'react-router-dom';
 import { setIsFilter } from '@/redux/getFilterSlice';
+import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
 
 const CollectionTabEnslavers = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -22,25 +23,28 @@ const CollectionTabEnslavers = () => {
     (state: RootState) => state.getScrollEnslaversPage
   );
 
-  const handlePageNavigation = (page: number) => {
+  const handlePageNavigation = (page: number, blockName: string) => {
     dispatch(setCurrentEnslaversPage(page));
+    dispatch(setCurrentBlockName(blockName))
     if (page === 1) {
       dispatch(setIsFilter(false));
     } else if (page === 2) {
       navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}`);
     }
+    navigate(`#${(blockName).toLowerCase()}`)
   };
 
   return (
     <Hidden>
       <div className="navbar-wrapper">
         <nav className="nav-button-enslaved">
-          {blocksPeople.map((page, index) => {
+          {blocksPeople.map((page: string, index: number) => {
+
             const buttonIndex = index + 1;
             return (
               <ButtonNav
                 key={`${page}-${buttonIndex}`}
-                onClick={() => handlePageNavigation(buttonIndex)}
+                onClick={() => handlePageNavigation(buttonIndex, page.toLowerCase())}
                 style={{
                   width: '70px',
                   boxShadow: getColorBoxShadowEnslavers(styleNamePeople),
@@ -49,7 +53,7 @@ const CollectionTabEnslavers = () => {
                   fontSize: 14,
                   color:
                     currentEnslaversPage === buttonIndex ? 'white' : 'black',
-                  fontWeight: currentEnslaversPage === buttonIndex ? 900 : 600,
+                  fontWeight: currentEnslaversPage === buttonIndex ? 700 : 600,
                 }}
                 variant={
                   currentEnslaversPage === buttonIndex

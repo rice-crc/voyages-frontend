@@ -101,7 +101,10 @@ export interface InitialStateNodeEdgesAggroutesMapData {
     edgesData: EdgesAggroutes[]
     nodesData: NodeAggroutes[]
     pathsData: PathsAggroutes[]
-    hasFetchedRegion: boolean
+    hasFetchedRegion: boolean,
+    clusterNodeKeyVariable: string,
+    clusterNodeValue: string
+
 }
 export type CurveOptions = {
     dashArray?: string;
@@ -120,5 +123,6 @@ export type CurveOptions = {
 export interface HandleZoomEventProps {
     setZoomLevel: (zoomLevel: number) => void;
     setRegionPlace: (value: string) => void
+    zoomLevel: number
 }
 

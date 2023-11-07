@@ -27,7 +27,7 @@ test("Texas Filter Menu should check for missing names a variable", async () => 
     }
     if (missingVarName.length > 0) {
 
-        throw new Error(`Warning: flat file ${fileName} names variables ${missingVarName.join(", ")} that is not present in ${EndPoint}`);
+        throw new Error(`Warning: flat file ${fileName} names variables:\n\n${missingVarName.join(",\n")}\n\nthat is not present in ${EndPoint}`);
 
     }
     expect(optionsVarName).not.toEqual([]);

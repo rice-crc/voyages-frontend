@@ -14,7 +14,15 @@ The Header folder contains components used for creating header elements in the a
 
 #
 
-- `HeaderNavBar` is header navigation bar menu of the application. It provides a menu with navigation items, a filter search option, and a responsive mobile menu.
+- `HeaderDrawerMenuPeopleBar` that renders a menu bar with items based on a given set of data of about Enslaved and end Enslavers. The menu bar allows the user to select a dataset, and when an item is clicked, a callback function called handleSelectDataset is invoked with specific parameters.
+
+#
+
+- `HeaderEnslavedNavBar` is header navigation bar menu of the application. It provides a menu with navigation items for Enslaverd data set, a filter search option, and a responsive mobile menu.
+
+#
+
+- `HeaderEnslaversNavBar` is header navigation bar menu of the application. It provides a menu with navigation items for Enslavers data set, a filter search option, and a responsive mobile menu.
 
 #
 
@@ -23,3 +31,7 @@ The Header folder contains components used for creating header elements in the a
 #
 
 - `HeaderTitle` designed to display a title and an optional subtitle with a link. This component is intended for use in a header or navigation bar where you want to provide a clickable title. This readme documentation will guide you through the usage and functionality of this component.
+
+#
+
+- `HeaderVoyagesNavBar` is header navigation bar menu of the application. It provides a menu with navigation items for Voyages data set, a filter search option, and a responsive mobile menu.

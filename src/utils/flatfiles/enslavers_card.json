@@ -45,7 +45,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "birth_place__geo_location__name",
+							"var_name": "birth_place__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -69,7 +69,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "death_place__geo_location__name",
+							"var_name": "death_place__name",
 							"cell_fn": "literal"
 						}
 					]
@@ -115,7 +115,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "enslaver_zotero_connections__zotero_source__zotero_title",
+							"var_name": "enslaver_source_connections__source__title",
 							"cell_fn": "literal"
 						}
 					]

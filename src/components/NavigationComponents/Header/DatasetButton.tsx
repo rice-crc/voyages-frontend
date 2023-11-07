@@ -2,6 +2,7 @@ import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
 import { Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+
 interface DatasetButtonProps {
   item: any;
   index: any;
@@ -39,6 +40,7 @@ export const DatasetButton = (props: DatasetButtonProps) => {
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+
   const { styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );

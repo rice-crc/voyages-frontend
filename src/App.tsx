@@ -57,10 +57,6 @@ const App: React.FC = () => {
           />
           <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
           <Route
-            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}`}
-            element={<EnslavedHomePage />}
-          />
-          <Route
             path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
             element={<EnslavedHomePage />}
           />
