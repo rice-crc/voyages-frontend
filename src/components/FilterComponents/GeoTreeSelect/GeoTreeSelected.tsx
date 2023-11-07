@@ -70,16 +70,17 @@ const GeoTreeSelected: React.FC = () => {
 
       dataSend['geotree_valuefields'] = [varName];
 
+
       if (isChangeGeoTree && varName && geoTreeValue) {
         for (const keyValue in geoTreeValue) {
-          for (const keyGeoValue of geoTreeValue[keyValue]) {
+          if (Array.isArray(geoTreeValue[keyValue])) {
             if (varName !== keyValue) {
-              dataSend[keyValue] = [String(keyGeoValue)];
+              dataSend[keyValue] = geoTreeValue[keyValue] as string[] | number[];
             }
           }
         }
       }
-
+      console.log({ dataSend })
       if (autoCompleteValue && varName) {
         for (const autoKey in autoCompleteValue) {
           const autoCompleteOption = autoCompleteValue[autoKey];

@@ -58,8 +58,8 @@ export const TooltipHoverTableOnNode = ({
 
     const hederTablePostDisembarkation = (
         <tr>
-            <td>Last Known Location</td>
-            <td>{remainingNodes.length} other African people</td>
+            <td style={{ width: 185 }}>Last Known Location</td>
+            <td style={{ width: 115 }}>People</td>
         </tr>
     );
 
@@ -110,6 +110,7 @@ export const TooltipHoverTableOnNode = ({
                     {remainingNodes.length > 0 && (
                         <tr>
                             <td>
+
                                 {remainingNodes.length} {` ${nodeType === nodeTypeOrigin ? totalTextOrigin : nodeType === nodeTypePostDisembarkation ? totalTextPostDisembarkation : hederOtherType} `}
                             </td>
                             <td>
