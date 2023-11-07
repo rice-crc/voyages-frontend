@@ -21,9 +21,8 @@ export const TooltipHoverTableOnNode = ({
             </div>
         );
     }
-    console.log({ nodeType })
-    const displayedNodes = nodesDatas!.slice(0, maxDisplayCount);
 
+    const displayedNodes = nodesDatas!.slice(0, maxDisplayCount);
     const remainingNodes = nodesDatas!.slice(maxDisplayCount);
 
     const tatalOriginCount = nodesDatas?.reduce(

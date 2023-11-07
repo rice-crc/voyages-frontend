@@ -227,7 +227,7 @@ const NodeEdgesCurvedLinesMap = () => {
         disembarkation,
         embarkation,
       } = weights;
-      console.log({ weights })
+
       const size = getNodeSize(node);
       const nodeColor = getNodeColorMapVoyagesStyle(node);
       const logSize = nodeLogValueScale(size);

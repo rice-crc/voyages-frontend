@@ -61,7 +61,6 @@ export const NetworkDiagramSlaveVoyages = ({
   };
 
   const handleClickNodeShowCard = async (nodeId: number, nodeClass: string) => {
-
     if (nodeClass !== ENSLAVEMENTNODE) {
       dispatch(setIsModalCard(true));
       dispatch(setNodeClass(nodeClass));
