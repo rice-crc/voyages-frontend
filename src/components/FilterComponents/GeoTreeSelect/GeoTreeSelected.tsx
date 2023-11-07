@@ -6,7 +6,7 @@ import {
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
-import { AFRICANORIGINS, ALLENSLAVED, ENSALVERSTYLE } from '@/share/CONST_DATA';
+import { AFRICANORIGINS, ALLENSLAVED, ENSALVERSTYLE, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import { fetcVoyagesGeoTreeSelectLists } from '@/fetch/geoFetch/fetchVoyagesGeoTreeSelect';
 import { TreeSelect } from 'antd';
 import '@/style/page.scss';
@@ -70,7 +70,6 @@ const GeoTreeSelected: React.FC = () => {
 
       dataSend['geotree_valuefields'] = [varName];
 
-
       if (isChangeGeoTree && varName && geoTreeValue) {
         for (const keyValue in geoTreeValue) {
           if (Array.isArray(geoTreeValue[keyValue])) {
@@ -102,11 +101,11 @@ const GeoTreeSelected: React.FC = () => {
 
       let response = [];
       try {
-        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
+        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
           response = await dispatch(
             fetcVoyagesGeoTreeSelectLists(dataSend)
           ).unwrap();
-        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
+        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
           response = await dispatch(
             fetchEnslavedGeoTreeSelect(dataSend)
           ).unwrap();

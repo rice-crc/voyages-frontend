@@ -243,8 +243,23 @@ const NodeEdgesCurvedLinesMap = () => {
           0.8,
           nodeID
         );
+        /*
+          On red, blue, and purple nodes, make the numbers displayed correspond to embarkation and disembarkation numbers. examples:
+          A. Red node, 50 embarked, 0 disembarked --> "PLACE NAME: 50 people embarked."
+          B. Blue node, 0 embarked, 50 disembarked --> "PLACE NAME: 50 people disembarked"
+          C. Purple node, 2 embarked, 20 disembarked --> "PLACE NAME: 2 people embarked and 20 people
+        */
+        let popupContent = '';
+        if (embarkation || disembarkation) {
+          const embarkedText = embarkation ? `${embarkation} people embarked` : '';
+          const disembarkedText = disembarkation ? `${disembarkation} people disembarked` : '';
 
-        const popupContent = `<p>${name}: ${embarkation || disembarkation} people </p>`;
+          const separator = embarkation && disembarkation ? ' and ' : '';
+
+          popupContent = `<p>${name}: ${embarkedText}${separator}${disembarkedText}.</p>`;
+        }
+
+        console.log({ popupContent })
         circleMarker.bindPopup(popupContent);
 
         const originMarker = L.marker(latlon);

@@ -22,7 +22,7 @@ import {
   setIsChangeAuto,
 } from '@/redux/getAutoCompleteSlice';
 import { fetchPastEnslavedAutoComplete } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedAutoCompleted';
-import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSALVERSTYLE } from '@/share/CONST_DATA';
+import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSALVERSTYLE, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import { fetchPastEnslaversAutoCompleted } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversAutoCompleted';
 import '@/style/Slider.scss';
 import '@/style/table.scss';
@@ -54,9 +54,9 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
 
       let response = [];
       try {
-        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
+        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
           response = await dispatch(fetchAutoVoyageComplete(dataSend)).unwrap();
-        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
+        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
           response = await dispatch(
             fetchPastEnslavedAutoComplete(dataSend)
           ).unwrap();
