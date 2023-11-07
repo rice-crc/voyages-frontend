@@ -259,7 +259,6 @@ const NodeEdgesCurvedLinesMap = () => {
           popupContent = `<p>${name}: ${embarkedText}${separator}${disembarkedText}.</p>`;
         }
 
-        console.log({ popupContent })
         circleMarker.bindPopup(popupContent);
 
         const originMarker = L.marker(latlon);
