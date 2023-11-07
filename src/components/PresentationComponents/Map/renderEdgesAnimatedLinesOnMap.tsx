@@ -23,7 +23,7 @@ const renderEdgesAnimatedLinesOnMap = (
       {
         dashArray: '1 9',
         fill: false,
-        weight: weight,
+        weight: weight / 1.6,
         color: '#0000FF',
         opacity: 0.7,
         stroke: true,

@@ -4,9 +4,12 @@ import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoy
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { LeafletMap } from './LeafletMap';
+import { useRef, useState } from 'react';
 
 function MAPS() {
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
+  const [zoomLevel, setZoomLevel] = useState<number>(3);
+  const mapRef = useRef(null);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage
   );
@@ -17,8 +20,11 @@ function MAPS() {
 
   return (
     <div style={{ paddingTop: currentEnslavedPage === 3 ? 0 : topPosition }}>
-      <MapContainer className="map-container">
-        <LeafletMap />
+      <MapContainer
+        className="map-container"
+        ref={mapRef}
+      >
+        <LeafletMap zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />
       </MapContainer>
     </div>
   );

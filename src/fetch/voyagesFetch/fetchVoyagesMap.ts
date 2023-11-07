@@ -8,7 +8,7 @@ export const fetchVoyagesMap = createAsyncThunk(
 
         try {
             const response = await axios.post(
-                `${BASEURL}/voyage/aggroutes`,
+                `${BASEURL}/voyage/aggroutes/`,
                 dataSend,
                 {
                     headers: {

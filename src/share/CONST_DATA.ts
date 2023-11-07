@@ -17,7 +17,7 @@ export const ALLVOYAGES = 'all-voyages'
 export const ALLVOYAGESPAGE = '/voyage/all-voyages'
 export const INTRAAMERICAN = 'intra-american'
 export const INTRAAMERICANPAGE = '/voyage/intra-american'
-export const TRANSATLANTIC = 'transatlantic'
+export const TRANSATLANTIC = 'trans-atlantic'
 export const TRANSATLANTICPATH = 'trans-atlantic'
 export const TRANSATLANTICPAGE = '/voyage/trans-atlantic'
 export const VOYAGESTEXAS = 'texas'
@@ -30,14 +30,15 @@ export const ALLENSLAVEDPAGE = '/all-enslaved'
 export const ENSALVEDPAGE = '/enslaved'
 export const AFRICANORIGINS = 'african-origins'
 export const AFRICANORIGINSPAGE = '/african-origins'
-export const ENSLAVEDTEXAS = 'texas'
+export const ENSLAVEDTEXAS = 'texasEnslaved'
 
-export const ENSLAVEDTEXASPAGE = '/texas'
+export const ENSLAVEDTEXASPAGE = '/texasEnslaved'
 export const DOCUMENTPAGE = 'DocumentPage'
 export const BLOGPAGE = 'Blog'
 
 export const ALLENSLAVERS = 'all-enslavers'
 export const ENSALVERSPAGE = '/enslaver'
+export const ENSALVERSTYLE = 'enslaver'
 
 
 export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGhqMXZ5YmxjZCJ9.eP7ZuC68Q5iBZQa8I13AGw`;
@@ -58,10 +59,16 @@ export const ENSLAVERSTYPE = 'enslavers'
 export const BLOGTYPE = 'blog'
 export const REGION = 'region'
 export const PLACE = 'place'
-
+export const ORIGINLanguageGroupKEY = 'language_group__name'
+export const postDisembarkLocationKEY = 'post_disembark_location__name'
+export const ORIGINATIONNODE = 'origination'
+export const DISPOSTIONNODE = 'disposition'
 export const minRadiusInPixels = 3;
 export const maxRadiusInPixels = 20;
 export const maxRadiusInPixelsNode = 15;
+
+export const nodeTypeOrigin = 'origin'
+export const nodeTypePostDisembarkation = 'postDisembarkation'
 
 // Network Graph Node Type
 export const ENSLAVEDNODE = 'enslaved'

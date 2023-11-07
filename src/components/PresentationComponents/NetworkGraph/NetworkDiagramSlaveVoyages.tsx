@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPastNetworksGraphApi } from '@/fetch/pastEnslavedFetch/fetchPastNetworksGraph';
 import {
   setNetWorksID,
+  setNetWorksKEY,
   setPastNetworksData,
 } from '@/redux/getPastNetworksGraphDataSlice';
 import { Datas, Nodes } from '@/share/InterfaceTypePastNetworks';
@@ -18,9 +19,10 @@ export const NetworkDiagramSlaveVoyages = ({
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const { data } = useSelector(
+  const { data: netWorkData } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
+
 
   const { networkID, networkKEY } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
@@ -42,14 +44,14 @@ export const NetworkDiagramSlaveVoyages = ({
       ).unwrap();
       if (response) {
         const newNodes = response.nodes.filter((newNode: Nodes) => {
-          return !data.nodes.some(
+          return !netWorkData.nodes.some(
             (existingNode: Nodes) => existingNode.uuid === newNode.uuid
           );
         });
         const newData: Datas = {
-          ...data,
-          nodes: [...data.nodes, ...newNodes],
-          edges: [...data.edges, ...response.edges],
+          ...netWorkData,
+          nodes: [...netWorkData.nodes, ...newNodes],
+          edges: [...netWorkData.edges, ...response.edges],
         };
         dispatch(setPastNetworksData(newData));
       }
@@ -63,20 +65,24 @@ export const NetworkDiagramSlaveVoyages = ({
       dispatch(setIsModalCard(true));
       dispatch(setNodeClass(nodeClass));
       dispatch(setNetWorksID(nodeId));
+      dispatch(setNetWorksKEY(nodeClass))
     }
   };
+
 
   useEffect(() => {
     let subscribed = true;
     const dataSend: { [key: string]: number[] } = {
       [networkKEY]: [Number(networkID)],
     };
+
     const fetchPastNetworksGraph = async () => {
       setIsLoading(true);
       try {
         const response = await dispatch(
           fetchPastNetworksGraphApi(dataSend)
         ).unwrap();
+
         if (response && subscribed) {
           setIsLoading(false);
           dispatch(setPastNetworksData(response as Datas));
@@ -90,8 +96,8 @@ export const NetworkDiagramSlaveVoyages = ({
     return () => {
       subscribed = false;
     };
-  }, [dispatch]);
-  if (width === 0 || !data) {
+  }, [dispatch, networkID, networkKEY]);
+  if (width === 0 || !netWorkData) {
     return null;
   }
   return (
@@ -103,7 +109,7 @@ export const NetworkDiagramSlaveVoyages = ({
       ) : (
         <div style={{ width: `${width}px`, height: `${height}px` }}>
           <NetworkDiagram
-            data={data}
+            data={netWorkData}
             width={width}
             height={height}
             handleNodeDoubleClick={handleNodeDoubleClick}

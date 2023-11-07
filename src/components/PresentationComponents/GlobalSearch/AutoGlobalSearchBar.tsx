@@ -35,7 +35,7 @@ import {
 } from '@/share/CONST_DATA';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
-import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
+import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import {
   getOptionLabelSearchGlobal,
   shouldDisable,
@@ -142,13 +142,16 @@ const AutoGlobalSearchBar = () => {
 
       if (type === GlobalSearchVoyagesType) {
         dispatch(setCurrentPage(2));
-        navigate(`${VOYAGESPAGE}${ALLVOYAGESPAGE}`);
+        dispatch(setCurrentBlockName('voyages'));
+        navigate(`${VOYAGESPAGE}${ALLVOYAGESPAGE}#voyages`);
       } else if (type === GlobalSearchEnslavedType) {
         dispatch(setCurrentEnslavedPage(2));
-        navigate(`${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`);
+        dispatch(setCurrentBlockName('table'));
+        navigate(`${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#table`);
       } else if (type === GlobalSearchEnslaversType) {
         dispatch(setCurrentEnslaversPage(2));
-        navigate(`${PASTHOMEPAGE}${ENSALVERSPAGE}`);
+        dispatch(setCurrentBlockName('table'));
+        navigate(`${PASTHOMEPAGE}${ENSALVERSPAGE}#table`);
       } else if (type === GlobalSearchBlogType) {
         navigate(`${BLOGPAGE}`);
       }

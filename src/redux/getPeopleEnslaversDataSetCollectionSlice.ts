@@ -73,11 +73,12 @@ export const getPeopleEnslaversDataSetCollectionSlice = createSlice({
                 state.blocksPeople,
                 state.filterMenuFlatfile,
                 state.tableFlatfile
-        }
+        },
+        resetAllStateSlice: (state) => initialState,
     },
 });
 
-export const {
+export const { resetAllStateSlice,
     resetSlice,
     setBaseFilterEnslaversDataSetValue,
     setBaseFilterEnslaversDataKey,

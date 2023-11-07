@@ -7,7 +7,7 @@ export const fetchPivotCrosstabsTables = createAsyncThunk(
     async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/voyage/crosstabs`,
+                `${BASEURL}/voyage/crosstabs/`,
                 dataSend,
                 {
                     headers: {

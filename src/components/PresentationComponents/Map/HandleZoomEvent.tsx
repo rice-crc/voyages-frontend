@@ -3,12 +3,20 @@ import { HandleZoomEventProps } from '@/share/InterfaceTypesMap';
 import { useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { setHasFetchedRegion } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
 
 export const HandleZoomEvent: React.FC<HandleZoomEventProps> = ({
   setZoomLevel,
   setRegionPlace,
+  zoomLevel
 }) => {
   const map = useMap();
+  const dispatch: AppDispatch = useDispatch();
+  const { nodesData, edgesData, } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
   const oceanic_animation_edges_layer_group = L.layerGroup();
   const oceanic_main_edges_layer_group = L.layerGroup();
   const oceanic_edges_holding_layer_group = L.layerGroup();
@@ -37,13 +45,18 @@ export const HandleZoomEvent: React.FC<HandleZoomEventProps> = ({
         map.removeLayer(oceanic_edges_holding_layer_group);
       }
     };
-  }, [map, setZoomLevel]);
+  }, [map, setZoomLevel, zoomLevel]);
 
   useMapEvents({
     zoomend: () => {
       if (map) {
         const newZoomLevel = map.getZoom();
         setZoomLevel(newZoomLevel);
+        if (nodesData.length === 0) {
+          dispatch(setHasFetchedRegion(true));
+        } else {
+          dispatch(setHasFetchedRegion(false));
+        }
         if (newZoomLevel >= ZOOM_LEVEL_THRESHOLD) {
           setRegionPlace(PLACE);
         } else {

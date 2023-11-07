@@ -117,6 +117,20 @@ $animationSpeed: 100s;
         font-size: 55px;
         opacity: 0.7;
 
+        @include breakpoint-standard(2) {
+            font-size: 45px;
+        }
+
+        @include breakpoint-standard(1) {
+            font-size: 40px;
+            line-height: 45px;
+        }
+
+        @include breakpoint-standard(0) {
+            font-size: 40px;
+            line-height: 42px;
+        }
+
     }
 
     p {
@@ -151,15 +165,15 @@ $animationSpeed: 100s;
     }
 
     @include breakpoint-standard(2) {
-        padding: 4rem 0 2rem 0;
+        padding: 2rem;
     }
 
     @include breakpoint-standard(1) {
-        padding: 4rem 0 2rem 0;
+        padding: 1rem;
     }
 
     @include breakpoint-standard(0) {
-        padding: 4rem 0 2rem 0;
+        padding: 1rem;
     }
 
 }
@@ -479,6 +493,21 @@ $animationSpeed: 100s;
             font-size: 55px;
             opacity: 0.7;
             line-height: 60px;
+
+            @include breakpoint-standard(2) {
+                font-size: 40px;
+                line-height: 40px;
+            }
+
+            @include breakpoint-standard(1) {
+                font-size: 40px;
+                line-height: 40px;
+            }
+
+            @include breakpoint-standard(0) {
+                font-size: 30px;
+                line-height: 30px;
+            }
         }
 
         p {
@@ -606,28 +635,28 @@ $animationSpeed: 100s;
             }
 
             @include breakpoint-standard(3) {
-                width: 90%;
+                width: 100%;
                 padding: 2rem;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(2) {
-                width: 90%;
+                width: 100%;
                 padding: 2rem;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(1) {
-                width: 90%;
+                width: 100%;
                 padding: 2rem;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(0) {
-                width: 90%;
+                width: 100%;
                 padding: 2rem;
                 position: static;
                 right: 0;
@@ -638,13 +667,24 @@ $animationSpeed: 100s;
                 font-size: 55px;
                 opacity: 0.7;
                 line-height: 60px;
+
+                @include breakpoint-standard(2) {
+                    line-height: 40px;
+                }
+
+                @include breakpoint-standard(1) {
+                    line-height: 40px;
+                }
+
+                @include breakpoint-standard(0) {
+                    line-height: 40px;
+                }
             }
 
             p {
                 padding: 2rem;
                 font-size: 1.12rem;
                 font-weight: 400;
-                line-height: 20px;
 
             }
 
@@ -705,15 +745,15 @@ $animationSpeed: 100s;
     }
 
     @include breakpoint-standard(2) {
-        padding: 2rem 0;
+        padding: 0;
     }
 
     @include breakpoint-standard(1) {
-        padding: 2rem 0;
+        padding: 0;
     }
 
     @include breakpoint-standard(0) {
-        padding: 2rem 0;
+        padding: 0;
     }
 
     .african-content {
@@ -842,21 +882,21 @@ $animationSpeed: 100s;
             }
 
             @include breakpoint-standard(2) {
-                width: 90%;
-                padding: 2rem;
+                width: 100%;
+                padding: 1rem;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(1) {
-                width: 90%;
-                padding: 2rem;
+                width: 100%;
+                padding: 1rem;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(0) {
-                width: 90%;
+                width: 100%;
                 padding: 2rem;
                 position: static;
                 right: 0;
@@ -867,14 +907,24 @@ $animationSpeed: 100s;
                 font-size: 55px;
                 opacity: 0.7;
                 line-height: 60px;
+
+                @include breakpoint-standard(2) {
+                    font-size: 40px;
+                }
+
+                @include breakpoint-standard(1) {
+                    font-size: 40px;
+                }
+
+                @include breakpoint-standard(0) {
+                    font-size: 40px;
+                }
             }
 
             p {
                 padding: 2rem;
                 font-size: 1.12rem;
                 font-weight: 400;
-                line-height: 20px;
-
             }
 
         }

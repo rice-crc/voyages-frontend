@@ -1,3 +1,59 @@
+@mixin breakpoint-standard($size) {
+  @if $size==0 {
+    @media only screen and (max-width: 374px) {
+      @content;
+    }
+  }
+
+  @else if $size==1 {
+    @media only screen and (min-width: 375px) and (max-width: 425px) {
+      @content;
+    }
+  }
+
+  @else if $size==1.1 {
+    @media only screen and (min-width: 425px) and (max-width: 479px) {
+      @content;
+    }
+  }
+
+  @else if $size==2 {
+    @media only screen and (min-width: 480px) and (max-width: 575px) {
+      @content;
+    }
+  }
+
+  @else if $size==3 {
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+      @content;
+    }
+  }
+
+  @else if $size==4 {
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+      @content;
+    }
+  }
+
+  @else if $size==5 {
+    @media only screen and (min-width: 992px) and (max-width: 1024px) {
+      @content;
+    }
+  }
+
+  @else if $size==6 {
+    @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+      @content;
+    }
+  }
+
+  @else if $size==7 {
+    @media only screen and (max-width: 1440px) {
+      @content;
+    }
+  }
+}
+
 .colored-box {
   position: relative;
   width: 180px;
@@ -7,28 +63,67 @@
   border-radius: 4px;
   color: #000;
   z-index: 2;
-  bottom: 10%;
+  bottom: 15%;
+
   .div-box {
     display: flex;
   }
+
   .circle {
     width: 20px;
     height: 20px;
     border-radius: 50%;
   }
+
   .voyages {
     background-color: #F2EE0A;
   }
+
   .enslaved {
-  background-color: #906866;
+    background-color: #906866;
   }
+
   .enslavers {
     background-color: #46a88c;
   }
+
   .connection {
     background-color: #ab47bc;
   }
+
   p {
     padding-left: 0.5rem;
+  }
+
+  @include breakpoint-standard(0) {
+    bottom: 8%;
+  }
+
+  @include breakpoint-standard(1) {
+    bottom: 8%;
+  }
+
+  @include breakpoint-standard(1.1) {
+    bottom: 8%;
+  }
+
+  @include breakpoint-standard(2) {
+    bottom: 8%;
+  }
+
+  @include breakpoint-standard(3) {
+    bottom: 10%;
+  }
+
+  @include breakpoint-standard(4) {
+    bottom: 12%;
+  }
+
+  @include breakpoint-standard(5) {
+    bottom: 12%;
+  }
+
+  @include breakpoint-standard(6) {
+    bottom: 12%;
   }
 }

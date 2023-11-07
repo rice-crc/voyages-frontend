@@ -6,7 +6,7 @@ let MAINColorBG = MAINBGGREEN;
 export const generateThemeGB = (state: any) => {
     if (state === 'all-voyages') {
         MAINColorBG = '#93D0CB';
-    } else if (state === 'transatlantic') {
+    } else if (state === 'trans-atlantic') {
         MAINColorBG = 'rgba(56, 116, 203, 0.8)';
     } else if (state === 'intra-american') {
         MAINColorBG = 'rgba(127, 118, 191)';

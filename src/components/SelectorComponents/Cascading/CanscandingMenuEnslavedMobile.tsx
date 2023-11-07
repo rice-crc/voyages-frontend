@@ -40,8 +40,10 @@ import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
 import { ColumnSelectorTree } from '@/share/InterfaceTypesTable';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 const CanscandingMenuEnslavedMobile = () => {
+
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );

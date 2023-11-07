@@ -33,10 +33,11 @@ import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import AutocompleteBox from '../../FilterComponents/Autocomplete/AutoComplete';
 import RangeSlider from '../../FilterComponents/RangeSlider/RangeSlider';
-import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
+import { ALLENSLAVED, ALLENSLAVERS, ENSALVERSTYLE, ENSLAVERSTYPE } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { useNavigate } from 'react-router-dom';
 import { resetAll } from '@/redux/resetAllSlice';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 export const MenuListDropdownPeople = () => {
   const { styleNamePeople } = useSelector(
@@ -45,7 +46,9 @@ export const MenuListDropdownPeople = () => {
 
   const { valueEnslaved, valueAfricanOrigin, valueTexas, valueEnslavers } =
     useSelector((state: RootState) => state.getFilterPeople.value);
-  const { pathName } = useSelector((state: RootState) => state.getPathName);
+  const { pathNameEnslaved, pathNameEnslavers } = useSelector((state: RootState) => state.getPathName);
+  const { styleName } = usePageRouter()
+
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -102,13 +105,6 @@ export const MenuListDropdownPeople = () => {
     });
   };
 
-  const handleResetAll = () => {
-    dispatch(resetAll());
-    const keysToRemove = Object.keys(localStorage);
-    keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
-    });
-  };
 
   const renderDropdownMenu = (children?: ChildrenFilter[]) =>
     children?.map((childItem: ChildrenFilter, index: number) => {
@@ -150,21 +146,18 @@ export const MenuListDropdownPeople = () => {
     const loadTableCellStructure = async () => {
       try {
         if (
-          styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved &&
-          pathName === ALLENSLAVED
+          styleName === TYPESOFDATASETPEOPLE.allEnslaved
         ) {
           setFilterPeopleMenu(valueEnslaved);
         } else if (
-          styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins &&
-          pathName === ALLENSLAVED
+          styleName === TYPESOFDATASETPEOPLE.africanOrigins
         ) {
           setFilterPeopleMenu(valueAfricanOrigin);
         } else if (
-          styleNamePeople === TYPESOFDATASETPEOPLE.texas &&
-          pathName === ALLENSLAVED
+          styleName === TYPESOFDATASETPEOPLE.texas
         ) {
           setFilterPeopleMenu(valueTexas);
-        } else if (pathName === ALLENSLAVERS) {
+        } else if (styleName === ENSALVERSTYLE) {
           setFilterPeopleMenu(valueEnslavers);
         }
       } catch (error) {
@@ -172,7 +165,7 @@ export const MenuListDropdownPeople = () => {
       }
     };
     loadTableCellStructure();
-  }, [styleNamePeople, pathName]);
+  }, [styleNamePeople, pathNameEnslaved, pathNameEnslavers, styleName]);
 
   return (
     <div>
@@ -235,12 +228,6 @@ export const MenuListDropdownPeople = () => {
             />
           );
         })}
-        {varName && (
-          <div className="btn-navbar-reset-all" onClick={handleResetAll}>
-            <i aria-hidden="true" className="fa fa-times"></i>
-            <span>Reset all</span>
-          </div>
-        )}
       </Box>
       <Dialog
         BackdropProps={{

@@ -1,59 +1,59 @@
 {
 	"x_vars": [
 		{
-			"var_name": "voyage_itinerary__region_of_return__geo_location__name",
+			"var_name": "voyage_itinerary__region_of_return__name",
 			"label": "Region of return (RETRNREG)"
 		},
 		{
-			"var_name": "voyage_itinerary__place_voyage_ended__geo_location__name",
+			"var_name": "voyage_itinerary__place_voyage_ended__name",
 			"label": "Place at which voyage ended (PORTRET)"
 		},
 		{
-			"var_name": "voyage_itinerary__imp_broad_region_slave_dis__geo_location__name",
+			"var_name": "voyage_itinerary__imp_broad_region_slave_dis__name",
 			"label": "Imputed broad region of slave disembarkation (MJSELIMP1)"
 		},
 		{
-			"var_name": "voyage_itinerary__imp_principal_region_slave_dis__geo_location__name",
+			"var_name": "voyage_itinerary__imp_principal_region_slave_dis__name",
 			"label": "Imputed principal region of slave disembarkation (MJSELIMP)"
 		},
 		{
-			"var_name": "voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+			"var_name": "voyage_itinerary__imp_principal_port_slave_dis__name",
 			"label": "Imputed principal port of slave disembarkation (MJSLPTIMP)"
 		},
 		{
-			"var_name": "voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
+			"var_name": "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
 			"label": "Imputed principal region of slave purchase (MAJBYIMP)"
 		},
 		{
-			"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__geo_location__name",
+			"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 			"label": "Imputed principal place of slave purchase (MJBYPTIMP)"
 		},
 		{
-			"var_name": "voyage_itinerary__imp_region_voyage_begin__geo_location__name",
+			"var_name": "voyage_itinerary__imp_region_voyage_begin__name",
 			"label": "Imputed region where voyage began (DEPTREGIMP)"
 		},
 		{
-			"var_name": "voyage_itinerary__imp_port_voyage_begin__geo_location__name",
+			"var_name": "voyage_itinerary__imp_port_voyage_begin__name",
 			"label": "Imputed port where voyage began (PTDEPIMP)"
 		},
 		{
-			"var_name": "voyage_name_outcome__vessel_captured_outcome__name",
+			"var_name": "voyage_outcome__vessel_captured_outcome__name",
 			"label": "Vessel Captured Outcome"
 		},
 		{
-			"var_name": "voyage_name_outcome__resistance__name",
+			"var_name": "voyage_outcome__resistance__name",
 			"label": "Resistance"
 		},
 		{
-			"var_name": "voyage_name_outcome__outcome_slaves__name",
+			"var_name": "voyage_outcome__outcome_slaves__name",
 			"label": "Slaves Outcome"
 		},
 		{
-			"var_name": "voyage_name_outcome__outcome_owner__name",
+			"var_name": "voyage_outcome__outcome_owner__name",
 			"label": "Owner Outcome"
 		},
 		{
-			"var_name": "voyage_name_outcome__particular_outcome__name",
+			"var_name": "voyage_outcome__particular_outcome__name",
 			"label": "Particular Outcome"
 		},
 		{

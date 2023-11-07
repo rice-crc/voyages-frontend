@@ -9,7 +9,7 @@ export const fetchPastNetworksGraphApi = createAsyncThunk(
     async (dataSend?: { [key: string]: number[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/past/networks`,
+                `${BASEURL}/past/networks/`,
                 dataSend,
                 {
                     headers: {

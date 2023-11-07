@@ -149,9 +149,7 @@ const PivotTables = () => {
     } = pivotValueOptions;
     const fetchData = async () => {
       const dataSend: { [key: string]: (string | number)[] } = {};
-      for (const column of columnVars) {
-        dataSend['columns'] = [column];
-      }
+      dataSend['columns'] = columnVars;
       dataSend['rows'] = [row_vars];
       dataSend['rows_label'] = [rows_label];
       dataSend['agg_fn'] = [aggregation];
@@ -163,8 +161,7 @@ const PivotTables = () => {
       }
       if (isChange && rang && currentPage === 6) {
         for (const rangKey in rang) {
-          dataSend[rangKey] = [rang[rangKey][0]];
-          dataSend[rangKey] = [rang[rangKey][1]];
+          dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
         }
       }
       if (autoCompleteValue && varName && currentPage === 6) {

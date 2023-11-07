@@ -23,7 +23,7 @@ const AfricanOrigins: React.FC = () => {
                         as well as Series FO84, FO313, CO247 and CO267 held at the British
                         National Archives in London.
                     </p>
-                    <ButtonLearnMore path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`} stylePeopleName={'african-origins'} />
+                    <ButtonLearnMore path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#intro`} stylePeopleName={'african-origins'} />
                 </div>
             </div>
         </div>

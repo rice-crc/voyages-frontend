@@ -2,12 +2,12 @@ import { Toolbar, Hidden } from '@mui/material';
 import { MenuListDropdown } from './MenuListDropdown';
 import { CanscandingMenuProps } from '@/share/InterfaceTypes';
 import { MenuListDropdownPeople } from './MenuListDropdownPeople';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { ALLENSLAVED, ALLENSLAVERS } from '@/share/CONST_DATA';
+import { AFRICANORIGINS, ALLENSLAVED, ENSALVERSTYLE } from '@/share/CONST_DATA';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 export default function CanscandingMenu(props: CanscandingMenuProps) {
-  const { pathName } = useSelector((state: RootState) => state.getPathName);
+
+  const { styleName } = usePageRouter()
 
   return (
     <div
@@ -25,7 +25,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
       >
         <Hidden smDown>
           <div>
-            {pathName === ALLENSLAVED || pathName === ALLENSLAVERS ? (
+            {styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSALVERSTYLE ? (
               <MenuListDropdownPeople />
             ) : (
               <MenuListDropdown />

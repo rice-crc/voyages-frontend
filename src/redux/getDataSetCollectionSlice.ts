@@ -41,14 +41,18 @@ export const getDataSetCollectionSlice = createSlice({
             state.dataSetValueBaseFilter,
                 state.dataSetKey,
                 state.dataSetValue,
+                state.dataSetValueBaseFilter,
+                state.dataSetKey,
+                state.dataSetValue,
                 state.textHeader,
                 state.textIntroduce,
-                state.blocks
-            state.styleName
+                state.blocks,
+                state.styleName = ''
         },
+        resetAllStateSlice: (state) => initialState,
     },
 });
 
-export const { setBaseFilterDataSetValue, resetSlice, setBlocksMenuList, setBaseFilterDataValue, setBaseFilterDataKey, setDataSetHeader, setTextIntro, setStyleName } = getDataSetCollectionSlice.actions;
+export const { setBaseFilterDataSetValue, resetAllStateSlice, resetSlice, setBlocksMenuList, setBaseFilterDataValue, setBaseFilterDataKey, setDataSetHeader, setTextIntro, setStyleName } = getDataSetCollectionSlice.actions;
 
 export default getDataSetCollectionSlice.reducer;

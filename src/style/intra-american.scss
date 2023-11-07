@@ -181,21 +181,21 @@
             }
 
             @include breakpoint-standard(2) {
-                width: 90%;
+                width: 100%;
                 padding: 2rem;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(1) {
-                width: 90%;
+                width: 100%;
                 padding: 2rem;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(0) {
-                width: 90%;
+                width: 100%;
                 padding: 2rem;
                 position: static;
                 right: 0;
@@ -206,13 +206,25 @@
                 font-size: 55px;
                 opacity: 0.7;
                 line-height: 60px;
+
+                @include breakpoint-standard(2) {
+                    font-size: 40px;
+                }
+
+                @include breakpoint-standard(1) {
+                    font-size: 40px;
+                }
+
+                @include breakpoint-standard(0) {
+                    font-size: 40px;
+                }
             }
 
             p {
                 padding: 2rem;
                 font-size: 1.12rem;
                 font-weight: 400;
-                line-height: 20px;
+
 
             }
 
@@ -233,15 +245,15 @@
     }
 
     @include breakpoint-standard(2) {
-        padding: 2rem 0;
+        padding: 0;
     }
 
     @include breakpoint-standard(1) {
-        padding: 2rem 0;
+        padding: 0;
     }
 
     @include breakpoint-standard(0) {
-        padding: 2rem 0;
+        padding: 0;
     }
 }
 
@@ -279,6 +291,18 @@
     align-items: center;
     padding: 2rem;
 
+    @include breakpoint-standard(2) {
+        padding: 1.5rem 0;
+    }
+
+    @include breakpoint-standard(1) {
+        padding: 1.5rem 0;
+    }
+
+    @include breakpoint-standard(0) {
+        padding: 1.5rem 0;
+    }
+
     div {
         margin: 0 10px;
         color: #000;
@@ -291,5 +315,20 @@
         line-height: 1.7rem;
         cursor: pointer;
         box-shadow: 1px 1px 1px black;
+
+        @include breakpoint-standard(2) {
+            font-size: 0.75rem;
+            width: 75px;
+        }
+
+        @include breakpoint-standard(1) {
+            font-size: 0.75rem;
+            width: 75px;
+        }
+
+        @include breakpoint-standard(0) {
+            font-size: 0.75rem;
+            width: 75px;
+        }
     }
 }

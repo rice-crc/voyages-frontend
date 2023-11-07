@@ -7,7 +7,7 @@ export const fetchPastEnslaversAutoCompleted = createAsyncThunk(
     async (dataSend?: { [key: string]: string[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/past/enslaver/autocomplete`,
+                `${BASEURL}/past/enslaver/autocomplete/`,
                 dataSend,
                 {
                     headers: {

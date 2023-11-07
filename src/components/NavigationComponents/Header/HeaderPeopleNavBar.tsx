@@ -16,20 +16,19 @@ import {
   POPELETILET,
   PASTHOMEPAGE,
   EnslaversTitle,
+  ALLENSLAVEDPAGE,
 } from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
-import { setPathName } from '@/redux/getDataPathNameSlice';
-import { resetAll } from '@/redux/resetAllSlice';
+import { setPathEnslavers, setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 
 export default function HeaderPeopleNavBar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const dispatch: AppDispatch = useDispatch();
-  const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
-    useState<null | HTMLElement>(null);
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -40,7 +39,7 @@ export default function HeaderPeopleNavBar() {
   };
 
   const handleSelectMenuItems = (item: string) => {
-    dispatch(resetAll());
+    dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -48,13 +47,13 @@ export default function HeaderPeopleNavBar() {
     if (item === 'About') {
       navigate(`/${PASTHOMEPAGE}`);
     } else if (item === Enslaved) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}`);
+      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#intro`);
       dispatch(setCurrentEnslavedPage(1));
-      dispatch(setPathName(ALLENSLAVED));
+      dispatch(setPathNameEnslaved(ALLENSLAVED));
     } else if (item === EnslaversTitle) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}`);
+      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}#intro`);
       dispatch(setCurrentEnslaversPage(1));
-      dispatch(setPathName(ALLENSLAVERS));
+      dispatch(setPathEnslavers(ALLENSLAVERS));
     } else {
       navigate('/');
     }

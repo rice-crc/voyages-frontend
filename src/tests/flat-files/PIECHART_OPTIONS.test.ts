@@ -2,7 +2,9 @@ import { fetchVoyagesOptionsApi } from '@/fetch/voyagesFetch/fetchVoyagesOptions
 import dataVoyagePieOptions from "@/utils/flatfiles/VOYAGE_PIECHART_OPTIONS.json";
 import { expect, test, vi, describe } from "vitest";
 
+const fileName = 'VOYAGE_PIECHART_OPTIONS.json';
 global.fetch = vi.fn()
+const EndPoint = '/voyage/groupby/'
 
 describe('Voyages PIECHART_OPTIONS API Service', () => {
     test.todo('makes a PIECHART_OPTIONS request to fetch data list')
@@ -48,7 +50,7 @@ test('Test the PIECHART_OPTIONS if data does not match with API data', async () 
         (yVar) => !options.includes(yVar.var_name)
     );
 
-    const errorMessage = `Missing PIECHART_OPTIONS: ${missingXVars.map((xVar) => xVar.var_name).concat(missingYVars.map((yVar) => yVar.var_name).join(', '))}`
+    const errorMessage = `Missing PIECHART_OPTIONS.json: flat file ${fileName} names variables:\n\n :${missingXVars.map((xVar) => xVar.var_name).concat(missingYVars.map((yVar) => yVar.var_name).join(', \n'))}\n\nthat is not present in ${EndPoint}`
 
     if (missingXVars.length + missingYVars.length > 0) {
         throw new Error(errorMessage);

@@ -21,7 +21,7 @@ const IntraAmerican: React.FC = () => {
                         African survivors of the Atlantic crossing but also displaced
                         enslaved people born in the Americas.
                     </p>
-                    <ButtonLearnMore path={`${VOYAGESPAGE}${INTRAAMERICANPAGE}`} styleName='intra-american' />
+                    <ButtonLearnMore path={`${VOYAGESPAGE}${INTRAAMERICANPAGE}#intro`} styleName='intra-american' />
                     <ButtonLists lists={lists} />
                 </div>
                 <div className="intra-american-bg">
