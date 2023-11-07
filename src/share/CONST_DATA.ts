@@ -20,7 +20,7 @@ export const INTRAAMERICANPAGE = '/voyage/intra-american'
 export const TRANSATLANTIC = 'trans-atlantic'
 export const TRANSATLANTICPATH = 'trans-atlantic'
 export const TRANSATLANTICPAGE = '/voyage/trans-atlantic'
-export const VOYAGESTEXAS = 'texasVoyage'
+export const VOYAGESTEXAS = 'texas'
 export const VOYAGESTEXASPAGE = '/voyage/texas'
 
 export const PASTHOMEPAGE = 'PastHomePage'
