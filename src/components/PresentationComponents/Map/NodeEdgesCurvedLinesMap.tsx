@@ -227,6 +227,7 @@ const NodeEdgesCurvedLinesMap = () => {
         disembarkation,
         embarkation,
       } = weights;
+      console.log({ weights })
       const size = getNodeSize(node);
       const nodeColor = getNodeColorMapVoyagesStyle(node);
       const logSize = nodeLogValueScale(size);
@@ -243,7 +244,7 @@ const NodeEdgesCurvedLinesMap = () => {
           nodeID
         );
 
-        const popupContent = `<p>${name}</p>`;
+        const popupContent = `<p>${name}: ${embarkation || disembarkation} people </p>`;
         circleMarker.bindPopup(popupContent);
 
         const originMarker = L.marker(latlon);
