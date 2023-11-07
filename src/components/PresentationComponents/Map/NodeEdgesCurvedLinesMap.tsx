@@ -220,7 +220,7 @@ const NodeEdgesCurvedLinesMap = () => {
 
     nodesData.forEach((node) => {
       const { data, weights, id: nodeID } = node;
-      const { lat, lon } = data;
+      const { lat, lon, name } = data;
       const {
         origin,
         'post-disembarkation': postDisembarkation,

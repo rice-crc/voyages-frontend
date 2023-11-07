@@ -154,6 +154,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const onClickResetOnHeader = () => {
     dispatch(resetAll());
     dispatch(resetBlockNameAndPageName());
+    dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);

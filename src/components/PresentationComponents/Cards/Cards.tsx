@@ -35,7 +35,9 @@ const VoyageCard = () => {
 
   const { cardData, cardRowID, cardFileName, cardDataArray, nodeTypeClass } =
     useSelector((state: RootState) => state.getCardFlatObjectData);
-
+  const { networkID } = useSelector(
+    (state: RootState) => state.getPastNetworksGraphData
+  );
   useEffect(() => {
     let newCardFileName: string = '';
     const newCardDataArray: TransatlanticCardProps[] = [];
@@ -62,7 +64,7 @@ const VoyageCard = () => {
   useEffect(() => {
     let subscribed = true;
     const fetchData = async () => {
-      const ID = cardRowID;
+      const ID = networkID || cardRowID;
 
       const dataSend: { [key: string]: (string | number)[] } = {
         id: [Number(ID!)],
