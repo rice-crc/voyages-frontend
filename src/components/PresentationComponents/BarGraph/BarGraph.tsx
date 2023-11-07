@@ -171,7 +171,6 @@ function BarGraph() {
     aggregation,
     rang,
     varName,
-    isChange,
     autoCompleteValue,
     autoLabelName,
     chips,

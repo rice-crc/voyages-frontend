@@ -66,7 +66,7 @@ export const TYPESOFDATASETPEOPLE: {
     allEnslaved: 'all-enslaved',
     allEnslavers: 'all-enslavers',
     africanOrigins: 'african-origins',
-    texas: 'texas'
+    texas: 'texasEnslaved'
 };
 
 export const TYPESOFDATASET: {

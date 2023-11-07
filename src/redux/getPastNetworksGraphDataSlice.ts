@@ -7,7 +7,7 @@ const initialState: InitialStatePastNetworksData = {
         edges: []
     },
     openModal: false,
-    networkID: 0,
+    networkID: null,
     networkKEY: '',
 };
 
@@ -21,13 +21,13 @@ const getPastNetworksGraphDataSlice = createSlice({
         setsetOpenModalNetworks: (state, action: PayloadAction<boolean>) => {
             state.openModal = action.payload;
         },
-        setNetWorksID: (state, action: PayloadAction<number>) => {
+        setNetWorksID: (state, action: PayloadAction<number | null>) => {
             state.networkID = action.payload;
         },
         setNetWorksKEY: (state, action: PayloadAction<string>) => {
             state.networkKEY = action.payload;
-        }
-    }
+        },
+    },
 });
 
 export const { setPastNetworksData, setsetOpenModalNetworks, setNetWorksID, setNetWorksKEY } = getPastNetworksGraphDataSlice.actions;

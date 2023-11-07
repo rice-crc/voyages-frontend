@@ -21,6 +21,7 @@ import {
   ALLVOYAGES,
   ENSALVERSTYLE,
   ENSLAVEDNODE,
+  ENSLAVEDTEXAS,
   ENSLAVERSNODE,
   VOYAGESNODE,
 } from '@/share/CONST_DATA';
@@ -37,14 +38,16 @@ export const GenerateCellTableRenderer = (
   const dispatch = useDispatch();
   const { styleName } = usePageRouter()
 
+
   let nodeType: string = '';
-  if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
+  if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
     nodeType = VOYAGESNODE;
-  } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
+  } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
     nodeType = ENSLAVEDNODE;
   } else if (styleName === ENSALVERSTYLE) {
     nodeType = ENSLAVERSNODE;
   }
+
 
   if (Array.isArray(values)) {
     const style: CSSProperties = {

@@ -43,6 +43,6 @@ export type Datas = {
 export interface InitialStatePastNetworksData {
     data: Datas,
     openModal: boolean;
-    networkID: number,
+    networkID: number | null,
     networkKEY: string,
 }

@@ -220,13 +220,14 @@ const NodeEdgesCurvedLinesMap = () => {
 
     nodesData.forEach((node) => {
       const { data, weights, id: nodeID } = node;
-      const { lat, lon } = data;
+      const { lat, lon, name } = data;
       const {
         origin,
         'post-disembarkation': postDisembarkation,
         disembarkation,
         embarkation,
       } = weights;
+
       const size = getNodeSize(node);
       const nodeColor = getNodeColorMapVoyagesStyle(node);
       const logSize = nodeLogValueScale(size);
@@ -242,8 +243,22 @@ const NodeEdgesCurvedLinesMap = () => {
           0.8,
           nodeID
         );
+        /*
+          On red, blue, and purple nodes, make the numbers displayed correspond to embarkation and disembarkation numbers. examples:
+          A. Red node, 50 embarked, 0 disembarked --> "PLACE NAME: 50 people embarked."
+          B. Blue node, 0 embarked, 50 disembarked --> "PLACE NAME: 50 people disembarked"
+          C. Purple node, 2 embarked, 20 disembarked --> "PLACE NAME: 2 people embarked and 20 people
+        */
+        let popupContent = '';
+        if (embarkation || disembarkation) {
+          const embarkedText = embarkation ? `${embarkation} people embarked` : '';
+          const disembarkedText = disembarkation ? `${disembarkation} people disembarked` : '';
 
-        const popupContent = `<p>${name}</p>`;
+          const separator = embarkation && disembarkation ? ' and ' : '';
+
+          popupContent = `<p>${name}: ${embarkedText}${separator}${disembarkedText}.</p>`;
+        }
+
         circleMarker.bindPopup(popupContent);
 
         const originMarker = L.marker(latlon);

@@ -51,7 +51,7 @@
 		],
 		"filter_menu_flatfile": "texas_filter_menu.json",
 		"table_flatfile": "texas_table_cell_structure.json",
-		"style_name": "texas",
+		"style_name": "texasEnslaved",
 		"blocks": [
 			"INTRO",
 			"TABLE"

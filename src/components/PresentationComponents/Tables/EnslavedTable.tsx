@@ -185,8 +185,8 @@ const EnslavedTable: React.FC = () => {
 
       if (isChangeGeoTree && varName && geoTreeValue) {
         for (const keyValue in geoTreeValue) {
-          for (const keyGeoValue of geoTreeValue[keyValue]) {
-            dataSend[keyValue] = [String(keyGeoValue)];
+          if (Array.isArray(geoTreeValue[keyValue])) {
+            dataSend[keyValue] = geoTreeValue[keyValue] as string[] | number[];
           }
         }
       }

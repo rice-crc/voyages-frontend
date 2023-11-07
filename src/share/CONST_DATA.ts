@@ -30,9 +30,9 @@ export const ALLENSLAVEDPAGE = '/all-enslaved'
 export const ENSALVEDPAGE = '/enslaved'
 export const AFRICANORIGINS = 'african-origins'
 export const AFRICANORIGINSPAGE = '/african-origins'
-export const ENSLAVEDTEXAS = 'texas'
+export const ENSLAVEDTEXAS = 'texasEnslaved'
 
-export const ENSLAVEDTEXASPAGE = '/texas'
+export const ENSLAVEDTEXASPAGE = '/texasEnslaved'
 export const DOCUMENTPAGE = 'DocumentPage'
 export const BLOGPAGE = 'Blog'
 
