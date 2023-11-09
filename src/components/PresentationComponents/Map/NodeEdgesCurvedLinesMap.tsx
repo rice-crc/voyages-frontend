@@ -47,9 +47,6 @@ const NodeEdgesCurvedLinesMap = () => {
     } else if (nodeType === nodeTypePostDisembarkation) {
       dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY))
       dispatch(setClusterNodeValue(value))
-    } else {
-      // dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY))
-      // dispatch(setClusterNodeValue(value))
     }
 
   }
@@ -243,12 +240,7 @@ const NodeEdgesCurvedLinesMap = () => {
           0.8,
           nodeID
         );
-        /*
-          On red, blue, and purple nodes, make the numbers displayed correspond to embarkation and disembarkation numbers. examples:
-          A. Red node, 50 embarked, 0 disembarked --> "PLACE NAME: 50 people embarked."
-          B. Blue node, 0 embarked, 50 disembarked --> "PLACE NAME: 50 people disembarked"
-          C. Purple node, 2 embarked, 20 disembarked --> "PLACE NAME: 2 people embarked and 20 people
-        */
+
         let popupContent = '';
         if (embarkation || disembarkation) {
           const embarkedText = embarkation ? `${embarkation} people embarked` : '';
@@ -270,7 +262,7 @@ const NodeEdgesCurvedLinesMap = () => {
             nodesData,
             originNodeMarkersMap,
             originMarkerCluster,
-            handleSetClusterKeyValue
+            handleSetClusterKeyValue // WAIT To Change if want to show table
           );
         });
 

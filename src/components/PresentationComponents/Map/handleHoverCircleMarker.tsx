@@ -66,7 +66,7 @@ export function handleHoverCircleMarker(
     }
   });
   /**
-   WAIT To discuss Keep the labes for now
+   ====  WAIT To discuss Keep the labes for now ===== 
    const popupContainer = document.createElement('center');
    popupContainer.className = 'tablePopup'
   popupContainer.style.width = '300px'

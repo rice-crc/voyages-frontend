@@ -21,6 +21,7 @@ import { fetchEnslavedGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslavedGeoTre
 import { fetchEnslaversGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslaversGeoTreeSelect';
 import { getGeoValuesCheck } from '@/utils/functions/getGeoValuesCheck';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { handleSetDataSentMapGeoTree } from '@/utils/functions/handleSetDataSentMapGeoTree';
 
 const GeoTreeSelected: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -66,38 +67,8 @@ const GeoTreeSelected: React.FC = () => {
   useEffect(() => {
     let subscribed = true;
     const fetchGeoTreeSelectList = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {};
 
-      dataSend['geotree_valuefields'] = [varName];
-
-      if (isChangeGeoTree && varName && geoTreeValue) {
-        for (const keyValue in geoTreeValue) {
-          if (Array.isArray(geoTreeValue[keyValue])) {
-            if (varName !== keyValue) {
-              dataSend[keyValue] = geoTreeValue[keyValue] as string[] | number[];
-            }
-          }
-        }
-      }
-      console.log({ dataSend })
-      if (autoCompleteValue && varName) {
-        for (const autoKey in autoCompleteValue) {
-          const autoCompleteOption = autoCompleteValue[autoKey];
-          if (typeof autoCompleteOption !== 'string') {
-            for (const keyValue of autoCompleteOption) {
-              if (typeof keyValue === 'object' && 'label' in keyValue) {
-                dataSend[autoKey] = [keyValue.label];
-              }
-            }
-          }
-        }
-      }
-
-      if (rangeValue && varName) {
-        for (const rangKey in rangeValue) {
-          dataSend[rangKey] = [rangeValue[rangKey][0], rangeValue[rangKey][1]];
-        }
-      }
+      const dataSend = handleSetDataSentMapGeoTree(autoCompleteValue, isChangeGeoTree, geoTreeValue, varName, rangeValue)
 
       let response = [];
       try {

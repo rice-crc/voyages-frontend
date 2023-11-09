@@ -74,10 +74,10 @@ const CustomHeader: React.FC<Props> = (props) => {
     try {
       let response;
 
-      if (pathNameVoyages === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
+      if (pathNameVoyages === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
         response = await dispatch(fetchVoyageOptionsData(dataSend)).unwrap();
 
-      } else if (pathNameEnslaved === ALLENSLAVED || styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
+      } else if (pathNameEnslaved === ALLENSLAVED || styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
         response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
       } else if (pathNameEnslavers === ALLENSLAVERS) {
         response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();

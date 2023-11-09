@@ -78,6 +78,7 @@ export const GenerateCellTableRenderer = (
     ));
     return <div>{renderedValues}</div>;
   } else if (typeof values !== 'object' && cellFN !== 'networks') {
+
     return (
       <div className="div-value">
         <div

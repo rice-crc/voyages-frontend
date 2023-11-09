@@ -36,6 +36,8 @@ import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
 import { createTopPositionEnslaversPage } from '@/utils/functions/createTopPositionEnslaversPage';
+import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
+import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
 
 const EnslaversTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -43,7 +45,7 @@ const EnslaversTable: React.FC = () => {
   const { columnDefs, data, rowData } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
-  const { rangeSliderMinMax: rang, varName } = useSelector(
+  const { rangeSliderMinMax: rang, varName, isChange } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
   const { autoCompleteValue, autoLabelName } = useSelector(
@@ -70,9 +72,7 @@ const EnslaversTable: React.FC = () => {
     getRowsPerPage(window.innerWidth, window.innerHeight)
   );
 
-  const { currentEnslavedPage } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
-  );
+
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
@@ -81,7 +81,7 @@ const EnslaversTable: React.FC = () => {
   const maxWidth = maxWidthSize(width);
   const [style, setStyle] = useState({
     width: maxWidth,
-    height: height * 0.62,
+    height: height,
   });
 
   const containerStyle = useMemo(
@@ -104,7 +104,7 @@ const EnslaversTable: React.FC = () => {
   useEffect(() => {
     setStyle({
       width: maxWidth,
-      height: height * 0.65,
+      height: height * 0.6,
     });
   }, [width, height, maxWidth]);
   const saveDataToLocalStorage = (
@@ -125,44 +125,12 @@ const EnslaversTable: React.FC = () => {
   useEffect(() => {
     let subscribed = true;
     const fetchData = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {};
+
+      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValuePeople, dataSetKeyPeople, inputSearchValue, geoTreeValue, varName, rang, undefined, undefined, isChange, styleNamePeople, currentEnslaversPage)
 
       dataSend['results_page'] = [String(page + 1)];
       dataSend['results_per_page'] = [String(rowsPerPage)];
 
-      if (inputSearchValue) {
-        dataSend['global_search'] = [String(inputSearchValue)];
-      }
-      if (rang[varName] && currentEnslaversPage === 2) {
-        for (const rangKey in rang) {
-          dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
-        }
-      }
-
-      if (autoCompleteValue && varName) {
-        for (const autoKey in autoCompleteValue) {
-          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
-            if (typeof autoCompleteOption !== 'string') {
-              const { label } = autoCompleteOption;
-
-              dataSend[autoKey] = [label];
-            }
-          }
-        }
-      }
-      if (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslavers) {
-        for (const value of dataSetValuePeople) {
-          dataSend[dataSetKeyPeople] = [String(value)];
-        }
-      }
-
-      if (isChangeGeoTree && varName && geoTreeValue) {
-        for (const keyValue in geoTreeValue) {
-          if (Array.isArray(geoTreeValue[keyValue])) {
-            dataSend[keyValue] = geoTreeValue[keyValue] as string[] | number[];
-          }
-        }
-      }
       setLoading(true)
       try {
         const response = await dispatch(
@@ -287,7 +255,7 @@ const EnslaversTable: React.FC = () => {
     [page]
   );
   const topPosition = createTopPositionEnslaversPage(
-    currentEnslavedPage,
+    currentEnslaversPage,
     isFilter
   );
   return (
@@ -317,6 +285,7 @@ const EnslaversTable: React.FC = () => {
                 rowData={rowData}
                 onColumnVisible={handleColumnVisibleChange}
                 gridOptions={gridOptions}
+                getRowHeight={getRowHeightTable}
                 columnDefs={columnDefs}
                 suppressMenuHide={true}
                 animateRows={true}

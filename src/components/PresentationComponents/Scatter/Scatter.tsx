@@ -16,13 +16,13 @@ import {
   RangeSliderState,
   AutoCompleteInitialState,
   CurrentPageInitialState,
-  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import '@/style/page.scss';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAverage/AggregationSumAverage';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 
 function Scatter() {
   const datas = useSelector(
@@ -90,7 +90,9 @@ function Scatter() {
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
     const fetchData = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {};
+
+      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
+
       const yfieldArr: string[] = [];
 
       dataSend['groupby_by'] = [scatterOptions.x_vars];
@@ -104,39 +106,6 @@ function Scatter() {
         }
       }
 
-      if (inputSearchValue) {
-        dataSend['global_search'] = [String(inputSearchValue)];
-      }
-
-      if (styleName !== TYPESOFDATASET.allVoyages) {
-        for (const value of dataSetValue) {
-          dataSend[dataSetKey] = [String(value)];
-        }
-      }
-      if (isChange && rang && currentPage === 3) {
-        for (const rangKey in rang) {
-          dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
-        }
-      }
-
-      if (autoCompleteValue && varName && currentPage === 3) {
-        for (const autoKey in autoCompleteValue) {
-          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
-            if (typeof autoCompleteOption !== 'string') {
-              const { label } = autoCompleteOption;
-              dataSend[autoKey] = [label];
-            }
-          }
-        }
-      }
-
-      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 3) {
-        for (const keyValue in geoTreeValue) {
-          for (const keyGeoValue of geoTreeValue[keyValue]) {
-            dataSend[keyValue] = [String(keyGeoValue)];
-          }
-        }
-      }
 
       try {
         const data: Data[] = [];

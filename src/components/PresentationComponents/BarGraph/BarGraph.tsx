@@ -22,6 +22,7 @@ import {
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -86,50 +87,19 @@ function BarGraph() {
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
     const fetchData = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {};
+
+      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
 
       dataSend['groupby_by'] = [barGraphOptions.x_vars];
       dataSend['agg_fn'] = [aggregation];
       dataSend['cachename'] = ['voyage_bar_and_donut_charts'];
 
       const yfieldArr: string[] = [];
-      if (inputSearchValue) {
-        dataSend['global_search'] = [String(inputSearchValue)];
-      }
+
       if (currentPage === 4) {
         for (const chip of chips) {
           dataSend['groupby_cols'] = [chip];
           yfieldArr.push(chip);
-        }
-      }
-
-      if (styleName !== TYPESOFDATASET.allVoyages) {
-        for (const value of dataSetValue) {
-          dataSend[dataSetKey] = [String(value)];
-        }
-      }
-
-      if (isChange && rang && currentPage === 4) {
-        for (const rangKey in rang) {
-          dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
-        }
-      }
-      if (autoCompleteValue && varName && currentPage === 4) {
-        for (const autoKey in autoCompleteValue) {
-          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
-            if (typeof autoCompleteOption !== 'string') {
-              const { label } = autoCompleteOption;
-              dataSend[autoKey] = [label];
-            }
-          }
-        }
-      }
-
-      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 4) {
-        for (const keyValue in geoTreeValue) {
-          for (const keyGeoValue of geoTreeValue[keyValue]) {
-            dataSend[keyValue] = [String(keyGeoValue)];
-          }
         }
       }
 

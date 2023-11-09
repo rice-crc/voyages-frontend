@@ -56,7 +56,7 @@ export const drawNetwork = (
             const offset = -15;
             context.fillStyle = '#fff';
             context.font = '12px Arial';
-            context.fillText(labelEdge, offset, -3);
+            context.fillText(labelEdge, offset, -6);
             context.restore();
           }
         }

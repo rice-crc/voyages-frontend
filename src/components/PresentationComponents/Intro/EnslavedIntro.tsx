@@ -38,7 +38,7 @@ const EnslavedIntro = () => {
   const { value, textIntroduce } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
-  const { currentEnslavedPage, currentPageBlockName } = useSelector(
+  const { currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
   const styleNameToPathMap: { [key: string]: string } = {

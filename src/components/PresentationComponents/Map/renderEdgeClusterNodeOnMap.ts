@@ -11,7 +11,8 @@ export function renderEdgeClusterNodeOnMap(
     coordinatesStart: LatLng,
     coordinatesEnd: LatLng,
     weightEdges: number,
-    nodeType: string
+    nodeType: string,
+    childNodesData?: NodeAggroutes[],
 ) {
     const curveAnimated = renderEdgesAnimatedLinesOnMap(
         coordinatesStart,
@@ -29,7 +30,7 @@ export function renderEdgeClusterNodeOnMap(
     );
 
     if (curveAnimated && curveLine) {
-        const tooltipContent = createTooltipClusterEdges(edge.weight, node, nodeType);
+        const tooltipContent = createTooltipClusterEdges(edge.weight, node, nodeType, childNodesData!);
         const tooltip = L.tooltip({
             direction: 'top',
             permanent: false,

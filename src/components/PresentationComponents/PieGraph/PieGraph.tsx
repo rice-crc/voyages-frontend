@@ -23,6 +23,7 @@ import {
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import '@/style/homepage.scss';
+import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -81,45 +82,13 @@ function PieGraph() {
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
     const fetchData = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {};
+      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
 
       dataSend['groupby_by'] = [pieGraphOptions.x_vars];
       dataSend['groupby_cols'] = [pieGraphOptions.y_vars];
       dataSend['agg_fn'] = [aggregation];
       dataSend['cachename'] = ['voyage_bar_and_donut_charts'];
 
-      if (styleName !== TYPESOFDATASET.allVoyages) {
-        for (const value of dataSetValue) {
-          dataSend[dataSetKey] = [String(value)];
-        }
-      }
-      if (inputSearchValue) {
-        dataSend['global_search'] = [String(inputSearchValue)];
-      }
-      if (isChange && rang && currentPage === 5) {
-        for (const rangKey in rang) {
-          dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
-        }
-      }
-      if (autoCompleteValue && varName && currentPage === 5) {
-        for (const autoKey in autoCompleteValue) {
-          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
-            if (typeof autoCompleteOption !== 'string') {
-              const { label } = autoCompleteOption;
-
-              dataSend[autoKey] = [label];
-            }
-          }
-        }
-      }
-
-      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 5) {
-        for (const keyValue in geoTreeValue) {
-          for (const keyGeoValue of geoTreeValue[keyValue]) {
-            dataSend[keyValue] = [String(keyGeoValue)];
-          }
-        }
-      }
       try {
         const response = await dispatch(
           fetchVoyageGraphGroupby(dataSend)

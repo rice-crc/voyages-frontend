@@ -54,7 +54,7 @@ const RangeSlider = () => {
       const dataSend: { [key: string]: (string | number)[] } = {
         aggregate_fields: [varName],
       };
-      console.log({ styleName })
+
       try {
         let response;
         if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {

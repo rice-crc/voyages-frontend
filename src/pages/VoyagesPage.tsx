@@ -114,12 +114,12 @@ const VoyagesPage = () => {
       <HeaderVoyagesNavBar />
       <div
         className="voyages-home-page"
+        id="content-container"
         style={{
           backgroundColor: getColorVoyagePageBackground(styleVoyagesName!, currentPage),
           position: 'relative',
           padding: currentPage !== 1 ? '30px' : '',
         }}
-        id="content-container"
       >
         <CollectionTabVoyages />
         <Grid id="content-container">{displayPage}</Grid>
