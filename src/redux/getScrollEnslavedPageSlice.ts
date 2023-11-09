@@ -1,20 +1,26 @@
 
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
+const initialState = {
+    currentEnslavedPage: 1,
+    currentPageBlockName: 'intro'
+};
 export const getScrollEnslavedPageSlice = createSlice({
     name: 'getScrollEnslavedPage',
-    initialState: {
-        currentEnslavedPage: 1,
-    },
+    initialState,
     reducers: {
         setCurrentEnslavedPage: (state, action: PayloadAction<number>) => {
             state.currentEnslavedPage = action.payload;
         },
+        setCurrentBlockName: (state, action: PayloadAction<string>) => {
+            state.currentPageBlockName = action.payload;
+        },
         resetSlice: (state) => {
-            state.currentEnslavedPage
+            state.currentEnslavedPage = initialState.currentEnslavedPage;
+            state.currentPageBlockName = initialState.currentPageBlockName;
         },
     }
 })
 
-export const { resetSlice, setCurrentEnslavedPage } = getScrollEnslavedPageSlice.actions;
+export const { resetSlice, setCurrentEnslavedPage, setCurrentBlockName } = getScrollEnslavedPageSlice.actions;
 export default getScrollEnslavedPageSlice.reducer;

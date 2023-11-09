@@ -147,27 +147,33 @@
             width: auto;
 
             @include breakpoint-standard(5) {
-                width: 100%;
+                width: 80%;
+                margin: 2rem 0;
             }
 
             @include breakpoint-standard(4) {
-                width: 100%;
+                width: 80%;
+                margin: 2rem 0;
             }
 
             @include breakpoint-standard(3) {
-                width: 100%;
+                width: 80%;
+                margin: 2rem 0;
             }
 
             @include breakpoint-standard(2) {
-                width: 100%;
+                width: 80%;
+                margin: 2rem 0;
             }
 
             @include breakpoint-standard(1) {
-                width: 100%;
+                width: 80%;
+                margin: 2rem 0;
             }
 
             @include breakpoint-standard(0) {
-                width: 100%;
+                width: 80%;
+                margin: 2rem 0;
             }
         }
 
@@ -176,6 +182,8 @@
             color: rgba(0, 0, 0, 0.95);
             text-align: center;
             width: 45%;
+            position: relative;
+            left: 4%;
 
             @include breakpoint-standard(5) {
                 width: 70%;

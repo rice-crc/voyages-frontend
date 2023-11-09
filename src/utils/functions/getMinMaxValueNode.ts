@@ -3,7 +3,7 @@ import { getNodeSize } from "./getNodeSize";
 
 export const getMinValueNode = (nodesData: NodeAggroutes[]): number => {
     let minNodeSize = Infinity;
-    nodesData.forEach((node) => {
+    nodesData?.length > 0 && nodesData.forEach((node) => {
         const nodeSize = getNodeSize(node);
         if (nodeSize) {
             if (nodeSize < minNodeSize) {
@@ -12,12 +12,11 @@ export const getMinValueNode = (nodesData: NodeAggroutes[]): number => {
         }
     });
     return minNodeSize;
-
 }
 
 export const getMaxValueNode = (nodesData: NodeAggroutes[]): number => {
     let maxNodeSize = -Infinity;
-    nodesData.forEach((node) => {
+    nodesData?.length > 0 && nodesData.forEach((node) => {
         const nodeSize = getNodeSize(node);
         if (nodeSize) {
 

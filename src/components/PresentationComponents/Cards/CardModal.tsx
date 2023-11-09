@@ -5,6 +5,7 @@ import VoyageCard from './Cards';
 import { RootState } from '@/redux/store';
 import { setIsModalCard } from '@/redux/getCardFlatObjectSlice';
 import CloseIcon from '@mui/icons-material/Close';
+import '@/style/cards.scss';
 
 const CardModal = () => {
   const dispatch = useDispatch();
@@ -16,13 +17,7 @@ const CardModal = () => {
     dispatch(setIsModalCard(false));
   };
   return (
-    <div
-      style={{
-        overflowX: 'hidden',
-        overflowY: 'auto',
-        marginTop: '5%',
-      }}
-    >
+    <div className='card-modal-container'>
       <Modal
         open={isModalCard}
         disableScrollLock={true}
@@ -31,18 +26,7 @@ const CardModal = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styleModalCard}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              position: 'sticky',
-              top: -10,
-              zIndex: 1,
-              background: 'white',
-              paddingTop: 10,
-            }}
-          >
+          <div className='card-box-modal'>
             <Typography
               id="modal-modal-title"
               component="p"

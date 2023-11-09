@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import '@/style/homepage.scss';
+import { resetAll } from '@/redux/resetAllSlice';
 
 const GlobalSearchButton = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -25,6 +26,7 @@ const GlobalSearchButton = () => {
 
   const handleExitGlobalSearch = () => {
     dispatch(setInputSearchValue(''));
+    dispatch(resetAll())
     // Retrieve the filterObject from localStorage
     const filterObjectString = localStorage.getItem('filterObject');
 
@@ -49,7 +51,7 @@ const GlobalSearchButton = () => {
       </span>
       <span className="global-search-exit" onClick={handleExitGlobalSearch}>
         <ExitToAppIcon />
-        "Exit global search"
+        Exit global search
       </span>
     </span>
   );

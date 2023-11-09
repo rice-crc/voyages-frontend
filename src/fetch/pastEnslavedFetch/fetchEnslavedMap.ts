@@ -7,7 +7,7 @@ export const fetchEnslavedMap = createAsyncThunk(
     async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/past/enslaved/aggroutes`,
+                `${BASEURL}/past/enslaved/aggroutes/`,
                 dataSend,
                 {
                     headers: {

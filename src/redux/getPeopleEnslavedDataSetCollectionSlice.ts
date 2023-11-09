@@ -66,18 +66,16 @@ export const getPeopleEnslavedDataSetCollectionSlice = createSlice({
         },
         resetSlice: (state) => {
             state.dataSetValueBaseFilter,
-                state.dataSetKeyPeople,
-                state.dataSetValuePeople,
                 state.textHeader,
                 state.textIntroduce,
-                state.blocksPeople,
                 state.filterMenuFlatfile,
                 state.tableFlatfile
-        }
+        },
+        resetAllStateSlice: (state) => initialState
     },
 });
 
-export const {
+export const { resetAllStateSlice,
     resetSlice,
     setBaseFilterPeopleEnslavedDataSetValue,
     setBaseFilterPeopleEnslavedDataKey,

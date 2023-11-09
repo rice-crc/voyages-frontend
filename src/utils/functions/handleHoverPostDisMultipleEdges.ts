@@ -1,18 +1,14 @@
+
 import { EdgesAggroutes, NodeAggroutes } from '@/share/InterfaceTypesMap';
 import { getEdgesSize } from '@/utils/functions/getNodeSize';
 import L from 'leaflet';
-import renderEdgesAnimatedLinesOnMap from './renderEdgesAnimatedLinesOnMap';
-import {
-    getMaxValueNode,
-    getMinValueNode,
-} from '@/utils/functions/getMinMaxValueNode';
-import { maxRadiusInPixels, minRadiusInPixels } from '@/share/CONST_DATA';
-import * as d3 from 'd3';
-import renderEdgesLinesOnMap from './renderEdgesLinesOnMap';
+
 import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
+import renderEdgesAnimatedLinesOnMap from '@/components/PresentationComponents/Map/renderEdgesAnimatedLinesOnMap';
+import renderEdgesLinesOnMap from '@/components/PresentationComponents/Map/renderEdgesLinesOnMap';
 
 
-export function handleHoverPostDisembarkationsMarkerCluster(
+export function handleHoverPostDisMultipleEdges(
     event: L.LeafletEvent,
     hiddenEdgesLayer: L.LayerGroup<any>,
     edgesData: EdgesAggroutes[],
@@ -29,6 +25,7 @@ export function handleHoverPostDisembarkationsMarkerCluster(
     nodesData.forEach((node) => {
         nodesMap.set(node.id, node);
     });
+
     edgesData.forEach((edge) => {
         if (!sourceEdgesMap.has(edge.source)) sourceEdgesMap.set(edge.source, []);
         sourceEdgesMap.get(edge.source)?.push(edge);

@@ -22,14 +22,14 @@
 			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
-				"birth_place__geo_location__name",
+				"birth_place__name",
 				"birth_year"
 			],
 			"colID": "birth",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "birth_place__geo_location__name",
+						"var_name": "birth_place__name",
 						"cell_fn": "enslavers"
 					},
 					{
@@ -45,14 +45,14 @@
 			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
-				"death_place__geo_location__name",
+				"death_place__name",
 				"death_year"
 			],
 			"colID": "death",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "death_place__geo_location__name",
+						"var_name": "death_place__name",
 						"cell_fn": "enslavers"
 					},
 					{
@@ -70,8 +70,8 @@
 			"order_by": [
 				"aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 				"aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
-				"aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
-				"aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name"
+				"aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
+				"aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__name"
 			],
 			"colID": "voyages",
 			"cell_val": {
@@ -89,11 +89,11 @@
 						"cell_fn": "enslavers"
 					},
 					{
-						"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__geo_location__name",
+						"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
 						"cell_fn": "enslavers"
 					},
 					{
-						"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__geo_location__name",
+						"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__name",
 						"cell_fn": "enslavers"
 					}
 				],
@@ -122,13 +122,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"enslaver_zotero_connections__zotero_source__zotero_title"
+				"enslaver_source_connections__source__title"
 			],
 			"colID": "documentary_sources",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaver_zotero_connections__zotero_source__zotero_title",
+						"var_name": "enslaver_source_connections__source__title",
 						"cell_fn": "enslavers"
 					}
 				]

@@ -66,7 +66,7 @@ export const TYPESOFDATASETPEOPLE: {
     allEnslaved: 'all-enslaved',
     allEnslavers: 'all-enslavers',
     africanOrigins: 'african-origins',
-    texas: 'texas'
+    texas: 'texasEnslaved'
 };
 
 export const TYPESOFDATASET: {
@@ -77,7 +77,7 @@ export const TYPESOFDATASET: {
 } = {
     allVoyages: 'all-voyages',
     intraAmerican: 'intra-american',
-    transatlantic: 'transatlantic',
+    transatlantic: 'trans-atlantic',
     texas: 'texas'
 };
 
@@ -194,6 +194,7 @@ export interface CurrentPageInitialState {
     currentPage: number;
     isOpenDialog: boolean
     isOpenDialogMobile: boolean;
+    currentVoyageBlockName: string
 }
 
 export interface HeaderNavBarMenuProps {
@@ -278,7 +279,7 @@ export interface InitialStateTransatlanticCard {
     cardRowID: number
     cardFileName: string
     cardDataArray: TransatlanticCardProps[]
-    nodeType: string
+    nodeTypeClass: string
 }
 export interface TransatlanticCardProps {
     label: string

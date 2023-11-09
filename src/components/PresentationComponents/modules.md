@@ -3,7 +3,7 @@
 "Presentation" components are where the user sees the results of the queries they have made. Our presentation components
 
 - Intro
-- Table
+- Table / Voyages
 - Scatter Graph
 - Bar Graph
 - Pie Graph
@@ -12,6 +12,7 @@
 - Global Search
 - Network Graph
 - Video Background
+- Card
 
 Presentation components subscribe to the Redux store. When the Redux store updates, the components the presentation components then generate a new call to the API.
 

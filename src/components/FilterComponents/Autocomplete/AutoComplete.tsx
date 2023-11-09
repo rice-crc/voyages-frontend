@@ -14,6 +14,7 @@ import {
   AutoCompleteOption,
   AutocompleteBoxProps,
   RangeSliderState,
+  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import {
   setAutoCompleteValue,
@@ -21,19 +22,21 @@ import {
   setIsChangeAuto,
 } from '@/redux/getAutoCompleteSlice';
 import { fetchPastEnslavedAutoComplete } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedAutoCompleted';
-import { ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES } from '@/share/CONST_DATA';
+import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSALVERSTYLE, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import { fetchPastEnslaversAutoCompleted } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversAutoCompleted';
 import '@/style/Slider.scss';
 import '@/style/table.scss';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
+  const { styleName } = usePageRouter()
   const { geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
-  const { pathName } = useSelector((state: RootState) => state.getPathName);
+  const { pathNameEnslaved, pathNameEnslavers, pathNameVoyages } = useSelector((state: RootState) => state.getPathName);
   const { autoCompleteValue } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
@@ -51,13 +54,13 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
 
       let response = [];
       try {
-        if (pathName === ALLVOYAGES) {
+        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
           response = await dispatch(fetchAutoVoyageComplete(dataSend)).unwrap();
-        } else if (pathName === ALLENSLAVED) {
+        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
           response = await dispatch(
             fetchPastEnslavedAutoComplete(dataSend)
           ).unwrap();
-        } else if (pathName === ALLENSLAVERS) {
+        } else if (styleName === ENSALVERSTYLE) {
           response = await dispatch(
             fetchPastEnslaversAutoCompleted(dataSend)
           ).unwrap();
@@ -75,7 +78,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
       subscribed = false;
       setAutoLists([]);
     };
-  }, [dispatch, varName, autoValue, pathName]);
+  }, [dispatch, varName, autoValue, pathNameEnslaved, pathNameEnslavers, pathNameVoyages, styleName]);
 
   const handleInputChange = useMemo(
     () => (event: React.SyntheticEvent<Element, Event>, value: string) => {

@@ -1,9 +1,9 @@
 import HeaderEnslaversNavBar from '@/components/NavigationComponents/Header/HeaderEnslaversNavBar';
 import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CollectionTabEnslavers from '@/components/NavigationComponents/CollectionTab/CollectionTabEnslavers';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import {
   pageVariantsFromBottom,
@@ -13,13 +13,28 @@ import EnslaversIntro from '@/components/PresentationComponents/Intro/EnslaversI
 import EnslaversTable from '@/components/PresentationComponents/Tables/EnslaversTable';
 import { Grid } from '@mui/material';
 import { createTopPositionEnslaversPage } from '@/utils/functions/createTopPositionEnslaversPage';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
+import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 
 const EnslaversHomePage: React.FC = () => {
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
+  const { currentBlockName } = usePageRouter();
 
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+
+    if (currentBlockName === 'intro') {
+      dispatch(setCurrentEnslaversPage(1));
+      dispatch(setCurrentBlockName(currentBlockName))
+    } else if (currentBlockName === 'table') {
+      dispatch(setCurrentEnslaversPage(2));
+      dispatch(setCurrentBlockName(currentBlockName))
+    }
+  }, [currentBlockName]);
   const displayPage = (
     <motion.div
       initial={'initial'}
@@ -31,8 +46,8 @@ const EnslaversHomePage: React.FC = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentEnslaversPage === 1 && <EnslaversIntro />}
-      {currentEnslaversPage === 2 && <EnslaversTable />}
+      {currentEnslaversPage === 1 && currentBlockName === 'intro' && <EnslaversIntro />}
+      {currentEnslaversPage === 2 && currentBlockName === 'table' && <EnslaversTable />}
     </motion.div>
   );
 

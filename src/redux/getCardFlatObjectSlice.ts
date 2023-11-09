@@ -6,7 +6,7 @@ const initialState: InitialStateTransatlanticCard = {
     cardRowID: 0,
     cardFileName: '',
     cardDataArray: [],
-    nodeType: ''
+    nodeTypeClass: ''
 };
 export const getCardFlatObjectSlice = createSlice({
     name: 'getCardFlatObject',
@@ -28,7 +28,7 @@ export const getCardFlatObjectSlice = createSlice({
             state.cardDataArray = action.payload;
         },
         setNodeClass: (state, action: PayloadAction<string>) => {
-            state.nodeType = action.payload;
+            state.nodeTypeClass = action.payload;
         },
     }
 })

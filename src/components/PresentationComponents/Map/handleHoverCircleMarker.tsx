@@ -7,8 +7,10 @@ import { getEdgesSize } from '@/utils/functions/getNodeSize';
 import L from 'leaflet';
 import renderEdgesAnimatedLinesOnMap from './renderEdgesAnimatedLinesOnMap';
 import renderEdgesLinesOnMap from './renderEdgesLinesOnMap';
-import { createSourceEdges } from './createSourceAndTargetDictionaries';
+import { createSourceAndTargetDictionariesNodeEdges } from '../../../utils/functions/createSourceAndTargetDictionariesNodeEdges';
 import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
+import { createRoot } from 'react-dom/client';
+import { TooltipHoverTableOnNode } from './TooltipHoverTableOnNode';
 
 export function handleHoverCircleMarker(
   event: L.LeafletEvent,
@@ -16,7 +18,8 @@ export function handleHoverCircleMarker(
   edgesData: EdgesAggroutes[],
   nodesData: NodeAggroutes[],
   originNodeMarkersMap: Map<string, L.Marker<any>>,
-  originMarkerCluster: L.MarkerClusterGroup
+  originMarkerCluster: L.MarkerClusterGroup,
+  handleSetClusterKeyValue: (value: string, nodeType: string) => void
 ) {
   const aggregatedEdges = new Map<string, EdgesAggroutedSourceTarget>();
   hiddenEdgesLayer.clearLayers();
@@ -31,39 +34,59 @@ export function handleHoverCircleMarker(
 
   const nodeLogValueScale = createLogValueScale(nodesData);
 
-  const sourceEdges = createSourceEdges(nodeHoverID, hiddenEdgesData);
+  const sourceEdges = createSourceAndTargetDictionariesNodeEdges(
+    nodeHoverID,
+    hiddenEdgesData
+  );
 
   const targetNode = nodesData.find((node) => node.id === nodeHoverID)!;
 
   const { lat: targetLat, lon: targetLng } = targetNode?.data!;
-  sourceEdges.forEach((sourceEdge) => {
+  sourceEdges.forEach((sourceEdge: EdgesAggroutes) => {
     const sourceNodeId = sourceEdge.source;
     const originNode = originNodeMarkersMap.get(sourceNodeId);
     if (originNode) {
       const visibleParent = originMarkerCluster.getVisibleParent(originNode!);
+      if (visibleParent) {
+        const { lat: sourceLat, lng: sourceLng } = visibleParent!.getLatLng();
 
-      const { lat: sourceLat, lng: sourceLng } = visibleParent!.getLatLng();
+        const parentKeyLeaflet = [sourceLat, sourceLng].join();
 
-      const parentKeyLeaflet = [sourceLat, sourceLng].join();
-
-      if (!aggregatedEdges.has(parentKeyLeaflet)) {
-        const newAggregatedEdge: EdgesAggroutedSourceTarget = {
-          ...sourceEdge,
-          sourceLatlng: [sourceLat, sourceLng],
-          targetLatlng: [targetLat!, targetLng!],
-          controls: sourceEdge.controls,
-          weight: sourceEdge.weight,
-        };
-        aggregatedEdges.set(parentKeyLeaflet, newAggregatedEdge);
+        if (!aggregatedEdges.has(parentKeyLeaflet)) {
+          const newAggregatedEdge: EdgesAggroutedSourceTarget = {
+            ...sourceEdge,
+            sourceLatlng: [sourceLat, sourceLng],
+            targetLatlng: [targetLat!, targetLng!],
+            controls: sourceEdge.controls,
+            weight: sourceEdge.weight,
+          };
+          aggregatedEdges.set(parentKeyLeaflet, newAggregatedEdge);
+        }
       }
     }
   });
+  /**
+   WAIT To discuss Keep the labes for now
+   const popupContainer = document.createElement('center');
+   popupContainer.className = 'tablePopup'
+  popupContainer.style.width = '300px'
+  const popupRoot = createRoot(popupContainer);
+  popupRoot.render(
+    <TooltipHoverTableOnNode
+      nodesDatas={nodesData}
+      nodeType={''}
+      handleSetClusterKeyValue={handleSetClusterKeyValue}
+    />
+  );
+  event.target.bindPopup(popupContainer).openPopup();
+   **/
+
 
   for (const [, edgeData] of aggregatedEdges) {
     const { sourceLatlng, targetLatlng, controls, type } = edgeData;
 
     const size = getEdgesSize(edgeData);
-    const weightEddg = size !== null ? nodeLogValueScale(size) / 1.5 : 0;
+    const weightEddg = size !== null ? nodeLogValueScale(size) : 0;
 
     const curveAnimated = renderEdgesAnimatedLinesOnMap(
       sourceLatlng,

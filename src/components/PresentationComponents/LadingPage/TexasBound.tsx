@@ -20,7 +20,7 @@ const TexasBound: React.FC = () => {
                         Coast. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                         do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     </p>
-                    <ButtonLearnMore path={`${VOYAGESPAGE}${VOYAGESTEXASPAGE}`} styleName='texas' />
+                    <ButtonLearnMore path={`${VOYAGESPAGE}${VOYAGESTEXASPAGE}#intro`} styleName='texas' />
                     <ButtonLists lists={lists} />
                 </div>
                 <div className="texas-bound-bg">

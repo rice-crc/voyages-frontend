@@ -7,7 +7,7 @@ export const fetcVoyagesGeoTreeSelectLists = createAsyncThunk(
     async (dataSend?: { [key: string]: (string | number)[] }) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/voyage/geotree`,
+                `${BASEURL}/voyage/geotree/`,
                 dataSend,
                 {
                     headers: {

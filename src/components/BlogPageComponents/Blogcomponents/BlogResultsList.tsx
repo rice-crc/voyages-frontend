@@ -19,10 +19,6 @@ import defaultImage from '@/assets/no-imge-default.avif';
 
 const BlogResultsList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const imagesPerPage = 12;
-  const [currentBlogPage, setCurrentBlogPage] = useState<number>(1);
-  const startIndex = (currentBlogPage - 1) * imagesPerPage;
-  const endIndex = startIndex + imagesPerPage;
   const {
     data: BlogData,
     searchAutoKey,
@@ -30,6 +26,12 @@ const BlogResultsList: React.FC = () => {
   } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
+
+
+  const [currentBlogPage, setCurrentBlogPage] = useState<number>(1);
+  const imagesPerPage = 12
+  const startIndex = (currentBlogPage - 1) * imagesPerPage;
+  const endIndex = startIndex + imagesPerPage;
   const { language } = useSelector((state: RootState) => state.getLanguages);
   const [loading, setLoading] = useState(false);
   const imagesOnCurrentPage = BlogData.slice(startIndex, endIndex);

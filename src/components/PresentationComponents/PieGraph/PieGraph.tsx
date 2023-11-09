@@ -98,8 +98,7 @@ function PieGraph() {
       }
       if (isChange && rang && currentPage === 5) {
         for (const rangKey in rang) {
-          dataSend[rangKey] = [rang[rangKey][0]];
-          dataSend[rangKey] = [rang[rangKey][1]];
+          dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
         }
       }
       if (autoCompleteValue && varName && currentPage === 5) {
@@ -151,7 +150,6 @@ function PieGraph() {
     aggregation,
     rang,
     varName,
-    isChange,
     autoCompleteValue,
     autoLabelName,
     currentPage,
@@ -221,11 +219,9 @@ function PieGraph() {
             layout={{
               width: maxWidth,
               height: height * 0.5,
-              title: `The ${aggregation} of ${
-                optionFlat[pieGraphOptions.x_vars]?.label || ''
-              } vs <br> ${
-                optionFlat[pieGraphOptions.y_vars]?.label || ''
-              } Pie Chart`,
+              title: `The ${aggregation} of ${optionFlat[pieGraphOptions.x_vars]?.label || ''
+                } vs <br> ${optionFlat[pieGraphOptions.y_vars]?.label || ''
+                } Pie Chart`,
               font: {
                 family: 'Arial, sans-serif',
                 size: maxWidth < 400 ? 7 : 10,
