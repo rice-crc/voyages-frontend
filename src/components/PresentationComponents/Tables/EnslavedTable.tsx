@@ -61,7 +61,7 @@ const EnslavedTable: React.FC = () => {
     dataSetKeyPeople,
     dataSetValuePeople,
     styleNamePeople,
-    tableFlatfile: tableFileName,
+    tableFlatfileEnslaved
   } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
@@ -109,7 +109,7 @@ const EnslavedTable: React.FC = () => {
       }
     };
     loadTableCellStructure();
-  }, [tableFileName, styleNamePeople]);
+  }, [tableFlatfileEnslaved, styleNamePeople]);
 
   useEffect(() => {
     if (tablesCell.length > 0) {
@@ -204,7 +204,7 @@ const EnslavedTable: React.FC = () => {
       data,
       visibleColumnCells,
       dispatch,
-      tableFileName,
+      tableFlatfileEnslaved,
       tablesCell
     );
   }, [data, visibleColumnCells, dispatch]);

@@ -62,7 +62,7 @@ const VoyagesTable: React.FC = () => {
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-  console.log({ dataSetKey, dataSetValue })
+
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );

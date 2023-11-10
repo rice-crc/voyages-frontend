@@ -16,6 +16,7 @@ import { createTopPositionEnslaversPage } from '@/utils/functions/createTopPosit
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
+import Tables from '@/components/PresentationComponents/Tables/Tables';
 
 const EnslaversHomePage: React.FC = () => {
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
@@ -46,8 +47,10 @@ const EnslaversHomePage: React.FC = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
+
       {currentEnslaversPage === 1 && currentBlockName === 'intro' && <EnslaversIntro />}
-      {currentEnslaversPage === 2 && currentBlockName === 'table' && <EnslaversTable />}
+      {currentEnslaversPage === 2 && currentBlockName === 'table' && <Tables />}
+      {/* {currentEnslaversPage === 2 && currentBlockName === 'table' && <EnslaversTable />} */}
     </motion.div>
   );
 

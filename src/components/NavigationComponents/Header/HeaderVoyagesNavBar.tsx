@@ -90,19 +90,19 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     tableFlatfile?: string
   ) => {
 
-    // dispatch(resetAll());
+    dispatch(resetAll());
+    dispatch(setBaseFilterDataSetValue(base_filter));
     for (const base of base_filter) {
       dispatch(setBaseFilterDataKey(base.var_name));
       dispatch(setBaseFilterDataValue(base.value));
     }
-    dispatch(setBaseFilterDataSetValue(base_filter));
+
     dispatch(setDataSetHeader(textHeder));
     dispatch(setTextIntro(textIntro));
     dispatch(setStyleName(styleName));
     dispatch(setBlocksMenuList(blocks));
     dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile!))
     dispatch(setTableVoyagesFlatfile(tableFlatfile!))
-    console.log({ base_filter })
     if (styleNameToPathMap[styleName]) {
       navigate(styleNameToPathMap[styleName]);
     }

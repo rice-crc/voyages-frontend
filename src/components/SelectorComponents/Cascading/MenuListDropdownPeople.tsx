@@ -45,7 +45,7 @@ export const MenuListDropdownPeople = () => {
 
   const { valueEnslaved, valueAfricanOrigin, valueTexas, valueEnslavers } =
     useSelector((state: RootState) => state.getFilterPeople.value);
-  const { pathNameEnslaved, pathNameEnslavers } = useSelector((state: RootState) => state.getPathName);
+
   const { styleName } = usePageRouter()
 
   const { currentPage } = useSelector(
@@ -164,7 +164,7 @@ export const MenuListDropdownPeople = () => {
       }
     };
     loadTableCellStructure();
-  }, [styleNamePeople, pathNameEnslaved, pathNameEnslavers, styleName]);
+  }, [styleNamePeople, styleName]);
   return (
     <div>
       <Box className="filter-menu-bar">

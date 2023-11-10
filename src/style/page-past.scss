@@ -314,6 +314,7 @@
   background-repeat: no-repeat;
   background: linear-gradient(rgb(63, 150, 125, 0.85), rgb(63, 150, 125, 0.8)),
     url('../assets/enslaverBG.gif') center / cover;
+  height: 100vh;
 
   @include breakpoint-standard(7) {
     height: auto;
@@ -753,5 +754,5 @@
   padding: 0;
   margin: 0;
   background-color: #46a88c;
-  height: 110vh;
+  height: 100vh;
 }

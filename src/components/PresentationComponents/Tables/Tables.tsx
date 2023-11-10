@@ -14,7 +14,6 @@ import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { useWindowSize } from '@react-hook/window-size';
 import { Pagination, TablePagination } from '@mui/material';
-import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import {
     StateRowData,
     TableCellStructureInitialStateProp,
@@ -48,6 +47,8 @@ import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoy
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { ENSALVERSTYLE } from '@/share/CONST_DATA';
+import ButtonDropdownSelectorEnslavers from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslavers';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -68,18 +69,16 @@ const Tables: React.FC = () => {
     const [totalResultsCount, setTotalResultsCount] = useState(0);
     const gridRef = useRef<any>(null);
     const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
+
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
-    );
-    const { currentEnslavedPage } = useSelector(
-        (state: RootState) => state.getScrollEnslavedPage
     );
 
     const { isChangeGeoTree, geoTreeValue } = useSelector(
         (state: RootState) => state.getGeoTreeData
     );
     // Voyages States
-    const { dataSetKey, dataSetValue, styleName, tableFlatfileVoyages } = useSelector(
+    const { dataSetKey, dataSetValue, styleName, tableFlatfileVoyages, dataSetValueBaseFilter } = useSelector(
         (state: RootState) => state.getDataSetCollection
     );
     const { currentPage } = useSelector(
@@ -95,7 +94,9 @@ const Tables: React.FC = () => {
     } = useSelector(
         (state: RootState) => state.getPeopleEnlavedDataSetCollection
     );
-
+    const { currentEnslavedPage } = useSelector(
+        (state: RootState) => state.getScrollEnslavedPage
+    );
 
     // Enslavers States
     const { dataSetKeyPeople: dataSetKeyEnslavers, dataSetValuePeople: dataSetValueEnslavers, styleNamePeople: styleEnlsavers, tableFlatfileEnslavers } = useSelector(
@@ -129,7 +130,6 @@ const Tables: React.FC = () => {
     useEffect(() => {
         const loadTableCellStructure = async () => {
             try {
-                // ** TODO Need to refactor later
                 if (checkPagesRouteForVoyages(styleNameRoute!)) {
                     setTableCell(VOYAGESTABLE_FLAT.cell_structure);
                 } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
@@ -138,7 +138,7 @@ const Tables: React.FC = () => {
                     setTableCell(AFRICANORIGINS_TABLE.cell_structure);
                 } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
                     setTableCell(TEXAS_TABLE.cell_structure);
-                } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslavers) {
+                } else if (styleNameRoute === ENSALVERSTYLE) {
                     setTableCell(ENSLAVERS_TABLE.cell_structure);
                 }
             } catch (error) {
@@ -192,26 +192,26 @@ const Tables: React.FC = () => {
     useEffect(() => {
         let subscribed = true;
         const fetchData = async () => {
-            let dataSend = undefined
-            if (checkPagesRouteForVoyages(styleName)) {
+            let dataSend: Record<string, any> = {};
+            if (checkPagesRouteForVoyages(styleNameRoute!)) {
                 dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
-            } else if (checkPagesRouteForEnslaved(styleName)) {
+            } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
                 dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValuePeople, dataSetKeyPeople, inputSearchValue, geoTreeValue, varName, rang, undefined, undefined, isChange, styleNamePeople, currentEnslavedPage)
-            } else if (checkPagesRouteForEnslavers(styleName)) {
+            } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
                 dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValueEnslavers, dataSetKeyEnslavers, inputSearchValue, geoTreeValue, varName, rang, undefined, undefined, isChange, styleEnlsavers, currentEnslaversPage)
             }
 
-            dataSend!['results_page'] = [page + 1];
-            dataSend!['results_per_page'] = [rowsPerPage];
-            console.log({ dataSend })
+            dataSend['results_page'] = [String(page + 1)];
+            dataSend['results_per_page'] = [String(rowsPerPage)];
+
             setLoading(true)
             let response;
             try {
-                if (checkPagesRouteForVoyages(styleName)) {
+                if (checkPagesRouteForVoyages(styleNameRoute!)) {
                     response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-                } else if (checkPagesRouteForEnslaved(styleName)) {
+                } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
                     response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap()
-                } else if (checkPagesRouteForEnslavers(styleName)) {
+                } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
                     response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
                 }
 
@@ -247,6 +247,7 @@ const Tables: React.FC = () => {
         inputSearchValue,
         dataSetValue,
         dataSetKey,
+        dataSetValueBaseFilter,
         styleName,
         dataSetValuePeople,
         dataSetKeyPeople,
@@ -254,8 +255,8 @@ const Tables: React.FC = () => {
         styleEnlsavers,
         dataSetKeyEnslavers,
         dataSetKeyEnslavers
+
     ]);
-    console.log({ dataSetKey, dataSetValue })
 
     useEffect(() => {
         const tableFileName =
@@ -266,7 +267,6 @@ const Tables: React.FC = () => {
                     : checkPagesRouteForEnslavers(styleNameRoute!)
                         ? tableFlatfileEnslavers
                         : null;
-        // console.log({ tableFileName })
         updateColumnDefsAndRowData(
             data,
             visibleColumnCells,
@@ -356,7 +356,7 @@ const Tables: React.FC = () => {
         isFilter
     );
 
-    const buttonSelectorColumn = checkPagesRouteForVoyages(styleNameRoute!) ? <ColumnVoyagesSelector /> : checkPagesRouteForEnslaved(styleNameRoute!) ? <ButtonDropdownSelectorColumnEnslaved /> : ''
+    const buttonSelectorColumn = checkPagesRouteForVoyages(styleNameRoute!) ? <ColumnVoyagesSelector /> : checkPagesRouteForEnslaved(styleNameRoute!) ? <ButtonDropdownSelectorColumnEnslaved /> : checkPagesRouteForEnslavers(styleNameRoute!) ? <ButtonDropdownSelectorEnslavers /> : null
 
     return (
         <div style={{ marginTop: topPositionPage }}>
@@ -374,38 +374,32 @@ const Tables: React.FC = () => {
                             onRowsPerPageChange={handleChangeRowsPerPage}
                         />
                     </span>
-                    {loading ? (
-                        <div className="loading-logo">
-                            <img src={LOADINGLOGO} />
-                        </div>
-                    ) : (
-                        <>
-                            <AgGridReact
-                                ref={gridRef}
-                                rowData={rowData}
-                                onColumnVisible={handleColumnVisibleChange}
-                                gridOptions={gridOptions}
-                                getRowHeight={getRowHeightTable}
-                                columnDefs={columnDefs}
-                                suppressMenuHide={true}
-                                animateRows={true}
-                                paginationPageSize={rowsPerPage}
-                                defaultColDef={defaultColDef}
-                                components={components}
-                                getRowStyle={getRowRowStyle}
-                                enableBrowserTooltips={true}
-                                tooltipShowDelay={0}
-                                tooltipHideDelay={1000}
+                    <>
+                        <AgGridReact
+                            ref={gridRef}
+                            rowData={rowData}
+                            onColumnVisible={handleColumnVisibleChange}
+                            gridOptions={gridOptions}
+                            getRowHeight={getRowHeightTable}
+                            columnDefs={columnDefs}
+                            suppressMenuHide={true}
+                            animateRows={true}
+                            paginationPageSize={rowsPerPage}
+                            defaultColDef={defaultColDef}
+                            components={components}
+                            getRowStyle={getRowRowStyle}
+                            enableBrowserTooltips={true}
+                            tooltipShowDelay={0}
+                            tooltipHideDelay={1000}
+                        />
+                        <div className="pagination-div">
+                            <Pagination
+                                color="primary"
+                                count={Math.ceil(totalResultsCount / rowsPerPage)}
+                                page={page + 1}
+                                onChange={handleChangePagePagination}
                             />
-                            <div className="pagination-div">
-                                <Pagination
-                                    color="primary"
-                                    count={Math.ceil(totalResultsCount / rowsPerPage)}
-                                    page={page + 1}
-                                    onChange={handleChangePagePagination}
-                                />
-                            </div></>
-                    )}
+                        </div></>
                 </div>
             </div>
             <div>

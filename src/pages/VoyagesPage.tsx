@@ -100,8 +100,8 @@ const VoyagesPage = () => {
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       {currentPage === 1 && currentVoyageBlockName === 'intro' && <VoyagesIntro />}
-      {currentPage === 2 && currentVoyageBlockName === 'voyages' && <VoyagesTable />}
-      {/* {currentPage === 2 && currentVoyageBlockName === 'voyages' && <Tables />} */}
+      {/* {currentPage === 2 && currentVoyageBlockName === 'voyages' && <VoyagesTable />} */}
+      {currentPage === 2 && currentVoyageBlockName === 'voyages' && <Tables />}
       {currentPage === 3 && currentVoyageBlockName === 'line' && <Scatter />}
       {currentPage === 4 && currentVoyageBlockName === 'bar' && <BarGraph />}
       {currentPage === 5 && currentVoyageBlockName === 'pie' && <PieGraph />}

@@ -1,4 +1,4 @@
-import { PASTHOMEPAGE, VOYAGESPAGE } from '@/share/CONST_DATA';
+import { ENSALVERSTYLE, PASTHOMEPAGE, VOYAGESPAGE } from '@/share/CONST_DATA';
 import {
     AutoCompleteOption,
     RangeSliderMinMaxInitialState,
@@ -24,7 +24,8 @@ export const handleSetDataSentTablePieBarScatterGraph = (
 ) => {
     const dataSend: { [key: string]: (string | number)[] } = {};
 
-    if ((styleName !== TYPESOFDATASET.allVoyages) || (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved) || (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslavers)) {
+
+    if ((styleName !== TYPESOFDATASET.allVoyages) && (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved) && (styleNamePeople !== ENSALVERSTYLE)) {
         for (const value of dataSetValue) {
             dataSend[dataSetKey] = [String(value)];
         }
