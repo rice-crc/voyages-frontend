@@ -20,6 +20,7 @@ import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSALVERSTYLE, E
 import '@/style/Slider.scss';
 import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 
 const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -57,13 +58,13 @@ const RangeSlider = () => {
 
       try {
         let response;
-        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
+        if (checkPagesRouteForVoyages(styleName!)) {
           response = await dispatch(fetchRangeSliderData(dataSend)).unwrap();
-        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
+        } else if (checkPagesRouteForEnslaved(styleName!)) {
           response = await dispatch(
             fetchPastEnslavedRangeSliderData(dataSend)
           ).unwrap();
-        } else if (styleName === ENSALVERSTYLE) {
+        } else if (checkPagesRouteForEnslavers(styleName!)) {
           response = await dispatch(
             fetchPastEnslaversRangeSliderData(dataSend)
           ).unwrap();

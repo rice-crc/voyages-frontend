@@ -27,6 +27,7 @@ import {
 } from '@/share/CONST_DATA';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { TYPESOFDATASET } from '@/share/InterfaceTypes';
+import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
@@ -40,11 +41,11 @@ export const GenerateCellTableRenderer = (
 
 
   let nodeType: string = '';
-  if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
+  if (checkPagesRouteForVoyages(styleName!)) {
     nodeType = VOYAGESNODE;
-  } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
+  } else if (checkPagesRouteForEnslaved(styleName!)) {
     nodeType = ENSLAVEDNODE;
-  } else if (styleName === ENSALVERSTYLE) {
+  } else if (checkPagesRouteForEnslavers(styleName!)) {
     nodeType = ENSLAVERSNODE;
   }
 

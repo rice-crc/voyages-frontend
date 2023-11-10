@@ -33,7 +33,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import ButtonDropdownSelectorColumnEnslaved from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslaved';
-import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
@@ -132,8 +132,8 @@ const EnslavedTable: React.FC = () => {
 
   useEffect(() => {
     setStyle({
-      width: maxWidth,
-      height: height * 0.6,
+      width: getMobileMaxWidth(maxWidth),
+      height: getMobileMaxHeightTable(height),
     });
   }, [width, height, maxWidth]);
 

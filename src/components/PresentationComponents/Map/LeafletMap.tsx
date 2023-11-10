@@ -40,6 +40,7 @@ import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
 import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { handleSetDataSentMap } from '@/utils/functions/handleSetDataSentMap';
+import { checkPagesRouteForEnslaved, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 
 interface LeafletMapProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>
@@ -142,9 +143,9 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
     hasFetchedRegion ? setLoading(true) : setLoading(false);
     let response;
-    if (styleNamePage === TYPESOFDATASET.allVoyages || styleNamePage === TYPESOFDATASET.intraAmerican || styleNamePage === TYPESOFDATASET.transatlantic) {
+    if (checkPagesRouteForVoyages(styleNamePage!)) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
-    } else if (styleNamePage === AFRICANORIGINS) {
+    } else if (checkPagesRouteForEnslaved(styleNamePage!)) {
       response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
     }
 
@@ -234,7 +235,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   });
 
   let backgroundColor = styleNamePeople;
-  if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
+  if (checkPagesRouteForVoyages(styleName)) {
     backgroundColor = styleName
   }
   if (styleNamePeople === AFRICANORIGINS) {

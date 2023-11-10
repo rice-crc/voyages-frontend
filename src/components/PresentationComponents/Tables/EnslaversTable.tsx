@@ -24,14 +24,12 @@ import { Pagination, TablePagination } from '@mui/material';
 import {
   AutoCompleteInitialState,
   RangeSliderState,
-  TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
-import { ENSLAVERS_TABLE_FILE } from '@/share/CONST_DATA';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import ButtonDropdownSelectorEnslavers from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslavers';
-import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
@@ -60,7 +58,7 @@ const EnslaversTable: React.FC = () => {
   const { isChangeGeoTree, geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
-  const { dataSetKeyPeople, dataSetValuePeople, styleNamePeople } = useSelector(
+  const { dataSetKeyPeople: dataSetKeyEnslavers, dataSetValuePeople: dataSetValueEnslavers, styleNamePeople: styleEnlsavers, tableFlatfileEnslavers } = useSelector(
     (state: RootState) => state.getEnslaverDataSetCollections
   );
   const [page, setPage] = useState<number>(0);
@@ -103,8 +101,8 @@ const EnslaversTable: React.FC = () => {
 
   useEffect(() => {
     setStyle({
-      width: maxWidth,
-      height: height * 0.6,
+      width: getMobileMaxWidth(maxWidth),
+      height: getMobileMaxHeightTable(height),
     });
   }, [width, height, maxWidth]);
   const saveDataToLocalStorage = (
@@ -126,7 +124,7 @@ const EnslaversTable: React.FC = () => {
     let subscribed = true;
     const fetchData = async () => {
 
-      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValuePeople, dataSetKeyPeople, inputSearchValue, geoTreeValue, varName, rang, undefined, undefined, isChange, styleNamePeople, currentEnslaversPage)
+      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValueEnslavers, dataSetKeyEnslavers, inputSearchValue, geoTreeValue, varName, rang, undefined, undefined, isChange, styleEnlsavers, currentEnslaversPage)
 
       dataSend['results_page'] = [String(page + 1)];
       dataSend['results_per_page'] = [String(rowsPerPage)];
@@ -161,9 +159,9 @@ const EnslaversTable: React.FC = () => {
     rang,
     autoCompleteValue,
     autoLabelName,
-    dataSetValuePeople,
-    dataSetKeyPeople,
-    styleNamePeople,
+    dataSetValueEnslavers,
+    dataSetValueEnslavers,
+    styleEnlsavers,
     geoTreeValue,
     inputSearchValue,
   ]);
@@ -180,7 +178,7 @@ const EnslaversTable: React.FC = () => {
       data,
       visibleColumnCells,
       dispatch,
-      ENSLAVERS_TABLE_FILE,
+      tableFlatfileEnslavers,
       ENSLAVERS_TABLE.cell_structure
     );
   }, [data, visibleColumnCells, dispatch]);

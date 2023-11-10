@@ -21,7 +21,7 @@ import {
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
-import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import { getMobileMaxHeight, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import '@/style/homepage.scss';
 import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 
@@ -186,8 +186,8 @@ function PieGraph() {
               },
             ]}
             layout={{
-              width: maxWidth,
-              height: height * 0.5,
+              width: getMobileMaxWidth(maxWidth),
+              height: getMobileMaxHeight(height),
               title: `The ${aggregation} of ${optionFlat[pieGraphOptions.x_vars]?.label || ''
                 } vs <br> ${optionFlat[pieGraphOptions.y_vars]?.label || ''
                 } Pie Chart`,

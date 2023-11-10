@@ -18,7 +18,9 @@ import {
   setBlocksMenuList,
   setDataSetHeader,
   setStyleName,
+  setTableVoyagesFlatfile,
   setTextIntro,
+  setVoyagesFilterMenuFlatfile,
 } from '@/redux/getDataSetCollectionSlice';
 import {
   getColorBackground,
@@ -83,21 +85,24 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     textHeder: string,
     textIntro: string,
     styleName: string,
-    blocks: string[]
+    blocks: string[],
+    filterMenuFlatfile?: string,
+    tableFlatfile?: string
   ) => {
 
-    dispatch(resetAll());
+    // dispatch(resetAll());
     for (const base of base_filter) {
       dispatch(setBaseFilterDataKey(base.var_name));
       dispatch(setBaseFilterDataValue(base.value));
-
     }
     dispatch(setBaseFilterDataSetValue(base_filter));
     dispatch(setDataSetHeader(textHeder));
     dispatch(setTextIntro(textIntro));
     dispatch(setStyleName(styleName));
     dispatch(setBlocksMenuList(blocks));
-
+    dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile!))
+    dispatch(setTableVoyagesFlatfile(tableFlatfile!))
+    console.log({ base_filter })
     if (styleNameToPathMap[styleName]) {
       navigate(styleNameToPathMap[styleName]);
     }

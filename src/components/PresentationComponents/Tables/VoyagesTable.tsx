@@ -30,7 +30,7 @@ import {
 import { ColumnVoyagesSelector } from '@/components/SelectorComponents/ColumnSelectorTable/ColumnVoyagesSelector';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
-import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import { VOYAGESTABLEFILE } from '@/share/CONST_DATA';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
@@ -62,7 +62,7 @@ const VoyagesTable: React.FC = () => {
   const { dataSetKey, dataSetValue, styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-
+  console.log({ dataSetKey, dataSetValue })
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
@@ -91,7 +91,6 @@ const VoyagesTable: React.FC = () => {
     () => ({ width: maxWidth, height: height * 0.7 }),
     []
   );
-
   useEffect(() => {
     const handleResize = () => {
       setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
@@ -106,8 +105,8 @@ const VoyagesTable: React.FC = () => {
 
   useEffect(() => {
     setStyle({
-      width: maxWidth,
-      height: height * 0.60,
+      width: getMobileMaxWidth(maxWidth),
+      height: getMobileMaxHeightTable(height),
     });
   }, [width, height, maxWidth]);
 
@@ -276,7 +275,7 @@ const VoyagesTable: React.FC = () => {
               <img src={LOADINGLOGO} />
             </div>
           ) : (
-            < >
+            <>
               <AgGridReact
                 ref={gridRef}
                 rowData={rowData}

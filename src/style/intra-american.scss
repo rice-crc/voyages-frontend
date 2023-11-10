@@ -175,28 +175,24 @@
 
             @include breakpoint-standard(3) {
                 width: 90%;
-                padding: 2rem;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(2) {
                 width: 100%;
-                padding: 2rem;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(1) {
                 width: 100%;
-                padding: 2rem;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(0) {
                 width: 100%;
-                padding: 2rem;
                 position: static;
                 right: 0;
             }
@@ -293,14 +289,20 @@
 
     @include breakpoint-standard(2) {
         padding: 1.5rem 0;
+        display: grid;
+        grid-template-columns: auto auto;
     }
 
     @include breakpoint-standard(1) {
         padding: 1.5rem 0;
+        display: grid;
+        grid-template-columns: auto auto;
     }
 
     @include breakpoint-standard(0) {
         padding: 1.5rem 0;
+        display: grid;
+        grid-template-columns: auto auto;
     }
 
     div {
@@ -320,16 +322,19 @@
         @include breakpoint-standard(2) {
             font-size: 0.75rem;
             width: 75px;
+            margin: 5px;
         }
 
         @include breakpoint-standard(1) {
             font-size: 0.75rem;
             width: 75px;
+            margin: 5px;
         }
 
         @include breakpoint-standard(0) {
             font-size: 0.75rem;
             width: 75px;
+            margin: 5px;
         }
     }
 }

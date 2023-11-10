@@ -448,7 +448,7 @@ $animationSpeed: 100s;
 
         @include breakpoint-standard(5) {
             width: 70%;
-            padding: 2rem;
+            padding: 2rem 0;
             position: static;
             right: 0;
 
@@ -456,35 +456,35 @@ $animationSpeed: 100s;
 
         @include breakpoint-standard(4) {
             width: 70%;
-            padding: 2rem;
+            padding: 2rem 0;
             position: static;
             right: 0;
         }
 
         @include breakpoint-standard(3) {
             width: 90%;
-            padding: 2rem;
+            padding: 2rem 0;
             position: static;
             right: 0;
         }
 
         @include breakpoint-standard(2) {
             width: 90%;
-            padding: 2rem;
+            padding: 2rem 0;
             position: static;
             right: 0;
         }
 
         @include breakpoint-standard(1) {
             width: 90%;
-            padding: 2rem;
+            padding: 2rem 0;
             position: static;
             right: 0;
         }
 
         @include breakpoint-standard(0) {
             width: 90%;
-            padding: 2rem;
+            padding: 2rem 0;
             position: static;
             right: 0;
         }
@@ -516,7 +516,6 @@ $animationSpeed: 100s;
             font-size: 1.12rem;
             font-weight: 400;
             line-height: 20px;
-
         }
 
     }
@@ -622,7 +621,7 @@ $animationSpeed: 100s;
 
             @include breakpoint-standard(5) {
                 width: 70%;
-                padding: 2rem;
+                padding: 2rem 0;
                 position: static;
                 right: 0;
 
@@ -630,35 +629,35 @@ $animationSpeed: 100s;
 
             @include breakpoint-standard(4) {
                 width: 70%;
-                padding: 2rem;
+                padding: 2rem 0;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(3) {
                 width: 100%;
-                padding: 2rem;
+                padding: 2rem 0;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(2) {
                 width: 100%;
-                padding: 2rem;
+                padding: 2rem 0;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(1) {
                 width: 100%;
-                padding: 2rem;
+                padding: 2rem 0;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(0) {
                 width: 100%;
-                padding: 2rem;
+                padding: 2rem 0;
                 position: static;
                 right: 0;
             }
@@ -862,7 +861,7 @@ $animationSpeed: 100s;
 
             @include breakpoint-standard(5) {
                 width: 70%;
-                padding: 2rem;
+                padding: 2rem 0;
                 position: static;
                 right: 0;
 
@@ -870,35 +869,35 @@ $animationSpeed: 100s;
 
             @include breakpoint-standard(4) {
                 width: 70%;
-                padding: 2rem;
+                padding: 2rem 0;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(3) {
                 width: 90%;
-                padding: 2rem;
+                padding: 2rem 0;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(2) {
                 width: 100%;
-                padding: 1rem;
+                padding: 1rem 0;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(1) {
                 width: 100%;
-                padding: 1rem;
+                padding: 1rem 0;
                 position: static;
                 right: 0;
             }
 
             @include breakpoint-standard(0) {
                 width: 100%;
-                padding: 2rem;
+                padding: 2rem 0;
                 position: static;
                 right: 0;
             }

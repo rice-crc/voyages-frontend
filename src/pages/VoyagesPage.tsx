@@ -25,6 +25,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { setBaseFilterDataKey, setBaseFilterDataValue, setStyleName } from '@/redux/getDataSetCollectionSlice';
 import { setCurrentPage, setCurrentVoyagesBlockName } from '@/redux/getScrollPageSlice';
 import { INTRAAMERICAN, TRANSATLANTIC, VOYAGESTEXAS } from '@/share/CONST_DATA';
+import Tables from '@/components/PresentationComponents/Tables/Tables';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -100,6 +101,7 @@ const VoyagesPage = () => {
     >
       {currentPage === 1 && currentVoyageBlockName === 'intro' && <VoyagesIntro />}
       {currentPage === 2 && currentVoyageBlockName === 'voyages' && <VoyagesTable />}
+      {/* {currentPage === 2 && currentVoyageBlockName === 'voyages' && <Tables />} */}
       {currentPage === 3 && currentVoyageBlockName === 'line' && <Scatter />}
       {currentPage === 4 && currentVoyageBlockName === 'bar' && <BarGraph />}
       {currentPage === 5 && currentVoyageBlockName === 'pie' && <PieGraph />}

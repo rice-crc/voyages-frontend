@@ -506,9 +506,9 @@
 .intro-box {
   color: #ffffff;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 20px;
   text-align: center;
-  padding: 5rem;
+  padding: 4rem;
   background: rgb(178, 148, 147, 0.5);
 
   @include breakpoint-standard(5) {
@@ -550,7 +550,7 @@
 .intro-box-enslavers {
   color: #ffffff;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 20px;
   text-align: center;
   padding: 4rem 1rem 2rem 4rem;
   background: rgb(63, 150, 125, 0.5);

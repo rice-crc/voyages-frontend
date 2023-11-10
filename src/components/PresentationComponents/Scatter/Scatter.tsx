@@ -21,7 +21,7 @@ import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import '@/style/page.scss';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAverage/AggregationSumAverage';
-import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import { getMobileMaxHeight, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 
 function Scatter() {
@@ -197,7 +197,6 @@ function Scatter() {
       <img src={LOADINGLOGO} />
     </div>;
   }
-
   return (
     <div>
       <SelectDropdown
@@ -220,8 +219,8 @@ function Scatter() {
         <Plot
           data={scatterData}
           layout={{
-            width: maxWidth,
-            height: height * 0.45,
+            width: getMobileMaxWidth(maxWidth),
+            height: getMobileMaxHeight(height),
             title: `The ${aggregation} of ${optionFlat[scatterOptions.x_vars]?.label || ''
               } vs  <br>${optionFlat[scatterOptions.y_vars]?.label || ''
               } Scatter Graph`,

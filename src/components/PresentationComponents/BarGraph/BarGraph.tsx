@@ -21,8 +21,9 @@ import {
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
-import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import { getMobileMaxHeight, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
+import { MAXIMUM_ZOOM } from '@/share/CONST_DATA';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -193,6 +194,7 @@ function BarGraph() {
     </div>;
   }
 
+
   return (
     <div>
       <SelectDropdown
@@ -216,8 +218,8 @@ function BarGraph() {
         <Plot
           data={barData}
           layout={{
-            width: maxWidth,
-            height: height * 0.45,
+            width: getMobileMaxWidth(maxWidth),
+            height: getMobileMaxHeight(height),
             title: `The ${aggregation} of ${optionFlat[barGraphOptions.x_vars]?.label || ''
               } vs <br> ${optionFlat[barGraphOptions.y_vars]?.label || ''
               } Bar Graph`,
