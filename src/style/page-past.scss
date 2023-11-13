@@ -280,11 +280,11 @@
   padding: 0;
   margin: 0;
   background-color: #b29493;
-  height: 100vh;
+  height: 110vh;
 }
 
 #main-enslaved-home {
-  height: 100vh;
+  height: 110vh;
   background-repeat: no-repeat;
   background: linear-gradient(rgb(144, 104, 102, 0.85), rgb(144, 104, 102, 0.8)),
     url('../assets/enslavedBG.jpeg') center / cover;
@@ -311,10 +311,10 @@
 }
 
 #main-enslavers-home {
-  // height: 100vh;
   background-repeat: no-repeat;
   background: linear-gradient(rgb(63, 150, 125, 0.85), rgb(63, 150, 125, 0.8)),
     url('../assets/enslaverBG.gif') center / cover;
+  height: 100vh;
 
   @include breakpoint-standard(7) {
     height: auto;
@@ -507,9 +507,9 @@
 .intro-box {
   color: #ffffff;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 20px;
   text-align: center;
-  padding: 5rem;
+  padding: 4rem;
   background: rgb(178, 148, 147, 0.5);
 
   @include breakpoint-standard(5) {
@@ -551,7 +551,7 @@
 .intro-box-enslavers {
   color: #ffffff;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 20px;
   text-align: center;
   padding: 4rem 1rem 2rem 4rem;
   background: rgb(63, 150, 125, 0.5);
@@ -754,5 +754,5 @@
   padding: 0;
   margin: 0;
   background-color: #46a88c;
-  height: 110vh;
+  height: 100vh;
 }

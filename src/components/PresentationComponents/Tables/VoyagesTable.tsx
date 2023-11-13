@@ -26,17 +26,18 @@ import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
   RangeSliderState,
-  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import { ColumnVoyagesSelector } from '@/components/SelectorComponents/ColumnSelectorTable/ColumnVoyagesSelector';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
-import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import { VOYAGESTABLEFILE } from '@/share/CONST_DATA';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
+import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
+import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
 
 const VoyagesTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -45,7 +46,7 @@ const VoyagesTable: React.FC = () => {
     (state: RootState) => state.getTableData as StateRowData
   );
 
-  const { rangeSliderMinMax: rang, varName } = useSelector(
+  const { rangeSliderMinMax: rang, varName, isChange } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
 
@@ -83,14 +84,13 @@ const VoyagesTable: React.FC = () => {
   const maxWidth = maxWidthSize(width);
   const [style, setStyle] = useState({
     width: maxWidth,
-    height: height * 0.62,
+    height: height,
   });
   const topPosition = createTopPositionVoyages(currentPage, isFilter);
   const containerStyle = useMemo(
     () => ({ width: maxWidth, height: height * 0.7 }),
     []
   );
-
   useEffect(() => {
     const handleResize = () => {
       setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
@@ -105,8 +105,8 @@ const VoyagesTable: React.FC = () => {
 
   useEffect(() => {
     setStyle({
-      width: maxWidth,
-      height: height * 0.65,
+      width: getMobileMaxWidth(maxWidth),
+      height: getMobileMaxHeightTable(height),
     });
   }, [width, height, maxWidth]);
 
@@ -125,43 +125,11 @@ const VoyagesTable: React.FC = () => {
     saveDataToLocalStorage(data, visibleColumnCells);
   }, [data]);
   const fetchData = async () => {
-    const dataSend: { [key: string]: (string | number)[] } = {};
+
+    const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
     dataSend['results_page'] = [page + 1];
     dataSend['results_per_page'] = [rowsPerPage];
 
-    if (inputSearchValue) {
-      dataSend['global_search'] = [String(inputSearchValue)];
-    }
-    if (currentPage === 2) {
-      for (const rangKey in rang) {
-        dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
-      }
-    }
-
-    if (autoCompleteValue && varName && currentPage === 2) {
-      for (const autoKey in autoCompleteValue) {
-        for (const autoCompleteOption of autoCompleteValue[autoKey]) {
-          if (typeof autoCompleteOption !== 'string') {
-            const { label } = autoCompleteOption;
-            dataSend[autoKey] = [label];
-          }
-        }
-      }
-    }
-
-    if (styleName !== TYPESOFDATASET.allVoyages) {
-      for (const value of dataSetValue) {
-        dataSend[dataSetKey] = [String(value)];
-      }
-    }
-
-    if (isChangeGeoTree && varName && geoTreeValue) {
-      for (const keyValue in geoTreeValue) {
-        if (Array.isArray(geoTreeValue[keyValue])) {
-          dataSend[keyValue] = geoTreeValue[keyValue] as string[] | number[];
-        }
-      }
-    }
     setLoading(true);
     try {
       const response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
@@ -288,7 +256,7 @@ const VoyagesTable: React.FC = () => {
 
   return (
     <div style={{ marginTop: topPosition }}>
-      <div style={containerStyle} className="ag-theme-alpine grid-container">
+      <div style={containerStyle} className="ag-theme-alpine ">
         <div style={style}>
           <span className="tableContainer">
             <ColumnVoyagesSelector />
@@ -313,6 +281,7 @@ const VoyagesTable: React.FC = () => {
                 rowData={rowData}
                 onColumnVisible={handleColumnVisibleChange}
                 gridOptions={gridOptions}
+                getRowHeight={getRowHeightTable}
                 columnDefs={columnDefs}
                 suppressMenuHide={true}
                 animateRows={true}

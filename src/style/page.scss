@@ -63,14 +63,30 @@
 .voyages-home-page {
   padding: 0;
   margin: 0;
-  height: 100vh;
+  height: 110vh;
 
   @include breakpoint-standard(1.1) {
     height: 115vh;
   }
 
   @include breakpoint-standard(1) {
-    height: 115vh;
+    height: 145vh;
+  }
+
+  @include breakpoint-standard(0) {
+    height: 145vh;
+  }
+}
+
+#content-container {
+  @include breakpoint-standard(1.1) {
+    position: relative;
+    top: -5%;
+  }
+
+  @include breakpoint-standard(1) {
+    position: relative;
+    top: -5%;
   }
 }
 

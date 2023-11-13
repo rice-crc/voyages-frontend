@@ -33,9 +33,8 @@ import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import AutocompleteBox from '../../FilterComponents/Autocomplete/AutoComplete';
 import RangeSlider from '../../FilterComponents/RangeSlider/RangeSlider';
-import { ALLENSLAVED, ALLENSLAVERS, ENSALVERSTYLE, ENSLAVERSTYPE } from '@/share/CONST_DATA';
+import { ENSALVERSTYLE, } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
-import { useNavigate } from 'react-router-dom';
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 
@@ -46,7 +45,7 @@ export const MenuListDropdownPeople = () => {
 
   const { valueEnslaved, valueAfricanOrigin, valueTexas, valueEnslavers } =
     useSelector((state: RootState) => state.getFilterPeople.value);
-  const { pathNameEnslaved, pathNameEnslavers } = useSelector((state: RootState) => state.getPathName);
+
   const { styleName } = usePageRouter()
 
   const { currentPage } = useSelector(
@@ -59,7 +58,7 @@ export const MenuListDropdownPeople = () => {
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const navigate = useNavigate();
+
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [label, setLabel] = useState<string>('');
@@ -165,8 +164,7 @@ export const MenuListDropdownPeople = () => {
       }
     };
     loadTableCellStructure();
-  }, [styleNamePeople, pathNameEnslaved, pathNameEnslavers, styleName]);
-
+  }, [styleNamePeople, styleName]);
   return (
     <div>
       <Box className="filter-menu-bar">

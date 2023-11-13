@@ -22,11 +22,11 @@ import {
   setIsChangeAuto,
 } from '@/redux/getAutoCompleteSlice';
 import { fetchPastEnslavedAutoComplete } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedAutoCompleted';
-import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSALVERSTYLE, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import { fetchPastEnslaversAutoCompleted } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversAutoCompleted';
 import '@/style/Slider.scss';
 import '@/style/table.scss';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
@@ -54,13 +54,13 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
 
       let response = [];
       try {
-        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
+        if (checkPagesRouteForVoyages(styleName!)) {
           response = await dispatch(fetchAutoVoyageComplete(dataSend)).unwrap();
-        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
+        } else if (checkPagesRouteForEnslaved(styleName!)) {
           response = await dispatch(
             fetchPastEnslavedAutoComplete(dataSend)
           ).unwrap();
-        } else if (styleName === ENSALVERSTYLE) {
+        } else if (checkPagesRouteForEnslavers(styleName!)) {
           response = await dispatch(
             fetchPastEnslaversAutoCompleted(dataSend)
           ).unwrap();

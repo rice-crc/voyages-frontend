@@ -1,11 +1,12 @@
 import * as d3 from 'd3';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { drawNetwork } from './drawNetwork';
 import { Datas, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
 import { findNode } from './findNode';
 import { RADIUSNODE } from '@/share/CONST_DATA';
 import { findHoveredEdge } from './findHoveredEdge';
 import ShowsAcoloredNodeKey from './ShowsAcoloredNodeKey';
+import { useDoubleClick } from '@/hooks/useDoubleClick';
 
 type NetworkDiagramProps = {
   width: number;
@@ -28,7 +29,8 @@ export const NetworkDiagram = ({
   const isDraggingRef = useRef(false); // Flag to track drag state
   const isZoomingRef = useRef(false); // Flag to track zoom state
   const hoverEnabledRef = useRef(true); // Flag to enable/disable hover
-
+  const clickTimeout = useRef<NodeJS.Timeout | undefined>();
+  let timeout = 300
   const edges: Edges[] = data.edges.map((d) => ({ ...d }));
   const nodes: Nodes[] = data.nodes.map((d) => ({ ...d }));
   const nodeIds = new Set(nodes.map((node) => node.uuid));
@@ -95,8 +97,9 @@ export const NetworkDiagram = ({
         });
     }
 
-    const zoomed = (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
+    const handleZoom = (event: d3.D3ZoomEvent<HTMLCanvasElement, unknown>) => {
       transformRef.current = event.transform;
+      transformRef.current = d3.zoomTransform(canvas);
       isZoomingRef.current = true;
       hoverEnabledRef.current = false;
       isDraggingRef.current = false;
@@ -108,21 +111,31 @@ export const NetworkDiagram = ({
       context?.restore();
     };
 
+    function handleWheelEvent(event: WheelEvent) {
+      event.preventDefault();
+      handleZoom(event as unknown as d3.D3ZoomEvent<HTMLCanvasElement, unknown>);
+    }
+
+    const clearClickTimeout = () => {
+      if (clickTimeout.current !== undefined) {
+        clearTimeout(clickTimeout.current);
+        clickTimeout.current = undefined;
+      }
+    }
+
     if (canvas && context) {
-      let click = 0;
       canvas.addEventListener('mousemove', checkMouseoverNode);
       canvas.addEventListener('mousemove', checkMouseoverEdges);
-      canvas.addEventListener('click', (event) => {
-        click++;
-        if (click == 1) {
-          setTimeout(function () {
-            if (click == 1) {
-              handleClickNodeCard(event);
-            } else {
-              handleDoubleClick(event);
-            }
-            click = 0;
-          }, 300);
+      canvas.addEventListener('wheel', handleWheelEvent);
+      canvas.addEventListener('click', (event: MouseEvent) => {
+        clearClickTimeout();
+        if (event.detail === 1) {
+          clickTimeout.current = setTimeout(() => {
+            handleClickNodeCard(event);
+          }, timeout);
+        }
+        if (event.detail === 2) {
+          handleDoubleClick(event);
         }
       });
 
@@ -140,14 +153,15 @@ export const NetworkDiagram = ({
           d3
             .zoom<HTMLCanvasElement, unknown>()
             .scaleExtent([1 / 10, 8])
-            .on('zoom', zoomed)
+            .on('zoom', handleZoom)
         );
 
       return () => {
         canvas.removeEventListener('mousemove', checkMouseoverNode);
+        canvas.removeEventListener('mousemove', checkMouseoverEdges);
         canvas.removeEventListener('dblclick', handleDoubleClick);
         canvas.removeEventListener('click', handleClickNodeCard);
-        canvas.removeEventListener('mousemove', checkMouseoverEdges);
+        canvas.removeEventListener('wheel', handleWheelEvent);
         dragBehavior.on('start', null).on('drag', null).on('end', null);
       };
     }

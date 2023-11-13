@@ -53,20 +53,6 @@ export function handleHoverMarkerCluster(
         }
       });
   });
-
-  for (const [, [node, edge]] of targetNodeMap) {
-    const { lat: clusterLat, lng: clusterLng } = clusterLatLon;
-    const { lat: nodeLat, lon: nodeLng } = node.data;
-    const size = getEdgesSize(edge);
-    const weightEdges = size !== null ? nodeLogValueScale(size) / 1.4 : 0;
-
-    const [coordinatesStart, coordinatesEnd] = getCoordinatesLatLngMap(nodeType, clusterLat, clusterLng, nodeLat!, nodeLng!);
-
-    renderEdgeClusterNodeOnMap(hiddenEdgesLayer, edge, node, coordinatesStart, coordinatesEnd, weightEdges, nodeType);
-
-  }
-
-  // ==== Render table pop up 
   const childNodesData: NodeAggroutes[] = [];
 
   clusterChildMarkers.forEach((childMarker: any) => {
@@ -75,6 +61,20 @@ export function handleHoverMarkerCluster(
       childNodesData.push(childNode);
     }
   });
+
+  for (const [, [node, edge]] of targetNodeMap) {
+
+    const { lat: clusterLat, lng: clusterLng } = clusterLatLon;
+    const { lat: nodeLat, lon: nodeLng } = node.data;
+    const size = getEdgesSize(edge);
+    const weightEdges = size !== null ? nodeLogValueScale(size) / 1.4 : 0;
+
+    const [coordinatesStart, coordinatesEnd] = getCoordinatesLatLngMap(nodeType, clusterLat, clusterLng, nodeLat!, nodeLng!);
+
+    renderEdgeClusterNodeOnMap(hiddenEdgesLayer, edge, node, coordinatesStart, coordinatesEnd, weightEdges, nodeType, childNodesData);
+
+  }
+
 
   const popupContainer = document.createElement('center');
 

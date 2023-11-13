@@ -33,11 +33,13 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import ButtonDropdownSelectorColumnEnslaved from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslaved';
-import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
 import { createTopPositionEnslavedPage } from '@/utils/functions/createTopPositionEnslavedPage';
+import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
+import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
 
 const EnslavedTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -46,7 +48,7 @@ const EnslavedTable: React.FC = () => {
     (state: RootState) => state.getTableData as StateRowData
   );
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
-  const { rangeSliderMinMax: rang, varName } = useSelector(
+  const { rangeSliderMinMax: rang, varName, isChange } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
   const { autoCompleteValue, autoLabelName } = useSelector(
@@ -59,7 +61,7 @@ const EnslavedTable: React.FC = () => {
     dataSetKeyPeople,
     dataSetValuePeople,
     styleNamePeople,
-    tableFlatfile: tableFileName,
+    tableFlatfileEnslaved
   } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
@@ -81,7 +83,7 @@ const EnslavedTable: React.FC = () => {
   const maxWidth = maxWidthSize(width);
   const [style, setStyle] = useState({
     width: maxWidth,
-    height: height * 0.62,
+    height: height,
   });
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
@@ -107,7 +109,7 @@ const EnslavedTable: React.FC = () => {
       }
     };
     loadTableCellStructure();
-  }, [tableFileName, styleNamePeople]);
+  }, [tableFlatfileEnslaved, styleNamePeople]);
 
   useEffect(() => {
     if (tablesCell.length > 0) {
@@ -130,8 +132,8 @@ const EnslavedTable: React.FC = () => {
 
   useEffect(() => {
     setStyle({
-      width: maxWidth,
-      height: height * 0.65,
+      width: getMobileMaxWidth(maxWidth),
+      height: getMobileMaxHeightTable(height),
     });
   }, [width, height, maxWidth]);
 
@@ -152,44 +154,12 @@ const EnslavedTable: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {};
+
+      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValuePeople, dataSetKeyPeople, inputSearchValue, geoTreeValue, varName, rang, undefined, undefined, isChange, styleNamePeople, currentEnslavedPage)
 
       dataSend['results_page'] = [page + 1];
       dataSend['results_per_page'] = [rowsPerPage];
 
-      if (inputSearchValue) {
-        dataSend['global_search'] = [String(inputSearchValue)];
-      }
-      if (rang[varName] && currentEnslavedPage === 2) {
-        for (const rangKey in rang) {
-          dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
-        }
-      }
-
-      if (autoCompleteValue && varName) {
-        for (const autoKey in autoCompleteValue) {
-          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
-            if (typeof autoCompleteOption !== 'string') {
-              const { label } = autoCompleteOption;
-              dataSend[autoKey] = [label];
-            }
-          }
-        }
-      }
-
-      if (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved) {
-        for (const value of dataSetValuePeople) {
-          dataSend[dataSetKeyPeople] = [String(value)];
-        }
-      }
-
-      if (isChangeGeoTree && varName && geoTreeValue) {
-        for (const keyValue in geoTreeValue) {
-          if (Array.isArray(geoTreeValue[keyValue])) {
-            dataSend[keyValue] = geoTreeValue[keyValue] as string[] | number[];
-          }
-        }
-      }
       setLoading(true)
       try {
         const response = await dispatch(
@@ -234,7 +204,7 @@ const EnslavedTable: React.FC = () => {
       data,
       visibleColumnCells,
       dispatch,
-      tableFileName,
+      tableFlatfileEnslaved,
       tablesCell
     );
   }, [data, visibleColumnCells, dispatch]);
@@ -343,6 +313,7 @@ const EnslavedTable: React.FC = () => {
                 rowData={rowData}
                 onColumnVisible={handleColumnVisibleChange}
                 gridOptions={gridOptions}
+                getRowHeight={getRowHeightTable}
                 columnDefs={columnDefs}
                 suppressMenuHide={true}
                 animateRows={true}

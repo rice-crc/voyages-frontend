@@ -2,7 +2,7 @@ import { Toolbar, Hidden } from '@mui/material';
 import { MenuListDropdown } from './MenuListDropdown';
 import { CanscandingMenuProps } from '@/share/InterfaceTypes';
 import { MenuListDropdownPeople } from './MenuListDropdownPeople';
-import { AFRICANORIGINS, ALLENSLAVED, ENSALVERSTYLE } from '@/share/CONST_DATA';
+import { AFRICANORIGINS, ALLENSLAVED, ENSALVERSTYLE, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import { usePageRouter } from '@/hooks/usePageRouter';
 
 export default function CanscandingMenu(props: CanscandingMenuProps) {
@@ -25,7 +25,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
       >
         <Hidden smDown>
           <div>
-            {styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSALVERSTYLE ? (
+            {styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS || styleName === ENSALVERSTYLE ? (
               <MenuListDropdownPeople />
             ) : (
               <MenuListDropdown />

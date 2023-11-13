@@ -3,10 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   AutoCompleteInitialState,
   RangeSliderState,
-  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
-import { AFRICANORIGINS, ALLENSLAVED, ENSALVERSTYLE, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import { fetcVoyagesGeoTreeSelectLists } from '@/fetch/geoFetch/fetchVoyagesGeoTreeSelect';
 import { TreeSelect } from 'antd';
 import '@/style/page.scss';
@@ -21,6 +19,8 @@ import { fetchEnslavedGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslavedGeoTre
 import { fetchEnslaversGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslaversGeoTreeSelect';
 import { getGeoValuesCheck } from '@/utils/functions/getGeoValuesCheck';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { handleSetDataSentMapGeoTree } from '@/utils/functions/handleSetDataSentMapGeoTree';
+import { checkPagesRouteForVoyages, checkPagesRouteForEnslaved, checkPagesRouteForEnslavers } from '@/utils/functions/checkPagesRoute';
 
 const GeoTreeSelected: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -66,50 +66,24 @@ const GeoTreeSelected: React.FC = () => {
   useEffect(() => {
     let subscribed = true;
     const fetchGeoTreeSelectList = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {};
 
-      dataSend['geotree_valuefields'] = [varName];
-
-      if (isChangeGeoTree && varName && geoTreeValue) {
-        for (const keyValue in geoTreeValue) {
-          if (Array.isArray(geoTreeValue[keyValue])) {
-            if (varName !== keyValue) {
-              dataSend[keyValue] = geoTreeValue[keyValue] as string[] | number[];
-            }
-          }
-        }
-      }
-      console.log({ dataSend })
-      if (autoCompleteValue && varName) {
-        for (const autoKey in autoCompleteValue) {
-          const autoCompleteOption = autoCompleteValue[autoKey];
-          if (typeof autoCompleteOption !== 'string') {
-            for (const keyValue of autoCompleteOption) {
-              if (typeof keyValue === 'object' && 'label' in keyValue) {
-                dataSend[autoKey] = [keyValue.label];
-              }
-            }
-          }
-        }
-      }
-
-      if (rangeValue && varName) {
-        for (const rangKey in rangeValue) {
-          dataSend[rangKey] = [rangeValue[rangKey][0], rangeValue[rangKey][1]];
-        }
-      }
+      const dataSend = handleSetDataSentMapGeoTree(autoCompleteValue, isChangeGeoTree, geoTreeValue, varName, rangeValue)
 
       let response = [];
+
       try {
-        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
+        if (checkPagesRouteForVoyages(styleName!)) {
+          console.log('call voyages')
           response = await dispatch(
             fetcVoyagesGeoTreeSelectLists(dataSend)
           ).unwrap();
-        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
+        } else if (checkPagesRouteForEnslaved(styleName!)) {
+          console.log('call enslaved')
           response = await dispatch(
             fetchEnslavedGeoTreeSelect(dataSend)
           ).unwrap();
-        } else if (styleName === ENSALVERSTYLE) {
+        } else if (checkPagesRouteForEnslavers(styleName!)) {
+          console.log('call enslaverssss')
           response = await dispatch(
             fetchEnslaversGeoTreeSelect(dataSend)
           ).unwrap();

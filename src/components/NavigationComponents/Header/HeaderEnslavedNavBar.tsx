@@ -96,6 +96,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
+
     dispatch(resetAll());
     dispatch(resetBlockNameAndPageName())
     setIsClick(!isClick);

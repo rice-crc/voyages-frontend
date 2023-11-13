@@ -29,7 +29,8 @@ export interface InitialStateDataSetCollection {
     dataSetKey: string;
     dataSetValue: string[] | number[];
     blocks: string[];
-    // pathName: string
+    filterMenuVoyageFlatfile: string;
+    tableFlatfileVoyages: string
 }
 export interface InitialStateDataPeopleSetCollection {
     value: DataSetCollectionProps[];
@@ -41,5 +42,17 @@ export interface InitialStateDataPeopleSetCollection {
     dataSetValuePeople: string[] | number[];
     blocksPeople: string[];
     filterMenuFlatfile: string,
-    tableFlatfile: string
+    tableFlatfileEnslaved: string
+}
+export interface InitialStateDataPeopleEnslaversSetCollection {
+    value: DataSetCollectionProps[];
+    textHeader: string;
+    textIntroduce: string;
+    styleNamePeople: string;
+    dataSetValueBaseFilter: BaseFilter[];
+    dataSetKeyPeople: string;
+    dataSetValuePeople: string[] | number[];
+    blocksPeople: string[];
+    filterMenuEnslaversFlatfile: string,
+    tableFlatfileEnslavers: string
 }

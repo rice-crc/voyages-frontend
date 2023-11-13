@@ -15,7 +15,7 @@ export const initialState: InitialStateDataPeopleSetCollection = {
     dataSetValuePeople: [],
     blocksPeople: jsonDataPEOPLECOLLECTIONS[0].blocks,
     filterMenuFlatfile: jsonDataPEOPLECOLLECTIONS[0].filter_menu_flatfile,
-    tableFlatfile: jsonDataPEOPLECOLLECTIONS[0].table_flatfile,
+    tableFlatfileEnslaved: jsonDataPEOPLECOLLECTIONS[0].table_flatfile,
 };
 
 export const getPeopleEnslavedDataSetCollectionSlice = createSlice({
@@ -62,14 +62,14 @@ export const getPeopleEnslavedDataSetCollectionSlice = createSlice({
             state.filterMenuFlatfile = action.payload;
         },
         setPeopleTableEnslavedFlatfile: (state, action: PayloadAction<string>) => {
-            state.tableFlatfile = action.payload;
+            state.tableFlatfileEnslaved = action.payload;
         },
         resetSlice: (state) => {
             state.dataSetValueBaseFilter,
                 state.textHeader,
                 state.textIntroduce,
                 state.filterMenuFlatfile,
-                state.tableFlatfile
+                state.tableFlatfileEnslaved
         },
         resetAllStateSlice: (state) => initialState
     },

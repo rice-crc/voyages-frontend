@@ -13,7 +13,7 @@ import VOYAGE_PIVOT_OPTIONS from '@/utils/flatfiles/VOYAGE_PIVOT_OPTIONS.json';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useWindowSize } from '@react-hook/window-size';
-import { maxWidthSize } from '@/utils/functions/maxWidthSize';
+import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
@@ -25,7 +25,6 @@ import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
   RangeSliderState,
-  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
 import CustomHeader from '../../NavigationComponents/Header/CustomHeader';
@@ -39,6 +38,8 @@ import {
 } from '@/share/InterfaceTypes';
 import { SelectDropdownPivotable } from '../../SelectorComponents/SelectDrowdown/SelectDropdownPivotable';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
+import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
+import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
 
 const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -78,7 +79,7 @@ const PivotTables = () => {
 
   const [style, setStyle] = useState({
     width: maxWidth,
-    height: height * 0.6,
+    height: height,
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [rowVars, setSelectRowValue] = useState<PivotRowVar[]>([]);
@@ -104,6 +105,7 @@ const PivotTables = () => {
       minWidth: 100,
     };
   }, []);
+
 
   const VoyagePivotTableOptions = useCallback(() => {
     Object.entries(VOYAGE_PIVOT_OPTIONS).forEach(([key, value]) => {
@@ -132,8 +134,8 @@ const PivotTables = () => {
 
   useEffect(() => {
     setStyle({
-      width: maxWidth,
-      height: height * 0.5,
+      width: getMobileMaxWidth(maxWidth),
+      height: getMobileMaxHeightTable(height),
     });
   }, [width, height, maxWidth]);
 
@@ -148,7 +150,8 @@ const PivotTables = () => {
       cachename,
     } = pivotValueOptions;
     const fetchData = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {};
+      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
+
       dataSend['columns'] = columnVars;
       dataSend['rows'] = [row_vars];
       dataSend['rows_label'] = [rows_label];
@@ -156,38 +159,6 @@ const PivotTables = () => {
       dataSend['value_field'] = [cell_vars];
       dataSend['cachename'] = [cachename];
 
-      if (inputSearchValue) {
-        dataSend['global_search'] = [String(inputSearchValue)];
-      }
-      if (isChange && rang && currentPage === 6) {
-        for (const rangKey in rang) {
-          dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
-        }
-      }
-      if (autoCompleteValue && varName && currentPage === 6) {
-        for (const autoKey in autoCompleteValue) {
-          for (const autoCompleteOption of autoCompleteValue[autoKey]) {
-            if (typeof autoCompleteOption !== 'string') {
-              const { label } = autoCompleteOption;
-              dataSend[autoKey] = [label];
-            }
-          }
-        }
-      }
-
-      if (isChangeGeoTree && varName && geoTreeValue && currentPage === 6) {
-        for (const keyValue in geoTreeValue) {
-          for (const keyGeoValue of geoTreeValue[keyValue]) {
-            dataSend[keyValue] = [String(keyGeoValue)];
-          }
-        }
-      }
-
-      if (styleName !== TYPESOFDATASET.allVoyages) {
-        for (const value of dataSetValue) {
-          dataSend[dataSetKey] = [String(value)];
-        }
-      }
       setLoading(true);
       try {
         const response = await dispatch(
@@ -231,7 +202,7 @@ const PivotTables = () => {
 
   const gridOptions = useMemo(
     () => ({
-      headerHeight: 40,
+      headerHeight: 35,
       suppressHorizontalScroll: false,
       onGridReady: (params: any) => {
         const { columnApi } = params;
@@ -255,6 +226,7 @@ const PivotTables = () => {
     },
     []
   );
+
   const handleChangeOptions = useCallback(
     (event: SelectChangeEvent<string>, name: string) => {
       const value = event.target.value;
@@ -308,6 +280,7 @@ const PivotTables = () => {
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             gridOptions={gridOptions}
+            getRowHeight={getRowHeightTable}
             tooltipShowDelay={0}
             tooltipHideDelay={1000}
             paginationPageSize={10}

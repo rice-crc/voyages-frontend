@@ -23,7 +23,6 @@ export const NetworkDiagramSlaveVoyages = ({
     (state: RootState) => state.getPastNetworksGraphData
   );
 
-
   const { networkID, networkKEY } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
@@ -34,6 +33,7 @@ export const NetworkDiagramSlaveVoyages = ({
   const height = (modalHeight * heigthPercentage) / 100;
 
   const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
+
     try {
       const dataSend: { [key: string]: number[] } = {
         [nodeClass]: [Number(nodeId)],
@@ -60,7 +60,9 @@ export const NetworkDiagramSlaveVoyages = ({
     }
   };
 
+
   const handleClickNodeShowCard = async (nodeId: number, nodeClass: string) => {
+
     if (nodeClass !== ENSLAVEMENTNODE) {
       dispatch(setIsModalCard(true));
       dispatch(setNodeClass(nodeClass));
@@ -96,7 +98,8 @@ export const NetworkDiagramSlaveVoyages = ({
     return () => {
       subscribed = false;
     };
-  }, [dispatch, networkID, networkKEY]);
+  }, [dispatch]); //networkID, networkKEY
+
   if (width === 0 || !netWorkData) {
     return null;
   }
@@ -114,6 +117,7 @@ export const NetworkDiagramSlaveVoyages = ({
             height={height}
             handleNodeDoubleClick={handleNodeDoubleClick}
             handleClickNodeShowCard={handleClickNodeShowCard}
+
           />
         </div>
       )}

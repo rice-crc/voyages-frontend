@@ -20,6 +20,7 @@ import { setBaseFilterPeopleEnslavedDataKey, setBaseFilterPeopleEnslavedDataValu
 import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
 import { AFRICANORIGINS, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
+import Tables from '@/components/PresentationComponents/Tables/Tables';
 
 const EnslavedPage: React.FC = () => {
   const { styleName, currentBlockName } = usePageRouter();
@@ -71,7 +72,8 @@ const EnslavedPage: React.FC = () => {
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       {currentEnslavedPage === 1 && currentPageBlockName === 'intro' && <EnslavedIntro />}
-      {currentEnslavedPage === 2 && currentPageBlockName === 'table' && <EnslavedTable />}
+      {/* {currentEnslavedPage === 2 && currentPageBlockName === 'table' && <EnslavedTable />} */}
+      {currentEnslavedPage === 2 && currentPageBlockName === 'table' && <Tables />}
       {currentEnslavedPage === 3 && currentPageBlockName === 'map' && <EnslavedMap />}
     </motion.div>
   );

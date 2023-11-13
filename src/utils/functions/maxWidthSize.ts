@@ -1,3 +1,5 @@
+import { maxWidth } from "@mui/system";
+
 export const maxWidthSize = (width: number) => {
     const maxWidth =
         width > 1024
@@ -13,3 +15,37 @@ export const maxWidthSize = (width: number) => {
                         : width * 0.75;
     return maxWidth;
 };
+
+
+export const getMobileMaxWidth = (maxWidth: number) => {
+    let mobileMaxWidth;
+    if (maxWidth < 300) {
+        mobileMaxWidth = 275;
+    } else if (maxWidth < 400) {
+        mobileMaxWidth = 330;
+    } else {
+        mobileMaxWidth = maxWidth;
+    }
+    return mobileMaxWidth
+}
+
+export const getMobileMaxHeight = (height: number) => {
+    let mobileMaxHeight;
+    if (height < 700) {
+        mobileMaxHeight = height * 0.40
+    } else {
+        mobileMaxHeight = height * 0.50
+    }
+
+    return mobileMaxHeight
+}
+export const getMobileMaxHeightTable = (height: number) => {
+
+    let mobileMaxHeight;
+    if (height < 720) {
+        mobileMaxHeight = height * 0.45
+    } else {
+        mobileMaxHeight = height * 0.60
+    }
+    return mobileMaxHeight
+}
