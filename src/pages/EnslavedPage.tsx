@@ -21,6 +21,7 @@ import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEn
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
 import { AFRICANORIGINS, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
+import { getIntroBackgroundEnslavedColor } from '@/utils/functions/getColorStyle';
 
 const EnslavedPage: React.FC = () => {
   const { styleName, currentBlockName } = usePageRouter();
@@ -29,7 +30,6 @@ const EnslavedPage: React.FC = () => {
   const { currentEnslavedPage, currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
-
 
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const EnslavedPage: React.FC = () => {
     isFilter
   );
   return (
-    <div id="enslaved-home-page">
+    <div id="enslaved-home-page" style={{ backgroundColor: getIntroBackgroundEnslavedColor(styleName!) }}>
       <HeaderLogoSearch />
       <HeaderEnslavedNavBar />
       <div
@@ -92,6 +92,7 @@ const EnslavedPage: React.FC = () => {
           position: 'relative',
           top: topPosition,
           padding: currentPageBlockName !== 'intro' ? '0 20px' : '',
+
         }}
         id="content-container"
       >

@@ -13,7 +13,7 @@ import { setData, setRowData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { useWindowSize } from '@react-hook/window-size';
-import { Pagination, TablePagination } from '@mui/material';
+import { Pagination } from '@mui/material';
 import {
     StateRowData,
     TableCellStructureInitialStateProp,
@@ -49,6 +49,7 @@ import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastE
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE } from '@/share/CONST_DATA';
 import ButtonDropdownSelectorEnslavers from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslavers';
+import { CustomTablePagination } from '@/styleMUI';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -364,7 +365,7 @@ const Tables: React.FC = () => {
                 <div style={style}>
                     <span className="tableContainer">
                         {buttonSelectorColumn}
-                        <TablePagination
+                        <CustomTablePagination
                             component="div"
                             count={totalResultsCount}
                             page={page}

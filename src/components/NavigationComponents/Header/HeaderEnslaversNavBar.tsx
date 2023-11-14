@@ -56,7 +56,6 @@ const HeaderEnslaversNavBar: React.FC = () => {
           backgroundColor: '#3f967d',
           fontSize: 12,
           boxShadow: 'none',
-          marginTop: '3rem',
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -98,7 +97,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
                 fontWeight: 600,
               }}
             >
-              {inputSearchValue ? (
+              {/* {inputSearchValue ? (
                 <GlobalSearchButton />
               ) : (
 
@@ -114,7 +113,8 @@ const HeaderEnslaversNavBar: React.FC = () => {
                     </div>
                   )}
                 </span>
-              )}
+              )} */}
+              {inputSearchValue && <GlobalSearchButton />}
             </Typography>
           </Typography>
           <CanscandingMenuEnslaversMobile />
@@ -135,7 +135,8 @@ const HeaderEnslaversNavBar: React.FC = () => {
           ></Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentEnslaversPage !== 1 && isFilter && <CanscandingMenu />}
+          {/* {currentEnslaversPage !== 1 && isFilter && <CanscandingMenu />} */}
+          {currentEnslaversPage !== 1 && <CanscandingMenu />}
         </Hidden>
       </AppBar>
       <Menu

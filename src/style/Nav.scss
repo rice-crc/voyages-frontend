@@ -61,32 +61,40 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    font-size: 60px;
+    font-size: 40px;
+
     @include breakpoint-standard(6) {
-        font-size: 44px;
+        font-size: 40px;
     }
+
     @include breakpoint-standard(5) {
         font-size: 36px;
     }
+
     @include breakpoint-standard(4) {
         font-size: 30px;
     }
+
     @include breakpoint-standard(3) {
         font-size: 20px;
         font-weight: 600;
     }
+
     @include breakpoint-standard(2) {
         font-size: 16px;
         font-weight: 600;
     }
+
     @include breakpoint-standard(1.1) {
         font-size: 15px;
         font-weight: 600;
     }
+
     @include breakpoint-standard(1) {
         font-size: 15px;
         font-weight: 600;
     }
+
     @include breakpoint-standard(0) {
         font-size: 16px;
         font-weight: 600;
@@ -100,37 +108,45 @@
     position: relative;
     font-weight: 600;
     top: 8px;
+
     @include breakpoint-standard(5) {
         font-size: 26px;
         top: 6px;
     }
+
     @include breakpoint-standard(5) {
         font-size: 26px;
         top: 2px;
     }
+
     @include breakpoint-standard(4) {
         font-size: 20px;
         top: 2px;
     }
+
     @include breakpoint-standard(3) {
         font-size: 16px;
         top: 2px;
     }
+
     @include breakpoint-standard(2) {
         font-size: 14px;
         top: 2px;
         font-weight: 600;
     }
+
     @include breakpoint-standard(1.1) {
-        font-size:  0.75rem;
+        font-size: 0.75rem;
         top: 2px;
     }
+
     @include breakpoint-standard(1) {
-        font-size:  0.75rem;
+        font-size: 0.75rem;
         top: 2px;
     }
+
     @include breakpoint-standard(0) {
-        font-size:0.72rem;
+        font-size: 0.72rem;
         top: 2px;
     }
 
@@ -143,43 +159,97 @@
 .menu-nav-bar {
     font-family: "Cormorant Garamond";
     color: black;
+
     @include breakpoint-standard(1) {
         font-size: 10px;
     }
+
     @include breakpoint-standard(0) {
         font-size: 10px;
     }
 }
+
 .menu-filter-search-enslavers {
     font-family: "Cormorant Garamond";
     color: #ffffff;
 }
-.menu-nav-bar-select-box{
+
+.menu-nav-bar-select-box {
     padding: 10px;
+
     @include breakpoint-standard(5) {
         position: relative;
         left: 20px;
         bottom: 6px;
         font-size: 20px;
     }
+
     @include breakpoint-standard(4) {
         display: none;
     }
+
     @include breakpoint-standard(3) {
         display: none;
     }
+
     @include breakpoint-standard(2) {
         display: none;
     }
+
     @include breakpoint-standard(1) {
         display: none;
     }
+
     @include breakpoint-standard(0) {
         display: none;
     }
 }
+
 .menu-nav-bar-select {
     font-family: "Cormorant Garamond";
     color: black;
     text-transform: uppercase;
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.header-logo-icon {
+    display: flex;
+    align-items: center;
+}
+
+.logo-voyage {
+    margin-right: 10px;
+    position: relative;
+
+    @include breakpoint-standard(4) {
+        display: none;
+    }
+
+    @include breakpoint-standard(3) {
+        display: none;
+    }
+
+    @include breakpoint-standard(2) {
+        display: none;
+    }
+
+    @include breakpoint-standard(1) {
+        display: none;
+    }
+
+    @include breakpoint-standard(0) {
+        display: none;
+    }
+}
+
+.dataset-btn-selecter {
+    display: flex;
+    align-items: center;
+}
+
+.list-filter-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

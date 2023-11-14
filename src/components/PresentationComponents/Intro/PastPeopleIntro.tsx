@@ -4,8 +4,8 @@ import PEOPLE from '@/utils/flatfiles/people_page_data.json';
 import '@/style/page-past.scss';
 import { Link } from 'react-router-dom';
 import { setPathEnslavers, setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
 import {
   ALLENSLAVED,
   ALLENSLAVEDPAGE,
@@ -31,7 +31,6 @@ const PastPeopleIntro = () => {
             flexGrow: 1,
             marginTop: {
               sm: '2rem',
-              md: '8%',
             },
             textAlign: {
               xs: 'center',
@@ -48,9 +47,9 @@ const PastPeopleIntro = () => {
             </Grid>
             <Grid item xs={12} sm={8} className="grid-people-introduction">
               {PEOPLE.map((item, index) => (
-                <div key={index}>
-                  <div>{item.text_introuduce}</div>
-                  <div>{item.text_description}</div>
+                <div key={index} className='text-intro'>
+                  {item.text_introuduce}
+                  {item.text_description}
                 </div>
               ))}
               <div className="btn-Enslaved-enslavers">

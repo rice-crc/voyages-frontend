@@ -1,6 +1,6 @@
 
 
-import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button, TextField, CardHeader } from '@mui/material';
+import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button, TextField, CardHeader, TablePagination } from '@mui/material';
 import MuiInput from '@mui/material/Input';
 import NestedMenuItem from '../components/SelectorComponents/Cascading/NestedMenuItem';
 import { SxProps, } from '@mui/material';
@@ -209,3 +209,15 @@ export const styleModalCard = {
   boxShadow: 24,
   p: '10px 20px',
 };
+
+export const CustomTablePagination = styled(TablePagination)({
+  '& .MuiTablePagination-selectLabel': {
+    fontSize: '0.975rem',
+  },
+  '& .MuiTablePagination-select': {
+    fontSize: '0.975rem',
+  },
+  '& .MuiTablePagination-displayedRows ': {
+    fontSize: '0.975rem',
+  },
+}) as React.ComponentType<any>;

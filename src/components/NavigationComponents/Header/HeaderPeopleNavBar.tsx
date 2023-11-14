@@ -24,6 +24,7 @@ import { AppDispatch } from '@/redux/store';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 import { setPathEnslavers, setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
 import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
+import HeaderLogo from './HeaderLogo';
 
 export default function HeaderPeopleNavBar() {
   const navigate = useNavigate();
@@ -71,7 +72,6 @@ export default function HeaderPeopleNavBar() {
           backgroundColor: '#ffffff',
           fontSize: 12,
           boxShadow: 'none',
-          marginTop: '3rem',
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -92,8 +92,13 @@ export default function HeaderPeopleNavBar() {
               width: { xs: 200, sm: 220 },
               fontWeight: { sm: 600, md: 500 },
             }}
+
           >
-            <div className="people-header">{POPELETILET}</div>
+            <span className='header-logo-icon'>
+              <HeaderLogo />
+              <div className="people-header">{POPELETILET}</div>
+            </span>
+
           </Typography>
           <Box
             className="menu-nav-bar-select-box"

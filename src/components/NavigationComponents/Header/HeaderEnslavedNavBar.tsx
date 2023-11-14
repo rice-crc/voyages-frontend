@@ -51,6 +51,7 @@ import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
 import '@/style/homepage.scss';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
+import HeaderLogo from './HeaderLogo';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {
@@ -173,7 +174,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
           backgroundColor: getColorNavbarEnslavedBackground(styleNamePeople),
           fontSize: 12,
           boxShadow: 'none',
-          marginTop: '3rem',
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -196,12 +196,16 @@ const HeaderEnslavedNavBar: React.FC = () => {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <HeaderTitle
-              textHeader={textHeader}
-              HeaderTitle={EnslavedTitle}
-              pathLink={PASTHOMEPAGE}
-              onClickReset={onClickResetOnHeader}
-            />
+            <span className='header-logo-icon'>
+              <HeaderLogo />
+              <HeaderTitle
+                textHeader={textHeader}
+                HeaderTitle={EnslavedTitle}
+                pathLink={PASTHOMEPAGE}
+                onClickReset={onClickResetOnHeader}
+              />
+            </span>
+
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
@@ -225,7 +229,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 fontWeight: 600,
               }}
             >
-              {inputSearchValue ? (
+              {/* {inputSearchValue ? (
                 <GlobalSearchButton />
               ) : (
                 <span className='reset-filter'>
@@ -242,7 +246,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
                   )}
                 </span>
 
-              )}
+              )} */}
+              {inputSearchValue && <GlobalSearchButton />}
+
             </Typography>
           </Typography>
           <CanscandingMenuEnslavedMobile />
@@ -278,7 +284,8 @@ const HeaderEnslavedNavBar: React.FC = () => {
           </Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentPageBlockName !== 'intro' && isFilter && <CanscandingMenu />}
+          {/* {currentPageBlockName !== 'intro' && isFilter && <CanscandingMenu />} */}
+          {currentPageBlockName !== 'intro' && <CanscandingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu

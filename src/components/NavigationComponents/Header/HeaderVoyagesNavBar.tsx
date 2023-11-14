@@ -30,7 +30,6 @@ import {
   getColorBoxShadow,
 } from '@/utils/functions/getColorStyle';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
-import { FilterButton } from '@/components/SelectorComponents/ButtonComponents/FilterButton';
 import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
 import {
   BaseFilter,
@@ -53,6 +52,8 @@ import '@/style/Nav.scss';
 import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '../../PresentationComponents/GlobalSearch/GlobalSearchButton';
 import { DrawerMenuBar } from './DrawerMenuBar';
+import HeaderLogo from './HeaderLogo';
+import { setCurrentVoyagesBlockName } from '@/redux/getScrollPageSlice';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -67,7 +68,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     (state: RootState) => state.getDataSetCollection
   );
 
-  const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
@@ -91,20 +91,24 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   ) => {
 
     dispatch(resetAll());
-    dispatch(setBaseFilterDataSetValue(base_filter));
-    for (const base of base_filter) {
-      dispatch(setBaseFilterDataKey(base.var_name));
-      dispatch(setBaseFilterDataValue(base.value));
-    }
 
-    dispatch(setDataSetHeader(textHeder));
-    dispatch(setTextIntro(textIntro));
-    dispatch(setStyleName(styleName));
-    dispatch(setBlocksMenuList(blocks));
-    dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile!))
-    dispatch(setTableVoyagesFlatfile(tableFlatfile!))
-    if (styleNameToPathMap[styleName]) {
-      navigate(styleNameToPathMap[styleName]);
+    if (styleName === VOYAGESTEXAS && currentVoyageBlockName === 'pie') {
+      navigate(`/${VOYAGESPAGE}${VOYAGESTEXASPAGE}#intro`);
+    } else {
+      dispatch(setBaseFilterDataSetValue(base_filter));
+      for (const base of base_filter) {
+        dispatch(setBaseFilterDataKey(base.var_name));
+        dispatch(setBaseFilterDataValue(base.value));
+      }
+      dispatch(setDataSetHeader(textHeder));
+      dispatch(setTextIntro(textIntro));
+      dispatch(setStyleName(styleName));
+      dispatch(setBlocksMenuList(blocks));
+      dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile!))
+      dispatch(setTableVoyagesFlatfile(tableFlatfile!))
+      if (styleNameToPathMap[styleName]) {
+        navigate(styleNameToPathMap[styleName]);
+      }
     }
 
     const keysToRemove = Object.keys(localStorage);
@@ -131,6 +135,8 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       localStorage.removeItem(key);
     });
   };
+
+
   return (
     <Box
       sx={{
@@ -143,7 +149,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           backgroundColor: getColorNavbarBackground(styleName),
           fontSize: 12,
           boxShadow: 'none',
-          marginTop: '3rem',
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -158,6 +163,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               <MenuIcon />
             </IconButton>
           </Hidden>
+
           <Typography
             component="div"
             sx={{
@@ -166,12 +172,15 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <HeaderTitle
-              textHeader={textHeader}
-              HeaderTitle={VOYAGETILE}
-              pathLink={`${VOYAGESPAGE}${ALLVOYAGESPAGE}#intro`}
-              onClickReset={onClickReset}
-            />
+            <span className='header-logo-icon'>
+              <HeaderLogo />
+              <HeaderTitle
+                textHeader={textHeader}
+                HeaderTitle={VOYAGETILE}
+                pathLink={`${VOYAGESPAGE}${ALLVOYAGESPAGE}#intro`}
+                onClickReset={onClickReset}
+              />
+            </span>
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
@@ -196,11 +205,13 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 fontWeight: 600,
               }}
             >
-              {inputSearchValue ? (
+              {/* {inputSearchValue ? (
                 <GlobalSearchButton />
               ) : (
                 <FilterButton pathName={ALLVOYAGES} currentPage={currentPage} />
-              )}
+              )} */}
+              {inputSearchValue && <GlobalSearchButton />}
+
             </Typography>
           </Typography>
           <CanscandingMenuVoyagesMobile />
@@ -219,6 +230,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               },
             }}
           >
+            {/* <span className='dataset-btn-selecter'> */}
             <Box
               className="menu-nav-bar-select"
               style={{ color: getTextColor(styleName) }}
@@ -238,10 +250,13 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 />
               );
             })}
+            {/* </span> */}
+
           </Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentPage !== 1 && isFilter && <CanscandingMenu />}
+          {/* {currentPage !== 1 && isFilter && <CanscandingMenu />} */}
+          {currentPage !== 1 && <CanscandingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu

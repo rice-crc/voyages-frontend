@@ -19,12 +19,11 @@ const CollectionTabVoyages = () => {
   const { styleName, blocks } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-  const { currentPage } = useSelector(
+  const { currentPage, currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
 
   const handlePageNavigation = (page: number, blockName: string) => {
-
     dispatch(setCurrentPage(page));
     if (page === 1) {
       dispatch(setIsFilter(false));
@@ -33,11 +32,13 @@ const CollectionTabVoyages = () => {
     }
     navigate(`#${(blockName).toLowerCase()}`)
   };
+
   return (
     <Hidden>
       <div className="navbar-wrapper">
         <nav className="nav-button">
           {blocks.map((page: string, index: number) => {
+
             const buttonIndex = index + 1;
             return (
               <ButtonNav
@@ -47,8 +48,8 @@ const CollectionTabVoyages = () => {
                 style={{
                   backgroundColor: getColorBackground(styleName),
                   boxShadow: getColorBoxShadow(styleName),
-                  color: currentPage === buttonIndex ? 'white' : 'black',
-                  fontWeight: currentPage === buttonIndex ? 700 : 600,
+                  color: currentVoyageBlockName === page.toLocaleLowerCase() ? 'white' : 'black',
+                  fontWeight: currentVoyageBlockName === page.toLocaleLowerCase() ? 700 : 600,
                 }}
                 variant={currentPage === buttonIndex ? 'contained' : 'outlined'}
               >
