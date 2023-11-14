@@ -16,6 +16,9 @@ import {
   CurrentPageInitialState,
   TYPESOFDATASETPEOPLE,
   FilterPeopleMenu,
+  FilterMenu,
+  ValueFilterList,
+  FilterMenuList,
 } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss';
 import {
@@ -37,16 +40,16 @@ import { ENSALVERSTYLE, } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 
-export const MenuListDropdownPeople = () => {
+export const MenuListsDropdown = () => {
   const { styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
-  const { valueEnslaved, valueAfricanOrigin, valueTexas, valueEnslavers } =
-    useSelector((state: RootState) => state.getFilterPeople.value);
+  const { valueVoyages, valueEnslaved, valueAfricanOrigin, valueEnslavedTexas, valueEnslavers } = useSelector((state: RootState) => state.getFilterMenuList.filterValueList);
 
-  const { styleName } = usePageRouter()
+  const { styleName: styleNameRoute } = usePageRouter()
 
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -137,38 +140,35 @@ export const MenuListDropdownPeople = () => {
       );
     });
 
-  const [filterPeopleMenu, setFilterPeopleMenu] = useState<FilterPeopleMenu[]>(
+  const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>(
     []
   );
 
   useEffect(() => {
     const loadTableCellStructure = async () => {
       try {
-        if (
-          styleName === TYPESOFDATASETPEOPLE.allEnslaved
-        ) {
-          setFilterPeopleMenu(valueEnslaved);
-        } else if (
-          styleName === TYPESOFDATASETPEOPLE.africanOrigins
-        ) {
-          setFilterPeopleMenu(valueAfricanOrigin);
-        } else if (
-          styleName === TYPESOFDATASETPEOPLE.texas
-        ) {
-          setFilterPeopleMenu(valueTexas);
-        } else if (styleName === ENSALVERSTYLE) {
-          setFilterPeopleMenu(valueEnslavers);
+        if (checkPagesRouteForVoyages(styleNameRoute!)) {
+          setFilterMenu(valueVoyages);
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
+          setFilterMenu(valueEnslaved);
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {
+          setFilterMenu(valueAfricanOrigin);
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
+          setFilterMenu(valueEnslavedTexas);
+        } else if (styleNameRoute === ENSALVERSTYLE) {
+          setFilterMenu(valueEnslavers);
         }
       } catch (error) {
         console.error('Failed to load table cell structure:', error);
       }
     };
     loadTableCellStructure();
-  }, [styleNamePeople, styleName]);
+  }, [styleNamePeople, styleNameRoute]);
+
   return (
     <div>
       <Box className="filter-menu-bar">
-        {filterPeopleMenu.map((item: FilterPeopleMenu, index: number) => {
+        {filterMenu.map((item: FilterMenuList, index: number) => {
           return item.var_name ? (
             <Button
               key={`${item.label}-${index}`}

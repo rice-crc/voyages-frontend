@@ -149,6 +149,7 @@ function PieGraph() {
   }, [pieGraphOptions]);
 
   const isPlotYZeroAll = plotY.every((item) => item === 0);
+
   return (
     <div>
       <SelectDropdown

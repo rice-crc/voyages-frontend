@@ -14,7 +14,7 @@ export const getMapBackgroundColor = (item: string) => {
     } else if (item === TYPESOFDATASET.texas) {
         background = 'rgba(187, 105, 46)';
     } else if (item === 'african-origins') {
-        background = 'rgb(178, 148, 147)';
+        background = '#1976d2';
     }
     return background;
 };

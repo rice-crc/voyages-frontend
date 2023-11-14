@@ -27,6 +27,7 @@ import getPivotTablesDataSlice from './getPivotTablesDataSlice';
 import getCardFlatObjectSlice from './getCardFlatObjectSlice';
 import getGeoTreeDataSlice from './getGeoTreeDataSlice';
 import getDataPathNameSlice from './getDataPathNameSlice';
+import getFilterMenuListSlice from './getFilterMenuListSlice';
 
 const store = configureStore({
         reducer: {
@@ -34,6 +35,7 @@ const store = configureStore({
                 rangeSlider: rangeSliderSlice,
                 autoCompleteList: getAutoCompleteList,
                 optionFlatMenu: getOptionsFlatMenu,
+                getFilterMenuList: getFilterMenuListSlice,
                 getScrollPage: getScrollPageSlice,
                 getTableData: getTableSlice,
                 getFilter: getFilterSlice,
