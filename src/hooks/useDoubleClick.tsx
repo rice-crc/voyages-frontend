@@ -13,7 +13,7 @@ export const useDoubleClick = (doubleClick: ClickCallback, click: ClickCallback,
     };
 
     return useCallback((event: MouseEvent) => {
-        console.log('click ', event.detail)
+
         clearClickTimeout();
         if (click && event.detail === 1) {
             clickTimeout.current = setTimeout(() => {

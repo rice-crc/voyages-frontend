@@ -65,6 +65,7 @@
   margin: 0;
   height: 110vh;
 
+
   @include breakpoint-standard(1.1) {
     height: 115vh;
   }
@@ -172,7 +173,7 @@
   }
 
   @include breakpoint-standard(4) {
-    top: 15%;
+    top: 10%;
     right: 25%;
     height: auto;
     display: inline;
@@ -181,7 +182,7 @@
   }
 
   @include breakpoint-standard(3) {
-    top: 15%;
+    top: 10%;
     height: auto;
     display: inline;
     align-items: center;
@@ -190,7 +191,7 @@
   }
 
   @include breakpoint-standard(2) {
-    top: 15%;
+    top: 10%;
     height: auto;
     display: inline;
     align-items: center;
@@ -199,7 +200,7 @@
   }
 
   @include breakpoint-standard(1.1) {
-    top: 15%;
+    top: 10%;
     height: auto;
     display: inline;
     align-items: center;
@@ -208,7 +209,7 @@
   }
 
   @include breakpoint-standard(1) {
-    top: 16%;
+    top: 9%;
     height: auto;
     display: inline;
     align-items: center;
@@ -217,7 +218,7 @@
   }
 
   @include breakpoint-standard(0) {
-    top: 16%;
+    top: 9%;
     height: auto;
     display: inline;
     align-items: center;
@@ -312,42 +313,42 @@
   @include breakpoint-standard(4) {
     display: inline-block;
     padding-right: 5rem;
-    top: 18%;
+    top: 9.5%;
     height: 0;
   }
 
   @include breakpoint-standard(3) {
     display: inline-block;
     padding-right: 30px;
-    top: 16%;
+    top: 7%;
     height: 0;
   }
 
   @include breakpoint-standard(2) {
     display: inline-block;
     padding-right: 30px;
-    top: 16%;
+    top: 8%;
     height: 0;
   }
 
   @include breakpoint-standard(1.1) {
     display: inline-block;
     padding-right: 30px;
-    top: 16%;
+    top: 10%;
     height: 0;
   }
 
   @include breakpoint-standard(1) {
     display: inline-block;
     padding-right: 30px;
-    top: 16%;
+    top: 10%;
     height: 0;
   }
 
   @include breakpoint-standard(0) {
     display: inline-block;
     padding-right: 30px;
-    top: 16%;
+    top: 10%;
     height: 0;
   }
 }
@@ -455,7 +456,7 @@
   @include breakpoint-standard(0) {
     padding: 2%;
     font-size: 14px;
-    margin-top: 20%;
+    margin-top: 15%;
   }
 
   @include breakpoint-standard(1) {

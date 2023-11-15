@@ -5,16 +5,14 @@ import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { ALLENSLAVERS, EnslaversTitle, PASTHOMEPAGE } from '@/share/CONST_DATA';
+import { EnslaversTitle, PASTHOMEPAGE } from '@/share/CONST_DATA';
 import CanscandingMenu from '@/components/SelectorComponents/Cascading/CanscandingMenu';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
-import { FilterButton } from '@/components/SelectorComponents/ButtonComponents/FilterButton';
-import ButtonDropdownSelectorColumnEnslavers from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslavers';
 import CanscandingMenuEnslaversMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuEnslaversMobile';
 import '@/style/Nav.scss';
-import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
+import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
-import { resetAllStateSlice } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import ButtonDropdownSelectorColumn from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumn';
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -97,24 +95,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
                 fontWeight: 600,
               }}
             >
-              {/* {inputSearchValue ? (
-                <GlobalSearchButton />
-              ) : (
-
-                <span className='reset-filter'>
-                  <FilterButton
-                    pathName={ALLENSLAVERS}
-                    currentPage={currentEnslaversPage}
-                  />
-                  {(varName !== '') && (
-                    <div className="btn-navbar-reset-all" onClick={onClickResetOnHeader}>
-                      <i aria-hidden="true" className="fa fa-times"></i>
-                      <span>Reset all</span>
-                    </div>
-                  )}
-                </span>
-              )} */}
-              {inputSearchValue && <GlobalSearchButton />}
+              {inputSearchValue && currentEnslaversPage !== 1 && <GlobalSearchButton />}
             </Typography>
           </Typography>
           <CanscandingMenuEnslaversMobile />
@@ -135,7 +116,6 @@ const HeaderEnslaversNavBar: React.FC = () => {
           ></Box>
         </Toolbar>
         <Hidden mdDown>
-          {/* {currentEnslaversPage !== 1 && isFilter && <CanscandingMenu />} */}
           {currentEnslaversPage !== 1 && <CanscandingMenu />}
         </Hidden>
       </AppBar>
@@ -146,7 +126,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
         onClick={handleMenuFilterMobileClose}
       >
         <MenuListDropdownStyle>
-          <ButtonDropdownSelectorColumnEnslavers />
+          <ButtonDropdownSelectorColumn />
         </MenuListDropdownStyle>
       </Menu>
     </Box>

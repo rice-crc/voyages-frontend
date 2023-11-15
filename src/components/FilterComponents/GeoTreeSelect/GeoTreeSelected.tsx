@@ -73,17 +73,17 @@ const GeoTreeSelected: React.FC = () => {
 
       try {
         if (checkPagesRouteForVoyages(styleName!)) {
-          console.log('call voyages')
+
           response = await dispatch(
             fetcVoyagesGeoTreeSelectLists(dataSend)
           ).unwrap();
         } else if (checkPagesRouteForEnslaved(styleName!)) {
-          console.log('call enslaved')
+
           response = await dispatch(
             fetchEnslavedGeoTreeSelect(dataSend)
           ).unwrap();
         } else if (checkPagesRouteForEnslavers(styleName!)) {
-          console.log('call enslaverssss')
+
           response = await dispatch(
             fetchEnslaversGeoTreeSelect(dataSend)
           ).unwrap();

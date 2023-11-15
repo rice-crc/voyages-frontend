@@ -30,7 +30,6 @@ import {
 } from '@/share/InterfactTypesDatasetCollection';
 import CanscandingMenu from '@/components/SelectorComponents/Cascading/CanscandingMenu';
 import CanscandingMenuEnslavedMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuEnslavedMobile';
-import ButtonDropdownSelectorEnslaved from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslaved';
 import {
   setBaseFilterPeopleEnslavedDataKey,
   setBaseFilterPeopleEnslavedDataSetValue,
@@ -52,6 +51,7 @@ import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch
 import '@/style/homepage.scss';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import HeaderLogo from './HeaderLogo';
+import ButtonDropdownSelectorColumn from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumn';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {
@@ -308,7 +308,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
         disableScrollLock={true}
       >
         <MenuListDropdownStyle>
-          <ButtonDropdownSelectorEnslaved />
+          <ButtonDropdownSelectorColumn />
         </MenuListDropdownStyle>
       </Menu>
     </Box>

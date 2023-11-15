@@ -4,11 +4,9 @@ import { AppDispatch, RootState } from '@/redux/store';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
-import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { TYPESOFDATASET } from '@/share/InterfaceTypes';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 
 interface Props {
