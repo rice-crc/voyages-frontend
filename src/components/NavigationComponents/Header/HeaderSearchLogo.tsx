@@ -95,7 +95,7 @@ export default function HeaderLogoSearch() {
             >
               <img
                 src={LOGOVoyages}
-                alt="logo"
+                alt={'voyages logo'}
                 style={{ position: 'relative', bottom: 5 }}
               />
             </Link>

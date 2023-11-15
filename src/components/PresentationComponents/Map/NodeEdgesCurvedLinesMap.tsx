@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
-import ReactDOM from 'react-dom';
-import ReactDOMServer from 'react-dom/server';
 import L, { LatLngExpression, Marker } from 'leaflet';
 import '@/style/table-popup.scss';
 import 'leaflet.markercluster';
@@ -15,7 +13,6 @@ import {
   CustomMarker,
   EdgesAggroutes,
   LatLng,
-  NodeAggroutes,
 } from '@/share/InterfaceTypesMap';
 import { getEdgesSize, getNodeSize } from '@/utils/functions/getNodeSize';
 import '@/style/map.scss';

@@ -38,12 +38,13 @@ export const getMobileMaxHeight = (height: number) => {
     return mobileMaxHeight
 }
 export const getMobileMaxHeightTable = (height: number) => {
-
-    let mobileMaxHeight;
-    if (height < 720) {
+    let mobileMaxHeight = height * 0.75
+    if (height > 600 && height < 720) {
         mobileMaxHeight = height * 0.45
+    } else if (height < 600) {
+        mobileMaxHeight = height * 0.50
     } else {
-        mobileMaxHeight = height * 0.72
+        mobileMaxHeight = height * 0.71
     }
     return mobileMaxHeight
 }

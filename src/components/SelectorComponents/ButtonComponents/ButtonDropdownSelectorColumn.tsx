@@ -16,18 +16,19 @@ import {
 import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
 import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
+import VOYAGESTABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
+import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.json';
 import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { DropdownColumn } from '@/components/SelectorComponents/DropDown/DropdownColumn';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { ENSALVERSTYLE } from '@/share/CONST_DATA';
 
-const ButtonDropdownSelectorColumnEnslaved = () => {
+const ButtonDropdownSelectorColumn = () => {
   const dispatch: AppDispatch = useDispatch();
-
+  const { styleName: styleNameRoute } = usePageRouter()
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
-  );
-
-  const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
   const [menuValueCells, setMenuValueCells] = useState<ColumnSelectorTree[]>(
@@ -50,12 +51,16 @@ const ButtonDropdownSelectorColumnEnslaved = () => {
   useEffect(() => {
     const loadMenuValueCellStructure = async () => {
       try {
-        if (styleNamePeople === TYPESOFDATASETPEOPLE.allEnslaved) {
+        if (checkPagesRouteForVoyages(styleNameRoute!)) {
+          setMenuValueCells(VOYAGESTABLE_FLAT.column_selector_tree);
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
           setMenuValueCells(ENSLAVED_TABLE.column_selector_tree);
-        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins) {
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {
           setMenuValueCells(AFRICANORIGINS_TABLE.column_selector_tree);
-        } else if (styleNamePeople === TYPESOFDATASETPEOPLE.texas) {
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
           setMenuValueCells(TEXAS_TABLE.column_selector_tree);
+        } else if (styleNameRoute === ENSALVERSTYLE) {
+          setMenuValueCells(ENSLAVERS_TABLE.column_selector_tree);
         }
       } catch (error) {
         console.error('Failed to load table cell structure:', error);
@@ -125,4 +130,4 @@ const ButtonDropdownSelectorColumnEnslaved = () => {
     />
   );
 };
-export default ButtonDropdownSelectorColumnEnslaved;
+export default ButtonDropdownSelectorColumn;

@@ -151,7 +151,7 @@ function PieGraph() {
   const isPlotYZeroAll = plotY.every((item) => item === 0);
 
   return (
-    <div>
+    <div className='mobile-responsive'>
       <SelectDropdown
         selectedX={pieGraphSelectedX}
         selectedY={pieGraphSelectedY}

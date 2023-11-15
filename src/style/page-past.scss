@@ -302,15 +302,15 @@
     url('../assets/enslavedBG.jpeg') center / cover;
 
   @include breakpoint-standard(4) {
-    height: auto;
+    height: 100vh;
   }
 
   @include breakpoint-standard(3) {
-    height: auto;
+    height: 100vh;
   }
 
   @include breakpoint-standard(2) {
-    height: auto;
+    height: 100vh;
   }
 
   @include breakpoint-standard(1) {
@@ -329,11 +329,11 @@
   height: 100vh;
 
   @include breakpoint-standard(7) {
-    height: auto;
+    height: 100vh;
   }
 
   @include breakpoint-standard(6) {
-    height: auto;
+    height: 100vh;
   }
 
   @include breakpoint-standard(5) {
@@ -355,6 +355,14 @@
   @include breakpoint-standard(1) {
     height: auto;
   }
+
+  @include breakpoint-standard(1.1) {
+    height: auto;
+  }
+
+  @include breakpoint-standard(0) {
+    height: auto;
+  }
 }
 
 .enslaved-header {
@@ -369,7 +377,7 @@
   }
 
   @include breakpoint-standard(5) {
-    font-size: 26px;
+    font-size: 16px;
   }
 
   @include breakpoint-standard(4) {
@@ -568,13 +576,23 @@
   padding: 4rem 1rem 2rem 4rem;
   background: rgb(63, 150, 125, 0.5);
 
+  @include breakpoint-standard(7) {
+    padding: 5rem 2rem 2rem 2rem;
+    font-size: 20px;
+  }
+
+  @include breakpoint-standard(6) {
+    padding: 6rem 2rem 2rem 2rem;
+    font-size: 20px;
+  }
+
   @include breakpoint-standard(5) {
     padding: 6rem 2rem 2rem 2rem;
     font-size: 20px;
   }
 
   @include breakpoint-standard(4) {
-    padding: 6rem 2rem 2rem 2rem;
+    padding: 7rem 2rem 2rem 2rem;
     font-size: 16px;
   }
 
@@ -584,22 +602,22 @@
   }
 
   @include breakpoint-standard(2) {
-    padding: 6rem 2rem 2rem 2rem;
+    padding: 5rem 2rem 2rem 2rem;
     font-size: 14px;
   }
 
   @include breakpoint-standard(1.1) {
-    padding: 4rem 2rem;
+    padding: 7rem 2rem;
     font-size: 14px;
   }
 
   @include breakpoint-standard(1) {
-    padding: 4rem 2rem;
+    padding: 7rem 2rem;
     font-size: 14px;
   }
 
   @include breakpoint-standard(0) {
-    padding: 4rem 2rem;
+    padding: 7rem 2rem;
     font-size: 14px;
   }
 }
@@ -737,27 +755,27 @@
 
 .table-presentation {
   @include breakpoint-standard(4) {
-    top: 20px !important;
+    top: -45px !important;
   }
 
   @include breakpoint-standard(3) {
-    top: 15px !important;
+    top: -45px !important;
   }
 
   @include breakpoint-standard(2) {
-    top: 5px !important;
+    top: -45px !important;
   }
 
   @include breakpoint-standard(1.1) {
-    top: 20px !important;
+    top: -45px !important;
   }
 
   @include breakpoint-standard(1) {
-    top: 25px !important;
+    top: -45px !important;
   }
 
   @include breakpoint-standard(0) {
-    top: 25px !important;
+    top: 0px !important;
   }
 }
 
@@ -766,5 +784,5 @@
   padding: 0;
   margin: 0;
   background-color: #46a88c;
-  height: 100vh;
+  height: 110vh;
 }

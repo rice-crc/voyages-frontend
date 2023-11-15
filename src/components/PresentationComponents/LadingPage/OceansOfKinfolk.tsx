@@ -24,7 +24,7 @@ const OceansOfKinfolk: React.FC = () => {
                     <ButtonLearnMore path='' />
                 </div>
                 <div className="texas-bound-bg">
-                    <img src={OceansOfKin} alt="logo" className="tx-img" />
+                    <img src={OceansOfKin} alt="Oceans of Kinfolk" className="tx-img" />
                 </div>
             </div>
         </div>

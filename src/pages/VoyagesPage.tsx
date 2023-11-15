@@ -32,6 +32,7 @@ import {
 } from '@/redux/getScrollPageSlice';
 import { INTRAAMERICAN, TRANSATLANTIC, VOYAGESTEXAS } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
+import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -45,6 +46,9 @@ const VoyagesPage = () => {
   );
   const { dataSetKey, dataSetValue } = useSelector(
     (state: RootState) => state.getDataSetCollection
+  );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
   );
 
   useEffect(() => {
@@ -145,10 +149,9 @@ const VoyagesPage = () => {
       {currentPage === 7 && currentVoyageBlockName === 'map' && <VoyagesMaps />}
     </motion.div>
   );
-
+  const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
   return (
     <>
-      {/* <HeaderLogoSearch /> */}
       <HeaderVoyagesNavBar />
       <div
         className="voyages-home-page"
@@ -159,6 +162,7 @@ const VoyagesPage = () => {
             currentPage
           ),
           position: 'relative',
+          top: !inputSearchValue ? topPosition - 90 : -10,
           padding: currentPage !== 1 ? '30px' : '',
         }}
       >

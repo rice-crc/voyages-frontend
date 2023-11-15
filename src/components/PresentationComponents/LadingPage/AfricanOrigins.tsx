@@ -9,7 +9,7 @@ const AfricanOrigins: React.FC = () => {
         <div className="container-african">
             <div className="african-content">
                 <div className="african-content-bg">
-                    <img src={AFRICANORIGINS} alt="AFRICANORIGINS" className="african-img" />
+                    <img src={AFRICANORIGINS} alt="African Origins" className="african-img" />
                 </div>
                 <div className="african-content-detail">
                     <h1>African Origins</h1>

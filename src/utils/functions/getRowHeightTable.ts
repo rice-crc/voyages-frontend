@@ -1,3 +1,5 @@
 
 
-export const getRowHeightTable = () => 26
+export const getRowHeightTable = (params: any) => {
+    return 26
+}

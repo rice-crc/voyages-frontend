@@ -10,7 +10,6 @@ import { HeaderNavBarMenuProps } from '@/share/InterfaceTypes';
 import CanscandingMenu from '../../SelectorComponents/Cascading/CanscandingMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
-import { ColumnVoyagesSelector } from '../../SelectorComponents/ColumnSelectorTable/ColumnVoyagesSelector';
 import {
   setBaseFilterDataKey,
   setBaseFilterDataSetValue,
@@ -53,7 +52,7 @@ import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '../../PresentationComponents/GlobalSearch/GlobalSearchButton';
 import { DrawerMenuBar } from './DrawerMenuBar';
 import HeaderLogo from './HeaderLogo';
-import { setCurrentVoyagesBlockName } from '@/redux/getScrollPageSlice';
+import ButtonDropdownSelectorColumn from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumn';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -279,7 +278,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
         disableScrollLock={true}
       >
         <MenuListDropdownStyle>
-          <ColumnVoyagesSelector />
+          <ButtonDropdownSelectorColumn />
         </MenuListDropdownStyle>
       </Menu>
     </Box>

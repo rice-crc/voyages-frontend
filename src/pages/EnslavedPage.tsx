@@ -26,11 +26,12 @@ import { getIntroBackgroundEnslavedColor } from '@/utils/functions/getColorStyle
 const EnslavedPage: React.FC = () => {
   const { styleName, currentBlockName } = usePageRouter();
   const dispatch: AppDispatch = useDispatch();
-  const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const { currentEnslavedPage, currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
-
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
 
   useEffect(() => {
     if (styleName) {
@@ -78,10 +79,7 @@ const EnslavedPage: React.FC = () => {
     </motion.div>
   );
 
-  const topPosition = createTopPositionEnslavedPage(
-    currentEnslavedPage,
-    isFilter
-  );
+  const topPosition = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue);
   return (
     <div id="enslaved-home-page" style={{ backgroundColor: getIntroBackgroundEnslavedColor(styleName!) }}>
       <HeaderLogoSearch />

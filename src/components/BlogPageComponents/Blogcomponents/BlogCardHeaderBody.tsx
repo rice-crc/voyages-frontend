@@ -92,7 +92,7 @@ const BlogCardHeaderBody = () => {
                       src={`${BASEURL}${author.photo}`}
                       width="40"
                       height="40"
-                      alt="author"
+                      alt={author.name}
                     />
                   ) : (
                     <img
@@ -100,7 +100,7 @@ const BlogCardHeaderBody = () => {
                       src={defaultImage}
                       width="40"
                       height="40"
-                      alt="author"
+                      alt={author.name}
                     />
                   )}
                 </Link>

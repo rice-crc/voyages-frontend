@@ -198,7 +198,7 @@ function Scatter() {
     </div>;
   }
   return (
-    <div>
+    <div className='mobile-responsive'>
       <SelectDropdown
         selectedX={scatterSelectedX}
         selectedY={scatterSelectedY}

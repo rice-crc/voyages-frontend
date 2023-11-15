@@ -80,7 +80,7 @@ export default function HeaderLogo() {
           <img
             className='logo-voyage'
             src={LOGOVoyages}
-            alt="logo"
+            alt="voyage logo"
           />
         </Link>
       </Typography>

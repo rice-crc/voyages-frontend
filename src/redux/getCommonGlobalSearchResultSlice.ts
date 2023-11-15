@@ -22,9 +22,12 @@ export const getCommonGlobalSearchResultSlice = createSlice({
         setRequestId: (state, action) => {
             state.requestId = action.payload;
         },
+        resetSlice: (state) => {
+            state.inputSearchValue = ''
+        }
     },
 });
 
-export const { setSearchGlobalData, setInputSearchValue, setTypePage, setRequestId } = getCommonGlobalSearchResultSlice.actions;
+export const { setSearchGlobalData, resetSlice, setInputSearchValue, setTypePage, setRequestId } = getCommonGlobalSearchResultSlice.actions;
 
 export default getCommonGlobalSearchResultSlice.reducer;
