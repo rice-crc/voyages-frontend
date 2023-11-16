@@ -47,7 +47,7 @@ import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastE
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE } from '@/share/CONST_DATA';
 import { CustomTablePagination } from '@/styleMUI';
-import ButtonDropdownSelectorColumn from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumn';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -366,7 +366,7 @@ const Tables: React.FC = () => {
             <div style={containerStyle} className="ag-theme-alpine grid-container">
                 <div style={style}>
                     <span className="tableContainer">
-                        <ButtonDropdownSelectorColumn />
+                        <ButtonDropdownColumnSelector />
                         <CustomTablePagination
                             component="div"
                             count={totalResultsCount}

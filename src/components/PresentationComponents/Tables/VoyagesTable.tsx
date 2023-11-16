@@ -37,7 +37,7 @@ import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAn
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
-import ButtonDropdownSelectorColumn from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumn';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 
 const VoyagesTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -259,7 +259,7 @@ const VoyagesTable: React.FC = () => {
       <div style={containerStyle} className="ag-theme-alpine ">
         <div style={style}>
           <span className="tableContainer">
-            <ButtonDropdownSelectorColumn />
+            <ButtonDropdownColumnSelector />
             <TablePagination
               component="div"
               count={totalResultsCount}

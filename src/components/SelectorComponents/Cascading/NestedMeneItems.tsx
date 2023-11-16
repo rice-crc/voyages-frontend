@@ -17,11 +17,11 @@ interface NestedMenuItemProps extends Omit<MenuItemProps, 'ref'> {
   ) => void;
 }
 
-const NestedMenuColumnItem = React.forwardRef<any, NestedMenuItemProps>(
+const NestedMenuItems = React.forwardRef<any, NestedMenuItemProps>(
   (props, ref) => {
     const {
       label,
-      rightIcon = <ArrowRight style={{ fontSize: 16 }} />,
+      rightIcon = <ArrowRight style={{ fontSize: 14 }} />,
       keepOpen,
       children,
       customTheme,
@@ -155,4 +155,4 @@ const NestedMenuColumnItem = React.forwardRef<any, NestedMenuItemProps>(
   }
 );
 
-export default NestedMenuColumnItem;
+export default NestedMenuItems;

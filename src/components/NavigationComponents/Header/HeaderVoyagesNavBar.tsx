@@ -46,13 +46,13 @@ import {
   VOYAGESTEXASPAGE,
   VOYAGETILE,
 } from '@/share/CONST_DATA';
-import CanscandingMenuVoyagesMobile from '../../SelectorComponents/Cascading/CanscandingMenuVoyagesMobile';
 import '@/style/Nav.scss';
 import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '../../PresentationComponents/GlobalSearch/GlobalSearchButton';
 import { DrawerMenuBar } from './DrawerMenuBar';
 import HeaderLogo from './HeaderLogo';
-import ButtonDropdownSelectorColumn from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumn';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
+import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -204,16 +204,11 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 fontWeight: 600,
               }}
             >
-              {/* {inputSearchValue ? (
-                <GlobalSearchButton />
-              ) : (
-                <FilterButton pathName={ALLVOYAGES} currentPage={currentPage} />
-              )} */}
               {inputSearchValue && <GlobalSearchButton />}
 
             </Typography>
           </Typography>
-          <CanscandingMenuVoyagesMobile />
+          <CanscandingMenuMobile />
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -229,7 +224,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               },
             }}
           >
-            {/* <span className='dataset-btn-selecter'> */}
             <Box
               className="menu-nav-bar-select"
               style={{ color: getTextColor(styleName) }}
@@ -249,12 +243,10 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 />
               );
             })}
-            {/* </span> */}
 
           </Box>
         </Toolbar>
         <Hidden mdDown>
-          {/* {currentPage !== 1 && isFilter && <CanscandingMenu />} */}
           {currentPage !== 1 && <CanscandingMenu />}
         </Hidden>
         <Box component="nav">
@@ -278,7 +270,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
         disableScrollLock={true}
       >
         <MenuListDropdownStyle>
-          <ButtonDropdownSelectorColumn />
+          <ButtonDropdownColumnSelector />
         </MenuListDropdownStyle>
       </Menu>
     </Box>
