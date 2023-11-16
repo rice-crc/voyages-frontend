@@ -33,7 +33,6 @@ export const NetworkDiagramSlaveVoyages = ({
   const height = (modalHeight * heigthPercentage) / 100;
 
   const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
-
     try {
       const dataSend: { [key: string]: number[] } = {
         [nodeClass]: [Number(nodeId)],
@@ -62,7 +61,6 @@ export const NetworkDiagramSlaveVoyages = ({
 
 
   const handleClickNodeShowCard = async (nodeId: number, nodeClass: string) => {
-
     if (nodeClass !== ENSLAVEMENTNODE) {
       dispatch(setIsModalCard(true));
       dispatch(setNodeClass(nodeClass));

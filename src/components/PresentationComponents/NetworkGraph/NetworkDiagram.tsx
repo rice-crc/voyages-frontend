@@ -1,12 +1,11 @@
 import * as d3 from 'd3';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { drawNetwork } from './drawNetwork';
 import { Datas, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
 import { findNode } from './findNode';
 import { RADIUSNODE } from '@/share/CONST_DATA';
 import { findHoveredEdge } from './findHoveredEdge';
 import ShowsAcoloredNodeKey from './ShowsAcoloredNodeKey';
-import { useDoubleClick } from '@/hooks/useDoubleClick';
 
 type NetworkDiagramProps = {
   width: number;
@@ -26,11 +25,11 @@ export const NetworkDiagram = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const transformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
   const simulationRef = useRef<d3.Simulation<Nodes, Edges> | null>(null);
-  const isDraggingRef = useRef(false); // Flag to track drag state
-  const isZoomingRef = useRef(false); // Flag to track zoom state
-  const hoverEnabledRef = useRef(true); // Flag to enable/disable hover
+  const isDraggingRef = useRef(false);
+  const isZoomingRef = useRef(false);
+  const hoverEnabledRef = useRef(true);
   const clickTimeout = useRef<NodeJS.Timeout | undefined>();
-  let timeout = 300
+  let timeout = 300;
   const edges: Edges[] = data.edges.map((d) => ({ ...d }));
   const nodes: Nodes[] = data.nodes.map((d) => ({ ...d }));
   const nodeIds = new Set(nodes.map((node) => node.uuid));
@@ -113,7 +112,9 @@ export const NetworkDiagram = ({
 
     function handleWheelEvent(event: WheelEvent) {
       event.preventDefault();
-      handleZoom(event as unknown as d3.D3ZoomEvent<HTMLCanvasElement, unknown>);
+      handleZoom(
+        event as unknown as d3.D3ZoomEvent<HTMLCanvasElement, unknown>
+      );
     }
 
     const clearClickTimeout = () => {
@@ -121,7 +122,7 @@ export const NetworkDiagram = ({
         clearTimeout(clickTimeout.current);
         clickTimeout.current = undefined;
       }
-    }
+    };
 
     if (canvas && context) {
       canvas.addEventListener('mousemove', checkMouseoverNode);
@@ -154,8 +155,7 @@ export const NetworkDiagram = ({
             .zoom<HTMLCanvasElement, unknown>()
             .scaleExtent([1 / 10, 8])
             .on('zoom', handleZoom)
-        );
-
+        ).on("dblclick.zoom", null)
       return () => {
         canvas.removeEventListener('mousemove', checkMouseoverNode);
         canvas.removeEventListener('mousemove', checkMouseoverEdges);
@@ -186,7 +186,6 @@ export const NetworkDiagram = ({
         canvas.style.cursor = 'pointer';
         drawNetwork(context, width, height, nodes, validEdges, newNode);
       } else {
-
         canvas.style.cursor = 'default';
       }
     }
