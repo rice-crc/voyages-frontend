@@ -42,7 +42,6 @@ export function hasValueGetter(
             }
         }
         const result = dataValue.substring(0, dataValue.length - 1);
-        console.log({ result })
         return result
     }
 }

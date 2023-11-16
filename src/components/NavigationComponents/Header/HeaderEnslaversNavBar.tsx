@@ -8,11 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { EnslaversTitle, PASTHOMEPAGE } from '@/share/CONST_DATA';
 import CanscandingMenu from '@/components/SelectorComponents/Cascading/CanscandingMenu';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
-import CanscandingMenuEnslaversMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuEnslaversMobile';
 import '@/style/Nav.scss';
 import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
-import ButtonDropdownSelectorColumn from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumn';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
+import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -98,7 +98,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
               {inputSearchValue && currentEnslaversPage !== 1 && <GlobalSearchButton />}
             </Typography>
           </Typography>
-          <CanscandingMenuEnslaversMobile />
+          <CanscandingMenuMobile />
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -126,7 +126,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
         onClick={handleMenuFilterMobileClose}
       >
         <MenuListDropdownStyle>
-          <ButtonDropdownSelectorColumn />
+          <ButtonDropdownColumnSelector />
         </MenuListDropdownStyle>
       </Menu>
     </Box>

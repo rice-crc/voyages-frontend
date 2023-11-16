@@ -162,7 +162,7 @@ const VoyagesPage = () => {
             currentPage
           ),
           position: 'relative',
-          top: !inputSearchValue ? topPosition - 90 : -10,
+          top: currentPage === 1 ? -40 : !inputSearchValue ? topPosition - 80 : 0,
           padding: currentPage !== 1 ? '30px' : '',
         }}
       >

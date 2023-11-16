@@ -216,6 +216,26 @@
 .header-logo-icon {
     display: flex;
     align-items: center;
+
+    @include breakpoint-standard(4) {
+        display: block;
+    }
+
+    @include breakpoint-standard(3) {
+        display: block;
+    }
+
+    @include breakpoint-standard(2) {
+        display: block;
+    }
+
+    @include breakpoint-standard(1) {
+        display: block;
+    }
+
+    @include breakpoint-standard(0) {
+        display: block;
+    }
 }
 
 .logo-voyage {
@@ -223,23 +243,28 @@
     position: relative;
 
     @include breakpoint-standard(4) {
-        display: none;
+        width: 15%;
+        top: 10px;
     }
 
     @include breakpoint-standard(3) {
-        display: none;
+        width: 20%;
+        top: 10px;
     }
 
     @include breakpoint-standard(2) {
-        display: none;
+        width: 45%;
+        top: 10px;
     }
 
     @include breakpoint-standard(1) {
-        display: none;
+        width: 50%;
+        top: 10px;
     }
 
     @include breakpoint-standard(0) {
-        display: none;
+        width: 50%;
+        top: 10px;
     }
 }
 

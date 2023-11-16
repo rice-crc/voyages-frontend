@@ -71,27 +71,35 @@ export const DropdownCanscanding = forwardRef<HTMLDivElement, DropdownProps>(
     };
 
     const renderMenu = (menuItem: ReactElement, index: number): ReactNode => {
-      const { ...props } = menuItem.props;
-      let extraProps: { parentMenuOpen: boolean } = { parentMenuOpen: isOpen };
+      const { parentMenuOpen, ...props } = menuItem.props;
+      let extraProps = {};
       if (props.menu) {
         extraProps = {
-          ...extraProps,
           parentMenuOpen: isOpen,
         };
       }
 
-      return createElement(menuItem.type, {
+      const allowedComponents = ['li', 'yourCustomComponentType', 'otherCustomComponentType'];
+
+      const filteredProps = {
         ...props,
+        ...(allowedComponents.includes(String(menuItem.type)) ? extraProps : {}),
+      };
+
+      return createElement(menuItem.type, {
+        ...filteredProps,
         key: index,
-        ...extraProps,
         children: props.menu
-          ? Children.map(props.menu, renderMenu)
+          ? Children.map(props.menu, (child, i) => renderMenu(child, i))
           : props.children,
       });
     };
 
+
+
+
     return (
-      <>
+      <div ref={ref}>
         {cloneElement(trigger, {
           onClick: handleOpen,
           ref: anchorRef,
@@ -105,7 +113,7 @@ export const DropdownCanscanding = forwardRef<HTMLDivElement, DropdownProps>(
         >
           <List>{menu?.map(renderMenu)}</List>
         </Menu>
-      </>
+      </div>
     );
   }
 );

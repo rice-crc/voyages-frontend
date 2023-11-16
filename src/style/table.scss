@@ -336,29 +336,28 @@ div .customHeaderLabel {
 }
 
 .mobile-responsive {
+  position: relative;
+
   @include breakpoint-standard(0) {
-    margin-top: 180px !important
+    top: 70px;
   }
 
   @include breakpoint-standard(1) {
-    margin-top: 180px !important
+    top: 70px;
   }
 
   @include breakpoint-standard(1.1) {
-    margin-top: 180px !important
+    top: 70px;
   }
 
   @include breakpoint-standard(2) {
-    margin-top: 180px !important
+    top: -30px;
   }
 
   @include breakpoint-standard(3) {
-    margin-top: 130px !important
+    top: -20px;
   }
 
-  @include breakpoint-standard(4) {
-    margin-top: 130px !important
-  }
 }
 
 .mobile-responsive-map {
@@ -379,10 +378,10 @@ div .customHeaderLabel {
   }
 
   @include breakpoint-standard(3) {
-    margin-top: 40px !important
+    margin-top: 60px !important
   }
 
   @include breakpoint-standard(4) {
-    margin-top: 40px !important
+    margin-top: 60px !important
   }
 }

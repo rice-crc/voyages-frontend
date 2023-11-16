@@ -39,7 +39,7 @@ import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAn
 import { createTopPositionEnslavedPage } from '@/utils/functions/createTopPositionEnslavedPage';
 import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
-import ButtonDropdownSelectorColumn from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumn';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 
 const EnslavedTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -288,7 +288,7 @@ const EnslavedTable: React.FC = () => {
       <div style={containerStyle} className="ag-theme-alpine grid-container">
         <div style={style}>
           <span className="tableContainer">
-            <ButtonDropdownSelectorColumn />
+            <ButtonDropdownColumnSelector />
             <TablePagination
               component="div"
               count={totalResultsCount}

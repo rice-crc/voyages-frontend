@@ -1,9 +1,8 @@
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import { Button } from '@mui/material';
-
 import {
-  DropdownMenuColumnItem,
-  DropdownNestedMenuColumnItem,
+  DropdownMenuItem,
+  DropdownNestedMenuItemChildren,
 } from '@/styleMUI';
 import { MouseEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,12 +18,12 @@ import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
 import VOYAGESTABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
 import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.json';
 import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
-import { DropdownColumn } from '@/components/SelectorComponents/DropDown/DropdownColumn';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE } from '@/share/CONST_DATA';
+import { DropdownCanscanding } from '../Cascading/DropdownCanscanding';
 
-const ButtonDropdownSelectorColumn = () => {
+const ButtonDropdownColumnSelector = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName: styleNameRoute } = usePageRouter()
   const { visibleColumnCells } = useSelector(
@@ -76,13 +75,13 @@ const ButtonDropdownSelectorColumn = () => {
 
       if (hasChildren) {
         return (
-          <DropdownNestedMenuColumnItem
+          <DropdownNestedMenuItemChildren
             label={`${label}`}
             dense
             data-colid={colID}
             data-value={var_name}
             data-label={label}
-            rightIcon={<ArrowRight />}
+            rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
             onClickMenu={handleColumnVisibilityChange}
             menu={renderMenuItems(children)}
             disabled={visibleColumnCells.includes(colID)}
@@ -91,7 +90,7 @@ const ButtonDropdownSelectorColumn = () => {
       }
 
       return (
-        <DropdownMenuColumnItem
+        <DropdownMenuItem
           onClick={handleColumnVisibilityChange}
           data-colid={colID}
           data-value={var_name}
@@ -100,12 +99,12 @@ const ButtonDropdownSelectorColumn = () => {
           disabled={visibleColumnCells.includes(colID)}
         >
           {label}
-        </DropdownMenuColumnItem>
+        </DropdownMenuItem>
       );
     });
   }
   return (
-    <DropdownColumn
+    <DropdownCanscanding
       trigger={
         <span style={{ display: 'flex', alignItems: 'center' }}>
           <Button
@@ -130,4 +129,4 @@ const ButtonDropdownSelectorColumn = () => {
     />
   );
 };
-export default ButtonDropdownSelectorColumn;
+export default ButtonDropdownColumnSelector;
