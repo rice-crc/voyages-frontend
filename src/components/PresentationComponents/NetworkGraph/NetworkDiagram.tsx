@@ -155,7 +155,8 @@ export const NetworkDiagram = ({
             .zoom<HTMLCanvasElement, unknown>()
             .scaleExtent([1 / 10, 8])
             .on('zoom', handleZoom)
-        ).on("dblclick.zoom", null)
+        ).on("dblclick.zoom", null).on("click.zoom", null)
+
       return () => {
         canvas.removeEventListener('mousemove', checkMouseoverNode);
         canvas.removeEventListener('mousemove', checkMouseoverEdges);

@@ -23,10 +23,11 @@ const renderEdgesAnimatedLinesOnMap = (
       {
         dashArray: '1 9',
         fill: false,
-        weight: weight / 1.6,
-        color: '#0000FF',
-        opacity: 0.7,
+        weight: weight / 1.8,
+        color: '#0000ff8c',
+        opacity: 0.9,
         stroke: true,
+        fillColor: 'red',
         interactive: false,
         animate: { duration: 1000, iterations: Infinity },
       } as CurveOptions
