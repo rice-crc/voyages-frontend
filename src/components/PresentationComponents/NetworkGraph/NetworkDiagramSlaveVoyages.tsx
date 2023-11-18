@@ -115,7 +115,6 @@ export const NetworkDiagramSlaveVoyages = ({
             height={height}
             handleNodeDoubleClick={handleNodeDoubleClick}
             handleClickNodeShowCard={handleClickNodeShowCard}
-
           />
         </div>
       )}
