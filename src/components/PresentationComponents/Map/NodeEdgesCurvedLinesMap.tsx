@@ -20,12 +20,12 @@ import { setClusterNodeKeyVariable, setClusterNodeValue } from '@/redux/getNodeE
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { handerRenderEdges } from './handerRenderEdges';
+import { createTooltipEmbarkDiseEmbarkEdges } from '@/utils/functions/createTooltipClusterEdges';
 
 
 const NodeEdgesCurvedLinesMap = () => {
   const map = useMap();
   const dispatch: AppDispatch = useDispatch();
-  const [isEventCluster, setIsEventClusterNode] = useState<L.LeafletEvent | undefined>(undefined);
 
   const { nodesData, edgesData, } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
@@ -99,7 +99,6 @@ const NodeEdgesCurvedLinesMap = () => {
         });
       },
     }).on('clustermouseover', async (event) => {
-      setIsEventClusterNode(event)
       handleHoverMarkerCluster(
         event,
         hiddenEdgesLayer,
@@ -111,7 +110,6 @@ const NodeEdgesCurvedLinesMap = () => {
       );
     });
 
-    console.log({ isEventCluster })
     // Render postDisembarkationsMarkerCluster
     const postDisembarkationsMarkerCluster = L.markerClusterGroup({
       zoomToBoundsOnClick: false,
@@ -145,7 +143,6 @@ const NodeEdgesCurvedLinesMap = () => {
         });
       },
     }).on('clustermouseover', (event) => {
-      setIsEventClusterNode(event)
       handleHoverMarkerCluster(
         event,
         hiddenEdgesLayer,
@@ -184,21 +181,13 @@ const NodeEdgesCurvedLinesMap = () => {
           nodeID
         );
 
-        let popupContent = '';
-        if (embarkation || disembarkation) {
-          const embarkedText = embarkation ? `${embarkation} people embarked` : '';
-          const disembarkedText = disembarkation ? `${disembarkation} people disembarked` : '';
+        const popupContent = createTooltipEmbarkDiseEmbarkEdges(node)
 
-          const separator = embarkation && disembarkation ? ' and ' : '';
-
-          popupContent = `<p>${name}: ${embarkedText}${separator}${disembarkedText}.</p>`;
-        }
-
-        circleMarker.bindPopup(popupContent);
-        circleMarker.bringToFront()
+        circleMarker.bindPopup(popupContent).bringToFront();
 
         const originMarker = L.marker(latlon);
-        circleMarker.on('mousemove', (event) => {
+        circleMarker.on('mouseover', (event) => {
+          circleMarker.openPopup();
           handleHoverCircleMarker(
             event,
             hiddenEdgesLayer,
@@ -210,9 +199,6 @@ const NodeEdgesCurvedLinesMap = () => {
             map,
           );
         })
-        circleMarker.on('mouseout', (e) => {
-          circleMarker.closePopup();
-        });
 
         if (disembarkation !== 0 || embarkation !== 0) {
           circleMarker.addTo(map).bringToFront();
