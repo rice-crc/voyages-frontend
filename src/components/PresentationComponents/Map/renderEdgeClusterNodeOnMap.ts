@@ -49,7 +49,7 @@ export function renderEdgeClusterNodeOnMap(
         curveLine.on('mouseover', (e) => {
             curveLine.openTooltip();
             tooltip.setLatLng(e.latlng);
-            event.layer.closePopup();
+            map.closePopup();
         });
     }
 }

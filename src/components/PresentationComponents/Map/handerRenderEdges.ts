@@ -47,10 +47,7 @@ export const handerRenderEdges = (edgesToRender: EdgesAggroutes[], nodesData: No
                 curveLine.on('mouseover', (event) => {
                     curveLine.openTooltip();
                     tooltip.setLatLng(event.latlng);
-                });
-
-                curveLine.on('mouseout', () => {
-                    curveLine.closeTooltip();
+                    map.closePopup()
                 });
             }
         }
