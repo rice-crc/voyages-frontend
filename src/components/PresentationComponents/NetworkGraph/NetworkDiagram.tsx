@@ -1,16 +1,18 @@
 import * as d3 from 'd3';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { drawNetwork } from './drawNetwork';
 import { Datas, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
 import { findNode } from './findNode';
 import { RADIUSNODE } from '@/share/CONST_DATA';
 import { findHoveredEdge } from './findHoveredEdge';
 import ShowsAcoloredNodeKey from './ShowsAcoloredNodeKey';
+import { AppDispatch } from '@/redux/store';
+import { useDispatch } from 'react-redux';
 
 type NetworkDiagramProps = {
   width: number;
   height: number;
-  data: Datas;
+  netWorkData: Datas;
   handleNodeDoubleClick: (nodeId: number, nodeClass: string) => Promise<void>;
   handleClickNodeShowCard: (nodeId: number, nodeClass: string) => Promise<void>;
 };
@@ -18,10 +20,11 @@ type NetworkDiagramProps = {
 export const NetworkDiagram = ({
   width,
   height,
-  data,
+  netWorkData,
   handleNodeDoubleClick,
   handleClickNodeShowCard,
 }: NetworkDiagramProps) => {
+  const dispatch: AppDispatch = useDispatch();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const transformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
   const simulationRef = useRef<d3.Simulation<Nodes, Edges> | null>(null);
@@ -30,9 +33,10 @@ export const NetworkDiagram = ({
   const hoverEnabledRef = useRef(true);
   const clickTimeout = useRef<NodeJS.Timeout | undefined>();
   let timeout = 300;
-  const edges: Edges[] = data.edges.map((d) => ({ ...d }));
-  const nodes: Nodes[] = data.nodes.map((d) => ({ ...d }));
+  const edges: Edges[] = netWorkData.edges.map((d) => ({ ...d }));
+  const nodes: Nodes[] = netWorkData.nodes.map((d) => ({ ...d }));
   const nodeIds = new Set(nodes.map((node) => node.uuid));
+  // svg.selectAll("*").remove();
 
   const validEdges = edges.filter(
     (edge) =>
@@ -46,6 +50,13 @@ export const NetworkDiagram = ({
     if (!canvas || !context) {
       return;
     }
+    const updateNodes = (updatedNodes: Nodes[]) => {
+      console.log({ updatedNodes })
+      // Update the D3 simulation with the modified nodes
+      if (simulationRef.current) {
+        simulationRef.current.nodes(updatedNodes).alpha(0.3).restart();
+      }
+    };
 
     const handleDoubleClick = (event: MouseEvent) => {
       if (!canvas || !context) {
@@ -57,6 +68,13 @@ export const NetworkDiagram = ({
 
       if (node) {
         handleNodeDoubleClick(node.id, node.node_class);
+        // Example: Update the node position on double-click
+        const updatedNodes = nodes.map((n) =>
+          n.uuid === node.uuid ? { ...n, x: x, y: y } : n
+        );
+
+        // Call a function to update the nodes in your D3 simulation
+        updateNodes(updatedNodes);
       }
     };
 
@@ -76,9 +94,7 @@ export const NetworkDiagram = ({
     if (
       !simulationRef.current ||
       simulationRef.current.nodes() !== nodes ||
-      simulationRef.current
-        .force<d3.ForceLink<Nodes, Edges>>('link')
-        ?.links() !== validEdges
+      simulationRef.current.force<d3.ForceLink<Nodes, Edges>>('link')?.links() !== validEdges
     ) {
       simulationRef.current = d3
         .forceSimulation(nodes)
@@ -166,7 +182,7 @@ export const NetworkDiagram = ({
         dragBehavior.on('start', null).on('drag', null).on('end', null);
       };
     }
-  }, [width, height, edges, nodes]);
+  }, [dispatch, width, height, edges, nodes]);
 
   function checkMouseoverNode(event: MouseEvent) {
     const canvas = canvasRef.current;

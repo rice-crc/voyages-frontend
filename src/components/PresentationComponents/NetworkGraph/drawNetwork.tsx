@@ -12,7 +12,7 @@ export const drawNetwork = (
   height: number,
   nodes: Nodes[],
   edges: Edges[],
-  newNode: Edges | Nodes | null
+  newNode: Edges | Nodes | null,
 ) => {
   context.clearRect(0, 0, width, height);
 
