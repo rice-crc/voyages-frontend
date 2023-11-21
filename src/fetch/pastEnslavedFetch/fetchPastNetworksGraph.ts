@@ -24,3 +24,20 @@ export const fetchPastNetworksGraphApi = createAsyncThunk(
         }
     }
 );
+
+// import axios from 'axios';
+// import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
+// export const fetchPastNetworksGraphApi = async (dataSend?: { [key: string]: number[] }) => {
+//     try {
+//         const response = await axios.post(`${BASEURL}/past/networks/`, dataSend, {
+//             headers: {
+//                 Authorization: AUTHTOKEN,
+//                 'Content-Type': 'application/json',
+//             },
+//         });
+//         console.log('res', response.data)
+//         return response.data;
+//     } catch (error) {
+//         throw new Error('Failed to fetchPastNetworksGraph data');
+//     }
+// };
