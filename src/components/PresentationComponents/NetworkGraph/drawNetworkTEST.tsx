@@ -6,7 +6,7 @@ import {
   createdLableNodeHover,
 } from '@/utils/functions/createdLableNode';
 
-export const drawNetwork = (
+export const drawNetworkTEST = (
   context: CanvasRenderingContext2D | any,
   width: number,
   height: number,
