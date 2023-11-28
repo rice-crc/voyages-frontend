@@ -15,6 +15,7 @@ import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { NetworkDiagramTest } from './NetworkDiagramTest';
 import { dataOne, dataSecond } from './data';
 import { NetworkDiagramSVG } from './NetworkDiagramSVG';
+import { NetworkDiagramSVGEnterNode } from './NetworkDiagramSVGEnterNode'
 import {
   select,
   hierarchy,
@@ -47,43 +48,6 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
   const width = (modalWidth * widthPercentage) / 100;
   const height = (modalHeight * heigthPercentage) / 100;
 
-  // const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
-  //   try {
-  //     const dataSend = {
-  //       [nodeClass]: [Number(nodeId)],
-  //     };
-  //     const response = await dispatch(fetchPastNetworksGraphApi(dataSend)).unwrap();
-  //     if (dataSecond) {
-
-  //       const newNodes = response.nodes.filter((newNode: Nodes) => {
-  //         return !netWorkData.nodes.some(
-  //           (existingNode) => existingNode.uuid === newNode.uuid
-  //         );
-  //       });
-
-  //       const newEdges = response.edges.filter((newEdge: Edges) => {
-  //         return !netWorkData.edges.some(
-  //           (existingEdge) =>
-  //             existingEdge.source === newEdge.source &&
-  //             existingEdge.target === newEdge.target
-  //         );
-  //       });
-
-  //       const updatedNodes = [...netWorkData.nodes, ...newNodes];
-  //       const updatedEdges = [...netWorkData.edges, ...newEdges];
-
-  //       const updatedData = {
-  //         ...netWorkData,
-  //         nodes: updatedNodes,
-  //         edges: updatedEdges,
-  //       };
-  //       dispatch(setPastNetworksData(updatedData));
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching new nodes:', error);
-  //   }
-  // };
-
   const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
     try {
       const dataSend = {
@@ -104,7 +68,6 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
               existingEdge.target === newEdge.target
           );
         });
-
         const updatedNodes = [...netWorkData.nodes, ...newNodes];
         const updatedEdges = [...netWorkData.edges, ...newEdges];
 
@@ -171,14 +134,6 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
         </div>
       ) : (
         <div style={{ width: `${width}px`, height: `${height}px` }}>
-          {/* <NetworkDiagramTest
-            newUpdateNetWorkData={newUpdateNetWorkData}
-            netWorkData={netWorkData}
-            width={width}
-            height={height}
-            handleNodeDoubleClick={handleNodeDoubleClick}
-            handleClickNodeShowCard={handleClickNodeShowCard}
-          /> */}
           <NetworkDiagramSVG
             newUpdateNetWorkData={newUpdateNetWorkData}
             netWorkData={netWorkData}
@@ -187,6 +142,14 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
             handleNodeDoubleClick={handleNodeDoubleClick}
             handleClickNodeShowCard={handleClickNodeShowCard}
           />
+          {/* <NetworkDiagramSVGEnterNode
+            newUpdateNetWorkData={newUpdateNetWorkData}
+            netWorkData={netWorkData}
+            width={width}
+            height={height}
+            handleNodeDoubleClick={handleNodeDoubleClick}
+            handleClickNodeShowCard={handleClickNodeShowCard}
+          /> */}
         </div>
       )}
     </div>
