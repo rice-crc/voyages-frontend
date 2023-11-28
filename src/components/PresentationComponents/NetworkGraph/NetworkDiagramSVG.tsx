@@ -1,21 +1,36 @@
 import * as d3 from 'd3';
+import {
+    select,
+    hierarchy,
+    forceSimulation,
+    forceManyBody,
+    pointer, forceLink,
+    forceX, forceCenter,
+    forceY,
+    forceCollide, drag,
+    forceRadial, zoomIdentity
+} from "d3";
 import { useEffect, useRef } from 'react';
 import { Datas, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
 import { findNode, findNodeSvg } from './findNode';
-import { RADIUSNODE } from '@/share/CONST_DATA';
+import { RADIUSNODE, classToColor } from '@/share/CONST_DATA';
 import { findHoveredEdge } from './findHoveredEdge';
 import ShowsAcoloredNodeKey from './ShowsAcoloredNodeKey';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { drawNetworkSVG } from './drawNetworkSVG';
 import { drawNetwork } from './drawNetwork';
+import { svg } from 'leaflet';
+import { createStrokeColor, createdLableNodeHover } from '@/utils/functions/createdLableNode';
+import { checkTypeOfLinke } from './checkTypeOfLinke';
+import { CrisisAlert } from '@mui/icons-material';
 
 type NetworkDiagramProps = {
     width: number;
     height: number;
     netWorkData: Datas;
     newUpdateNetWorkData: Datas;
-    handleNodeDoubleClick: (nodeId: number, nodeClass: string) => Promise<void>;
+    handleNodeDoubleClick: (nodeId: number, nodeClass: string) => {} // Promise<void>;
     handleClickNodeShowCard: (nodeId: number, nodeClass: string) => Promise<void>;
     // changedNetWorkData: Datas
 };
@@ -27,13 +42,11 @@ export const NetworkDiagramSVG = ({
     newUpdateNetWorkData,
     handleNodeDoubleClick,
     handleClickNodeShowCard,
-    // changedNetWorkData
-}: NetworkDiagramProps) => {
-
+}: // changedNetWorkData
+    NetworkDiagramProps) => {
     const dispatch: AppDispatch = useDispatch();
-    const canvasRef = useRef<HTMLCanvasElement>(null);
     const svgRef = useRef<SVGSVGElement | null>(null);
-    const transformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
+    const transformRef = useRef<d3.ZoomTransform>(zoomIdentity);
     const simulationRef = useRef<d3.Simulation<Nodes, Edges> | null>(null);
     const isDraggingRef = useRef(false);
     const isZoomingRef = useRef(false);
@@ -45,126 +58,349 @@ export const NetworkDiagramSVG = ({
     const nodes: Nodes[] = netWorkData.nodes.map((d) => ({ ...d }));
 
     const nodeIds = new Set(nodes.map((node) => node.uuid));
-
     const validEdges = edges.filter(
         (edge) =>
             nodeIds.has(edge.source as string) && nodeIds.has(edge.target as string)
     );
 
 
+    const handleClickNodeCard = (node: Nodes) => {
+        handleClickNodeShowCard(node.id, node.node_class);
+    };
+
+    const handleDoubleClick = (node: Nodes) => {
+
+        const newData = handleNodeDoubleClick(node.id, node.node_class);
+        console.log({ newData })
+    };
+
+
     useEffect(() => {
+        const svg = select(svgRef.current);
+        const svgElement = svg.node() as SVGSVGElement;
 
-        const svg = d3.select(svgRef.current);
-        const svgWidth = +svg.attr("width")
-        const svgHeight = +svg.attr("height");
-        // elements for data join
-        const link = svg.append("g").selectAll(".link");
-        const node = svg.append("g").selectAll(".node");
+        const clearClickTimeout = () => {
+            if (clickTimeout.current !== undefined) {
+                clearTimeout(clickTimeout.current);
+                clickTimeout.current = undefined;
+            }
+        };
 
-        const canvas = canvasRef.current;
-        const context = canvas?.getContext('2d');
+        const enterNode = (selection: any) => {
+            const circles = selection
+                .selectAll('.node')
+                .data(nodes)
+                .enter()
+                .append('circle')
+                .attr('class', 'node')
+                .attr('stroke', '#fff')
+                .attr('stroke-width', '1.5')
+                .attr('r', RADIUSNODE)
+                .style('fill', (node: Nodes) => {
+                    return classToColor[node.node_class as keyof typeof classToColor] || 'gray';
+                })
+                .on('click', (event: MouseEvent, d: Nodes) => {
+                    handleDoubleClick(d);
+                });
+            return circles;
+        };
+        function updateNode(selection: any) {
+            const circles = selection // translate(" + String(node.x) + "," + String(node.y) + ")")
+                .attr("transform", (node: Nodes) => `translate(${String(node.x)},${String(node.y)})`)
+                .attr("cx", function (node: Nodes) { return node.x = Math.max(30, Math.min(width - 30, node.x!)); })
+                .attr("cy", function (node: Nodes) { return node.y = Math.max(30, Math.min(height - 30, node.y!)); })
+            return circles;
+        }
+
+        function updateLink(selection: any) {
+            const links = selection
+                .attr("x1", (link: Edges) => {
+                    if (link.source &&
+                        link.target &&
+                        typeof link.source !== 'string' &&
+                        typeof link.target !== 'string' &&
+                        typeof link.source.x === 'number' &&
+                        typeof link.source.y === 'number' &&
+                        typeof link.target.x === 'number' &&
+                        typeof link.target.y === 'number') {
+                        return String(link.source.x);
+                    }
+                    return "0";
+                })
+                .attr("y1", (link: Edges) => {
+                    if (link.source &&
+                        link.target &&
+                        typeof link.source !== 'string' &&
+                        typeof link.target !== 'string' &&
+                        typeof link.source.x === 'number' &&
+                        typeof link.source.y === 'number' &&
+                        typeof link.target.x === 'number' &&
+                        typeof link.target.y === 'number') {
+                        return String(link.source.y);
+                    }
+                    return "0";
+                })
+                .attr("x2", (link: Edges) => {
+                    if (link.source &&
+                        link.target &&
+                        typeof link.source !== 'string' &&
+                        typeof link.target !== 'string' &&
+                        typeof link.source.x === 'number' &&
+                        typeof link.source.y === 'number' &&
+                        typeof link.target.x === 'number' &&
+                        typeof link.target.y === 'number') {
+                        return String(link.target.x);
+                    }
+                    return "0";
+                })
+                .attr("y2", (link: Edges) => {
+                    if (link.source &&
+                        link.target &&
+                        typeof link.source !== 'string' &&
+                        typeof link.target !== 'string' &&
+                        typeof link.source.x === 'number' &&
+                        typeof link.source.y === 'number' &&
+                        typeof link.target.x === 'number' &&
+                        typeof link.target.y === 'number') {
+                        return String(link.target.y);
+                    }
+                    return "0";
+                });
+            return links
+        }
+
+        const updateGraph = (selection: any) => {
+            selection.selectAll('.node')
+                .call(updateNode)
+            selection.selectAll('.link')
+                .call(updateLink);
+        }
         if (!svg) {
             return;
         }
+        if (svgRef.current) {
+            select(svgRef.current).datum(netWorkData).call(enterNode);
+        }
 
-        const svgElement = svg.node() as SVGSVGElement;
-        svg.on('mousemove', checkMouseoverNode);
-        svg.on('mousemove', checkMouseoverEdges);
 
-        const handleDoubleClick = (event: MouseEvent) => {
-            if (!canvas || !context) {
-                return;
-            }
-            const x = event.clientX - canvas.getBoundingClientRect().left;
-            const y = event.clientY - canvas.getBoundingClientRect().top;
-            const node = findNode(nodes, x, y, RADIUSNODE);
+        // const simulation = d3.forceSimulation(nodes)
+        //     .force("link", forceLink<Nodes, Edges>(validEdges)
+        //         .id((uuid) => uuid.uuid))
+        //     .force("charge", d3.forceManyBody())
+        //     .force("x", d3.forceX())
+        //     .force("y", d3.forceY());
 
-            if (node) {
-                handleNodeDoubleClick(node.id, node.node_class);
-                // updateCanvas(context, nodes, validEdges);
-            }
-        };
+        // // Create the SVG container.
+        // const svgGraph = d3.create("svg")
+        //     .attr("width", width)
+        //     .attr("height", height)
+        // // .attr("viewBox", [-width / 2, -height / 2, width, height])
+        // // .attr("style", "max-width: 100%; height: auto;");
 
-        const handleClickNodeCard = (event: MouseEvent) => {
-            if (!canvas || !context) {
-                return;
-            }
-            const x = event.clientX - canvas.getBoundingClientRect().left;
-            const y = event.clientY - canvas.getBoundingClientRect().top;
-            const node = findNode(nodes, x, y, RADIUSNODE);
+        // // Add a line for each link, and a circle for each node.
+        // const link = svgGraph.append("g")
+        //     .attr("stroke", "#999")
+        //     .attr("stroke-opacity", 0.6)
+        //     .selectAll("line")
+        //     .data(validEdges)
+        //     .join("line")
+        //     .attr("stroke-width", '1.5');
 
-            if (node) {
-                handleClickNodeShowCard(node.id, node.node_class);
-            }
-        };
+        // const node = svg.append("g")
+        //     .attr("stroke", "#fff")
+        //     .attr("stroke-width", 1.5)
+        //     .selectAll("circle")
+        //     .data(nodes)
+        //     .join("circle")
+        //     .attr("r", 5)
+        //     .attr('fill', (node: Nodes) => {
+        //         return classToColor[node.node_class as keyof typeof classToColor] || 'gray';
+        //     })
 
-        simulationRef.current = d3
-            .forceSimulation(nodes)
+        // node.append("title")
+        //     .text((node: Nodes) => {
+        //         const labelNode = createdLableNodeHover(node);
+        //         return labelNode || "";
+        //     })
+
+        // Set the position attributes of links and nodes each time the simulation ticks.
+        // simulation.on("tick", () => {
+        //     link.attr("x1", (link) => {
+        //         if (link.source &&
+        //             link.target &&
+        //             typeof link.source !== 'string' &&
+        //             typeof link.target !== 'string' &&
+        //             typeof link.source.x === 'number' &&
+        //             typeof link.source.y === 'number' &&
+        //             typeof link.target.x === 'number' &&
+        //             typeof link.target.y === 'number') {
+        //             return String(link.source.x);
+        //         }
+        //         return "0";
+        //     }).attr("y1", (link) => {
+        //         if (link.source &&
+        //             link.target &&
+        //             typeof link.source !== 'string' &&
+        //             typeof link.target !== 'string' &&
+        //             typeof link.source.x === 'number' &&
+        //             typeof link.source.y === 'number' &&
+        //             typeof link.target.x === 'number' &&
+        //             typeof link.target.y === 'number') {
+        //             return String(link.source.y);
+        //         }
+        //         return "0";
+        //     }).attr("x2", (link) => {
+        //         if (link.source &&
+        //             link.target &&
+        //             typeof link.source !== 'string' &&
+        //             typeof link.target !== 'string' &&
+        //             typeof link.source.x === 'number' &&
+        //             typeof link.source.y === 'number' &&
+        //             typeof link.target.x === 'number' &&
+        //             typeof link.target.y === 'number') {
+        //             return String(link.target.x);
+        //         }
+        //         return "0";
+        //     }).attr("y2", (link) => {
+        //         if (link.source &&
+        //             link.target &&
+        //             typeof link.source !== 'string' &&
+        //             typeof link.target !== 'string' &&
+        //             typeof link.source.x === 'number' &&
+        //             typeof link.source.y === 'number' &&
+        //             typeof link.target.x === 'number' &&
+        //             typeof link.target.y === 'number') {
+        //             return String(link.target.y);
+        //         }
+        //         return "0";
+        //     });
+
+        //     node.attr("r", RADIUSNODE)
+        //         .attr("cx", node => String(node.x))
+        //         .attr("cy", node => String(node.y));
+
+        // });
+        //   initData
+        //   updateData
+
+        simulationRef.current = forceSimulation(nodes)
+            .force('charge', forceManyBody())
             .force(
                 'link',
-                d3
-                    .forceLink<Nodes, Edges>(validEdges)
+                forceLink<Nodes, Edges>(edges)
                     .id((uuid) => uuid.uuid)
-                    .distance(120)
+                    .distance(120)//.strength(1)
             )
-            .force('charge', d3.forceManyBody())
-            .force('center', d3.forceCenter(width / 2, height / 2))
+            //forceLink.force("collide", forceCollide(30))
+            .force('center', forceCenter().x(width / 2).y(height / 2))
             .on('tick', () => {
-                drawNetworkSVG(svgElement, nodes, edges, null);
+                // drawNetworkSVG(svgElement, nodes, edges, null);
+                // nodes
+                svg
+                    .selectAll(".node")
+                    .data(nodes)
+                    // .join("circle")
+                    .join(function (enter) {
+                        return enter.append('circle')
+                    },
+                        function (update) {
+                            return update.style('opacity', 1)
+                        }
+                    )
+                    .attr("class", "node")
+                    .attr("r", RADIUSNODE)
+                    .attr("cx", node => String(node.x))
+                    .attr("cy", node => String(node.y));
+
+                // labels
+                svg
+                    .selectAll(".label")
+                    .data(nodes)
+                    .join("text")
+                    .attr("class", "label")
+                    .attr("text-anchor", "right")
+                    .attr("alignment-baseline", "right")
+                    .attr('font-family', 'Arial')
+                    .attr("font-size", 15)
+                    .attr('fill', '#fff')
+                    .text((node: Nodes) => {
+                        const labelNode = createdLableNodeHover(node);
+                        return labelNode || "";
+                    })
+                    .attr("x", (node: Nodes) => String(node.x! + 13))
+                    .attr("y", (node: Nodes) => String(node.y! + 6));
+
+                // links
+                svg
+                    .selectAll(".link")
+                    .data(validEdges)
+                    .join("line")
+                    .attr("class", "link")
+                    .attr("stroke", (link) => {
+                        const strokeColor = createStrokeColor(link);
+                        return strokeColor
+                    })
+                    .attr('stroke-width', '1.5')
+                    .attr("fill", "none")
+                    .attr("x1", (link) => {
+                        if (link.source &&
+                            link.target &&
+                            typeof link.source !== 'string' &&
+                            typeof link.target !== 'string' &&
+                            typeof link.source.x === 'number' &&
+                            typeof link.source.y === 'number' &&
+                            typeof link.target.x === 'number' &&
+                            typeof link.target.y === 'number') {
+                            return String(link.source.x);
+                        }
+                        return "0";
+                    })
+                    .attr("y1", (link) => {
+                        if (link.source &&
+                            link.target &&
+                            typeof link.source !== 'string' &&
+                            typeof link.target !== 'string' &&
+                            typeof link.source.x === 'number' &&
+                            typeof link.source.y === 'number' &&
+                            typeof link.target.x === 'number' &&
+                            typeof link.target.y === 'number') {
+                            return String(link.source.y);
+                        }
+                        return "0";
+                    })
+                    .attr("x2", (link) => {
+                        if (link.source &&
+                            link.target &&
+                            typeof link.source !== 'string' &&
+                            typeof link.target !== 'string' &&
+                            typeof link.source.x === 'number' &&
+                            typeof link.source.y === 'number' &&
+                            typeof link.target.x === 'number' &&
+                            typeof link.target.y === 'number') {
+                            return String(link.target.x);
+                        }
+                        return "0";
+                    })
+                    .attr("y2", (link) => {
+                        if (link.source &&
+                            link.target &&
+                            typeof link.source !== 'string' &&
+                            typeof link.target !== 'string' &&
+                            typeof link.source.x === 'number' &&
+                            typeof link.source.y === 'number' &&
+                            typeof link.target.x === 'number' &&
+                            typeof link.target.y === 'number') {
+                            return String(link.target.y);
+                        }
+                        return "0";
+                    });
             });
 
-        function checkMouseoverNode(event: MouseEvent) {
-            const canvas = canvasRef.current;
-            const context = canvas?.getContext('2d');
-
-            if (!canvas || !context) {
-                return;
-            }
-            if (!isDraggingRef.current && !isZoomingRef.current) {
-                const x = event.clientX - canvas.getBoundingClientRect().left;
-
-                const y = event.clientY - canvas.getBoundingClientRect().top;
-
-                const node = findNode(nodes, x, y, RADIUSNODE);
-                const newNode: Nodes | Edges | null = node || null;
-
-                if (newNode) {
-                    canvas.style.cursor = 'pointer';
-                    // drawNetwork(context, width, height, nodes, validEdges, newNode);
-                } else {
-                    canvas.style.cursor = 'default';
-                }
-            }
-        }
-
-        function checkMouseoverEdges(event: MouseEvent) {
-            const canvas = canvasRef.current;
-            const context = canvas?.getContext('2d');
-
-            if (!canvas || !context) {
-                return;
-            }
-            if (!isDraggingRef.current && !isZoomingRef.current) {
-                const x = event.clientX - canvas.getBoundingClientRect().left;
-                const y = event.clientY - canvas.getBoundingClientRect().top;
-
-                const edgesHover = findHoveredEdge(validEdges, nodes, x, y);
-                const newEdge = edgesHover || null;
-
-                if (newEdge) {
-                    canvas.style.cursor = 'pointer';
-                    drawNetworkSVG(svgElement, nodes, validEdges, newEdge);
-                } else {
-                    canvas.style.cursor = 'default';
-                }
-            }
-        }
-
-
+        // ==== Drang node graph ====
         function dragSubject(
             event: d3.D3DragEvent<SVGSVGElement, any, any>
         ): Nodes | undefined {
-            const [x, y] = d3.pointer(event);
+            const [x, y] = pointer(event);
             const node = findNode(nodes, x, y, RADIUSNODE);
             if (node && typeof node.x === 'number' && typeof node.y === 'number') {
                 node.fx = node.x = transformRef.current.invertX(x);
@@ -188,7 +424,9 @@ export const NetworkDiagramSVG = ({
             }
         }
 
-        function dragged(event: d3.D3DragEvent<SVGSVGElement, Nodes, unknown>): void {
+        function dragged(
+            event: d3.D3DragEvent<SVGSVGElement, Nodes, unknown>
+        ): void {
             isDraggingRef.current = false;
             hoverEnabledRef.current = true;
             if (event.subject) {
@@ -214,10 +452,7 @@ export const NetworkDiagramSVG = ({
             }
         }
 
-        const dragBehavior = d3.drag<SVGSVGElement, Nodes | undefined, unknown>();
-
-
-
+        const dragBehavior = drag<SVGSVGElement, Nodes | undefined, unknown>();
         dragBehavior
             .subject(dragSubject)
             .on('start', dragStarted)
@@ -227,87 +462,12 @@ export const NetworkDiagramSVG = ({
         if (svgRef.current) {
             svg.call(dragBehavior as any);
         }
-
-        const svgGroup = svg.select<SVGGElement>('g');
-
-        const handleZoom = (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
-            // console.log('handleZoom')
-            const { transform } = event;
-            svgGroup.attr('transform', transform as any);
-            drawNetworkSVG(svgElement, nodes, validEdges, null);
-        };
-
-        const zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
-            .scaleExtent([1 / 10, 8])
-            .on('zoom', handleZoom);
-
-        svg.call(zoomBehavior as any);
-
-        // svg.on('wheel', function (event) {
-        //     event.preventDefault();
-
-        //     const container = svg.node()!.getBoundingClientRect();
-        //     const center = { x: container.width / 2, y: container.height / 2 };
-        //     const mousePosition = { x: event.offsetX - center.x, y: event.offsetY - center.y };
-
-        //     const scaleChange = event.deltaY > 0 ? 1.2 : 0.8; // Scale factor
-        //     const newScale = d3.zoomTransform(this).k * scaleChange;
-
-        //     const newTransform = d3.zoomIdentity
-        //         .translate(center.x, center.y)
-        //         .scale(scaleChange)
-        //         .translate(-mousePosition.x * scaleChange, -mousePosition.y * scaleChange);
-
-        //     svg.transition().duration(300).call(zoomBehavior.transform, newTransform);
-        // });
-        const clearClickTimeout = () => {
-            if (clickTimeout.current !== undefined) {
-                clearTimeout(clickTimeout.current);
-                clickTimeout.current = undefined;
-            }
-        };
-        // Assuming nodes is an array of node objects with x, y, and radius properties
-        // const zoomHandler = d3.zoom<SVGSVGElement, unknown>()
-        //     .extent([[0, 0], [width, height]])
-        //     .scaleExtent([1, 8])
-        //     .on('zoom', zoomed);
-
-        // svg.call(zoomHandler as any);
-
-        // function zoomed(event: d3.D3ZoomEvent<SVGSVGElement, unknown>) {
-        //     const { transform } = event;
-        //     svg.select('g').attr('transform', transform as any);
-        // }
-        // svg.on('click', (event: MouseEvent) => {
-
-        //     const canvas = svgRef.current; // Reference to the SVG element
-        //     if (!canvas) {
-        //         return;
-        //     }
-        //     const rect = canvas.getBoundingClientRect(); // Get the bounding rectangle of the SVG
-        //     console.log({ rect })
-        //     const x = event.clientX - rect.left;
-        //     const y = event.clientY - rect.top;
-
-        //     // Find the node clicked using your findNode function (replace RADIUSNODE with the appropriate radius value)
-        //     const node = findNodeSvg(nodes, x, y, RADIUSNODE);
-        //     console.log("node", node)
-        //     if (node) {
-        //         handleClickNodeShowCard(node.id, node.node_class);
-        //     }
-        // });
-
         return () => {
-            // Clean up event listeners or resources if needed
             svg.on('mousemove', null);
             svg.on('click', null);
             dragBehavior.on('start', null).on('drag', null).on('end', null);
         };
-
-
-    }, [dispatch, width, height, edges, nodes]);
-
-
+    }, [dispatch, width, height, edges, nodes, netWorkData]);
 
     return (
         <>

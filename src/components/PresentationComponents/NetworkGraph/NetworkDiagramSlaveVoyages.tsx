@@ -119,28 +119,13 @@ export const NetworkDiagramSlaveVoyages = ({
         </div>
       ) : (
         <div style={{ width: `${width}px`, height: `${height}px` }}>
-          <NetworkDiagramTest
+          <NetworkDiagram
             netWorkData={netWorkData}
             width={width}
             height={height}
             handleNodeDoubleClick={handleNodeDoubleClick}
             handleClickNodeShowCard={handleClickNodeShowCard}
-
           />
-          {/* <NetworkDiagram
-            netWorkData={netWorkData}
-            width={width}
-            height={height}
-            handleNodeDoubleClick={handleNodeDoubleClick}
-            handleClickNodeShowCard={handleClickNodeShowCard}
-          /> */}
-          {/* <NetworkDiagramSVG
-            netWorkData={netWorkData}
-            width={width}
-            height={height}
-            handleNodeDoubleClick={handleNodeDoubleClick}
-            handleClickNodeShowCard={handleClickNodeShowCard}
-          /> */}
         </div>
       )}
     </div>
