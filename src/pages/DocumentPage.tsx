@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-
-import { InputBase, Paper, Stack, Tooltip } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import DOMPurify from 'dompurify'
+import { Box, Button, Card, CardActions, CardContent, CardMedia, InputBase, List, ListItem, Paper, Stack, Tooltip, Typography } from '@mui/material';
 import Badge from '@mui/material/Badge';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -13,6 +13,8 @@ import MiradorViewer from '@/components/DocumentComponents/MiradorViewer';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from '@mui/icons-material/Search';
+import GridViewIcon from '@mui/icons-material/GridView';
+import ViewListIcon from '@mui/icons-material/ViewList';
 
 
 // Note to @JohnMulligan: I (@dellamonica) see that the project is using
@@ -49,6 +51,7 @@ interface DocumentSearchModel {
 interface DocumentItemInfo {
   key: string,
   label: string,
+  bib?: string,
   revision_number: number,
   thumb: string | null
 }
@@ -135,16 +138,19 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
   </Paper>
 }
 
+type DocumentGalleryViewMode = 'grid' | 'list'
+
 interface DocumentGalleryProps {
   title: string,
   pageSize: number,
   source: DocumentPaginationSource,
   thumbSize: number,
+  viewMode?: DocumentGalleryViewMode,
   onDocumentOpen: (doc: DocumentItemInfo) => void
   onPageChange: (page: number) => void,
 }
 
-const DocumentGallery = ({ title, pageSize, source, thumbSize, onDocumentOpen, onPageChange }: DocumentGalleryProps) => {
+const DocumentGallery = ({ title, pageSize, source, thumbSize, viewMode, onDocumentOpen, onPageChange }: DocumentGalleryProps) => {
   const [contents, setContents] = useState<DocumentItemInfo[]>([])
   const numPages = Math.ceil(source.count / pageSize)
   useEffect(() => {
@@ -153,35 +159,76 @@ const DocumentGallery = ({ title, pageSize, source, thumbSize, onDocumentOpen, o
     }
     refresh()
   }, [source])
+  const paginator = <Pagination style={{ paddingTop: '4px', paddingBottom: '4px' }} count={numPages} page={source.currentPage ?? 1} onChange={(_, p) => onPageChange(p)} />
   return <>
     <h2>{title} <small>(Item count: {source.count})</small></h2>
-    <Pagination count={numPages} page={source.currentPage ?? 1} onChange={(_, p) => onPageChange(p)} />
-    <ImageList sx={{ width: '80vw' }} cols={5} rowHeight={thumbSize}>
-      {contents.map((item) => (
-        <ImageListItem key={item.key} style={{ width: thumbSize, height: thumbSize }}>
-          {item.thumb && <img
-            width={thumbSize}
-            height={thumbSize}
-            src={item.thumb}
-            alt={item.label}
-            loading="lazy"
-          />}
-          <ImageListItemBar
-            title={item.label}
-            actionIcon={
-              <IconButton
-                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                color="primary"
-                aria-label={`Open ${item.label}`}
-                onClick={() => onDocumentOpen(item)}
-              >
-                <AutoStoriesIcon />
-              </IconButton>
-            }
-          />
-        </ImageListItem>
-      ))}
-    </ImageList>
+    {viewMode === 'list' && <>
+      <List sx={{ width: '80vw' }}>
+        {contents.map((item) => (
+          <ListItem key={item.key}>
+            <Card sx={{ display: 'flex' }}>
+              {item.thumb && <CardMedia
+                component="img"
+                sx={{ width: thumbSize }}
+                image={item.thumb}
+                alt={item.label}
+              />}
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <CardContent sx={{ flex: '1 0 auto' }}>
+                  {
+                    // If there is a formatted bibliography, use that, but ensure
+                    // that the HTML is sanitized to avoid XSS attacks.
+                  }
+                  {item.bib && <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.bib) }} />}
+                  {!item.bib && <Typography component="div" variant="h5">
+                    {item.label}
+                  </Typography>}
+                </CardContent>
+                <CardActions><Button
+                  color="primary"
+                  variant="contained"
+                  aria-label={`Open ${item.label}`}
+                  onClick={() => onDocumentOpen(item)}
+                  startIcon={<AutoStoriesIcon />}
+                >
+                  <Typography component="div">&nbsp;View Document</Typography>
+                </Button>
+                </CardActions>
+              </Box>
+            </Card>
+          </ListItem>
+        ))}
+      </List>
+      {paginator}
+    </>}
+    {viewMode !== 'list' && <>
+      {paginator}
+      <ImageList sx={{ width: '80vw' }} cols={5} rowHeight={thumbSize}>
+        {contents.map((item) => (
+          <ImageListItem key={item.key} style={{ width: thumbSize, height: thumbSize }}>
+            {item.thumb && <img
+              width={thumbSize}
+              height={thumbSize}
+              src={item.thumb}
+              alt={item.label}
+              loading="lazy"
+            />}
+            <ImageListItemBar
+              title={item.label}
+              actionIcon={
+                <IconButton
+                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                  color="primary"
+                  aria-label={`Open ${item.label}`}
+                  onClick={() => onDocumentOpen(item)}
+                >
+                  <AutoStoriesIcon />
+                </IconButton>}
+            />
+          </ImageListItem>
+        ))}
+      </ImageList>
+    </>}
   </>
 }
 
@@ -223,6 +270,7 @@ const DocumentPage: React.FC = () => {
   })
   const [doc, setDoc] = useState<DocumentItemInfo | null>(null)
   const [tab, setTab] = useState<DocumentPageTab>('Search')
+  const [viewMode, setViewMode] = useState<DocumentGalleryViewMode>('list')
   const refreshWorkspace = () => {
     setSources({ ...sources, Workspace: getWorkspaceSource() })
   }
@@ -255,7 +303,7 @@ const DocumentPage: React.FC = () => {
       {!doc && <HeaderLogoSearch />}
       <div style={{ marginTop: '5%', marginLeft: '5%', width: '90vw', height: '90vh', display: doc ? 'none' : 'block' }}>
         <div style={{ display: 'flex' }}>
-          <div style={ tab === 'Workspace' ? { opacity: 0.33 } : {} }>
+          <div style={tab === 'Workspace' ? { opacity: 0.33 } : {}}>
             <DocumentSearchBox onClick={() => setTab('Search')} onUpdate={src => setSources({ ...sources, Search: src })} />
           </div>
           {sources.Workspace &&
@@ -266,12 +314,18 @@ const DocumentPage: React.FC = () => {
                 </Badge>
               </IconButton>
             </Tooltip>}
+          <Tooltip title={viewMode === 'list' ? 'Switch to grid view' : 'Switch to list view'}>
+            <IconButton onClick={() => setViewMode(viewMode === 'list' ? 'grid' : 'list')}>
+              {viewMode === 'list' ? <GridViewIcon /> : <ViewListIcon /> }
+            </IconButton>
+          </Tooltip>
         </div>
         {tabSource && <DocumentGallery
           title={tab}
           source={tabSource}
           pageSize={15}
           thumbSize={200}
+          viewMode={viewMode}
           onDocumentOpen={setDoc}
           onPageChange={pageNum => setSources({ ...sources, [tab]: { ...tabSource, currentPage: pageNum } })} />}
       </div>
