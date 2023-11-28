@@ -19,6 +19,10 @@ export interface Nodes extends d3.SimulationNodeDatum {
 export interface NodesID {
     id: string
 }
+export interface EdgeNode {
+    x: number;
+    y: number;
+}
 
 export interface Edges extends d3.SimulationLinkDatum<Nodes> {
     data: RoleName;

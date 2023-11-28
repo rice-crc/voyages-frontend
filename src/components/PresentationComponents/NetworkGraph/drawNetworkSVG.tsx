@@ -90,6 +90,9 @@ export const drawNetworkSVG = (
         circle.setAttribute('stroke', '#fff');
         circle.setAttribute('stroke-width', '1.5');
         nodesGroup.appendChild(circle);
+        circle.addEventListener('click', () => {
+            console.log('click')
+        });
 
         const text = document.createElementNS(svgNS, 'text');
         const labelNode = createdLableNodeHover(node);

@@ -15,6 +15,17 @@ import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { NetworkDiagramTest } from './NetworkDiagramTest';
 import { dataOne, dataSecond } from './data';
 import { NetworkDiagramSVG } from './NetworkDiagramSVG';
+import {
+  select,
+  hierarchy,
+  forceSimulation,
+  forceManyBody,
+  pointer, forceLink,
+  forceX, forceCenter,
+  forceY,
+  forceCollide, drag,
+  forceRadial, zoomIdentity
+} from "d3";
 
 export const NetworkDiagramSlaveVoyagesTEST = ({
   widthPercentage = 80,
@@ -79,7 +90,7 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
         [nodeClass]: [Number(nodeId)],
       };
       const response = await dispatch(fetchPastNetworksGraphApi(dataSend)).unwrap();
-      if (dataSecond) {
+      if (response) {
         const newNodes = response.nodes.filter((newNode: Nodes) => {
           return !netWorkData.nodes.some(
             (existingNode) => existingNode.uuid === newNode.uuid
@@ -103,7 +114,9 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
           edges: updatedEdges,
         };
 
+
         dispatch(setPastNetworksData(updatedData));
+
       }
     } catch (error) {
       console.error('Error fetching new nodes:', error);
@@ -159,15 +172,7 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
         </div>
       ) : (
         <div style={{ width: `${width}px`, height: `${height}px` }}>
-          <NetworkDiagramTest
-            newUpdateNetWorkData={newUpdateNetWorkData}
-            netWorkData={netWorkData}
-            width={width}
-            height={height}
-            handleNodeDoubleClick={handleNodeDoubleClick}
-            handleClickNodeShowCard={handleClickNodeShowCard}
-          />
-          {/* <NetworkDiagramSVG
+          {/* <NetworkDiagramTest
             newUpdateNetWorkData={newUpdateNetWorkData}
             netWorkData={netWorkData}
             width={width}
@@ -175,6 +180,14 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
             handleNodeDoubleClick={handleNodeDoubleClick}
             handleClickNodeShowCard={handleClickNodeShowCard}
           /> */}
+          <NetworkDiagramSVG
+            newUpdateNetWorkData={newUpdateNetWorkData}
+            netWorkData={netWorkData}
+            width={width}
+            height={height}
+            handleNodeDoubleClick={handleNodeDoubleClick}
+            handleClickNodeShowCard={handleClickNodeShowCard}
+          />
         </div>
       )}
     </div>
