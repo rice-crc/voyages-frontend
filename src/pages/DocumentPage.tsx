@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import DOMPurify from 'dompurify'
-import { Box, Button, Card, CardActions, CardContent, CardMedia, InputBase, List, ListItem, Paper, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Chip, CircularProgress, InputBase, List, ListItem, Menu, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import Badge from '@mui/material/Badge';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -82,59 +82,130 @@ interface DocumentSearchBoxProps {
   onUpdate: (source: DocumentPaginationSource) => void
 }
 
+const DocumentSearchFieldNames = ['label', 'voyages', 'shipname', 'enslaver'] as const
+
+type DocumentSearchFields = typeof DocumentSearchFieldNames[number]
+
+const UIDocumentSearchFieldHeader: Record<DocumentSearchFields, string> = {
+  label: 'Title',
+  voyages: 'Voyage IDs',
+  enslaver: 'Enslavers',
+  shipname: 'Ship name'
+}
+
 const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
-  const [searchText, setSearchText] = useState('')
-  const debouncedSearch = useDebounce(searchText, 500)
+  const [validation, setValidation] = useState<Partial<Record<DocumentSearchFields, string>>>({})
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+  const [isSearching, setSearching] = useState(false)
+  const [searchData, setSearchData] = useState<Partial<Record<DocumentSearchFields, string>>>({ label: '' })
+  const [editingField, setEditingField] = useState<string | null>(null);
+  const debouncedSearch = useDebounce(searchData, 500)
   const search = (pageNum: number, pageSize: number) => {
+    const entities: DocumentEntitySearchModel[] = []
+    const validated: Partial<Record<DocumentSearchFields, string>> = {}
+    if (debouncedSearch.voyages) {
+      try {
+        const idArray = JSON.parse(`[${debouncedSearch.voyages}]`)
+        entities.push({ typename: 'Voyages', keys: idArray })
+      } catch {
+        const msg = 'Voyage IDs could not be properly parsed'
+        validated['voyages'] = msg
+      }
+    }
     const model: DocumentSearchModel = {
-      label: searchText,
+      label: debouncedSearch.label ?? '',
       results_page: pageNum,
       page_size: pageSize,
-      entities: []
+      entities
     }
-    try {
-      let modSearch = searchText.replace(/([a-z0-9]+)/ig, '"$1"')
-      const structuredSearch = JSON.parse(`{ ${modSearch} }`)
-      const { label, voyages } = structuredSearch
-      if (label || voyages) {
-        model.label = label ?? ''
-        if (voyages) {
-          model.entities.push({
-            typename: 'Voyages',
-            keys: Array.isArray(voyages) ? voyages : [voyages]
-          })
-        }
-      }
-    } catch {
-    }
+    setValidation(validated)
     return docSearch(model)
   }
   useEffect(() => {
     const update = async () => {
       const { matches: count } = await search(1, 1)
+      const cache: Record<string, DocumentSearchApiResult> = {}
       const paginationSource: DocumentPaginationSource = {
         count,
         getPage: async (pageNum, pageSize) => {
-          const { results } = await search(pageNum, pageSize)
+          setSearching(true)
+          const cacheKey = `C${pageNum}_${pageSize}`
+          const { results } = (cache[cacheKey] ??= await search(pageNum, pageSize))
+          setSearching(false)
           return results
         }
       }
       onUpdate(paginationSource)
+      setSearching(false)
     }
+    setSearching(true)
     update()
   }, [debouncedSearch])
+  const handleValueChange = (field: DocumentSearchFields, val: string | null) => {
+    const { [field]: _, ...others } = searchData
+    const updated = val !== null ? { ...others, [field]: val } : others
+    setSearchData(updated)
+  }
+  const menuItems = DocumentSearchFieldNames
+    .filter(field => searchData[field] === undefined)
+    .map(field => <MenuItem
+      key={`menuitem_${field}`}
+      onClick={() => {
+        setAnchorEl(null)
+        setSearchData({ [field]: '', ...searchData })
+      }}>
+      {UIDocumentSearchFieldHeader[field]}
+    </MenuItem>)
   return <Paper
     onClick={onClick}
     component="form"
-    sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}>
-    <InputBase
-      onFocus={onClick}
-      sx={{ ml: 1, flex: 1 }}
-      placeholder="Search Documents"
-      inputProps={{ 'aria-label': 'search documents' }}
-      onChange={e => setSearchText(e.target.value)}
-    />
-    <SearchIcon />
+    sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', minWidth: 400 }}>
+    {DocumentSearchFieldNames
+      .filter(field => searchData[field] !== undefined)
+      .map(field => (
+        <Chip
+          color={validation[field] ? "error" : (searchData[field] ? "primary" : "secondary")}
+          onFocus={onClick}
+          onClick={() => setEditingField(field)}
+          key={field}
+          label={
+            <>
+              {editingField === field ? (
+                <TextField
+                  variant="standard"
+                  size="small"
+                  type="text"
+                  value={searchData[field] ?? ''}
+                  placeholder={UIDocumentSearchFieldHeader[field]}
+                  onChange={(e) => handleValueChange(field, e.target.value)}
+                  onBlur={() => setEditingField(null)}
+                  autoFocus
+                />
+              ) : <>
+                <span>{UIDocumentSearchFieldHeader[field]}</span>
+                <span style={{ textOverflow: "ellipsis", maxWidth: 256 }}>
+                  {searchData[field] ? `: ${searchData[field]}` : ''}
+                </span>
+              </>
+              }
+            </>
+          }
+          onDelete={() => handleValueChange(field, null)}
+          style={{ display: "flex", margin: "4px" }}
+        />
+      ))}
+    <div style={{ marginLeft: "auto" }}>
+      {isSearching
+        ? <CircularProgress />
+        : <Tooltip title="Select query fields">
+          <IconButton onClick={(e) => menuItems && setAnchorEl(e.currentTarget)}>
+            <SearchIcon />
+          </IconButton>
+        </Tooltip>}
+    </div>
+    <Menu anchorEl={anchorEl} open={anchorEl !== null} onClose={() => setAnchorEl(null)}>
+      {menuItems}
+    </Menu>
   </Paper>
 }
 
@@ -316,7 +387,7 @@ const DocumentPage: React.FC = () => {
             </Tooltip>}
           <Tooltip title={viewMode === 'list' ? 'Switch to grid view' : 'Switch to list view'}>
             <IconButton onClick={() => setViewMode(viewMode === 'list' ? 'grid' : 'list')}>
-              {viewMode === 'list' ? <GridViewIcon /> : <ViewListIcon /> }
+              {viewMode === 'list' ? <GridViewIcon /> : <ViewListIcon />}
             </IconButton>
           </Tooltip>
         </div>
