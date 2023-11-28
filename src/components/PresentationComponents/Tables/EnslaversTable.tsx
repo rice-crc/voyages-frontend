@@ -28,7 +28,6 @@ import {
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-import ButtonDropdownSelectorEnslavers from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslavers';
 import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
@@ -36,6 +35,7 @@ import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAn
 import { createTopPositionEnslaversPage } from '@/utils/functions/createTopPositionEnslaversPage';
 import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 
 const EnslaversTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -69,7 +69,6 @@ const EnslaversTable: React.FC = () => {
   const [rowsPerPage, setRowsPerPage] = useState(
     getRowsPerPage(window.innerWidth, window.innerHeight)
   );
-
 
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [totalResultsCount, setTotalResultsCount] = useState(0);
@@ -261,7 +260,7 @@ const EnslaversTable: React.FC = () => {
       <div style={containerStyle} className="ag-theme-alpine grid-container">
         <div style={style}>
           <span className="tableContainer">
-            <ButtonDropdownSelectorEnslavers />
+            <ButtonDropdownColumnSelector />
             <TablePagination
               component="div"
               count={totalResultsCount}

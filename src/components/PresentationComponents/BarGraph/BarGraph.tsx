@@ -196,7 +196,7 @@ function BarGraph() {
 
 
   return (
-    <div>
+    <div className='mobile-responsive'>
       <SelectDropdown
         selectedX={barGraphSelectedX}
         chips={chips}

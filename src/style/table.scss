@@ -165,7 +165,7 @@ div .customHeaderLabel {
   width: 160px;
   cursor: pointer;
 
-  .value {
+  .value-cell {
     white-space: pre-line;
     overflow-wrap: break-word;
     line-height: normal;
@@ -332,5 +332,56 @@ div .customHeaderLabel {
 
     }
 
+  }
+}
+
+.mobile-responsive {
+  position: relative;
+
+  @include breakpoint-standard(0) {
+    top: 70px;
+  }
+
+  @include breakpoint-standard(1) {
+    top: 70px;
+  }
+
+  @include breakpoint-standard(1.1) {
+    top: 70px;
+  }
+
+  @include breakpoint-standard(2) {
+    top: -30px;
+  }
+
+  @include breakpoint-standard(3) {
+    top: -20px;
+  }
+
+}
+
+.mobile-responsive-map {
+  @include breakpoint-standard(0) {
+    margin-top: 80px !important
+  }
+
+  @include breakpoint-standard(1) {
+    margin-top: 80px !important
+  }
+
+  @include breakpoint-standard(1.1) {
+    margin-top: 80px !important
+  }
+
+  @include breakpoint-standard(2) {
+    margin-top: 80px !important
+  }
+
+  @include breakpoint-standard(3) {
+    margin-top: 60px !important
+  }
+
+  @include breakpoint-standard(4) {
+    margin-top: 60px !important
   }
 }

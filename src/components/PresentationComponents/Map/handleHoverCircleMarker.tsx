@@ -19,7 +19,8 @@ export function handleHoverCircleMarker(
   nodesData: NodeAggroutes[],
   originNodeMarkersMap: Map<string, L.Marker<any>>,
   originMarkerCluster: L.MarkerClusterGroup,
-  handleSetClusterKeyValue: (value: string, nodeType: string) => void
+  handleSetClusterKeyValue: (value: string, nodeType: string) => void,
+  map: L.Map
 ) {
   const aggregatedEdges = new Map<string, EdgesAggroutedSourceTarget>();
   hiddenEdgesLayer.clearLayers();
@@ -102,7 +103,7 @@ export function handleHoverCircleMarker(
       type
     );
     if (curveAnimated && curveLine) {
-      hiddenEdgesLayer.addLayer(curveLine);
+      hiddenEdgesLayer.addLayer(curveLine.addTo(map).bringToBack());
       hiddenEdgesLayer.addLayer(curveAnimated);
     }
   }

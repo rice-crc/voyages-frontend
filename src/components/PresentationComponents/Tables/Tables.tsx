@@ -13,7 +13,7 @@ import { setData, setRowData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { useWindowSize } from '@react-hook/window-size';
-import { Pagination, TablePagination } from '@mui/material';
+import { Pagination } from '@mui/material';
 import {
     StateRowData,
     TableCellStructureInitialStateProp,
@@ -24,7 +24,6 @@ import {
     RangeSliderState,
     TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
-import { ColumnVoyagesSelector } from '@/components/SelectorComponents/ColumnSelectorTable/ColumnVoyagesSelector';
 import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
 import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
@@ -35,12 +34,11 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
-import ButtonDropdownSelectorColumnEnslaved from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslaved';
 import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
-import { createTopPositionEnslavedPage } from '@/utils/functions/createTopPositionEnslavedPage';
+import { createTopPositionEnslavedPage, createTopPositionEnslaversPage } from '@/utils/functions/createTopPositionEnslavedPage';
 import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
@@ -48,12 +46,13 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE } from '@/share/CONST_DATA';
-import ButtonDropdownSelectorEnslavers from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslavers';
+import { CustomTablePagination } from '@/styleMUI';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const { styleName: styleNameRoute } = usePageRouter()
-    const { isFilter } = useSelector((state: RootState) => state.getFilter);
+
     const { rangeSliderMinMax: rang, varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
@@ -282,7 +281,7 @@ const Tables: React.FC = () => {
             sortable: true,
             resizable: true,
             filter: true,
-            initialWidth: 200,
+            initialWidth: 220,
             wrapHeaderText: true,
             autoHeaderHeight: true,
         }),
@@ -351,25 +350,29 @@ const Tables: React.FC = () => {
         [page]
     );
 
-    const topPositionPage = checkPagesRouteForVoyages(styleNameRoute!) ? createTopPositionVoyages(currentPage, isFilter) : createTopPositionEnslavedPage(
-        currentEnslavedPage,
-        isFilter
-    );
+    let topPositionPage = 0;
+    if (checkPagesRouteForVoyages(styleNameRoute!)) {
 
-    const buttonSelectorColumn = checkPagesRouteForVoyages(styleNameRoute!) ? <ColumnVoyagesSelector /> : checkPagesRouteForEnslaved(styleNameRoute!) ? <ButtonDropdownSelectorColumnEnslaved /> : checkPagesRouteForEnslavers(styleNameRoute!) ? <ButtonDropdownSelectorEnslavers /> : null
+        topPositionPage = createTopPositionVoyages(currentPage, inputSearchValue!);
+    } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+
+        topPositionPage = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue!)
+    } else {
+        topPositionPage = createTopPositionEnslaversPage(currentEnslaversPage, inputSearchValue!);
+    }
 
     return (
-        <div style={{ marginTop: topPositionPage }}>
+        <div style={{ marginTop: topPositionPage }} className='mobile-responsive'>
             <div style={containerStyle} className="ag-theme-alpine grid-container">
                 <div style={style}>
                     <span className="tableContainer">
-                        {buttonSelectorColumn}
-                        <TablePagination
+                        <ButtonDropdownColumnSelector />
+                        <CustomTablePagination
                             component="div"
                             count={totalResultsCount}
                             page={page}
                             onPageChange={handleChangePage}
-                            rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 45, 50, 100]}
+                            rowsPerPageOptions={[5, 12, 10, 15, 20, 25, 30, 45, 50, 100]}
                             rowsPerPage={rowsPerPage}
                             onRowsPerPageChange={handleChangeRowsPerPage}
                         />

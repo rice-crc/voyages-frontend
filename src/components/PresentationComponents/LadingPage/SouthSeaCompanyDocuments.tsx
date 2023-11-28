@@ -1,6 +1,6 @@
 import React from 'react';
 import '@/style/landing.scss';
-import REGISTERSOUTH from '@/assets/register.png';
+import REGISTERSOUTH from '@/assets/registerOfAfricans.png';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import { DOCUMENTPAGE } from '@/share/CONST_DATA';
 const SouthSeaCompanyDocuments: React.FC = () => {
@@ -8,7 +8,7 @@ const SouthSeaCompanyDocuments: React.FC = () => {
         <div className="container-shouth-sea">
             <div className="shouth-sea-content">
                 <div className="shouth-sea-content-bg">
-                    <img src={REGISTERSOUTH} alt="logo" className="register-img" />
+                    <img src={REGISTERSOUTH} alt="South Sea Company Documents" className="register-img" />
                 </div>
                 <div className="shouth-sea-content-detail">
                     <h1>South Sea Company Documents</h1>

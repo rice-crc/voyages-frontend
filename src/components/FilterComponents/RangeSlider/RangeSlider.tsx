@@ -9,14 +9,9 @@ import {
 import { Grid } from '@mui/material';
 import { CustomSlider, Input } from '@/styleMUI';
 import { AppDispatch, RootState } from '@/redux/store';
-import {
-  AutoCompleteInitialState,
-  RangeSliderState,
-  TYPESOFDATASET,
-} from '@/share/InterfaceTypes';
+import { AutoCompleteInitialState, RangeSliderState } from '@/share/InterfaceTypes';
 import { fetchRangeSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
 import { fetchPastEnslavedRangeSliderData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedRangeSliderData';
-import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSALVERSTYLE, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import '@/style/Slider.scss';
 import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -71,8 +66,8 @@ const RangeSlider = () => {
         }
         if (response) {
           const initialValue: number[] = [
-            response[varName].min,
-            response[varName].max,
+            parseInt(response[varName].min),
+            parseInt(response[varName].max),
           ];
           dispatch(setKeyValue(varName));
           dispatch(
@@ -127,7 +122,7 @@ const RangeSlider = () => {
         ...rangeSliderMinMax,
         ...autoCompleteValue,
         ...geoTreeValue,
-        [varName]: currentSliderValue,
+        [varName]: currentSliderValue as number[],
       },
     };
     const filterObjectString = JSON.stringify(filterObject);
@@ -193,8 +188,8 @@ const RangeSlider = () => {
       />
       <CustomSlider
         size="small"
-        min={min}
-        max={max}
+        min={min as number}
+        max={max as number}
         value={rangeMinMax}
         onChange={handleSliderChange}
         onMouseUp={handleSliderChangeMouseUp}

@@ -78,6 +78,13 @@ export const getColorNavbarBackground = (item: string) => {
 
 export const getColorNavbarEnslavedBackground = (item: string) => {
     let background = '#b29493';
+    if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
+        background = '#b29493';
+    } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        background = 'rgb(25, 118, 210)';
+    } else if (item === TYPESOFDATASETPEOPLE.texas) {
+        background = 'rgb(187, 105, 46)';
+    }
     return background;
 };
 export const getColorHoverBackground = (item: string) => {
@@ -152,6 +159,7 @@ export const getColorBoxShadowEnslavers = (item: string) => {
     return boxShadow;
 };
 export const getIdStyleName = (idStyle: string) => {
+
     let idName = 'main-voyagepage';
     if (idStyle === TYPESOFDATASET.allVoyages) {
         idName = 'main-voyagepage';
@@ -159,7 +167,19 @@ export const getIdStyleName = (idStyle: string) => {
         idName = 'main-voyagepage-Trans-atlantic';
     } else if (idStyle === TYPESOFDATASET.intraAmerican) {
         idName = 'main-voyagepage-intra-american';
-    } else if (idStyle === TYPESOFDATASET.texas) {
+    } else if (idStyle === TYPESOFDATASET.texas || TYPESOFDATASETPEOPLE.texas) {
+        idName = 'main-voyagepage-texas';
+    }
+    return idName;
+};
+export const getIdStypleEnslaved = (idStyle: string) => {
+
+    let idName = 'main-enslaved-home';
+    if (idStyle === TYPESOFDATASETPEOPLE.allEnslaved) {
+        idName = 'main-enslaved-home';
+    } else if (idStyle === TYPESOFDATASETPEOPLE.africanOrigins) {
+        idName = 'main-voyagepage-Trans-atlantic';
+    } else if (TYPESOFDATASETPEOPLE.texas) {
         idName = 'main-voyagepage-texas';
     }
     return idName;
@@ -175,6 +195,17 @@ export const getIntroBackgroundColor = (styleName: string) => {
         backgroundColor = 'rgba(171, 71, 188, 0.8)';
     } else if (styleName === TYPESOFDATASET.texas) {
         backgroundColor = 'rgba(187, 105, 46, 0.8)';
+    }
+    return backgroundColor;
+};
+export const getIntroBackgroundEnslavedColor = (styleName: string) => {
+    let backgroundColor = '#b29493';
+    if (styleName === TYPESOFDATASETPEOPLE.allEnslaved) {
+        backgroundColor = '#b29493';
+    } else if (styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
+        backgroundColor = 'rgba(56, 116, 203)';
+    } else if (styleName === TYPESOFDATASETPEOPLE.texas) {
+        backgroundColor = 'rgba(187, 105, 46)';
     }
     return backgroundColor;
 };

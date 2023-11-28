@@ -32,7 +32,6 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
-import ButtonDropdownSelectorColumnEnslaved from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslaved';
 import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
@@ -40,6 +39,7 @@ import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAn
 import { createTopPositionEnslavedPage } from '@/utils/functions/createTopPositionEnslavedPage';
 import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 
 const EnslavedTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -47,7 +47,7 @@ const EnslavedTable: React.FC = () => {
   const { columnDefs, data, rowData } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
-  const { isFilter } = useSelector((state: RootState) => state.getFilter);
+
   const { rangeSliderMinMax: rang, varName, isChange } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
@@ -282,16 +282,13 @@ const EnslavedTable: React.FC = () => {
     },
     [page]
   );
-  const topPosition = createTopPositionEnslavedPage(
-    currentEnslavedPage,
-    isFilter
-  );
+  const topPosition = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue);
   return (
     <div style={{ marginTop: topPosition }}>
       <div style={containerStyle} className="ag-theme-alpine grid-container">
         <div style={style}>
           <span className="tableContainer">
-            <ButtonDropdownSelectorColumnEnslaved />
+            <ButtonDropdownColumnSelector />
             <TablePagination
               component="div"
               count={totalResultsCount}

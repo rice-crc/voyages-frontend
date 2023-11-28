@@ -4,7 +4,7 @@ import TEXAS from '@/assets/texasbound1.png';
 import TEXASBOUND from '@/assets/Texas Bound.png';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
-import { PASTHOMEPAGE, VOYAGESPAGE, VOYAGESTEXASPAGE } from '@/share/CONST_DATA';
+import { VOYAGESPAGE, VOYAGESTEXASPAGE } from '@/share/CONST_DATA';
 
 const TexasBound: React.FC = () => {
     const lists = ['About', 'Database', 'Downloads', 'Contribute'];
@@ -13,7 +13,7 @@ const TexasBound: React.FC = () => {
             <div className="texas-bound">
                 <div className="texas-bound-detail">
                     <div>
-                        <img src={TEXASBOUND} alt="logo" className="tx-img" />
+                        <img src={TEXASBOUND} alt="Texas Bound" className="tx-img" />
                     </div>
                     <p>
                         Learn more about enslaved people who journeyed to Texas and the Gulf
@@ -24,7 +24,7 @@ const TexasBound: React.FC = () => {
                     <ButtonLists lists={lists} />
                 </div>
                 <div className="texas-bound-bg">
-                    <img src={TEXAS} alt="logo" className="tx-img" />
+                    <img src={TEXAS} alt="Texas Bound" className="tx-img" />
                 </div>
             </div>
         </div>

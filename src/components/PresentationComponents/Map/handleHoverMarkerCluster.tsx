@@ -8,16 +8,15 @@ import { TooltipHoverTableOnNode } from './TooltipHoverTableOnNode';
 import { createRoot } from 'react-dom/client';
 import { getCoordinatesLatLngMap } from '@/utils/functions/getCoordinatesLatLngMap';
 
-
 export function handleHoverMarkerCluster(
   event: L.LeafletEvent,
   hiddenEdgesLayer: L.LayerGroup<any>,
   hiddenEdges: EdgesAggroutes[],
   nodesData: NodeAggroutes[],
   nodeType: string,
-  handleSetClusterKeyValue: (value: string, nodeType: string) => void
+  handleSetClusterKeyValue: (value: string, nodeType: string) => void,
+  map: L.Map
 ) {
-
   hiddenEdgesLayer.clearLayers();
   const nodeLogValueScale = createLogValueScale(nodesData);
   const clusterLatLon = event.layer.getLatLng();
@@ -62,6 +61,10 @@ export function handleHoverMarkerCluster(
     }
   });
 
+  const popupContainer = document.createElement('center');
+  popupContainer.className = 'tablePopup'
+  popupContainer.style.width = '300px'
+  const popupRoot = createRoot(popupContainer);
   for (const [, [node, edge]] of targetNodeMap) {
 
     const { lat: clusterLat, lng: clusterLng } = clusterLatLon;
@@ -71,16 +74,9 @@ export function handleHoverMarkerCluster(
 
     const [coordinatesStart, coordinatesEnd] = getCoordinatesLatLngMap(nodeType, clusterLat, clusterLng, nodeLat!, nodeLng!);
 
-    renderEdgeClusterNodeOnMap(hiddenEdgesLayer, edge, node, coordinatesStart, coordinatesEnd, weightEdges, nodeType, childNodesData);
+    renderEdgeClusterNodeOnMap(hiddenEdgesLayer, edge, node, coordinatesStart, coordinatesEnd, weightEdges, nodeType, map, event, childNodesData,);
 
   }
-
-
-  const popupContainer = document.createElement('center');
-
-  popupContainer.className = 'tablePopup'
-  popupContainer.style.width = '300px'
-  const popupRoot = createRoot(popupContainer);
 
   popupRoot.render(
     <TooltipHoverTableOnNode

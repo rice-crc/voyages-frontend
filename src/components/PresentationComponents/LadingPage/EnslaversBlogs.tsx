@@ -8,7 +8,7 @@ const EnslaversBlogs: React.FC = () => {
         <div className="container-enslavers">
             <div className="enslavers-content">
                 <div className="enslavers-content-bg">
-                    <img src={ENSLAVERS} alt="logo" className="register-img" />
+                    <img src={ENSLAVERS} alt="Enslavers" className="register-img" />
                 </div>
                 <div className="enslavers-content-detail">
                     <h1>Enslavers</h1>

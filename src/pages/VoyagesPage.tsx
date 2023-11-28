@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
-import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json'
+import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json';
 import { getColorVoyagePageBackground } from '@/utils/functions/getColorStyle';
 import {
   pageVariantsFromBottom,
@@ -12,20 +12,27 @@ import {
 } from '@/utils/functions/pageVariantsFromTop';
 import HeaderVoyagesNavBar from '@/components/NavigationComponents/Header/HeaderVoyagesNavBar';
 import VoyagesIntro from '@/components/PresentationComponents/Intro/VoyagesIntro';
-import VoyagesTable from '@/components/PresentationComponents/Tables/VoyagesTable';
 import Scatter from '@/components/PresentationComponents/Scatter/Scatter';
 import BarGraph from '@/components/PresentationComponents/BarGraph/BarGraph';
 import PieGraph from '@/components/PresentationComponents/PieGraph/PieGraph';
 import PivotTables from '@/components/PresentationComponents/PivotTables/PivotTables';
 import VoyagesMaps from '@/components/PresentationComponents/Map/MAPS';
-import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import CollectionTabVoyages from '@/components/NavigationComponents/CollectionTab/CollectionTabVoyages';
 import { useEffect } from 'react';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { setBaseFilterDataKey, setBaseFilterDataValue, setStyleName } from '@/redux/getDataSetCollectionSlice';
-import { setCurrentPage, setCurrentVoyagesBlockName } from '@/redux/getScrollPageSlice';
+import {
+  setBaseFilterDataKey,
+  setBaseFilterDataValue,
+  setBlocksMenuList,
+  setStyleName,
+} from '@/redux/getDataSetCollectionSlice';
+import {
+  setCurrentPage,
+  setCurrentVoyagesBlockName,
+} from '@/redux/getScrollPageSlice';
 import { INTRAAMERICAN, TRANSATLANTIC, VOYAGESTEXAS } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
+import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -40,15 +47,29 @@ const VoyagesPage = () => {
   const { dataSetKey, dataSetValue } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
 
   useEffect(() => {
     if (styleVoyagesName) {
-      dispatch(setStyleName(styleVoyagesName))
+      dispatch(setStyleName(styleVoyagesName));
     }
     const setBaseFilterDataForStyle = (index: number) => {
-      if (jsonDataVoyageCollection[index]?.base_filter && jsonDataVoyageCollection[index]?.base_filter[0]) {
-        dispatch(setBaseFilterDataKey(jsonDataVoyageCollection[index].base_filter[0].var_name!));
-        dispatch(setBaseFilterDataValue(jsonDataVoyageCollection[index].base_filter[0].value!));
+      if (
+        jsonDataVoyageCollection[index]?.base_filter &&
+        jsonDataVoyageCollection[index]?.base_filter[0]
+      ) {
+        dispatch(
+          setBaseFilterDataKey(
+            jsonDataVoyageCollection[index].base_filter[0].var_name!
+          )
+        );
+        dispatch(
+          setBaseFilterDataValue(
+            jsonDataVoyageCollection[index].base_filter[0].value!
+          )
+        );
       }
     };
 
@@ -60,35 +81,50 @@ const VoyagesPage = () => {
       setBaseFilterDataForStyle(3);
     }
 
+    if (styleVoyagesName === INTRAAMERICAN) {
+      dispatch(setBlocksMenuList(jsonDataVoyageCollection[1].blocks));
+    } else if (styleVoyagesName === VOYAGESTEXAS) {
+      dispatch(setBlocksMenuList(jsonDataVoyageCollection[3].blocks));
+    }
+
+    if (styleVoyagesName === INTRAAMERICAN && currentBlockName === 'pie') {
+      dispatch(setCurrentVoyagesBlockName('intro'));
+    } else if (styleVoyagesName === VOYAGESTEXAS && currentBlockName === 'pie') {
+      dispatch(setCurrentVoyagesBlockName('intro'));
+    }
+
     if (currentBlockName === 'intro') {
       dispatch(setCurrentPage(1));
-      dispatch(setCurrentVoyagesBlockName(currentBlockName))
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
     } else if (currentBlockName === 'voyages') {
       dispatch(setCurrentPage(2));
-      dispatch(setCurrentVoyagesBlockName(currentBlockName))
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
     } else if (currentBlockName === 'line') {
       dispatch(setCurrentPage(3));
-      dispatch(setCurrentVoyagesBlockName(currentBlockName))
-    }
-    else if (currentBlockName === 'bar') {
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    } else if (currentBlockName === 'bar') {
       dispatch(setCurrentPage(4));
-      dispatch(setCurrentVoyagesBlockName(currentBlockName))
-    }
-    else if (currentBlockName === 'pie') {
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    } else if (currentBlockName === 'pie') {
       dispatch(setCurrentPage(5));
-      dispatch(setCurrentVoyagesBlockName(currentBlockName))
-    }
-    else if (currentBlockName === 'table') {
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    } else if (currentBlockName === 'table') {
       dispatch(setCurrentPage(6));
-      dispatch(setCurrentVoyagesBlockName(currentBlockName))
-    }
-    else if (currentBlockName === 'map') {
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    } else if (currentBlockName === 'map') {
       dispatch(setCurrentPage(7));
-      dispatch(setCurrentVoyagesBlockName(currentBlockName))
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }
-
-  }, [styleVoyagesName, jsonDataVoyageCollection, styleName, currentBlockName, currentPage, currentVoyageBlockName, dataSetKey, dataSetValue]);
-
+  }, [
+    styleVoyagesName,
+    jsonDataVoyageCollection,
+    styleName,
+    currentBlockName,
+    currentPage,
+    currentVoyageBlockName,
+    dataSetKey,
+    dataSetValue,
+  ]);
 
   const displayPage = (
     <motion.div
@@ -99,27 +135,34 @@ const VoyagesPage = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentPage === 1 && currentVoyageBlockName === 'intro' && <VoyagesIntro />}
+      {currentPage === 1 && currentVoyageBlockName === 'intro' && (
+        <VoyagesIntro />
+      )}
       {/* {currentPage === 2 && currentVoyageBlockName === 'voyages' && <VoyagesTable />} */}
       {currentPage === 2 && currentVoyageBlockName === 'voyages' && <Tables />}
       {currentPage === 3 && currentVoyageBlockName === 'line' && <Scatter />}
       {currentPage === 4 && currentVoyageBlockName === 'bar' && <BarGraph />}
       {currentPage === 5 && currentVoyageBlockName === 'pie' && <PieGraph />}
-      {currentPage === 6 && currentVoyageBlockName === 'table' && <PivotTables />}
+      {currentPage === 6 && currentVoyageBlockName === 'table' && (
+        <PivotTables />
+      )}
       {currentPage === 7 && currentVoyageBlockName === 'map' && <VoyagesMaps />}
     </motion.div>
   );
-
+  const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
   return (
     <>
-      <HeaderLogoSearch />
       <HeaderVoyagesNavBar />
       <div
         className="voyages-home-page"
         id="content-container"
         style={{
-          backgroundColor: getColorVoyagePageBackground(styleVoyagesName!, currentPage),
+          backgroundColor: getColorVoyagePageBackground(
+            styleVoyagesName!,
+            currentPage
+          ),
           position: 'relative',
+          top: currentPage === 1 ? -40 : !inputSearchValue ? topPosition - 80 : 0,
           padding: currentPage !== 1 ? '30px' : '',
         }}
       >

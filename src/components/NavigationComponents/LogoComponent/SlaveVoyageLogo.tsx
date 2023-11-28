@@ -9,7 +9,7 @@ const SlaveVoyageLogo = () => {
       </div>
       <div className="voyage-text-box">
         <div>
-          <img src={voyageText} alt="voyageText" />
+          <img src={voyageText} alt="voyages logo" />
         </div>
         <div className="voyage-description">
           Explore the voyages that relocated more than 12 million enslaved Africans across the world

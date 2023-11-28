@@ -1,17 +1,16 @@
 
-export const createTopPositionVoyages = (currentPage: number, isFilter: boolean) => {
-    let topPosition;
+export const createTopPositionVoyages = (currentPage: number, value: string) => {
+    let topPosition = 0;
     if (currentPage === 1) {
         topPosition = 100;
-    } else if (currentPage === 2 && isFilter || currentPage === 7) {
-        topPosition = 185;
-    } else if (isFilter && currentPage === 6) {
-        topPosition = 185;
-    } else if (isFilter) {
-        topPosition = 200;
-    }
-    else {
-        topPosition = 185;
+    } else if (currentPage === 2 && value) {
+        topPosition = 110;
+    } else if (currentPage === 2 || currentPage === 7) {
+        topPosition = 90;
+    } else if (currentPage === 6) {
+        topPosition = 85;
+    } else {
+        topPosition = 100;
     }
     return topPosition;
 }

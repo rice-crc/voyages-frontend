@@ -240,14 +240,14 @@ const PivotTables = () => {
 
   const newRowsData = rowData.slice(0, -1);
   const pinnedBottomRowData: any[] = [rowData[rowData.length - 1]];
-  const { isFilter } = useSelector((state: RootState) => state.getFilter);
+
   const handleButtonExportCSV = useCallback(() => {
     (gridRef.current as AgGridReact<any>).api.exportDataAsCsv();
   }, []);
-  const topPosition = createTopPositionVoyages(currentPage, isFilter);
+  const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
   return (
     <div
-      className="ag-theme-alpine grid-container"
+      className="ag-theme-alpine grid-container mobile-responsive"
       style={{ marginTop: topPosition }}
     >
       <SelectDropdownPivotable

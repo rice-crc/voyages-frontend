@@ -27,7 +27,6 @@ import {
   CurrentPageInitialState,
   RangeSliderState,
 } from '@/share/InterfaceTypes';
-import { ColumnVoyagesSelector } from '@/components/SelectorComponents/ColumnSelectorTable/ColumnVoyagesSelector';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
@@ -38,6 +37,7 @@ import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAn
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 
 const VoyagesTable: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -86,7 +86,7 @@ const VoyagesTable: React.FC = () => {
     width: maxWidth,
     height: height,
   });
-  const topPosition = createTopPositionVoyages(currentPage, isFilter);
+  const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
   const containerStyle = useMemo(
     () => ({ width: maxWidth, height: height * 0.7 }),
     []
@@ -259,7 +259,7 @@ const VoyagesTable: React.FC = () => {
       <div style={containerStyle} className="ag-theme-alpine ">
         <div style={style}>
           <span className="tableContainer">
-            <ColumnVoyagesSelector />
+            <ButtonDropdownColumnSelector />
             <TablePagination
               component="div"
               count={totalResultsCount}

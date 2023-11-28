@@ -1,11 +1,9 @@
-import { AppBar, Box, CssBaseline, Typography, Toolbar } from '@mui/material';
-import { WHITE } from '@/styleMUI';
+import { Box, CssBaseline, Typography, } from '@mui/material';
 import LOGOVoyages from '@/assets/sv-logo_v2.svg';
-import SearchVoyages from '@/assets/searchICON.svg';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
+import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import {
   setBlocksMenuList,
   setDataSetHeader,
@@ -26,8 +24,9 @@ import {
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
+import '@/style/Nav.scss';
 
-export default function HeaderLogoSearch() {
+export default function HeaderLogo() {
   const dispatch: AppDispatch = useDispatch();
   const onChangePath = () => {
     dispatch(resetAllStateToInitailState());
@@ -71,41 +70,20 @@ export default function HeaderLogoSearch() {
   return (
     <Box>
       <CssBaseline />
-      <AppBar
-        component="nav"
-        style={{
-          backgroundColor: WHITE,
-          zIndex: 100,
-          boxShadow: 'none',
-          height: 50,
-        }}
-      >
-        <Toolbar
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Typography component="div" sx={{ cursor: 'pointer' }}>
-            <Link
-              to={'/'}
-              style={{ textDecoration: 'none' }}
-              onClick={onChangePath}
-            >
-              <img
-                src={LOGOVoyages}
-                alt={'voyages logo'}
-                style={{ position: 'relative', bottom: 5 }}
-              />
-            </Link>
-          </Typography>
 
-          <Typography component="div" sx={{ cursor: 'pointer' }}>
-            <img src={SearchVoyages} alt="search" height={40} />
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <Typography component="div" sx={{ cursor: 'pointer' }}>
+        <Link
+          to={'/'}
+          style={{ textDecoration: 'none' }}
+          onClick={onChangePath}
+        >
+          <img
+            className='logo-voyage'
+            src={LOGOVoyages}
+            alt="voyage logo"
+          />
+        </Link>
+      </Typography>
     </Box>
   );
 }

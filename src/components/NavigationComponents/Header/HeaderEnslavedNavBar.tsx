@@ -29,8 +29,6 @@ import {
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
 import CanscandingMenu from '@/components/SelectorComponents/Cascading/CanscandingMenu';
-import CanscandingMenuEnslavedMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuEnslavedMobile';
-import ButtonDropdownSelectorEnslaved from '../../SelectorComponents/ButtonComponents/ButtonDropdownSelectorColumnEnslaved';
 import {
   setBaseFilterPeopleEnslavedDataKey,
   setBaseFilterPeopleEnslavedDataSetValue,
@@ -44,13 +42,15 @@ import {
 } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import { DrawerMenuBar } from '@/components/NavigationComponents/Header/DrawerMenuBar';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
-import { FilterButton } from '@/components/SelectorComponents/ButtonComponents/FilterButton';
 import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
 import '@/style/Nav.scss';
 import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
 import '@/style/homepage.scss';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
+import HeaderLogo from './HeaderLogo';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
+import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {
@@ -74,15 +74,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
     [ENSLAVEDTEXAS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'intro' : currentPageBlockName}`,
   };
 
-
-  const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider
-  );
-  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
-  );
+
+
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
   const [isClick, setIsClick] = useState(false);
@@ -173,7 +167,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
           backgroundColor: getColorNavbarEnslavedBackground(styleNamePeople),
           fontSize: 12,
           boxShadow: 'none',
-          marginTop: '3rem',
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -196,12 +189,16 @@ const HeaderEnslavedNavBar: React.FC = () => {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <HeaderTitle
-              textHeader={textHeader}
-              HeaderTitle={EnslavedTitle}
-              pathLink={PASTHOMEPAGE}
-              onClickReset={onClickResetOnHeader}
-            />
+            <span className='header-logo-icon'>
+              <HeaderLogo />
+              <HeaderTitle
+                textHeader={textHeader}
+                HeaderTitle={EnslavedTitle}
+                pathLink={PASTHOMEPAGE}
+                onClickReset={onClickResetOnHeader}
+              />
+            </span>
+
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
@@ -225,27 +222,11 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 fontWeight: 600,
               }}
             >
-              {inputSearchValue ? (
-                <GlobalSearchButton />
-              ) : (
-                <span className='reset-filter'>
-                  <FilterButton
-                    pathName={ALLENSLAVED}
-                    currentPageBlockName={currentPageBlockName}
-                    currentPage={currentEnslavedPage}
-                  />
-                  {(varName !== '' || (clusterNodeKeyVariable && clusterNodeValue)) && (
-                    <div className="btn-navbar-reset-all" onClick={handleResetAll}>
-                      <i aria-hidden="true" className="fa fa-times"></i>
-                      <span>Reset all</span>
-                    </div>
-                  )}
-                </span>
+              {inputSearchValue && <GlobalSearchButton />}
 
-              )}
             </Typography>
           </Typography>
-          <CanscandingMenuEnslavedMobile />
+          <CanscandingMenuMobile />
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -278,7 +259,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
           </Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentPageBlockName !== 'intro' && isFilter && <CanscandingMenu />}
+          {currentPageBlockName !== 'intro' && <CanscandingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu
@@ -301,7 +282,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
         disableScrollLock={true}
       >
         <MenuListDropdownStyle>
-          <ButtonDropdownSelectorEnslaved />
+          <ButtonDropdownColumnSelector />
         </MenuListDropdownStyle>
       </Menu>
     </Box>

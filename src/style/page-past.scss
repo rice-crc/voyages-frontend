@@ -61,6 +61,14 @@
       rgba(127, 118, 191, 0.8)),
     url('../assets/intra-american.jpeg') center / cover;
 
+  @include breakpoint-standard(7) {
+    height: 100vh;
+  }
+
+  @include breakpoint-standard(6) {
+    height: 100vh;
+  }
+
   @include breakpoint-standard(2) {
     height: 115vh;
   }
@@ -75,8 +83,8 @@
 }
 
 .grid-people-image>img {
-  width: 100%;
-  padding-top: 3rem;
+  width: 95%;
+  padding-top: 5rem;
 
   @include breakpoint-standard(5) {
     padding-top: 6rem;
@@ -114,9 +122,9 @@
 .grid-people-introduction>div {
   position: relative;
   top: 10%;
-  padding: 2rem 6rem 0 4rem;
+  padding: 2rem 6rem 2rem 4rem;
   color: #ffffff;
-  font-weight: 500;
+  font-weight: bold;
   font-size: 24px;
   text-align: center;
   font-family: Roboto, Helvetica, Arial, sans-serif;
@@ -156,6 +164,11 @@
     padding: 10px;
     font-size: 14px;
   }
+
+}
+
+.text-intro {
+  text-shadow: 2px 2px 2px #000000;
 }
 
 .btn-Enslaved-enslavers {
@@ -279,7 +292,6 @@
 #enslaved-home-page {
   padding: 0;
   margin: 0;
-  background-color: #b29493;
   height: 110vh;
 }
 
@@ -290,15 +302,15 @@
     url('../assets/enslavedBG.jpeg') center / cover;
 
   @include breakpoint-standard(4) {
-    height: auto;
+    height: 100vh;
   }
 
   @include breakpoint-standard(3) {
-    height: auto;
+    height: 100vh;
   }
 
   @include breakpoint-standard(2) {
-    height: auto;
+    height: 100vh;
   }
 
   @include breakpoint-standard(1) {
@@ -317,11 +329,11 @@
   height: 100vh;
 
   @include breakpoint-standard(7) {
-    height: auto;
+    height: 100vh;
   }
 
   @include breakpoint-standard(6) {
-    height: auto;
+    height: 100vh;
   }
 
   @include breakpoint-standard(5) {
@@ -343,6 +355,14 @@
   @include breakpoint-standard(1) {
     height: auto;
   }
+
+  @include breakpoint-standard(1.1) {
+    height: auto;
+  }
+
+  @include breakpoint-standard(0) {
+    height: auto;
+  }
 }
 
 .enslaved-header {
@@ -350,14 +370,14 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  font-size: 60px;
+  font-size: 40px;
 
   @include breakpoint-standard(6) {
     font-size: 40px;
   }
 
   @include breakpoint-standard(5) {
-    font-size: 26px;
+    font-size: 16px;
   }
 
   @include breakpoint-standard(4) {
@@ -386,14 +406,14 @@
 
 .enslaved-header-subtitle {
   display: flex;
-  font-size: 30px;
+  font-size: 28px;
   padding-left: 5px;
   position: relative;
   font-weight: 600;
-  top: 8px;
+  top: 5px;
 
   @include breakpoint-standard(5) {
-    font-size: 26px;
+    font-size: 24px;
     top: 6px;
   }
 
@@ -431,77 +451,77 @@
 .grid-enslaved-introduction {
   position: relative;
   top: 20%;
-  padding: 8rem 8rem 8rem 5rem;
+  padding: 4rem 1rem 4rem 5rem;
   width: 90%;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   font-size: 24px;
 
-  >.grid-enslavers-introduction {
-    @include breakpoint-standard(7) {
-      padding: 2rem 2rem 2rem 1rem;
-    }
 
-    @include breakpoint-standard(6) {
-      padding: 2rem 2rem 2rem 1rem;
-    }
+  @include breakpoint-standard(7) {
+    padding: 4rem 2rem 0 4rem
+  }
 
-    @include breakpoint-standard(5) {
-      padding: 1rem;
-    }
+  @include breakpoint-standard(6) {
+    padding: 4rem 2rem 0 4rem
+  }
 
-    @include breakpoint-standard(4) {
-      padding: 1rem;
-    }
-
-    @include breakpoint-standard(3) {
-      padding: 1rem;
-    }
-
-    @include breakpoint-standard(2) {
-      padding: 1rem;
-    }
-
-    @include breakpoint-standard(1) {
-      padding: 1rem;
-    }
-
-    @include breakpoint-standard(0) {
-      padding: 1rem;
-    }
+  @include breakpoint-standard(5) {
+    padding: 1rem;
   }
 
   @include breakpoint-standard(4) {
-    padding: 5rem;
-    width: 100%;
+    padding: 1rem;
   }
 
   @include breakpoint-standard(3) {
-    padding: 1.5rem;
-    width: 100%;
-    position: fixed;
-    top: 20%;
+    padding: 1rem;
   }
 
   @include breakpoint-standard(2) {
-    padding: 1.5rem;
-    width: 100%;
-    position: fixed;
-    top: 20%;
+    padding: 1rem;
   }
 
   @include breakpoint-standard(1) {
-    padding: 1.5rem;
-    width: 100%;
-    position: fixed;
-    top: 20%;
+    padding: 1rem;
   }
 
   @include breakpoint-standard(0) {
-    padding: 1.5rem;
-    width: 100%;
-    position: fixed;
-    top: 20%;
+    padding: 1rem;
   }
+
+
+  // @include breakpoint-standard(4) {
+  //   padding: 5rem;
+  //   width: 100%;
+  // }
+
+  // @include breakpoint-standard(3) {
+  //   padding: 1.5rem;
+  //   width: 100%;
+  //   position: fixed;
+  //   top: 20%;
+  // }
+
+  // @include breakpoint-standard(2) {
+  //   padding: 1.5rem;
+  //   width: 100%;
+  //   position: fixed;
+  //   top: 20%;
+  // }
+
+  // @include breakpoint-standard(1) {
+  //   padding: 1.5rem;
+  //   width: 100%;
+  //   position: fixed;
+  //   top: 20%;
+  // }
+
+  // @include breakpoint-standard(0) {
+  //   padding: 1.5rem;
+  //   width: 100%;
+  //   position: fixed;
+  //   top: 20%;
+  // }
 }
 
 .intro-box {
@@ -556,13 +576,23 @@
   padding: 4rem 1rem 2rem 4rem;
   background: rgb(63, 150, 125, 0.5);
 
+  @include breakpoint-standard(7) {
+    padding: 5rem 2rem 2rem 2rem;
+    font-size: 20px;
+  }
+
+  @include breakpoint-standard(6) {
+    padding: 6rem 2rem 2rem 2rem;
+    font-size: 20px;
+  }
+
   @include breakpoint-standard(5) {
     padding: 6rem 2rem 2rem 2rem;
     font-size: 20px;
   }
 
   @include breakpoint-standard(4) {
-    padding: 6rem 2rem 2rem 2rem;
+    padding: 7rem 2rem 2rem 2rem;
     font-size: 16px;
   }
 
@@ -572,22 +602,22 @@
   }
 
   @include breakpoint-standard(2) {
-    padding: 6rem 2rem 2rem 2rem;
+    padding: 5rem 2rem 2rem 2rem;
     font-size: 14px;
   }
 
   @include breakpoint-standard(1.1) {
-    padding: 4rem 2rem;
+    padding: 7rem 2rem;
     font-size: 14px;
   }
 
   @include breakpoint-standard(1) {
-    padding: 4rem 2rem;
+    padding: 7rem 2rem;
     font-size: 14px;
   }
 
   @include breakpoint-standard(0) {
-    padding: 4rem 2rem;
+    padding: 7rem 2rem;
     font-size: 14px;
   }
 }
@@ -725,27 +755,27 @@
 
 .table-presentation {
   @include breakpoint-standard(4) {
-    top: 20px !important;
+    top: -45px !important;
   }
 
   @include breakpoint-standard(3) {
-    top: 15px !important;
+    top: -45px !important;
   }
 
   @include breakpoint-standard(2) {
-    top: 5px !important;
+    top: -45px !important;
   }
 
   @include breakpoint-standard(1.1) {
-    top: 20px !important;
+    top: -45px !important;
   }
 
   @include breakpoint-standard(1) {
-    top: 25px !important;
+    top: -45px !important;
   }
 
   @include breakpoint-standard(0) {
-    top: 25px !important;
+    top: 0px !important;
   }
 }
 
@@ -754,5 +784,5 @@
   padding: 0;
   margin: 0;
   background-color: #46a88c;
-  height: 100vh;
+  height: 110vh;
 }

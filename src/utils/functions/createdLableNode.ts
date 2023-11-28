@@ -64,15 +64,13 @@ export const createdLableEdges = (edge: Edges) => {
 
 };
 
-export const createSrokeColor = (edge: Edges) => {
+export const createStrokeColor = (edge: Edges) => {
     let colorStork = '#aaa'
     if (edge?.data?.role_name) {
         if (edge?.data?.role_name === 'Captain') {
             colorStork = 'rgb(55, 163, 154)'
         } else if (edge?.data?.role_name === 'Owner') {
             colorStork = '#556cd6'
-        } else {
-            return colorStork;
         }
     }
     return colorStork
