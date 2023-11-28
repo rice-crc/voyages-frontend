@@ -49,8 +49,8 @@ const ModalNetworksGraph = () => {
             style={{ marginLeft: 5 }}
           />
         </div>
-        {/* <NetworkDiagramSlaveVoyagesTEST /> */}
-        <NetworkDiagramSlaveVoyages />
+        <NetworkDiagramSlaveVoyagesTEST />
+        {/* <NetworkDiagramSlaveVoyages /> */}
       </Box>
     </Modal>
   );
