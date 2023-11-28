@@ -114,7 +114,6 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
           edges: updatedEdges,
         };
 
-
         dispatch(setPastNetworksData(updatedData));
 
       }
