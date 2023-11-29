@@ -81,7 +81,7 @@ export const classToColor = {
     enslavement_relations: '#ab47bc',
     voyages: '#F2EE0A',
 };
-export const RADIUSNODE = 12;
+export const RADIUSNODE = 15;
 export const cachenamePivot = `voyage_pivot_tables`;
 // Global search
 export const GlobalSearchVoyagesType = 'voyages'

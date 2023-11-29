@@ -6,8 +6,8 @@ import { findNode, findNodeSvg } from './findNode';
 import { RADIUSNODE, classToColor } from '@/share/CONST_DATA';
 import { findHoveredEdge } from './findHoveredEdge';
 import ShowsAcoloredNodeKey from './ShowsAcoloredNodeKey';
-import { AppDispatch } from '@/redux/store';
-import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { drawNetworkSVG } from './drawNetworkSVG';
 import { drawNetwork } from './drawNetwork';
 import {
@@ -18,8 +18,8 @@ import {
 type NetworkDiagramProps = {
     width: number;
     height: number;
-    netWorkData: Datas;
-    newUpdateNetWorkData: Datas;
+    // netWorkData: Datas;
+    // newUpdateNetWorkData: Datas;
     handleNodeDoubleClick: (nodeId: number, nodeClass: string) => Promise<void>;
     handleClickNodeShowCard: (nodeId: number, nodeClass: string) => Promise<void>;
 };
@@ -27,8 +27,8 @@ type NetworkDiagramProps = {
 export const NetworkDiagramSVG = ({
     width,
     height,
-    netWorkData,
-    newUpdateNetWorkData,
+    // netWorkData,
+    // newUpdateNetWorkData,
     handleNodeDoubleClick,
     handleClickNodeShowCard,
 }: // changedNetWorkData
@@ -43,8 +43,12 @@ export const NetworkDiagramSVG = ({
     const clickTimeout = useRef<NodeJS.Timeout | undefined>();
     let timeout = 300;
 
-    const edges: Edges[] = netWorkData.edges.map((d) => ({ ...d }));
-    const nodes: Nodes[] = netWorkData.nodes.map((d) => ({ ...d }));
+    const { data: netWorkData } = useSelector(
+        (state: RootState) => state.getPastNetworksGraphData
+    );
+
+    const edges: Edges[] = netWorkData.edges?.map((d) => ({ ...d }));
+    const nodes: Nodes[] = netWorkData.nodes?.map((d) => ({ ...d }));
 
     const nodeIds = new Set(nodes.map((node) => node.uuid));
     const validEdges = edges.filter(
@@ -71,6 +75,20 @@ export const NetworkDiagramSVG = ({
     const link = svg.append('g').selectAll('line').data(validEdges).join('line');
 
     const node = svg.append('g').selectAll('circle').data(nodes).join('circle');
+    // const node = svg.append('g').selectAll('circle').data(nodes).join(
+    //     enter => (
+    //         enter.append("circle")
+    //             .attr("class", "node")
+    //             .attr("r", RADIUSNODE)
+    //             .attr('stroke', '#fff')
+    //             .attr('stroke-width', '1.5')
+    //             .attr('fill', (node: Nodes) => {
+    //                 return classToColor[node.node_class as keyof typeof classToColor] || 'gray';
+    //             })
+    //             .attr("cx", node => String(node.x))
+    //             .attr("cy", node => String(node.y))
+    //     )
+    // )
 
     const label = svg.selectAll('label').data(nodes).join('text');
 
@@ -100,6 +118,7 @@ export const NetworkDiagramSVG = ({
             .attr('stroke-width', '1.5')
             .attr('fill', 'none');
     }
+
     const simulation = d3
         .forceSimulation(nodes)
         .force(
@@ -108,7 +127,7 @@ export const NetworkDiagramSVG = ({
                 .id((uuid) => uuid.uuid)
                 .distance(100)
         )
-        .force('charge', d3.forceManyBody().strength(-500))
+        .force('charge', d3.forceManyBody().strength(-100))
         .force('x', d3.forceX())
         .force('y', d3.forceY());
 
@@ -174,7 +193,6 @@ export const NetworkDiagramSVG = ({
                 }
                 return '0';
             });
-
         node
             .attr('cx', (node) => String(node.x))
             .attr('cy', (node) => String(node.y))
@@ -289,7 +307,7 @@ export const NetworkDiagramSVG = ({
                 }
             }
         }
-    }, [svg]);
+    }, [svg, netWorkData]);
 
     //ComponentDidUpdate
     useEffect(() => {

@@ -62,7 +62,7 @@ export const NetworkDiagram = ({
           .forceLink<Nodes, Edges>(validEdges)
           .id((uuid) => uuid.uuid)
           .distance(120)
-      )
+      ).force('collide', d3.forceCollide().radius(RADIUSNODE))
       .force('charge', d3.forceManyBody())
       .force('center', d3.forceCenter(width / 2, height / 2));
 
@@ -163,15 +163,16 @@ export const NetworkDiagram = ({
       canvas.addEventListener('mousemove', checkMouseoverEdges);
       canvas.addEventListener('wheel', handleWheelEvent);
       canvas.addEventListener('click', (event: MouseEvent) => {
-        clearClickTimeout();
-        if (event.detail === 1) {
-          clickTimeout.current = setTimeout(() => {
-            handleClickNodeCard(event);
-          }, timeout);
-        }
-        if (event.detail === 2) {
-          handleDoubleClick(event);
-        }
+        // clearClickTimeout();
+        handleDoubleClick(event);
+        // if (event.detail === 1) {
+        //   clickTimeout.current = setTimeout(() => {
+        //     handleClickNodeCard(event);
+        //   }, timeout);
+        // }
+        // if (event.detail === 2) {
+        //   handleDoubleClick(event);
+        // }
       });
 
       function checkMouseoverNode(event: MouseEvent) {
