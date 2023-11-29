@@ -349,7 +349,7 @@ const DocumentPage: React.FC = () => {
     setDoc(null)
     return true
   }
-  const handleWorkspaceAction = (manifestId: string) => {
+  const handleWorkspaceAction = (manifestId: string, element: HTMLElement) => {
     if (!doc || doc.key !== manifestId) {
       console.log('Unexpected item added to collection')
       return
@@ -366,6 +366,7 @@ const DocumentPage: React.FC = () => {
       items.push(doc)
     }
     localStorage.setItem(UserWorkspaceLocalStorageKey, JSON.stringify(items))
+    element.style.display = 'none'
     refreshWorkspace()
   }
   const tabSource = sources[tab]

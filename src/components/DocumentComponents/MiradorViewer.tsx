@@ -8,7 +8,7 @@ interface MiradorViewerProps {
     manifestUrlBase: string,
     domId: string,
     manifestId: string,
-    onWorkspaceAction: (manifestId: string) => void,
+    onWorkspaceAction: (manifestId: string, element: HTMLElement) => void,
     onClose?: () => boolean
 }
 
@@ -28,7 +28,7 @@ const MiradorViewer = ({ manifestUrlBase, manifestId, domId, workspaceAction, on
         }
         const store = mirador.selectors.miradorSlice(target).store
         const path = `${manifestUrlBase}/${manifestId}`
-        const match = Object.values(store.getState().manifests).find(w => w.id === path)
+        const match = Object.values(store.getState().manifests).find((w: any) => w.id === path)
         if (!match) {
             // Add the manifest.
             const addRes = mirador.actions.addResource(path)
@@ -53,7 +53,7 @@ const MiradorViewer = ({ manifestUrlBase, manifestId, domId, workspaceAction, on
                 const win = findWin(store, path)
                 const displayAction = mirador.actions.setCanvas(
                     win.id,
-                    `https://voyages-docs.org/${manifestId}/canvas1`
+                    `${path}/canvas1`
                 )
                 store.dispatch(displayAction)
                 const getButton = (className: string) => {
@@ -83,7 +83,7 @@ const MiradorViewer = ({ manifestUrlBase, manifestId, domId, workspaceAction, on
                             ${icon}
                             ${workspaceAction === 'Add' ? 'Add to my Workspace' : 'Remove from Workspace'}
                         </span>`
-                    workspaceBtn.onclick = () => onWorkspaceAction(manifestId)
+                    workspaceBtn.onclick = () => onWorkspaceAction(manifestId, workspaceBtn)
                     document.getElementsByClassName('mirador-window-top-bar')[0].appendChild(workspaceBtn)
                 }
             } catch (e) {
