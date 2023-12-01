@@ -9,7 +9,7 @@ const AfricanOrigins: React.FC = () => {
         <div className="container-african">
             <div className="african-content">
                 <div className="african-content-bg">
-                    <img src={AFRICANORIGINS} alt="AFRICANORIGINS" className="african-img" />
+                    <img src={AFRICANORIGINS} alt="African Origins" className="african-img" />
                 </div>
                 <div className="african-content-detail">
                     <h1>African Origins</h1>
@@ -23,7 +23,7 @@ const AfricanOrigins: React.FC = () => {
                         as well as Series FO84, FO313, CO247 and CO267 held at the British
                         National Archives in London.
                     </p>
-                    <ButtonLearnMore path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#intro`} stylePeopleName={'african-origins'} />
+                    <ButtonLearnMore path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#map`} stylePeopleName={'african-origins'} />
                 </div>
             </div>
         </div>

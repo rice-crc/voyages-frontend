@@ -8,7 +8,7 @@ import { resetSlice as resetVoyagesFilter } from './getFilterSlice';
 import { resetSlice as resetFilterPeopleData } from './getFilterPeopleObjectSlice';
 import { resetSlice as resetNodeEdgesAggroutesMapData } from './getNodeEdgesAggroutesMapDataSlice';
 import { resetSlice as resetOptionDataPastEnslaved } from './getOptionsDataPastPeopleEnslavedSlice';
-import { resetSlice as resetOptionPlatObjectData } from './getOptionsFlatObjSlice';
+import { resetSlice as resetSliceGlobalSearch } from './getCommonGlobalSearchResultSlice'
 import { resetSlice as resetPeopleEnslavedDataSetCollection } from './getPeopleEnslavedDataSetCollectionSlice';
 import { resetSlice as resetPeopleEnslaversDataSetCollection } from './getPeopleEnslaversDataSetCollectionSlice';
 import { resetSlice as resetScroolVoyages, resetSliceCurrentPageAndDialog } from './getScrollPageSlice';
@@ -27,7 +27,6 @@ export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetFilterPeopleData());
     dispatch(resetNodeEdgesAggroutesMapData());
     dispatch(resetOptionDataPastEnslaved());
-    dispatch(resetOptionPlatObjectData());
     dispatch(resetPeopleEnslavedDataSetCollection());
     dispatch(resetPeopleEnslaversDataSetCollection());
     dispatch(resetScroolVoyages());
@@ -45,10 +44,10 @@ export const resetAllStateToInitailState = () => (dispatch: Dispatch) => {
     dispatch(resetFilterPeopleData());
     dispatch(resetNodeEdgesAggroutesMapData());
     dispatch(resetOptionDataPastEnslaved());
-    dispatch(resetOptionPlatObjectData());
     dispatch(resetAllStateSliceDataEnslaved());
     dispatch(resetAllStateSliceDataEnslavers());
     dispatch(resetSliceCurrentPageAndDialog());
     dispatch(resetScrollEnslaved())
+    dispatch(resetSliceGlobalSearch())
 };
 

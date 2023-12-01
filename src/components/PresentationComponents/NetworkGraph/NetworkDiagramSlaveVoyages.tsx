@@ -8,10 +8,12 @@ import {
   setNetWorksKEY,
   setPastNetworksData,
 } from '@/redux/getPastNetworksGraphDataSlice';
-import { Datas, Nodes } from '@/share/InterfaceTypePastNetworks';
+import { Datas, Nodes, Edges } from '@/share/InterfaceTypePastNetworks';
 import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
 import { ENSLAVEMENTNODE } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
+import { NetworkDiagramSVG } from './NetworkDiagramSVG';
+import { NetworkDiagramTest } from './NetworkDiagramTest';
 
 export const NetworkDiagramSlaveVoyages = ({
   widthPercentage = 80,
@@ -22,7 +24,6 @@ export const NetworkDiagramSlaveVoyages = ({
   const { data: netWorkData } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
-
 
   const { networkID, networkKEY } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
@@ -35,30 +36,41 @@ export const NetworkDiagramSlaveVoyages = ({
 
   const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
     try {
-      const dataSend: { [key: string]: number[] } = {
+      const dataSend = {
         [nodeClass]: [Number(nodeId)],
       };
-
-      const response = await dispatch(
-        fetchPastNetworksGraphApi(dataSend)
-      ).unwrap();
+      const response = await dispatch(fetchPastNetworksGraphApi(dataSend)).unwrap();
       if (response) {
+
         const newNodes = response.nodes.filter((newNode: Nodes) => {
           return !netWorkData.nodes.some(
-            (existingNode: Nodes) => existingNode.uuid === newNode.uuid
+            (existingNode) => existingNode.uuid === newNode.uuid
           );
         });
-        const newData: Datas = {
+
+        const newEdges = response.edges.filter((newEdge: Edges) => {
+          return !netWorkData.edges.some(
+            (existingEdge) =>
+              existingEdge.source === newEdge.source &&
+              existingEdge.target === newEdge.target
+          );
+        });
+
+        const updatedNodes = [...netWorkData.nodes, ...newNodes];
+        const updatedEdges = [...netWorkData.edges, ...newEdges];
+
+        const updatedData = {
           ...netWorkData,
-          nodes: [...netWorkData.nodes, ...newNodes],
-          edges: [...netWorkData.edges, ...response.edges],
+          nodes: updatedNodes,
+          edges: updatedEdges,
         };
-        dispatch(setPastNetworksData(newData));
+        dispatch(setPastNetworksData(updatedData));
       }
     } catch (error) {
       console.error('Error fetching new nodes:', error);
     }
   };
+
 
   const handleClickNodeShowCard = async (nodeId: number, nodeClass: string) => {
     if (nodeClass !== ENSLAVEMENTNODE) {
@@ -79,9 +91,7 @@ export const NetworkDiagramSlaveVoyages = ({
     const fetchPastNetworksGraph = async () => {
       setIsLoading(true);
       try {
-        const response = await dispatch(
-          fetchPastNetworksGraphApi(dataSend)
-        ).unwrap();
+        const response = await dispatch(fetchPastNetworksGraphApi(dataSend)).unwrap();
 
         if (response && subscribed) {
           setIsLoading(false);
@@ -96,7 +106,8 @@ export const NetworkDiagramSlaveVoyages = ({
     return () => {
       subscribed = false;
     };
-  }, [dispatch, networkID, networkKEY]);
+  }, [dispatch]);
+
   if (width === 0 || !netWorkData) {
     return null;
   }
@@ -109,7 +120,7 @@ export const NetworkDiagramSlaveVoyages = ({
       ) : (
         <div style={{ width: `${width}px`, height: `${height}px` }}>
           <NetworkDiagram
-            data={netWorkData}
+            netWorkData={netWorkData}
             width={width}
             height={height}
             handleNodeDoubleClick={handleNodeDoubleClick}

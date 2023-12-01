@@ -6,7 +6,13 @@
   }
 
   @else if $size==1 {
-    @media only screen and (min-width: 375px) and (max-width: 479px) {
+    @media only screen and (min-width: 375px) and (max-width: 425px) {
+      @content;
+    }
+  }
+
+  @else if $size==1.1 {
+    @media only screen and (min-width: 425px) and (max-width: 479px) {
       @content;
     }
   }
@@ -73,6 +79,12 @@
     display: inline-block;
     text-align: center;
     height: auto;
+    width: 100%;
+  }
+
+  @include breakpoint-standard(1.1) {
+    display: inline-block;
+    text-align: center;
     width: 100%;
   }
 
@@ -627,11 +639,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px 0;
+  padding-left: 12px;
 
   .global-search-text {
     color: black;
-    font-size: 15px;
+    font-size: 12px;
   }
 
   .global-search-exit {

@@ -15,14 +15,15 @@ import {
   TYPES,
   CurrentPageInitialState,
   TYPESOFDATASETPEOPLE,
-  FilterPeopleMenu,
+  FilterMenuList,
+  FilterMenu,
 } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss';
 import {
   BLACK,
   DialogModalStyle,
   DropdownMenuItem,
-  DropdownNestedMenuItem,
+  DropdownNestedMenuItemChildren,
   StyleDialog,
 } from '@/styleMUI';
 import { useState, MouseEvent, useEffect } from 'react';
@@ -30,24 +31,22 @@ import { PaperDraggable } from './PaperDraggable';
 import { setIsChange, setKeyValue } from '@/redux/getRangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
-import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
+import { ArrowDropDown, ArrowLeft, ArrowRight } from '@mui/icons-material';
 import AutocompleteBox from '../../FilterComponents/Autocomplete/AutoComplete';
 import RangeSlider from '../../FilterComponents/RangeSlider/RangeSlider';
-import { ALLENSLAVED, ALLENSLAVERS, ENSALVERSTYLE, ENSLAVERSTYPE } from '@/share/CONST_DATA';
+import { ENSALVERSTYLE, } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
-import { useNavigate } from 'react-router-dom';
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { fontGrid } from '@mui/material/styles/cssUtils';
+import { fontSize } from '@mui/system';
 
-export const MenuListDropdownPeople = () => {
-  const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleEnlavedDataSetCollection
-  );
+export const MenuListsDropdown = () => {
 
-  const { valueEnslaved, valueAfricanOrigin, valueTexas, valueEnslavers } =
-    useSelector((state: RootState) => state.getFilterPeople.value);
-  const { pathNameEnslaved, pathNameEnslavers } = useSelector((state: RootState) => state.getPathName);
-  const { styleName } = usePageRouter()
+  const { valueVoyages, valueEnslaved, valueAfricanOrigin, valueEnslavedTexas, valueEnslavers } = useSelector((state: RootState) => state.getFilterMenuList.filterValueList);
+
+  const { styleName: styleNameRoute } = usePageRouter()
 
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -59,11 +58,35 @@ export const MenuListDropdownPeople = () => {
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const navigate = useNavigate();
+
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [label, setLabel] = useState<string>('');
   const [type, setType] = useState<string>('');
+  const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>(
+    []
+  );
+
+  useEffect(() => {
+    const loadFilterCellStructure = async () => {
+      try {
+        if (checkPagesRouteForVoyages(styleNameRoute!)) {
+          setFilterMenu(valueVoyages);
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
+          setFilterMenu(valueEnslaved);
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {
+          setFilterMenu(valueAfricanOrigin);
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
+          setFilterMenu(valueEnslavedTexas);
+        } else if (styleNameRoute === ENSALVERSTYLE) {
+          setFilterMenu(valueEnslavers);
+        }
+      } catch (error) {
+        console.error('Failed to load table cell structure:', error);
+      }
+    };
+    loadFilterCellStructure();
+  }, [styleNameRoute]);
 
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -105,72 +128,43 @@ export const MenuListDropdownPeople = () => {
     });
   };
 
+  const renderDropdownMenu = (nodes: FilterMenu[] | ChildrenFilter[]) => {
+    return nodes?.map((node: FilterMenu | ChildrenFilter, index: number) => {
+      const { label, children, var_name, type } = node;
+      const hasChildren = children && children.length >= 1;
+      if (hasChildren) {
+        return (
+          <DropdownNestedMenuItemChildren
+            onClickMenu={handleClickMenu}
+            key={`${label}-${index}`}
+            label={`${label}`}
+            rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
+            data-value={var_name}
+            data-type={type}
+            data-label={label}
+            menu={renderDropdownMenu(children)}
+          />
+        );
+      }
 
-  const renderDropdownMenu = (children?: ChildrenFilter[]) =>
-    children?.map((childItem: ChildrenFilter, index: number) => {
       return (
-        <DropdownNestedMenuItem
-          onClickMenu={handleClickMenu}
-          sx={{ fontSize: 14, paddingTop: 0, paddingBottom: 0 }}
-          label={childItem.label}
-          key={`${childItem.label}-${index}`}
-          varName={childItem.var_name}
-          type={childItem.type}
-          childrenFilter={childItem}
+        <DropdownMenuItem
+          key={`${label}-${index}`}
+          onClick={handleClickMenu}
+          dense
+          data-value={var_name}
+          data-type={type}
+          data-label={label}
         >
-          {childItem.children &&
-            childItem.children.length > 0 &&
-            childItem.children.map((nodeChild: ChildrenFilter, idx: number) => {
-              return (
-                <DropdownMenuItem
-                  key={`${nodeChild.label}-${idx}`}
-                  data-value={nodeChild?.var_name}
-                  data-type={nodeChild.type}
-                  data-label={nodeChild.label}
-                  onClick={handleClickMenu}
-                  sx={{ fontSize: 14, paddingTop: 0, paddingBottom: 0 }}
-                >
-                  {nodeChild.label}
-                </DropdownMenuItem>
-              );
-            })}
-        </DropdownNestedMenuItem>
+          {label}
+        </DropdownMenuItem>
       );
     });
-
-  const [filterPeopleMenu, setFilterPeopleMenu] = useState<FilterPeopleMenu[]>(
-    []
-  );
-
-  useEffect(() => {
-    const loadTableCellStructure = async () => {
-      try {
-        if (
-          styleName === TYPESOFDATASETPEOPLE.allEnslaved
-        ) {
-          setFilterPeopleMenu(valueEnslaved);
-        } else if (
-          styleName === TYPESOFDATASETPEOPLE.africanOrigins
-        ) {
-          setFilterPeopleMenu(valueAfricanOrigin);
-        } else if (
-          styleName === TYPESOFDATASETPEOPLE.texas
-        ) {
-          setFilterPeopleMenu(valueTexas);
-        } else if (styleName === ENSALVERSTYLE) {
-          setFilterPeopleMenu(valueEnslavers);
-        }
-      } catch (error) {
-        console.error('Failed to load table cell structure:', error);
-      }
-    };
-    loadTableCellStructure();
-  }, [styleNamePeople, pathNameEnslaved, pathNameEnslavers, styleName]);
-
+  };
   return (
     <div>
       <Box className="filter-menu-bar">
-        {filterPeopleMenu.map((item: FilterPeopleMenu, index: number) => {
+        {filterMenu.map((item: FilterMenuList, index: number) => {
           return item.var_name ? (
             <Button
               key={`${item.label}-${index}`}
@@ -224,7 +218,7 @@ export const MenuListDropdownPeople = () => {
                   {item.label}
                 </Button>
               }
-              menu={renderDropdownMenu(item.children)}
+              menu={renderDropdownMenu(filterMenu)}
             />
           );
         })}

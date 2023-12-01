@@ -1,7 +1,7 @@
 import { ICellRendererParams } from 'ag-grid-community';
 import { CSSProperties } from 'react';
 import NETWORKICON from '@/assets/networksIcon.png';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   setNetWorksID,
   setNetWorksKEY,
@@ -12,21 +12,14 @@ import {
   setIsModalCard,
   setNodeClass,
 } from '@/redux/getCardFlatObjectSlice';
-import { RootState } from '@/redux/store';
 import '@/style/table.scss';
 import {
-  AFRICANORIGINS,
-  ALLENSLAVED,
-  ALLENSLAVERS,
-  ALLVOYAGES,
-  ENSALVERSTYLE,
   ENSLAVEDNODE,
-  ENSLAVEDTEXAS,
   ENSLAVERSNODE,
   VOYAGESNODE,
 } from '@/share/CONST_DATA';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { TYPESOFDATASET } from '@/share/InterfaceTypes';
+import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
@@ -40,16 +33,17 @@ export const GenerateCellTableRenderer = (
 
 
   let nodeType: string = '';
-  if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
+  if (checkPagesRouteForVoyages(styleName!)) {
     nodeType = VOYAGESNODE;
-  } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
+  } else if (checkPagesRouteForEnslaved(styleName!)) {
     nodeType = ENSLAVEDNODE;
-  } else if (styleName === ENSALVERSTYLE) {
+  } else if (checkPagesRouteForEnslavers(styleName!)) {
     nodeType = ENSLAVERSNODE;
   }
 
 
   if (Array.isArray(values)) {
+    const maxRowsToShow = 5;
     const style: CSSProperties = {
       backgroundColor: '#e5e5e5',
       borderRadius: '8px',
@@ -63,25 +57,55 @@ export const GenerateCellTableRenderer = (
       fontSize: '13px',
       cursor: 'pointer',
     };
+    if (values.length <= 0) {
+      return (
+        <span >
+          <div style={{ textAlign: 'center' }}>--</div>
+        </span>
+      )
+    } else {
+      const renderedValues = values.map((value: string, index: number) => {
+        return (
+          <span key={`${index}-${value}`}>
 
-    const renderedValues = values.map((value: string, index: number) => (
-      <span key={`${index}-${value}`}>
-        <div
-          style={style}
-          onClick={() => {
-            dispatch(setCardRowID(ID));
-            dispatch(setIsModalCard(true));
-            dispatch(setNodeClass(nodeType));
-          }}
-        >{`${value}\n`}</div>
-      </span>
-    ));
-    return <div>{renderedValues}</div>;
+            <div
+              style={style}
+              onClick={() => {
+                dispatch(setCardRowID(ID));
+                dispatch(setIsModalCard(true));
+                dispatch(setNodeClass(nodeType));
+              }}
+            >{`${value}\n`}</div>
+          </span>
+        )
+      });
+      const ellipsisStyle: CSSProperties = {
+        ...style,
+        textOverflow: 'ellipsis',
+        whiteSpace: 'normal',
+        overflow: 'hidden',
+      };
+
+      const remainingRows = values.slice(maxRowsToShow);
+      return (
+        <div style={{ maxHeight: 155, overflowY: 'auto' }}>
+          {renderedValues}
+          {remainingRows.length > 0 && (
+            <div style={ellipsisStyle}>
+              {remainingRows.map((value, index) => (
+                <div key={`${index}-${value}`}>{value}</div>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
   } else if (typeof values !== 'object' && cellFN !== 'networks') {
     return (
       <div className="div-value">
         <div
-          className="value"
+          className="value-cell"
           onClick={() => {
             dispatch(setCardRowID(ID));
             dispatch(setIsModalCard(true));

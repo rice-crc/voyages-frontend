@@ -1,29 +1,40 @@
 import { RADIUSNODE, classToColor } from '@/share/CONST_DATA';
 import { Edges, Nodes, NodesID } from '@/share/InterfaceTypePastNetworks';
 import {
-  createSrokeColor,
+  createStrokeColor,
   createdLableEdges,
   createdLableNodeHover,
 } from '@/utils/functions/createdLableNode';
 
 export const drawNetwork = (
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | any,
   width: number,
   height: number,
   nodes: Nodes[],
   edges: Edges[],
-  newNode: Edges | Nodes | null
+  newNode: Edges | Nodes | null,
 ) => {
-  context.clearRect(0, 0, width, height);
 
+  const clearCanvas = () => {
+    context.clearRect(0, 0, width, height);
+  };
+
+  clearCanvas();
+  drawEdges(context, nodes, newNode, edges);
+  drawNodes(context, nodes);
+
+};
+
+const drawEdges = (context: CanvasRenderingContext2D, nodes: Nodes[], newNode: Edges | Nodes | null,
+  edges: Edges[]) => {
   context.globalAlpha = 8;
   context.lineWidth = 2;
+
   edges.forEach((link: any) => {
-    const strokeColor = createSrokeColor(link);
+    const strokeColor = createStrokeColor(link);
     if (strokeColor) {
       context.strokeStyle = strokeColor;
     }
-
 
     const sourceNode = nodes.find((node) => node.uuid === link.source.uuid);
     const targetNode = nodes.find((node) => node.uuid === link.target.uuid);
@@ -56,15 +67,17 @@ export const drawNetwork = (
             const offset = -15;
             context.fillStyle = '#fff';
             context.font = '12px Arial';
-            context.fillText(labelEdge, offset, -3);
+            context.fillText(labelEdge, offset, -6);
             context.restore();
           }
         }
       }
     }
   });
-
   context.globalAlpha = 1;
+};
+
+const drawNodes = (context: CanvasRenderingContext2D, nodes: Nodes[]) => {
 
   nodes.forEach((node) => {
     if (!node.x || !node.y) return;
@@ -83,75 +96,82 @@ export const drawNetwork = (
     context.stroke();
     context.fill();
 
-    // === If want to hide label and will show when hover comment those below
     const labelNode = createdLableNodeHover(node);
     context.fillStyle = '#fff';
     context.font = '500 14px Arial';
     context.textAlign = 'left';
     context.textBaseline = 'middle';
-    context.fillText(labelNode!, nodeX + 15, nodeY - 4);
+    context.fillText(labelNode!, node.x + 15, node.y - 4);
     context.closePath();
 
-    //***  ===== Hide Hover with Heigh Light on Node ===== ***
-    /* const labelNodeHover = createdLableNodeHover(node);
-     if (labelNodeHover && newNode) {
-       if ('id' in newNode) {
-         if (node.id === newNode.id) {
-           const padding = 2;
-           const textWidth = context.measureText(labelNodeHover).width + 35;
-           context.fillStyle = '#fff';
-           const borderRadius = 4;
-           const labelX = node.x + 20;
-           const labelY = node.y
-           const labelLeft = labelX - padding;
-           const labelRight = labelX + textWidth + padding;
-           const labelTop = labelY - 8 - padding;
-           const labelBottom = labelY + 4 + padding;
- 
-           context.beginPath();
-           context.moveTo(labelX + borderRadius, labelY - 10);
-           context.lineTo(labelRight - borderRadius, labelTop);
- 
-           context.arc(
-             labelRight - borderRadius,
-             labelTop + borderRadius,
-             borderRadius,
-             -Math.PI / 2,
-             0
-           );
-           context.lineTo(labelRight, labelBottom - borderRadius);
-           context.arc(
-             labelRight - borderRadius,
-             labelBottom - borderRadius,
-             borderRadius,
-             0,
-             Math.PI / 2
-           );
-           context.lineTo(labelLeft + borderRadius, labelBottom);
-           context.arc(
-             labelLeft + borderRadius,
-             labelBottom - borderRadius,
-             borderRadius,
-             0,
-             Math.PI
-           );
-           context.lineTo(labelLeft, labelTop + borderRadius);
-           context.arc(
-             labelLeft + borderRadius,
-             labelTop + borderRadius,
-             borderRadius,
-             Math.PI,
-             -Math.PI / 2,
-             false
-           );
-           context.fill();
-           context.fillStyle = '#000';
-           context.font = '500 11px Arial';
-           context.fillText(labelNodeHover, labelX + 2, labelY + 10);
-           context.closePath();
-         }
-       }
-     }*/
+    //   // === If want to hide label and will show when hover comment those below
+    //   const labelNode = createdLableNodeHover(node);
+    //   context.fillStyle = '#fff';
+    //   context.font = '500 14px Arial';
+    //   context.textAlign = 'left';
+    //   context.textBaseline = 'middle';
+    //   context.fillText(labelNode!, nodeX + 15, nodeY - 4);
+    //   context.closePath();
+    //   //***  ===== Hide Hover with Heigh Light on Node ===== ***
+    //   /* const labelNodeHover = createdLableNodeHover(node);
+    //    if (labelNodeHover && newNode) {
+    //      if ('id' in newNode) {
+    //        if (node.id === newNode.id) {
+    //          const padding = 2;
+    //          const textWidth = context.measureText(labelNodeHover).width + 35;
+    //          context.fillStyle = '#fff';
+    //          const borderRadius = 4;
+    //          const labelX = node.x + 20;
+    //          const labelY = node.y
+    //          const labelLeft = labelX - padding;
+    //          const labelRight = labelX + textWidth + padding;
+    //          const labelTop = labelY - 8 - padding;
+    //          const labelBottom = labelY + 4 + padding;
 
+    //          context.beginPath();
+    //          context.moveTo(labelX + borderRadius, labelY - 10);
+    //          context.lineTo(labelRight - borderRadius, labelTop);
+
+    //          context.arc(
+    //            labelRight - borderRadius,
+    //            labelTop + borderRadius,
+    //            borderRadius,
+    //            -Math.PI / 2,
+    //            0
+    //          );
+    //          context.lineTo(labelRight, labelBottom - borderRadius);
+    //          context.arc(
+    //            labelRight - borderRadius,
+    //            labelBottom - borderRadius,
+    //            borderRadius,
+    //            0,
+    //            Math.PI / 2
+    //          );
+    //          context.lineTo(labelLeft + borderRadius, labelBottom);
+    //          context.arc(
+    //            labelLeft + borderRadius,
+    //            labelBottom - borderRadius,
+    //            borderRadius,
+    //            0,
+    //            Math.PI
+    //          );
+    //          context.lineTo(labelLeft, labelTop + borderRadius);
+    //          context.arc(
+    //            labelLeft + borderRadius,
+    //            labelTop + borderRadius,
+    //            borderRadius,
+    //            Math.PI,
+    //            -Math.PI / 2,
+    //            false
+    //          );
+    //          context.fill();
+    //          context.fillStyle = '#000';
+    //          context.font = '500 11px Arial';
+    //          context.fillText(labelNodeHover, labelX + 2, labelY + 10);
+    //          context.closePath();
+    //        }
+    //      }
+    //    }*/
   });
 };
+

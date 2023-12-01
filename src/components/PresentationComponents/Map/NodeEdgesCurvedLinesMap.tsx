@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMap } from 'react-leaflet';
-import ReactDOM from 'react-dom';
-import ReactDOMServer from 'react-dom/server';
 import L, { LatLngExpression, Marker } from 'leaflet';
 import '@/style/table-popup.scss';
 import 'leaflet.markercluster';
@@ -11,17 +9,9 @@ import { getNodeColorMapVoyagesStyle } from '@/utils/functions/getNodeColorStyle
 import '@johnconnor_mulligan/leaflet.curve';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
-import {
-  CustomMarker,
-  EdgesAggroutes,
-  LatLng,
-  NodeAggroutes,
-} from '@/share/InterfaceTypesMap';
-import { getEdgesSize, getNodeSize } from '@/utils/functions/getNodeSize';
+import { CustomMarker, EdgesAggroutes } from '@/share/InterfaceTypesMap';
+import { getNodeSize } from '@/utils/functions/getNodeSize';
 import '@/style/map.scss';
-import renderEdgesAnimatedLinesOnMap from './renderEdgesAnimatedLinesOnMap';
-import renderEdgesLinesOnMap from './renderEdgesLinesOnMap';
-import { createNodeDict } from '@/utils/functions/createNodeDict';
 import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
 import { handleHoverCircleMarker } from './handleHoverCircleMarker';
 import { handleHoverMarkerCluster } from './handleHoverMarkerCluster';
@@ -29,6 +19,8 @@ import { DISPOSTIONNODE, ORIGINATIONNODE, ORIGINLanguageGroupKEY, nodeTypeOrigin
 import { setClusterNodeKeyVariable, setClusterNodeValue } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
+import { handerRenderEdges } from './handerRenderEdges';
+import { createTooltipEmbarkDiseEmbarkEdges } from '@/utils/functions/createTooltipClusterEdges';
 
 
 const NodeEdgesCurvedLinesMap = () => {
@@ -40,21 +32,18 @@ const NodeEdgesCurvedLinesMap = () => {
   );
 
   const handleSetClusterKeyValue = (value: string, nodeType: string) => {
-
     if (nodeType === nodeTypeOrigin) {
       dispatch(setClusterNodeKeyVariable(ORIGINLanguageGroupKEY))
       dispatch(setClusterNodeValue(value))
     } else if (nodeType === nodeTypePostDisembarkation) {
       dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY))
       dispatch(setClusterNodeValue(value))
-    } else {
-      // dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY))
-      // dispatch(setClusterNodeValue(value))
     }
-
   }
+
   const updateEdgesAndNodes = () => {
-    const hiddenEdgesLayer = L.layerGroup();
+    const hiddenEdgesLayer = L.layerGroup().addTo(map)
+
     map.eachLayer((layer) => {
       if (
         layer instanceof L.Curve ||
@@ -75,58 +64,8 @@ const NodeEdgesCurvedLinesMap = () => {
       (edge: EdgesAggroutes) => edge.type !== ORIGINATIONNODE && edge.type !== DISPOSTIONNODE
     );
 
-    const nodesDict = createNodeDict(nodesData);
-
-
-    // Render purple edges when page rendering
-    edgesToRender.forEach((edge) => {
-
-      const { controls, weight, type } = edge;
-      const source = nodesDict[edge?.source || 0.15];
-      const target = nodesDict[edge?.target || 0.2];
-
-      const size = getEdgesSize(edge);
-      const weightEddg = size !== null ? nodeLogValueScale(size) / 3 : 0;
-
-      if (source && target && weight) {
-        const startLatLng: LatLng = [source[0], source[1]];
-        const endLatLng: LatLng = [target[0], target[1]];
-        const curveAnimated = renderEdgesAnimatedLinesOnMap(
-          startLatLng,
-          endLatLng,
-          weightEddg,
-          controls
-        );
-        const curveLine = renderEdgesLinesOnMap(
-          startLatLng,
-          endLatLng,
-          weightEddg,
-          controls,
-          type
-        );
-        if (curveAnimated && curveLine) {
-          curveLine.addTo(map);
-          curveAnimated.addTo(map);
-
-          const tooltipContent = `${weight} people transported`;
-          const tooltip = L.tooltip({
-            direction: 'top',
-            permanent: false,
-            opacity: 0.90,
-          }).setContent(tooltipContent);
-
-          curveLine.bindTooltip(tooltip);
-          curveLine.on('mouseover', (e) => {
-            curveLine.openTooltip();
-            tooltip.setLatLng(e.latlng);
-          });
-
-          curveLine.on('mouseout', () => {
-            curveLine.closeTooltip();
-          });
-        }
-      }
-    });
+    // Render edges when page rendering
+    handerRenderEdges(edgesToRender, nodesData, map)
 
     //  Render originMarkerCluster
     const originMarkerCluster = L.markerClusterGroup({
@@ -166,7 +105,8 @@ const NodeEdgesCurvedLinesMap = () => {
         hiddenEdges,
         nodesData,
         nodeTypeOrigin,
-        handleSetClusterKeyValue
+        handleSetClusterKeyValue,
+        map,
       );
     });
 
@@ -209,15 +149,12 @@ const NodeEdgesCurvedLinesMap = () => {
         hiddenEdges,
         nodesData,
         nodeTypePostDisembarkation,
-        handleSetClusterKeyValue
+        handleSetClusterKeyValue,
+        map,
       );
-
     });
 
-
-
     const originNodeMarkersMap = new Map<string, Marker>();
-
     nodesData.forEach((node) => {
       const { data, weights, id: nodeID } = node;
       const { lat, lon, name } = data;
@@ -243,26 +180,14 @@ const NodeEdgesCurvedLinesMap = () => {
           0.8,
           nodeID
         );
-        /*
-          On red, blue, and purple nodes, make the numbers displayed correspond to embarkation and disembarkation numbers. examples:
-          A. Red node, 50 embarked, 0 disembarked --> "PLACE NAME: 50 people embarked."
-          B. Blue node, 0 embarked, 50 disembarked --> "PLACE NAME: 50 people disembarked"
-          C. Purple node, 2 embarked, 20 disembarked --> "PLACE NAME: 2 people embarked and 20 people
-        */
-        let popupContent = '';
-        if (embarkation || disembarkation) {
-          const embarkedText = embarkation ? `${embarkation} people embarked` : '';
-          const disembarkedText = disembarkation ? `${disembarkation} people disembarked` : '';
 
-          const separator = embarkation && disembarkation ? ' and ' : '';
+        const popupContent = createTooltipEmbarkDiseEmbarkEdges(node)
 
-          popupContent = `<p>${name}: ${embarkedText}${separator}${disembarkedText}.</p>`;
-        }
-
-        circleMarker.bindPopup(popupContent);
+        circleMarker.bindPopup(popupContent).bringToFront();
 
         const originMarker = L.marker(latlon);
-        circleMarker.on('mousemove', (event) => {
+        circleMarker.on('mouseover', (event) => {
+          circleMarker.openPopup();
           handleHoverCircleMarker(
             event,
             hiddenEdgesLayer,
@@ -270,31 +195,32 @@ const NodeEdgesCurvedLinesMap = () => {
             nodesData,
             originNodeMarkersMap,
             originMarkerCluster,
-            handleSetClusterKeyValue
+            handleSetClusterKeyValue, // WAIT To Change if want to show table,
+            map,
           );
-        });
+        })
 
         if (disembarkation !== 0 || embarkation !== 0) {
           circleMarker.addTo(map).bringToFront();
         } else if (origin && origin > 0) {
           originNodeMarkersMap.set(nodeID, originMarker);
-          originMarkerCluster.addLayer(circleMarker);
-          originMarkerCluster.addLayer(originMarker);
+          originMarkerCluster.addLayer(circleMarker).bringToFront();
+          originMarkerCluster.addLayer(originMarker).bringToFront();
         } else if (
           (Number(postDisembarkation) && Number(postDisembarkation) > 0) &&
           (disembarkation === 0 && embarkation === 0)
         ) {
-          postDisembarkationsMarkerCluster.addLayer(circleMarker);
+          postDisembarkationsMarkerCluster.addLayer(circleMarker).bringToFront();
         }
       }
     });
 
-
     if (map) {
+      map.addLayer(hiddenEdgesLayer);
       map.addLayer(originMarkerCluster);
       map.addLayer(postDisembarkationsMarkerCluster);
-      map.addLayer(hiddenEdgesLayer);
     }
+
   };
 
   useEffect(() => {
@@ -305,9 +231,6 @@ const NodeEdgesCurvedLinesMap = () => {
 
   return null;
 };
-
-
-
 
 export default NodeEdgesCurvedLinesMap;
 

@@ -30,8 +30,16 @@ import AuthorPage from './pages/AuthorPage';
 import InstitutionAuthorsPage from './pages/InstitutionAuthorsPage';
 import BlogDetailsPost from './components/BlogPageComponents/Blogcomponents/BlogDetailsPost';
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      cacheTime: Infinity
+    }
+  }
+});
+
 const App: React.FC = () => {
-  const queryClient = new QueryClient();
 
   return (
     <ThemeProvider theme={theme}>

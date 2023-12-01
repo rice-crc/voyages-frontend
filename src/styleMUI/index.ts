@@ -1,10 +1,9 @@
 
 
-import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button, TextField, CardHeader } from '@mui/material';
+import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button, TextField, CardHeader, TablePagination } from '@mui/material';
 import MuiInput from '@mui/material/Input';
-import NestedMenuItem from '../components/SelectorComponents/Cascading/NestedMenuItem';
 import { SxProps, } from '@mui/material';
-import NestedMenuColumnItem from '@/components/SelectorComponents/ColumnSelectorTable/NestedMenuColumnItem';
+import NestedMenuItems from '@/components/SelectorComponents/Cascading/NestedMeneItems';
 import { styled, } from '@mui/material/styles';
 
 const blue500 = '#42a5f5';
@@ -66,21 +65,9 @@ export const StyleMenuItem = styled('div')(({ theme }) => ({
   },
 }));
 
-export const DropdownMenuItem = styled(MenuItem)`
-  display: flex;
-  justify-content: space-between !important;
-  & > svg {
-    margin-left: 32px;
-  }
-`;
 
-export const DropdownNestedMenuItem = styled(NestedMenuItem)`
-  display: flex;
-  justify-content: space-between !important;
-  & > svg {
-    margin-left: 32px;
-  }
-`;
+
+
 
 export const MenuListDropdownStyle = styled('div')`
   & > div {
@@ -146,7 +133,7 @@ export const CardHeaderCustom = styled(CardHeader)`
   }
 `;
 
-export const DropdownMenuColumnItem = styled(MenuItem)`
+export const DropdownMenuItem = styled(MenuItem)`
   display: flex;
   justify-content: space-between !important;
   & > ul {
@@ -156,7 +143,7 @@ export const DropdownMenuColumnItem = styled(MenuItem)`
     margin-left: 32px;
   }
 `;
-export const DropdownNestedMenuColumnItem = styled(NestedMenuColumnItem)`
+export const DropdownNestedMenuItemChildren = styled(NestedMenuItems)`
   display: flex;
   justify-content: space-between !important;
 
@@ -209,3 +196,15 @@ export const styleModalCard = {
   boxShadow: 24,
   p: '10px 20px',
 };
+
+export const CustomTablePagination = styled(TablePagination)({
+  '& .MuiTablePagination-selectLabel': {
+    fontSize: '0.975rem',
+  },
+  '& .MuiTablePagination-select': {
+    fontSize: '0.975rem',
+  },
+  '& .MuiTablePagination-displayedRows ': {
+    fontSize: '0.975rem',
+  },
+}) as React.ComponentType<any>;

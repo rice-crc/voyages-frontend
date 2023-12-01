@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
-import L from 'leaflet';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVoyagesMap } from '@/fetch/voyagesFetch/fetchVoyagesMap';
@@ -13,12 +12,10 @@ import {
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import {
-  PASTHOMEPAGE,
   MAP_CENTER,
   MAXIMUM_ZOOM,
   MINIMUM_ZOOM,
   ZOOM_LEVEL_THRESHOLD,
-  VOYAGESPAGE,
   mappingSpecialists,
   mappingSpecialistsCountries,
   mappingSpecialistsRivers,
@@ -42,6 +39,8 @@ import { HandleZoomEvent } from './HandleZoomEvent';
 import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
 import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { handleSetDataSentMap } from '@/utils/functions/handleSetDataSentMap';
+import { checkPagesRouteForEnslaved, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 
 interface LeafletMapProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>
@@ -122,105 +121,31 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     }
   }, [zoomLevel]);
 
-
   const fetchData = async (regionOrPlace: string) => {
-    const dataSend: { [key: string]: (string | number)[] } = {};
-    dataSend['zoomlevel'] = [regionOrPlace];
 
-    if (clusterNodeKeyVariable && clusterNodeValue) {
-      dataSend[clusterNodeKeyVariable] = [clusterNodeValue]
-    }
+    const dataSend = handleSetDataSentMap(
+      autoCompleteValue,
+      isChangeAuto,
+      isChangeGeoTree,
+      dataSetValue,
+      dataSetKey,
+      inputSearchValue,
+      rang,
+      geoTreeValue,
+      isChange,
+      currentPage,
+      pathName,
+      currentEnslavedPage,
+      styleName, clusterNodeKeyVariable, clusterNodeValue
+    )
+    dataSend['zoomlevel'] = [regionOrPlace!];
 
-
-    if (styleName !== TYPESOFDATASET.allVoyages) {
-      for (const value of dataSetValue) {
-        dataSend[dataSetKey] = [String(value)];
-      }
-    }
-
-    if (inputSearchValue) {
-      dataSend['global_search'] = [String(inputSearchValue)];
-    }
-    if (isChange && rang && currentPage === 7 && pathName === VOYAGESPAGE) {
-      for (const rangKey in rang) {
-        dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
-      }
-    }
-    if (
-      isChange &&
-      rang &&
-      currentEnslavedPage === 3 &&
-      pathName === PASTHOMEPAGE
-    ) {
-      for (const rangKey in rang) {
-        dataSend[rangKey] = [rang[rangKey][0], rang[rangKey][1]];
-      }
-    }
-
-    if (
-      autoCompleteValue &&
-      isChangeAuto &&
-      currentPage === 7 &&
-      pathName === VOYAGESPAGE
-    ) {
-      for (const autoKey in autoCompleteValue) {
-        for (const autoCompleteOption of autoCompleteValue[autoKey]) {
-          if (typeof autoCompleteOption !== 'string') {
-            const { label } = autoCompleteOption;
-
-            dataSend[autoKey] = [label];
-          }
-        }
-      }
-    }
-
-    if (
-      autoCompleteValue &&
-      isChangeAuto &&
-      currentEnslavedPage === 3 &&
-      pathName === PASTHOMEPAGE
-    ) {
-      for (const autoKey in autoCompleteValue) {
-        for (const autoCompleteOption of autoCompleteValue[autoKey]) {
-          if (typeof autoCompleteOption !== 'string') {
-            const { label } = autoCompleteOption;
-            dataSend[autoKey] = [label];
-          }
-        }
-      }
-    }
-
-    if (
-      isChangeGeoTree &&
-      geoTreeValue &&
-      currentPage === 7 &&
-      pathName === VOYAGESPAGE
-    ) {
-      for (const keyValue in geoTreeValue) {
-        for (const keyGeoValue of geoTreeValue[keyValue]) {
-          dataSend[keyValue] = [String(keyGeoValue)];
-        }
-      }
-    }
-
-    if (
-      isChangeGeoTree &&
-      geoTreeValue &&
-      currentEnslavedPage === 3 &&
-      pathName === PASTHOMEPAGE
-    ) {
-      for (const keyValue in geoTreeValue) {
-        for (const keyGeoValue of geoTreeValue[keyValue]) {
-          dataSend[keyValue] = [String(keyGeoValue)];
-        }
-      }
-    }
 
     hasFetchedRegion ? setLoading(true) : setLoading(false);
     let response;
-    if (styleNamePage === TYPESOFDATASET.allVoyages || styleNamePage === TYPESOFDATASET.intraAmerican || styleNamePage === TYPESOFDATASET.transatlantic) {
+    if (checkPagesRouteForVoyages(styleNamePage!)) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
-    } else if (styleNamePage === AFRICANORIGINS) {
+    } else if (checkPagesRouteForEnslaved(styleNamePage!)) {
       response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
     }
 
@@ -310,7 +235,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   });
 
   let backgroundColor = styleNamePeople;
-  if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
+  if (checkPagesRouteForVoyages(styleName)) {
     backgroundColor = styleName
   }
   if (styleNamePeople === AFRICANORIGINS) {

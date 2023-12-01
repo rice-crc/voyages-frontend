@@ -4,11 +4,10 @@ import { AppDispatch, RootState } from '@/redux/store';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
-import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { TYPESOFDATASET } from '@/share/InterfaceTypes';
+import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
@@ -74,12 +73,12 @@ const CustomHeader: React.FC<Props> = (props) => {
     try {
       let response;
 
-      if (pathNameVoyages === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic) {
+      if (checkPagesRouteForVoyages(styleName!)) {
         response = await dispatch(fetchVoyageOptionsData(dataSend)).unwrap();
 
-      } else if (pathNameEnslaved === ALLENSLAVED || styleName === ALLENSLAVED || styleName === AFRICANORIGINS) {
+      } else if (checkPagesRouteForEnslaved(styleName!)) {
         response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
-      } else if (pathNameEnslavers === ALLENSLAVERS) {
+      } else if (checkPagesRouteForEnslavers(styleName!)) {
         response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
       }
       if (response) {

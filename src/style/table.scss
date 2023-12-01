@@ -1,97 +1,112 @@
 @mixin breakpoint-standard($size) {
   @if $size==0 {
-      @media only screen and (max-width: 374px) {
-          @content;
-      }
+    @media only screen and (max-width: 374px) {
+      @content;
+    }
   }
 
   @else if $size==1 {
-      @media only screen and (min-width: 375px) and (max-width: 479px) {
-          @content;
-      }
+    @media only screen and (min-width: 375px) and (max-width: 425px) {
+      @content;
+    }
+  }
+
+  @else if $size==1.1 {
+    @media only screen and (min-width: 425px) and (max-width: 479px) {
+      @content;
+    }
   }
 
   @else if $size==2 {
-      @media only screen and (min-width: 480px) and (max-width: 575px) {
-          @content;
-      }
+    @media only screen and (min-width: 480px) and (max-width: 575px) {
+      @content;
+    }
   }
 
   @else if $size==3 {
-      @media only screen and (min-width: 576px) and (max-width: 767px) {
-          @content;
-      }
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+      @content;
+    }
   }
 
   @else if $size==4 {
-      @media only screen and (min-width: 768px) and (max-width: 991px) {
-          @content;
-      }
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+      @content;
+    }
   }
 
   @else if $size==5 {
-      @media only screen and (min-width: 992px) and (max-width: 1024px) {
-          @content;
-      }
+    @media only screen and (min-width: 992px) and (max-width: 1024px) {
+      @content;
+    }
   }
 
   @else if $size==6 {
-      @media only screen and (min-width: 1025px) and (max-width: 1366px) {
-          @content;
-      }
+    @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+      @content;
+    }
   }
 
   @else if $size==7 {
-      @media only screen and (max-width: 1440px) {
-          @content;
-      }
+    @media only screen and (max-width: 1440px) {
+      @content;
+    }
   }
 }
 
-.grid-container{
+.grid-container {
   width: 100%;
   height: 100%;
+
   @include breakpoint-standard(0) {
     margin-top: 40%;
   }
+
   @include breakpoint-standard(1) {
     margin-top: 40%;
   }
+
   @include breakpoint-standard(2) {
     margin-top: 40%;
   }
+
   @include breakpoint-standard(3) {
     margin-top: 40%;
   }
+
   @include breakpoint-standard(4) {
     margin-top: 22%;
   }
 }
 
-.tableContainer{
+.tableContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   @include breakpoint-standard(5) {
     margin-top: 11px;
   }
 }
+
 .customHeaderMenuButton {
   float: left;
   margin: 0 0 0 3px;
 }
+
 .ag-header-group-cell-with-group {
   color: #008ca8;
 }
+
 .customHeaderLabel {
   float: left;
   margin: 0 0 0 3px;
 }
 
-div .customHeaderLabel{
-  white-space: nowrap; 
+div .customHeaderLabel {
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
   width: 85%;
   color: #008ca8;
 }
@@ -123,7 +138,7 @@ div .customHeaderLabel{
   color: cornflowerblue;
 }
 
-.pagination-div{
+.pagination-div {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -131,14 +146,17 @@ div .customHeaderLabel{
 }
 
 .ag-theme-alpine .ag-row-hover {
-  background-color: #85d4cb; /* Define the desired hover background color */
+  background-color: #85d4cb;
+  /* Define the desired hover background color */
   /* Add any other styles for the hover effect */
 }
-.pagination-div > nav > ul > li >  button{
+
+.pagination-div>nav>ul>li>button {
   font-size: 0.875rem;
   font-family: sans-serif;
 }
-.Skeleton-loading{
+
+.Skeleton-loading {
   position: relative;
   top: 5rem;
 }
@@ -146,7 +164,8 @@ div .customHeaderLabel{
 .div-value {
   width: 160px;
   cursor: pointer;
-  .value {
+
+  .value-cell {
     white-space: pre-line;
     overflow-wrap: break-word;
     line-height: normal;
@@ -157,21 +176,24 @@ div .customHeaderLabel{
   }
 }
 
-.configureColumnsButton{
+.configureColumnsButton {
   font-size: 12 !important;
   background-color: "#17a2b8" !important;
   color: "#ffffff" !important;
 }
-.network-icon{
+
+.network-icon {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px 0;
+
   img {
     width: 12%;
     cursor: pointer;
   }
 }
+
 .pivot-table-flex-container {
   display: flex;
   flex-flow: row wrap;
@@ -180,22 +202,27 @@ div .customHeaderLabel{
   margin: 10px 0;
   list-style: none;
   width: 90%;
+
   @include breakpoint-standard(0) {
     width: 100%;
     flex-direction: column;
   }
+
   @include breakpoint-standard(1) {
     width: 100%;
     flex-direction: column;
   }
+
   @include breakpoint-standard(2) {
     width: 100%;
     flex-direction: column;
   }
+
   @include breakpoint-standard(3) {
     width: 100%;
     flex-direction: column;
   }
+
   @include breakpoint-standard(4) {
     width: 100%;
     flex-direction: column;
@@ -204,61 +231,74 @@ div .customHeaderLabel{
 
 .pivot-table-flex-item {
   padding: 10px 20px;
-  width:33%;
+  width: 33%;
   margin-top: 10px;
   color: white;
   font-weight: bold;
   text-align: center;
+
   @include breakpoint-standard(0) {
-    width:100%;
+    width: 100%;
     padding: 10px;
   }
+
   @include breakpoint-standard(1) {
-    width:100%;
+    width: 100%;
     padding: 10px;
   }
+
   @include breakpoint-standard(2) {
-    width:100%;
+    width: 100%;
     padding: 10px;
   }
+
   @include breakpoint-standard(3) {
-    width:100%;
+    width: 100%;
     padding: 10px;
   }
+
   @include breakpoint-standard(4) {
-    width:100%;
+    width: 100%;
     padding: 10px;
   }
 }
-.aggregation-export{
+
+.aggregation-export {
   display: flex;
   justify-content: space-between;
   align-items: end;
   width: 90%;
   padding: 5px 0;
+  height: 90%;
+
   @include breakpoint-standard(0) {
-    width:100%;
-    
+    width: 100%;
+
   }
+
   @include breakpoint-standard(1) {
-    width:100%;
-    
+    width: 100%;
+
   }
+
   @include breakpoint-standard(2) {
-    width:100%;
-    
+    width: 100%;
+
   }
+
   @include breakpoint-standard(3) {
-    width:100%;
-    
+    width: 100%;
+
   }
+
   @include breakpoint-standard(4) {
-    width:100%;
-    
+    width: 100%;
+
   }
 }
-.button-export-csv{
-  > button{
+
+.button-export-csv {
+  >button {
     border-radius: 4px;
     padding: 4px;
     color: #fff;
@@ -266,21 +306,82 @@ div .customHeaderLabel{
     border-color: #17a2b8;
     cursor: pointer;
     box-shadow: #17a2b8 1px 2px 6px;
+
     @include breakpoint-standard(0) {
-    font-size: 11px;
-      
+      font-size: 10px;
+
     }
+
     @include breakpoint-standard(1) {
-      font-size: 11px;
-      
+      font-size: 10px;
+
     }
+
+    @include breakpoint-standard(1.1) {
+      font-size: 10px;
+
+    }
+
     @include breakpoint-standard(2) {
       font-size: 11px;
-      
+
     }
+
     @include breakpoint-standard(3) {
       font-size: 12px;
-      
+
     }
+
+  }
+}
+
+.mobile-responsive {
+  position: relative;
+
+  @include breakpoint-standard(0) {
+    top: 70px;
+  }
+
+  @include breakpoint-standard(1) {
+    top: 70px;
+  }
+
+  @include breakpoint-standard(1.1) {
+    top: 70px;
+  }
+
+  @include breakpoint-standard(2) {
+    top: -30px;
+  }
+
+  @include breakpoint-standard(3) {
+    top: -20px;
+  }
+
+}
+
+.mobile-responsive-map {
+  @include breakpoint-standard(0) {
+    margin-top: 80px !important
+  }
+
+  @include breakpoint-standard(1) {
+    margin-top: 80px !important
+  }
+
+  @include breakpoint-standard(1.1) {
+    margin-top: 80px !important
+  }
+
+  @include breakpoint-standard(2) {
+    margin-top: 80px !important
+  }
+
+  @include breakpoint-standard(3) {
+    margin-top: 60px !important
+  }
+
+  @include breakpoint-standard(4) {
+    margin-top: 60px !important
   }
 }

@@ -9,17 +9,13 @@ import {
 import { Grid } from '@mui/material';
 import { CustomSlider, Input } from '@/styleMUI';
 import { AppDispatch, RootState } from '@/redux/store';
-import {
-  AutoCompleteInitialState,
-  RangeSliderState,
-  TYPESOFDATASET,
-} from '@/share/InterfaceTypes';
+import { AutoCompleteInitialState, RangeSliderState } from '@/share/InterfaceTypes';
 import { fetchRangeSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
 import { fetchPastEnslavedRangeSliderData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedRangeSliderData';
-import { AFRICANORIGINS, ALLENSLAVED, ALLENSLAVERS, ALLVOYAGES, ENSALVERSTYLE, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import '@/style/Slider.scss';
 import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 
 const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -54,24 +50,24 @@ const RangeSlider = () => {
       const dataSend: { [key: string]: (string | number)[] } = {
         aggregate_fields: [varName],
       };
-      console.log({ styleName })
+
       try {
         let response;
-        if (styleName === TYPESOFDATASET.allVoyages || styleName === TYPESOFDATASET.intraAmerican || styleName === TYPESOFDATASET.transatlantic || styleName === TYPESOFDATASET.texas) {
+        if (checkPagesRouteForVoyages(styleName!)) {
           response = await dispatch(fetchRangeSliderData(dataSend)).unwrap();
-        } else if (styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSLAVEDTEXAS) {
+        } else if (checkPagesRouteForEnslaved(styleName!)) {
           response = await dispatch(
             fetchPastEnslavedRangeSliderData(dataSend)
           ).unwrap();
-        } else if (styleName === ENSALVERSTYLE) {
+        } else if (checkPagesRouteForEnslavers(styleName!)) {
           response = await dispatch(
             fetchPastEnslaversRangeSliderData(dataSend)
           ).unwrap();
         }
         if (response) {
           const initialValue: number[] = [
-            response[varName].min,
-            response[varName].max,
+            parseInt(response[varName].min),
+            parseInt(response[varName].max),
           ];
           dispatch(setKeyValue(varName));
           dispatch(
@@ -126,7 +122,7 @@ const RangeSlider = () => {
         ...rangeSliderMinMax,
         ...autoCompleteValue,
         ...geoTreeValue,
-        [varName]: currentSliderValue,
+        [varName]: currentSliderValue as number[],
       },
     };
     const filterObjectString = JSON.stringify(filterObject);
@@ -192,8 +188,8 @@ const RangeSlider = () => {
       />
       <CustomSlider
         size="small"
-        min={min}
-        max={max}
+        min={min as number}
+        max={max as number}
         value={rangeMinMax}
         onChange={handleSliderChange}
         onMouseUp={handleSliderChangeMouseUp}

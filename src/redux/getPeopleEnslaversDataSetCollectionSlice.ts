@@ -1,11 +1,11 @@
 import {
     BaseFilter,
-    InitialStateDataPeopleSetCollection,
+    InitialStateDataPeopleEnslaversSetCollection,
 } from '@/share/InterfactTypesDatasetCollection';
 import jsonDataEnslaversCOLLECTIONS from '@/utils/flatfiles/ENSLAVERS_COLLECTIONS.json';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-export const initialState: InitialStateDataPeopleSetCollection = {
+export const initialState: InitialStateDataPeopleEnslaversSetCollection = {
     value: jsonDataEnslaversCOLLECTIONS,
     textHeader: jsonDataEnslaversCOLLECTIONS[0].headers.label,
     textIntroduce: jsonDataEnslaversCOLLECTIONS[0].headers.text_introduce,
@@ -14,8 +14,8 @@ export const initialState: InitialStateDataPeopleSetCollection = {
     dataSetKeyPeople: '',
     dataSetValuePeople: [],
     blocksPeople: jsonDataEnslaversCOLLECTIONS[0].blocks,
-    filterMenuFlatfile: jsonDataEnslaversCOLLECTIONS[0].filter_menu_flatfile,
-    tableFlatfile: jsonDataEnslaversCOLLECTIONS[0].table_flatfile,
+    filterMenuEnslaversFlatfile: jsonDataEnslaversCOLLECTIONS[0].filter_menu_flatfile,
+    tableFlatfileEnslavers: jsonDataEnslaversCOLLECTIONS[0].table_flatfile,
 };
 
 export const getPeopleEnslaversDataSetCollectionSlice = createSlice({
@@ -59,10 +59,10 @@ export const getPeopleEnslaversDataSetCollectionSlice = createSlice({
             state,
             action: PayloadAction<string>
         ) => {
-            state.filterMenuFlatfile = action.payload;
+            state.filterMenuEnslaversFlatfile = action.payload;
         },
         setPeopleTableEnslavedFlatfile: (state, action: PayloadAction<string>) => {
-            state.tableFlatfile = action.payload;
+            state.tableFlatfileEnslavers = action.payload;
         },
         resetSlice: (state) => {
             state.dataSetValueBaseFilter,
@@ -71,8 +71,8 @@ export const getPeopleEnslaversDataSetCollectionSlice = createSlice({
                 state.textHeader,
                 state.textIntroduce,
                 state.blocksPeople,
-                state.filterMenuFlatfile,
-                state.tableFlatfile
+                state.filterMenuEnslaversFlatfile,
+                state.tableFlatfileEnslavers
         },
         resetAllStateSlice: (state) => initialState,
     },

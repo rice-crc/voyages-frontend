@@ -24,6 +24,7 @@ const CollectionTabEnslavers = () => {
   );
 
   const handlePageNavigation = (page: number, blockName: string) => {
+    console
     dispatch(setCurrentEnslaversPage(page));
     dispatch(setCurrentBlockName(blockName))
     if (page === 1) {

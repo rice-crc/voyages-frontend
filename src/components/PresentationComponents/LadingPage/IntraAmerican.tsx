@@ -25,7 +25,7 @@ const IntraAmerican: React.FC = () => {
                     <ButtonLists lists={lists} />
                 </div>
                 <div className="intra-american-bg">
-                    <img src={INTRAMERCAN} alt="logo" className="intra-american-img" />
+                    <img src={INTRAMERCAN} alt="Intra-American" className="intra-american-img" />
                 </div>
             </div>
         </div>

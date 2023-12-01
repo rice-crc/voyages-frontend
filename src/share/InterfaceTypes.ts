@@ -351,3 +351,24 @@ export interface TreeSelectItemInitialState {
     geoTreeSelectValue: string[]
     isChangeGeoTree: boolean
 }
+
+
+export interface InitialStateFilterMenuProps {
+    filterValueList: ValueFilterList;
+}
+
+export interface ValueFilterList {
+    valueVoyages: FilterMenuList[];
+    valueEnslaved: FilterMenuList[];
+    valueAfricanOrigin: FilterMenuList[];
+    valueEnslavedTexas: FilterMenuList[];
+    valueEnslavers: FilterMenuList[];
+}
+
+export interface FilterMenuList {
+    label: string;
+    var_name?: string;
+    type?: string;
+    flatlabel?: string;
+    children?: ChildrenFilter[];
+}

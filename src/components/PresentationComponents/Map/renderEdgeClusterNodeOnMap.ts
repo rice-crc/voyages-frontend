@@ -4,6 +4,7 @@ import renderEdgesLinesOnMap from "./renderEdgesLinesOnMap";
 import L from "leaflet";
 
 import { createTooltipClusterEdges } from "../../../utils/functions/createTooltipClusterEdges";
+import { Root } from "react-dom/client";
 export function renderEdgeClusterNodeOnMap(
     hiddenEdgesLayer: L.LayerGroup<any>,
     edge: EdgesAggroutes,
@@ -11,7 +12,10 @@ export function renderEdgeClusterNodeOnMap(
     coordinatesStart: LatLng,
     coordinatesEnd: LatLng,
     weightEdges: number,
-    nodeType: string
+    nodeType: string,
+    map: L.Map,
+    event: L.LeafletEvent,
+    childNodesData?: NodeAggroutes[],
 ) {
     const curveAnimated = renderEdgesAnimatedLinesOnMap(
         coordinatesStart,
@@ -29,7 +33,11 @@ export function renderEdgeClusterNodeOnMap(
     );
 
     if (curveAnimated && curveLine) {
-        const tooltipContent = createTooltipClusterEdges(edge.weight, node, nodeType);
+
+        hiddenEdgesLayer.addLayer(curveLine.addTo(map).bringToBack());
+        hiddenEdgesLayer.addLayer(curveAnimated);
+
+        const tooltipContent = createTooltipClusterEdges(edge.weight, node, nodeType, childNodesData!);
         const tooltip = L.tooltip({
             direction: 'top',
             permanent: false,
@@ -41,8 +49,7 @@ export function renderEdgeClusterNodeOnMap(
         curveLine.on('mouseover', (e) => {
             curveLine.openTooltip();
             tooltip.setLatLng(e.latlng);
+            map.closePopup();
         });
-        hiddenEdgesLayer.addLayer(curveLine);
-        hiddenEdgesLayer.addLayer(curveAnimated);
     }
 }

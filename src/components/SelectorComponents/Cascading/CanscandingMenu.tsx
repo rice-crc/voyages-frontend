@@ -1,14 +1,26 @@
 import { Toolbar, Hidden } from '@mui/material';
-import { MenuListDropdown } from './MenuListDropdown';
 import { CanscandingMenuProps } from '@/share/InterfaceTypes';
-import { MenuListDropdownPeople } from './MenuListDropdownPeople';
-import { AFRICANORIGINS, ALLENSLAVED, ENSALVERSTYLE } from '@/share/CONST_DATA';
-import { usePageRouter } from '@/hooks/usePageRouter';
+import { MenuListsDropdown } from './MenuListsDropdown';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { ResetAllButton } from '../ButtonComponents/ResetAllButton';
+import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 
 export default function CanscandingMenu(props: CanscandingMenuProps) {
-
-  const { styleName } = usePageRouter()
-
+  const dispatch: AppDispatch = useDispatch();
+  const { varName } = useSelector(
+    (state: RootState) => state.rangeSlider
+  );
+  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
+  const handleResetAll = () => {
+    dispatch(resetAllStateToInitailState())
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
   return (
     <div
       style={{
@@ -24,12 +36,9 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
         }}
       >
         <Hidden smDown>
-          <div>
-            {styleName === ALLENSLAVED || styleName === AFRICANORIGINS || styleName === ENSALVERSTYLE ? (
-              <MenuListDropdownPeople />
-            ) : (
-              <MenuListDropdown />
-            )}
+          <div className='list-filter-menu'>
+            <MenuListsDropdown />
+            <ResetAllButton varName={varName} clusterNodeKeyVariable={clusterNodeKeyVariable} clusterNodeValue={clusterNodeValue} handleResetAll={handleResetAll} />
           </div>
         </Hidden>
       </Toolbar>

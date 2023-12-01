@@ -19,6 +19,10 @@ export interface Nodes extends d3.SimulationNodeDatum {
 export interface NodesID {
     id: string
 }
+export interface EdgeNode {
+    x: number;
+    y: number;
+}
 
 export interface Edges extends d3.SimulationLinkDatum<Nodes> {
     data: RoleName;
@@ -42,6 +46,8 @@ export type Datas = {
 
 export interface InitialStatePastNetworksData {
     data: Datas,
+    nodes: Nodes[],
+    edges: Edges[]
     openModal: boolean;
     networkID: number | null,
     networkKEY: string,

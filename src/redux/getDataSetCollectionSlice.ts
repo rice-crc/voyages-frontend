@@ -10,6 +10,8 @@ export const initialState: InitialStateDataSetCollection = {
     dataSetKey: '',
     dataSetValue: [],
     blocks: jsonDataVoyageCollection[0].blocks,
+    filterMenuVoyageFlatfile: jsonDataVoyageCollection[0].filter_menu_flatfile,
+    tableFlatfileVoyages: jsonDataVoyageCollection[0].table_flatfile
 }
 
 export const getDataSetCollectionSlice = createSlice({
@@ -37,6 +39,15 @@ export const getDataSetCollectionSlice = createSlice({
         setBlocksMenuList: (state, action: PayloadAction<string[]>) => {
             state.blocks = action.payload
         },
+        setTableVoyagesFlatfile: (state, action: PayloadAction<string>) => {
+            state.tableFlatfileVoyages = action.payload;
+        },
+        setVoyagesFilterMenuFlatfile: (
+            state,
+            action: PayloadAction<string>
+        ) => {
+            state.filterMenuVoyageFlatfile = action.payload;
+        },
         resetSlice: (state) => {
             state.dataSetValueBaseFilter,
                 state.dataSetKey,
@@ -53,6 +64,6 @@ export const getDataSetCollectionSlice = createSlice({
     },
 });
 
-export const { setBaseFilterDataSetValue, resetAllStateSlice, resetSlice, setBlocksMenuList, setBaseFilterDataValue, setBaseFilterDataKey, setDataSetHeader, setTextIntro, setStyleName } = getDataSetCollectionSlice.actions;
+export const { setBaseFilterDataSetValue, setTableVoyagesFlatfile, setVoyagesFilterMenuFlatfile, resetAllStateSlice, resetSlice, setBlocksMenuList, setBaseFilterDataValue, setBaseFilterDataKey, setDataSetHeader, setTextIntro, setStyleName } = getDataSetCollectionSlice.actions;
 
 export default getDataSetCollectionSlice.reducer;

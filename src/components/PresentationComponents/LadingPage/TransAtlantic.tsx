@@ -19,7 +19,7 @@ const TransAtlantic: React.FC = () => {
                 <div className="atlatic-content-bg">
                     <img
                         src={TRANSATLANTICIMG}
-                        alt="TRANSATLANTIC"
+                        alt="Trans-Atlantic"
                         className="african-img"
                     />
                 </div>
