@@ -1,3 +1,4 @@
+
 export const dataOne = {
     "edges": [
         {
@@ -215,6 +216,149 @@ export const dataSecond = {
             "node_class": "enslavement_relations",
             "relation_type__name": "Transportation",
             "uuid": "02fc6974-cb74-4d2a-82a6-4b9e2dc4638f"
+        }
+    ]
+}
+
+export const mockData = {
+    "edges": [
+        {
+            "data": {},
+            "source": "42b029cb-306e-4376-8953-2e60d6f81a97",
+            "target": "fa6ac9e1-c686-420e-baa4-4408ed367290"
+        },
+        {
+            "data": {
+                "role_name": "Shipper, Consignor"
+            },
+            "source": "7e5842b0-7bce-45f1-8ec3-8f1550580478",
+            "target": "fa6ac9e1-c686-420e-baa4-4408ed367290"
+        },
+        {
+            "data": {},
+            "source": "48e3a969-be83-486d-8823-afd74f016b00",
+            "target": "fa6ac9e1-c686-420e-baa4-4408ed367290"
+        },
+        {
+            "data": {},
+            "source": "e665f919-c434-4472-93c9-43c7176fc8a2",
+            "target": "fa6ac9e1-c686-420e-baa4-4408ed367290"
+        },
+        {
+            "data": {},
+            "source": "48e3a969-be83-486d-8823-afd74f016b00",
+            "target": "aasdas-1"
+        },
+        {
+            "data": {},
+            "source": "48e3a969-be83-486d-8823-afd74f016b00",
+            "target": "aasdas-2"
+        },
+        {
+            "data": {},
+            "source": "48e3a969-be83-486d-8823-afd74f016b00",
+            "target": "aasdas-3"
+        },
+        {
+            "data": {},
+            "source": "48e3a969-be83-486d-8823-afd74f016b00",
+            "target": "aasdas-4"
+        },
+        {
+            "data": {},
+            "source": "48e3a969-be83-486d-8823-afd74f016b00",
+            "target": "aasdas-5"
+        },
+        {
+            "data": {},
+            "source": "48e3a969-be83-486d-8823-afd74f016b00",
+            "target": "aasdas-6"
+        },
+        {
+            "data": {},
+            "source": "48e3a969-be83-486d-8823-afd74f016b00",
+            "target": "aasdas-7"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 131065,
+            "node_class": "voyages",
+            "uuid": "42b029cb-306e-4376-8953-2e60d6f81a97",
+            "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year": 1842,
+            "voyage_itinerary__imp_principal_place_of_slave_purchase__name": "Alexandria",
+            "voyage_itinerary__imp_principal_port_slave_dis__name": "New Orleans",
+            "voyage_ship__ship_name": "Pioneer"
+        },
+        {
+            "id": 55230,
+            "node_class": "enslavers",
+            "principal_alias": "Scott, James ?",
+            "uuid": "7e5842b0-7bce-45f1-8ec3-8f1550580478"
+        },
+        {
+            "age": 14,
+            "documented_name": "Brown, Cesar",
+            "gender": 1,
+            "id": 500004,
+            "node_class": "enslaved",
+            "uuid": "48e3a969-be83-486d-8823-afd74f016b00"
+        },
+        {
+            "age": 30,
+            "documented_name": "Henry, Patrick",
+            "gender": 1,
+            "id": 500002,
+            "node_class": "enslaved",
+            "uuid": "e665f919-c434-4472-93c9-43c7176fc8a2"
+        },
+        {
+            "id": 66616,
+            "node_class": "enslavement_relations",
+            "relation_type__name": "Transportation",
+            "uuid": "fa6ac9e1-c686-420e-baa4-4408ed367290"
+        },
+        {
+            "id": 1,
+            "node_class": "enslaved",
+            "relation_type__name": "Transportation",
+            "uuid": "aasdas-1"
+        },
+        {
+            "id": 2,
+            "node_class": "enslaved",
+            "relation_type__name": "Transportation",
+            "uuid": "aasdas-2"
+        },
+        {
+            "id": 3,
+            "node_class": "enslaved",
+            "relation_type__name": "Transportation",
+            "uuid": "aasdas-3"
+        },
+        {
+            "id": 4,
+            "node_class": "enslaved",
+            "relation_type__name": "Transportation",
+            "uuid": "aasdas-4"
+        },
+        {
+            "id": 5,
+            "node_class": "enslaved",
+            "relation_type__name": "Transportation",
+            "uuid": "aasdas-5"
+        },
+        {
+            "id": 6,
+            "node_class": "enslaved",
+            "relation_type__name": "Transportation",
+            "uuid": "aasdas-6"
+        },
+        {
+            "id": 7,
+            "node_class": "enslaved",
+            "relation_type__name": "Transportation",
+            "uuid": "aasdas-7"
         }
     ]
 }

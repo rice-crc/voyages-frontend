@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import { pointer, forceLink, drag, zoomIdentity } from 'd3';
 import { useEffect, useRef } from 'react';
-import { Datas, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
+import { netWorkDataProps, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
 import { findNode, findNodeSvg } from './findNode';
 import { RADIUSNODE, classToColor } from '@/share/CONST_DATA';
 import { findHoveredEdge } from './findHoveredEdge';
@@ -18,20 +18,13 @@ import {
 type NetworkDiagramProps = {
     width: number;
     height: number;
-    // netWorkData: Datas;
-    // newUpdateNetWorkData: Datas;
-    handleNodeDoubleClick: (nodeId: number, nodeClass: string) => Promise<void>;
-    handleClickNodeShowCard: (nodeId: number, nodeClass: string) => Promise<void>;
+
 };
 
 export const NetworkDiagramSVG = ({
     width,
     height,
-    // netWorkData,
-    // newUpdateNetWorkData,
-    handleNodeDoubleClick,
-    handleClickNodeShowCard,
-}: // changedNetWorkData
+}:
     NetworkDiagramProps) => {
     const divRef = useRef<HTMLDivElement | null>(null);
     const svgRef = useRef<SVGSVGElement | null>(null);
@@ -64,32 +57,17 @@ export const NetworkDiagramSVG = ({
     };
 
     const handleClickNodeCard = (node: Nodes) => {
-        handleClickNodeShowCard(node.id, node.node_class);
+        // handleClickNodeShowCard(node.id, node.node_class);
     };
 
     const handleDoubleClick = (node: Nodes) => {
-        handleNodeDoubleClick(node.id, node.node_class);
+        // handleNodeDoubleClick(node.id, node.node_class);
     };
 
     const svg = d3.create('svg');
     const link = svg.append('g').selectAll('line').data(validEdges).join('line');
 
     const node = svg.append('g').selectAll('circle').data(nodes).join('circle');
-    // const node = svg.append('g').selectAll('circle').data(nodes).join(
-    //     enter => (
-    //         enter.append("circle")
-    //             .attr("class", "node")
-    //             .attr("r", RADIUSNODE)
-    //             .attr('stroke', '#fff')
-    //             .attr('stroke-width', '1.5')
-    //             .attr('fill', (node: Nodes) => {
-    //                 return classToColor[node.node_class as keyof typeof classToColor] || 'gray';
-    //             })
-    //             .attr("cx", node => String(node.x))
-    //             .attr("cy", node => String(node.y))
-    //     )
-    // )
-
     const label = svg.selectAll('label').data(nodes).join('text');
 
     applyStyle(svg);
@@ -116,7 +94,8 @@ export const NetworkDiagramSVG = ({
                 return strokeColor;
             })
             .attr('stroke-width', '1.5')
-            .attr('fill', 'none');
+            .attr('fill', 'none')
+            .text("Helloo")
     }
 
     const simulation = d3
@@ -192,7 +171,7 @@ export const NetworkDiagramSVG = ({
                     return String(link.target.y);
                 }
                 return '0';
-            });
+            })
         node
             .attr('cx', (node) => String(node.x))
             .attr('cy', (node) => String(node.y))

@@ -1,24 +1,26 @@
 import * as d3 from 'd3';
-import { forceLink, drag, select, zoomIdentity, ForceLink, pointer } from 'd3';
-import { useEffect, useRef, useState } from 'react';
-import { Datas, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
+import { forceLink, drag, select, zoomIdentity, } from 'd3';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { netWorkDataProps, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
 import { ENSLAVEMENTNODE, RADIUSNODE, classToColor } from '@/share/CONST_DATA';
 import { findHoveredEdge } from './findHoveredEdge';
+import { setPastNetworksData, } from '@/redux/getPastNetworksGraphDataSlice';
 import ShowsAcoloredNodeKey from './ShowsAcoloredNodeKey';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     createStrokeColor,
+    createdLableEdges,
     createdLableNodeHover,
 } from '@/utils/functions/createdLableNode';
 import {
     setNetWorksID,
     setNetWorksKEY,
-    setPastNetworksData,
 } from '@/redux/getPastNetworksGraphDataSlice';
 import { fetchPastNetworksGraphApi } from '@/fetch/pastEnslavedFetch/fetchPastNetworksGraph';
 import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
-import { findNode } from './findNode';
+
+
 
 type NetworkDiagramProps = {
     width: number;
@@ -36,6 +38,7 @@ export const NetworkDiagramSVGEnterNode = ({
     const divRef = useRef<HTMLDivElement | null>(null);
     const svgRef = useRef<SVGSVGElement | null>(null);
     const transformRef = useRef<d3.ZoomTransform>(zoomIdentity);
+    const hasSimulationBeenCreated = useRef(false)
     const simulationRef = useRef<d3.Simulation<Nodes, Edges> | null>(null);
     const isDraggingRef = useRef(false);
     const isZoomingRef = useRef(false);
@@ -43,15 +46,17 @@ export const NetworkDiagramSVGEnterNode = ({
     const clickTimeout = useRef<NodeJS.Timeout | undefined>();
     let timeout = 300;
 
-    const edges: Edges[] = netWorkData.edges.map((d) => ({ ...d }));
-    const nodes: Nodes[] = netWorkData.nodes.map((d) => ({ ...d }));
+    const edges: Edges[] = netWorkData.edges.map((d) => {
+        return { ...d }
+    });
+    const nodes: Nodes[] = netWorkData.nodes.map((d) => {
+        return { ...d }
+    });
+    let graph: { nodes: Nodes[]; edges: Edges[] } = { nodes: nodes, edges: edges };
 
-    const nodeIds = new Set(nodes.map((node) => node.uuid));
-    const validEdges = edges.filter(
-        (edge) =>
-            nodeIds.has(edge.source as string) && nodeIds.has(edge.target as string)
-    );
-
+    function initNetworkgraph() {
+        updateNetwork();
+    }
     const clearClickTimeout = () => {
         if (clickTimeout.current !== undefined) {
             clearTimeout(clickTimeout.current);
@@ -67,365 +72,319 @@ export const NetworkDiagramSVGEnterNode = ({
             dispatch(setNetWorksKEY(nodeClass));
         }
     };
+    let linksGraph: d3.Selection<SVGLineElement, any, SVGGElement, unknown>;
+    let nodesGraph: d3.Selection<SVGGElement, any, SVGGElement, unknown>;
 
     const handleDoubleClick = async (nodeId: number, nodeClass: string) => {
-        try {
-            const dataSend = {
-                [nodeClass]: [Number(nodeId)],
-            };
-            const response = await dispatch(
-                fetchPastNetworksGraphApi(dataSend)
-            ).unwrap();
-            if (response) {
-                const newNodes = response.nodes.filter((newNode: Nodes) => {
-                    return !netWorkData.nodes.some(
-                        (existingNode) => existingNode.uuid === newNode.uuid
-                    );
-                });
+        const dataSend = {
+            [nodeClass]: [Number(nodeId)],
+        };
+        const response = await dispatch(
+            fetchPastNetworksGraphApi(dataSend)
+        ).unwrap();
+        if (response) {
 
-                const newEdges = response.edges.filter((newEdge: Edges) => {
-                    return !netWorkData.edges.some(
-                        (existingEdge) =>
-                            existingEdge.source === newEdge.source &&
-                            existingEdge.target === newEdge.target
-                    );
-                });
+            const newNodes: Nodes[] = response.nodes.filter((newNode: Nodes) => {
+                return !graph.nodes.some(
+                    (existingNode) => existingNode.uuid === newNode.uuid
+                );
+            });
 
-                const updatedNodes = [...netWorkData.nodes, ...newNodes];
-                const updatedEdges = [...netWorkData.edges, ...newEdges];
+            const newEdges: Edges[] = response.edges.filter((newEdge: Edges) => {
+                return !graph.edges.some(
+                    (existingEdge) =>
+                        existingEdge.source === newEdge.source &&
+                        existingEdge.target === newEdge.target
+                );
+            });
+            const updatedNodes: Nodes[] = [...graph.nodes, ...newNodes];
+            const updatedEdges: Edges[] = [...graph.edges, ...newEdges];
 
-                const updatedData = {
-                    ...netWorkData,
-                    nodes: updatedNodes,
-                    edges: updatedEdges,
-                };
 
-                dispatch(setPastNetworksData(updatedData));
-            }
-        } catch (error) {
-            console.error('Error fetching new nodes:', error);
+            const simulation = d3.forceSimulation(updatedNodes);
+            simulation.force('link', forceLink<Nodes, Edges>(updatedEdges).id((uuid) => uuid.uuid).distance(110))
+            simulation.force('charge', d3.forceManyBody())
+            simulation.randomSource
+
+            graph = { nodes: updatedNodes, edges: updatedEdges };
+            updateNetwork()
         }
     };
 
     function updateNetwork() {
-        if (!svgRef.current) {
-            return;
-        }
-        const svg = d3.select<SVGSVGElement, unknown>(svgRef.current);
+        if (!svgRef.current) return;
+        if (svgRef.current) {
+            const svg = d3.select<SVGSVGElement, unknown>(svgRef.current);
 
-        // Update existing edges' positions
-        const edgeSelection = svg
-            .selectAll<SVGLineElement, Edges>('.link')
-            .data(validEdges, (d: Edges) => `${d.source}-${d.target}`);
-        edgeSelection.exit().remove();
-        edgeSelection
-            .attr('x1', (link) => {
-                if (
-                    link.source &&
-                    link.target &&
-                    typeof link.source !== 'string' &&
-                    typeof link.target !== 'string' &&
-                    typeof link.source.x === 'number' &&
-                    typeof link.source.y === 'number' &&
-                    typeof link.target.x === 'number' &&
-                    typeof link.target.y === 'number'
-                ) {
-                    return String(link.source.x);
-                }
-                return '0';
+            // Links
+            linksGraph = svg.selectAll<SVGLineElement, unknown>('line').data(graph.edges);
+
+            linksGraph.exit().remove();
+
+            const newLinks = linksGraph.enter().append('line')
+
+
+            newLinks.transition()
+                .attr('class', 'link')
+                .attr('stroke-width', '1.5')
+                .style('cursor', 'pointer')
+                .attr('stroke', (link) => {
+                    const strokeColor = createStrokeColor(link);
+                    return strokeColor;
+                })
+                .attr('x1', (link) => {
+                    if (
+                        link.source &&
+                        link.target &&
+                        typeof link.source !== 'string' &&
+                        typeof link.target !== 'string' &&
+                        typeof link.source.x === 'number' &&
+                        typeof link.source.y === 'number' &&
+                        typeof link.target.x === 'number' &&
+                        typeof link.target.y === 'number'
+                    ) {
+                        return String(link.source.x);
+                    }
+                    return '0';
+                })
+                .attr('y1', (link) => {
+                    if (
+                        link.source &&
+                        link.target &&
+                        typeof link.source !== 'string' &&
+                        typeof link.target !== 'string' &&
+                        typeof link.source.x === 'number' &&
+                        typeof link.source.y === 'number' &&
+                        typeof link.target.x === 'number' &&
+                        typeof link.target.y === 'number'
+                    ) {
+                        return String(link.source.y);
+                    }
+                    return '0';
+                })
+                .attr('x2', (link) => {
+                    if (
+                        link.source &&
+                        link.target &&
+                        typeof link.source !== 'string' &&
+                        typeof link.target !== 'string' &&
+                        typeof link.source.x === 'number' &&
+                        typeof link.source.y === 'number' &&
+                        typeof link.target.x === 'number' &&
+                        typeof link.target.y === 'number'
+                    ) {
+                        return String(link.target.x);
+                    }
+                    return '0';
+                })
+                .attr('y2', (link) => {
+                    if (
+                        link.source &&
+                        link.target &&
+                        typeof link.source !== 'string' &&
+                        typeof link.target !== 'string' &&
+                        typeof link.source.x === 'number' &&
+                        typeof link.source.y === 'number' &&
+                        typeof link.target.x === 'number' &&
+                        typeof link.target.y === 'number'
+                    ) {
+                        return String(link.target.y);
+                    }
+                    return '0';
+                })
+
+            newLinks
+                .append("text")
+                .attr("text-anchor", "middle")
+                .text((node: Nodes) => {
+                    const labelNode = createdLableNodeHover(node);
+                    console.log(labelNode)
+                    return labelNode || 'Hello';
+                })
+                .attr('x', 300)
+                .attr('y', 290)
+
+            linksGraph = newLinks.merge(linksGraph);
+
+            nodesGraph = svg.selectAll<SVGGElement, unknown>('g').data(graph.nodes)
+
+            // remove excess nodes.
+            nodesGraph.exit().remove()
+
+            // enter new nodes as required:
+            const newNodes = nodesGraph.enter().append('g').attr('opacity', 0)
+            newNodes.on('click', async (event: MouseEvent, d: Nodes) => {
+                event.preventDefault()
+                clearClickTimeout();
+                await handleDoubleClick(d.id, d.node_class);
+
+                // will un comment later
+                // if (event.detail === 1) {
+                //     clickTimeout.current = setTimeout(() => {
+                //         handleClickNodeShowCard(d.id, d.node_class);
+                //     }, timeout);
+                // }
+                // if (event.detail === 2) {
+                //     handleDoubleClick(d.id, d.node_class);
+                // }
             })
-            .attr('y1', (link) => {
-                if (
-                    link.source &&
-                    link.target &&
-                    typeof link.source !== 'string' &&
-                    typeof link.target !== 'string' &&
-                    typeof link.source.x === 'number' &&
-                    typeof link.source.y === 'number' &&
-                    typeof link.target.x === 'number' &&
-                    typeof link.target.y === 'number'
-                ) {
-                    return String(link.source.y);
-                }
-                return '0';
-            })
-            .attr('x2', (link) => {
-                if (
-                    link.source &&
-                    link.target &&
-                    typeof link.source !== 'string' &&
-                    typeof link.target !== 'string' &&
-                    typeof link.source.x === 'number' &&
-                    typeof link.source.y === 'number' &&
-                    typeof link.target.x === 'number' &&
-                    typeof link.target.y === 'number'
-                ) {
-                    return String(link.target.x);
-                }
-                return '0';
-            })
-            .attr('y2', (link) => {
-                if (
-                    link.source &&
-                    link.target &&
-                    typeof link.source !== 'string' &&
-                    typeof link.target !== 'string' &&
-                    typeof link.source.x === 'number' &&
-                    typeof link.source.y === 'number' &&
-                    typeof link.target.x === 'number' &&
-                    typeof link.target.y === 'number'
-                ) {
-                    return String(link.target.y);
-                }
-                return '0';
-            })
-            .join(
-                (enter) =>
-                    enter
-                        .append('line')
-                        .attr('class', 'link')
-                        .attr('stroke-width', '1.5')
-                        .attr('stroke', (link) => {
-                            const strokeColor = createStrokeColor(link);
-                            return strokeColor;
-                        })
-                        .attr('x1', (link) => {
-                            if (
-                                link.source &&
-                                link.target &&
-                                typeof link.source !== 'string' &&
-                                typeof link.target !== 'string' &&
-                                typeof link.source.x === 'number' &&
-                                typeof link.source.y === 'number' &&
-                                typeof link.target.x === 'number' &&
-                                typeof link.target.y === 'number'
-                            ) {
-                                return String(link.source.x);
-                            }
-                            return '0';
-                        })
-                        .attr('y1', (link) => {
-                            if (
-                                link.source &&
-                                link.target &&
-                                typeof link.source !== 'string' &&
-                                typeof link.target !== 'string' &&
-                                typeof link.source.x === 'number' &&
-                                typeof link.source.y === 'number' &&
-                                typeof link.target.x === 'number' &&
-                                typeof link.target.y === 'number'
-                            ) {
-                                return String(link.source.y);
-                            }
-                            return '0';
-                        })
-                        .attr('x2', (link) => {
-                            if (
-                                link.source &&
-                                link.target &&
-                                typeof link.source !== 'string' &&
-                                typeof link.target !== 'string' &&
-                                typeof link.source.x === 'number' &&
-                                typeof link.source.y === 'number' &&
-                                typeof link.target.x === 'number' &&
-                                typeof link.target.y === 'number'
-                            ) {
-                                return String(link.target.x);
-                            }
-                            return '0';
-                        })
-                        .attr('y2', (link) => {
-                            if (
-                                link.source &&
-                                link.target &&
-                                typeof link.source !== 'string' &&
-                                typeof link.target !== 'string' &&
-                                typeof link.source.x === 'number' &&
-                                typeof link.source.y === 'number' &&
-                                typeof link.target.x === 'number' &&
-                                typeof link.target.y === 'number'
-                            ) {
-                                return String(link.target.y);
-                            }
-                            return '0';
-                        }),
-                (update) => update,
-                (exit) => exit.remove()
-            );
-        const nodeSelection = svg
-            .selectAll<SVGCircleElement, Nodes>('.node')
-            .data(nodes, (d: Nodes) => d.uuid);
-        nodeSelection.exit().remove();
 
-        nodeSelection
-            .attr('cx', (node) => Number(String(node.x)))
-            .attr('cy', (node) => Number(String(node.y)))
-            .join(
-                (enter) =>
-                    enter
-                        .append('circle')
-                        .attr('class', 'node')
-                        .attr('r', RADIUSNODE)
-                        .attr('stroke', '#fff')
-                        .attr('stroke-width', '1.5')
-                        .attr('cx', (node) => Number(String(node.x)))
-                        .attr('cy', (node) => Number(String(node.y)))
-                        .attr('fill', (node: Nodes) => {
-                            return (
-                                classToColor[node.node_class as keyof typeof classToColor] ||
-                                'gray'
-                            );
-                        })
-                        .on('click', (event: MouseEvent, d: Nodes) => {
-                            event.preventDefault()
-                            clearClickTimeout();
-                            handleDoubleClick(d.id, d.node_class);
-                            // handleClickNodeShowCard(d.id, d.node_class);
-                            // will un comment later
-                            // if (event.detail === 1) {
-                            //     clickTimeout.current = setTimeout(() => {
-                            //         handleClickNodeShowCard(d.id, d.node_class);
-                            //     }, timeout);
-                            // }
-                            // if (event.detail === 2) {
-                            //     handleDoubleClick(d.id, d.node_class);
-                            // }
-                        }),
-                // (update) => update,
-                (update) => {
-                    return update.style('opacity', 1)
-                },
-                (exit) => exit.remove()
-            );
-        const labelSelection = svg.selectAll('.label');
-        labelSelection
-            .data(nodes)
-            .join('text')
-            .attr('class', 'label')
-            .attr('text-anchor', 'start')
-            .attr('alignment-baseline', 'middle')
-            .attr('font-family', 'Arial')
-            .attr('font-size', 15)
-            .attr('fill', '#fff')
-            .text((node: Nodes) => {
-                const labelNode = createdLableNodeHover(node);
-                return labelNode || '';
-            })
-            .attr('x', (node: Nodes) => Number(node.x) + 15.5)
-            .attr('y', (node: Nodes) => Number(node.y));
+            newNodes.transition()
+                .attr('opacity', 1)
+                .attr('class', 'nodes')
+                .attr('stroke', '#fff')
+                .style('cursor', 'pointer')
+                .attr('stroke-width', '1')
+                .attr('cx', (node) => node.x!)
+                .attr('cy', (node) => node.y!)
+
+            newNodes
+                .append('text')
+                .text((node: Nodes) => {
+                    const labelNode = createdLableNodeHover(node);
+                    return labelNode || '';
+                })
+                .attr('x', 16)
+                .attr('y', -1)
+                .attr('text-anchor', 'start')
+                .attr('alignment-baseline', 'middle')
+                .attr('font-size', 15)
+                .attr('fill', '#fff')
+
+            // merge update and enter.
+            nodesGraph = newNodes.merge(nodesGraph)
+
+            // append  circles to new nodes:
+            nodesGraph.append('circle')
+                .attr('r', RADIUSNODE)
+                .attr('fill', (node: Nodes) => {
+                    return (
+                        classToColor[node.node_class as keyof typeof classToColor] ||
+                        'gray'
+                    );
+                })
 
 
-        // ==== Drang node graph ====
-        function dragSubject(
-            event: d3.D3DragEvent<SVGSVGElement, any, any>
-        ): Nodes | undefined {
-            const [x, y] = pointer(event);
-            const node = findNode(nodes, x, y, RADIUSNODE);
-            if (node && typeof node.x === 'number' && typeof node.y === 'number') {
-                node.fx = node.x = transformRef.current.invertX(x);
-                node.fy = node.y = transformRef.current.invertY(y);
-            }
-            return node;
+            const simulation = d3.forceSimulation(nodes);
+            simulation.force('link', forceLink<Nodes, Edges>(edges).id((uuid) => uuid.uuid).distance(110))
+            simulation.force('charge', d3.forceManyBody().strength(-30))
+            simulation.force('center', d3.forceCenter().x(width / 2).y(height / 2))
+            simulation.on('tick', ticked);
+            simulation.alpha(1).restart();
         }
-
-        function dragStarted(
-            event: d3.D3DragEvent<SVGSVGElement, Nodes, unknown>
-        ): void {
-            isDraggingRef.current = true;
-            hoverEnabledRef.current = false;
-            if (!event.active) {
-                simulationRef.current?.alphaTarget(0.3).restart();
-            }
-            if (event.subject) {
-                const node = event.subject as Nodes;
-                node.fx = node.x;
-                node.fy = node.y;
-            }
-        }
-
-        function dragged(
-            event: d3.D3DragEvent<SVGSVGElement, Nodes, unknown>
-        ): void {
-
-            isDraggingRef.current = false;
-            hoverEnabledRef.current = true;
-            if (event.subject) {
-                const node = event.subject as Nodes;
-
-                node.fx = event.x;
-                node.fy = event.y;
-            }
-        }
-
-        function dragEnded(
-            event: d3.D3DragEvent<SVGSVGElement, Nodes, unknown>
-        ): void {
-            isDraggingRef.current = false;
-            hoverEnabledRef.current = true;
-            if (!event.active) {
-                simulationRef.current?.alphaTarget(0);
-            }
-            if (event.subject) {
-                const node = event.subject as Nodes;
-                node.fx = null;
-                node.fy = null;
-            }
-        }
-
-        const drag = () =>
-            d3
-                .selectAll<SVGGElement, Nodes | undefined>('g.node')
-                .call(
-                    d3
-                        .drag<SVGGElement, Nodes | undefined>()
-                        .on('start', dragStarted)
-                        .on('drag', dragged)
-                        .on('end', dragEnded)
-                );
-        drag()
 
     }
 
+    const ticked = () => {
+        linksGraph
+            .attr('x1', (d) => d.source.x)
+            .attr('y1', (d) => d.source.y)
+            .attr('x2', (d) => d.target.x)
+            .attr('y2', (d) => d.target.y);
+        nodesGraph.attr('transform', (d) => `translate(${d.x},${d.y})`);
+    };
 
     useEffect(() => {
-        const simulation = d3
-            .forceSimulation(nodes)
-            .force('charge', d3.forceManyBody().strength(-30))
-            .force(
-                'link',
-                forceLink<Nodes, Edges>(edges)
-                    .id((uuid) => uuid.uuid)
-                    .distance(100)
-            )
-            .force(
-                'center',
-                d3
-                    .forceCenter()
-                    .x(width / 2)
-                    .y(height / 2)
-            )
-            .on('tick', () => {
-                updateNetwork();
-            });
 
-        simulationRef.current = simulation;
+        initNetworkgraph();
 
-    }, [edges, nodes]);
+    }, []);
 
-    // useEffect(() => {
-    //     if (!simulationRef.current || !nodes || !edges) {
-    //         return;
-    //     }
-    //     const linkForce: ForceLink<Nodes, Edges> = forceLink<Nodes, Edges>(edges)
-    //         .id((d: Nodes) => d.id)
-    //         .distance(100);
+    /*
+       const clearClickTimeout = () => {
+           if (clickTimeout.current !== undefined) {
+               clearTimeout(clickTimeout.current);
+               clickTimeout.current = undefined;
+           }
+       };
+   
+       const handleClickNodeShowCard = async (nodeId: number, nodeClass: string) => {
+           if (nodeClass !== ENSLAVEMENTNODE) {
+               dispatch(setIsModalCard(true));
+               dispatch(setNodeClass(nodeClass));
+               dispatch(setNetWorksID(nodeId));
+               dispatch(setNetWorksKEY(nodeClass));
+           }
+       };
+   
+       const handleDoubleClick = async (nodeId: number, nodeClass: string, d: Nodes) => {
+           const dataSend = {
+               [nodeClass]: [Number(nodeId)],
+           };
+           const response = await dispatch(
+               fetchPastNetworksGraphApi(dataSend)
+           ).unwrap();
+           if (response) {
+               const newNodes: Nodes[] = response.nodes.filter((newNode: Nodes) => {
+                   return !netWorkData.nodes.some(
+                       (existingNode) => existingNode.uuid === newNode.uuid
+                   );
+               });
+   
+               const newEdges: Edges[] = response.edges.filter((newEdge: Edges) => {
+                   return !netWorkData.edges.some(
+                       (existingEdge) =>
+                           existingEdge.source === newEdge.source &&
+                           existingEdge.target === newEdge.target
+                   );
+               });
+   
+               const newEdgeState: Edges[] = [...netWorkData.edges, ...newEdges].map(d => ({ ...d }));
+               const newNodeState: Nodes[] = [...netWorkData.nodes, ...newNodes].map(d => ({ ...d }));
+               const simulation = d3
+                   .forceSimulation(newNodeState)
+                   .force('charge', d3.forceManyBody().strength(-30))
+                   .force(
+                       'link',
+                       forceLink<Nodes, Edges>(newEdgeState)
+                           .id((uuid) => uuid.uuid)
+                           .distance(100)
+                   )
+                   .force(
+                       'center',
+                       d3.forceCenter()
+                           .x(width / 2)
+                           .y(height / 2)
+                   )
+                   .on('tick', () => {
+                       updateNetwork({ edges: newEdgeState, nodes: newNodeState });
+                   });
+               simulationRef.current = simulation;
+           }
+       };
+   
+   
+      
+           useEffect(() => {
+        
+               if (!hasSimulationBeenCreated.current) {
+                   const simulation = d3
+                       .forceSimulation(nodes)
+                       .force('charge', d3.forceManyBody().strength(-30))
+                       .force(
+                           'link',
+                           forceLink<Nodes, Edges>(edges)
+                               .id((uuid) => uuid.uuid)
+                               .distance(100)
+                       )
+                       .force(
+                           'center',
+                           d3
+                               .forceCenter()
+                               .x(width / 2)
+                               .y(height / 2)
+                       )
+                       .on('tick', () => {
+                           updateNetwork({ edges: edges, nodes: nodes });
+                       });
+                   simulationRef.current = simulation;
+        
+               }
+        
+           }, [edges, nodes, width, height]);
+        
+       */
 
-    //     // Update simulation with new data
-    //     simulationRef.current.nodes(nodes);
-    //     simulationRef.current?.force('link', linkForce);
-    //     // Restart the simulation
-    //     simulationRef.current.alpha(1).restart();
-    // }, []);
 
     return (
         <>
@@ -442,424 +401,419 @@ export const NetworkDiagramSVGEnterNode = ({
 
 
 
+// ============= CODE Is Working on 1 Dec 2023============================
+// import * as d3 from 'd3';
+// import { forceLink, drag, select, zoomIdentity, } from 'd3';
+// import { useCallback, useEffect, useRef, useState } from 'react';
+// import { netWorkDataProps, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
+// import { ENSLAVEMENTNODE, RADIUSNODE, classToColor } from '@/share/CONST_DATA';
+// import { findHoveredEdge } from './findHoveredEdge';
+// import ShowsAcoloredNodeKey from './ShowsAcoloredNodeKey';
+// import { AppDispatch, RootState } from '@/redux/store';
+// import { useDispatch, useSelector } from 'react-redux';
+// import {
+//     createStrokeColor,
+//     createdLableEdges,
+//     createdLableNodeHover,
+// } from '@/utils/functions/createdLableNode';
+// import {
+//     setNetWorksID,
+//     setNetWorksKEY,
+// } from '@/redux/getPastNetworksGraphDataSlice';
+// import { fetchPastNetworksGraphApi } from '@/fetch/pastEnslavedFetch/fetchPastNetworksGraph';
+// import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
+// import { link } from 'fs';
 
+// type NetworkDiagramProps = {
+//     width: number;
+//     height: number;
+// };
 
-// useEffect(() => {
-//     const svg = select(svgRef.current);
-//     if (!svg) {
-//         return;
-//     }
+// export const NetworkDiagramSVGEnterNode = ({
+//     width,
+//     height,
+// }: NetworkDiagramProps) => {
+//     const { data: netWorkData } = useSelector(
+//         (state: RootState) => state.getPastNetworksGraphData
+//     );
+//     const dispatch: AppDispatch = useDispatch();
+//     const divRef = useRef<HTMLDivElement | null>(null);
+//     const svgRef = useRef<SVGSVGElement | null>(null);
+//     const transformRef = useRef<d3.ZoomTransform>(zoomIdentity);
+//     const hasSimulationBeenCreated = useRef(false)
+//     const simulationRef = useRef<d3.Simulation<Nodes, Edges> | null>(null);
+//     const isDraggingRef = useRef(false);
+//     const isZoomingRef = useRef(false);
+//     const hoverEnabledRef = useRef(true);
+//     const clickTimeout = useRef<NodeJS.Timeout | undefined>();
+//     let timeout = 300;
 
-//     simulationRef.current = d3.forceSimulation(nodes)
-//         .force('charge', d3.forceManyBody().strength(-30))
-//         .force('link', forceLink<Nodes, Edges>(edges).id((uuid) => uuid.uuid).distance(100))
-//         .force('center', d3.forceCenter().x(width / 2).y(height / 2))
-//         .on('tick', () => {
-//             // Nodes
-//             svg
-//                 .selectAll(".node")
-//                 .data(nodes)
-//                 .join('circle')
-//                 .attr("class", "node")
-//                 .attr("r", RADIUSNODE)
-//                 .attr('stroke', '#fff')
-//                 .attr('stroke-width', '1.5')
-//                 .attr('fill', (node: Nodes) => {
-//                     return classToColor[node.node_class as keyof typeof classToColor] || 'gray';
-//                 })
-//                 .attr("cx", node => Number(String(node.x)))
-//                 .attr("cy", node => Number(String(node.y)))
-//                 .on('click', (event: MouseEvent, d: Nodes) => {
-//                     handleDoubleClick(d.id, d.node_class);
-//                 })
-//             // .transition()
-//             // .duration(500)
-//             // .delay(500)
-//             // .ease(d3.easeCubic)
+//     const edges: Edges[] = netWorkData.edges.map((d) => {
+//         return { ...d }
+//     });
+//     const nodes: Nodes[] = netWorkData.nodes.map((d) => {
+//         return { ...d }
+//     });
 
-//             // .join(
-//             //     enter => (
-//             //         enter.append("circle")
-//             //             .attr("class", "node")
-//             //             .attr("r", RADIUSNODE)
-//             //             .attr('stroke', '#fff')
-//             //             .attr('stroke-width', '1.5')
-//             //             .attr('fill', (node: Nodes) => {
-//             //                 return classToColor[node.node_class as keyof typeof classToColor] || 'gray';
-//             //             })
-//             //             .attr("cx", node => String(node.x))
-//             //             .attr("cy", node => String(node.y))
-//             //             .on('click', (event: MouseEvent, d: Nodes) => {
-//             //                 handleDoubleClick(d.id, d.node_class);
-//             //                 // handleDoubleClick(d);
-//             //             })
+//     const clearClickTimeout = () => {
+//         if (clickTimeout.current !== undefined) {
+//             clearTimeout(clickTimeout.current);
+//             clickTimeout.current = undefined;
+//         }
+//     };
 
-//             //     )
-//             // ).exit()
+//     const handleClickNodeShowCard = async (nodeId: number, nodeClass: string) => {
+//         if (nodeClass !== ENSLAVEMENTNODE) {
+//             dispatch(setIsModalCard(true));
+//             dispatch(setNodeClass(nodeClass));
+//             dispatch(setNetWorksID(nodeId));
+//             dispatch(setNetWorksKEY(nodeClass));
+//         }
+//     };
 
-//             // Labels
-//             svg
-//                 .selectAll(".label")
-//                 .data(nodes)
-//                 .join('text')
-// .attr("class", "label")
-// .attr("text-anchor", "right")
-// .attr("alignment-baseline", "right")
-// .attr('font-family', 'Arial')
-// .attr("font-size", 15)
-// .attr('fill', '#fff')
-// .text((node: Nodes) => {
-//     const labelNode = createdLableNodeHover(node);
-//     return labelNode || "";
-// })
-// .attr("x", (node: Nodes) => String(node.x! + 13))
-//  .attr("y", (node: Nodes) => String(node.y! + 6))
+//     const handleDoubleClick = async (nodeId: number, nodeClass: string, d: Nodes) => {
+//         const dataSend = {
+//             [nodeClass]: [Number(nodeId)],
+//         };
+//         const response = await dispatch(
+//             fetchPastNetworksGraphApi(dataSend)
+//         ).unwrap();
+//         if (response) {
+//             const newNodes: Nodes[] = response.nodes.filter((newNode: Nodes) => {
+//                 return !netWorkData.nodes.some(
+//                     (existingNode) => existingNode.uuid === newNode.uuid
+//                 );
+//             });
 
-//             // .join(
-//             //     enter => (
-//             //         enter.append("text")
-//             //             .attr("class", "label")
-//             //             .attr("text-anchor", "right")
-//             //             .attr("alignment-baseline", "right")
-//             //             .attr('font-family', 'Arial')
-//             //             .attr("font-size", 15)
-//             //             .attr('fill', '#fff')
-//             //             .text((node: Nodes) => {
-//             //                 const labelNode = createdLableNodeHover(node);
-//             //                 return labelNode || "";
-//             //             })
-//             //             .attr("x", (node: Nodes) => String(node.x! + 13))
-//             //             .attr("y", (node: Nodes) => String(node.y! + 6))
+//             const newEdges: Edges[] = response.edges.filter((newEdge: Edges) => {
+//                 return !netWorkData.edges.some(
+//                     (existingEdge) =>
+//                         existingEdge.source === newEdge.source &&
+//                         existingEdge.target === newEdge.target
+//                 );
+//             });
 
-//             //     )
-//             // ).exit()
+//             const newEdgeState: Edges[] = [...netWorkData.edges, ...newEdges].map(d => ({ ...d }));
+//             const newNodeState: Nodes[] = [...netWorkData.nodes, ...newNodes].map(d => ({ ...d }));
+//             const simulation = d3
+//                 .forceSimulation(newNodeState)
+//                 .force('charge', d3.forceManyBody().strength(-30))
+//                 .force(
+//                     'link',
+//                     forceLink<Nodes, Edges>(newEdgeState)
+//                         .id((uuid) => uuid.uuid)
+//                         .distance(100)
+//                 )
+//                 .force(
+//                     'center',
+//                     d3.forceCenter()
+//                         .x(width / 2)
+//                         .y(height / 2)
+//                 )
+//                 .on('tick', () => {
+//                     updateNetwork({ edges: newEdgeState, nodes: newNodeState });
+//                 });
+//             simulationRef.current = simulation;
+//         }
+//     };
 
-//             // Links
-//             svg
-//                 .selectAll(".link")
-//                 .data(validEdges)
-//                 .join('line')
-//                 .attr("class", "link")
-//                 .attr("stroke", (link) => {
-//                     const strokeColor = createStrokeColor(link);
-//                     return strokeColor
-//                 })
-//                 .attr('stroke-width', '1.5')
-//                 .attr("fill", "none")
-//                 .attr("x1", (link) => {
-//                     if (link.source &&
-//                         link.target &&
-//                         typeof link.source !== 'string' &&
-//                         typeof link.target !== 'string' &&
-//                         typeof link.source.x === 'number' &&
-//                         typeof link.source.y === 'number' &&
-//                         typeof link.target.x === 'number' &&
-//                         typeof link.target.y === 'number') {
-//                         return String(link.source.x);
-//                     }
-//                     return "0";
-//                 })
-//                 .attr("y1", (link) => {
-//                     if (link.source &&
-//                         link.target &&
-//                         typeof link.source !== 'string' &&
-//                         typeof link.target !== 'string' &&
-//                         typeof link.source.x === 'number' &&
-//                         typeof link.source.y === 'number' &&
-//                         typeof link.target.x === 'number' &&
-//                         typeof link.target.y === 'number') {
-//                         return String(link.source.y);
-//                     }
-//                     return "0";
-//                 })
-//                 .attr("x2", (link) => {
-//                     if (link.source &&
-//                         link.target &&
-//                         typeof link.source !== 'string' &&
-//                         typeof link.target !== 'string' &&
-//                         typeof link.source.x === 'number' &&
-//                         typeof link.source.y === 'number' &&
-//                         typeof link.target.x === 'number' &&
-//                         typeof link.target.y === 'number') {
-//                         return String(link.target.x);
-//                     }
-//                     return "0";
-//                 })
-//                 .attr("y2", (link) => {
-//                     if (link.source &&
-//                         link.target &&
-//                         typeof link.source !== 'string' &&
-//                         typeof link.target !== 'string' &&
-//                         typeof link.source.x === 'number' &&
-//                         typeof link.source.y === 'number' &&
-//                         typeof link.target.x === 'number' &&
-//                         typeof link.target.y === 'number') {
-//                         return String(link.target.y);
-//                     }
-//                     return "0";
-//                 })
-//             // .join(
-//             //     enter => (
-//             //         enter.append("line")
-//             //             .attr("class", "link")
-//             //             .attr("stroke", (link) => {
-//             //                 const strokeColor = createStrokeColor(link);
-//             //                 return strokeColor
-//             //             })
-//             //             .attr('stroke-width', '1.5')
-//             //             .attr("fill", "none")
-//             //             .attr("x1", (link) => {
-//             //                 if (link.source &&
-//             //                     link.target &&
-//             //                     typeof link.source !== 'string' &&
-//             //                     typeof link.target !== 'string' &&
-//             //                     typeof link.source.x === 'number' &&
-//             //                     typeof link.source.y === 'number' &&
-//             //                     typeof link.target.x === 'number' &&
-//             //                     typeof link.target.y === 'number') {
-//             //                     return String(link.source.x);
-//             //                 }
-//             //                 return "0";
-//             //             })
-//             //             .attr("y1", (link) => {
-//             //                 if (link.source &&
-//             //                     link.target &&
-//             //                     typeof link.source !== 'string' &&
-//             //                     typeof link.target !== 'string' &&
-//             //                     typeof link.source.x === 'number' &&
-//             //                     typeof link.source.y === 'number' &&
-//             //                     typeof link.target.x === 'number' &&
-//             //                     typeof link.target.y === 'number') {
-//             //                     return String(link.source.y);
-//             //                 }
-//             //                 return "0";
-//             //             })
-//             //             .attr("x2", (link) => {
-//             //                 if (link.source &&
-//             //                     link.target &&
-//             //                     typeof link.source !== 'string' &&
-//             //                     typeof link.target !== 'string' &&
-//             //                     typeof link.source.x === 'number' &&
-//             //                     typeof link.source.y === 'number' &&
-//             //                     typeof link.target.x === 'number' &&
-//             //                     typeof link.target.y === 'number') {
-//             //                     return String(link.target.x);
-//             //                 }
-//             //                 return "0";
-//             //             })
-//             //             .attr("y2", (link) => {
-//             //                 if (link.source &&
-//             //                     link.target &&
-//             //                     typeof link.source !== 'string' &&
-//             //                     typeof link.target !== 'string' &&
-//             //                     typeof link.source.x === 'number' &&
-//             //                     typeof link.source.y === 'number' &&
-//             //                     typeof link.target.x === 'number' &&
-//             //                     typeof link.target.y === 'number') {
-//             //                     return String(link.target.y);
-//             //                 }
-//             //                 return "0";
-//             //             })
-//             //     ),
+//     function updateNetwork(data: netWorkDataProps) {
+//         if (!svgRef.current) {
+//             return;
+//         }
 
-//             //     //     // exit => (
-//             //     //     //     exit.attr("fill", "tomato")
-//             //     //     //         .call(exit => (
-//             //     //     //             exit.transition().duration(1200)
-//             //     //     //                 .attr("r", 0)
-//             //     //     //                 .style("opacity", 0)
-//             //     //     //                 .remove()
-//             //     //     //         ))
-//             //     //     // ),
-//             // ).exit()
-//         });
+//         const svg = d3.select<SVGSVGElement, unknown>(svgRef.current);
 
-//     // ==== Old Code =======
-//     /*
-//         simulationRef.current = forceSimulation(nodes)
-//             .force('charge', forceManyBody())
-//             .force(
-//                 'link',
-//                 forceLink<Nodes, Edges>(edges)
-//                     .id((uuid) => uuid.uuid)
-//                     .distance(120)//.strength(1)
-//             )
-//             .force('center', forceCenter().x(width / 2).y(height / 2))
-//             .on('tick', () => {
-//                 svg
-//                     .selectAll(".node")
-//                     .data(nodes)
-//                     .join("circle")
-//                     // .attr("class", "node")
-//                     // .attr("r", RADIUSNODE)
-//                     // .attr('stroke', '#fff')
-//                     // .attr('stroke-width', '1.5')
-//                     // .style('fill', (node: Nodes) => {
-//                     //     return classToColor[node.node_class as keyof typeof classToColor] || 'gray';
-//                     // })
-//                     // .attr("cx", node => String(node.x))
-//                     // .attr("cy", node => String(node.y))
-//                     // .on('click', (event: MouseEvent, d: Nodes) => {
-//                     //     handleDoubleClick(d);
-//                     // });
+//         // Update existing edges' positions
+//         const edgeSelection = svg
+//             .selectAll<SVGLineElement, Edges>('.link')
+//             .data(data.edges, (d: Edges) => `${d.source}-${d.target}`);
+//         edgeSelection
+//             .attr('x1', (link) => {
+//                 if (
+//                     link.source &&
+//                     link.target &&
+//                     typeof link.source !== 'string' &&
+//                     typeof link.target !== 'string' &&
+//                     typeof link.source.x === 'number' &&
+//                     typeof link.source.y === 'number' &&
+//                     typeof link.target.x === 'number' &&
+//                     typeof link.target.y === 'number'
+//                 ) {
+//                     return String(link.source.x);
+//                 }
+//                 return '0';
+//             })
+//             .attr('y1', (link) => {
+//                 if (
+//                     link.source &&
+//                     link.target &&
+//                     typeof link.source !== 'string' &&
+//                     typeof link.target !== 'string' &&
+//                     typeof link.source.x === 'number' &&
+//                     typeof link.source.y === 'number' &&
+//                     typeof link.target.x === 'number' &&
+//                     typeof link.target.y === 'number'
+//                 ) {
+//                     return String(link.source.y);
+//                 }
+//                 return '0';
+//             })
+//             .attr('x2', (link) => {
+//                 if (
+//                     link.source &&
+//                     link.target &&
+//                     typeof link.source !== 'string' &&
+//                     typeof link.target !== 'string' &&
+//                     typeof link.source.x === 'number' &&
+//                     typeof link.source.y === 'number' &&
+//                     typeof link.target.x === 'number' &&
+//                     typeof link.target.y === 'number'
+//                 ) {
+//                     return String(link.target.x);
+//                 }
+//                 return '0';
+//             })
+//             .attr('y2', (link) => {
+//                 if (
+//                     link.source &&
+//                     link.target &&
+//                     typeof link.source !== 'string' &&
+//                     typeof link.target !== 'string' &&
+//                     typeof link.source.x === 'number' &&
+//                     typeof link.source.y === 'number' &&
+//                     typeof link.target.x === 'number' &&
+//                     typeof link.target.y === 'number'
+//                 ) {
+//                     return String(link.target.y);
+//                 }
+//                 return '0';
+//             })
 
-//                 // labels
-//                 svg
-//                     .selectAll(".label")
-//                     .data(nodes)
-//                     .join("text")
-//                     .attr("class", "label")
-//                     .attr("text-anchor", "right")
-//                     .attr("alignment-baseline", "right")
-//                     .attr('font-family', 'Arial')
-//                     .attr("font-size", 15)
-//                     .attr('fill', '#fff')
-//                     .text((node: Nodes) => {
-//                         const labelNode = createdLableNodeHover(node);
-//                         return labelNode || "";
-//                     })
-//                     .attr("x", (node: Nodes) => String(node.x! + 13))
-//                     .attr("y", (node: Nodes) => String(node.y! + 6))
-//                 // links
-//                 svg
-//                     .selectAll(".link")
-//                     .data(validEdges)
-//                     .join("line")
-//                     .attr("class", "link")
-//                     .attr("stroke", (link) => {
-//                         const strokeColor = createStrokeColor(link);
-//                         return strokeColor
-//                     })
+//             .join((enter) => {
+//                 const links = enter.append('line')
+//                     .attr('class', 'link')
 //                     .attr('stroke-width', '1.5')
-//                     .attr("fill", "none")
-//                     .attr("x1", (link) => {
-//                         if (link.source &&
+//                     .style('cursor', 'pointer')
+//                     .attr('stroke', (link) => {
+//                         const strokeColor = createStrokeColor(link);
+//                         return strokeColor;
+//                     })
+//                     .attr('x1', (link) => {
+//                         if (
+//                             link.source &&
 //                             link.target &&
 //                             typeof link.source !== 'string' &&
 //                             typeof link.target !== 'string' &&
 //                             typeof link.source.x === 'number' &&
 //                             typeof link.source.y === 'number' &&
 //                             typeof link.target.x === 'number' &&
-//                             typeof link.target.y === 'number') {
+//                             typeof link.target.y === 'number'
+//                         ) {
 //                             return String(link.source.x);
 //                         }
-//                         return "0";
+//                         return '0';
 //                     })
-//                     .attr("y1", (link) => {
-//                         if (link.source &&
+//                     .attr('y1', (link) => {
+//                         if (
+//                             link.source &&
 //                             link.target &&
 //                             typeof link.source !== 'string' &&
 //                             typeof link.target !== 'string' &&
 //                             typeof link.source.x === 'number' &&
 //                             typeof link.source.y === 'number' &&
 //                             typeof link.target.x === 'number' &&
-//                             typeof link.target.y === 'number') {
+//                             typeof link.target.y === 'number'
+//                         ) {
 //                             return String(link.source.y);
 //                         }
-//                         return "0";
+//                         return '0';
 //                     })
-//                     .attr("x2", (link) => {
-//                         if (link.source &&
+//                     .attr('x2', (link) => {
+//                         if (
+//                             link.source &&
 //                             link.target &&
 //                             typeof link.source !== 'string' &&
 //                             typeof link.target !== 'string' &&
 //                             typeof link.source.x === 'number' &&
 //                             typeof link.source.y === 'number' &&
 //                             typeof link.target.x === 'number' &&
-//                             typeof link.target.y === 'number') {
+//                             typeof link.target.y === 'number'
+//                         ) {
 //                             return String(link.target.x);
 //                         }
-//                         return "0";
+//                         return '0';
 //                     })
-//                     .attr("y2", (link) => {
-//                         if (link.source &&
+//                     .attr('y2', (link) => {
+//                         if (
+//                             link.source &&
 //                             link.target &&
 //                             typeof link.source !== 'string' &&
 //                             typeof link.target !== 'string' &&
 //                             typeof link.source.x === 'number' &&
 //                             typeof link.source.y === 'number' &&
 //                             typeof link.target.x === 'number' &&
-//                             typeof link.target.y === 'number') {
+//                             typeof link.target.y === 'number'
+//                         ) {
 //                             return String(link.target.y);
 //                         }
-//                         return "0";
-//                     });
-//             });
-//         */
+//                         return '0';
+//                     })
+//                 links.on('mousemove', (event, link) => {
+//                     if ('source' in link && 'target' in link && typeof link.source !== 'string' && typeof link.target !== 'string') {
+//                         const labelEdge = createdLableEdges(link as Edges);
+//                         console.log({ labelEdge })
+//                         const sourceX = (link).source.x;
+//                         const sourceY = (link).source.y;
+//                         const targetX = (link).target.x;
+//                         const targetY = (link).target.y;
 
-//     // ==== Drang node graph ====
-//     function dragSubject(
-//         event: d3.D3DragEvent<SVGSVGElement, any, any>
-//     ): Nodes | undefined {
-//         const [x, y] = pointer(event);
-//         const node = findNode(nodes, x, y, RADIUSNODE);
-//         if (node && typeof node.x === 'number' && typeof node.y === 'number') {
-//             node.fx = node.x = transformRef.current.invertX(x);
-//             node.fy = node.y = transformRef.current.invertY(y);
-//         }
-//         return node;
+//                         if (
+//                             typeof sourceX === 'number' && typeof sourceY === 'number' &&
+//                             typeof targetX === 'number' && typeof targetY === 'number'
+//                         ) {
+//                             const midpointX = (sourceX + targetX) / 2;
+//                             const midpointY = (sourceY + targetY) / 2;
+//                             const textLabel = d3.select('svg')
+//                                 .append('text')
+//                                 .attr('class', 'edge-label')
+//                                 .text('labelEdge')
+//                                 .attr('x', midpointX)
+//                                 .attr('y', midpointY)
+//                                 .style('font-size', '12px')
+//                                 .style('pointer-events', 'none')
+//                                 .style('text-anchor', 'middle')
+//                                 .style('alignment-baseline', 'middle')
+//                                 .style('font-family', 'Arial')
+//                                 .style('font-size', '15px')
+//                                 .style('fill', '#fff');
+//                             textLabel.style('pointer-events', 'none');
+//                         }
+//                     }
+//                 });
+
+//                 return links;
+//             })
+
+//         const nodeSelection = svg
+//             .selectAll<SVGCircleElement, Nodes>('.node')
+//             .data(data.nodes, (d: Nodes) => d.uuid);
+
+//         nodeSelection
+//             .attr('cx', (node) => isNaN(node.x!) ? 0 : Number(String(node.x)))
+//             .attr('cy', (node) => isNaN(node.y!) ? 0 : Number(String(node.y)))
+//             .join(
+//                 (enter) =>
+//                     enter
+//                         .append('circle')
+//                         .attr('class', 'node')
+//                         .attr('id', (node) => node.uuid)
+//                         .attr('r', RADIUSNODE)
+//                         .attr('stroke', '#fff')
+//                         .style('cursor', 'pointer')
+//                         .attr('stroke-width', '1.5')
+//                         .attr('cx', (node) => node.x!)
+//                         .attr('cy', (node) => node.y!)
+//                         .attr('fill', (node: Nodes) => {
+//                             return (
+//                                 classToColor[node.node_class as keyof typeof classToColor] ||
+//                                 'gray'
+//                             );
+//                         })
+//                         .on('click', (event: MouseEvent, d: Nodes) => {
+//                             event.preventDefault()
+//                             clearClickTimeout();
+//                             handleDoubleClick(d.id, d.node_class, d);
+
+//                             // will un comment later
+//                             // if (event.detail === 1) {
+//                             //     clickTimeout.current = setTimeout(() => {
+//                             //         handleClickNodeShowCard(d.id, d.node_class);
+//                             //     }, timeout);
+//                             // }
+//                             // if (event.detail === 2) {
+//                             //     handleDoubleClick(d.id, d.node_class);
+//                             // }
+//                         })
+//             )
+
+//         const labelSelection = svg.selectAll('.label').data(data.nodes)
+//         labelSelection
+//             .attr('x', (node: Nodes) => Number(node.x) + 15.5)
+//             .attr('y', (node: Nodes) => Number(node.y))
+//             .join(
+//                 (enter) =>
+//                     enter
+//                         .append('text')
+//                         .attr('x', (node: Nodes) => Number(node.x) + 15.5)
+//                         .attr('y', (node: Nodes) => Number(node.y))
+//             )
+//             .attr('class', 'label')
+//             .attr('text-anchor', 'start')
+//             .attr('alignment-baseline', 'middle')
+//             .attr('font-family', 'Arial')
+//             .attr('font-size', 15)
+//             .attr('fill', '#fff')
+//             .text((node: Nodes) => {
+//                 const labelNode = createdLableNodeHover(node);
+//                 return labelNode || '';
+//             })
+
 //     }
 
-//     function dragStarted(
-//         event: d3.D3DragEvent<SVGSVGElement, Nodes, unknown>
-//     ): void {
-//         isDraggingRef.current = true;
-//         hoverEnabledRef.current = false;
-//         if (!event.active) {
-//             simulationRef.current?.alphaTarget(0.3).restart();
+//     useEffect(() => {
+
+//         if (!hasSimulationBeenCreated.current) {
+//             const simulation = d3
+//                 .forceSimulation(nodes)
+//                 .force('charge', d3.forceManyBody().strength(-30))
+//                 .force(
+//                     'link',
+//                     forceLink<Nodes, Edges>(edges)
+//                         .id((uuid) => uuid.uuid)
+//                         .distance(100)
+//                 )
+//                 .force(
+//                     'center',
+//                     d3
+//                         .forceCenter()
+//                         .x(width / 2)
+//                         .y(height / 2)
+//                 )
+//                 .on('tick', () => {
+//                     updateNetwork({ edges: edges, nodes: nodes });
+//                 });
+//             simulationRef.current = simulation;
+
 //         }
-//         if (event.subject) {
-//             const node = event.subject as Nodes;
-//             node.fx = node.x;
-//             node.fy = node.y;
-//         }
-//     }
 
-//     function dragged(
-//         event: d3.D3DragEvent<SVGSVGElement, Nodes, unknown>
-//     ): void {
+//     }, [edges, nodes, width, height]);
 
-//         isDraggingRef.current = false;
-//         hoverEnabledRef.current = true;
-//         if (event.subject) {
-//             const node = event.subject as Nodes;
 
-//             node.fx = event.x;
-//             node.fy = event.y;
-//         }
-//     }
+//     // useEffect(() => {
+//     //     if (!simulationRef.current || !nodes || !edges) {
+//     //         return;
+//     //     }
+//     //     const linkForce: d3.ForceLink<Nodes, Edges> = forceLink<Nodes, Edges>(edges)
+//     //         .id((d: Nodes) => d.id)
+//     //         .distance(100);
 
-//     function dragEnded(
-//         event: d3.D3DragEvent<SVGSVGElement, Nodes, unknown>
-//     ): void {
-//         isDraggingRef.current = false;
-//         hoverEnabledRef.current = true;
-//         if (!event.active) {
-//             simulationRef.current?.alphaTarget(0);
-//         }
-//         if (event.subject) {
-//             const node = event.subject as Nodes;
-//             node.fx = null;
-//             node.fy = null;
-//         }
-//     }
+//     //     // Update simulation with new data
+//     //     simulationRef.current.nodes(nodes);
+//     //     simulationRef.current?.force('link', linkForce);
+//     //     // Restart the simulation
+//     //     simulationRef.current.alpha(1).restart();
+//     // }, []);
 
-//     const drag = () =>
-//         d3
-//             .selectAll<SVGGElement, Nodes | undefined>('g.node')
-//             .call(
-//                 d3
-//                     .drag<SVGGElement, Nodes | undefined>()
-//                     .on('start', dragStarted)
-//                     .on('drag', dragged)
-//                     .on('end', dragEnded)
-//             );
-
-//     drag();
-//     return () => {
-//         svg.on('mousemove', null);
-//         svg.on('click', null);
-//         // dragBehavior.on('start', null).on('drag', null).on('end', null);
-//         d3.selectAll<SVGGElement, Nodes | undefined>('g.node').on('.drag', null);
-//     };
-// }, [width, height, edges, nodes, netWorkData, newNetWorkData]);
+//     return (
+//         <>
+//             <svg
+//                 ref={svgRef}
+//                 width={width}
+//                 height={height}
+//                 id="networkCanvas labelsContainer"
+//             ></svg>
+//             <ShowsAcoloredNodeKey />
+//         </>
+//     );
+// };

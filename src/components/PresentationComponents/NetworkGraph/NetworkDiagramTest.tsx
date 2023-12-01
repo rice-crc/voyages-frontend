@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import { useEffect, useRef, useState } from 'react';
 import { drawNetwork } from './drawNetwork';
 import { drawNetworkTEST } from './drawNetworkTEST'
-import { Datas, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
+import { netWorkDataProps, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
 import { findNode } from './findNode';
 import { RADIUSNODE } from '@/share/CONST_DATA';
 import { findHoveredEdge } from './findHoveredEdge';
@@ -16,8 +16,8 @@ import { setPastNetworksData } from '@/redux/getPastNetworksGraphDataSlice';
 type NetworkDiagramProps = {
   width: number;
   height: number;
-  netWorkData: Datas;
-  newUpdateNetWorkData: Datas;
+  netWorkData: netWorkDataProps;
+  newUpdateNetWorkData: netWorkDataProps;
   handleNodeDoubleClick: (nodeId: number, nodeClass: string) => Promise<void>;
   handleClickNodeShowCard: (nodeId: number, nodeClass: string) => Promise<void>;
 };
@@ -42,8 +42,8 @@ export const NetworkDiagramTest = ({
   const clickTimeout = useRef<NodeJS.Timeout | undefined>();
   let timeout = 300;
 
-  const edges: Edges[] = netWorkData.edges.map((d) => ({ ...d }));
-  const nodes: Nodes[] = netWorkData.nodes.map((d) => ({ ...d }));
+  const edges: Edges[] = netWorkData.edges.map((d: Edges) => ({ ...d }));
+  const nodes: Nodes[] = netWorkData.nodes.map((d: Nodes) => ({ ...d }));
 
   // let edges: Edges[] = [];
   // let nodes: Nodes[] = [];
