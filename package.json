@@ -47,7 +47,6 @@
     "leaflet-curve": "^1.0.0",
     "leaflet.markercluster": "^1.5.3",
     "lodash.debounce": "^4.0.8",
-    "mirador": "^3.3.0",
     "module": "github:JohnMulligan/Leaflet.curve",
     "multi-nested-select": "^1.2.1",
     "plotly.js": "^2.23.2",
