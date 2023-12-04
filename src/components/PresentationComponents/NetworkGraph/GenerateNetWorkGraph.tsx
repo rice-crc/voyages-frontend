@@ -1,6 +1,7 @@
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import { Nodes } from '@/share/InterfaceTypePastNetworks';
 type NetworkDiagramProps = {
     width: number;
     height: number;
@@ -125,7 +126,7 @@ const GenerateNetWorkGraph = ({
         ]
     };
 
-    const randomizeData = () => {
+    const randomizeData = (): { nodes: any[]; links: any[] } => {
         let n = Math.floor(Math.random() * 10) + 6;
 
         let newNodes = [];
@@ -154,9 +155,10 @@ const GenerateNetWorkGraph = ({
             if (i < newNodes.length - 2) newLinks.push({ source: i, target: i + 1 });
         }
 
-        graph = { nodes: newNodes, links: newLinks };
-        console.log({ graph })
+        // graph = { nodes: newNodes, links: newLinks };
+        const updatedGraph = { nodes: newNodes, links: newLinks };
         update();
+        return updatedGraph
     };
 
     useEffect(() => {
@@ -170,12 +172,54 @@ const GenerateNetWorkGraph = ({
         if (svgRef.current) {
             const svg = d3.select<SVGSVGElement, unknown>(svgRef.current);
 
+            const dragStarted = (event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>) => {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                console.log('click', event.active)
+                const d = event.subject;
+                if (d) {
+                    console.log('d-->', d)
+                    d.fx = d.x;
+                    d.fy = d.y;
+                }
+            };
 
+            const dragged = (event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>) => {
+                const d = event.subject;
+                if (d) {
+                    d.fx = event.x || 0;
+                    d.fy = event.y || 0;
+                }
+            };
+
+            const dragEnded = (event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>) => {
+                if (!event.active) simulation.alphaTarget(0);
+                const d = event.subject;
+                if (d) {
+                    d.fx = null;
+                    d.fy = null;
+                }
+            };
+            // Define the zoom handler
+            const zoomHandler = d3.zoom<SVGSVGElement, any>()
+                .scaleExtent([0.1, 10])
+                .on('zoom', (event) => {
+                    const { transform } = event;
+                    svg.selectAll('g').attr('transform', transform);
+                    svg.selectAll('line').attr('transform', transform);
+                });
+
+            d3.select(svgRef.current).call(zoomHandler);
             nodes = svg.selectAll<SVGGElement, unknown>('g').data(graph.nodes as any[]);
 
             nodes.exit().remove();
 
-            const newNodes = nodes.enter().append('g').attr('opacity', 0);
+            const newNodes = nodes.enter().append('g').attr('opacity', 0).call(
+                d3
+                    .drag<SVGGElement, Nodes, unknown>()
+                    .on('start', dragStarted)
+                    .on('drag', dragged)
+                    .on('end', dragEnded)
+            );
 
             newNodes
                 .transition()
@@ -236,9 +280,26 @@ const GenerateNetWorkGraph = ({
         nodes.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
     };
 
+    useEffect(() => {
+        d3.select("button")
+            .on("click", function () {
+                graph = randomizeData();
+                update();
+
+            })
+    }, [svgRef])
+
     return (
         <div>
-            <button onClick={randomizeData}>Update</button>
+            <button
+                onClick={() => {
+                    const updatedGraph = randomizeData();
+                    if (updatedGraph) {
+                        graph = updatedGraph;
+                        update();
+                    }
+                }}
+            >Update</button>
             <svg ref={svgRef} width={width} height={height}></svg>
             <style>
                 {`

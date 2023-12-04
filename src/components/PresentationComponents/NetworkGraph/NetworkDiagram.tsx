@@ -3,7 +3,7 @@
 import * as d3 from 'd3';
 import { useEffect, useRef, useState } from 'react';
 import { drawNetwork } from './drawNetwork';
-import { Datas, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
+import { netWorkDataProps, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
 import { findNode } from './findNode';
 import { RADIUSNODE } from '@/share/CONST_DATA';
 import { findHoveredEdge } from './findHoveredEdge';
@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 type NetworkDiagramProps = {
   width: number;
   height: number;
-  netWorkData: Datas;
+  netWorkData: netWorkDataProps;
   handleNodeDoubleClick: (nodeId: number, nodeClass: string) => Promise<void>;
   handleClickNodeShowCard: (nodeId: number, nodeClass: string) => Promise<void>;
 };
@@ -163,16 +163,16 @@ export const NetworkDiagram = ({
       canvas.addEventListener('mousemove', checkMouseoverEdges);
       canvas.addEventListener('wheel', handleWheelEvent);
       canvas.addEventListener('click', (event: MouseEvent) => {
-        // clearClickTimeout();
+        clearClickTimeout();
         handleDoubleClick(event);
-        // if (event.detail === 1) {
-        //   clickTimeout.current = setTimeout(() => {
-        //     handleClickNodeCard(event);
-        //   }, timeout);
-        // }
-        // if (event.detail === 2) {
-        //   handleDoubleClick(event);
-        // }
+        if (event.detail === 1) {
+          clickTimeout.current = setTimeout(() => {
+            handleClickNodeCard(event);
+          }, timeout);
+        }
+        if (event.detail === 2) {
+          handleDoubleClick(event);
+        }
       });
 
       function checkMouseoverNode(event: MouseEvent) {

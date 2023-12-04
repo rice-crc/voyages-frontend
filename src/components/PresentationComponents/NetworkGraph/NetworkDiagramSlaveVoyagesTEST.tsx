@@ -7,9 +7,6 @@ import { netWorkDataProps } from '@/share/InterfaceTypePastNetworks';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { useDimensions } from '@/hooks/useDimensions';
 import { NetworkDiagramSVGEnterNode } from './NetworkDiagramSVGEnterNode';
-import { NetworkDiagramSVG } from './NetworkDiagramSVG';
-import NetworkDiagramSVGUpdateNewNodes from './NetworkDiagramSVGUpdateNewNodes';
-import GenerateNetWorkGraph from './GenerateNetWorkGraph';
 
 export const NetworkDiagramSlaveVoyagesTEST = ({
   widthPercentage = 80,
@@ -71,25 +68,10 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
         </div>
       ) : (
         <div style={{ width: `${width}px`, height: `${height}px` }} ref={graphRef} >
-          {/* <NetworkDiagramSVG
-            // newUpdateNetWorkData={newUpdateNetWorkData}
-            // netWorkData={netWorkData}
-            width={graphSize.width}
-            height={graphSize.height}
-          /> */}
-
-
-
-          {/* Last Update 1Dec 23 :This is working but need to work more */}
-
           <NetworkDiagramSVGEnterNode
             width={graphSize.width}
             height={graphSize.height}
           />
-
-          {/* <GenerateNetWorkGraph
-            width={graphSize.width}
-            height={graphSize.height} /> */}
 
         </div>
       )}

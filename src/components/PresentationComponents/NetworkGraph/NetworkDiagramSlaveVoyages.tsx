@@ -8,12 +8,10 @@ import {
   setNetWorksKEY,
   setPastNetworksData,
 } from '@/redux/getPastNetworksGraphDataSlice';
-import { Datas, Nodes, Edges } from '@/share/InterfaceTypePastNetworks';
+import { netWorkDataProps, Nodes, Edges } from '@/share/InterfaceTypePastNetworks';
 import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
 import { ENSLAVEMENTNODE } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
-import { NetworkDiagramSVG } from './NetworkDiagramSVG';
-import { NetworkDiagramTest } from './NetworkDiagramTest';
 
 export const NetworkDiagramSlaveVoyages = ({
   widthPercentage = 80,
@@ -95,7 +93,7 @@ export const NetworkDiagramSlaveVoyages = ({
 
         if (response && subscribed) {
           setIsLoading(false);
-          dispatch(setPastNetworksData(response as Datas));
+          dispatch(setPastNetworksData(response as netWorkDataProps));
         }
       } catch (error) {
         setIsLoading(false);
