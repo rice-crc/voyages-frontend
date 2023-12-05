@@ -133,37 +133,41 @@ export const NetworkDiagramSVGEnterNode = ({
 
     let linksGraph: d3.Selection<SVGLineElement, any, SVGGElement, unknown>;
     let nodesGraph: d3.Selection<SVGGElement, any, SVGGElement, unknown>;
+    const dragBehavior = d3.drag<SVGGElement, Nodes, unknown>();
     useEffect(() => {
         d3.select('button').on('click', function () {
             graph = initNetworkgraph();
             updateNetwork();
         });
-
-    }, [])
+    }, [svgRef, width, height]);
 
     useEffect(() => {
         const svg = svgRef.current;
         if (svgRef.current) {
-            const svg = d3.select<SVGSVGElement, unknown>(svgRef.current);
+            const svg = d3
+                .select<SVGSVGElement, unknown>(svgRef.current)
+                .attr('viewBox', [0, 0, width, height]);
             function handleZoom(event: d3.D3ZoomEvent<SVGSVGElement, any>) {
                 const transform = event.transform;
                 if (svgRef.current) {
                     if (transform) {
-                        const transformString = `translate(${transform.x}, ${transform.y}) scale(${transform.k})`;
-                        svg.attr('transform', transformString);
+                        const scale = transform.k;
+                        const { x, y } = transform;
+
+                        const transformString = `translate(${x}, ${y}) scale(${scale})`;
+                        svg.attr('transform', transformString).style('cursor', 'pointer');
                     }
                 }
             }
 
             const zoomHandler = d3.zoom<SVGSVGElement, any>().on('zoom', handleZoom);
-            svg.call(zoomHandler).on("dblclick.zoom", null).on("click.zoom", null)
-
+            svg.call(zoomHandler).on('dblclick.zoom', null).on('click.zoom', null);
         }
 
         return () => {
             if (!svg) return;
         };
-    }, [svgRef]);
+    }, [svgRef, width, height]);
 
     useEffect(() => {
         const svgCleanup = () => {
@@ -246,7 +250,8 @@ export const NetworkDiagramSVGEnterNode = ({
             linksGraph = newLinks.merge(linksGraph);
 
             nodesGraph = svg.selectAll<SVGGElement, unknown>('g').data(graph.nodes);
-            const dragBehavior = d3.drag<SVGGElement, Nodes, unknown>()
+
+            dragBehavior
                 .on('start', dragStarted)
                 .on('drag', dragged)
                 .on('end', dragEnded);
@@ -259,14 +264,11 @@ export const NetworkDiagramSVGEnterNode = ({
                 .enter()
                 .append('g')
                 .attr('opacity', 0)
-                .call(dragBehavior)
+                .call(dragBehavior);
 
             newNodes.on('click', async (event: MouseEvent, d: Nodes) => {
                 event.preventDefault();
                 clearClickTimeout();
-                // await handleDoubleClick(d.id, d.node_class);
-
-                // will un comment later
                 if (event.detail === 1) {
                     clickTimeout.current = setTimeout(() => {
                         handleClickNodeShowCard(d.id, d.node_class);
@@ -331,9 +333,7 @@ export const NetworkDiagramSVGEnterNode = ({
             simulation.on('tick', ticked);
             simulation.alpha(1).restart();
         }
-    }, [svgRef])
-
-
+    }, [svgRef]);
 
     function ticked() {
         linksGraph

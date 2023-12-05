@@ -1,4 +1,4 @@
-import { NetworkDiagram } from './NetworkDiagram';
+import { NetworkDiagramCanvas } from './NetworkDiagramCanvas';
 import { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -117,7 +117,7 @@ export const NetworkDiagramSlaveVoyages = ({
         </div>
       ) : (
         <div style={{ width: `${width}px`, height: `${height}px` }}>
-          <NetworkDiagram
+          <NetworkDiagramCanvas
             netWorkData={netWorkData}
             width={width}
             height={height}

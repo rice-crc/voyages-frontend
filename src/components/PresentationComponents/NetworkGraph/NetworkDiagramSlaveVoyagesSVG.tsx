@@ -8,7 +8,7 @@ import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { useDimensions } from '@/hooks/useDimensions';
 import { NetworkDiagramSVGEnterNode } from './NetworkDiagramSVGEnterNode';
 
-export const NetworkDiagramSlaveVoyagesTEST = ({
+export const NetworkDiagramSlaveVoyagesSVG = ({
   widthPercentage = 80,
   heigthPercentage = 75,
 }) => {
@@ -72,7 +72,6 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
             width={graphSize.width}
             height={graphSize.height}
           />
-
         </div>
       )}
     </div>

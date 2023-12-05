@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NetworkDiagramSlaveVoyages } from './NetworkDiagramSlaveVoyages';
 import { styleModalNetworks } from '@/styleMUI';
 import NETWORKICON from '@/assets/networksIcon.png';
-import { NetworkDiagramSlaveVoyagesTEST } from './NetworkDiagramSlaveVoyagesTEST';
+import { NetworkDiagramSlaveVoyagesSVG } from './NetworkDiagramSlaveVoyagesSVG';
 
 const ModalNetworksGraph = () => {
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const ModalNetworksGraph = () => {
             style={{ marginLeft: 5 }}
           />
         </div>
-        <NetworkDiagramSlaveVoyagesTEST />
+        <NetworkDiagramSlaveVoyagesSVG />
         {/* <NetworkDiagramSlaveVoyages /> */}
       </Box>
     </Modal>
