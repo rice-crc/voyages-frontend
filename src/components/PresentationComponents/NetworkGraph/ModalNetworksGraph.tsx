@@ -1,12 +1,13 @@
 import { setsetOpenModalNetworks } from '@/redux/getPastNetworksGraphDataSlice';
 import { RootState } from '@/redux/store';
 import { Modal, Box } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import { NetworkDiagramSlaveVoyages } from './NetworkDiagramSlaveVoyages';
 import { styleModalNetworks } from '@/styleMUI';
 import NETWORKICON from '@/assets/networksIcon.png';
 import { NetworkDiagramSlaveVoyagesSVG } from './NetworkDiagramSlaveVoyagesSVG';
-
+import "@/style/networks.scss"
+import { NetworkDiagramSlaveVoyagesCanvas } from './NetworkDiagramSlaveVoyagesCanvas';
 const ModalNetworksGraph = () => {
   const dispatch = useDispatch();
   const { openModal } = useSelector(
@@ -27,30 +28,26 @@ const ModalNetworksGraph = () => {
       sx={{ styleModalNetworks }}
     >
       <Box sx={styleModalNetworks}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: '#fff',
-          }}
-        >
-          <img
-            alt="network"
-            src={NETWORKICON}
-            width={20}
-            style={{ marginLeft: 5 }}
-          />
-          Connections
-          <img
-            alt="network"
-            src={NETWORKICON}
-            width={20}
-            style={{ marginLeft: 5 }}
-          />
+        <div className='network-header'>
+          <div className='network-header-text'>
+            <img
+              alt="network"
+              src={NETWORKICON}
+              className='network-icon-right'
+            />
+            Connections
+            <img
+              alt="network"
+              className='network-icon-left'
+              src={NETWORKICON}
+            />
+
+          </div>
+          <div className='close-modal-icon-network '><CloseIcon fontSize='large' onClick={handleClose} /></div>
         </div>
+
         <NetworkDiagramSlaveVoyagesSVG />
-        {/* <NetworkDiagramSlaveVoyages /> */}
+        {/* <NetworkDiagramSlaveVoyagesCanvas /> */}
       </Box>
     </Modal>
   );

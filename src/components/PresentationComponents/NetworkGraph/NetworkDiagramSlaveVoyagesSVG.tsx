@@ -6,11 +6,11 @@ import { setPastNetworksData, } from '@/redux/getPastNetworksGraphDataSlice';
 import { netWorkDataProps } from '@/share/InterfaceTypePastNetworks';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { useDimensions } from '@/hooks/useDimensions';
-import { NetworkDiagramSVGEnterNode } from './NetworkDiagramSVGEnterNode';
+import { NetworkDiagramDrawSVG } from './NetworkDiagramDrawSVG';
 
 export const NetworkDiagramSlaveVoyagesSVG = ({
-  widthPercentage = 80,
-  heigthPercentage = 75,
+  widthPercentage = 100,
+  heigthPercentage = 85,
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const graphRef = useRef(null);
@@ -68,7 +68,7 @@ export const NetworkDiagramSlaveVoyagesSVG = ({
         </div>
       ) : (
         <div style={{ width: `${width}px`, height: `${height}px` }} ref={graphRef} >
-          <NetworkDiagramSVGEnterNode
+          <NetworkDiagramDrawSVG
             width={graphSize.width}
             height={graphSize.height}
           />

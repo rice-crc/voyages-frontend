@@ -4,16 +4,13 @@ import { useCallback, useEffect, useRef } from 'react';
 import {
     Edges,
     Nodes,
-    netWorkDataProps,
 } from '@/share/InterfaceTypePastNetworks';
 import { ENSLAVEMENTNODE, RADIUSNODE, classToColor } from '@/share/CONST_DATA';
-import { findHoveredEdge } from './findHoveredEdge';
 import ShowsAcoloredNodeKey from './ShowsAcoloredNodeKey';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     createStrokeColor,
-    createdLableEdges,
     createdLableNodeHover,
 } from '@/utils/functions/createdLableNode';
 import {
@@ -22,13 +19,15 @@ import {
 } from '@/redux/getPastNetworksGraphDataSlice';
 import { fetchPastNetworksGraphApi } from '@/fetch/pastEnslavedFetch/fetchPastNetworksGraph';
 import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
+import { isVoyagesClass } from '@/utils/functions/checkNodeClass';
+import '@/style/networks.scss'
 
 type NetworkDiagramProps = {
     width: number;
     height: number;
 };
 
-export const NetworkDiagramSVGEnterNode = ({
+export const NetworkDiagramDrawSVG = ({
     width,
     height,
 }: NetworkDiagramProps) => {
@@ -62,13 +61,8 @@ export const NetworkDiagramSVGEnterNode = ({
         initNetworkgraph();
     }, []);
 
-    const initNetworkgraph = (): { nodes: Nodes[]; edges: Edges[] } => {
-        const updatedGraph: netWorkDataProps = {
-            nodes: graph.nodes,
-            edges: graph.edges,
-        };
+    const initNetworkgraph = () => {
         updateNetwork();
-        return updatedGraph;
     };
 
     const clearClickTimeout = () => {
@@ -123,23 +117,12 @@ export const NetworkDiagramSVGEnterNode = ({
 
             graph = { nodes: updatedNodes, edges: updatedEdges };
             updateNetwork();
-            const updatedGraph = initNetworkgraph();
-            if (updatedGraph) {
-                graph = updatedGraph;
-                updateNetwork();
-            }
         }
     };
 
     let linksGraph: d3.Selection<SVGLineElement, any, SVGGElement, unknown>;
     let nodesGraph: d3.Selection<SVGGElement, any, SVGGElement, unknown>;
-    const dragBehavior = d3.drag<SVGGElement, Nodes, unknown>();
-    useEffect(() => {
-        d3.select('button').on('click', function () {
-            graph = initNetworkgraph();
-            updateNetwork();
-        });
-    }, [svgRef, width, height]);
+
 
     useEffect(() => {
         const svg = svgRef.current;
@@ -169,26 +152,182 @@ export const NetworkDiagramSVGEnterNode = ({
         };
     }, [svgRef, width, height]);
 
-    useEffect(() => {
-        const svgCleanup = () => {
-            if (svgRef.current) {
-                const svg = d3.select<SVGSVGElement, unknown>(svgRef.current);
-                svg.on('.zoom', null);
-            }
-            transformRef.current = zoomIdentity;
-            simulationRef.current = null;
-            isDraggingRef.current = false;
-            isZoomingRef.current = false;
-            hoverEnabledRef.current = true;
-            clearClickTimeout();
-        };
-        return svgCleanup;
-    }, []);
-
     const updateNetwork = useCallback(() => {
         if (!svgRef.current) return;
         if (svgRef.current) {
             const svg = d3.select<SVGSVGElement, unknown>(svgRef.current);
+
+            // Links
+            linksGraph = svg
+                .selectAll<SVGLineElement, unknown>('line')
+                .data(graph.edges);
+
+            // remove excess link.
+            linksGraph.exit().remove();
+
+            const newLinks = linksGraph.enter().append('line');
+            newLinks
+                .attr('class', 'link-graph')
+                .attr('stroke-width', '3.5')
+                .style('cursor', 'pointer');
+
+            newLinks.attr('stroke', (link: Edges) => {
+                const strokeColor = createStrokeColor(link);
+                return strokeColor;
+            });
+
+            linksGraph = newLinks.merge(linksGraph);
+
+            // nodes 
+            nodesGraph = svg.selectAll<SVGGElement, unknown>('g').data(graph.nodes);
+            const dragBehavior = d3.drag<SVGGElement, Nodes, unknown>();
+
+            // remove excess nodes.
+            nodesGraph.exit().remove();
+
+            // enter new nodes as required:
+            const newNodes = nodesGraph
+                .enter()
+                .append('g')
+                .attr('opacity', 0)
+                .call(dragBehavior);
+
+            newNodes.on('click', async (event: MouseEvent, d: Nodes) => {
+                raiseUpFront
+                event.preventDefault();
+                clearClickTimeout();
+                if (event.detail === 1) {
+                    clickTimeout.current = setTimeout(() => {
+                        handleClickNodeShowCard(d.id, d.node_class);
+                    }, timeout);
+                }
+                if (event.detail === 2) {
+                    handleDoubleClick(d.id, d.node_class);
+                }
+            })
+            function raiseUpFront(this: SVGElement) {
+                d3.select(this).raise();
+            }
+
+            newNodes.on('mouseover', async (event: MouseEvent, node: Nodes) => {
+                event.preventDefault();
+
+                const checkNode = isVoyagesClass(node)
+                if (!checkNode) {
+                    const target = event.currentTarget as HTMLElement;
+                    const labelNode = createdLableNodeHover(node);
+
+                    const textElement = d3.select(target)
+                        .attr('class', 'text-group');
+                    textElement.append('text')
+                        .attr('x', 22)
+                        .attr('y', 0)
+                        .attr('text-anchor', 'start')
+                        .attr('alignment-baseline', 'middle')
+                        .attr('font-size', 16)
+                        .attr('fill', '#fff')
+                        .text(labelNode!)
+                    raiseUpFront
+
+                    // ======== Background of text when hover ========
+                    const rectWidth = labelNode?.length! + 120;
+                    const rectHeight = labelNode?.length! + 12;
+                    textElement.insert('rect', 'text')
+                        .attr('x', 18)
+                        .attr('y', -14)
+                        .attr('width', rectWidth)
+                        .attr('height', rectHeight)
+                        .attr('rx', 8)
+                        .attr('ry', 8)
+                        .style('padding', 10)
+                        .attr('fill', '#000')
+                        .attr('opacity', 0.8)
+
+                }
+            });
+
+            newNodes.on('mouseout', async (event: MouseEvent, node: Nodes) => {
+                event.preventDefault();
+                const nodeClass = isVoyagesClass(node)
+                const target = event.currentTarget as HTMLElement;
+                if (!nodeClass) {
+                    d3.select(target).selectAll('text, rect').remove();
+                }
+            });
+
+            newNodes
+                .transition()
+                .attr('opacity', 1)
+                .attr('class', 'nodes')
+                .attr('stroke', '#fff')
+                .style('cursor', 'pointer')
+                .attr('stroke-width', '1.5')
+                .attr('cx', (node) => node.x!)
+                .attr('cy', (node) => node.y!)
+                .each(raiseUpFront);
+
+            newNodes
+                .append('text')
+                .attr('class', 'text-label')
+                .text((node: Nodes) => {
+                    const nodeClass = isVoyagesClass(node)
+                    const labelNode = createdLableNodeHover(node);
+                    return nodeClass ? labelNode! : '';
+                })
+                .attr('x', 18)
+                .attr('y', 0)
+                .attr('text-anchor', 'start')
+                .attr('alignment-baseline', 'middle')
+                .attr('font-size', 15)
+                .attr('fill', '#fff')
+
+            // ***************** Show all Label of NEEDED *****************
+            //     newNodes
+            //     .append('text')
+            //     .text((node: Nodes) => {
+            //         const labelNode = createdLableNodeHover(node);
+            //         return labelNode || '';
+            //     })
+            //     .attr('x', 16)
+            //     .attr('y', -1)
+            //     .attr('text-anchor', 'start')
+            //     .attr('alignment-baseline', 'middle')
+            //     .attr('font-size', 15)
+            //     .attr('fill', '#fff');
+
+
+
+            // merge update and enter.
+            nodesGraph = newNodes.merge(nodesGraph);
+
+            // append  circles to new nodes:
+            nodesGraph
+                .append('circle')
+                .attr('class', 'node')
+                .attr('r', RADIUSNODE)
+                .attr('fill', (node: Nodes) => {
+                    return (
+                        classToColor[node.node_class as keyof typeof classToColor] || 'gray'
+                    );
+                });
+
+            const simulation = d3.forceSimulation(nodes);
+            simulation.force(
+                'link',
+                forceLink<Nodes, Edges>(edges)
+                    .id((uuid) => uuid.uuid)
+                    .distance(110)
+            );
+            simulation.force('charge', d3.forceManyBody().strength(-30));
+            simulation.force(
+                'center',
+                d3
+                    .forceCenter()
+                    .x(width / 2)
+                    .y(height / 2)
+            );
+            simulation.on('tick', ticked);
+            simulation.alpha(1).restart();
 
             const dragStarted = (
                 event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>
@@ -218,120 +357,10 @@ export const NetworkDiagramSVGEnterNode = ({
                 }
             };
 
-            // Links
-            linksGraph = svg
-                .selectAll<SVGLineElement, unknown>('line')
-                .data(graph.edges);
-
-            // remove excess link.
-            linksGraph.exit().remove();
-
-            const newLinks = linksGraph.enter().append('line');
-            newLinks
-                .attr('class', 'link')
-                .attr('stroke-width', '1.5')
-                .style('cursor', 'pointer');
-
-            newLinks.attr('stroke', (link: Edges) => {
-                const strokeColor = createStrokeColor(link);
-                return strokeColor;
-            });
-
-            newLinks
-                .append('text')
-                .attr('text-anchor', 'middle')
-                .text((node: Nodes) => {
-                    const labelNode = createdLableNodeHover(node);
-                    return labelNode || 'Hello';
-                })
-                .attr('x', 300)
-                .attr('y', 290);
-
-            linksGraph = newLinks.merge(linksGraph);
-
-            nodesGraph = svg.selectAll<SVGGElement, unknown>('g').data(graph.nodes);
-
             dragBehavior
                 .on('start', dragStarted)
                 .on('drag', dragged)
                 .on('end', dragEnded);
-
-            // remove excess nodes.
-            nodesGraph.exit().remove();
-
-            // enter new nodes as required:
-            const newNodes = nodesGraph
-                .enter()
-                .append('g')
-                .attr('opacity', 0)
-                .call(dragBehavior);
-
-            newNodes.on('click', async (event: MouseEvent, d: Nodes) => {
-                event.preventDefault();
-                clearClickTimeout();
-                if (event.detail === 1) {
-                    clickTimeout.current = setTimeout(() => {
-                        handleClickNodeShowCard(d.id, d.node_class);
-                    }, timeout);
-                }
-                if (event.detail === 2) {
-                    handleDoubleClick(d.id, d.node_class);
-                }
-            });
-
-            newNodes
-                .transition()
-                .attr('opacity', 1)
-                .attr('class', 'nodes')
-                .attr('stroke', '#fff')
-                .style('cursor', 'pointer')
-                .attr('stroke-width', '1')
-                .attr('cx', (node) => node.x!)
-                .attr('cy', (node) => node.y!);
-
-            newNodes
-                .append('text')
-                .text((node: Nodes) => {
-                    const labelNode = createdLableNodeHover(node);
-                    return labelNode || '';
-                })
-                .attr('x', 16)
-                .attr('y', -1)
-                .attr('text-anchor', 'start')
-                .attr('alignment-baseline', 'middle')
-                .attr('font-size', 15)
-                .attr('fill', '#fff');
-
-            // merge update and enter.
-            nodesGraph = newNodes.merge(nodesGraph);
-
-            // append  circles to new nodes:
-            nodesGraph
-                .append('circle')
-                .attr('r', RADIUSNODE)
-                .attr('fill', (node: Nodes) => {
-                    return (
-                        classToColor[node.node_class as keyof typeof classToColor] || 'gray'
-                    );
-                });
-
-            const simulation = d3.forceSimulation(nodes);
-            simulation.force(
-                'link',
-                forceLink<Nodes, Edges>(edges)
-                    .id((uuid) => uuid.uuid)
-                    .distance(110)
-            );
-            simulation.force('charge', d3.forceManyBody().strength(-30));
-            simulation.force(
-                'center',
-                d3
-                    .forceCenter()
-                    .x(width / 2)
-                    .y(height / 2)
-            );
-            simulation.on('tick', ticked);
-            simulation.alpha(1).restart();
         }
     }, [svgRef]);
 
@@ -344,10 +373,27 @@ export const NetworkDiagramSVGEnterNode = ({
         nodesGraph.attr('transform', (d) => `translate(${d.x},${d.y})`);
     }
 
+    useEffect(() => {
+        const svgCleanup = () => {
+            if (svgRef.current) {
+                const svg = d3.select<SVGSVGElement, unknown>(svgRef.current);
+                svg.on('zoom', null);
+            }
+            transformRef.current = zoomIdentity;
+            simulationRef.current = null;
+            isDraggingRef.current = false;
+            isZoomingRef.current = false;
+            hoverEnabledRef.current = true;
+            clearClickTimeout();
+        };
+        return svgCleanup;
+    }, []);
+
     return (
         <>
             <svg
                 ref={svgRef}
+                className='svg-network'
                 width={width}
                 height={height}
                 id="networkCanvas labelsContainer"

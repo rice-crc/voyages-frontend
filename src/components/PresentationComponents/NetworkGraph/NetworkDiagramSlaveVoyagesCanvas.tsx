@@ -1,4 +1,4 @@
-import { NetworkDiagramCanvas } from './NetworkDiagramCanvas';
+import { NetworkDiagramDrawCanvas } from './NetworkDiagramDrawCanvas';
 import { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +13,7 @@ import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
 import { ENSLAVEMENTNODE } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 
-export const NetworkDiagramSlaveVoyages = ({
+export const NetworkDiagramSlaveVoyagesCanvas = ({
   widthPercentage = 80,
   heigthPercentage = 75,
 }) => {
@@ -110,21 +110,19 @@ export const NetworkDiagramSlaveVoyages = ({
     return null;
   }
   return (
-    <div>
+    <div style={{ width: `${width}px`, height: `${height}px` }}>
       {isLoading ? (
         <div className="loading-logo">
           <img src={LOADINGLOGO} />
         </div>
       ) : (
-        <div style={{ width: `${width}px`, height: `${height}px` }}>
-          <NetworkDiagramCanvas
-            netWorkData={netWorkData}
-            width={width}
-            height={height}
-            handleNodeDoubleClick={handleNodeDoubleClick}
-            handleClickNodeShowCard={handleClickNodeShowCard}
-          />
-        </div>
+        <NetworkDiagramDrawCanvas
+          netWorkData={netWorkData}
+          width={width}
+          height={height}
+          handleNodeDoubleClick={handleNodeDoubleClick}
+          handleClickNodeShowCard={handleClickNodeShowCard}
+        />
       )}
     </div>
   );

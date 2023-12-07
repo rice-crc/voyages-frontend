@@ -19,7 +19,7 @@ type NetworkDiagramProps = {
   handleClickNodeShowCard: (nodeId: number, nodeClass: string) => Promise<void>;
 };
 
-export const NetworkDiagramCanvas = ({
+export const NetworkDiagramDrawCanvas = ({
   width,
   height,
   netWorkData,
