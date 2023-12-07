@@ -28,7 +28,7 @@ export const createdLableNode = (node: Nodes) => {
     return LableNode;
 };
 
-export const createdLableNodeHover = (node: Nodes) => {
+export const createdLabelNodeHover = (node: Nodes) => {
     const {
         node_class, documented_name,
         voyage_ship__ship_name: shipName,

@@ -21,7 +21,6 @@ export const NetworkDiagramSlaveVoyagesSVG = ({
     (state: RootState) => state.getPastNetworksGraphData
   );
 
-
   const { networkID, networkKEY } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
@@ -61,19 +60,17 @@ export const NetworkDiagramSlaveVoyagesSVG = ({
     return null;
   }
   return (
-    <div>
-      {isLoading ? (
-        <div className="loading-logo">
-          <img src={LOADINGLOGO} />
-        </div>
-      ) : (
-        <div style={{ width: `${width}px`, height: `${height}px` }} ref={graphRef} >
-          <NetworkDiagramDrawSVG
-            width={graphSize.width}
-            height={graphSize.height}
-          />
-        </div>
-      )}
-    </div>
+    isLoading ? (
+      <div className="loading-logo">
+        <img src={LOADINGLOGO} />
+      </div>
+    ) : (
+      <div style={{ width: `${width}px`, height: `${height}px` }} ref={graphRef} >
+        <NetworkDiagramDrawSVG
+          width={graphSize.width}
+          height={graphSize.height}
+        />
+      </div>
+    )
   );
 };

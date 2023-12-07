@@ -4,7 +4,7 @@ import {
     createStrokeColor,
     createdLableEdges,
     createdLableNodeHover,
-} from '@/utils/functions/createdLableNode';
+} from '@/utils/functions/createdLabelNodeHover';
 
 export const drawNetworkSVG = (
     svg: SVGSVGElement,

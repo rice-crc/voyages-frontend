@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     createStrokeColor,
     createdLableNodeHover,
-} from '@/utils/functions/createdLableNode';
+} from '@/utils/functions/createdLabelNodeHover';
 import {
     setNetWorksID,
     setNetWorksKEY,

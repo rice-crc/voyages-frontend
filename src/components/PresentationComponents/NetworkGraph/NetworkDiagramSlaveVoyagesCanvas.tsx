@@ -8,14 +8,14 @@ import {
   setNetWorksKEY,
   setPastNetworksData,
 } from '@/redux/getPastNetworksGraphDataSlice';
-import { netWorkDataProps, Nodes, Edges } from '@/share/InterfaceTypePastNetworks';
+import { netWorkDataProps } from '@/share/InterfaceTypePastNetworks';
 import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
 import { ENSLAVEMENTNODE } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 
 export const NetworkDiagramSlaveVoyagesCanvas = ({
-  widthPercentage = 80,
-  heigthPercentage = 75,
+  widthPercentage = 100,
+  heigthPercentage = 85,
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -32,42 +32,42 @@ export const NetworkDiagramSlaveVoyagesCanvas = ({
   const width = (modalWidth * widthPercentage) / 100;
   const height = (modalHeight * heigthPercentage) / 100;
 
-  const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
-    try {
-      const dataSend = {
-        [nodeClass]: [Number(nodeId)],
-      };
-      const response = await dispatch(fetchPastNetworksGraphApi(dataSend)).unwrap();
-      if (response) {
+  // const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
+  //   try {
+  //     const dataSend = {
+  //       [nodeClass]: [Number(nodeId)],
+  //     };
+  //     const response = await dispatch(fetchPastNetworksGraphApi(dataSend)).unwrap();
+  //     if (response) {
 
-        const newNodes = response.nodes.filter((newNode: Nodes) => {
-          return !netWorkData.nodes.some(
-            (existingNode) => existingNode.uuid === newNode.uuid
-          );
-        });
+  //       const newNodes = response.nodes.filter((newNode: Nodes) => {
+  //         return !netWorkData.nodes.some(
+  //           (existingNode) => existingNode.uuid === newNode.uuid
+  //         );
+  //       });
 
-        const newEdges = response.edges.filter((newEdge: Edges) => {
-          return !netWorkData.edges.some(
-            (existingEdge) =>
-              existingEdge.source === newEdge.source &&
-              existingEdge.target === newEdge.target
-          );
-        });
+  //       const newEdges = response.edges.filter((newEdge: Edges) => {
+  //         return !netWorkData.edges.some(
+  //           (existingEdge) =>
+  //             existingEdge.source === newEdge.source &&
+  //             existingEdge.target === newEdge.target
+  //         );
+  //       });
 
-        const updatedNodes = [...netWorkData.nodes, ...newNodes];
-        const updatedEdges = [...netWorkData.edges, ...newEdges];
+  //       const updatedNodes = [...netWorkData.nodes, ...newNodes];
+  //       const updatedEdges = [...netWorkData.edges, ...newEdges];
 
-        const updatedData = {
-          ...netWorkData,
-          nodes: updatedNodes,
-          edges: updatedEdges,
-        };
-        dispatch(setPastNetworksData(updatedData));
-      }
-    } catch (error) {
-      console.error('Error fetching new nodes:', error);
-    }
-  };
+  //       const updatedData = {
+  //         ...netWorkData,
+  //         nodes: updatedNodes,
+  //         edges: updatedEdges,
+  //       };
+  //       dispatch(setPastNetworksData(updatedData));
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching new nodes:', error);
+  //   }
+  // };
 
 
   const handleClickNodeShowCard = async (nodeId: number, nodeClass: string) => {
@@ -110,20 +110,21 @@ export const NetworkDiagramSlaveVoyagesCanvas = ({
     return null;
   }
   return (
-    <div style={{ width: `${width}px`, height: `${height}px` }}>
-      {isLoading ? (
-        <div className="loading-logo">
-          <img src={LOADINGLOGO} />
-        </div>
-      ) : (
-        <NetworkDiagramDrawCanvas
-          netWorkData={netWorkData}
-          width={width}
-          height={height}
-          handleNodeDoubleClick={handleNodeDoubleClick}
-          handleClickNodeShowCard={handleClickNodeShowCard}
-        />
-      )}
-    </div>
+
+    isLoading ? (
+      <div className="loading-logo">
+        <img src={LOADINGLOGO} />
+      </div>
+    ) : (
+      // <div style={{ width: `${width}px`, height: `${height}px` }}>
+      <NetworkDiagramDrawCanvas
+        netWorkData={netWorkData}
+        width={width}
+        height={height}
+        // handleNodeDoubleClick={handleNodeDoubleClick}
+        handleClickNodeShowCard={handleClickNodeShowCard}
+      />
+      // </div>
+    )
   );
 };
