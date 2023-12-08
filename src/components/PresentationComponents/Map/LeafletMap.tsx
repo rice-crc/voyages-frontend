@@ -95,7 +95,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     (state: RootState) => state.getCommonGlobalSearch
   );
 
-
   useEffect(() => {
     const savedNodesDataRegion = localStorage.getItem('nodesDataregion');
     const saveEdgesDataRegion = localStorage.getItem('edgesDataregion');
@@ -125,7 +124,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
     const dataSend = handleSetDataSentMap(
       autoCompleteValue,
-      isChangeAuto,
+      varName,
       isChangeGeoTree,
       dataSetValue,
       dataSetKey,
@@ -134,12 +133,11 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       geoTreeValue,
       isChange,
       currentPage,
-      pathName,
       currentEnslavedPage,
-      styleName, clusterNodeKeyVariable, clusterNodeValue
+      styleName, clusterNodeKeyVariable, clusterNodeValue, styleNamePeople
     )
-    dataSend['zoomlevel'] = [regionOrPlace!];
 
+    dataSend['zoomlevel'] = [regionOrPlace!];
 
     hasFetchedRegion ? setLoading(true) : setLoading(false);
     let response;

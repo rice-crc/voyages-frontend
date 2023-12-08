@@ -41,7 +41,6 @@ export const handleSetDataSentTablePieBarScatterGraph = (
     }
 
     if (autoCompleteValue && varName && (currentPage === 2 || currentPage === 3 || currentPage === 4 || currentPage === 5 || currentPage === 6) || (currentEnslavedPage === 2)) {
-
         for (const autoKey in autoCompleteValue) {
             for (const autoCompleteOption of autoCompleteValue[autoKey]) {
                 if (typeof autoCompleteOption !== 'string') {

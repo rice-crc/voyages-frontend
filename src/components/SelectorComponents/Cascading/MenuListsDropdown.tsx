@@ -128,39 +128,41 @@ export const MenuListsDropdown = () => {
     });
   };
 
-  const renderDropdownMenu = (nodes: FilterMenu[] | ChildrenFilter[]) => {
-    return nodes?.map((node: FilterMenu | ChildrenFilter, index: number) => {
-      const { label, children, var_name, type } = node;
-      const hasChildren = children && children.length >= 1;
-      if (hasChildren) {
+  const renderDropdownMenu = (nodes: FilterMenu | ChildrenFilter | (FilterMenu | ChildrenFilter)[]): React.ReactElement<any>[] | undefined => {
+    if (Array.isArray(nodes!)) {
+      return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
+        const { label, children, var_name, type } = node;
+        const hasChildren = children && children.length >= 1;
+        if (hasChildren) {
+          return (
+            <DropdownNestedMenuItemChildren
+              onClickMenu={handleClickMenu}
+              key={`${label}-${index}`}
+              label={`${label}`}
+              rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
+              data-value={var_name}
+              data-type={type}
+              data-label={label}
+              menu={renderDropdownMenu(children)}
+            />
+          );
+        }
         return (
-          <DropdownNestedMenuItemChildren
-            onClickMenu={handleClickMenu}
+          <DropdownMenuItem
             key={`${label}-${index}`}
-            label={`${label}`}
-            rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
+            onClick={handleClickMenu}
+            dense
             data-value={var_name}
             data-type={type}
             data-label={label}
-            menu={renderDropdownMenu(children)}
-          />
+          >
+            {label}
+          </DropdownMenuItem>
         );
-      }
-
-      return (
-        <DropdownMenuItem
-          key={`${label}-${index}`}
-          onClick={handleClickMenu}
-          dense
-          data-value={var_name}
-          data-type={type}
-          data-label={label}
-        >
-          {label}
-        </DropdownMenuItem>
-      );
-    });
+      });
+    }
   };
+
   return (
     <div>
       <Box className="filter-menu-bar">
@@ -218,7 +220,7 @@ export const MenuListsDropdown = () => {
                   {item.label}
                 </Button>
               }
-              menu={renderDropdownMenu(filterMenu)}
+              menu={renderDropdownMenu(item.children!)}
             />
           );
         })}
