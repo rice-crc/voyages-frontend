@@ -64,14 +64,17 @@
   color: #000;
   z-index: 2;
   bottom: 18%;
+  left: 1%;
 
   .div-box {
     display: flex;
+    align-items: center;
+    padding: 1px;
   }
 
   .circle {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
   }
 
@@ -89,6 +92,37 @@
 
   .connection {
     background-color: #ab47bc;
+  }
+
+  .div-box-line {
+    display: flex;
+    align-items: center;
+  }
+
+  .line-edges {
+    width: 20px;
+    height: 4px;
+    border-radius: 8px;
+  }
+
+  .captain {
+    background-color: rgb(55, 163, 154);
+  }
+
+  .owner {
+    background-color: #5468ff;
+  }
+
+  .shipper {
+    background-color: rgb(44, 160, 44);
+  }
+
+  .consignor {
+    background-color: rgb(31, 120, 180)
+  }
+
+  .shipper-consignor {
+    background-color: rgb(255, 127, 14);
   }
 
   p {
@@ -126,4 +160,44 @@
   @include breakpoint-standard(6) {
     bottom: 12%;
   }
+}
+
+.network-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  width: 100%;
+}
+
+.network-header-text {
+  display: flex;
+  justify-content: flex-end;
+  color: #ffffff;
+  font-size: 1.25rem;
+  width: 50%;
+  z-index: 2;
+}
+
+.network-icon-right {
+  width: 30px;
+  margin-right: 10px;
+}
+
+.network-icon-left {
+  width: 30px;
+  margin-left: 10px;
+}
+
+.close-modal-icon-network {
+  color: #fff;
+  cursor: pointer;
+  width: 40%;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 2;
+}
+
+.svg-network {
+  z-index: 1 !important;
 }

@@ -1,4 +1,4 @@
-import { NetworkDiagram } from './NetworkDiagram';
+import { NetworkDiagramDrawCanvas } from './NetworkDiagramDrawCanvas';
 import { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,32 +8,17 @@ import {
   setNetWorksKEY,
   setPastNetworksData,
 } from '@/redux/getPastNetworksGraphDataSlice';
-import { Datas, Nodes, Edges } from '@/share/InterfaceTypePastNetworks';
+import { netWorkDataProps } from '@/share/InterfaceTypePastNetworks';
 import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
 import { ENSLAVEMENTNODE } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
-import { NetworkDiagramTest } from './NetworkDiagramTest';
-import { dataOne, dataSecond } from './data';
-import { NetworkDiagramSVG } from './NetworkDiagramSVG';
-import {
-  select,
-  hierarchy,
-  forceSimulation,
-  forceManyBody,
-  pointer, forceLink,
-  forceX, forceCenter,
-  forceY,
-  forceCollide, drag,
-  forceRadial, zoomIdentity
-} from "d3";
 
-export const NetworkDiagramSlaveVoyagesTEST = ({
-  widthPercentage = 80,
-  heigthPercentage = 75,
+export const NetworkDiagramSlaveVoyagesCanvas = ({
+  widthPercentage = 100,
+  heigthPercentage = 85,
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [newUpdateNetWorkData, setNewUpdateNetworkData] = useState<Datas>({ nodes: [], edges: [] })
   const { data: netWorkData } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
@@ -53,7 +38,7 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
   //       [nodeClass]: [Number(nodeId)],
   //     };
   //     const response = await dispatch(fetchPastNetworksGraphApi(dataSend)).unwrap();
-  //     if (dataSecond) {
+  //     if (response) {
 
   //       const newNodes = response.nodes.filter((newNode: Nodes) => {
   //         return !netWorkData.nodes.some(
@@ -84,45 +69,6 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
   //   }
   // };
 
-  const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
-    try {
-      const dataSend = {
-        [nodeClass]: [Number(nodeId)],
-      };
-      const response = await dispatch(fetchPastNetworksGraphApi(dataSend)).unwrap();
-      if (response) {
-        const newNodes = response.nodes.filter((newNode: Nodes) => {
-          return !netWorkData.nodes.some(
-            (existingNode) => existingNode.uuid === newNode.uuid
-          );
-        });
-
-        const newEdges = response.edges.filter((newEdge: Edges) => {
-          return !netWorkData.edges.some(
-            (existingEdge) =>
-              existingEdge.source === newEdge.source &&
-              existingEdge.target === newEdge.target
-          );
-        });
-
-        const updatedNodes = [...netWorkData.nodes, ...newNodes];
-        const updatedEdges = [...netWorkData.edges, ...newEdges];
-
-        const updatedData = {
-          ...netWorkData,
-          nodes: updatedNodes,
-          edges: updatedEdges,
-        };
-
-        dispatch(setPastNetworksData(updatedData));
-
-      }
-    } catch (error) {
-      console.error('Error fetching new nodes:', error);
-    }
-  };
-
-
 
   const handleClickNodeShowCard = async (nodeId: number, nodeClass: string) => {
     if (nodeClass !== ENSLAVEMENTNODE) {
@@ -145,9 +91,9 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
       try {
         const response = await dispatch(fetchPastNetworksGraphApi(dataSend)).unwrap();
 
-        if (dataOne && subscribed) {
+        if (response && subscribed) {
           setIsLoading(false);
-          dispatch(setPastNetworksData(response as Datas));
+          dispatch(setPastNetworksData(response as netWorkDataProps));
         }
       } catch (error) {
         setIsLoading(false);
@@ -164,31 +110,21 @@ export const NetworkDiagramSlaveVoyagesTEST = ({
     return null;
   }
   return (
-    <div>
-      {isLoading ? (
-        <div className="loading-logo">
-          <img src={LOADINGLOGO} />
-        </div>
-      ) : (
-        <div style={{ width: `${width}px`, height: `${height}px` }}>
-          {/* <NetworkDiagramTest
-            newUpdateNetWorkData={newUpdateNetWorkData}
-            netWorkData={netWorkData}
-            width={width}
-            height={height}
-            handleNodeDoubleClick={handleNodeDoubleClick}
-            handleClickNodeShowCard={handleClickNodeShowCard}
-          /> */}
-          <NetworkDiagramSVG
-            newUpdateNetWorkData={newUpdateNetWorkData}
-            netWorkData={netWorkData}
-            width={width}
-            height={height}
-            handleNodeDoubleClick={handleNodeDoubleClick}
-            handleClickNodeShowCard={handleClickNodeShowCard}
-          />
-        </div>
-      )}
-    </div>
+
+    isLoading ? (
+      <div className="loading-logo">
+        <img src={LOADINGLOGO} />
+      </div>
+    ) : (
+      // <div style={{ width: `${width}px`, height: `${height}px` }}>
+      <NetworkDiagramDrawCanvas
+        netWorkData={netWorkData}
+        width={width}
+        height={height}
+        // handleNodeDoubleClick={handleNodeDoubleClick}
+        handleClickNodeShowCard={handleClickNodeShowCard}
+      />
+      // </div>
+    )
   );
 };
