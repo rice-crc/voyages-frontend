@@ -4,7 +4,7 @@ import {
   createStrokeColor,
   createdLableEdges,
   createdLableNodeHover,
-} from '@/utils/functions/createdLableNode';
+} from '@/utils/functions/createdLabelNodeHover';
 
 export const drawNetwork = (
   context: CanvasRenderingContext2D | any,
@@ -28,7 +28,7 @@ export const drawNetwork = (
 const drawEdges = (context: CanvasRenderingContext2D, nodes: Nodes[], newNode: Edges | Nodes | null,
   edges: Edges[]) => {
   context.globalAlpha = 8;
-  context.lineWidth = 2;
+  context.lineWidth = 3;
 
   edges.forEach((link: any) => {
     const strokeColor = createStrokeColor(link);
@@ -66,7 +66,7 @@ const drawEdges = (context: CanvasRenderingContext2D, nodes: Nodes[], newNode: E
             context.rotate(angle + Math.PI);
             const offset = -15;
             context.fillStyle = '#fff';
-            context.font = '12px Arial';
+            context.font = '16px Arial';
             context.fillText(labelEdge, offset, -6);
             context.restore();
           }
@@ -98,7 +98,7 @@ const drawNodes = (context: CanvasRenderingContext2D, nodes: Nodes[]) => {
 
     const labelNode = createdLableNodeHover(node);
     context.fillStyle = '#fff';
-    context.font = '500 14px Arial';
+    context.font = '500 16px Arial';
     context.textAlign = 'left';
     context.textBaseline = 'middle';
     context.fillText(labelNode!, node.x + 15, node.y - 4);

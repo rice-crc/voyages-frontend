@@ -3,27 +3,28 @@
 import * as d3 from 'd3';
 import { useEffect, useRef, useState } from 'react';
 import { drawNetwork } from './drawNetwork';
-import { Datas, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
+import { netWorkDataProps, Edges, Nodes } from '@/share/InterfaceTypePastNetworks';
 import { findNode } from './findNode';
 import { RADIUSNODE } from '@/share/CONST_DATA';
 import { findHoveredEdge } from './findHoveredEdge';
 import ShowsAcoloredNodeKey from './ShowsAcoloredNodeKey';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
+import { fetchPastNetworksGraphApi } from '@/fetch/pastEnslavedFetch/fetchPastNetworksGraph';
 
 type NetworkDiagramProps = {
   width: number;
   height: number;
-  netWorkData: Datas;
-  handleNodeDoubleClick: (nodeId: number, nodeClass: string) => Promise<void>;
+  netWorkData: netWorkDataProps;
+  // handleNodeDoubleClick: (nodeId: number, nodeClass: string) => Promise<void>;
   handleClickNodeShowCard: (nodeId: number, nodeClass: string) => Promise<void>;
 };
 
-export const NetworkDiagram = ({
+export const NetworkDiagramDrawCanvas = ({
   width,
   height,
   netWorkData,
-  handleNodeDoubleClick,
+  // handleNodeDoubleClick,
   handleClickNodeShowCard,
 }: NetworkDiagramProps) => {
   const dispatch: AppDispatch = useDispatch();
@@ -46,6 +47,61 @@ export const NetworkDiagram = ({
       nodeIds.has(edge.source as string) && nodeIds.has(edge.target as string)
   );
 
+  let graph: { nodes: Nodes[]; edges: Edges[] } = {
+    nodes: nodes,
+    edges: validEdges,
+  };
+
+
+  const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
+    const dataSend = {
+      [nodeClass]: [Number(nodeId)],
+    };
+    const response = await dispatch(
+      fetchPastNetworksGraphApi(dataSend)
+    ).unwrap();
+    if (response) {
+      const newNodes: Nodes[] = response.nodes.filter((newNode: Nodes) => {
+        return !graph.nodes.some(
+          (existingNode) => existingNode.uuid === newNode.uuid
+        );
+      });
+
+      const newEdges: Edges[] = response.edges.filter((newEdge: Edges) => {
+        return !graph.edges.some(
+          (existingEdge) =>
+            existingEdge.source === newEdge.source &&
+            existingEdge.target === newEdge.target
+        );
+      });
+      const updatedNodes: Nodes[] = [...graph.nodes, ...newNodes];
+      const updatedEdges: Edges[] = [...graph.edges, ...newEdges];
+
+      const simulation = d3.forceSimulation(updatedNodes);
+      simulation.force(
+        'link',
+        d3.forceLink<Nodes, Edges>(updatedEdges)
+          .id((uuid) => uuid.uuid)
+          .distance(120)
+      );
+      simulation.force('charge', d3.forceManyBody());
+      simulation.randomSource;
+
+      graph = { nodes: updatedNodes, edges: updatedEdges };
+      updateCanvas();
+    }
+  };
+
+  function updateCanvas() {
+    const context = canvasRef.current?.getContext('2d');
+    if (!context) return;
+
+    context.clearRect(0, 0, width, height);
+
+    // Redraw only the necessary parts based on the simulation state
+    drawNetwork(context, width, height, graph.nodes, graph.edges, null);
+  }
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
@@ -62,7 +118,7 @@ export const NetworkDiagram = ({
           .forceLink<Nodes, Edges>(validEdges)
           .id((uuid) => uuid.uuid)
           .distance(120)
-      )
+      ).force('collide', d3.forceCollide().radius(RADIUSNODE))
       .force('charge', d3.forceManyBody())
       .force('center', d3.forceCenter(width / 2, height / 2));
 
@@ -98,15 +154,6 @@ export const NetworkDiagram = ({
       }
     };
 
-    function updateCanvas() {
-      const context = canvasRef.current?.getContext('2d');
-      if (!context) return;
-
-      context.clearRect(0, 0, width, height);
-
-      // Redraw only the necessary parts based on the simulation state
-      drawNetwork(context, width, height, nodes, validEdges, null);
-    }
 
 
     if (
@@ -126,7 +173,7 @@ export const NetworkDiagram = ({
         .force('charge', d3.forceManyBody())
         .force('center', d3.forceCenter(width / 2, height / 2))
         .on('tick', () => {
-          drawNetwork(context, width, height, nodes, validEdges, null);
+          drawNetwork(context, width, height, graph.nodes, graph.edges, null);
         })
     }
 
@@ -140,7 +187,7 @@ export const NetworkDiagram = ({
       context?.save();
       context?.translate(transformRef.current.x, transformRef.current.y);
       context?.scale(transformRef.current.k, transformRef.current.k);
-      drawNetwork(context, width, height, nodes, validEdges, null);
+      drawNetwork(context, width, height, graph.nodes, graph.edges, null);
       context?.restore();
     };
 
@@ -164,6 +211,7 @@ export const NetworkDiagram = ({
       canvas.addEventListener('wheel', handleWheelEvent);
       canvas.addEventListener('click', (event: MouseEvent) => {
         clearClickTimeout();
+        handleDoubleClick(event);
         if (event.detail === 1) {
           clickTimeout.current = setTimeout(() => {
             handleClickNodeCard(event);
@@ -191,7 +239,7 @@ export const NetworkDiagram = ({
 
           if (newNode) {
             canvas.style.cursor = 'pointer';
-            drawNetwork(context, width, height, nodes, validEdges, newNode);
+            drawNetwork(context, width, height, graph.nodes, graph.edges, newNode);
           } else {
             canvas.style.cursor = 'default';
           }
@@ -214,7 +262,7 @@ export const NetworkDiagram = ({
 
           if (newEdge) {
             canvas.style.cursor = 'pointer';
-            drawNetwork(context, width, height, nodes, validEdges, newEdge);
+            drawNetwork(context, width, height, graph.nodes, graph.edges, newEdge);
           } else {
             canvas.style.cursor = 'default';
           }

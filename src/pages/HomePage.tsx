@@ -58,7 +58,6 @@ const HomePage: React.FC = () => {
           <div data-aos="flip-up">
             <SlaveVoyageLogo />
           </div>
-
           <div className="voyages-search-box">
             <div className="voyages-search-box-content">
               <AutoGlobalSearchBar />

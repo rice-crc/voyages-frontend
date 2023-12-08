@@ -39,13 +39,13 @@ export interface EdgesProps extends d3.SimulationLinkDatum<Nodes> {
 export interface RoleName {
     role_name?: string
 }
-export type Datas = {
+export type netWorkDataProps = {
     nodes: Nodes[];
     edges: Edges[];
 };
 
 export interface InitialStatePastNetworksData {
-    data: Datas,
+    data: netWorkDataProps,
     nodes: Nodes[],
     edges: Edges[]
     openModal: boolean;

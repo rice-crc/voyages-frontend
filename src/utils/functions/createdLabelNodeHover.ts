@@ -28,7 +28,7 @@ export const createdLableNode = (node: Nodes) => {
     return LableNode;
 };
 
-export const createdLableNodeHover = (node: Nodes) => {
+export const createdLabelNodeHover = (node: Nodes) => {
     const {
         node_class, documented_name,
         voyage_ship__ship_name: shipName,
@@ -71,6 +71,12 @@ export const createStrokeColor = (edge: Edges) => {
             colorStork = 'rgb(55, 163, 154)'
         } else if (edge?.data?.role_name === 'Owner') {
             colorStork = '#556cd6'
+        } else if (edge?.data?.role_name === 'Consignor') {
+            colorStork = 'rgb(31, 120, 180)'
+        } else if (edge?.data?.role_name === 'Shipper') {
+            colorStork = 'rgb(44, 160, 44)'
+        } else if (edge?.data?.role_name === 'Consignor, Shipper') {
+            colorStork = 'rgb(255, 127, 14)'
         }
     }
     return colorStork
