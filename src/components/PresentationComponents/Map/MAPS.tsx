@@ -7,7 +7,7 @@ import { LeafletMap } from './LeafletMap';
 import { useRef, useState } from 'react';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { createTopPositionEnslavedPage, createTopPositionEnslaversPage } from '@/utils/functions/createTopPositionEnslavedPage';
+import { createTopPositionEnslavedPage } from '@/utils/functions/createTopPositionEnslavedPage';
 
 function MAPS() {
 

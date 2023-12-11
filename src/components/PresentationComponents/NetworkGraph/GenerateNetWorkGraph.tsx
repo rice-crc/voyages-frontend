@@ -174,10 +174,8 @@ const GenerateNetWorkGraph = ({
 
             const dragStarted = (event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>) => {
                 if (!event.active) simulation.alphaTarget(0.3).restart();
-                console.log('click', event.active)
                 const d = event.subject;
                 if (d) {
-                    console.log('d-->', d)
                     d.fx = d.x;
                     d.fy = d.y;
                 }

@@ -18,9 +18,12 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
     dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
+      if (key === 'filterObject') {
+        localStorage.removeItem(key);
+      }
     });
   };
+
   return (
     <div
       style={{

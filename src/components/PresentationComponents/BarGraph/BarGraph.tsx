@@ -18,12 +18,10 @@ import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
   BargraphXYVar,
-  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import { getMobileMaxHeight, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
-import { MAXIMUM_ZOOM } from '@/share/CONST_DATA';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -58,6 +56,7 @@ function BarGraph() {
   const [width, height] = useWindowSize();
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
+  const [title, setTitle] = useState<string>(barGraphSelectedX[0]?.label)
   const [barData, setBarData] = useState<Data[]>([]);
   const [chips, setChips] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
@@ -94,15 +93,7 @@ function BarGraph() {
       dataSend['groupby_by'] = [barGraphOptions.x_vars];
       dataSend['agg_fn'] = [aggregation];
       dataSend['cachename'] = ['voyage_bar_and_donut_charts'];
-
-      const yfieldArr: string[] = [];
-
-      if (currentPage === 4) {
-        for (const chip of chips) {
-          dataSend['groupby_cols'] = [chip];
-          yfieldArr.push(chip);
-        }
-      }
+      dataSend['groupby_cols'] = [...chips];
 
       try {
         const data: Data[] = [];
@@ -120,7 +111,7 @@ function BarGraph() {
                 x: values[0] as number[],
                 y: value as number[],
                 type: 'bar',
-                name: `aggregation: ${aggregation} label: ${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
+                name: `${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
               });
             }
           }
@@ -208,6 +199,7 @@ function BarGraph() {
         XFieldText={'X Field'}
         YFieldText={'Multi-Selector Y-Feild'}
         optionsFlatY={VOYAGE_BARGRAPH_OPTIONS.y_vars}
+        setTitle={setTitle}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
@@ -220,9 +212,7 @@ function BarGraph() {
           layout={{
             width: getMobileMaxWidth(maxWidth),
             height: getMobileMaxHeight(height),
-            title: `The ${aggregation} of ${optionFlat[barGraphOptions.x_vars]?.label || ''
-              } vs <br> ${optionFlat[barGraphOptions.y_vars]?.label || ''
-              } Bar Graph`,
+            title: title || barGraphSelectedX[0]?.label,
             font: {
               family: 'Arial, sans-serif',
               size: maxWidth < 400 ? 7 : 10,

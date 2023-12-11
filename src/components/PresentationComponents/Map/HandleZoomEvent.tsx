@@ -14,7 +14,7 @@ export const HandleZoomEvent: React.FC<HandleZoomEventProps> = ({
 }) => {
   const map = useMap();
   const dispatch: AppDispatch = useDispatch();
-  const { nodesData, edgesData, } = useSelector(
+  const { nodesData } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
   const oceanic_animation_edges_layer_group = L.layerGroup();

@@ -7,7 +7,6 @@ import { styleModalNetworks } from '@/styleMUI';
 import NETWORKICON from '@/assets/networksIcon.png';
 import { NetworkDiagramSlaveVoyagesSVG } from './NetworkDiagramSlaveVoyagesSVG';
 import "@/style/networks.scss"
-import { NetworkDiagramSlaveVoyagesCanvas } from './NetworkDiagramSlaveVoyagesCanvas';
 const ModalNetworksGraph = () => {
   const dispatch = useDispatch();
   const { openModal } = useSelector(
@@ -47,7 +46,6 @@ const ModalNetworksGraph = () => {
         </div>
 
         <NetworkDiagramSlaveVoyagesSVG />
-        {/* <NetworkDiagramSlaveVoyagesCanvas /> */}
       </Box>
     </Modal>
   );

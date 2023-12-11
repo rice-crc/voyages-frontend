@@ -157,9 +157,6 @@ function PieGraph() {
         selectedY={pieGraphSelectedY}
         selectedOptions={pieGraphOptions}
         handleChange={handleChangeSingleSelect}
-        handleChangeMultipleYSelected={() =>
-          console.log('handleChangeMultipleYSelected optional for PIE')
-        }
         graphType="PIE"
         maxWidth={maxWidth}
         XFieldText={'Sectors'}

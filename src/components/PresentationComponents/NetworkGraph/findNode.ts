@@ -17,7 +17,6 @@ export function findNode(nodes: Nodes[], x: number, y: number, radius: number) {
 }
 
 export function findNodeSvg(nodes: Nodes[], clickX: number, clickY: number, radius: number) {
-    console.log({ clickX, clickY, radius })
     const rSq = radius * radius;
     const svg = document.getElementById("networkCanvas") as SVGSVGElement | null;
     if (svg) {

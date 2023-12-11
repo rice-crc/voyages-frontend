@@ -1,4 +1,3 @@
-import { PASTHOMEPAGE, VOYAGESPAGE } from '@/share/CONST_DATA';
 import {
     AutoCompleteOption,
     RangeSliderMinMaxInitialState,

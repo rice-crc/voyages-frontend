@@ -22,6 +22,8 @@ import { fetchPastNetworksGraphApi } from '@/fetch/pastEnslavedFetch/fetchPastNe
 import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
 import { isVoyagesClass } from '@/utils/functions/checkNodeClass';
 import '@/style/networks.scss'
+import { findNode } from './findNode';
+import { padding } from '@mui/system';
 
 type NetworkDiagramProps = {
     width: number;
@@ -104,7 +106,6 @@ export const NetworkDiagramDrawSVG = ({
                 );
             });
 
-            console.log({ newEdges })
 
             const updatedNodes: Nodes[] = [...graph.nodes, ...newNodes];
             const updatedEdges: Edges[] = [...graph.edges, ...newEdges];
@@ -123,31 +124,6 @@ export const NetworkDiagramDrawSVG = ({
         }
     };
 
-    useEffect(() => {
-        const svg = svgRef.current;
-        if (svgRef.current) {
-            const svg = d3.select<SVGSVGElement, unknown>(svgRef.current).attr('viewBox', [0, 0, width, height]);
-            function handleZoom(event: d3.D3ZoomEvent<SVGSVGElement, any>) {
-                const transform = event.transform;
-                if (svgRef.current) {
-                    if (transform) {
-                        const scale = transform.k;
-                        const { x, y } = transform;
-
-                        const transformString = `translate(${x}, ${y}) scale(${scale})`;
-                        svg.attr('transform', transformString).style('cursor', 'pointer');
-                    }
-                }
-            }
-
-            const zoomHandler = d3.zoom<SVGSVGElement, any>().on('zoom', handleZoom);
-            svg.call(zoomHandler).on('dblclick.zoom', null).on('click.zoom', null);
-        }
-
-        return () => {
-            if (!svg) return;
-        };
-    }, [svgRef, width, height]);
 
     let linksGraph: d3.Selection<SVGLineElement, any, SVGGElement, unknown>;
     let nodesGraph: d3.Selection<SVGCircleElement, Nodes, SVGGElement, unknown>;
@@ -241,31 +217,63 @@ export const NetworkDiagramDrawSVG = ({
                     labels = svg.select<SVGGElement>('#labels');
                     const group = labels.append('g').attr('class', 'label-group');
 
-                    // Append the background rect
-                    const rectWidth = labelNode?.length! + 120;
-                    const rectHeight = labelNode?.length! + 10;
-                    group.append('rect')
-                        .attr('class', 'background-rect')
-                        .attr('x', x + 17)
-                        .attr('y', y - 17)
-                        .attr('width', rectWidth)
-                        .attr('height', rectHeight)
-                        .attr('rx', 8)
-                        .attr('ry', 8)
-                        .style('padding', 10)
-                        .attr('fill', '#fff')
-
-                    // Append the label text
-                    group.append('text')
+                    const textElement = group.append('text')
                         .attr('class', 'label-hover')
                         .attr('x', x + 22)
                         .attr('y', y)
                         .attr('text-anchor', 'start')
                         .attr('alignment-baseline', 'start')
-                        .attr('font-size', 16)
+                        .attr('font-size', 15)
                         .attr('font-weight', 'bold')
                         .attr('fill', '#000')
                         .text(labelNode || '');
+                    const textBoundingBox = textElement.node()?.getBBox();
+                    if (textBoundingBox) {
+                        const rectPadding = 4;
+                        const rectWidth = textBoundingBox.width + (2 * rectPadding);
+                        const rectHeight = textBoundingBox.height + (2 * rectPadding);
+
+                        group.append('rect')
+                            .attr('class', 'background-rect')
+                            .attr('x', textBoundingBox.x - rectPadding)
+                            .attr('y', textBoundingBox.y - rectPadding)
+                            .attr('width', rectWidth)
+                            .attr('height', rectHeight)
+                            .attr('rx', 8)
+                            .attr('ry', 8)
+                            .attr('fill', '#fff')
+
+                        textElement.raise();
+                    }
+
+
+                    // Append the background rect
+                    // const rectWidth = labelNode?.length! + 120;
+                    // const rectHeight = labelNode?.length! + 10;
+
+
+                    // group.append('rect')
+                    //     .attr('class', 'background-rect')
+                    //     .attr('x', x + 17)
+                    //     .attr('y', y - 17)
+                    //     .attr('width', rectWidth)
+                    //     .attr('height', rectHeight)
+                    //     .attr('rx', 8)
+                    //     .attr('ry', 8)
+                    //     .style('padding', 10)
+                    //     .attr('fill', '#fff')
+
+                    // // Append the label text
+                    // group.append('text')
+                    //     .attr('class', 'label-hover')
+                    //     .attr('x', x + 22)
+                    //     .attr('y', y)
+                    //     .attr('text-anchor', 'start')
+                    //     .attr('alignment-baseline', 'start')
+                    //     .attr('font-size', 16)
+                    //     .attr('font-weight', 'bold')
+                    //     .attr('fill', '#000')
+                    //     .text(labelNode || '');
 
                 }
             });
@@ -292,7 +300,7 @@ export const NetworkDiagramDrawSVG = ({
                     return (
                         classToColor[node.node_class as keyof typeof classToColor] || 'gray'
                     );
-                });
+                })
 
             nodesGraph = newNodes.merge(nodesGraph as d3.Selection<SVGCircleElement, Nodes, SVGGElement, unknown>)
 
@@ -335,6 +343,18 @@ export const NetworkDiagramDrawSVG = ({
             simulation.on('tick', ticked);
             simulation.alpha(1).restart();
 
+            function handleZoom(event: d3.D3ZoomEvent<SVGSVGElement, any>) {
+                const transform = event.transform;
+                if (svgRef.current && transform) {
+                    const scale = transform.k;
+                    const { x, y } = transform;
+
+                    const transformString = `translate(${x}, ${y}) scale(${scale})`;
+                    svgRef.current.setAttribute('transform', transformString);
+                    svgRef.current.style.cursor = 'pointer';
+                }
+            }
+
             const dragStarted = (
                 event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>
             ) => {
@@ -345,7 +365,6 @@ export const NetworkDiagramDrawSVG = ({
                     d.fy = d.y;
                 }
             };
-
             const dragged = (event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>) => {
                 const d = event.subject;
                 if (d) {
@@ -363,14 +382,39 @@ export const NetworkDiagramDrawSVG = ({
                 }
             };
 
+
+            function dragSubject(
+                event: d3.D3DragEvent<SVGSVGElement, any, any>
+            ): Nodes | undefined {
+                const x = transformRef.current.invertX(event.x);
+                const y = transformRef.current.invertY(event.y);
+                const node = findNode(nodes, x, y, RADIUSNODE);
+                if (node && typeof node.x === 'number' && typeof node.y === 'number') {
+                    node.x = transformRef.current.applyX(node.x);
+                    node.y = transformRef.current.applyY(node.y);
+                }
+                return node;
+            }
+
+            // Define drag behavior
             const dragBehavior = d3.drag<SVGCircleElement, Nodes, unknown>()
+            dragBehavior
+                .subject(dragSubject)
                 .on('start', dragStarted)
                 .on('drag', dragged)
                 .on('end', dragEnded);
-            nodesGraph.call(dragBehavior);
+
+            const zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
+                .scaleExtent([0.5, 3])
+                .on('zoom', handleZoom);
+
+            svg.call(dragBehavior as any).call(zoomBehavior as any)
+                .on("dblclick.zoom", null)
+                .on("click.zoom", null);
 
         }
-    }, [svgRef]);
+
+    }, [svgRef, width, height]);
 
     function ticked() {
         linksGraph
