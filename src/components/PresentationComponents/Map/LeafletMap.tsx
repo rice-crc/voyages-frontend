@@ -116,7 +116,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       }
     }
   }, [zoomLevel, varName, clusterNodeKeyVariable, clusterNodeValue]);
-  console.log(nodesData.length)
 
   const fetchData = async (regionOrPlace: string) => {
     const dataSend = handleSetDataSentMap(
@@ -152,9 +151,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   };
 
   useEffect(() => {
-    if (hasFetchedRegion || (clusterNodeKeyVariable && clusterNodeValue)) {
-      fetchData(regionPlace);
-    } else if (varName !== "" || (clusterNodeKeyVariable !== "" && clusterNodeValue !== "")) {
+    if (hasFetchedRegion || ((clusterNodeKeyVariable !== "" && clusterNodeValue !== "" || varName !== ""))) {
       fetchData(regionPlace);
     }
   }, [
@@ -197,10 +194,10 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
           `edgesData${regionOrPlace}`,
           JSON.stringify(edges)
         );
-      } else if (varName || clusterNodeKeyVariable || clusterNodeValue) {
-        console.log('call place', clusterNodeKeyVariable, clusterNodeValue)
-        dispatch(setNodesDataPlace(nodes));
-        dispatch(setEdgesDataPlace(edges));
+        if (varName || clusterNodeKeyVariable || clusterNodeValue) {
+          dispatch(setNodesDataPlace(nodes));
+          dispatch(setEdgesDataPlace(edges));
+        }
       }
       dispatch(setPathsData(paths));
     }

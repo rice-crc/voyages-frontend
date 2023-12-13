@@ -115,7 +115,7 @@ export const NetworkDiagramDrawSVG = ({
                 'link',
                 forceLink<Nodes, Edges>(updatedEdges)
                     .id((uuid) => uuid.uuid)
-                    .distance(110)
+                    .distance(105)
             );
             simulation.force('charge', d3.forceManyBody());
             simulation.randomSource;
@@ -245,36 +245,6 @@ export const NetworkDiagramDrawSVG = ({
 
                         textElement.raise();
                     }
-
-
-                    // Append the background rect
-                    // const rectWidth = labelNode?.length! + 120;
-                    // const rectHeight = labelNode?.length! + 10;
-
-
-                    // group.append('rect')
-                    //     .attr('class', 'background-rect')
-                    //     .attr('x', x + 17)
-                    //     .attr('y', y - 17)
-                    //     .attr('width', rectWidth)
-                    //     .attr('height', rectHeight)
-                    //     .attr('rx', 8)
-                    //     .attr('ry', 8)
-                    //     .style('padding', 10)
-                    //     .attr('fill', '#fff')
-
-                    // // Append the label text
-                    // group.append('text')
-                    //     .attr('class', 'label-hover')
-                    //     .attr('x', x + 22)
-                    //     .attr('y', y)
-                    //     .attr('text-anchor', 'start')
-                    //     .attr('alignment-baseline', 'start')
-                    //     .attr('font-size', 16)
-                    //     .attr('font-weight', 'bold')
-                    //     .attr('fill', '#000')
-                    //     .text(labelNode || '');
-
                 }
             });
 
@@ -330,7 +300,7 @@ export const NetworkDiagramDrawSVG = ({
                 'link',
                 forceLink<Nodes, Edges>(validEdges)
                     .id((uuid) => uuid.uuid)
-                    .distance(110)
+                    .distance(105)
             );
             simulation.force('charge', d3.forceManyBody().strength(-30));
             simulation.force(
@@ -405,7 +375,7 @@ export const NetworkDiagramDrawSVG = ({
                 .on('end', dragEnded);
 
             const zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
-                .scaleExtent([0.5, 3])
+                .scaleExtent([0.5, 2.5])
                 .on('zoom', handleZoom);
 
             svg.call(dragBehavior as any).call(zoomBehavior as any)
