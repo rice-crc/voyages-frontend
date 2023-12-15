@@ -328,6 +328,7 @@ export const NetworkDiagramDrawSVG = ({
             const dragStarted = (
                 event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>
             ) => {
+                event.sourceEvent.stopPropagation();
                 if (!event.active) simulation.alphaTarget(0.3).restart();
                 const d = event.subject;
                 if (d) {
@@ -336,6 +337,7 @@ export const NetworkDiagramDrawSVG = ({
                 }
             };
             const dragged = (event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>) => {
+                event.sourceEvent.stopPropagation();
                 const d = event.subject;
                 if (d) {
                     d.fx = event.x || 0;
@@ -367,7 +369,7 @@ export const NetworkDiagramDrawSVG = ({
             }
 
             // Define drag behavior
-            const dragBehavior = d3.drag<SVGCircleElement, Nodes, unknown>()
+            const dragBehavior = d3.drag<SVGSVGElement, unknown>()
             dragBehavior
                 .subject(dragSubject)
                 .on('start', dragStarted)
@@ -376,12 +378,13 @@ export const NetworkDiagramDrawSVG = ({
 
             const zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
                 .scaleExtent([0.5, 2.5])
-                .on('zoom', handleZoom);
+                .on('zoom', handleZoom)
 
-            svg.call(dragBehavior as any).call(zoomBehavior as any)
+            svg.call(dragBehavior)
+
+            svg.call(zoomBehavior as any)
                 .on("dblclick.zoom", null)
-                .on("click.zoom", null);
-
+                .on("click.zoom", null)
         }
 
     }, [svgRef, width, height]);
