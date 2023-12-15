@@ -31,7 +31,7 @@ import { PaperDraggable } from './PaperDraggable';
 import { setIsChange, setKeyValue } from '@/redux/getRangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
-import { ArrowDropDown, ArrowLeft, ArrowRight } from '@mui/icons-material';
+import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import AutocompleteBox from '../../FilterComponents/Autocomplete/AutoComplete';
 import RangeSlider from '../../FilterComponents/RangeSlider/RangeSlider';
 import { ENSALVERSTYLE, } from '@/share/CONST_DATA';
@@ -39,8 +39,6 @@ import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelecte
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { fontGrid } from '@mui/material/styles/cssUtils';
-import { fontSize } from '@mui/system';
 
 export const MenuListsDropdown = () => {
 

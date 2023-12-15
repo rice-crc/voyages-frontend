@@ -352,7 +352,6 @@ const Tables: React.FC = () => {
 
     let topPositionPage = 0;
     if (checkPagesRouteForVoyages(styleNameRoute!)) {
-
         topPositionPage = createTopPositionVoyages(currentPage, inputSearchValue!);
     } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
 

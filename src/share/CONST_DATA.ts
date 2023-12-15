@@ -88,3 +88,13 @@ export const GlobalSearchVoyagesType = 'voyages'
 export const GlobalSearchEnslavedType = 'enslaved'
 export const GlobalSearchEnslaversType = 'enslavers'
 export const GlobalSearchBlogType = 'blog'
+
+
+export const ASSESSMENT = 'assessment'
+export const ESTIMATES = 'estimates'
+export const CONTRIBUTE = 'contribute'
+export const TIMELAPSE = 'timelapse'
+export const LESSONPLANS = 'lessonplans'
+export const INTRODUCTORYMAPS = 'introductorymaps'
+export const TIMELAPSEPAGE = 'voyage/database/timelapse'
+export const SUMMARYSTATISTICS = 'voyage/database/statistics'

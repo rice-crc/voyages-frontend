@@ -49,6 +49,7 @@ const PivotTables = () => {
   const { columnDefs, rowData } = useSelector(
     (state: RootState) => state.getPivotTablesData
   );
+  console.log({ columnDefs })
   const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );

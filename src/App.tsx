@@ -12,13 +12,20 @@ import {
   AFRICANORIGINSPAGE,
   ALLENSLAVEDPAGE,
   ALLVOYAGESPAGE,
+  ASSESSMENT,
   BLOGPAGE,
+  CONTRIBUTE,
   DOCUMENTPAGE,
   ENSALVEDPAGE,
   ENSALVERSPAGE,
   ENSLAVEDTEXASPAGE,
+  ESTIMATES,
   INTRAAMERICANPAGE,
+  INTRODUCTORYMAPS,
+  LESSONPLANS,
   PASTHOMEPAGE,
+  SUMMARYSTATISTICS,
+  TIMELAPSEPAGE,
   TRANSATLANTICPAGE,
   VOYAGESPAGE,
   VOYAGESTEXASPAGE,
@@ -29,6 +36,13 @@ import BlogPage from './pages/BlogPage';
 import AuthorPage from './pages/AuthorPage';
 import InstitutionAuthorsPage from './pages/InstitutionAuthorsPage';
 import BlogDetailsPost from './components/BlogPageComponents/Blogcomponents/BlogDetailsPost';
+import Estimates from './components/PresentationComponents/Assessment/Estimates/Estimates';
+import Contribute from './components/PresentationComponents/Assessment/Contribute/Contribute';
+import TimeLapse from './components/PresentationComponents/Assessment/TimeLapse/TimeLapse';
+import LessonPlans from './components/PresentationComponents/Assessment/LessonPlans/LessonPlans';
+import IntroductoryMaps from './components/PresentationComponents/Assessment/IntroductoryMaps/IntroductoryMaps';
+import SummaryStatisticsTable from './components/PresentationComponents/Tables/SummaryStatisticsTable';
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -98,7 +112,31 @@ const App: React.FC = () => {
             path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
             element={<InstitutionAuthorsPage />}
           />
+          <Route
+            path={`${ASSESSMENT}/${ESTIMATES}/`}
+            element={<Estimates />}
+          />
+          <Route
+            path={`${ASSESSMENT}/${CONTRIBUTE}/`}
+            element={<Contribute />}
+          />
+          <Route
+            path={`${ASSESSMENT}/${LESSONPLANS}/`}
+            element={<LessonPlans />}
+          />
+          <Route
+            path={`${ASSESSMENT}/${INTRODUCTORYMAPS}/`}
+            element={<IntroductoryMaps />}
+          />
+          <Route
+            path={`${TIMELAPSEPAGE}`}
+            element={<TimeLapse />} />
+          <Route
+            path={`${SUMMARYSTATISTICS}`}
+            element={<SummaryStatisticsTable />}
+          />
         </Routes>
+
       </QueryClientProvider>
     </ThemeProvider>
   );
