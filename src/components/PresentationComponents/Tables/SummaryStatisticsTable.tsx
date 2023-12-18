@@ -28,11 +28,11 @@ const SummaryStatisticsTable = () => {
 
 
     const [columnDefs] = useState<any[]>([
-        { headerName: 'Summary Details', field: 'label', sorting: true, sort: 'desc', width: 450 },
-        { headerName: 'Total captives', field: 'value1', sorting: true, sort: 'desc', width: 180 },
-        { headerName: 'Total voyages', field: 'value2', sorting: true, sort: 'desc', width: 180 },
-        { headerName: 'Average', field: 'value3', sorting: true, sort: 'desc', width: 180 },
-        { headerName: 'Standard deviation', field: 'value4', sorting: true, sort: 'desc', width: 200 },
+        { headerName: 'Summary Details', field: 'label', sorting: true, sort: 'desc', minWidth: 450 },
+        { headerName: 'Total captives', field: 'value1', sorting: true, sort: 'desc', minWidth: 200 },
+        { headerName: 'Total voyages', field: 'value2', sorting: true, sort: 'desc', minWidth: 200 },
+        { headerName: 'Average', field: 'value3', sorting: true, sort: 'desc', minWidth: 200 },
+        { headerName: 'Standard deviation', field: 'value4', sorting: true, sort: 'desc', minWidth: 200 },
     ]);
 
     const defaultColDef = useMemo(() => {
@@ -56,20 +56,24 @@ const SummaryStatisticsTable = () => {
     const percentageString = '100%'
     const [width, height] = useWindowSize();
     const maxWidth = maxWidthSize(width);
+
     const [style, setStyle] = useState({
-        width: parseFloat(percentageString) / 100,
+        width: percentageString,
         height: 300,
+        padding: '0 40px'
     });
 
     const containerStyle = useMemo(
-        () => ({ width: maxWidth, height: height }),
+        () => ({ width: percentageString, height: height }),
         [maxWidth, height]
     );
 
+
     useEffect(() => {
         setStyle({
-            width: getMobileMaxWidth(maxWidth),
+            width: percentageString,
             height: getMobileMaxHeightTable(height / 2),
+            padding: '0 40px'
         });
     }, [width, height, maxWidth]);
 
@@ -98,13 +102,14 @@ const SummaryStatisticsTable = () => {
         <>
             <HeaderLogoSearch />
             <div className='summary-box'>
-                <div className="button-export-csv-summary">
-                    <button onClick={handleButtonExportCSV}>
-                        Download CSV Export file
-                    </button>
-                </div>
                 <div style={containerStyle} className="ag-theme-alpine" >
-                    <div style={style}>
+                    <div style={style}
+                    >
+                        <div className="button-export-csv-summary">
+                            <button onClick={handleButtonExportCSV}>
+                                Download CSV Export file
+                            </button>
+                        </div>
                         <AgGridReact
                             ref={gridRef}
                             rowData={rowData}

@@ -357,7 +357,6 @@ div .customHeaderLabelSummaryTable {
 .button-export-csv-summary {
   display: flex;
   justify-content: flex-end;
-  padding-right: 120px;
   padding-bottom: 10px;
 
   >button {
@@ -450,6 +449,7 @@ div .customHeaderLabelSummaryTable {
 
 .summary-box {
   padding-top: 4%;
+  width: 100vw;
 
   @include breakpoint-standard(0) {
     padding-top: 80px !important

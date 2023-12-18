@@ -5,14 +5,14 @@ export interface SummaryStatisticsProps {
 export const summaryStatisticsData = {
     data: [
         [
-            "Captives embarked *",
+            "Captives embarked *IMP",
             10643364,
             34447,
             309.0,
             154.9
         ],
         [
-            "Captives disembarked *",
+            "Captives disembarked *IMP",
             9187425,
             34155,
             269.0,
