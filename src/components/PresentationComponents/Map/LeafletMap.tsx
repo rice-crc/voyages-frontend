@@ -39,7 +39,7 @@ import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
 import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { handleSetDataSentMap } from '@/utils/functions/handleSetDataSentMap';
-import { checkPagesRouteForEnslaved, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { checkPagesRouteForEnslaved, checkPagesRouteForVoyages, checkPagesRouteMapURLForEnslaved, checkPagesRouteMapURLForVoyages } from '@/utils/functions/checkPagesRoute';
 
 interface LeafletMapProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>
@@ -55,7 +55,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { nodesData } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
-  const { styleName: styleNamePage } = usePageRouter()
+  const { styleName: styleNamePage, nodeTypeURL } = usePageRouter()
 
   const [regionPlace, setRegionPlace] = useState<string>('region');
 
@@ -118,6 +118,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   }, [zoomLevel, varName, clusterNodeKeyVariable, clusterNodeValue]);
 
   const fetchData = async (regionOrPlace: string) => {
+
     const dataSend = handleSetDataSentMap(
       autoCompleteValue,
       varName,
@@ -137,9 +138,14 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
     hasFetchedRegion ? setLoading(true) : setLoading(false);
     let response;
-    if (checkPagesRouteForVoyages(styleNamePage!)) {
+
+    if (checkPagesRouteForVoyages(styleNamePage! || nodeTypeURL!)) {
+      response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
+    } else if (checkPagesRouteMapURLForVoyages(nodeTypeURL!)) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
     } else if (checkPagesRouteForEnslaved(styleNamePage!)) {
+      response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
+    } else if (checkPagesRouteMapURLForEnslaved(nodeTypeURL!)) {
       response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
     }
 
@@ -151,6 +157,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   };
 
   useEffect(() => {
+
     if (hasFetchedRegion || ((clusterNodeKeyVariable !== "" && clusterNodeValue !== "" || varName !== ""))) {
       fetchData(regionPlace);
     }
@@ -168,6 +175,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     inputSearchValue,
     regionPlace, clusterNodeKeyVariable, clusterNodeValue
   ]);
+
 
   const handleDataResponse = (response: any, regionOrPlace: string) => {
     if (response) {

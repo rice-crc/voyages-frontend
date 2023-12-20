@@ -88,7 +88,7 @@ const RangeSlider = () => {
       dispatch(setRangeValue({}));
       subscribed = false;
     };
-  }, [dispatch, varName, styleName]);
+  }, [dispatch, varName, styleName, currentSliderValue]);
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
@@ -133,9 +133,9 @@ const RangeSlider = () => {
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const { name, value } = event.target;
-
     const updatedSliderValue = [...rangeMinMax];
     updatedSliderValue[name === 'start' ? 0 : 1] = Number(value);
+    dispatch(setIsChange(true));
     dispatch(
       setRangeSliderValue({
         ...rangeSliderMinMax,

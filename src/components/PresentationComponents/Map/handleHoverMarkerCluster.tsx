@@ -1,7 +1,7 @@
 import { EdgesAggroutes, NodeAggroutes } from '@/share/InterfaceTypesMap';
 import { getEdgesSize } from '@/utils/functions/getNodeSize';
 import L from 'leaflet';
-import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
+import { createLogNodeValueScale } from '@/utils/functions/createLogNodeValueScale';
 import { nodeTypeOrigin, nodeTypePostDisembarkation } from '@/share/CONST_DATA';
 import { renderEdgeClusterNodeOnMap } from './renderEdgeClusterNodeOnMap';
 import { TooltipHoverTableOnNode } from './TooltipHoverTableOnNode';
@@ -18,7 +18,7 @@ export function handleHoverMarkerCluster(
   map: L.Map
 ) {
   hiddenEdgesLayer.clearLayers();
-  const nodeLogValueScale = createLogValueScale(nodesData);
+  const nodeLogValueScale = createLogNodeValueScale(nodesData);
   const clusterLatLon = event.layer.getLatLng();
   const clusterChildMarkers = event.layer.getAllChildMarkers();
   const targetNodeMap = new Map<string, [NodeAggroutes, EdgesAggroutes]>();

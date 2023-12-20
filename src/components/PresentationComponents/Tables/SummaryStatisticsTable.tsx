@@ -53,7 +53,7 @@ const SummaryStatisticsTable = () => {
         }),
         []
     );
-    const percentageString = '100%'
+    const percentageString = '95%'
     const [width, height] = useWindowSize();
     const maxWidth = maxWidthSize(width);
 

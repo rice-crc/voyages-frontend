@@ -242,10 +242,11 @@
 }
 
 .nav-button-page {
-  width: 75px !important;
-  height: 32px;
-  font-size: 14px !important;
-  font-weight: 700;
+  width: 80px !important;
+  height: 40px;
+  font-size: 0.80rem !important;
+  font-weight: 700 !important;
+  line-height: 15px !important;
 
   @include breakpoint-standard(7) {
     width: 72px !important;

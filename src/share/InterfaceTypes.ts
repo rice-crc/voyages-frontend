@@ -74,11 +74,13 @@ export const TYPESOFDATASET: {
     intraAmerican: string;
     transatlantic: string;
     texas: string
+    voyages: string
 } = {
     allVoyages: 'all-voyages',
     intraAmerican: 'intra-american',
     transatlantic: 'trans-atlantic',
-    texas: 'texas'
+    texas: 'texas',
+    voyages: 'voyages'
 };
 
 
@@ -280,6 +282,7 @@ export interface InitialStateTransatlanticCard {
     cardFileName: string
     cardDataArray: TransatlanticCardProps[]
     nodeTypeClass: string
+    variable: string
 }
 export interface TransatlanticCardProps {
     label: string

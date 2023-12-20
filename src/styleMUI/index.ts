@@ -187,7 +187,7 @@ export const styleModalCard = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '70%',
+  width: '80%',
   maxWidth: '90vw',
   maxHeight: '90vh',
   bgcolor: '#fff',
@@ -195,6 +195,13 @@ export const styleModalCard = {
   overflowY: 'auto',
   boxShadow: 24,
   p: '10px 20px',
+};
+
+export const styleCard = {
+  bgcolor: '#fff',
+  overflowY: 'auto',
+  boxShadow: 24,
+  p: '10px 50px',
 };
 
 export const CustomTablePagination = styled(TablePagination)({

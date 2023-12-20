@@ -30,7 +30,7 @@ const renderEdgesLinesOnMap = (
       {
         color: typeColor,
         fill: false,
-        weight: weight && 6,
+        weight: weight,
         stroke: true,
       }
     );

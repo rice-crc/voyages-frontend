@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
@@ -8,6 +8,7 @@ import PastHomePage from './pages/PastHomePage';
 import EnslavedHomePage from './pages/EnslavedPage';
 import EnslaversHomePage from './pages/EnslaversPage';
 import { theme } from './styleMUI/theme';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   AFRICANORIGINSPAGE,
   ALLENSLAVEDPAGE,
@@ -41,7 +42,10 @@ import Contribute from './components/PresentationComponents/Assessment/Contribut
 import TimeLapse from './components/PresentationComponents/Assessment/TimeLapse/TimeLapse';
 import LessonPlans from './components/PresentationComponents/Assessment/LessonPlans/LessonPlans';
 import IntroductoryMaps from './components/PresentationComponents/Assessment/IntroductoryMaps/IntroductoryMaps';
-import SummaryStatisticsTable from './components/PresentationComponents/Tables/SummaryStatisticsTable';
+import { setCardRowID, setNodeClass, setValueVariable } from './redux/getCardFlatObjectSlice';
+import { RootState } from './redux/store';
+import TabsSelect from './components/SelectorComponents/Tabs/TabsPen';
+import { usePageRouter } from './hooks/usePageRouter';
 
 
 const queryClient = new QueryClient({
@@ -54,6 +58,27 @@ const queryClient = new QueryClient({
 });
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
+  const { cardRowID, nodeTypeClass } = useSelector((state: RootState) => state.getCardFlatObjectData);
+  const { styleName } = usePageRouter();
+  const [ID, setID] = useState(cardRowID)
+  const [nodeClass, setNodeTypeClass] = useState(nodeTypeClass)
+
+  useEffect(() => {
+    const url = window.location.pathname;
+    const parts = url.split('/');
+    const entityType = parts[1]; // voyages / enslavers / enslaved
+    const voyageID = parts[2];
+    const typeOfData = parts[3]
+
+    if (voyageID && entityType) {
+      setID(Number(voyageID))
+      setNodeTypeClass(entityType)
+      dispatch(setCardRowID(Number(voyageID)))
+      dispatch(setNodeClass(entityType))
+      dispatch(setValueVariable(typeOfData))
+    }
+  }, [dispatch, ID, nodeClass, styleName]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -61,6 +86,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path={`${VOYAGESPAGE}`} element={<VoyagesPage />} />
+          <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
           <Route
             path={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`}
             element={<VoyagesPage />}
@@ -131,10 +157,10 @@ const App: React.FC = () => {
           <Route
             path={`${TIMELAPSEPAGE}`}
             element={<TimeLapse />} />
-          <Route
+          {/* <Route
             path={`${SUMMARYSTATISTICS}`}
             element={<SummaryStatisticsTable />}
-          />
+          /> */}
         </Routes>
 
       </QueryClientProvider>

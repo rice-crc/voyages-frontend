@@ -10,6 +10,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import { resetAll } from '@/redux/resetAllSlice';
+import { formatTextURL } from '@/utils/functions/formatText';
+import { usePageRouter } from '@/hooks/usePageRouter';
+
 
 const AutoCompletedSearhBlog = () => {
   const { tagID } = useParams();
@@ -18,9 +21,12 @@ const AutoCompletedSearhBlog = () => {
   const navigate = useNavigate();
   const { searchTitle, searchAutoKey, searchAutoValue, blogAutoLists } =
     useSelector((state: RootState) => state.getBlogData);
-
-  const [inputValue, setInputValue] = useState<ResultAutoList | null>(null);
+  const { currentBlockName } = usePageRouter();
+  const [inputValue, setInputValue] = useState<ResultAutoList | undefined | null>(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [isFetchHashLoad, setFetchHashLoad] = useState(true);
+  const [listData, setListData] = useState<ResultAutoList[]>([])
+
 
   useEffect(() => {
     let subscribed = true;
@@ -36,12 +42,17 @@ const AutoCompletedSearhBlog = () => {
 
         if (subscribed && response) {
           dispatch(setBlogAutoLists(response?.results));
+          if (isFetchHashLoad) {
+            setListData(response?.results)
+          }
         }
       } catch (error) {
         console.log('error', error);
       }
     };
+
     fetchAutoBlogList();
+
 
     if (isInitialLoad) {
       const tagLabel = blogAutoLists.find((item) => item.id === Number(tagID));
@@ -54,6 +65,18 @@ const AutoCompletedSearhBlog = () => {
       subscribed = false;
     };
   }, [dispatch, searchAutoKey, searchAutoValue, tagID, isInitialLoad]);
+
+  useEffect(() => {
+    if (isFetchHashLoad && currentBlockName && listData.length > 0) {
+      const tagLabel = listData.find(
+        (item) => formatTextURL(item.label) === currentBlockName
+      );
+      if (tagLabel) {
+        setInputValue(tagLabel);
+        setFetchHashLoad(false)
+      }
+    }
+  }, [currentBlockName, isFetchHashLoad, listData, inputValue]);
 
   const handleInputChangeDebounced = debounce(
     (event: React.SyntheticEvent<Element, Event>, value: string) => {
@@ -70,9 +93,13 @@ const AutoCompletedSearhBlog = () => {
     if (tagID) {
       navigate(`/${BLOGPAGE}`);
     }
+    if (newValue) {
+      navigate(`#${formatTextURL(newValue.label)}`);
+    }
   };
 
   const handleReset = () => {
+    setListData([])
     setInputValue(null);
     dispatch(resetAll());
     dispatch(setSearchAutoValue(''));

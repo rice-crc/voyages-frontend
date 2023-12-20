@@ -28,7 +28,7 @@ export const handleSetDataSentMap = (
         dataSend[clusterNodeKeyVariable] = [clusterNodeValue];
     }
 
-    if ((styleName !== TYPESOFDATASET.allVoyages) && (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved)) {
+    if ((styleName !== TYPESOFDATASET.allVoyages) || (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved)) {
         for (const value of dataSetValue) {
             dataSend[dataSetKey] = [String(value)];
         }
@@ -45,7 +45,6 @@ export const handleSetDataSentMap = (
     }
 
     if (autoCompleteValue && varName && (currentPage === 7 || currentEnslavedPage === 3)) {
-
         for (const autoKey in autoCompleteValue) {
             for (const autoCompleteOption of autoCompleteValue[autoKey]) {
                 if (typeof autoCompleteOption !== 'string') {

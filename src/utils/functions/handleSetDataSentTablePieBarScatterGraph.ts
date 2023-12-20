@@ -24,7 +24,6 @@ export const handleSetDataSentTablePieBarScatterGraph = (
 ) => {
     const dataSend: { [key: string]: (string | number)[] } = {};
 
-
     if ((styleName !== TYPESOFDATASET.allVoyages) && (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved) && (styleNamePeople !== ENSALVERSTYLE)) {
         for (const value of dataSetValue) {
             dataSend[dataSetKey] = [String(value)];

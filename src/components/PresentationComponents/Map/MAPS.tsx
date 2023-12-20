@@ -24,16 +24,19 @@ function MAPS() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+
   let topPositionPage = 0;
   if (checkPagesRouteForVoyages(styleNameRoute!)) {
     topPositionPage = createTopPositionVoyages(currentPage, inputSearchValue!);
   } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
     topPositionPage = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue!)
   }
+  const paddingTop = currentEnslavedPage === 3 || styleNameRoute === 'map' ? 0 : topPositionPage
 
   return (
-    <div style={{ paddingTop: currentEnslavedPage === 3 ? 0 : topPositionPage }} className='mobile-responsive-map'>
+    <div style={{ paddingTop: paddingTop }} className='mobile-responsive-map'>
       <MapContainer
+        style={{ width: styleNameRoute === 'map' ? "100%" : '95%' }}
         className="map-container"
         ref={mapRef}
       >

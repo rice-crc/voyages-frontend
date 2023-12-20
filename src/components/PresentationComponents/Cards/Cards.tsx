@@ -38,6 +38,9 @@ const VoyageCard = () => {
   const { networkID } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
+
+
+
   useEffect(() => {
     let newCardFileName: string = '';
     const newCardDataArray: TransatlanticCardProps[] = [];
@@ -106,6 +109,7 @@ const VoyageCard = () => {
   }, [dispatch, nodeTypeClass, cardRowID]);
 
   const newCardData = processCardData(cardData, cardDataArray, cardFileName);
+  // console.log({ cardData })
 
   const toggleExpand = (header: string) => {
     if (!globalExpand) {
@@ -173,16 +177,18 @@ const VoyageCard = () => {
                 <Collapse in={isExpanded}>
                   <div className="container-card-body">
                     {childValue.map((child: any) => {
-                      const value = child.value;
+                      const values = child.value;
 
-                      if (Array.isArray(value)) {
-                        const renderedValues = value.map(
-                          (value: string, index: number) => (
-                            <span
-                              key={`${index}-${value}`}
-                              style={styleCard}
-                            >{`${value}`}</span>
-                          )
+                      if (Array.isArray(values)) {
+                        const renderedValues = values.map(
+                          (value: string, index: number) => {
+                            const valueToRender = value.replace(/<[^>]*>/g, ' ')
+                            return (
+                              <div key={`${index}-${value}`} style={{ padding: '2px 0' }}>
+                                <span style={styleCard} >{`${valueToRender}`}</span><br />
+                              </div>
+                            )
+                          }
                         );
                         return (
                           <div
@@ -209,7 +215,7 @@ const VoyageCard = () => {
                               className="grid-itenewCardDatam-card"
                               style={{ display: 'block' }}
                             >
-                              {value}
+                              {values}
                             </div>
                           </div>
                         );

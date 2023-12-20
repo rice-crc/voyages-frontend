@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { CustomMarker, EdgesAggroutes } from '@/share/InterfaceTypesMap';
 import { getNodeSize } from '@/utils/functions/getNodeSize';
 import '@/style/map.scss';
-import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
+import { createLogNodeValueScale } from '@/utils/functions/createLogNodeValueScale';
 import { handleHoverCircleMarker } from './handleHoverCircleMarker';
 import { handleHoverMarkerCluster } from './handleHoverMarkerCluster';
 import { DISPOSTIONNODE, ORIGINATIONNODE, ORIGINLanguageGroupKEY, nodeTypeOrigin, nodeTypePostDisembarkation, postDisembarkLocationKEY } from '@/share/CONST_DATA';
@@ -54,7 +54,7 @@ const NodeEdgesCurvedLinesMap = () => {
         map.removeLayer(layer);
       }
     });
-    const nodeLogValueScale = createLogValueScale(nodesData);
+    const nodeLogValueScale = createLogNodeValueScale(nodesData);
 
     const hiddenEdges = edgesData.filter(
       (edge: EdgesAggroutes) => edge.type === ORIGINATIONNODE || edge.type === DISPOSTIONNODE

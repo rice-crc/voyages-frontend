@@ -10,6 +10,7 @@ import AutoCompletedSearhBlog from '@/components/FilterComponents/AutoCompletedS
 
 const HeaderNavBarBlog: React.FC = () => {
   const { blogTitle, institutionName } = useParams();
+  console.log({ blogTitle, institutionName })
   const { post } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
@@ -21,6 +22,7 @@ const HeaderNavBarBlog: React.FC = () => {
     (state: RootState) => state.getCommonGlobalSearch
   );
 
+
   return (
     <>
       <div className="nav-blog-header nav-blog-header-sticky ">
@@ -30,9 +32,8 @@ const HeaderNavBarBlog: React.FC = () => {
             style={{ textDecoration: 'none', color: '#ffffff' }}
             onClick={handleReloadPage}
           >
-            <div>{`Echoes: The SlaveVoyages Blog ${
-              '-' && title ? title : ''
-            }`}</div>
+            <div>{`Echoes: The SlaveVoyages Blog ${'-' && title ? title : ''
+              }`}</div>
           </Link>
         </div>
         <div>
@@ -40,9 +41,7 @@ const HeaderNavBarBlog: React.FC = () => {
           <div className="search-autocomplete-blog">
             {inputSearchValue ? (
               <GlobalSearchButton />
-            ) : (
-              <AutoCompletedSearhBlog />
-            )}
+            ) : !blogTitle ? <AutoCompletedSearhBlog /> : ''}
           </div>
         </div>
       </div>
@@ -50,3 +49,4 @@ const HeaderNavBarBlog: React.FC = () => {
   );
 };
 export default HeaderNavBarBlog;
+// 

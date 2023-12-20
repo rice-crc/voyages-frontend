@@ -23,7 +23,6 @@ import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
 import { isVoyagesClass } from '@/utils/functions/checkNodeClass';
 import '@/style/networks.scss'
 import { findNode } from './findNode';
-import { padding } from '@mui/system';
 
 type NetworkDiagramProps = {
     width: number;
@@ -295,24 +294,6 @@ export const NetworkDiagramDrawSVG = ({
             // Merge new label nodes with existing ones
             nodeLabels = newNodeLabels.merge(nodeLabels);
 
-            const simulation = d3.forceSimulation(nodes);
-            simulation.force(
-                'link',
-                forceLink<Nodes, Edges>(validEdges)
-                    .id((uuid) => uuid.uuid)
-                    .distance(105)
-            );
-            simulation.force('charge', d3.forceManyBody().strength(-30));
-            simulation.force(
-                'center',
-                d3
-                    .forceCenter()
-                    .x(width / 2)
-                    .y(height / 2)
-            );
-            simulation.on('tick', ticked);
-            simulation.alpha(1).restart();
-
             function handleZoom(event: d3.D3ZoomEvent<SVGSVGElement, any>) {
                 const transform = event.transform;
                 if (svgRef.current && transform) {
@@ -369,22 +350,40 @@ export const NetworkDiagramDrawSVG = ({
             }
 
             // Define drag behavior
-            const dragBehavior = d3.drag<SVGSVGElement, unknown>()
+            const dragBehavior = d3.drag<SVGCircleElement, Nodes, unknown>();
             dragBehavior
                 .subject(dragSubject)
                 .on('start', dragStarted)
                 .on('drag', dragged)
                 .on('end', dragEnded);
+            newNodes.call(dragBehavior)
 
             const zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
                 .scaleExtent([0.5, 2.5])
                 .on('zoom', handleZoom)
 
-            svg.call(dragBehavior)
 
             svg.call(zoomBehavior as any)
                 .on("dblclick.zoom", null)
                 .on("click.zoom", null)
+
+            const simulation = d3.forceSimulation(nodes);
+            simulation.force(
+                'link',
+                forceLink<Nodes, Edges>(validEdges)
+                    .id((uuid) => uuid.uuid)
+                    .distance(105)
+            );
+            simulation.force('charge', d3.forceManyBody().strength(-30));
+            simulation.force(
+                'center',
+                d3
+                    .forceCenter()
+                    .x(width / 2)
+                    .y(height / 2)
+            );
+            simulation.on('tick', ticked);
+            simulation.alpha(1).restart();
         }
 
     }, [svgRef, width, height]);

@@ -45,7 +45,7 @@ export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGh
 
 export const mappingSpecialists = `https://api.mapbox.com/styles/v1/jcm10/clbmdqh2q000114o328k5yjpf/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
 export const mappingSpecialistsRivers = `https://api.mapbox.com/styles/v1/jcm10/cl98xvv9r001z14mm17w970no/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
-export const mappingSpecialistsCountries = `https://api.mapbox.com/styles/v1/jcm10/cl98yryw3003t14o66r6fx4m9/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
+export const mappingSpecialistsCountries = `https://api.mapbox.com/styles/v1/jcm10/cl98yryw d3003t14o66r6fx4m9/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
 
 
 export const MAP_CENTER: [number, number] = [5.486678, -35.59375];
@@ -66,6 +66,8 @@ export const DISPOSTIONNODE = 'disposition'
 export const minRadiusInPixels = 3;
 export const maxRadiusInPixels = 20;
 export const maxRadiusInPixelsNode = 15;
+export const minEdgeInPixels = 3;
+export const maxEdgeInPixels = 10;
 
 export const nodeTypeOrigin = 'origin'
 export const nodeTypePostDisembarkation = 'postDisembarkation'
@@ -81,7 +83,7 @@ export const classToColor = {
     enslavement_relations: '#ab47bc',
     voyages: '#F2EE0A',
 };
-export const RADIUSNODE = 15;
+export const RADIUSNODE = 17;
 export const cachenamePivot = `voyage_pivot_tables`;
 // Global search
 export const GlobalSearchVoyagesType = 'voyages'

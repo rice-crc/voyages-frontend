@@ -203,6 +203,7 @@ const Tables: React.FC = () => {
             dataSend['results_page'] = [String(page + 1)];
             dataSend['results_per_page'] = [String(rowsPerPage)];
 
+
             setLoading(true)
             let response;
             try {

@@ -152,6 +152,7 @@
 .grid-itenewCardDatam-card {
   padding: 5px 20px;
   font-size: 14px;
+  word-wrap: break-word;
 
   @include breakpoint-standard(3) {
     font-size: 12px;
@@ -178,6 +179,10 @@
   overflow-x: hidden;
   overflow-y: auto;
   margin-top: 5%;
+}
+
+.tab-container {
+  padding: 20px;
 }
 
 .card-box-modal {
