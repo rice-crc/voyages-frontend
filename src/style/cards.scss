@@ -182,7 +182,7 @@
 }
 
 .tab-container {
-  padding: 20px;
+  padding: 0 20px 0 20px;
 }
 
 .card-box-modal {
@@ -194,4 +194,11 @@
   z-index: 1;
   background-color: #ffffff;
   padding-top: 10;
+}
+
+.ant-tabs-nav {
+  position: fixed !important;
+  width: 100%;
+  z-index: 1;
+  background: #fff;
 }

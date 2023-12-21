@@ -195,6 +195,7 @@ export const styleModalCard = {
   overflowY: 'auto',
   boxShadow: 24,
   p: '10px 20px',
+
 };
 
 export const styleCard = {
@@ -202,6 +203,7 @@ export const styleCard = {
   overflowY: 'auto',
   boxShadow: 24,
   p: '10px 50px',
+  marginTop: '40px'
 };
 
 export const CustomTablePagination = styled(TablePagination)({

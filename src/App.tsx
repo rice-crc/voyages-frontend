@@ -44,7 +44,7 @@ import LessonPlans from './components/PresentationComponents/Assessment/LessonPl
 import IntroductoryMaps from './components/PresentationComponents/Assessment/IntroductoryMaps/IntroductoryMaps';
 import { setCardRowID, setNodeClass, setValueVariable } from './redux/getCardFlatObjectSlice';
 import { RootState } from './redux/store';
-import TabsSelect from './components/SelectorComponents/Tabs/TabsPen';
+import TabsSelect from './components/SelectorComponents/Tabs/TabsSelect';
 import { usePageRouter } from './hooks/usePageRouter';
 
 

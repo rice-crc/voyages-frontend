@@ -129,14 +129,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
     setAnchorFilterMobileEl(null);
   };
 
-  const handleResetAll = () => {
-    dispatch(resetAllStateToInitailState())
-    const keysToRemove = Object.keys(localStorage);
-    keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
-    });
-  };
-
 
   const handleMenuClose = () => {
     setAnchorEl(null);

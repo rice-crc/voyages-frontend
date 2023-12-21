@@ -12,16 +12,21 @@ import type { TabsProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { resetAll } from '@/redux/resetAllSlice';
+import { Dispatch } from '@reduxjs/toolkit';
+
 
 const TabsSelect = () => {
     const { nodeTypeURL, voyageURLID } = usePageRouter();
-    const dispatch = useDispatch();
+    const dispatch: Dispatch = useDispatch();
     const { variable } = useSelector((state: RootState) => state.getCardFlatObjectData);
     const navigate = useNavigate();
+
     const onChange = (key: string) => {
         dispatch(setValueVariable(key))
         dispatch(setCurrentBlockName(key))
         navigate(`/${nodeTypeURL}/${voyageURLID}/${key}#${(key).toLowerCase()}`)
+        dispatch(resetAll() as any);
     };
 
     const items: TabsProps['items'] = [
@@ -33,20 +38,22 @@ const TabsSelect = () => {
         {
             key: 'map',
             label: 'Map',
-            children: <Box sx={styleCard}>  <VoyagesMaps /> </Box>,
+            children: <Box sx={styleCard} >  <VoyagesMaps /> </Box>,
         },
         {
             key: 'images',
             label: 'Images',
-            children: <Box sx={styleCard}><div style={{ height: 450 }}>No images are available.</div> </Box>,
+            children: <Box sx={styleCard} ><div style={{ height: 500 }}>No images are available.</div> </Box>,
         },
     ];
     return (
         <div>
             <HeaderLogoSearch />
             <Divider />
-            <Tabs defaultActiveKey={variable} items={items} onChange={onChange}
+            <Tabs defaultActiveKey={variable} items={items}
+                onChange={onChange}
                 type="card" className='tab-container'
+
             />
 
 
