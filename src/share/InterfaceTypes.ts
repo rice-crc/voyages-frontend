@@ -375,3 +375,9 @@ export interface FilterMenuList {
     flatlabel?: string;
     children?: ChildrenFilter[];
 }
+export interface FetchAutoVoyageParams {
+    varName?: string;
+    autoValue?: string;
+    offset?: number;
+    limit?: number;
+}

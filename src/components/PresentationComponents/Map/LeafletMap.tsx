@@ -20,7 +20,8 @@ import {
   mappingSpecialistsRivers,
   PLACE,
   AFRICANORIGINS,
-  REGION,
+  ENSLAVEDNODE,
+  VOYAGE,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
@@ -55,7 +56,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { nodesData } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
-  const { styleName: styleNamePage, nodeTypeURL } = usePageRouter()
+  const { styleName: styleNamePage, nodeTypeURL, voyageURLID } = usePageRouter()
 
   const [regionPlace, setRegionPlace] = useState<string>('region');
 
@@ -134,11 +135,13 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       styleName, clusterNodeKeyVariable, clusterNodeValue, styleNamePeople
     )
 
-    dataSend['zoomlevel'] = [regionOrPlace!];
+    if (voyageURLID !== ENSLAVEDNODE && voyageURLID !== VOYAGE) {
+      dataSend['id'] = [voyageURLID!];
+    }
 
+    dataSend['zoomlevel'] = [regionOrPlace!];
     hasFetchedRegion ? setLoading(true) : setLoading(false);
     let response;
-
     if (checkPagesRouteForVoyages(styleNamePage! || nodeTypeURL!)) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
     } else if (checkPagesRouteMapURLForVoyages(nodeTypeURL!)) {
@@ -158,7 +161,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
   useEffect(() => {
 
-    if (hasFetchedRegion || ((clusterNodeKeyVariable !== "" && clusterNodeValue !== "" || varName !== ""))) {
+    if (hasFetchedRegion || ((clusterNodeKeyVariable !== "" && clusterNodeValue !== "") || varName !== "")) {
       fetchData(regionPlace);
     }
   }, [
@@ -179,6 +182,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
   const handleDataResponse = (response: any, regionOrPlace: string) => {
     if (response) {
+
       const { nodes, edges, paths } = response;
       dispatch(setMapData(response));
       if (regionOrPlace === 'region') {
@@ -241,7 +245,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   if (styleNamePeople === AFRICANORIGINS) {
     backgroundColor = styleNamePeople;
   }
-
 
   return (
     <div style={{ backgroundColor: getMapBackgroundColor(backgroundColor) }}>

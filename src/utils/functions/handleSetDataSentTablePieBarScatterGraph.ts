@@ -16,6 +16,8 @@ export const handleSetDataSentTablePieBarScatterGraph = (
     geoTreeValue: Record<string, string[] | TreeSelectItem[]>,
     varName: string,
     rangeValue: RangeSliderMinMaxInitialState,
+    clusterNodeKeyVariable: string,
+    clusterNodeValue: string,
     styleName?: string,
     currentPage?: number,
     isChange?: boolean,
@@ -37,6 +39,9 @@ export const handleSetDataSentTablePieBarScatterGraph = (
         for (const rangKey in rangeValue) {
             dataSend[rangKey] = [rangeValue[rangKey][0], rangeValue[rangKey][1]];
         }
+    }
+    if (clusterNodeKeyVariable && clusterNodeValue) {
+        dataSend[clusterNodeKeyVariable] = [clusterNodeValue]
     }
 
     if (autoCompleteValue && varName && (currentPage === 2 || currentPage === 3 || currentPage === 4 || currentPage === 5 || currentPage === 6) || (currentEnslavedPage === 2)) {

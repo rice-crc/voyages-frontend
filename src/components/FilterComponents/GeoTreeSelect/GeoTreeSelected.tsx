@@ -21,6 +21,8 @@ import { getGeoValuesCheck } from '@/utils/functions/getGeoValuesCheck';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { handleSetDataSentMapGeoTree } from '@/utils/functions/handleSetDataSentMapGeoTree';
 import { checkPagesRouteForVoyages, checkPagesRouteForEnslaved, checkPagesRouteForEnslavers } from '@/utils/functions/checkPagesRoute';
+import { TreeItemProps } from '@mui/lab';
+
 
 const GeoTreeSelected: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -104,6 +106,7 @@ const GeoTreeSelected: React.FC = () => {
   }, [dispatch, varName, styleName]);
 
   const handleTreeOnChange = (newValue: string[]) => {
+
     dispatch(setIsChangeGeoTree(true));
     setSelectedValue(newValue);
     const valueSelect: string[] = newValue.map((ele) => ele);
@@ -129,6 +132,10 @@ const GeoTreeSelected: React.FC = () => {
 
   const dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeList);
 
+  const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
+    return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
+  };
+
   return (
     <div ref={ref}>
       {dataForTreeSelect.length > 0 && (
@@ -146,6 +153,7 @@ const GeoTreeSelected: React.FC = () => {
           treeDefaultExpandedKeys={['select-all']}
           treeData={dataForTreeSelect}
           maxTagCount={8}
+          filterTreeNode={filterTreeNode}
           maxTagPlaceholder={(selectedValue) =>
             `+ ${selectedValue.length} locations ...`
           }

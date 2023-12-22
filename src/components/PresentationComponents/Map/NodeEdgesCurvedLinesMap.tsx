@@ -35,9 +35,19 @@ const NodeEdgesCurvedLinesMap = () => {
     if (nodeType === nodeTypeOrigin) {
       dispatch(setClusterNodeKeyVariable(ORIGINLanguageGroupKEY))
       dispatch(setClusterNodeValue(value))
+
     } else if (nodeType === nodeTypePostDisembarkation) {
       dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY))
       dispatch(setClusterNodeValue(value))
+    }
+    if (nodeType) {
+      const filterObject = {
+        filterObject: {
+          [ORIGINLanguageGroupKEY]: value,
+        },
+      };
+      const filterObjectString = JSON.stringify(filterObject);
+      localStorage.setItem('filterObject', filterObjectString);
     }
   }
 

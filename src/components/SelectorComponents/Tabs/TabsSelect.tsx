@@ -12,8 +12,8 @@ import type { TabsProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { resetAll } from '@/redux/resetAllSlice';
 import { Dispatch } from '@reduxjs/toolkit';
+
 
 
 const TabsSelect = () => {
@@ -26,7 +26,6 @@ const TabsSelect = () => {
         dispatch(setValueVariable(key))
         dispatch(setCurrentBlockName(key))
         navigate(`/${nodeTypeURL}/${voyageURLID}/${key}#${(key).toLowerCase()}`)
-        dispatch(resetAll() as any);
     };
 
     const items: TabsProps['items'] = [

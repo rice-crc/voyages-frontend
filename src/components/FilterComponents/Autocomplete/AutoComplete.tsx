@@ -13,6 +13,7 @@ import {
   AutoCompleteInitialState,
   AutoCompleteOption,
   AutocompleteBoxProps,
+  FetchAutoVoyageParams,
   RangeSliderState,
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
@@ -53,6 +54,9 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
       };
 
       let response = [];
+      let offset = 60
+      let limit = 30
+
       try {
         if (checkPagesRouteForVoyages(styleName!)) {
           response = await dispatch(fetchAutoVoyageComplete(dataSend)).unwrap();
@@ -65,6 +69,18 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
             fetchPastEnslaversAutoCompleted(dataSend)
           ).unwrap();
         }
+
+
+        // ===============  WAIT TO CHANGE NEW FORMAT ===============
+        // const params: FetchAutoVoyageParams = { varName, autoValue, offset, limit }
+        // if (checkPagesRouteForVoyages(styleName!)) {
+        //   response = await dispatch(fetchAutoVoyageComplete(params)).unwrap();
+        // } else if (checkPagesRouteForEnslaved(styleName!)) {
+        //   response = await dispatch(fetchPastEnslavedAutoComplete(params)).unwrap();
+        // } else if (checkPagesRouteForEnslavers(styleName!)) {
+        //   response = await dispatch(fetchPastEnslaversAutoCompleted(params)).unwrap();
+        // }
+
         if (response && subscribed) {
           setAutoLists(response?.results || []);
         }
@@ -93,10 +109,15 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     if (storedValue) {
       const parsedValue = JSON.parse(storedValue);
       const { filterObject } = parsedValue;
+
       for (const autoKey in filterObject) {
+
         if (varName === autoKey) {
           const autoValueList = filterObject[autoKey];
-          setSelectedValue(autoValueList);
+          if (autoValueList.length > 0) {
+            setSelectedValue(autoValueList);
+          }
+          setSelectedValue([]);
         }
       }
     }
@@ -138,15 +159,15 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         id="tags-outlined"
         options={autoList}
         isOptionEqualToValue={(option, value) => {
-          return option.id === value.id;
+          return option.label === value.label;
         }}
         getOptionLabel={(option) => option.label}
         value={selectedValue}
         onChange={handleAutoCompletedChange}
         onInputChange={handleInputChange}
         inputValue={autoValue}
-        renderOption={(props, option) => (
-          <Box component="li" {...props} key={option.id} sx={{ fontSize: 16 }}>
+        renderOption={(props, option, index) => (
+          <Box component="li" {...props} key={`${option.label}-${index}`} sx={{ fontSize: 16 }}>
             {option.label ? option.label : '--'}
           </Box>
         )}

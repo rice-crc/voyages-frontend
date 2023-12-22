@@ -60,7 +60,7 @@ const queryClient = new QueryClient({
 const App: React.FC = () => {
   const dispatch = useDispatch();
   const { cardRowID, nodeTypeClass } = useSelector((state: RootState) => state.getCardFlatObjectData);
-  const { styleName } = usePageRouter();
+  const { styleName, voyageURLID } = usePageRouter();
   const [ID, setID] = useState(cardRowID)
   const [nodeClass, setNodeTypeClass] = useState(nodeTypeClass)
 
@@ -78,7 +78,7 @@ const App: React.FC = () => {
       dispatch(setNodeClass(entityType))
       dispatch(setValueVariable(typeOfData))
     }
-  }, [dispatch, ID, nodeClass, styleName]);
+  }, [dispatch, ID, nodeClass, styleName, voyageURLID]);
 
   return (
     <ThemeProvider theme={theme}>

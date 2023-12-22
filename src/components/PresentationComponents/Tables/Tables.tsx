@@ -69,6 +69,9 @@ const Tables: React.FC = () => {
     const gridRef = useRef<any>(null);
     const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
 
+    const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+        (state: RootState) => state.getNodeEdgesAggroutesMapData
+    );
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
     );
@@ -193,11 +196,11 @@ const Tables: React.FC = () => {
         const fetchData = async () => {
             let dataSend: Record<string, any> = {};
             if (checkPagesRouteForVoyages(styleNameRoute!)) {
-                dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
+                dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, clusterNodeKeyVariable, clusterNodeValue, styleName, currentPage, isChange, undefined, undefined)
             } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValuePeople, dataSetKeyPeople, inputSearchValue, geoTreeValue, varName, rang, undefined, undefined, isChange, styleNamePeople, currentEnslavedPage)
+                dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValuePeople, dataSetKeyPeople, inputSearchValue, geoTreeValue, varName, rang, clusterNodeKeyVariable, clusterNodeValue, undefined, undefined, isChange, styleNamePeople, currentEnslavedPage)
             } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValueEnslavers, dataSetKeyEnslavers, inputSearchValue, geoTreeValue, varName, rang, undefined, undefined, isChange, styleEnlsavers, currentEnslaversPage)
+                dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValueEnslavers, dataSetKeyEnslavers, inputSearchValue, geoTreeValue, varName, rang, clusterNodeKeyVariable, clusterNodeValue, undefined, undefined, isChange, styleEnlsavers, currentEnslaversPage)
             }
 
             dataSend['results_page'] = [String(page + 1)];

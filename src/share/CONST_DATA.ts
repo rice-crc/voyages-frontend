@@ -14,6 +14,7 @@ export const TEXAS_TABLE_FILE = 'texas_table_cell_structure.json';
 
 export const VOYAGESPAGE = 'VoyagesPage'
 export const ALLVOYAGES = 'all-voyages'
+export const VOYAGE = 'voyage'
 export const ALLVOYAGESPAGE = '/voyage/all-voyages'
 export const INTRAAMERICAN = 'intra-american'
 export const INTRAAMERICANPAGE = '/voyage/intra-american'
