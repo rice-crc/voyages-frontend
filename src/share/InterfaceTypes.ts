@@ -39,6 +39,8 @@ export interface AutoCompleteInitialState {
     autoCompleteValue: Record<string, AutoCompleteOption[] | string[]>;
     autoLabelName: string[]
     isChangeAuto: boolean
+    offset: number
+    isLoadingList: boolean
 }
 
 export interface AutoCompleteValueInitialState {
@@ -96,8 +98,9 @@ export interface AutoCompleteLists {
 }
 
 export interface AutoCompleteOption {
-    id: number
-    label: string
+    // id: number
+    // label: string
+    value: string
 }
 export interface InitialStateFilterMenu {
     value: FilterMenu[]
@@ -380,4 +383,10 @@ export interface FetchAutoVoyageParams {
     autoValue?: string;
     offset?: number;
     limit?: number;
+}
+
+export interface RenderRowProps {
+    data: React.ReactNode[];
+    index: number;
+    style: React.CSSProperties;
 }

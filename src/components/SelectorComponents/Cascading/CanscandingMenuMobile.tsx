@@ -44,6 +44,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE } from '@/share/CONST_DATA';
 import { DropdownCanscanding } from './DropdownCanscanding';
+import VirtualizedAutocomplete from '@/components/FilterComponents/Autocomplete/VirtualizedAutocomplete';
 
 const CanscandingMenuMobile = () => {
   const { styleName: styleNameRoute } = usePageRouter()
@@ -204,6 +205,7 @@ const CanscandingMenuMobile = () => {
           menu={renderDropdownMenu(filterMenu)}
         />
       )}
+
       <Dialog
         BackdropProps={{
           style: DialogModalStyle,
@@ -220,7 +222,8 @@ const CanscandingMenuMobile = () => {
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
-          {varName && type === TYPES.CharField && <AutocompleteBox />}
+          {/* {varName && type === TYPES.CharField && <AutocompleteBox />} */}
+          {varName && type === TYPES.CharField && <VirtualizedAutocomplete />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField)) && <RangeSlider />}
         </DialogContent>

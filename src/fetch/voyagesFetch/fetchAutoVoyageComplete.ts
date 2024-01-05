@@ -2,13 +2,15 @@ import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FetchAutoVoyageParams } from '@/share/InterfaceTypes';
+import { IRootObject } from '@/share/InterfaceTypesTable';
 
 export const fetchAutoVoyageComplete = createAsyncThunk(
     'autoComplete/fetchAutoVoyageComplete',
-    async (dataSend?: { [key: string]: string[] }) => {
+    async (dataSend?: IRootObject) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/voyage/autocomplete/`,
+                // `http://127.0.0.1:8000/voyage/autocomplete/`,
                 dataSend,
                 {
                     headers: {

@@ -878,3 +878,15 @@ export interface InitialStateColumnProps {
     valueCells: TableCellStructureProps
     visibleColumnCells: string[]
 }
+
+export interface IRootObject {
+    varname: string;
+    querystr: string;
+    offset: number;
+    limit: number;
+    filter: IFilter
+}
+
+export type IFilter = {
+    [key: string]: number[] | string
+}

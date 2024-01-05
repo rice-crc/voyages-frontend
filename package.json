@@ -34,6 +34,9 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@turf/bezier-spline": "^6.5.0",
     "@types/react-query": "^1.2.9",
+    "@types/react-virtualized": "^9.21.29",
+    "@types/react-window": "^1.8.8",
+    "@types/react-window-infinite-loader": "^1.0.9",
     "ag-grid-community": "^30.0.0",
     "ag-grid-react": "^30.0.0",
     "antd": "^5.8.5",
@@ -62,7 +65,13 @@
     "react-router-dom": "^6.12.1",
     "react-scroll": "^1.8.9",
     "react-slick": "^0.29.0",
+    "react-virtualized": "^9.22.5",
+    "react-window": "^1.8.10",
+    "react-window-infinite-loader": "^1.0.9",
     "styled-components": "^5.3.11"
+  },
+  "resolutions": {
+    "react-virtualized": "patch:react-virtualized@9.22.3#./path/to/react-virtualized-9.22.3.patch"
   },
   "browserslist": {
     "production": [

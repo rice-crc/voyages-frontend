@@ -4,11 +4,12 @@ import {
   useState,
   useMemo,
   SyntheticEvent,
+  useRef,
 } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAutoVoyageComplete } from '@/fetch/voyagesFetch/fetchAutoVoyageComplete';
-import { Autocomplete, Stack, TextField, Box, Typography } from '@mui/material';
+import { Autocomplete, Stack, TextField, Box, Typography, Popper } from '@mui/material';
 import {
   AutoCompleteInitialState,
   AutoCompleteOption,
@@ -28,6 +29,7 @@ import '@/style/Slider.scss';
 import '@/style/table.scss';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { IRootObject } from '@/share/InterfaceTypesTable';
 
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
@@ -37,8 +39,12 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
+
+  const [page, setPage] = useState(1);
+  const limit = 20;
+  const listRef = useRef<HTMLUListElement>(null);
   const { pathNameEnslaved, pathNameEnslavers, pathNameVoyages } = useSelector((state: RootState) => state.getPathName);
-  const { autoCompleteValue } = useSelector(
+  const { autoCompleteValue, offset } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
   const [autoList, setAutoLists] = useState<AutoCompleteOption[]>([]);
@@ -46,16 +52,22 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const [autoValue, setAutoValue] = useState<string>('');
 
   const dispatch: AppDispatch = useDispatch();
+
   useEffect(() => {
     let subscribed = true;
+
     const fetchAutoCompletedList = async () => {
-      const dataSend: { [key: string]: string[] } = {
-        [varName]: [autoValue],
+      const dataSend: IRootObject = {
+        varname: varName,
+        querystr: autoValue,
+        offset: offset,
+        limit: limit,
+        filter: {
+          [varName]: "" //autoValue --> PASS as Empty String
+        }
       };
 
       let response = [];
-      let offset = 60
-      let limit = 30
 
       try {
         if (checkPagesRouteForVoyages(styleName!)) {
@@ -70,35 +82,27 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
           ).unwrap();
         }
 
-
-        // ===============  WAIT TO CHANGE NEW FORMAT ===============
-        // const params: FetchAutoVoyageParams = { varName, autoValue, offset, limit }
-        // if (checkPagesRouteForVoyages(styleName!)) {
-        //   response = await dispatch(fetchAutoVoyageComplete(params)).unwrap();
-        // } else if (checkPagesRouteForEnslaved(styleName!)) {
-        //   response = await dispatch(fetchPastEnslavedAutoComplete(params)).unwrap();
-        // } else if (checkPagesRouteForEnslavers(styleName!)) {
-        //   response = await dispatch(fetchPastEnslaversAutoCompleted(params)).unwrap();
-        // }
-
         if (response && subscribed) {
-          setAutoLists(response?.results || []);
+          setAutoLists(response?.suggested_values || []);
         }
       } catch (error) {
         console.log('error', error);
       }
     };
 
+
     fetchAutoCompletedList();
     return () => {
       subscribed = false;
       setAutoLists([]);
     };
-  }, [dispatch, varName, autoValue, pathNameEnslaved, pathNameEnslavers, pathNameVoyages, styleName]);
+  }, [dispatch, varName, autoValue, pathNameEnslaved, pathNameEnslavers, pathNameVoyages, styleName, offset, page]);
+
 
   const handleInputChange = useMemo(
     () => (event: React.SyntheticEvent<Element, Event>, value: string) => {
       event.preventDefault();
+      console.log({ value })
       setAutoValue(value);
     },
     []
@@ -109,9 +113,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     if (storedValue) {
       const parsedValue = JSON.parse(storedValue);
       const { filterObject } = parsedValue;
-
       for (const autoKey in filterObject) {
-
         if (varName === autoKey) {
           const autoValueList = filterObject[autoKey];
           if (autoValueList.length > 0) {
@@ -123,6 +125,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     }
   }, []);
 
+
   const handleAutoCompletedChange = (
     event: SyntheticEvent<Element, Event>,
     newValue: AutoCompleteOption[]
@@ -130,7 +133,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     setSelectedValue(newValue as AutoCompleteOption[]);
     if (newValue) {
       dispatch(setIsChangeAuto(true));
-      const autuLabel: string[] = newValue.map((ele) => ele.label);
+      const autuLabel: string[] = newValue.map((ele) => ele.value);
       dispatch(
         setAutoCompleteValue({
           ...autoCompleteValue,
@@ -159,18 +162,24 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
         id="tags-outlined"
         options={autoList}
         isOptionEqualToValue={(option, value) => {
-          return option.label === value.label;
+          return option.value === value.value;
         }}
-        getOptionLabel={(option) => option.label}
+        getOptionLabel={(option) => option.value}
         value={selectedValue}
         onChange={handleAutoCompletedChange}
         onInputChange={handleInputChange}
         inputValue={autoValue}
-        renderOption={(props, option, index) => (
-          <Box component="li" {...props} key={`${option.label}-${index}`} sx={{ fontSize: 16 }}>
-            {option.label ? option.label : '--'}
-          </Box>
-        )}
+        renderOption={(props, option, index) => {
+          return (
+            <Box component="li"
+              {...props} key={`${option.value}-${index}`}
+              sx={{ fontSize: 16 }}
+              ref={listRef}
+            >
+              {option.value ? option.value : '--'}
+            </Box>
+          )
+        }}
         filterSelectedOptions
         renderInput={(params) => (
           <TextField
@@ -184,6 +193,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
             style={{ marginTop: 20 }}
           />
         )}
+
       />
     </Stack>
   );

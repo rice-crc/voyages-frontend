@@ -2,11 +2,12 @@ import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FetchAutoVoyageParams } from '@/share/InterfaceTypes';
+import { IRootObject } from '@/share/InterfaceTypesTable';
 
 
 export const fetchPastEnslaversAutoCompleted = createAsyncThunk(
     'autoComplete/fetchPastEnslaversAutoCompleted',
-    async (dataSend?: { [key: string]: string[] }) => {
+    async (dataSend?: IRootObject) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/past/enslaver/autocomplete/`,
