@@ -49,7 +49,10 @@ export default function VirtualizedAutoCompleted() {
     const dispatch: AppDispatch = useDispatch();
 
     const fetchAutoCompletedList = async () => {
-        dispatch(setOffset(offset + 10));
+        if (autoValue === '') {
+            console.log({ autoValue })
+            dispatch(setOffset(offset + 10));
+        }
         const dataSend: IRootObject = {
             varname: varName,
             querystr: autoValue,
