@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useMemo, SyntheticEvent } from "react";
-import { Autocomplete, TextField, Box, Typography, ListSubheader } from '@mui/material';
+import React, { useState, useEffect, useMemo, SyntheticEvent, useRef } from "react";
+import { Autocomplete, TextField, Typography, ListSubheader } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAutoVoyageComplete } from '@/fetch/voyagesFetch/fetchAutoVoyageComplete';
@@ -13,6 +13,7 @@ import {
     setAutoCompleteValue,
     setAutoLabel,
     setIsChangeAuto,
+    setOffset,
 } from '@/redux/getAutoCompleteSlice';
 import { fetchPastEnslavedAutoComplete } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedAutoCompleted';
 import { fetchPastEnslaversAutoCompleted } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversAutoCompleted';
@@ -22,12 +23,12 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { IRootObject } from '@/share/InterfaceTypesTable';
 import CustomAutoListboxComponent from "./CustomAutoListboxComponent";
-import VirtualizedList from "./VirtualizedList";
 
 export default function VirtualizedAutoCompleted() {
     const { varName, rangeSliderMinMax: rangeValue } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
+    const effectOnce = useRef(false);
     const { styleName } = usePageRouter()
     const { geoTreeValue } = useSelector(
         (state: RootState) => state.getGeoTreeData
@@ -35,19 +36,20 @@ export default function VirtualizedAutoCompleted() {
     const { isOpenDialog } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
     );
-    let offset = 0
     const limit = 20;
     const { pathNameEnslaved, pathNameEnslavers, pathNameVoyages } = useSelector((state: RootState) => state.getPathName);
-    const { autoCompleteValue, isLoadingList } = useSelector(
+    const { autoCompleteValue, isLoadingList, offset } = useSelector(
         (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
     );
+
     const [autoList, setAutoLists] = useState<AutoCompleteOption[]>([]);
     const [selectedValue, setSelectedValue] = useState<AutoCompleteOption[]>([]);
     const [autoValue, setAutoValue] = useState<string>('');
 
     const dispatch: AppDispatch = useDispatch();
-    let subscribed = true;
+
     const fetchAutoCompletedList = async () => {
+        dispatch(setOffset(offset + 10));
         const dataSend: IRootObject = {
             varname: varName,
             querystr: autoValue,
@@ -57,7 +59,6 @@ export default function VirtualizedAutoCompleted() {
                 [varName]: "" //autoValue --> PASS as Empty String
             }
         };
-
 
         try {
             let response = [];
@@ -73,31 +74,35 @@ export default function VirtualizedAutoCompleted() {
                     fetchPastEnslaversAutoCompleted(dataSend)
                 ).unwrap();
             }
-            if (response && subscribed) {
+            if (response) {
                 const { suggested_values } = response
-                // WHY ?? state does not set for me ?? WHAT
+
                 const newAutoList: AutoCompleteOption[] = suggested_values.map((value: AutoCompleteOption) => value);
-                setAutoLists((prevAutoList) => [...prevAutoList, ...newAutoList]);
+
+                setAutoLists((prevAutoList) => [...prevAutoList, ...newAutoList])
             }
         } catch (error) {
             console.log('error', error);
         }
-        offset += 10
     };
-    console.log({ autoList, offset })
+
     useEffect(() => {
+
         if (isLoadingList) {
             fetchAutoCompletedList();
         }
     }, [isLoadingList]);
 
     useEffect(() => {
-        fetchAutoCompletedList();
+        if (!isLoadingList && !effectOnce.current) {
+            fetchAutoCompletedList();
+        }
+
         return () => {
-            subscribed = false;
+            effectOnce.current = true;
             setAutoLists([]);
         };
-    }, [dispatch, varName, pathNameEnslaved, pathNameEnslavers, pathNameVoyages, styleName, offset, isOpenDialog]);
+    }, [dispatch, varName, pathNameEnslaved, pathNameEnslavers, pathNameVoyages, styleName, isOpenDialog]);
 
     const handleInputChange = useMemo(
         () => (event: React.SyntheticEvent<Element, Event>, value: string) => {
@@ -106,7 +111,6 @@ export default function VirtualizedAutoCompleted() {
         },
         []
     );
-    console.log({ autoList })
 
     useEffect(() => {
         const storedValue = localStorage.getItem('filterObject');

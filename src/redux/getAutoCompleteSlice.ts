@@ -33,11 +33,14 @@ export const getAutoCompleteSlice = createSlice({
         setIsLoadingList: (state, action: PayloadAction<boolean>) => {
             state.isLoadingList = action.payload;
         },
+        setOffset: (state, action: PayloadAction<number>) => {
+            state.offset = action.payload;
+        },
         resetSlice: (state) => initialState,
     },
 });
 
-export const { getAutoCompleteList, setIsLoadingList, setAutoCompleteValue, resetSlice, setAutoLabel, setIsChangeAuto } =
+export const { getAutoCompleteList, setOffset, setIsLoadingList, setAutoCompleteValue, resetSlice, setAutoLabel, setIsChangeAuto } =
     getAutoCompleteSlice.actions;
 
 export default getAutoCompleteSlice.reducer;

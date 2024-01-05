@@ -48,8 +48,8 @@ export const handleSetDataSentTablePieBarScatterGraph = (
         for (const autoKey in autoCompleteValue) {
             for (const autoCompleteOption of autoCompleteValue[autoKey]) {
                 if (typeof autoCompleteOption !== 'string') {
-                    const { label } = autoCompleteOption;
-                    dataSend[autoKey] = [label];
+                    const { value } = autoCompleteOption;
+                    dataSend[autoKey] = [value];
                 }
             }
         }

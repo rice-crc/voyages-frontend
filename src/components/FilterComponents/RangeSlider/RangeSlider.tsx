@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent } from 'react';
+import { useEffect, useState, ChangeEvent, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setRangeValue,
@@ -9,17 +9,24 @@ import {
 import { Grid } from '@mui/material';
 import { CustomSlider, Input } from '@/styleMUI';
 import { AppDispatch, RootState } from '@/redux/store';
-import { AutoCompleteInitialState, RangeSliderState } from '@/share/InterfaceTypes';
+import {
+  AutoCompleteInitialState,
+  RangeSliderState,
+} from '@/share/InterfaceTypes';
 import { fetchRangeSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
 import { fetchPastEnslavedRangeSliderData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedRangeSliderData';
 import '@/style/Slider.scss';
 import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import {
+  checkPagesRouteForEnslaved,
+  checkPagesRouteForEnslavers,
+  checkPagesRouteForVoyages,
+} from '@/utils/functions/checkPagesRoute';
 
 const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { styleName } = usePageRouter()
+  const { styleName } = usePageRouter();
 
   const { rangeValue, varName, rangeSliderMinMax } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
@@ -42,51 +49,51 @@ const RangeSlider = () => {
   const [currentSliderValue, setCurrentSliderValue] = useState<
     number | number[]
   >(rangeMinMax);
+  const effectOnce = useRef(false);
 
-  useEffect(() => {
-    let subscribed = true;
-
-    const fetchRangeSlider = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {
-        aggregate_fields: [varName],
-      };
-
-      try {
-        let response;
-        if (checkPagesRouteForVoyages(styleName!)) {
-          response = await dispatch(fetchRangeSliderData(dataSend)).unwrap();
-        } else if (checkPagesRouteForEnslaved(styleName!)) {
-          response = await dispatch(
-            fetchPastEnslavedRangeSliderData(dataSend)
-          ).unwrap();
-        } else if (checkPagesRouteForEnslavers(styleName!)) {
-          response = await dispatch(
-            fetchPastEnslaversRangeSliderData(dataSend)
-          ).unwrap();
-        }
-        if (response) {
-          const initialValue: number[] = [
-            parseInt(response[varName].min),
-            parseInt(response[varName].max),
-          ];
-          dispatch(setKeyValue(varName));
-          dispatch(
-            setRangeValue({
-              ...rangeValue,
-              [varName]: initialValue as number[],
-            })
-          );
-        }
-      } catch (error) {
-        console.log('error', error);
-      }
+  const fetchRangeSlider = async () => {
+    const dataSend: { [key: string]: (string | number)[] } = {
+      aggregate_fields: [varName],
     };
 
-    fetchRangeSlider();
+    try {
+      let response;
+      if (checkPagesRouteForVoyages(styleName!)) {
+        response = await dispatch(fetchRangeSliderData(dataSend)).unwrap();
+      } else if (checkPagesRouteForEnslaved(styleName!)) {
+        response = await dispatch(
+          fetchPastEnslavedRangeSliderData(dataSend)
+        ).unwrap();
+      } else if (checkPagesRouteForEnslavers(styleName!)) {
+        response = await dispatch(
+          fetchPastEnslaversRangeSliderData(dataSend)
+        ).unwrap();
+      }
+      if (response) {
+        const initialValue: number[] = [
+          parseInt(response[varName].min),
+          parseInt(response[varName].max),
+        ];
+        dispatch(setKeyValue(varName));
+        dispatch(
+          setRangeValue({
+            ...rangeValue,
+            [varName]: initialValue as number[],
+          })
+        );
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  useEffect(() => {
+    if (!effectOnce.current) {
+      fetchRangeSlider();
+    }
 
     return () => {
       dispatch(setRangeValue({}));
-      subscribed = false;
     };
   }, [dispatch, varName, styleName, currentSliderValue]);
 

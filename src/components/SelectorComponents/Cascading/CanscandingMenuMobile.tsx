@@ -37,14 +37,13 @@ import { PaperDraggable } from './PaperDraggable';
 import RangeSlider from '../../FilterComponents/RangeSlider/RangeSlider';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsFilter } from '@/redux/getFilterSlice';
-import AutocompleteBox from '../../FilterComponents/Autocomplete/AutoComplete';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE } from '@/share/CONST_DATA';
 import { DropdownCanscanding } from './DropdownCanscanding';
-import VirtualizedAutocomplete from '@/components/FilterComponents/Autocomplete/VirtualizedAutocomplete';
+import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
 
 const CanscandingMenuMobile = () => {
   const { styleName: styleNameRoute } = usePageRouter()
@@ -222,8 +221,7 @@ const CanscandingMenuMobile = () => {
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
-          {/* {varName && type === TYPES.CharField && <AutocompleteBox />} */}
-          {varName && type === TYPES.CharField && <VirtualizedAutocomplete />}
+          {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField)) && <RangeSlider />}
         </DialogContent>

@@ -13,7 +13,6 @@ import { resetAll } from '@/redux/resetAllSlice';
 import { formatTextURL } from '@/utils/functions/formatText';
 import { usePageRouter } from '@/hooks/usePageRouter';
 
-
 const AutoCompletedSearhBlog = () => {
   const { tagID } = useParams();
   const autocompleteRef = useRef(null);
@@ -22,37 +21,38 @@ const AutoCompletedSearhBlog = () => {
   const { searchTitle, searchAutoKey, searchAutoValue, blogAutoLists } =
     useSelector((state: RootState) => state.getBlogData);
   const { currentBlockName } = usePageRouter();
-  const [inputValue, setInputValue] = useState<ResultAutoList | undefined | null>(null);
+  const [inputValue, setInputValue] = useState<
+    ResultAutoList | undefined | null
+  >(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [isFetchHashLoad, setFetchHashLoad] = useState(true);
-  const [listData, setListData] = useState<ResultAutoList[]>([])
-
-
-  useEffect(() => {
-    let subscribed = true;
+  const [listData, setListData] = useState<ResultAutoList[]>([]);
+  const effectOnce = useRef(false);
+  const fetchAutoBlogList = async () => {
     const dataSend: { [key: string]: string[] } = {
       [searchAutoKey]: [searchAutoValue],
     };
 
-    const fetchAutoBlogList = async () => {
-      try {
-        const response = await dispatch(
-          fetchBlogAutoCompleted(dataSend)
-        ).unwrap();
+    try {
+      const response = await dispatch(
+        fetchBlogAutoCompleted(dataSend)
+      ).unwrap();
 
-        if (subscribed && response) {
-          dispatch(setBlogAutoLists(response?.results));
-          if (isFetchHashLoad) {
-            setListData(response?.results)
-          }
+      if (response) {
+        dispatch(setBlogAutoLists(response?.results));
+        if (isFetchHashLoad) {
+          setListData(response?.results);
         }
-      } catch (error) {
-        console.log('error', error);
       }
-    };
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
-    fetchAutoBlogList();
-
+  useEffect(() => {
+    if (!effectOnce.current) {
+      fetchAutoBlogList();
+    }
 
     if (isInitialLoad) {
       const tagLabel = blogAutoLists.find((item) => item.id === Number(tagID));
@@ -61,9 +61,6 @@ const AutoCompletedSearhBlog = () => {
       }
       setIsInitialLoad(false);
     }
-    return () => {
-      subscribed = false;
-    };
   }, [dispatch, searchAutoKey, searchAutoValue, tagID, isInitialLoad]);
 
   useEffect(() => {
@@ -73,7 +70,7 @@ const AutoCompletedSearhBlog = () => {
       );
       if (tagLabel) {
         setInputValue(tagLabel);
-        setFetchHashLoad(false)
+        setFetchHashLoad(false);
       }
     }
   }, [currentBlockName, isFetchHashLoad, listData, inputValue]);
@@ -99,7 +96,7 @@ const AutoCompletedSearhBlog = () => {
   };
 
   const handleReset = () => {
-    setListData([])
+    setListData([]);
     setInputValue(null);
     dispatch(resetAll());
     dispatch(setSearchAutoValue(''));

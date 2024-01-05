@@ -1,5 +1,5 @@
 import { Card, Collapse } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setCardData,
@@ -17,8 +17,7 @@ import {
   ENSLAVERSNODE,
   VOYAGESNODE,
   YOYAGESCARDFILE,
-}
-  from '@/share/CONST_DATA';
+} from '@/share/CONST_DATA';
 import '@/style/cards.scss';
 import { TransatlanticCardProps } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -38,8 +37,7 @@ const VoyageCard = () => {
   const { networkID } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
-
-
+  const effectOnce = useRef(false);
 
   useEffect(() => {
     let newCardFileName: string = '';
@@ -63,47 +61,44 @@ const VoyageCard = () => {
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
   }, [nodeTypeClass]);
+  const fetchData = async () => {
+    const ID = networkID || cardRowID;
 
-  useEffect(() => {
-    let subscribed = true;
-    const fetchData = async () => {
-      const ID = networkID || cardRowID;
-
-      const dataSend: { [key: string]: (string | number)[] } = {
-        id: [Number(ID!)],
-      };
-
-      try {
-        let response = null;
-        switch (nodeTypeClass) {
-          case VOYAGESNODE:
-            response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-            break;
-          case ENSLAVEDNODE:
-            response = await dispatch(
-              fetchEnslavedOptionsList(dataSend)
-            ).unwrap();
-            break;
-          case ENSLAVERSNODE:
-            response = await dispatch(
-              fetchEnslaversOptionsList(dataSend)
-            ).unwrap();
-            break;
-          default:
-            response = null;
-        }
-        if (response && subscribed) {
-          dispatch(setCardData(response.data));
-        }
-      } catch (error) {
-        console.log('error', error);
-      }
+    const dataSend: { [key: string]: (string | number)[] } = {
+      id: [Number(ID!)],
     };
 
-    fetchData();
-
+    try {
+      let response = null;
+      switch (nodeTypeClass) {
+        case VOYAGESNODE:
+          response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+          break;
+        case ENSLAVEDNODE:
+          response = await dispatch(
+            fetchEnslavedOptionsList(dataSend)
+          ).unwrap();
+          break;
+        case ENSLAVERSNODE:
+          response = await dispatch(
+            fetchEnslaversOptionsList(dataSend)
+          ).unwrap();
+          break;
+        default:
+          response = null;
+      }
+      if (response) {
+        dispatch(setCardData(response.data));
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+  useEffect(() => {
+    if (!effectOnce.current) {
+      fetchData();
+    }
     return () => {
-      subscribed = false;
       dispatch(setCardData([]));
     };
   }, [dispatch, nodeTypeClass, cardRowID]);
@@ -182,12 +177,21 @@ const VoyageCard = () => {
                       if (Array.isArray(values)) {
                         const renderedValues = values.map(
                           (value: string, index: number) => {
-                            const valueToRender = value.replace(/<[^>]*>/g, ' ')
+                            const valueToRender = value.replace(
+                              /<[^>]*>/g,
+                              ' '
+                            );
                             return (
-                              <div key={`${index}-${value}`} style={{ padding: '2px 0' }}>
-                                <span style={styleCard} >{`${valueToRender}`}</span><br />
+                              <div
+                                key={`${index}-${value}`}
+                                style={{ padding: '2px 0' }}
+                              >
+                                <span
+                                  style={styleCard}
+                                >{`${valueToRender}`}</span>
+                                <br />
                               </div>
-                            )
+                            );
                           }
                         );
                         return (

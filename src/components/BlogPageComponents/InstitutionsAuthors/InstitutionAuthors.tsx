@@ -7,7 +7,7 @@ import { Divider } from '@mui/material';
 import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import HeaderNavBarBlog from '../../NavigationComponents/Header/HeaderNavBarBlog';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { fetchInstitutionData } from '@/fetch/blogFetch/fetchInstitutionData';
 import {
   setInstitutionAuthorsData,
@@ -23,33 +23,32 @@ const InstitutionAuthors: React.FC = () => {
   const { institutionData } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
-
+  const effectOnce = useRef(false);
   const { image, name, description } = institutionData;
+  const fetchInstitution = async () => {
+    const dataSend: { [key: string]: (string | number)[] } = {
+      id: [parseInt(ID!)],
+    };
+    try {
+      const response = await dispatch(
+        fetchInstitutionData(dataSend)
+      ).unwrap();
+      if (response) {
+        dispatch(setInstitutionAuthorsData(response?.[0]));
+        dispatch(
+          setInstitutionAuthorsList(response?.[0]?.institution_authors)
+        );
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   useEffect(() => {
-    let subscribed = true;
-    const fetchInstitution = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {
-        id: [parseInt(ID!)],
-      };
-      try {
-        const response = await dispatch(
-          fetchInstitutionData(dataSend)
-        ).unwrap();
-        if (subscribed && response) {
-          dispatch(setInstitutionAuthorsData(response?.[0]));
-          dispatch(
-            setInstitutionAuthorsList(response?.[0]?.institution_authors)
-          );
-        }
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    fetchInstitution();
-    return () => {
-      subscribed = false;
-    };
+    if (!effectOnce.current) {
+      fetchInstitution();
+    }
+
   }, [dispatch, ID]);
 
   return (
