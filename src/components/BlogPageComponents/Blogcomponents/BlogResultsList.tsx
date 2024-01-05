@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
@@ -38,34 +38,36 @@ const BlogResultsList: React.FC = () => {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  useEffect(() => {
-    let subscribed = true;
-    const fetchDataBlog = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {
-        language: [language],
-        [searchAutoKey]: [searchAutoValue],
-        global_search: [inputSearchValue],
-      };
-      try {
-        const response = await dispatch(fetchBlogData(dataSend)).unwrap();
-
-        if (response) {
-          dispatch(setBlogData(response));
-          if (response.length <= 0) {
-            setLoading(true);
-          } else {
-            setLoading(false);
-          }
-        }
-      } catch (error) {
-        setLoading(false);
-        console.log('error', error);
-      }
+  const effectOnce = useRef(false);
+  const fetchDataBlog = async () => {
+    const dataSend: { [key: string]: (string | number)[] } = {
+      language: [language],
+      [searchAutoKey]: [searchAutoValue],
+      global_search: [inputSearchValue],
     };
-    fetchDataBlog();
+    try {
+      const response = await dispatch(fetchBlogData(dataSend)).unwrap();
+
+      if (response) {
+        dispatch(setBlogData(response));
+        if (response.length <= 0) {
+          setLoading(true);
+        } else {
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log('error', error);
+    }
+  };
+
+  useEffect(() => {
+    if (!effectOnce.current) {
+      fetchDataBlog();
+    }
     return () => {
       dispatch(setBlogPost({} as BlogDataProps));
-      subscribed = false;
     };
   }, [dispatch, language, searchAutoValue, searchAutoKey, inputSearchValue]);
 

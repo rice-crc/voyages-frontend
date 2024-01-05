@@ -1,5 +1,5 @@
 import { Card, Collapse } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setCardData,
@@ -17,8 +17,7 @@ import {
   ENSLAVERSNODE,
   VOYAGESNODE,
   YOYAGESCARDFILE,
-}
-  from '@/share/CONST_DATA';
+} from '@/share/CONST_DATA';
 import '@/style/cards.scss';
 import { TransatlanticCardProps } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -38,6 +37,8 @@ const VoyageCard = () => {
   const { networkID } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
+  const effectOnce = useRef(false);
+
   useEffect(() => {
     let newCardFileName: string = '';
     const newCardDataArray: TransatlanticCardProps[] = [];
@@ -60,52 +61,50 @@ const VoyageCard = () => {
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
   }, [nodeTypeClass]);
+  const fetchData = async () => {
+    const ID = networkID || cardRowID;
 
-  useEffect(() => {
-    let subscribed = true;
-    const fetchData = async () => {
-      const ID = networkID || cardRowID;
-
-      const dataSend: { [key: string]: (string | number)[] } = {
-        id: [Number(ID!)],
-      };
-
-      try {
-        let response = null;
-        switch (nodeTypeClass) {
-          case VOYAGESNODE:
-            response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-            break;
-          case ENSLAVEDNODE:
-            response = await dispatch(
-              fetchEnslavedOptionsList(dataSend)
-            ).unwrap();
-            break;
-          case ENSLAVERSNODE:
-            response = await dispatch(
-              fetchEnslaversOptionsList(dataSend)
-            ).unwrap();
-            break;
-          default:
-            response = null;
-        }
-        if (response && subscribed) {
-          dispatch(setCardData(response.data));
-        }
-      } catch (error) {
-        console.log('error', error);
-      }
+    const dataSend: { [key: string]: (string | number)[] } = {
+      id: [Number(ID!)],
     };
 
-    fetchData();
-
+    try {
+      let response = null;
+      switch (nodeTypeClass) {
+        case VOYAGESNODE:
+          response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+          break;
+        case ENSLAVEDNODE:
+          response = await dispatch(
+            fetchEnslavedOptionsList(dataSend)
+          ).unwrap();
+          break;
+        case ENSLAVERSNODE:
+          response = await dispatch(
+            fetchEnslaversOptionsList(dataSend)
+          ).unwrap();
+          break;
+        default:
+          response = null;
+      }
+      if (response) {
+        dispatch(setCardData(response.data));
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+  useEffect(() => {
+    if (!effectOnce.current) {
+      fetchData();
+    }
     return () => {
-      subscribed = false;
       dispatch(setCardData([]));
     };
   }, [dispatch, nodeTypeClass, cardRowID]);
 
   const newCardData = processCardData(cardData, cardDataArray, cardFileName);
+  // console.log({ cardData })
 
   const toggleExpand = (header: string) => {
     if (!globalExpand) {
@@ -173,16 +172,27 @@ const VoyageCard = () => {
                 <Collapse in={isExpanded}>
                   <div className="container-card-body">
                     {childValue.map((child: any) => {
-                      const value = child.value;
+                      const values = child.value;
 
-                      if (Array.isArray(value)) {
-                        const renderedValues = value.map(
-                          (value: string, index: number) => (
-                            <span
-                              key={`${index}-${value}`}
-                              style={styleCard}
-                            >{`${value}`}</span>
-                          )
+                      if (Array.isArray(values)) {
+                        const renderedValues = values.map(
+                          (value: string, index: number) => {
+                            const valueToRender = value.replace(
+                              /<[^>]*>/g,
+                              ' '
+                            );
+                            return (
+                              <div
+                                key={`${index}-${value}`}
+                                style={{ padding: '2px 0' }}
+                              >
+                                <span
+                                  style={styleCard}
+                                >{`${valueToRender}`}</span>
+                                <br />
+                              </div>
+                            );
+                          }
                         );
                         return (
                           <div
@@ -209,7 +219,7 @@ const VoyageCard = () => {
                               className="grid-itenewCardDatam-card"
                               style={{ display: 'block' }}
                             >
-                              {value}
+                              {values}
                             </div>
                           </div>
                         );

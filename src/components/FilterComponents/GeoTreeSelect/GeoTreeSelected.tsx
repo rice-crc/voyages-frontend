@@ -20,7 +20,12 @@ import { fetchEnslaversGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslaversGeoT
 import { getGeoValuesCheck } from '@/utils/functions/getGeoValuesCheck';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { handleSetDataSentMapGeoTree } from '@/utils/functions/handleSetDataSentMapGeoTree';
-import { checkPagesRouteForVoyages, checkPagesRouteForEnslaved, checkPagesRouteForEnslavers } from '@/utils/functions/checkPagesRoute';
+import {
+  checkPagesRouteForVoyages,
+  checkPagesRouteForEnslaved,
+  checkPagesRouteForEnslavers,
+} from '@/utils/functions/checkPagesRoute';
+import { TreeItemProps } from '@mui/lab';
 
 const GeoTreeSelected: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -29,13 +34,14 @@ const GeoTreeSelected: React.FC = () => {
   const { isChangeGeoTree, geoTreeList, geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
-  const { styleName } = usePageRouter()
+  const { styleName } = usePageRouter();
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
   const { autoCompleteValue } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
+  const effectOnce = useRef(false);
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
@@ -63,42 +69,45 @@ const GeoTreeSelected: React.FC = () => {
     }
   }, [varName, geoTreeList]);
 
-  useEffect(() => {
-    let subscribed = true;
-    const fetchGeoTreeSelectList = async () => {
+  const fetchGeoTreeSelectList = async () => {
+    const dataSend = handleSetDataSentMapGeoTree(
+      autoCompleteValue,
+      isChangeGeoTree,
+      geoTreeValue,
+      varName,
+      rangeValue
+    );
 
-      const dataSend = handleSetDataSentMapGeoTree(autoCompleteValue, isChangeGeoTree, geoTreeValue, varName, rangeValue)
+    let response = [];
 
-      let response = [];
-
-      try {
-        if (checkPagesRouteForVoyages(styleName!)) {
-
-          response = await dispatch(
-            fetcVoyagesGeoTreeSelectLists(dataSend)
-          ).unwrap();
-        } else if (checkPagesRouteForEnslaved(styleName!)) {
-
-          response = await dispatch(
-            fetchEnslavedGeoTreeSelect(dataSend)
-          ).unwrap();
-        } else if (checkPagesRouteForEnslavers(styleName!)) {
-
-          response = await dispatch(
-            fetchEnslaversGeoTreeSelect(dataSend)
-          ).unwrap();
-        }
-
-        if (subscribed && response) {
-          dispatch(setGeoTreeValueList(response));
-        }
-      } catch (error) {
-        console.log('error', error);
+    try {
+      if (checkPagesRouteForVoyages(styleName!)) {
+        response = await dispatch(
+          fetcVoyagesGeoTreeSelectLists(dataSend)
+        ).unwrap();
+      } else if (checkPagesRouteForEnslaved(styleName!)) {
+        response = await dispatch(
+          fetchEnslavedGeoTreeSelect(dataSend)
+        ).unwrap();
+      } else if (checkPagesRouteForEnslavers(styleName!)) {
+        response = await dispatch(
+          fetchEnslaversGeoTreeSelect(dataSend)
+        ).unwrap();
       }
-    };
-    fetchGeoTreeSelectList();
+
+      if (response) {
+        dispatch(setGeoTreeValueList(response));
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+  useEffect(() => {
+    if (!effectOnce.current) {
+      fetchGeoTreeSelectList();
+    }
+
     return () => {
-      subscribed = false;
       dispatch(setGeoTreeValueList([]));
     };
   }, [dispatch, varName, styleName]);
@@ -129,6 +138,10 @@ const GeoTreeSelected: React.FC = () => {
 
   const dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeList);
 
+  const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
+    return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
+  };
+
   return (
     <div ref={ref}>
       {dataForTreeSelect.length > 0 && (
@@ -146,6 +159,7 @@ const GeoTreeSelected: React.FC = () => {
           treeDefaultExpandedKeys={['select-all']}
           treeData={dataForTreeSelect}
           maxTagCount={8}
+          filterTreeNode={filterTreeNode}
           maxTagPlaceholder={(selectedValue) =>
             `+ ${selectedValue.length} locations ...`
           }

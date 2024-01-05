@@ -3,7 +3,7 @@ import { Edges, Nodes, NodesID } from '@/share/InterfaceTypePastNetworks';
 import {
   createStrokeColor,
   createdLableEdges,
-  createdLableNodeHover,
+  createdLabelNodeHover,
 } from '@/utils/functions/createdLabelNodeHover';
 
 export const drawNetwork = (
@@ -96,7 +96,7 @@ const drawNodes = (context: CanvasRenderingContext2D, nodes: Nodes[]) => {
     context.stroke();
     context.fill();
 
-    const labelNode = createdLableNodeHover(node);
+    const labelNode = createdLabelNodeHover(node);
     context.fillStyle = '#fff';
     context.font = '500 16px Arial';
     context.textAlign = 'left';

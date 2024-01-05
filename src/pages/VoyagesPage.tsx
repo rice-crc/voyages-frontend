@@ -33,6 +33,7 @@ import {
 import { INTRAAMERICAN, TRANSATLANTIC, VOYAGESTEXAS } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
+import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -114,6 +115,9 @@ const VoyagesPage = () => {
     } else if (currentBlockName === 'map') {
       dispatch(setCurrentPage(7));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    } else if (currentBlockName === 'summarystatistics') {
+      dispatch(setCurrentPage(8));
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }
   }, [
     styleVoyagesName,
@@ -138,7 +142,7 @@ const VoyagesPage = () => {
       {currentPage === 1 && currentVoyageBlockName === 'intro' && (
         <VoyagesIntro />
       )}
-      {/* {currentPage === 2 && currentVoyageBlockName === 'voyages' && <VoyagesTable />} */}
+
       {currentPage === 2 && currentVoyageBlockName === 'voyages' && <Tables />}
       {currentPage === 3 && currentVoyageBlockName === 'line' && <Scatter />}
       {currentPage === 4 && currentVoyageBlockName === 'bar' && <BarGraph />}
@@ -147,6 +151,7 @@ const VoyagesPage = () => {
         <PivotTables />
       )}
       {currentPage === 7 && currentVoyageBlockName === 'map' && <VoyagesMaps />}
+      {currentPage === 8 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />}
     </motion.div>
   );
   const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);

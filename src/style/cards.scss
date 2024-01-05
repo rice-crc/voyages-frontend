@@ -152,6 +152,7 @@
 .grid-itenewCardDatam-card {
   padding: 5px 20px;
   font-size: 14px;
+  word-wrap: break-word;
 
   @include breakpoint-standard(3) {
     font-size: 12px;
@@ -180,6 +181,10 @@
   margin-top: 5%;
 }
 
+.tab-container {
+  padding: 0 20px 0 20px;
+}
+
 .card-box-modal {
   display: flex;
   justify-content: space-between;
@@ -189,4 +194,11 @@
   z-index: 1;
   background-color: #ffffff;
   padding-top: 10;
+}
+
+.ant-tabs-nav {
+  position: fixed !important;
+  width: 100%;
+  z-index: 1;
+  background: #fff;
 }

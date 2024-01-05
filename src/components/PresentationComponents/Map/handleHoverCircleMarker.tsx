@@ -8,7 +8,7 @@ import L from 'leaflet';
 import renderEdgesAnimatedLinesOnMap from './renderEdgesAnimatedLinesOnMap';
 import renderEdgesLinesOnMap from './renderEdgesLinesOnMap';
 import { createSourceAndTargetDictionariesNodeEdges } from '../../../utils/functions/createSourceAndTargetDictionariesNodeEdges';
-import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
+import { createLogNodeValueScale } from '@/utils/functions/createLogNodeValueScale';
 import { createRoot } from 'react-dom/client';
 import { TooltipHoverTableOnNode } from './TooltipHoverTableOnNode';
 
@@ -33,7 +33,7 @@ export function handleHoverCircleMarker(
       (edge.type === 'origination' || edge.type === 'disposition')
   );
 
-  const nodeLogValueScale = createLogValueScale(nodesData);
+  const nodeLogValueScale = createLogNodeValueScale(nodesData);
 
   const sourceEdges = createSourceAndTargetDictionariesNodeEdges(
     nodeHoverID,

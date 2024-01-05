@@ -1,9 +1,8 @@
 import { MouseEventHandler, useState } from 'react';
-import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
-import { Menu, Typography } from '@mui/material';
+import { Menu, Typography, AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -128,14 +127,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
-  };
-
-  const handleResetAll = () => {
-    dispatch(resetAllStateToInitailState())
-    const keysToRemove = Object.keys(localStorage);
-    keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
-    });
   };
 
 

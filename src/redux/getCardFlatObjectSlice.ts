@@ -6,7 +6,8 @@ const initialState: InitialStateTransatlanticCard = {
     cardRowID: 0,
     cardFileName: '',
     cardDataArray: [],
-    nodeTypeClass: ''
+    nodeTypeClass: '',
+    variable: '',
 };
 export const getCardFlatObjectSlice = createSlice({
     name: 'getCardFlatObject',
@@ -30,8 +31,11 @@ export const getCardFlatObjectSlice = createSlice({
         setNodeClass: (state, action: PayloadAction<string>) => {
             state.nodeTypeClass = action.payload;
         },
+        setValueVariable: (state, action: PayloadAction<string>) => {
+            state.variable = action.payload;
+        },
     }
 })
 
-export const { setCardData, setIsModalCard, setCardRowID, setCardFileName, setCardDataArray, setNodeClass } = getCardFlatObjectSlice.actions;
+export const { setCardData, setIsModalCard, setCardRowID, setValueVariable, setCardFileName, setCardDataArray, setNodeClass } = getCardFlatObjectSlice.actions;
 export default getCardFlatObjectSlice.reducer;

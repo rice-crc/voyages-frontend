@@ -39,6 +39,8 @@ export interface AutoCompleteInitialState {
     autoCompleteValue: Record<string, AutoCompleteOption[] | string[]>;
     autoLabelName: string[]
     isChangeAuto: boolean
+    offset: number
+    isLoadingList: boolean
 }
 
 export interface AutoCompleteValueInitialState {
@@ -74,11 +76,13 @@ export const TYPESOFDATASET: {
     intraAmerican: string;
     transatlantic: string;
     texas: string
+    voyages: string
 } = {
     allVoyages: 'all-voyages',
     intraAmerican: 'intra-american',
     transatlantic: 'trans-atlantic',
-    texas: 'texas'
+    texas: 'texas',
+    voyages: 'voyages'
 };
 
 
@@ -94,8 +98,9 @@ export interface AutoCompleteLists {
 }
 
 export interface AutoCompleteOption {
-    id: number
-    label: string
+    // id: number
+    // label: string
+    value: string
 }
 export interface InitialStateFilterMenu {
     value: FilterMenu[]
@@ -280,6 +285,7 @@ export interface InitialStateTransatlanticCard {
     cardFileName: string
     cardDataArray: TransatlanticCardProps[]
     nodeTypeClass: string
+    variable: string
 }
 export interface TransatlanticCardProps {
     label: string
@@ -371,4 +377,16 @@ export interface FilterMenuList {
     type?: string;
     flatlabel?: string;
     children?: ChildrenFilter[];
+}
+export interface FetchAutoVoyageParams {
+    varName?: string;
+    autoValue?: string;
+    offset?: number;
+    limit?: number;
+}
+
+export interface RenderRowProps {
+    data: React.ReactNode[];
+    index: number;
+    style: React.CSSProperties;
 }

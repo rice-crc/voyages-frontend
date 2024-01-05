@@ -16,6 +16,8 @@ export const handleSetDataSentTablePieBarScatterGraph = (
     geoTreeValue: Record<string, string[] | TreeSelectItem[]>,
     varName: string,
     rangeValue: RangeSliderMinMaxInitialState,
+    clusterNodeKeyVariable: string,
+    clusterNodeValue: string,
     styleName?: string,
     currentPage?: number,
     isChange?: boolean,
@@ -23,7 +25,6 @@ export const handleSetDataSentTablePieBarScatterGraph = (
     currentEnslavedPage?: number,
 ) => {
     const dataSend: { [key: string]: (string | number)[] } = {};
-
 
     if ((styleName !== TYPESOFDATASET.allVoyages) && (styleNamePeople !== TYPESOFDATASETPEOPLE.allEnslaved) && (styleNamePeople !== ENSALVERSTYLE)) {
         for (const value of dataSetValue) {
@@ -39,14 +40,16 @@ export const handleSetDataSentTablePieBarScatterGraph = (
             dataSend[rangKey] = [rangeValue[rangKey][0], rangeValue[rangKey][1]];
         }
     }
+    if (clusterNodeKeyVariable && clusterNodeValue) {
+        dataSend[clusterNodeKeyVariable] = [clusterNodeValue]
+    }
 
     if (autoCompleteValue && varName && (currentPage === 2 || currentPage === 3 || currentPage === 4 || currentPage === 5 || currentPage === 6) || (currentEnslavedPage === 2)) {
-
         for (const autoKey in autoCompleteValue) {
             for (const autoCompleteOption of autoCompleteValue[autoKey]) {
                 if (typeof autoCompleteOption !== 'string') {
-                    const { label } = autoCompleteOption;
-                    dataSend[autoKey] = [label];
+                    const { value } = autoCompleteOption;
+                    dataSend[autoKey] = [value];
                 }
             }
         }

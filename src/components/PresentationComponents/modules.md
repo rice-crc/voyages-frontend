@@ -13,6 +13,8 @@
 - Network Graph
 - Video Background
 - Card
+- LadingPage
+- Assessment
 
 Presentation components subscribe to the Redux store. When the Redux store updates, the components the presentation components then generate a new call to the API.
 

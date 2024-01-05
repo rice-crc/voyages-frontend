@@ -38,18 +38,18 @@ const CollectionTabVoyages = () => {
       <div className="navbar-wrapper">
         <nav className="nav-button">
           {blocks.map((page: string, index: number) => {
-
+            const newBlockName = page.replace(/\n/g, '');
             const buttonIndex = index + 1;
             return (
               <ButtonNav
-                key={`${page}-${buttonIndex}`}
-                onClick={() => handlePageNavigation(buttonIndex, page)}
+                key={`${newBlockName}-${buttonIndex}`}
+                onClick={() => handlePageNavigation(buttonIndex, newBlockName)}
                 className="nav-button-page"
                 style={{
                   backgroundColor: getColorBackground(styleName),
                   boxShadow: getColorBoxShadow(styleName),
-                  color: currentVoyageBlockName === page.toLocaleLowerCase() ? 'white' : 'black',
-                  fontWeight: currentVoyageBlockName === page.toLocaleLowerCase() ? 700 : 600,
+                  color: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'white' : 'black',
+                  fontWeight: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 700 : 600,
                 }}
                 variant={currentPage === buttonIndex ? 'contained' : 'outlined'}
               >

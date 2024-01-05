@@ -1,13 +1,13 @@
 import { EdgesAggroutes, LatLng, NodeAggroutes } from "@/share/InterfaceTypesMap";
 import { createNodeDict } from "@/utils/functions/createNodeDict";
-import { createLogValueScale } from "@/utils/functions/createNodeLogValueScale";
+import { createLogWeihtValueScale } from "@/utils/functions/createLogNodeValueScale";
 import { getEdgesSize } from "@/utils/functions/getNodeSize";
 import renderEdgesAnimatedLinesOnMap from "./renderEdgesAnimatedLinesOnMap";
 import renderEdgesLinesOnMap from "./renderEdgesLinesOnMap";
 import L from 'leaflet';
 
 export const handerRenderEdges = (edgesToRender: EdgesAggroutes[], nodesData: NodeAggroutes[], map: L.Map) => {
-    const nodeLogValueScale = createLogValueScale(nodesData);
+    const edgeLogValueScale = createLogWeihtValueScale(edgesToRender)
     const nodesDict = createNodeDict(nodesData);
     edgesToRender.forEach((edge) => {
         const { controls, weight, type } = edge;
@@ -15,7 +15,8 @@ export const handerRenderEdges = (edgesToRender: EdgesAggroutes[], nodesData: No
         const target = nodesDict[edge?.target || 0.2];
 
         const size = getEdgesSize(edge);
-        const weightEddg = size !== null ? nodeLogValueScale(size) / 3 : 0;
+
+        const weightEddg = size !== null ? edgeLogValueScale(size) : 0;
 
         if (source && target && weight) {
             const startLatLng: LatLng = [source[0], source[1]];

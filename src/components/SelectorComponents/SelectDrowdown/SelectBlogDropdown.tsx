@@ -3,7 +3,8 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
-import { ArrowDropDown, Link } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import { ArrowDropDown } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { setSearchAutoKey, setSearchBlogTitle } from '@/redux/getBlogDataSlice';
@@ -35,6 +36,7 @@ export default function SelectBlogDropdown({
   const handleChangeSearch = useCallback((value: string, title: string) => {
     dispatch(setSearchAutoKey(value));
     dispatch(setSearchBlogTitle(title));
+
   }, []);
 
   return (

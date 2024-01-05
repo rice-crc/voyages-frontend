@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent, useCallback } from 'react';
+import { useState, useEffect, ChangeEvent, useCallback, useRef } from 'react';
 import Plot from 'react-plotly.js';
 import { Data } from 'plotly.js';
 import VOYAGE_BARGRAPH_OPTIONS from '@/utils/flatfiles/VOYAGE_BARGRAPH_OPTIONS.json';
@@ -18,15 +18,14 @@ import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
   BargraphXYVar,
-  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import { getMobileMaxHeight, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
-import { MAXIMUM_ZOOM } from '@/share/CONST_DATA';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
+  const effectOnce = useRef(false);
   const {
     data: options_flat,
     isSuccess,
@@ -38,7 +37,11 @@ function BarGraph() {
     varName,
     isChange,
   } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
-  const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
+
+  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
+  const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
   const { currentPage } = useSelector(
@@ -58,6 +61,7 @@ function BarGraph() {
   const [width, height] = useWindowSize();
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
+  const [title, setTitle] = useState<string>(barGraphSelectedX[0]?.label)
   const [barData, setBarData] = useState<Data[]>([]);
   const [chips, setChips] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
@@ -81,59 +85,50 @@ function BarGraph() {
       }
     );
   }, []);
+  const fetchData = async () => {
 
+    const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, clusterNodeKeyVariable, clusterNodeValue, styleName, currentPage, isChange, undefined, undefined)
+
+    dataSend['groupby_by'] = [barGraphOptions.x_vars];
+    dataSend['agg_fn'] = [aggregation];
+    dataSend['cachename'] = ['voyage_bar_and_donut_charts'];
+    dataSend['groupby_cols'] = [...chips];
+
+    try {
+      const data: Data[] = [];
+      const response = await dispatch(
+        fetchVoyageGraphGroupby(dataSend)
+      ).unwrap();
+
+      if (response) {
+        const values = Object.values(response);
+        for (const [index, [key, value]] of Object.entries(
+          response
+        ).entries()) {
+          if (key !== barGraphOptions.x_vars && Array.isArray(value)) {
+            data.push({
+              x: values[0] as number[],
+              y: value as number[],
+              type: 'bar',
+              name: `${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
+            });
+          }
+        }
+        setBarData(data);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
   useEffect(() => {
     VoyageBargraphOptions();
-    let subscribed = true;
+
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
-    const fetchData = async () => {
+    if (!effectOnce.current) {
+      fetchData();
+    }
 
-      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
-
-      dataSend['groupby_by'] = [barGraphOptions.x_vars];
-      dataSend['agg_fn'] = [aggregation];
-      dataSend['cachename'] = ['voyage_bar_and_donut_charts'];
-
-      const yfieldArr: string[] = [];
-
-      if (currentPage === 4) {
-        for (const chip of chips) {
-          dataSend['groupby_cols'] = [chip];
-          yfieldArr.push(chip);
-        }
-      }
-
-      try {
-        const data: Data[] = [];
-        const response = await dispatch(
-          fetchVoyageGraphGroupby(dataSend)
-        ).unwrap();
-
-        if (subscribed) {
-          const values = Object.values(response);
-          for (const [index, [key, value]] of Object.entries(
-            response
-          ).entries()) {
-            if (key !== barGraphOptions.x_vars && Array.isArray(value)) {
-              data.push({
-                x: values[0] as number[],
-                y: value as number[],
-                type: 'bar',
-                name: `aggregation: ${aggregation} label: ${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
-              });
-            }
-          }
-          setBarData(data);
-        }
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    fetchData();
-    return () => {
-      subscribed = false;
-    };
   }, [
     dispatch,
     options_flat,
@@ -208,6 +203,7 @@ function BarGraph() {
         XFieldText={'X Field'}
         YFieldText={'Multi-Selector Y-Feild'}
         optionsFlatY={VOYAGE_BARGRAPH_OPTIONS.y_vars}
+        setTitle={setTitle}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
@@ -220,9 +216,7 @@ function BarGraph() {
           layout={{
             width: getMobileMaxWidth(maxWidth),
             height: getMobileMaxHeight(height),
-            title: `The ${aggregation} of ${optionFlat[barGraphOptions.x_vars]?.label || ''
-              } vs <br> ${optionFlat[barGraphOptions.y_vars]?.label || ''
-              } Bar Graph`,
+            title: title || barGraphSelectedX[0]?.label,
             font: {
               family: 'Arial, sans-serif',
               size: maxWidth < 400 ? 7 : 10,

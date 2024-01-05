@@ -15,10 +15,7 @@ export const getScrollEnslavedPageSlice = createSlice({
         setCurrentBlockName: (state, action: PayloadAction<string>) => {
             state.currentPageBlockName = action.payload;
         },
-        resetSlice: (state) => {
-            state.currentEnslavedPage = initialState.currentEnslavedPage;
-            state.currentPageBlockName = initialState.currentPageBlockName;
-        },
+        resetSlice: (state) => initialState,
     }
 })
 

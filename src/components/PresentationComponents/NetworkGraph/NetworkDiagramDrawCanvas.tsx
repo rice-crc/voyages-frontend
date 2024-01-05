@@ -24,7 +24,6 @@ export const NetworkDiagramDrawCanvas = ({
   width,
   height,
   netWorkData,
-  // handleNodeDoubleClick,
   handleClickNodeShowCard,
 }: NetworkDiagramProps) => {
   const dispatch: AppDispatch = useDispatch();
@@ -74,6 +73,8 @@ export const NetworkDiagramDrawCanvas = ({
             existingEdge.target === newEdge.target
         );
       });
+
+
       const updatedNodes: Nodes[] = [...graph.nodes, ...newNodes];
       const updatedEdges: Edges[] = [...graph.edges, ...newEdges];
 
@@ -82,11 +83,10 @@ export const NetworkDiagramDrawCanvas = ({
         'link',
         d3.forceLink<Nodes, Edges>(updatedEdges)
           .id((uuid) => uuid.uuid)
-          .distance(120)
+          .distance(105)
       );
       simulation.force('charge', d3.forceManyBody());
       simulation.randomSource;
-
       graph = { nodes: updatedNodes, edges: updatedEdges };
       updateCanvas();
     }

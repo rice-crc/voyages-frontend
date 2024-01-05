@@ -35,7 +35,6 @@ export const fetchPastNetworksGraphApi = createAsyncThunk(
 //                 'Content-Type': 'application/json',
 //             },
 //         });
-//         console.log('res', response.data)
 //         return response.data;
 //     } catch (error) {
 //         throw new Error('Failed to fetchPastNetworksGraph data');

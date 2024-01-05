@@ -25,7 +25,7 @@ interface SelectDropdownProps {
   chips?: string[];
   selectedOptions: VoyagesOptionProps;
   handleChange: (event: SelectChangeEvent<string>, name: string) => void;
-  handleChangeMultipleYSelected: (
+  handleChangeMultipleYSelected?: (
     event: SelectChangeEvent<string[]>,
     name: string
   ) => void;
@@ -34,6 +34,7 @@ interface SelectDropdownProps {
   YFieldText?: string;
   optionsFlatY: PlotXYVar[];
   graphType?: string;
+  setTitle?: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
@@ -47,7 +48,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   maxWidth,
   XFieldText,
   YFieldText,
-  optionsFlatY,
+  optionsFlatY, setTitle
 }) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -66,15 +67,16 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const isDisabledX = (option: PlotXYVar) => {
     return option.var_name === selectedOptions.y_vars;
   };
-
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const isDisabledY = (option: PlotXYVar) => {
     return option.var_name === selectedOptions.x_vars;
   };
-  const topPosition = createTopPositionVoyages(currentPage, isFilter);
+  const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
   return (
     <>
       <Box sx={{ maxWidth, my: 4 }} style={{ marginTop: topPosition }}>
@@ -101,6 +103,8 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
             label={XFieldText}
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, 'x_vars');
+              const selectedOption = selectedX.find(option => option.var_name === event.target.value);
+              setTitle && setTitle(selectedOption ? selectedOption.label : '');
             }}
             name="x_vars"
           >
@@ -109,6 +113,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                 <MenuItem
                   key={`${option.label}-${index}`}
                   value={option.var_name}
+                  title={option.label}
                   disabled={isDisabledX(option)}
                 >
                   {option.label}
@@ -131,7 +136,9 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               value={chips}
               name="y_vars"
               onChange={(event: SelectChangeEvent<string[]>) => {
-                handleChangeMultipleYSelected(event, 'y_vars');
+                if (handleChangeMultipleYSelected) {
+                  handleChangeMultipleYSelected(event, 'y_vars');
+                }
               }}
               input={
                 <OutlinedInput id="select-multiple-chip" label={YFieldText} />

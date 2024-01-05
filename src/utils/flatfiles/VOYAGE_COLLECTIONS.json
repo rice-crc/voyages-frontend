@@ -15,7 +15,8 @@
 			"BAR",
 			"PIE",
 			"TABLE",
-			"MAP"
+			"MAP",
+			"Summary\nstatistics"
 		]
 	},
 	{
@@ -41,7 +42,8 @@
 			"BAR",
 			"PIE",
 			"TABLE",
-			"MAP"
+			"MAP",
+			"Summary\nstatistics"
 		]
 	},
 	{
@@ -67,7 +69,8 @@
 			"BAR",
 			"PIE",
 			"TABLE",
-			"MAP"
+			"MAP",
+			"Summary\nstatistics"
 		]
 	},
 	{
@@ -92,7 +95,8 @@
 			"LINE",
 			"BAR",
 			"TABLE",
-			"MAP"
+			"MAP",
+			"Summary\nstatistics"
 		]
 	}
 ]
