@@ -1,4 +1,5 @@
-import { AutoCompleteInitialState, AutoCompleteOption } from '@/share/InterfaceTypes';
+import { AutoCompleteInitialState } from '@/share/InterfaceTypes';
+import { Filter } from '@/share/InterfaceTypes';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 const initialState: AutoCompleteInitialState = {
@@ -20,7 +21,7 @@ export const getAutoCompleteSlice = createSlice({
         },
         setAutoCompleteValue: (
             state,
-            action: PayloadAction<Record<string, AutoCompleteOption[] | string[]>>
+            action: PayloadAction<Record<string, Filter | string[] | string>>
         ) => {
             state.autoCompleteValue = action.payload;
         },

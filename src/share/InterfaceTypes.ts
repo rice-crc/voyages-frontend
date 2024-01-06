@@ -36,13 +36,49 @@ export interface RangeSliderMinMaxInitialState {
 export interface AutoCompleteInitialState {
     results: [],
     total_results_count: number,
-    autoCompleteValue: Record<string, AutoCompleteOption[] | string[]>;
+    autoCompleteValue: Record<string, Filter | string | string[]>;
     autoLabelName: string[]
     isChangeAuto: boolean
     offset: number
     isLoadingList: boolean
 }
 
+export interface IRootAutocompleteObject {
+    varname: string;
+    querystr: string;
+    offset: number;
+    limit: number;
+    filter: Filter[]
+}
+
+export interface Filter {
+    varName: string
+    searchTerm: number | string[]
+    op: string
+}
+
+/*
+"filter": [
+    {
+      "varName": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+      "searchTerm": 1820,
+      "op": "gte"
+    },
+    {
+      "varName": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+      "searchTerm": 1822,
+      "op": "lte"
+    },
+    {
+      "varName": "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
+      "searchTerm": [
+        "Florida",
+        "Cuba"
+      ],
+      "op": "in"
+    }
+  ]
+*/
 export interface AutoCompleteValueInitialState {
     [key: string]: string[]
 }
@@ -98,8 +134,6 @@ export interface AutoCompleteLists {
 }
 
 export interface AutoCompleteOption {
-    // id: number
-    // label: string
     value: string
 }
 export interface InitialStateFilterMenu {

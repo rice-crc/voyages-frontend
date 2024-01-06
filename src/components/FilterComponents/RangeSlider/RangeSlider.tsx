@@ -55,6 +55,16 @@ const RangeSlider = () => {
     const dataSend: { [key: string]: (string | number)[] } = {
       aggregate_fields: [varName],
     };
+    // {
+    //   "varName": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+    //   "filter": [
+    //     {
+    //       "varName": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+    //       "op": "lte",
+    //       "searchTerm": 1620
+    //     }
+    //   ]
+    // }
 
     try {
       let response;

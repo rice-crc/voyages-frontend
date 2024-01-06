@@ -21,7 +21,7 @@ import '@/style/Slider.scss';
 import '@/style/table.scss';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { IRootObject } from '@/share/InterfaceTypesTable';
+import { IRootAutocompleteObject } from '@/share/InterfaceTypes';
 import CustomAutoListboxComponent from "./CustomAutoListboxComponent";
 
 export default function VirtualizedAutoCompleted() {
@@ -49,18 +49,46 @@ export default function VirtualizedAutoCompleted() {
     const dispatch: AppDispatch = useDispatch();
 
     const fetchAutoCompletedList = async () => {
+
         if (autoValue === '') {
-            console.log({ autoValue })
             dispatch(setOffset(offset + 10));
         }
-        const dataSend: IRootObject = {
+        /*
+{
+  "varname": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__principal_alias",
+  "querystr": "george",
+  "offset": 10,
+  "limit": 5,
+  "filter": [
+    {
+      "varName": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+      "op": "gte",
+      "searchTerm": 1820
+    },
+    {
+      "varName": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+      "op": "lte",
+      "searchTerm": 1840
+    },
+     {
+      "varName": "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
+      "searchTerm": [
+        "Florida",
+        "Cuba"
+      ],
+      "op": "in"
+    }
+  ]
+}
+
+
+        */
+        const dataSend: IRootAutocompleteObject = {
             varname: varName,
             querystr: autoValue,
             offset: offset,
             limit: limit,
-            filter: {
-                [varName]: "" //autoValue --> PASS as Empty String
-            }
+            filter: []
         };
 
         try {
@@ -131,35 +159,60 @@ export default function VirtualizedAutoCompleted() {
             }
         }
     }, []);
-
+    console.log({ autoCompleteValue })
 
     const handleAutoCompletedChange = (
         event: SyntheticEvent<Element, Event>,
         newValue: AutoCompleteOption[]
     ) => {
         setSelectedValue(newValue as AutoCompleteOption[]);
-        setSelectedValue(newValue as AutoCompleteOption[]);
+
         if (newValue) {
             dispatch(setIsChangeAuto(true));
             const autuLabel: string[] = newValue.map((ele) => ele.value);
             dispatch(
                 setAutoCompleteValue({
                     ...autoCompleteValue,
-                    [varName]: newValue,
+                    varName: varName,
+                    searchTerm: autuLabel,
+                    op: 'in'
                 })
             );
             dispatch(setAutoLabel(autuLabel));
 
-            const filterObject = {
-                filterObject: {
-                    ...autoCompleteValue,
-                    ...rangeValue,
-                    ...geoTreeValue,
-                    [varName]: newValue,
-                },
+            // Retrieve existing filterObject from localStorage
+            const existingFilterObjectString = localStorage.getItem('filterObject');
+
+            let existingFilterObject: any = {};
+
+            if (existingFilterObjectString) {
+                const filter = JSON.parse(existingFilterObjectString)
+                console.log({ filter })
+                // existingFilterObject = JSON.parse(existingFilterObjectString);
+            }
+
+            // Retrieve existing filters array
+            const existingFilters: any[] = existingFilterObject.filter || [];
+
+
+            // Add the new filter to the existing filters
+            const newFilter = {
+                varName: varName,
+                searchTerm: autuLabel,
+                op: 'in'
             };
+
+            const updatedFilters = [...existingFilters, newFilter];
+            const filterObject = {
+                // ...autoCompleteValue,
+                ...rangeValue,
+                ...geoTreeValue,
+                filter: updatedFilters
+            };
+            // Update localStorage
             const filterObjectString = JSON.stringify(filterObject);
             localStorage.setItem('filterObject', filterObjectString);
+
         }
     };
     const renderGroup = (params: any) => [
