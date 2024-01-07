@@ -1,14 +1,14 @@
 
-import React, { useEffect, useRef, forwardRef, useContext, ReactElement, ReactNode, HTMLAttributes, useCallback } from "react";
+import React, { useEffect, useRef, forwardRef, useContext, ReactNode, HTMLAttributes } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme, Theme } from "@mui/material/styles";
 import { VariableSizeList } from "react-window";
-import { AutoCompleteInitialState, RenderRowProps } from '@/share/InterfaceTypes';
+import { RenderRowProps } from '@/share/InterfaceTypes';
 import '@/style/Slider.scss';
 import '@/style/table.scss';
 import { ListSubheader } from "@mui/material";
-import { useDispatch, useSelector, } from "react-redux";
-import { AppDispatch, RootState, } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
 import { setIsLoadingList, } from "@/redux/getAutoCompleteSlice";
 
 const LISTBOX_PADDING = 8; // px
@@ -46,7 +46,6 @@ interface CustomAutoListboxProps extends HTMLAttributes<HTMLDivElement> {
 }
 const CustomAutoListboxComponent = forwardRef<HTMLDivElement, CustomAutoListboxProps>((props, ref) => {
     const { children, ...other } = props;
-    const { offset } = useSelector((state: RootState) => state.autoCompleteList as AutoCompleteInitialState);
     const dispatch: AppDispatch = useDispatch();
     const itemData = React.Children.toArray(children);
     const theme = useTheme<Theme>();

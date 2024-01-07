@@ -29,7 +29,7 @@ import '@/style/Slider.scss';
 import '@/style/table.scss';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { IRootObject } from '@/share/InterfaceTypesTable';
+
 
 const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
   const { varName, rangeSliderMinMax: rangeValue } = useSelector(
@@ -57,7 +57,7 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     let subscribed = true;
 
     const fetchAutoCompletedList = async () => {
-      const dataSend: IRootObject = {
+      const dataSend: any = {
         varname: varName,
         querystr: autoValue,
         offset: offset,
@@ -134,12 +134,12 @@ const AutocompleteBox: FunctionComponent<AutocompleteBoxProps> = (props) => {
     if (newValue) {
       dispatch(setIsChangeAuto(true));
       const autuLabel: string[] = newValue.map((ele) => ele.value);
-      dispatch(
-        setAutoCompleteValue({
-          ...autoCompleteValue,
-          [varName]: newValue,
-        })
-      );
+      // dispatch(
+      //   setAutoCompleteValue({
+      //     ...autoCompleteValue,
+      //     [varName]: newValue,
+      //   })
+      // );
       dispatch(setAutoLabel(autuLabel));
 
       const filterObject = {

@@ -7,13 +7,13 @@ import {
     AutoCompleteInitialState,
     AutoCompleteOption,
     CurrentPageInitialState,
+    Filter,
     RangeSliderState,
 } from '@/share/InterfaceTypes';
 import {
     setAutoCompleteValue,
     setAutoLabel,
     setIsChangeAuto,
-    setOffset,
 } from '@/redux/getAutoCompleteSlice';
 import { fetchPastEnslavedAutoComplete } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedAutoCompleted';
 import { fetchPastEnslaversAutoCompleted } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversAutoCompleted';
@@ -23,6 +23,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { IRootAutocompleteObject } from '@/share/InterfaceTypes';
 import CustomAutoListboxComponent from "./CustomAutoListboxComponent";
+
 
 export default function VirtualizedAutoCompleted() {
     const { varName, rangeSliderMinMax: rangeValue } = useSelector(
@@ -38,58 +39,35 @@ export default function VirtualizedAutoCompleted() {
     );
     const limit = 20;
     const { pathNameEnslaved, pathNameEnslavers, pathNameVoyages } = useSelector((state: RootState) => state.getPathName);
-    const { autoCompleteValue, isLoadingList, offset } = useSelector(
+    const { autoCompleteValue, isLoadingList } = useSelector(
         (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
     );
 
     const [autoList, setAutoLists] = useState<AutoCompleteOption[]>([]);
     const [selectedValue, setSelectedValue] = useState<AutoCompleteOption[]>([]);
     const [autoValue, setAutoValue] = useState<string>('');
-
+    const offset = useRef<number>(0)
     const dispatch: AppDispatch = useDispatch();
 
     const fetchAutoCompletedList = async () => {
 
-        if (autoValue === '') {
-            dispatch(setOffset(offset + 10));
+        const filters: Filter[] = [];
+        if (selectedValue.length > 0) {
+            filters.push({
+                varName: varName,
+                searchTerm: selectedValue.map((item) => item.value),
+                op: "in"
+            });
         }
-        /*
-{
-  "varname": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__principal_alias",
-  "querystr": "george",
-  "offset": 10,
-  "limit": 5,
-  "filter": [
-    {
-      "varName": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-      "op": "gte",
-      "searchTerm": 1820
-    },
-    {
-      "varName": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-      "op": "lte",
-      "searchTerm": 1840
-    },
-     {
-      "varName": "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
-      "searchTerm": [
-        "Florida",
-        "Cuba"
-      ],
-      "op": "in"
-    }
-  ]
-}
 
-
-        */
         const dataSend: IRootAutocompleteObject = {
             varname: varName,
             querystr: autoValue,
-            offset: offset,
+            offset: offset.current,
             limit: limit,
-            filter: []
+            filter: filters,
         };
+        console.log(dataSend)
 
         try {
             let response = [];
@@ -118,8 +96,8 @@ export default function VirtualizedAutoCompleted() {
     };
 
     useEffect(() => {
-
         if (isLoadingList) {
+            offset.current += 10;
             fetchAutoCompletedList();
         }
     }, [isLoadingList]);
@@ -128,54 +106,50 @@ export default function VirtualizedAutoCompleted() {
         if (!isLoadingList && !effectOnce.current) {
             fetchAutoCompletedList();
         }
-
         return () => {
             effectOnce.current = true;
             setAutoLists([]);
         };
     }, [dispatch, varName, pathNameEnslaved, pathNameEnslavers, pathNameVoyages, styleName, isOpenDialog]);
 
+    useEffect(() => {
+        const storedValue = localStorage.getItem('filterObject');
+        if (!storedValue) return;
+
+        const parsedValue = JSON.parse(storedValue);
+        const filter: Filter[] = parsedValue.filter;
+        const filterByVarName = filter.find((filterItem) => filterItem.varName === varName);
+        if (!filterByVarName) return;
+
+        const autoValueList: string[] = filterByVarName.searchTerm as string[];
+        const values = autoValueList.map<AutoCompleteOption>((item: string) => ({ value: item }));
+        setSelectedValue(() => values);
+
+    }, []);
+
+
     const handleInputChange = useMemo(
         () => (event: React.SyntheticEvent<Element, Event>, value: string) => {
             event.preventDefault();
+            console.log({ value })
             setAutoValue(value);
         },
         []
     );
 
-    useEffect(() => {
-        const storedValue = localStorage.getItem('filterObject');
-        if (storedValue) {
-            const parsedValue = JSON.parse(storedValue);
-            const { filterObject } = parsedValue;
-            for (const autoKey in filterObject) {
-                if (varName === autoKey) {
-                    const autoValueList = filterObject[autoKey];
-                    if (autoValueList.length > 0) {
-                        setSelectedValue(autoValueList);
-                    }
-                    setSelectedValue([]);
-                }
-            }
-        }
-    }, []);
-    console.log({ autoCompleteValue })
-
     const handleAutoCompletedChange = (
         event: SyntheticEvent<Element, Event>,
         newValue: AutoCompleteOption[]
     ) => {
-        setSelectedValue(newValue as AutoCompleteOption[]);
 
         if (newValue) {
+            setSelectedValue(newValue as AutoCompleteOption[]);
             dispatch(setIsChangeAuto(true));
             const autuLabel: string[] = newValue.map((ele) => ele.value);
             dispatch(
                 setAutoCompleteValue({
                     ...autoCompleteValue,
-                    varName: varName,
                     searchTerm: autuLabel,
-                    op: 'in'
                 })
             );
             dispatch(setAutoLabel(autuLabel));
@@ -186,29 +160,32 @@ export default function VirtualizedAutoCompleted() {
             let existingFilterObject: any = {};
 
             if (existingFilterObjectString) {
-                const filter = JSON.parse(existingFilterObjectString)
-                console.log({ filter })
-                // existingFilterObject = JSON.parse(existingFilterObjectString);
+                existingFilterObject = JSON.parse(existingFilterObjectString);
             }
 
             // Retrieve existing filters array
-            const existingFilters: any[] = existingFilterObject.filter || [];
+            const existingFilters: Filter[] = existingFilterObject.filter || [];
+            const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === varName);
+            if (existingFilterIndex !== -1) {
+                existingFilters[existingFilterIndex].searchTerm = [...autuLabel];
+            } else {
+                // If it doesn't exist, create a new filter
+                const newFilter = {
+                    varName: varName,
+                    searchTerm: autuLabel,
+                    op: 'in'
+                };
+                existingFilters.push(newFilter);
+            }
 
-
-            // Add the new filter to the existing filters
-            const newFilter = {
-                varName: varName,
-                searchTerm: autuLabel,
-                op: 'in'
-            };
-
-            const updatedFilters = [...existingFilters, newFilter];
+            // Update filterObject state
             const filterObject = {
-                // ...autoCompleteValue,
+                ...autoCompleteValue,
                 ...rangeValue,
                 ...geoTreeValue,
-                filter: updatedFilters
+                filter: existingFilters
             };
+
             // Update localStorage
             const filterObjectString = JSON.stringify(filterObject);
             localStorage.setItem('filterObject', filterObjectString);
@@ -223,41 +200,34 @@ export default function VirtualizedAutoCompleted() {
     ];
 
     return (
-        <>
-            <Autocomplete
-                ListboxComponent={CustomAutoListboxComponent}
-                multiple
-                id="tags-outlined"
-                style={{ width: 400 }}
-                options={autoList}
-                isOptionEqualToValue={(option, value) => {
-                    return option.value === value.value;
-                }}
-                getOptionLabel={(option) => option.value}
-                value={selectedValue}
-                onChange={handleAutoCompletedChange}
-                onInputChange={handleInputChange}
-                inputValue={autoValue}
-                renderGroup={renderGroup}
-                filterSelectedOptions
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label={
-                            <Typography variant="body1" style={{ fontSize: 16 }}>
-                                field
-                            </Typography>
-                        }
-                        placeholder="SelectedOptions"
-                        style={{ marginTop: 20 }}
-                    />
-                )}
-            />
-            {/* <VirtualizedList
-                height={300}
-                width={'100%'}
-                options={autoList}
-                itemSize={50} /> */}
-        </>
+        <Autocomplete
+            ListboxComponent={CustomAutoListboxComponent}
+            multiple
+            id="tags-outlined"
+            style={{ width: 400 }}
+            options={autoList}
+            isOptionEqualToValue={(option, value) => {
+                return option.value === value.value;
+            }}
+            getOptionLabel={(option) => option.value}
+            value={selectedValue}
+            onChange={handleAutoCompletedChange}
+            onInputChange={handleInputChange}
+            inputValue={autoValue}
+            renderGroup={renderGroup}
+            filterSelectedOptions
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    label={
+                        <Typography variant="body1" style={{ fontSize: 16 }}>
+                            field
+                        </Typography>
+                    }
+                    placeholder="SelectedOptions"
+                    style={{ marginTop: 20 }}
+                />
+            )}
+        />
     );
 }

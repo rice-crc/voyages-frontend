@@ -21,7 +21,7 @@ export const getAutoCompleteSlice = createSlice({
         },
         setAutoCompleteValue: (
             state,
-            action: PayloadAction<Record<string, Filter | string[] | string>>
+            action: PayloadAction<Record<string, string[]>>
         ) => {
             state.autoCompleteValue = action.payload;
         },

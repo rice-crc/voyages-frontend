@@ -36,7 +36,7 @@ export interface RangeSliderMinMaxInitialState {
 export interface AutoCompleteInitialState {
     results: [],
     total_results_count: number,
-    autoCompleteValue: Record<string, Filter | string | string[]>;
+    autoCompleteValue: Record<string, string[]>;
     autoLabelName: string[]
     isChangeAuto: boolean
     offset: number
@@ -61,7 +61,7 @@ export interface Filter {
 "filter": [
     {
       "varName": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-      "searchTerm": 1820,
+      "searchTerm": 1820,[min, max]
       "op": "gte"
     },
     {
