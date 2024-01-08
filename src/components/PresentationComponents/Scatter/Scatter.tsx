@@ -55,7 +55,9 @@ function Scatter() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-
+  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
@@ -92,7 +94,7 @@ function Scatter() {
 
     const fetchData = async () => {
 
-      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
+      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, clusterNodeKeyVariable, clusterNodeValue, styleName, currentPage, isChange, undefined, undefined)
 
       dataSend['groupby_by'] = [scatterOptions.x_vars];
       dataSend['agg_fn'] = [aggregation];

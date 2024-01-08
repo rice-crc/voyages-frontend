@@ -1,25 +1,14 @@
 import axios from 'axios';
-import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
+import { RangeSliderStateProps } from '@/share/InterfaceTypes';
 
-export const fetchPastEnslavedRangeSliderData = createAsyncThunk(
-    'rangeSlider/fetchPastEnslavedRangeSliderData',
-    async (dataSend?: { [key: string]: (string | number)[] }) => {
-        try {
-            const response = await axios.post(
-                `${BASEURL}/past/enslaved/aggregations/`,
-                dataSend,
-                {
-                    headers: {
-                        'Authorization': AUTHTOKEN,
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
+export const fetchPastEnslavedRangeSliderData = async (dataSend?: RangeSliderStateProps) => {
+    const response = await axios.post(`${BASEURL}/past/enslaved/aggregations/`, dataSend, {
+        headers: {
+            'Authorization': AUTHTOKEN,
+            "Content-Type": "application/json",
 
-            return response.data;
-        } catch (error) {
-            throw new Error('Failed to fetchPastEnslavedRangeSliderData data');
         }
-    }
-);
+    });
+    return response.data;
+};

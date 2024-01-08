@@ -34,7 +34,6 @@ import {
 } from '@/redux/getRangeSliderSlice';
 import { setIsOpenDialogMobile } from '@/redux/getScrollPageSlice';
 import { PaperDraggable } from './PaperDraggable';
-import RangeSlider from '../../FilterComponents/RangeSlider/RangeSlider';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
@@ -44,6 +43,7 @@ import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE } from '@/share/CONST_DATA';
 import { DropdownCanscanding } from './DropdownCanscanding';
 import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
+import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
 
 const CanscandingMenuMobile = () => {
   const { styleName: styleNameRoute } = usePageRouter()
@@ -223,7 +223,7 @@ const CanscandingMenuMobile = () => {
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}
           {((varName && type === TYPES.IntegerField) ||
-            (varName && type === TYPES.DecimalField)) && <RangeSlider />}
+            (varName && type === TYPES.DecimalField)) && <RangeSliderComponent />}
         </DialogContent>
         <DialogActions>
           <Button

@@ -43,7 +43,7 @@ export interface AutoCompleteInitialState {
     isLoadingList: boolean
 }
 
-export interface IRootAutocompleteObject {
+export interface IRootFilterObject {
     varname: string;
     querystr: string;
     offset: number;
@@ -56,29 +56,11 @@ export interface Filter {
     searchTerm: number | string[]
     op: string
 }
+export interface RangeSliderStateProps {
+    varName: string
+    filter: Filter[]
+}
 
-/*
-"filter": [
-    {
-      "varName": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-      "searchTerm": 1820,[min, max]
-      "op": "gte"
-    },
-    {
-      "varName": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-      "searchTerm": 1822,
-      "op": "lte"
-    },
-    {
-      "varName": "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
-      "searchTerm": [
-        "Florida",
-        "Cuba"
-      ],
-      "op": "in"
-    }
-  ]
-*/
 export interface AutoCompleteValueInitialState {
     [key: string]: string[]
 }
@@ -131,6 +113,13 @@ export interface AutoCompleteSliceLists {
 export interface AutoCompleteLists {
     results: AutoCompleteOption[]
     total_results_count: number
+}
+export interface DataAutoCompleteProp {
+    data: DataSuggestedValuesProps
+}
+
+export interface DataSuggestedValuesProps {
+    suggested_values: AutoCompleteOption[]
 }
 
 export interface AutoCompleteOption {

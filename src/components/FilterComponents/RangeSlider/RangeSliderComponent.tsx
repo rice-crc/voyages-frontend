@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent, useRef } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setRangeValue,
@@ -11,19 +11,19 @@ import { CustomSlider, Input } from '@/styleMUI';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   AutoCompleteInitialState,
+  Filter,
   RangeSliderState,
+  RangeSliderStateProps,
 } from '@/share/InterfaceTypes';
 import '@/style/Slider.scss';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import {
-  checkPagesRouteForEnslaved,
-  checkPagesRouteForEnslavers,
-  checkPagesRouteForVoyages,
-} from '@/utils/functions/checkPagesRoute';
+import { useRangSlider } from '@/hooks/useRangSlider';
+import { setFilterObject } from '@/redux/getFilterSlice';
 
 const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName } = usePageRouter();
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
   const { rangeValue, varName, rangeSliderMinMax } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
@@ -39,80 +39,58 @@ const RangeSlider = () => {
 
   const rangeMinMax = rangeSliderMinMax?.[varName] ||
     rangeValue?.[varName] || [0, 0];
-
   const min = rangeValue?.[varName]?.[0] || 0;
   const max = rangeValue?.[varName]?.[1] || 0;
+  const [currentSliderValue, setCurrentSliderValue] = useState<number | number[]>(rangeMinMax);
 
-  const [currentSliderValue, setCurrentSliderValue] = useState<
-    number | number[]
-  >(rangeMinMax);
-  const effectOnce = useRef(false);
-
-  const fetchRangeSlider = async () => {
-    const dataSend: { [key: string]: (string | number)[] } = {
-      aggregate_fields: [varName],
-    };
-
-    try {
-      let response;
-      if (checkPagesRouteForVoyages(styleName!)) {
-        // response = await dispatch(fetchRangeSliderData(dataSend)).unwrap();
-      } else if (checkPagesRouteForEnslaved(styleName!)) {
-        // response = await dispatch(
-        //   fetchPastEnslavedRangeSliderData(dataSend)
-        // ).unwrap();
-      } else if (checkPagesRouteForEnslavers(styleName!)) {
-        // response = await dispatch(
-        //   fetchPastEnslaversRangeSliderData(dataSend)
-        // ).unwrap();
-      }
-      if (response) {
-        // const initialValue: number[] = [
-        //   parseInt(response[varName].min),
-        //   parseInt(response[varName].max),
-        // ];
-        dispatch(setKeyValue(varName));
-        dispatch(
-          setRangeValue({
-            ...rangeValue,
-            // [varName]: initialValue as number[],
-          })
-        );
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
+  const dataSend: RangeSliderStateProps = {
+    varName: varName,
+    filter: []
   };
+  const { data, isLoading, isError } = useRangSlider(dataSend, styleName);
 
   useEffect(() => {
-    if (!effectOnce.current) {
-      fetchRangeSlider();
-    }
+    if (!isLoading && !isError && data) {
 
-    return () => {
-      dispatch(setRangeValue({}));
-    };
-  }, [dispatch, varName, styleName, currentSliderValue]);
+      const { min, max } = data
+      const initialValue: number[] = [
+        parseInt(min),
+        parseInt(max),
+      ];
+      dispatch(setKeyValue(varName))
+      dispatch(
+        setRangeValue({
+          ...rangeValue,
+          [varName]: initialValue as number[],
+        })
+      );
+    }
+  }, [data, isLoading, isError]);
+
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
-    if (storedValue) {
-      const parsedValue = JSON.parse(storedValue);
-      const { filterObject } = parsedValue;
-      for (const rangKey in filterObject) {
-        if (varName === rangKey) {
-          const rangeMinMax = filterObject[rangKey];
-          setCurrentSliderValue(rangeMinMax);
-        }
-      }
-    }
-  }, []);
+    if (!storedValue) return;
+
+    const parsedValue = JSON.parse(storedValue);
+    const filter: Filter[] = parsedValue.filter;
+    const filterByVarName = filter?.length > 0 && filter.find((filterItem) => filterItem.varName === varName);
+    if (!filterByVarName) return;
+    const minRange: number = filterByVarName.op === 'gte' ? filterByVarName.searchTerm as number : rangeMinMax[0]
+    const maxRange: number = filterByVarName.op === 'lte' ? filterByVarName.searchTerm as number : rangeMinMax[1]
+
+    const initialValue: number[] = [minRange, maxRange];
+    console.log({ initialValue })
+    setCurrentSliderValue(initialValue);
+
+  }, [varName, styleName, filtersObj]);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setCurrentSliderValue(newValue);
   };
 
   const handleSliderChangeMouseUp = () => {
+
     dispatch(setIsChange(true));
     dispatch(
       setRangeSliderValue({
@@ -121,15 +99,45 @@ const RangeSlider = () => {
       })
     );
 
-    const filterObject = {
-      filterObject: {
-        ...rangeSliderMinMax,
-        ...autoCompleteValue,
-        ...geoTreeValue,
-        [varName]: currentSliderValue as number[],
-      },
+    const existingFilterObjectString = localStorage.getItem('filterObject');
+
+    let existingFilterObject: any = {};
+
+    if (existingFilterObjectString) {
+      existingFilterObject = JSON.parse(existingFilterObjectString);
+    }
+    const existingFilters: Filter[] = existingFilterObject.filter || [];
+    const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === varName);
+
+    if (existingFilterIndex !== -1) { //&& existingFilterObjectIndex !== -1
+      existingFilters[existingFilterIndex].searchTerm = rangeMinMax[0]!;
+      existingFilters[existingFilterIndex].searchTerm = rangeMinMax[1]!;
+    } else {
+
+      const newFilter: Filter = {
+        varName: varName,
+        searchTerm: rangeMinMax[0]!,
+        op: 'gte'
+      };
+
+      const newFilter2: Filter = {
+        varName: varName,
+        searchTerm: rangeMinMax[1]!,
+        op: 'lte'
+      };
+
+      existingFilters.push(newFilter, newFilter2);
+    }
+
+    dispatch(setFilterObject(existingFilters));
+    console.log({ existingFilters })
+
+    const filterObjectUpdate = {
+      ...geoTreeValue,
+      filter: existingFilters
     };
-    const filterObjectString = JSON.stringify(filterObject);
+
+    const filterObjectString = JSON.stringify(filterObjectUpdate);
     localStorage.setItem('filterObject', filterObjectString);
   };
 
@@ -164,7 +172,7 @@ const RangeSlider = () => {
       <Input
         color="secondary"
         name="start"
-        value={rangeMinMax[0]}
+        value={rangeMinMax[0]!}
         size="small"
         onChange={handleInputChange}
         inputProps={{

@@ -32,13 +32,13 @@ import { setIsChange, setKeyValue } from '@/redux/getRangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
-import RangeSlider from '../../FilterComponents/RangeSlider/RangeSlider';
 import { ENSALVERSTYLE, } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
+import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
 
 export const MenuListsDropdown = () => {
 
@@ -242,7 +242,7 @@ export const MenuListsDropdown = () => {
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}
           {((varName && type === TYPES.IntegerField) ||
-            (varName && type === TYPES.DecimalField)) && <RangeSlider />}
+            (varName && type === TYPES.DecimalField)) && <RangeSliderComponent />}
         </DialogContent>
         <DialogActions>
           <Button

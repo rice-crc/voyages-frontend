@@ -1,49 +1,15 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { FetchAutoVoyageParams } from '@/share/InterfaceTypes';
-import { IRootObject } from '@/share/InterfaceTypesTable';
+import { IRootFilterObject } from '@/share/InterfaceTypes';
 
 
-export const fetchPastEnslaversAutoCompleted = createAsyncThunk(
-    'autoComplete/fetchPastEnslaversAutoCompleted',
-    async (dataSend?: IRootObject) => {
-        try {
-            const response = await axios.post(
-                `${BASEURL}/past/enslaver/autocomplete/`,
-                dataSend,
-                {
-                    headers: {
-                        'Authorization': AUTHTOKEN,
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
-            return response.data;
-        } catch (error) {
-            throw new Error('Failed to fetch fetchPastEnslaversAutoCompleted data');
+export const fetchPastEnslaversAutoCompleted = async (dataSend?: IRootFilterObject) => {
+    const response = await axios.post(`${BASEURL}/voyage/autocomplete/`, dataSend, {
+        headers: {
+            'Authorization': AUTHTOKEN,
+            "Content-Type": "application/json",
+
         }
-    }
-);
-
-
-// ===============  WAIT TO CHANGE NEW FORMAT ===============
-
-// export const fetchPastEnslaversAutoCompleted = createAsyncThunk(
-//     'autoComplete/fetchPastEnslaversAutoCompleted',
-//     async (params: FetchAutoVoyageParams) => {
-//         const { varName, autoValue, offset, limit } = params;
-
-//         const url = `${BASEURL}/past/enslaver/autocomplete/?varname=${varName}&query=${autoValue || ''}&offset=${offset}&limit=${limit}`;
-//         try {
-//             const response = await axios.get(url, {
-//                 headers: {
-//                     'Authorization': AUTHTOKEN,
-//                     'Content-Type': 'application/json'
-//                 }
-//             });
-//             return response.data;
-//         } catch (error) {
-//             throw new Error('Failed to fetch fetchAutoVoyageComplete data');
-//         }
-//     })
+    });
+    return response.data;
+};

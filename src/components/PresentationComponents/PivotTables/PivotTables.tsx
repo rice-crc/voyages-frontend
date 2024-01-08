@@ -82,6 +82,9 @@ const PivotTables = () => {
     width: maxWidth,
     height: height,
   });
+  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [rowVars, setSelectRowValue] = useState<PivotRowVar[]>([]);
   const [columnVars, setSelectColumnValue] = useState<PivotColumnVar[]>([]);
@@ -151,7 +154,7 @@ const PivotTables = () => {
       cachename,
     } = pivotValueOptions;
     const fetchData = async () => {
-      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
+      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, clusterNodeKeyVariable, clusterNodeValue, styleName, currentPage, isChange, undefined, undefined)
 
       dataSend['columns'] = columnVars;
       dataSend['rows'] = [row_vars];

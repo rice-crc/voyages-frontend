@@ -49,6 +49,9 @@ function PieGraph() {
   const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
+  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [pieGraphSelectedX, setSelectedX] = useState<PlotPIEX[]>([]);
@@ -82,7 +85,8 @@ function PieGraph() {
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
 
     const fetchData = async () => {
-      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
+      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, clusterNodeKeyVariable, clusterNodeValue, styleName, currentPage, isChange, undefined, undefined)
+
 
       dataSend['groupby_by'] = [pieGraphOptions.x_vars];
       dataSend['groupby_cols'] = [pieGraphOptions.y_vars];

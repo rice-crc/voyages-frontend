@@ -12,7 +12,6 @@ import getColumnsSlice from './getColumnSlice';
 import getDataSetCollectionSlice from './getDataSetCollectionSlice'
 import getPeopleEnslavedDataSetCollectionSlice from './getPeopleEnslavedDataSetCollectionSlice';
 import getScrollEnslavedPageSlice from './getScrollEnslavedPageSlice';
-import getFilterPeopleObjectSlice from './getFilterPeopleObjectSlice';
 import getOptionsDataPastPeopleEnslavedSlice from './getOptionsDataPastPeopleEnslavedSlice';
 import { pastEnslavedService } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedService';
 import { pastEnslaversService } from '@/fetch/pastEnslaversFetch/pastEnslaversService';
@@ -45,7 +44,6 @@ const store = configureStore({
                 getEnslaverDataSetCollections: getPeopleEnslaversDataSetCollectionSlice,
                 getScrollEnslavedPage: getScrollEnslavedPageSlice,
                 getScrollEnslaversPage: getScrollEnslaversPageSlice,
-                getFilterPeople: getFilterPeopleObjectSlice,
                 getOptionsEnslaved: getOptionsDataPastPeopleEnslavedSlice,
                 getBlogData: getBlogDataSlice,
                 getLanguages: getLanguagesSlice,
