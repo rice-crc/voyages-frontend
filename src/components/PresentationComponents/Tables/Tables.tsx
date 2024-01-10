@@ -20,15 +20,10 @@ import {
     TableCellStructure,
 } from '@/share/InterfaceTypesTable';
 import {
-    AutoCompleteInitialState, CurrentPageInitialState,
+    CurrentPageInitialState,
+    Filter,
     RangeSliderState,
-    TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
-import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
-import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
-import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
-import VOYAGESTABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
-import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.json';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -45,20 +40,20 @@ import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoy
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { ENSALVERSTYLE } from '@/share/CONST_DATA';
 import { CustomTablePagination } from '@/styleMUI';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { useTableCellStructure } from '@/hooks/useTableCellStructure';
+
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const { styleName: styleNameRoute } = usePageRouter()
-
-    const { rangeSliderMinMax: rang, varName, isChange } = useSelector(
+    const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+    const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
-    const { autoCompleteValue, autoLabelName } = useSelector(
-        (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
-    );
+
     const { visibleColumnCells } = useSelector(
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
     );
@@ -72,15 +67,17 @@ const Tables: React.FC = () => {
     const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
         (state: RootState) => state.getNodeEdgesAggroutesMapData
     );
+    const { isChangeAuto } = useSelector((state: RootState) => state.autoCompleteList)
+
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
     );
 
-    const { isChangeGeoTree, geoTreeValue } = useSelector(
+    const { isChangeGeoTree } = useSelector(
         (state: RootState) => state.getGeoTreeData
     );
     // Voyages States
-    const { dataSetKey, dataSetValue, styleName, tableFlatfileVoyages, dataSetValueBaseFilter } = useSelector(
+    const { styleName, tableFlatfileVoyages, dataSetValueBaseFilter } = useSelector(
         (state: RootState) => state.getDataSetCollection
     );
     const { currentPage } = useSelector(
@@ -88,12 +85,7 @@ const Tables: React.FC = () => {
     );
 
     // Enslaved States
-    const {
-        dataSetKeyPeople,
-        dataSetValuePeople,
-        styleNamePeople,
-        tableFlatfileEnslaved
-    } = useSelector(
+    const { styleNamePeople, tableFlatfileEnslaved } = useSelector(
         (state: RootState) => state.getPeopleEnlavedDataSetCollection
     );
     const { currentEnslavedPage } = useSelector(
@@ -101,7 +93,7 @@ const Tables: React.FC = () => {
     );
 
     // Enslavers States
-    const { dataSetKeyPeople: dataSetKeyEnslavers, dataSetValuePeople: dataSetValueEnslavers, styleNamePeople: styleEnlsavers, tableFlatfileEnslavers } = useSelector(
+    const { styleNamePeople: styleEnlsavers, tableFlatfileEnslavers } = useSelector(
         (state: RootState) => state.getEnslaverDataSetCollections
     );
 
@@ -109,7 +101,6 @@ const Tables: React.FC = () => {
         (state: RootState) => state.getScrollEnslaversPage
     );
 
-    const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState(
         getRowsPerPage(window.innerWidth, window.innerHeight)
@@ -120,61 +111,116 @@ const Tables: React.FC = () => {
     const maxWidth = maxWidthSize(width);
     const [style, setStyle] = useState({
         width: maxWidth,
-        height: height,
+        height: height - 250,
     });
 
     const containerStyle = useMemo(
-        () => ({ width: maxWidth, height: height * 0.7 }),
+        () => ({ width: maxWidth, height: height }),
         [maxWidth, height]
     );
 
+    const { data: tableCellStructure, isLoading, isError } = useTableCellStructure(styleName);
 
     useEffect(() => {
-        const loadTableCellStructure = async () => {
-            try {
-                if (checkPagesRouteForVoyages(styleNameRoute!)) {
-                    setTableCell(VOYAGESTABLE_FLAT.cell_structure);
-                } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
-                    setTableCell(ENSLAVED_TABLE.cell_structure);
-                } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {
-                    setTableCell(AFRICANORIGINS_TABLE.cell_structure);
-                } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
-                    setTableCell(TEXAS_TABLE.cell_structure);
-                } else if (styleNameRoute === ENSALVERSTYLE) {
-                    setTableCell(ENSLAVERS_TABLE.cell_structure);
-                }
-            } catch (error) {
-                console.error('Failed to load table cell structure:', error);
-            }
-        };
-        loadTableCellStructure();
-    }, [tableFlatfileEnslaved, styleNamePeople, styleName, styleNameRoute, styleEnlsavers, tableFlatfileEnslavers, tableFlatfileVoyages]);
+        if (!isLoading && !isError && tableCellStructure) {
+            setTableCell(tableCellStructure);
+        }
 
-    useEffect(() => {
         if (tablesCell.length > 0) {
             const visibleColumns = tablesCell
                 .filter((cell: any) => cell.visible)
                 .map((cell: any) => cell.colID);
             dispatch(setVisibleColumn(visibleColumns));
         }
-    }, [tablesCell, dispatch]);
 
-    useEffect(() => {
         const handleResize = () => {
             setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
         };
+
+
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, [tablesCell, dispatch, tableCellStructure, isLoading, isError, styleName]);
+
 
     useEffect(() => {
-        setStyle({
-            width: getMobileMaxWidth(maxWidth),
-            height: getMobileMaxHeightTable(height),
-        });
-    }, [width, height, maxWidth]);
+
+    }, [filtersObj]);
+
+    useEffect(() => {
+        let subscribed = true;
+        const fetchData = async () => {
+            let dataSend: Record<string, any> = {};
+
+            if (checkPagesRouteForVoyages(styleNameRoute!)) {
+                dataSend = handleSetDataSentTablePieBarScatterGraph(filtersObj, isChangeGeoTree, varName, styleName, currentPage, isChange, undefined, undefined)
+            } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+                dataSend = handleSetDataSentTablePieBarScatterGraph(filtersObj, isChangeGeoTree, varName, undefined, undefined, isChange, styleNamePeople, currentEnslavedPage)
+            } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
+                dataSend = handleSetDataSentTablePieBarScatterGraph(filtersObj, isChangeGeoTree, varName, undefined, undefined, isChange, styleEnlsavers, currentEnslaversPage)
+            }
+            dataSend['page'] = Number(page + 1);
+            dataSend['page_size'] = Number(rowsPerPage);
+
+            let response;
+            try {
+
+                if (checkPagesRouteForVoyages(styleNameRoute!)) {
+                    response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+                }
+                else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+                    response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap()
+                } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
+                    response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
+                }
+
+                if (subscribed && response) {
+                    setTotalResultsCount(Number(response.data.count));
+                    dispatch(setData(response.data.results));
+                    saveDataToLocalStorage(response.data.results, visibleColumnCells);
+
+                }
+            } catch (error) {
+                console.log('error', error);
+
+            }
+        };
+        fetchData();
+        return () => {
+            subscribed = false;
+            dispatch(setData([]));
+            dispatch(setRowData([]));
+        };
+    }, [
+        dispatch, isChangeAuto, isChange, isChangeGeoTree,
+        rowsPerPage,
+        page,
+        currentPage,
+        currentEnslavedPage,
+        varName,
+        visibleColumnCells,
+        styleName,
+        styleEnlsavers,
+    ]);
+
+
+
+    useEffect(() => {
+        const storedValue = localStorage.getItem('filterObject');
+        if (!storedValue) return;
+
+        const parsedValue = JSON.parse(storedValue);
+        const filter: Filter[] = parsedValue.filter;
+        if (!filter) return;
+
+
+        dispatch(setFilterObject(filter));
+        setStyle({ width: getMobileMaxWidth(maxWidth), height: getMobileMaxHeightTable(height) });
+        saveDataToLocalStorage(data, visibleColumnCells);
+
+    }, [width, height, maxWidth, data]);
 
     const saveDataToLocalStorage = useCallback(
         (data: Record<string, any>[], visibleColumnCells: string[]) => {
@@ -186,81 +232,6 @@ const Tables: React.FC = () => {
         },
         []
     );
-
-    useEffect(() => {
-        saveDataToLocalStorage(data, visibleColumnCells);
-    }, [data]);
-
-    useEffect(() => {
-        let subscribed = true;
-        const fetchData = async () => {
-            let dataSend: Record<string, any> = {};
-            if (checkPagesRouteForVoyages(styleNameRoute!)) {
-                dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, clusterNodeKeyVariable, clusterNodeValue, styleName, currentPage, isChange, undefined, undefined)
-            } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValuePeople, dataSetKeyPeople, inputSearchValue, geoTreeValue, varName, rang, clusterNodeKeyVariable, clusterNodeValue, undefined, undefined, isChange, styleNamePeople, currentEnslavedPage)
-            } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValueEnslavers, dataSetKeyEnslavers, inputSearchValue, geoTreeValue, varName, rang, clusterNodeKeyVariable, clusterNodeValue, undefined, undefined, isChange, styleEnlsavers, currentEnslaversPage)
-            }
-
-            dataSend['results_page'] = [String(page + 1)];
-            dataSend['results_per_page'] = [String(rowsPerPage)];
-
-
-            setLoading(true)
-            let response;
-            try {
-                if (checkPagesRouteForVoyages(styleNameRoute!)) {
-                    response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-                } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                    response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap()
-                } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                    response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
-                }
-
-                if (subscribed && response) {
-                    setTotalResultsCount(Number(response.headers.total_results_count));
-                    dispatch(setData(response.data));
-                    saveDataToLocalStorage(response.data, visibleColumnCells);
-                    setLoading(false)
-                }
-            } catch (error) {
-                console.log('error', error);
-                setLoading(false)
-            }
-        };
-        fetchData();
-        return () => {
-            subscribed = false;
-            dispatch(setData([]));
-            dispatch(setRowData([]));
-        };
-    }, [
-        dispatch,
-        rowsPerPage,
-        page,
-        currentPage,
-        currentEnslavedPage,
-        varName,
-        rang,
-        autoCompleteValue,
-        autoLabelName,
-        visibleColumnCells,
-        geoTreeValue,
-        inputSearchValue,
-        dataSetValue,
-        dataSetKey,
-        dataSetValueBaseFilter,
-        styleName,
-        dataSetValuePeople,
-        dataSetKeyPeople,
-        styleNamePeople,
-        styleEnlsavers,
-        dataSetKeyEnslavers,
-        dataSetKeyEnslavers
-
-    ]);
-
     useEffect(() => {
         const tableFileName =
             checkPagesRouteForVoyages(styleNameRoute!)
@@ -270,6 +241,7 @@ const Tables: React.FC = () => {
                     : checkPagesRouteForEnslavers(styleNameRoute!)
                         ? tableFlatfileEnslavers
                         : null;
+
         updateColumnDefsAndRowData(
             data,
             visibleColumnCells,
@@ -277,7 +249,7 @@ const Tables: React.FC = () => {
             tableFileName!,
             tablesCell
         );
-    }, [data, visibleColumnCells, dispatch, tableFlatfileVoyages, tableFlatfileEnslaved, tableFlatfileEnslavers, dataSetKey, dataSetValue,]);
+    }, [data, visibleColumnCells, dispatch, tableFlatfileVoyages, tableFlatfileEnslaved, tableFlatfileEnslavers]);
 
 
     const defaultColDef = useMemo(
@@ -363,6 +335,7 @@ const Tables: React.FC = () => {
     } else {
         topPositionPage = createTopPositionEnslaversPage(currentEnslaversPage, inputSearchValue!);
     }
+    const pageCount = Math.ceil((totalResultsCount && rowsPerPage) ? (totalResultsCount / rowsPerPage) : 1);
 
     return (
         <div style={{ marginTop: topPositionPage }} className='mobile-responsive'>
@@ -401,7 +374,7 @@ const Tables: React.FC = () => {
                         <div className="pagination-div">
                             <Pagination
                                 color="primary"
-                                count={Math.ceil(totalResultsCount / rowsPerPage)}
+                                count={pageCount}
                                 page={page + 1}
                                 onChange={handleChangePagePagination}
                             />

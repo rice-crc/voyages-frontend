@@ -44,22 +44,32 @@ export interface AutoCompleteInitialState {
 }
 
 export interface IRootFilterObject {
-    varname: string;
+    varName: string;
     querystr: string;
     offset: number;
     limit: number;
     filter: Filter[]
 }
+export interface IRootFilterTableObject {
+    filter: Filter[];
+    page: number;
+    page_size: number;
+}
 
 export interface Filter {
     varName: string
-    searchTerm: number | string[]
+    searchTerm: number[] | string[]
     op: string
 }
 export interface RangeSliderStateProps {
     varName: string
     filter: Filter[]
 }
+export interface GeoTreeSelectStateProps {
+    geotree_valuefields: string[]
+    filter: Filter[]
+}
+
 
 export interface AutoCompleteValueInitialState {
     [key: string]: string[]
@@ -333,30 +343,22 @@ export interface FieldCard {
     cell_fn: string
 }
 
-export interface GeoTreeSelectInitialState {
-    results: [],
-
-}
-
 export interface GeoTreeSelectValueInitialState {
     [key: string]: string[]
 }
 
-export interface GeoTreeSelectDataProps {
-    id: number;
-    latitude: number;
-    longitude: number;
-    name: string;
-    value: number,
-    children?: GeoTreeSelectDataProps[];
+export interface GeoTreeSelectItem {
+    id: number
+    name: string
+    longitude: string
+    latitude: string
+    value: number
+    location_type: LocationType
+    spatial_extent: any
+    children: GeoTreeSelectChildren[]
 }
-export interface TreeSelectItem {
-    id: number;
-    key: string;
-    title: string;
-    value: string;
-    children?: TreeSelectItem[];
-    disabled?: boolean
+export interface LocationType {
+    name: string
 }
 export interface GeoTreeSelectChildren {
     id: number
@@ -364,19 +366,22 @@ export interface GeoTreeSelectChildren {
     longitude?: string
     latitude?: string
     value: number
+    location_type: LocationType
+    spatial_extent: any
     children: GeoTreeSelectGrandChildren[]
 }
 
 export interface GeoTreeSelectGrandChildren {
     id: number
     name: string
-    longitude?: string
-    latitude?: string
+    longitude: string
+    latitude: string
     value: number
+    location_type: LocationType
+    spatial_extent: any
 }
 export interface TreeSelectItemInitialState {
-    geoTreeList: GeoTreeSelectDataProps[],
-    geoTreeValue: Record<string, TreeSelectItem[] | string[]>;
+    geoTreeValue: Record<string, GeoTreeSelectItem[] | string[]>;
     geoTreeSelectValue: string[]
     isChangeGeoTree: boolean
 }

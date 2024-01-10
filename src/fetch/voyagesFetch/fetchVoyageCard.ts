@@ -3,13 +3,12 @@ import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchVoyageOptionsAPI = createAsyncThunk(
+export const fetchVoyageCard = createAsyncThunk(
     'voyageOptions/fetchVoyageOptionsAPI',
-    async (dataSend?: { [key: string]: (string | number)[] }) => {
+    async (id?: number) => {
         try {
-            const response = await axios.post(
-                `${BASEURL}/voyage/`,
-                dataSend,
+            const response = await axios.get(
+                `${BASEURL}/voyage/${id}`,
                 {
                     headers: {
                         'Authorization': AUTHTOKEN,
@@ -23,4 +22,3 @@ export const fetchVoyageOptionsAPI = createAsyncThunk(
         }
     }
 );
-

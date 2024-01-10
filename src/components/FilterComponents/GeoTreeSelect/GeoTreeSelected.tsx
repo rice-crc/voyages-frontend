@@ -2,141 +2,112 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   AutoCompleteInitialState,
+  Filter,
+  GeoTreeSelectItem,
+  GeoTreeSelectStateProps,
   RangeSliderState,
 } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
-import { fetcVoyagesGeoTreeSelectLists } from '@/fetch/geoFetch/fetchVoyagesGeoTreeSelect';
 import { TreeSelect } from 'antd';
 import '@/style/page.scss';
 import {
-  setGeoTreeValues,
-  setGeoTreeValueList,
   setIsChangeGeoTree,
-  setGeoTreeValueSelect,
 } from '@/redux/getGeoTreeDataSlice';
 import { convertDataToGeoTreeSelectFormat } from '@/utils/functions/convertDataToGeoTreeSelectFormat';
-import { fetchEnslavedGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslavedGeoTreeSelect';
-import { fetchEnslaversGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslaversGeoTreeSelect';
-import { getGeoValuesCheck } from '@/utils/functions/getGeoValuesCheck';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { handleSetDataSentMapGeoTree } from '@/utils/functions/handleSetDataSentMapGeoTree';
-import {
-  checkPagesRouteForVoyages,
-  checkPagesRouteForEnslaved,
-  checkPagesRouteForEnslavers,
-} from '@/utils/functions/checkPagesRoute';
 import { TreeItemProps } from '@mui/lab';
+import { useGeoTreeSelected } from '@/hooks/useGeoTreeSelected';
+import { setFilterObject } from '@/redux/getFilterSlice';
 
 const GeoTreeSelected: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch: AppDispatch = useDispatch();
   const [selectedValue, setSelectedValue] = useState<string[]>([]);
-  const { isChangeGeoTree, geoTreeList, geoTreeValue } = useSelector(
-    (state: RootState) => state.getGeoTreeData
-  );
+  const [geoTreeValueList, setGeoTreeValueList] = useState<GeoTreeSelectItem[]>([]);
+
   const { styleName } = usePageRouter();
-  const { varName, rangeSliderMinMax: rangeValue } = useSelector(
+  const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
-  const { autoCompleteValue } = useSelector(
-    (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
-  );
-  const effectOnce = useRef(false);
+  const { isChangeGeoTree } = useSelector((state: RootState) => state.getGeoTreeData);
 
-  useEffect(() => {
-    const storedValue = localStorage.getItem('filterObject');
-    if (storedValue) {
-      const parsedValue = JSON.parse(storedValue);
-      const { filterObject } = parsedValue;
-      const geoTreeListValue = getGeoValuesCheck([], geoTreeList);
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
-      for (const valueKey in filterObject) {
-        if (geoTreeListValue.length > 0) {
-          if (varName === valueKey) {
-            const geoList = filterObject[valueKey];
-            const filteredValueGeoTreeStorage = geoList.filter(
-              (item: string) => {
-                return item !== '*';
-              }
-            );
-            const filteredSelect = geoTreeListValue.filter((item: string) =>
-              filteredValueGeoTreeStorage.includes(item)
-            );
-            setSelectedValue(filteredSelect);
-          }
-        }
-      }
-    }
-  }, [varName, geoTreeList]);
-
-  const fetchGeoTreeSelectList = async () => {
-    const dataSend = handleSetDataSentMapGeoTree(
-      autoCompleteValue,
-      isChangeGeoTree,
-      geoTreeValue,
-      varName,
-      rangeValue
-    );
-
-    let response = [];
-
-    try {
-      if (checkPagesRouteForVoyages(styleName!)) {
-        response = await dispatch(
-          fetcVoyagesGeoTreeSelectLists(dataSend)
-        ).unwrap();
-      } else if (checkPagesRouteForEnslaved(styleName!)) {
-        response = await dispatch(
-          fetchEnslavedGeoTreeSelect(dataSend)
-        ).unwrap();
-      } else if (checkPagesRouteForEnslavers(styleName!)) {
-        response = await dispatch(
-          fetchEnslaversGeoTreeSelect(dataSend)
-        ).unwrap();
-      }
-
-      if (response) {
-        dispatch(setGeoTreeValueList(response));
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
+  const filters: Filter[] = [];
+  const filterByVarName = filtersObj && filtersObj.filter((filterItem: Filter) => filterItem.varName !== varName);
+  if (!filtersObj && filterByVarName) {
+    filters.push({
+      varName: varName,
+      searchTerm: selectedValue.map((item) => item),
+      op: "in"
+    });
+  }
+  const dataSend: GeoTreeSelectStateProps = {
+    geotree_valuefields: [varName],
+    filter: filtersObj ? filterByVarName : filters
   };
+
+  const { data, isLoading, isError } = useGeoTreeSelected(dataSend, styleName);
+
   useEffect(() => {
-    if (!effectOnce.current) {
-      fetchGeoTreeSelectList();
+    if (!isLoading && !isError && data) {
+      const geoList: GeoTreeSelectItem[] = data.map((value: GeoTreeSelectItem) => value);
+      setGeoTreeValueList((prevGeoList: GeoTreeSelectItem[]) => [...prevGeoList, ...geoList]);
     }
 
     return () => {
-      dispatch(setGeoTreeValueList([]));
+      setGeoTreeValueList([]);
     };
-  }, [dispatch, varName, styleName]);
+  }, [data, isLoading, isError]);
+
+  useEffect(() => {
+    const storedValue = localStorage.getItem('filterObject');
+    if (!storedValue) return;
+    const parsedValue = JSON.parse(storedValue);
+    const filter: Filter[] = parsedValue.filter;
+    const filterByVarName = filter?.length > 0 && filter.find((filterItem) => filterItem.varName === varName);
+    if (!filterByVarName) return;
+    const geoList: string[] = filterByVarName.searchTerm as string[];
+    const values = geoList.map<string>((item: string) => item);
+    setSelectedValue(() => values)
+    dispatch(setFilterObject(filter));
+  }, [varName, styleName]);
 
   const handleTreeOnChange = (newValue: string[]) => {
-    dispatch(setIsChangeGeoTree(true));
+    console.log({ newValue })
+    dispatch(setIsChangeGeoTree(!isChangeGeoTree));
     setSelectedValue(newValue);
     const valueSelect: string[] = newValue.map((ele) => ele);
-    dispatch(setGeoTreeValueSelect(valueSelect));
-    dispatch(
-      setGeoTreeValues({
-        ...geoTreeValue,
-        [varName]: [...newValue, '*'],
-      })
-    );
+    const existingFilterObjectString = localStorage.getItem('filterObject');
+    let existingFilterObject: any = {};
 
-    const filterObject = {
-      filterObject: {
-        ...geoTreeValue,
-        ...autoCompleteValue,
-        ...rangeValue,
-        [varName]: [...newValue, '*'],
-      },
+    if (existingFilterObjectString) {
+      existingFilterObject = JSON.parse(existingFilterObjectString);
+    }
+    // Retrieve existing filters array
+    const existingFilters: Filter[] = existingFilterObject.filter || [];
+    const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === varName);
+
+    if (existingFilterIndex !== -1) {
+      existingFilters[existingFilterIndex].searchTerm = [...valueSelect];
+    } else {
+      const newFilter: Filter = {
+        varName: varName,
+        searchTerm: valueSelect,
+        op: 'in'
+      };
+      existingFilters.push(newFilter);
+    }
+    dispatch(setFilterObject(existingFilters));
+    const filterObjectUpdate = {
+      filter: existingFilters
     };
-    const filterObjectString = JSON.stringify(filterObject);
+
+    const filterObjectString = JSON.stringify(filterObjectUpdate);
     localStorage.setItem('filterObject', filterObjectString);
   };
 
-  const dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeList);
+  const dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeValueList);
 
   const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
     return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());

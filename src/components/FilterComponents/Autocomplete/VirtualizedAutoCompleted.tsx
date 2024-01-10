@@ -22,42 +22,39 @@ import { useAutoComplete } from "@/hooks/useAutoComplete";
 import { setFilterObject } from "@/redux/getFilterSlice";
 
 export default function VirtualizedAutoCompleted() {
-    const { varName, rangeSliderMinMax: rangeValue } = useSelector(
+    const { varName } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
     const { styleName } = usePageRouter()
-    const { geoTreeValue } = useSelector(
-        (state: RootState) => state.getGeoTreeData
-    );
-
     const limit = 20;
     const { isLoadingList } = useSelector(
         (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
     );
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-
     const [autoList, setAutoLists] = useState<AutoCompleteOption[]>([]);
     const [selectedValue, setSelectedValue] = useState<AutoCompleteOption[]>([]);
     const [autoValue, setAutoValue] = useState<string>('');
     const [offset, setOffset] = useState<number>(0);
     const dispatch: AppDispatch = useDispatch();
+    const { isChangeAuto } = useSelector((state: RootState) => state.autoCompleteList)
 
     const filters: Filter[] = [];
-    if (selectedValue.length > 0) {
+    const filterByVarName = filtersObj && filtersObj.filter((filterItem: Filter) => filterItem.varName !== varName);
+    if (!filtersObj && filterByVarName) {
         filters.push({
             varName: varName,
             searchTerm: selectedValue.map((item) => item.value),
             op: "in"
         });
     }
-
     const dataSend: IRootFilterObject = {
-        varname: varName,
+        varName: varName,
         querystr: autoValue,
         offset: offset,
         limit: limit,
-        filter: filters,
+        filter: filtersObj ? filterByVarName : filters
     };
+
     const { data, isLoading, isError } = useAutoComplete(dataSend, styleName);
 
     useEffect(() => {
@@ -66,10 +63,15 @@ export default function VirtualizedAutoCompleted() {
             const newAutoList: AutoCompleteOption[] = suggested_values.map((value: AutoCompleteOption) => value);
             setAutoLists((prevAutoList) => [...prevAutoList, ...newAutoList]);
         }
-    }, [data, isLoading, isError]);
+        return () => {
+            setAutoLists([]);
+        };
+    }, [data, isLoading, isError, isChangeAuto]);
 
     const refetchAutoComplete = () => {
-        setOffset((prevOffset) => prevOffset + 10);
+        if (autoValue === '') {
+            setOffset((prevOffset) => prevOffset + limit);
+        }
     };
 
     useEffect(() => {
@@ -80,7 +82,6 @@ export default function VirtualizedAutoCompleted() {
         if (!storedValue) return;
 
         const parsedValue = JSON.parse(storedValue);
-        console.log({ parsedValue })
         const filter: Filter[] = parsedValue.filter;
         const filterByVarName = filter?.length > 0 && filter.find((filterItem) => filterItem.varName === varName);
         if (!filterByVarName) return;
@@ -88,24 +89,30 @@ export default function VirtualizedAutoCompleted() {
         const autoValueList: string[] = filterByVarName.searchTerm as string[];
         const values = autoValueList.map<AutoCompleteOption>((item: string) => ({ value: item }));
         setSelectedValue(() => values);
+        dispatch(setFilterObject(filter));
 
-    }, [isLoadingList, filtersObj, varName, styleName]);
+    }, [isLoadingList, varName, styleName, isChangeAuto]);
 
     const handleInputChange = useMemo(
         () => (event: React.SyntheticEvent<Element, Event>, value: string) => {
-            event.preventDefault();
+            if (event) {
+                event.preventDefault();
+            }
+            dispatch(setIsChangeAuto(!isChangeAuto));
             setAutoValue(value);
         },
         []
     );
+
 
     const handleAutoCompletedChange = (
         event: SyntheticEvent<Element, Event>,
         newValue: AutoCompleteOption[]
     ) => {
         if (newValue) {
+            console.log({ newValue })
             setSelectedValue(newValue as AutoCompleteOption[]);
-            dispatch(setIsChangeAuto(true));
+            dispatch(setIsChangeAuto(!isChangeAuto));
             const autuLabel: string[] = newValue.map((ele) => ele.value);
 
             dispatch(setAutoLabel(autuLabel));
@@ -123,7 +130,7 @@ export default function VirtualizedAutoCompleted() {
             const existingFilters: Filter[] = existingFilterObject.filter || [];
             const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === varName);
 
-            if (existingFilterIndex !== -1) { //&& existingFilterObjectIndex !== -1
+            if (existingFilterIndex !== -1) {
                 existingFilters[existingFilterIndex].searchTerm = [...autuLabel];
             } else {
                 // If it doesn't exist, create a new filter
@@ -139,14 +146,12 @@ export default function VirtualizedAutoCompleted() {
 
             // Update filterObject state
             const filterObjectUpdate = {
-                ...geoTreeValue,
                 filter: existingFilters
             };
 
             // Update localStorage
             const filterObjectString = JSON.stringify(filterObjectUpdate);
             localStorage.setItem('filterObject', filterObjectString);
-
         }
     };
     const renderGroup = (params: any) => [

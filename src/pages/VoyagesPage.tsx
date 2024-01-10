@@ -2,7 +2,7 @@ import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { CurrentPageInitialState } from '@/share/InterfaceTypes';
+import { CurrentPageInitialState, Filter } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json';
 import { getColorVoyagePageBackground } from '@/utils/functions/getColorStyle';
@@ -21,8 +21,6 @@ import CollectionTabVoyages from '@/components/NavigationComponents/CollectionTa
 import { useEffect } from 'react';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import {
-  setBaseFilterDataKey,
-  setBaseFilterDataValue,
   setBlocksMenuList,
   setStyleName,
 } from '@/redux/getDataSetCollectionSlice';
@@ -34,6 +32,7 @@ import { INTRAAMERICAN, TRANSATLANTIC, VOYAGESTEXAS } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
+import { setFilterObject } from '@/redux/getFilterSlice';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -45,9 +44,7 @@ const VoyagesPage = () => {
   const { currentPage, currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { dataSetKey, dataSetValue } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
+
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
@@ -61,16 +58,13 @@ const VoyagesPage = () => {
         jsonDataVoyageCollection[index]?.base_filter &&
         jsonDataVoyageCollection[index]?.base_filter[0]
       ) {
-        dispatch(
-          setBaseFilterDataKey(
-            jsonDataVoyageCollection[index].base_filter[0].var_name!
-          )
-        );
-        dispatch(
-          setBaseFilterDataValue(
-            jsonDataVoyageCollection[index].base_filter[0].value!
-          )
-        );
+        dispatch(setFilterObject([
+          {
+            varName: jsonDataVoyageCollection[index].base_filter[0].var_name!,
+            searchTerm: jsonDataVoyageCollection[index].base_filter[0].value!,
+            op: "in"
+          }
+        ]));
       }
     };
 
@@ -126,8 +120,6 @@ const VoyagesPage = () => {
     currentBlockName,
     currentPage,
     currentVoyageBlockName,
-    dataSetKey,
-    dataSetValue,
   ]);
 
   const displayPage = (

@@ -6,14 +6,12 @@ import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
-import { HeaderNavBarMenuProps } from '@/share/InterfaceTypes';
+import { Filter, HeaderNavBarMenuProps } from '@/share/InterfaceTypes';
 import CanscandingMenu from '../../SelectorComponents/Cascading/CanscandingMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import {
-  setBaseFilterDataKey,
   setBaseFilterDataSetValue,
-  setBaseFilterDataValue,
   setBlocksMenuList,
   setDataSetHeader,
   setStyleName,
@@ -53,6 +51,7 @@ import { DrawerMenuBar } from './DrawerMenuBar';
 import HeaderLogo from './HeaderLogo';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
+import { setFilterObject } from '@/redux/getFilterSlice';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -90,14 +89,18 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   ) => {
 
     dispatch(resetAll());
-
+    const filters: Filter[] = [];
     if (styleName === VOYAGESTEXAS && currentVoyageBlockName === 'pie') {
       navigate(`/${VOYAGESPAGE}${VOYAGESTEXASPAGE}#intro`);
     } else {
       dispatch(setBaseFilterDataSetValue(base_filter));
       for (const base of base_filter) {
-        dispatch(setBaseFilterDataKey(base.var_name));
-        dispatch(setBaseFilterDataValue(base.value));
+        filters.push({
+          varName: base.var_name,
+          searchTerm: base.value,
+          op: "in"
+        })
+        dispatch(setFilterObject(filters));
       }
       dispatch(setDataSetHeader(textHeder));
       dispatch(setTextIntro(textIntro));
@@ -115,6 +118,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       localStorage.removeItem(key);
     });
   };
+
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);

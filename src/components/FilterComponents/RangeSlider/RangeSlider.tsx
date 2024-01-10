@@ -146,6 +146,7 @@ const RangeSlider = () => {
         [varName]: updatedSliderValue,
       })
     );
+    console.log({ updatedSliderValue })
 
     const filterObject = {
       filterObject: {

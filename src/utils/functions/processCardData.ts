@@ -16,7 +16,6 @@ export const processCardData = (data: Record<string, any>[], cardDataArray: Tran
                     })
                 }),
             };
-
             return cardGroup;
         });
         return newCardData;

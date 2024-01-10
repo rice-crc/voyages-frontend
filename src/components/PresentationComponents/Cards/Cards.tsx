@@ -2,7 +2,6 @@ import { Card, Collapse } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  setCardData,
   setCardDataArray,
   setCardFileName,
 } from '@/redux/getCardFlatObjectSlice';
@@ -26,14 +25,17 @@ import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAP
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { styleCard } from '@/styleMUI/customStyle';
+import { fetchVoyageCard } from '@/fetch/voyagesFetch/fetchVoyageCard';
 
 const VoyageCard = () => {
   const dispatch: AppDispatch = useDispatch();
   const [globalExpand, setGlobalExpand] = useState(true);
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
+  const [cardData, setCardData] = useState<Record<string, any>[]>([])
 
-  const { cardData, cardRowID, cardFileName, cardDataArray, nodeTypeClass } =
+  const { cardRowID, cardFileName, cardDataArray, nodeTypeClass } =
     useSelector((state: RootState) => state.getCardFlatObjectData);
+
   const { networkID } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
@@ -61,51 +63,64 @@ const VoyageCard = () => {
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
   }, [nodeTypeClass]);
+  /*
+
+    {
+      "page": [
+          "This field is required."
+      ],
+      "page_size": [
+          "This field is required."
+      ],
+      "filter": [
+          "This field is required."
+      ]
+  }
+
+  */
   const fetchData = async () => {
     const ID = networkID || cardRowID;
 
-    const dataSend: { [key: string]: (string | number)[] } = {
-      id: [Number(ID!)],
-    };
 
     try {
       let response = null;
       switch (nodeTypeClass) {
         case VOYAGESNODE:
-          response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+          response = await dispatch(fetchVoyageCard(ID)).unwrap();
           break;
-        case ENSLAVEDNODE:
-          response = await dispatch(
-            fetchEnslavedOptionsList(dataSend)
-          ).unwrap();
-          break;
-        case ENSLAVERSNODE:
-          response = await dispatch(
-            fetchEnslaversOptionsList(dataSend)
-          ).unwrap();
-          break;
+        // case ENSLAVEDNODE:
+        //   response = await dispatch(
+        //     fetchEnslavedOptionsList(dataSend)
+        //   ).unwrap();
+        //   break;
+        // case ENSLAVERSNODE:
+        //   response = await dispatch(
+        //     fetchEnslaversOptionsList(dataSend)
+        //   ).unwrap();
+        //   break;
         default:
           response = null;
       }
+
       if (response) {
-        dispatch(setCardData(response.data));
+        setCardData(response.data);
       }
     } catch (error) {
       console.log('error', error);
     }
   };
+
   useEffect(() => {
+
     if (!effectOnce.current) {
       fetchData();
     }
     return () => {
-      dispatch(setCardData([]));
+      setCardData([])
     };
   }, [dispatch, nodeTypeClass, cardRowID]);
 
-  const newCardData = processCardData(cardData, cardDataArray, cardFileName);
-  // console.log({ cardData })
-
+  const newCardData = processCardData([cardData], cardDataArray, cardFileName);
   const toggleExpand = (header: string) => {
     if (!globalExpand) {
       // If globalExpand is false, just toggle the individual header

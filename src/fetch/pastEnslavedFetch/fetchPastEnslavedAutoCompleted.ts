@@ -4,7 +4,7 @@ import { IRootFilterObject } from '@/share/InterfaceTypes';
 
 
 export const fetchPastEnslavedAutoComplete = async (dataSend?: IRootFilterObject) => {
-    const response = await axios.post(`${BASEURL}/voyage/autocomplete/`, dataSend, {
+    const response = await axios.post(`${BASEURL}/past/enslaved/autocomplete/`, dataSend, {
         headers: {
             'Authorization': AUTHTOKEN,
             "Content-Type": "application/json",

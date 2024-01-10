@@ -26,8 +26,6 @@ export interface InitialStateDataSetCollection {
     textIntroduce: string;
     styleName: string;
     dataSetValueBaseFilter: BaseFilter[];
-    dataSetKey: string;
-    dataSetValue: string[] | number[];
     blocks: string[];
     filterMenuVoyageFlatfile: string;
     tableFlatfileVoyages: string
