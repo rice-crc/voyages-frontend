@@ -25,7 +25,6 @@ import {
   INTRODUCTORYMAPS,
   LESSONPLANS,
   PASTHOMEPAGE,
-  SUMMARYSTATISTICS,
   TIMELAPSEPAGE,
   TRANSATLANTICPAGE,
   VOYAGESPAGE,
@@ -79,6 +78,7 @@ const App: React.FC = () => {
       dispatch(setValueVariable(typeOfData))
     }
   }, [dispatch, ID, nodeClass, styleName, voyageURLID]);
+
 
   return (
     <ThemeProvider theme={theme}>

@@ -8,6 +8,8 @@ import '@/style/map.scss';
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
+  Filter,
+  MapPropsRequest,
   RangeSliderState,
 } from '@/share/InterfaceTypes';
 import {
@@ -22,6 +24,8 @@ import {
   AFRICANORIGINS,
   ENSLAVEDNODE,
   VOYAGE,
+  VOYAGESTYPE,
+  ENSLAVERSNODE,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
@@ -40,11 +44,17 @@ import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
 import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { handleSetDataSentMap } from '@/utils/functions/handleSetDataSentMap';
-import { checkPagesRouteForEnslaved, checkPagesRouteForVoyages, checkPagesRouteMapURLForEnslaved, checkPagesRouteMapURLForVoyages } from '@/utils/functions/checkPagesRoute';
+import {
+  checkPagesRouteForEnslaved,
+  checkPagesRouteForVoyages,
+  checkPagesRouteMapURLForEnslaved,
+  checkPagesRouteMapURLForVoyages,
+} from '@/utils/functions/checkPagesRoute';
+import { setKeyValueName } from '@/redux/getRangeSliderSlice';
 
 interface LeafletMapProps {
-  setZoomLevel: React.Dispatch<React.SetStateAction<number>>
-  zoomLevel: number
+  setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
+  zoomLevel: number;
 }
 
 export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
@@ -56,29 +66,30 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { nodesData } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
-  const { styleName: styleNamePage, nodeTypeURL, voyageURLID } = usePageRouter()
+  const {
+    styleName: styleNamePage,
+    nodeTypeURL,
+    voyageURLID,
+  } = usePageRouter();
 
   const [regionPlace, setRegionPlace] = useState<string>('region');
 
   const [loading, setLoading] = useState<boolean>(false);
   const hasFetchedPlaceRef = useRef(false);
-  const { dataSetKey, dataSetValue, styleName } = useSelector(
+  const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
 
   const { styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
-
-  const { hasFetchedRegion, clusterNodeKeyVariable, clusterNodeValue } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  const effectOnce = useRef(false);
+  const { hasFetchedRegion, clusterNodeKeyVariable, clusterNodeValue } =
+    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+  const { rangeSliderMinMax: rang, varName } = useSelector(
+    (state: RootState) => state.rangeSlider as RangeSliderState
   );
-
-  const {
-    rangeSliderMinMax: rang,
-    varName,
-    isChange,
-  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -91,6 +102,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { isChangeGeoTree, geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
+  const [variableName, setVariableName] = useState<string>('');
 
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
@@ -106,11 +118,21 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       (savedNodesDataRegion && saveEdgesDataRegion) ||
       (saveEdgesDataPlace && savedNodesDataPlace)
     ) {
-      if (zoomLevel >= ZOOM_LEVEL_THRESHOLD && !varName && !clusterNodeValue && !clusterNodeKeyVariable) {
+      if (
+        zoomLevel >= ZOOM_LEVEL_THRESHOLD &&
+        !varName &&
+        !clusterNodeValue &&
+        !clusterNodeKeyVariable
+      ) {
         dispatch(setNodesDataPlace(JSON.parse(savedNodesDataPlace!)));
         dispatch(setEdgesDataPlace(JSON.parse(saveEdgesDataPlace!)));
         setLoading(false);
-      } else if (zoomLevel < ZOOM_LEVEL_THRESHOLD && !varName && !clusterNodeValue && !clusterNodeKeyVariable) {
+      } else if (
+        zoomLevel < ZOOM_LEVEL_THRESHOLD &&
+        !varName &&
+        !clusterNodeValue &&
+        !clusterNodeKeyVariable
+      ) {
         dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion!)));
         dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion!)));
         setLoading(false);
@@ -118,28 +140,29 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     }
   }, [zoomLevel, varName, clusterNodeKeyVariable, clusterNodeValue]);
 
+
   const fetchData = async (regionOrPlace: string) => {
 
-    const dataSend = handleSetDataSentMap(
-      autoCompleteValue,
-      varName,
-      isChangeGeoTree,
-      dataSetValue,
-      dataSetKey,
-      inputSearchValue,
-      rang,
-      geoTreeValue,
-      isChange,
-      currentPage,
-      currentEnslavedPage,
-      styleName, clusterNodeKeyVariable, clusterNodeValue, styleNamePeople
-    )
+
+    const filters: Filter[] = [];
+    const filterByVarName =
+      filtersObj &&
+      filtersObj.filter((filterItem: Filter) => filterItem.varName !== varName);
 
     if (voyageURLID !== ENSLAVEDNODE && voyageURLID !== VOYAGE) {
-      dataSend['id'] = [voyageURLID!];
+      filters.push({
+        varName: variableName,
+        searchTerm: [Number(voyageURLID!)],
+        op: 'in'
+      });
     }
 
-    dataSend['zoomlevel'] = [regionOrPlace!];
+
+    const dataSend: MapPropsRequest = {
+      zoomlevel: regionOrPlace,
+      filter: filters || filtersObj || filterByVarName
+    };
+    console.log({ dataSend })
     hasFetchedRegion ? setLoading(true) : setLoading(false);
     let response;
     if (checkPagesRouteForVoyages(styleNamePage! || nodeTypeURL!)) {
@@ -155,34 +178,47 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     if (response) {
       handleDataResponse(response, regionOrPlace);
       dispatch(setHasFetchedRegion(false));
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
+    setLoading(true);
+    if (nodeTypeURL === VOYAGESTYPE) {
+      setVariableName(() => 'voyage_id');
+    } else if (nodeTypeURL === ENSLAVEDNODE) {
+      setVariableName(() => 'enslaved_id');
+    } else if (nodeTypeURL === ENSLAVERSNODE) {
+      setVariableName(() => 'voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id'
+      );
+    }
 
-    if (hasFetchedRegion || ((clusterNodeKeyVariable !== "" && clusterNodeValue !== "") || varName !== "")) {
+    if (
+      !effectOnce.current ||
+      hasFetchedRegion ||
+      (clusterNodeKeyVariable !== '' && clusterNodeValue !== '') ||
+      varName !== ''
+    ) {
       fetchData(regionPlace);
     }
   }, [
+    nodeTypeURL,
     rang,
+    variableName,
     varName,
     autoCompleteValue,
     autoLabelName,
     currentPage,
     pathName,
-    dataSetKey,
-    dataSetValue,
     styleName,
-    geoTreeValue,
     inputSearchValue,
-    regionPlace, clusterNodeKeyVariable, clusterNodeValue
+    regionPlace,
+    clusterNodeKeyVariable,
+    clusterNodeValue,
   ]);
-
 
   const handleDataResponse = (response: any, regionOrPlace: string) => {
     if (response) {
-
       const { nodes, edges, paths } = response;
       dispatch(setMapData(response));
       if (regionOrPlace === 'region') {
@@ -240,7 +276,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
   let backgroundColor = styleNamePeople;
   if (checkPagesRouteForVoyages(styleName)) {
-    backgroundColor = styleName
+    backgroundColor = styleName;
   }
   if (styleNamePeople === AFRICANORIGINS) {
     backgroundColor = styleNamePeople;

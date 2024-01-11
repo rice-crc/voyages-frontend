@@ -61,7 +61,7 @@ const PivotTables = () => {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { dataSetKey, dataSetValue, styleName } = useSelector(
+  const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
   const { isChangeGeoTree, geoTreeValue } = useSelector(
@@ -85,6 +85,7 @@ const PivotTables = () => {
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const [loading, setLoading] = useState<boolean>(false);
   const [rowVars, setSelectRowValue] = useState<PivotRowVar[]>([]);
   const [columnVars, setSelectColumnValue] = useState<PivotColumnVar[]>([]);
@@ -153,8 +154,26 @@ const PivotTables = () => {
       cell_vars,
       cachename,
     } = pivotValueOptions;
+    /*
+{
+  "columns": [
+    "voyage_itinerary__imp_broad_region_of_slave_purchase__name",
+    "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
+    "voyage_itinerary__imp_principal_place_of_slave_purchase__name"
+  ],
+  "rows": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+  "binsize": 20,
+  "rows_label": "YEARAM",
+  "agg_fn": "sum",
+  "value_field": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+  "offset": 0,
+  "limit": 5,
+  "filter": []
+}
+
+    */
     const fetchData = async () => {
-      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, clusterNodeKeyVariable, clusterNodeValue, styleName, currentPage, isChange, undefined, undefined)
+      const dataSend = handleSetDataSentTablePieBarScatterGraph(filtersObj, isChangeGeoTree, varName, styleName, currentPage, isChange, undefined, undefined)
 
       dataSend['columns'] = columnVars;
       dataSend['rows'] = [row_vars];
@@ -165,15 +184,15 @@ const PivotTables = () => {
 
       setLoading(true);
       try {
-        const response = await dispatch(
-          fetchPivotCrosstabsTables(dataSend)
-        ).unwrap();
+        // const response = await dispatch(
+        //   fetchPivotCrosstabsTables(dataSend)
+        // ).unwrap();
 
-        if (response && subscribed) {
-          dispatch(setPivotTablColumnDefs(response.data.tablestructure));
-          dispatch(setRowPivotTableData(response.data.data));
-          setLoading(false);
-        }
+        // if (response && subscribed) {
+        //   dispatch(setPivotTablColumnDefs(response.data.tablestructure));
+        //   dispatch(setRowPivotTableData(response.data.data));
+        //   setLoading(false);
+        // }
       } catch (error) {
         console.log('error', error);
         setLoading(false);
@@ -196,8 +215,6 @@ const PivotTables = () => {
     rang,
     currentPage,
     autoLabelName,
-    dataSetValue,
-    dataSetKey,
     geoTreeValue,
     isChange,
     styleName,

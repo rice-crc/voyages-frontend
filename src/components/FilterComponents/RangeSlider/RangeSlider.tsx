@@ -2,7 +2,7 @@ import { useEffect, useState, ChangeEvent, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setRangeValue,
-  setKeyValue,
+  setKeyValueName,
   setIsChange,
   setRangeSliderValue,
 } from '@/redux/getRangeSliderSlice';
@@ -71,7 +71,7 @@ const RangeSlider = () => {
         //   parseInt(response[varName].min),
         //   parseInt(response[varName].max),
         // ];
-        dispatch(setKeyValue(varName));
+        dispatch(setKeyValueName(varName));
         dispatch(
           setRangeValue({
             ...rangeValue,

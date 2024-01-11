@@ -1,14 +1,13 @@
-
 import axios from 'axios';
-import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
+import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchVoyageCard = createAsyncThunk(
-    'voyageOptions/fetchVoyageOptionsAPI',
+export const fetchPastEnslaversCard = createAsyncThunk(
+    'enslaversOptions/fetchEnslaversOptionsList',
     async (id?: number) => {
         try {
             const response = await axios.get(
-                `${BASEURL}/voyage/${id}`,
+                `${BASEURL}/past/enslaver/${id}`,
                 {
                     headers: {
                         'Authorization': AUTHTOKEN,
@@ -16,10 +15,9 @@ export const fetchVoyageCard = createAsyncThunk(
                     }
                 }
             );
-            console.log({ response })
             return response;
         } catch (error) {
-            throw new Error('Failed to fetchVoyageOptionsAPI data');
+            throw new Error('Failed to fetchEnslaversOptionsList data');
         }
     }
 );

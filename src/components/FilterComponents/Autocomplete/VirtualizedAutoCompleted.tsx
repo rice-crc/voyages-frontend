@@ -110,7 +110,6 @@ export default function VirtualizedAutoCompleted() {
         newValue: AutoCompleteOption[]
     ) => {
         if (newValue) {
-            console.log({ newValue })
             setSelectedValue(newValue as AutoCompleteOption[]);
             dispatch(setIsChangeAuto(!isChangeAuto));
             const autuLabel: string[] = newValue.map((ele) => ele.value);

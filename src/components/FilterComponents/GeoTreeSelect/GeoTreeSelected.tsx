@@ -74,7 +74,6 @@ const GeoTreeSelected: React.FC = () => {
   }, [varName, styleName]);
 
   const handleTreeOnChange = (newValue: string[]) => {
-    console.log({ newValue })
     dispatch(setIsChangeGeoTree(!isChangeGeoTree));
     setSelectedValue(newValue);
     const valueSelect: string[] = newValue.map((ele) => ele);

@@ -28,7 +28,7 @@ import {
 } from '@/styleMUI';
 import { useState, MouseEvent, useEffect } from 'react';
 import { PaperDraggable } from './PaperDraggable';
-import { setIsChange, setKeyValue } from '@/redux/getRangeSliderSlice';
+import { setIsChange, setKeyValueName } from '@/redux/getRangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
@@ -94,7 +94,7 @@ export const MenuListsDropdown = () => {
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
     if (value && type && label) {
-      dispatch(setKeyValue(value));
+      dispatch(setKeyValueName(value));
       setType(type);
       setLabel(label);
       dispatch(setIsOpenDialog(true));

@@ -50,6 +50,13 @@ export interface IRootFilterObject {
     limit: number;
     filter: Filter[]
 }
+export interface IRootFilterObjectScatterRequest {
+    groupby_by: string
+    groupby_cols: string[]
+    agg_fn: string
+    cachename: string
+    filter: Filter[]
+}
 export interface IRootFilterTableObject {
     filter: Filter[];
     page: number;
@@ -251,8 +258,16 @@ export interface CanscandingMenuProps {
 export interface ColumnObjectProps {
     [key: string]: string;
 }
-
-
+export interface TableListPropsRequest {
+    filter: Filter[]
+    page: number
+    page_size: number
+}
+export interface MapPropsRequest {
+    zoomlevel: string
+    filter: Filter[]
+    id?: string
+}
 export interface TableColumnProps {
     header_label: string
     cell_type: string

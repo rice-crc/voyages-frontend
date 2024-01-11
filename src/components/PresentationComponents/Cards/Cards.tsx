@@ -21,11 +21,10 @@ import '@/style/cards.scss';
 import { TransatlanticCardProps } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
 import { CardHeaderCustom } from '@/styleMUI';
-import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
-import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
-import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { styleCard } from '@/styleMUI/customStyle';
 import { fetchVoyageCard } from '@/fetch/voyagesFetch/fetchVoyageCard';
+import { fetchPastEnslaversCard } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversCard';
+import { fetchPastEnslavedCard } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedCard';
 
 const VoyageCard = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -63,24 +62,9 @@ const VoyageCard = () => {
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
   }, [nodeTypeClass]);
-  /*
 
-    {
-      "page": [
-          "This field is required."
-      ],
-      "page_size": [
-          "This field is required."
-      ],
-      "filter": [
-          "This field is required."
-      ]
-  }
-
-  */
   const fetchData = async () => {
     const ID = networkID || cardRowID;
-
 
     try {
       let response = null;
@@ -88,16 +72,16 @@ const VoyageCard = () => {
         case VOYAGESNODE:
           response = await dispatch(fetchVoyageCard(ID)).unwrap();
           break;
-        // case ENSLAVEDNODE:
-        //   response = await dispatch(
-        //     fetchEnslavedOptionsList(dataSend)
-        //   ).unwrap();
-        //   break;
-        // case ENSLAVERSNODE:
-        //   response = await dispatch(
-        //     fetchEnslaversOptionsList(dataSend)
-        //   ).unwrap();
-        //   break;
+        case ENSLAVEDNODE:
+          response = await dispatch(
+            fetchPastEnslavedCard(ID)
+          ).unwrap();
+          break;
+        case ENSLAVERSNODE:
+          response = await dispatch(
+            fetchPastEnslaversCard(ID)
+          ).unwrap();
+          break;
         default:
           response = null;
       }
@@ -119,6 +103,7 @@ const VoyageCard = () => {
       setCardData([])
     };
   }, [dispatch, nodeTypeClass, cardRowID]);
+
 
   const newCardData = processCardData([cardData], cardDataArray, cardFileName);
   const toggleExpand = (header: string) => {

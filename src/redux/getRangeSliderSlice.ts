@@ -18,7 +18,7 @@ const rangeSliderSlice = createSlice({
         setRangeValue: (state, action: PayloadAction<Record<string, number[]>>) => {
             state.rangeValue = action.payload;
         },
-        setKeyValue: (state, action: PayloadAction<string>) => {
+        setKeyValueName: (state, action: PayloadAction<string>) => {
             state.varName = action.payload;
         },
         setIsChange: (state, action: PayloadAction<boolean>) => {
@@ -31,5 +31,5 @@ const rangeSliderSlice = createSlice({
     },
 
 });
-export const { setRangeValue, setKeyValue, setIsChange, resetSlice, setRangeSliderValue } = rangeSliderSlice.actions;
+export const { setRangeValue, setKeyValueName, setIsChange, resetSlice, setRangeSliderValue } = rangeSliderSlice.actions;
 export default rangeSliderSlice.reducer;

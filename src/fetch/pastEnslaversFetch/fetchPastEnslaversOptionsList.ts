@@ -1,24 +1,15 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { TableListPropsRequest } from '@/share/InterfaceTypes';
 
-export const fetchEnslaversOptionsList = createAsyncThunk(
-    'enslaversOptions/fetchEnslaversOptionsList',
-    async (dataSend?: { [key: string]: (string | number)[] }) => {
-        try {
-            const response = await axios.post(
-                `${BASEURL}/past/enslaver/`,
-                dataSend,
-                {
-                    headers: {
-                        'Authorization': AUTHTOKEN,
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
-            return response;
-        } catch (error) {
-            throw new Error('Failed to fetchEnslaversOptionsList data');
+export const fetchEnslaversOptionsList = async (dataSend?: TableListPropsRequest) => {
+    const response = await axios.post(`${BASEURL}/past/enslaver/`, dataSend, {
+        headers: {
+            'Authorization': AUTHTOKEN,
+            "Content-Type": "application/json",
+
         }
-    }
-);
+    });
+    return response.data;
+};
+

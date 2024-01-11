@@ -23,37 +23,44 @@ import {
     CurrentPageInitialState,
     Filter,
     RangeSliderState,
+    TableListPropsRequest,
 } from '@/share/InterfaceTypes';
-import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
-import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
-import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
+import {
+    getMobileMaxHeightTable,
+    getMobileMaxWidth,
+    maxWidthSize,
+} from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
-import { createTopPositionEnslavedPage, createTopPositionEnslaversPage } from '@/utils/functions/createTopPositionEnslavedPage';
-import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
+import {
+    createTopPositionEnslavedPage,
+    createTopPositionEnslaversPage,
+} from '@/utils/functions/createTopPositionEnslavedPage';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import {
+    checkPagesRouteForEnslaved,
+    checkPagesRouteForEnslavers,
+    checkPagesRouteForVoyages,
+} from '@/utils/functions/checkPagesRoute';
 import { CustomTablePagination } from '@/styleMUI';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { useTableCellStructure } from '@/hooks/useTableCellStructure';
-
+import { useTableLists } from '@/hooks/useTableLists';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { styleName: styleNameRoute } = usePageRouter()
+    const { styleName: styleNameRoute } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
-
     const { visibleColumnCells } = useSelector(
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
     );
@@ -67,7 +74,9 @@ const Tables: React.FC = () => {
     const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
         (state: RootState) => state.getNodeEdgesAggroutesMapData
     );
-    const { isChangeAuto } = useSelector((state: RootState) => state.autoCompleteList)
+    const { isChangeAuto } = useSelector(
+        (state: RootState) => state.autoCompleteList
+    );
 
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
@@ -77,9 +86,8 @@ const Tables: React.FC = () => {
         (state: RootState) => state.getGeoTreeData
     );
     // Voyages States
-    const { styleName, tableFlatfileVoyages, dataSetValueBaseFilter } = useSelector(
-        (state: RootState) => state.getDataSetCollection
-    );
+    const { styleName, tableFlatfileVoyages, dataSetValueBaseFilter } =
+        useSelector((state: RootState) => state.getDataSetCollection);
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
     );
@@ -93,9 +101,8 @@ const Tables: React.FC = () => {
     );
 
     // Enslavers States
-    const { styleNamePeople: styleEnlsavers, tableFlatfileEnslavers } = useSelector(
-        (state: RootState) => state.getEnslaverDataSetCollections
-    );
+    const { styleNamePeople: styleEnlsavers, tableFlatfileEnslavers } =
+        useSelector((state: RootState) => state.getEnslaverDataSetCollections);
 
     const { currentEnslaversPage } = useSelector(
         (state: RootState) => state.getScrollEnslaversPage
@@ -106,20 +113,23 @@ const Tables: React.FC = () => {
         getRowsPerPage(window.innerWidth, window.innerHeight)
     );
 
-
     const [width, height] = useWindowSize();
     const maxWidth = maxWidthSize(width);
     const [style, setStyle] = useState({
         width: maxWidth,
-        height: height - 250,
+        height: height - 280,
     });
 
     const containerStyle = useMemo(
-        () => ({ width: maxWidth, height: height }),
+        () => ({ width: maxWidth, height: height * 0.7 }),
         [maxWidth, height]
     );
 
-    const { data: tableCellStructure, isLoading, isError } = useTableCellStructure(styleName);
+    const {
+        data: tableCellStructure,
+        isLoading,
+        isError,
+    } = useTableCellStructure(styleName);
 
     useEffect(() => {
         if (!isLoading && !isError && tableCellStructure) {
@@ -137,64 +147,42 @@ const Tables: React.FC = () => {
             setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
         };
 
-
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     }, [tablesCell, dispatch, tableCellStructure, isLoading, isError, styleName]);
 
+    const dataSend: TableListPropsRequest = {
+        filter: filtersObj || [],
+        page: Number(page + 1),
+        page_size: Number(rowsPerPage),
+    };
+
+    const { data: dataTableList } = useTableLists(dataSend, styleNameRoute!);
 
     useEffect(() => {
-
-    }, [filtersObj]);
-
-    useEffect(() => {
-        let subscribed = true;
-        const fetchData = async () => {
-            let dataSend: Record<string, any> = {};
-
-            if (checkPagesRouteForVoyages(styleNameRoute!)) {
-                dataSend = handleSetDataSentTablePieBarScatterGraph(filtersObj, isChangeGeoTree, varName, styleName, currentPage, isChange, undefined, undefined)
-            } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                dataSend = handleSetDataSentTablePieBarScatterGraph(filtersObj, isChangeGeoTree, varName, undefined, undefined, isChange, styleNamePeople, currentEnslavedPage)
-            } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                dataSend = handleSetDataSentTablePieBarScatterGraph(filtersObj, isChangeGeoTree, varName, undefined, undefined, isChange, styleEnlsavers, currentEnslaversPage)
-            }
-            dataSend['page'] = Number(page + 1);
-            dataSend['page_size'] = Number(rowsPerPage);
-
-            let response;
-            try {
-
-                if (checkPagesRouteForVoyages(styleNameRoute!)) {
-                    response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-                }
-                else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                    response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap()
-                } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                    response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
-                }
-
-                if (subscribed && response) {
-                    setTotalResultsCount(Number(response.data.count));
-                    dispatch(setData(response.data.results));
-                    saveDataToLocalStorage(response.data.results, visibleColumnCells);
-
-                }
-            } catch (error) {
-                console.log('error', error);
-
-            }
-        };
-        fetchData();
+        if (dataTableList) {
+            const { count, results } = dataTableList;
+            const tableList: Record<string, any>[] = results.map(
+                (value: Record<string, any>) => value
+            );
+            setTotalResultsCount(() => Number(count));
+            dispatch(setData(tableList));
+            saveDataToLocalStorage(results, visibleColumnCells);
+        }
         return () => {
-            subscribed = false;
             dispatch(setData([]));
             dispatch(setRowData([]));
         };
     }, [
-        dispatch, isChangeAuto, isChange, isChangeGeoTree,
+        dataTableList,
+        isLoading,
+        isError,
+        dispatch,
+        isChangeAuto,
+        isChange,
+        isChangeGeoTree,
         rowsPerPage,
         page,
         currentPage,
@@ -205,8 +193,6 @@ const Tables: React.FC = () => {
         styleEnlsavers,
     ]);
 
-
-
     useEffect(() => {
         const storedValue = localStorage.getItem('filterObject');
         if (!storedValue) return;
@@ -215,11 +201,12 @@ const Tables: React.FC = () => {
         const filter: Filter[] = parsedValue.filter;
         if (!filter) return;
 
-
         dispatch(setFilterObject(filter));
-        setStyle({ width: getMobileMaxWidth(maxWidth), height: getMobileMaxHeightTable(height) });
+        setStyle({
+            width: getMobileMaxWidth(maxWidth),
+            height: getMobileMaxHeightTable(height),
+        });
         saveDataToLocalStorage(data, visibleColumnCells);
-
     }, [width, height, maxWidth, data]);
 
     const saveDataToLocalStorage = useCallback(
@@ -233,14 +220,13 @@ const Tables: React.FC = () => {
         []
     );
     useEffect(() => {
-        const tableFileName =
-            checkPagesRouteForVoyages(styleNameRoute!)
-                ? tableFlatfileVoyages
-                : checkPagesRouteForEnslaved(styleNameRoute!)
-                    ? tableFlatfileEnslaved
-                    : checkPagesRouteForEnslavers(styleNameRoute!)
-                        ? tableFlatfileEnslavers
-                        : null;
+        const tableFileName = checkPagesRouteForVoyages(styleNameRoute!)
+            ? tableFlatfileVoyages
+            : checkPagesRouteForEnslaved(styleNameRoute!)
+                ? tableFlatfileEnslaved
+                : checkPagesRouteForEnslavers(styleNameRoute!)
+                    ? tableFlatfileEnslavers
+                    : null;
 
         updateColumnDefsAndRowData(
             data,
@@ -249,8 +235,14 @@ const Tables: React.FC = () => {
             tableFileName!,
             tablesCell
         );
-    }, [data, visibleColumnCells, dispatch, tableFlatfileVoyages, tableFlatfileEnslaved, tableFlatfileEnslavers]);
-
+    }, [
+        data,
+        visibleColumnCells,
+        dispatch,
+        tableFlatfileVoyages,
+        tableFlatfileEnslaved,
+        tableFlatfileEnslavers,
+    ]);
 
     const defaultColDef = useMemo(
         () => ({
@@ -307,9 +299,12 @@ const Tables: React.FC = () => {
         []
     );
 
-    const handleChangePage = useCallback((event: any, newPage: number) => {
-        setPage(newPage);
-    }, [page]);
+    const handleChangePage = useCallback(
+        (event: any, newPage: number) => {
+            setPage(newPage);
+        },
+        [page]
+    );
 
     const handleChangeRowsPerPage = useCallback(
         (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -330,15 +325,22 @@ const Tables: React.FC = () => {
     if (checkPagesRouteForVoyages(styleNameRoute!)) {
         topPositionPage = createTopPositionVoyages(currentPage, inputSearchValue!);
     } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-
-        topPositionPage = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue!)
+        topPositionPage = createTopPositionEnslavedPage(
+            currentEnslavedPage,
+            inputSearchValue!
+        );
     } else {
-        topPositionPage = createTopPositionEnslaversPage(currentEnslaversPage, inputSearchValue!);
+        topPositionPage = createTopPositionEnslaversPage(
+            currentEnslaversPage,
+            inputSearchValue!
+        );
     }
-    const pageCount = Math.ceil((totalResultsCount && rowsPerPage) ? (totalResultsCount / rowsPerPage) : 1);
+    const pageCount = Math.ceil(
+        totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
+    );
 
     return (
-        <div style={{ marginTop: topPositionPage }} className='mobile-responsive'>
+        <div style={{ marginTop: topPositionPage }} className="mobile-responsive">
             <div style={containerStyle} className="ag-theme-alpine grid-container">
                 <div style={style}>
                     <span className="tableContainer">
@@ -378,7 +380,8 @@ const Tables: React.FC = () => {
                                 page={page + 1}
                                 onChange={handleChangePagePagination}
                             />
-                        </div></>
+                        </div>
+                    </>
                 </div>
             </div>
             <div>

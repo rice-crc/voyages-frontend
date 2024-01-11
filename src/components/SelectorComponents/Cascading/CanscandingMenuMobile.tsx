@@ -30,7 +30,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { useState, MouseEvent, useEffect } from 'react';
 import {
   setIsChange,
-  setKeyValue,
+  setKeyValueName,
 } from '@/redux/getRangeSliderSlice';
 import { setIsOpenDialogMobile } from '@/redux/getScrollPageSlice';
 import { PaperDraggable } from './PaperDraggable';
@@ -102,7 +102,7 @@ const CanscandingMenuMobile = () => {
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
     if (value && type && label) {
-      dispatch(setKeyValue(value));
+      dispatch(setKeyValueName(value));
       setType(type);
       setLabel(label);
       dispatch(setIsOpenDialogMobile(true));
