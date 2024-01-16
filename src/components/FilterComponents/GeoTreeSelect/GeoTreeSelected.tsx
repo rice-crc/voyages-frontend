@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  AutoCompleteInitialState,
   Filter,
   GeoTreeSelectItem,
   GeoTreeSelectStateProps,
@@ -10,6 +9,7 @@ import {
 import { AppDispatch, RootState } from '@/redux/store';
 import { TreeSelect } from 'antd';
 import '@/style/page.scss';
+import { getGeoValuesCheck } from '@/utils/functions/getGeoValuesCheck';
 import {
   setIsChangeGeoTree,
 } from '@/redux/getGeoTreeDataSlice';
@@ -62,16 +62,22 @@ const GeoTreeSelected: React.FC = () => {
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
+
     if (!storedValue) return;
     const parsedValue = JSON.parse(storedValue);
     const filter: Filter[] = parsedValue.filter;
     const filterByVarName = filter?.length > 0 && filter.find((filterItem) => filterItem.varName === varName);
     if (!filterByVarName) return;
+    const geoTreeListValue = getGeoValuesCheck([], geoTreeValueList);
     const geoList: string[] = filterByVarName.searchTerm as string[];
-    const values = geoList.map<string>((item: string) => item);
+    const filteredSelect = geoTreeListValue.filter((item: string) =>
+      geoList.includes(item)
+    );
+    console.log({ filteredSelect })
+    const values = filteredSelect.map<string>((item: string) => item);
     setSelectedValue(() => values)
     dispatch(setFilterObject(filter));
-  }, [varName, styleName]);
+  }, [varName, styleName, geoTreeValueList]);
 
   const handleTreeOnChange = (newValue: string[]) => {
     dispatch(setIsChangeGeoTree(!isChangeGeoTree));
@@ -107,6 +113,7 @@ const GeoTreeSelected: React.FC = () => {
   };
 
   const dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeValueList);
+  console.log({ dataForTreeSelect })
 
   const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
     return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());

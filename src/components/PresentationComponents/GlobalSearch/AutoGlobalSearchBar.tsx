@@ -40,6 +40,7 @@ import {
   getOptionLabelSearchGlobal,
   shouldDisable,
 } from '@/utils/functions/getOptionLabelSearchGlobal';
+import { setFilterObject } from '@/redux/getFilterSlice';
 
 const AutoGlobalSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -47,18 +48,7 @@ const AutoGlobalSearchBar = () => {
   const { data, inputSearchValue, requestId } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { rangeSliderMinMax } = useSelector(
-    (state: RootState) => state.rangeSlider as RangeSliderState
-  );
-
-  const { geoTreeValue } = useSelector(
-    (state: RootState) => state.getGeoTreeData
-  );
-
-  const { autoCompleteValue } = useSelector(
-    (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
-  );
-
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const [showClearButton, setShowClearButton] = useState<boolean>(false);
   const [calledIds, setCalledIds] = useState<Set<number>>(new Set());
   const [isFetching, setIsFetching] = useState(false);
@@ -77,8 +67,8 @@ const AutoGlobalSearchBar = () => {
   useEffect(() => {
     const fetchSearchGlobalData = async (currentRequestId: number) => {
       if (inputSearchValue) {
-        const dataSend: { [key: string]: string[] } = {
-          search_string: [inputSearchValue],
+        const dataSend: { [key: string]: string } = {
+          search_string: inputSearchValue,
         };
         const signal = signalRef.current;
         if (!signal) return;
@@ -117,6 +107,7 @@ const AutoGlobalSearchBar = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
       dispatch(setInputSearchValue(value));
+      // dispatch(setFilterObject(value))
       setShowClearButton(value !== '');
       handleInputChangeDebounced(value);
       const newRequestId = Date.now();
@@ -157,9 +148,7 @@ const AutoGlobalSearchBar = () => {
       }
       const filterObject = {
         filterObject: {
-          ...rangeSliderMinMax,
-          ...autoCompleteValue,
-          ...geoTreeValue,
+          ...filtersObj,
           ['global_search']: inputSearchValue,
         },
       };

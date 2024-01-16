@@ -43,14 +43,13 @@ import { HandleZoomEvent } from './HandleZoomEvent';
 import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
 import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { handleSetDataSentMap } from '@/utils/functions/handleSetDataSentMap';
 import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForVoyages,
   checkPagesRouteMapURLForEnslaved,
   checkPagesRouteMapURLForVoyages,
 } from '@/utils/functions/checkPagesRoute';
-import { setKeyValueName } from '@/redux/getRangeSliderSlice';
+import { setFilterObject } from '@/redux/getFilterSlice';
 
 interface LeafletMapProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
@@ -66,14 +65,13 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { nodesData } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
+  const effectOnce = useRef(false);
   const {
     styleName: styleNamePage,
     nodeTypeURL,
-    voyageURLID,
   } = usePageRouter();
 
   const [regionPlace, setRegionPlace] = useState<string>('region');
-
   const [loading, setLoading] = useState<boolean>(false);
   const hasFetchedPlaceRef = useRef(false);
   const { styleName } = useSelector(
@@ -83,7 +81,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
-  const effectOnce = useRef(false);
+
   const { hasFetchedRegion, clusterNodeKeyVariable, clusterNodeValue } =
     useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
@@ -102,11 +100,23 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { isChangeGeoTree, geoTreeValue } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
-  const [variableName, setVariableName] = useState<string>('');
 
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+
+  useEffect(() => {
+
+    const storedValueFilterObject = localStorage.getItem('filterObject');
+
+    if (!storedValueFilterObject) return;
+    const parsedValue = JSON.parse(storedValueFilterObject);
+    const filter: Filter[] = parsedValue.filter;
+    console.log({ filter })
+    if (!filter) return;
+    dispatch(setFilterObject((filter)));
+
+  }, []);
 
   useEffect(() => {
     const savedNodesDataRegion = localStorage.getItem('nodesDataregion');
@@ -140,29 +150,12 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     }
   }, [zoomLevel, varName, clusterNodeKeyVariable, clusterNodeValue]);
 
-
   const fetchData = async (regionOrPlace: string) => {
-
-
-    const filters: Filter[] = [];
-    const filterByVarName =
-      filtersObj &&
-      filtersObj.filter((filterItem: Filter) => filterItem.varName !== varName);
-
-    if (voyageURLID !== ENSLAVEDNODE && voyageURLID !== VOYAGE) {
-      filters.push({
-        varName: variableName,
-        searchTerm: [Number(voyageURLID!)],
-        op: 'in'
-      });
-    }
-
-
     const dataSend: MapPropsRequest = {
       zoomlevel: regionOrPlace,
-      filter: filters || filtersObj || filterByVarName
+      filter: filtersObj || [],
     };
-    console.log({ dataSend })
+
     hasFetchedRegion ? setLoading(true) : setLoading(false);
     let response;
     if (checkPagesRouteForVoyages(styleNamePage! || nodeTypeURL!)) {
@@ -183,18 +176,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    if (nodeTypeURL === VOYAGESTYPE) {
-      setVariableName(() => 'voyage_id');
-    } else if (nodeTypeURL === ENSLAVEDNODE) {
-      setVariableName(() => 'enslaved_id');
-    } else if (nodeTypeURL === ENSLAVERSNODE) {
-      setVariableName(() => 'voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id'
-      );
-    }
-
-    if (
-      !effectOnce.current ||
+    if (!effectOnce.current ||
       hasFetchedRegion ||
       (clusterNodeKeyVariable !== '' && clusterNodeValue !== '') ||
       varName !== ''
@@ -204,7 +186,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   }, [
     nodeTypeURL,
     rang,
-    variableName,
     varName,
     autoCompleteValue,
     autoLabelName,
@@ -214,7 +195,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     inputSearchValue,
     regionPlace,
     clusterNodeKeyVariable,
-    clusterNodeValue,
+    clusterNodeValue, filtersObj
   ]);
 
   const handleDataResponse = (response: any, regionOrPlace: string) => {

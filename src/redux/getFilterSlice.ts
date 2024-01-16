@@ -4,10 +4,12 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 interface FilterState {
     isFilter: boolean;
     filtersObj: Filter[];
+    nameIdURL: string;
 }
 const initialState: FilterState = {
     isFilter: false,
-    filtersObj: []
+    filtersObj: [],
+    nameIdURL: ''
 };
 export const getFilterSlice = createSlice({
     name: 'getFilter',
@@ -19,10 +21,13 @@ export const getFilterSlice = createSlice({
         setFilterObject: (state, action: PayloadAction<Filter[]>) => {
             state.filtersObj = action.payload;
         },
+        setVariableNameIdURL: (state, action: PayloadAction<string>) => {
+            state.nameIdURL = action.payload;
+        },
         resetSlice: (state) => initialState,
     },
 });
 
-export const { resetSlice, setIsFilter, setFilterObject } = getFilterSlice.actions;
+export const { resetSlice, setIsFilter, setFilterObject, setVariableNameIdURL } = getFilterSlice.actions;
 
 export default getFilterSlice.reducer;

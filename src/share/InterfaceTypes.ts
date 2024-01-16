@@ -262,10 +262,11 @@ export interface TableListPropsRequest {
     filter: Filter[]
     page: number
     page_size: number
+    global_search?: string[]
 }
 export interface MapPropsRequest {
-    zoomlevel: string
-    filter: Filter[]
+    zoomlevel?: string
+    filter?: Filter[]
     id?: string
 }
 export interface TableColumnProps {

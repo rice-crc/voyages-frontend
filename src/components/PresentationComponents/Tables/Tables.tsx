@@ -81,12 +81,13 @@ const Tables: React.FC = () => {
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
     );
+    console.log({ inputSearchValue })
 
     const { isChangeGeoTree } = useSelector(
         (state: RootState) => state.getGeoTreeData
     );
     // Voyages States
-    const { styleName, tableFlatfileVoyages, dataSetValueBaseFilter } =
+    const { styleName, tableFlatfileVoyages } =
         useSelector((state: RootState) => state.getDataSetCollection);
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -158,9 +159,10 @@ const Tables: React.FC = () => {
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
-
+    if (inputSearchValue) {
+        dataSend['global_search'] = [inputSearchValue]
+    }
     const { data: dataTableList } = useTableLists(dataSend, styleNameRoute!);
-
     useEffect(() => {
         if (dataTableList) {
             const { count, results } = dataTableList;
