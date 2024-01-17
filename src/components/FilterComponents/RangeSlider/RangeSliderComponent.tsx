@@ -72,7 +72,6 @@ const RangeSlider = () => {
     const rangSliderLocal: number[] = filterByVarName.searchTerm as number[]
 
     const initialValue: number[] = rangSliderLocal;
-    console.log({ initialValue })
     setCurrentSliderValue(initialValue);
     dispatch(setFilterObject(filter));
 

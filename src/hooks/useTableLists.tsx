@@ -12,8 +12,7 @@ export const useTableLists = (dataSend: TableListPropsRequest | undefined, style
             queryFn: () => {
                 if (checkPagesRouteForVoyages(styleName!)) {
                     return fetchVoyageOptionsAPI(dataSend);
-                }
-                else if (checkPagesRouteForEnslaved(styleName!)) {
+                } else if (checkPagesRouteForEnslaved(styleName!)) {
                     return fetchEnslavedOptionsList(dataSend);
                 } else if (checkPagesRouteForEnslavers(styleName!)) {
                     return fetchEnslaversOptionsList(dataSend);

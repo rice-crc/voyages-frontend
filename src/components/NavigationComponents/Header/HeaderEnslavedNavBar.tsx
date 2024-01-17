@@ -50,6 +50,8 @@ import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import HeaderLogo from './HeaderLogo';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { Filter } from '@/share/InterfaceTypes';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {
@@ -89,16 +91,18 @@ const HeaderEnslavedNavBar: React.FC = () => {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
-
+    const filters: Filter[] = [];
     dispatch(resetAll());
     dispatch(resetBlockNameAndPageName())
     setIsClick(!isClick);
     for (const base of baseFilter) {
-      dispatch(setBaseFilterPeopleEnslavedDataKey(base.var_name));
-      dispatch(setBaseFilterPeopleEnslavedDataValue(base.value));
-      dispatch(setPeopleEnslavedStyleName(styleName));
+      filters.push({
+        varName: base.var_name,
+        searchTerm: base.value,
+        op: "in"
+      })
+      dispatch(setFilterObject(filters));
     }
-    dispatch(setBaseFilterPeopleEnslavedDataSetValue(baseFilter));
     dispatch(setDataSetPeopleEnslavedHeader(textHeder));
     dispatch(setPeopleEnslavedTextIntro(textIntro));
     dispatch(setPeopleEnslavedStyleName(styleName));

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import L, { LatLngExpression, Marker } from 'leaflet';
 import '@/style/table-popup.scss';
@@ -21,6 +21,7 @@ import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { handerRenderEdges } from './handerRenderEdges';
 import { createTooltipEmbarkDiseEmbarkEdges } from '@/utils/functions/createTooltipClusterEdges';
+import { Filter } from '@/share/InterfaceTypes';
 
 
 const NodeEdgesCurvedLinesMap = () => {
@@ -40,13 +41,31 @@ const NodeEdgesCurvedLinesMap = () => {
       dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY))
       dispatch(setClusterNodeValue(value))
     }
-    if (nodeType) {
-      const filterObject = {
-        filterObject: {
-          [ORIGINLanguageGroupKEY]: value,
-        },
+    const existingFilterObjectString = localStorage.getItem('filterObject');
+    let existingFilterObject: any = {};
+
+    if (existingFilterObjectString) {
+      existingFilterObject = JSON.parse(existingFilterObjectString);
+    }
+    const existingFilters: Filter[] = existingFilterObject.filter || [];
+    const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === ORIGINLanguageGroupKEY);
+    if (existingFilterIndex !== -1) {
+      existingFilters[existingFilterIndex].searchTerm = [value]
+    } else {
+      const newFilter: Filter = {
+        varName: ORIGINLanguageGroupKEY,
+        searchTerm: [value!],
+        op: 'in'
       };
-      const filterObjectString = JSON.stringify(filterObject);
+      existingFilters.push(newFilter);
+    }
+
+    if (nodeType) {
+      const filterObjectUpdate = {
+        filter: existingFilters
+      };
+
+      const filterObjectString = JSON.stringify(filterObjectUpdate);
       localStorage.setItem('filterObject', filterObjectString);
     }
   }
@@ -170,7 +189,7 @@ const NodeEdgesCurvedLinesMap = () => {
       const { lat, lon, name } = data;
       const {
         origin,
-        'post-disembarkation': postDisembarkation,
+        post_disembarkation,
         disembarkation,
         embarkation,
       } = weights;
@@ -217,7 +236,7 @@ const NodeEdgesCurvedLinesMap = () => {
           originMarkerCluster.addLayer(circleMarker).bringToFront();
           originMarkerCluster.addLayer(originMarker).bringToFront();
         } else if (
-          (Number(postDisembarkation) && Number(postDisembarkation) > 0) &&
+          (Number(post_disembarkation) && Number(post_disembarkation) > 0) &&
           (disembarkation === 0 && embarkation === 0)
         ) {
           postDisembarkationsMarkerCluster.addLayer(circleMarker).bringToFront();

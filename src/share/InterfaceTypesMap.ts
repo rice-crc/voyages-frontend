@@ -45,7 +45,7 @@ export interface Weights {
     disembarkation?: number
     embarkation?: number
     origin?: number
-    "post-disembarkation"?: number;
+    post_disembarkation: number;
 }
 export interface EdgesAggroutes {
     controls: number[][]

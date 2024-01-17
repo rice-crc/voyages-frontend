@@ -22,10 +22,6 @@ import {
   mappingSpecialistsRivers,
   PLACE,
   AFRICANORIGINS,
-  ENSLAVEDNODE,
-  VOYAGE,
-  VOYAGESTYPE,
-  ENSLAVERSNODE,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
@@ -97,24 +93,17 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-  const { isChangeGeoTree, geoTreeValue } = useSelector(
-    (state: RootState) => state.getGeoTreeData
-  );
-
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
 
   useEffect(() => {
-
-    const storedValueFilterObject = localStorage.getItem('filterObject');
-
-    if (!storedValueFilterObject) return;
-    const parsedValue = JSON.parse(storedValueFilterObject);
+    const storedValue = localStorage.getItem('filterObject');
+    if (!storedValue) return;
+    const parsedValue = JSON.parse(storedValue);
     const filter: Filter[] = parsedValue.filter;
-    console.log({ filter })
     if (!filter) return;
-    dispatch(setFilterObject((filter)));
+    dispatch(setFilterObject(filter));
 
   }, []);
 
@@ -148,15 +137,25 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         setLoading(false);
       }
     }
-  }, [zoomLevel, varName, clusterNodeKeyVariable, clusterNodeValue]);
+  }, [zoomLevel, varName]);
+
+  const filters: Filter[] = [];
+  const filterByVarName = filtersObj && filtersObj.filter((filterItem: Filter) => filterItem.varName !== clusterNodeKeyVariable);
+  if (clusterNodeKeyVariable && clusterNodeValue) {
+    filters.push({
+      varName: clusterNodeKeyVariable,
+      searchTerm: [clusterNodeValue],
+      op: "in"
+    })
+  }
+  const filterOut = filters && filters.filter((filterItem: Filter) => filterItem.varName !== clusterNodeKeyVariable);
+  const dataSend: MapPropsRequest = {
+    filter: [...(filterByVarName || []), ...filters]
+  };
 
   const fetchData = async (regionOrPlace: string) => {
-    const dataSend: MapPropsRequest = {
-      zoomlevel: regionOrPlace,
-      filter: filtersObj || [],
-    };
-
-    hasFetchedRegion ? setLoading(true) : setLoading(false);
+    dataSend['zoomlevel'] = regionOrPlace,
+      hasFetchedRegion ? setLoading(true) : setLoading(false);
     let response;
     if (checkPagesRouteForVoyages(styleNamePage! || nodeTypeURL!)) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();

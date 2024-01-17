@@ -142,7 +142,7 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         }
         const dataSend: MapPropsRequest = {
             zoomlevel: regionOrPlace,
-            filter: [...filterByVarName, ...filters]
+            filter: [...(filterByVarName || []), ...filters]
         };
 
         hasFetchedRegion ? setLoading(true) : setLoading(false);

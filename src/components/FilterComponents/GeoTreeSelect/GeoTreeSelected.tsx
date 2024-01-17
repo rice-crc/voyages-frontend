@@ -44,7 +44,7 @@ const GeoTreeSelected: React.FC = () => {
   }
   const dataSend: GeoTreeSelectStateProps = {
     geotree_valuefields: [varName],
-    filter: filtersObj ? filterByVarName : filters
+    filter: [...(filterByVarName || []), ...filters]
   };
 
   const { data, isLoading, isError } = useGeoTreeSelected(dataSend, styleName);
@@ -73,7 +73,6 @@ const GeoTreeSelected: React.FC = () => {
     const filteredSelect = geoTreeListValue.filter((item: string) =>
       geoList.includes(item)
     );
-    console.log({ filteredSelect })
     const values = filteredSelect.map<string>((item: string) => item);
     setSelectedValue(() => values)
     dispatch(setFilterObject(filter));
@@ -113,7 +112,6 @@ const GeoTreeSelected: React.FC = () => {
   };
 
   const dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeValueList);
-  console.log({ dataForTreeSelect })
 
   const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
     return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());

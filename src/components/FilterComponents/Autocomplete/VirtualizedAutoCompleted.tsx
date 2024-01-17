@@ -52,7 +52,7 @@ export default function VirtualizedAutoCompleted() {
         querystr: autoValue,
         offset: offset,
         limit: limit,
-        filter: filtersObj ? filterByVarName : filters
+        filter: [...(filterByVarName || []), ...filters]
     };
 
     const { data, isLoading, isError } = useAutoComplete(dataSend, styleName);
@@ -167,6 +167,7 @@ export default function VirtualizedAutoCompleted() {
             id="tags-outlined"
             style={{ width: 400 }}
             options={autoList}
+            ListboxProps={{ style: { overscrollBehaviorX: 'none' } }}
             isOptionEqualToValue={(option, value) => {
                 return option.value === value.value;
             }}

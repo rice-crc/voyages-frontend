@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { setIsLoadingList, } from "@/redux/getAutoCompleteSlice";
 
-const LISTBOX_PADDING = 8; // px
+const LISTBOX_PADDING = 8;
 
 function renderRow(props: RenderRowProps) {
     const { data, index, style } = props;
@@ -69,7 +69,7 @@ const CustomAutoListboxComponent = forwardRef<HTMLDivElement, CustomAutoListboxP
     const gridRef = useResetCache([itemCount]);
 
     return (
-        <div   {...other} ref={ref}>
+        <div   {...other} ref={ref} style={{ overflowY: 'hidden' }} >
             <OuterElementContext.Provider value={other}>
                 <VariableSizeList
                     onItemsRendered={({ visibleStopIndex }) => {
