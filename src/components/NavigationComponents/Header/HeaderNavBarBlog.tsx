@@ -10,11 +10,12 @@ import AutoCompletedSearhBlog from '@/components/FilterComponents/AutoCompletedS
 
 const HeaderNavBarBlog: React.FC = () => {
   const { blogTitle, institutionName } = useParams();
-  console.log({ blogTitle, institutionName })
+
   const { post } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
   const { title } = post;
+
   const handleReloadPage = () => {
     window.location.href = `/${BLOGPAGE}`;
   };

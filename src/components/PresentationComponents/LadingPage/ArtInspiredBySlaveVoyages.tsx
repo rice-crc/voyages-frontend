@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '@/style/landing.scss';
 import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
-import { setBlogData } from '@/redux/getBlogDataSlice';
+import { setBlogData, setBlogPost } from '@/redux/getBlogDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
+import { BlogDataProps, BlogDataPropsRequest, BlogFilter, InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import { CardNewsBlogs } from './CardNewsBlogs';
 import { ButtonNextPrevBlog } from '@/components/SelectorComponents/ButtonComponents/ButtonNextPrevBlog';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 
 const ArtInspiredBySlaveVoyages: React.FC = () => {
+    const imagesPerPage = 127
     const [moveClass, setMoveClass] = useState('slide-track slider');
     const { data: carouselItems } = useSelector(
         (state: RootState) => state.getBlogData as InitialStateBlogProps
@@ -47,30 +48,32 @@ const ArtInspiredBySlaveVoyages: React.FC = () => {
         dispatch(setBlogData(copy));
     };
 
-    useEffect(() => {
-        let subscribed = true;
+    const effectOnce = useRef(false);
+    const fetchDataBlog = async () => {
+        const filters: BlogFilter[] = [];
 
-        const fetchDataBlog = async () => {
-            const dataSend: { [key: string]: (string | number)[] } = {
-                // tags__name: ['Art Inspired by SV'],
-                language: [language],
-                order_by: ['updated_on'],
-            };
-
-            try {
-                const response = await dispatch(fetchBlogData(dataSend)).unwrap();
-                if (response) {
-                    dispatch(setBlogData(response));
-                }
-            } catch (error) {
-                console.log('error', error);
-            }
+        const dataSend: BlogDataPropsRequest = {
+            filter: filters,
+            page_size: imagesPerPage,
         };
 
-        fetchDataBlog();
+        try {
+            const response = await dispatch(fetchBlogData(dataSend)).unwrap();
+            if (response) {
+                const { results } = response
+                dispatch(setBlogData(results));
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
 
+    useEffect(() => {
+        if (!effectOnce.current) {
+            fetchDataBlog();
+        }
         return () => {
-            subscribed = false;
+            dispatch(setBlogPost({} as BlogDataProps));
         };
     }, [dispatch, language]);
 

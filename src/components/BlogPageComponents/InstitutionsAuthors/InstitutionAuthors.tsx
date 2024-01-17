@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from '@/redux/store';
-import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
+import { BlogDataPropsRequest, BlogFilter, InitialStateBlogProps, InstitutionAuthor } from '@/share/InterfaceTypesBlog';
 import { useDispatch, useSelector } from 'react-redux';
 import { BASEURL } from '@/share/AUTH_BASEURL';
 import '@/style/blogs.scss';
@@ -15,6 +15,7 @@ import {
 } from '@/redux/getBlogDataSlice';
 import InstitutionAuthorsList from './InstitutionAuthorsList';
 import defaultImage from '@/assets/no-imge-default.avif';
+import { useInstitutionAuthor } from '@/hooks/useInstitutionAuthor';
 
 const InstitutionAuthors: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -23,33 +24,34 @@ const InstitutionAuthors: React.FC = () => {
   const { institutionData } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
-  const effectOnce = useRef(false);
   const { image, name, description } = institutionData;
-  const fetchInstitution = async () => {
-    const dataSend: { [key: string]: (string | number)[] } = {
-      id: [parseInt(ID!)],
-    };
-    try {
-      const response = await dispatch(
-        fetchInstitutionData(dataSend)
-      ).unwrap();
-      if (response) {
-        dispatch(setInstitutionAuthorsData(response?.[0]));
-        dispatch(
-          setInstitutionAuthorsList(response?.[0]?.institution_authors)
-        );
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
+
+  const filters: BlogFilter[] = [];
+  if ([parseInt(ID!)]) {
+    filters.push({
+      varName: "id",
+      searchTerm: [parseInt(ID!)],
+      op: "in"
+    })
+  }
+  const dataSend: BlogDataPropsRequest = {
+    filter: filters,
+    page: 0,
+    page_size: 12
   };
+  const { data, isLoading, isError } = useInstitutionAuthor(dataSend);
 
   useEffect(() => {
-    if (!effectOnce.current) {
-      fetchInstitution();
+    if (!isLoading && !isError && data) {
+      const { results } = data;
+      dispatch(setInstitutionAuthorsData(results?.[0]));
+      const institutionList = results[0]?.institution_authors.map((value: InstitutionAuthor) => value);
+      dispatch(setInstitutionAuthorsList((institutionList)));
     }
-
-  }, [dispatch, ID]);
+    return () => {
+      setInstitutionAuthorsList([]);
+    };
+  }, [data, isLoading, isError, dispatch, ID]);
 
   return (
     <div>
