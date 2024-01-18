@@ -1,5 +1,3 @@
-
-
 import React, {
     useCallback,
     useEffect,
@@ -54,7 +52,10 @@ import { CustomTablePagination } from '@/styleMUI';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { useTableCellStructure } from '@/hooks/useTableCellStructure';
-import { useTableLists } from '@/hooks/useTableLists';
+import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
+import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
+import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
+
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -69,6 +70,7 @@ const Tables: React.FC = () => {
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
+
     const [totalResultsCount, setTotalResultsCount] = useState(0);
     const gridRef = useRef<any>(null);
     const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
@@ -84,19 +86,18 @@ const Tables: React.FC = () => {
         (state: RootState) => state.getCommonGlobalSearch
     );
 
-
     const { isChangeGeoTree } = useSelector(
         (state: RootState) => state.getGeoTreeData
     );
     // Voyages States
-    const { styleName, tableFlatfileVoyages } =
+    const { tableFlatfileVoyages } =
         useSelector((state: RootState) => state.getDataSetCollection);
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
     );
 
     // Enslaved States
-    const { tableFlatfileEnslaved } = useSelector(
+    const { styleNamePeople, tableFlatfileEnslaved } = useSelector(
         (state: RootState) => state.getPeopleEnlavedDataSetCollection
     );
     const { currentEnslavedPage } = useSelector(
@@ -104,7 +105,7 @@ const Tables: React.FC = () => {
     );
 
     // Enslavers States
-    const { styleNamePeople: styleEnlsavers, tableFlatfileEnslavers } =
+    const { tableFlatfileEnslavers } =
         useSelector((state: RootState) => state.getEnslaverDataSetCollections);
 
     const { currentEnslaversPage } = useSelector(
@@ -136,9 +137,12 @@ const Tables: React.FC = () => {
 
     useEffect(() => {
         if (!isLoading && !isError && tableCellStructure) {
-            setTableCell(tableCellStructure);
+            setTableCell(tableCellStructure)
         }
 
+    }, [tablesCell, isLoading, isError, isChangeAuto, isChangeGeoTree, isChange]);
+
+    useEffect(() => {
         if (tablesCell.length > 0) {
             const visibleColumns = tablesCell
                 .filter((cell: any) => cell.visible)
@@ -154,47 +158,59 @@ const Tables: React.FC = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [tablesCell, dispatch, tableCellStructure, isLoading, isError, styleName]);
+    }, [dispatch, tablesCell, tablesCell, tableCellStructure]);
 
     const dataSend: TableListPropsRequest = {
-        filter: filtersObj || [],
+        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
     if (inputSearchValue) {
         dataSend['global_search'] = [inputSearchValue]
     }
-    const { data: dataTableList } = useTableLists(dataSend, styleNameRoute!);
+
     useEffect(() => {
-        if (dataTableList) {
-            const { count, results } = dataTableList;
-            const tableList: Record<string, any>[] = results.map(
-                (value: Record<string, any>) => value
-            );
-            setTotalResultsCount(() => Number(count));
-            dispatch(setData(tableList));
-            saveDataToLocalStorage(results, visibleColumnCells);
-        }
+        let subscribed = true;
+        const fetchData = async () => {
+            let response;
+            try {
+                if (checkPagesRouteForVoyages(styleNameRoute!)) {
+                    response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+                } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+                    response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap()
+                } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
+                    response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
+                }
+
+                if (subscribed && response) {
+                    const { count, results } = response.data;
+                    setTotalResultsCount(Number(count));
+                    dispatch(setData(results));
+                    saveDataToLocalStorage(results, visibleColumnCells);
+
+                }
+            } catch (error) {
+                console.log('error', error);
+
+            }
+        };
+        fetchData();
         return () => {
+            subscribed = false;
             dispatch(setData([]));
             dispatch(setRowData([]));
         };
     }, [
-        dataTableList,
-        isLoading,
-        isError,
         dispatch,
-        isChangeAuto,
-        isChange,
-        isChangeGeoTree,
         rowsPerPage,
         page,
         currentPage,
         currentEnslavedPage,
         varName,
         visibleColumnCells,
-        styleName,
-        styleEnlsavers,
+        inputSearchValue,
+        styleNamePeople,
+        isChangeAuto, isChange, isChangeGeoTree
     ]);
 
     useEffect(() => {
@@ -223,6 +239,7 @@ const Tables: React.FC = () => {
         },
         []
     );
+
     useEffect(() => {
         const tableFileName = checkPagesRouteForVoyages(styleNameRoute!)
             ? tableFlatfileVoyages
@@ -400,8 +417,6 @@ const Tables: React.FC = () => {
 
 export default Tables;
 
-
-
 // import React, {
 //     useCallback,
 //     useEffect,
@@ -457,17 +472,6 @@ export default Tables;
 // import { setFilterObject } from '@/redux/getFilterSlice';
 // import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 // import { useTableLists } from '@/hooks/useTableLists';
-// import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
-// import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
-// import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
-// import VOYAGESTABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
-// import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.json';
-// import { TYPESOFDATASETPEOPLE } from "@/share/InterfaceTypes";
-// import { ENSALVERSTYLE } from "@/share/CONST_DATA";
-// import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
-// import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
-// import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-
 
 // const Tables: React.FC = () => {
 //     const dispatch: AppDispatch = useDispatch();
@@ -482,7 +486,6 @@ export default Tables;
 //     const { columnDefs, data, rowData } = useSelector(
 //         (state: RootState) => state.getTableData as StateRowData
 //     );
-
 //     const [totalResultsCount, setTotalResultsCount] = useState(0);
 //     const gridRef = useRef<any>(null);
 //     const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
@@ -502,7 +505,7 @@ export default Tables;
 //         (state: RootState) => state.getGeoTreeData
 //     );
 //     // Voyages States
-//     const { tableFlatfileVoyages } =
+//     const { styleName, tableFlatfileVoyages } =
 //         useSelector((state: RootState) => state.getDataSetCollection);
 //     const { currentPage } = useSelector(
 //         (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -517,7 +520,7 @@ export default Tables;
 //     );
 
 //     // Enslavers States
-//     const { tableFlatfileEnslavers } =
+//     const { styleNamePeople: styleEnlsavers, tableFlatfileEnslavers } =
 //         useSelector((state: RootState) => state.getEnslaverDataSetCollections);
 
 //     const { currentEnslaversPage } = useSelector(
@@ -545,16 +548,12 @@ export default Tables;
 //         data: tableCellStructure,
 //         isLoading,
 //         isError,
-//     } = useTableCellStructure(styleNameRoute);
+//     } = useTableCellStructure(styleNameRoute!);
 
 //     useEffect(() => {
 //         if (!isLoading && !isError && tableCellStructure) {
-//             setTableCell(tableCellStructure)
+//             setTableCell(tableCellStructure);
 //         }
-
-//     }, [tablesCell, isLoading, isError, isChangeAuto, isChangeGeoTree, isChange]);
-
-//     useEffect(() => {
 
 //         if (tablesCell.length > 0) {
 //             const visibleColumns = tablesCell
@@ -571,7 +570,7 @@ export default Tables;
 //         return () => {
 //             window.removeEventListener('resize', handleResize);
 //         };
-//     }, [dispatch, tablesCell, tablesCell, tableCellStructure]);
+//     }, [tablesCell, dispatch, tableCellStructure, isLoading, isError, styleName]);
 
 //     const dataSend: TableListPropsRequest = {
 //         filter: filtersObj || [],
@@ -581,48 +580,36 @@ export default Tables;
 //     if (inputSearchValue) {
 //         dataSend['global_search'] = [inputSearchValue]
 //     }
-//     console.log({ dataSend })
+//     const { data: dataTableList } = useTableLists(dataSend, styleNameRoute!);
+
 //     useEffect(() => {
-//         let subscribed = true;
-//         const fetchData = async () => {
-//             let response;
-//             try {
-//                 if (checkPagesRouteForVoyages(styleNameRoute!)) {
-//                     response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-//                 } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-//                     response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap()
-//                 } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-//                     response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
-//                 }
+//         if (dataTableList) {
+//             const { count, results } = dataTableList;
+//             const tableList: Record<string, any>[] = results.map(
+//                 (value: Record<string, any>) => value
+//             );
+//             setTotalResultsCount(() => Number(count));
+//             dispatch(setData(tableList));
 
-//                 if (subscribed && response) {
-//                     const { count, results } = response.data;
-//                     setTotalResultsCount(Number(count));
-//                     dispatch(setData(results));
-//                     saveDataToLocalStorage(results, visibleColumnCells);
+//             saveDataToLocalStorage(results, visibleColumnCells);
+//         }
 
-//                 }
-//             } catch (error) {
-//                 console.log('error', error);
-
-//             }
-//         };
-//         fetchData();
-//         return () => {
-//             subscribed = false;
-//             dispatch(setData([]));
-//             dispatch(setRowData([]));
-//         };
 //     }, [
+//         dataTableList,
+//         isLoading,
+//         isError,
 //         dispatch,
+//         isChangeAuto,
+//         isChange,
+//         isChangeGeoTree,
 //         rowsPerPage,
 //         page,
 //         currentPage,
 //         currentEnslavedPage,
 //         varName,
 //         visibleColumnCells,
-//         inputSearchValue,
-//         styleNamePeople,
+//         styleName,
+//         styleEnlsavers,
 //     ]);
 
 //     useEffect(() => {
@@ -651,7 +638,6 @@ export default Tables;
 //         },
 //         []
 //     );
-
 //     useEffect(() => {
 //         const tableFileName = checkPagesRouteForVoyages(styleNameRoute!)
 //             ? tableFlatfileVoyages
@@ -828,3 +814,4 @@ export default Tables;
 // };
 
 // export default Tables;
+

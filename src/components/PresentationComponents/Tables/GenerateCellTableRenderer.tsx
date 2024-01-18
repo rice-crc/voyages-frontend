@@ -57,10 +57,11 @@ export const GenerateCellTableRenderer = (
       fontSize: '13px',
       cursor: 'pointer',
     };
+
     if (values.length <= 0) {
       return (
         <span >
-          <div style={{ textAlign: 'center' }}>--</div>
+          <div style={{ textAlign: 'center' }}>-XXxX-</div>
         </span>
       )
     } else {
@@ -134,7 +135,7 @@ export const GenerateCellTableRenderer = (
   } else {
     return (
       <div className="div-value">
-        <div className="value">--</div>
+        <div className="value">-XX-</div>
       </div>
     );
   }

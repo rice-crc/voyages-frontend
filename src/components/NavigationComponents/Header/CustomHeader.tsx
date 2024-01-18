@@ -8,6 +8,7 @@ import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEns
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { TableListPropsRequest } from '@/share/InterfaceTypes';
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
@@ -36,6 +37,7 @@ const CustomHeader: React.FC<Props> = (props) => {
     enableSorting,
     displayName,
   } = props;
+  console.log({ displayName })
 
   const dispatch: AppDispatch = useDispatch();
   const [ascSort, setAscSort] = useState<string>('inactive');
@@ -58,7 +60,9 @@ const CustomHeader: React.FC<Props> = (props) => {
   };
 
   const fetchData = async (sortOrder: string, sortingOrder: string[]) => {
-    const dataSend: { [key: string]: string[] } = {};
+    const dataSend: TableListPropsRequest = {
+      filter: []
+    };
     if (sortOrder === 'asc') {
       if (sortingOrder.length > 0) {
         sortingOrder.forEach((sort: string) => (dataSend['order_by'] = [sort]));
@@ -75,7 +79,6 @@ const CustomHeader: React.FC<Props> = (props) => {
 
       if (checkPagesRouteForVoyages(styleName!)) {
         response = await dispatch(fetchVoyageOptionsData(dataSend)).unwrap();
-
       } else if (checkPagesRouteForEnslaved(styleName!)) {
         response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
       } else if (checkPagesRouteForEnslavers(styleName!)) {

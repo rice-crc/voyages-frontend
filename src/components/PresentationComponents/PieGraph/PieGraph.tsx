@@ -66,7 +66,7 @@ function PieGraph() {
     groupby_cols: [pieGraphOptions.y_vars],
     agg_fn: aggregation,
     cachename: 'voyage_bar_and_donut_charts',
-    filter: filtersObj || [],
+    filter: filtersObj?.[0]?.searchTerm?.length > 0 ? filtersObj : [],
   };
 
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);

@@ -83,7 +83,7 @@ function Scatter() {
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_xyscatter',
-    filter: filtersObj || [],
+    filter: filtersObj?.[0]?.searchTerm?.length > 0 ? filtersObj : [],
   };
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
   useEffect(() => {

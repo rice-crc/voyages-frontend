@@ -148,7 +148,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       op: "in"
     })
   }
-  const filterOut = filters && filters.filter((filterItem: Filter) => filterItem.varName !== clusterNodeKeyVariable);
   const dataSend: MapPropsRequest = {
     filter: [...(filterByVarName || []), ...filters]
   };

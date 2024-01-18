@@ -260,9 +260,10 @@ export interface ColumnObjectProps {
 }
 export interface TableListPropsRequest {
     filter: Filter[]
-    page: number
-    page_size: number
+    page?: number
+    page_size?: number
     global_search?: string[]
+    order_by?: string[]
 }
 export interface MapPropsRequest {
     zoomlevel?: string

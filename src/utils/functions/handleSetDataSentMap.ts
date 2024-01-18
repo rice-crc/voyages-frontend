@@ -3,7 +3,6 @@ import {
     RangeSliderMinMaxInitialState,
     TYPESOFDATASET,
     TYPESOFDATASETPEOPLE,
-    TreeSelectItem,
 } from '@/share/InterfaceTypes';
 
 export const handleSetDataSentMap = (
@@ -14,7 +13,7 @@ export const handleSetDataSentMap = (
     dataSetKey: string,
     inputSearchValue: string,
     rangeValue: RangeSliderMinMaxInitialState,
-    geoTreeValue: Record<string, string[] | TreeSelectItem[]>,
+    geoTreeValue: Record<string, string[]>,
     isChange?: boolean,
     currentPage?: number,
     currentEnslavedPage?: number,
@@ -48,8 +47,8 @@ export const handleSetDataSentMap = (
         for (const autoKey in autoCompleteValue) {
             for (const autoCompleteOption of autoCompleteValue[autoKey]) {
                 if (typeof autoCompleteOption !== 'string') {
-                    const { label } = autoCompleteOption;
-                    dataSend[autoKey] = [label];
+                    // const { label } = autoCompleteOption;
+                    // dataSend[autoKey] = [label];
                 }
             }
         }
