@@ -63,10 +63,7 @@ export default function VirtualizedAutoCompleted() {
             const newAutoList: AutoCompleteOption[] = suggested_values.map((value: AutoCompleteOption) => value);
             setAutoLists((prevAutoList) => [...prevAutoList, ...newAutoList]);
         }
-        return () => {
-            setAutoLists([]);
-        };
-    }, [data, isLoading, isError, isChangeAuto]);
+    }, [data, isLoading, isError]);
 
     const refetchAutoComplete = () => {
         if (autoValue === '') {

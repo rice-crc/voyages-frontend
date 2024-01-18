@@ -46,9 +46,7 @@ function Scatter() {
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
-  );
+
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);

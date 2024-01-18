@@ -305,6 +305,17 @@ export interface ChildrenPeopleMenu {
     flatlabel?: string
 }
 
+export interface PivotTablesPropsRequest {
+    columns: string[]
+    rows: string
+    binsize: number
+    rows_label: string
+    agg_fn: string
+    value_field: string
+    offset: number
+    limit: number
+    filter: any[]
+}
 
 export interface PivotTablesProps {
     row_vars: string

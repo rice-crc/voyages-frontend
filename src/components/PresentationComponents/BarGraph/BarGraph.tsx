@@ -35,9 +35,6 @@ function BarGraph() {
   } = useGetOptionsQuery(datas);
   const { varName } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
 
-  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
-  );
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );

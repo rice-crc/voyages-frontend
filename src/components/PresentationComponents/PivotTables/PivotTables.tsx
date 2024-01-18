@@ -24,6 +24,7 @@ import {
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
+  PivotTablesPropsRequest,
   RangeSliderState,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
@@ -38,7 +39,6 @@ import {
 } from '@/share/InterfaceTypes';
 import { SelectDropdownPivotable } from '../../SelectorComponents/SelectDrowdown/SelectDropdownPivotable';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
-import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
 
 const PivotTables = () => {
@@ -82,10 +82,9 @@ const PivotTables = () => {
     width: maxWidth,
     height: height,
   });
-  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
-  );
+
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+  const [offset, setOffset] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [rowVars, setSelectRowValue] = useState<PivotRowVar[]>([]);
   const [columnVars, setSelectColumnValue] = useState<PivotColumnVar[]>([]);
@@ -154,45 +153,30 @@ const PivotTables = () => {
       cell_vars,
       cachename,
     } = pivotValueOptions;
-    /*
-{
-  "columns": [
-    "voyage_itinerary__imp_broad_region_of_slave_purchase__name",
-    "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
-    "voyage_itinerary__imp_principal_place_of_slave_purchase__name"
-  ],
-  "rows": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-  "binsize": 20,
-  "rows_label": "YEARAM",
-  "agg_fn": "sum",
-  "value_field": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
-  "offset": 0,
-  "limit": 5,
-  "filter": []
-}
-
-    */
     const fetchData = async () => {
-      const dataSend = handleSetDataSentTablePieBarScatterGraph(filtersObj, isChangeGeoTree, varName, styleName, currentPage, isChange, undefined, undefined)
-
-      dataSend['columns'] = columnVars;
-      dataSend['rows'] = [row_vars];
-      dataSend['rows_label'] = [rows_label];
-      dataSend['agg_fn'] = [aggregation];
-      dataSend['value_field'] = [cell_vars];
-      dataSend['cachename'] = [cachename];
+      const dataSend: PivotTablesPropsRequest = {
+        columns: columnVars,
+        rows: row_vars,
+        binsize: 20,
+        rows_label: rows_label,
+        agg_fn: aggregation,
+        value_field: cell_vars,
+        offset: 0,
+        limit: 5,
+        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
+      }
 
       setLoading(true);
       try {
-        // const response = await dispatch(
-        //   fetchPivotCrosstabsTables(dataSend)
-        // ).unwrap();
+        const response = await dispatch(
+          fetchPivotCrosstabsTables(dataSend)
+        ).unwrap();
 
-        // if (response && subscribed) {
-        //   dispatch(setPivotTablColumnDefs(response.data.tablestructure));
-        //   dispatch(setRowPivotTableData(response.data.data));
-        //   setLoading(false);
-        // }
+        if (response && subscribed) {
+          dispatch(setPivotTablColumnDefs(response.data.tablestructure));
+          dispatch(setRowPivotTableData(response.data.data));
+          setLoading(false);
+        }
       } catch (error) {
         console.log('error', error);
         setLoading(false);

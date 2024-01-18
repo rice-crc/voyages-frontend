@@ -98,7 +98,7 @@ const RangeSlider = () => {
     const { name, value } = event.target;
     const updatedSliderValue = [...rangeMinMax];
     updatedSliderValue[name === 'start' ? 0 : 1] = Number(value);
-    dispatch(setIsChange(true));
+    dispatch(setIsChange(!isChange));
     dispatch(
       setRangeSliderValue({
         ...rangeSliderMinMax,
@@ -106,7 +106,6 @@ const RangeSlider = () => {
       })
     );
     updatedSliderToLocalStrage(updatedSliderValue)
-
   };
 
   function updatedSliderToLocalStrage(updateValue: number[]) {

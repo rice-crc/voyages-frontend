@@ -9,6 +9,7 @@ import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastE
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { TableListPropsRequest } from '@/share/InterfaceTypes';
+import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
@@ -25,6 +26,8 @@ interface Props {
   menuIcon: string;
   enableSorting: boolean;
   displayName: string;
+  page: number
+  pageSize: number
 }
 
 const CustomHeader: React.FC<Props> = (props) => {
@@ -35,9 +38,8 @@ const CustomHeader: React.FC<Props> = (props) => {
     enableMenu,
     menuIcon,
     enableSorting,
-    displayName,
+    displayName, page, pageSize
   } = props;
-  console.log({ displayName })
 
   const dispatch: AppDispatch = useDispatch();
   const [ascSort, setAscSort] = useState<string>('inactive');
@@ -61,7 +63,9 @@ const CustomHeader: React.FC<Props> = (props) => {
 
   const fetchData = async (sortOrder: string, sortingOrder: string[]) => {
     const dataSend: TableListPropsRequest = {
-      filter: []
+      filter: [],
+      page: Number(page + 1),
+      page_size: Number(pageSize),
     };
     if (sortOrder === 'asc') {
       if (sortingOrder.length > 0) {
@@ -78,14 +82,15 @@ const CustomHeader: React.FC<Props> = (props) => {
       let response;
 
       if (checkPagesRouteForVoyages(styleName!)) {
-        response = await dispatch(fetchVoyageOptionsData(dataSend)).unwrap();
+        response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
       } else if (checkPagesRouteForEnslaved(styleName!)) {
-        response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
+        response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap()
       } else if (checkPagesRouteForEnslavers(styleName!)) {
         response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
       }
       if (response) {
-        dispatch(setData(response));
+        const { results } = response.data;
+        dispatch(setData(results));
       }
     } catch (error) {
       console.log('error', error);
