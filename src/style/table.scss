@@ -220,7 +220,7 @@ div .customHeaderLabelSummaryTable {
   padding: 0;
   margin: 10px 0;
   list-style: none;
-  width: 90%;
+  width: 100%;
 
   @include breakpoint-standard(0) {
     width: 100%;
@@ -249,12 +249,12 @@ div .customHeaderLabelSummaryTable {
 }
 
 .pivot-table-flex-item {
-  padding: 10px 20px;
-  width: 33%;
   margin-top: 10px;
   color: white;
   font-weight: bold;
   text-align: center;
+  padding: auto;
+  width: 33%;
 
   @include breakpoint-standard(0) {
     width: 100%;
@@ -289,6 +289,39 @@ div .customHeaderLabelSummaryTable {
   width: 90%;
   padding: 5px 0;
   height: 90%;
+
+  @include breakpoint-standard(0) {
+    width: 100%;
+
+  }
+
+  @include breakpoint-standard(1) {
+    width: 100%;
+
+  }
+
+  @include breakpoint-standard(2) {
+    width: 100%;
+
+  }
+
+  @include breakpoint-standard(3) {
+    width: 100%;
+
+  }
+
+  @include breakpoint-standard(4) {
+    width: 100%;
+
+  }
+}
+
+.aggregation-export-pivot {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  width: 90%;
+  padding: 5px 0;
 
   @include breakpoint-standard(0) {
     width: 100%;

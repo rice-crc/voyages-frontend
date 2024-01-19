@@ -308,35 +308,46 @@ export interface ChildrenPeopleMenu {
 export interface PivotTablesPropsRequest {
     columns: string[]
     rows: string
-    binsize: number
     rows_label: string
     agg_fn: string
+    binsize: number
     value_field: string
     offset: number
     limit: number
-    filter: any[]
+    filter: Filter[]
 }
-
+export interface MedatadataProps {
+    offset: number
+    limit: number
+    total_results_count: number
+}
 export interface PivotTablesProps {
     row_vars: string
     rows_label: string
+    binsize: number | null
     column_vars: string[]
     cell_vars: string
-    cachename: string
+}
+export interface VoyagesPivotOptionsProps {
+    row_vars: PivotRowVar[]
+    column_vars: PivotColumnVar[]
+    cell_vars: PivotCellVar[]
 }
 
 export interface PivotRowVar {
-    var_name: string
+    rows: string
+    binsize: number | null
+    rows_label: string
     label: string
 }
 
 export interface PivotColumnVar {
-    var_name: string[]
+    columns: string[]
     label: string
 }
 
 export interface PivotCellVar {
-    var_name: string
+    value_field: string
     label: string
 }
 export interface InitialStateTransatlanticCard {
