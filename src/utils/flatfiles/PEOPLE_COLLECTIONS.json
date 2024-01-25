@@ -9,7 +9,6 @@
 		"table_flatfile": "enslaved_table_cell_structure.json",
 		"style_name": "all-enslaved",
 		"blocks": [
-			"INTRO",
 			"TABLE"
 		]
 	},
@@ -31,7 +30,6 @@
 		"table_flatfile": "african_origins_table_cell_structure.json",
 		"style_name": "african-origins",
 		"blocks": [
-			"INTRO",
 			"TABLE",
 			"MAP"
 		]
@@ -53,7 +51,6 @@
 		"table_flatfile": "texas_table_cell_structure.json",
 		"style_name": "texasEnslaved",
 		"blocks": [
-			"INTRO",
 			"TABLE"
 		]
 	}

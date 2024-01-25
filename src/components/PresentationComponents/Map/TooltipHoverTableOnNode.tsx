@@ -31,7 +31,7 @@ export const TooltipHoverTableOnNode = ({
     );
 
     const tatalPostDisembarkationCount = nodesDatas?.reduce(
-        (total, node) => total + node.weights['post-disembarkation']!,
+        (total, node) => total + node.weights.post_disembarkation!,
         0
     );
 
@@ -104,7 +104,7 @@ export const TooltipHoverTableOnNode = ({
                                     }}
                                 >{node.data.name!}</a>
                             </td>
-                            <td> {nodeType === nodeTypeOrigin ? node.weights.origin! : node.weights['post-disembarkation']}</td>
+                            <td> {nodeType === nodeTypeOrigin ? node.weights.origin! : node.weights.post_disembarkation}</td>
                         </tr>
                     ))}
                     {remainingNodes.length > 0 && (
@@ -114,7 +114,7 @@ export const TooltipHoverTableOnNode = ({
                                 {remainingNodes.length} {` ${nodeType === nodeTypeOrigin ? totalTextOrigin : nodeType === nodeTypePostDisembarkation ? totalTextPostDisembarkation : hederOtherType} `}
                             </td>
                             <td>
-                                {remainingNodes.reduce((total, node) => total + (nodeType === nodeTypeOrigin ? node.weights.origin! : node.weights['post-disembarkation']!), 0)}
+                                {remainingNodes.reduce((total, node) => total + (nodeType === nodeTypeOrigin ? node.weights.origin! : node.weights.post_disembarkation!), 0)}
                             </td>
                         </tr>
                     )}

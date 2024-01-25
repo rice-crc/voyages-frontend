@@ -88,29 +88,30 @@ const VoyagesPage = () => {
       dispatch(setCurrentVoyagesBlockName('intro'));
     }
 
-    if (currentBlockName === 'intro') {
+    // if (currentBlockName === 'intro') {
+    //   dispatch(setCurrentPage(1));
+    //   dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    // } else 
+    if (currentBlockName === 'voyages') {
       dispatch(setCurrentPage(1));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'voyages') {
+    } else if (currentBlockName === 'line') {
       dispatch(setCurrentPage(2));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'line') {
+    } else if (currentBlockName === 'bar') {
       dispatch(setCurrentPage(3));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'bar') {
+    } else if (currentBlockName === 'pie') {
       dispatch(setCurrentPage(4));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'pie') {
+    } else if (currentBlockName === 'table') {
       dispatch(setCurrentPage(5));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'table') {
+    } else if (currentBlockName === 'map') {
       dispatch(setCurrentPage(6));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'map') {
-      dispatch(setCurrentPage(7));
-      dispatch(setCurrentVoyagesBlockName(currentBlockName));
     } else if (currentBlockName === 'summarystatistics') {
-      dispatch(setCurrentPage(8));
+      dispatch(setCurrentPage(7));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }
   }, [
@@ -131,19 +132,19 @@ const VoyagesPage = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentPage === 1 && currentVoyageBlockName === 'intro' && (
+      {/* {currentPage === 1 && currentVoyageBlockName === 'intro' && (
         <VoyagesIntro />
-      )}
+      )} */}
 
-      {currentPage === 2 && currentVoyageBlockName === 'voyages' && <Tables />}
-      {currentPage === 3 && currentVoyageBlockName === 'line' && <Scatter />}
-      {currentPage === 4 && currentVoyageBlockName === 'bar' && <BarGraph />}
-      {currentPage === 5 && currentVoyageBlockName === 'pie' && <PieGraph />}
-      {currentPage === 6 && currentVoyageBlockName === 'table' && (
+      {currentPage === 1 && currentVoyageBlockName === 'voyages' && <Tables />}
+      {currentPage === 2 && currentVoyageBlockName === 'line' && <Scatter />}
+      {currentPage === 3 && currentVoyageBlockName === 'bar' && <BarGraph />}
+      {currentPage === 4 && currentVoyageBlockName === 'pie' && <PieGraph />}
+      {currentPage === 5 && currentVoyageBlockName === 'table' && (
         <PivotTables />
       )}
-      {currentPage === 7 && currentVoyageBlockName === 'map' && <VoyagesMaps />}
-      {currentPage === 8 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />}
+      {currentPage === 6 && currentVoyageBlockName === 'map' && <VoyagesMaps />}
+      {currentPage === 7 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />}
     </motion.div>
   );
   const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
@@ -159,8 +160,10 @@ const VoyagesPage = () => {
             currentPage
           ),
           position: 'relative',
-          top: currentPage === 1 ? -40 : !inputSearchValue ? topPosition - 80 : 0,
-          padding: currentPage !== 1 ? '30px' : '',
+          // top: currentPage === 1 ? -40 : !inputSearchValue ? topPosition - 80 : 0,
+          // padding: currentPage !== 1 ? '30px' : '',
+          top: !inputSearchValue ? topPosition - 80 : 0,
+          padding: 30,
         }}
       >
         <CollectionTabVoyages />

@@ -20,7 +20,7 @@ const EnslaversBlogs: React.FC = () => {
                         reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
                         pariatur.
                     </p>
-                    <ButtonLearnMore path={`${PASTHOMEPAGE}${ENSALVERSPAGE}#intro`} />
+                    <ButtonLearnMore path={`${PASTHOMEPAGE}${ENSALVERSPAGE}#table`} />
                 </div>
             </div>
         </div>

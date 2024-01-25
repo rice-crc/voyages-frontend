@@ -32,9 +32,10 @@ const CollectionTabEnslaved = () => {
 
   useEffect(() => {
 
-    if (currentBlockName === 'intro' && styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
-      dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
-    } else if (currentBlockName === 'table' && styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
+    // if (currentBlockName === 'intro' && styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
+    //   dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
+    // } else 
+    if (currentBlockName === 'table' && styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
       dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
     }
 

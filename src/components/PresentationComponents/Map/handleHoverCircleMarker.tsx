@@ -11,12 +11,14 @@ import { createSourceAndTargetDictionariesNodeEdges } from '../../../utils/funct
 import { createLogNodeValueScale } from '@/utils/functions/createLogNodeValueScale';
 import { createRoot } from 'react-dom/client';
 import { TooltipHoverTableOnNode } from './TooltipHoverTableOnNode';
+import { createTooltipClusterEdges } from '@/utils/functions/createTooltipClusterEdges';
 
 export function handleHoverCircleMarker(
   event: L.LeafletEvent,
   hiddenEdgesLayer: L.LayerGroup<any>,
   edgesData: EdgesAggroutes[],
   nodesData: NodeAggroutes[],
+  node: NodeAggroutes,
   originNodeMarkersMap: Map<string, L.Marker<any>>,
   originMarkerCluster: L.MarkerClusterGroup,
   handleSetClusterKeyValue: (value: string, nodeType: string) => void,
@@ -84,7 +86,7 @@ export function handleHoverCircleMarker(
 
 
   for (const [, edgeData] of aggregatedEdges) {
-    const { sourceLatlng, targetLatlng, controls, type } = edgeData;
+    const { sourceLatlng, targetLatlng, controls, type, weight } = edgeData;
 
     const size = getEdgesSize(edgeData);
     const weightEddg = size !== null ? nodeLogValueScale(size) : 0;
@@ -105,6 +107,21 @@ export function handleHoverCircleMarker(
     if (curveAnimated && curveLine) {
       hiddenEdgesLayer.addLayer(curveLine.addTo(map).bringToBack());
       hiddenEdgesLayer.addLayer(curveAnimated);
+
+      const tooltipContent = createTooltipClusterEdges(weight, node, type, nodesData!);
+      const tooltip = L.tooltip({
+        direction: 'top',
+        permanent: false,
+        opacity: 0.90,
+        sticky: false,
+      }).setContent(tooltipContent);
+
+      curveLine.bindTooltip(tooltip);
+      curveLine.on('mouseover', (e) => {
+        curveLine.openTooltip();
+        tooltip.setLatLng(e.latlng);
+        map.closePopup();
+      });
     }
   }
 }

@@ -8,7 +8,7 @@ import React, {
 import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import CustomHeader from '../../NavigationComponents/Header/CustomHeader';
+import CustomHeaderTable from '../../NavigationComponents/Header/CustomHeaderTable';
 import { setData, setRowData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
@@ -70,14 +70,11 @@ const Tables: React.FC = () => {
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
+    const { isChangeAuto, autoLabelName } = useSelector((state: RootState) => state.autoCompleteList)
 
     const [totalResultsCount, setTotalResultsCount] = useState(0);
     const gridRef = useRef<any>(null);
     const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
-
-    const { isChangeAuto } = useSelector(
-        (state: RootState) => state.autoCompleteList
-    );
 
 
     const { inputSearchValue } = useSelector(
@@ -138,7 +135,7 @@ const Tables: React.FC = () => {
             setTableCell(tableCellStructure)
         }
 
-    }, [tablesCell, isLoading, isError, isChangeAuto, isChangeGeoTree, isChange]);
+    }, [tablesCell, isLoading, isError]);
 
     useEffect(() => {
         if (tablesCell.length > 0) {
@@ -191,11 +188,12 @@ const Tables: React.FC = () => {
 
             }
         };
+
         fetchData();
+
+
         return () => {
             subscribed = false;
-            dispatch(setData([]));
-            dispatch(setRowData([]));
         };
     }, [
         dispatch,
@@ -206,8 +204,7 @@ const Tables: React.FC = () => {
         varName,
         visibleColumnCells,
         inputSearchValue,
-        styleNamePeople,
-        isChangeAuto, isChange, isChangeGeoTree
+        styleNamePeople, isChange, isChangeGeoTree, isChangeAuto, autoLabelName
     ]);
 
     useEffect(() => {
@@ -277,7 +274,7 @@ const Tables: React.FC = () => {
     const components = useMemo(
         () => ({
             agColumnHeader: (props: any) => {
-                return <CustomHeader page={page} pageSize={rowsPerPage} {...props} />;
+                return <CustomHeaderTable page={page} pageSize={rowsPerPage} setPage={setPage} {...props} />;
             },
 
         }),
@@ -330,7 +327,7 @@ const Tables: React.FC = () => {
     const handleChangeRowsPerPage = useCallback(
         (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             setRowsPerPage(parseInt(event.target.value));
-            setPage(0);
+
         },
         [page]
     );
@@ -339,7 +336,7 @@ const Tables: React.FC = () => {
         (event: any, newPage: number) => {
             setPage(newPage - 1);
         },
-        [page]
+        []
     );
 
     let topPositionPage = 0;
@@ -371,7 +368,7 @@ const Tables: React.FC = () => {
                             count={totalResultsCount}
                             page={page}
                             onPageChange={handleChangePage}
-                            rowsPerPageOptions={[5, 12, 10, 15, 20, 25, 30, 45, 50, 100]}
+                            rowsPerPageOptions={[5, 8, 10, 15, 20, 25, 30, 45, 50, 100]}
                             rowsPerPage={rowsPerPage}
                             onRowsPerPageChange={handleChangeRowsPerPage}
                         />
@@ -380,12 +377,12 @@ const Tables: React.FC = () => {
                         <AgGridReact
                             ref={gridRef}
                             rowData={rowData}
-                            onColumnVisible={handleColumnVisibleChange}
-                            gridOptions={gridOptions}
-                            getRowHeight={getRowHeightTable}
                             columnDefs={columnDefs}
                             suppressMenuHide={true}
                             animateRows={true}
+                            onColumnVisible={handleColumnVisibleChange}
+                            gridOptions={gridOptions}
+                            getRowHeight={getRowHeightTable}
                             paginationPageSize={rowsPerPage}
                             defaultColDef={defaultColDef}
                             components={components}

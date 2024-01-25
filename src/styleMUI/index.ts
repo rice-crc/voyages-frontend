@@ -215,5 +215,5 @@ export const CustomTablePagination = styled(TablePagination)({
   },
   '& .MuiTablePagination-displayedRows ': {
     fontSize: '0.975rem',
-  },
+  }
 }) as React.ComponentType<any>;

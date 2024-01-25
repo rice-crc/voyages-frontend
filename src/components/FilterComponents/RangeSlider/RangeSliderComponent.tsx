@@ -96,16 +96,28 @@ const RangeSlider = () => {
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const { name, value } = event.target;
-    const updatedSliderValue = [...rangeMinMax];
-    updatedSliderValue[name === 'start' ? 0 : 1] = Number(value);
-    dispatch(setIsChange(!isChange));
-    dispatch(
-      setRangeSliderValue({
-        ...rangeSliderMinMax,
-        [varName]: updatedSliderValue,
-      })
-    );
-    updatedSliderToLocalStrage(updatedSliderValue)
+
+    if (value) {
+      const updatedSliderValue = [...rangeMinMax];
+      updatedSliderValue[name === 'start' ? 0 : 1] = Number(value);
+      dispatch(setIsChange(!isChange));
+      dispatch(
+        setRangeSliderValue({
+          ...rangeSliderMinMax,
+          [varName]: updatedSliderValue,
+        })
+      );
+      updatedSliderToLocalStrage(updatedSliderValue)
+
+    }
+    else {
+      dispatch(
+        setRangeSliderValue({
+          ...rangeSliderMinMax,
+          [varName]: [],
+        })
+      );
+    }
   };
 
   function updatedSliderToLocalStrage(updateValue: number[]) {
@@ -139,13 +151,12 @@ const RangeSlider = () => {
     localStorage.setItem('filterObject', filterObjectString);
   }
 
-
   return (
     <Grid className="autocomplete-modal-box">
       <Input
         color="secondary"
         name="start"
-        value={rangeMinMax[0]!}
+        value={rangeMinMax[0] !== undefined ? rangeMinMax[0] : ''}
         size="small"
         onChange={handleInputChange}
         inputProps={{
@@ -158,8 +169,7 @@ const RangeSlider = () => {
         }}
       />
       <Input
-        name="end"
-        value={rangeMinMax[1]}
+        value={rangeMinMax[1] !== undefined ? rangeMinMax[1] : ''}
         size="small"
         onChange={handleInputChange}
         inputProps={{

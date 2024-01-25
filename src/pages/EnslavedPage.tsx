@@ -7,7 +7,6 @@ import '@/style/page-past.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { createTopPositionEnslavedPage } from '@/utils/functions/createTopPositionEnslavedPage';
-import EnslavedTable from '@/components/PresentationComponents/Tables/EnslavedTable';
 import {
   pageVariantsFromBottom,
   pageVariantsFromTop,
@@ -37,14 +36,15 @@ const EnslavedPage: React.FC = () => {
     if (styleName) {
       dispatch(setPeopleEnslavedStyleName(styleName));
     }
-    if (currentBlockName === 'intro') {
+    // if (currentBlockName === 'intro') {
+    //   dispatch(setCurrentEnslavedPage(1));
+    //   dispatch(setCurrentBlockName(currentBlockName))
+    // } else 
+    if (currentBlockName === 'table') {
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setCurrentBlockName(currentBlockName))
-    } else if (currentBlockName === 'table') {
-      dispatch(setCurrentEnslavedPage(2));
-      dispatch(setCurrentBlockName(currentBlockName))
     } else if (currentBlockName === 'map') {
-      dispatch(setCurrentEnslavedPage(3));
+      dispatch(setCurrentEnslavedPage(2));
       dispatch(setCurrentBlockName(currentBlockName))
       dispatch(
         setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks)
@@ -72,13 +72,13 @@ const EnslavedPage: React.FC = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentEnslavedPage === 1 && currentPageBlockName === 'intro' && <EnslavedIntro />}
-      {currentEnslavedPage === 2 && currentPageBlockName === 'table' && <Tables />}
-      {currentEnslavedPage === 3 && currentPageBlockName === 'map' && <EnslavedMap />}
+      {/* {currentEnslavedPage === 1 && currentPageBlockName === 'intro' && <EnslavedIntro />} */}
+      {currentEnslavedPage === 1 && currentPageBlockName === 'table' && <Tables />}
+      {currentEnslavedPage === 2 && currentPageBlockName === 'map' && <EnslavedMap />}
     </motion.div>
   );
 
-  const topPosition = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue);
+  // const topPosition = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue);
   return (
     <div id="enslaved-home-page" style={{ backgroundColor: getIntroBackgroundEnslavedColor(styleName!) }}>
       <HeaderLogoSearch />
@@ -87,8 +87,8 @@ const EnslavedPage: React.FC = () => {
         className={currentPageBlockName === 'table' ? 'table-presentation' : ''}
         style={{
           position: 'relative',
-          top: topPosition,
-          padding: currentPageBlockName !== 'intro' ? '0 20px' : '',
+          top: 100,
+          padding: '0 20px',
 
         }}
         id="content-container"

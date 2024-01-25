@@ -59,7 +59,7 @@ const SummaryStatisticsTable = () => {
 
     const [style, setStyle] = useState({
         width: percentageString,
-        height: 300,
+        height: 400,
         padding: '0 40px'
     });
 
@@ -72,7 +72,7 @@ const SummaryStatisticsTable = () => {
     useEffect(() => {
         setStyle({
             width: percentageString,
-            height: getMobileMaxHeightTable(height / 2),
+            height: getMobileMaxHeightTable(height / 1.2),
             padding: '0 40px'
         });
     }, [width, height, maxWidth]);

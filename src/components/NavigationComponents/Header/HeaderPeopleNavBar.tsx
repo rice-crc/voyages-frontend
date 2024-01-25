@@ -48,11 +48,11 @@ export default function HeaderPeopleNavBar() {
     if (item === 'About') {
       navigate(`/${PASTHOMEPAGE}`);
     } else if (item === Enslaved) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#intro`);
+      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#table`);
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setPathNameEnslaved(ALLENSLAVED));
     } else if (item === EnslaversTitle) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}#intro`);
+      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}#table`);
       dispatch(setCurrentEnslaversPage(1));
       dispatch(setPathEnslavers(ALLENSLAVERS));
     } else {

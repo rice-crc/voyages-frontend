@@ -45,6 +45,7 @@ import { setCardRowID, setNodeClass, setValueVariable } from './redux/getCardFla
 import { RootState } from './redux/store';
 import TabsSelect from './components/SelectorComponents/Tabs/TabsSelect';
 import { usePageRouter } from './hooks/usePageRouter';
+import DocumentPageHold from './pages/DocumentPageHold';
 
 
 const queryClient = new QueryClient({
@@ -120,7 +121,8 @@ const App: React.FC = () => {
             path={`${PASTHOMEPAGE}${ENSALVERSPAGE}`}
             element={<EnslaversHomePage />}
           />
-          <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
+          {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}
+          <Route path={`${DOCUMENTPAGE}`} element={<DocumentPageHold />} />
           <Route path={`${BLOGPAGE}`} element={<BlogPage />} />
           <Route
             path={`${BLOGPAGE}/tag/:tagName/:tagID`}

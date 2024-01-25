@@ -222,6 +222,7 @@ const NodeEdgesCurvedLinesMap = () => {
             hiddenEdgesLayer,
             edgesData,
             nodesData,
+            node,
             originNodeMarkersMap,
             originMarkerCluster,
             handleSetClusterKeyValue, // WAIT To Change if want to show table,

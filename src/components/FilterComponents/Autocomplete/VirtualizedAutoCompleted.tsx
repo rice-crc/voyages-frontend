@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, SyntheticEvent } from "react";
+import React, { useState, useEffect, useMemo, SyntheticEvent, useCallback, useRef } from "react";
 import { Autocomplete, TextField, Typography, ListSubheader } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -66,15 +66,14 @@ export default function VirtualizedAutoCompleted() {
     }, [data, isLoading, isError]);
 
     const refetchAutoComplete = () => {
-        if (autoValue === '') {
-            setOffset((prevOffset) => prevOffset + limit);
-        }
+        setOffset((prevOffset) => prevOffset + limit);
     };
 
     useEffect(() => {
         if (isLoadingList) {
             refetchAutoComplete();
         }
+
         const storedValue = localStorage.getItem('filterObject');
         if (!storedValue) return;
 
@@ -84,23 +83,23 @@ export default function VirtualizedAutoCompleted() {
         if (!filterByVarName) return;
 
         const autoValueList: string[] = filterByVarName.searchTerm as string[];
+
         const values = autoValueList.map<AutoCompleteOption>((item: string) => ({ value: item }));
         setSelectedValue(() => values);
         dispatch(setFilterObject(filter));
 
-    }, [isLoadingList, varName, styleName, isChangeAuto]);
+    }, [isLoadingList, varName, styleName]);
 
-    const handleInputChange = useMemo(
-        () => (event: React.SyntheticEvent<Element, Event>, value: string) => {
-            if (event) {
-                event.preventDefault();
-            }
-            dispatch(setIsChangeAuto(!isChangeAuto));
-            setAutoValue(value);
-        },
-        []
-    );
-
+    const handleInputChange = (event: React.SyntheticEvent<Element, Event>, value: string) => {
+        if (event) {
+            event.preventDefault();
+        }
+        dispatch(setIsChangeAuto(!isChangeAuto));
+        setAutoValue(value);
+        if (!value) {
+            setOffset((prev) => prev - offset)
+        }
+    }
 
     const handleAutoCompletedChange = (
         event: SyntheticEvent<Element, Event>,
@@ -110,9 +109,7 @@ export default function VirtualizedAutoCompleted() {
             setSelectedValue(newValue as AutoCompleteOption[]);
             dispatch(setIsChangeAuto(!isChangeAuto));
             const autuLabel: string[] = newValue.map((ele) => ele.value);
-
             dispatch(setAutoLabel(autuLabel));
-
             // Retrieve existing filterObject from localStorage
             const existingFilterObjectString = localStorage.getItem('filterObject');
 
@@ -169,10 +166,10 @@ export default function VirtualizedAutoCompleted() {
                 return option.value === value.value;
             }}
             getOptionLabel={(option) => option.value}
-            value={selectedValue}
-            onChange={handleAutoCompletedChange}
             onInputChange={handleInputChange}
             inputValue={autoValue}
+            value={selectedValue}
+            onChange={handleAutoCompletedChange}
             renderGroup={renderGroup}
             filterSelectedOptions
             renderInput={(params) => (

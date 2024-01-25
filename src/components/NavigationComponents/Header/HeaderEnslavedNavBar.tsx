@@ -70,9 +70,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
   );
 
   const styleNameToPathMap: { [key: string]: string } = {
-    [ALLENSLAVED]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'intro' : currentPageBlockName}`,
+    [ALLENSLAVED]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'table' : currentPageBlockName}`,
     [AFRICANORIGINS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
-    [ENSLAVEDTEXAS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'intro' : currentPageBlockName}`,
+    [ENSLAVEDTEXAS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'table' : currentPageBlockName}`,
   };
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -254,7 +254,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
           </Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentPageBlockName !== 'intro' && <CanscandingMenu />}
+          <CanscandingMenu />
         </Hidden>
         <Box component="nav">
           <Menu

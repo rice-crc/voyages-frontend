@@ -91,7 +91,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     dispatch(resetAll());
     const filters: Filter[] = [];
     if (styleName === VOYAGESTEXAS && currentVoyageBlockName === 'pie') {
-      navigate(`/${VOYAGESPAGE}${VOYAGESTEXASPAGE}#intro`);
+      navigate(`/${VOYAGESPAGE}${VOYAGESTEXASPAGE}#voyages`);
     } else {
       dispatch(setBaseFilterDataSetValue(base_filter));
       for (const base of base_filter) {
@@ -180,7 +180,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               <HeaderTitle
                 textHeader={textHeader}
                 HeaderTitle={VOYAGETILE}
-                pathLink={`${VOYAGESPAGE}${ALLVOYAGESPAGE}#intro`}
+                pathLink={`${VOYAGESPAGE}${ALLVOYAGESPAGE}#voyages`}
                 onClickReset={onClickReset}
               />
             </span>
@@ -251,7 +251,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           </Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentPage !== 1 && <CanscandingMenu />}
+          <CanscandingMenu />
         </Hidden>
         <Box component="nav">
           <Menu

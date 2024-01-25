@@ -4,7 +4,7 @@ import renderEdgesLinesOnMap from "./renderEdgesLinesOnMap";
 import L from "leaflet";
 
 import { createTooltipClusterEdges } from "../../../utils/functions/createTooltipClusterEdges";
-import { Root } from "react-dom/client";
+
 export function renderEdgeClusterNodeOnMap(
     hiddenEdgesLayer: L.LayerGroup<any>,
     edge: EdgesAggroutes,

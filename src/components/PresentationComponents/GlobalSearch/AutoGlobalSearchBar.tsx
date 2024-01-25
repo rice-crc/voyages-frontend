@@ -132,15 +132,15 @@ const AutoGlobalSearchBar = () => {
       dispatch(setTypePage(type));
 
       if (type === GlobalSearchVoyagesType) {
-        dispatch(setCurrentPage(2));
+        dispatch(setCurrentPage(1));
         dispatch(setCurrentBlockName('voyages'));
         navigate(`${VOYAGESPAGE}${ALLVOYAGESPAGE}#voyages`);
       } else if (type === GlobalSearchEnslavedType) {
-        dispatch(setCurrentEnslavedPage(2));
+        dispatch(setCurrentEnslavedPage(1));
         dispatch(setCurrentBlockName('table'));
         navigate(`${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#table`);
       } else if (type === GlobalSearchEnslaversType) {
-        dispatch(setCurrentEnslaversPage(2));
+        dispatch(setCurrentEnslaversPage(1));
         dispatch(setCurrentBlockName('table'));
         navigate(`${PASTHOMEPAGE}${ENSALVERSPAGE}#table`);
       } else if (type === GlobalSearchBlogType) {
