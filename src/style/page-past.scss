@@ -83,15 +83,17 @@
 }
 
 .grid-people-image>img {
-  width: 95%;
-  padding-top: 5rem;
+  width: 90%;
+  padding: 7rem 1rem 1rem;
 
   @include breakpoint-standard(5) {
-    padding-top: 6rem;
+    padding: 7rem 1rem 1rem;
+    width: 90%;
   }
 
   @include breakpoint-standard(4) {
-    padding-top: 7rem;
+    padding: 7rem 1rem 1rem;
+    width: 90%;
   }
 
   @include breakpoint-standard(3) {
