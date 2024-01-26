@@ -34,6 +34,9 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@turf/bezier-spline": "^6.5.0",
     "@types/react-query": "^1.2.9",
+    "@types/react-virtualized": "^9.21.29",
+    "@types/react-window": "^1.8.8",
+    "@types/react-window-infinite-loader": "^1.0.9",
     "ag-grid-community": "^30.0.0",
     "ag-grid-react": "^30.0.0",
     "antd": "^5.8.5",
@@ -62,7 +65,14 @@
     "react-router-dom": "^6.12.1",
     "react-scroll": "^1.8.9",
     "react-slick": "^0.29.0",
-    "styled-components": "^5.3.11"
+    "react-virtualized": "^9.22.5",
+    "react-window": "^1.8.10",
+    "react-window-infinite-loader": "^1.0.9",
+    "styled-components": "^5.3.11",
+    "usehooks-ts": "^2.9.2"
+  },
+  "resolutions": {
+    "react-virtualized": "patch:react-virtualized@9.22.3#./path/to/react-virtualized-9.22.3.patch"
   },
   "browserslist": {
     "production": [
@@ -80,12 +90,13 @@
     "@types/aos": "^3.0.6",
     "@types/axios": "^0.14.0",
     "@types/d3": "^7.4.0",
+    "@types/dompurify": "^3.0.5",
     "@types/dotenv": "^8.2.0",
     "@types/leaflet": "^1.9.6",
     "@types/leaflet.markercluster": "^1.5.2",
     "@types/lodash.debounce": "^4.0.7",
     "@types/node": "^20.8.0",
-    "@types/react": "^18.0.21",
+    "@types/react": "^18.2.42",
     "@types/react-dom": "^18.0.6",
     "@types/react-html-parser": "^2.0.2",
     "@types/react-leaflet": "^3.0.0",

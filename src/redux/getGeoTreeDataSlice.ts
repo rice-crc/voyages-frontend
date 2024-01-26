@@ -1,8 +1,7 @@
-import { TreeSelectItemInitialState, TreeSelectItem } from '@/share/InterfaceTypes';
+import { TreeSelectItemInitialState, GeoTreeSelectItem } from '@/share/InterfaceTypes';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 const initialState: TreeSelectItemInitialState = {
-    geoTreeList: [],
     geoTreeValue: {},
     geoTreeSelectValue: [],
     isChangeGeoTree: false
@@ -12,12 +11,9 @@ export const getGeoTreeDataSlice = createSlice({
     name: 'getGeoTreeBoxSlice',
     initialState,
     reducers: {
-        setGeoTreeValueList: (state, action) => {
-            state.geoTreeList = action.payload;
-        },
         setGeoTreeValues: (
             state,
-            action: PayloadAction<Record<string, TreeSelectItem[] | string[]>>
+            action: PayloadAction<Record<string, GeoTreeSelectItem[] | string[]>>
         ) => {
             state.geoTreeValue = action.payload;
         },
@@ -31,7 +27,7 @@ export const getGeoTreeDataSlice = createSlice({
     },
 });
 
-export const { setGeoTreeValueList, setGeoTreeValues, setGeoTreeValueSelect, setIsChangeGeoTree, resetSlice } =
+export const { setGeoTreeValues, setGeoTreeValueSelect, setIsChangeGeoTree, resetSlice } =
     getGeoTreeDataSlice.actions;
 
 export default getGeoTreeDataSlice.reducer;

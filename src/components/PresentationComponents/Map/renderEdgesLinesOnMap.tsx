@@ -18,7 +18,6 @@ const renderEdgesLinesOnMap = (
   if (startLatLng && endLatLng && weight && controls) {
     const startControlLatLng: number[] = controls[0];
     const midpointControlLatLng: number[] = controls[1];
-
     const curve = L.curve(
       [
         'M',

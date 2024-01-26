@@ -1,10 +1,10 @@
 import { Link, useParams } from 'react-router-dom';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { fetchAuthorData } from '@/fetch/blogFetch/fetchAuthorData';
 import { RootState } from '@/redux/store';
-import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
+import { BlogDataPropsRequest, BlogFilter, InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { useSelector } from 'react-redux';
 import { BASEURL } from '@/share/AUTH_BASEURL';
 import '@/style/blogs.scss';
@@ -20,30 +20,38 @@ const AuthorInfo: React.FC = () => {
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
 
+  const effectOnce = useRef(false);
   const { name, description, role, photo, institution } = author;
   const { id: institutionID, name: institutionName } = institution;
 
-  useEffect(() => {
-    let subscribed = true;
-    const fetchDataBlog = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {
-        id: [parseInt(ID!)],
-      };
-      try {
-        const response = await dispatch(fetchAuthorData(dataSend)).unwrap();
+  const fetchDataBlog = async () => {
+    const filters: BlogFilter[] = [];
+    if ([parseInt(ID!)]) {
+      filters.push({
+        varName: "id",
+        searchTerm: [parseInt(ID!)],
+        "op": "in"
+      })
+    }
+    const dataSend: BlogDataPropsRequest = {
+      filter: filters,
+    };
 
-        if (subscribed && response) {
-          dispatch(setAuthorData(response?.[0]));
-          dispatch(setAuthorPost(response?.[0]?.posts));
-        }
-      } catch (error) {
-        console.log('error', error);
+    try {
+      const response = await dispatch(fetchAuthorData(dataSend)).unwrap();
+      if (response) {
+        dispatch(setAuthorData(response?.results[0]));
+        dispatch(setAuthorPost(response?.results[0]?.posts));
       }
-    };
-    fetchDataBlog();
-    return () => {
-      subscribed = false;
-    };
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  useEffect(() => {
+    if (!effectOnce.current) {
+      fetchDataBlog();
+    }
   }, [dispatch, ID]);
 
   return (
@@ -73,9 +81,8 @@ const AuthorInfo: React.FC = () => {
                   <p className="text-secondary-author">{role}</p>
                   <p className="author-universityname">
                     <Link
-                      to={`/${BLOGPAGE}/institution/${
-                        institutionName && convertToSlug(institutionName)
-                      }/${institutionID}`}
+                      to={`/${BLOGPAGE}/institution/${institutionName && convertToSlug(institutionName)
+                        }/${institutionID}`}
                     >
                       <span>{institutionName}</span>
                     </Link>

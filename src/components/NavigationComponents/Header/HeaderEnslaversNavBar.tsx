@@ -116,7 +116,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
           ></Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentEnslaversPage !== 1 && <CanscandingMenu />}
+          <CanscandingMenu />
         </Hidden>
       </AppBar>
       <Menu

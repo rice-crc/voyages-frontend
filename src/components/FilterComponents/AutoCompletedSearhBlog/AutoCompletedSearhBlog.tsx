@@ -10,6 +10,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import { resetAll } from '@/redux/resetAllSlice';
+import { formatTextURL } from '@/utils/functions/formatText';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { Filter, IRootFilterObject } from '@/share/InterfaceTypes';
+import { useAutoBlogList } from '@/hooks/useAutoBlogList';
 
 const AutoCompletedSearhBlog = () => {
   const { tagID } = useParams();
@@ -18,42 +22,64 @@ const AutoCompletedSearhBlog = () => {
   const navigate = useNavigate();
   const { searchTitle, searchAutoKey, searchAutoValue, blogAutoLists } =
     useSelector((state: RootState) => state.getBlogData);
-
-  const [inputValue, setInputValue] = useState<ResultAutoList | null>(null);
+  const { currentBlockName } = usePageRouter();
+  const [inputValue, setInputValue] = useState<
+    ResultAutoList | undefined | null
+  >(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [isFetchHashLoad, setFetchHashLoad] = useState(true);
+  const [listData, setListData] = useState<ResultAutoList[]>([]);
+  const limit = 20;
+  const offset = 0;
+
+  const filters: Filter[] = [];
+  const dataSend: IRootFilterObject = {
+    varName: searchAutoKey,
+    querystr: searchAutoValue,
+    offset: offset,
+    limit: limit,
+    filter: filters
+  };
+  const { data, isLoading, isError } = useAutoBlogList(dataSend)
 
   useEffect(() => {
-    let subscribed = true;
-    const dataSend: { [key: string]: string[] } = {
-      [searchAutoKey]: [searchAutoValue],
-    };
-
-    const fetchAutoBlogList = async () => {
-      try {
-        const response = await dispatch(
-          fetchBlogAutoCompleted(dataSend)
-        ).unwrap();
-
-        if (subscribed && response) {
-          dispatch(setBlogAutoLists(response?.results));
-        }
-      } catch (error) {
-        console.log('error', error);
+    if (!isLoading && !isError && data) {
+      const { suggested_values } = data
+      dispatch(setBlogAutoLists(suggested_values));
+      if (isFetchHashLoad) {
+        setListData(suggested_values);
       }
+    }
+    return () => {
+      dispatch(setBlogAutoLists([]));
     };
-    fetchAutoBlogList();
+  }, [data, isLoading, isError]);
+
+  useEffect(() => {
 
     if (isInitialLoad) {
-      const tagLabel = blogAutoLists.find((item) => item.id === Number(tagID));
+      const tagLabel = blogAutoLists.find((item: any) => item.id === Number(tagID));
       if (tagLabel) {
         setInputValue(tagLabel);
       }
       setIsInitialLoad(false);
     }
-    return () => {
-      subscribed = false;
-    };
   }, [dispatch, searchAutoKey, searchAutoValue, tagID, isInitialLoad]);
+
+  useEffect(() => {
+    if (isFetchHashLoad && currentBlockName && listData.length > 0) {
+
+      const tagLabel = listData.find(
+        (item) => {
+          return formatTextURL(item.value) === currentBlockName
+        }
+      );
+      if (tagLabel) {
+        setInputValue(tagLabel);
+        setFetchHashLoad(false);
+      }
+    }
+  }, [currentBlockName, isFetchHashLoad, listData, inputValue]);
 
   const handleInputChangeDebounced = debounce(
     (event: React.SyntheticEvent<Element, Event>, value: string) => {
@@ -70,9 +96,13 @@ const AutoCompletedSearhBlog = () => {
     if (tagID) {
       navigate(`/${BLOGPAGE}`);
     }
+    if (newValue) {
+      navigate(`#${formatTextURL(newValue.value)}`);
+    }
   };
 
   const handleReset = () => {
+    setListData([]);
     setInputValue(null);
     dispatch(resetAll());
     dispatch(setSearchAutoValue(''));
@@ -87,7 +117,7 @@ const AutoCompletedSearhBlog = () => {
           multiple={false}
           id="tags-outlined"
           options={blogAutoLists}
-          getOptionLabel={(option) => option.label || '--'}
+          getOptionLabel={(option) => option.value || '--'}
           onInputChange={handleInputChangeDebounced}
           value={inputValue}
           onChange={handleAutocompleteChange}

@@ -21,8 +21,6 @@ import CollectionTabVoyages from '@/components/NavigationComponents/CollectionTa
 import { useEffect } from 'react';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import {
-  setBaseFilterDataKey,
-  setBaseFilterDataValue,
   setBlocksMenuList,
   setStyleName,
 } from '@/redux/getDataSetCollectionSlice';
@@ -33,6 +31,8 @@ import {
 import { INTRAAMERICAN, TRANSATLANTIC, VOYAGESTEXAS } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
+import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
+import { setFilterObject } from '@/redux/getFilterSlice';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -44,9 +44,7 @@ const VoyagesPage = () => {
   const { currentPage, currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { dataSetKey, dataSetValue } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
+
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
@@ -60,16 +58,13 @@ const VoyagesPage = () => {
         jsonDataVoyageCollection[index]?.base_filter &&
         jsonDataVoyageCollection[index]?.base_filter[0]
       ) {
-        dispatch(
-          setBaseFilterDataKey(
-            jsonDataVoyageCollection[index].base_filter[0].var_name!
-          )
-        );
-        dispatch(
-          setBaseFilterDataValue(
-            jsonDataVoyageCollection[index].base_filter[0].value!
-          )
-        );
+        dispatch(setFilterObject([
+          {
+            varName: jsonDataVoyageCollection[index].base_filter[0].var_name!,
+            searchTerm: jsonDataVoyageCollection[index].base_filter[0].value!,
+            op: "in"
+          }
+        ]));
       }
     };
 
@@ -93,28 +88,33 @@ const VoyagesPage = () => {
       dispatch(setCurrentVoyagesBlockName('intro'));
     }
 
-    if (currentBlockName === 'intro') {
+    // if (currentBlockName === 'intro') {
+    //   dispatch(setCurrentPage(1));
+    //   dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    // } else 
+    if (currentBlockName === 'voyages') {
       dispatch(setCurrentPage(1));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'voyages') {
+    } else if (currentBlockName === 'line') {
       dispatch(setCurrentPage(2));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'line') {
+    } else if (currentBlockName === 'bar') {
       dispatch(setCurrentPage(3));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'bar') {
+    } else if (currentBlockName === 'pie') {
       dispatch(setCurrentPage(4));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'pie') {
+    } else if (currentBlockName === 'table') {
       dispatch(setCurrentPage(5));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'table') {
+    } else if (currentBlockName === 'map') {
       dispatch(setCurrentPage(6));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'map') {
-      dispatch(setCurrentPage(7));
-      dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }
+    // else if (currentBlockName === 'summarystatistics') {
+    //   dispatch(setCurrentPage(7));
+    //   dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    // }
   }, [
     styleVoyagesName,
     jsonDataVoyageCollection,
@@ -122,8 +122,6 @@ const VoyagesPage = () => {
     currentBlockName,
     currentPage,
     currentVoyageBlockName,
-    dataSetKey,
-    dataSetValue,
   ]);
 
   const displayPage = (
@@ -135,18 +133,19 @@ const VoyagesPage = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentPage === 1 && currentVoyageBlockName === 'intro' && (
+      {/* {currentPage === 1 && currentVoyageBlockName === 'intro' && (
         <VoyagesIntro />
-      )}
-      {/* {currentPage === 2 && currentVoyageBlockName === 'voyages' && <VoyagesTable />} */}
-      {currentPage === 2 && currentVoyageBlockName === 'voyages' && <Tables />}
-      {currentPage === 3 && currentVoyageBlockName === 'line' && <Scatter />}
-      {currentPage === 4 && currentVoyageBlockName === 'bar' && <BarGraph />}
-      {currentPage === 5 && currentVoyageBlockName === 'pie' && <PieGraph />}
-      {currentPage === 6 && currentVoyageBlockName === 'table' && (
+      )} */}
+
+      {currentPage === 1 && currentVoyageBlockName === 'voyages' && <Tables />}
+      {currentPage === 2 && currentVoyageBlockName === 'line' && <Scatter />}
+      {currentPage === 3 && currentVoyageBlockName === 'bar' && <BarGraph />}
+      {currentPage === 4 && currentVoyageBlockName === 'pie' && <PieGraph />}
+      {currentPage === 5 && currentVoyageBlockName === 'table' && (
         <PivotTables />
       )}
-      {currentPage === 7 && currentVoyageBlockName === 'map' && <VoyagesMaps />}
+      {currentPage === 6 && currentVoyageBlockName === 'map' && <VoyagesMaps />}
+      {/* {currentPage === 7 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />} */}
     </motion.div>
   );
   const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
@@ -162,8 +161,10 @@ const VoyagesPage = () => {
             currentPage
           ),
           position: 'relative',
-          top: currentPage === 1 ? -40 : !inputSearchValue ? topPosition - 80 : 0,
-          padding: currentPage !== 1 ? '30px' : '',
+          // top: currentPage === 1 ? -40 : !inputSearchValue ? topPosition - 80 : 0,
+          // padding: currentPage !== 1 ? '30px' : '',
+          top: !inputSearchValue ? topPosition - 80 : 0,
+          padding: 30,
         }}
       >
         <CollectionTabVoyages />

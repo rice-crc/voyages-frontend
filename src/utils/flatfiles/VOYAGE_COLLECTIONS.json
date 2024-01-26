@@ -9,7 +9,6 @@
 		"table_flatfile": "voyage_table_cell_structure__updated21June.json",
 		"style_name": "all-voyages",
 		"blocks": [
-			"INTRO",
 			"VOYAGES",
 			"LINE",
 			"BAR",
@@ -35,7 +34,6 @@
 		"table_flatfile": "voyage_table_cell_structure__updated21June.json",
 		"style_name": "intra-american",
 		"blocks": [
-			"INTRO",
 			"VOYAGES",
 			"LINE",
 			"BAR",
@@ -61,7 +59,6 @@
 		"table_flatfile": "voyage_table_cell_structure__updated21June.json",
 		"style_name": "trans-atlantic",
 		"blocks": [
-			"INTRO",
 			"VOYAGES",
 			"LINE",
 			"BAR",
@@ -87,7 +84,6 @@
 		"table_flatfile": "voyage_table_cell_structure__updated21June.json",
 		"style_name": "texas",
 		"blocks": [
-			"INTRO",
 			"VOYAGES",
 			"LINE",
 			"BAR",

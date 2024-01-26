@@ -101,9 +101,9 @@ export default function HeaderLogoSearch() {
             </Link>
           </Typography>
 
-          <Typography component="div" sx={{ cursor: 'pointer' }}>
+          {/* <Typography component="div" sx={{ cursor: 'pointer' }}>
             <img src={SearchVoyages} alt="search" height={40} />
-          </Typography>
+          </Typography> */}
         </Toolbar>
       </AppBar>
     </Box>

@@ -6,9 +6,10 @@ interface PageButtonBlogProp {
   currentBlogPage: number;
   imagesPerPage: number;
   BlogData: BlogDataProps[];
+  count: number
 }
 const BlogPageButton = (props: PageButtonBlogProp) => {
-  const { setCurrentBlogPage, currentBlogPage, imagesPerPage, BlogData } =
+  const { setCurrentBlogPage, currentBlogPage, imagesPerPage, BlogData, count } =
     props;
   return (
     <div className="row-next">
@@ -16,7 +17,7 @@ const BlogPageButton = (props: PageButtonBlogProp) => {
         <nav aria-label="Page navigation container">
           <div className="dataTables_paginate paging_simple_numbers">
             Page {currentBlogPage} of{' '}
-            {Math.ceil(BlogData.length / imagesPerPage)}.
+            {Math.ceil(count / imagesPerPage)}.
             <ul className="pagination pagination-sm justify-content-center">
               <li>
                 {currentBlogPage > 1 && (
@@ -44,27 +45,27 @@ const BlogPageButton = (props: PageButtonBlogProp) => {
               </li>
               <li>
                 {currentBlogPage <
-                  Math.ceil(BlogData.length / imagesPerPage) && (
-                  <Link to={`?page=${currentBlogPage + 1}`}>
-                    <button
-                      className="page-link"
-                      onClick={() => setCurrentBlogPage(currentBlogPage + 1)}
-                    >
-                      Next
-                    </button>
-                  </Link>
-                )}
+                  Math.ceil(count / imagesPerPage) && (
+                    <Link to={`?page=${currentBlogPage + 1}`}>
+                      <button
+                        className="page-link"
+                        onClick={() => setCurrentBlogPage(currentBlogPage + 1)}
+                      >
+                        Next
+                      </button>
+                    </Link>
+                  )}
               </li>
-              {currentBlogPage < Math.ceil(BlogData.length / imagesPerPage) && (
+              {currentBlogPage < Math.ceil(count / imagesPerPage) && (
                 <li>
                   <Link
-                    to={`?page=${Math.ceil(BlogData.length / imagesPerPage)}`}
+                    to={`?page=${Math.ceil(count / imagesPerPage)}`}
                   >
                     <button
                       className="page-link"
                       onClick={() =>
                         setCurrentBlogPage(
-                          Math.ceil(BlogData.length / imagesPerPage)
+                          Math.ceil(count / imagesPerPage)
                         )
                       }
                     >

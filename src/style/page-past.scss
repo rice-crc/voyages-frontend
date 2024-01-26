@@ -55,43 +55,45 @@
 }
 
 #main-page-past-home {
-  height: 100vh;
+  // height: 110vh;
   background-repeat: no-repeat;
   background: linear-gradient(rgba(127, 118, 191, 0.85),
       rgba(127, 118, 191, 0.8)),
     url('../assets/intra-american.jpeg') center / cover;
 
   @include breakpoint-standard(7) {
-    height: 100vh;
+    // height: 110vh;
   }
 
   @include breakpoint-standard(6) {
-    height: 100vh;
+    // height: 100vh;
   }
 
   @include breakpoint-standard(2) {
-    height: 115vh;
+    // height: 115vh;
   }
 
   @include breakpoint-standard(1) {
-    height: 120vh;
+    // height: 110vh;
   }
 
   @include breakpoint-standard(0) {
-    height: 120vh;
+    // height: 110vh;
   }
 }
 
 .grid-people-image>img {
-  width: 95%;
-  padding-top: 5rem;
+  width: 90%;
+  padding: 7rem 1rem 1rem;
 
   @include breakpoint-standard(5) {
-    padding-top: 6rem;
+    padding: 7rem 1rem 1rem;
+    width: 90%;
   }
 
   @include breakpoint-standard(4) {
-    padding-top: 7rem;
+    padding: 7rem 1rem 1rem;
+    width: 90%;
   }
 
   @include breakpoint-standard(3) {
@@ -150,19 +152,19 @@
   @include breakpoint-standard(2) {
     top: 0;
     padding: 10px;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   @include breakpoint-standard(1) {
     top: 0;
     padding: 10px;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   @include breakpoint-standard(0) {
     top: 0;
     padding: 10px;
-    font-size: 14px;
+    font-size: 12px;
   }
 
 }
@@ -199,18 +201,21 @@
   }
 
   @include breakpoint-standard(2) {
-    font-size: 14px;
-    width: 80px;
+    font-size: 12px;
+    width: 65px;
+    line-height: 22px;
   }
 
   @include breakpoint-standard(1) {
-    font-size: 14px;
-    width: 80px;
+    font-size: 12px;
+    width: 65px;
+    line-height: 22px;
   }
 
   @include breakpoint-standard(0) {
-    font-size: 14px;
-    width: 80px;
+    font-size: 12px;
+    width: 65px;
+    line-height: 22px;
   }
 }
 
@@ -236,18 +241,21 @@
   }
 
   @include breakpoint-standard(2) {
-    font-size: 14px;
-    width: 80px;
+    font-size: 12px;
+    width: 65px;
+    line-height: 22px;
   }
 
   @include breakpoint-standard(1) {
-    font-size: 14px;
-    width: 80px;
+    font-size: 12px;
+    width: 65px;
+    line-height: 22px;
   }
 
   @include breakpoint-standard(0) {
-    font-size: 14px;
-    width: 80px;
+    font-size: 12px;
+    width: 65px;
+    line-height: 22px;
   }
 }
 

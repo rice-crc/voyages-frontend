@@ -57,6 +57,7 @@ export const GenerateCellTableRenderer = (
       fontSize: '13px',
       cursor: 'pointer',
     };
+
     if (values.length <= 0) {
       return (
         <span >

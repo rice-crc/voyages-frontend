@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
@@ -8,6 +8,8 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { setBlogData, setBlogPost } from '@/redux/getBlogDataSlice';
 import {
   BlogDataProps,
+  BlogDataPropsRequest,
+  BlogFilter,
   InitialStateBlogProps,
 } from '@/share/InterfaceTypesBlog';
 import { formatTextURL } from '@/utils/functions/formatText';
@@ -27,47 +29,70 @@ const BlogResultsList: React.FC = () => {
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
 
+  const [totalResultsCount, setTotalResultsCount] = useState(0);
+  const [page, setPage] = useState<number>(1);
 
-  const [currentBlogPage, setCurrentBlogPage] = useState<number>(1);
   const imagesPerPage = 12
-  const startIndex = (currentBlogPage - 1) * imagesPerPage;
-  const endIndex = startIndex + imagesPerPage;
   const { language } = useSelector((state: RootState) => state.getLanguages);
   const [loading, setLoading] = useState(false);
-  const imagesOnCurrentPage = BlogData.slice(startIndex, endIndex);
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  useEffect(() => {
-    let subscribed = true;
-    const fetchDataBlog = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {
-        language: [language],
-        [searchAutoKey]: [searchAutoValue],
-        global_search: [inputSearchValue],
-      };
-      try {
-        const response = await dispatch(fetchBlogData(dataSend)).unwrap();
 
-        if (response) {
-          dispatch(setBlogData(response));
-          if (response.length <= 0) {
-            setLoading(true);
-          } else {
-            setLoading(false);
-          }
-        }
-      } catch (error) {
-        setLoading(false);
-        console.log('error', error);
-      }
+  const effectOnce = useRef(false);
+  const fetchDataBlog = async () => {
+    const filters: BlogFilter[] = [];
+    if (language) {
+      filters.push({
+        varName: "language",
+        searchTerm: [language],
+        "op": "in"
+      })
+    }
+    if (searchAutoValue) {
+      filters.push({
+        varName: searchAutoKey,
+        searchTerm: [searchAutoValue],
+        "op": "in"
+      })
+    }
+    const dataSend: BlogDataPropsRequest = {
+      filter: filters,
+      page: page,
+      page_size: imagesPerPage,
     };
-    fetchDataBlog();
+
+    if (inputSearchValue) {
+      dataSend['global_search'] = [inputSearchValue]
+    }
+
+    try {
+      const response = await dispatch(fetchBlogData(dataSend)).unwrap();
+
+      if (response) {
+        const { results, count } = response
+        dispatch(setBlogData(results));
+        setTotalResultsCount(() => Number(count));
+        if (response.length <= 0) {
+          setLoading(true);
+        } else {
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log('error', error);
+    }
+  };
+
+  useEffect(() => {
+    if (!effectOnce.current) {
+      fetchDataBlog();
+    }
     return () => {
       dispatch(setBlogPost({} as BlogDataProps));
-      subscribed = false;
     };
-  }, [dispatch, language, searchAutoValue, searchAutoKey, inputSearchValue]);
+  }, [dispatch, language, searchAutoValue, searchAutoKey, inputSearchValue, page]);
 
   return loading ? (
     <div className="loading-logo">
@@ -76,7 +101,7 @@ const BlogResultsList: React.FC = () => {
   ) : (
     <div className="container-new">
       <div className="card-columns">
-        {imagesOnCurrentPage.map((value) => (
+        {BlogData.map((value) => (
           <div className="card" key={`${value.id}${value.title}`}>
             <Link to={`/${BLOGPAGE}/${formatTextURL(value.title)}/${value.id}`}>
               {value.thumbnail ? (
@@ -109,10 +134,11 @@ const BlogResultsList: React.FC = () => {
         ))}
       </div>
       <BlogPageButton
-        setCurrentBlogPage={setCurrentBlogPage}
-        currentBlogPage={currentBlogPage}
+        setCurrentBlogPage={setPage}
+        currentBlogPage={page}
         BlogData={BlogData}
         imagesPerPage={imagesPerPage}
+        count={totalResultsCount}
       />
     </div>
   );

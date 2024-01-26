@@ -9,9 +9,15 @@ import {
 } from '@/utils/functions/getColorStyle';
 import '@/style/page.scss';
 import { setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
-import { ALLENSLAVED } from '@/share/CONST_DATA';
+import { ALLENSLAVED, } from '@/share/CONST_DATA';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import { useNavigate } from 'react-router-dom';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { useEffect } from 'react';
+import { setPeopleEnslavedBlocksMenuList, } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
+import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
+
 
 const CollectionTabEnslaved = () => {
   const navigate = useNavigate();
@@ -19,9 +25,22 @@ const CollectionTabEnslaved = () => {
   const { styleNamePeople, blocksPeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
+  const { styleName, currentBlockName } = usePageRouter();
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
+
+  useEffect(() => {
+
+    // if (currentBlockName === 'intro' && styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
+    //   dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
+    // } else 
+    if (currentBlockName === 'table' && styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
+      dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
+    }
+
+  }, [styleName, currentBlockName,]);
+
 
   const handlePageNavigation = (page: number, blockName: string) => {
     if (page === 1) {

@@ -70,7 +70,6 @@ export default function HeaderLogo() {
   return (
     <Box>
       <CssBaseline />
-
       <Typography component="div" sx={{ cursor: 'pointer' }}>
         <Link
           to={'/'}

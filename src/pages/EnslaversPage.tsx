@@ -24,11 +24,12 @@ const EnslaversHomePage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
 
-    if (currentBlockName === 'intro') {
+    // if (currentBlockName === 'intro') {
+    //   dispatch(setCurrentEnslaversPage(1));
+    //   dispatch(setCurrentBlockName(currentBlockName))
+    // } else 
+    if (currentBlockName === 'table') {
       dispatch(setCurrentEnslaversPage(1));
-      dispatch(setCurrentBlockName(currentBlockName))
-    } else if (currentBlockName === 'table') {
-      dispatch(setCurrentEnslaversPage(2));
       dispatch(setCurrentBlockName(currentBlockName))
     }
   }, [currentBlockName]);
@@ -44,8 +45,8 @@ const EnslaversHomePage: React.FC = () => {
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
 
-      {currentEnslaversPage === 1 && currentBlockName === 'intro' && <EnslaversIntro />}
-      {currentEnslaversPage === 2 && currentBlockName === 'table' && <Tables />}
+      {/* {currentEnslaversPage === 1 && currentBlockName === 'intro' && <EnslaversIntro />} */}
+      {currentEnslaversPage === 1 && currentBlockName === 'table' && <Tables />}
     </motion.div>
   );
 
@@ -56,8 +57,8 @@ const EnslaversHomePage: React.FC = () => {
       <div
         style={{
           position: 'relative',
-          top: currentEnslaversPage === 2 ? 45 : 0,
-          padding: currentEnslaversPage !== 1 ? '0 20px' : '',
+          top: 45,
+          padding: '0 20px',
         }}
         id="content-container"
       >

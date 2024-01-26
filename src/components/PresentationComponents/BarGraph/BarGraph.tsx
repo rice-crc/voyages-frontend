@@ -4,26 +4,27 @@ import { Data } from 'plotly.js';
 import VOYAGE_BARGRAPH_OPTIONS from '@/utils/flatfiles/VOYAGE_BARGRAPH_OPTIONS.json';
 import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAverage/AggregationSumAverage';
-import { fetchVoyageGraphGroupby } from '@/fetch/voyagesFetch/fetchVoyageGroupby';
 import {
   PlotXYVar,
   VoyagesOptionProps,
   Options,
   RangeSliderState,
-  AutoCompleteInitialState,
   CurrentPageInitialState,
   BargraphXYVar,
-  TYPESOFDATASET,
+  IRootFilterObjectScatterRequest,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
-import { getMobileMaxHeight, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
-import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
-import { MAXIMUM_ZOOM } from '@/share/CONST_DATA';
+import {
+  getMobileMaxHeight,
+  getMobileMaxWidth,
+  maxWidthSize,
+} from '@/utils/functions/maxWidthSize';
+import { useGroupBy } from '@/hooks/useGroupBy';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -32,32 +33,21 @@ function BarGraph() {
     isSuccess,
     isLoading,
   } = useGetOptionsQuery(datas);
-  const dispatch: AppDispatch = useDispatch();
-  const {
-    rangeSliderMinMax: rang,
-    varName,
-    isChange,
-  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
-  const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
-    (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
-  );
+  const { varName } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-
-  const { dataSetKey, dataSetValue, styleName } = useSelector(
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+  const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
-    (state: RootState) => state.getGeoTreeData
-  );
-  const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
-  );
+
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
+  const [title, setTitle] = useState<string>(barGraphSelectedX[0]?.label);
   const [barData, setBarData] = useState<Data[]>([]);
   const [chips, setChips] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
@@ -82,78 +72,51 @@ function BarGraph() {
     );
   }, []);
 
+  const dataSend: IRootFilterObjectScatterRequest = {
+    groupby_by: barGraphOptions.x_vars,
+    groupby_cols: [...chips],
+    agg_fn: aggregation,
+    cachename: 'voyage_bar_and_donut_charts',
+    filter: filtersObj?.[0]?.searchTerm?.length > 0 ? filtersObj : [],
+  };
+  const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
   useEffect(() => {
     VoyageBargraphOptions();
-    let subscribed = true;
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
-
-    const fetchData = async () => {
-
-      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
-
-      dataSend['groupby_by'] = [barGraphOptions.x_vars];
-      dataSend['agg_fn'] = [aggregation];
-      dataSend['cachename'] = ['voyage_bar_and_donut_charts'];
-
-      const yfieldArr: string[] = [];
-
-      if (currentPage === 4) {
-        for (const chip of chips) {
-          dataSend['groupby_cols'] = [chip];
-          yfieldArr.push(chip);
+    if (!loading && !isError && response) {
+      const values = Object.values(response);
+      const data: Data[] = [];
+      for (const [index, [key, value]] of Object.entries(response).entries()) {
+        if (key !== barGraphOptions.x_vars && Array.isArray(value)) {
+          data.push({
+            x: values[0] as number[],
+            y: value as number[],
+            type: 'bar',
+            mode: 'lines',
+            line: { shape: 'spline' },
+            name: `${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
+          });
         }
       }
-
-      try {
-        const data: Data[] = [];
-        const response = await dispatch(
-          fetchVoyageGraphGroupby(dataSend)
-        ).unwrap();
-
-        if (subscribed) {
-          const values = Object.values(response);
-          for (const [index, [key, value]] of Object.entries(
-            response
-          ).entries()) {
-            if (key !== barGraphOptions.x_vars && Array.isArray(value)) {
-              data.push({
-                x: values[0] as number[],
-                y: value as number[],
-                type: 'bar',
-                name: `aggregation: ${aggregation} label: ${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
-              });
-            }
-          }
-          setBarData(data);
-        }
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    fetchData();
+      setBarData(data);
+    }
     return () => {
-      subscribed = false;
+      setBarData([]);
     };
   }, [
-    dispatch,
+    response,
+    loading,
+    isError,
     options_flat,
     barGraphOptions.x_vars,
     barGraphOptions.y_vars,
     aggregation,
-    rang,
     varName,
-    autoCompleteValue,
-    autoLabelName,
     chips,
     currentPage,
     isSuccess,
-    dataSetValue,
-    dataSetKey,
     styleName,
-    geoTreeSelectValue,
     VoyageBargraphOptions,
-    geoTreeValue,
-    inputSearchValue,
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -194,9 +157,8 @@ function BarGraph() {
     </div>;
   }
 
-
   return (
-    <div className='mobile-responsive'>
+    <div className="mobile-responsive">
       <SelectDropdown
         selectedX={barGraphSelectedX}
         chips={chips}
@@ -208,6 +170,7 @@ function BarGraph() {
         XFieldText={'X Field'}
         YFieldText={'Multi-Selector Y-Feild'}
         optionsFlatY={VOYAGE_BARGRAPH_OPTIONS.y_vars}
+        setTitle={setTitle}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
@@ -220,9 +183,7 @@ function BarGraph() {
           layout={{
             width: getMobileMaxWidth(maxWidth),
             height: getMobileMaxHeight(height),
-            title: `The ${aggregation} of ${optionFlat[barGraphOptions.x_vars]?.label || ''
-              } vs <br> ${optionFlat[barGraphOptions.y_vars]?.label || ''
-              } Bar Graph`,
+            title: title || barGraphSelectedX[0]?.label,
             font: {
               family: 'Arial, sans-serif',
               size: maxWidth < 400 ? 7 : 10,
