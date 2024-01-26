@@ -9,7 +9,7 @@ import CustomSummaryHeader from '@/components/NavigationComponents/Header/Custom
 import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-
+// "Summary\nstatistics" to add in flatfile JSON
 const SummaryStatisticsTable = () => {
 
     const [rowData, setRowData] = useState<any[]>([]);

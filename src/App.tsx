@@ -159,10 +159,7 @@ const App: React.FC = () => {
           <Route
             path={`${TIMELAPSEPAGE}`}
             element={<TimeLapse />} />
-          {/* <Route
-            path={`${SUMMARYSTATISTICS}`}
-            element={<SummaryStatisticsTable />}
-          /> */}
+
         </Routes>
 
       </QueryClientProvider>

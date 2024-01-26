@@ -2,7 +2,7 @@ import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { CurrentPageInitialState, Filter } from '@/share/InterfaceTypes';
+import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json';
 import { getColorVoyagePageBackground } from '@/utils/functions/getColorStyle';
@@ -110,10 +110,11 @@ const VoyagesPage = () => {
     } else if (currentBlockName === 'map') {
       dispatch(setCurrentPage(6));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'summarystatistics') {
-      dispatch(setCurrentPage(7));
-      dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }
+    // else if (currentBlockName === 'summarystatistics') {
+    //   dispatch(setCurrentPage(7));
+    //   dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    // }
   }, [
     styleVoyagesName,
     jsonDataVoyageCollection,
@@ -144,7 +145,7 @@ const VoyagesPage = () => {
         <PivotTables />
       )}
       {currentPage === 6 && currentVoyageBlockName === 'map' && <VoyagesMaps />}
-      {currentPage === 7 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />}
+      {/* {currentPage === 7 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />} */}
     </motion.div>
   );
   const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
