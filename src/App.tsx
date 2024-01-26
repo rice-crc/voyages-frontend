@@ -87,6 +87,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path={`${VOYAGESPAGE}`} element={<VoyagesPage />} />
+          <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
           <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
           <Route
             path={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`}
