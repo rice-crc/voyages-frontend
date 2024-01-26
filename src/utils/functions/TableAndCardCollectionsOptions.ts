@@ -41,6 +41,7 @@ export const TableAndCardCollectionsOptions = (file?: string): Record<string, an
             processFieldsData(fieldsData);
         });
     } else if (file === ENSLAVED_TABLE_FILE) {
+
         ENSLAVED_TABLE.cell_structure.forEach((value) => {
             const fieldsData = value.cell_val.fields;
             processFieldsData(fieldsData);

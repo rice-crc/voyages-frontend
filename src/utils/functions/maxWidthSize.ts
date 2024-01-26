@@ -3,7 +3,7 @@ export const maxWidthSize = (width: number) => {
         width > 1024
             ? width > 1440
                 ? width * 0.88
-                : width * 0.92
+                : width * 1
             : width === 1024
                 ? width * 0.895
                 : width === 768
@@ -45,6 +45,17 @@ export const getMobileMaxHeightTable = (height: number) => {
         mobileMaxHeight = height * 0.50
     } else {
         mobileMaxHeight = height * 0.71
+    }
+    return mobileMaxHeight
+}
+export const getMobileMaxHeightPivotTable = (height: number) => {
+    let mobileMaxHeight = height * 0.45
+    if (height > 600 && height < 720) {
+        mobileMaxHeight = height * 0.40
+    } else if (height < 600) {
+        mobileMaxHeight = height * 0.35
+    } else {
+        mobileMaxHeight = height * 0.45
     }
     return mobileMaxHeight
 }

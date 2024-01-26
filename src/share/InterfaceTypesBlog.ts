@@ -12,6 +12,18 @@ export interface BlogDataProps {
     status: number
     thumbnail: string
 }
+export interface BlogDataPropsRequest {
+    filter: BlogFilter[]
+    page?: number
+    page_size?: number
+    global_search?: string[]
+    id?: number
+}
+export interface BlogFilter {
+    varName: string
+    searchTerm: string[] | number[]
+    op: string
+}
 export interface InstitutionProps {
     id: number
     name: string
@@ -39,7 +51,7 @@ export interface Tags {
 
 export interface Post {
     id: number
-    tags: Tags[]
+    tags: Tag[]
     thumbnail: string
     title: string
     language: string
@@ -129,8 +141,7 @@ export interface BlogAutoCompletedProps {
 }
 
 export interface ResultAutoList {
-    id: number
-    label: string
+    value: string
 }
 
 
@@ -143,17 +154,17 @@ export interface InstitutionAuthorProps {
     image: string
 }
 
+
 export interface InstitutionAuthor {
     id: number
     posts: Post[]
-    photo: string
+    photo?: string
     institution: Institution
     name: string
-    description?: string
+    description: any
     slug: string
     role: string
 }
-
 export interface Post {
     id: number
     tags: Tag[]

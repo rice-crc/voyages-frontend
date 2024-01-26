@@ -1,9 +1,8 @@
 import { MouseEventHandler, useState } from 'react';
-import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
-import { Menu, Typography } from '@mui/material';
+import { Menu, Typography, AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,6 +50,8 @@ import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import HeaderLogo from './HeaderLogo';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { Filter } from '@/share/InterfaceTypes';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {
@@ -69,9 +70,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
   );
 
   const styleNameToPathMap: { [key: string]: string } = {
-    [ALLENSLAVED]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'intro' : currentPageBlockName}`,
+    [ALLENSLAVED]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'table' : currentPageBlockName}`,
     [AFRICANORIGINS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
-    [ENSLAVEDTEXAS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'intro' : currentPageBlockName}`,
+    [ENSLAVEDTEXAS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'table' : currentPageBlockName}`,
   };
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -90,16 +91,18 @@ const HeaderEnslavedNavBar: React.FC = () => {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
-
+    const filters: Filter[] = [];
     dispatch(resetAll());
     dispatch(resetBlockNameAndPageName())
     setIsClick(!isClick);
     for (const base of baseFilter) {
-      dispatch(setBaseFilterPeopleEnslavedDataKey(base.var_name));
-      dispatch(setBaseFilterPeopleEnslavedDataValue(base.value));
-      dispatch(setPeopleEnslavedStyleName(styleName));
+      filters.push({
+        varName: base.var_name,
+        searchTerm: base.value,
+        op: "in"
+      })
+      dispatch(setFilterObject(filters));
     }
-    dispatch(setBaseFilterPeopleEnslavedDataSetValue(baseFilter));
     dispatch(setDataSetPeopleEnslavedHeader(textHeder));
     dispatch(setPeopleEnslavedTextIntro(textIntro));
     dispatch(setPeopleEnslavedStyleName(styleName));
@@ -128,14 +131,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
-  };
-
-  const handleResetAll = () => {
-    dispatch(resetAllStateToInitailState())
-    const keysToRemove = Object.keys(localStorage);
-    keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
-    });
   };
 
 
@@ -259,7 +254,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
           </Box>
         </Toolbar>
         <Hidden mdDown>
-          {currentPageBlockName !== 'intro' && <CanscandingMenu />}
+          <CanscandingMenu />
         </Hidden>
         <Box component="nav">
           <Menu

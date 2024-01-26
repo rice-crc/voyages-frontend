@@ -1,21 +1,63 @@
 {
 	"row_vars": [
 		{
-			"var_name": "voyage_itinerary__imp_principal_port_slave_dis__name",
+			"rows": "voyage_itinerary__imp_principal_port_slave_dis__name",
+			"binsize": null,
+			"rows_label": "Imputed Principle Port of Disembarkation (MJSLPTIMP)",
 			"label": "Imputed Principle Port of Disembarkation (MJSLPTIMP)"
 		},
 		{
-			"var_name": "voyage_itinerary__imp_principal_region_slave_dis__name",
+			"rows": "voyage_itinerary__imp_principal_region_slave_dis__name",
+			"binsize": null,
+			"rows_label": "Imputed Principle Region of Disembarkation (MJSELIMP)",
 			"label": "Imputed Principle Region of Disembarkation (MJSELIMP)"
 		},
 		{
-			"var_name": "voyage_itinerary__imp_broad_region_slave_dis__name",
+			"rows": "voyage_itinerary__imp_broad_region_slave_dis__name",
+			"binsize": null,
+			"rows_label": "Imputed Principle Port of Disembarkation (MJSELIMP1)",
 			"label": "Imputed Principle Port of Disembarkation (MJSELIMP1)"
+		},
+		{
+			"rows": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year_1",
+			"binsize": 1,
+			"rows_label": "Year range_1",
+			"label": "Individual years"
+		},
+		{
+			"rows": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year_5",
+			"binsize": 5,
+			"rows_label": "Year range_5",
+			"label": "5-year periods"
+		},
+		{
+			"rows": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year_10",
+			"binsize": 10,
+			"rows_label": "Year range_10",
+			"label": "10-year periods"
+		},
+		{
+			"rows": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year_25",
+			"binsize": 25,
+			"rows_label": "Year range_25",
+			"label": "25-year periods"
+		},
+		{
+			"rows": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year_50",
+			"binsize": 50,
+			"rows_label": "Year range_50",
+			"label": "50-year periods"
+		},
+		{
+			"rows": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year_100",
+			"binsize": 100,
+			"rows_label": "Year range_100",
+			"label": "100-year periods"
 		}
 	],
 	"column_vars": [
 		{
-			"var_name": [
+			"columns": [
 				"voyage_itinerary__imp_broad_region_of_slave_purchase__name",
 				"voyage_itinerary__imp_principal_region_of_slave_purchase__name",
 				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
@@ -23,14 +65,14 @@
 			"label": "Imputed Principle Port of Embarkation"
 		},
 		{
-			"var_name": [
+			"columns": [
 				"voyage_itinerary__imp_broad_region_of_slave_purchase__name",
 				"voyage_itinerary__imp_principal_region_of_slave_purchase__name"
 			],
 			"label": "Imputed Principle Region of Embarkation"
 		},
 		{
-			"var_name": [
+			"columns": [
 				"voyage_itinerary__imp_broad_region_of_slave_purchase__name"
 			],
 			"label": "Imputed Principle Broad Region of Embarkation"
@@ -38,13 +80,12 @@
 	],
 	"cell_vars": [
 		{
-			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+			"value_field": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
 			"label": "Imputed Number of Enslaved People Embarked"
 		},
 		{
-			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+			"value_field": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
 			"label": "Imputed Number of Enslaved People Disembarked"
 		}
-	],
-	"cachename":"voyage_pivot_tables"
+	]
 }

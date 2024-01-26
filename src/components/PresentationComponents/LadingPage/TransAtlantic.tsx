@@ -32,7 +32,7 @@ const TransAtlantic: React.FC = () => {
                         information on the broad origins of enslaved people, the tortuous
                         Middle Passage, and the destinations of Africans in the Americas.
                     </p>
-                    <ButtonLearnMore path={`${VOYAGESPAGE}${TRANSATLANTICPAGE}#intro`} styleName={TRANSATLANTIC} />
+                    <ButtonLearnMore path={`${VOYAGESPAGE}${TRANSATLANTICPAGE}#voyages`} styleName={TRANSATLANTIC} />
                     <ButtonLists lists={lists} />
                 </div>
             </div>

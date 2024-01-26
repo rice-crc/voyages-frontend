@@ -828,6 +828,12 @@ export interface ColumnDef {
     filter: boolean;
     tooltipField: string
 }
+export interface ColumnPivotDef {
+    field: string;
+    sortable: boolean;
+    filter: boolean;
+    tooltipField: string
+}
 
 export interface StateRowData {
     data: Record<string, any>[]

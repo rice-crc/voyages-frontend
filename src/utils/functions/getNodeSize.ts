@@ -15,7 +15,6 @@ export function getNodeSize(node: NodeAggroutes): number | number {
 
 export function getEdgesSize(edges: EdgesAggroutes) {
     if (!edges) return 0
-
     return edges.weight;
 
 }

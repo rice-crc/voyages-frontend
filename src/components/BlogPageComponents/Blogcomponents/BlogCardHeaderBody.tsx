@@ -1,7 +1,7 @@
 import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
 import { setBlogPost } from '@/redux/getBlogDataSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
+import { BlogDataPropsRequest, BlogFilter, InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faWhatsapp,
@@ -10,7 +10,7 @@ import {
   faLinkedin,
 } from '@fortawesome/free-brands-svg-icons';
 import { faSquareEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { BASEURL } from '@/share/AUTH_BASEURL';
@@ -27,26 +27,36 @@ const BlogCardHeaderBody = () => {
   );
 
   const { title, thumbnail, authors, subtitle, tags, updated_on } = post;
+  const effectOnce = useRef(false);
+  const fetchDataBlog = async () => {
+    const filters: BlogFilter[] = [];
+    if ([parseInt(ID!)]) {
+      filters.push({
+        varName: "id",
+        searchTerm: [parseInt(ID!)],
+        "op": "in"
+      })
+    }
+    const dataSend: BlogDataPropsRequest = {
+      filter: filters,
+    };
+
+    try {
+      const response = await dispatch(fetchBlogData(dataSend)).unwrap();
+      if (response) {
+        dispatch(setBlogPost(response.results?.[0]));
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   useEffect(() => {
-    let subscribed = true;
-    const fetchDataBlog = async () => {
-      const dataSend: { [key: string]: (string | number)[] } = {
-        id: [parseInt(ID!)],
-      };
-      try {
-        const response = await dispatch(fetchBlogData(dataSend)).unwrap();
-        if (subscribed && response) {
-          dispatch(setBlogPost(response?.[0]));
-        }
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    fetchDataBlog();
-    return () => {
-      subscribed = false;
-    };
+
+    if (!effectOnce.current) {
+      fetchDataBlog();
+    }
+
   }, [dispatch, ID]);
 
   const dateObj = updated_on ? new Date(updated_on) : new Date(updated_on);

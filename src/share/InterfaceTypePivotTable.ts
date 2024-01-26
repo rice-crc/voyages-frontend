@@ -11,14 +11,14 @@ export interface StatePivotRowData {
 }
 export interface PivotColumnDef {
     headerName: string;
-    children: PivotColumnDefChildren[]
+    children?: PivotColumnDefChildren[] | PivotColumnDefChildren;
 }
+
 export interface PivotColumnDefChildren {
     columnGroupShow?: string
     headerName: string
     field?: string
-    children?: PivotColumnDefChildren2[]
-
+    children?: (PivotColumnDefChildren | PivotColumnDefChildren2)[] | undefined;
 }
 export interface PivotColumnDefChildren2 {
     columnGroupShow: string

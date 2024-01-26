@@ -7,8 +7,6 @@ export const initialState: InitialStateDataSetCollection = {
     textIntroduce: jsonDataVoyageCollection[0].headers.text_introduce,
     styleName: jsonDataVoyageCollection[0].style_name,
     dataSetValueBaseFilter: [],
-    dataSetKey: '',
-    dataSetValue: [],
     blocks: jsonDataVoyageCollection[0].blocks,
     filterMenuVoyageFlatfile: jsonDataVoyageCollection[0].filter_menu_flatfile,
     tableFlatfileVoyages: jsonDataVoyageCollection[0].table_flatfile
@@ -20,12 +18,6 @@ export const getDataSetCollectionSlice = createSlice({
     reducers: {
         setBaseFilterDataSetValue: (state, action: PayloadAction<BaseFilter[]>) => {
             state.dataSetValueBaseFilter = action.payload;
-        },
-        setBaseFilterDataKey: (state, action: PayloadAction<string>) => {
-            state.dataSetKey = action.payload;
-        },
-        setBaseFilterDataValue: (state, action: PayloadAction<string[] | number[]>) => {
-            state.dataSetValue = action.payload;
         },
         setDataSetHeader: (state, action: PayloadAction<string>) => {
             state.textHeader = action.payload
@@ -50,11 +42,7 @@ export const getDataSetCollectionSlice = createSlice({
         },
         resetSlice: (state) => {
             state.dataSetValueBaseFilter,
-                state.dataSetKey,
-                state.dataSetValue,
                 state.dataSetValueBaseFilter,
-                state.dataSetKey,
-                state.dataSetValue,
                 state.textHeader,
                 state.textIntroduce,
                 state.blocks,
@@ -64,6 +52,6 @@ export const getDataSetCollectionSlice = createSlice({
     },
 });
 
-export const { setBaseFilterDataSetValue, setTableVoyagesFlatfile, setVoyagesFilterMenuFlatfile, resetAllStateSlice, resetSlice, setBlocksMenuList, setBaseFilterDataValue, setBaseFilterDataKey, setDataSetHeader, setTextIntro, setStyleName } = getDataSetCollectionSlice.actions;
+export const { setBaseFilterDataSetValue, setTableVoyagesFlatfile, setVoyagesFilterMenuFlatfile, resetAllStateSlice, resetSlice, setBlocksMenuList, setDataSetHeader, setTextIntro, setStyleName } = getDataSetCollectionSlice.actions;
 
 export default getDataSetCollectionSlice.reducer;

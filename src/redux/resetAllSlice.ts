@@ -5,7 +5,6 @@ import { resetSlice as resetRangeSliderData } from './getRangeSliderSlice';
 import { resetSlice as resetAutoCompleteData } from './getAutoCompleteSlice';
 import { resetSlice as resetDataSetCollectionData } from './getDataSetCollectionSlice';
 import { resetSlice as resetVoyagesFilter } from './getFilterSlice';
-import { resetSlice as resetFilterPeopleData } from './getFilterPeopleObjectSlice';
 import { resetSlice as resetNodeEdgesAggroutesMapData } from './getNodeEdgesAggroutesMapDataSlice';
 import { resetSlice as resetOptionDataPastEnslaved } from './getOptionsDataPastPeopleEnslavedSlice';
 import { resetSlice as resetSliceGlobalSearch } from './getCommonGlobalSearchResultSlice'
@@ -24,7 +23,6 @@ export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetAutoCompleteData());
     dispatch(resetDataSetCollectionData());
     dispatch(resetVoyagesFilter());
-    dispatch(resetFilterPeopleData());
     dispatch(resetNodeEdgesAggroutesMapData());
     dispatch(resetOptionDataPastEnslaved());
     dispatch(resetPeopleEnslavedDataSetCollection());
@@ -41,7 +39,6 @@ export const resetAllStateToInitailState = () => (dispatch: Dispatch) => {
     dispatch(resetAutoCompleteData());
     dispatch(resetAllStateSliceDataVoyage());
     dispatch(resetVoyagesFilter());
-    dispatch(resetFilterPeopleData());
     dispatch(resetNodeEdgesAggroutesMapData());
     dispatch(resetOptionDataPastEnslaved());
     dispatch(resetAllStateSliceDataEnslaved());

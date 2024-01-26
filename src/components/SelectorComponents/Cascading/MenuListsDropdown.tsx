@@ -28,19 +28,17 @@ import {
 } from '@/styleMUI';
 import { useState, MouseEvent, useEffect } from 'react';
 import { PaperDraggable } from './PaperDraggable';
-import { setIsChange, setKeyValue } from '@/redux/getRangeSliderSlice';
+import { setIsChange, setKeyValueName } from '@/redux/getRangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
-import { ArrowDropDown, ArrowLeft, ArrowRight } from '@mui/icons-material';
-import AutocompleteBox from '../../FilterComponents/Autocomplete/AutoComplete';
-import RangeSlider from '../../FilterComponents/RangeSlider/RangeSlider';
+import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import { ENSALVERSTYLE, } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { fontGrid } from '@mui/material/styles/cssUtils';
-import { fontSize } from '@mui/system';
+import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
+import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
 
 export const MenuListsDropdown = () => {
 
@@ -58,6 +56,7 @@ export const MenuListsDropdown = () => {
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+
 
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
@@ -95,7 +94,7 @@ export const MenuListsDropdown = () => {
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
     if (value && type && label) {
-      dispatch(setKeyValue(value));
+      dispatch(setKeyValueName(value));
       setType(type);
       setLabel(label);
       dispatch(setIsOpenDialog(true));
@@ -128,39 +127,41 @@ export const MenuListsDropdown = () => {
     });
   };
 
-  const renderDropdownMenu = (nodes: FilterMenu[] | ChildrenFilter[]) => {
-    return nodes?.map((node: FilterMenu | ChildrenFilter, index: number) => {
-      const { label, children, var_name, type } = node;
-      const hasChildren = children && children.length >= 1;
-      if (hasChildren) {
+  const renderDropdownMenu = (nodes: FilterMenu | ChildrenFilter | (FilterMenu | ChildrenFilter)[]): React.ReactElement<any>[] | undefined => {
+    if (Array.isArray(nodes!)) {
+      return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
+        const { label, children, var_name, type } = node;
+        const hasChildren = children && children.length >= 1;
+        if (hasChildren) {
+          return (
+            <DropdownNestedMenuItemChildren
+              onClickMenu={handleClickMenu}
+              key={`${label}-${index}`}
+              label={`${label}`}
+              rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
+              data-value={var_name}
+              data-type={type}
+              data-label={label}
+              menu={renderDropdownMenu(children)}
+            />
+          );
+        }
         return (
-          <DropdownNestedMenuItemChildren
-            onClickMenu={handleClickMenu}
+          <DropdownMenuItem
             key={`${label}-${index}`}
-            label={`${label}`}
-            rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
+            onClick={handleClickMenu}
+            dense
             data-value={var_name}
             data-type={type}
             data-label={label}
-            menu={renderDropdownMenu(children)}
-          />
+          >
+            {label}
+          </DropdownMenuItem>
         );
-      }
-
-      return (
-        <DropdownMenuItem
-          key={`${label}-${index}`}
-          onClick={handleClickMenu}
-          dense
-          data-value={var_name}
-          data-type={type}
-          data-label={label}
-        >
-          {label}
-        </DropdownMenuItem>
-      );
-    });
+      });
+    }
   };
+
   return (
     <div>
       <Box className="filter-menu-bar">
@@ -218,7 +219,7 @@ export const MenuListsDropdown = () => {
                   {item.label}
                 </Button>
               }
-              menu={renderDropdownMenu(filterMenu)}
+              menu={renderDropdownMenu(item.children!)}
             />
           );
         })}
@@ -239,9 +240,9 @@ export const MenuListsDropdown = () => {
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
-          {varName && type === TYPES.CharField && <AutocompleteBox />}
+          {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}
           {((varName && type === TYPES.IntegerField) ||
-            (varName && type === TYPES.DecimalField)) && <RangeSlider />}
+            (varName && type === TYPES.DecimalField)) && <RangeSliderComponent />}
         </DialogContent>
         <DialogActions>
           <Button

@@ -8,8 +8,9 @@ import '@/style/map.scss';
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
+  Filter,
+  MapPropsRequest,
   RangeSliderState,
-  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import {
   MAP_CENTER,
@@ -20,7 +21,6 @@ import {
   mappingSpecialistsCountries,
   mappingSpecialistsRivers,
   PLACE,
-  REGION,
   AFRICANORIGINS,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
@@ -39,12 +39,17 @@ import { HandleZoomEvent } from './HandleZoomEvent';
 import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
 import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { handleSetDataSentMap } from '@/utils/functions/handleSetDataSentMap';
-import { checkPagesRouteForEnslaved, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import {
+  checkPagesRouteForEnslaved,
+  checkPagesRouteForVoyages,
+  checkPagesRouteMapURLForEnslaved,
+  checkPagesRouteMapURLForVoyages,
+} from '@/utils/functions/checkPagesRoute';
+import { setFilterObject } from '@/redux/getFilterSlice';
 
 interface LeafletMapProps {
-  setZoomLevel: React.Dispatch<React.SetStateAction<number>>
-  zoomLevel: number
+  setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
+  zoomLevel: number;
 }
 
 export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
@@ -56,12 +61,16 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { nodesData } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
-  const { styleName: styleNamePage } = usePageRouter()
+  const effectOnce = useRef(false);
+  const {
+    styleName: styleNamePage,
+    nodeTypeURL,
+  } = usePageRouter();
 
   const [regionPlace, setRegionPlace] = useState<string>('region');
   const [loading, setLoading] = useState<boolean>(false);
   const hasFetchedPlaceRef = useRef(false);
-  const { dataSetKey, dataSetValue, styleName } = useSelector(
+  const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
 
@@ -69,32 +78,34 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
-  const { hasFetchedRegion, clusterNodeKeyVariable, clusterNodeValue } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  const { hasFetchedRegion, clusterNodeKeyVariable, clusterNodeValue } =
+    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+  const { rangeSliderMinMax: rang, varName } = useSelector(
+    (state: RootState) => state.rangeSlider as RangeSliderState
   );
-
-  const {
-    rangeSliderMinMax: rang,
-    varName,
-    isChange,
-  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
-  const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
+  const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-  const { isChangeGeoTree, geoTreeValue } = useSelector(
-    (state: RootState) => state.getGeoTreeData
-  );
-
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
 
+  useEffect(() => {
+    const storedValue = localStorage.getItem('filterObject');
+    if (!storedValue) return;
+    const parsedValue = JSON.parse(storedValue);
+    const filter: Filter[] = parsedValue.filter;
+    if (!filter) return;
+    dispatch(setFilterObject(filter));
+
+  }, []);
 
   useEffect(() => {
     const savedNodesDataRegion = localStorage.getItem('nodesDataregion');
@@ -103,100 +114,96 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     const saveEdgesDataPlace = localStorage.getItem('edgesDataplace');
 
     if (
-      savedNodesDataRegion &&
-      saveEdgesDataRegion &&
-      saveEdgesDataPlace &&
-      savedNodesDataPlace
+      (savedNodesDataRegion && saveEdgesDataRegion) ||
+      (saveEdgesDataPlace && savedNodesDataPlace)
     ) {
-      if (zoomLevel >= ZOOM_LEVEL_THRESHOLD) {
-
+      if (
+        zoomLevel >= ZOOM_LEVEL_THRESHOLD &&
+        !varName &&
+        !clusterNodeValue &&
+        !clusterNodeKeyVariable
+      ) {
         dispatch(setNodesDataPlace(JSON.parse(savedNodesDataPlace!)));
         dispatch(setEdgesDataPlace(JSON.parse(saveEdgesDataPlace!)));
         setLoading(false);
-      } else {
+      } else if (
+        zoomLevel < ZOOM_LEVEL_THRESHOLD &&
+        !varName &&
+        !clusterNodeValue &&
+        !clusterNodeKeyVariable
+      ) {
         dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion!)));
         dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion!)));
         setLoading(false);
       }
     }
-  }, [zoomLevel]);
+  }, [zoomLevel, varName]);
+
+  const filters: Filter[] = [];
+  const filterByVarName = filtersObj && filtersObj.filter((filterItem: Filter) => filterItem.varName !== clusterNodeKeyVariable);
+  if (clusterNodeKeyVariable && clusterNodeValue) {
+    filters.push({
+      varName: clusterNodeKeyVariable,
+      searchTerm: [clusterNodeValue],
+      op: "in"
+    })
+  }
+  const dataSend: MapPropsRequest = {
+    filter: [...(filterByVarName || []), ...filters]
+  };
 
   const fetchData = async (regionOrPlace: string) => {
-
-    const dataSend = handleSetDataSentMap(
-      autoCompleteValue,
-      isChangeAuto,
-      isChangeGeoTree,
-      dataSetValue,
-      dataSetKey,
-      inputSearchValue,
-      rang,
-      geoTreeValue,
-      isChange,
-      currentPage,
-      pathName,
-      currentEnslavedPage,
-      styleName, clusterNodeKeyVariable, clusterNodeValue
-    )
-    dataSend['zoomlevel'] = [regionOrPlace!];
-
-
-    hasFetchedRegion ? setLoading(true) : setLoading(false);
+    dataSend['zoomlevel'] = regionOrPlace,
+      hasFetchedRegion ? setLoading(true) : setLoading(false);
     let response;
-    if (checkPagesRouteForVoyages(styleNamePage!)) {
+    if (checkPagesRouteForVoyages(styleNamePage! || nodeTypeURL!)) {
+      response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
+    } else if (checkPagesRouteMapURLForVoyages(nodeTypeURL!)) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
     } else if (checkPagesRouteForEnslaved(styleNamePage!)) {
+      response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
+    } else if (checkPagesRouteMapURLForEnslaved(nodeTypeURL!)) {
       response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
     }
 
     if (response) {
       handleDataResponse(response, regionOrPlace);
       dispatch(setHasFetchedRegion(false));
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (hasFetchedRegion || (clusterNodeKeyVariable && clusterNodeValue)) {
-      fetchData(REGION);
-    } else if (rang || varName || autoCompleteValue || autoLabelName || currentEnslavedPage || currentPage || pathName || dataSetKey || dataSetValue
-      || geoTreeValue || inputSearchValue) {
-      fetchData(REGION);
+    if (!effectOnce.current ||
+      hasFetchedRegion ||
+      (clusterNodeKeyVariable !== '' && clusterNodeValue !== '') ||
+      varName !== ''
+    ) {
+      fetchData(regionPlace);
     }
   }, [
+    nodeTypeURL,
     rang,
     varName,
     autoCompleteValue,
     autoLabelName,
     currentPage,
     pathName,
-    dataSetKey,
-    dataSetValue,
     styleName,
-    geoTreeValue,
     inputSearchValue,
-    regionPlace, clusterNodeKeyVariable, clusterNodeValue
+    regionPlace,
+    clusterNodeKeyVariable,
+    clusterNodeValue, filtersObj
   ]);
 
   const handleDataResponse = (response: any, regionOrPlace: string) => {
     if (response) {
       const { nodes, edges, paths } = response;
-      if (zoomLevel < ZOOM_LEVEL_THRESHOLD) {
-        localStorage.setItem(
-          `nodesData${regionOrPlace}`,
-          JSON.stringify(nodes)
-        );
-        localStorage.setItem(
-          `edgesData${regionOrPlace}`,
-          JSON.stringify(edges)
-        );
-      }
       dispatch(setMapData(response));
       if (regionOrPlace === 'region') {
         setLoading(false);
         dispatch(setNodesDataRegion(nodes));
         dispatch(setEdgesDataRegion(edges));
-      } else if (regionOrPlace === 'place') {
         localStorage.setItem(
           `nodesData${regionOrPlace}`,
           JSON.stringify(nodes)
@@ -205,6 +212,19 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
           `edgesData${regionOrPlace}`,
           JSON.stringify(edges)
         );
+      } else if (regionOrPlace === 'place' && varName === '') {
+        localStorage.setItem(
+          `nodesData${regionOrPlace}`,
+          JSON.stringify(nodes)
+        );
+        localStorage.setItem(
+          `edgesData${regionOrPlace}`,
+          JSON.stringify(edges)
+        );
+        if (varName || clusterNodeKeyVariable || clusterNodeValue) {
+          dispatch(setNodesDataPlace(nodes));
+          dispatch(setEdgesDataPlace(edges));
+        }
       }
       dispatch(setPathsData(paths));
     }
@@ -231,17 +251,15 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   map.on('zoomend', () => {
     const newZoomLevel = map.getZoom();
     setZoomLevel(newZoomLevel);
-    fetchData(regionPlace);
   });
 
   let backgroundColor = styleNamePeople;
   if (checkPagesRouteForVoyages(styleName)) {
-    backgroundColor = styleName
+    backgroundColor = styleName;
   }
   if (styleNamePeople === AFRICANORIGINS) {
     backgroundColor = styleNamePeople;
   }
-
 
   return (
     <div style={{ backgroundColor: getMapBackgroundColor(backgroundColor) }}>

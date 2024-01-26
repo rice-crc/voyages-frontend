@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { BlogDataPropsRequest } from '@/share/InterfaceTypesBlog';
 
 export const fetchAuthorData = createAsyncThunk(
     'BlogData/fetchAuthorData',
-    async (dataSend?: { [key: string]: (string | number)[] }) => {
+    async (dataSend?: BlogDataPropsRequest) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/blog/author/`,

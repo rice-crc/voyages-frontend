@@ -1,26 +1,45 @@
 import { Toolbar, Hidden } from '@mui/material';
-import { CanscandingMenuProps } from '@/share/InterfaceTypes';
+import { CanscandingMenuProps, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { MenuListsDropdown } from './MenuListsDropdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { ResetAllButton } from '../ButtonComponents/ResetAllButton';
 import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
-
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { useEffect } from 'react';
+import { setPeopleEnslavedBlocksMenuList } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
 export default function CanscandingMenu(props: CanscandingMenuProps) {
   const dispatch: AppDispatch = useDispatch();
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider
   );
+  const { currentBlockName } = usePageRouter();
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
+  const { styleNamePeople } = useSelector(
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection
+  );
+
+  useEffect(() => {
+
+    if (currentBlockName === 'table' && styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins) {
+      dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
+    }
+
+  }, [styleNamePeople, currentBlockName,]);
+
   const handleResetAll = () => {
     dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
+      if (key === 'filterObject') {
+        localStorage.removeItem(key);
+      }
     });
   };
+
   return (
     <div
       style={{

@@ -35,28 +35,28 @@ export const NetworkDiagramDrawSVG = ({
     const { data: netWorkData } = useSelector(
         (state: RootState) => state.getPastNetworksGraphData
     );
-    const dispatch: AppDispatch = useDispatch();
-    const svgRef = useRef<SVGSVGElement | null>(null);
-    const transformRef = useRef<d3.ZoomTransform>(zoomIdentity);
-    const simulationRef = useRef<d3.Simulation<Nodes, Edges> | null>(null);
-    const isDraggingRef = useRef(false);
-    const isZoomingRef = useRef(false);
-    const hoverEnabledRef = useRef(true);
-    const clickTimeout = useRef<NodeJS.Timeout | undefined>();
-    let timeout = 300;
-
     const edges: Edges[] = netWorkData.edges?.map((d) => ({ ...d }));
     const nodes: Nodes[] = netWorkData.nodes?.map((d) => ({ ...d }));
+
     const nodeIds = new Set(nodes.map((node) => node.uuid));
     const validEdges = edges.filter(
         (edge) =>
             nodeIds.has(edge.source as string) && nodeIds.has(edge.target as string)
     );
 
-    let graph: { nodes: Nodes[]; edges: Edges[] } = {
+    const dispatch: AppDispatch = useDispatch();
+    const svgRef = useRef<SVGSVGElement | null>(null);
+    const transformRef = useRef<d3.ZoomTransform>(zoomIdentity);
+    const simulationRef = useRef<d3.Simulation<Nodes, Edges> | null>(null);
+    const isDraggingRef = useRef(false);
+    const clickTimeout = useRef<NodeJS.Timeout | undefined>();
+    let timeout = 300;
+
+    const graph = useRef<{ nodes: Nodes[]; edges: Edges[] }>({
         nodes: nodes,
-        edges: validEdges,
-    };
+        edges: validEdges
+    })
+
 
     useEffect(() => {
         initNetworkgraph();
@@ -90,64 +90,40 @@ export const NetworkDiagramDrawSVG = ({
             fetchPastNetworksGraphApi(dataSend)
         ).unwrap();
         if (response) {
+
             const newNodes: Nodes[] = response.nodes.filter((newNode: Nodes) => {
-                return !graph.nodes.some(
+                return !graph.current.nodes.some(
                     (existingNode) => existingNode.uuid === newNode.uuid
                 );
             });
 
             const newEdges: Edges[] = response.edges.filter((newEdge: Edges) => {
-                return !graph.edges.some(
+                return !graph.current.edges.some(
                     (existingEdge) =>
                         existingEdge.source === newEdge.source &&
                         existingEdge.target === newEdge.target
                 );
             });
 
-            console.log({ newEdges })
 
-            const updatedNodes: Nodes[] = [...graph.nodes, ...newNodes];
-            const updatedEdges: Edges[] = [...graph.edges, ...newEdges];
+            const updatedNodes: Nodes[] = [...graph.current.nodes, ...newNodes];
+            const updatedEdges: Edges[] = [...graph.current.edges, ...newEdges];
 
-            const simulation = d3.forceSimulation(updatedNodes);
-            simulation.force(
+            simulationRef.current = d3.forceSimulation(updatedNodes).force(
                 'link',
                 forceLink<Nodes, Edges>(updatedEdges)
                     .id((uuid) => uuid.uuid)
-                    .distance(110)
-            );
-            simulation.force('charge', d3.forceManyBody());
-            simulation.randomSource;
-            graph = { nodes: updatedNodes, edges: updatedEdges };
+                    .distance(105)
+            ).force('charge', d3.forceManyBody());
+            simulationRef.current.randomSource;
+
+            graph.current.nodes = updatedNodes
+            graph.current.edges = updatedEdges
+
             updateNetwork();
+
         }
     };
-
-    useEffect(() => {
-        const svg = svgRef.current;
-        if (svgRef.current) {
-            const svg = d3.select<SVGSVGElement, unknown>(svgRef.current).attr('viewBox', [0, 0, width, height]);
-            function handleZoom(event: d3.D3ZoomEvent<SVGSVGElement, any>) {
-                const transform = event.transform;
-                if (svgRef.current) {
-                    if (transform) {
-                        const scale = transform.k;
-                        const { x, y } = transform;
-
-                        const transformString = `translate(${x}, ${y}) scale(${scale})`;
-                        svg.attr('transform', transformString).style('cursor', 'pointer');
-                    }
-                }
-            }
-
-            const zoomHandler = d3.zoom<SVGSVGElement, any>().on('zoom', handleZoom);
-            svg.call(zoomHandler).on('dblclick.zoom', null).on('click.zoom', null);
-        }
-
-        return () => {
-            if (!svg) return;
-        };
-    }, [svgRef, width, height]);
 
     let linksGraph: d3.Selection<SVGLineElement, any, SVGGElement, unknown>;
     let nodesGraph: d3.Selection<SVGCircleElement, Nodes, SVGGElement, unknown>;
@@ -176,7 +152,7 @@ export const NetworkDiagramDrawSVG = ({
             }
 
             // Links
-            linksGraph = link.selectAll<SVGLineElement, unknown>('line').data(graph.edges);
+            linksGraph = link.selectAll<SVGLineElement, unknown>('line').data(graph.current.edges);
 
             // remove excess link.
             linksGraph.exit().remove()
@@ -194,7 +170,7 @@ export const NetworkDiagramDrawSVG = ({
             linksGraph = newLinks.merge(linksGraph as d3.Selection<SVGLineElement, Edges, SVGGElement, unknown>);
 
             // Nodes 
-            nodesGraph = node.selectAll<SVGCircleElement, unknown>('circle').data(graph.nodes);
+            nodesGraph = node.selectAll<SVGCircleElement, unknown>('circle').data(graph.current.nodes);
 
             // remove excess nodes.
             nodesGraph.exit().remove();
@@ -241,32 +217,34 @@ export const NetworkDiagramDrawSVG = ({
                     labels = svg.select<SVGGElement>('#labels');
                     const group = labels.append('g').attr('class', 'label-group');
 
-                    // Append the background rect
-                    const rectWidth = labelNode?.length! + 120;
-                    const rectHeight = labelNode?.length! + 10;
-                    group.append('rect')
-                        .attr('class', 'background-rect')
-                        .attr('x', x + 17)
-                        .attr('y', y - 17)
-                        .attr('width', rectWidth)
-                        .attr('height', rectHeight)
-                        .attr('rx', 8)
-                        .attr('ry', 8)
-                        .style('padding', 10)
-                        .attr('fill', '#fff')
-
-                    // Append the label text
-                    group.append('text')
+                    const textElement = group.append('text')
                         .attr('class', 'label-hover')
                         .attr('x', x + 22)
                         .attr('y', y)
                         .attr('text-anchor', 'start')
                         .attr('alignment-baseline', 'start')
-                        .attr('font-size', 16)
+                        .attr('font-size', 15)
                         .attr('font-weight', 'bold')
                         .attr('fill', '#000')
                         .text(labelNode || '');
+                    const textBoundingBox = textElement.node()?.getBBox();
+                    if (textBoundingBox) {
+                        const rectPadding = 4;
+                        const rectWidth = textBoundingBox.width + (2 * rectPadding);
+                        const rectHeight = textBoundingBox.height + (2 * rectPadding);
 
+                        group.append('rect')
+                            .attr('class', 'background-rect')
+                            .attr('x', textBoundingBox.x - rectPadding)
+                            .attr('y', textBoundingBox.y - rectPadding)
+                            .attr('width', rectWidth)
+                            .attr('height', rectHeight)
+                            .attr('rx', 8)
+                            .attr('ry', 8)
+                            .attr('fill', '#fff')
+
+                        textElement.raise();
+                    }
                 }
             });
 
@@ -292,12 +270,14 @@ export const NetworkDiagramDrawSVG = ({
                     return (
                         classToColor[node.node_class as keyof typeof classToColor] || 'gray'
                     );
-                });
+                })
 
             nodesGraph = newNodes.merge(nodesGraph as d3.Selection<SVGCircleElement, Nodes, SVGGElement, unknown>)
 
+
+
             // Label 
-            nodeLabels = labels.selectAll<SVGTextElement, Nodes>('text.label').data(graph.nodes);
+            nodeLabels = labels.selectAll<SVGTextElement, Nodes>('text.label').data(graph.current.nodes);
 
             const newNodeLabels = nodeLabels.enter().append('text')
                 .attr('class', 'label')
@@ -317,36 +297,32 @@ export const NetworkDiagramDrawSVG = ({
             // Merge new label nodes with existing ones
             nodeLabels = newNodeLabels.merge(nodeLabels);
 
-            const simulation = d3.forceSimulation(nodes);
-            simulation.force(
-                'link',
-                forceLink<Nodes, Edges>(validEdges)
-                    .id((uuid) => uuid.uuid)
-                    .distance(110)
-            );
-            simulation.force('charge', d3.forceManyBody().strength(-30));
-            simulation.force(
-                'center',
-                d3
-                    .forceCenter()
-                    .x(width / 2)
-                    .y(height / 2)
-            );
-            simulation.on('tick', ticked);
-            simulation.alpha(1).restart();
+            function handleZoom(event: d3.D3ZoomEvent<SVGSVGElement, any>) {
+                transformRef.current = event.transform;
+                if (svgRef.current && transformRef.current) {
+                    const scale = transformRef.current.k;
+                    const { x, y } = transformRef.current;
 
+                    const transformString = `translate(${x}, ${y}) scale(${scale})`;
+                    svgRef.current.setAttribute('transform', transformString);
+                    svgRef.current.style.cursor = 'pointer';
+                }
+            }
             const dragStarted = (
                 event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>
             ) => {
-                if (!event.active) simulation.alphaTarget(0.3).restart();
+                isDraggingRef.current = true;
+                event.sourceEvent.stopPropagation();
+                if (!event.active) simulationRef.current?.alphaTarget(0.3).restart();
                 const d = event.subject;
                 if (d) {
                     d.fx = d.x;
                     d.fy = d.y;
                 }
             };
-
             const dragged = (event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>) => {
+                event.sourceEvent.stopPropagation();
+                isDraggingRef.current = false;
                 const d = event.subject;
                 if (d) {
                     d.fx = event.x || 0;
@@ -355,7 +331,8 @@ export const NetworkDiagramDrawSVG = ({
             };
 
             const dragEnded = (event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>) => {
-                if (!event.active) simulation.alphaTarget(0);
+                isDraggingRef.current = false;
+                if (!event.active) simulationRef.current?.alphaTarget(0);
                 const d = event.subject;
                 if (d) {
                     d.fx = null;
@@ -363,15 +340,38 @@ export const NetworkDiagramDrawSVG = ({
                 }
             };
 
-            const dragBehavior = d3.drag<SVGCircleElement, Nodes, unknown>()
-                .on('start', dragStarted)
-                .on('drag', dragged)
-                .on('end', dragEnded);
-            nodesGraph.call(dragBehavior);
+            nodesGraph.call(d3.drag<SVGCircleElement, Nodes>()
+                .on("start", dragStarted)
+                .on("drag", dragged)
+                .on("end", dragEnded));
 
+            const zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
+                .scaleExtent([0.5, 2.5])
+                .on('zoom', handleZoom)
+
+
+            svg.call(zoomBehavior as any)
+                .on("dblclick.zoom", null)
+                .on("click.zoom", null)
+
+            simulationRef.current = d3.forceSimulation(nodes)
+                .force(
+                    'link',
+                    forceLink<Nodes, Edges>(validEdges)
+                        .id((uuid) => uuid.uuid)
+                        .distance(105)
+                ).force('charge', d3.forceManyBody().strength(-30)).force(
+                    'center',
+                    d3
+                        .forceCenter()
+                        .x(width / 2)
+                        .y(height / 2)
+                );
+            simulationRef.current.on('tick', ticked);
+            simulationRef.current.alpha(1).restart();
         }
-    }, [svgRef]);
 
+    }, [svgRef, width, height]);
     function ticked() {
         linksGraph
             .attr('x1', (d) => d.source.x)
@@ -392,8 +392,6 @@ export const NetworkDiagramDrawSVG = ({
             transformRef.current = zoomIdentity;
             simulationRef.current = null;
             isDraggingRef.current = false;
-            isZoomingRef.current = false;
-            hoverEnabledRef.current = true;
             clearClickTimeout();
         };
         return svgCleanup;

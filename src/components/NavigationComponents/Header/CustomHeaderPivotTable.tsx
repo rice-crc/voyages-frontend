@@ -1,13 +1,11 @@
-import { fetchVoyageOptionsData } from '@/fetch/voyagesFetch/fetchVoyageOptionsData';
-import { setData } from '@/redux/getTableSlice';
-import { AppDispatch, RootState } from '@/redux/store';
+
+import { AppDispatch } from '@/redux/store';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import '@/style/table.scss';
-import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
-import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { Filter, PivotTablesPropsRequest } from '@/share/InterfaceTypes';
+import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
+import { setPivotTablColumnDefs, setRowPivotTableData } from '@/redux/getPivotTablesDataSlice';
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
@@ -18,15 +16,28 @@ interface Props {
     isSortAscending: () => boolean;
     isSortDescending: () => boolean;
     addEventListener: (event: string, callback: () => void) => void;
+    removeEventListener: (event: string, callback: () => void) => void;
   };
   setSort: (order: string, shiftKey: boolean) => void;
   enableMenu: boolean;
   menuIcon: string;
   enableSorting: boolean;
   displayName: string;
+  columns: string[]
+  rows: string;
+  rows_label: string;
+  agg_fn: string;
+  binsize: number | null
+  value_field: string;
+  offset: number
+  limit: number
+  filter: Filter[]
+  page: number
+  setTotalResultsCount: React.Dispatch<React.SetStateAction<number>>
+  setPage: React.Dispatch<React.SetStateAction<number>>
 }
 
-const CustomHeader: React.FC<Props> = (props) => {
+const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   const {
     showColumnMenu,
     column,
@@ -34,7 +45,16 @@ const CustomHeader: React.FC<Props> = (props) => {
     enableMenu,
     menuIcon,
     enableSorting,
-    displayName,
+    displayName, columns,
+    rows,
+    rows_label,
+    agg_fn,
+    binsize,
+    value_field,
+    offset,
+    limit,
+    filter,
+    setTotalResultsCount, page, setPage
   } = props;
 
   const dispatch: AppDispatch = useDispatch();
@@ -42,23 +62,43 @@ const CustomHeader: React.FC<Props> = (props) => {
   const [descSort, setDescSort] = useState<string>('inactive');
   const [noSort, setNoSort] = useState<string>('inactive');
   const refButton = useRef<HTMLDivElement>(null);
+
   const onMenuClicked = () => {
     showColumnMenu(refButton);
   };
-  const { styleName } = usePageRouter()
 
-  const { pathNameVoyages, pathNameEnslaved, pathNameEnslavers } = useSelector((state: RootState) => state.getPathName);
 
   const onSortRequested = (
     order: string,
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
     setSort(order, event.shiftKey);
-    onSortChanged();
+    setAscSort(column.isSortAscending() ? 'active' : 'inactive');
+    setDescSort(column.isSortDescending() ? 'active' : 'inactive');
+    setNoSort(
+      !column.isSortAscending() && !column.isSortDescending()
+        ? 'active'
+        : 'inactive'
+    );
+    setPage(page)
+    const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
+    fetchDataPivotTable(sortOrder, [column.colDef.field])
   };
 
-  const fetchData = async (sortOrder: string, sortingOrder: string[]) => {
-    const dataSend: { [key: string]: string[] } = {};
+  const dataSend: PivotTablesPropsRequest = {
+    columns: columns,
+    rows: rows,
+    rows_label: rows_label,
+    agg_fn: agg_fn,
+    binsize: binsize!,
+    value_field: value_field,
+    offset: offset,
+    limit: limit,
+    filter: filter ?? [],
+  }
+
+  const fetchDataPivotTable = async (sortOrder: string, sortingOrder: string[]) => {
+
     if (sortOrder === 'asc') {
       if (sortingOrder.length > 0) {
         sortingOrder.forEach((sort: string) => (dataSend['order_by'] = [sort]));
@@ -71,49 +111,22 @@ const CustomHeader: React.FC<Props> = (props) => {
       }
     }
     try {
-      let response;
-
-      if (checkPagesRouteForVoyages(styleName!)) {
-        response = await dispatch(fetchVoyageOptionsData(dataSend)).unwrap();
-
-      } else if (checkPagesRouteForEnslaved(styleName!)) {
-        response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
-      } else if (checkPagesRouteForEnslavers(styleName!)) {
-        response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
-      }
+      const response = await dispatch(
+        fetchPivotCrosstabsTables(dataSend)
+      ).unwrap();
       if (response) {
-        dispatch(setData(response));
+        const { tablestructure, data, metadata } = response.data
+        dispatch(setPivotTablColumnDefs(tablestructure));
+        dispatch(setRowPivotTableData(data));
+        setTotalResultsCount(metadata.total_results_count)
       }
     } catch (error) {
       console.log('error', error);
     }
   };
 
-  let isMounted = true;
-
-  const onSortChanged = () => {
-    if (isMounted) {
-      setAscSort(column.isSortAscending() ? 'active' : 'inactive');
-      setDescSort(column.isSortDescending() ? 'active' : 'inactive');
-      setNoSort(
-        !column.isSortAscending() && !column.isSortDescending()
-          ? 'active'
-          : 'inactive'
-      );
-
-      const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
-      fetchData(sortOrder, column.colDef.sortingOrder);
-    }
-  };
-
-  useEffect(() => {
-    column.addEventListener('sortChanged', onSortChanged);
-    return () => {
-      isMounted = false;
-    };
-  }, [pathNameEnslaved, pathNameEnslavers, pathNameVoyages]);
-
   let menu: React.ReactNode = null;
+  let sort: React.ReactNode = null;
   if (enableMenu) {
     menu = (
       <div
@@ -125,13 +138,11 @@ const CustomHeader: React.FC<Props> = (props) => {
       </div>
     );
   }
-
-  let sort: React.ReactNode = null;
   if (enableSorting) {
     sort = (
       <div
         style={{
-          display: 'inline-block',
+          display: 'flex',
         }}
       >
         <div
@@ -160,4 +171,4 @@ const CustomHeader: React.FC<Props> = (props) => {
   );
 };
 
-export default CustomHeader;
+export default CustomHeaderPivotTable;

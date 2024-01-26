@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 
-export const fetchSearchGlobal = async (dataSend: { [key: string]: string[] }, signal: AbortSignal) => {
+export const fetchSearchGlobal = async (dataSend: { [key: string]: string }, signal: AbortSignal) => {
     try {
         const response = await axios.post(`${BASEURL}/common/global/`, dataSend, {
             headers: {

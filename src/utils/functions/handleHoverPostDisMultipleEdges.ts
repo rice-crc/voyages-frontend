@@ -3,7 +3,7 @@ import { EdgesAggroutes, NodeAggroutes } from '@/share/InterfaceTypesMap';
 import { getEdgesSize } from '@/utils/functions/getNodeSize';
 import L from 'leaflet';
 
-import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
+import { createLogNodeValueScale } from '@/utils/functions/createLogNodeValueScale';
 import renderEdgesAnimatedLinesOnMap from '@/components/PresentationComponents/Map/renderEdgesAnimatedLinesOnMap';
 import renderEdgesLinesOnMap from '@/components/PresentationComponents/Map/renderEdgesLinesOnMap';
 
@@ -15,7 +15,7 @@ export function handleHoverPostDisMultipleEdges(
     nodesData: NodeAggroutes[]
 ) {
     hiddenEdgesLayer.clearLayers();
-    const nodeLogValueScale = createLogValueScale(nodesData);
+    const nodeLogValueScale = createLogNodeValueScale(nodesData);
 
     const sourceEdgesMap = new Map<string, EdgesAggroutes[]>();
     const targetEdgesMap = new Map<string, EdgesAggroutes[]>();

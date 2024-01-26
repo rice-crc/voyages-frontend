@@ -1,10 +1,13 @@
+
+import { TableListPropsRequest } from '@/share/InterfaceTypes';
 import axios from 'axios';
-import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
+import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
 
 export const fetchVoyageOptionsAPI = createAsyncThunk(
     'voyageOptions/fetchVoyageOptionsAPI',
-    async (dataSend?: { [key: string]: (string | number)[] }) => {
+    async (dataSend?: TableListPropsRequest) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/voyage/`,
@@ -22,3 +25,7 @@ export const fetchVoyageOptionsAPI = createAsyncThunk(
         }
     }
 );
+
+
+
+

@@ -1,5 +1,5 @@
 import { NetworkDiagramDrawCanvas } from './NetworkDiagramDrawCanvas';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPastNetworksGraphApi } from '@/fetch/pastEnslavedFetch/fetchPastNetworksGraph';
@@ -12,12 +12,16 @@ import { netWorkDataProps } from '@/share/InterfaceTypePastNetworks';
 import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
 import { ENSLAVEMENTNODE } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
+import { useDimensions } from '@/hooks/useDimensions';
 
 export const NetworkDiagramSlaveVoyagesCanvas = ({
   widthPercentage = 100,
   heigthPercentage = 85,
 }) => {
   const dispatch: AppDispatch = useDispatch();
+  const graphRef = useRef(null);
+  const graphSize = useDimensions(graphRef);
+
   const [isLoading, setIsLoading] = useState(false);
   const { data: netWorkData } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
@@ -31,44 +35,6 @@ export const NetworkDiagramSlaveVoyagesCanvas = ({
   const modalHeight = window.innerHeight;
   const width = (modalWidth * widthPercentage) / 100;
   const height = (modalHeight * heigthPercentage) / 100;
-
-  // const handleNodeDoubleClick = async (nodeId: number, nodeClass: string) => {
-  //   try {
-  //     const dataSend = {
-  //       [nodeClass]: [Number(nodeId)],
-  //     };
-  //     const response = await dispatch(fetchPastNetworksGraphApi(dataSend)).unwrap();
-  //     if (response) {
-
-  //       const newNodes = response.nodes.filter((newNode: Nodes) => {
-  //         return !netWorkData.nodes.some(
-  //           (existingNode) => existingNode.uuid === newNode.uuid
-  //         );
-  //       });
-
-  //       const newEdges = response.edges.filter((newEdge: Edges) => {
-  //         return !netWorkData.edges.some(
-  //           (existingEdge) =>
-  //             existingEdge.source === newEdge.source &&
-  //             existingEdge.target === newEdge.target
-  //         );
-  //       });
-
-  //       const updatedNodes = [...netWorkData.nodes, ...newNodes];
-  //       const updatedEdges = [...netWorkData.edges, ...newEdges];
-
-  //       const updatedData = {
-  //         ...netWorkData,
-  //         nodes: updatedNodes,
-  //         edges: updatedEdges,
-  //       };
-  //       dispatch(setPastNetworksData(updatedData));
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching new nodes:', error);
-  //   }
-  // };
-
 
   const handleClickNodeShowCard = async (nodeId: number, nodeClass: string) => {
     if (nodeClass !== ENSLAVEMENTNODE) {
@@ -116,15 +82,14 @@ export const NetworkDiagramSlaveVoyagesCanvas = ({
         <img src={LOADINGLOGO} />
       </div>
     ) : (
-      // <div style={{ width: `${width}px`, height: `${height}px` }}>
-      <NetworkDiagramDrawCanvas
-        netWorkData={netWorkData}
-        width={width}
-        height={height}
-        // handleNodeDoubleClick={handleNodeDoubleClick}
-        handleClickNodeShowCard={handleClickNodeShowCard}
-      />
-      // </div>
+      <div style={{ width: `${width}px`, height: `${height}px` }} ref={graphRef} >
+        <NetworkDiagramDrawCanvas
+          netWorkData={netWorkData}
+          width={graphSize.width}
+          height={graphSize.height}
+          handleClickNodeShowCard={handleClickNodeShowCard}
+        />
+      </div>
     )
   );
 };

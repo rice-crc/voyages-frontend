@@ -1,54 +1,40 @@
 import { useState, useEffect, ChangeEvent, useCallback, useMemo } from 'react';
 import Plot from 'react-plotly.js';
 import PIECHART_OPTIONS from '@/utils/flatfiles/VOYAGE_PIECHART_OPTIONS.json';
-import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
+import { Grid, SelectChangeEvent } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAverage/AggregationSumAverage';
 import NODATA from '@/assets/noData.png';
-import { fetchVoyageGraphGroupby } from '@/fetch/voyagesFetch/fetchVoyageGroupby';
 import {
   VoyagesOptionProps,
   Options,
   RangeSliderState,
-  AutoCompleteInitialState,
   CurrentPageInitialState,
   PlotPIEX,
   PlotPIEY,
-  TYPESOFDATASET,
+  IRootFilterObjectScatterRequest,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import { getMobileMaxHeight, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import '@/style/homepage.scss';
-import { handleSetDataSentTablePieBarScatterGraph } from '@/utils/functions/handleSetDataSentTablePieBarScatterGraph';
+import { useGroupBy } from '@/hooks/useGroupBy';
 
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
   const { data: options_flat, isSuccess } = useGetOptionsQuery(datas);
-  const dispatch: AppDispatch = useDispatch();
-  const {
-    rangeSliderMinMax: rang,
-    varName,
-    isChange,
-  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
-  const { autoCompleteValue, autoLabelName, isChangeAuto } = useSelector(
-    (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
-  );
-  const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+  const { varName } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+
+  const { styleName } = useSelector(
+    (state: RootState) => state.getDataSetCollection
   );
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { dataSetKey, dataSetValue, styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
-  const { isChangeGeoTree, geoTreeValue, geoTreeSelectValue } = useSelector(
-    (state: RootState) => state.getGeoTreeData
-  );
+
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [pieGraphSelectedX, setSelectedX] = useState<PlotPIEX[]>([]);
@@ -56,7 +42,7 @@ function PieGraph() {
   const [plotX, setPlotX] = useState<any[]>([]);
   const [plotY, setPlotY] = useState<any[]>([]);
   const maxWidth = maxWidthSize(width);
-
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const [pieGraphOptions, setPieOptions] = useState<VoyagesOptionProps>({
     x_vars: PIECHART_OPTIONS.x_vars[0].var_name,
     y_vars: PIECHART_OPTIONS.y_vars[0].var_name,
@@ -75,61 +61,47 @@ function PieGraph() {
       }
     );
   };
+  const dataSend: IRootFilterObjectScatterRequest = {
+    groupby_by: pieGraphOptions.x_vars,
+    groupby_cols: [pieGraphOptions.y_vars],
+    agg_fn: aggregation,
+    cachename: 'voyage_bar_and_donut_charts',
+    filter: filtersObj?.[0]?.searchTerm?.length > 0 ? filtersObj : [],
+  };
 
+  const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
   useEffect(() => {
     VoyagepieGraphOptions();
-    let subscribed = true;
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
-
-    const fetchData = async () => {
-      const dataSend = handleSetDataSentTablePieBarScatterGraph(autoCompleteValue, isChangeGeoTree, dataSetValue, dataSetKey, inputSearchValue, geoTreeValue, varName, rang, styleName, currentPage, isChange, undefined, undefined)
-
-      dataSend['groupby_by'] = [pieGraphOptions.x_vars];
-      dataSend['groupby_cols'] = [pieGraphOptions.y_vars];
-      dataSend['agg_fn'] = [aggregation];
-      dataSend['cachename'] = ['voyage_bar_and_donut_charts'];
-
-      try {
-        const response = await dispatch(
-          fetchVoyageGraphGroupby(dataSend)
-        ).unwrap();
-
-        if (subscribed && response) {
-          const keys = Object.keys(response);
-          if (keys[0]) {
-            setPlotX(response[keys[0]]);
-          }
-          if (keys[1]) {
-            setPlotY(response[keys[1]]);
-          }
-        }
-      } catch (error) {
-        console.log('error', error);
+    if (!loading && !isError && response) {
+      const keys = Object.keys(response);
+      if (keys[0]) {
+        setPlotX(response[keys[0]]);
       }
-    };
-    fetchData();
+      if (keys[1]) {
+        setPlotY(response[keys[1]]);
+      }
+    }
     return () => {
-      subscribed = false;
+      setPlotX([]);
+      setPlotY([]);
     };
   }, [
-    dispatch,
+    response,
+    loading,
+    isError,
     options_flat,
     pieGraphOptions.x_vars,
     pieGraphOptions.y_vars,
     aggregation,
-    rang,
     varName,
-    autoCompleteValue,
-    autoLabelName,
     currentPage,
     isSuccess,
-    dataSetValue,
-    dataSetKey,
     styleName,
-    geoTreeSelectValue,
-    geoTreeValue,
-    inputSearchValue,
+    VoyagepieGraphOptions,
   ]);
+
+
 
   const handleChangeAggregation = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -157,9 +129,6 @@ function PieGraph() {
         selectedY={pieGraphSelectedY}
         selectedOptions={pieGraphOptions}
         handleChange={handleChangeSingleSelect}
-        handleChangeMultipleYSelected={() =>
-          console.log('handleChangeMultipleYSelected optional for PIE')
-        }
         graphType="PIE"
         maxWidth={maxWidth}
         XFieldText={'Sectors'}

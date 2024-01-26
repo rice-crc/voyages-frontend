@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { MapPropsRequest } from '@/share/InterfaceTypes';
 
 export const fetchVoyagesMap = createAsyncThunk(
     'voyagesMap/fetchVoyagesMap',
-    async (dataSend?: { [key: string]: (string | number)[] }) => {
+    async (dataSend?: MapPropsRequest) => {
 
         try {
             const response = await axios.post(

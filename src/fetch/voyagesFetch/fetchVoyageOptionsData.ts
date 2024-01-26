@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { TableListPropsRequest } from '@/share/InterfaceTypes';
 
 export const fetchVoyageOptionsData = createAsyncThunk(
     'voyageOptions/fetchVoyageOptionsData',
-    async (dataSend?: { [key: string]: string[] }) => {
+    async (dataSend?: TableListPropsRequest) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/voyage/`,

@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { PivotTablesPropsRequest } from '@/share/InterfaceTypes';
 
 export const fetchPivotCrosstabsTables = createAsyncThunk(
     'voyage/fetchPivotCrosstabsTables',
-    async (dataSend?: { [key: string]: (string | number)[] }) => {
+    async (dataSend?: PivotTablesPropsRequest) => {
         try {
             const response = await axios.post(
                 `${BASEURL}/voyage/crosstabs/`,

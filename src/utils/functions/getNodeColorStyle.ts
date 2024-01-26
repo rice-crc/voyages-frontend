@@ -8,7 +8,7 @@ export const getNodeColorMapVoyagesStyle = (node: NodeAggroutes) => {
         const {
             disembarkation,
             embarkation,
-            'post-disembarkation': postDisembarkation,
+            post_disembarkation,
             origin,
         } = node.weights;
 
@@ -22,7 +22,7 @@ export const getNodeColorMapVoyagesStyle = (node: NodeAggroutes) => {
             nodeColor = `rgb(${r}, ${g}, ${b})`;
         } else if (origin && origin > 0) {
             nodeColor = `rgb(96, 192, 171)`;
-        } else if ((Number(postDisembarkation) && Number(postDisembarkation) > 0) && (disembarkation === 0 && embarkation === 0)) {
+        } else if ((Number(post_disembarkation) && Number(post_disembarkation) > 0) && (disembarkation === 0 && embarkation === 0)) {
             nodeColor = `rgb(246,193,60)`;
         }
         return nodeColor;

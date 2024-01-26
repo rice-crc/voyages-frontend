@@ -35,7 +35,7 @@ import { fetchRangeSliderData } from '@/fetchAPI/fetchAggregationsSlider';
             response[varName].min,
             response[varName].max,
           ];
-          dispatch(setKeyValue(varName));
+          dispatch(setKeyValueName(varName));
           dispatch(
             setRangeValue({
               ...rangeValue,

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import L, { LatLngExpression, Marker } from 'leaflet';
 import '@/style/table-popup.scss';
@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { CustomMarker, EdgesAggroutes } from '@/share/InterfaceTypesMap';
 import { getNodeSize } from '@/utils/functions/getNodeSize';
 import '@/style/map.scss';
-import { createLogValueScale } from '@/utils/functions/createNodeLogValueScale';
+import { createLogNodeValueScale } from '@/utils/functions/createLogNodeValueScale';
 import { handleHoverCircleMarker } from './handleHoverCircleMarker';
 import { handleHoverMarkerCluster } from './handleHoverMarkerCluster';
 import { DISPOSTIONNODE, ORIGINATIONNODE, ORIGINLanguageGroupKEY, nodeTypeOrigin, nodeTypePostDisembarkation, postDisembarkLocationKEY } from '@/share/CONST_DATA';
@@ -21,6 +21,7 @@ import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { handerRenderEdges } from './handerRenderEdges';
 import { createTooltipEmbarkDiseEmbarkEdges } from '@/utils/functions/createTooltipClusterEdges';
+import { Filter } from '@/share/InterfaceTypes';
 
 
 const NodeEdgesCurvedLinesMap = () => {
@@ -35,9 +36,37 @@ const NodeEdgesCurvedLinesMap = () => {
     if (nodeType === nodeTypeOrigin) {
       dispatch(setClusterNodeKeyVariable(ORIGINLanguageGroupKEY))
       dispatch(setClusterNodeValue(value))
+
     } else if (nodeType === nodeTypePostDisembarkation) {
       dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY))
       dispatch(setClusterNodeValue(value))
+    }
+    const existingFilterObjectString = localStorage.getItem('filterObject');
+    let existingFilterObject: any = {};
+
+    if (existingFilterObjectString) {
+      existingFilterObject = JSON.parse(existingFilterObjectString);
+    }
+    const existingFilters: Filter[] = existingFilterObject.filter || [];
+    const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === ORIGINLanguageGroupKEY);
+    if (existingFilterIndex !== -1) {
+      existingFilters[existingFilterIndex].searchTerm = [value]
+    } else {
+      const newFilter: Filter = {
+        varName: ORIGINLanguageGroupKEY,
+        searchTerm: [value!],
+        op: 'in'
+      };
+      existingFilters.push(newFilter);
+    }
+
+    if (nodeType) {
+      const filterObjectUpdate = {
+        filter: existingFilters
+      };
+
+      const filterObjectString = JSON.stringify(filterObjectUpdate);
+      localStorage.setItem('filterObject', filterObjectString);
     }
   }
 
@@ -54,7 +83,7 @@ const NodeEdgesCurvedLinesMap = () => {
         map.removeLayer(layer);
       }
     });
-    const nodeLogValueScale = createLogValueScale(nodesData);
+    const nodeLogValueScale = createLogNodeValueScale(nodesData);
 
     const hiddenEdges = edgesData.filter(
       (edge: EdgesAggroutes) => edge.type === ORIGINATIONNODE || edge.type === DISPOSTIONNODE
@@ -160,7 +189,7 @@ const NodeEdgesCurvedLinesMap = () => {
       const { lat, lon, name } = data;
       const {
         origin,
-        'post-disembarkation': postDisembarkation,
+        post_disembarkation,
         disembarkation,
         embarkation,
       } = weights;
@@ -193,6 +222,7 @@ const NodeEdgesCurvedLinesMap = () => {
             hiddenEdgesLayer,
             edgesData,
             nodesData,
+            node,
             originNodeMarkersMap,
             originMarkerCluster,
             handleSetClusterKeyValue, // WAIT To Change if want to show table,
@@ -207,7 +237,7 @@ const NodeEdgesCurvedLinesMap = () => {
           originMarkerCluster.addLayer(circleMarker).bringToFront();
           originMarkerCluster.addLayer(originMarker).bringToFront();
         } else if (
-          (Number(postDisembarkation) && Number(postDisembarkation) > 0) &&
+          (Number(post_disembarkation) && Number(post_disembarkation) > 0) &&
           (disembarkation === 0 && embarkation === 0)
         ) {
           postDisembarkationsMarkerCluster.addLayer(circleMarker).bringToFront();

@@ -36,10 +36,47 @@ export interface RangeSliderMinMaxInitialState {
 export interface AutoCompleteInitialState {
     results: [],
     total_results_count: number,
-    autoCompleteValue: Record<string, AutoCompleteOption[] | string[]>;
+    autoCompleteValue: Record<string, string[]>;
     autoLabelName: string[]
     isChangeAuto: boolean
+    offset: number
+    isLoadingList: boolean
 }
+
+export interface IRootFilterObject {
+    varName: string;
+    querystr: string;
+    offset: number;
+    limit: number;
+    filter: Filter[]
+}
+export interface IRootFilterObjectScatterRequest {
+    groupby_by: string
+    groupby_cols: string[]
+    agg_fn: string
+    cachename: string
+    filter: Filter[]
+}
+export interface IRootFilterTableObject {
+    filter: Filter[];
+    page: number;
+    page_size: number;
+}
+
+export interface Filter {
+    varName: string
+    searchTerm: number[] | string[]
+    op: string
+}
+export interface RangeSliderStateProps {
+    varName: string
+    filter: Filter[]
+}
+export interface GeoTreeSelectStateProps {
+    geotree_valuefields: string[]
+    filter: Filter[]
+}
+
 
 export interface AutoCompleteValueInitialState {
     [key: string]: string[]
@@ -74,11 +111,13 @@ export const TYPESOFDATASET: {
     intraAmerican: string;
     transatlantic: string;
     texas: string
+    voyages: string
 } = {
     allVoyages: 'all-voyages',
     intraAmerican: 'intra-american',
     transatlantic: 'trans-atlantic',
-    texas: 'texas'
+    texas: 'texas',
+    voyages: 'voyages'
 };
 
 
@@ -92,10 +131,16 @@ export interface AutoCompleteLists {
     results: AutoCompleteOption[]
     total_results_count: number
 }
+export interface DataAutoCompleteProp {
+    data: DataSuggestedValuesProps
+}
+
+export interface DataSuggestedValuesProps {
+    suggested_values: AutoCompleteOption[]
+}
 
 export interface AutoCompleteOption {
-    id: number
-    label: string
+    value: string
 }
 export interface InitialStateFilterMenu {
     value: FilterMenu[]
@@ -213,8 +258,18 @@ export interface CanscandingMenuProps {
 export interface ColumnObjectProps {
     [key: string]: string;
 }
-
-
+export interface TableListPropsRequest {
+    filter: Filter[]
+    page?: number
+    page_size?: number
+    global_search?: string[]
+    order_by?: string[]
+}
+export interface MapPropsRequest {
+    zoomlevel?: string
+    filter?: Filter[]
+    id?: string
+}
 export interface TableColumnProps {
     header_label: string
     cell_type: string
@@ -250,27 +305,50 @@ export interface ChildrenPeopleMenu {
     flatlabel?: string
 }
 
-
+export interface PivotTablesPropsRequest {
+    columns: string[]
+    rows: string
+    rows_label: string
+    agg_fn: string
+    binsize: number
+    value_field: string
+    offset: number
+    limit: number
+    filter: Filter[]
+    order_by?: [string]
+}
+export interface MedatadataProps {
+    offset: number
+    limit: number
+    total_results_count: number
+}
 export interface PivotTablesProps {
     row_vars: string
     rows_label: string
+    binsize: number | null
     column_vars: string[]
     cell_vars: string
-    cachename: string
+}
+export interface VoyagesPivotOptionsProps {
+    row_vars: PivotRowVar[]
+    column_vars: PivotColumnVar[]
+    cell_vars: PivotCellVar[]
 }
 
 export interface PivotRowVar {
-    var_name: string
+    rows: string
+    binsize: number | null
+    rows_label: string
     label: string
 }
 
 export interface PivotColumnVar {
-    var_name: string[]
+    columns: string[]
     label: string
 }
 
 export interface PivotCellVar {
-    var_name: string
+    value_field: string
     label: string
 }
 export interface InitialStateTransatlanticCard {
@@ -280,6 +358,7 @@ export interface InitialStateTransatlanticCard {
     cardFileName: string
     cardDataArray: TransatlanticCardProps[]
     nodeTypeClass: string
+    variable: string
 }
 export interface TransatlanticCardProps {
     label: string
@@ -304,30 +383,22 @@ export interface FieldCard {
     cell_fn: string
 }
 
-export interface GeoTreeSelectInitialState {
-    results: [],
-
-}
-
 export interface GeoTreeSelectValueInitialState {
     [key: string]: string[]
 }
 
-export interface GeoTreeSelectDataProps {
-    id: number;
-    latitude: number;
-    longitude: number;
-    name: string;
-    value: number,
-    children?: GeoTreeSelectDataProps[];
+export interface GeoTreeSelectItem {
+    id: number
+    name: string
+    longitude: string
+    latitude: string
+    value: number
+    location_type: LocationType
+    spatial_extent: any
+    children: GeoTreeSelectChildren[]
 }
-export interface TreeSelectItem {
-    id: number;
-    key: string;
-    title: string;
-    value: string;
-    children?: TreeSelectItem[];
-    disabled?: boolean
+export interface LocationType {
+    name: string
 }
 export interface GeoTreeSelectChildren {
     id: number
@@ -335,19 +406,22 @@ export interface GeoTreeSelectChildren {
     longitude?: string
     latitude?: string
     value: number
+    location_type: LocationType
+    spatial_extent: any
     children: GeoTreeSelectGrandChildren[]
 }
 
 export interface GeoTreeSelectGrandChildren {
     id: number
     name: string
-    longitude?: string
-    latitude?: string
+    longitude: string
+    latitude: string
     value: number
+    location_type: LocationType
+    spatial_extent: any
 }
 export interface TreeSelectItemInitialState {
-    geoTreeList: GeoTreeSelectDataProps[],
-    geoTreeValue: Record<string, TreeSelectItem[] | string[]>;
+    geoTreeValue: Record<string, GeoTreeSelectItem[] | string[]>;
     geoTreeSelectValue: string[]
     isChangeGeoTree: boolean
 }
@@ -371,4 +445,16 @@ export interface FilterMenuList {
     type?: string;
     flatlabel?: string;
     children?: ChildrenFilter[];
+}
+export interface FetchAutoVoyageParams {
+    varName?: string;
+    autoValue?: string;
+    offset?: number;
+    limit?: number;
+}
+
+export interface RenderRowProps {
+    data: React.ReactNode[];
+    index: number;
+    style: React.CSSProperties;
 }
