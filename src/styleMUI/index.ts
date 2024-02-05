@@ -205,6 +205,14 @@ export const styleCard = {
   p: '10px 50px',
   marginTop: '40px'
 };
+export const styleCardEstimate = {
+  bgcolor: '#fff',
+  overflowY: 'auto',
+  p: '10px 0',
+  marginTop: '40px'
+};
+
+
 
 export const CustomTablePagination = styled(TablePagination)({
   '& .MuiTablePagination-selectLabel': {

@@ -50,7 +50,8 @@ export const SelectDropdownPivotable: FunctionComponent<
             <InputLabel id="rows-field-label">{'Rows'}</InputLabel>
             <Select
               sx={{
-                height: 42,
+                height: 36,
+                fontSize: '0.95rem'
               }}
               MenuProps={MenuProps}
               labelId="rows-field-label"
@@ -78,7 +79,8 @@ export const SelectDropdownPivotable: FunctionComponent<
             <InputLabel id="columns-field-label">{'Columns'}</InputLabel>
             <Select
               sx={{
-                height: 42,
+                height: 36,
+                fontSize: '0.95rem'
               }}
               MenuProps={MenuProps}
               labelId="columns-field-label"
@@ -108,7 +110,7 @@ export const SelectDropdownPivotable: FunctionComponent<
             <InputLabel id="cells-field-label">{'Cells'}</InputLabel>
             <Select
               sx={{
-                height: 42,
+                height: 36, fontSize: '0.95rem'
               }}
               MenuProps={MenuProps}
               labelId="cells-field-label"

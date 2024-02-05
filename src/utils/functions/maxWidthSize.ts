@@ -59,3 +59,16 @@ export const getMobileMaxHeightPivotTable = (height: number) => {
     }
     return mobileMaxHeight
 }
+
+export const getMobileMaxHeightEstimateTable = (height: number) => {
+    let mobileMaxHeight = height
+
+    if (height > 600 && height < 720) {
+        mobileMaxHeight = height * 0.40
+    } else if (height < 600) {
+        mobileMaxHeight = height * 0.35
+    } else {
+        mobileMaxHeight = height * 0.70
+    }
+    return mobileMaxHeight
+}

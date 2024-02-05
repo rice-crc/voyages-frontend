@@ -338,7 +338,7 @@ const PivotTables = () => {
       style={{ marginTop: topPosition }} className="mobile-responsive"
     >
       <div className="ag-theme-alpine grid-container">
-        <div style={style}>
+        <div>
           <SelectDropdownPivotable
             selectedPivottablesOptions={pivotValueOptions}
             selectRowValue={rowVars}
@@ -371,6 +371,7 @@ const PivotTables = () => {
 
           />
           < AgGridReact
+            domLayout={'autoHeight'}
             ref={gridRef}
             rowData={newRowsData}
             columnDefs={columnDefs as any}

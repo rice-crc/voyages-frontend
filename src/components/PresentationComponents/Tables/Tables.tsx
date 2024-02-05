@@ -37,6 +37,7 @@ import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
 import {
+    crateClassName,
     createTopPositionEnslavedPage,
     createTopPositionEnslaversPage,
 } from '@/utils/functions/createTopPositionEnslavedPage';
@@ -55,6 +56,7 @@ import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
+import { convertToSlug } from '@/utils/functions/convertToSlug';
 
 
 const Tables: React.FC = () => {
@@ -114,15 +116,7 @@ const Tables: React.FC = () => {
 
     const [width, height] = useWindowSize();
     const maxWidth = maxWidthSize(width);
-    const [style, setStyle] = useState({
-        width: maxWidth,
-        height: height - 280,
-    });
 
-    const containerStyle = useMemo(
-        () => ({ width: maxWidth, height: height * 0.7 }),
-        [maxWidth, height]
-    );
 
     const {
         data: tableCellStructure,
@@ -216,10 +210,6 @@ const Tables: React.FC = () => {
         if (!filter) return;
 
         dispatch(setFilterObject(filter));
-        setStyle({
-            width: getMobileMaxWidth(maxWidth),
-            height: getMobileMaxHeightTable(height),
-        });
         saveDataToLocalStorage(data, visibleColumnCells);
     }, [width, height, maxWidth, data]);
 
@@ -356,51 +346,52 @@ const Tables: React.FC = () => {
     const pageCount = Math.ceil(
         totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
     );
-
+    console.log({ styleNameRoute })
+    const className = crateClassName(styleNameRoute!)
     return (
-        <div style={{ marginTop: topPositionPage }} className="mobile-responsive">
-            <div style={containerStyle} className="ag-theme-alpine grid-container">
-                <div style={style}>
-                    <span className="tableContainer">
-                        <ButtonDropdownColumnSelector />
-                        <CustomTablePagination
-                            component="div"
-                            count={totalResultsCount}
-                            page={page}
-                            onPageChange={handleChangePage}
-                            rowsPerPageOptions={[5, 8, 10, 15, 20, 25, 30, 45, 50, 100]}
-                            rowsPerPage={rowsPerPage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
+        <div className={className} >
+            <div className="ag-theme-alpine grid-container">
+                <span className="tableContainer">
+                    <ButtonDropdownColumnSelector />
+                    <CustomTablePagination
+                        component="div"
+                        count={totalResultsCount}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        rowsPerPageOptions={[5, 8, 10, 15, 20, 25, 30, 45, 50, 100]}
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </span>
+                <>
+                    <AgGridReact
+                        domLayout={'autoHeight'}
+                        ref={gridRef}
+                        rowData={rowData}
+                        columnDefs={columnDefs}
+                        suppressMenuHide={true}
+                        animateRows={true}
+                        onColumnVisible={handleColumnVisibleChange}
+                        gridOptions={gridOptions}
+                        getRowHeight={getRowHeightTable}
+                        paginationPageSize={rowsPerPage}
+                        defaultColDef={defaultColDef}
+                        components={components}
+                        getRowStyle={getRowRowStyle}
+                        enableBrowserTooltips={true}
+                        tooltipShowDelay={0}
+                        tooltipHideDelay={1000}
+                    />
+                    <div className="pagination-div">
+                        <Pagination
+                            color="primary"
+                            count={pageCount}
+                            page={page + 1}
+                            onChange={handleChangePagePagination}
                         />
-                    </span>
-                    <>
-                        <AgGridReact
-                            ref={gridRef}
-                            rowData={rowData}
-                            columnDefs={columnDefs}
-                            suppressMenuHide={true}
-                            animateRows={true}
-                            onColumnVisible={handleColumnVisibleChange}
-                            gridOptions={gridOptions}
-                            getRowHeight={getRowHeightTable}
-                            paginationPageSize={rowsPerPage}
-                            defaultColDef={defaultColDef}
-                            components={components}
-                            getRowStyle={getRowRowStyle}
-                            enableBrowserTooltips={true}
-                            tooltipShowDelay={0}
-                            tooltipHideDelay={1000}
-                        />
-                        <div className="pagination-div">
-                            <Pagination
-                                color="primary"
-                                count={pageCount}
-                                page={page + 1}
-                                onChange={handleChangePagePagination}
-                            />
-                        </div>
-                    </>
-                </div>
+                    </div>
+                </>
+
             </div>
             <div>
                 <ModalNetworksGraph />
