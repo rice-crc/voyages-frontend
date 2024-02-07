@@ -317,6 +317,7 @@ export interface PivotTablesPropsRequest {
     filter: Filter[]
     order_by?: [string]
 }
+
 export interface MedatadataProps {
     offset: number
     limit: number
@@ -329,6 +330,7 @@ export interface PivotTablesProps {
     column_vars: string[]
     cell_vars: string
 }
+
 export interface VoyagesPivotOptionsProps {
     row_vars: PivotRowVar[]
     column_vars: PivotColumnVar[]
@@ -457,4 +459,45 @@ export interface RenderRowProps {
     data: React.ReactNode[];
     index: number;
     style: React.CSSProperties;
+}
+
+export interface EstimateTablesPropsRequest {
+    cols?: string[]
+    rows: string[]
+    binsize: number
+    agg_fn: string
+    vals?: string[]
+    mode: string
+    filter: Filter[]
+}
+export interface EstimateTablesProps {
+    row_vars: EstimateRowVar[]
+    column_vars: EstimateColumnVar[]
+    cell_vars: EstimateCellVar[]
+}
+
+export interface EstimateOptionProps {
+    rows: string[]
+    binsize: number | null
+    rows_label: string
+    label: string
+    column_vars: string[]
+    cell_vars: string[]
+}
+export interface EstimateRowVar {
+    rows: string[]
+    binsize?: number
+    rows_label: string
+    label: string
+}
+
+
+export interface EstimateColumnVar {
+    cols: string[]
+    label: string
+}
+
+export interface EstimateCellVar {
+    vals: string[]
+    label: string
 }

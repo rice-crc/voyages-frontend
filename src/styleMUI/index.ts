@@ -203,13 +203,11 @@ export const styleCard = {
   overflowY: 'auto',
   boxShadow: 24,
   p: '10px 50px',
-  marginTop: '40px'
 };
 export const styleCardEstimate = {
   bgcolor: '#fff',
   overflowY: 'auto',
   p: '10px 0',
-  marginTop: '40px'
 };
 
 

@@ -1,4 +1,7 @@
 .nav-header {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
     color: white;
     background: #0c9ab1 !important;
     padding: 0px 3rem;
@@ -28,7 +31,7 @@
 
 .navbar-subtitle {
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: .85rem;
     color: #fff;
     padding: 0 0.5rem 0.5rem 0.5rem;
 }
@@ -43,7 +46,7 @@
 }
 
 .sr-only-tooltip {
-    font-size: 0.95rem;
+    font-size: .85rem;
 }
 
 .btn-navbar {
@@ -62,6 +65,7 @@
 .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
     color: #0c9ab1;
     text-shadow: 0 0 0.25px currentcolor;
+    font-size: 0.85rem;
 }
 
 .ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab-active,
@@ -80,6 +84,141 @@
     color: white;
 }
 
+.tab-container-estimate,
+.tab-container-estimate-viewall {
+    // transition: padding 0.5s ease;
+    transition: all 0.5s, visibility 1s
+}
+
 .tab-container-estimate {
-    padding: 1rem 3rem
+    padding: 6rem 3rem 0 3rem;
+
+}
+
+.tab-container-estimate-viewall {
+    padding: 1rem 3rem 0 3rem;
+
+}
+
+.trans-card-header {
+    background: #008ca8;
+    cursor: pointer;
+    font-size: .85rem !important;
+    font-weight: 500;
+
+    .ant-collapse-item>.ant-collapse-header {
+        color: white;
+        padding: 0.25rem 0.5rem;
+
+
+    }
+
+    .ant-collapse-item>.ant-collapse-content>.ant-collapse-content-box {
+        padding: 8px 14px;
+    }
+
+
+}
+
+.ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab {
+    border-radius: 5px 5px 0 0;
+}
+
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab {
+    padding: 6px 16px
+}
+
+.view-all-container-estimate {
+    padding: 6.5rem 3rem 1rem 3rem;
+    background-color: #efefef
+}
+
+.panel-list {
+    margin-bottom: 0;
+    list-style: none;
+    font-size: .85rem;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.btn-panel {
+    color: #0c9ab1;
+    border: 1px #0c9ab1 solid;
+    border-radius: 3px;
+    padding: 0 0.5rem 0 0.5rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.row-selected {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col-selected {
+    flex-basis: 0;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+.col-selected-all {
+    position: relative;
+    left: 2rem;
+}
+
+
+.text-description {
+    color: #999;
+    padding: 10px 0;
+    font-size: .85rem;
+}
+
+.time-from-to {
+    margin-right: 6px;
+}
+
+.title-coallpse {
+    font-size: .85rem;
+}
+
+.reset-btn-estimate {
+    padding-top: 12px;
+}
+
+.sidebar-label {
+    color: #212529;
+    font-weight: 400;
+    font-size: .85rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.text-query-link {
+    padding: 6px 0;
+}
+
+.estimate-table-container {
+    overflow: hidden;
+    border: 1px solid rgb(194, 194, 194);
+}
+
+.estimate-table {
+    overflow-y: auto;
+}
+
+/* Hide scrollbar for webkit browsers (Chrome, Safari) */
+.estimate-table::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+.estimate-table::-webkit-scrollbar-thumb {
+    background-color: transparent;
 }

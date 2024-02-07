@@ -346,7 +346,7 @@ const Tables: React.FC = () => {
     const pageCount = Math.ceil(
         totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
     );
-    console.log({ styleNameRoute })
+
     const className = crateClassName(styleNameRoute!)
     return (
         <div className={className} >

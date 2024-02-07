@@ -5,7 +5,10 @@ import '@/style/Nav.scss';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import HeaderLogoEstimate from '@/components/NavigationComponents/Header/HeaderLogoEstimate';
-
+import { FunctionComponent } from 'react';
+interface EstimatesNavBarProps {
+    handleViewAll: () => void
+}
 const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} />
 ))({
@@ -16,7 +19,7 @@ const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
     },
 });
 
-function EstimatesNavBar() {
+const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAll }) => {
     const resetAll = () => {
         console.log('resetAll')
     }
@@ -36,7 +39,7 @@ function EstimatesNavBar() {
                 </div>
                 <div className="navbar-subitem">
                     <a data-toggle="collapse" href="#panelCollapse" role="button" aria-expanded="false" aria-controls="panelCollapse">
-                        <div className="btn-navbar">
+                        <div className="btn-navbar" onClick={handleViewAll}>
                             <i className="fa fa-filter" aria-hidden="true"></i>
                             View All
                         </div>
