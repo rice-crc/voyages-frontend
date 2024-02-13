@@ -33,18 +33,15 @@ const items: CollapseProps['items'] = [
 ];
 
 const EstimateCollapse: React.FC = () => {
-    const onChange = (key: string | string[]) => {
-        console.log(key);
-    };
 
     return (
         <Collapse
             expandIcon={({ isActive }) => (
                 isActive ? <MinusOutlined /> : <PlusOutlined />
             )}
-            expandIconPosition={'start'}
+            defaultActiveKey={['flag', 'regions']} //'time_frame', 'flag',
+            expandIconPosition={'end'}
             items={items}
-            onChange={onChange}
             className='trans-card-header'
         />
     );

@@ -21,6 +21,7 @@ interface SelectDropdownEstimateTableProps {
   selectedPivottablesOptions: EstimateOptionProps;
   handleChangeOptions: (event: SelectChangeEvent<string[]>, name: string, selectRowValue?: EstimateRowVar[]) => void;
   handleButtonExportCSV: () => void
+  setMode: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const SelectDropdownEstimateTable: FunctionComponent<
@@ -30,7 +31,7 @@ export const SelectDropdownEstimateTable: FunctionComponent<
   selectColumnValue,
   selectCellValue,
   selectedPivottablesOptions,
-  handleChangeOptions, handleButtonExportCSV
+  handleChangeOptions, handleButtonExportCSV, setMode
 }) => {
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -139,6 +140,7 @@ export const SelectDropdownEstimateTable: FunctionComponent<
           <div className="button-export-csv-estimate">
             <button
               onClick={handleButtonExportCSV}
+              onMouseLeave={() => setMode('html')}
             >
               Download Table
             </button>

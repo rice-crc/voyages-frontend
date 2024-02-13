@@ -101,3 +101,12 @@ export const LESSONPLANS = 'lessonplans'
 export const INTRODUCTORYMAPS = 'introductorymaps'
 export const TIMELAPSEPAGE = 'voyage/database/timelapse'
 export const SUMMARYSTATISTICS = 'voyage/database/statistics'
+
+// Estimate nation
+export const embarkationAfricaValue = 'embarkationAfrica'
+export const BrazilValue = 'Brazil'
+export const BritishCaribbeanValue = 'British Caribbean'
+export const DutchAmericasValue = 'Dutch Americas'
+export const FrenchCaribbeanValue = 'French Caribbean'
+export const MainlandNorthAmericaValue = 'Mainland North America'
+export const SpanishAmericasValue = 'Spanish Americas'

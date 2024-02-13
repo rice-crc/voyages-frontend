@@ -29,8 +29,6 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
 import {
-    getMobileMaxHeightTable,
-    getMobileMaxWidth,
     maxWidthSize,
 } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
@@ -82,17 +80,17 @@ const Tables: React.FC = () => {
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
     );
+    console.log({ inputSearchValue })
 
     const { isChangeGeoTree } = useSelector(
         (state: RootState) => state.getGeoTreeData
     );
     // Voyages States
-    const { tableFlatfileVoyages } =
+    const { tableFlatfileVoyages, styleName } =
         useSelector((state: RootState) => state.getDataSetCollection);
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
     );
-
     // Enslaved States
     const { styleNamePeople, tableFlatfileEnslaved } = useSelector(
         (state: RootState) => state.getPeopleEnlavedDataSetCollection
@@ -149,14 +147,36 @@ const Tables: React.FC = () => {
         };
     }, [dispatch, tablesCell, tablesCell, tableCellStructure]);
 
+    let filters: Filter[] = [];
+
+    if (styleNameRoute === 'trans-atlantic') {
+        filters.push({
+            varName: "dataset",
+            searchTerm: [0],
+            op: "in"
+        });
+    }
+    // else if (inputSearchValue) {
+    //     filters.push({
+    //         varName: 'global_search',
+    //         searchTerm: [inputSearchValue],
+    //         op: "gte"
+    //     });
+    // }
+    else {
+        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
+    }
+
     const dataSend: TableListPropsRequest = {
-        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
+        filter: filters,
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
     if (inputSearchValue) {
-        dataSend['global_search'] = [inputSearchValue]
+        dataSend['global_search'] = inputSearchValue
     }
+    console.log({ dataSend })
+
     useEffect(() => {
         let subscribed = true;
         const fetchData = async () => {
@@ -197,8 +217,8 @@ const Tables: React.FC = () => {
         currentEnslavedPage,
         varName,
         visibleColumnCells,
-        inputSearchValue,
-        styleNamePeople, isChange, isChangeGeoTree, isChangeAuto, autoLabelName
+        inputSearchValue, styleNamePeople, styleName,
+        isChange, isChangeGeoTree, isChangeAuto, autoLabelName,
     ]);
 
     useEffect(() => {

@@ -51,6 +51,20 @@ export const CustomSlider = styled(Slider)(() => ({
   }
 }));
 
+export const CustomSliderTimeFrame = styled(Slider)(() => ({
+  color: blue500,
+  width: '70%',
+  height: '5px',
+  '& .MuiSlider-thumb': {
+    backgroundColor: blue500,
+
+  },
+  '& .MuiSlider-rail': {
+    color: blue500,
+
+  }
+}));
+
 export const AppNavStyle = {
   backgroundColor: bgNavBar,
   color: 'black'

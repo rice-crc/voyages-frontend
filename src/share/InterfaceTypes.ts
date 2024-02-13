@@ -1,3 +1,5 @@
+import { CheckboxValueType } from "antd/es/checkbox/Group";
+
 export interface Flatlabel {
     key: string;
     label: string;
@@ -65,7 +67,7 @@ export interface IRootFilterTableObject {
 
 export interface Filter {
     varName: string
-    searchTerm: number[] | string[]
+    searchTerm: number[] | string[] | CheckboxValueType[]
     op: string
 }
 export interface RangeSliderStateProps {
@@ -262,7 +264,7 @@ export interface TableListPropsRequest {
     filter: Filter[]
     page?: number
     page_size?: number
-    global_search?: string[]
+    global_search?: string
     order_by?: string[]
 }
 export interface MapPropsRequest {
@@ -500,4 +502,30 @@ export interface EstimateColumnVar {
 export interface EstimateCellVar {
     vals: string[]
     label: string
+}
+
+export interface InitialStateDataEstimateAssesment {
+    currentSliderValue: number[]
+    changeFlag: boolean
+    // selectedFlags: string[]
+    // selectedFlags: CheckboxValueType[]
+}
+
+
+
+export interface CheckboxGroupItem {
+    label: string;
+    plainOptions: string[];
+    setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[]>> | ((list: CheckboxValueType[]) => void);
+    checkedList: CheckboxValueType[];
+    show: boolean;
+    varName: string
+
+}
+export interface ListRegionsProps {
+    label: string
+    show: boolean
+    varName: string
+    checkName: string,
+    options: string[]
 }

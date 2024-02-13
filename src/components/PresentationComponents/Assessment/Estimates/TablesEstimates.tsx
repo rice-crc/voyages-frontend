@@ -8,8 +8,8 @@ import { SelectChangeEvent } from '@mui/material';
 import ESTIMATE_OPTIONS from '@/utils/flatfiles/estimates.json';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import ReactHtmlParser from 'html-react-parser';
 
 import {
@@ -18,17 +18,29 @@ import {
     EstimateOptionProps,
     EstimateRowVar,
     EstimateTablesPropsRequest,
+    Filter,
+    RangeSliderState,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
 
 import { fetchEstimateCrosstabsTables } from '@/fetch/estimateFetch/fetchEstimateCrosstabsTables';
 import { SelectDropdownEstimateTable } from '@/components/SelectorComponents/SelectDrowdown/SelectDropdownEstimateTable';
+import { setFilterObject } from '@/redux/getFilterSlice';
 
 const TablesEstimates = () => {
     const dispatch: AppDispatch = useDispatch();
-    const effectOnce = useRef(false);
     const aggregation = 'sum'
-    const [loading, setLoading] = useState<boolean>(false);
+    const { currentSliderValue, changeFlag } = useSelector(
+        (state: RootState) => state.getEstimateAssessment
+    );
+
+
+    const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+    const { varName } = useSelector(
+        (state: RootState) => state.rangeSlider as RangeSliderState
+    );
+
+
     const [data, setData] = useState<string>('');
     const [rowVars, setSelectRowValues] = useState<EstimateRowVar[]>([]);
     const [columnVars, setSelectColumnValue] = useState<EstimateColumnVar[]>([]);
@@ -80,6 +92,7 @@ const TablesEstimates = () => {
     const onlyYearRows = rows.filter(row => row.startsWith("year_") && row.length > 5);
     const updatedRowsValue = rows.join('').replace(/_(\d+)$/, '');
 
+
     const dataSend: EstimateTablesPropsRequest = {
         cols: column_vars,
         rows: onlyYearRows.length > 0 ? [updatedRowsValue] : rows,
@@ -87,7 +100,7 @@ const TablesEstimates = () => {
         agg_fn: aggregation,
         vals: cell_vars,
         mode: mode,
-        filter: [],
+        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : []
     };
 
     const fetchData = async () => {
@@ -102,23 +115,70 @@ const TablesEstimates = () => {
             }
         } catch (error) {
             console.log('error', error);
-            setLoading(false);
+
         }
     };
 
     useEffect(() => {
-        if (!effectOnce.current) {
-            EstimateTableOptions();
-            fetchData();
-        }
+
+        EstimateTableOptions();
+        fetchData();
+
+        const storedValue = localStorage.getItem('filterObject');
+        if (!storedValue) return;
+        const parsedValue = JSON.parse(storedValue);
+        const filter: Filter[] = parsedValue.filter;
+        dispatch(setFilterObject(filter))
+
     }, [
+        estimateValueOptions,
         estimateValueOptions.rows,
         estimateValueOptions.binsize,
         estimateValueOptions.column_vars,
         estimateValueOptions.cell_vars,
-        mode
+        mode,
+        varName, currentSliderValue, changeFlag
     ]);
-    console.log({ data })
+
+
+    const handleButtonExportCSV = useCallback(() => {
+        // Get the table element
+        const table = document.querySelector('.estimate-table');
+
+        if (!table) {
+            console.error('Table element not found');
+            return;
+        }
+
+        // Extract table data
+        const rows = Array.from(table.querySelectorAll('tr'));
+
+        // Create CSV content
+        const csvContent = rows
+            .map(row =>
+                Array.from(row.children)
+                    .map(cell => cell.textContent)
+                    .join(',')
+            )
+            .join('\n');
+
+        // Create a Blob containing the CSV data
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+
+        // Create a temporary link element to trigger the download
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'exported_data.csv';
+
+        // Trigger the download
+        document.body.appendChild(link);
+        link.click();
+
+        // Clean up
+        document.body.removeChild(link);
+
+        setMode('csv');
+    }, [mode]);
 
 
     const handleChangeOptions = useCallback(
@@ -127,7 +187,6 @@ const TablesEstimates = () => {
             name: string,
             options?: EstimateRowVar[]
         ) => {
-            setMode('html')
             const value = event.target.value as string[];
             if (name === 'row_vars' && options) {
                 const selectedRow = options.find((row) => row.rows.join('') === value.join(''));
@@ -150,9 +209,6 @@ const TablesEstimates = () => {
         [setEstimateValueOptions]
     );
 
-    const handleButtonExportCSV = useCallback(() => {
-        setMode('csv')
-    }, [mode])
 
     return (
         <div className="estimate-table-card">
@@ -163,6 +219,7 @@ const TablesEstimates = () => {
                 selectCellValue={cellVars}
                 handleChangeOptions={handleChangeOptions}
                 handleButtonExportCSV={handleButtonExportCSV}
+                setMode={setMode}
             />
             <div className='estimate-table-container'>
                 <div className='estimate-table'>

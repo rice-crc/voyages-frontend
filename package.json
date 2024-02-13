@@ -46,6 +46,7 @@
     "dompurify": "^3.0.6",
     "framer-motion": "^10.12.16",
     "html-react-parser": "4.2.0",
+    "html-table-to-csv": "^1.0.3",
     "leaflet": "^1.9.4",
     "leaflet-curve": "^1.0.0",
     "leaflet.markercluster": "^1.5.3",

@@ -90,7 +90,7 @@ const App: React.FC = () => {
           <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
           <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
           <Route
-            path={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`}
+            path={`${VOYAGESPAGE}${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}
           />
           <Route
@@ -98,7 +98,7 @@ const App: React.FC = () => {
             element={<VoyagesPage />}
           />
           <Route
-            path={`${VOYAGESPAGE}${TRANSATLANTICPAGE}`}
+            path={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`}
             element={<VoyagesPage />}
           />
           <Route

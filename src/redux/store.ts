@@ -28,6 +28,7 @@ import getCardFlatObjectSlice from './getCardFlatObjectSlice';
 import getGeoTreeDataSlice from './getGeoTreeDataSlice';
 import getDataPathNameSlice from './getDataPathNameSlice';
 import getFilterMenuListSlice from './getFilterMenuListSlice';
+import getEstimateAssesmentSlice from './getEstimateAssesmentSlice';
 
 
 // Define types for slices
@@ -55,6 +56,7 @@ type CardFlatObjectSlice = ReturnType<typeof getCardFlatObjectSlice>;
 type PivotTablesDataSlice = ReturnType<typeof getPivotTablesDataSlice>;
 type GeoTreeDataSlice = ReturnType<typeof getGeoTreeDataSlice>;
 type DataPathNameSlice = ReturnType<typeof getDataPathNameSlice>;
+type EstimateAssesmentSlice = ReturnType<typeof getEstimateAssesmentSlice>;
 
 
 // Define RootState
@@ -83,6 +85,7 @@ export type RootState = {
         getPivotTablesData: PivotTablesDataSlice;
         getGeoTreeData: GeoTreeDataSlice;
         getPathName: DataPathNameSlice;
+        getEstimateAssessment: EstimateAssesmentSlice
         [voyagesApi.reducerPath]: ReturnType<typeof voyagesApi.reducer>;
 };
 
@@ -112,6 +115,7 @@ const store = configureStore({
                 getPivotTablesData: getPivotTablesDataSlice,
                 getGeoTreeData: getGeoTreeDataSlice,
                 getPathName: getDataPathNameSlice,
+                getEstimateAssessment: getEstimateAssesmentSlice,
                 [voyagesApi.reducerPath]: voyagesApi.reducer,
                 [pastEnslavedService.reducerPath]: pastEnslavedService.reducer,
                 [pastEnslaversService.reducerPath]: pastEnslaversService.reducer,
