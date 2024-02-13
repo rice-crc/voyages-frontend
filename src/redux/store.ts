@@ -28,7 +28,7 @@ import getCardFlatObjectSlice from './getCardFlatObjectSlice';
 import getGeoTreeDataSlice from './getGeoTreeDataSlice';
 import getDataPathNameSlice from './getDataPathNameSlice';
 import getFilterMenuListSlice from './getFilterMenuListSlice';
-import getEstimateAssesmentSlice from './getEstimateAssesmentSlice';
+import getEstimateAssesmentSlice from './getEstimateAssessmentSlice';
 
 
 // Define types for slices

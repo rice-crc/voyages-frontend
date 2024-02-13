@@ -6,6 +6,9 @@ import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import HeaderLogoEstimate from '@/components/NavigationComponents/Header/HeaderLogoEstimate';
 import { FunctionComponent } from 'react';
+import { AppDispatch } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { resetAll } from '@/redux/resetAllSlice';
 interface EstimatesNavBarProps {
     handleViewAll: () => void
 }
@@ -20,8 +23,14 @@ const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
 });
 
 const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAll }) => {
-    const resetAll = () => {
-        console.log('resetAll')
+    const dispatch: AppDispatch = useDispatch();
+    const resetAllEstimate = () => {
+        dispatch(resetAll());
+        const keysToRemove = Object.keys(localStorage);
+
+        keysToRemove.forEach((key) => {
+            localStorage.removeItem(key);
+        });
     }
     return (
         <div className="nav-header">
@@ -46,7 +55,7 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
                     </a>
                 </div>
                 <div className="navbar-subitem">
-                    <a role="button" onClick={resetAll}>
+                    <a role="button" onClick={resetAllEstimate}>
                         <div className="btn-navbar">
                             <i className="fa fa-times" aria-hidden="true"></i>
                             Reset All

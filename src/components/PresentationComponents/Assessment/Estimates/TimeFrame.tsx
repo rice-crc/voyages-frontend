@@ -8,7 +8,7 @@ import { setFilterObject } from "@/redux/getFilterSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setKeyValueName } from "@/redux/getRangeSliderSlice";
-import { setCurrentSliderValue } from "@/redux/getEstimateAssesmentSlice";
+import { setCurrentSliderValue } from "@/redux/getEstimateAssessmentSlice";
 
 const TimeFrame = () => {
     const dispatch: AppDispatch = useDispatch();

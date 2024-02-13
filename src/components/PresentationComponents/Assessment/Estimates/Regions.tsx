@@ -1,70 +1,165 @@
 import CustomCheckboxDisEmbarkationGroup from '@/components/SelectorComponents/SelectDrowdown/CustomCheckboxDisEmbarkationGroup';
 import CustomCheckboxEmbarkationGroup from '@/components/SelectorComponents/SelectDrowdown/CustomCheckboxEmbarkationGroup';
+import { setCheckedListDisEmbarkation, setCheckedListEmbarkation } from '@/redux/getEstimateAssessmentSlice';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { setKeyValueName } from '@/redux/getRangeSliderSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { Filter } from '@/share/InterfaceTypes';
 import {
     disembarkationListData,
     embarkationListData,
 } from '@/utils/flatfiles/estimate_text';
 import { Button } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Regions: React.FC = () => {
-    const [checkedListEmbarkation, setCheckedListEmbarkation] = useState<
-        Record<string, CheckboxValueType[]>
-    >({});
-    const [checkedListDisEmbarkation, setCheckedListDisEmbarkation] = useState<
-        Record<string, CheckboxValueType[]>
-    >({});
+    const dispatch: AppDispatch = useDispatch();
+    const { checkedListEmbarkation, checkedListDisEmbarkation } = useSelector(
+        (state: RootState) => state.getEstimateAssessment
+    );
 
-    const handleSetCheckedListEmbarkation = (label: string, list: CheckboxValueType[]) => {
-        setCheckedListEmbarkation((prev) => ({ ...prev, [label]: list }));
+    const storedValue = localStorage.getItem("filterObject");
+
+    useEffect(() => {
+        if (storedValue) {
+            const parsedValue = JSON.parse(storedValue);
+            const filter: Filter[] = parsedValue.filter;
+            dispatch(setFilterObject(filter));
+        }
+    }, [checkedListEmbarkation, checkedListDisEmbarkation]);
+
+    const handleSetCheckedListEmbarkation = (label: string, list: CheckboxValueType[], varName: string) => {
+        const newState: Record<string, CheckboxValueType[]> = { ...checkedListEmbarkation, [label]: list };
+        dispatch(setCheckedListEmbarkation(newState));
+        updatedSliderToLocalStrageEmbarkation(list, varName)
         return list;
+
     };
 
+
     const handleSelectAllEmbarkation = () => {
-        setCheckedListEmbarkation(() => {
-            const updatedList: Record<string, CheckboxValueType[]> = {};
-            embarkationListData.forEach((group) => {
-                updatedList[group.label] = group.options;
-            });
-            return updatedList;
+        const updatedList: Record<string, CheckboxValueType[]> = {};
+        const updataCheckList: CheckboxValueType[] = []
+        embarkationListData.forEach((group) => {
+            updatedList[group.label] = group.options;
+            group.options.forEach((value) => {
+                updataCheckList.push(value)
+            })
         });
+        dispatch(setCheckedListEmbarkation(updatedList));
+        updatedSliderToLocalStrageEmbarkation(updataCheckList, 'embarkation_region__name')
     };
 
     const handleDeselectAllEmbarkation = () => {
-        setCheckedListEmbarkation(() => {
-            const updatedList: Record<string, CheckboxValueType[]> = {};
-            embarkationListData.forEach((group) => {
-                updatedList[group.label] = [];
-            });
-            return updatedList;
+        const updatedList: Record<string, CheckboxValueType[]> = {};
+        embarkationListData.forEach((group) => {
+            updatedList[group.label] = [];
         });
-
+        dispatch(setCheckedListEmbarkation(updatedList));
+        updatedSliderToLocalStrageEmbarkation([], 'embarkation_region__name')
     };
 
-    const handleSetCheckedListDisEmbarkation = (label: string, list: CheckboxValueType[]) => {
-        setCheckedListDisEmbarkation((prev) => ({ ...prev, [label]: list }));
+    const handleSetCheckedListDisEmbarkation = (label: string, list: CheckboxValueType[], varName: string) => {
+        const newState: Record<string, CheckboxValueType[]> = { ...checkedListDisEmbarkation, [label]: list };
+        const updataCheckList: CheckboxValueType[] = []
+        for (const key in newState) {
+            updataCheckList.push(...newState[key]);
+        }
+        dispatch(setCheckedListDisEmbarkation(newState));
+        updatedSliderToLocalStrageDisEmbarkation(updataCheckList, varName)
         return list;
     };
+
     const handleSelectAllDisEmbarkation = () => {
-        setCheckedListDisEmbarkation(() => {
-            const updatedList: Record<string, CheckboxValueType[]> = {};
-            disembarkationListData.forEach((group) => {
-                updatedList[group.label] = group.options;
-            });
-            return updatedList;
+        const updatedList: Record<string, CheckboxValueType[]> = {};
+        const updataCheckList: CheckboxValueType[] = []
+
+        disembarkationListData.forEach((group) => {
+            updatedList[group.label] = group.options;
+            group.options.forEach((value) => {
+                updataCheckList.push(value)
+            })
         });
+
+        dispatch(setCheckedListDisEmbarkation(updatedList));
+        updatedSliderToLocalStrageDisEmbarkation(updataCheckList, 'disembarkation_region__name')
     };
 
     const handleDeselectAllDisEmbarkation = () => {
-        setCheckedListDisEmbarkation(() => {
-            const updatedList: Record<string, CheckboxValueType[]> = {};
-            disembarkationListData.forEach((group) => {
-                updatedList[group.label] = [];
-            });
-            return updatedList;
+        const updatedList: Record<string, CheckboxValueType[]> = {};
+        const updataCheckList: CheckboxValueType[] = []
+        disembarkationListData.forEach((group) => {
+            updatedList[group.label] = [];
         });
+        dispatch(setCheckedListDisEmbarkation(updatedList));
+        updatedSliderToLocalStrageDisEmbarkation(updataCheckList, 'disembarkation_region__name')
     };
+
+    function updatedSliderToLocalStrageEmbarkation(updateValue: CheckboxValueType[], varName: string) {
+
+        const existingFilterObjectString = localStorage.getItem('filterObject');
+        let existingFilterObject: any = {};
+
+        if (existingFilterObjectString) {
+            existingFilterObject = JSON.parse(existingFilterObjectString);
+        }
+        const existingFilters: Filter[] = existingFilterObject.filter || [];
+        const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === varName);
+
+        if (existingFilterIndex !== -1) {
+            existingFilters[existingFilterIndex].searchTerm = updateValue as string[]
+        } else {
+            const newFilter: Filter = {
+                varName: varName,
+                searchTerm: updateValue!,
+                op: "in"
+            };
+            existingFilters.push(newFilter);
+        }
+
+        dispatch(setFilterObject(existingFilters));
+
+        const filterObjectUpdate = {
+            filter: existingFilters
+        };
+
+        const filterObjectString = JSON.stringify(filterObjectUpdate);
+        localStorage.setItem('filterObject', filterObjectString);
+    }
+
+    function updatedSliderToLocalStrageDisEmbarkation(updateValue: CheckboxValueType[], varName: string) {
+
+        const existingFilterObjectString = localStorage.getItem('filterObject');
+        let existingFilterObject: any = {};
+
+        if (existingFilterObjectString) {
+            existingFilterObject = JSON.parse(existingFilterObjectString);
+        }
+        const existingFilters: Filter[] = existingFilterObject.filter || [];
+        const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === varName);
+
+        if (existingFilterIndex !== -1) {
+            existingFilters[existingFilterIndex].searchTerm = updateValue as string[]
+        } else {
+            const newFilter: Filter = {
+                varName: varName,
+                searchTerm: updateValue!,
+                op: "in"
+            };
+            existingFilters.push(newFilter);
+        }
+
+        dispatch(setFilterObject(existingFilters));
+
+        const filterObjectUpdate = {
+            filter: existingFilters
+        };
+
+        const filterObjectString = JSON.stringify(filterObjectUpdate);
+        localStorage.setItem('filterObject', filterObjectString);
+    }
     return (
         <>
             <h4>Embarkation Regions</h4>
@@ -77,7 +172,7 @@ const Regions: React.FC = () => {
                         show={group.show}
                         checkedList={checkedListEmbarkation[group.label] || []}
                         setCheckedList={(list: CheckboxValueType[]) =>
-                            handleSetCheckedListEmbarkation(group.label, list)
+                            handleSetCheckedListEmbarkation(group.label, list, group.varName)
                         }
                     />
                 </div>
@@ -109,7 +204,7 @@ const Regions: React.FC = () => {
                         show={group.show}
                         checkedList={checkedListDisEmbarkation[group.label] || []}
                         setCheckedList={(list: CheckboxValueType[]) =>
-                            handleSetCheckedListDisEmbarkation(group.label, list)
+                            handleSetCheckedListDisEmbarkation(group.label, list, group.varName)
                         }
                     />
                 </div>

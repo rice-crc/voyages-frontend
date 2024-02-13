@@ -8,17 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { setKeyValueName } from "@/redux/getRangeSliderSlice";
 import { Filter } from "@/share/InterfaceTypes";
 import { setFilterObject } from "@/redux/getFilterSlice";
-// import { setSelectedFlags } from "@/redux/getEstimateAssesmentSlice";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import { setOnChangeFlag } from "@/redux/getEstimateAssesmentSlice";
+import { setOnChangeFlag, setSelectedFlags } from "@/redux/getEstimateAssessmentSlice";
 const CheckboxGroup = Checkbox.Group;
 
 const Flag = () => {
     const dispatch: AppDispatch = useDispatch();
     const varName = 'nation__name'
     const storedValue = localStorage.getItem("filterObject");
-    const [selectedFlags, setSelectedFlags] = useState<CheckboxValueType[]>(flagText)
-    const { changeFlag } = useSelector(
+    const { changeFlag, selectedFlags } = useSelector(
         (state: RootState) => state.getEstimateAssessment
     );
 
@@ -33,7 +31,7 @@ const Flag = () => {
 
             if (filterByVarName) {
                 const selectedFlags: string[] = filterByVarName.searchTerm as string[];
-                setSelectedFlags(selectedFlags)
+                dispatch(setSelectedFlags(selectedFlags))
                 dispatch(setFilterObject(filter));
                 return;
             }
@@ -42,14 +40,13 @@ const Flag = () => {
 
     const onChangeFlag = (list: CheckboxValueType[]) => {
         dispatch(setOnChangeFlag(!changeFlag))
-        setSelectedFlags(list)
-
+        dispatch(setSelectedFlags(list))
         updatedSliderToLocalStorage(list);
     };
 
     const handleResetAll = () => {
         const allFlags = flagText.map(value => value);
-        setSelectedFlags(allFlags)
+        dispatch(setSelectedFlags(allFlags))
         dispatch(setOnChangeFlag(!changeFlag))
         updatedSliderToLocalStorage(allFlags)
     };

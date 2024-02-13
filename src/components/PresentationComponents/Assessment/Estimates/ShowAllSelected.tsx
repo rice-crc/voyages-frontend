@@ -1,38 +1,71 @@
+import { RootState } from '@/redux/store';
+import { Filter, RangeSliderState } from '@/share/InterfaceTypes';
 import '@/style/estimates.scss'
-import { FunctionComponent, useEffect } from 'react';
+import { Button } from 'antd';
+import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 interface ShowAllSelectedProps {
     setViewAll: React.Dispatch<React.SetStateAction<boolean>>
     ariaExpanded: boolean;
 }
 const ShowAllSelected: FunctionComponent<ShowAllSelectedProps> = ({ setViewAll, ariaExpanded }) => {
-    return (
+    const { checkedListEmbarkation, checkedListDisEmbarkation, selectedFlags } = useSelector(
+        (state: RootState) => state.getEstimateAssessment
+    );
+    const [flagNation, setFlagNation] = useState<CheckboxValueType[]>([])
+    const [embarkationShow, setEmbarkationShow] = useState<CheckboxValueType[]>([])
+    const [disembarkationShow, setDisEmbarkationShow] = useState<CheckboxValueType[]>([])
 
+    useEffect(() => {
+        const updateNation: CheckboxValueType[] = [];
+
+        selectedFlags.forEach((value) => {
+            updateNation.push(value)
+        })
+        setFlagNation(updateNation)
+        const updatedShowEmbarktion: CheckboxValueType[] = [];
+        Object.values(checkedListEmbarkation).forEach((valueArray) => {
+            updatedShowEmbarktion.push(...valueArray)
+        })
+        setEmbarkationShow(updatedShowEmbarktion);
+
+        const updatedShowDisEmbarktion: CheckboxValueType[] = [];
+        Object.values(checkedListDisEmbarkation).forEach((valueArray) => {
+            updatedShowDisEmbarktion.push(...valueArray)
+        })
+        setDisEmbarkationShow(updatedShowDisEmbarktion);
+    }, [checkedListEmbarkation, checkedListDisEmbarkation, selectedFlags]);
+
+    return (
         <div id="panelCollapse" className="panel-list" v-if="hasCurrentQuery">
             <div className="panel-list-item-wrapper">
                 <div className="row-selected">
-                    <div className="col-selected">Selected National Carriers</div>
-                    <div className='col-selected-all'>all</div>
+                    <h4 className="col-selected">Selected National Carriers{' :'}</h4>
+                    <span className='col-selected-all'>
+                        {flagNation.length === 0 ? 'all' : flagNation.join(', ')}
+                    </span>
                 </div>
                 <div className="row-selected">
-                    <div className="col-selected">Selected Embarkation Regions</div>
-                    <div className='col-selected-all'>all</div>
+                    <h4 className="col-selected">Selected Embarkation Regions{' :'}</h4>
+                    <span className='col-selected-all'>
+                        {!embarkationShow ? 'all' : embarkationShow.join(', ')}
+                    </span>
                 </div>
                 <div className="row-selected">
-                    <div className="col-selected">Selected Disembarkation Regions</div>
-                    <div className='col-selected-all'>all</div>
+                    <h4 className="col-selected">Selected Disembarkation Regions{' :'}</h4>
+                    <span className='col-selected-all'>
+                        {disembarkationShow.length === 0 ? 'all' : disembarkationShow.join(', ')}
+                    </span>
                 </div>
             </div>
-            <a
-                data-toggle="collapse"
-                href="#panelCollapse"
-                role="button"
-                aria-expanded={ariaExpanded}
-                aria-controls="panelCollapse"
-            >
-                <div className="btn-panel" onClick={() => setViewAll(false)}>
-                    <i className="fa fa-times-circle" aria-hidden="true"></i> Hide
-                </div>
-            </a>
+            <div>
+                <Button className="btn-panel deselec-btn" onClick={() => setViewAll(false)}>
+                    <i className="fa fa-times-circle" style={{ paddingRight: 5 }} aria-hidden="true"></i>Hide<div></div>
+                </Button>
+
+            </div>
+
         </div>
     );
 }

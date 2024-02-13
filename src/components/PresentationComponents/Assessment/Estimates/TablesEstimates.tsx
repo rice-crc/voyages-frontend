@@ -30,16 +30,14 @@ import { setFilterObject } from '@/redux/getFilterSlice';
 const TablesEstimates = () => {
     const dispatch: AppDispatch = useDispatch();
     const aggregation = 'sum'
-    const { currentSliderValue, changeFlag } = useSelector(
+    const { currentSliderValue, changeFlag, checkedListEmbarkation, checkedListDisEmbarkation } = useSelector(
         (state: RootState) => state.getEstimateAssessment
     );
-
 
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { varName } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
-
 
     const [data, setData] = useState<string>('');
     const [rowVars, setSelectRowValues] = useState<EstimateRowVar[]>([]);
@@ -137,7 +135,7 @@ const TablesEstimates = () => {
         estimateValueOptions.column_vars,
         estimateValueOptions.cell_vars,
         mode,
-        varName, currentSliderValue, changeFlag
+        varName, currentSliderValue, changeFlag, checkedListEmbarkation, checkedListDisEmbarkation
     ]);
 
 

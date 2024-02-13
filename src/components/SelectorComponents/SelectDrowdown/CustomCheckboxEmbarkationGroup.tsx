@@ -13,8 +13,8 @@ const CustomCheckboxEmbarkationGroup: React.FC<CheckboxGroupItem> = ({
     label, varName,
     show
 }) => {
-    const dispatch: AppDispatch = useDispatch();
 
+    const dispatch: AppDispatch = useDispatch();
     const [checkAll, setCheckAll] = useState(false);
     const storedValue = localStorage.getItem("filterObject");
 
@@ -24,24 +24,12 @@ const CustomCheckboxEmbarkationGroup: React.FC<CheckboxGroupItem> = ({
         if (storedValue) {
             const parsedValue = JSON.parse(storedValue);
             const filter: Filter[] = parsedValue.filter;
-            const filterByVarName =
-                filter?.length > 0 &&
-                filter.find((filterItem) => filterItem.varName === varName);
-
-            if (filterByVarName) {
-                const valueOptions: string[] = filterByVarName.searchTerm as string[];
-                console.log({ valueOptions })
-                // dispatch(setSelectedFlags(selectedFlags))
-                dispatch(setFilterObject(filter));
-                return;
-            }
+            dispatch(setFilterObject(filter));
         }
     }, [checkedList, plainOptions, varName]);
 
     const onChange = (list: CheckboxValueType[]) => {
-        console.log({ list })
         setCheckedList(list);
-        // dispatch(setSelectedFlags(list as string[]));
         updatedSliderToLocalStrage(list as string[])
     };
 
@@ -49,15 +37,14 @@ const CustomCheckboxEmbarkationGroup: React.FC<CheckboxGroupItem> = ({
         const isChecked = e.target.checked;
         setCheckAll(isChecked);
         setCheckedList(isChecked ? plainOptions : []);
-        // dispatch(setSelectedFlags(isChecked ? plainOptions as string[] : []));
-        // updatedSliderToLocalStrage(isChecked ? plainOptions as string[] : [])
+        updatedSliderToLocalStrage(isChecked ? plainOptions as string[] : [])
     };
 
     const indeterminate =
         checkedList.length > 0 && checkedList.length < plainOptions.length;
 
+
     function updatedSliderToLocalStrage(updateValue: string[]) {
-        console.log({ updateValue })
         const existingFilterObjectString = localStorage.getItem('filterObject');
         let existingFilterObject: any = {};
 

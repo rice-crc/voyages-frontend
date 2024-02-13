@@ -505,10 +505,11 @@ export interface EstimateCellVar {
 }
 
 export interface InitialStateDataEstimateAssesment {
+    selectedFlags: CheckboxValueType[]
     currentSliderValue: number[]
     changeFlag: boolean
-    // selectedFlags: string[]
-    // selectedFlags: CheckboxValueType[]
+    checkedListEmbarkation: Record<string, CheckboxValueType[]>
+    checkedListDisEmbarkation: Record<string, CheckboxValueType[]>
 }
 
 

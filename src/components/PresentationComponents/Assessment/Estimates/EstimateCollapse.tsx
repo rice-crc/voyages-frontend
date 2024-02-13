@@ -39,7 +39,7 @@ const EstimateCollapse: React.FC = () => {
             expandIcon={({ isActive }) => (
                 isActive ? <MinusOutlined /> : <PlusOutlined />
             )}
-            defaultActiveKey={['flag', 'regions']} //'time_frame', 'flag',
+            defaultActiveKey={['time_frame', 'flag']}
             expandIconPosition={'end'}
             items={items}
             className='trans-card-header'
