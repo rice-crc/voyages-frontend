@@ -170,7 +170,7 @@
 
 .col-selected-all {
     position: relative;
-    left: 2rem;
+    left: 1rem;
 }
 
 
@@ -251,7 +251,15 @@
     background-color: white;
     border: 1.5px solid #008ca8;
     margin-left: 8px;
+}
 
+.deselec-btn-hide {
+    color: #008ca8;
+    background-color: white;
+    border: 1.5px solid #008ca8;
+    margin-left: 8px;
+    position: relative;
+    left: 2.15rem;
 }
 
 .deselec-btn:hover {

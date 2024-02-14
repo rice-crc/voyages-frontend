@@ -43,7 +43,7 @@ const ShowAllSelected: FunctionComponent<ShowAllSelectedProps> = ({ setViewAll, 
                 <div className="row-selected">
                     <h4 className="col-selected">Selected National Carriers{' :'}</h4>
                     <span className='col-selected-all'>
-                        {flagNation.length === 0 ? 'all' : flagNation.join(', ')}
+                        {!flagNation ? 'all' : flagNation.join(', ')}
                     </span>
                 </div>
                 <div className="row-selected">
@@ -55,12 +55,12 @@ const ShowAllSelected: FunctionComponent<ShowAllSelectedProps> = ({ setViewAll, 
                 <div className="row-selected">
                     <h4 className="col-selected">Selected Disembarkation Regions{' :'}</h4>
                     <span className='col-selected-all'>
-                        {disembarkationShow.length === 0 ? 'all' : disembarkationShow.join(', ')}
+                        {!disembarkationShow ? 'all' : disembarkationShow.join(', ')}
                     </span>
                 </div>
             </div>
             <div>
-                <Button className="btn-panel deselec-btn" onClick={() => setViewAll(false)}>
+                <Button className="btn-panel deselec-btn-hide" onClick={() => setViewAll(false)}>
                     <i className="fa fa-times-circle" style={{ paddingRight: 5 }} aria-hidden="true"></i>Hide<div></div>
                 </Button>
 

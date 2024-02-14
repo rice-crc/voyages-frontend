@@ -505,24 +505,24 @@ div .customHeaderLabelSummaryTable {
 .mobile-responsive {
   position: relative;
   padding: 30px 120px 0 30px;
-  margin-top: 90px;
+  margin-top: 100px;
 
   @include breakpoint-standard(0) {
     top: 70px;
     padding: 30px 30px 0 30px;
-    margin-top: 76px;
+    margin-top: 80px;
   }
 
   @include breakpoint-standard(1) {
     top: 70px;
     padding: 30px 30px 0 30px;
-    margin-top: 76px;
+    margin-top: 80px;
   }
 
   @include breakpoint-standard(1.1) {
     top: 70px;
     padding: 30px 30px 0 30px;
-    margin-top: 76px;
+    margin-top: 80px;
   }
 
   @include breakpoint-standard(2) {

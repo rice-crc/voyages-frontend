@@ -13,8 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
 import { Dispatch } from '@reduxjs/toolkit';
 import TablesEstimates from './TablesEstimates';
-import TimeLine from './TimeLine';
-
+import TimeLineGraph from './TimeLineGraph';
 
 const EstimatesTabs = () => {
     const dispatch: Dispatch = useDispatch();
@@ -36,7 +35,7 @@ const EstimatesTabs = () => {
         {
             key: 'timeline',
             label: 'Timeline',
-            children: <Box sx={styleCardEstimate} >  <TimeLine /> </Box>,
+            children: <Box sx={styleCardEstimate} >  <TimeLineGraph /> </Box>,
         },
         {
             key: 'maps',
