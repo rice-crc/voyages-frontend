@@ -63,6 +63,7 @@ function Scatter() {
 
   const [aggregation, setAggregation] = useState<string>('sum');
   const maxWidth = maxWidthSize(width);
+
   const VoyageScatterOptions = useCallback(() => {
     Object.entries(VOYAGE_SCATTER_OPTIONS).forEach(
       ([key, value]: [string, PlotXYVar[]]) => {

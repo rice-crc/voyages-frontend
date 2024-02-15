@@ -51,6 +51,20 @@ export const CustomSlider = styled(Slider)(() => ({
   }
 }));
 
+export const CustomSliderTimeFrame = styled(Slider)(() => ({
+  color: blue500,
+  width: '70%',
+  height: '5px',
+  '& .MuiSlider-thumb': {
+    backgroundColor: blue500,
+
+  },
+  '& .MuiSlider-rail': {
+    color: blue500,
+
+  }
+}));
+
 export const AppNavStyle = {
   backgroundColor: bgNavBar,
   color: 'black'
@@ -203,8 +217,14 @@ export const styleCard = {
   overflowY: 'auto',
   boxShadow: 24,
   p: '10px 50px',
-  marginTop: '40px'
 };
+export const styleCardEstimate = {
+  bgcolor: '#fff',
+  overflowY: 'auto',
+  p: '10px 0',
+};
+
+
 
 export const CustomTablePagination = styled(TablePagination)({
   '& .MuiTablePagination-selectLabel': {

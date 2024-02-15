@@ -10,6 +10,7 @@ import {
   BLOGPAGE,
   DOCUMENTPAGE,
   PASTHOMEPAGE,
+  TRANSATLANTICPAGE,
   VOYAGESPAGE,
 } from '@/share/CONST_DATA';
 import { AppDispatch } from '@/redux/store';
@@ -36,7 +37,7 @@ const GlobalHomeNavigations = () => {
         <div className="place-page-box">
           <div className="voyages-people-places-title">Voyages</div>
           <Link
-            to={`${VOYAGESPAGE}${ALLVOYAGESPAGE}#voyages`}
+            to={`${VOYAGESPAGE}${TRANSATLANTICPAGE}#voyages`}
             onClick={handleHomeSearch}
           >
             <img src={voyageIcon} alt="Search by Vessels" style={{ opacity: 0.65 }} />
