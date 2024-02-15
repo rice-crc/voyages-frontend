@@ -95,7 +95,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
                 fontWeight: 600,
               }}
             >
-              {inputSearchValue && currentEnslaversPage !== 1 && <GlobalSearchButton />}
+              {inputSearchValue && <GlobalSearchButton />}
             </Typography>
           </Typography>
           <CanscandingMenuMobile />

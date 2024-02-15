@@ -46,6 +46,9 @@ function Scatter() {
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
@@ -84,6 +87,9 @@ function Scatter() {
     cachename: 'voyage_xyscatter',
     filter: filtersObj?.[0]?.searchTerm?.length > 0 ? filtersObj : [],
   };
+  if (inputSearchValue) {
+    dataSend['global_search'] = inputSearchValue
+  }
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
   useEffect(() => {
     VoyageScatterOptions();

@@ -155,13 +155,7 @@ const Tables: React.FC = () => {
             op: "in"
         });
     }
-    // else if (inputSearchValue) {
-    //     filters.push({
-    //         varName: 'global_search',
-    //         searchTerm: [inputSearchValue],
-    //         op: "gte"
-    //     });
-    // }
+
     else {
         filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
     }

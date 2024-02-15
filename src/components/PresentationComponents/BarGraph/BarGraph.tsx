@@ -42,7 +42,9 @@ function BarGraph() {
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
@@ -79,6 +81,10 @@ function BarGraph() {
     cachename: 'voyage_bar_and_donut_charts',
     filter: filtersObj?.[0]?.searchTerm?.length > 0 ? filtersObj : [],
   };
+  if (inputSearchValue) {
+    dataSend['global_search'] = inputSearchValue
+  }
+
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
   useEffect(() => {
     VoyageBargraphOptions();

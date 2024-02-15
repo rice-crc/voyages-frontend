@@ -189,6 +189,9 @@ const PivotTables = () => {
     limit: rowsPerPage,
     filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
   }
+  if (inputSearchValue) {
+    dataSend['global_search'] = inputSearchValue
+  }
 
   const fetchData = async () => {
 
