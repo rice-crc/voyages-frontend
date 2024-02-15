@@ -80,7 +80,6 @@ const Tables: React.FC = () => {
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
     );
-    console.log({ inputSearchValue })
 
     const { isChangeGeoTree } = useSelector(
         (state: RootState) => state.getGeoTreeData
@@ -175,7 +174,6 @@ const Tables: React.FC = () => {
     if (inputSearchValue) {
         dataSend['global_search'] = inputSearchValue
     }
-    console.log({ dataSend })
 
     useEffect(() => {
         let subscribed = true;
