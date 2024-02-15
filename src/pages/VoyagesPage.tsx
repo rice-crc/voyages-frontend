@@ -144,7 +144,7 @@ const VoyagesPage = () => {
       {currentPage === 5 && currentVoyageBlockName === 'table' && (
         <PivotTables />
       )}
-      {currentPage === 6 && currentVoyageBlockName === 'map' && <VoyagesMaps />}
+      {currentPage === 6 && currentVoyageBlockName === 'map' && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
       {/* {currentPage === 7 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />} */}
     </motion.div>
   );
@@ -164,7 +164,6 @@ const VoyagesPage = () => {
           // top: currentPage === 1 ? -40 : !inputSearchValue ? topPosition - 80 : 0,
           // padding: currentPage !== 1 ? '30px' : '',
           top: !inputSearchValue ? topPosition - 80 : 0,
-          padding: 30,
         }}
       >
         <CollectionTabVoyages />

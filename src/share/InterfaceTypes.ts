@@ -1,3 +1,5 @@
+import { CheckboxValueType } from "antd/es/checkbox/Group";
+
 export interface Flatlabel {
     key: string;
     label: string;
@@ -65,7 +67,7 @@ export interface IRootFilterTableObject {
 
 export interface Filter {
     varName: string
-    searchTerm: number[] | string[]
+    searchTerm: number[] | string[] | CheckboxValueType[]
     op: string
 }
 export interface RangeSliderStateProps {
@@ -262,7 +264,7 @@ export interface TableListPropsRequest {
     filter: Filter[]
     page?: number
     page_size?: number
-    global_search?: string[]
+    global_search?: string
     order_by?: string[]
 }
 export interface MapPropsRequest {
@@ -317,6 +319,7 @@ export interface PivotTablesPropsRequest {
     filter: Filter[]
     order_by?: [string]
 }
+
 export interface MedatadataProps {
     offset: number
     limit: number
@@ -329,6 +332,7 @@ export interface PivotTablesProps {
     column_vars: string[]
     cell_vars: string
 }
+
 export interface VoyagesPivotOptionsProps {
     row_vars: PivotRowVar[]
     column_vars: PivotColumnVar[]
@@ -457,4 +461,72 @@ export interface RenderRowProps {
     data: React.ReactNode[];
     index: number;
     style: React.CSSProperties;
+}
+
+export interface EstimateTablesPropsRequest {
+    cols?: string[]
+    rows: string[]
+    binsize: number
+    agg_fn: string
+    vals?: string[]
+    mode: string
+    filter: Filter[]
+}
+export interface EstimateTablesProps {
+    row_vars: EstimateRowVar[]
+    column_vars: EstimateColumnVar[]
+    cell_vars: EstimateCellVar[]
+}
+
+export interface EstimateOptionProps {
+    rows: string[]
+    binsize: number | null
+    rows_label: string
+    label: string
+    column_vars: string[]
+    cell_vars: string[]
+}
+export interface EstimateRowVar {
+    rows: string[]
+    binsize?: number
+    rows_label: string
+    label: string
+}
+
+
+export interface EstimateColumnVar {
+    cols: string[]
+    label: string
+}
+
+export interface EstimateCellVar {
+    vals: string[]
+    label: string
+}
+
+export interface InitialStateDataEstimateAssesment {
+    selectedFlags: CheckboxValueType[]
+    currentSliderValue: number[]
+    changeFlag: boolean
+    checkedListEmbarkation: Record<string, CheckboxValueType[]>
+    checkedListDisEmbarkation: Record<string, CheckboxValueType[]>
+}
+
+
+
+export interface CheckboxGroupItem {
+    label: string;
+    plainOptions: string[];
+    setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[]>> | ((list: CheckboxValueType[]) => void);
+    checkedList: CheckboxValueType[];
+    show: boolean;
+    varName: string
+
+}
+export interface ListRegionsProps {
+    label: string
+    show: boolean
+    varName: string
+    checkName: string,
+    options: string[]
 }

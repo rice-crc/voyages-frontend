@@ -12,7 +12,7 @@ import { setVariableNameIdURL } from '@/redux/getFilterSlice';
 import { ENSLAVEDNODE, ENSLAVERSNODE, VOYAGESTYPE } from '@/share/CONST_DATA';
 import { LeafletMapURL } from './LeafletMapURL';
 
-function MAPS() {
+function VoyagesMaps() {
   const dispatch: AppDispatch = useDispatch();
   const [zoomLevel, setZoomLevel] = useState<number>(3);
   const mapRef = useRef(null);
@@ -63,4 +63,4 @@ function MAPS() {
   );
 }
 
-export default MAPS;
+export default VoyagesMaps;

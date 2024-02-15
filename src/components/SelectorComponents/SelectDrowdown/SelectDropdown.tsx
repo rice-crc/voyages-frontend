@@ -76,15 +76,16 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   const isDisabledY = (option: PlotXYVar) => {
     return option.var_name === selectedOptions.x_vars;
   };
-  const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
+
   return (
     <>
-      <Box sx={{ maxWidth, my: 4 }} style={{ marginTop: topPosition }}>
+      <Box sx={{ maxWidth, my: 4 }} >
         <FormControl fullWidth>
           <InputLabel id="x-field-label">{XFieldText}</InputLabel>
           <Select
             sx={{
-              height: 42,
+              height: 36,
+              fontSize: '0.95rem'
             }}
             MenuProps={{
               disableScrollLock: true,
@@ -100,7 +101,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
             labelId="x-field-label"
             id="x-field-select"
             value={selectedOptions.x_vars}
-            label={XFieldText}
+            label={<span style={{ fontSize: '0.85rem' }}>{XFieldText}</span>}
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, 'x_vars');
               const selectedOption = selectedX.find(option => option.var_name === event.target.value);
@@ -176,7 +177,8 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
             <InputLabel id="demo-simple-select-label">{YFieldText}</InputLabel>
             <Select
               sx={{
-                height: 42,
+                height: 36,
+                fontSize: '0.95rem'
               }}
               MenuProps={{
                 PaperProps: {

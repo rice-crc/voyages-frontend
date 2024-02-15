@@ -59,23 +59,23 @@
   height: 50%;
 
   @include breakpoint-standard(0) {
-    margin-top: 40%;
+    // margin-top: 40%;
   }
 
   @include breakpoint-standard(1) {
-    margin-top: 40%;
+    // margin-top: 40%;
   }
 
   @include breakpoint-standard(2) {
-    margin-top: 40%;
+    // margin-top: 40%;
   }
 
   @include breakpoint-standard(3) {
-    margin-top: 40%;
+    // margin-top: 40%;
   }
 
   @include breakpoint-standard(4) {
-    margin-top: 22%;
+    // margin-top: 22%;
   }
 }
 
@@ -282,6 +282,39 @@ div .customHeaderLabelSummaryTable {
   }
 }
 
+.estimate-table-flex-item {
+  margin-top: 10px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  width: 24%;
+
+  @include breakpoint-standard(0) {
+    width: 100%;
+    padding: 10px;
+  }
+
+  @include breakpoint-standard(1) {
+    width: 100%;
+    padding: 10px;
+  }
+
+  @include breakpoint-standard(2) {
+    width: 100%;
+    padding: 10px;
+  }
+
+  @include breakpoint-standard(3) {
+    width: 100%;
+    padding: 10px;
+  }
+
+  @include breakpoint-standard(4) {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
 .aggregation-export {
   display: flex;
   justify-content: space-between;
@@ -359,6 +392,7 @@ div .customHeaderLabelSummaryTable {
     cursor: pointer;
     box-shadow: #17a2b8 1px 2px 6px;
 
+
     @include breakpoint-standard(0) {
       font-size: 10px;
 
@@ -429,54 +463,109 @@ div .customHeaderLabelSummaryTable {
   }
 }
 
+.button-export-csv-estimate {
+  >button {
+    border-radius: 4px;
+    padding: 4px;
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    cursor: pointer;
+    box-shadow: #17a2b8 1px 2px 6px;
+    height: 34px;
+
+    @include breakpoint-standard(0) {
+      font-size: 10px;
+
+    }
+
+    @include breakpoint-standard(1) {
+      font-size: 10px;
+
+    }
+
+    @include breakpoint-standard(1.1) {
+      font-size: 10px;
+
+    }
+
+    @include breakpoint-standard(2) {
+      font-size: 11px;
+
+    }
+
+    @include breakpoint-standard(3) {
+      font-size: 12px;
+
+    }
+
+  }
+}
+
 .mobile-responsive {
   position: relative;
+  padding: 30px 120px 0 30px;
+  margin-top: 100px;
 
   @include breakpoint-standard(0) {
     top: 70px;
+    padding: 30px 30px 0 30px;
+    margin-top: 80px;
   }
 
   @include breakpoint-standard(1) {
     top: 70px;
+    padding: 30px 30px 0 30px;
+    margin-top: 80px;
   }
 
   @include breakpoint-standard(1.1) {
     top: 70px;
+    padding: 30px 30px 0 30px;
+    margin-top: 80px;
   }
 
   @include breakpoint-standard(2) {
     top: -30px;
+    padding: 30px 30px 0 30px;
+    margin-top: 76px;
   }
 
   @include breakpoint-standard(3) {
-    top: -20px;
+    padding: 70px 30px 0 30px;
+    margin-top: 110px;
+  }
+
+  @include breakpoint-standard(4) {
+    padding: 70px 30px 0 30px;
+    margin-top: 100px;
   }
 
 }
 
 .mobile-responsive-map {
   @include breakpoint-standard(0) {
-    margin-top: 80px !important
+    margin-top: 80px !important;
   }
 
   @include breakpoint-standard(1) {
-    margin-top: 80px !important
+    margin-top: 80px !important;
   }
 
   @include breakpoint-standard(1.1) {
-    margin-top: 80px !important
+    margin-top: 80px !important;
   }
 
   @include breakpoint-standard(2) {
-    margin-top: 80px !important
+    margin-top: 80px !important;
   }
 
   @include breakpoint-standard(3) {
-    margin-top: 60px !important
+    margin-top: 60px !important;
   }
 
   @include breakpoint-standard(4) {
-    margin-top: 60px !important
+    margin-top: 60px !important;
   }
 }
 
@@ -507,4 +596,50 @@ div .customHeaderLabelSummaryTable {
   @include breakpoint-standard(4) {
     padding-top: 60px !important
   }
+}
+
+
+.mobile-enslaved {
+  position: relative;
+  padding: 30px 120px 0 30px;
+
+  @include breakpoint-standard(0) {
+    top: 70px;
+    padding: 30px 30px 0 30px;
+
+  }
+
+  @include breakpoint-standard(1) {
+    top: 70px;
+    padding: 30px 30px 0 30px;
+
+  }
+
+  @include breakpoint-standard(1.1) {
+    top: 70px;
+    padding: 30px 30px 0 30px;
+
+  }
+
+  @include breakpoint-standard(2) {
+    top: -30px;
+    padding: 30px 30px 0 30px;
+    margin-top: 76px;
+  }
+
+  @include breakpoint-standard(3) {
+    padding: 70px 30px 0 30px;
+
+  }
+
+  @include breakpoint-standard(4) {
+    padding: 70px 30px 0 30px;
+
+  }
+
+}
+
+.estimate-table-card {
+  margin: auto;
+  padding: auto;
 }

@@ -7,29 +7,31 @@ import {
 } from '@mui/material';
 import { FunctionComponent } from 'react';
 import {
-  PivotRowVar,
-  PivotColumnVar,
-  PivotCellVar,
-  PivotTablesProps,
+  EstimateRowVar,
+  EstimateColumnVar,
+  EstimateCellVar,
+  EstimateOptionProps,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
 
-interface SelectDropdownPivotableProps {
-  selectRowValue: PivotRowVar[];
-  selectColumnValue: PivotColumnVar[];
-  selectCellValue: PivotCellVar[];
-  selectedPivottablesOptions: PivotTablesProps;
-  handleChangeOptions: (event: SelectChangeEvent<string>, name: string, selectRowValue?: PivotRowVar[]) => void;
+interface SelectDropdownEstimateTableProps {
+  selectRowValue: EstimateRowVar[];
+  selectColumnValue: EstimateColumnVar[];
+  selectCellValue: EstimateCellVar[];
+  selectedPivottablesOptions: EstimateOptionProps;
+  handleChangeOptions: (event: SelectChangeEvent<string[]>, name: string, selectRowValue?: EstimateRowVar[]) => void;
+  handleButtonExportCSV: () => void
+  setMode: React.Dispatch<React.SetStateAction<string>>
 }
 
-export const SelectDropdownPivotable: FunctionComponent<
-  SelectDropdownPivotableProps
+export const SelectDropdownEstimateTable: FunctionComponent<
+  SelectDropdownEstimateTableProps
 > = ({
   selectRowValue,
   selectColumnValue,
   selectCellValue,
   selectedPivottablesOptions,
-  handleChangeOptions
+  handleChangeOptions, handleButtonExportCSV, setMode
 }) => {
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -45,7 +47,7 @@ export const SelectDropdownPivotable: FunctionComponent<
 
     return (
       <div className="pivot-table-flex-container">
-        <div className="pivot-table-flex-item">
+        <div className="estimate-table-flex-item">
           <FormControl fullWidth>
             <InputLabel id="rows-field-label">{'Rows'}</InputLabel>
             <Select
@@ -56,14 +58,14 @@ export const SelectDropdownPivotable: FunctionComponent<
               MenuProps={MenuProps}
               labelId="rows-field-label"
               id="rows-field-select"
-              value={selectedPivottablesOptions?.row_vars}
+              value={selectedPivottablesOptions?.rows}
               label={'Rows'}
-              onChange={(event: SelectChangeEvent<string>) => {
+              onChange={(event: SelectChangeEvent<string[]>) => {
                 handleChangeOptions(event, 'row_vars', selectRowValue);
               }}
               name="row_vars"
             >
-              {selectRowValue.map((option: PivotRowVar, index: number) => (
+              {selectRowValue.map((option: EstimateRowVar, index: number) => (
                 <MenuItem
                   key={`${option.label}-${index}`}
                   value={option.rows}
@@ -74,7 +76,7 @@ export const SelectDropdownPivotable: FunctionComponent<
             </Select>
           </FormControl>
         </div>
-        <div className="pivot-table-flex-item">
+        <div className="estimate-table-flex-item">
           <FormControl fullWidth>
             <InputLabel id="columns-field-label">{'Columns'}</InputLabel>
             <Select
@@ -85,18 +87,19 @@ export const SelectDropdownPivotable: FunctionComponent<
               MenuProps={MenuProps}
               labelId="columns-field-label"
               id="columns-field-select"
-              value={selectedPivottablesOptions?.column_vars as any}
+              value={selectedPivottablesOptions?.column_vars || []}
               label={'Column'}
-              onChange={(event: SelectChangeEvent<string>) => {
+              onChange={(event: SelectChangeEvent<string[]>) => {
                 handleChangeOptions(event, 'column_vars');
               }}
               name="column_vars"
             >
               {selectColumnValue.map((option: any, index: number) => {
+
                 return (
                   <MenuItem
                     key={`${option.label}-${index}`}
-                    value={option.columns}
+                    value={option.cols.cols}
                   >
                     {option.label}
                   </MenuItem>
@@ -105,7 +108,7 @@ export const SelectDropdownPivotable: FunctionComponent<
             </Select>
           </FormControl>
         </div>
-        <div className="pivot-table-flex-item">
+        <div className="estimate-table-flex-item">
           <FormControl fullWidth>
             <InputLabel id="cells-field-label">{'Cells'}</InputLabel>
             <Select
@@ -115,9 +118,9 @@ export const SelectDropdownPivotable: FunctionComponent<
               MenuProps={MenuProps}
               labelId="cells-field-label"
               id="cells-field-select"
-              value={selectedPivottablesOptions?.cell_vars}
+              value={selectedPivottablesOptions?.cell_vars || []}
               label={'Cells'}
-              onChange={(event: SelectChangeEvent<string>) => {
+              onChange={(event: SelectChangeEvent<string[]>) => {
                 handleChangeOptions(event, 'cell_vars');
               }}
               name="cell_vars"
@@ -125,13 +128,23 @@ export const SelectDropdownPivotable: FunctionComponent<
               {selectCellValue.map((option: any, index: number) => (
                 <MenuItem
                   key={`${option.label}-${index}`}
-                  value={option.value_field}
+                  value={option.vals}
                 >
                   {option.label}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
+        </div>
+        <div className="estimate-table-flex-item">
+          <div className="button-export-csv-estimate">
+            <button
+              onClick={handleButtonExportCSV}
+              onMouseLeave={() => setMode('html')}
+            >
+              Download Table
+            </button>
+          </div>
         </div>
       </div>
     );

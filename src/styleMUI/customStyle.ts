@@ -22,3 +22,4 @@ export const contentStyle: React.CSSProperties = {
   width: '30%',
   margin: '2%'
 };
+

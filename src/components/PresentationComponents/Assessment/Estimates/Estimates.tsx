@@ -1,29 +1,32 @@
-
-import { Divider } from "@mui/material";
-import EstimatesMap from "./EstimatesMap";
-import Flag from "./Flag";
-import Regions from "./Regions";
-import TablesEstimates from "./TablesEstimates";
-import TimeFrame from "./TimeFrame";
-import TimeLine from "./TimeLine";
-import QueryLink from "./QueryLink";
-
-
+import EstimatesNavBar from "./EstimatesNavBar";
+import EstimatesTabs from "./EstimatesTabs";
+import { Grid } from '@mui/material';
+import EstimateCollapse from "./EstimateCollapse";
+import ShowAllSelected from "./ShowAllSelected";
+import { useState } from "react";
 
 const Estimates = () => {
+    const [viewAll, setViewAll] = useState(false);
+
+    const handleViewAll = () => {
+        setViewAll(!viewAll);
+    };
+
     return (
-        <div>
-            Estimates
-            <TimeFrame />
-            <Flag />
-            <Regions />
-            <QueryLink />
-            <Divider />
-            <TablesEstimates />
-            <TimeLine />
-            <EstimatesMap />
-        </div>
-    )
+        <>
+            <EstimatesNavBar handleViewAll={handleViewAll} />
+            {viewAll && <div className="tab-container-estimate"><ShowAllSelected setViewAll={setViewAll} ariaExpanded={viewAll} /></div>}
+            <Grid container className={`tab-container-estimate${viewAll ? '-viewall' : ''}`} spacing={2}>
+                <Grid item md={3}>
+                    <EstimateCollapse />
+                </Grid>
+
+                <Grid item md={9}>
+                    <EstimatesTabs />
+                </Grid>
+            </Grid>
+        </>
+    );
 }
 
 export default Estimates;

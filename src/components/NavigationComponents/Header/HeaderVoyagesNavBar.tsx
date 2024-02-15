@@ -59,7 +59,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { currentPage, currentVoyageBlockName } = useSelector(
+  const { currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { value, textHeader, styleName, } = useSelector(
@@ -74,8 +74,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     [ALLVOYAGES]: `/${VOYAGESPAGE}${ALLVOYAGESPAGE}#${currentVoyageBlockName}`,
     [INTRAAMERICAN]: `/${VOYAGESPAGE}${INTRAAMERICANPAGE}#${currentVoyageBlockName}`,
     [TRANSATLANTIC]: `/${VOYAGESPAGE}${TRANSATLANTICPAGE}#${currentVoyageBlockName}`,
-    [VOYAGESTEXAS]: `/${VOYAGESPAGE}${VOYAGESTEXASPAGE}#${currentVoyageBlockName}`,
-
+    // [VOYAGESTEXAS]: `/${VOYAGESPAGE}${VOYAGESTEXASPAGE}#${currentVoyageBlockName}`,
   };
 
   const handleSelectDataset = (
@@ -90,6 +89,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
     dispatch(resetAll());
     const filters: Filter[] = [];
+    console.log({ styleName })
     if (styleName === VOYAGESTEXAS && currentVoyageBlockName === 'pie') {
       navigate(`/${VOYAGESPAGE}${VOYAGESTEXASPAGE}#voyages`);
     } else {

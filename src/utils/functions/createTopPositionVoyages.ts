@@ -17,7 +17,6 @@
 
 
 export const createTopPositionVoyages = (currentPage: number, value: string) => {
-
     let topPosition = 0;
     if (currentPage === 1 && value) {
         topPosition = 110;
