@@ -58,6 +58,7 @@ export interface IRootFilterObjectScatterRequest {
     agg_fn: string
     cachename: string
     filter: Filter[]
+    global_search?: string
 }
 export interface IRootFilterTableObject {
     filter: Filter[];
@@ -271,6 +272,7 @@ export interface MapPropsRequest {
     zoomlevel?: string
     filter?: Filter[]
     id?: string
+    global_search?: string
 }
 export interface TableColumnProps {
     header_label: string
@@ -318,6 +320,7 @@ export interface PivotTablesPropsRequest {
     limit: number
     filter: Filter[]
     order_by?: [string]
+    global_search?: string
 }
 
 export interface MedatadataProps {

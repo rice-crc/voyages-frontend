@@ -56,9 +56,7 @@ const EnslaversHomePage: React.FC = () => {
       <HeaderEnslaversNavBar />
       <div
         style={{
-          position: 'relative',
-          top: 45,
-          padding: '0 20px',
+          padding: '25px 20px',
         }}
         id="content-container"
       >

@@ -87,14 +87,11 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { currentEnslavedPage } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
   );
   const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
-  );
-  const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
   );
 
   useEffect(() => {
@@ -151,6 +148,10 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const dataSend: MapPropsRequest = {
     filter: [...(filterByVarName || []), ...filters]
   };
+  if (inputSearchValue) {
+    dataSend['global_search'] = inputSearchValue
+  }
+
 
   const fetchData = async (regionOrPlace: string) => {
     dataSend['zoomlevel'] = regionOrPlace,
