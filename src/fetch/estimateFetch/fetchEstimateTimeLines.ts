@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { EstimateTablesPropsRequest } from '@/share/InterfaceTypes';
+import { TimeLineGraphRequest } from '@/share/InterfaceTypes';
 
-export const fetchEstimateCrosstabsTables = createAsyncThunk(
-    'voyage/fetchEstimateCrosstabsTables',
-    async (dataSend?: EstimateTablesPropsRequest) => {
+export const fetchEstimateTimeLines = createAsyncThunk(
+    'voyage/fetchEstimateTimeLines',
+    async (dataSend?: TimeLineGraphRequest) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/assessment/crosstabs/`,
+                `${BASEURL}/assessment/timelines/`,
                 dataSend,
                 {
                     headers: {
@@ -19,7 +19,7 @@ export const fetchEstimateCrosstabsTables = createAsyncThunk(
             );
             return response;
         } catch (error) {
-            throw new Error('Failed to fetchEstimateCrosstabsTables data');
+            throw new Error('Failed to fetchEstimateTimeLines data');
         }
     }
 );

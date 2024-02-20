@@ -52,8 +52,8 @@ export const SelectDropdownEstimateTable: FunctionComponent<
             <InputLabel id="rows-field-label">{'Rows'}</InputLabel>
             <Select
               sx={{
-                height: 36,
-                fontSize: '0.95rem'
+                height: 26,
+                fontSize: '0.85rem'
               }}
               MenuProps={MenuProps}
               labelId="rows-field-label"
@@ -69,6 +69,9 @@ export const SelectDropdownEstimateTable: FunctionComponent<
                 <MenuItem
                   key={`${option.label}-${index}`}
                   value={option.rows}
+                  sx={{
+                    fontSize: '0.85rem'
+                  }}
                 >
                   {option.label}
                 </MenuItem>
@@ -81,8 +84,8 @@ export const SelectDropdownEstimateTable: FunctionComponent<
             <InputLabel id="columns-field-label">{'Columns'}</InputLabel>
             <Select
               sx={{
-                height: 36,
-                fontSize: '0.95rem'
+                height: 26,
+                fontSize: '0.85rem'
               }}
               MenuProps={MenuProps}
               labelId="columns-field-label"
@@ -100,6 +103,9 @@ export const SelectDropdownEstimateTable: FunctionComponent<
                   <MenuItem
                     key={`${option.label}-${index}`}
                     value={option.cols.cols}
+                    sx={{
+                      fontSize: '0.85rem'
+                    }}
                   >
                     {option.label}
                   </MenuItem>
@@ -113,7 +119,7 @@ export const SelectDropdownEstimateTable: FunctionComponent<
             <InputLabel id="cells-field-label">{'Cells'}</InputLabel>
             <Select
               sx={{
-                height: 36, fontSize: '0.95rem'
+                height: 26, fontSize: '0.85rem'
               }}
               MenuProps={MenuProps}
               labelId="cells-field-label"
@@ -129,6 +135,9 @@ export const SelectDropdownEstimateTable: FunctionComponent<
                 <MenuItem
                   key={`${option.label}-${index}`}
                   value={option.vals}
+                  sx={{
+                    fontSize: '0.85rem'
+                  }}
                 >
                   {option.label}
                 </MenuItem>

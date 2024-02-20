@@ -1,5 +1,5 @@
 .nav-header {
-    position: fixed;
+    // position: fixed;
     z-index: 1;
     width: 100%;
     color: white;
@@ -84,15 +84,13 @@
     color: white;
 }
 
-.tab-container-estimate,
-.tab-container-estimate-viewall {
-    // transition: padding 0.5s ease;
-    transition: all 0.5s, visibility 1s
+.tab-container-estimate {
+    padding: 1rem 3rem 0 3rem;
 }
 
-.tab-container-estimate {
-    padding: 6rem 3rem 0 3rem;
-
+.tab-container-estimate,
+.tab-container-estimate-viewall {
+    transition: all 0.5s, visibility 1s;
 }
 
 .tab-container-estimate-viewall {
@@ -104,7 +102,7 @@
     background: #008ca8;
     cursor: pointer;
     font-size: .85rem !important;
-    font-weight: 500;
+    font-weight: 400;
 
     .ant-collapse-item>.ant-collapse-header {
         color: white;
@@ -135,9 +133,10 @@
     margin-bottom: 0;
     list-style: none;
     font-size: .85rem;
-    padding: 0.5rem 1.5rem;
+    padding: 0.75rem 4.5rem;
     display: flex;
     justify-content: space-between;
+    background-color: #f8f9fa;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
     a {
@@ -218,11 +217,13 @@
 
 .estimate-table-container {
     overflow: hidden;
-    border: 1px solid rgb(194, 194, 194);
+    height: 100%;
 }
 
 .estimate-table {
     overflow-y: auto;
+    border-left: 1px solid rgb(194, 194, 194);
+    border-right: 1px solid rgb(194, 194, 194);
 }
 
 /* Hide scrollbar for webkit browsers (Chrome, Safari) */
@@ -231,7 +232,7 @@
 }
 
 .estimate-table::-webkit-scrollbar-thumb {
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, .05);
 }
 
 .time-frame-slider {
@@ -242,8 +243,10 @@
 
 .timeframe-input input {
     text-align: center;
-    border: 1px solid rgb(194, 194, 194);
-    border-radius: 6px;
+    border: 0.5px solid rgb(194, 194, 194);
+    border-radius: 4px;
+    height: 20px;
+    font-size: 0.85rem;
 }
 
 .deselec-btn {
@@ -297,4 +300,56 @@
 
 .regions-checkbox:hover .tooltip-box {
     display: block;
+}
+
+table.dataframe {
+    clear: both;
+    max-width: none;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #dee2e6;
+
+    tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, .05);
+        line-height: 16px;
+    }
+}
+
+#estimates-table th {
+    padding: 0 10px 0 5px;
+}
+
+.dataframe {
+    font-size: .8rem;
+    border: 1px solid black;
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+        color: #008ca8;
+        border-bottom: 2px solid #dee2e6;
+        padding: 0 5px 0 5px;
+    }
+
+    td {
+        padding: 0 5px 0 5px;
+    }
+}
+
+.tab-timeline-title {
+    color: #666;
+    font-size: .8rem;
+    font-weight: bold;
+}
+
+.panel-list-unshow {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.panel-list-unshow-show {
+    max-height: 10000px;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
 }

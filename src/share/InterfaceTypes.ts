@@ -533,3 +533,12 @@ export interface ListRegionsProps {
     checkName: string,
     options: string[]
 }
+
+export interface TimeLineResponse {
+    disembarked_slaves: number[]
+    embarked_slaves: number[]
+    year: number[]
+}
+export interface TimeLineGraphRequest {
+    filter?: Filter[]
+}

@@ -37,7 +37,7 @@ import {
 } from '@/share/InterfaceTypes';
 import { SelectDropdownPivotable } from '../../SelectorComponents/SelectDrowdown/SelectDropdownPivotable';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
-import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
+import { getRowHeightPivotTable } from '@/utils/functions/getRowHeightTable';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { CustomTablePagination } from '@/styleMUI';
 
@@ -361,14 +361,13 @@ const PivotTables = () => {
             </div>
           </span>
 
-
           <CustomTablePagination
             disablescrolllock={true.toString()}
             component="span"
             count={totalResultsCount}
             page={page}
             onPageChange={handleChangePage}
-            rowsPerPageOptions={[5, 8, 10, 15, 20, 25, 30, 45, 50, 100]}
+            rowsPerPageOptions={[8, 10, 15, 20, 25, 30, 45, 50, 100]}
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleChangeRowsPerPage}
 
@@ -382,7 +381,7 @@ const PivotTables = () => {
             animateRows={true}
             defaultColDef={defaultColDef}
             gridOptions={gridOptions}
-            getRowHeight={getRowHeightTable}
+            getRowHeight={getRowHeightPivotTable}
             paginationPageSize={rowsPerPage}
             components={components}
             getRowStyle={getRowRowStyle}

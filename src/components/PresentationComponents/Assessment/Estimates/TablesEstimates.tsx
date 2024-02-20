@@ -1,16 +1,11 @@
-import {
-    useState,
-    useEffect,
-    useCallback,
-    useRef,
-} from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import ESTIMATE_OPTIONS from '@/utils/flatfiles/estimates.json';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import ReactHtmlParser from 'html-react-parser';
+import '@/style/estimates.scss';
 
 import {
     EstimateCellVar,
@@ -29,29 +24,34 @@ import { setFilterObject } from '@/redux/getFilterSlice';
 
 const TablesEstimates = () => {
     const dispatch: AppDispatch = useDispatch();
-    const aggregation = 'sum'
-    const { currentSliderValue, changeFlag, checkedListEmbarkation, checkedListDisEmbarkation } = useSelector(
-        (state: RootState) => state.getEstimateAssessment
-    );
+    const aggregation = 'sum';
+    const {
+        currentSliderValue,
+        changeFlag,
+        checkedListEmbarkation,
+        checkedListDisEmbarkation,
+    } = useSelector((state: RootState) => state.getEstimateAssessment);
 
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { varName } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
 
+
     const [data, setData] = useState<string>('');
     const [rowVars, setSelectRowValues] = useState<EstimateRowVar[]>([]);
     const [columnVars, setSelectColumnValue] = useState<EstimateColumnVar[]>([]);
     const [cellVars, setSelectCellValue] = useState<EstimateCellVar[]>([]);
-    const [estimateValueOptions, setEstimateValueOptions] = useState<EstimateOptionProps>({
-        rows: ESTIMATE_OPTIONS.row_vars[0].rows,
-        binsize: ESTIMATE_OPTIONS.row_vars[0].binsize!,
-        rows_label: ESTIMATE_OPTIONS.row_vars[0].rows_label,
-        label: ESTIMATE_OPTIONS.row_vars[0].label,
-        column_vars: ESTIMATE_OPTIONS.column_vars[1].cols,
-        cell_vars: ESTIMATE_OPTIONS.cell_vars[0].vals
-    });
-    const [mode, setMode] = useState('html')
+    const [estimateValueOptions, setEstimateValueOptions] =
+        useState<EstimateOptionProps>({
+            rows: ESTIMATE_OPTIONS.row_vars[0].rows,
+            binsize: ESTIMATE_OPTIONS.row_vars[0].binsize!,
+            rows_label: ESTIMATE_OPTIONS.row_vars[0].rows_label,
+            label: ESTIMATE_OPTIONS.row_vars[0].label,
+            column_vars: ESTIMATE_OPTIONS.column_vars[1].cols,
+            cell_vars: ESTIMATE_OPTIONS.cell_vars[0].vals,
+        });
+    const [mode, setMode] = useState('html');
 
     const EstimateTableOptions = useCallback(() => {
         Object.entries(ESTIMATE_OPTIONS).forEach(([key, value]) => {
@@ -73,23 +73,23 @@ const TablesEstimates = () => {
                     label: item.label,
                 }));
                 setSelectColumnValue(estimateColumnVars);
-
             } else if (key === 'cell_vars' && Array.isArray(value)) {
-                const estimateCellVars: EstimateCellVar[] = (value as EstimateCellVar[]).map(
-                    (item: any) => ({
-                        vals: item.vals,
-                        label: item.label,
-                    })
-                );
+                const estimateCellVars: EstimateCellVar[] = (
+                    value as EstimateCellVar[]
+                ).map((item: any) => ({
+                    vals: item.vals,
+                    label: item.label,
+                }));
                 setSelectCellValue(estimateCellVars);
             }
         });
     }, []);
 
     const { rows, binsize, column_vars, cell_vars } = estimateValueOptions;
-    const onlyYearRows = rows.filter(row => row.startsWith("year_") && row.length > 5);
+    const onlyYearRows = rows.filter(
+        (row) => row.startsWith('year_') && row.length > 5
+    );
     const updatedRowsValue = rows.join('').replace(/_(\d+)$/, '');
-
 
     const dataSend: EstimateTablesPropsRequest = {
         cols: column_vars,
@@ -98,27 +98,24 @@ const TablesEstimates = () => {
         agg_fn: aggregation,
         vals: cell_vars,
         mode: mode,
-        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : []
+        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
     };
 
     const fetchData = async () => {
-
         try {
             const response = await dispatch(
                 fetchEstimateCrosstabsTables(dataSend)
             ).unwrap();
 
             if (response) {
-                setData(response.data.data)
+                setData(response.data.data);
             }
         } catch (error) {
             console.log('error', error);
-
         }
     };
 
     useEffect(() => {
-
         EstimateTableOptions();
         fetchData();
 
@@ -126,8 +123,7 @@ const TablesEstimates = () => {
         if (!storedValue) return;
         const parsedValue = JSON.parse(storedValue);
         const filter: Filter[] = parsedValue.filter;
-        dispatch(setFilterObject(filter))
-
+        dispatch(setFilterObject(filter));
     }, [
         estimateValueOptions,
         estimateValueOptions.rows,
@@ -135,9 +131,12 @@ const TablesEstimates = () => {
         estimateValueOptions.column_vars,
         estimateValueOptions.cell_vars,
         mode,
-        varName, currentSliderValue, changeFlag, checkedListEmbarkation, checkedListDisEmbarkation
+        varName,
+        currentSliderValue,
+        changeFlag,
+        checkedListEmbarkation,
+        checkedListDisEmbarkation,
     ]);
-
 
     const handleButtonExportCSV = useCallback(() => {
         // Get the table element
@@ -153,9 +152,9 @@ const TablesEstimates = () => {
 
         // Create CSV content
         const csvContent = rows
-            .map(row =>
+            .map((row) =>
                 Array.from(row.children)
-                    .map(cell => cell.textContent)
+                    .map((cell) => cell.textContent)
                     .join(',')
             )
             .join('\n');
@@ -178,7 +177,6 @@ const TablesEstimates = () => {
         setMode('csv');
     }, [mode]);
 
-
     const handleChangeOptions = useCallback(
         (
             event: SelectChangeEvent<string[]>,
@@ -187,14 +185,16 @@ const TablesEstimates = () => {
         ) => {
             const value = event.target.value as string[];
             if (name === 'row_vars' && options) {
-                const selectedRow = options.find((row) => row.rows.join('') === value.join(''));
+                const selectedRow = options.find(
+                    (row) => row.rows.join('') === value.join('')
+                );
                 if (selectedRow) {
                     setEstimateValueOptions((prevVoyageOption) => ({
                         ...prevVoyageOption,
                         rows: selectedRow.rows,
                         binsize: selectedRow.binsize ?? null,
                         rows_label: selectedRow.rows_label ?? '',
-                        label: selectedRow.label ?? ''
+                        label: selectedRow.label ?? '',
                     }));
                 }
             } else {
@@ -207,7 +207,6 @@ const TablesEstimates = () => {
         [setEstimateValueOptions]
     );
 
-
     return (
         <div className="estimate-table-card">
             <SelectDropdownEstimateTable
@@ -219,9 +218,9 @@ const TablesEstimates = () => {
                 handleButtonExportCSV={handleButtonExportCSV}
                 setMode={setMode}
             />
-            <div className='estimate-table-container'>
-                <div className='estimate-table'>
-                    {data ? ReactHtmlParser(data) : null}
+            <div className="estimate-table-container">
+                <div className="estimate-table" >
+                    <div dangerouslySetInnerHTML={{ __html: data ?? null }} />
                 </div>
             </div>
         </div>

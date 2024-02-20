@@ -14,6 +14,7 @@ import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
 import { Dispatch } from '@reduxjs/toolkit';
 import TablesEstimates from './TablesEstimates';
 import TimeLineGraph from './TimeLineGraph';
+import TimeLineGraphTest from './TimeLineGraphTest';
 
 const EstimatesTabs = () => {
     const dispatch: Dispatch = useDispatch();
@@ -35,7 +36,8 @@ const EstimatesTabs = () => {
         {
             key: 'timeline',
             label: 'Timeline',
-            children: <Box sx={styleCardEstimate} >  <TimeLineGraph /> </Box>,
+            // children: <Box sx={styleCardEstimate} >  <TimeLineGraph /> </Box>,
+            children: <Box sx={styleCardEstimate} >  <TimeLineGraphTest /> </Box>,
         },
         {
             key: 'maps',

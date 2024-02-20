@@ -289,6 +289,10 @@ div .customHeaderLabelSummaryTable {
   text-align: center;
   width: 24%;
 
+  label {
+    font-size: 0.85rem;
+  }
+
   @include breakpoint-standard(0) {
     width: 100%;
     padding: 10px;
@@ -472,7 +476,8 @@ div .customHeaderLabelSummaryTable {
     border-color: #17a2b8;
     cursor: pointer;
     box-shadow: #17a2b8 1px 2px 6px;
-    height: 34px;
+    height: 26px;
+    width: 140px;
 
     @include breakpoint-standard(0) {
       font-size: 10px;
