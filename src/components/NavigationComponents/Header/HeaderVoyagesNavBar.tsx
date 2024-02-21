@@ -25,6 +25,7 @@ import {
   getColorNavbarBackground,
   getTextColor,
   getColorBoxShadow,
+  getColorBTNVoyageDatasetBackground,
 } from '@/utils/functions/getColorStyle';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
@@ -229,12 +230,12 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 paddingRight: 40,
                 fontWeight: 600,
                 fontSize: 20,
+
               },
             }}
           >
             <Box
               className="menu-nav-bar-select"
-              style={{ color: getTextColor(styleName) }}
             >
               Select dataset
             </Box>
@@ -246,7 +247,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                   index={index}
                   handleSelectDataset={handleSelectDataset}
                   getColorBoxShadow={getColorBoxShadow}
-                  getColorBTNBackground={getColorBackground}
+                  getColorBTNBackground={getColorBTNVoyageDatasetBackground}
                   getColorHover={getColorHoverBackground}
                 />
               );

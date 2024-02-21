@@ -3,16 +3,17 @@ import '@/style/landing.scss';
 import TRANSATLANTICIMG from '@/assets/transAtlantic.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
-import { TRANSATLANTICPAGE, VOYAGESPAGE, TRANSATLANTIC } from '@/share/CONST_DATA';
+import { TRANSATLANTICPAGE, VOYAGESPAGE, TRANSATLANTIC, CONTRIBUTE } from '@/share/CONST_DATA';
 const TransAtlantic: React.FC = () => {
     const lists = [
-        'About',
-        'Database',
-        'Estimates',
-        'Essays',
-        'Downloads',
-        'Contribute',
+        { name: 'About', url: '/' },
+        { name: 'Database', url: '/' },
+        { name: 'Estimates', url: '/assessment/estimates/' },
+        { name: 'Essays', url: '/' },
+        { name: 'Downloads', url: '/' },
+        { name: 'Contribute', url: `${CONTRIBUTE}/` },
     ];
+
     return (
         <div className="container-african">
             <div className="african-content">

@@ -149,22 +149,25 @@ const Tables: React.FC = () => {
     let filters: Filter[] = [];
 
     if (styleNameRoute === 'trans-atlantic') {
-        filters.push({
-            varName: "dataset",
-            searchTerm: [0],
-            op: "in"
-        });
-    }
-
-    else {
+        if (filtersObj[0]?.searchTerm?.length > 0) {
+            filters = filtersObj
+        } else {
+            filters.push({
+                varName: "dataset",
+                searchTerm: [0],
+                op: "in"
+            });
+        }
+    } else {
         filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
     }
 
     const dataSend: TableListPropsRequest = {
-        filter: filters,
+        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters,
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
+
     if (inputSearchValue) {
         dataSend['global_search'] = inputSearchValue
     }
@@ -341,27 +344,15 @@ const Tables: React.FC = () => {
         []
     );
 
-    let topPositionPage = 0;
-    if (checkPagesRouteForVoyages(styleNameRoute!)) {
-        topPositionPage = createTopPositionVoyages(currentPage, inputSearchValue!);
-    } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-        topPositionPage = createTopPositionEnslavedPage(
-            currentEnslavedPage,
-            inputSearchValue!
-        );
-    } else {
-        topPositionPage = createTopPositionEnslaversPage(
-            currentEnslaversPage,
-            inputSearchValue!
-        );
-    }
+
     const pageCount = Math.ceil(
         totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
     );
 
     const className = crateClassName(styleNameRoute!)
+
     return (
-        <div className={className} >
+        <div className={className}  >
             <div className="ag-theme-alpine grid-container">
                 <span className="tableContainer">
                     <ButtonDropdownColumnSelector />

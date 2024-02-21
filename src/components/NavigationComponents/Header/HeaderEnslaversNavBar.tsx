@@ -20,7 +20,6 @@ const HeaderEnslaversNavBar: React.FC = () => {
     (state: RootState) => state.getScrollEnslaversPage
   );
 
-  const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
@@ -50,11 +49,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
     >
       <AppBar
         component="nav"
-        style={{
-          backgroundColor: '#3f967d',
-          fontSize: 12,
-          boxShadow: 'none',
-        }}
+        className='nav-enslavers'
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography

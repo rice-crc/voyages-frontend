@@ -48,10 +48,9 @@ export const getDataSetCollectionSlice = createSlice({
                 state.blocks,
                 state.styleName = ''
         },
-        resetAllStateSlice: (state) => initialState,
     },
 });
 
-export const { setBaseFilterDataSetValue, setTableVoyagesFlatfile, setVoyagesFilterMenuFlatfile, resetAllStateSlice, resetSlice, setBlocksMenuList, setDataSetHeader, setTextIntro, setStyleName } = getDataSetCollectionSlice.actions;
+export const { setBaseFilterDataSetValue, setTableVoyagesFlatfile, setVoyagesFilterMenuFlatfile, resetSlice, setBlocksMenuList, setDataSetHeader, setTextIntro, setStyleName } = getDataSetCollectionSlice.actions;
 
 export default getDataSetCollectionSlice.reducer;

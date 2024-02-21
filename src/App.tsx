@@ -146,15 +146,15 @@ const App: React.FC = () => {
             element={<Estimates />}
           />
           <Route
-            path={`${ASSESSMENT}/${CONTRIBUTE}/`}
+            path={`${CONTRIBUTE}/`}
             element={<Contribute />}
           />
           <Route
-            path={`${ASSESSMENT}/${LESSONPLANS}/`}
+            path={`${LESSONPLANS}/`}
             element={<LessonPlans />}
           />
           <Route
-            path={`${ASSESSMENT}/${INTRODUCTORYMAPS}/`}
+            path={`${INTRODUCTORYMAPS}/`}
             element={<IntroductoryMaps />}
           />
           <Route

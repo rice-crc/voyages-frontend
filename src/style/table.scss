@@ -162,6 +162,14 @@ div .customHeaderLabelSummaryTable {
   justify-content: flex-end;
   align-items: center;
   padding: 10px 0;
+
+  nav>ul>li>button:hover {
+    background-color: rgb(2 83 204);
+  }
+
+  nav>ul>li>button:active {
+    background-color: rgb(2 83 204) !important;
+  }
 }
 
 .ag-theme-alpine .ag-row-hover {
@@ -391,10 +399,10 @@ div .customHeaderLabelSummaryTable {
     border-radius: 4px;
     padding: 4px;
     color: #fff;
-    background-color: #17a2b8;
-    border-color: #17a2b8;
+    background-color: #008ca8;
+    border-color: #008ca8;
     cursor: pointer;
-    box-shadow: #17a2b8 1px 2px 6px;
+    box-shadow: #34dbfc 1px 2px 6px;
 
 
     @include breakpoint-standard(0) {
@@ -434,10 +442,10 @@ div .customHeaderLabelSummaryTable {
     border-radius: 4px;
     padding: 4px;
     color: #fff;
-    background-color: #17a2b8;
-    border-color: #17a2b8;
+    background-color: #008ca8;
+    border-color: #008ca8;
     cursor: pointer;
-    box-shadow: #17a2b8 1px 2px 6px;
+    box-shadow: #008ca8 1px 2px 6px;
 
     @include breakpoint-standard(0) {
       font-size: 10px;
@@ -472,10 +480,13 @@ div .customHeaderLabelSummaryTable {
     border-radius: 4px;
     padding: 4px;
     color: #fff;
-    background-color: #17a2b8;
-    border-color: #17a2b8;
+    // background-color: #17a2b8;
+    // border-color: #17a2b8;
+    background-color: rgb(25, 118, 210);
+    border-color: rgb(25, 118, 210);
     cursor: pointer;
-    box-shadow: #17a2b8 1px 2px 6px;
+    // box-shadow: #17a2b8 1px 2px 6px;
+    box-shadow: rgb(25, 118, 210) 1px 2px 6px;
     height: 26px;
     width: 140px;
 
@@ -510,7 +521,7 @@ div .customHeaderLabelSummaryTable {
 .mobile-responsive {
   position: relative;
   padding: 30px 120px 0 30px;
-  margin-top: 100px;
+  margin-top: 80px;
 
   @include breakpoint-standard(0) {
     top: 70px;

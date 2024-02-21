@@ -1,5 +1,5 @@
 import HeaderEnslaversNavBar from '@/components/NavigationComponents/Header/HeaderEnslaversNavBar';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CollectionTabEnslavers from '@/components/NavigationComponents/CollectionTab/CollectionTabEnslavers';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +20,7 @@ const EnslaversHomePage: React.FC = () => {
     (state: RootState) => state.getScrollEnslaversPage
   );
   const { currentBlockName } = usePageRouter();
+  const { filtersObj, isFilter } = useSelector((state: RootState) => state.getFilter)
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
@@ -52,7 +53,7 @@ const EnslaversHomePage: React.FC = () => {
 
 
   return (
-    <div id="enslavers-home-page">
+    <div id="enslavers-home-page" style={{ height: filtersObj?.length < 0 ? '100vh' : '100%' }}>
       <HeaderEnslaversNavBar />
       <div
         style={{

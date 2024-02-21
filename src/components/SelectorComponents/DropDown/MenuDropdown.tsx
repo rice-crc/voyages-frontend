@@ -11,7 +11,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
   const [maxTextLength, setMaxTextLength] = useState(0);
   const menuLists = [
     { name: 'Estimates', url: `${ASSESSMENT}/${ESTIMATES}/` },
-    { name: 'Contribute', url: `${ASSESSMENT}/${CONTRIBUTE}/` },
+    { name: 'Contribute', url: `${CONTRIBUTE}/` },
     { name: 'LESSON PLANS', url: `${BLOGPAGE}#lesson-plan` },
     { name: 'INTRODUCTORY MAPS', url: `${BLOGPAGE}#introductory-maps` },
     { name: 'TIMELAPSE', url: `https://www.slavevoyages.org/voyage/database#timelapse` },

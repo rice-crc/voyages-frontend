@@ -3,10 +3,15 @@ import '@/style/intra-american.scss';
 import INTRAMERCAN from '@/assets/Intra-American.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
-import { INTRAAMERICANPAGE, VOYAGESPAGE } from '@/share/CONST_DATA';
+import { CONTRIBUTE, INTRAAMERICANPAGE, VOYAGESPAGE } from '@/share/CONST_DATA';
 
 const IntraAmerican: React.FC = () => {
-    const lists = ['About', 'Database', 'Downloads', 'Contribute'];
+    const lists = [
+        { name: 'About', url: '/' },
+        { name: 'Database', url: '/' },
+        { name: 'Downloads', url: '/' },
+        { name: 'Contribute', url: `${CONTRIBUTE}/` },
+    ];
     return (
         <div className="container-intra-american">
             <div className="intra-american">

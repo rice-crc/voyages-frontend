@@ -145,7 +145,7 @@ const VoyagesPage = () => {
         <PivotTables />
       )}
       {currentPage === 6 && currentVoyageBlockName === 'map' && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
-      {/* {currentPage === 7 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />} */}
+      {currentPage === 7 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />}
     </motion.div>
   );
   const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);

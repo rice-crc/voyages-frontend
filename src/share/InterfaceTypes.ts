@@ -542,3 +542,23 @@ export interface TimeLineResponse {
 export interface TimeLineGraphRequest {
     filter?: Filter[]
 }
+
+export interface DataTimeLinesItem {
+    x: number;
+    y0: number;
+    y1: number;
+    [key: string]: number;
+}
+
+export interface LayerTimeLinesItem {
+    x: number;
+    y: number;
+    embarked: number;
+    disembarked: number;
+    y1: number;
+    y0: number;
+}
+export type EventsTimeLinesType = {
+    [key: string]: string;
+};
+

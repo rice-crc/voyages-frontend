@@ -110,3 +110,7 @@ export const DutchAmericasValue = 'Dutch Americas'
 export const FrenchCaribbeanValue = 'French Caribbean'
 export const MainlandNorthAmericaValue = 'Mainland North America'
 export const SpanishAmericasValue = 'Spanish Americas'
+
+
+export const Disembarked = 'Disembarked '
+export const Embarked = "Embarked"

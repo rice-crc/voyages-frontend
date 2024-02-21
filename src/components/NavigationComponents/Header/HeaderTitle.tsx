@@ -15,7 +15,7 @@ export const HeaderTitle = (props: HeaderTitleProps) => {
         onClick={onClickReset}
         style={{
           textDecoration: 'none',
-          color: textHeader ? '#000000' : '#ffffff',
+          color: '#ffffff',
         }}
       >
         {HeaderTitle}
