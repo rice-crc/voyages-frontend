@@ -3,15 +3,15 @@ import '@/style/landing.scss';
 import TRANSATLANTICIMG from '@/assets/transAtlantic.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
-import { TRANSATLANTICPAGE, VOYAGESPAGE, TRANSATLANTIC, CONTRIBUTE } from '@/share/CONST_DATA';
+import { TRANSATLANTICPAGE, VOYAGESPAGE, TRANSATLANTIC, CONTRIBUTE, ABOUTPAGE, ASSESSMENT, ESTIMATES, DOWNLOADS } from '@/share/CONST_DATA';
 const TransAtlantic: React.FC = () => {
     const lists = [
-        { name: 'About', url: '/' },
-        { name: 'Database', url: '/' },
-        { name: 'Estimates', url: '/assessment/estimates/' },
+        { name: 'About', url: `/${ABOUTPAGE}` },
+        { name: 'Database', url: `${VOYAGESPAGE}${TRANSATLANTICPAGE}#voyages` },
+        { name: 'Estimates', url: `/${ASSESSMENT}/${ESTIMATES}` },
         { name: 'Essays', url: '/' },
-        { name: 'Downloads', url: '/' },
-        { name: 'Contribute', url: `${CONTRIBUTE}/` },
+        { name: 'Downloads', url: `${DOWNLOADS}` },
+        { name: 'Contribute', url: `${CONTRIBUTE}` },
     ];
 
     return (

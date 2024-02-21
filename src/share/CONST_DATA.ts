@@ -95,7 +95,7 @@ export const GlobalSearchBlogType = 'blog'
 
 export const ASSESSMENT = 'assessment'
 export const ESTIMATES = 'estimates'
-export const CONTRIBUTE = 'contribute'
+export const CONTRIBUTE = 'contribute/'
 export const TIMELAPSE = 'timelapse'
 export const LESSONPLANS = 'lessonplans'
 export const INTRODUCTORYMAPS = 'introductorymaps'
@@ -112,5 +112,8 @@ export const MainlandNorthAmericaValue = 'Mainland North America'
 export const SpanishAmericasValue = 'Spanish Americas'
 
 
+
 export const Disembarked = 'Disembarked '
 export const Embarked = "Embarked"
+export const ABOUTPAGE = 'about'
+export const DOWNLOADS = '/voyage/downloads'

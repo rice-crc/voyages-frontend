@@ -43,7 +43,7 @@ export const GenerateCellTableRenderer = (
 
 
   if (Array.isArray(values)) {
-    const maxRowsToShow = 5;
+    const maxRowsToShow = 3;
     const style: CSSProperties = {
       backgroundColor: '#e5e5e5',
       borderRadius: '8px',
@@ -89,7 +89,7 @@ export const GenerateCellTableRenderer = (
 
       const remainingRows = values.slice(maxRowsToShow);
       return (
-        <div style={{ maxHeight: 155, overflowY: 'auto' }}>
+        <div style={{ maxHeight: 100, overflowY: 'auto' }}>
           {renderedValues}
           {remainingRows.length > 0 && (
             <div style={ellipsisStyle}>

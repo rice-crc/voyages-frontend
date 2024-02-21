@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import '@/style/estimates.scss';
 import { Disembarked, Embarked } from '@/share/CONST_DATA';
 
-const TimelineChart: React.FC<{ timeline: Record<string, [number, number]> }> = ({ timeline }) => {
+const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> = ({ timeline }) => {
     const dispatch: AppDispatch = useDispatch();
     const [dataTimeLines, setDataTimeLines] = useState<DataTimeLinesItem[]>([])
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);

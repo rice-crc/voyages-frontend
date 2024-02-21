@@ -15,6 +15,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 import TablesEstimates from './TablesEstimates';
 import TimeLineGraph from './TimeLineGraph';
 import TimeLineGraphTest from './TimeLineGraphTest';
+import { ASSESSMENT, ESTIMATES } from '@/share/CONST_DATA';
 
 const EstimatesTabs = () => {
     const dispatch: Dispatch = useDispatch();
@@ -23,8 +24,8 @@ const EstimatesTabs = () => {
 
     const onChange = (key: string) => {
         dispatch(setValueVariable(key))
-        dispatch(setCurrentBlockName(key))
-        navigate(`/assessment/estimates/#${(key).toLowerCase()}`)
+        dispatch(setCurrentBlockName(key)) // 
+        navigate(`/${ASSESSMENT}/${ESTIMATES}/#${(key).toLowerCase()}`)
     };
 
     const items: TabsProps['items'] = [

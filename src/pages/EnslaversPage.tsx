@@ -34,6 +34,8 @@ const EnslaversHomePage: React.FC = () => {
       dispatch(setCurrentBlockName(currentBlockName))
     }
   }, [currentBlockName]);
+  const getWindowHeight = () => window.innerHeight;
+  const windowHeight = getWindowHeight();
   const displayPage = (
     <motion.div
       initial={'initial'}
@@ -45,15 +47,13 @@ const EnslaversHomePage: React.FC = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-
-      {/* {currentEnslaversPage === 1 && currentBlockName === 'intro' && <EnslaversIntro />} */}
       {currentEnslaversPage === 1 && currentBlockName === 'table' && <Tables />}
     </motion.div>
   );
 
 
   return (
-    <div id="enslavers-home-page" style={{ height: filtersObj?.length < 0 ? '100vh' : '100%' }}>
+    <div id="enslavers-home-page" style={{ height: filtersObj?.length > 0 ? '100vh' : `${windowHeight}%` }}>
       <HeaderEnslaversNavBar />
       <div
         style={{
