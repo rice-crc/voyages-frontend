@@ -7,7 +7,6 @@ import { useState } from "react";
 
 const Estimates = () => {
     const [viewAll, setViewAll] = useState(false);
-
     const handleViewAll = () => {
         setViewAll(!viewAll);
     };

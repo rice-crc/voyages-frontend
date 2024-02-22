@@ -38,7 +38,7 @@ const CollectionTabVoyages = () => {
       <div className="navbar-wrapper">
         <nav className="nav-button">
           {blocks.map((page: string, index: number) => {
-            const newBlockName = page.replace(/\n/g, '');
+            const newBlockName = page.toLowerCase().replace(/\s/g, '');
             const buttonIndex = index + 1;
             return (
               <ButtonNav
@@ -50,7 +50,7 @@ const CollectionTabVoyages = () => {
                   boxShadow: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? getColorBoxShadow(styleName) : '',
                   color: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'white' : 'black',
                   fontWeight: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'bold' : 600,
-                  fontSize: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? '0.90rem' : '0.80rem',
+                  fontSize: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? '0.85rem' : '0.80rem',
                 }}
                 variant={currentPage === buttonIndex ? 'contained' : 'outlined'}
               >

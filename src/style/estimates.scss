@@ -377,3 +377,39 @@ table.dataframe {
     overflow: hidden;
     transition: max-height 0.5s ease;
 }
+
+.tab-title-timeline {
+    color: #666;
+    font-size: .8rem;
+    font-weight: bold;
+}
+
+.g_main {
+    cursor: pointer;
+    pointer-events: all;
+}
+
+svg {
+    font-family: "Helvetica Neue", Helvetica;
+}
+
+svg text {
+    fill: gray;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: gray;
+    stroke-width: 0.35px;
+}
+
+.x path {
+    stroke: transparent;
+}
+
+.vertical_line {
+    stroke: darkgreen;
+    stroke-width: 1px;
+    stroke-dasharray: 1 1;
+}

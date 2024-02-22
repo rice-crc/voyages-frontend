@@ -139,7 +139,7 @@ const TablesEstimates = () => {
     ]);
 
     const handleButtonExportCSV = useCallback(() => {
-        // Get the table element
+
         const table = document.querySelector('.estimate-table');
 
         if (!table) {

@@ -11,7 +11,6 @@ interface ButtonListsProps {
 }
 
 const ButtonLists: React.FC<ButtonListsProps> = ({ lists }) => {
-    console.log({ lists })
 
     return (
         <div className="list-btn">

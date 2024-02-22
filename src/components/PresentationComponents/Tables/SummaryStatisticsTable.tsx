@@ -97,7 +97,6 @@ const SummaryStatisticsTable = () => {
     const handleButtonExportCSV = useCallback(() => {
         (gridRef.current as AgGridReact<any>).api.exportDataAsCsv();
     }, []);
-
     return (
         <>
             <HeaderLogoSearch />

@@ -11,21 +11,21 @@ import VoyagesMaps from '@/components/PresentationComponents/Map/MAPS';
 import type { TabsProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
-import { Dispatch } from '@reduxjs/toolkit';
 import TablesEstimates from './TablesEstimates';
 import TimeLineGraph from './TimeLineGraph';
-import TimeLineGraphTest from './TimeLineGraphTest';
 import { ASSESSMENT, ESTIMATES } from '@/share/CONST_DATA';
+import { usePageRouter } from "@/hooks/usePageRouter";
+import { AppDispatch } from "@/redux/store";
 
 const EstimatesTabs = () => {
-    const dispatch: Dispatch = useDispatch();
-    const { variable } = useSelector((state: RootState) => state.getCardFlatObjectData);
     const navigate = useNavigate();
+    const { currentBlockName } = usePageRouter();
+    const dispatch: AppDispatch = useDispatch();
 
     const onChange = (key: string) => {
         dispatch(setValueVariable(key))
-        dispatch(setCurrentBlockName(key)) // 
-        navigate(`/${ASSESSMENT}/${ESTIMATES}/#${(key).toLowerCase()}`)
+        dispatch(setCurrentBlockName(key))
+        navigate(`/${ASSESSMENT}/${ESTIMATES}#${(key).toLowerCase()}`)
     };
 
     const items: TabsProps['items'] = [
@@ -37,8 +37,7 @@ const EstimatesTabs = () => {
         {
             key: 'timeline',
             label: 'Timeline',
-            // children: <Box sx={styleCardEstimate} >  <TimeLineGraph /> </Box>,
-            children: <Box sx={styleCardEstimate} >  <TimeLineGraphTest /> </Box>,
+            children: <Box sx={styleCardEstimate} >  <TimeLineGraph /> </Box>,
         },
         {
             key: 'maps',
@@ -48,7 +47,7 @@ const EstimatesTabs = () => {
     ];
     return (
         <div>
-            <Tabs defaultActiveKey={variable} items={items}
+            <Tabs defaultActiveKey={currentBlockName} items={items}
                 onChange={onChange}
                 type="card"
             />

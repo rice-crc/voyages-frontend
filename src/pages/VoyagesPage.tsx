@@ -110,11 +110,10 @@ const VoyagesPage = () => {
     } else if (currentBlockName === 'map') {
       dispatch(setCurrentPage(6));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    } else if (currentBlockName === 'summarystatistics') {
+      dispatch(setCurrentPage(7));
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }
-    // else if (currentBlockName === 'summarystatistics') {
-    //   dispatch(setCurrentPage(7));
-    //   dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    // }
   }, [
     styleVoyagesName,
     jsonDataVoyageCollection,

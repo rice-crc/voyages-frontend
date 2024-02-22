@@ -21,6 +21,7 @@ const TabsSelect = () => {
     const dispatch: Dispatch = useDispatch();
     const { variable } = useSelector((state: RootState) => state.getCardFlatObjectData);
     const navigate = useNavigate();
+    console.log({ variable })
 
     const onChange = (key: string) => {
         dispatch(setValueVariable(key))

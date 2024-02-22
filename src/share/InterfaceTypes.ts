@@ -543,6 +543,11 @@ export interface TimeLineGraphRequest {
     filter?: Filter[]
 }
 
+export interface CreateAQueryLinkRequest {
+    filter?: Filter[]
+}
+
+
 export interface DataTimeLinesItem {
     x: number;
     y0: number;
@@ -562,3 +567,9 @@ export type EventsTimeLinesType = {
     [key: string]: string;
 };
 
+export interface ElementTimeLine {
+    counter: number;
+    year: string;
+    label: string;
+    index: number;
+}
