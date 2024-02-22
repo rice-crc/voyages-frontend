@@ -659,3 +659,16 @@ div .customHeaderLabelSummaryTable {
   margin: auto;
   padding: auto;
 }
+
+.summary-table-container {
+  overflow: hidden;
+  height: 100%;
+  padding-top: 2rem;
+}
+
+.summary-table {
+  overflow-y: auto;
+  border-left: 1px solid rgb(194, 194, 194);
+  border-right: 1px solid rgb(194, 194, 194);
+  background-color: #fff;
+}

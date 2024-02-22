@@ -165,7 +165,7 @@ const TablesEstimates = () => {
         // Create a temporary link element to trigger the download
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = 'exported_data.csv';
+        link.download = 'estimates_table_data.csv';
 
         // Trigger the download
         document.body.appendChild(link);

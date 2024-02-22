@@ -573,3 +573,8 @@ export interface ElementTimeLine {
     label: string;
     index: number;
 }
+
+export interface SummaryStatisticsTableRequest {
+    mode: string
+    filter: Filter[]
+}
