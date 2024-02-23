@@ -13,7 +13,7 @@ import { resetSlice as resetPeopleEnslaversDataSetCollection } from './getPeople
 import { resetSlice as resetScroolVoyages, resetSliceCurrentPageAndDialog } from './getScrollPageSlice';
 import { resetSlice as resetScrollEnslaved } from './getScrollEnslavedPageSlice';
 import { resetAllStateSlice as resetEstimateAssesment } from './getEstimateAssessmentSlice';
-import { resetAllStateSlice as resetAllStateSliceDataVoyage } from './getDataSetCollectionSlice'
+import { resetSlice as resetAllStateSliceDataVoyage } from './getDataSetCollectionSlice'
 import { resetAllStateSlice as resetAllStateSliceDataEnslaved } from './getPeopleEnslavedDataSetCollectionSlice'
 import { resetAllStateSlice as resetAllStateSliceDataEnslavers } from './getPeopleEnslaversDataSetCollectionSlice'
 

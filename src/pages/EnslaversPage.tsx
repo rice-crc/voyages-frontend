@@ -1,5 +1,5 @@
 import HeaderEnslaversNavBar from '@/components/NavigationComponents/Header/HeaderEnslaversNavBar';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CollectionTabEnslavers from '@/components/NavigationComponents/CollectionTab/CollectionTabEnslavers';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +20,7 @@ const EnslaversHomePage: React.FC = () => {
     (state: RootState) => state.getScrollEnslaversPage
   );
   const { currentBlockName } = usePageRouter();
+  const { filtersObj, isFilter } = useSelector((state: RootState) => state.getFilter)
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
@@ -33,6 +34,8 @@ const EnslaversHomePage: React.FC = () => {
       dispatch(setCurrentBlockName(currentBlockName))
     }
   }, [currentBlockName]);
+  const getWindowHeight = () => window.innerHeight;
+  const windowHeight = getWindowHeight();
   const displayPage = (
     <motion.div
       initial={'initial'}
@@ -44,21 +47,17 @@ const EnslaversHomePage: React.FC = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-
-      {/* {currentEnslaversPage === 1 && currentBlockName === 'intro' && <EnslaversIntro />} */}
       {currentEnslaversPage === 1 && currentBlockName === 'table' && <Tables />}
     </motion.div>
   );
 
 
   return (
-    <div id="enslavers-home-page">
+    <div id="enslavers-home-page" style={{ height: filtersObj?.length > 0 ? '100vh' : `${windowHeight}%` }}>
       <HeaderEnslaversNavBar />
       <div
         style={{
-          position: 'relative',
-          top: 45,
-          padding: '0 20px',
+          padding: '25px 20px',
         }}
         id="content-container"
       >

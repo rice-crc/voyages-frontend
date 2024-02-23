@@ -1,9 +1,9 @@
 .nav-header {
-    position: fixed;
     z-index: 1;
     width: 100%;
     color: white;
-    background: #0c9ab1 !important;
+    // background-color: #0c9ab1;
+    background-color: rgb(25, 118, 210);
     padding: 0px 3rem;
     font-size: 1.2rem;
     font-weight: bold;
@@ -63,36 +63,38 @@
 }
 
 .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: #0c9ab1;
+    // color: #0c9ab1;
+    color: rgb(25, 118, 210);
     text-shadow: 0 0 0.25px currentcolor;
     font-size: 0.85rem;
 }
 
 .ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab-active,
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-tabs-card.ant-tabs-top>div>.ant-tabs-nav .ant-tabs-tab-active {
-    border: 1.5px solid #0c9ab1;
-    color: #0c9ab1;
+    // border: 1.5px solid #0c9ab1;
+    // color: #0c9ab1;
+    border: 1.5px solid rgb(25, 118, 210);
+    color: rgb(25, 118, 210)s;
     background: white;
 }
 
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-tabs-card>.ant-tabs-nav .ant-tabs-tab {
     margin: 0;
     padding: 8px 16px;
-    background: #0c9ab1;
+    // background-color: #0c9ab1;
+    background-color: rgb(25, 118, 210);
     border: 1px solid #f0f0f0;
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     color: white;
 }
 
-.tab-container-estimate,
-.tab-container-estimate-viewall {
-    // transition: padding 0.5s ease;
-    transition: all 0.5s, visibility 1s
+.tab-container-estimate {
+    padding: 1rem 3rem 0 3rem;
 }
 
-.tab-container-estimate {
-    padding: 6rem 3rem 0 3rem;
-
+.tab-container-estimate,
+.tab-container-estimate-viewall {
+    transition: all 0.5s, visibility 1s;
 }
 
 .tab-container-estimate-viewall {
@@ -101,10 +103,11 @@
 }
 
 .trans-card-header {
-    background: #008ca8;
+    // background: #008ca8;
+    background-color: rgb(25, 118, 210);
     cursor: pointer;
     font-size: .85rem !important;
-    font-weight: 500;
+    font-weight: 400;
 
     .ant-collapse-item>.ant-collapse-header {
         color: white;
@@ -135,9 +138,10 @@
     margin-bottom: 0;
     list-style: none;
     font-size: .85rem;
-    padding: 0.5rem 1.5rem;
+    padding: 0.75rem 4.5rem;
     display: flex;
     justify-content: space-between;
+    background-color: #f8f9fa;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
     a {
@@ -146,8 +150,11 @@
 }
 
 .btn-panel {
-    color: #0c9ab1;
-    border: 1px #0c9ab1 solid;
+    // color: #0c9ab1;
+    // border: 1px #0c9ab1 solid;
+    color: rgb(25, 118, 210);
+    border: 1px solid rgb(25, 118, 210);
+    border: rgb(25, 118, 210);
     border-radius: 3px;
     padding: 0 0.5rem 0 0.5rem;
     cursor: pointer;
@@ -190,6 +197,40 @@
 
 .reset-btn-estimate {
     padding-top: 12px;
+
+    .selected-all-btn {
+        color: #fff; // #008ca8;
+        background-color: rgb(25, 118, 210);
+        border: 1.5px solid rgb(25, 118, 210); //#008ca8;
+        margin-left: 8px;
+    }
+
+    .selected-all-btn:hover {
+        color: #fff !important;
+    }
+
+    .deselec-btn {
+        color: rgb(25, 118, 210); // #008ca8;
+        background-color: white;
+        border: 1.5px solid rgb(25, 118, 210); //#008ca8;
+        margin-left: 8px;
+    }
+
+    .deselec-btn:hover {
+        background-color: rgb(25, 118, 210); // #008ca8 !important;
+        border-color: rgb(25, 118, 210); // #008ca8 !important;
+        opacity: 1;
+        color: white !important;
+    }
+}
+
+.deselec-btn-hide {
+    color: rgb(25, 118, 210); // #008ca8;
+    background-color: white;
+    border: 1.5px solid rgb(25, 118, 210); //#008ca8;
+    margin-left: 8px;
+    position: relative;
+    left: 2.15rem;
 }
 
 .sidebar-label {
@@ -218,11 +259,13 @@
 
 .estimate-table-container {
     overflow: hidden;
-    border: 1px solid rgb(194, 194, 194);
+    height: 100%;
 }
 
 .estimate-table {
     overflow-y: auto;
+    border-left: 1px solid rgb(194, 194, 194);
+    border-right: 1px solid rgb(194, 194, 194);
 }
 
 /* Hide scrollbar for webkit browsers (Chrome, Safari) */
@@ -231,7 +274,7 @@
 }
 
 .estimate-table::-webkit-scrollbar-thumb {
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, .05);
 }
 
 .time-frame-slider {
@@ -242,32 +285,13 @@
 
 .timeframe-input input {
     text-align: center;
-    border: 1px solid rgb(194, 194, 194);
-    border-radius: 6px;
+    border: 0.5px solid rgb(194, 194, 194);
+    border-radius: 4px;
+    height: 20px;
+    font-size: 0.85rem;
 }
 
-.deselec-btn {
-    color: #008ca8;
-    background-color: white;
-    border: 1.5px solid #008ca8;
-    margin-left: 8px;
-}
 
-.deselec-btn-hide {
-    color: #008ca8;
-    background-color: white;
-    border: 1.5px solid #008ca8;
-    margin-left: 8px;
-    position: relative;
-    left: 2.15rem;
-}
-
-.deselec-btn:hover {
-    background-color: #008ca8 !important;
-    border-color: #008ca8 !important;
-    opacity: 1;
-    color: white !important;
-}
 
 .regions-checkbox {
     padding: 2px;
@@ -297,4 +321,93 @@
 
 .regions-checkbox:hover .tooltip-box {
     display: block;
+}
+
+table.dataframe {
+    clear: both;
+    max-width: none;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #dee2e6;
+
+    tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, .05);
+        line-height: 24px;
+    }
+}
+
+#estimates-table th {
+    padding: 0 10px 0 5px;
+}
+
+.dataframe {
+    font-size: .8rem;
+    border: 1px solid black;
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+        color: #008ca8;
+        border-bottom: 2px solid #dee2e6;
+        padding: 0 5px 0 5px;
+    }
+
+    td {
+        padding: 0 5px 0 5px;
+    }
+}
+
+.tab-timeline-title {
+    color: #666;
+    font-size: .8rem;
+    font-weight: bold;
+}
+
+.panel-list-unshow {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.panel-list-unshow-show {
+    max-height: 10000px;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.tab-title-timeline {
+    color: #666;
+    font-size: .8rem;
+    font-weight: bold;
+}
+
+.g_main {
+    cursor: pointer;
+    pointer-events: all;
+}
+
+svg {
+    font-family: "Helvetica Neue", Helvetica;
+}
+
+.svg-timeline-text {
+    fill: gray;
+}
+
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: gray;
+    stroke-width: 0.35px;
+}
+
+.x path {
+    stroke: transparent;
+}
+
+.vertical_line {
+    stroke: darkgreen;
+    stroke-width: 1px;
+    stroke-dasharray: 1 1;
 }

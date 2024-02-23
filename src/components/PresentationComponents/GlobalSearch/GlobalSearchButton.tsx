@@ -47,7 +47,7 @@ const GlobalSearchButton = () => {
   return (
     <span className="global-search-button">
       <span className="global-search-text">
-        Global Search Active: "{inputSearchValue}"
+        Global Search Active:  <strong>{`   ${inputSearchValue} `}</strong>
       </span>
       <span className="global-search-exit" onClick={handleExitGlobalSearch}>
         <ExitToAppIcon />

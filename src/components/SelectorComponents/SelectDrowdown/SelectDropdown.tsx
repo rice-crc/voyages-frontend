@@ -81,11 +81,12 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
     <>
       <Box sx={{ maxWidth, my: 4 }} >
         <FormControl fullWidth>
-          <InputLabel id="x-field-label">{XFieldText}</InputLabel>
+          <InputLabel id="x-field-label" style={{ color: '#fff' }}>{XFieldText}</InputLabel>
           <Select
             sx={{
               height: 36,
-              fontSize: '0.95rem'
+              fontSize: '0.95rem',
+              color: '#fff'
             }}
             MenuProps={{
               disableScrollLock: true,
@@ -127,7 +128,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
       {graphType !== 'PIE' ? (
         <Box sx={{ maxWidth, my: 2 }}>
           <FormControl fullWidth>
-            <InputLabel id="demo-multiple-chip-label">{YFieldText}</InputLabel>
+            <InputLabel id="demo-multiple-chip-label" style={{ color: '#fff' }}>{YFieldText}</InputLabel>
             <Select
               MenuProps={MenuProps}
               labelId="demo-multiple-chip-label"
@@ -151,6 +152,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                       style={{
                         margin: 2,
                         border: getBoderColor(styleName),
+                        color: '#fff'
                       }}
                       key={`${option}-${index}`}
                       label={optionsFlatY[index].label}
@@ -174,11 +176,12 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
       ) : (
         <Box sx={{ maxWidth, my: 2 }}>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">{YFieldText}</InputLabel>
+            <InputLabel id="demo-simple-select-label" style={{ color: '#fff' }}>{YFieldText}</InputLabel>
             <Select
               sx={{
                 height: 36,
-                fontSize: '0.95rem'
+                fontSize: '0.95rem',
+                color: '#fff'
               }}
               MenuProps={{
                 PaperProps: {

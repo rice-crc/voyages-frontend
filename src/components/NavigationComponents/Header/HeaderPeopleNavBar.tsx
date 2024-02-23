@@ -112,6 +112,7 @@ export default function HeaderPeopleNavBar() {
                 paddingRight: 40,
                 fontWeight: 600,
                 fontSize: 20,
+
               },
             }}
           >

@@ -63,7 +63,6 @@ const ShowAllSelected: FunctionComponent<ShowAllSelectedProps> = ({ setViewAll, 
                 <Button className="btn-panel deselec-btn-hide" onClick={() => setViewAll(false)}>
                     <i className="fa fa-times-circle" style={{ paddingRight: 5 }} aria-hidden="true"></i>Hide<div></div>
                 </Button>
-
             </div>
 
         </div>

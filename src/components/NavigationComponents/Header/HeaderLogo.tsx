@@ -1,5 +1,6 @@
 import { Box, CssBaseline, Typography, } from '@mui/material';
-import LOGOVoyages from '@/assets/sv-logo_v2.svg';
+import LOGOVoyagesPeople from '@/assets/sv-logo_v2.svg';
+import LOGOVoyages from '@/assets/sv-logo.png';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
@@ -25,9 +26,11 @@ import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import '@/style/Nav.scss';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 export default function HeaderLogo() {
   const dispatch: AppDispatch = useDispatch();
+  const { styleName } = usePageRouter()
   const onChangePath = () => {
     dispatch(resetAllStateToInitailState());
     dispatch(resetBlockNameAndPageName())
@@ -78,7 +81,7 @@ export default function HeaderLogo() {
         >
           <img
             className='logo-voyage'
-            src={LOGOVoyages}
+            src={styleName === 'PastHomePage' ? LOGOVoyagesPeople : LOGOVoyages}
             alt="voyage logo"
           />
         </Link>

@@ -1,66 +1,91 @@
-
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { summaryStatisticsData } from './mockData/summaryStatistics';
-import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
 import { useWindowSize } from '@react-hook/window-size';
-import { getMobileMaxHeightTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
-import CustomSummaryHeader from '@/components/NavigationComponents/Header/CustomSummaryHeader';
+import {
+    getMobileMaxHeightTable,
+    maxWidthSize,
+} from '@/utils/functions/maxWidthSize';
 import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-// "Summary\nstatistics" to add in flatfile JSON
-const SummaryStatisticsTable = () => {
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    CurrentPageInitialState,
+    RangeSliderState,
+    SummaryStatisticsTableRequest,
+} from '@/share/InterfaceTypes';
+import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummaryStatisticsTable';
+import '@/style/table.scss';
+import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 
-    const [rowData, setRowData] = useState<any[]>([]);
-    const gridRef = useRef<any>(null);
+const SummaryStatisticsTable = () => {
+    const dispatch: AppDispatch = useDispatch();
+
+    const [mode, setMode] = useState('html');
+    const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+    const [data, setData] = useState<string>('');
+    const { varName, isChange } = useSelector(
+        (state: RootState) => state.rangeSlider as RangeSliderState
+    );
+    const { isChangeAuto, autoLabelName } = useSelector(
+        (state: RootState) => state.autoCompleteList
+    );
+    const { inputSearchValue } = useSelector(
+        (state: RootState) => state.getCommonGlobalSearch
+    );
+    const { isChangeGeoTree } = useSelector(
+        (state: RootState) => state.getGeoTreeData
+    );
+
+    const { currentPage } = useSelector(
+        (state: RootState) => state.getScrollPage as CurrentPageInitialState
+    );
+
+
+    const { styleName } = useSelector(
+        (state: RootState) => state.getDataSetCollection
+    );
+
+    const dataSend: SummaryStatisticsTableRequest = {
+        mode: mode,
+        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
+    };
 
     useEffect(() => {
-        const formattedData = summaryStatisticsData.data.map((item) => ({
-            label: item[0],
-            value1: item[1].toLocaleString(),
-            value2: item[2].toLocaleString(),
-            value3: item[3].toLocaleString(),
-            value4: item[4].toLocaleString(),
-        }));
-        setRowData(formattedData);
-    }, []);
+        const fetchData = async () => {
+            try {
+                const response = await dispatch(
+                    fetchSummaryStatisticsTable(dataSend)
+                ).unwrap();
+                if (response) {
+                    const { data } = response;
+                    setData(data.data);
+                }
+            } catch (error) {
+                console.log('error', error);
+            }
+        };
 
-
-    const [columnDefs] = useState<any[]>([
-        { headerName: 'Summary Details', field: 'label', sorting: true, sort: 'desc', minWidth: 450 },
-        { headerName: 'Total captives', field: 'value1', sorting: true, sort: 'desc', minWidth: 200 },
-        { headerName: 'Total voyages', field: 'value2', sorting: true, sort: 'desc', minWidth: 200 },
-        { headerName: 'Average', field: 'value3', sorting: true, sort: 'desc', minWidth: 200 },
-        { headerName: 'Standard deviation', field: 'value4', sorting: true, sort: 'desc', minWidth: 200 },
+        fetchData();
+    }, [
+        varName,
+        inputSearchValue,
+        styleName,
+        isChange,
+        isChangeGeoTree,
+        isChangeAuto,
+        autoLabelName,
     ]);
 
-    const defaultColDef = useMemo(() => {
-        return {
-            width: 200,
-        };
-    }, []);
-
-
-    const gridOptions = useMemo(
-        () => ({
-            headerHeight: 40,
-            suppressHorizontalScroll: true,
-            onGridReady: (params: any) => {
-                const { columnApi } = params;
-                columnApi.autoSizeColumns();
-            },
-        }),
-        []
-    );
-    const percentageString = '95%'
+    const percentageString = '95%';
     const [width, height] = useWindowSize();
     const maxWidth = maxWidthSize(width);
 
     const [style, setStyle] = useState({
         width: percentageString,
         height: 400,
-        padding: '0 40px'
+        padding: '0 40px',
     });
 
     const containerStyle = useMemo(
@@ -68,68 +93,63 @@ const SummaryStatisticsTable = () => {
         [maxWidth, height]
     );
 
-
     useEffect(() => {
         setStyle({
             width: percentageString,
             height: getMobileMaxHeightTable(height / 1.2),
-            padding: '0 40px'
+            padding: '0 40px',
         });
     }, [width, height, maxWidth]);
 
-    const getRowRowStyle = useCallback(
-        () => ({
-            fontSize: 14,
-            fontWeight: 500,
-            color: '#000',
-            fontFamily: 'Arial,sans-serif',
-            paddingLeft: '10%',
-        }),
-        []
-    );
-    const components = useMemo(
-        () => ({
-            agColumnHeader: CustomSummaryHeader,
-        }),
-        []
-    );
-
     const handleButtonExportCSV = useCallback(() => {
-        (gridRef.current as AgGridReact<any>).api.exportDataAsCsv();
-    }, []);
+        const table = document.querySelector('.summary-table');
+
+        if (!table) {
+            console.error('Table element not found');
+            return;
+        }
+
+        const rows = Array.from(table.querySelectorAll('tr'));
+        const csvContent = rows
+            .map((row) =>
+                Array.from(row.children)
+                    .map((cell) => cell.textContent)
+                    .join(',')
+            )
+            .join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'summarystats_table_data.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        setMode('csv');
+    }, [mode]);
+
+    const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
 
     return (
         <>
             <HeaderLogoSearch />
-            <div className='summary-box'>
-                <div style={containerStyle} className="ag-theme-alpine" >
-                    <div style={style}
-                    >
+            <div className="summary-box">
+                <div style={containerStyle} className="ag-theme-alpine">
+                    <div style={style}>
                         <div className="button-export-csv-summary">
                             <button onClick={handleButtonExportCSV}>
                                 Download CSV Export file
                             </button>
                         </div>
-                        <AgGridReact
-                            ref={gridRef}
-                            rowData={rowData}
-                            gridOptions={gridOptions}
-                            getRowHeight={getRowHeightTable}
-                            columnDefs={columnDefs}
-                            suppressMenuHide={true}
-                            animateRows={true}
-                            defaultColDef={defaultColDef}
-                            components={components}
-                            getRowStyle={getRowRowStyle}
-                            enableBrowserTooltips={true}
-                            tooltipShowDelay={0}
-                            tooltipHideDelay={1000}
-                        />
+                        <div className="summary-table-container">
+                            <div className="summary-table">
+                                <div dangerouslySetInnerHTML={{ __html: data ?? null }} />
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
-
     );
 };
 

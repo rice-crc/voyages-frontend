@@ -110,11 +110,10 @@ const VoyagesPage = () => {
     } else if (currentBlockName === 'map') {
       dispatch(setCurrentPage(6));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    } else if (currentBlockName === 'summarystatistics') {
+      dispatch(setCurrentPage(7));
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }
-    // else if (currentBlockName === 'summarystatistics') {
-    //   dispatch(setCurrentPage(7));
-    //   dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    // }
   }, [
     styleVoyagesName,
     jsonDataVoyageCollection,
@@ -133,10 +132,6 @@ const VoyagesPage = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {/* {currentPage === 1 && currentVoyageBlockName === 'intro' && (
-        <VoyagesIntro />
-      )} */}
-
       {currentPage === 1 && currentVoyageBlockName === 'voyages' && <Tables />}
       {currentPage === 2 && currentVoyageBlockName === 'line' && <Scatter />}
       {currentPage === 3 && currentVoyageBlockName === 'bar' && <BarGraph />}
@@ -145,31 +140,30 @@ const VoyagesPage = () => {
         <PivotTables />
       )}
       {currentPage === 6 && currentVoyageBlockName === 'map' && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
-      {/* {currentPage === 7 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />} */}
+      {currentPage === 7 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />}
     </motion.div>
   );
   const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
   return (
-    <>
+    <div style={{
+      backgroundColor: getColorVoyagePageBackground(
+        styleVoyagesName!,
+        currentPage
+      ),
+    }}>
       <HeaderVoyagesNavBar />
       <div
         className="voyages-home-page"
         id="content-container"
         style={{
-          backgroundColor: getColorVoyagePageBackground(
-            styleVoyagesName!,
-            currentPage
-          ),
           position: 'relative',
-          // top: currentPage === 1 ? -40 : !inputSearchValue ? topPosition - 80 : 0,
-          // padding: currentPage !== 1 ? '30px' : '',
-          top: !inputSearchValue ? topPosition - 80 : 0,
+          top: inputSearchValue ? topPosition - 80 : 0,
         }}
       >
         <CollectionTabVoyages />
         <Grid id="content-container">{displayPage}</Grid>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -110,7 +110,7 @@ const ButtonDropdownColumnSelector = () => {
           <Button
             sx={{
               fontSize: 10,
-              backgroundColor: '#17a2b8',
+              backgroundColor: '#008ca8',
               fontWeight: 600,
               color: '#ffffff',
               width: { xs: 160, sm: 160 },

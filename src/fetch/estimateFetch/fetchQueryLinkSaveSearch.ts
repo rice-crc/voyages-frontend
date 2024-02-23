@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { EstimateTablesPropsRequest } from '@/share/InterfaceTypes';
+import { CreateAQueryLinkRequest } from '@/share/InterfaceTypes';
 
-export const fetchEstimateCrosstabsTables = createAsyncThunk(
-    'voyage/fetchEstimateCrosstabsTables',
-    async (dataSend?: EstimateTablesPropsRequest) => {
+export const fetchQueryLinkSaveSearch = createAsyncThunk(
+    'voyage/fetchQueryLinkSaveSearch',
+    async (dataSend?: CreateAQueryLinkRequest) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/assessment/crosstabs/`,
+                `${BASEURL}/assessment/permalink/`,
                 dataSend,
                 {
                     headers: {
@@ -19,7 +19,7 @@ export const fetchEstimateCrosstabsTables = createAsyncThunk(
             );
             return response;
         } catch (error) {
-            throw new Error('Failed to fetchEstimateCrosstabsTables data');
+            throw new Error('Failed to fetchQueryLinkSaveSearch data');
         }
     }
 );

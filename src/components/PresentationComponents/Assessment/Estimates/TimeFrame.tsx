@@ -143,7 +143,9 @@ const TimeFrame = () => {
                     </span>
                 </span>
                 <div className="text-description">Full extent of coverage by estimates is {min ?? defaultValue[0]} - {max ?? defaultValue[1]}.</div>
-                <Button className="deselec-btn" onClick={handleResetSlider}>Reset</Button>
+                <div className="reset-btn-estimate">
+                    <Button className="deselec-btn" onClick={handleResetSlider}  >Reset</Button>
+                </div>
             </div>
         </div>
     )

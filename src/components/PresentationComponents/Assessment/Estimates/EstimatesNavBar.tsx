@@ -5,10 +5,11 @@ import '@/style/Nav.scss';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import HeaderLogoEstimate from '@/components/NavigationComponents/Header/HeaderLogoEstimate';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { resetAll } from '@/redux/resetAllSlice';
+import ShowAllSelected from './ShowAllSelected';
 interface EstimatesNavBarProps {
     handleViewAll: () => void
 }
@@ -32,6 +33,7 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
             localStorage.removeItem(key);
         });
     }
+
     return (
         <div className="nav-header">
             <span className='header-logo-icon'>
@@ -63,6 +65,7 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
                     </a>
                 </div>
             </div>
+
         </div>
     )
 }

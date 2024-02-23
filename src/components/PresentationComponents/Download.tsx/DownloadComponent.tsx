@@ -2,12 +2,12 @@ import HeaderLogoSearch from "@/components/NavigationComponents/Header/HeaderSea
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import React from 'react';
 
-const Contribute: React.FC = () => {
+const DownloadComponent: React.FC = () => {
     return (
         <>
             <HeaderLogoSearch />
             <div style={{ marginTop: '15%', textAlign: 'center' }}>
-                <div>Contribute page is coming soon</div>
+                <div>DownloadComponent page is coming soon</div>
                 <img
                     src={LOADINGLOGO}
                     alt="document"
@@ -18,4 +18,4 @@ const Contribute: React.FC = () => {
     )
 }
 
-export default Contribute;
+export default DownloadComponent;
