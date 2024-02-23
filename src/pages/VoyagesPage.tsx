@@ -157,7 +157,7 @@ const VoyagesPage = () => {
         id="content-container"
         style={{
           position: 'relative',
-          top: !inputSearchValue ? topPosition - 80 : 0,
+          top: inputSearchValue ? topPosition - 80 : 0,
         }}
       >
         <CollectionTabVoyages />

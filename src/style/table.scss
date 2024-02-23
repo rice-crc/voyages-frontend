@@ -586,31 +586,39 @@ div .customHeaderLabelSummaryTable {
 }
 
 .summary-box {
-  padding-top: 7%;
+  margin-top: 12rem;
   width: 100vw;
 
   @include breakpoint-standard(0) {
-    padding-top: 80px !important
+    margin-top: 12rem;
   }
 
   @include breakpoint-standard(1) {
-    padding-top: 80px !important
+    margin-top: 12rem;
   }
 
   @include breakpoint-standard(1.1) {
-    padding-top: 80px !important
+    margin-top: 12rem;
   }
 
   @include breakpoint-standard(2) {
-    padding-top: 80px !important
+    margin-top: 12rem;
   }
 
   @include breakpoint-standard(3) {
-    padding-top: 60px !important
+    margin-top: 12rem;
   }
 
   @include breakpoint-standard(4) {
-    padding-top: 60px !important
+    margin-top: 12rem;
+  }
+
+  @include breakpoint-standard(5) {
+    margin-top: 12rem;
+  }
+
+  @include breakpoint-standard(6) {
+    margin-top: 5rem;
   }
 }
 
@@ -663,7 +671,8 @@ div .customHeaderLabelSummaryTable {
 .summary-table-container {
   overflow: hidden;
   height: 100%;
-  padding-top: 2rem;
+  padding-top: 1rem;
+
 }
 
 .summary-table {

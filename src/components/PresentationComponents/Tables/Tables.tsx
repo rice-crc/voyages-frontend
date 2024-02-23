@@ -36,11 +36,8 @@ import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
 import {
     crateClassName,
-    createTopPositionEnslavedPage,
-    createTopPositionEnslaversPage,
 } from '@/utils/functions/createTopPositionEnslavedPage';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
-import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import {
     checkPagesRouteForEnslaved,
@@ -54,7 +51,6 @@ import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-import { convertToSlug } from '@/utils/functions/convertToSlug';
 
 
 const Tables: React.FC = () => {

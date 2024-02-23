@@ -1,16 +1,23 @@
-
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { useWindowSize } from '@react-hook/window-size';
-import { getMobileMaxHeightTable, maxWidthSize } from '@/utils/functions/maxWidthSize';
+import {
+    getMobileMaxHeightTable,
+    maxWidthSize,
+} from '@/utils/functions/maxWidthSize';
 import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { SummaryStatisticsTableRequest } from '@/share/InterfaceTypes';
+import {
+    CurrentPageInitialState,
+    RangeSliderState,
+    SummaryStatisticsTableRequest,
+} from '@/share/InterfaceTypes';
 import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummaryStatisticsTable';
-import '@/style/table.scss'
+import '@/style/table.scss';
+import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 
 const SummaryStatisticsTable = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -18,40 +25,67 @@ const SummaryStatisticsTable = () => {
     const [mode, setMode] = useState('html');
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const [data, setData] = useState<string>('');
+    const { varName, isChange } = useSelector(
+        (state: RootState) => state.rangeSlider as RangeSliderState
+    );
+    const { isChangeAuto, autoLabelName } = useSelector(
+        (state: RootState) => state.autoCompleteList
+    );
+    const { inputSearchValue } = useSelector(
+        (state: RootState) => state.getCommonGlobalSearch
+    );
+    const { isChangeGeoTree } = useSelector(
+        (state: RootState) => state.getGeoTreeData
+    );
+
+    const { currentPage } = useSelector(
+        (state: RootState) => state.getScrollPage as CurrentPageInitialState
+    );
+
+
+    const { styleName } = useSelector(
+        (state: RootState) => state.getDataSetCollection
+    );
+
     const dataSend: SummaryStatisticsTableRequest = {
         mode: mode,
         filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
     };
 
-    const fetchData = async () => {
-        try {
-            const response = await dispatch(
-                fetchSummaryStatisticsTable(dataSend)
-            ).unwrap();
-            if (response) {
-
-                const { data } = response
-
-                setData(data.data);
-            }
-        } catch (error) {
-            console.log('error', error);
-        }
-    };
-    console.log({ data })
     useEffect(() => {
-        fetchData()
-    }, []);
+        const fetchData = async () => {
+            try {
+                const response = await dispatch(
+                    fetchSummaryStatisticsTable(dataSend)
+                ).unwrap();
+                if (response) {
+                    const { data } = response;
+                    setData(data.data);
+                }
+            } catch (error) {
+                console.log('error', error);
+            }
+        };
 
+        fetchData();
+    }, [
+        varName,
+        inputSearchValue,
+        styleName,
+        isChange,
+        isChangeGeoTree,
+        isChangeAuto,
+        autoLabelName,
+    ]);
 
-    const percentageString = '95%'
+    const percentageString = '95%';
     const [width, height] = useWindowSize();
     const maxWidth = maxWidthSize(width);
 
     const [style, setStyle] = useState({
         width: percentageString,
         height: 400,
-        padding: '0 40px'
+        padding: '0 40px',
     });
 
     const containerStyle = useMemo(
@@ -59,19 +93,15 @@ const SummaryStatisticsTable = () => {
         [maxWidth, height]
     );
 
-
     useEffect(() => {
         setStyle({
             width: percentageString,
             height: getMobileMaxHeightTable(height / 1.2),
-            padding: '0 40px'
+            padding: '0 40px',
         });
     }, [width, height, maxWidth]);
 
-
-
     const handleButtonExportCSV = useCallback(() => {
-
         const table = document.querySelector('.summary-table');
 
         if (!table) {
@@ -98,28 +128,28 @@ const SummaryStatisticsTable = () => {
         setMode('csv');
     }, [mode]);
 
+    const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
+
     return (
         <>
             <HeaderLogoSearch />
-            <div className='summary-box'>
-                <div style={containerStyle} className="ag-theme-alpine" >
-                    <div style={style}
-                    >
+            <div className="summary-box">
+                <div style={containerStyle} className="ag-theme-alpine">
+                    <div style={style}>
                         <div className="button-export-csv-summary">
                             <button onClick={handleButtonExportCSV}>
                                 Download CSV Export file
                             </button>
                         </div>
                         <div className="summary-table-container">
-                            <div className="summary-table" >
+                            <div className="summary-table">
                                 <div dangerouslySetInnerHTML={{ __html: data ?? null }} />
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
-
     );
 };
 

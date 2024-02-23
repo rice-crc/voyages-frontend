@@ -275,13 +275,32 @@
 
 }
 
+
 .list-btn {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 2rem;
 
-    div {
+    @include breakpoint-standard(2) {
+        padding: 1.5rem 0;
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+
+    @include breakpoint-standard(1) {
+        padding: 1.5rem 0;
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+
+    @include breakpoint-standard(0) {
+        padding: 1.5rem 0;
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+
+    .btn-list-name {
         margin: 0 10px;
         color: #000;
         text-align: center;
@@ -294,5 +313,23 @@
         cursor: pointer;
         box-shadow: 1px 1px 1px black;
         padding: 0 5px;
+
+        @include breakpoint-standard(2) {
+            font-size: 0.75rem;
+            width: 75px;
+            margin: 5px;
+        }
+
+        @include breakpoint-standard(1) {
+            font-size: 0.75rem;
+            width: 75px;
+            margin: 5px;
+        }
+
+        @include breakpoint-standard(0) {
+            font-size: 0.75rem;
+            width: 75px;
+            margin: 5px;
+        }
     }
 }

@@ -19,7 +19,6 @@ const ButtonLists: React.FC<ButtonListsProps> = ({ lists }) => {
                     <Link
                         to={list.url}
                         style={{ textDecoration: 'none' }}
-                    // onClick={onChangePath}
                     ><div className='btn-list-name'>{list.name}</div></Link > </div>
 
             ))}

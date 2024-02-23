@@ -42,6 +42,7 @@ const TablesEstimates = () => {
     const [rowVars, setSelectRowValues] = useState<EstimateRowVar[]>([]);
     const [columnVars, setSelectColumnValue] = useState<EstimateColumnVar[]>([]);
     const [cellVars, setSelectCellValue] = useState<EstimateCellVar[]>([]);
+    const [mode, setMode] = useState('html');
     const [estimateValueOptions, setEstimateValueOptions] =
         useState<EstimateOptionProps>({
             rows: ESTIMATE_OPTIONS.row_vars[0].rows,
@@ -51,7 +52,6 @@ const TablesEstimates = () => {
             column_vars: ESTIMATE_OPTIONS.column_vars[1].cols,
             cell_vars: ESTIMATE_OPTIONS.cell_vars[0].vals,
         });
-    const [mode, setMode] = useState('html');
 
     const EstimateTableOptions = useCallback(() => {
         Object.entries(ESTIMATE_OPTIONS).forEach(([key, value]) => {

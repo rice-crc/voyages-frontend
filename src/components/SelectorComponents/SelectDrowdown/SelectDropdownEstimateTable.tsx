@@ -58,7 +58,7 @@ export const SelectDropdownEstimateTable: FunctionComponent<
               MenuProps={MenuProps}
               labelId="rows-field-label"
               id="rows-field-select"
-              value={selectedPivottablesOptions?.rows}
+              value={selectedPivottablesOptions?.rows || []}
               label={'Rows'}
               onChange={(event: SelectChangeEvent<string[]>) => {
                 handleChangeOptions(event, 'row_vars', selectRowValue);
@@ -106,6 +106,7 @@ export const SelectDropdownEstimateTable: FunctionComponent<
                     sx={{
                       fontSize: '0.85rem'
                     }}
+
                   >
                     {option.label}
                   </MenuItem>

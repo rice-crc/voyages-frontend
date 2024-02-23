@@ -158,7 +158,7 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
 
 
                 if (mouseOverInfoRef.current) {
-                    mouseOverInfoRef.current.innerHTML = `<div class='flex'><strong>Year:</strong> ${d.x}</div><div class='flex'><strong>Embarked:</strong> ${Math.round(d.y1).toString()}</div><div class='flex'><strong>Disembarked:</strong> ${Math.round(d.y0).toString()}${historical}`;
+                    mouseOverInfoRef.current.innerHTML = `<div class='flex'><strong>Year:</strong> ${d.x}</div><div class='flex'><strong >Embarked:</strong> ${Math.round(d.y1).toString()}</div><div class='flex'><strong>Disembarked:</strong> ${Math.round(d.y0).toString()}${historical}`;
                 }
             }
 
@@ -233,7 +233,9 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                 .attr('x', function (d, i) { return 20 + i * legendWidth; })
                 .style('stroke', 'black')
                 .style('stroke-width', '0.3')
-                .text(function (d, i) { return i != 0 ? Disembarked : Embarked });
+                .text(function (d, i) { return i != 0 ? Disembarked : Embarked })
+                .classed('svg-timeline-text', true)
+
 
             if (graphContainer) {
                 graphContainer.addEventListener('mousemove', (event) => {

@@ -1,6 +1,6 @@
 
 export const createTopPositionVoyages = (currentPage: number, value: string) => {
-
+    console.log({ currentPage })
     let topPosition = 0;
     if (currentPage === 1 && value) {
         topPosition = 110;
@@ -10,8 +10,9 @@ export const createTopPositionVoyages = (currentPage: number, value: string) => 
         topPosition = 105;
     } else if (currentPage === 5) {
         topPosition = 85;
-    }
-    else {
+    } else if (currentPage === 7) {
+        topPosition = 30;
+    } else {
         topPosition = 100;
     }
     return topPosition;

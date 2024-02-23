@@ -222,18 +222,15 @@
         opacity: 1;
         color: white !important;
     }
+}
 
-    .deselec-btn-hide {
-        color: rgb(25, 118, 210); // #008ca8;
-        background-color: white;
-        border: 1.5px solid rgb(25, 118, 210); //#008ca8;
-        margin-left: 8px;
-        position: relative;
-        left: 2.15rem;
-    }
-
-
-
+.deselec-btn-hide {
+    color: rgb(25, 118, 210); // #008ca8;
+    background-color: white;
+    border: 1.5px solid rgb(25, 118, 210); //#008ca8;
+    margin-left: 8px;
+    position: relative;
+    left: 2.15rem;
 }
 
 .sidebar-label {
@@ -393,9 +390,10 @@ svg {
     font-family: "Helvetica Neue", Helvetica;
 }
 
-svg text {
+.svg-timeline-text {
     fill: gray;
 }
+
 
 .axis path,
 .axis line {
