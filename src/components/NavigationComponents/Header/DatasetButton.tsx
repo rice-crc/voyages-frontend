@@ -2,6 +2,7 @@ import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
 import { Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 interface DatasetButtonProps {
   item: any;
@@ -37,17 +38,12 @@ export const DatasetButton = (props: DatasetButtonProps) => {
     table_flatfile,
     filter_menu_flatfile,
   } = item;
-  const { styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
-  );
+  const { styleName } = usePageRouter()
 
-  const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleEnlavedDataSetCollection
-  );
   return (
     <Button
       key={`${item}-${index}`}
-      disabled={styleName === style_name || styleNamePeople === style_name}
+      disabled={styleName === style_name}
       onClick={() =>
         handleSelectDataset(
           base_filter,
@@ -60,15 +56,20 @@ export const DatasetButton = (props: DatasetButtonProps) => {
         )
       }
       sx={{
-        color: '#ffffff',
+        color: '#000',
         fontWeight: 600,
         height: 32,
         fontSize: 12,
         margin: '0 2px',
-        boxShadow: getColorBoxShadow(style_name),
         backgroundColor: getColorBTNBackground(style_name),
         '&:hover': {
           backgroundColor: getColorHover(style_name),
+        },
+        '&:disabled': {
+          backgroundColor: getColorBTNBackground(style_name),
+          color: '#fff',
+          boxShadow: getColorBoxShadow(styleName!),
+          cursor: 'not-allowed',
         },
       }}
     >

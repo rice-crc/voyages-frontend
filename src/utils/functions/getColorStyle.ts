@@ -2,9 +2,9 @@ import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 
 export const getColorVoyagePageBackground = (item: string, currentPage: number) => {
 
-    let background = 'rgba(147, 208, 203)';
+    let background = 'rgb(55 148 141)';
     if (item === TYPESOFDATASET.allVoyages) {
-        background = 'rgba(147, 208, 203)';
+        background = 'rgb(55 148 141)';
     } else if (item === TYPESOFDATASET.allVoyages && currentPage === 1) {
         background = 'transparent';
     } else if (item === TYPESOFDATASET.intraAmerican) {
@@ -19,11 +19,24 @@ export const getColorVoyagePageBackground = (item: string, currentPage: number) 
 };
 
 export const getColorBackground = (item: string) => {
-    let background = 'rgb(55 163 154)';
+    let background = '#007269';
     if (item === TYPESOFDATASET.allVoyages) {
-        background = 'rgb(55 163 154)';
+        background = '#007269';
     } else if (item === TYPESOFDATASET.transatlantic) {
-        background = 'rgb(56, 116, 203)';
+        background = 'rgb(2 83 204)';
+    } else if (item === TYPESOFDATASET.intraAmerican) {
+        background = '#ab47bc';
+    } else if (item === TYPESOFDATASET.texas) {
+        background = 'rgb(167 70 0)';
+    }
+    return background;
+};
+export const getColorBTNVoyageDatasetBackground = (item: string) => {
+    let background = '#007269';
+    if (item === TYPESOFDATASET.allVoyages) {
+        background = '#007269';
+    } else if (item === TYPESOFDATASET.transatlantic) {
+        background = 'rgb(2 83 204)';
     } else if (item === TYPESOFDATASET.intraAmerican) {
         background = '#ab47bc';
     } else if (item === TYPESOFDATASET.texas) {
@@ -62,9 +75,9 @@ export const getTextColor = (item: string) => {
 
 
 export const getColorNavbarBackground = (item: string) => {
-    let background = '#93D0CB';
+    let background = 'rgb(55, 148, 141)';
     if (item === TYPESOFDATASET.allVoyages) {
-        background = '#93D0CB';
+        background = 'rgb(55, 148, 141)';
     } else if (item === TYPESOFDATASET.intraAmerican) {
         background = 'rgba(127, 118, 191)';
     }
@@ -124,9 +137,9 @@ export const getColorBTNHoverEnslaversBackground = (item: string) => {
     return background;
 };
 export const getColorBoxShadow = (item: string) => {
-    let boxShadow = '1px 2px 8px rgb(11 196 181)';
+    let boxShadow = 'rgb(0 255 234) 1px 2px 8px';
     if (item === TYPESOFDATASET.allVoyages) {
-        boxShadow = '1px 2px 8px rgb(11 196 181)';
+        boxShadow = 'rgb(0 255 234) 1px 2px 8px';
     } else if (item === TYPESOFDATASET.transatlantic) {
         boxShadow = '1px 2px 8px #42a5f5';
     } else if (item === TYPESOFDATASET.intraAmerican) {
@@ -137,12 +150,15 @@ export const getColorBoxShadow = (item: string) => {
     return boxShadow;
 };
 export const getColorBoxShadowEnslaved = (item: string) => {
+
     let boxShadow = '1px 2px 8px#9c8180';
     if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
         boxShadow = '1px 2px 8px #9c8180';
     } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        console.log('----')
         boxShadow = '1px 2px 8px #42a5f5';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
+
         boxShadow = '1px 2px 8px rgb(216 93 5)';
     }
     return boxShadow;
@@ -203,7 +219,7 @@ export const getIntroBackgroundEnslavedColor = (styleName: string) => {
     if (styleName === TYPESOFDATASETPEOPLE.allEnslaved) {
         backgroundColor = '#b29493';
     } else if (styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
-        backgroundColor = 'rgba(56, 116, 203)';
+        backgroundColor = 'rgb(25, 118, 210)';
     } else if (styleName === TYPESOFDATASETPEOPLE.texas) {
         backgroundColor = 'rgba(187, 105, 46)';
     }

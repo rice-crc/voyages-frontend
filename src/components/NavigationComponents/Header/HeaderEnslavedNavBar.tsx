@@ -237,7 +237,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
               },
             }}
           >
-            <Box className="menu-nav-bar-select" style={{ color: '#000000' }}>
+            <Box className="menu-nav-bar-select" >
               Select dataset
             </Box>
             {value.map((item: DataSetCollectionProps, index: number) => (

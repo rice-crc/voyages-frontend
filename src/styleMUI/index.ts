@@ -5,6 +5,7 @@ import MuiInput from '@mui/material/Input';
 import { SxProps, } from '@mui/material';
 import NestedMenuItems from '@/components/SelectorComponents/Cascading/NestedMeneItems';
 import { styled, } from '@mui/material/styles';
+import { color } from 'framer-motion';
 
 const blue500 = '#42a5f5';
 export const MAINBGGREEN = 'rgba(0, 128, 128, 0.5)'
@@ -123,10 +124,11 @@ export const Tag = styled('div')(({ theme }) => ({
 export const ButtonNav = styled(Button)`
   && {
     color: black;
-    width: 70px;
-    margin: 4px;
+    width: 75px;
+    margin: 5px;
     font-size: 14px;
     font-weight: 600;
+    cursor: 'pointer';
     font-family:  'Cormorant Garamond';
     &:hover {
       background-color: #54bfb6;
@@ -225,15 +227,23 @@ export const styleCardEstimate = {
 };
 
 
-
 export const CustomTablePagination = styled(TablePagination)({
   '& .MuiTablePagination-selectLabel': {
     fontSize: '0.975rem',
+    color: '#fff'
   },
   '& .MuiTablePagination-select': {
     fontSize: '0.975rem',
+    color: '#fff'
   },
   '& .MuiTablePagination-displayedRows ': {
     fontSize: '0.975rem',
+    color: '#fff'
+  },
+  '& .MuiTablePagination-selectIcon': {
+    color: '#fff'
+  },
+  '& .MuiTablePagination-actions': {
+    color: '#fff'
   }
 }) as React.ComponentType<any>;

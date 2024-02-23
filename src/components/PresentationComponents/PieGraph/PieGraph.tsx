@@ -34,6 +34,9 @@ function PieGraph() {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
 
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
@@ -68,6 +71,10 @@ function PieGraph() {
     cachename: 'voyage_bar_and_donut_charts',
     filter: filtersObj?.[0]?.searchTerm?.length > 0 ? filtersObj : [],
   };
+
+  if (inputSearchValue) {
+    dataSend['global_search'] = inputSearchValue
+  }
 
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
   useEffect(() => {

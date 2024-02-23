@@ -177,6 +177,10 @@
 .menu-nav-bar-select-box {
     padding: 10px;
 
+    button {
+        margin: 0 6px;
+    }
+
     @include breakpoint-standard(5) {
         position: relative;
         left: 20px;
@@ -207,10 +211,11 @@
 
 .menu-nav-bar-select {
     font-family: "Cormorant Garamond";
-    color: black;
+    color: #fff;
     text-transform: uppercase;
-    font-size: 16px;
-    margin-bottom: 2px;
+    font-size: 18px;
+    margin-bottom: 0.5px;
+    font-weight: bold;
 }
 
 .header-logo-icon {
@@ -241,6 +246,7 @@
 .logo-voyage {
     margin-right: 10px;
     position: relative;
+    width: 160px;
 
     @include breakpoint-standard(4) {
         width: 15%;
@@ -277,4 +283,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    button {
+        color: #ffffff;
+        font-weight: 600;
+    }
 }

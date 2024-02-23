@@ -412,6 +412,10 @@
   }
 }
 
+.enslaved-title {
+  color: #fff;
+}
+
 .enslaved-header-subtitle {
   display: flex;
   font-size: 28px;
@@ -419,6 +423,7 @@
   position: relative;
   font-weight: 600;
   top: 5px;
+  color: #fff;
 
   @include breakpoint-standard(5) {
     font-size: 24px;
@@ -792,5 +797,11 @@
   padding: 0;
   margin: 0;
   background-color: #46a88c;
-  height: 110vh;
+  // height: 120vh;
+
+  .nav-enslavers {
+    background-color: #46a88c;
+    font-size: 12px;
+    box-shadow: none;
+  }
 }

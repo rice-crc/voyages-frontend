@@ -180,11 +180,7 @@ const Regions: React.FC = () => {
             <div className="reset-btn-estimate">
                 <Button
                     onClick={handleSelectAllEmbarkation}
-                    style={{
-                        backgroundColor: '#008ca8',
-                        borderColor: '#008ca8',
-                        color: '#fff',
-                    }}
+                    className='selected-all-btn'
                 >
                     Select All
                 </Button>
@@ -212,11 +208,7 @@ const Regions: React.FC = () => {
             <div className="reset-btn-estimate">
                 <Button
                     onClick={handleSelectAllDisEmbarkation}
-                    style={{
-                        backgroundColor: '#008ca8',
-                        borderColor: '#008ca8',
-                        color: '#fff',
-                    }}
+                    className='selected-all-btn'
                 >
                     Select All
                 </Button>

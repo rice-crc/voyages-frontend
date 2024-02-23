@@ -25,6 +25,7 @@ import {
   getColorNavbarBackground,
   getTextColor,
   getColorBoxShadow,
+  getColorBTNVoyageDatasetBackground,
 } from '@/utils/functions/getColorStyle';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
@@ -39,6 +40,7 @@ import {
   INTRAAMERICANPAGE,
   TRANSATLANTIC,
   TRANSATLANTICPAGE,
+  VOYAGE,
   VOYAGESPAGE,
   VOYAGESTEXAS,
   VOYAGESTEXASPAGE,
@@ -52,9 +54,11 @@ import HeaderLogo from './HeaderLogo';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
 import { setFilterObject } from '@/redux/getFilterSlice';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
+  const { styleName: styleNameRoute } = usePageRouter()
   const navigate = useNavigate();
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
@@ -62,6 +66,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const { currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+
   const { value, textHeader, styleName, } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
@@ -89,7 +94,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
     dispatch(resetAll());
     const filters: Filter[] = [];
-    console.log({ styleName })
+
     if (styleName === VOYAGESTEXAS && currentVoyageBlockName === 'pie') {
       navigate(`/${VOYAGESPAGE}${VOYAGESTEXASPAGE}#voyages`);
     } else {
@@ -178,9 +183,9 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
             <span className='header-logo-icon'>
               <HeaderLogo />
               <HeaderTitle
-                textHeader={textHeader}
+                textHeader={styleNameRoute === ALLVOYAGES ? 'All Voyages' : textHeader}
                 HeaderTitle={VOYAGETILE}
-                pathLink={`${VOYAGESPAGE}${ALLVOYAGESPAGE}#voyages`}
+                pathLink={`${VOYAGESPAGE}${TRANSATLANTICPAGE}#voyages`}
                 onClickReset={onClickReset}
               />
             </span>
@@ -225,12 +230,12 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 paddingRight: 40,
                 fontWeight: 600,
                 fontSize: 20,
+
               },
             }}
           >
             <Box
               className="menu-nav-bar-select"
-              style={{ color: getTextColor(styleName) }}
             >
               Select dataset
             </Box>
@@ -242,7 +247,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                   index={index}
                   handleSelectDataset={handleSelectDataset}
                   getColorBoxShadow={getColorBoxShadow}
-                  getColorBTNBackground={getColorBackground}
+                  getColorBTNBackground={getColorBTNVoyageDatasetBackground}
                   getColorHover={getColorHoverBackground}
                 />
               );

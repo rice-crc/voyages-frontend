@@ -10,6 +10,7 @@ import EnslaversHomePage from './pages/EnslaversPage';
 import { theme } from './styleMUI/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  ABOUTPAGE,
   AFRICANORIGINSPAGE,
   ALLENSLAVEDPAGE,
   ALLVOYAGESPAGE,
@@ -17,6 +18,7 @@ import {
   BLOGPAGE,
   CONTRIBUTE,
   DOCUMENTPAGE,
+  DOWNLOADS,
   ENSALVEDPAGE,
   ENSALVERSPAGE,
   ENSLAVEDTEXASPAGE,
@@ -38,7 +40,7 @@ import InstitutionAuthorsPage from './pages/InstitutionAuthorsPage';
 import BlogDetailsPost from './components/BlogPageComponents/Blogcomponents/BlogDetailsPost';
 import Estimates from './components/PresentationComponents/Assessment/Estimates/Estimates';
 import Contribute from './components/PresentationComponents/Assessment/Contribute/Contribute';
-import TimeLapse from './components/PresentationComponents/Assessment/TimeLapse/TimeLapse';
+import TimeLapse from './components/PresentationComponents/TimeLapse/TimeLapse';
 import LessonPlans from './components/PresentationComponents/Assessment/LessonPlans/LessonPlans';
 import IntroductoryMaps from './components/PresentationComponents/Assessment/IntroductoryMaps/IntroductoryMaps';
 import { setCardRowID, setNodeClass, setValueVariable } from './redux/getCardFlatObjectSlice';
@@ -46,6 +48,8 @@ import { RootState } from './redux/store';
 import TabsSelect from './components/SelectorComponents/Tabs/TabsSelect';
 import { usePageRouter } from './hooks/usePageRouter';
 import DocumentPageHold from './pages/DocumentPageHold';
+import AboutPage from './pages/AboutPage';
+import DownloadPage from './pages/DownloadPage';
 
 
 const queryClient = new QueryClient({
@@ -146,20 +150,28 @@ const App: React.FC = () => {
             element={<Estimates />}
           />
           <Route
-            path={`${ASSESSMENT}/${CONTRIBUTE}/`}
+            path={`${CONTRIBUTE}`}
             element={<Contribute />}
           />
           <Route
-            path={`${ASSESSMENT}/${LESSONPLANS}/`}
+            path={`${LESSONPLANS}/`}
             element={<LessonPlans />}
           />
           <Route
-            path={`${ASSESSMENT}/${INTRODUCTORYMAPS}/`}
+            path={`${INTRODUCTORYMAPS}/`}
             element={<IntroductoryMaps />}
           />
           <Route
             path={`${TIMELAPSEPAGE}`}
             element={<TimeLapse />} />
+          <Route
+            path={`${ABOUTPAGE}`}
+            element={<AboutPage />}
+          />
+          <Route
+            path={`${DOWNLOADS}`}
+            element={<DownloadPage />}
+          />
 
         </Routes>
 

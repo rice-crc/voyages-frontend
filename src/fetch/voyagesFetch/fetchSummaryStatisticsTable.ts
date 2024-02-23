@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { EstimateTablesPropsRequest } from '@/share/InterfaceTypes';
+import { SummaryStatisticsTableRequest } from '@/share/InterfaceTypes';
 
-export const fetchEstimateCrosstabsTables = createAsyncThunk(
-    'voyage/fetchEstimateCrosstabsTables',
-    async (dataSend?: EstimateTablesPropsRequest) => {
+export const fetchSummaryStatisticsTable = createAsyncThunk(
+    'voyage/fetchSummaryStatisticsTable',
+    async (dataSend?: SummaryStatisticsTableRequest) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/assessment/crosstabs/`,
+                `${BASEURL}/voyage/SummaryStats/`,
                 dataSend,
                 {
                     headers: {
@@ -19,7 +19,7 @@ export const fetchEstimateCrosstabsTables = createAsyncThunk(
             );
             return response;
         } catch (error) {
-            throw new Error('Failed to fetchEstimateCrosstabsTables data');
+            throw new Error('Failed to fetchSummaryStatisticsTable data');
         }
     }
 );
