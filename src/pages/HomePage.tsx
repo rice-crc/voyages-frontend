@@ -82,9 +82,9 @@ const HomePage: React.FC = () => {
       <div data-aos="fade-up">
         <SouthSeaCompanyDocuments />
       </div>
-      <div data-aos="fade-up">
+      {/* <div data-aos="fade-up">
         <TexasBound />
-      </div>
+      </div> */}
       <div data-aos="fade-up">
         <ArtInspiredBySlaveVoyages />
       </div>

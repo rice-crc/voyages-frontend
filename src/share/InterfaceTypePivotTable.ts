@@ -13,7 +13,9 @@ export interface PivotColumnDef {
     headerName: string;
     children?: PivotColumnDefChildren[] | PivotColumnDefChildren;
 }
-
+export interface RowDataPivotTable {
+    [key: string]: string | number;
+}
 export interface PivotColumnDefChildren {
     columnGroupShow?: string
     headerName: string

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getColorBTNBackgroundEnslaved,
   getColorBTNHoverEnslavedBackground,
+  getColorBoxShadow,
   getColorBoxShadowEnslaved,
   getColorNavbarEnslavedBackground,
 } from '@/utils/functions/getColorStyle';
@@ -246,7 +247,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 item={item}
                 index={index}
                 handleSelectDataset={handleSelectEnslavedDataset}
-                getColorBoxShadow={getColorBoxShadowEnslaved}
+                getColorBoxShadow={getColorBoxShadow}
                 getColorBTNBackground={getColorBTNBackgroundEnslaved}
                 getColorHover={getColorBTNHoverEnslavedBackground}
               />

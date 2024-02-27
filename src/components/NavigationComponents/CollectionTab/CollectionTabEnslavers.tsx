@@ -1,10 +1,13 @@
-import { Hidden } from '@mui/material';
+import { Button, Hidden } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { ButtonNav } from '@/styleMUI';
 import {
   getColorBTNBackgroundEnslavers,
+  getColorBTNVoyageDatasetBackground,
   getColorBoxShadowEnslavers,
+  getColorHoverBackground,
+  getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
 import '@/style/page.scss';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
@@ -22,6 +25,7 @@ const CollectionTabEnslavers = () => {
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
+
 
   const handlePageNavigation = (page: number, blockName: string) => {
     console
@@ -43,18 +47,28 @@ const CollectionTabEnslavers = () => {
 
             const buttonIndex = index + 1;
             return (
-              <ButtonNav
+              <Button
                 key={`${page}-${buttonIndex}`}
                 onClick={() => handlePageNavigation(buttonIndex, page.toLowerCase())}
-                style={{
-                  width: '70px',
+                sx={{
+                  width: 75,
+                  margin: '5px',
+                  cursor: 'pointer',
+                  backgroundColor: '#007269',
                   boxShadow: getColorBoxShadowEnslavers(styleNamePeople),
-                  backgroundColor:
-                    getColorBTNBackgroundEnslavers(styleNamePeople),
-                  fontSize: 14,
-                  color:
-                    currentEnslaversPage === buttonIndex ? 'white' : 'black',
-                  fontWeight: currentEnslaversPage === buttonIndex ? 700 : 600,
+                  color: '#fff',
+                  fontWeight: 600,
+                  fontSize: '0.85rem',
+                  '&:hover': {
+                    backgroundColor: getColorHoverBackgroundCollection(styleNamePeople),
+                    color: getColorBTNVoyageDatasetBackground(styleNamePeople)
+                  },
+                  '&:disabled': {
+                    backgroundColor: getColorBTNVoyageDatasetBackground(styleNamePeople),
+                    color: '#fff',
+                    boxShadow: getColorBoxShadowEnslavers(styleNamePeople),
+                    cursor: 'not-allowed',
+                  },
                 }}
                 variant={
                   currentEnslaversPage === buttonIndex
@@ -63,7 +77,7 @@ const CollectionTabEnslavers = () => {
                 }
               >
                 {page.toUpperCase()}
-              </ButtonNav>
+              </Button>
             );
           })}
         </nav>

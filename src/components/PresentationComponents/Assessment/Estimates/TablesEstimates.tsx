@@ -21,6 +21,7 @@ import '@/style/table.scss';
 import { fetchEstimateCrosstabsTables } from '@/fetch/estimateFetch/fetchEstimateCrosstabsTables';
 import { SelectDropdownEstimateTable } from '@/components/SelectorComponents/SelectDrowdown/SelectDropdownEstimateTable';
 import { setFilterObject } from '@/redux/getFilterSlice';
+import { formatNumberWithCommas } from '@/utils/functions/formatNumberWithCommas';
 
 const TablesEstimates = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -45,12 +46,12 @@ const TablesEstimates = () => {
     const [mode, setMode] = useState('html');
     const [estimateValueOptions, setEstimateValueOptions] =
         useState<EstimateOptionProps>({
-            rows: ESTIMATE_OPTIONS.row_vars[0].rows,
-            binsize: ESTIMATE_OPTIONS.row_vars[0].binsize!,
-            rows_label: ESTIMATE_OPTIONS.row_vars[0].rows_label,
-            label: ESTIMATE_OPTIONS.row_vars[0].label,
-            column_vars: ESTIMATE_OPTIONS.column_vars[1].cols,
-            cell_vars: ESTIMATE_OPTIONS.cell_vars[0].vals,
+            rows: ESTIMATE_OPTIONS.row_vars[8].rows,
+            binsize: ESTIMATE_OPTIONS.row_vars[8].binsize!,
+            rows_label: ESTIMATE_OPTIONS.row_vars[8].rows_label,
+            label: ESTIMATE_OPTIONS.row_vars[8].label,
+            column_vars: ESTIMATE_OPTIONS.column_vars[0].cols,
+            cell_vars: ESTIMATE_OPTIONS.cell_vars[1].vals,
         });
 
     const EstimateTableOptions = useCallback(() => {
@@ -86,6 +87,7 @@ const TablesEstimates = () => {
     }, []);
 
     const { rows, binsize, column_vars, cell_vars } = estimateValueOptions;
+    console.log({ estimateValueOptions })
     const onlyYearRows = rows.filter(
         (row) => row.startsWith('year_') && row.length > 5
     );
@@ -220,7 +222,7 @@ const TablesEstimates = () => {
             />
             <div className="estimate-table-container">
                 <div className="estimate-table" >
-                    <div dangerouslySetInnerHTML={{ __html: data ?? null }} />
+                    <div dangerouslySetInnerHTML={{ __html: formatNumberWithCommas(data) ?? null }} />
                 </div>
             </div>
         </div>

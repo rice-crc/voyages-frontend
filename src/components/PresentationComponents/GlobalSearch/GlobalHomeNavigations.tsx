@@ -43,7 +43,7 @@ const GlobalHomeNavigations = () => {
             <img src={voyageIcon} alt="Search by Vessels" style={{ opacity: 0.65 }} />
           </Link>
           <div className="voyages-people-places-subtitle">
-            Search by Vessels, Places, and Periods
+            Search by vessels, places, and periods
           </div>
         </div>
         <div className="place-page-box">
@@ -60,15 +60,15 @@ const GlobalHomeNavigations = () => {
           >
             <img src={peopleIcon} alt="People" style={{ opacity: 0.65 }} />
           </Link>
-          <div className="voyages-people-places-subtitle">Find a person</div>
+          <div className="voyages-people-places-subtitle">find a person</div>
         </div>
         <div className="place-page-box">
-          <div className="voyages-people-places-title">Documents</div>
+          <div className="voyages-people-places-title">documents</div>
           <Link to={`/${DOCUMENTPAGE}`}>
             <img src={documentIcon} alt="Documents" width={129} />
           </Link>
           <div className="voyages-people-places-subtitle">
-            Read Primary Sources
+            read primary sources
           </div>
         </div>
         <div className="place-page-box">
@@ -77,7 +77,7 @@ const GlobalHomeNavigations = () => {
             <img src={resourceIcon} alt="Writing" width={129} />
           </Link>
           <div className="voyages-people-places-subtitle">
-            Lesson Plans, Essays, and More
+            lesson plans, essays, and more
           </div>
         </div>
       </div>

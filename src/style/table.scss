@@ -94,14 +94,32 @@
   margin: 0 0 0 3px;
 }
 
-.ag-header-group-cell-with-group {
-  color: #008ca8;
+
+.ag-header-group-cell-label,
+.ag-header-cell-label {
+  color: var(--header-color, #007269);
+  text-align: center;
 }
+
+.summary-table>div>table>thead>tr>th {
+  color: var(--header-color-summary, #007269);
+  border-bottom: 2px solid #dee2e6;
+  padding: 0 5px 0 5px;
+  text-align: center;
+}
+
+.summary-table>div>table>tbody>tr>th {
+  color: var(--header-color-summary, #007269);
+  border-bottom: 2px solid #dee2e6;
+  padding: 0 5px 0 5px;
+  text-align: center;
+}
+
 
 .customHeaderLabel {
   float: left;
   margin: 0 0 0 3px;
-
+  text-align: center;
 }
 
 
@@ -119,7 +137,8 @@ div .customHeaderLabel {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 85%;
-  color: #008ca8;
+  text-align: center;
+
 }
 
 div .customHeaderLabelSummaryTable {
@@ -172,11 +191,11 @@ div .customHeaderLabelSummaryTable {
   }
 }
 
-.ag-theme-alpine .ag-row-hover {
-  background-color: #85d4cb;
-  /* Define the desired hover background color */
-  /* Add any other styles for the hover effect */
-}
+// .ag-theme-alpine .ag-row-hover {
+//   // background-color: #85d4cb;
+//   /* Define the desired hover background color */
+//   /* Add any other styles for the hover effect */
+// }
 
 .pagination-div>nav>ul>li>button {
   font-size: 0.875rem;
@@ -399,11 +418,9 @@ div .customHeaderLabelSummaryTable {
     border-radius: 4px;
     padding: 4px;
     color: #fff;
-    background-color: #008ca8;
-    border-color: #008ca8;
     cursor: pointer;
-    box-shadow: #34dbfc 1px 2px 6px;
-
+    font-size: 0.65rem;
+    font-weight: 600;
 
     @include breakpoint-standard(0) {
       font-size: 10px;
@@ -442,10 +459,9 @@ div .customHeaderLabelSummaryTable {
     border-radius: 4px;
     padding: 4px;
     color: #fff;
-    background-color: #008ca8;
-    border-color: #008ca8;
     cursor: pointer;
-    box-shadow: #008ca8 1px 2px 6px;
+    font-size: 0.65rem;
+    font-weight: 600;
 
     @include breakpoint-standard(0) {
       font-size: 10px;
@@ -586,7 +602,7 @@ div .customHeaderLabelSummaryTable {
 }
 
 .summary-box {
-  margin-top: 12rem;
+  margin-top: 13rem;
   width: 100vw;
 
   @include breakpoint-standard(0) {

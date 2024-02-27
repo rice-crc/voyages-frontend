@@ -25,6 +25,7 @@ import {
   maxWidthSize,
 } from '@/utils/functions/maxWidthSize';
 import { useGroupBy } from '@/hooks/useGroupBy';
+import { formatYAxes } from '@/utils/functions/formatYAxesLine';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -51,6 +52,8 @@ function BarGraph() {
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
   const [title, setTitle] = useState<string>(barGraphSelectedX[0]?.label);
   const [barData, setBarData] = useState<Data[]>([]);
+  const [xAxes, setXAxes] = useState<string>(VOYAGE_BARGRAPH_OPTIONS.x_vars[0].label);
+  const [yAxes, setYAxes] = useState<string[]>([VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label]);
   const [chips, setChips] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   ]);
@@ -176,7 +179,8 @@ function BarGraph() {
         XFieldText={'X Field'}
         YFieldText={'Multi-Selector Y-Feild'}
         optionsFlatY={VOYAGE_BARGRAPH_OPTIONS.y_vars}
-        setTitle={setTitle}
+        setXAxes={setXAxes}
+        setYAxes={setYAxes}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
@@ -189,7 +193,8 @@ function BarGraph() {
           layout={{
             width: getMobileMaxWidth(maxWidth),
             height: getMobileMaxHeight(height),
-            title: title || barGraphSelectedX[0]?.label,
+            // title: title || barGraphSelectedX[0]?.label,
+            title: 'Bar Graph',
             font: {
               family: 'Arial, sans-serif',
               size: maxWidth < 400 ? 7 : 10,
@@ -197,13 +202,13 @@ function BarGraph() {
             },
             xaxis: {
               title: {
-                text: optionFlat[barGraphOptions.x_vars]?.label || '',
+                text: xAxes || barGraphSelectedX[0]?.label
               },
               fixedrange: true,
             },
             yaxis: {
               title: {
-                text: optionFlat[barGraphOptions.y_vars]?.label || '',
+                text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes
               },
               fixedrange: true,
             },

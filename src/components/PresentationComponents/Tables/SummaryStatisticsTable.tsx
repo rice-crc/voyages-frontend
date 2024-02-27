@@ -12,12 +12,17 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     CurrentPageInitialState,
+    Filter,
     RangeSliderState,
     SummaryStatisticsTableRequest,
 } from '@/share/InterfaceTypes';
 import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummaryStatisticsTable';
 import '@/style/table.scss';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
+import { Button } from '@mui/material';
+import { getColorBoxShadow, getColorBTNVoyageDatasetBackground, getColorHoverBackground, getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { formatNumberWithCommas } from '@/utils/functions/formatNumberWithCommas';
 
 const SummaryStatisticsTable = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -28,6 +33,7 @@ const SummaryStatisticsTable = () => {
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
+    const { styleName: styleNameRoute } = usePageRouter();
     const { isChangeAuto, autoLabelName } = useSelector(
         (state: RootState) => state.autoCompleteList
     );
@@ -46,14 +52,33 @@ const SummaryStatisticsTable = () => {
     const { styleName } = useSelector(
         (state: RootState) => state.getDataSetCollection
     );
+    let filters: Filter[] = [];
+    if (styleNameRoute === 'trans-atlantic') {
+        if (filtersObj[0]?.searchTerm?.length > 0) {
+            filters = filtersObj
+        } else {
+            filters.push({
+                varName: "dataset",
+                searchTerm: [0],
+                op: "in"
+            });
+        }
+    } else {
+        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
+    }
 
     const dataSend: SummaryStatisticsTableRequest = {
         mode: mode,
-        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
+        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters,
     };
+
+
 
     useEffect(() => {
         const fetchData = async () => {
+            if (inputSearchValue) {
+                dataSend['global_search'] = inputSearchValue
+            }
             try {
                 const response = await dispatch(
                     fetchSummaryStatisticsTable(dataSend)
@@ -128,7 +153,15 @@ const SummaryStatisticsTable = () => {
         setMode('csv');
     }, [mode]);
 
-    const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
+    useEffect(() => {
+        const headerColor = getHeaderColomnColor(styleName!);
+        document.documentElement.style.setProperty('--header-color-summary', headerColor);
+    }, []);
+    // const formattedNumberDataTable = data.replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, (match) => match + ',');
+    const formattedNumberDataTable = data.replace(/\d+(\.\d+)?/g, (match) => {
+        const floatValue = parseFloat(match);
+        return isNaN(floatValue) ? match : floatValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    });
 
     return (
         <>
@@ -137,13 +170,25 @@ const SummaryStatisticsTable = () => {
                 <div style={containerStyle} className="ag-theme-alpine">
                     <div style={style}>
                         <div className="button-export-csv-summary">
-                            <button onClick={handleButtonExportCSV}>
+                            <Button onClick={handleButtonExportCSV}
+                                style={{
+
+                                    boxShadow: getColorBoxShadow(styleName!)
+                                }}
+                                sx={{
+                                    backgroundColor: getColorBTNVoyageDatasetBackground(styleName!),
+                                    boxShadow: getColorBoxShadow(styleName!),
+                                    '&:hover': {
+                                        backgroundColor: getColorHoverBackground(styleName!),
+                                    },
+                                }}
+                            >
                                 Download CSV Export file
-                            </button>
+                            </Button>
                         </div>
                         <div className="summary-table-container">
                             <div className="summary-table">
-                                <div dangerouslySetInnerHTML={{ __html: data ?? null }} />
+                                <div dangerouslySetInnerHTML={{ __html: formatNumberWithCommas(data) ?? null }} />
                             </div>
                         </div>
                     </div>

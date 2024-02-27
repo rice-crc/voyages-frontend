@@ -85,7 +85,7 @@ const NodeEdgesCurvedLinesMap = () => {
     });
     const nodeLogValueScale = createLogNodeValueScale(nodesData);
 
-    const hiddenEdges = edgesData.filter(
+    const hiddenEdges = (edgesData ?? []).filter(
       (edge: EdgesAggroutes) => edge.type === ORIGINATIONNODE || edge.type === DISPOSTIONNODE
     );
 

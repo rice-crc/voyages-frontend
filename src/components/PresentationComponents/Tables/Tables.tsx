@@ -72,7 +72,6 @@ const Tables: React.FC = () => {
     const gridRef = useRef<any>(null);
     const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
 
-
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
     );
@@ -97,10 +96,6 @@ const Tables: React.FC = () => {
     // Enslavers States
     const { tableFlatfileEnslavers } =
         useSelector((state: RootState) => state.getEnslaverDataSetCollections);
-
-    const { currentEnslaversPage } = useSelector(
-        (state: RootState) => state.getScrollEnslaversPage
-    );
 
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState(
@@ -275,7 +270,11 @@ const Tables: React.FC = () => {
     const components = useMemo(
         () => ({
             agColumnHeader: (props: any) => {
-                return <CustomHeaderTable page={page} pageSize={rowsPerPage} setPage={setPage} {...props} />;
+                return <CustomHeaderTable
+                    page={page}
+                    pageSize={rowsPerPage}
+                    setPage={setPage}
+                    {...props} />;
             },
 
         }),
