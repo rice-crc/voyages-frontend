@@ -2,12 +2,11 @@ import { Button, Hidden } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { ButtonNav } from '@/styleMUI';
 import {
   getColorBTNBackgroundEnslaved,
   getColorBTNVoyageDatasetBackground,
   getColorBoxShadowEnslaved,
-  getColorHoverBackground,
+  getColorTextCollection,
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
 import '@/style/page.scss';
@@ -21,11 +20,10 @@ import { setPeopleEnslavedBlocksMenuList, } from '@/redux/getPeopleEnslavedDataS
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
 import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 
-
 const CollectionTabEnslaved = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { styleNamePeople, blocksPeople } = useSelector(
+  const { blocksPeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
   const { styleName, currentBlockName } = usePageRouter();
@@ -77,7 +75,7 @@ const CollectionTabEnslaved = () => {
                   cursor: 'pointer',
                   backgroundColor: getColorBTNBackgroundEnslaved(styleName!),
                   boxShadow: currentPageBlockName === page.toLocaleLowerCase() ? getColorBoxShadowEnslaved(styleName!) : '',
-                  color: currentPageBlockName === page.toLocaleLowerCase() ? 'white' : getColorHoverBackground(styleName!),
+                  color: currentPageBlockName === page.toLocaleLowerCase() ? 'white' : getColorTextCollection(styleName!),
                   fontWeight: currentPageBlockName === page.toLocaleLowerCase() ? 'bold' : 600,
                   fontSize: currentPageBlockName === page.toLocaleLowerCase() ? '0.85rem' : '0.80rem',
                   '&:hover': {

@@ -21,7 +21,7 @@ import '@/style/table.scss';
 import { fetchEstimateCrosstabsTables } from '@/fetch/estimateFetch/fetchEstimateCrosstabsTables';
 import { SelectDropdownEstimateTable } from '@/components/SelectorComponents/SelectDrowdown/SelectDropdownEstimateTable';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import { formatNumberWithCommas } from '@/utils/functions/formatNumberWithCommas';
+import { formatNumberWithCommasOrPercentage } from '@/utils/functions/formatNumberWithCommas';
 
 const TablesEstimates = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -87,7 +87,7 @@ const TablesEstimates = () => {
     }, []);
 
     const { rows, binsize, column_vars, cell_vars } = estimateValueOptions;
-    console.log({ estimateValueOptions })
+
     const onlyYearRows = rows.filter(
         (row) => row.startsWith('year_') && row.length > 5
     );
@@ -222,7 +222,7 @@ const TablesEstimates = () => {
             />
             <div className="estimate-table-container">
                 <div className="estimate-table" >
-                    <div dangerouslySetInnerHTML={{ __html: formatNumberWithCommas(data) ?? null }} />
+                    <div dangerouslySetInnerHTML={{ __html: formatNumberWithCommasOrPercentage(data) ?? null }} />
                 </div>
             </div>
         </div>

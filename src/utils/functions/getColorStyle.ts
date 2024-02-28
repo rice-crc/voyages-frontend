@@ -123,11 +123,31 @@ export const getColorHoverBackground = (item: string) => {
     } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
         background = 'rgb(178, 148, 147)';
     } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
-        background = 'rgb(56, 116, 203)';
+        background = 'rgb(25, 118, 210)';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
         background = 'rgb(187, 105, 46)';
     }
     return background;
+};
+export const getColorTextCollection = (item: string) => {
+
+    let textColor = 'rgb(0 255 234)';
+    if (item === TYPESOFDATASET.allVoyages) {
+        textColor = 'rgb(0 255 234)';
+    } else if (item === TYPESOFDATASET.transatlantic) {
+        textColor = '#42a5f5';
+    } else if (item === TYPESOFDATASET.intraAmerican) {
+        textColor = 'rgb(230 150 243)';
+    } else if (item === TYPESOFDATASET.texas) {
+        textColor = 'rgb(237 100 2)';
+    } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
+        textColor = '#e2aeac';
+    } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        textColor = '#42a5f5';
+    } else if (item === TYPESOFDATASETPEOPLE.texas) {
+        textColor = 'rgb(237 100 2)';
+    }
+    return textColor;
 };
 export const getColorHoverBackgroundCollection = (item: string) => {
     let boxShadow = 'rgb(0 255 234)';
@@ -171,7 +191,7 @@ export const getColorBTNHoverEnslaversBackground = (item: string) => {
     } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
         background = '#42a5f5';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
-        background = 'rgb(216 93 5)';
+        background = 'rgb(237 100 2)';
     }
     return background;
 };
@@ -184,13 +204,13 @@ export const getColorBoxShadow = (item: string) => {
     } else if (item === TYPESOFDATASET.intraAmerican) {
         boxShadow = 'rgb(226, 134, 241) 1px 2px 8px';
     } else if (item === TYPESOFDATASET.texas) {
-        boxShadow = '1px 2px 8px rgb(216 93 5)';
+        boxShadow = '1px 2px 8px rgb(237 100 2)';
     } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
-        boxShadow = '1px 2px 8px #dbcccbe8';
+        boxShadow = '1px 2px 8px #e2aeac';
     } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
         boxShadow = '1px 2px 8px #42a5f5';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
-        boxShadow = '1px 2px 8px rgb(216 93 5)';
+        boxShadow = '1px 2px 8px rgb(237 100 2)';
     }
     return boxShadow;
 };
@@ -299,7 +319,7 @@ export const getHeaderColomnColor = (item: string) => {
     } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
         color = 'rgb(144, 104, 102)';
     } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
-        color = 'rgb(25, 118, 210)';
+        color = 'rgb(2 83 204)';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
         color = 'rgb(167 70 0)';
     }

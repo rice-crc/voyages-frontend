@@ -1,7 +1,7 @@
 import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
 import { Button } from '@mui/material';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { getColorHoverBackground } from '@/utils/functions/getColorStyle';
+import { getColorTextCollection } from '@/utils/functions/getColorStyle';
 
 interface DatasetButtonProps {
   item: any;
@@ -55,7 +55,7 @@ export const DatasetButton = (props: DatasetButtonProps) => {
         )
       }
       sx={{
-        color: getColorHoverBackground(style_name),
+        color: getColorTextCollection(style_name),
         fontWeight: 600,
         height: 32,
         fontSize: 12,

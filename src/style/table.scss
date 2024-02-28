@@ -99,14 +99,28 @@
 .ag-header-cell-label {
   color: var(--header-color, #007269);
   text-align: center;
+
 }
 
-.summary-table>div>table>thead>tr>th {
-  color: var(--header-color-summary, #007269);
-  border-bottom: 2px solid #dee2e6;
-  padding: 0 5px 0 5px;
-  text-align: center;
+.ag-header-cell-label,
+.ag-header-group-cell-label {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 }
+
+.summary-table>div>table>thead>tr {
+  height: 32px;
+
+  th {
+    color: var(--header-color-summary, #007269);
+    border-bottom: 2px solid #dee2e6;
+    padding: 0 5px 0 5px;
+    text-align: center;
+  }
+}
+
 
 .summary-table>div>table>tbody>tr>th {
   color: var(--header-color-summary, #007269);
@@ -176,6 +190,11 @@ div .customHeaderLabelSummaryTable {
   color: cornflowerblue;
 }
 
+.css-n98qnm-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  color: #fff;
+  background-color: var(--pagination-table--, #556cd6) !important;
+}
+
 .pagination-div {
   display: flex;
   justify-content: flex-end;
@@ -183,19 +202,13 @@ div .customHeaderLabelSummaryTable {
   padding: 10px 0;
 
   nav>ul>li>button:hover {
-    background-color: rgb(2 83 204);
+    background-color: var(--pagination-table--, #556cd6);
   }
 
   nav>ul>li>button:active {
-    background-color: rgb(2 83 204) !important;
+    background-color: var(--pagination-table--, #556cd6)
   }
 }
-
-// .ag-theme-alpine .ag-row-hover {
-//   // background-color: #85d4cb;
-//   /* Define the desired hover background color */
-//   /* Add any other styles for the hover effect */
-// }
 
 .pagination-div>nav>ul>li>button {
   font-size: 0.875rem;
@@ -541,20 +554,23 @@ div .customHeaderLabelSummaryTable {
 
   @include breakpoint-standard(0) {
     top: 70px;
-    padding: 30px 30px 0 30px;
-    margin-top: 80px;
+    padding: 30px 20px 0 10px;
+    margin-top: 8rem;
+
   }
 
   @include breakpoint-standard(1) {
     top: 70px;
-    padding: 30px 30px 0 30px;
-    margin-top: 80px;
+    padding: 30px 20px 0 10px;
+    margin-top: 8rem;
+
   }
 
   @include breakpoint-standard(1.1) {
     top: 70px;
-    padding: 30px 30px 0 30px;
-    margin-top: 80px;
+    padding: 30px 20px 0 10px;
+    margin-top: 8rem;
+
   }
 
   @include breakpoint-standard(2) {
@@ -570,7 +586,7 @@ div .customHeaderLabelSummaryTable {
 
   @include breakpoint-standard(4) {
     padding: 70px 30px 0 30px;
-    margin-top: 100px;
+    margin-top: 9rem;
   }
 
 }
@@ -606,27 +622,27 @@ div .customHeaderLabelSummaryTable {
   width: 100vw;
 
   @include breakpoint-standard(0) {
-    margin-top: 12rem;
+    margin-top: 15rem;
   }
 
   @include breakpoint-standard(1) {
-    margin-top: 12rem;
+    margin-top: 15rem;
   }
 
   @include breakpoint-standard(1.1) {
-    margin-top: 12rem;
+    margin-top: 15rem;
   }
 
   @include breakpoint-standard(2) {
-    margin-top: 12rem;
+    margin-top: 15rem;
   }
 
   @include breakpoint-standard(3) {
-    margin-top: 12rem;
+    margin-top: 15rem;
   }
 
   @include breakpoint-standard(4) {
-    margin-top: 12rem;
+    margin-top: 15rem;
   }
 
   @include breakpoint-standard(5) {
@@ -634,7 +650,7 @@ div .customHeaderLabelSummaryTable {
   }
 
   @include breakpoint-standard(6) {
-    margin-top: 5rem;
+    margin-top: 10rem;
   }
 }
 
@@ -696,4 +712,8 @@ div .customHeaderLabelSummaryTable {
   border-left: 1px solid rgb(194, 194, 194);
   border-right: 1px solid rgb(194, 194, 194);
   background-color: #fff;
+}
+
+.ag-header-cell-label {
+  justify-content: center;
 }

@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
-import { ButtonNav } from '@/styleMUI';
+
 import '@/style/page.scss';
 import {
   getColorBTNVoyageDatasetBackground,
   getColorBackground,
   getColorBoxShadow,
-  getColorHoverBackground,
+  getColorTextCollection,
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
 import { setIsFilter } from '@/redux/getFilterSlice';
@@ -50,14 +50,13 @@ const CollectionTabVoyages = () => {
                 onClick={() => handlePageNavigation(buttonIndex, newBlockName)}
                 className="nav-button-page"
                 sx={{
-                  width: 75,
                   margin: '5px',
                   cursor: 'pointer',
                   backgroundColor: getColorBackground(styleName),
                   boxShadow: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? getColorBoxShadow(styleName) : '',
-                  color: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'white' : getColorHoverBackground(styleName),
+                  color: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'white' : getColorTextCollection(styleName),
                   fontWeight: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'bold' : 600,
-                  fontSize: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? '0.85rem' : '0.80rem',
+                  fontSize: '0.75rem',
                   '&:hover': {
                     backgroundColor: getColorHoverBackgroundCollection(styleName!),
                     color: getColorBTNVoyageDatasetBackground(styleName)

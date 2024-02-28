@@ -60,15 +60,15 @@ const GlobalHomeNavigations = () => {
           >
             <img src={peopleIcon} alt="People" style={{ opacity: 0.65 }} />
           </Link>
-          <div className="voyages-people-places-subtitle">find a person</div>
+          <div className="voyages-people-places-subtitle">Find a person</div>
         </div>
         <div className="place-page-box">
-          <div className="voyages-people-places-title">documents</div>
+          <div className="voyages-people-places-title">Documents</div>
           <Link to={`/${DOCUMENTPAGE}`}>
             <img src={documentIcon} alt="Documents" width={129} />
           </Link>
           <div className="voyages-people-places-subtitle">
-            read primary sources
+            Read primary sources
           </div>
         </div>
         <div className="place-page-box">
@@ -77,7 +77,7 @@ const GlobalHomeNavigations = () => {
             <img src={resourceIcon} alt="Writing" width={129} />
           </Link>
           <div className="voyages-people-places-subtitle">
-            lesson plans, essays, and more
+            Lesson plans, essays, and more
           </div>
         </div>
       </div>

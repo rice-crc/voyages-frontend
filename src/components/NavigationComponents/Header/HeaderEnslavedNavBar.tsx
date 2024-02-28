@@ -10,7 +10,6 @@ import {
   getColorBTNBackgroundEnslaved,
   getColorBTNHoverEnslavedBackground,
   getColorBoxShadow,
-  getColorBoxShadowEnslaved,
   getColorNavbarEnslavedBackground,
 } from '@/utils/functions/getColorStyle';
 import {
@@ -30,9 +29,6 @@ import {
 } from '@/share/InterfactTypesDatasetCollection';
 import CanscandingMenu from '@/components/SelectorComponents/Cascading/CanscandingMenu';
 import {
-  setBaseFilterPeopleEnslavedDataKey,
-  setBaseFilterPeopleEnslavedDataSetValue,
-  setBaseFilterPeopleEnslavedDataValue,
   setDataSetPeopleEnslavedHeader,
   setPeopleEnslavedBlocksMenuList,
   setPeopleEnslavedFilterMenuFlatfile,

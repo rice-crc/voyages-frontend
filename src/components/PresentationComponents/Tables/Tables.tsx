@@ -51,6 +51,7 @@ import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
+import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 
 
 const Tables: React.FC = () => {
@@ -191,7 +192,6 @@ const Tables: React.FC = () => {
 
         fetchData();
 
-
         return () => {
             subscribed = false;
         };
@@ -204,7 +204,7 @@ const Tables: React.FC = () => {
         varName,
         visibleColumnCells,
         inputSearchValue, styleNamePeople, styleName,
-        isChange, isChangeGeoTree, isChangeAuto, autoLabelName,
+        isChange, isChangeGeoTree, isChangeAuto, autoLabelName
     ]);
 
     useEffect(() => {
@@ -345,6 +345,10 @@ const Tables: React.FC = () => {
     );
 
     const className = crateClassName(styleNameRoute!)
+    useEffect(() => {
+        const paginationColor = getHeaderColomnColor(styleNameRoute!);
+        document.documentElement.style.setProperty('--pagination-table--', paginationColor);
+    }, [styleNameRoute]);
 
     return (
         <div className={className}  >
@@ -386,6 +390,7 @@ const Tables: React.FC = () => {
                             count={pageCount}
                             page={page + 1}
                             onChange={handleChangePagePagination}
+                            className='pagination-table'
                         />
                     </div>
                 </>

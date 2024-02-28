@@ -22,7 +22,7 @@ import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoy
 import { Button } from '@mui/material';
 import { getColorBoxShadow, getColorBTNVoyageDatasetBackground, getColorHoverBackground, getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { formatNumberWithCommas } from '@/utils/functions/formatNumberWithCommas';
+import { formatNumberWithCommasOrPercentage } from '@/utils/functions/formatNumberWithCommas';
 
 const SummaryStatisticsTable = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -157,11 +157,7 @@ const SummaryStatisticsTable = () => {
         const headerColor = getHeaderColomnColor(styleName!);
         document.documentElement.style.setProperty('--header-color-summary', headerColor);
     }, []);
-    // const formattedNumberDataTable = data.replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, (match) => match + ',');
-    const formattedNumberDataTable = data.replace(/\d+(\.\d+)?/g, (match) => {
-        const floatValue = parseFloat(match);
-        return isNaN(floatValue) ? match : floatValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    });
+
 
     return (
         <>
@@ -188,7 +184,7 @@ const SummaryStatisticsTable = () => {
                         </div>
                         <div className="summary-table-container">
                             <div className="summary-table">
-                                <div dangerouslySetInnerHTML={{ __html: formatNumberWithCommas(data) ?? null }} />
+                                <div dangerouslySetInnerHTML={{ __html: formatNumberWithCommasOrPercentage(data) ?? null }} />
                             </div>
                         </div>
                     </div>
