@@ -131,9 +131,9 @@ export const getColorHoverBackground = (item: string) => {
 };
 export const getColorTextCollection = (item: string) => {
 
-    let textColor = 'rgb(0 255 234)';
+    let textColor = 'rgb(0 205 188)';
     if (item === TYPESOFDATASET.allVoyages) {
-        textColor = 'rgb(0 255 234)';
+        textColor = 'rgb(0 205 188)';
     } else if (item === TYPESOFDATASET.transatlantic) {
         textColor = '#42a5f5';
     } else if (item === TYPESOFDATASET.intraAmerican) {
@@ -150,9 +150,9 @@ export const getColorTextCollection = (item: string) => {
     return textColor;
 };
 export const getColorHoverBackgroundCollection = (item: string) => {
-    let boxShadow = 'rgb(0 255 234)';
+    let boxShadow = 'rgb(6 186 171 / 83%)';
     if (item === TYPESOFDATASET.allVoyages) {
-        boxShadow = 'rgb(0 255 234)';
+        boxShadow = 'rgb(6 186 171 / 83%)';
     } else if (item === TYPESOFDATASET.transatlantic) {
         boxShadow = '#42a5f5';
     } else if (item === TYPESOFDATASET.intraAmerican) {
