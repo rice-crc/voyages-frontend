@@ -41,7 +41,7 @@ import { getRowHeightPivotTable } from '@/utils/functions/getRowHeightTable';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { CustomTablePagination } from '@/styleMUI';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
-import { RowDataPivotTable, StatePivotRowData } from '@/share/InterfaceTypePivotTable';
+import { PivotColumnDef, RowDataPivotTable, StatePivotRowData } from '@/share/InterfaceTypePivotTable';
 
 const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
