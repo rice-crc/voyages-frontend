@@ -20,6 +20,8 @@ interface Props {
     isSortAscending: () => boolean;
     isSortDescending: () => boolean;
     addEventListener: (event: string, callback: () => void) => void;
+    removeEventListener: (event: string, callback: () => void) => void;
+
   };
   setSort: (order: string, shiftKey: boolean) => void;
   enableMenu: boolean;
@@ -49,21 +51,23 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     setAscSort(column.isSortAscending() ? 'active' : 'inactive');
     setDescSort(column.isSortDescending() ? 'active' : 'inactive')
     setPage(page)
-    const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
-    fetchData(sortOrder, column.colDef.sortingOrder);
   };
-
 
   const onSortRequested = (
     order: string,
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
     setSort(order, event.shiftKey);
+    const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
+    fetchData(sortOrder, column.colDef.sortingOrder);
   };
 
   useEffect(() => {
     props.column.addEventListener('sortChanged', onSortChanged);
     onSortChanged();
+    return () => {
+      props.column.removeEventListener('sortChanged', onSortChanged);
+    }
   }, []);
 
   const fetchData = async (sortOrder: string, sortingOrder: string[]) => {

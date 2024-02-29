@@ -184,7 +184,8 @@ const SummaryStatisticsTable = () => {
                         </div>
                         <div className="summary-table-container">
                             <div className="summary-table">
-                                <div dangerouslySetInnerHTML={{ __html: formatNumberWithCommasOrPercentage(data) ?? null }} />
+                                {/* <div dangerouslySetInnerHTML={{ __html: formatNumberWithCommasOrPercentage(data) ?? null }} /> */}
+                                <div dangerouslySetInnerHTML={{ __html: data ?? null }} />
                             </div>
                         </div>
                     </div>

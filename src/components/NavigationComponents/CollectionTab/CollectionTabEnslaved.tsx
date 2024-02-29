@@ -47,6 +47,7 @@ const CollectionTabEnslaved = () => {
 
 
   const handlePageNavigation = (page: number, blockName: string) => {
+
     if (page === 1) {
       dispatch(setIsFilter(false));
     }

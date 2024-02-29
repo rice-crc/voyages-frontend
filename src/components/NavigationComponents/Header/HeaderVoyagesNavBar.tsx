@@ -20,10 +20,8 @@ import {
   setVoyagesFilterMenuFlatfile,
 } from '@/redux/getDataSetCollectionSlice';
 import {
-  getColorBackground,
   getColorHoverBackground,
   getColorNavbarBackground,
-  getTextColor,
   getColorBoxShadow,
   getColorBTNVoyageDatasetBackground,
 } from '@/utils/functions/getColorStyle';
@@ -40,7 +38,6 @@ import {
   INTRAAMERICANPAGE,
   TRANSATLANTIC,
   TRANSATLANTICPAGE,
-  VOYAGE,
   VOYAGESPAGE,
   VOYAGESTEXAS,
   VOYAGESTEXASPAGE,
@@ -75,6 +72,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
+
   const styleNameToPathMap: { [key: string]: string } = {
     [ALLVOYAGES]: `/${VOYAGESPAGE}${ALLVOYAGESPAGE}#${currentVoyageBlockName}`,
     [INTRAAMERICAN]: `/${VOYAGESPAGE}${INTRAAMERICANPAGE}#${currentVoyageBlockName}`,

@@ -63,7 +63,9 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   useEffect(() => {
     const headerColor = getHeaderColomnColor(styleName!);
     document.documentElement.style.setProperty('--header-color', headerColor);
+
   }, []);
+
 
 
   const onSortRequested = (
@@ -77,6 +79,7 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
     fetchDataPivotTable(sortOrder, [column.colDef.field])
   };
+
 
   const dataSend: PivotTablesPropsRequest = {
     columns: columns,

@@ -125,7 +125,7 @@
 		},
 		{
 			"header_label": "Enslavers",
-			"cell_type":"literal",
+			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
 				"enslaved_relations__relation__relation_enslavers__enslaver_alias__alias"
@@ -241,13 +241,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"enslaved_zotero_connections__zotero_source__zotero_title"
+				"enslaved_source_connections__source__title"
 			],
 			"colID": "voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaved_zotero_connections__zotero_source__zotero_title",
+						"var_name": "enslaved_source_connections__source__title",
 						"cell_fn": "literal"
 					}
 				]

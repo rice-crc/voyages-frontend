@@ -129,6 +129,17 @@
   text-align: center;
 }
 
+.summary-table>div>table>tbody>tr>td:first-child {
+  // color: var(--header-color-summary, #007269);
+  text-align: left;
+}
+
+.summary-table>div>table>tbody>tr>td {
+  line-height: 22px;
+  padding-left: 12px;
+}
+
+
 
 .customHeaderLabel {
   float: left;

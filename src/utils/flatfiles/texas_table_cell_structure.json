@@ -95,13 +95,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"enslaved_zotero_connections__zotero_source__zotero_title"
+				"enslaved_source_connections__source__title"
 			],
-			"colID": "enslaved_relations__relation__voyage__voyage_sources",
+			"colID": "enslaved_source_connections__source__title",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaved_zotero_connections__zotero_source__zotero_title",
+						"var_name": "enslaved_source_connections__source__title",
 						"cell_fn": "literal"
 					}
 				]
@@ -217,8 +217,17 @@
 			"label": "Sources",
 			"children": [
 				{
-					"colID": "enslaved_zotero_connections__zotero_source__zotero_title",
+					"colID": "enslaved_source_connections__source__title",
 					"label": "Sources"
+				}
+			]
+		},
+		{
+			"label": "Connections",
+			"children": [
+				{
+					"colID": "connections",
+					"label": "Connections"
 				}
 			]
 		}
