@@ -58,7 +58,7 @@ const CollectionTabEnslavers = () => {
                   boxShadow: getColorBoxShadowEnslavers(styleNamePeople),
                   color: '#fff',
                   fontWeight: 600,
-                  fontSize: '0.85rem',
+                  fontSize: '0.70rem',
                   '&:hover': {
                     backgroundColor: getColorHoverBackgroundCollection(styleNamePeople),
                     color: getColorBTNVoyageDatasetBackground(styleNamePeople)

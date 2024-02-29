@@ -56,7 +56,7 @@ const CollectionTabVoyages = () => {
                   boxShadow: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? getColorBoxShadow(styleName) : '',
                   color: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'white' : getColorTextCollection(styleName),
                   fontWeight: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'bold' : 600,
-                  fontSize: '0.75rem',
+                  fontSize: '0.70rem',
                   '&:hover': {
                     backgroundColor: getColorHoverBackgroundCollection(styleName!),
                     color: getColorBTNVoyageDatasetBackground(styleName)

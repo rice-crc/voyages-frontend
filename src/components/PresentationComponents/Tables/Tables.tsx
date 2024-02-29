@@ -112,7 +112,6 @@ const Tables: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(
         getRowsPerPage(window.innerWidth, window.innerHeight)
     );
-    console.log('w', window.innerWidth, 'h-', window.innerHeight)
 
     const [width, height] = useWindowSize();
     const maxWidth = maxWidthSize(width);

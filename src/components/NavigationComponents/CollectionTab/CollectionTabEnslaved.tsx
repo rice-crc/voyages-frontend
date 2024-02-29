@@ -78,7 +78,7 @@ const CollectionTabEnslaved = () => {
                   boxShadow: currentPageBlockName === page.toLocaleLowerCase() ? getColorBoxShadowEnslaved(styleName!) : '',
                   color: currentPageBlockName === page.toLocaleLowerCase() ? 'white' : getColorTextCollection(styleName!),
                   fontWeight: currentPageBlockName === page.toLocaleLowerCase() ? 'bold' : 600,
-                  fontSize: currentPageBlockName === page.toLocaleLowerCase() ? '0.85rem' : '0.80rem',
+                  fontSize: '0.70rem',
                   '&:hover': {
                     backgroundColor: getColorHoverBackgroundCollection(styleName!!),
                     color: getColorBTNVoyageDatasetBackground(styleName!)
