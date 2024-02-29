@@ -33,8 +33,9 @@ interface SelectDropdownProps {
   XFieldText?: string;
   YFieldText?: string;
   optionsFlatY: PlotXYVar[];
-  graphType?: string;
-  setTitle?: React.Dispatch<React.SetStateAction<string>>
+  graphType?: string; //xAxes, setXAxes
+  setXAxes?: React.Dispatch<React.SetStateAction<string>>
+  setYAxes?: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
@@ -48,7 +49,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   maxWidth,
   XFieldText,
   YFieldText,
-  optionsFlatY, setTitle
+  optionsFlatY, setXAxes, setYAxes
 }) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -106,7 +107,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, 'x_vars');
               const selectedOption = selectedX.find(option => option.var_name === event.target.value);
-              setTitle && setTitle(selectedOption ? selectedOption.label : '');
+              setXAxes && setXAxes(selectedOption ? selectedOption.label : '');
             }}
             name="x_vars"
           >
@@ -140,6 +141,12 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               onChange={(event: SelectChangeEvent<string[]>) => {
                 if (handleChangeMultipleYSelected) {
                   handleChangeMultipleYSelected(event, 'y_vars');
+
+                  const selectedOptions = selectedY
+                    .filter(option => event.target.value.includes(option.var_name))
+                    .map(option => option.label);
+
+                  setYAxes && setYAxes(selectedOptions);
                 }
               }}
               input={

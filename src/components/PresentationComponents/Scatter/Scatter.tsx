@@ -26,6 +26,7 @@ import {
   maxWidthSize,
 } from '@/utils/functions/maxWidthSize';
 import { useGroupBy } from '@/hooks/useGroupBy';
+import { formatYAxes } from '@/utils/functions/formatYAxesLine';
 
 function Scatter() {
   const datas = useSelector(
@@ -54,7 +55,8 @@ function Scatter() {
   const [width, height] = useWindowSize();
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [scatterSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
-  const [title, setTitle] = useState<string>(scatterSelectedX[0]?.label);
+  const [xAxes, setXAxes] = useState<string>(VOYAGE_SCATTER_OPTIONS.x_vars[0].label);
+  const [yAxes, setYAxes] = useState<string[]>([VOYAGE_SCATTER_OPTIONS.y_vars[0].label]);
   const [scatterData, setScatterData] = useState<Data[]>([]);
   const [chips, setChips] = useState<string[]>([
     VOYAGE_SCATTER_OPTIONS.y_vars[0].var_name,
@@ -145,7 +147,7 @@ function Scatter() {
         [name]: value,
       }));
       for (const title of scatterSelectedX) {
-        setTitle(title.label);
+        setXAxes(title.label);
       }
     },
     []
@@ -154,11 +156,14 @@ function Scatter() {
   const handleChangeScatterChipYSelected = useCallback(
     (event: SelectChangeEvent<string[]>, name: string) => {
       const value = event.target.value;
+
       setChips(typeof value === 'string' ? value.split(',') : value);
       setScatterOptions((prevOptions) => ({
         ...prevOptions,
         [name]: value,
       }));
+      const newYAxesTitles = scatterSelectedY.map((title) => title.label);
+      setYAxes(newYAxesTitles);
     },
     []
   );
@@ -168,6 +173,7 @@ function Scatter() {
       <img src={LOADINGLOGO} />
     </div>;
   }
+
 
   return (
     <div className="mobile-responsive">
@@ -182,7 +188,8 @@ function Scatter() {
         XFieldText="X Field"
         YFieldText="Multi-Selector Y-Feild"
         optionsFlatY={VOYAGE_SCATTER_OPTIONS.y_vars}
-        setTitle={setTitle}
+        setXAxes={setXAxes}
+        setYAxes={setYAxes}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
@@ -194,7 +201,8 @@ function Scatter() {
           layout={{
             width: getMobileMaxWidth(maxWidth),
             height: getMobileMaxHeight(height),
-            title: title || scatterSelectedX[0]?.label,
+            // title: xAxis || scatterSelectedX[0]?.label + ' Vs ',
+            title: 'Line Graph',
             font: {
               family: 'Arial, sans-serif',
               size: maxWidth < 400 ? 7 : 10,
@@ -202,13 +210,13 @@ function Scatter() {
             },
             xaxis: {
               title: {
-                text: optionFlat[scatterOptions.x_vars]?.label || '',
+                text: xAxes || scatterSelectedX[0]?.label
               },
               fixedrange: true,
             },
             yaxis: {
               title: {
-                text: optionFlat[scatterOptions.y_vars]?.label || '',
+                text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes
               },
               fixedrange: true,
             },

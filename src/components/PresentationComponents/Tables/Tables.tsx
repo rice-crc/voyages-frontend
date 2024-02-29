@@ -9,7 +9,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeaderTable from '../../NavigationComponents/Header/CustomHeaderTable';
-import { setData, setRowData } from '@/redux/getTableSlice';
+import { setData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { useWindowSize } from '@react-hook/window-size';
@@ -28,16 +28,17 @@ import {
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
-import {
-    maxWidthSize,
-} from '@/utils/functions/maxWidthSize';
+import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
 import {
     crateClassName,
+    createTopPositionEnslavedPage,
+    createTopPositionEnslaversPage,
 } from '@/utils/functions/createTopPositionEnslavedPage';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
+import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import {
     checkPagesRouteForEnslaved,
@@ -51,7 +52,13 @@ import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-
+import { convertToSlug } from '@/utils/functions/convertToSlug';
+import {
+    AFRICANORIGINS,
+    ENSLAVEDTEXAS,
+    INTRAAMERICAN,
+    TRANSATLANTICPATH,
+} from '@/share/CONST_DATA';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -66,12 +73,13 @@ const Tables: React.FC = () => {
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
-    const { isChangeAuto, autoLabelName } = useSelector((state: RootState) => state.autoCompleteList)
+    const { isChangeAuto, autoLabelName } = useSelector(
+        (state: RootState) => state.autoCompleteList
+    );
 
     const [totalResultsCount, setTotalResultsCount] = useState(0);
     const gridRef = useRef<any>(null);
     const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
-
 
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
@@ -81,8 +89,9 @@ const Tables: React.FC = () => {
         (state: RootState) => state.getGeoTreeData
     );
     // Voyages States
-    const { tableFlatfileVoyages, styleName } =
-        useSelector((state: RootState) => state.getDataSetCollection);
+    const { tableFlatfileVoyages, styleName } = useSelector(
+        (state: RootState) => state.getDataSetCollection
+    );
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
     );
@@ -95,11 +104,8 @@ const Tables: React.FC = () => {
     );
 
     // Enslavers States
-    const { tableFlatfileEnslavers } =
-        useSelector((state: RootState) => state.getEnslaverDataSetCollections);
-
-    const { currentEnslaversPage } = useSelector(
-        (state: RootState) => state.getScrollEnslaversPage
+    const { tableFlatfileEnslavers } = useSelector(
+        (state: RootState) => state.getEnslaverDataSetCollections
     );
 
     const [page, setPage] = useState<number>(0);
@@ -110,7 +116,6 @@ const Tables: React.FC = () => {
     const [width, height] = useWindowSize();
     const maxWidth = maxWidthSize(width);
 
-
     const {
         data: tableCellStructure,
         isLoading,
@@ -119,9 +124,8 @@ const Tables: React.FC = () => {
 
     useEffect(() => {
         if (!isLoading && !isError && tableCellStructure) {
-            setTableCell(tableCellStructure)
+            setTableCell(tableCellStructure);
         }
-
     }, [tablesCell, isLoading, isError]);
 
     useEffect(() => {
@@ -144,28 +148,48 @@ const Tables: React.FC = () => {
 
     let filters: Filter[] = [];
 
-    if (styleNameRoute === 'trans-atlantic') {
-        if (filtersObj[0]?.searchTerm?.length > 0) {
-            filters = filtersObj
-        } else {
-            filters.push({
-                varName: "dataset",
-                searchTerm: [0],
-                op: "in"
-            });
-        }
+    if (styleNameRoute === TRANSATLANTICPATH) {
+        filters.push({
+            varName: 'dataset',
+            searchTerm: [0],
+            op: 'in',
+        });
+    } else if (styleNameRoute === INTRAAMERICAN) {
+        filters.push({
+            varName: 'dataset',
+            searchTerm: [1],
+            op: 'in',
+        });
+    } else if (styleNameRoute === ENSLAVEDTEXAS) {
+        filters.push({
+            varName:
+                'enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_region_slave_dis__name',
+            searchTerm: ['Texas'],
+            op: 'in',
+        });
+    } else if (styleNameRoute === AFRICANORIGINS) {
+        filters.push({
+            varName: 'dataset',
+            searchTerm: [0, 0],
+            op: 'in',
+        });
+    } else if (inputSearchValue) {
+        filters.push({
+            varName: 'global_search',
+            searchTerm: [inputSearchValue],
+            op: 'gte',
+        });
     } else {
         filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
     }
 
     const dataSend: TableListPropsRequest = {
-        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters,
+        filter: filters,
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
-
     if (inputSearchValue) {
-        dataSend['global_search'] = inputSearchValue
+        dataSend['global_search'] = inputSearchValue;
     }
 
     useEffect(() => {
@@ -176,9 +200,13 @@ const Tables: React.FC = () => {
                 if (checkPagesRouteForVoyages(styleNameRoute!)) {
                     response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
                 } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                    response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap()
+                    response = await dispatch(
+                        fetchEnslavedOptionsList(dataSend)
+                    ).unwrap();
                 } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                    response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
+                    response = await dispatch(
+                        fetchEnslaversOptionsList(dataSend)
+                    ).unwrap();
                 }
 
                 if (subscribed && response) {
@@ -186,16 +214,13 @@ const Tables: React.FC = () => {
                     setTotalResultsCount(Number(count));
                     dispatch(setData(results));
                     saveDataToLocalStorage(results, visibleColumnCells);
-
                 }
             } catch (error) {
                 console.log('error', error);
-
             }
         };
 
         fetchData();
-
 
         return () => {
             subscribed = false;
@@ -208,8 +233,13 @@ const Tables: React.FC = () => {
         currentEnslavedPage,
         varName,
         visibleColumnCells,
-        inputSearchValue, styleNamePeople, styleName,
-        isChange, isChangeGeoTree, isChangeAuto, autoLabelName,
+        inputSearchValue,
+        styleNamePeople,
+        styleName,
+        isChange,
+        isChangeGeoTree,
+        isChangeAuto,
+        autoLabelName,
     ]);
 
     useEffect(() => {
@@ -275,9 +305,15 @@ const Tables: React.FC = () => {
     const components = useMemo(
         () => ({
             agColumnHeader: (props: any) => {
-                return <CustomHeaderTable page={page} pageSize={rowsPerPage} setPage={setPage} {...props} />;
+                return (
+                    <CustomHeaderTable
+                        page={page}
+                        pageSize={rowsPerPage}
+                        setPage={setPage}
+                        {...props}
+                    />
+                );
             },
-
         }),
         []
     );
@@ -328,7 +364,6 @@ const Tables: React.FC = () => {
     const handleChangeRowsPerPage = useCallback(
         (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             setRowsPerPage(parseInt(event.target.value));
-
         },
         [page]
     );
@@ -340,15 +375,13 @@ const Tables: React.FC = () => {
         []
     );
 
-
     const pageCount = Math.ceil(
         totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
     );
 
-    const className = crateClassName(styleNameRoute!)
-
+    const className = crateClassName(styleNameRoute!);
     return (
-        <div className={className}  >
+        <div className={className}>
             <div className="ag-theme-alpine grid-container">
                 <span className="tableContainer">
                     <ButtonDropdownColumnSelector />
@@ -390,7 +423,6 @@ const Tables: React.FC = () => {
                         />
                     </div>
                 </>
-
             </div>
             <div>
                 <ModalNetworksGraph />
@@ -403,5 +435,3 @@ const Tables: React.FC = () => {
 };
 
 export default Tables;
-
-

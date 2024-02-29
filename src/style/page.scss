@@ -58,13 +58,17 @@
   position: relative;
   width: 100%;
   z-index: 0;
-  height: 100vh;
+  height: 110vh;
 }
 
 .voyages-home-page {
   padding: 0;
   margin: 0;
   height: 110vh;
+
+  @include breakpoint-standard(6) {
+    height: 100%;
+  }
 
   @include breakpoint-standard(4) {
     top: -40px !important;
@@ -243,9 +247,9 @@
 }
 
 .nav-button-page {
-  width: 80px !important;
+  width: 85px !important;
   height: 40px;
-  line-height: 15px !important;
+  line-height: 14px !important;
 
   @include breakpoint-standard(7) {
     width: 72px !important;

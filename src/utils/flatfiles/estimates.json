@@ -18,14 +18,6 @@
 		},
 		{
 			"rows": [
-				"embarkation_region__export_area__name"
-			],
-			"binsize": null,
-			"rows_label": "Broad disembarkation regions",
-			"label": "Broad disembarkation regions"
-		},
-		{
-			"rows": [
 				"disembarkation_region__import_area__name"
 			],
 			"binsize": null,

@@ -1,4 +1,3 @@
-
 import { AppDispatch } from '@/redux/store';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -6,7 +5,8 @@ import '@/style/table.scss';
 import { Filter, PivotTablesPropsRequest } from '@/share/InterfaceTypes';
 import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
 import { setPivotTablColumnDefs, setRowPivotTableData } from '@/redux/getPivotTablesDataSlice';
-
+import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+import { usePageRouter } from '@/hooks/usePageRouter';
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
   column: {
@@ -39,11 +39,8 @@ interface Props {
 
 const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   const {
-    showColumnMenu,
     column,
     setSort,
-    enableMenu,
-    menuIcon,
     enableSorting,
     displayName, columns,
     rows,
@@ -60,12 +57,15 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   const dispatch: AppDispatch = useDispatch();
   const [ascSort, setAscSort] = useState<string>('inactive');
   const [descSort, setDescSort] = useState<string>('inactive');
-  const [noSort, setNoSort] = useState<string>('inactive');
-  const refButton = useRef<HTMLDivElement>(null);
+  const { styleName } = usePageRouter()
 
-  const onMenuClicked = () => {
-    showColumnMenu(refButton);
-  };
+
+  useEffect(() => {
+    const headerColor = getHeaderColomnColor(styleName!);
+    document.documentElement.style.setProperty('--header-color', headerColor);
+
+  }, []);
+
 
 
   const onSortRequested = (
@@ -75,15 +75,11 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     setSort(order, event.shiftKey);
     setAscSort(column.isSortAscending() ? 'active' : 'inactive');
     setDescSort(column.isSortDescending() ? 'active' : 'inactive');
-    setNoSort(
-      !column.isSortAscending() && !column.isSortDescending()
-        ? 'active'
-        : 'inactive'
-    );
     setPage(page)
     const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
     fetchDataPivotTable(sortOrder, [column.colDef.field])
   };
+
 
   const dataSend: PivotTablesPropsRequest = {
     columns: columns,
@@ -98,18 +94,18 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   }
 
   const fetchDataPivotTable = async (sortOrder: string, sortingOrder: string[]) => {
-
     if (sortOrder === 'asc') {
-      if (sortingOrder.length > 0) {
+      if (sortingOrder?.length > 0) {
         sortingOrder.forEach((sort: string) => (dataSend['order_by'] = [sort]));
       }
     } else if (sortOrder === 'desc') {
-      if (sortingOrder.length > 0) {
+      if (sortingOrder?.length > 0) {
         sortingOrder.forEach(
           (sort: string) => (dataSend['order_by'] = [`-${sort}`])
         );
       }
     }
+
     try {
       const response = await dispatch(
         fetchPivotCrosstabsTables(dataSend)
@@ -125,19 +121,7 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     }
   };
 
-  let menu: React.ReactNode = null;
   let sort: React.ReactNode = null;
-  if (enableMenu) {
-    menu = (
-      <div
-        ref={refButton}
-        className="customHeaderMenuButton"
-        onClick={() => onMenuClicked()}
-      >
-        <i className={`fa ${menuIcon}`}></i>
-      </div>
-    );
-  }
   if (enableSorting) {
     sort = (
       <div
@@ -146,8 +130,8 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
         }}
       >
         <div
-          onClick={(event) => onSortRequested('asc', event)}
-          onTouchEnd={(event) => onSortRequested('asc', event)}
+          onClick={(event) => onSortRequested("asc", event)}
+          onTouchEnd={(event) => onSortRequested("asc", event)}
           className={`customSortDownLabel ${ascSort}`}
         >
           <i className="fa fa-long-arrow-alt-down"></i>
@@ -165,10 +149,11 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
 
   return (
     <div className="customHeaderLabel-box">
-      <div className="customHeaderLabel">{displayName}</div>
+      <div className="customHeaderLabel" style={{ color: getHeaderColomnColor(styleName!) }}>{displayName}</div>
       {sort}
     </div>
   );
 };
 
 export default CustomHeaderPivotTable;
+

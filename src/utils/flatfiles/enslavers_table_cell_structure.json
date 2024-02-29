@@ -200,6 +200,15 @@
 					"label": "Documentary Sources"
 				}
 			]
+		},
+		{
+			"label": "Connections",
+			"children": [
+				{
+					"colID": "connections",
+					"label": "Connections"
+				}
+			]
 		}
 	]
 }

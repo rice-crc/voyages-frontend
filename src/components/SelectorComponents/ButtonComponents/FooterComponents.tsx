@@ -1,3 +1,4 @@
+import { ABOUTPAGE } from '@/share/CONST_DATA';
 import '@/style/homepage.scss';
 import { Link } from 'react-router-dom';
 export const FooterComponent = () => {
@@ -200,7 +201,7 @@ export const FooterComponent = () => {
                     <div className="copyright">
                         <div className="highlight">
                             <Link
-                                to="/Linkbout/Linkbout/"
+                                to={`${ABOUTPAGE}`}
                                 target="_blank"
                                 rel="noopener"
                                 className="link grey"

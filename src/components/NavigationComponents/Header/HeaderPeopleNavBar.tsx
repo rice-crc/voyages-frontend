@@ -45,9 +45,11 @@ export default function HeaderPeopleNavBar() {
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
-    if (item === 'About') {
-      navigate(`/${PASTHOMEPAGE}`);
-    } else if (item === Enslaved) {
+    // if (item === 'About') {
+    //   navigate(`/${PASTHOMEPAGE}`);
+    // } 
+    // else
+    if (item === Enslaved) {
       navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#table`);
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setPathNameEnslaved(ALLENSLAVED));

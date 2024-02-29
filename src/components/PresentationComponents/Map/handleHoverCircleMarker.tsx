@@ -29,7 +29,7 @@ export function handleHoverCircleMarker(
   aggregatedEdges.clear();
   const nodeHoverID = event.target.nodeId;
 
-  const hiddenEdgesData = edgesData.filter(
+  const hiddenEdgesData = edgesData?.filter(
     (edge) =>
       (edge.target === nodeHoverID || edge.source === nodeHoverID) &&
       (edge.type === 'origination' || edge.type === 'disposition')

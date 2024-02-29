@@ -1,8 +1,7 @@
 import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
 import { Button } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { getColorTextCollection } from '@/utils/functions/getColorStyle';
 
 interface DatasetButtonProps {
   item: any;
@@ -56,7 +55,7 @@ export const DatasetButton = (props: DatasetButtonProps) => {
         )
       }
       sx={{
-        color: '#000',
+        color: getColorTextCollection(style_name),
         fontWeight: 600,
         height: 32,
         fontSize: 12,
@@ -64,6 +63,7 @@ export const DatasetButton = (props: DatasetButtonProps) => {
         backgroundColor: getColorBTNBackground(style_name),
         '&:hover': {
           backgroundColor: getColorHover(style_name),
+          color: getColorBTNBackground(style_name)
         },
         '&:disabled': {
           backgroundColor: getColorBTNBackground(style_name),
