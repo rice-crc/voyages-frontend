@@ -29,6 +29,7 @@ export const NetworkDiagramSlaveVoyagesSVG = ({
   const width = (modalWidth * widthPercentage) / 100;
   const height = (modalHeight * heigthPercentage) / 100;
 
+
   useEffect(() => {
     let subscribed = true;
     const dataSend: { [key: string]: number[] } = {

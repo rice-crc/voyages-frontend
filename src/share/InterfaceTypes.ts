@@ -577,4 +577,5 @@ export interface ElementTimeLine {
 export interface SummaryStatisticsTableRequest {
     mode: string
     filter: Filter[]
+    global_search?: string
 }

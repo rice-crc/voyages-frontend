@@ -22,6 +22,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE } from '@/share/CONST_DATA';
 import { DropdownCanscanding } from '../Cascading/DropdownCanscanding';
+import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
 
 const ButtonDropdownColumnSelector = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -110,12 +111,13 @@ const ButtonDropdownColumnSelector = () => {
           <Button
             sx={{
               fontSize: 10,
-              backgroundColor: '#008ca8',
+              backgroundColor: getColorBTNVoyageDatasetBackground(styleNameRoute!),
+              boxShadow: getColorBoxShadow(styleNameRoute!),
               fontWeight: 600,
               color: '#ffffff',
               width: { xs: 160, sm: 160 },
               '&:hover': {
-                backgroundColor: 'rgb(84, 191, 182)',
+                backgroundColor: getColorHoverBackground(styleNameRoute!),
               },
             }}
             className="configureColumnsButton"

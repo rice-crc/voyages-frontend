@@ -177,7 +177,7 @@ const VoyageCard = () => {
                       if (Array.isArray(values)) {
                         const renderedValues = values.map(
                           (value: string, index: number) => {
-                            const valueToRender = value.replace(
+                            const valueToRender = value?.replace(
                               /<[^>]*>/g,
                               ' '
                             );

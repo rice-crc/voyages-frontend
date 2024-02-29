@@ -95,22 +95,22 @@ const VoyagesPage = () => {
     if (currentBlockName === 'voyages') {
       dispatch(setCurrentPage(1));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'line') {
+    } else if (currentBlockName === 'summarystatistics') {
       dispatch(setCurrentPage(2));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'bar') {
+    } else if (currentBlockName === 'line') {
       dispatch(setCurrentPage(3));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'pie') {
+    } else if (currentBlockName === 'bar') {
       dispatch(setCurrentPage(4));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'table') {
+    } else if (currentBlockName === 'pie') {
       dispatch(setCurrentPage(5));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'map') {
+    } else if (currentBlockName === 'table') {
       dispatch(setCurrentPage(6));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'summarystatistics') {
+    } else if (currentBlockName === 'map') {
       dispatch(setCurrentPage(7));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }
@@ -133,14 +133,15 @@ const VoyagesPage = () => {
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       {currentPage === 1 && currentVoyageBlockName === 'voyages' && <Tables />}
-      {currentPage === 2 && currentVoyageBlockName === 'line' && <Scatter />}
-      {currentPage === 3 && currentVoyageBlockName === 'bar' && <BarGraph />}
-      {currentPage === 4 && currentVoyageBlockName === 'pie' && <PieGraph />}
-      {currentPage === 5 && currentVoyageBlockName === 'table' && (
+      {currentPage === 2 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />}
+      {currentPage === 3 && currentVoyageBlockName === 'line' && <Scatter />}
+      {currentPage === 4 && currentVoyageBlockName === 'bar' && <BarGraph />}
+      {currentPage === 5 && currentVoyageBlockName === 'pie' && <PieGraph />}
+      {currentPage === 6 && currentVoyageBlockName === 'table' && (
         <PivotTables />
       )}
-      {currentPage === 6 && currentVoyageBlockName === 'map' && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
-      {currentPage === 7 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />}
+      {currentPage === 7 && currentVoyageBlockName === 'map' && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
+
     </motion.div>
   );
   const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);

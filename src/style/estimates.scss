@@ -62,27 +62,22 @@
     margin-right: 5px;
 }
 
-.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    // color: #0c9ab1;
-    color: rgb(25, 118, 210);
-    text-shadow: 0 0 0.25px currentcolor;
-    font-size: 0.85rem;
+.ant-tabs-tab {
+    font-size: 0.85rem !important;
+    color: #fff !important;
+    background: rgb(25, 118, 210) !important;
 }
 
-.ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab-active,
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-tabs-card.ant-tabs-top>div>.ant-tabs-nav .ant-tabs-tab-active {
-    // border: 1.5px solid #0c9ab1;
-    // color: #0c9ab1;
-    border: 1.5px solid rgb(25, 118, 210);
-    color: rgb(25, 118, 210)s;
-    background: white;
+.ant-tabs-tab-active {
+    color: #363636 !important;
+    background: #fff !important;
+    color: rgb(25, 118, 210) !important;
 }
 
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-tabs-card>.ant-tabs-nav .ant-tabs-tab {
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-tabs-card>.ant-tabs-nav .ant-tabs-ta {
     margin: 0;
     padding: 8px 16px;
-    // background-color: #0c9ab1;
-    background-color: rgb(25, 118, 210);
+    background: rgb(25, 118, 210);
     border: 1px solid #f0f0f0;
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     color: white;
@@ -123,6 +118,7 @@
 
 .ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab {
     border-radius: 5px 5px 0 0;
+    border: 1.5px solid rgb(25, 118, 210);
 }
 
 .ant-tabs-card>.ant-tabs-nav .ant-tabs-tab {
@@ -347,13 +343,15 @@ table.dataframe {
     border-collapse: collapse;
 
     th {
-        color: #008ca8;
+        color: rgb(25, 118, 210);
         border-bottom: 2px solid #dee2e6;
         padding: 0 5px 0 5px;
+        text-align: center;
     }
 
     td {
         padding: 0 5px 0 5px;
+        text-align: right;
     }
 }
 

@@ -7,7 +7,7 @@ import {
   useRef,
 } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { Pagination, SelectChangeEvent } from '@mui/material';
+import { Button, Pagination, SelectChangeEvent } from '@mui/material';
 import VOYAGE_PIVOT_OPTIONS from '@/utils/flatfiles/VOYAGE_PIVOT_OPTIONS.json';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -40,10 +40,13 @@ import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoy
 import { getRowHeightPivotTable } from '@/utils/functions/getRowHeightTable';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { CustomTablePagination } from '@/styleMUI';
+import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
+import { PivotColumnDef, RowDataPivotTable, StatePivotRowData } from '@/share/InterfaceTypePivotTable';
 
 const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
   const effectOnce = useRef(false);
+
   const [aggregation, setAggregation] = useState<string>('sum');
   const gridRef = useRef<AgGridReact>(null);
   const { columnDefs, rowData } = useSelector(
@@ -104,20 +107,23 @@ const PivotTables = () => {
   const components = useMemo(
     () => ({
       agColumnHeader: (props: any) => {
-        return <CustomHeaderPivotTable
-          setTotalResultsCount={setTotalResultsCount}
-          columns={column_vars}
-          rows={updatedRowsValue}
-          rows_label={updatedRowsLabel}
-          agg_fn={aggregation}
-          binsize={binsize!}
-          value_field={cell_vars}
-          offset={offset}
-          limit={rowsPerPage}
-          filter={filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : []}
-          setPage={setPage}
-          page={page}
-          {...props} />;
+        return <div className='pivot-table-header'>
+          <CustomHeaderPivotTable
+            setTotalResultsCount={setTotalResultsCount}
+            columns={column_vars}
+            rows={updatedRowsValue}
+            rows_label={updatedRowsLabel}
+            agg_fn={aggregation}
+            binsize={binsize!}
+            value_field={cell_vars}
+            offset={offset}
+            limit={rowsPerPage}
+            filter={filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : []}
+            setPage={setPage}
+            page={page}
+            {...props} />
+        </div>
+
       }
     }),
     []
@@ -301,8 +307,16 @@ const PivotTables = () => {
     [setPivotValueOptions]
   );
 
-
-  const newRowsData = rowData.slice(0, -1);
+  const newRowsData = rowData.slice(0, -1).map((row) => {
+    return Object.entries(row).reduce((acc, [key, value]) => {
+      if (typeof value === 'number') {
+        acc[key] = value.toLocaleString('en-US');
+      } else {
+        acc[key] = value;
+      }
+      return acc;
+    }, {} as RowDataPivotTable);
+  });
 
   const handleButtonExportCSV = useCallback(() => {
     (gridRef.current as AgGridReact<any>).api.exportDataAsCsv();
@@ -354,10 +368,23 @@ const PivotTables = () => {
               handleChange={handleChangeAggregation}
               aggregation={aggregation}
             />
-            <div className="button-export-csv">
-              <button onClick={handleButtonExportCSV}>
+            <div className="button-export-csv"
+            >
+              <Button onClick={handleButtonExportCSV}
+                style={{
+
+                  boxShadow: getColorBoxShadow(styleName!)
+                }}
+                sx={{
+                  backgroundColor: getColorBTNVoyageDatasetBackground(styleName!),
+                  boxShadow: getColorBoxShadow(styleName!),
+                  '&:hover': {
+                    backgroundColor: getColorHoverBackground(styleName!),
+                  },
+                }}
+              >
                 Download CSV Export file
-              </button>
+              </Button>
             </div>
           </span>
 

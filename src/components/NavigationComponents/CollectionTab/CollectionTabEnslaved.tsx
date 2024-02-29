@@ -1,11 +1,13 @@
-import { Hidden } from '@mui/material';
+import { Button, Hidden } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { ButtonNav } from '@/styleMUI';
 import {
   getColorBTNBackgroundEnslaved,
+  getColorBTNVoyageDatasetBackground,
   getColorBoxShadowEnslaved,
+  getColorTextCollection,
+  getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
 import '@/style/page.scss';
 import { setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
@@ -18,15 +20,17 @@ import { setPeopleEnslavedBlocksMenuList, } from '@/redux/getPeopleEnslavedDataS
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
 import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 
-
 const CollectionTabEnslaved = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { styleNamePeople, blocksPeople } = useSelector(
+  const { blocksPeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
   const { styleName, currentBlockName } = usePageRouter();
   const { currentEnslavedPage } = useSelector(
+    (state: RootState) => state.getScrollEnslavedPage
+  );
+  const { currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
 
@@ -43,6 +47,7 @@ const CollectionTabEnslaved = () => {
 
 
   const handlePageNavigation = (page: number, blockName: string) => {
+
     if (page === 1) {
       dispatch(setIsFilter(false));
     }
@@ -61,25 +66,33 @@ const CollectionTabEnslaved = () => {
           {blocksPeople.map((page: string, index: number) => {
             const buttonIndex = index + 1;
             return (
-              <ButtonNav
+              <Button
                 key={`${page}-${buttonIndex}`}
                 onClick={() => handlePageNavigation(buttonIndex, page.toLowerCase())}
                 className="nav-button-page"
-                style={{
-                  backgroundColor:
-                    getColorBTNBackgroundEnslaved(styleNamePeople),
-                  boxShadow: getColorBoxShadowEnslaved(styleNamePeople),
-                  fontSize: currentEnslavedPage === buttonIndex ? 15 : 14,
-                  color:
-                    currentEnslavedPage === buttonIndex ? 'white' : 'black',
-                  fontWeight: currentEnslavedPage === buttonIndex ? 700 : 600,
+                sx={{
+                  width: 75,
+                  margin: '5px',
+                  cursor: 'pointer',
+                  backgroundColor: getColorBTNBackgroundEnslaved(styleName!),
+                  boxShadow: currentPageBlockName === page.toLocaleLowerCase() ? getColorBoxShadowEnslaved(styleName!) : '',
+                  color: currentPageBlockName === page.toLocaleLowerCase() ? 'white' : getColorTextCollection(styleName!),
+                  fontWeight: currentPageBlockName === page.toLocaleLowerCase() ? 'bold' : 600,
+                  fontSize: '0.70rem',
+                  '&:hover': {
+                    backgroundColor: getColorHoverBackgroundCollection(styleName!!),
+                    color: getColorBTNVoyageDatasetBackground(styleName!)
+                  },
+                  '&:disabled': {
+                    color: '#fff',
+                    boxShadow: getColorBoxShadowEnslaved(styleName!),
+                    cursor: 'not-allowed',
+                  },
                 }}
-                variant={
-                  currentEnslavedPage === buttonIndex ? 'contained' : 'outlined'
-                }
+                variant={currentEnslavedPage === buttonIndex ? 'contained' : 'outlined'}
               >
                 {page.toUpperCase()}
-              </ButtonNav>
+              </Button>
             );
           })}
         </nav>

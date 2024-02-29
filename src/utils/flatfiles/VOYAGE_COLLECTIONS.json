@@ -17,12 +17,12 @@
 		"style_name": "trans-atlantic",
 		"blocks": [
 			"VOYAGES",
+			"Summary\nstatistics",
 			"LINE",
 			"BAR",
 			"PIE",
 			"TABLE",
-			"MAP",
-			"Summary\nstatistics"
+			"MAP"
 		]
 	},
 	{
@@ -43,12 +43,12 @@
 		"style_name": "intra-american",
 		"blocks": [
 			"VOYAGES",
+			"Summary\nstatistics",
 			"LINE",
 			"BAR",
 			"PIE",
 			"TABLE",
-			"MAP",
-			"Summary\nstatistics"
+			"MAP"
 		]
 	},
 	{
@@ -62,12 +62,12 @@
 		"style_name": "all-voyages",
 		"blocks": [
 			"VOYAGES",
+			"Summary\nstatistics",
 			"LINE",
 			"BAR",
 			"PIE",
 			"TABLE",
-			"MAP",
-			"Summary\nstatistics"
+			"MAP"
 		]
 	}
 ]

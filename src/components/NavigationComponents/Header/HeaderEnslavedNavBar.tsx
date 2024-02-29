@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getColorBTNBackgroundEnslaved,
   getColorBTNHoverEnslavedBackground,
-  getColorBoxShadowEnslaved,
+  getColorBoxShadow,
   getColorNavbarEnslavedBackground,
 } from '@/utils/functions/getColorStyle';
 import {
@@ -29,9 +29,7 @@ import {
 } from '@/share/InterfactTypesDatasetCollection';
 import CanscandingMenu from '@/components/SelectorComponents/Cascading/CanscandingMenu';
 import {
-  setBaseFilterPeopleEnslavedDataKey,
   setBaseFilterPeopleEnslavedDataSetValue,
-  setBaseFilterPeopleEnslavedDataValue,
   setDataSetPeopleEnslavedHeader,
   setPeopleEnslavedBlocksMenuList,
   setPeopleEnslavedFilterMenuFlatfile,
@@ -58,29 +56,28 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { currentEnslavedPage, currentPageBlockName } = useSelector(
+  const { currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
 
-  const { value, textHeader, styleNamePeople } = useSelector(
+  const { value, textHeader, styleNamePeople, dataSetValueBaseFilter } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
+
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+  const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
+    useState<null | HTMLElement>(null);
+
+  const [isClick, setIsClick] = useState(false);
   const styleNameToPathMap: { [key: string]: string } = {
     [ALLENSLAVED]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'table' : currentPageBlockName}`,
     [AFRICANORIGINS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
     [ENSLAVEDTEXAS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'table' : currentPageBlockName}`,
   };
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-
-  const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
-    useState<null | HTMLElement>(null);
-  const [isClick, setIsClick] = useState(false);
 
   const handleSelectEnslavedDataset = (
     baseFilter: BaseFilter[],
@@ -91,10 +88,12 @@ const HeaderEnslavedNavBar: React.FC = () => {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
-    const filters: Filter[] = [];
+
     dispatch(resetAll());
-    dispatch(resetBlockNameAndPageName())
+    const filters: Filter[] = [];
+
     setIsClick(!isClick);
+    dispatch(setBaseFilterPeopleEnslavedDataSetValue(baseFilter));
     for (const base of baseFilter) {
       filters.push({
         varName: base.var_name,
@@ -107,10 +106,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     dispatch(setPeopleEnslavedTextIntro(textIntro));
     dispatch(setPeopleEnslavedStyleName(styleName));
     dispatch(setPeopleEnslavedBlocksMenuList(blocks));
-    dispatch(
-      setPeopleEnslavedFilterMenuFlatfile(
-        filterMenuFlatfile ? filterMenuFlatfile : ''
-      )
+    dispatch(setPeopleEnslavedFilterMenuFlatfile(filterMenuFlatfile ? filterMenuFlatfile : '')
     );
     dispatch(
       setPeopleTableEnslavedFlatfile(tableFlatfile ? tableFlatfile : '')
@@ -246,7 +242,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 item={item}
                 index={index}
                 handleSelectDataset={handleSelectEnslavedDataset}
-                getColorBoxShadow={getColorBoxShadowEnslaved}
+                getColorBoxShadow={getColorBoxShadow}
                 getColorBTNBackground={getColorBTNBackgroundEnslaved}
                 getColorHover={getColorBTNHoverEnslavedBackground}
               />

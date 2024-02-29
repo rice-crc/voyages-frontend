@@ -2,9 +2,9 @@ import { TYPESOFDATASET } from "@/share/InterfaceTypes";
 
 
 export const getMapBackgroundColor = (item: string) => {
-    let background = 'rgba(147, 208, 203)';
+    let background = 'rgb(55, 148, 141)';
     if (item === TYPESOFDATASET.allVoyages) {
-        background = 'rgba(147, 208, 203)';
+        background = 'rgb(55, 148, 141)';
     } else if (item === TYPESOFDATASET.allVoyages) {
         background = 'transparent';
     } else if (item === TYPESOFDATASET.intraAmerican) {
