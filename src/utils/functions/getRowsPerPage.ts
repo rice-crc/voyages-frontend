@@ -1,5 +1,7 @@
 const breakpoints = [
     { width: 1366, height: 768, rowsPerPage: 8 },       // Desktops and laptops: 1366x768
+    { width: 1390, height: 690, rowsPerPage: 8 },       // Desktops and laptops: 1366x768 
+    { width: 1455, height: 735, rowsPerPage: 8 },       // Desktops and laptops: 1366x768 
     { width: 1920, height: 1080, rowsPerPage: 10 },     // Desktops and laptops: 1920x1080
     { width: 2560, height: 1440, rowsPerPage: 15 },     // Desktops and laptops: 2560x1440
     { width: 768, height: 1024, rowsPerPage: 8 },       // Tablets: 768x1024
