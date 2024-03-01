@@ -624,67 +624,67 @@
     "label": "Name",
     "flatlabel": "enslaved in relation : enslavement relation : relation type : Name"
   },
-  "enslaved_relations__relation__relation_enslavers": {
+  "enslavers": {
     "type": "table",
     "label": "enslaver in relation",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation"
   },
-  "enslaved_relations__relation__relation_enslavers__id": {
+  "enslavers__id": {
     "type": "<class 'rest_framework.fields.IntegerField'>",
     "label": "Id",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : Id"
   },
-  "enslaved_relations__relation__relation_enslavers__enslaver_alias": {
+  "enslavers__enslaver_alias": {
     "type": "table",
     "label": "Enslaver alias",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : Enslaver alias"
   },
-  "enslaved_relations__relation__relation_enslavers__enslaver_alias__id": {
+  "enslavers__enslaver_alias__id": {
     "type": "<class 'rest_framework.fields.IntegerField'>",
     "label": "ID",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : Enslaver alias : ID"
   },
-  "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias": {
+  "enslavers__enslaver_alias__alias": {
     "type": "<class 'rest_framework.fields.CharField'>",
     "label": "Alias",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : Enslaver alias : Alias"
   },
-  "enslaved_relations__relation__relation_enslavers__enslaver_alias__manual_id": {
+  "enslavers__enslaver_alias__manual_id": {
     "type": "<class 'rest_framework.fields.CharField'>",
     "label": "Manual id",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : Enslaver alias : Manual id"
   },
-  "enslaved_relations__relation__relation_enslavers__enslaver_alias__last_updated": {
+  "enslavers__enslaver_alias__last_updated": {
     "type": "<class 'rest_framework.fields.DateTimeField'>",
     "label": "Last updated",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : Enslaver alias : Last updated"
   },
-  "enslaved_relations__relation__relation_enslavers__enslaver_alias__human_reviewed": {
+  "enslavers__enslaver_alias__human_reviewed": {
     "type": "<class 'rest_framework.fields.BooleanField'>",
     "label": "Human reviewed",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : Enslaver alias : Human reviewed"
   },
-  "enslaved_relations__relation__relation_enslavers__enslaver_alias__identity": {
+  "enslavers__enslaver_alias__identity": {
     "type": "<class 'rest_framework.relations.PrimaryKeyRelatedField'>",
     "label": "Identity",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : Enslaver alias : Identity"
   },
-  "enslaved_relations__relation__relation_enslavers__roles": {
+  "enslavers__roles": {
     "type": "table",
     "label": "enslaver role",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : enslaver role"
   },
-  "enslaved_relations__relation__relation_enslavers__roles__id": {
+  "enslavers__roles__id": {
     "type": "<class 'rest_framework.fields.IntegerField'>",
     "label": "ID",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : enslaver role : ID"
   },
-  "enslaved_relations__relation__relation_enslavers__roles__name": {
+  "enslavers__roles__name": {
     "type": "<class 'rest_framework.fields.CharField'>",
     "label": "Name",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : enslaver role : Name"
   },
-  "enslaved_relations__relation__relation_enslavers__relation": {
+  "enslavers__relation": {
     "type": "<class 'rest_framework.relations.PrimaryKeyRelatedField'>",
     "label": "Relation",
     "flatlabel": "enslaved in relation : enslavement relation : enslaver in relation : Relation"
@@ -764,7 +764,7 @@
     "label": "Text ref",
     "flatlabel": "enslaved in relation : enslavement relation : Text ref"
   },
-  "enslaved_relations__relation__voyage": {
+  "voyages": {
     "type": "<class 'rest_framework.relations.PrimaryKeyRelatedField'>",
     "label": "Voyage",
     "flatlabel": "enslaved in relation : enslavement relation : Voyage"
