@@ -58,13 +58,13 @@
   position: relative;
   width: 100%;
   z-index: 0;
-  height: 110vh;
+  height: 100vh;
 }
 
 .voyages-home-page {
   padding: 0;
   margin: 0;
-  height: 110vh;
+  background-color: #fff;
 
   @include breakpoint-standard(6) {
     height: 100%;
@@ -83,17 +83,14 @@
   }
 
   @include breakpoint-standard(1.1) {
-    height: 115vh;
     top: -15px !important;
   }
 
   @include breakpoint-standard(1) {
-    height: 145vh;
     top: -10px !important;
   }
 
   @include breakpoint-standard(0) {
-    height: 145vh;
     top: -10px !important;
   }
 }
@@ -518,4 +515,8 @@
     font-size: 24px;
     margin-top: 12%;
   }
+}
+
+.voyages-data-grid {
+  border: 1px solid #ccc;
 }

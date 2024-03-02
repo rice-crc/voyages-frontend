@@ -23,7 +23,7 @@ import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAv
 import {
   getMobileMaxHeight,
   getMobileMaxWidth,
-  maxWidthSize,
+  maxWidthSize
 } from '@/utils/functions/maxWidthSize';
 import { useGroupBy } from '@/hooks/useGroupBy';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
@@ -195,13 +195,12 @@ function Scatter() {
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-      <Grid>
+      <Grid className="voyages-data-grid">
         <Plot
           data={scatterData}
           layout={{
             width: getMobileMaxWidth(maxWidth),
             height: getMobileMaxHeight(height),
-            // title: xAxis || scatterSelectedX[0]?.label + ' Vs ',
             title: 'Line Graph',
             font: {
               family: 'Arial, sans-serif',

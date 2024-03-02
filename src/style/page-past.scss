@@ -300,11 +300,6 @@
 #enslaved-home-page {
   padding: 0;
   margin: 0;
-  height: 110vh;
-
-  @include breakpoint-standard(6) {
-    height: 100%;
-  }
 
   @include breakpoint-standard(4) {
     top: -40px !important;
@@ -319,17 +314,14 @@
   }
 
   @include breakpoint-standard(1.1) {
-    height: 115vh;
     top: -15px !important;
   }
 
   @include breakpoint-standard(1) {
-    height: 145vh;
     top: -10px !important;
   }
 
   @include breakpoint-standard(0) {
-    height: 145vh;
     top: -10px !important;
   }
 }

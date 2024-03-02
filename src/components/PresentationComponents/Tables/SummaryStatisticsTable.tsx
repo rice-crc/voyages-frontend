@@ -168,7 +168,6 @@ const SummaryStatisticsTable = () => {
                         <div className="button-export-csv-summary">
                             <Button onClick={handleButtonExportCSV}
                                 style={{
-
                                     boxShadow: getColorBoxShadow(styleName!)
                                 }}
                                 sx={{

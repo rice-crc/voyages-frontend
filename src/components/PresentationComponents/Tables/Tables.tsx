@@ -59,6 +59,7 @@ import {
     INTRAAMERICAN,
     TRANSATLANTICPATH,
 } from '@/share/CONST_DATA';
+import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -147,8 +148,9 @@ const Tables: React.FC = () => {
     }, [dispatch, tablesCell, tablesCell, tableCellStructure]);
 
     let filters: Filter[] = [];
-
-    if (styleNameRoute === TRANSATLANTICPATH) {
+    if (filtersObj[0]?.searchTerm?.length > 0) {
+        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
+    } else if (styleNameRoute === TRANSATLANTICPATH) {
         filters.push({
             varName: 'dataset',
             searchTerm: [0],
@@ -173,14 +175,6 @@ const Tables: React.FC = () => {
             searchTerm: [0, 0],
             op: 'in',
         });
-    } else if (inputSearchValue) {
-        filters.push({
-            varName: 'global_search',
-            searchTerm: [inputSearchValue],
-            op: 'gte',
-        });
-    } else {
-        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
     }
 
     const dataSend: TableListPropsRequest = {
@@ -378,6 +372,10 @@ const Tables: React.FC = () => {
     const pageCount = Math.ceil(
         totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
     );
+    useEffect(() => {
+        const headerColor = getHeaderColomnColor(styleName!);
+        document.documentElement.style.setProperty('--pagination-table--', headerColor);
+    }, [styleName]);
 
     const className = crateClassName(styleNameRoute!);
     return (

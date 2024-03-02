@@ -5,13 +5,11 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json';
-import { getColorVoyagePageBackground } from '@/utils/functions/getColorStyle';
 import {
   pageVariantsFromBottom,
   pageVariantsFromTop,
 } from '@/utils/functions/pageVariantsFromTop';
 import HeaderVoyagesNavBar from '@/components/NavigationComponents/Header/HeaderVoyagesNavBar';
-import VoyagesIntro from '@/components/PresentationComponents/Intro/VoyagesIntro';
 import Scatter from '@/components/PresentationComponents/Scatter/Scatter';
 import BarGraph from '@/components/PresentationComponents/BarGraph/BarGraph';
 import PieGraph from '@/components/PresentationComponents/PieGraph/PieGraph';
@@ -146,12 +144,7 @@ const VoyagesPage = () => {
   );
   const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
   return (
-    <div style={{
-      backgroundColor: getColorVoyagePageBackground(
-        styleVoyagesName!,
-        currentPage
-      ),
-    }}>
+    <div >
       <HeaderVoyagesNavBar />
       <div
         className="voyages-home-page"

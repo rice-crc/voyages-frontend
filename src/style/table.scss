@@ -94,12 +94,9 @@
   margin: 0 0 0 3px;
 }
 
-
-.ag-header-group-cell-label,
 .ag-header-cell-label {
-  color: var(--header-color, #007269);
+  color: var(--header-color--, #007269);
   text-align: center;
-
 }
 
 .ag-header-cell-label,
@@ -108,6 +105,10 @@
   flex: 1;
   justify-content: center;
   align-items: center;
+}
+
+.summary-table>div>table>thead {
+  background-color: #f8f8f8;
 }
 
 .summary-table>div>table>thead>tr {
@@ -121,7 +122,6 @@
   }
 }
 
-
 .summary-table>div>table>tbody>tr>th {
   color: var(--header-color-summary, #007269);
   border-bottom: 2px solid #dee2e6;
@@ -130,7 +130,6 @@
 }
 
 .summary-table>div>table>tbody>tr>td:first-child {
-  // color: var(--header-color-summary, #007269);
   text-align: left;
 }
 
@@ -139,14 +138,11 @@
   padding-left: 12px;
 }
 
-
-
 .customHeaderLabel {
   float: left;
   margin: 0 0 0 3px;
   text-align: center;
 }
-
 
 .customHeaderLabel-box {
   display: flex;
@@ -163,7 +159,6 @@ div .customHeaderLabel {
   text-overflow: ellipsis;
   width: 85%;
   text-align: center;
-
 }
 
 div .customHeaderLabelSummaryTable {
@@ -201,23 +196,18 @@ div .customHeaderLabelSummaryTable {
   color: cornflowerblue;
 }
 
-.css-n98qnm-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
-  color: #fff;
-  background-color: var(--pagination-table--, #556cd6) !important;
-}
-
 .pagination-div {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding: 10px 0;
 
-  nav>ul>li>button:hover {
-    background-color: var(--pagination-table--, #556cd6);
+  nav>ul>li>button:focus {
+    background-color: var(--pagination-table--, --pagination-table--);
   }
 
   nav>ul>li>button:active {
-    background-color: var(--pagination-table--, #556cd6)
+    background-color: var(--pagination-table--, --pagination-table--);
   }
 }
 
@@ -248,8 +238,8 @@ div .customHeaderLabelSummaryTable {
 
 .configureColumnsButton {
   font-size: 12 !important;
-  background-color: "#17a2b8" !important;
-  color: "#ffffff" !important;
+  background-color: '#17a2b8' !important;
+  color: '#ffffff' !important;
 }
 
 .network-icon {
@@ -380,27 +370,22 @@ div .customHeaderLabelSummaryTable {
 
   @include breakpoint-standard(0) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(1) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(2) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(3) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(4) {
     width: 100%;
-
   }
 }
 
@@ -413,27 +398,22 @@ div .customHeaderLabelSummaryTable {
 
   @include breakpoint-standard(0) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(1) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(2) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(3) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(4) {
     width: 100%;
-
   }
 }
 
@@ -448,29 +428,23 @@ div .customHeaderLabelSummaryTable {
 
     @include breakpoint-standard(0) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(1) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(1.1) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(2) {
       font-size: 11px;
-
     }
 
     @include breakpoint-standard(3) {
       font-size: 12px;
-
     }
-
   }
 }
 
@@ -489,7 +463,6 @@ div .customHeaderLabelSummaryTable {
 
     @include breakpoint-standard(0) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(1) {
@@ -511,7 +484,6 @@ div .customHeaderLabelSummaryTable {
       font-size: 12px;
       padding-right: 50px;
     }
-
   }
 }
 
@@ -532,29 +504,23 @@ div .customHeaderLabelSummaryTable {
 
     @include breakpoint-standard(0) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(1) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(1.1) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(2) {
       font-size: 11px;
-
     }
 
     @include breakpoint-standard(3) {
       font-size: 12px;
-
     }
-
   }
 }
 
@@ -567,21 +533,18 @@ div .customHeaderLabelSummaryTable {
     top: 70px;
     padding: 30px 20px 0 10px;
     margin-top: 8rem;
-
   }
 
   @include breakpoint-standard(1) {
     top: 70px;
     padding: 30px 20px 0 10px;
     margin-top: 8rem;
-
   }
 
   @include breakpoint-standard(1.1) {
     top: 70px;
     padding: 30px 20px 0 10px;
     margin-top: 8rem;
-
   }
 
   @include breakpoint-standard(2) {
@@ -599,7 +562,6 @@ div .customHeaderLabelSummaryTable {
     padding: 70px 30px 0 30px;
     margin-top: 9rem;
   }
-
 }
 
 .mobile-responsive-map {
@@ -629,7 +591,7 @@ div .customHeaderLabelSummaryTable {
 }
 
 .summary-box {
-  margin-top: 13rem;
+  margin-top: 10rem;
   width: 100vw;
 
   @include breakpoint-standard(0) {
@@ -665,7 +627,6 @@ div .customHeaderLabelSummaryTable {
   }
 }
 
-
 .mobile-enslaved {
   position: relative;
   padding: 30px 120px 0 30px;
@@ -673,19 +634,16 @@ div .customHeaderLabelSummaryTable {
   @include breakpoint-standard(0) {
     top: 70px;
     padding: 30px 30px 0 30px;
-
   }
 
   @include breakpoint-standard(1) {
     top: 70px;
     padding: 30px 30px 0 30px;
-
   }
 
   @include breakpoint-standard(1.1) {
     top: 70px;
     padding: 30px 30px 0 30px;
-
   }
 
   @include breakpoint-standard(2) {
@@ -696,14 +654,11 @@ div .customHeaderLabelSummaryTable {
 
   @include breakpoint-standard(3) {
     padding: 70px 30px 0 30px;
-
   }
 
   @include breakpoint-standard(4) {
     padding: 70px 30px 0 30px;
-
   }
-
 }
 
 .estimate-table-card {
@@ -715,7 +670,6 @@ div .customHeaderLabelSummaryTable {
   overflow: hidden;
   height: 100%;
   padding-top: 1rem;
-
 }
 
 .summary-table {

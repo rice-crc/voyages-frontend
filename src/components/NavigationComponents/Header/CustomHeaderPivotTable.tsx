@@ -62,7 +62,8 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const headerColor = getHeaderColomnColor(styleName!);
-    document.documentElement.style.setProperty('--header-color', headerColor);
+    document.documentElement.style.setProperty('--header-color--', headerColor);
+    document.documentElement.style.setProperty('--header-border-color--', headerColor);
 
   }, []);
 

@@ -187,7 +187,7 @@ function BarGraph() {
         aggregation={aggregation}
       />
 
-      <Grid>
+      <Grid className="voyages-data-grid">
         <Plot
           data={barData}
           layout={{

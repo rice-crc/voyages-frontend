@@ -4,7 +4,7 @@ export const createTopPositionVoyages = (currentPage: number, value: string) => 
     if (currentPage === 1 && value) {
         topPosition = 110;
     } else if (currentPage === 1 || currentPage === 7) {
-        topPosition = 90;
+        topPosition = 105;
     } else if (currentPage === 6 && value) {
         topPosition = 105;
     } else if (currentPage === 6) {

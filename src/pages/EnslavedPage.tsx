@@ -13,7 +13,6 @@ import {
 } from '@/utils/functions/pageVariantsFromTop';
 import CollectionTabEnslaved from '@/components/NavigationComponents/CollectionTab/CollectionTabEnslaved';
 import EnslavedMap from '@/components/PresentationComponents/Map/MAPS';
-import EnslavedIntro from '@/components/PresentationComponents/Intro/EnslavedIntro';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setBaseFilterPeopleEnslavedDataKey, setBaseFilterPeopleEnslavedDataValue, setPeopleEnslavedBlocksMenuList, setPeopleEnslavedStyleName } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
@@ -80,7 +79,7 @@ const EnslavedPage: React.FC = () => {
 
   // const topPosition = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue);
   return (
-    <div id="enslaved-home-page" style={{ backgroundColor: getIntroBackgroundEnslavedColor(styleName!) }}>
+    <div id="enslaved-home-page" >
       <HeaderLogoSearch />
       <HeaderEnslavedNavBar />
       <div

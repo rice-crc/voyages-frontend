@@ -111,9 +111,9 @@ export const getColorNavbarEnslavedBackground = (item: string) => {
 };
 export const getColorHoverBackground = (item: string) => {
 
-    let background = 'rgb(55, 148, 141)';
+    let background = 'rgb(6 186 171 / 83%)';
     if (item === TYPESOFDATASET.allVoyages) {
-        background = 'rgb(55, 148, 141)';
+        background = 'rgb(6 186 171 / 83%)';
     } else if (item === TYPESOFDATASET.transatlantic) {
         background = 'rgb(25, 118, 210)';
     } else if (item === TYPESOFDATASET.intraAmerican) {
@@ -196,9 +196,9 @@ export const getColorBTNHoverEnslaversBackground = (item: string) => {
     return background;
 };
 export const getColorBoxShadow = (item: string) => {
-    let boxShadow = 'rgb(0 255 234) 1px 2px 8px';
+    let boxShadow = 'rgb(2 188 173) 1px 2px 8px';
     if (item === TYPESOFDATASET.allVoyages) {
-        boxShadow = 'rgb(0 255 234) 1px 2px 8px';
+        boxShadow = 'rgb(2 188 173) 1px 2px 8px';
     } else if (item === TYPESOFDATASET.transatlantic) {
         boxShadow = '1px 2px 8px #42a5f5';
     } else if (item === TYPESOFDATASET.intraAmerican) {

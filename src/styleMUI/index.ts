@@ -230,20 +230,15 @@ export const styleCardEstimate = {
 export const CustomTablePagination = styled(TablePagination)({
   '& .MuiTablePagination-selectLabel': {
     fontSize: '0.975rem',
-    color: '#fff'
   },
   '& .MuiTablePagination-select': {
     fontSize: '0.975rem',
-    color: '#fff'
   },
   '& .MuiTablePagination-displayedRows ': {
     fontSize: '0.975rem',
-    color: '#fff'
   },
   '& .MuiTablePagination-selectIcon': {
-    color: '#fff'
   },
   '& .MuiTablePagination-actions': {
-    color: '#fff'
   }
 }) as React.ComponentType<any>;

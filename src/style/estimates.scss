@@ -258,10 +258,22 @@
     height: 100%;
 }
 
+.summary-table>div>table>thead {
+    background-color: #f8f8f8;
+}
+
 .estimate-table {
     overflow-y: auto;
     border-left: 1px solid rgb(194, 194, 194);
     border-right: 1px solid rgb(194, 194, 194);
+}
+
+.estimate-table>div>table>thead {
+    background-color: #f8f8f8;
+}
+
+.estimate-table>div>table>thead>tr {
+    height: 32px;
 }
 
 /* Hide scrollbar for webkit browsers (Chrome, Safari) */
