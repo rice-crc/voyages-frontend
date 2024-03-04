@@ -5,11 +5,11 @@ import React from 'react';
 
 const BlogPage: React.FC = () => {
   return (
-    <>
+    <div className='blog-container'>
       <HeaderLogoSearch />
       <HeaderNavBarBlog />
       <BlogResultsList />
-    </>
+    </div>
   );
 };
 

@@ -28,11 +28,14 @@ export const getColorBackground = (item: string) => {
         background = '#ab47bc';
     } else if (item === TYPESOFDATASET.texas) {
         background = 'rgb(167 70 0)';
+    } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
+        background = '#906866'
+    } else if (item === 'Blog') {
+        background = '#d45b01'
     }
     return background;
 };
 export const getColorBTNVoyageDatasetBackground = (item: string) => {
-
     let background = '#007269';
     if (item === TYPESOFDATASET.allVoyages) {
         background = '#007269';
@@ -165,9 +168,10 @@ export const getColorHoverBackgroundCollection = (item: string) => {
         boxShadow = '#42a5f5';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
         boxShadow = 'rgb(216 93 5)';
-    }
-    else if (item === TYPESOFDATASETPEOPLE.allEnslavers) {
+    } else if (item === TYPESOFDATASETPEOPLE.allEnslavers) {
         boxShadow = '#3ec59e';
+    } else if (item === 'Blog') {
+        boxShadow = 'rgb(96 40 0)';
     }
     return boxShadow;
 };

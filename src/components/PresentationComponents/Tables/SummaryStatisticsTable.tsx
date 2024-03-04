@@ -161,7 +161,6 @@ const SummaryStatisticsTable = () => {
 
     return (
         <>
-            <HeaderLogoSearch />
             <div className="summary-box">
                 <div style={containerStyle} className="ag-theme-alpine">
                     <div style={style}>

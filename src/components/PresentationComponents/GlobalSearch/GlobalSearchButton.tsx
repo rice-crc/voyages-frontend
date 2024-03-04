@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import '@/style/homepage.scss';
 import { resetAll } from '@/redux/resetAllSlice';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { getColorBackground, getColorHoverBackgroundCollection } from '@/utils/functions/getColorStyle';
 
 const GlobalSearchButton = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -44,6 +46,17 @@ const GlobalSearchButton = () => {
       localStorage.setItem('filterObject', updatedFilterObjectString);
     }
   };
+  const { styleName } = usePageRouter()
+  console.log({ styleName })
+
+  useEffect(() => {
+    const boxColor = getColorBackground(styleName!);
+    document.documentElement.style.setProperty('--btn-global-search--', boxColor);
+    const shadow = getColorHoverBackgroundCollection(styleName!)
+    document.documentElement.style.setProperty('--btn-global-shadow--', shadow);
+
+  }, []);
+
   return (
     <span className="global-search-button">
       <span className="global-search-text">

@@ -351,9 +351,7 @@ const PivotTables = () => {
 
 
   return (
-    <div
-      style={{ marginTop: topPosition }} className="mobile-responsive"
-    >
+    <div className="mobile-responsive">
       <div className="ag-theme-alpine grid-container">
         <div>
           <SelectDropdownPivotable

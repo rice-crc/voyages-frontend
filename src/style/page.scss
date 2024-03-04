@@ -189,8 +189,8 @@
   }
 
   @include breakpoint-standard(4) {
-    top: 12%;
-    right: 25%;
+    top: 8%;
+    right: 18%;
     height: auto;
     display: inline;
     align-items: flex-start;
@@ -198,7 +198,7 @@
   }
 
   @include breakpoint-standard(3) {
-    top: 10%;
+    top: 7%;
     height: auto;
     display: inline;
     align-items: center;
@@ -207,25 +207,25 @@
   }
 
   @include breakpoint-standard(2) {
-    top: 10%;
+    top: 7%;
     height: auto;
     display: inline;
     align-items: center;
     padding-right: 5px;
-    right: 10%;
+    right: 6%;
   }
 
   @include breakpoint-standard(1.1) {
-    top: 10%;
+    top: 7%;
     height: auto;
     display: inline;
     align-items: center;
     padding-right: 5px;
-    right: 10%;
+    right: 5%;
   }
 
   @include breakpoint-standard(1) {
-    top: 10%;
+    top: 7%;
     height: auto;
     display: inline;
     align-items: center;
@@ -234,7 +234,7 @@
   }
 
   @include breakpoint-standard(0) {
-    top: 10%;
+    top: 7%;
     height: auto;
     display: inline;
     align-items: center;
@@ -249,22 +249,22 @@
   line-height: 14px !important;
 
   @include breakpoint-standard(7) {
-    width: 72px !important;
+    width: 75px !important;
   }
 
   @include breakpoint-standard(6) {
-    width: 72px !important;
+    width: 75px !important;
   }
 
   @include breakpoint-standard(5) {
-    width: 65px !important;
+    width: 82px !important;
     font-size: 12px !important;
   }
 
   @include breakpoint-standard(4) {
-    width: 74px !important;
+    width: 80px !important;
     height: 32px;
-    font-size: 12px !important;
+    font-size: 10px !important;
     min-width: 75px !important;
     margin: 0 2px !important;
   }
@@ -286,27 +286,27 @@
   }
 
   @include breakpoint-standard(1.1) {
-    width: 45px !important;
+    width: 52px !important;
     height: 24px;
-    font-size: 10px !important;
+    font-size: 8px !important;
     min-width: 46px !important;
     margin: 0 2px !important;
   }
 
   @include breakpoint-standard(1) {
-    width: 45px !important;
-    height: 24px;
-    font-size: 10px !important;
-    min-width: 45px !important;
+    width: 46px !important;
+    height: 28px;
+    font-size: 7px !important;
+    min-width: 46px !important;
     margin: 0 2px !important;
   }
 
   @include breakpoint-standard(0) {
-    width: 45px !important;
-    height: 24px;
-    font-size: 10px !important;
-    min-width: 45px !important;
-    margin: 0 2px !important;
+    width: 50px !important;
+    height: 26px;
+    font-size: 9px !important;
+    min-width: 60px !important;
+    margin: 2px 2px !important;
   }
 }
 

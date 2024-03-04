@@ -1,6 +1,5 @@
 import HeaderEnslaversNavBar from '@/components/NavigationComponents/Header/HeaderEnslaversNavBar';
-import React, { useEffect, useState } from 'react';
-import CollectionTabEnslavers from '@/components/NavigationComponents/CollectionTab/CollectionTabEnslavers';
+import React, { useEffect } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
@@ -20,15 +19,10 @@ const EnslaversHomePage: React.FC = () => {
     (state: RootState) => state.getScrollEnslaversPage
   );
   const { currentBlockName } = usePageRouter();
-  const { filtersObj, isFilter } = useSelector((state: RootState) => state.getFilter)
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter)
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-
-    // if (currentBlockName === 'intro') {
-    //   dispatch(setCurrentEnslaversPage(1));
-    //   dispatch(setCurrentBlockName(currentBlockName))
-    // } else 
     if (currentBlockName === 'table') {
       dispatch(setCurrentEnslaversPage(1));
       dispatch(setCurrentBlockName(currentBlockName))
@@ -61,7 +55,6 @@ const EnslaversHomePage: React.FC = () => {
         }}
         id="content-container"
       >
-        <CollectionTabEnslavers />
         <Grid id="content-container">{displayPage}</Grid>
       </div>
     </div>

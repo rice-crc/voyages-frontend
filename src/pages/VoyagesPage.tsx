@@ -142,7 +142,7 @@ const VoyagesPage = () => {
 
     </motion.div>
   );
-  const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
+
   return (
     <div >
       <HeaderVoyagesNavBar />
@@ -151,7 +151,8 @@ const VoyagesPage = () => {
         id="content-container"
         style={{
           position: 'relative',
-          top: inputSearchValue ? topPosition - 80 : 0,
+          padding: inputSearchValue ? '0 20px' : '',
+          top: inputSearchValue ? 30 : 0
         }}
       >
         <CollectionTabVoyages />

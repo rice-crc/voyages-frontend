@@ -1,11 +1,8 @@
-import { AppBar, Box, CssBaseline, Typography, Toolbar } from '@mui/material';
-import { WHITE } from '@/styleMUI';
-import LOGOVoyages from '@/assets/sv-logo_v2.svg';
-import SearchVoyages from '@/assets/searchICON.svg';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
+import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import voyageLogo from '@/assets/sv-logo.png';
+import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import {
   setBlocksMenuList,
   setDataSetHeader,
@@ -26,9 +23,19 @@ import {
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
+import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
+import { BLOGPAGE } from '@/share/CONST_DATA';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
+import AutoCompletedSearhBlog from '@/components/FilterComponents/AutoCompletedSearhBlog/AutoCompletedSearhBlog';
 
 export default function HeaderLogoSearch() {
   const dispatch: AppDispatch = useDispatch();
+  const { blogTitle, institutionName } = useParams();
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
+
   const onChangePath = () => {
     dispatch(resetAllStateToInitailState());
     dispatch(resetBlockNameAndPageName())
@@ -69,43 +76,28 @@ export default function HeaderLogoSearch() {
     });
   };
   return (
-    <Box>
-      <CssBaseline />
-      <AppBar
-        component="nav"
-        style={{
-          backgroundColor: WHITE,
-          zIndex: 100,
-          boxShadow: 'none',
-          height: 50,
-        }}
-      >
-        <Toolbar
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
+    <>
+      <div className="nav-blog-header-logo nav-blog-header-sticky-logo ">
+        <Link
+          to={'/'}
+          style={{ textDecoration: 'none' }}
+          onClick={onChangePath}
         >
-          <Typography component="div" sx={{ cursor: 'pointer' }}>
-            <Link
-              to={'/'}
-              style={{ textDecoration: 'none' }}
-              onClick={onChangePath}
-            >
-              <img
-                src={LOGOVoyages}
-                alt={'voyages logo'}
-                style={{ position: 'relative', bottom: 5 }}
-              />
-            </Link>
-          </Typography>
-
-          {/* <Typography component="div" sx={{ cursor: 'pointer' }}>
-            <img src={SearchVoyages} alt="search" height={40} />
-          </Typography> */}
-        </Toolbar>
-      </AppBar>
-    </Box>
+          <img
+            src={voyageLogo}
+            alt={'voyages logo'}
+            className='logo-blog'
+          />
+        </Link>
+        <div>
+          {!blogTitle && !institutionName && <LanguagesDropdown />}
+          <div className="search-autocomplete-blog">
+            {inputSearchValue ? (
+              <GlobalSearchButton />
+            ) : !blogTitle ? <AutoCompletedSearhBlog /> : ''}
+          </div>
+        </div>
+      </div>
+    </ >
   );
 }

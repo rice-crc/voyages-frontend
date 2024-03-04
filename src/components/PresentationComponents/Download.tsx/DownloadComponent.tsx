@@ -5,7 +5,6 @@ import React from 'react';
 const DownloadComponent: React.FC = () => {
     return (
         <>
-            <HeaderLogoSearch />
             <div style={{ marginTop: '15%', textAlign: 'center' }}>
                 <div>DownloadComponent page is coming soon</div>
                 <img

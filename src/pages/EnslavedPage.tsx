@@ -80,15 +80,13 @@ const EnslavedPage: React.FC = () => {
   // const topPosition = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue);
   return (
     <div id="enslaved-home-page" >
-      <HeaderLogoSearch />
       <HeaderEnslavedNavBar />
       <div
         className={currentPageBlockName === 'table' ? 'table-presentation' : ''}
         style={{
           position: 'relative',
-          top: 100,
-          padding: '0 20px',
-
+          padding: inputSearchValue ? '0 20px' : '',
+          top: inputSearchValue ? 30 : 0
         }}
         id="content-container"
       >

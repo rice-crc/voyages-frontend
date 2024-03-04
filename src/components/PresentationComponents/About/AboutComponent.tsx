@@ -4,7 +4,6 @@ import '@/style/about.scss';
 const AboutComponent = () => {
     return (
         <>
-            <HeaderLogoSearch />
             <div id="center-content-inner" className='about-container'>
                 <div className="about-page-title-1 ">About the Project</div>
                 <p>

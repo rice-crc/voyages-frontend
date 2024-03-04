@@ -11,7 +11,7 @@ import {
 } from '@/utils/functions/getColorStyle';
 import '@/style/page.scss';
 import { setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
-import { ALLENSLAVED, } from '@/share/CONST_DATA';
+import { AFRICANORIGINS, ALLENSLAVED, } from '@/share/CONST_DATA';
 import { setIsFilter } from '@/redux/getFilterSlice';
 import { useNavigate } from 'react-router-dom';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -34,11 +34,8 @@ const CollectionTabEnslaved = () => {
     (state: RootState) => state.getScrollEnslavedPage
   );
 
-  useEffect(() => {
 
-    // if (currentBlockName === 'intro' && styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
-    //   dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
-    // } else 
+  useEffect(() => {
     if (currentBlockName === 'table' && styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
       dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
     }
@@ -66,6 +63,7 @@ const CollectionTabEnslaved = () => {
           {blocksPeople.map((page: string, index: number) => {
             const buttonIndex = index + 1;
             return (
+              styleName === AFRICANORIGINS &&
               <Button
                 key={`${page}-${buttonIndex}`}
                 onClick={() => handlePageNavigation(buttonIndex, page.toLowerCase())}

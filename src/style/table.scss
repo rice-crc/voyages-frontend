@@ -530,19 +530,19 @@ div .customHeaderLabelSummaryTable {
   margin-top: 85px;
 
   @include breakpoint-standard(0) {
-    top: 70px;
-    padding: 30px 20px 0 10px;
+    top: 10px;
+    padding: 10px 20px 0 10px;
     margin-top: 8rem;
   }
 
   @include breakpoint-standard(1) {
-    top: 70px;
+    top: 40px;
     padding: 30px 20px 0 10px;
     margin-top: 8rem;
   }
 
   @include breakpoint-standard(1.1) {
-    top: 70px;
+    top: 40px;
     padding: 30px 20px 0 10px;
     margin-top: 8rem;
   }
@@ -554,39 +554,41 @@ div .customHeaderLabelSummaryTable {
   }
 
   @include breakpoint-standard(3) {
-    padding: 70px 30px 0 30px;
+    padding: 40px 30px 0 30px;
     margin-top: 110px;
   }
 
   @include breakpoint-standard(4) {
-    padding: 70px 30px 0 30px;
+    padding: 40px 30px 0 30px;
     margin-top: 9rem;
   }
 }
 
 .mobile-responsive-map {
-  @include breakpoint-standard(0) {
-    margin-top: 80px !important;
-  }
+  padding: 140px 20px !important;
 
-  @include breakpoint-standard(1) {
-    margin-top: 80px !important;
-  }
-
-  @include breakpoint-standard(1.1) {
-    margin-top: 80px !important;
-  }
-
-  @include breakpoint-standard(2) {
-    margin-top: 80px !important;
-  }
-
-  @include breakpoint-standard(3) {
-    margin-top: 60px !important;
+  @include breakpoint-standard(5) {
+    padding: 120px 30px 20px 0px !important;
   }
 
   @include breakpoint-standard(4) {
-    margin-top: 60px !important;
+    padding: 140px 40px 40px 0px !important;
+  }
+
+  @include breakpoint-standard(3) {
+    padding: 110px 2px !important;
+  }
+
+  @include breakpoint-standard(2) {
+    padding: 110px 2px !important;
+  }
+
+  @include breakpoint-standard(1) {
+    padding: 110px 2px !important;
+  }
+
+  @include breakpoint-standard(0) {
+    padding: 120px 0 !important;
   }
 }
 
@@ -595,31 +597,31 @@ div .customHeaderLabelSummaryTable {
   width: 100vw;
 
   @include breakpoint-standard(0) {
-    margin-top: 15rem;
+    margin-top: 10rem;
   }
 
   @include breakpoint-standard(1) {
-    margin-top: 15rem;
+    margin-top: 10rem;
   }
 
   @include breakpoint-standard(1.1) {
-    margin-top: 15rem;
+    margin-top: 10rem;
   }
 
   @include breakpoint-standard(2) {
-    margin-top: 15rem;
+    margin-top: 10rem;
   }
 
   @include breakpoint-standard(3) {
-    margin-top: 15rem;
+    margin-top: 10rem;
   }
 
   @include breakpoint-standard(4) {
-    margin-top: 15rem;
+    margin-top: 10rem;
   }
 
   @include breakpoint-standard(5) {
-    margin-top: 12rem;
+    margin-top: 10rem;
   }
 
   @include breakpoint-standard(6) {

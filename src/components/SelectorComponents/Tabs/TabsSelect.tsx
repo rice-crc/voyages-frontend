@@ -48,7 +48,6 @@ const TabsSelect = () => {
     ];
     return (
         <div>
-            <HeaderLogoSearch />
             <Divider />
             <Tabs defaultActiveKey={variable} items={items}
                 onChange={onChange}
