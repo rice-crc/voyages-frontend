@@ -129,7 +129,6 @@ export const ButtonNav = styled(Button)`
     font-size: 14px;
     font-weight: 600;
     cursor: 'pointer';
-    font-family:  'Cormorant Garamond';
     &:hover {
       background-color: #54bfb6;
       color: white

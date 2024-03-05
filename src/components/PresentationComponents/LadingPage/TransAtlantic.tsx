@@ -7,7 +7,7 @@ import { TRANSATLANTICPAGE, VOYAGESPAGE, TRANSATLANTIC, CONTRIBUTE, ABOUTPAGE, A
 const TransAtlantic: React.FC = () => {
     const lists = [
         { name: 'About', url: `/${ABOUTPAGE}` },
-        { name: 'Database', url: `${VOYAGESPAGE}${TRANSATLANTICPAGE}#voyages` },
+        { name: 'Database', url: `${TRANSATLANTICPAGE}#voyages` },
         { name: 'Estimates', url: `/${ASSESSMENT}/${ESTIMATES}` },
         { name: 'Essays', url: '/' },
         { name: 'Downloads', url: `${DOWNLOADS}` },
@@ -33,7 +33,7 @@ const TransAtlantic: React.FC = () => {
                         information on the broad origins of enslaved people, the tortuous
                         Middle Passage, and the destinations of Africans in the Americas.
                     </p>
-                    <ButtonLearnMore path={`${VOYAGESPAGE}${TRANSATLANTICPAGE}#voyages`} styleName={TRANSATLANTIC} />
+                    <ButtonLearnMore path={`${TRANSATLANTICPAGE}#voyages`} styleName={TRANSATLANTIC} />
                     <ButtonLists lists={lists} />
                 </div>
             </div>

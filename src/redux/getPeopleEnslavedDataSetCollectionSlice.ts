@@ -4,7 +4,6 @@ import {
 } from '@/share/InterfactTypesDatasetCollection';
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { stat } from 'fs';
 
 export const initialState: InitialStateDataPeopleSetCollection = {
     value: jsonDataPEOPLECOLLECTIONS,

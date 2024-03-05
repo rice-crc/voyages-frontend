@@ -16,15 +16,10 @@ import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/Can
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { currentEnslaversPage } = useSelector(
-    (state: RootState) => state.getScrollEnslaversPage
-  );
+
 
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
-  );
-  const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider
   );
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =

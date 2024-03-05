@@ -18,11 +18,9 @@ import {
 } from '@/share/InterfaceTypes';
 import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummaryStatisticsTable';
 import '@/style/table.scss';
-import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { Button } from '@mui/material';
 import { getColorBoxShadow, getColorBTNVoyageDatasetBackground, getColorHoverBackground, getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { formatNumberWithCommasOrPercentage } from '@/utils/functions/formatNumberWithCommas';
 
 const SummaryStatisticsTable = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -103,14 +101,13 @@ const SummaryStatisticsTable = () => {
         autoLabelName,
     ]);
 
-    const percentageString = '95%';
+    const percentageString = '96%';
     const [width, height] = useWindowSize();
     const maxWidth = maxWidthSize(width);
 
     const [style, setStyle] = useState({
         width: percentageString,
-        height: 400,
-        padding: '0 40px',
+        height: 400
     });
 
     const containerStyle = useMemo(
@@ -122,7 +119,6 @@ const SummaryStatisticsTable = () => {
         setStyle({
             width: percentageString,
             height: getMobileMaxHeightTable(height / 1.2),
-            padding: '0 40px',
         });
     }, [width, height, maxWidth]);
 
@@ -163,7 +159,7 @@ const SummaryStatisticsTable = () => {
         <>
             <div className="summary-box">
                 <div style={containerStyle} className="ag-theme-alpine">
-                    <div style={style}>
+                    <div style={style} className='summary-box-content'>
                         <div className="button-export-csv-summary">
                             <Button onClick={handleButtonExportCSV}
                                 style={{

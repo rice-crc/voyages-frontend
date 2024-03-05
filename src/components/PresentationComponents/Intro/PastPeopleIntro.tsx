@@ -54,7 +54,7 @@ const PastPeopleIntro = () => {
               ))}
               <div className="btn-Enslaved-enslavers">
                 <Link
-                  to={`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#table`}
+                  to={`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#people`}
                   style={{ textDecoration: 'none' }}
                   onClick={() => {
                     dispatch(setCurrentEnslavedPage(1));
@@ -69,7 +69,7 @@ const PastPeopleIntro = () => {
                   <div className="enslaved-btn">Enslaved</div>
                 </Link>
                 <Link
-                  to={`/${PASTHOMEPAGE}${ENSALVERSPAGE}#table`}
+                  to={`${ENSALVERSPAGE}#people`}
                   style={{ textDecoration: 'none' }}
                   onClick={() => {
                     dispatch(setCurrentEnslaversPage(1));

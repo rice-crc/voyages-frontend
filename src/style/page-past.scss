@@ -260,7 +260,7 @@
 }
 
 .people-header {
-  font-family: 'Cormorant Garamond';
+  // font-family: 'Cormorant Garamond';
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -397,26 +397,26 @@
 }
 
 .enslaved-header {
-  font-family: 'Cormorant Garamond';
+  // font-family: 'Cormorant Garamond';
   display: flex;
   align-items: center;
   cursor: pointer;
-  font-size: 40px;
+  font-size: 34px;
 
   @include breakpoint-standard(6) {
-    font-size: 40px;
-  }
-
-  @include breakpoint-standard(5) {
-    font-size: 16px;
-  }
-
-  @include breakpoint-standard(4) {
     font-size: 26px;
   }
 
+  @include breakpoint-standard(5) {
+    font-size: 20px;
+  }
+
+  @include breakpoint-standard(4) {
+    font-size: 20px;
+  }
+
   @include breakpoint-standard(3) {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   @include breakpoint-standard(2) {
@@ -441,25 +441,25 @@
 
 .enslaved-header-subtitle {
   display: flex;
-  font-size: 28px;
+  font-size: 20px;
   padding-left: 5px;
   position: relative;
   font-weight: 600;
   top: 5px;
   color: #fff;
 
-  @include breakpoint-standard(5) {
-    font-size: 24px;
-    top: 6px;
-  }
-
-  @include breakpoint-standard(5) {
+  @include breakpoint-standard(6) {
     font-size: 18px;
     top: 2px;
   }
 
+  @include breakpoint-standard(5) {
+    font-size: 16px;
+    top: 2px;
+  }
+
   @include breakpoint-standard(4) {
-    font-size: 18px;
+    font-size: 16px;
     top: 2px;
   }
 
@@ -489,7 +489,7 @@
   top: 20%;
   padding: 4rem 1rem 4rem 5rem;
   width: 90%;
-  font-family: Roboto, Helvetica, Arial, sans-serif;
+  // font-family: Roboto, Helvetica, Arial, sans-serif;
   font-size: 24px;
 
 

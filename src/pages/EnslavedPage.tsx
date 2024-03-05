@@ -1,12 +1,10 @@
 import HeaderEnslavedNavBar from '@/components/NavigationComponents/Header/HeaderEnslavedNavBar';
-import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import React, { useEffect } from 'react';
 import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import '@/style/page-past.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { createTopPositionEnslavedPage } from '@/utils/functions/createTopPositionEnslavedPage';
 import {
   pageVariantsFromBottom,
   pageVariantsFromTop,
@@ -19,7 +17,6 @@ import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEn
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
 import { AFRICANORIGINS, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
-import { getIntroBackgroundEnslavedColor } from '@/utils/functions/getColorStyle';
 
 const EnslavedPage: React.FC = () => {
   const { styleName, currentBlockName } = usePageRouter();
@@ -39,7 +36,7 @@ const EnslavedPage: React.FC = () => {
     //   dispatch(setCurrentEnslavedPage(1));
     //   dispatch(setCurrentBlockName(currentBlockName))
     // } else 
-    if (currentBlockName === 'table') {
+    if (currentBlockName === 'people') {
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setCurrentBlockName(currentBlockName))
     } else if (currentBlockName === 'map') {
@@ -49,10 +46,10 @@ const EnslavedPage: React.FC = () => {
         setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks)
       );
     }
-    if (currentBlockName === 'table' && styleName === AFRICANORIGINS) {
+    if (currentBlockName === 'people' && styleName === AFRICANORIGINS) {
       dispatch(setBaseFilterPeopleEnslavedDataKey(jsonDataPEOPLECOLLECTIONS[1].base_filter[0].var_name));
       dispatch(setBaseFilterPeopleEnslavedDataValue(jsonDataPEOPLECOLLECTIONS[1].base_filter[0].value));
-    } else if (currentBlockName === 'table' && styleName === ENSLAVEDTEXAS) {
+    } else if (currentBlockName === 'people' && styleName === ENSLAVEDTEXAS) {
       dispatch(setBaseFilterPeopleEnslavedDataKey(jsonDataPEOPLECOLLECTIONS[2].base_filter[0].var_name));
       dispatch(setBaseFilterPeopleEnslavedDataValue(jsonDataPEOPLECOLLECTIONS[2].base_filter[0].value));
     }
@@ -72,7 +69,7 @@ const EnslavedPage: React.FC = () => {
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       {/* {currentEnslavedPage === 1 && currentPageBlockName === 'intro' && <EnslavedIntro />} */}
-      {currentEnslavedPage === 1 && currentPageBlockName === 'table' && <Tables />}
+      {currentEnslavedPage === 1 && currentPageBlockName === 'people' && <Tables />}
       {currentEnslavedPage === 2 && currentPageBlockName === 'map' && <EnslavedMap />}
     </motion.div>
   );
@@ -82,7 +79,7 @@ const EnslavedPage: React.FC = () => {
     <div id="enslaved-home-page" >
       <HeaderEnslavedNavBar />
       <div
-        className={currentPageBlockName === 'table' ? 'table-presentation' : ''}
+        className={currentPageBlockName === 'people' ? 'table-presentation' : ''}
         style={{
           position: 'relative',
           padding: inputSearchValue ? '0 20px' : '',

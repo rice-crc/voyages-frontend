@@ -87,6 +87,59 @@
   @include breakpoint-standard(5) {
     margin-top: 11px;
   }
+
+  @include breakpoint-standard(4) {
+    display: block;
+  }
+
+  @include breakpoint-standard(3) {
+    display: block;
+  }
+
+  @include breakpoint-standard(2) {
+    display: block;
+  }
+
+  @include breakpoint-standard(1.1) {
+    display: block;
+  }
+
+  @include breakpoint-standard(1) {
+    display: block;
+  }
+
+  @include breakpoint-standard(0) {
+    display: block;
+  }
+
+  .button-export-csv {
+    @include breakpoint-standard(1.1) {
+      margin-bottom: 20px;
+    }
+
+    @include breakpoint-standard(1) {
+      margin-bottom: 20px;
+    }
+
+    @include breakpoint-standard(0) {
+      margin-bottom: 20px;
+    }
+  }
+
+}
+
+.pivot-table-pagination {
+  @include breakpoint-standard(1.1) {
+    display: none;
+  }
+
+  @include breakpoint-standard(1) {
+    display: none;
+  }
+
+  @include breakpoint-standard(0) {
+    display: none;
+  }
 }
 
 .customHeaderMenuButton {
@@ -119,6 +172,7 @@
     border-bottom: 2px solid #dee2e6;
     padding: 0 5px 0 5px;
     text-align: center;
+    font-size: 14px;
   }
 }
 
@@ -127,6 +181,7 @@
   border-bottom: 2px solid #dee2e6;
   padding: 0 5px 0 5px;
   text-align: center;
+  font-size: 14px;
 }
 
 .summary-table>div>table>tbody>tr>td:first-child {
@@ -134,14 +189,18 @@
 }
 
 .summary-table>div>table>tbody>tr>td {
-  line-height: 22px;
+  line-height: 28px;
   padding-left: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgb(0, 0, 0);
 }
 
 .customHeaderLabel {
   float: left;
   margin: 0 0 0 3px;
   text-align: center;
+  font-size: 14px;
 }
 
 .customHeaderLabel-box {
@@ -213,7 +272,7 @@ div .customHeaderLabelSummaryTable {
 
 .pagination-div>nav>ul>li>button {
   font-size: 0.875rem;
-  font-family: sans-serif;
+  // font-family: sans-serif;
 }
 
 .Skeleton-loading {
@@ -532,19 +591,19 @@ div .customHeaderLabelSummaryTable {
   @include breakpoint-standard(0) {
     top: 10px;
     padding: 10px 20px 0 10px;
-    margin-top: 8rem;
+    margin-top: 6rem;
   }
 
   @include breakpoint-standard(1) {
     top: 40px;
     padding: 30px 20px 0 10px;
-    margin-top: 8rem;
+    margin-top: 3rem
   }
 
   @include breakpoint-standard(1.1) {
     top: 40px;
     padding: 30px 20px 0 10px;
-    margin-top: 8rem;
+    margin-top: 3rem
   }
 
   @include breakpoint-standard(2) {
@@ -560,72 +619,101 @@ div .customHeaderLabelSummaryTable {
 
   @include breakpoint-standard(4) {
     padding: 40px 30px 0 30px;
-    margin-top: 9rem;
+    margin-top: 8rem;
   }
 }
 
 .mobile-responsive-map {
-  padding: 140px 20px !important;
+  padding: 140px 22px !important;
 
   @include breakpoint-standard(5) {
-    padding: 120px 30px 20px 0px !important;
+    padding: 140px 60px 10px 10px !important
   }
 
   @include breakpoint-standard(4) {
-    padding: 140px 40px 40px 0px !important;
+    padding: 145px 0px 0px 20px !important
   }
 
   @include breakpoint-standard(3) {
-    padding: 110px 2px !important;
+    padding: 150px 2px !important;
   }
 
   @include breakpoint-standard(2) {
-    padding: 110px 2px !important;
+    padding: 150px 2px !important;
   }
 
   @include breakpoint-standard(1) {
-    padding: 110px 2px !important;
+    padding: 150px 2px !important;
   }
 
   @include breakpoint-standard(0) {
-    padding: 120px 0 !important;
+    padding: 150px 2px !important;
   }
 }
 
 .summary-box {
-  margin-top: 10rem;
-  width: 100vw;
+  margin-top: 8.5rem;
 
   @include breakpoint-standard(0) {
-    margin-top: 10rem;
+    margin-top: 8rem;
   }
 
   @include breakpoint-standard(1) {
-    margin-top: 10rem;
+    margin-top: 8rem;
   }
 
   @include breakpoint-standard(1.1) {
-    margin-top: 10rem;
+    margin-top: 8rem;
   }
 
   @include breakpoint-standard(2) {
-    margin-top: 10rem;
+    margin-top: 8rem;
   }
 
   @include breakpoint-standard(3) {
-    margin-top: 10rem;
+    margin-top: 8rem;
   }
 
   @include breakpoint-standard(4) {
-    margin-top: 10rem;
+    margin-top: 10.5rem;
   }
 
-  @include breakpoint-standard(5) {
-    margin-top: 10rem;
-  }
+  .summary-box-content {
+    @include breakpoint-standard(0) {
+      padding: 0 10px;
+    }
 
-  @include breakpoint-standard(6) {
-    margin-top: 10rem;
+    @include breakpoint-standard(1) {
+      padding: 0 10px;
+    }
+
+    @include breakpoint-standard(1.1) {
+      padding: 0 6px;
+    }
+
+    @include breakpoint-standard(2) {
+      padding: 0 6px;
+    }
+
+    @include breakpoint-standard(3) {
+      padding: 0 6px;
+    }
+
+    @include breakpoint-standard(4) {
+      padding: 0 10px;
+    }
+
+    @include breakpoint-standard(5) {
+      padding: 0 40px;
+    }
+
+    @include breakpoint-standard(6) {
+      padding: 0 40px;
+    }
+
+    @include breakpoint-standard(6) {
+      padding: 0 40px;
+    }
   }
 }
 
@@ -679,4 +767,33 @@ div .customHeaderLabelSummaryTable {
   border-left: 1px solid rgb(194, 194, 194);
   border-right: 1px solid rgb(194, 194, 194);
   background-color: #fff;
+  padding: 0 0 0 20px;
+
+  @include breakpoint-standard(5) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(4) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(3) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(2) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(1) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(1.1) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(0) {
+    padding: 0;
+  }
 }

@@ -29,10 +29,8 @@ import {
   PASTHOMEPAGE,
   TIMELAPSEPAGE,
   TRANSATLANTICPAGE,
-  VOYAGESPAGE,
   VOYAGESTEXASPAGE,
 } from './share/CONST_DATA';
-import DocumentPage from './pages/DocumentPage';
 import BlogPage from './pages/BlogPage';
 
 import AuthorPage from './pages/AuthorPage';
@@ -90,40 +88,39 @@ const App: React.FC = () => {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path={`${VOYAGESPAGE}`} element={<VoyagesPage />} />
           <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
           <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
           <Route
-            path={`${VOYAGESPAGE}${TRANSATLANTICPAGE}`}
+            path={`${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}
           />
           <Route
-            path={`${VOYAGESPAGE}${INTRAAMERICANPAGE}`}
+            path={`${INTRAAMERICANPAGE}`}
             element={<VoyagesPage />}
           />
           <Route
-            path={`${VOYAGESPAGE}${ALLVOYAGESPAGE}`}
+            path={`${ALLVOYAGESPAGE}`}
             element={<VoyagesPage />}
           />
           <Route
-            path={`${VOYAGESPAGE}${VOYAGESTEXASPAGE}`}
+            path={`${VOYAGESTEXASPAGE}`}
             element={<VoyagesPage />}
           />
           <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
           <Route
-            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
+            path={`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
+            path={`${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
+            path={`${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`${PASTHOMEPAGE}${ENSALVERSPAGE}`}
+            path={`${ENSALVERSPAGE}`}
             element={<EnslaversHomePage />}
           />
           {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}

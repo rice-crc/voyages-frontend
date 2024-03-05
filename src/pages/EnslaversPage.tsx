@@ -23,7 +23,7 @@ const EnslaversHomePage: React.FC = () => {
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    if (currentBlockName === 'table') {
+    if (currentBlockName === 'people') {
       dispatch(setCurrentEnslaversPage(1));
       dispatch(setCurrentBlockName(currentBlockName))
     }
@@ -41,7 +41,7 @@ const EnslaversHomePage: React.FC = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentEnslaversPage === 1 && currentBlockName === 'table' && <Tables />}
+      {currentEnslaversPage === 1 && currentBlockName === 'people' && <Tables />}
     </motion.div>
   );
 

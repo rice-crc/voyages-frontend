@@ -47,7 +47,6 @@ const GlobalSearchButton = () => {
     }
   };
   const { styleName } = usePageRouter()
-  console.log({ styleName })
 
   useEffect(() => {
     const boxColor = getColorBackground(styleName!);

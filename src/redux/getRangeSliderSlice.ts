@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RangeSliderState } from '@/share/InterfaceTypes';
-import { fetchRangeVoyageSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
 
 const initialState: RangeSliderState = {
     rangeValue: {},

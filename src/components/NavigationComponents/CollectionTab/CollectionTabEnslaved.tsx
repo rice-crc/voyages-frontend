@@ -27,10 +27,7 @@ const CollectionTabEnslaved = () => {
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
   const { styleName, currentBlockName } = usePageRouter();
-  const { currentEnslavedPage } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
-  );
-  const { currentPageBlockName } = useSelector(
+  const { currentEnslavedPage, currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
 
@@ -63,7 +60,7 @@ const CollectionTabEnslaved = () => {
           {blocksPeople.map((page: string, index: number) => {
             const buttonIndex = index + 1;
             return (
-              styleName === AFRICANORIGINS &&
+
               <Button
                 key={`${page}-${buttonIndex}`}
                 onClick={() => handlePageNavigation(buttonIndex, page.toLowerCase())}

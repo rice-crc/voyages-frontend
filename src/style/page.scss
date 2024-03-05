@@ -189,8 +189,8 @@
   }
 
   @include breakpoint-standard(4) {
-    top: 8%;
-    right: 18%;
+    top: 10%;
+    right: 14%;
     height: auto;
     display: inline;
     align-items: flex-start;
@@ -198,7 +198,7 @@
   }
 
   @include breakpoint-standard(3) {
-    top: 7%;
+    top: 8.5%;
     height: auto;
     display: inline;
     align-items: center;
@@ -207,7 +207,7 @@
   }
 
   @include breakpoint-standard(2) {
-    top: 7%;
+    top: 10.5%;
     height: auto;
     display: inline;
     align-items: center;
@@ -216,7 +216,7 @@
   }
 
   @include breakpoint-standard(1.1) {
-    top: 7%;
+    top: 9%;
     height: auto;
     display: inline;
     align-items: center;
@@ -225,7 +225,7 @@
   }
 
   @include breakpoint-standard(1) {
-    top: 7%;
+    top: 9%;
     height: auto;
     display: inline;
     align-items: center;
@@ -234,7 +234,7 @@
   }
 
   @include breakpoint-standard(0) {
-    top: 7%;
+    top: 9%;
     height: auto;
     display: inline;
     align-items: center;
@@ -302,11 +302,11 @@
   }
 
   @include breakpoint-standard(0) {
-    width: 50px !important;
+    width: 42px !important;
     height: 26px;
-    font-size: 9px !important;
-    min-width: 60px !important;
-    margin: 2px 2px !important;
+    font-size: 6.5px !important;
+    min-width: 30px !important;
+    margin: 1px 1px !important;
   }
 }
 

@@ -389,6 +389,7 @@ const PivotTables = () => {
           <CustomTablePagination
             disablescrolllock={true.toString()}
             component="span"
+            className="pivot-table-pagination"
             count={totalResultsCount}
             page={page}
             onPageChange={handleChangePage}

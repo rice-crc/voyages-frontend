@@ -97,7 +97,7 @@
 			"order_by": [
 				"enslaved_source_connections__source__title"
 			],
-			"colID": "enslaved_relations__relation__voyage__voyage_sources",
+			"colID": "voyages__voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
@@ -119,6 +119,23 @@
 						"var_name": "id",
 						"cell_fn": "networks",
 						"node_class": "enslaved"
+					}
+				]
+			}
+		},
+		{
+			"header_label": "Voyage ID",
+			"cell_type": "literal",
+			"visible": true,
+			"order_by": [
+				"voyages__voyage_id"
+			],
+			"colID": "voyages__voyage_id",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyages__voyage_id",
+						"cell_fn": "literal"
 					}
 				]
 			}
@@ -171,6 +188,15 @@
 	],
 	"column_selector_tree": [
 		{
+			"label": "Names",
+			"children": [
+				{
+					"colID": "enslaved_name",
+					"label": "Names"
+				}
+			]
+		},
+		{
 			"label": "Enslavers",
 			"children": [
 				{
@@ -217,7 +243,7 @@
 			"label": "Sources",
 			"children": [
 				{
-					"colID": "enslaved_source_connections__source__title",
+					"colID": "voyages__voyage_sources",
 					"label": "Sources"
 				}
 			]

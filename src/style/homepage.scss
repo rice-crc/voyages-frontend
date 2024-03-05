@@ -210,7 +210,6 @@
 
 .voyage-description {
   color: #ffffff;
-  font-family: 'Helvetica Neue';
   font-style: italic;
   font-weight: 400;
   // margin-top: 5px;  
@@ -421,7 +420,7 @@
 .voyages-people-places-title {
   font-size: 20px;
   font-weight: bold;
-  font-family: 'Helvetica Neue';
+  // font-family: 'Helvetica Neue';
   text-transform: uppercase;
   text-shadow: 1px 1px 1px #000;
 
@@ -458,7 +457,7 @@
 .voyages-people-places-subtitle {
   font-size: 16px;
   font-weight: normal;
-  font-family: 'Helvetica Neue';
+  // font-family: 'Helvetica Neue';
   text-shadow: 1px 1px 1px #000000;
 
   @include breakpoint-standard(5) {
@@ -554,7 +553,7 @@
 .document-resources-text {
   font-size: 12px;
   font-weight: bold;
-  font-family: 'Helvetica Neue';
+  // font-family: 'Helvetica Neue';
   position: relative;
   top: 45%;
 }
@@ -593,7 +592,7 @@
   background-color: #baa372;
   color: #ffffff;
   font-size: 14px;
-  font-family: 'Helvetica Neue';
+  // font-family: 'Helvetica Neue';
   font-weight: bold;
   height: 38px;
   line-height: 38px;
@@ -764,10 +763,6 @@
 
 .footer-copyrights {
   margin: 1rem 0;
-}
-
-.copyright {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Proxima Nova", "Helvetica", "Arial", sans-serif !important
 }
 
 .grey {

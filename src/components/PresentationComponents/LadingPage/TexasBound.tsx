@@ -9,7 +9,7 @@ import { CONTRIBUTE, VOYAGESTEXASPAGE, TRANSATLANTICPAGE, VOYAGESPAGE, ABOUTPAGE
 const TexasBound: React.FC = () => {
     const lists = [
         { name: 'About', url: `/${ABOUTPAGE}` },
-        { name: 'Database', url: `${VOYAGESPAGE}${TRANSATLANTICPAGE}#voyages` },
+        { name: 'Database', url: `${TRANSATLANTICPAGE}#voyages` },
         { name: 'Downloads', url: `${DOWNLOADS}` },
         { name: 'Contribute', url: `${CONTRIBUTE}` },
     ];
@@ -25,7 +25,7 @@ const TexasBound: React.FC = () => {
                         Coast. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                         do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     </p>
-                    <ButtonLearnMore path={`${VOYAGESPAGE}${VOYAGESTEXASPAGE}#voyages`} styleName='texas' />
+                    <ButtonLearnMore path={`${VOYAGESTEXASPAGE}#voyages`} styleName='texas' />
                     <ButtonLists lists={lists} />
                 </div>
                 <div className="texas-bound-bg">

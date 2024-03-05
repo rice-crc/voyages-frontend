@@ -32,13 +32,7 @@ import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
-import {
-    crateClassName,
-    createTopPositionEnslavedPage,
-    createTopPositionEnslaversPage,
-} from '@/utils/functions/createTopPositionEnslavedPage';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
-import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import {
     checkPagesRouteForEnslaved,
@@ -52,7 +46,6 @@ import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-import { convertToSlug } from '@/utils/functions/convertToSlug';
 import {
     AFRICANORIGINS,
     ENSLAVEDTEXAS,
@@ -71,6 +64,7 @@ const Tables: React.FC = () => {
     const { visibleColumnCells } = useSelector(
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
     );
+
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
@@ -148,9 +142,11 @@ const Tables: React.FC = () => {
     }, [dispatch, tablesCell, tablesCell, tableCellStructure]);
 
     let filters: Filter[] = [];
+
     if (filtersObj[0]?.searchTerm?.length > 0) {
         filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
     } else if (styleNameRoute === TRANSATLANTICPATH) {
+        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
         filters.push({
             varName: 'dataset',
             searchTerm: [0],
@@ -162,6 +158,7 @@ const Tables: React.FC = () => {
             searchTerm: [1],
             op: 'in',
         });
+
     } else if (styleNameRoute === ENSLAVEDTEXAS) {
         filters.push({
             varName:
@@ -177,17 +174,23 @@ const Tables: React.FC = () => {
         });
     }
 
+    localStorage.setItem('filterObject', JSON.stringify({
+        filter: filters
+    }));
     const dataSend: TableListPropsRequest = {
         filter: filters,
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
-    if (inputSearchValue) {
-        dataSend['global_search'] = inputSearchValue;
-    }
 
     useEffect(() => {
+
         let subscribed = true;
+
+        if (inputSearchValue) {
+            dataSend['global_search'] = inputSearchValue;
+        }
+
         const fetchData = async () => {
             let response;
             try {
@@ -317,7 +320,7 @@ const Tables: React.FC = () => {
             fontSize: 13,
             fontWeight: 500,
             color: '#000',
-            fontFamily: 'Roboto',
+            fontFamily: 'sans-serif',
             paddingLeft: '20px',
         }),
         []
@@ -377,9 +380,8 @@ const Tables: React.FC = () => {
         document.documentElement.style.setProperty('--pagination-table--', headerColor);
     }, [styleName]);
 
-    const className = crateClassName(styleNameRoute!);
     return (
-        <div className={className}>
+        <div className='mobile-responsive'>
             <div className="ag-theme-alpine grid-container">
                 <span className="tableContainer">
                     <ButtonDropdownColumnSelector />

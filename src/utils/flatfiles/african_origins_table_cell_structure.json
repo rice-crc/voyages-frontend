@@ -376,10 +376,6 @@
 				{
 					"colID": "post_disembark_location__name",
 					"label": "Post-Disembark Location"
-				},
-				{
-					"colID": "voyages__voyage_outcome__particular_outcome__name",
-					"label": "Voyage Outcome"
 				}
 			]
 		},

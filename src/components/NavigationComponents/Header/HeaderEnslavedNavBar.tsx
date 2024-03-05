@@ -74,9 +74,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
 
   const [isClick, setIsClick] = useState(false);
   const styleNameToPathMap: { [key: string]: string } = {
-    [ALLENSLAVED]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'table' : currentPageBlockName}`,
-    [AFRICANORIGINS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
-    [ENSLAVEDTEXAS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'table' : currentPageBlockName}`,
+    [ALLENSLAVED]: `${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'people' : currentPageBlockName}`,
+    [AFRICANORIGINS]: `${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
+    [ENSLAVEDTEXAS]: `${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'people' : currentPageBlockName}`,
   };
 
   const handleSelectEnslavedDataset = (
@@ -88,6 +88,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
+
 
     dispatch(resetAll());
     const filters: Filter[] = [];
@@ -101,6 +102,15 @@ const HeaderEnslavedNavBar: React.FC = () => {
         op: "in"
       })
       dispatch(setFilterObject(filters));
+    }
+    if (filters) {
+      localStorage.setItem('filterObject', JSON.stringify({
+        filter: filters
+      }));
+    } else {
+      localStorage.setItem('filterObject', JSON.stringify({
+        filter: filters
+      }));
     }
     dispatch(setDataSetPeopleEnslavedHeader(textHeder));
     dispatch(setPeopleEnslavedTextIntro(textIntro));

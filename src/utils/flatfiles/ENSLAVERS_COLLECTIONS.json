@@ -9,7 +9,7 @@
         "table_flatfile": "enslavers_table_cell_structure.json",
         "style_name": "all-enslavers",
         "blocks": [
-            "TABLE"
+            "PEOPLE"
         ]
     }
 ]
