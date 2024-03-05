@@ -60,7 +60,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     (state: RootState) => state.getScrollEnslavedPage
   );
 
-  const { value, textHeader, styleNamePeople, dataSetValueBaseFilter } = useSelector(
+  const { value, textHeader, styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
@@ -73,12 +73,16 @@ const HeaderEnslavedNavBar: React.FC = () => {
     useState<null | HTMLElement>(null);
 
   const [isClick, setIsClick] = useState(false);
+  // const styleNameToPathMap: { [key: string]: string } = {
+  //   [ALLENSLAVED]: `${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'people' : currentPageBlockName}`,
+  //   [AFRICANORIGINS]: `${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
+  //   [ENSLAVEDTEXAS]: `${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'people' : currentPageBlockName}`,
+  // };
   const styleNameToPathMap: { [key: string]: string } = {
-    [ALLENSLAVED]: `${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'people' : currentPageBlockName}`,
+    [ALLENSLAVED]: `${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName}`,
     [AFRICANORIGINS]: `${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
-    [ENSLAVEDTEXAS]: `${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'people' : currentPageBlockName}`,
+    [ENSLAVEDTEXAS]: `${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName}`,
   };
-
   const handleSelectEnslavedDataset = (
     baseFilter: BaseFilter[],
     textHeder: string,

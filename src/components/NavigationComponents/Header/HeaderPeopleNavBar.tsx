@@ -14,7 +14,6 @@ import {
   ENSALVERSPAGE,
   Enslaved,
   POPELETILET,
-  PASTHOMEPAGE,
   EnslaversTitle,
   ALLENSLAVEDPAGE,
 } from '@/share/CONST_DATA';

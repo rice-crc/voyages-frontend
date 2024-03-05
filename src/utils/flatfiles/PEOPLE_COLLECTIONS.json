@@ -9,7 +9,8 @@
 		"table_flatfile": "enslaved_table_cell_structure.json",
 		"style_name": "all-enslaved",
 		"blocks": [
-			"PEOPLE"
+			"PEOPLE",
+			"MAP"
 		]
 	},
 	{
@@ -51,7 +52,8 @@
 		"table_flatfile": "texas_table_cell_structure.json",
 		"style_name": "texasEnslaved",
 		"blocks": [
-			"PEOPLE"
+			"PEOPLE",
+			"MAP"
 		]
 	}
 ]
