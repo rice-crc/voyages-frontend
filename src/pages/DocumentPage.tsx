@@ -16,12 +16,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ViewListIcon from '@mui/icons-material/ViewList';
 
-
-// Note to @JohnMulligan: I (@dellamonica) see that the project is using
-// lodash.debounce, but it does not seem to integrate nicely with React hooks.
-// The following hook is a 5 line implementation that does debouncing just fine
-// together with useState.
-
 function useDebounce<T>(value: T, wait: number = 500) {
   const [debounceValue, setDebounceValue] = useState<T>(value);
   useEffect(() => {
