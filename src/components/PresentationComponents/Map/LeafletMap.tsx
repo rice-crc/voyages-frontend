@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ReactNode } from 'react';
 import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -56,9 +56,10 @@ import { fetchEstimatesMap } from '@/fetch/estimateFetch/fetchEstimatesMap';
 interface LeafletMapProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
   zoomLevel: number;
+  children?: ReactNode
 }
 
-export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
+export const LeafletMap = ({ setZoomLevel, zoomLevel, children }: LeafletMapProps) => {
   const dispatch: AppDispatch = useDispatch();
   const mapRef = useRef(null);
   const location = useLocation();
@@ -344,6 +345,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
               </LayersControl.Overlay>
             </LayersControl>
             <NodeEdgesCurvedLinesMap />
+            {children}
           </MapContainer>
           <ShowsColoredNodeOnMap />
         </>
