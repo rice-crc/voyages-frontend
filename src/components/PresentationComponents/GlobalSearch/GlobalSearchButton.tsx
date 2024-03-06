@@ -15,37 +15,20 @@ const GlobalSearchButton = () => {
   );
 
   useEffect(() => {
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem('global_search');
     if (storedValue) {
-      const parsedValue = JSON.parse(storedValue);
-      const { filterObject } = parsedValue;
-      const { global_search } = filterObject;
-      if (global_search) {
-        dispatch(setInputSearchValue(global_search));
+      if (storedValue) {
+        dispatch(setInputSearchValue(storedValue));
       }
     }
   }, []);
 
   const handleExitGlobalSearch = () => {
     dispatch(setInputSearchValue(''));
-    dispatch(resetAll())
-    // Retrieve the filterObject from localStorage
-    const filterObjectString = localStorage.getItem('filterObject');
-
-    if (filterObjectString) {
-      // Parse the JSON string into an object
-      const filterObject = JSON.parse(filterObjectString);
-
-      // Remove the "global_search" key from the filterObject
-      delete filterObject.filterObject['global_search'];
-
-      // Convert the updated filterObject back to a string
-      const updatedFilterObjectString = JSON.stringify(filterObject);
-
-      // Store the updated filterObject back into localStorage
-      localStorage.setItem('filterObject', updatedFilterObjectString);
-    }
+    dispatch(resetAll());
+    localStorage.removeItem('global_search');
   };
+
   const { styleName } = usePageRouter()
 
   useEffect(() => {

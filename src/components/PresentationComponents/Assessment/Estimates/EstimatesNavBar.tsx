@@ -5,11 +5,11 @@ import '@/style/Nav.scss';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import HeaderLogoEstimate from '@/components/NavigationComponents/Header/HeaderLogoEstimate';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { resetAll } from '@/redux/resetAllSlice';
-import ShowAllSelected from './ShowAllSelected';
+import SaveSearchComponent from '@/components/FilterComponents/SaveSearchComponent/SaveSearchComponent';
 interface EstimatesNavBarProps {
     handleViewAll: () => void
 }
@@ -41,29 +41,33 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
                 <div>Trans-Atlantic Slave Trade - Estimates</div>
             </span>
             <div className="navbar-subtitle flex-navbar">
-                <div className="navbar-subitem">
-                    Current Query {' '}
-                    <CustomWidthTooltip title={<span className="sr-only-tooltip">For purposes of calculation, estimates of embarked and disembarked slaves in tables, the timeline, and maps have been rounded to integers. When users cite any number, they are advised to round it to the nearest hundred.</span>
-                    } placement="bottom" >
-                        <i className="fa fa-question-circle tooltip-pointer" data-toggle="tooltip" data-placement="top" title="" aria-hidden="true" ></i>
-                    </CustomWidthTooltip>
+                <div className='flex-navbar'>
+                    <div className="navbar-subitem">
+                        Current Query {' '}
+                        <CustomWidthTooltip title={<span className="sr-only-tooltip">For purposes of calculation, estimates of embarked and disembarked slaves in tables, the timeline, and maps have been rounded to integers. When users cite any number, they are advised to round it to the nearest hundred.</span>
+                        } placement="bottom" >
+                            <i className="fa fa-question-circle tooltip-pointer" data-toggle="tooltip" data-placement="top" title="" aria-hidden="true" ></i>
+                        </CustomWidthTooltip>
+                    </div>
+                    <div className="navbar-subitem">
+                        <a data-toggle="collapse" href="#panelCollapse" role="button" aria-expanded="false" aria-controls="panelCollapse">
+                            <div className="btn-navbar" onClick={handleViewAll}>
+                                <i className="fa fa-filter" aria-hidden="true"></i>
+                                View All
+                            </div>
+                        </a>
+                    </div>
+                    <div className="navbar-subitem">
+                        <a role="button" onClick={resetAllEstimate}>
+                            <div className="btn-navbar">
+                                <i className="fa fa-times" aria-hidden="true"></i>
+                                Reset All
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div className="navbar-subitem">
-                    <a data-toggle="collapse" href="#panelCollapse" role="button" aria-expanded="false" aria-controls="panelCollapse">
-                        <div className="btn-navbar" onClick={handleViewAll}>
-                            <i className="fa fa-filter" aria-hidden="true"></i>
-                            View All
-                        </div>
-                    </a>
-                </div>
-                <div className="navbar-subitem">
-                    <a role="button" onClick={resetAllEstimate}>
-                        <div className="btn-navbar">
-                            <i className="fa fa-times" aria-hidden="true"></i>
-                            Reset All
-                        </div>
-                    </a>
-                </div>
+                <div><SaveSearchComponent /></div>
+
             </div>
 
         </div>

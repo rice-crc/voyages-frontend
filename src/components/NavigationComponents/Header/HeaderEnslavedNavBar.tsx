@@ -220,9 +220,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
                   xs: 'none',
                   sm: 'none',
                   md: 'flex',
-                  paddingRight: 40,
+                  paddingRight: 50,
                 },
-                margin: '10px 0',
+                margin: '5px 0',
                 fontSize: 18,
                 fontWeight: 600,
               }}

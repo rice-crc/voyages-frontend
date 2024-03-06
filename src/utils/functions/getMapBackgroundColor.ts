@@ -3,7 +3,6 @@ import { TYPESOFDATASET } from "@/share/InterfaceTypes";
 
 
 export const getMapBackgroundColor = (item: string) => {
-    console.log({ item })
     let background = 'rgb(55, 148, 141)';
     if (item === TYPESOFDATASET.allVoyages) {
         background = 'rgb(55, 148, 141)';

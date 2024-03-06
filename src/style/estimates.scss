@@ -22,13 +22,14 @@
 .flex-navbar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .navbar-subtitle {
     font-weight: 500;
     font-size: .85rem;
     color: #fff;
-    padding: 0 0.5rem 0.5rem 0.5rem;
+    padding: 0 5rem 0.5rem 0.5rem;
 }
 
 .navbar-subitem {
@@ -268,7 +269,7 @@
 }
 
 .estimate-table>div>table>thead>tr {
-    height: 32px;
+    height: 28px;
 }
 
 /* Hide scrollbar for webkit browsers (Chrome, Safari) */
@@ -364,8 +365,8 @@ table>.dataframe {
     td {
         padding: 0 5px 0 5px;
         text-align: right;
-        line-height: 26px;
         font-size: 13px;
+        line-height: 24px;
     }
 }
 

@@ -152,7 +152,7 @@ const VoyagesPage = () => {
         style={{
           position: 'relative',
           padding: inputSearchValue ? '0 20px' : '',
-          top: inputSearchValue ? 30 : 0
+          top: inputSearchValue ? 40 : 10
         }}
       >
         <CollectionTabVoyages />

@@ -153,7 +153,7 @@ export const getColorTextCollection = (item: string) => {
     return textColor;
 };
 export const getColorHoverBackgroundCollection = (item: string) => {
-    let boxShadow = 'rgb(6 186 171 / 83%)';
+    let boxShadow = '#42a5f5';
     if (item === TYPESOFDATASET.allVoyages) {
         boxShadow = 'rgb(6 186 171 / 83%)';
     } else if (item === TYPESOFDATASET.transatlantic) {
@@ -311,7 +311,7 @@ export const getBoderColor = (item: string) => {
 };
 
 export const getHeaderColomnColor = (item: string) => {
-    let color = '#007269';
+    let color = 'rgb(25, 118, 210)';
     if (item === TYPESOFDATASET.allVoyages) {
         color = '#007269';
     } else if (item === TYPESOFDATASET.transatlantic) {

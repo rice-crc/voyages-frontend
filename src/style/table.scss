@@ -189,7 +189,7 @@
 }
 
 .summary-table>div>table>tbody>tr>td {
-  line-height: 28px;
+  line-height: 24px;
   padding-left: 12px;
   font-size: 13px;
   font-weight: 500;
@@ -586,7 +586,7 @@ div .customHeaderLabelSummaryTable {
 .mobile-responsive {
   position: relative;
   padding: 30px 120px 0 30px;
-  margin-top: 85px;
+  margin-top: 90px;
 
   @include breakpoint-standard(0) {
     top: 10px;

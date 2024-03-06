@@ -214,9 +214,9 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                   xs: 'none',
                   sm: 'none',
                   md: 'flex',
-                  paddingRight: 40,
+                  paddingRight: 60,
                 },
-                margin: '10px 0',
+                margin: '6px 0',
                 fontSize: 18,
                 fontWeight: 600,
               }}

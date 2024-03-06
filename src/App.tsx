@@ -30,6 +30,7 @@ import {
   TIMELAPSEPAGE,
   TRANSATLANTICPAGE,
   VOYAGESTEXASPAGE,
+  voyageURL,
 } from './share/CONST_DATA';
 import BlogPage from './pages/BlogPage';
 
@@ -90,12 +91,20 @@ const App: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
           <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
+          {/* <Route
+            path={`${voyageURL}`}
+            element={<VoyagesPage />}
+          /> */}
           <Route
             path={`${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}
           />
           <Route
             path={`${INTRAAMERICANPAGE}`}
+            element={<VoyagesPage />}
+          />
+          <Route
+            path={`${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}
           />
           <Route
