@@ -1,15 +1,13 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { SaveSearchRequest } from '@/share/InterfaceTypes';
 
-export const fetchCommonMakeSavedSearch = createAsyncThunk(
-    'commonMakeSavedSearch/fetchCommonMakeSavedSearch',
-    async (dataSend?: SaveSearchRequest) => {
+export const fetchCommonUseSavedSearch = createAsyncThunk(
+    'commonMakeSavedSearch/fetchCommonUseSavedSearch',
+    async (id: string) => {
         try {
             const response = await axios.post(
-                `${BASEURL}/common/makesavedsearch/`,
-                dataSend,
+                `${BASEURL}/common/usesavedsearch/${id}`,
                 {
                     headers: {
                         'Authorization': AUTHTOKEN,
@@ -19,7 +17,7 @@ export const fetchCommonMakeSavedSearch = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            throw new Error('Failed to fetch fetchCommonMakeSavedSearch data');
+            throw new Error('Failed to fetch fetchCommonUseSavedSearch data');
         }
     }
 );
