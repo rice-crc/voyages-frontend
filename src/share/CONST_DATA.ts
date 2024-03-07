@@ -29,7 +29,7 @@ export const PASTHOMEPAGE = 'PastHomePage'
 export const Enslaved = 'Enslaved'
 export const ALLENSLAVED = 'all-enslaved'
 export const ALLENSLAVEDPAGE = '/all-enslaved'
-export const ENSALVEDPAGE = '/enslaved'
+export const ENSALVEDPAGE = '/past/enslaved'
 export const AFRICANORIGINS = 'african-origins'
 export const AFRICANORIGINSPAGE = '/african-origins'
 export const ENSLAVEDTEXAS = 'texasEnslaved'
@@ -39,7 +39,7 @@ export const DOCUMENTPAGE = 'DocumentPage'
 export const BLOGPAGE = 'Blog'
 
 export const ALLENSLAVERS = 'all-enslavers'
-export const ENSALVERSPAGE = '/enslaver'
+export const ENSALVERSPAGE = '/past/enslaver'
 export const ENSALVERSTYLE = 'enslaver'
 
 

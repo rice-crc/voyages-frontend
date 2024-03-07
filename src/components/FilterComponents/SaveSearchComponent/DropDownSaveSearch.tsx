@@ -10,16 +10,22 @@ import { setListSaveSearchURL, setSaveSearchUrlID } from '@/redux/getSaveSearchS
 
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { endpointPath, endpointPathEstimate, styleName } = usePageRouter();
+    const { endpointPath, styleName, endpointPeopleDirect } = usePageRouter();
+
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { saveSearchUrlID, listSaveSearchURL } = useSelector((state: RootState) => state.getSaveSearch);
+    let endpointSaveSearch: string = ''
+    if (endpointPeopleDirect === 'past/enslaved' || endpointPeopleDirect === 'past/enslaver') {
+        endpointSaveSearch = endpointPeopleDirect
+    } else if (endpointPath === 'voyage' || endpointPath === 'assessment') {
+        endpointSaveSearch = endpointPath
+    }
+    console.log({ endpointSaveSearch })
     const dataSend: SaveSearchRequest = {
-        endpoint:
-            endpointPath !== undefined && endpointPath !== ''
-                ? endpointPath
-                : endpointPathEstimate || '',
+        endpoint: endpointSaveSearch,
         query: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
     };
+    console.log({ saveSearchUrlID })
 
     const handleSaveSearch = () => {
         fetchData();
@@ -27,14 +33,14 @@ const DropDownSaveSearch = () => {
 
     const handleCopySaveSearch = () => {
         if (saveSearchUrlID) {
-            navigator.clipboard.writeText(`${BASE_URL_FRONTEND}/${endpointPath}/${styleName}#${saveSearchUrlID}`);
-            alert(`Your URL ${BASE_URL_FRONTEND}/${endpointPath}/${styleName}#${saveSearchUrlID} is copied`);
+            navigator.clipboard.writeText(`${BASE_URL_FRONTEND}/${endpointSaveSearch}/${styleName}#${saveSearchUrlID}`);
+            alert(`Your URL ${BASE_URL_FRONTEND}/${endpointSaveSearch}/${styleName}#${saveSearchUrlID} is copied`);
         }
     };
 
     const handleLoadSaveSearch = () => {
         if (styleName) {
-            window.location.href = `${BASE_URL_FRONTEND}/${endpointPath}/${styleName}`;
+            window.location.href = `${BASE_URL_FRONTEND}/${endpointSaveSearch}/${styleName}`;
         }
     };
 
@@ -60,7 +66,7 @@ const DropDownSaveSearch = () => {
         }
     };
 
-    useEffect(() => { }, [endpointPath, endpointPathEstimate, styleName]);
+    useEffect(() => { }, [endpointPath, endpointPeopleDirect, styleName]);
 
     return (
         <div
@@ -118,7 +124,7 @@ const DropDownSaveSearch = () => {
                                 <div className="flex-between v-saved-searches-item">
                                     <div id="SzPhOxXs">
                                         {saveSearchUrlID &&
-                                            `${BASE_URL_FRONTEND}/${endpointPath}/${styleName}#${saveSearchUrlID} `}
+                                            `${BASE_URL_FRONTEND}/${endpointSaveSearch}/${styleName}#${saveSearchUrlID} `}
                                     </div>{' '}
                                     <div>
                                         <button
