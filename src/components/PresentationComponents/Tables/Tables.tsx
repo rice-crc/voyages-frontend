@@ -64,7 +64,7 @@ const Tables: React.FC = () => {
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
-    console.log({ saveSearchID })
+
     const { querySaveSearch } = useSelector((state: RootState) => state.getQuerySaveSearch);
 
     const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch);

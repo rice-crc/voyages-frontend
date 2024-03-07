@@ -12,7 +12,6 @@ export function usePageRouter() {
     const currentBlockName = hash ? hash.slice(1) : '';
     const pathnameParts = location.pathname.split('/');
     const saveSearchID = pathnameParts[pathnameParts.length - 1];
-    console.log({ saveSearchID })
     return {
         styleName,
         currentBlockName,

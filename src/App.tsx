@@ -72,7 +72,6 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cardRowID, nodeTypeClass } = useSelector((state: RootState) => state.getCardFlatObjectData);
-  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch)
   const { styleName, voyageURLID, saveSearchID } = usePageRouter();
   const [ID, setID] = useState(cardRowID)
@@ -96,7 +95,6 @@ const App: React.FC = () => {
 
     // Check URL to direct to when user copy paste
     const checkURL = checkPathURLSaveSearchVoyages(url)
-    // console.log({ saveSearchID, filtersObj })
     if (saveSearchID) {
       if (checkURL === ALLVOYAGES) {
         navigate(`${voyageURL}/${ALLVOYAGES}`)
@@ -107,7 +105,7 @@ const App: React.FC = () => {
       }
     }
 
-  }, [dispatch, ID, nodeClass, styleName, voyageURLID]);
+  }, [dispatch, ID, nodeClass, styleName, voyageURLID, saveSearchUrlID]);
 
   useEffect(() => {
 
@@ -126,8 +124,6 @@ const App: React.FC = () => {
   }, [dispatch, ID, nodeClass, styleName, voyageURLID]);
 
 
-
-
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
@@ -135,11 +131,6 @@ const App: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
           <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
-
-          {/* <Route
-            path={`${checkURLVoyage}`}
-            element={<VoyagesPage />}
-          /> */}
           <Route
             path={`${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}
