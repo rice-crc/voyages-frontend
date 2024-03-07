@@ -10,12 +10,11 @@ export function usePageRouter() {
     const styleName = location.pathname.split('/').at(-1);
     const hash = location.hash;
     const currentBlockName = hash ? hash.slice(1) : '';
-    const pathnameParts = location.pathname.split('/');
-    const saveSearchID = pathnameParts[pathnameParts.length - 1];
+    console.log({ styleName })
     return {
         styleName,
         currentBlockName,
         nodeTypeURL,
-        voyageURLID, endpointPath, endpointPathEstimate, saveSearchID
+        voyageURLID, endpointPath, endpointPathEstimate,
     }
 }

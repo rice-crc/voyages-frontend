@@ -27,17 +27,15 @@ const DropDownSaveSearch = () => {
 
     const handleCopySaveSearch = () => {
         if (saveSearchUrlID) {
-            navigator.clipboard.writeText(`${BASE_URL_FRONTEND}/${endpointPath}/${styleName}/${saveSearchUrlID}`);
-            alert(`Your URL ${BASE_URL_FRONTEND}/${endpointPath}/${styleName}/${saveSearchUrlID} is copied`);
+            navigator.clipboard.writeText(`${BASE_URL_FRONTEND}/${endpointPath}/${styleName}#${saveSearchUrlID}`);
+            alert(`Your URL ${BASE_URL_FRONTEND}/${endpointPath}/${styleName}#${saveSearchUrlID} is copied`);
         }
     };
 
     const handleLoadSaveSearch = () => {
-        // Assuming you want to navigate to the saved search URL
-        if (saveSearchUrlID) {
-            window.location.href = `${BASE_URL_FRONTEND}/${endpointPath}/${saveSearchUrlID}`;
+        if (styleName) {
+            window.location.href = `${BASE_URL_FRONTEND}/${endpointPath}/${styleName}`;
         }
-        // You may want to add additional logic based on your use case
     };
 
     const handleClearSaveSearch = () => {
@@ -120,7 +118,7 @@ const DropDownSaveSearch = () => {
                                 <div className="flex-between v-saved-searches-item">
                                     <div id="SzPhOxXs">
                                         {saveSearchUrlID &&
-                                            `${BASE_URL_FRONTEND}/${endpointPath}/${styleName}/${saveSearchUrlID} `}
+                                            `${BASE_URL_FRONTEND}/${endpointPath}/${styleName}#${saveSearchUrlID} `}
                                     </div>{' '}
                                     <div>
                                         <button

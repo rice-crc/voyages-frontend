@@ -59,15 +59,12 @@ import { setQuerySaveSeary } from '@/redux/getQuerySaveSearchSlice';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { styleName: styleNameRoute, saveSearchID } = usePageRouter();
+    const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
 
-    const { querySaveSearch } = useSelector((state: RootState) => state.getQuerySaveSearch);
-
-    const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch);
     const { visibleColumnCells } = useSelector(
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
     );
@@ -97,7 +94,6 @@ const Tables: React.FC = () => {
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
     );
-    console.log({ saveSearchID })
     // Enslaved States
     const { styleNamePeople, tableFlatfileEnslaved } = useSelector(
         (state: RootState) => state.getPeopleEnlavedDataSetCollection
@@ -147,12 +143,11 @@ const Tables: React.FC = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [dispatch, tablesCell, tablesCell, tableCellStructure]);
-
+    }, [dispatch, tablesCell, tablesCell, tableCellStructure])
 
     const fetchDataUseSaveSearch = async () => {
         try {
-            const response = await dispatch(fetchCommonUseSavedSearch(saveSearchUrlID || saveSearchID)).unwrap();
+            const response = await dispatch(fetchCommonUseSavedSearch(currentBlockName)).unwrap();
             if (response) {
                 const { query } = response
                 dispatch(setFilterObject(query));
@@ -165,10 +160,6 @@ const Tables: React.FC = () => {
     };
 
     let filters: Filter[] = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
-    // console.log({ querySaveSearch })
-    // if (querySaveSearch) {
-    //     filters = querySaveSearch
-    // } 
     if (filtersObj[0]?.searchTerm?.length > 0) {
         filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters;
     } else if (styleNameRoute === TRANSATLANTICPATH) {
@@ -201,53 +192,48 @@ const Tables: React.FC = () => {
     localStorage.setItem('filterObject', JSON.stringify({
         filter: filters
     }));
+    const dataSend: TableListPropsRequest = {
+        filter: filters,
+        page: Number(page + 1),
+        page_size: Number(rowsPerPage),
+    };
+    const fetchDataTable = async () => {
+        let response;
+        try {
+            if (checkPagesRouteForVoyages(styleNameRoute!)) {
+                response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+            } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+                response = await dispatch(
+                    fetchEnslavedOptionsList(dataSend)
+                ).unwrap();
+            } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
+                response = await dispatch(
+                    fetchEnslaversOptionsList(dataSend)
+                ).unwrap();
+            }
 
+            if (response) {
+                const { count, results } = response.data;
+                setTotalResultsCount(Number(count));
+                dispatch(setData(results));
+                saveDataToLocalStorage(results, visibleColumnCells);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
     useEffect(() => {
-        const dataSend: TableListPropsRequest = {
-            filter: filters,
-            page: Number(page + 1),
-            page_size: Number(rowsPerPage),
-        };
-
-        let subscribed = true;
 
         if (inputSearchValue) {
             dataSend['global_search'] = inputSearchValue;
         }
-        if (saveSearchUrlID) {
+        if (currentBlockName) {
             fetchDataUseSaveSearch()
         }
 
-        const fetchDataTable = async () => {
-            let response;
-            try {
-                if (checkPagesRouteForVoyages(styleNameRoute!)) {
-                    response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-                } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslavedOptionsList(dataSend)
-                    ).unwrap();
-                } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslaversOptionsList(dataSend)
-                    ).unwrap();
-                }
-
-                if (subscribed && response) {
-                    const { count, results } = response.data;
-                    setTotalResultsCount(Number(count));
-                    dispatch(setData(results));
-                    saveDataToLocalStorage(results, visibleColumnCells);
-                }
-            } catch (error) {
-                console.log('error', error);
-            }
-        };
-
         fetchDataTable();
-
         return () => {
-            subscribed = false;
+
         };
     }, [
         dispatch,
@@ -263,7 +249,7 @@ const Tables: React.FC = () => {
         isChange,
         isChangeGeoTree,
         isChangeAuto,
-        autoLabelName,
+        autoLabelName, currentBlockName
     ]);
 
     useEffect(() => {
