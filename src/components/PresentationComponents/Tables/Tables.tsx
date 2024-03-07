@@ -182,43 +182,43 @@ const Tables: React.FC = () => {
         filter: filters
     }));
 
-    const dataSend: TableListPropsRequest = {
+    let dataSend: TableListPropsRequest = {
         filter: filters,
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
 
+    const fetchDataTable = async (query?: Filter[]) => {
+        let response;
+        try {
+            if (inputSearchValue) {
+                dataSend['global_search'] = inputSearchValue;
+            }
+            if (checkPagesRouteForVoyages(styleNameRoute!)) {
+                response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+            } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+                response = await dispatch(
+                    fetchEnslavedOptionsList(dataSend)
+                ).unwrap();
+            } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
+                response = await dispatch(
+                    fetchEnslaversOptionsList(dataSend)
+                ).unwrap();
+            }
+
+            if (response) {
+                const { count, results } = response.data;
+                setTotalResultsCount(Number(count));
+                dispatch(setData(results));
+                saveDataToLocalStorage(results, visibleColumnCells);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
 
     useEffect(() => {
-        if (inputSearchValue) {
-            dataSend['global_search'] = inputSearchValue;
-        }
-        const fetchDataTable = async () => {
-            let response;
-            try {
-                if (checkPagesRouteForVoyages(styleNameRoute!)) {
-                    response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-                } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslavedOptionsList(dataSend)
-                    ).unwrap();
-                } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslaversOptionsList(dataSend)
-                    ).unwrap();
-                }
-
-                if (response) {
-                    const { count, results } = response.data;
-                    setTotalResultsCount(Number(count));
-                    dispatch(setData(results));
-                    saveDataToLocalStorage(results, visibleColumnCells);
-                }
-            } catch (error) {
-                console.log('error', error);
-            }
-        };
-
         fetchDataTable();
         return () => {
 
@@ -254,11 +254,12 @@ const Tables: React.FC = () => {
         }
     };
 
+
     // Memoize the fetchDataUseSaveSearch function
-    const memoizedFetchData = useMemo(() => fetchDataUseSaveSearch, [currentBlockName]);
+    const memoizedFetchData = useMemo(() => fetchDataUseSaveSearch, [currentBlockName, data]);
+    console.log({ data })
 
     useEffect(() => {
-
         // Fetch data on component mount
         if (numberRegex.test(currentBlockName)) {
             memoizedFetchData();
@@ -266,6 +267,7 @@ const Tables: React.FC = () => {
         return () => {
         };
     }, [dispatch, currentBlockName]);
+
 
     useEffect(() => {
         const storedValue = localStorage.getItem('filterObject');

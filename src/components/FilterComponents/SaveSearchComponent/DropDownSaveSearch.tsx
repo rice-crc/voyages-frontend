@@ -14,9 +14,12 @@ const DropDownSaveSearch = () => {
 
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { saveSearchUrlID, listSaveSearchURL } = useSelector((state: RootState) => state.getSaveSearch);
+    console.log({ endpointPeopleDirect })
     let endpointSaveSearch: string = ''
-    if (endpointPeopleDirect === 'past/enslaved' || endpointPeopleDirect === 'past/enslaver') {
+    if (endpointPeopleDirect === 'past/enslaved') {
         endpointSaveSearch = endpointPeopleDirect
+    } else if (endpointPeopleDirect === 'past/enslaver') {
+        endpointSaveSearch = 'past/enslaver'
     } else if (endpointPath === 'voyage' || endpointPath === 'assessment') {
         endpointSaveSearch = endpointPath
     }
@@ -25,7 +28,7 @@ const DropDownSaveSearch = () => {
         endpoint: endpointSaveSearch,
         query: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
     };
-    console.log({ saveSearchUrlID })
+    console.log({ saveSearchUrlID, styleName })
 
     const handleSaveSearch = () => {
         fetchData();

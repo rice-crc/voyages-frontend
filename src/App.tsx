@@ -22,6 +22,7 @@ import {
   DOWNLOADS,
   ENSALVEDPAGE,
   ENSALVERSPAGE,
+  ENSALVERSTYLE,
   ENSLAVEDTEXASPAGE,
   ESTIMATES,
   INTRAAMERICAN,
@@ -161,7 +162,7 @@ const App: React.FC = () => {
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`${ENSALVERSPAGE}`}
+            path={`${ENSALVERSPAGE}/${ENSALVERSTYLE}`}
             element={<EnslaversHomePage />}
           />
           {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}

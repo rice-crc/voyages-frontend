@@ -18,7 +18,7 @@ const EnslaversHomePage: React.FC = () => {
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
-  const { currentBlockName } = usePageRouter();
+  const { currentBlockName, endpointPeopleDirect } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter)
 
   const dispatch: AppDispatch = useDispatch();
@@ -28,6 +28,7 @@ const EnslaversHomePage: React.FC = () => {
       dispatch(setCurrentBlockName(currentBlockName))
     }
   }, [currentBlockName]);
+  console.log({ currentBlockName, endpointPeopleDirect })
   const getWindowHeight = () => window.innerHeight;
   const windowHeight = getWindowHeight();
   const displayPage = (
@@ -41,7 +42,7 @@ const EnslaversHomePage: React.FC = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentEnslaversPage === 1 && currentBlockName === 'people' && <Tables />}
+      {(currentEnslaversPage === 1 && currentBlockName === 'people' || endpointPeopleDirect === 'past/enslaver') && <Tables />}
     </motion.div>
   );
 

@@ -38,7 +38,7 @@ export const ENSLAVEDTEXASPAGE = '/texasEnslaved'
 export const DOCUMENTPAGE = 'DocumentPage'
 export const BLOGPAGE = 'Blog'
 
-export const ALLENSLAVERS = 'all-enslavers'
+export const ALLENSLAVERS = '/past/enslaver'
 export const ENSALVERSPAGE = '/past/enslaver'
 export const ENSALVERSTYLE = 'enslaver'
 

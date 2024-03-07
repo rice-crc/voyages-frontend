@@ -16,6 +16,7 @@ import {
   POPELETILET,
   EnslaversTitle,
   ALLENSLAVEDPAGE,
+  ENSALVERSTYLE,
 } from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { useDispatch } from 'react-redux';
@@ -49,7 +50,7 @@ export default function HeaderPeopleNavBar() {
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setPathNameEnslaved(ALLENSLAVED));
     } else if (item === EnslaversTitle) {
-      navigate(`${ENSALVERSPAGE}#people`);
+      navigate(`${ENSALVERSPAGE}/${ENSALVERSTYLE}#people`);
       dispatch(setCurrentEnslaversPage(1));
       dispatch(setPathEnslavers(ALLENSLAVERS));
     } else {
