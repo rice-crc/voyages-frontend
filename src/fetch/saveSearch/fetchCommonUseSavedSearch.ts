@@ -3,10 +3,10 @@ import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchCommonUseSavedSearch = createAsyncThunk(
-    'commonMakeSavedSearch/fetchCommonUseSavedSearch',
+    'commonUseSavedSearch/fetchCommonUseSavedSearch',
     async (id: string) => {
         try {
-            const response = await axios.post(
+            const response = await axios.get(
                 `${BASEURL}/common/usesavedsearch/${id}`,
                 {
                     headers: {

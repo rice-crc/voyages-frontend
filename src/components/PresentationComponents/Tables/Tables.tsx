@@ -53,6 +53,9 @@ import {
     TRANSATLANTICPATH,
 } from '@/share/CONST_DATA';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+import { fetchCommonUseSavedSearch } from '@/fetch/saveSearch/fetchCommonUseSavedSearch';
+import { setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
+import { setQuerySaveSeary } from '@/redux/getQuerySaveSearchSlice';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -61,6 +64,10 @@ const Tables: React.FC = () => {
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
+    const { querySaveSearch } = useSelector((state: RootState) => state.getQuerySaveSearch);
+    console.log({ querySaveSearch })
+
+    const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch);
     const { visibleColumnCells } = useSelector(
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
     );
@@ -141,12 +148,28 @@ const Tables: React.FC = () => {
         };
     }, [dispatch, tablesCell, tablesCell, tableCellStructure]);
 
-    let filters: Filter[] = [];
 
-    if (filtersObj[0]?.searchTerm?.length > 0) {
-        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
+    const fetchDataUseSaveSearch = async () => {
+        try {
+            const response = await dispatch(fetchCommonUseSavedSearch(saveSearchUrlID)).unwrap();
+            if (response) {
+                const { query } = response
+                dispatch(setFilterObject(query));
+                localStorage.setItem('filterObject', query);
+                dispatch(setQuerySaveSeary(query))
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
+    let filters: Filter[] = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
+    console.log({ querySaveSearch })
+    if (querySaveSearch) {
+        filters = querySaveSearch
+    } else if (filtersObj[0]?.searchTerm?.length > 0) {
+        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters;
     } else if (styleNameRoute === TRANSATLANTICPATH) {
-        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
         filters.push({
             varName: 'dataset',
             searchTerm: [0],
@@ -158,7 +181,6 @@ const Tables: React.FC = () => {
             searchTerm: [1],
             op: 'in',
         });
-
     } else if (styleNameRoute === ENSLAVEDTEXAS) {
         filters.push({
             varName:
@@ -177,21 +199,24 @@ const Tables: React.FC = () => {
     localStorage.setItem('filterObject', JSON.stringify({
         filter: filters
     }));
-    const dataSend: TableListPropsRequest = {
-        filter: filters,
-        page: Number(page + 1),
-        page_size: Number(rowsPerPage),
-    };
 
     useEffect(() => {
+        const dataSend: TableListPropsRequest = {
+            filter: filters,
+            page: Number(page + 1),
+            page_size: Number(rowsPerPage),
+        };
 
         let subscribed = true;
 
         if (inputSearchValue) {
             dataSend['global_search'] = inputSearchValue;
         }
+        if (saveSearchUrlID) {
+            fetchDataUseSaveSearch()
+        }
 
-        const fetchData = async () => {
+        const fetchDataTable = async () => {
             let response;
             try {
                 if (checkPagesRouteForVoyages(styleNameRoute!)) {
@@ -217,7 +242,7 @@ const Tables: React.FC = () => {
             }
         };
 
-        fetchData();
+        fetchDataTable();
 
         return () => {
             subscribed = false;
@@ -241,7 +266,10 @@ const Tables: React.FC = () => {
 
     useEffect(() => {
         const storedValue = localStorage.getItem('filterObject');
-        if (!storedValue) return;
+        const getSaveSearchID = localStorage.getItem('saveSearchID')
+        if (!storedValue || !getSaveSearchID) return;
+        dispatch(setSaveSearchUrlID(getSaveSearchID))
+
 
         const parsedValue = JSON.parse(storedValue);
         const filter: Filter[] = parsedValue.filter;

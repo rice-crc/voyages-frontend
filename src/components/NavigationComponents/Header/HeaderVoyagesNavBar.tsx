@@ -77,7 +77,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     [ALLVOYAGES]: `${ALLVOYAGESPAGE}#${currentVoyageBlockName}`,
     [INTRAAMERICAN]: `${INTRAAMERICANPAGE}#${currentVoyageBlockName}`,
     [TRANSATLANTIC]: `${TRANSATLANTICPAGE}#${currentVoyageBlockName}`,
-    // [VOYAGESTEXAS]: `/${VOYAGESTEXASPAGE}#${currentVoyageBlockName}`,
   };
 
   const handleSelectDataset = (

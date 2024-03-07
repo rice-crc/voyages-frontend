@@ -6,14 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { fetchCommonMakeSavedSearch } from '@/fetch/saveSearch/fetchCommonMakeSavedSearch';
 import { BASE_URL_FRONTEND } from '@/share/AUTH_BASEURL';
+import { setListSaveSearchURL, setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
 
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
     const { endpointPath, endpointPathEstimate, styleName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-    const [saveSearchURL, setSaveSearchURL] = useState<string>('');
-    const [listSaveSearchURL, setListSaveSearchURL] = useState<string[]>([]);
-
+    const { saveSearchUrlID, listSaveSearchURL } = useSelector((state: RootState) => state.getSaveSearch);
     const dataSend: SaveSearchRequest = {
         endpoint:
             endpointPath !== undefined && endpointPath !== ''
@@ -27,23 +26,24 @@ const DropDownSaveSearch = () => {
     };
 
     const handleCopySaveSearch = () => {
-        if (saveSearchURL) {
-            navigator.clipboard.writeText(`${BASE_URL_FRONTEND}/${endpointPath}/${styleName}/${saveSearchURL}`);
-            alert(`Your URL ${BASE_URL_FRONTEND}/${endpointPath}/${styleName}/${saveSearchURL} is copied`);
+        if (saveSearchUrlID) {
+            navigator.clipboard.writeText(`${BASE_URL_FRONTEND}/${endpointPath}/${styleName}/${saveSearchUrlID}`);
+            alert(`Your URL ${BASE_URL_FRONTEND}/${endpointPath}/${styleName}/${saveSearchUrlID} is copied`);
         }
     };
 
     const handleLoadSaveSearch = () => {
         // Assuming you want to navigate to the saved search URL
-        if (saveSearchURL) {
-            window.location.href = `${BASE_URL_FRONTEND}/${endpointPath}/${saveSearchURL}`;
+        if (saveSearchUrlID) {
+            window.location.href = `${BASE_URL_FRONTEND}/${endpointPath}/${saveSearchUrlID}`;
         }
         // You may want to add additional logic based on your use case
     };
 
     const handleClearSaveSearch = () => {
-        setSaveSearchURL('');
-        setListSaveSearchURL([]);
+        dispatch(setSaveSearchUrlID(''));
+        dispatch(setListSaveSearchURL([]));
+        localStorage.removeItem('saveSearchID');
     };
 
     const fetchData = async () => {
@@ -52,17 +52,17 @@ const DropDownSaveSearch = () => {
                 fetchCommonMakeSavedSearch(dataSend)
             ).unwrap();
             if (response) {
-                console.log({ response });
                 const { id } = response;
-                setSaveSearchURL(id);
-                setListSaveSearchURL((prev) => [...prev, id]);
+                dispatch(setSaveSearchUrlID(id));
+                dispatch(setListSaveSearchURL([...listSaveSearchURL, id]));
+                localStorage.setItem('saveSearchID', id);
             }
         } catch (error) {
             console.log('error', error);
         }
     };
 
-    useEffect(() => { }, [endpointPath, endpointPathEstimate]);
+    useEffect(() => { }, [endpointPath, endpointPathEstimate, styleName]);
 
     return (
         <div
@@ -112,15 +112,15 @@ const DropDownSaveSearch = () => {
                         <div className="v-description">
                             <div>Here are the queries saved during this session.</div>
                         </div>{' '}
-                        {saveSearchURL && (
+                        {saveSearchUrlID && (
                             <>
                                 <div className="flex-between v-saved-searches-header">
                                     <div className="v-title">URL</div>
                                 </div>{' '}
                                 <div className="flex-between v-saved-searches-item">
                                     <div id="SzPhOxXs">
-                                        {saveSearchURL &&
-                                            `${BASE_URL_FRONTEND}/${endpointPath}/${styleName}/${saveSearchURL} `}
+                                        {saveSearchUrlID &&
+                                            `${BASE_URL_FRONTEND}/${endpointPath}/${styleName}/${saveSearchUrlID} `}
                                     </div>{' '}
                                     <div>
                                         <button

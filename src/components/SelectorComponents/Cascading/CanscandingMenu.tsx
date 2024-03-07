@@ -41,6 +41,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
         localStorage.removeItem(key);
       }
     });
+    localStorage.removeItem('saveSearchID');
   };
 
   return (

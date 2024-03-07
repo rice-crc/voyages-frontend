@@ -34,11 +34,12 @@ import { setFilterObject } from '@/redux/getFilterSlice';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
-
   const dispatch: AppDispatch = useDispatch();
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+  const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch);
+
   const { currentPage, currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -81,15 +82,10 @@ const VoyagesPage = () => {
     }
 
     if (styleVoyagesName === INTRAAMERICAN && currentBlockName === 'pie') {
-      dispatch(setCurrentVoyagesBlockName('intro'));
+      dispatch(setCurrentVoyagesBlockName('voyages'));
     } else if (styleVoyagesName === VOYAGESTEXAS && currentBlockName === 'pie') {
-      dispatch(setCurrentVoyagesBlockName('intro'));
+      dispatch(setCurrentVoyagesBlockName('voyages'));
     }
-
-    // if (currentBlockName === 'intro') {
-    //   dispatch(setCurrentPage(1));
-    //   dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    // } else 
     if (currentBlockName === 'voyages') {
       dispatch(setCurrentPage(1));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
@@ -120,6 +116,7 @@ const VoyagesPage = () => {
     currentPage,
     currentVoyageBlockName,
   ]);
+
 
   const displayPage = (
     <motion.div
