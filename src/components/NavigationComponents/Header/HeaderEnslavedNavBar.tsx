@@ -50,17 +50,18 @@ import ButtonDropdownColumnSelector from '@/components/SelectorComponents/Button
 import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { Filter } from '@/share/InterfaceTypes';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { styleName: styleNameRoute } = usePageRouter()
   const { currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
 
-  const { value, textHeader, styleNamePeople, dataSetValueBaseFilter } = useSelector(
+  const { value, textHeader, styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
@@ -73,12 +74,16 @@ const HeaderEnslavedNavBar: React.FC = () => {
     useState<null | HTMLElement>(null);
 
   const [isClick, setIsClick] = useState(false);
+  // const styleNameToPathMap: { [key: string]: string } = {
+  //   [ALLENSLAVED]: `${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'people' : currentPageBlockName}`,
+  //   [AFRICANORIGINS]: `${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
+  //   [ENSLAVEDTEXAS]: `${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'people' : currentPageBlockName}`,
+  // };
   const styleNameToPathMap: { [key: string]: string } = {
-    [ALLENSLAVED]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'table' : currentPageBlockName}`,
-    [AFRICANORIGINS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
-    [ENSLAVEDTEXAS]: `/${PASTHOMEPAGE}${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'table' : currentPageBlockName}`,
+    [ALLENSLAVED]: `${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName}`,
+    [AFRICANORIGINS]: `${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
+    [ENSLAVEDTEXAS]: `${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName}`,
   };
-
   const handleSelectEnslavedDataset = (
     baseFilter: BaseFilter[],
     textHeder: string,
@@ -88,6 +93,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
+
 
     dispatch(resetAll());
     const filters: Filter[] = [];
@@ -101,6 +107,15 @@ const HeaderEnslavedNavBar: React.FC = () => {
         op: "in"
       })
       dispatch(setFilterObject(filters));
+    }
+    if (filters) {
+      localStorage.setItem('filterObject', JSON.stringify({
+        filter: filters
+      }));
+    } else {
+      localStorage.setItem('filterObject', JSON.stringify({
+        filter: filters
+      }));
     }
     dispatch(setDataSetPeopleEnslavedHeader(textHeder));
     dispatch(setPeopleEnslavedTextIntro(textIntro));
@@ -155,7 +170,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: getColorNavbarEnslavedBackground(styleNamePeople),
+          backgroundColor: getColorNavbarEnslavedBackground(styleNameRoute!),
           fontSize: 12,
           boxShadow: 'none',
         }}
@@ -206,9 +221,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
                   xs: 'none',
                   sm: 'none',
                   md: 'flex',
-                  paddingRight: 40,
+                  paddingRight: 50,
                 },
-                margin: '10px 0',
+                margin: '5px 0',
                 fontSize: 18,
                 fontWeight: 600,
               }}

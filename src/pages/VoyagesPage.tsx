@@ -5,13 +5,11 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json';
-import { getColorVoyagePageBackground } from '@/utils/functions/getColorStyle';
 import {
   pageVariantsFromBottom,
   pageVariantsFromTop,
 } from '@/utils/functions/pageVariantsFromTop';
 import HeaderVoyagesNavBar from '@/components/NavigationComponents/Header/HeaderVoyagesNavBar';
-import VoyagesIntro from '@/components/PresentationComponents/Intro/VoyagesIntro';
 import Scatter from '@/components/PresentationComponents/Scatter/Scatter';
 import BarGraph from '@/components/PresentationComponents/BarGraph/BarGraph';
 import PieGraph from '@/components/PresentationComponents/PieGraph/PieGraph';
@@ -36,11 +34,12 @@ import { setFilterObject } from '@/redux/getFilterSlice';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
-
   const dispatch: AppDispatch = useDispatch();
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+  const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch);
+
   const { currentPage, currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -83,15 +82,10 @@ const VoyagesPage = () => {
     }
 
     if (styleVoyagesName === INTRAAMERICAN && currentBlockName === 'pie') {
-      dispatch(setCurrentVoyagesBlockName('intro'));
+      dispatch(setCurrentVoyagesBlockName('voyages'));
     } else if (styleVoyagesName === VOYAGESTEXAS && currentBlockName === 'pie') {
-      dispatch(setCurrentVoyagesBlockName('intro'));
+      dispatch(setCurrentVoyagesBlockName('voyages'));
     }
-
-    // if (currentBlockName === 'intro') {
-    //   dispatch(setCurrentPage(1));
-    //   dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    // } else 
     if (currentBlockName === 'voyages') {
       dispatch(setCurrentPage(1));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
@@ -123,6 +117,7 @@ const VoyagesPage = () => {
     currentVoyageBlockName,
   ]);
 
+
   const displayPage = (
     <motion.div
       initial={'initial'}
@@ -144,21 +139,17 @@ const VoyagesPage = () => {
 
     </motion.div>
   );
-  const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
+
   return (
-    <div style={{
-      backgroundColor: getColorVoyagePageBackground(
-        styleVoyagesName!,
-        currentPage
-      ),
-    }}>
+    <div >
       <HeaderVoyagesNavBar />
       <div
         className="voyages-home-page"
         id="content-container"
         style={{
           position: 'relative',
-          top: inputSearchValue ? topPosition - 80 : 0,
+          padding: inputSearchValue ? '0 20px' : '',
+          top: inputSearchValue ? 40 : 10
         }}
       >
         <CollectionTabVoyages />

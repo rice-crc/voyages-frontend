@@ -5,7 +5,6 @@ import React from 'react';
 const Contribute: React.FC = () => {
     return (
         <>
-            <HeaderLogoSearch />
             <div style={{ marginTop: '15%', textAlign: 'center' }}>
                 <div>Contribute page is coming soon</div>
                 <img

@@ -21,7 +21,6 @@ import '@/style/table.scss';
 import { fetchEstimateCrosstabsTables } from '@/fetch/estimateFetch/fetchEstimateCrosstabsTables';
 import { SelectDropdownEstimateTable } from '@/components/SelectorComponents/SelectDrowdown/SelectDropdownEstimateTable';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import { formatNumberWithCommasOrPercentage } from '@/utils/functions/formatNumberWithCommas';
 
 const TablesEstimates = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -222,7 +221,7 @@ const TablesEstimates = () => {
             />
             <div className="estimate-table-container">
                 <div className="estimate-table" >
-                    <div dangerouslySetInnerHTML={{ __html: formatNumberWithCommasOrPercentage(data) ?? null }} />
+                    <div dangerouslySetInnerHTML={{ __html: data ?? null }} />
                 </div>
             </div>
         </div>

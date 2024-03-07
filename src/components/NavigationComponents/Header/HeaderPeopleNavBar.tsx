@@ -14,16 +14,16 @@ import {
   ENSALVERSPAGE,
   Enslaved,
   POPELETILET,
-  PASTHOMEPAGE,
   EnslaversTitle,
   ALLENSLAVEDPAGE,
+  ENSALVERSTYLE,
 } from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 import { setPathEnslavers, setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
-import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
+import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import HeaderLogo from './HeaderLogo';
 
 export default function HeaderPeopleNavBar() {
@@ -45,16 +45,12 @@ export default function HeaderPeopleNavBar() {
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
-    // if (item === 'About') {
-    //   navigate(`/${PASTHOMEPAGE}`);
-    // } 
-    // else
     if (item === Enslaved) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#table`);
+      navigate(`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#people`);
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setPathNameEnslaved(ALLENSLAVED));
     } else if (item === EnslaversTitle) {
-      navigate(`/${PASTHOMEPAGE}${ENSALVERSPAGE}#table`);
+      navigate(`${ENSALVERSPAGE}/${ENSALVERSTYLE}#people`);
       dispatch(setCurrentEnslaversPage(1));
       dispatch(setPathEnslavers(ALLENSLAVERS));
     } else {
@@ -129,7 +125,6 @@ export default function HeaderPeopleNavBar() {
                     fontSize: 20,
                     margin: '0 2px',
                     textTransform: 'none',
-                    fontFamily: 'Cormorant Garamond',
                   }}
                 >
                   <div>{item}</div>

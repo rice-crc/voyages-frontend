@@ -1,6 +1,6 @@
 
 import { Button, } from "antd";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import '@/style/estimates.scss'
 import { CustomSliderTimeFrame, Input } from '@/styleMUI';
 import { Filter } from "@/share/InterfaceTypes";
@@ -23,7 +23,7 @@ const TimeFrame = () => {
 
     useEffect(() => {
         dispatch(setKeyValueName(varName));
-
+        dispatch(setCurrentSliderValue(defaultValue));
         if (storedValue) {
             const parsedValue = JSON.parse(storedValue);
             const filter: Filter[] = parsedValue.filter;
@@ -45,6 +45,22 @@ const TimeFrame = () => {
         dispatch(setCurrentSliderValue(newValue as number[]));
         updatedSliderToLocalStrage(newValue as number[])
     };
+
+    const handleInputChange = (
+        event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    ) => {
+        const { name, value } = event.target;
+        const updatedSliderValue = [...currentSliderValue];
+        updatedSliderValue[name === 'start' ? 0 : 1] = Number(value);
+        dispatch(setCurrentSliderValue(updatedSliderValue));
+        updatedSliderToLocalStrage(updatedSliderValue as number[])
+    };
+
+    const handleResetSlider = () => {
+        dispatch(setCurrentSliderValue(defaultValue))
+        updatedSliderToLocalStrage(defaultValue as number[])
+    }
+
 
     function updatedSliderToLocalStrage(updateValue: number[]) {
         const existingFilterObjectString = localStorage.getItem('filterObject');
@@ -76,21 +92,6 @@ const TimeFrame = () => {
         const filterObjectString = JSON.stringify(filterObjectUpdate);
         localStorage.setItem('filterObject', filterObjectString);
     }
-
-    const handleInputChange = (
-        event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-    ) => {
-        const { name, value } = event.target;
-        const updatedSliderValue = [...currentSliderValue];
-        updatedSliderValue[name === 'start' ? 0 : 1] = Number(value);
-
-        setCurrentSliderValue(updatedSliderValue);
-    };
-    const handleResetSlider = () => {
-        dispatch(setCurrentSliderValue(defaultValue))
-        updatedSliderToLocalStrage(defaultValue as number[])
-    }
-
 
     return (
         <div>

@@ -87,6 +87,59 @@
   @include breakpoint-standard(5) {
     margin-top: 11px;
   }
+
+  @include breakpoint-standard(4) {
+    display: block;
+  }
+
+  @include breakpoint-standard(3) {
+    display: block;
+  }
+
+  @include breakpoint-standard(2) {
+    display: block;
+  }
+
+  @include breakpoint-standard(1.1) {
+    display: block;
+  }
+
+  @include breakpoint-standard(1) {
+    display: block;
+  }
+
+  @include breakpoint-standard(0) {
+    display: block;
+  }
+
+  .button-export-csv {
+    @include breakpoint-standard(1.1) {
+      margin-bottom: 20px;
+    }
+
+    @include breakpoint-standard(1) {
+      margin-bottom: 20px;
+    }
+
+    @include breakpoint-standard(0) {
+      margin-bottom: 20px;
+    }
+  }
+
+}
+
+.pivot-table-pagination {
+  @include breakpoint-standard(1.1) {
+    display: none;
+  }
+
+  @include breakpoint-standard(1) {
+    display: none;
+  }
+
+  @include breakpoint-standard(0) {
+    display: none;
+  }
 }
 
 .customHeaderMenuButton {
@@ -94,12 +147,9 @@
   margin: 0 0 0 3px;
 }
 
-
-.ag-header-group-cell-label,
 .ag-header-cell-label {
-  color: var(--header-color, #007269);
+  color: var(--header-color--, #007269);
   text-align: center;
-
 }
 
 .ag-header-cell-label,
@@ -110,6 +160,10 @@
   align-items: center;
 }
 
+.summary-table>div>table>thead {
+  background-color: #f8f8f8;
+}
+
 .summary-table>div>table>thead>tr {
   height: 32px;
 
@@ -118,35 +172,36 @@
     border-bottom: 2px solid #dee2e6;
     padding: 0 5px 0 5px;
     text-align: center;
+    font-size: 14px;
   }
 }
-
 
 .summary-table>div>table>tbody>tr>th {
   color: var(--header-color-summary, #007269);
   border-bottom: 2px solid #dee2e6;
   padding: 0 5px 0 5px;
   text-align: center;
+  font-size: 14px;
 }
 
 .summary-table>div>table>tbody>tr>td:first-child {
-  // color: var(--header-color-summary, #007269);
   text-align: left;
 }
 
 .summary-table>div>table>tbody>tr>td {
-  line-height: 22px;
+  line-height: 24px;
   padding-left: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgb(0, 0, 0);
 }
-
-
 
 .customHeaderLabel {
   float: left;
   margin: 0 0 0 3px;
   text-align: center;
+  font-size: 14px;
 }
-
 
 .customHeaderLabel-box {
   display: flex;
@@ -163,7 +218,6 @@ div .customHeaderLabel {
   text-overflow: ellipsis;
   width: 85%;
   text-align: center;
-
 }
 
 div .customHeaderLabelSummaryTable {
@@ -201,29 +255,24 @@ div .customHeaderLabelSummaryTable {
   color: cornflowerblue;
 }
 
-.css-n98qnm-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
-  color: #fff;
-  background-color: var(--pagination-table--, #556cd6) !important;
-}
-
 .pagination-div {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding: 10px 0;
 
-  nav>ul>li>button:hover {
-    background-color: var(--pagination-table--, #556cd6);
+  nav>ul>li>button:focus {
+    background-color: var(--pagination-table--, --pagination-table--);
   }
 
   nav>ul>li>button:active {
-    background-color: var(--pagination-table--, #556cd6)
+    background-color: var(--pagination-table--, --pagination-table--);
   }
 }
 
 .pagination-div>nav>ul>li>button {
   font-size: 0.875rem;
-  font-family: sans-serif;
+  // font-family: sans-serif;
 }
 
 .Skeleton-loading {
@@ -248,8 +297,8 @@ div .customHeaderLabelSummaryTable {
 
 .configureColumnsButton {
   font-size: 12 !important;
-  background-color: "#17a2b8" !important;
-  color: "#ffffff" !important;
+  background-color: '#17a2b8' !important;
+  color: '#ffffff' !important;
 }
 
 .network-icon {
@@ -380,27 +429,22 @@ div .customHeaderLabelSummaryTable {
 
   @include breakpoint-standard(0) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(1) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(2) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(3) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(4) {
     width: 100%;
-
   }
 }
 
@@ -413,27 +457,22 @@ div .customHeaderLabelSummaryTable {
 
   @include breakpoint-standard(0) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(1) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(2) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(3) {
     width: 100%;
-
   }
 
   @include breakpoint-standard(4) {
     width: 100%;
-
   }
 }
 
@@ -448,29 +487,23 @@ div .customHeaderLabelSummaryTable {
 
     @include breakpoint-standard(0) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(1) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(1.1) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(2) {
       font-size: 11px;
-
     }
 
     @include breakpoint-standard(3) {
       font-size: 12px;
-
     }
-
   }
 }
 
@@ -489,7 +522,6 @@ div .customHeaderLabelSummaryTable {
 
     @include breakpoint-standard(0) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(1) {
@@ -511,7 +543,6 @@ div .customHeaderLabelSummaryTable {
       font-size: 12px;
       padding-right: 50px;
     }
-
   }
 }
 
@@ -532,56 +563,47 @@ div .customHeaderLabelSummaryTable {
 
     @include breakpoint-standard(0) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(1) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(1.1) {
       font-size: 10px;
-
     }
 
     @include breakpoint-standard(2) {
       font-size: 11px;
-
     }
 
     @include breakpoint-standard(3) {
       font-size: 12px;
-
     }
-
   }
 }
 
 .mobile-responsive {
   position: relative;
   padding: 30px 120px 0 30px;
-  margin-top: 85px;
+  margin-top: 90px;
 
   @include breakpoint-standard(0) {
-    top: 70px;
-    padding: 30px 20px 0 10px;
-    margin-top: 8rem;
-
+    top: 10px;
+    padding: 10px 20px 0 10px;
+    margin-top: 6rem;
   }
 
   @include breakpoint-standard(1) {
-    top: 70px;
+    top: 40px;
     padding: 30px 20px 0 10px;
-    margin-top: 8rem;
-
+    margin-top: 3rem
   }
 
   @include breakpoint-standard(1.1) {
-    top: 70px;
+    top: 40px;
     padding: 30px 20px 0 10px;
-    margin-top: 8rem;
-
+    margin-top: 3rem
   }
 
   @include breakpoint-standard(2) {
@@ -591,80 +613,109 @@ div .customHeaderLabelSummaryTable {
   }
 
   @include breakpoint-standard(3) {
-    padding: 70px 30px 0 30px;
+    padding: 40px 30px 0 30px;
     margin-top: 110px;
   }
 
   @include breakpoint-standard(4) {
-    padding: 70px 30px 0 30px;
-    margin-top: 9rem;
+    padding: 40px 30px 0 30px;
+    margin-top: 8rem;
   }
-
 }
 
 .mobile-responsive-map {
-  @include breakpoint-standard(0) {
-    margin-top: 80px !important;
-  }
+  padding: 140px 22px !important;
 
-  @include breakpoint-standard(1) {
-    margin-top: 80px !important;
-  }
-
-  @include breakpoint-standard(1.1) {
-    margin-top: 80px !important;
-  }
-
-  @include breakpoint-standard(2) {
-    margin-top: 80px !important;
-  }
-
-  @include breakpoint-standard(3) {
-    margin-top: 60px !important;
+  @include breakpoint-standard(5) {
+    padding: 140px 60px 10px 10px !important
   }
 
   @include breakpoint-standard(4) {
-    margin-top: 60px !important;
+    padding: 145px 0px 0px 20px !important
+  }
+
+  @include breakpoint-standard(3) {
+    padding: 150px 2px !important;
+  }
+
+  @include breakpoint-standard(2) {
+    padding: 150px 2px !important;
+  }
+
+  @include breakpoint-standard(1) {
+    padding: 150px 2px !important;
+  }
+
+  @include breakpoint-standard(0) {
+    padding: 150px 2px !important;
   }
 }
 
 .summary-box {
-  margin-top: 13rem;
-  width: 100vw;
+  margin-top: 8.5rem;
 
   @include breakpoint-standard(0) {
-    margin-top: 15rem;
+    margin-top: 8rem;
   }
 
   @include breakpoint-standard(1) {
-    margin-top: 15rem;
+    margin-top: 8rem;
   }
 
   @include breakpoint-standard(1.1) {
-    margin-top: 15rem;
+    margin-top: 8rem;
   }
 
   @include breakpoint-standard(2) {
-    margin-top: 15rem;
+    margin-top: 8rem;
   }
 
   @include breakpoint-standard(3) {
-    margin-top: 15rem;
+    margin-top: 8rem;
   }
 
   @include breakpoint-standard(4) {
-    margin-top: 15rem;
+    margin-top: 10.5rem;
   }
 
-  @include breakpoint-standard(5) {
-    margin-top: 12rem;
-  }
+  .summary-box-content {
+    @include breakpoint-standard(0) {
+      padding: 0 10px;
+    }
 
-  @include breakpoint-standard(6) {
-    margin-top: 10rem;
+    @include breakpoint-standard(1) {
+      padding: 0 10px;
+    }
+
+    @include breakpoint-standard(1.1) {
+      padding: 0 6px;
+    }
+
+    @include breakpoint-standard(2) {
+      padding: 0 6px;
+    }
+
+    @include breakpoint-standard(3) {
+      padding: 0 6px;
+    }
+
+    @include breakpoint-standard(4) {
+      padding: 0 10px;
+    }
+
+    @include breakpoint-standard(5) {
+      padding: 0 40px;
+    }
+
+    @include breakpoint-standard(6) {
+      padding: 0 40px;
+    }
+
+    @include breakpoint-standard(6) {
+      padding: 0 40px;
+    }
   }
 }
-
 
 .mobile-enslaved {
   position: relative;
@@ -673,19 +724,16 @@ div .customHeaderLabelSummaryTable {
   @include breakpoint-standard(0) {
     top: 70px;
     padding: 30px 30px 0 30px;
-
   }
 
   @include breakpoint-standard(1) {
     top: 70px;
     padding: 30px 30px 0 30px;
-
   }
 
   @include breakpoint-standard(1.1) {
     top: 70px;
     padding: 30px 30px 0 30px;
-
   }
 
   @include breakpoint-standard(2) {
@@ -696,14 +744,11 @@ div .customHeaderLabelSummaryTable {
 
   @include breakpoint-standard(3) {
     padding: 70px 30px 0 30px;
-
   }
 
   @include breakpoint-standard(4) {
     padding: 70px 30px 0 30px;
-
   }
-
 }
 
 .estimate-table-card {
@@ -715,7 +760,6 @@ div .customHeaderLabelSummaryTable {
   overflow: hidden;
   height: 100%;
   padding-top: 1rem;
-
 }
 
 .summary-table {
@@ -723,4 +767,33 @@ div .customHeaderLabelSummaryTable {
   border-left: 1px solid rgb(194, 194, 194);
   border-right: 1px solid rgb(194, 194, 194);
   background-color: #fff;
+  padding: 0 0 0 20px;
+
+  @include breakpoint-standard(5) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(4) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(3) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(2) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(1) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(1.1) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(0) {
+    padding: 0;
+  }
 }

@@ -16,6 +16,7 @@ import { resetAllStateSlice as resetEstimateAssesment } from './getEstimateAsses
 import { resetSlice as resetAllStateSliceDataVoyage } from './getDataSetCollectionSlice'
 import { resetAllStateSlice as resetAllStateSliceDataEnslaved } from './getPeopleEnslavedDataSetCollectionSlice'
 import { resetAllStateSlice as resetAllStateSliceDataEnslavers } from './getPeopleEnslaversDataSetCollectionSlice'
+import { resetSliceSaveSearch } from './getSaveSearchSlice'
 
 export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetOptionsData());
@@ -31,6 +32,8 @@ export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetScroolVoyages());
     dispatch(resetScrollEnslaved())
     dispatch(resetEstimateAssesment())
+    dispatch(resetSliceSaveSearch())
+
 };
 
 
@@ -49,5 +52,6 @@ export const resetAllStateToInitailState = () => (dispatch: Dispatch) => {
     dispatch(resetScrollEnslaved())
     dispatch(resetSliceGlobalSearch())
     dispatch(resetEstimateAssesment())
+    dispatch(resetSliceSaveSearch())
 };
 

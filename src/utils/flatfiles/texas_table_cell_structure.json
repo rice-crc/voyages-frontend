@@ -27,13 +27,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"enslaved_relations__relation__relation_enslavers__enslaver"
+				"enslaved_relations__relation__relation_enslavers__enslaver_alias__alias"
 			],
-			"colID": "enslaved_relations__relation__relation_enslavers__enslaver",
+			"colID": "enslavers__enslaver",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__identity__principal_alias",
+						"var_name": "enslavers__enslaver__principal_alias",
 						"cell_fn": "literal"
 					}
 				]
@@ -44,13 +44,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__name"
+				"voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name"
 			],
-			"colID": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+			"colID": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+						"var_name": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -61,13 +61,13 @@
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
-				"enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__name"
+				"voyages__voyage_itinerary__imp_principal_port_slave_dis__name"
 			],
-			"colID": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__name",
+			"colID": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__name",
+						"var_name": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -97,7 +97,7 @@
 			"order_by": [
 				"enslaved_source_connections__source__title"
 			],
-			"colID": "enslaved_source_connections__source__title",
+			"colID": "voyages__voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
@@ -124,27 +124,44 @@
 			}
 		},
 		{
+			"header_label": "Voyage ID",
+			"cell_type": "literal",
+			"visible": true,
+			"order_by": [
+				"voyages__voyage_id"
+			],
+			"colID": "voyages__voyage_id",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyages__voyage_id",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
 			"header_label": "Date of Arrival",
 			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
-				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
-				"enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day"
+				"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+				"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
+				"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day"
 			],
-			"colID": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
+			"colID": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+						"var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
+						"var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
 						"cell_fn": "literal"
 					},
 					{
-						"var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
+						"var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
 						"cell_fn": "literal"
 					}
 				],
@@ -171,10 +188,19 @@
 	],
 	"column_selector_tree": [
 		{
+			"label": "Names",
+			"children": [
+				{
+					"colID": "enslaved_name",
+					"label": "Names"
+				}
+			]
+		},
+		{
 			"label": "Enslavers",
 			"children": [
 				{
-					"colID": "enslaved_relations__relation__relation_enslavers__enslaver",
+					"colID": "enslavers__enslaver",
 					"label": "Enslavers"
 				}
 			]
@@ -196,19 +222,19 @@
 			"label": "Itinerary",
 			"children": [
 				{
-					"colID": "enslaved_relations__relation__voyage__voyage_id",
+					"colID": "voyages__voyage_id",
 					"label": "Voyage ID"
 				},
 				{
-					"colID": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+					"colID": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 					"label": "Embarkation Port"
 				},
 				{
-					"colID": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__name",
+					"colID": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
 					"label": "Disembarkation Port"
 				},
 				{
-					"colID": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
+					"colID": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
 					"label": "Arrival Date"
 				}
 			]
@@ -217,7 +243,7 @@
 			"label": "Sources",
 			"children": [
 				{
-					"colID": "enslaved_source_connections__source__title",
+					"colID": "voyages__voyage_sources",
 					"label": "Sources"
 				}
 			]

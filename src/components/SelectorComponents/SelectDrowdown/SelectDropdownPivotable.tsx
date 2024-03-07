@@ -47,12 +47,12 @@ export const SelectDropdownPivotable: FunctionComponent<
       <div className="pivot-table-flex-container">
         <div className="pivot-table-flex-item">
           <FormControl fullWidth>
-            <InputLabel id="rows-field-label" style={{ color: '#fff' }}>{'Rows'}</InputLabel>
+            <InputLabel id="rows-field-label" style={{ color: '#000' }}>{'Rows'}</InputLabel>
             <Select
               sx={{
                 height: 36,
                 fontSize: '0.95rem',
-                color: '#fff'
+                color: '#000'
               }}
               MenuProps={MenuProps}
               labelId="rows-field-label"
@@ -77,12 +77,12 @@ export const SelectDropdownPivotable: FunctionComponent<
         </div>
         <div className="pivot-table-flex-item">
           <FormControl fullWidth>
-            <InputLabel id="columns-field-label" style={{ color: '#fff' }}>{'Columns'}</InputLabel>
+            <InputLabel id="columns-field-label" style={{ color: '#000' }}>{'Columns'}</InputLabel>
             <Select
               sx={{
                 height: 36,
                 fontSize: '0.95rem',
-                color: '#fff'
+                color: '#000'
               }}
               MenuProps={MenuProps}
               labelId="columns-field-label"
@@ -109,10 +109,10 @@ export const SelectDropdownPivotable: FunctionComponent<
         </div>
         <div className="pivot-table-flex-item">
           <FormControl fullWidth>
-            <InputLabel id="cells-field-label" style={{ color: '#fff' }}>{'Cells'}</InputLabel>
+            <InputLabel id="cells-field-label" style={{ color: '#000' }}>{'Cells'}</InputLabel>
             <Select
               sx={{
-                height: 36, fontSize: '0.95rem', color: '#fff'
+                height: 36, fontSize: '0.95rem', color: '#000'
               }}
               MenuProps={MenuProps}
               labelId="cells-field-label"

@@ -8,7 +8,7 @@ import { CONTRIBUTE, INTRAAMERICANPAGE, TRANSATLANTICPAGE, VOYAGESPAGE, ABOUTPAG
 const IntraAmerican: React.FC = () => {
     const lists = [
         { name: 'About', url: `/${ABOUTPAGE}` },
-        { name: 'Database', url: `${VOYAGESPAGE}${TRANSATLANTICPAGE}#voyages` },
+        { name: 'Database', url: `${TRANSATLANTICPAGE}#voyages` },
         { name: 'Downloads', url: `${DOWNLOADS}` },
         { name: 'Contribute', url: `${CONTRIBUTE}` },
     ];
@@ -26,7 +26,7 @@ const IntraAmerican: React.FC = () => {
                         African survivors of the Atlantic crossing but also displaced
                         enslaved people born in the Americas.
                     </p>
-                    <ButtonLearnMore path={`${VOYAGESPAGE}${INTRAAMERICANPAGE}#voyages`} styleName='intra-american' />
+                    <ButtonLearnMore path={`${INTRAAMERICANPAGE}#voyages`} styleName='intra-american' />
                     <ButtonLists lists={lists} />
                 </div>
                 <div className="intra-american-bg">

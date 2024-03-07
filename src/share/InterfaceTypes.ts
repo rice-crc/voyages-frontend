@@ -579,3 +579,8 @@ export interface SummaryStatisticsTableRequest {
     filter: Filter[]
     global_search?: string
 }
+
+export interface SaveSearchRequest {
+    endpoint: string
+    query: Filter[]
+}

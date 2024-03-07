@@ -29,6 +29,8 @@ import getGeoTreeDataSlice from './getGeoTreeDataSlice';
 import getDataPathNameSlice from './getDataPathNameSlice';
 import getFilterMenuListSlice from './getFilterMenuListSlice';
 import getEstimateAssesmentSlice from './getEstimateAssessmentSlice';
+import getSaveSearchSlice from './getSaveSearchSlice';
+import getQuerySaveSearchSlice from './getQuerySaveSearchSlice'
 
 
 // Define types for slices
@@ -57,6 +59,8 @@ type PivotTablesDataSlice = ReturnType<typeof getPivotTablesDataSlice>;
 type GeoTreeDataSlice = ReturnType<typeof getGeoTreeDataSlice>;
 type DataPathNameSlice = ReturnType<typeof getDataPathNameSlice>;
 type EstimateAssesmentSlice = ReturnType<typeof getEstimateAssesmentSlice>;
+type SaveSearchSlice = ReturnType<typeof getSaveSearchSlice>;
+type QuerySaveSearchSlice = ReturnType<typeof getQuerySaveSearchSlice>;
 
 
 // Define RootState
@@ -86,6 +90,8 @@ export type RootState = {
         getGeoTreeData: GeoTreeDataSlice;
         getPathName: DataPathNameSlice;
         getEstimateAssessment: EstimateAssesmentSlice
+        getSaveSearch: SaveSearchSlice
+        getQuerySaveSearch: QuerySaveSearchSlice
         [voyagesApi.reducerPath]: ReturnType<typeof voyagesApi.reducer>;
 };
 
@@ -116,6 +122,8 @@ const store = configureStore({
                 getGeoTreeData: getGeoTreeDataSlice,
                 getPathName: getDataPathNameSlice,
                 getEstimateAssessment: getEstimateAssesmentSlice,
+                getSaveSearch: getSaveSearchSlice,
+                getQuerySaveSearch: getQuerySaveSearchSlice,
                 [voyagesApi.reducerPath]: voyagesApi.reducer,
                 [pastEnslavedService.reducerPath]: pastEnslavedService.reducer,
                 [pastEnslaversService.reducerPath]: pastEnslaversService.reducer,

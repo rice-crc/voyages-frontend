@@ -74,10 +74,9 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     useState<null | HTMLElement>(null);
 
   const styleNameToPathMap: { [key: string]: string } = {
-    [ALLVOYAGES]: `/${VOYAGESPAGE}${ALLVOYAGESPAGE}#${currentVoyageBlockName}`,
-    [INTRAAMERICAN]: `/${VOYAGESPAGE}${INTRAAMERICANPAGE}#${currentVoyageBlockName}`,
-    [TRANSATLANTIC]: `/${VOYAGESPAGE}${TRANSATLANTICPAGE}#${currentVoyageBlockName}`,
-    // [VOYAGESTEXAS]: `/${VOYAGESPAGE}${VOYAGESTEXASPAGE}#${currentVoyageBlockName}`,
+    [ALLVOYAGES]: `${ALLVOYAGESPAGE}#${currentVoyageBlockName}`,
+    [INTRAAMERICAN]: `${INTRAAMERICANPAGE}#${currentVoyageBlockName}`,
+    [TRANSATLANTIC]: `${TRANSATLANTICPAGE}#${currentVoyageBlockName}`,
   };
 
   const handleSelectDataset = (
@@ -92,9 +91,8 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
     dispatch(resetAll());
     const filters: Filter[] = [];
-
     if (styleName === VOYAGESTEXAS && currentVoyageBlockName === 'pie') {
-      navigate(`/${VOYAGESPAGE}${VOYAGESTEXASPAGE}#voyages`);
+      navigate(`/${VOYAGESTEXASPAGE}#voyages`);
     } else {
       dispatch(setBaseFilterDataSetValue(base_filter));
       for (const base of base_filter) {
@@ -103,7 +101,17 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           searchTerm: base.value,
           op: "in"
         })
+
         dispatch(setFilterObject(filters));
+      }
+      if (filters) {
+        localStorage.setItem('filterObject', JSON.stringify({
+          filter: filters
+        }));
+      } else {
+        localStorage.setItem('filterObject', JSON.stringify({
+          filter: filters
+        }));
       }
       dispatch(setDataSetHeader(textHeder));
       dispatch(setTextIntro(textIntro));
@@ -120,6 +128,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
+
   };
 
 
@@ -152,7 +161,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: getColorNavbarBackground(styleName),
+          backgroundColor: getColorNavbarBackground(styleNameRoute!),
           fontSize: 12,
           boxShadow: 'none',
         }}
@@ -183,7 +192,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               <HeaderTitle
                 textHeader={styleNameRoute === ALLVOYAGES ? 'All Voyages' : textHeader}
                 HeaderTitle={VOYAGETILE}
-                pathLink={`${VOYAGESPAGE}${TRANSATLANTICPAGE}#voyages`}
+                pathLink={`${TRANSATLANTICPAGE}#voyages`}
                 onClickReset={onClickReset}
               />
             </span>
@@ -204,9 +213,9 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                   xs: 'none',
                   sm: 'none',
                   md: 'flex',
-                  paddingRight: 40,
+                  paddingRight: 60,
                 },
-                margin: '10px 0',
+                margin: '6px 0',
                 fontSize: 18,
                 fontWeight: 600,
               }}

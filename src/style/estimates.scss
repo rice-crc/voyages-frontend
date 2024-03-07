@@ -7,13 +7,8 @@
     padding: 0px 3rem;
     font-size: 1.2rem;
     font-weight: bold;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-.nav-header>div {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-
-}
 
 .tooltip-pointer:hover {
     cursor: pointer;
@@ -27,13 +22,14 @@
 .flex-navbar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .navbar-subtitle {
     font-weight: 500;
     font-size: .85rem;
     color: #fff;
-    padding: 0 0.5rem 0.5rem 0.5rem;
+    padding: 0 5rem 0.5rem 0.5rem;
 }
 
 .navbar-subitem {
@@ -138,7 +134,7 @@
     display: flex;
     justify-content: space-between;
     background-color: #f8f9fa;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    // font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
     a {
         text-decoration: none;
@@ -233,7 +229,7 @@
     color: #212529;
     font-weight: 400;
     font-size: .85rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    // font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
     .ant-checkbox .ant-checkbox-inner {
         border-color: #474747 !important;
@@ -258,10 +254,22 @@
     height: 100%;
 }
 
+.summary-table>div>table>thead {
+    background-color: #f8f8f8;
+}
+
 .estimate-table {
     overflow-y: auto;
     border-left: 1px solid rgb(194, 194, 194);
     border-right: 1px solid rgb(194, 194, 194);
+}
+
+.estimate-table>div>table>thead {
+    background-color: #f8f8f8;
+}
+
+.estimate-table>div>table>thead>tr {
+    height: 28px;
 }
 
 /* Hide scrollbar for webkit browsers (Chrome, Safari) */
@@ -336,6 +344,10 @@ table.dataframe {
     padding: 0 10px 0 5px;
 }
 
+table>.dataframe {
+    border: 1px solid #dee2e6 !important;
+}
+
 .dataframe {
     font-size: .8rem;
     border: 1px solid black;
@@ -347,11 +359,14 @@ table.dataframe {
         border-bottom: 2px solid #dee2e6;
         padding: 0 5px 0 5px;
         text-align: center;
+        font-size: 13.5px;
     }
 
     td {
         padding: 0 5px 0 5px;
         text-align: right;
+        font-size: 13px;
+        line-height: 24px;
     }
 }
 
@@ -384,9 +399,6 @@ table.dataframe {
     pointer-events: all;
 }
 
-svg {
-    font-family: "Helvetica Neue", Helvetica;
-}
 
 .svg-timeline-text {
     fill: gray;

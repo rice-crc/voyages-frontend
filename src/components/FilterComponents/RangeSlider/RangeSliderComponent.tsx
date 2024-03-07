@@ -32,7 +32,6 @@ const RangeSlider = () => {
   const min = rangeValue?.[varName]?.[0] || 0;
   const max = rangeValue?.[varName]?.[1] || 0;
   const [currentSliderValue, setCurrentSliderValue] = useState<number | number[]>(rangeMinMax);
-
   const filterByVarName = filtersObj && filtersObj.filter(filterItem => filterItem.varName !== varName);
 
   const dataSend: RangeSliderStateProps = {
@@ -122,6 +121,7 @@ const RangeSlider = () => {
 
   function updatedSliderToLocalStrage(updateValue: number[]) {
     const existingFilterObjectString = localStorage.getItem('filterObject');
+
     let existingFilterObject: any = {};
 
     if (existingFilterObjectString) {
@@ -146,7 +146,6 @@ const RangeSlider = () => {
     const filterObjectUpdate = {
       filter: existingFilters
     };
-
     const filterObjectString = JSON.stringify(filterObjectUpdate);
     localStorage.setItem('filterObject', filterObjectString);
   }

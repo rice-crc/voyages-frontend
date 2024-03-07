@@ -16,14 +16,13 @@ export const FilterButton = ({ currentPageBlockName, currentPage }: FilterButton
   };
 
   return (
-    currentPageBlockName !== 'intro' && currentPage !== 1 && (
-      <span
-        style={{ cursor: 'pointer', display: 'flex' }}
-        onClick={handleClick}
-      >
-        <FilterAltIcon style={{ color: '#000000' }} />
-        <div className="menu-nav-bar"> Filter Search</div>
-      </span>
-    )
+    <span
+      style={{ cursor: 'pointer', display: 'flex' }}
+      onClick={handleClick}
+    >
+      <FilterAltIcon style={{ color: '#fff' }} />
+      <div className="menu-nav-bar"> Filter Search</div>
+    </span>
+
   );
 };

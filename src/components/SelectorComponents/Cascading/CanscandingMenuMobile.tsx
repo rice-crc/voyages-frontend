@@ -173,37 +173,36 @@ const CanscandingMenuMobile = () => {
 
   return (
     <>
-      {(currentPage !== 1 || currentEnslavedPage !== 1 || currentEnslaversPage !== 1) && (
-        <DropdownCanscanding
-          trigger={
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{
-                color: '#000000',
-                display: {
-                  xs: 'flex',
-                  sm: 'flex',
-                  md: 'none',
-                  paddingRight: 40,
-                },
-                cursor: 'pointer',
-                alignItems: 'center',
-                margin: '10px 0',
-                fontSize: 15,
-                fontWeight: 600,
-              }}
-            >
-              <span style={{ display: 'flex', alignItems: 'center' }}>
-                <FilterAltIcon style={{ color: '#000000' }} />
-                <div className="menu-nav-bar">Filter Search</div>
-              </span>
-            </IconButton>
-          }
-          menu={renderDropdownMenu(filterMenu)}
-        />
-      )}
+
+      <DropdownCanscanding
+        trigger={
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{
+              color: '#000000',
+              display: {
+                xs: 'flex',
+                sm: 'flex',
+                md: 'none',
+                paddingRight: 40,
+              },
+              cursor: 'pointer',
+              alignItems: 'center',
+              margin: '10px 0',
+              fontSize: 15,
+              fontWeight: 600,
+            }}
+          >
+            <span style={{ display: 'flex', alignItems: 'center' }}>
+              <FilterAltIcon style={{ color: '#fff' }} />
+              <div className="menu-nav-bar">Filter Search</div>
+            </span>
+          </IconButton>
+        }
+        menu={renderDropdownMenu(filterMenu)}
+      />
 
       <Dialog
         BackdropProps={{

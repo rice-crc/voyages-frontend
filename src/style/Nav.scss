@@ -57,7 +57,6 @@
 }
 
 .voyages-header {
-    font-family: "Cormorant Garamond";
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -157,8 +156,8 @@
 }
 
 .menu-nav-bar {
-    font-family: "Cormorant Garamond";
-    color: black;
+    // font-family: "Cormorant Garamond";
+    color: #fff;
 
     @include breakpoint-standard(1) {
         font-size: 10px;
@@ -170,7 +169,7 @@
 }
 
 .menu-filter-search-enslavers {
-    font-family: "Cormorant Garamond";
+    // font-family: "Cormorant Garamond";
     color: #ffffff;
 }
 
@@ -210,7 +209,7 @@
 }
 
 .menu-nav-bar-select {
-    font-family: "Cormorant Garamond";
+    // font-family: "Cormorant Garamond";
     color: #fff;
     text-transform: uppercase;
     font-size: 18px;
@@ -279,6 +278,14 @@
     align-items: center;
 }
 
+.list-filter-menu-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px 6px 16px;
+
+}
+
 .list-filter-menu {
     display: flex;
     justify-content: center;
@@ -288,4 +295,136 @@
         color: #ffffff;
         font-weight: 600;
     }
+}
+
+.save-sarch-content {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 900;
+
+    :hover {
+        color: #ffffff;
+    }
+
+    :active {
+        color: #ffffff;
+    }
+
+    svg {
+        font-size: 1.25rem;
+    }
+}
+
+.v-panel-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.v-panel-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #666666;
+}
+
+.v-panel-description {
+    color: #666666;
+    font-size: .85rem;
+}
+
+.v-panel-description {
+    color: #666666;
+    font-size: .85rem;
+}
+
+.v-form-group {
+    padding: 1.25rem 0 0;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.v-title {
+    font-weight: bold;
+    color: #666666;
+    font-size: .8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: .85rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+
+.btn-outline-secondary {
+    color: #6c757d;
+    background-color: transparent;
+    background-image: none;
+    border-color: #6c757d;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid #6c757d;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.90rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.btn-info {
+    color: #fff;
+    background-color: var(--saveSearch--, rgb(25, 118, 210));
+    border-color: var(--saveSearch--, rgb(25, 118, 210));
+
+
+}
+
+.btn-info:hover {
+    color: #fff !important;
+    background-color: var(--saveSearchHover--, #138496);
+    color: var(--saveSearchHover--, #117a8b);
+}
+
+.btn-info .v-description {
+    color: #666666;
+    margin-bottom: 0.35rem;
+    font-size: .85rem;
+    font-weight: 500;
+}
+
+.v-saved-searches-item {
+    margin-bottom: 1rem;
+    font-size: .85rem;
+    color: #666666;
+    word-break: break-all;
+    font-weight: 500;
+}
+
+.btn-outline-secondary:hover {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.search-submenu {
+    padding: 0.75rem 1.5rem;
+    width: 560px;
 }

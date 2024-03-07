@@ -48,10 +48,56 @@
   }
 }
 
+.blog-container {
+  margin: -1px;
+}
+
+.nav-blog-header-logo {
+  color: white;
+  background: #c96318;
+  padding: 0.5rem 4rem 0;
+  font-size: 1rem;
+  font-weight: bold;
+
+  @include breakpoint-standard(4) {
+    padding: 0.5rem 1.2rem 0;
+  }
+
+  @include breakpoint-standard(3) {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+
+  @include breakpoint-standard(2) {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+
+  @include breakpoint-standard(1) {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+
+  @include breakpoint-standard(0) {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+.nav-blog-header-sticky-logo {
+  position: sticky;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+  top: 0;
+}
+
 .nav-blog-header {
   color: white;
   background: #db7333 !important;
-  padding: 0.5rem 4rem 0;
+  padding: 0 4rem 0;
   font-size: 1rem;
   font-weight: bold;
 
@@ -82,27 +128,34 @@
 
 .nav-blog-header-sticky {
   position: sticky;
-  top: 3.15rem;
-  width: 100%;
+  top: 6.15rem;
   z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 95px;
+  height: 60px;
+
+  @include breakpoint-standard(4) {
+    top: 2.15rem;
+    height: 50px;
+  }
 
   @include breakpoint-standard(3) {
     font-size: 12px;
     top: 2.15rem;
+    height: 45px;
   }
 
   @include breakpoint-standard(2) {
     font-size: 12px;
     top: 2.15rem;
+    height: 45px;
   }
 
   @include breakpoint-standard(1) {
     font-size: 12px;
     top: 2.15rem;
+    height: 45px;
   }
 
   @include breakpoint-standard(0) {
@@ -120,34 +173,43 @@
 
 .container-new {
   margin: 5rem 4rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.logo-blog {
+  height: 80px;
+  width: 239px;
 
   @include breakpoint-standard(4) {
-    margin: 5rem 1.5rem;
+    height: 70px;
+    width: 220px;
   }
 
   @include breakpoint-standard(3) {
-    margin: 5rem 1.5rem;
+    height: 70px;
+    width: 220px;
   }
 
   @include breakpoint-standard(2) {
-    margin: 5rem 1.5rem;
+    height: 70px;
+    width: 220px;
   }
 
   @include breakpoint-standard(1) {
-    margin: 5rem 1.5rem;
+    height: 50px;
+    width: 120px;
   }
 
   @include breakpoint-standard(0) {
-    margin: 5rem 1.5rem;
+    height: 50px;
+    width: 120px;
   }
+
 }
 
 .container-new-author-head {
   margin: 5rem 4rem 1rem 4rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  // font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
+  //   "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
   @include breakpoint-standard(4) {
     margin: 5rem 1.5rem;
@@ -487,7 +549,7 @@ h4 {
   color: #6c757d;
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  font-family: inherit;
+  // font-family: inherit;
   font-weight: 600;
 }
 
