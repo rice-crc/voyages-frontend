@@ -72,8 +72,9 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cardRowID, nodeTypeClass } = useSelector((state: RootState) => state.getCardFlatObjectData);
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch)
-  const { styleName, voyageURLID } = usePageRouter();
+  const { styleName, voyageURLID, saveSearchID } = usePageRouter();
   const [ID, setID] = useState(cardRowID)
   const [nodeClass, setNodeTypeClass] = useState(nodeTypeClass)
 
@@ -95,13 +96,14 @@ const App: React.FC = () => {
 
     // Check URL to direct to when user copy paste
     const checkURL = checkPathURLSaveSearchVoyages(url)
-    if (saveSearchUrlID) {
+    // console.log({ saveSearchID, filtersObj })
+    if (saveSearchID) {
       if (checkURL === ALLVOYAGES) {
-        navigate(`${voyageURL}/${ALLVOYAGES}#voyages`)
+        navigate(`${voyageURL}/${ALLVOYAGES}`)
       } else if (checkURL === TRANSATLANTIC) {
-        navigate(`${voyageURL}/${TRANSATLANTIC}#voyages`)
+        navigate(`${voyageURL}/${TRANSATLANTIC}`)
       } else if (checkURL === INTRAAMERICAN) {
-        navigate(`${voyageURL}/${INTRAAMERICAN}#voyages`)
+        navigate(`${voyageURL}/${INTRAAMERICAN}`)
       }
     }
 

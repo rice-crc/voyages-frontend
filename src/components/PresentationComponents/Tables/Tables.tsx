@@ -59,13 +59,13 @@ import { setQuerySaveSeary } from '@/redux/getQuerySaveSearchSlice';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { styleName: styleNameRoute } = usePageRouter();
+    const { styleName: styleNameRoute, saveSearchID } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
+    console.log({ saveSearchID })
     const { querySaveSearch } = useSelector((state: RootState) => state.getQuerySaveSearch);
-    console.log({ querySaveSearch })
 
     const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch);
     const { visibleColumnCells } = useSelector(
@@ -97,6 +97,7 @@ const Tables: React.FC = () => {
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
     );
+    console.log({ saveSearchID })
     // Enslaved States
     const { styleNamePeople, tableFlatfileEnslaved } = useSelector(
         (state: RootState) => state.getPeopleEnlavedDataSetCollection
@@ -151,7 +152,7 @@ const Tables: React.FC = () => {
 
     const fetchDataUseSaveSearch = async () => {
         try {
-            const response = await dispatch(fetchCommonUseSavedSearch(saveSearchUrlID)).unwrap();
+            const response = await dispatch(fetchCommonUseSavedSearch(saveSearchUrlID || saveSearchID)).unwrap();
             if (response) {
                 const { query } = response
                 dispatch(setFilterObject(query));
@@ -164,10 +165,11 @@ const Tables: React.FC = () => {
     };
 
     let filters: Filter[] = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
-    console.log({ querySaveSearch })
-    if (querySaveSearch) {
-        filters = querySaveSearch
-    } else if (filtersObj[0]?.searchTerm?.length > 0) {
+    // console.log({ querySaveSearch })
+    // if (querySaveSearch) {
+    //     filters = querySaveSearch
+    // } 
+    if (filtersObj[0]?.searchTerm?.length > 0) {
         filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters;
     } else if (styleNameRoute === TRANSATLANTICPATH) {
         filters.push({
