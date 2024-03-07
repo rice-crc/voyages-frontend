@@ -50,12 +50,13 @@ import ButtonDropdownColumnSelector from '@/components/SelectorComponents/Button
 import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { Filter } from '@/share/InterfaceTypes';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { styleName: styleNameRoute } = usePageRouter()
   const { currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
@@ -169,7 +170,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: getColorNavbarEnslavedBackground(styleNamePeople),
+          backgroundColor: getColorNavbarEnslavedBackground(styleNameRoute!),
           fontSize: 12,
           boxShadow: 'none',
         }}

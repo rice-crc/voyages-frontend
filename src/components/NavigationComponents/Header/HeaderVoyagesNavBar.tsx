@@ -161,7 +161,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       <AppBar
         component="nav"
         style={{
-          backgroundColor: getColorNavbarBackground(styleName),
+          backgroundColor: getColorNavbarBackground(styleNameRoute!),
           fontSize: 12,
           boxShadow: 'none',
         }}
