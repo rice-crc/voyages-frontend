@@ -4,7 +4,6 @@ import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSea
 const DocumentPageHold: React.FC = () => {
   return (
     <>
-      <HeaderLogoSearch />
       <div style={{ marginTop: '15%', textAlign: 'center' }}>
         <div>Document page is coming soon</div>
         <img

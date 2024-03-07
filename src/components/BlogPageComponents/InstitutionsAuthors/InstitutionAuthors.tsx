@@ -54,7 +54,7 @@ const InstitutionAuthors: React.FC = () => {
   }, [data, isLoading, isError, dispatch, ID]);
 
   return (
-    <div>
+    <div className='blog-container'>
       <HeaderLogoSearch />
       <HeaderNavBarBlog />
       <div className="container-new-institution">

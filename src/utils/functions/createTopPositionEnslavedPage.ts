@@ -35,12 +35,3 @@ export const createTopPositionEnslaversPage = (currentPage: number, value: strin
     return topPosition;
 }
 
-export function crateClassName(style: string) {
-    let className = ''
-    if (style === 'all-enslaved' || style === 'african-origins' || style === 'texasEnslaved') {
-        className = 'mobile-enslaved'
-    } else {
-        className = 'mobile-responsive'
-    }
-    return className
-}

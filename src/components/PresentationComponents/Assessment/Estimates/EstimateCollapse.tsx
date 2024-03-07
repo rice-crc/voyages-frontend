@@ -25,11 +25,11 @@ const items: CollapseProps['items'] = [
         label: <div className='title-coallpse'>Regions</div>,
         children: <div><Regions /></div>
     },
-    {
-        key: 'query_link',
-        label: <div className='title-coallpse'>Create a Query Link</div>,
-        children: <div><QueryLink /></div>
-    },
+    // {
+    //     key: 'query_link',
+    //     label: <div className='title-coallpse'>Create a Query Link</div>,
+    //     children: <div><QueryLink /></div>
+    // },
 ];
 
 const EstimateCollapse: React.FC = () => {

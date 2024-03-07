@@ -9,6 +9,9 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { useEffect } from 'react';
 import { setPeopleEnslavedBlocksMenuList } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
+import SaveSearchComponent from '@/components/FilterComponents/SaveSearchComponent/SaveSearchComponent';
+import '@/style/Nav.scss'
+
 export default function CanscandingMenu(props: CanscandingMenuProps) {
   const dispatch: AppDispatch = useDispatch();
   const { varName } = useSelector(
@@ -38,14 +41,11 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
         localStorage.removeItem(key);
       }
     });
+    localStorage.removeItem('saveSearchID');
   };
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        bottom: 12,
-      }}
+    <div className='list-filter-menu-bar'
     >
       <Toolbar
         sx={{
@@ -61,6 +61,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
           </div>
         </Hidden>
       </Toolbar>
+      <SaveSearchComponent />
     </div>
   );
 }

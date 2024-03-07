@@ -5,7 +5,7 @@ const initialState = {
     currentPage: 1,
     isOpenDialog: false,
     isOpenDialogMobile: false,
-    currentVoyageBlockName: 'intro'
+    currentVoyageBlockName: 'voyages'
 }
 
 export const getScrollPageSlice = createSlice({

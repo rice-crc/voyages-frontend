@@ -12,13 +12,8 @@ import {
   setTypePage,
 } from '@/redux/getCommonGlobalSearchResultSlice';
 import { GlobalSearchProp } from '@/share/InterfaceTypesGlobalSearch';
-
 import debounce from 'lodash.debounce';
 import '@/style/homepage.scss';
-import {
-  AutoCompleteInitialState,
-  RangeSliderState,
-} from '@/share/InterfaceTypes';
 import { useNavigate } from 'react-router-dom';
 import {
   ALLENSLAVEDPAGE,
@@ -30,8 +25,6 @@ import {
   GlobalSearchEnslavedType,
   GlobalSearchEnslaversType,
   GlobalSearchVoyagesType,
-  PASTHOMEPAGE,
-  VOYAGESPAGE,
 } from '@/share/CONST_DATA';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
@@ -40,7 +33,6 @@ import {
   getOptionLabelSearchGlobal,
   shouldDisable,
 } from '@/utils/functions/getOptionLabelSearchGlobal';
-import { setFilterObject } from '@/redux/getFilterSlice';
 
 const AutoGlobalSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -48,7 +40,6 @@ const AutoGlobalSearchBar = () => {
   const { data, inputSearchValue, requestId } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const [showClearButton, setShowClearButton] = useState<boolean>(false);
   const [calledIds, setCalledIds] = useState<Set<number>>(new Set());
   const [isFetching, setIsFetching] = useState(false);
@@ -134,26 +125,19 @@ const AutoGlobalSearchBar = () => {
       if (type === GlobalSearchVoyagesType) {
         dispatch(setCurrentPage(1));
         dispatch(setCurrentBlockName('voyages'));
-        navigate(`${VOYAGESPAGE}${ALLVOYAGESPAGE}#voyages`);
+        navigate(`${ALLVOYAGESPAGE}#voyages`);
       } else if (type === GlobalSearchEnslavedType) {
         dispatch(setCurrentEnslavedPage(1));
-        dispatch(setCurrentBlockName('table'));
-        navigate(`${PASTHOMEPAGE}${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#table`);
+        dispatch(setCurrentBlockName('people'));
+        navigate(`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#people`);
       } else if (type === GlobalSearchEnslaversType) {
         dispatch(setCurrentEnslaversPage(1));
-        dispatch(setCurrentBlockName('table'));
-        navigate(`${PASTHOMEPAGE}${ENSALVERSPAGE}#table`);
+        dispatch(setCurrentBlockName('people'));
+        navigate(`${ENSALVERSPAGE}#people`);
       } else if (type === GlobalSearchBlogType) {
         navigate(`${BLOGPAGE}`);
       }
-      const filterObject = {
-        filterObject: {
-          ...filtersObj,
-          ['global_search']: inputSearchValue,
-        },
-      };
-      const filterObjectString = JSON.stringify(filterObject);
-      localStorage.setItem('filterObject', filterObjectString);
+      localStorage.setItem('global_search', inputSearchValue);
     }
   };
 

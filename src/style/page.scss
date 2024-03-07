@@ -58,13 +58,13 @@
   position: relative;
   width: 100%;
   z-index: 0;
-  height: 110vh;
+  height: 100vh;
 }
 
 .voyages-home-page {
   padding: 0;
   margin: 0;
-  height: 110vh;
+  background-color: #fff;
 
   @include breakpoint-standard(6) {
     height: 100%;
@@ -83,17 +83,14 @@
   }
 
   @include breakpoint-standard(1.1) {
-    height: 115vh;
     top: -15px !important;
   }
 
   @include breakpoint-standard(1) {
-    height: 145vh;
     top: -10px !important;
   }
 
   @include breakpoint-standard(0) {
-    height: 145vh;
     top: -10px !important;
   }
 }
@@ -168,7 +165,6 @@
   justify-content: flex-end;
   align-items: center;
   z-index: 1;
-
 }
 
 .nav-button {
@@ -192,8 +188,8 @@
   }
 
   @include breakpoint-standard(4) {
-    top: 12%;
-    right: 25%;
+    top: 10%;
+    right: 14%;
     height: auto;
     display: inline;
     align-items: flex-start;
@@ -201,7 +197,7 @@
   }
 
   @include breakpoint-standard(3) {
-    top: 10%;
+    top: 8.5%;
     height: auto;
     display: inline;
     align-items: center;
@@ -210,25 +206,25 @@
   }
 
   @include breakpoint-standard(2) {
-    top: 10%;
+    top: 10.5%;
     height: auto;
     display: inline;
     align-items: center;
     padding-right: 5px;
-    right: 10%;
+    right: 6%;
   }
 
   @include breakpoint-standard(1.1) {
-    top: 10%;
+    top: 9%;
     height: auto;
     display: inline;
     align-items: center;
     padding-right: 5px;
-    right: 10%;
+    right: 5%;
   }
 
   @include breakpoint-standard(1) {
-    top: 10%;
+    top: 9%;
     height: auto;
     display: inline;
     align-items: center;
@@ -237,7 +233,7 @@
   }
 
   @include breakpoint-standard(0) {
-    top: 10%;
+    top: 9%;
     height: auto;
     display: inline;
     align-items: center;
@@ -252,22 +248,22 @@
   line-height: 14px !important;
 
   @include breakpoint-standard(7) {
-    width: 72px !important;
+    width: 75px !important;
   }
 
   @include breakpoint-standard(6) {
-    width: 72px !important;
+    width: 75px !important;
   }
 
   @include breakpoint-standard(5) {
-    width: 65px !important;
+    width: 82px !important;
     font-size: 12px !important;
   }
 
   @include breakpoint-standard(4) {
-    width: 74px !important;
+    width: 80px !important;
     height: 32px;
-    font-size: 12px !important;
+    font-size: 10px !important;
     min-width: 75px !important;
     margin: 0 2px !important;
   }
@@ -289,27 +285,27 @@
   }
 
   @include breakpoint-standard(1.1) {
-    width: 45px !important;
+    width: 52px !important;
     height: 24px;
-    font-size: 10px !important;
+    font-size: 8px !important;
     min-width: 46px !important;
     margin: 0 2px !important;
   }
 
   @include breakpoint-standard(1) {
-    width: 45px !important;
-    height: 24px;
-    font-size: 10px !important;
-    min-width: 45px !important;
+    width: 46px !important;
+    height: 28px;
+    font-size: 7px !important;
+    min-width: 46px !important;
     margin: 0 2px !important;
   }
 
   @include breakpoint-standard(0) {
-    width: 45px !important;
-    height: 24px;
-    font-size: 10px !important;
-    min-width: 45px !important;
-    margin: 0 2px !important;
+    width: 42px !important;
+    height: 26px;
+    font-size: 6.5px !important;
+    min-width: 30px !important;
+    margin: 1px 1px !important;
   }
 }
 
@@ -518,4 +514,8 @@
     font-size: 24px;
     margin-top: 12%;
   }
+}
+
+.voyages-data-grid {
+  border: 1px solid #ccc;
 }

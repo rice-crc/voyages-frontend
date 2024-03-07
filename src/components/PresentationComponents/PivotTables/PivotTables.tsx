@@ -351,9 +351,7 @@ const PivotTables = () => {
 
 
   return (
-    <div
-      style={{ marginTop: topPosition }} className="mobile-responsive"
-    >
+    <div className="mobile-responsive">
       <div className="ag-theme-alpine grid-container">
         <div>
           <SelectDropdownPivotable
@@ -391,6 +389,7 @@ const PivotTables = () => {
           <CustomTablePagination
             disablescrolllock={true.toString()}
             component="span"
+            className="pivot-table-pagination"
             count={totalResultsCount}
             page={page}
             onPageChange={handleChangePage}

@@ -1,6 +1,5 @@
 import HeaderEnslaversNavBar from '@/components/NavigationComponents/Header/HeaderEnslaversNavBar';
-import React, { useEffect, useState } from 'react';
-import CollectionTabEnslavers from '@/components/NavigationComponents/CollectionTab/CollectionTabEnslavers';
+import React, { useEffect } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
@@ -19,21 +18,17 @@ const EnslaversHomePage: React.FC = () => {
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
-  const { currentBlockName } = usePageRouter();
-  const { filtersObj, isFilter } = useSelector((state: RootState) => state.getFilter)
+  const { currentBlockName, endpointPeopleDirect } = usePageRouter();
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter)
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-
-    // if (currentBlockName === 'intro') {
-    //   dispatch(setCurrentEnslaversPage(1));
-    //   dispatch(setCurrentBlockName(currentBlockName))
-    // } else 
-    if (currentBlockName === 'table') {
+    if (currentBlockName === 'people') {
       dispatch(setCurrentEnslaversPage(1));
       dispatch(setCurrentBlockName(currentBlockName))
     }
   }, [currentBlockName]);
+  console.log({ currentBlockName, endpointPeopleDirect })
   const getWindowHeight = () => window.innerHeight;
   const windowHeight = getWindowHeight();
   const displayPage = (
@@ -47,7 +42,7 @@ const EnslaversHomePage: React.FC = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentEnslaversPage === 1 && currentBlockName === 'table' && <Tables />}
+      {(currentEnslaversPage === 1 && currentBlockName === 'people' || endpointPeopleDirect === 'past/enslaver') && <Tables />}
     </motion.div>
   );
 
@@ -61,7 +56,6 @@ const EnslaversHomePage: React.FC = () => {
         }}
         id="content-container"
       >
-        <CollectionTabEnslavers />
         <Grid id="content-container">{displayPage}</Grid>
       </div>
     </div>

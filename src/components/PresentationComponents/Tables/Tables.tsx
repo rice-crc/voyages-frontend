@@ -32,13 +32,7 @@ import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
-import {
-    crateClassName,
-    createTopPositionEnslavedPage,
-    createTopPositionEnslaversPage,
-} from '@/utils/functions/createTopPositionEnslavedPage';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
-import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import {
     checkPagesRouteForEnslaved,
@@ -52,24 +46,31 @@ import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-import { convertToSlug } from '@/utils/functions/convertToSlug';
 import {
     AFRICANORIGINS,
     ENSLAVEDTEXAS,
     INTRAAMERICAN,
     TRANSATLANTICPATH,
 } from '@/share/CONST_DATA';
+import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+import { fetchCommonUseSavedSearch } from '@/fetch/saveSearch/fetchCommonUseSavedSearch';
+import { setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
+import { setQuerySaveSeary } from '@/redux/getQuerySaveSearchSlice';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { styleName: styleNameRoute } = usePageRouter();
+    const numberRegex = /[1-9]|10/;
+    const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
+    const { querySaveSearch } = useSelector((state: RootState) => state.getQuerySaveSearch);
+    const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch);
     const { visibleColumnCells } = useSelector(
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
     );
+
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
@@ -95,6 +96,7 @@ const Tables: React.FC = () => {
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
     );
+
     // Enslaved States
     const { styleNamePeople, tableFlatfileEnslaved } = useSelector(
         (state: RootState) => state.getPeopleEnlavedDataSetCollection
@@ -146,9 +148,10 @@ const Tables: React.FC = () => {
         };
     }, [dispatch, tablesCell, tablesCell, tableCellStructure]);
 
-    let filters: Filter[] = [];
-
-    if (styleNameRoute === TRANSATLANTICPATH) {
+    let filters: Filter[] = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
+    if (filtersObj[0]?.searchTerm?.length > 0) {
+        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters;
+    } else if (styleNameRoute === TRANSATLANTICPATH) {
         filters.push({
             varName: 'dataset',
             searchTerm: [0],
@@ -173,57 +176,52 @@ const Tables: React.FC = () => {
             searchTerm: [0, 0],
             op: 'in',
         });
-    } else if (inputSearchValue) {
-        filters.push({
-            varName: 'global_search',
-            searchTerm: [inputSearchValue],
-            op: 'gte',
-        });
-    } else {
-        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
     }
 
-    const dataSend: TableListPropsRequest = {
+    localStorage.setItem('filterObject', JSON.stringify({
+        filter: filters
+    }));
+
+    let dataSend: TableListPropsRequest = {
         filter: filters,
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
-    if (inputSearchValue) {
-        dataSend['global_search'] = inputSearchValue;
-    }
+
+    const fetchDataTable = async (query?: Filter[]) => {
+        let response;
+        try {
+            if (inputSearchValue) {
+                dataSend['global_search'] = inputSearchValue;
+            }
+            if (checkPagesRouteForVoyages(styleNameRoute!)) {
+                response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+            } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+                response = await dispatch(
+                    fetchEnslavedOptionsList(dataSend)
+                ).unwrap();
+            } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
+                response = await dispatch(
+                    fetchEnslaversOptionsList(dataSend)
+                ).unwrap();
+            }
+
+            if (response) {
+                const { count, results } = response.data;
+                setTotalResultsCount(Number(count));
+                dispatch(setData(results));
+                saveDataToLocalStorage(results, visibleColumnCells);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
 
     useEffect(() => {
-        let subscribed = true;
-        const fetchData = async () => {
-            let response;
-            try {
-                if (checkPagesRouteForVoyages(styleNameRoute!)) {
-                    response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-                } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslavedOptionsList(dataSend)
-                    ).unwrap();
-                } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslaversOptionsList(dataSend)
-                    ).unwrap();
-                }
-
-                if (subscribed && response) {
-                    const { count, results } = response.data;
-                    setTotalResultsCount(Number(count));
-                    dispatch(setData(results));
-                    saveDataToLocalStorage(results, visibleColumnCells);
-                }
-            } catch (error) {
-                console.log('error', error);
-            }
-        };
-
-        fetchData();
-
+        fetchDataTable();
         return () => {
-            subscribed = false;
+
         };
     }, [
         dispatch,
@@ -239,12 +237,44 @@ const Tables: React.FC = () => {
         isChange,
         isChangeGeoTree,
         isChangeAuto,
-        autoLabelName,
+        autoLabelName, currentBlockName,
     ]);
+
+    const fetchDataUseSaveSearch = async () => {
+        try {
+            const response = await dispatch(fetchCommonUseSavedSearch(currentBlockName)).unwrap();
+            if (response) {
+                const { query } = response;
+                dispatch(setFilterObject(query));
+                localStorage.setItem('filterObject', query);
+                dispatch(setQuerySaveSeary([...querySaveSearch, query]));
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
+
+    // Memoize the fetchDataUseSaveSearch function
+    const memoizedFetchData = useMemo(() => fetchDataUseSaveSearch, [currentBlockName, data]);
+    console.log({ data })
+
+    useEffect(() => {
+        // Fetch data on component mount
+        if (numberRegex.test(currentBlockName)) {
+            memoizedFetchData();
+        }
+        return () => {
+        };
+    }, [dispatch, currentBlockName]);
+
 
     useEffect(() => {
         const storedValue = localStorage.getItem('filterObject');
-        if (!storedValue) return;
+        const getSaveSearchID = localStorage.getItem('saveSearchID')
+        if (!storedValue || !getSaveSearchID) return;
+        dispatch(setSaveSearchUrlID(getSaveSearchID))
+
 
         const parsedValue = JSON.parse(storedValue);
         const filter: Filter[] = parsedValue.filter;
@@ -323,7 +353,7 @@ const Tables: React.FC = () => {
             fontSize: 13,
             fontWeight: 500,
             color: '#000',
-            fontFamily: 'Roboto',
+            fontFamily: 'sans-serif',
             paddingLeft: '20px',
         }),
         []
@@ -378,10 +408,13 @@ const Tables: React.FC = () => {
     const pageCount = Math.ceil(
         totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
     );
+    useEffect(() => {
+        const headerColor = getHeaderColomnColor(styleName!);
+        document.documentElement.style.setProperty('--pagination-table--', headerColor);
+    }, [styleName]);
 
-    const className = crateClassName(styleNameRoute!);
     return (
-        <div className={className}>
+        <div className='mobile-responsive'>
             <div className="ag-theme-alpine grid-container">
                 <span className="tableContainer">
                     <ButtonDropdownColumnSelector />

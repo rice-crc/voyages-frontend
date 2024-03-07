@@ -51,7 +51,7 @@ function VoyagesMaps() {
   const paddingTop = currentEnslavedPage === 3 || styleNameRoute === 'map' ? 0 : topPositionPage
 
   return (
-    <div style={{ paddingTop: paddingTop }} className='mobile-responsive-map'>
+    <div className='mobile-responsive-map'>
       <MapContainer
         style={{ width: styleNameRoute === 'map' ? "100%" : '95%' }}
         className="map-container"

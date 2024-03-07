@@ -5,7 +5,6 @@ import React from 'react';
 const TimeLapse: React.FC = () => {
     return (
         <>
-            <HeaderLogoSearch />
             <div style={{ marginTop: '15%', textAlign: 'center' }}>
                 <div>TimeLapse page is coming soon</div>
                 <img

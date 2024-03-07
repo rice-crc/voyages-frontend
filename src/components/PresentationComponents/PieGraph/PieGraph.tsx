@@ -147,7 +147,7 @@ function PieGraph() {
         aggregation={aggregation}
       />
       {plotX.length > 0 && !isPlotYZeroAll ? (
-        <Grid>
+        <Grid className="voyages-data-grid">
           <Plot
             data={[
               {

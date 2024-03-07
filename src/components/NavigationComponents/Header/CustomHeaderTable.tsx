@@ -1,7 +1,7 @@
 import { setData } from '@/redux/getTableSlice';
-import { AppDispatch } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
@@ -41,7 +41,7 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     displayName, page, pageSize
   } = props;
 
-
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const dispatch: AppDispatch = useDispatch();
   const [ascSort, setAscSort] = useState<string>('inactive');
   const [descSort, setDescSort] = useState<string>('inactive');
@@ -70,12 +70,15 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     }
   }, []);
 
+  const dataSend: TableListPropsRequest = {
+    filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
+    page: Number(page + 1),
+    page_size: Number(pageSize),
+  };
+
   const fetchData = async (sortOrder: string, sortingOrder: string[]) => {
-    const dataSend: TableListPropsRequest = {
-      filter: [],
-      page: Number(page + 1),
-      page_size: Number(pageSize),
-    };
+
+
     if (sortOrder === 'asc') {
       if (sortingOrder?.length > 0) {
         sortingOrder.forEach((sort: string) => (dataSend['order_by'] = [sort]));
