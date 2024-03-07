@@ -10,7 +10,6 @@ export function usePageRouter() {
     const styleName = location.pathname.split('/').at(-1);
     const hash = location.hash;
     const currentBlockName = hash ? hash.slice(1) : '';
-    console.log({ styleName })
     return {
         styleName,
         currentBlockName,
