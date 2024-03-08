@@ -12,7 +12,6 @@ import CustomHeaderTable from '../../NavigationComponents/Header/CustomHeaderTab
 import { setData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
-import { useWindowSize } from '@react-hook/window-size';
 import { Pagination } from '@mui/material';
 import {
     StateRowData,
@@ -28,7 +27,6 @@ import {
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
-import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
 import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
@@ -41,7 +39,6 @@ import {
 } from '@/utils/functions/checkPagesRoute';
 import { CustomTablePagination } from '@/styleMUI';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
-import { setFilterObject } from '@/redux/getFilterSlice';
 import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
@@ -53,20 +50,14 @@ import {
     TRANSATLANTICPATH,
 } from '@/share/CONST_DATA';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
-import { fetchCommonUseSavedSearch } from '@/fetch/saveSearch/fetchCommonUseSavedSearch';
-import { setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
-import { setQuerySaveSeary } from '@/redux/getQuerySaveSearchSlice';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
-    const numberRegex = /[1-9]|10/;
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
-    const { querySaveSearch } = useSelector((state: RootState) => state.getQuerySaveSearch);
-    const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch);
     const { visibleColumnCells } = useSelector(
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
     );
@@ -115,9 +106,6 @@ const Tables: React.FC = () => {
         getRowsPerPage(window.innerWidth, window.innerHeight)
     );
 
-    const [width, height] = useWindowSize();
-    const maxWidth = maxWidthSize(width);
-
     const {
         data: tableCellStructure,
         isLoading,
@@ -128,16 +116,17 @@ const Tables: React.FC = () => {
         if (!isLoading && !isError && tableCellStructure) {
             setTableCell(tableCellStructure);
         }
-    }, [tablesCell, isLoading, isError]);
-
-    useEffect(() => {
         if (tablesCell.length > 0) {
             const visibleColumns = tablesCell
                 .filter((cell: any) => cell.visible)
                 .map((cell: any) => cell.colID);
             dispatch(setVisibleColumn(visibleColumns));
         }
-
+        const headerColor = getHeaderColomnColor(styleName!);
+        document.documentElement.style.setProperty(
+            '--pagination-table--',
+            headerColor
+        );
         const handleResize = () => {
             setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
         };
@@ -146,9 +135,10 @@ const Tables: React.FC = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [dispatch, tablesCell, tablesCell, tableCellStructure]);
+    }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleName]);
 
-    let filters: Filter[] = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
+    let filters: Filter[] =
+        filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
     if (filtersObj[0]?.searchTerm?.length > 0) {
         filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters;
     } else if (styleNameRoute === TRANSATLANTICPATH) {
@@ -178,9 +168,12 @@ const Tables: React.FC = () => {
         });
     }
 
-    localStorage.setItem('filterObject', JSON.stringify({
-        filter: filters
-    }));
+    localStorage.setItem(
+        'filterObject',
+        JSON.stringify({
+            filter: filters,
+        })
+    );
 
     let dataSend: TableListPropsRequest = {
         filter: filters,
@@ -188,43 +181,39 @@ const Tables: React.FC = () => {
         page_size: Number(rowsPerPage),
     };
 
-    const fetchDataTable = async (query?: Filter[]) => {
-        let response;
-        try {
-            if (inputSearchValue) {
-                dataSend['global_search'] = inputSearchValue;
-            }
-            if (checkPagesRouteForVoyages(styleNameRoute!)) {
-                response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-            } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                response = await dispatch(
-                    fetchEnslavedOptionsList(dataSend)
-                ).unwrap();
-            } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                response = await dispatch(
-                    fetchEnslaversOptionsList(dataSend)
-                ).unwrap();
-            }
-
-            if (response) {
-                const { count, results } = response.data;
-                setTotalResultsCount(Number(count));
-                dispatch(setData(results));
-                saveDataToLocalStorage(results, visibleColumnCells);
-            }
-        } catch (error) {
-            console.log('error', error);
-        }
-    };
-
-
     useEffect(() => {
-        fetchDataTable();
-        return () => {
+        const fetchDataTable = async () => {
+            let response;
+            try {
+                if (inputSearchValue) {
+                    dataSend['global_search'] = inputSearchValue;
+                }
+                if (checkPagesRouteForVoyages(styleNameRoute!)) {
+                    response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+                } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+                    response = await dispatch(
+                        fetchEnslavedOptionsList(dataSend)
+                    ).unwrap();
+                } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
+                    response = await dispatch(
+                        fetchEnslaversOptionsList(dataSend)
+                    ).unwrap();
+                }
 
+                if (response) {
+                    const { count, results } = response.data;
+                    setTotalResultsCount(Number(count));
+                    dispatch(setData(results));
+                    saveDataToLocalStorage(results, visibleColumnCells);
+                }
+            } catch (error) {
+                console.log('error', error);
+            }
         };
+        fetchDataTable();
+        return () => { };
     }, [
-        dispatch,
+        dispatch, filtersObj,
         rowsPerPage,
         page,
         currentPage,
@@ -237,52 +226,9 @@ const Tables: React.FC = () => {
         isChange,
         isChangeGeoTree,
         isChangeAuto,
-        autoLabelName, currentBlockName,
+        autoLabelName,
+        currentBlockName,
     ]);
-
-    const fetchDataUseSaveSearch = async () => {
-        try {
-            const response = await dispatch(fetchCommonUseSavedSearch(currentBlockName)).unwrap();
-            if (response) {
-                const { query } = response;
-                dispatch(setFilterObject(query));
-                localStorage.setItem('filterObject', query);
-                dispatch(setQuerySaveSeary([...querySaveSearch, query]));
-            }
-        } catch (error) {
-            console.log('error', error);
-        }
-    };
-
-
-    // Memoize the fetchDataUseSaveSearch function
-    const memoizedFetchData = useMemo(() => fetchDataUseSaveSearch, [currentBlockName, data]);
-    console.log({ data })
-
-    useEffect(() => {
-        // Fetch data on component mount
-        if (numberRegex.test(currentBlockName)) {
-            memoizedFetchData();
-        }
-        return () => {
-        };
-    }, [dispatch, currentBlockName]);
-
-
-    useEffect(() => {
-        const storedValue = localStorage.getItem('filterObject');
-        const getSaveSearchID = localStorage.getItem('saveSearchID')
-        if (!storedValue || !getSaveSearchID) return;
-        dispatch(setSaveSearchUrlID(getSaveSearchID))
-
-
-        const parsedValue = JSON.parse(storedValue);
-        const filter: Filter[] = parsedValue.filter;
-        if (!filter) return;
-
-        dispatch(setFilterObject(filter));
-        saveDataToLocalStorage(data, visibleColumnCells);
-    }, [width, height, maxWidth, data]);
 
     const saveDataToLocalStorage = useCallback(
         (data: Record<string, any>[], visibleColumnCells: string[]) => {
@@ -408,13 +354,9 @@ const Tables: React.FC = () => {
     const pageCount = Math.ceil(
         totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
     );
-    useEffect(() => {
-        const headerColor = getHeaderColomnColor(styleName!);
-        document.documentElement.style.setProperty('--pagination-table--', headerColor);
-    }, [styleName]);
 
     return (
-        <div className='mobile-responsive'>
+        <div className="mobile-responsive">
             <div className="ag-theme-alpine grid-container">
                 <span className="tableContainer">
                     <ButtonDropdownColumnSelector />

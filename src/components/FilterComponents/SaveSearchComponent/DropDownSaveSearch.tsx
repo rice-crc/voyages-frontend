@@ -11,10 +11,9 @@ import { setListSaveSearchURL, setSaveSearchUrlID } from '@/redux/getSaveSearchS
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
     const { endpointPath, styleName, endpointPeopleDirect } = usePageRouter();
-
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { saveSearchUrlID, listSaveSearchURL } = useSelector((state: RootState) => state.getSaveSearch);
-    console.log({ endpointPeopleDirect })
+
     let endpointSaveSearch: string = ''
     if (endpointPeopleDirect === 'past/enslaved') {
         endpointSaveSearch = endpointPeopleDirect
@@ -23,12 +22,10 @@ const DropDownSaveSearch = () => {
     } else if (endpointPath === 'voyage' || endpointPath === 'assessment') {
         endpointSaveSearch = endpointPath
     }
-    console.log({ endpointSaveSearch })
     const dataSend: SaveSearchRequest = {
         endpoint: endpointSaveSearch,
         query: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
     };
-    console.log({ saveSearchUrlID, styleName })
 
     const handleSaveSearch = () => {
         fetchData();
@@ -36,8 +33,9 @@ const DropDownSaveSearch = () => {
 
     const handleCopySaveSearch = () => {
         if (saveSearchUrlID) {
-            navigator.clipboard.writeText(`${BASE_URL_FRONTEND}/${endpointSaveSearch}/${styleName}#${saveSearchUrlID}`);
-            alert(`Your URL ${BASE_URL_FRONTEND}/${endpointSaveSearch}/${styleName}#${saveSearchUrlID} is copied`);
+            navigator.clipboard.writeText(`${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveSearch}/${styleName}&id=${saveSearchUrlID}`)
+            alert(`Your URL ${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveSearch}/${styleName}&id=${saveSearchUrlID} is copied`);
+
         }
     };
 
@@ -68,8 +66,6 @@ const DropDownSaveSearch = () => {
             console.log('error', error);
         }
     };
-
-    useEffect(() => { }, [endpointPath, endpointPeopleDirect, styleName]);
 
     return (
         <div
@@ -127,7 +123,7 @@ const DropDownSaveSearch = () => {
                                 <div className="flex-between v-saved-searches-item">
                                     <div id="SzPhOxXs">
                                         {saveSearchUrlID &&
-                                            `${BASE_URL_FRONTEND}/${endpointSaveSearch}/${styleName}#${saveSearchUrlID} `}
+                                            `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveSearch}/${styleName}&id=${saveSearchUrlID}`}
                                     </div>{' '}
                                     <div>
                                         <button

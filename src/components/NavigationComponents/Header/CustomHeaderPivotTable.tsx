@@ -1,6 +1,6 @@
-import { AppDispatch } from '@/redux/store';
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
 import { Filter, PivotTablesPropsRequest } from '@/share/InterfaceTypes';
 import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
@@ -53,7 +53,8 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     filter,
     setTotalResultsCount, page, setPage
   } = props;
-
+  const { querySaveSearch } = useSelector((state: RootState) => state.getQuerySaveSearch);
+  console.log({ querySaveSearch })
   const dispatch: AppDispatch = useDispatch();
   const [ascSort, setAscSort] = useState<string>('inactive');
   const [descSort, setDescSort] = useState<string>('inactive');
@@ -63,11 +64,9 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   useEffect(() => {
     const headerColor = getHeaderColomnColor(styleName!);
     document.documentElement.style.setProperty('--header-color--', headerColor);
-    document.documentElement.style.setProperty('--header-border-color--', headerColor);
-
+    document.documentElement.style.setProperty('--ag-secondary-foreground-color', headerColor);
+    document.documentElement.style.setProperty('--ag-header-foreground-color', headerColor);
   }, []);
-
-
 
   const onSortRequested = (
     order: string,

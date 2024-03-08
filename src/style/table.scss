@@ -148,9 +148,14 @@
 }
 
 .ag-header-cell-label {
-  color: var(--header-color--, #007269);
+
   text-align: center;
 }
+
+.ag-header-group-text {
+  color: var(--header-color--, #007269) !important;
+}
+
 
 .ag-header-cell-label,
 .ag-header-group-cell-label {

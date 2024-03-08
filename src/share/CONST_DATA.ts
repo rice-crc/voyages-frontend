@@ -24,6 +24,7 @@ export const TRANSATLANTICPATH = 'trans-atlantic'
 export const TRANSATLANTICPAGE = '/voyage/trans-atlantic'
 export const VOYAGESTEXAS = 'texas'
 export const VOYAGESTEXASPAGE = '/voyage/texas'
+export const USESAVESEARCHURL = 'saveUrl'
 
 export const PASTHOMEPAGE = 'PastHomePage'
 export const Enslaved = 'Enslaved'

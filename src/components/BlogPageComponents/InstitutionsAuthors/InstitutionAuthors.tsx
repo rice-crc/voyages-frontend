@@ -6,9 +6,8 @@ import '@/style/blogs.scss';
 import { Divider } from '@mui/material';
 import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import HeaderNavBarBlog from '../../NavigationComponents/Header/HeaderNavBarBlog';
-import { useParams } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
-import { fetchInstitutionData } from '@/fetch/blogFetch/fetchInstitutionData';
+import { useParams, } from 'react-router-dom';
+import { useEffect } from 'react';
 import {
   setInstitutionAuthorsData,
   setInstitutionAuthorsList,

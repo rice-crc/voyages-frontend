@@ -28,7 +28,7 @@ const EnslaversHomePage: React.FC = () => {
       dispatch(setCurrentBlockName(currentBlockName))
     }
   }, [currentBlockName]);
-  console.log({ currentBlockName, endpointPeopleDirect })
+
   const getWindowHeight = () => window.innerHeight;
   const windowHeight = getWindowHeight();
   const displayPage = (
