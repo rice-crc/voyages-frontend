@@ -13,14 +13,18 @@ const DropDownSaveSearch = () => {
     const { endpointPath, styleName, endpointPeopleDirect } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { saveSearchUrlID, listSaveSearchURL } = useSelector((state: RootState) => state.getSaveSearch);
-
+    console.log({ endpointPath, styleName })
+    let endPointEstimate: string = ''
     let endpointSaveSearch: string = ''
     if (endpointPeopleDirect === 'past/enslaved') {
         endpointSaveSearch = endpointPeopleDirect
     } else if (endpointPeopleDirect === 'past/enslaver') {
         endpointSaveSearch = 'past/enslaver'
-    } else if (endpointPath === 'voyage' || endpointPath === 'assessment') {
+    } else if (endpointPath === 'voyage') {
         endpointSaveSearch = endpointPath
+    } else if (endpointPath === 'assessment') {
+        endpointSaveSearch = endpointPath
+        endPointEstimate = `${endpointPath}/estimates`
     }
     const dataSend: SaveSearchRequest = {
         endpoint: endpointSaveSearch,
@@ -33,8 +37,8 @@ const DropDownSaveSearch = () => {
 
     const handleCopySaveSearch = () => {
         if (saveSearchUrlID) {
-            navigator.clipboard.writeText(`${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveSearch}/${styleName}&id=${saveSearchUrlID}`)
-            alert(`Your URL ${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveSearch}/${styleName}&id=${saveSearchUrlID} is copied`);
+            navigator.clipboard.writeText(`${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointPath !== 'assessment' ? endpointSaveSearch : endPointEstimate}/${styleName ? `/${styleName}` : ''}&id=${saveSearchUrlID}`)
+            alert(`Your URL ${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointPath !== 'assessment' ? endpointSaveSearch : endPointEstimate}/${styleName ? `/${styleName}` : ''}&id=${saveSearchUrlID} is copied`);
 
         }
     };
@@ -123,7 +127,7 @@ const DropDownSaveSearch = () => {
                                 <div className="flex-between v-saved-searches-item">
                                     <div id="SzPhOxXs">
                                         {saveSearchUrlID &&
-                                            `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveSearch}/${styleName}&id=${saveSearchUrlID}`}
+                                            `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointPath !== 'assessment' ? endpointSaveSearch : endPointEstimate}/${styleName ? `/${styleName}` : ''}&id=${saveSearchUrlID}`}
                                     </div>{' '}
                                     <div>
                                         <button

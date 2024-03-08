@@ -2,6 +2,8 @@ import { fetchCommonUseSavedSearch } from '@/fetch/saveSearch/fetchCommonUseSave
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { setQuerySaveSeary } from '@/redux/getQuerySaveSearchSlice';
 import { AppDispatch, } from '@/redux/store';
+import { ASSESSMENT, ESTIMATES } from '@/share/CONST_DATA';
+import { convertToSlug } from '@/utils/functions/convertToSlug';
 import { useEffect } from 'react';
 import { useDispatch, } from 'react-redux';
 import { useNavigate, } from 'react-router-dom';
@@ -25,7 +27,9 @@ const UseSaveSearchURL = () => {
                 if (response) {
                     const { query } = response;
                     dispatch(setFilterObject(query));
-                    localStorage.setItem('filterObject', query);
+                    if (returnUrl !== `${ASSESSMENT}/${ESTIMATES}/`) {
+                        localStorage.setItem('filterObject', query)
+                    }
                     dispatch(setQuerySaveSeary(query));
                 }
             } catch (error) {
