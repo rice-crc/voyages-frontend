@@ -5,7 +5,7 @@ import { setValueVariable } from '@/redux/getCardFlatObjectSlice';
 import { useDispatch } from 'react-redux';
 import { styleCardEstimate } from '@/styleMUI';
 import { Box } from '@mui/material';
-import VoyagesMaps from '@/components/PresentationComponents/Map/MAPS';
+import MAPComponents from '@/components/PresentationComponents/Map/MAPS';
 import type { TabsProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
@@ -53,8 +53,7 @@ const EstimatesTabs = () => {
             label: 'Maps',
             children: (
                 <Box sx={styleCardEstimate} className="estimate-tab">
-                    Map is coming soon
-                    {/* <VoyagesMaps />{' '} */}
+                    <MAPComponents />{' '}
                 </Box>
             ),
         },

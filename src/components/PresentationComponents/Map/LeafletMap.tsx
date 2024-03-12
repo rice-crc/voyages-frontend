@@ -22,6 +22,7 @@ import {
   mappingSpecialistsRivers,
   PLACE,
   AFRICANORIGINS,
+  TRANSATLANTICPATH,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
@@ -42,10 +43,12 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForVoyages,
+  checkPagesRouteMapEstimates,
   checkPagesRouteMapURLForEnslaved,
   checkPagesRouteMapURLForVoyages,
 } from '@/utils/functions/checkPagesRoute';
 import { setFilterObject } from '@/redux/getFilterSlice';
+import { fetchEstimatesMap } from '@/fetch/estimateFetch/fetchEstimatesMap';
 
 interface LeafletMapProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
@@ -102,9 +105,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     if (!filter) return;
     dispatch(setFilterObject(filter));
 
-  }, []);
-
-  useEffect(() => {
     const savedNodesDataRegion = localStorage.getItem('nodesDataregion');
     const saveEdgesDataRegion = localStorage.getItem('edgesDataregion');
     const savedNodesDataPlace = localStorage.getItem('nodesDataplace');
@@ -134,10 +134,21 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         setLoading(false);
       }
     }
-  }, [zoomLevel, varName]);
 
-  const filters: Filter[] = [];
+
+  }, [zoomLevel, varName, styleNamePage]);
+
+  let filters: Filter[] = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
   const filterByVarName = filtersObj && filtersObj.filter((filterItem: Filter) => filterItem.varName !== clusterNodeKeyVariable);
+  if (filtersObj[0]?.searchTerm?.length > 0) {
+    filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters;
+  } else if (styleNamePage === TRANSATLANTICPATH) {
+    filters.push({
+      varName: 'dataset',
+      searchTerm: [0],
+      op: 'in',
+    });
+  }
   if (clusterNodeKeyVariable && clusterNodeValue) {
     filters.push({
       varName: clusterNodeKeyVariable,
@@ -146,12 +157,12 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     })
   }
   const dataSend: MapPropsRequest = {
-    filter: [...(filterByVarName || []), ...filters]
+    filter: [...(filterByVarName), ...filters]
   };
+
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
   }
-
 
   const fetchData = async (regionOrPlace: string) => {
     dataSend['zoomlevel'] = regionOrPlace,
@@ -165,9 +176,12 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
     } else if (checkPagesRouteMapURLForEnslaved(nodeTypeURL!)) {
       response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
+    } else if (checkPagesRouteMapEstimates(styleNamePage!)) {
+      response = await dispatch(fetchEstimatesMap(dataSend)).unwrap();
     }
 
     if (response) {
+
       handleDataResponse(response, regionOrPlace);
       dispatch(setHasFetchedRegion(false));
     }
@@ -190,7 +204,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     autoLabelName,
     currentPage,
     pathName,
-    styleName,
+    styleName, styleNamePage,
     inputSearchValue,
     regionPlace,
     clusterNodeKeyVariable,

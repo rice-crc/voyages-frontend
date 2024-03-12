@@ -136,7 +136,7 @@ const VoyagesPage = () => {
       {currentPage === 6 && currentVoyageBlockName === 'table' && (
         <PivotTables />
       )}
-      {currentPage === 7 && currentVoyageBlockName === 'map' && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
+      {currentPage === 7 && currentVoyageBlockName === 'map' && <div> <VoyagesMaps /></div>}
 
     </motion.div>
   );

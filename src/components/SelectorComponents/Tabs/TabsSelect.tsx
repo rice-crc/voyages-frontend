@@ -6,7 +6,7 @@ import { RootState } from '@/redux/store';
 import { styleCard } from '@/styleMUI';
 import { Box } from '@mui/material';
 import VoyageCard from '@/components/PresentationComponents/Cards/Cards';
-import VoyagesMaps from '@/components/PresentationComponents/Map/MAPS';
+import EstimatesMap from '@/components/PresentationComponents/Map/MAPS';
 import type { TabsProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
@@ -36,7 +36,7 @@ const TabsSelect = () => {
         {
             key: 'map',
             label: 'Map',
-            children: <Box sx={styleCard} >  <VoyagesMaps /> </Box>,
+            children: <Box sx={styleCard} >  <EstimatesMap /> </Box>,
         },
         {
             key: 'images',
