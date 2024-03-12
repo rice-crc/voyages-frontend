@@ -1,7 +1,16 @@
+import {
+    INTRAAMERICANTRADS,
+    TRANSATLANTICENSLAVERS,
+    TRANSATLANTICTRADS,
+    allEnslavers,
+} from '@/share/CONST_DATA';
 import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
+import { all } from 'axios';
 
-export const getColorVoyagePageBackground = (item: string, currentPage: number) => {
-
+export const getColorVoyagePageBackground = (
+    item: string,
+    currentPage: number
+) => {
     let background = 'rgb(55 148 141)';
     if (item === TYPESOFDATASET.allVoyages) {
         background = 'rgb(55 148 141)';
@@ -29,9 +38,9 @@ export const getColorBackground = (item: string) => {
     } else if (item === TYPESOFDATASET.texas) {
         background = 'rgb(167 70 0)';
     } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
-        background = '#906866'
+        background = '#906866';
     } else if (item === 'Blog') {
-        background = '#d45b01'
+        background = '#d45b01';
     }
     return background;
 };
@@ -51,12 +60,17 @@ export const getColorBTNVoyageDatasetBackground = (item: string) => {
         background = 'rgb(2 83 204)';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
         background = 'rgb(167 70 0)';
+    } else if (item === allEnslavers) {
+        background = '#007269';
+    } else if (item === TRANSATLANTICTRADS) {
+        background = 'rgb(2 83 204)';
+    } else if (item === INTRAAMERICANTRADS) {
+        background = '#ab47bc';
     }
     return background;
 };
 
 export const getColorBTNBackgroundEnslaved = (item: string) => {
-
     let background = '#906866';
     if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
         background = '#906866';
@@ -69,15 +83,25 @@ export const getColorBTNBackgroundEnslaved = (item: string) => {
 };
 export const getColorBTNBackgroundEnslavers = (item: string) => {
     let background = '#007269';
+    if (item === allEnslavers) {
+        background = '#007269';
+    } else if (item === INTRAAMERICANTRADS) {
+        background = '#ab47bc';
+    } else if (item === TRANSATLANTICTRADS) {
+        background = 'rgb(2 83 204)';
+    }
     return background;
 };
 
 export const getTextColor = (item: string) => {
-
-    let textColor = "rgba(0, 0, 0,0.75)";
+    let textColor = 'rgba(0, 0, 0,0.75)';
     if (item === TYPESOFDATASET.allVoyages) {
-        textColor = "rgba(0, 0, 0,0.75)";
-    } else if (item === TYPESOFDATASET.transatlantic || item === TYPESOFDATASET.intraAmerican || item === TYPESOFDATASET.texas) {
+        textColor = 'rgba(0, 0, 0,0.75)';
+    } else if (
+        item === TYPESOFDATASET.transatlantic ||
+        item === TYPESOFDATASET.intraAmerican ||
+        item === TYPESOFDATASET.texas
+    ) {
         textColor = '#ffffff';
     } else if (item === TYPESOFDATASETPEOPLE.allEnslavers) {
         textColor = '#ffffff';
@@ -85,18 +109,22 @@ export const getTextColor = (item: string) => {
     return textColor;
 };
 
-
 export const getColorNavbarBackground = (item: string) => {
     let background = 'rgb(55, 148, 141)';
     if (item === TYPESOFDATASET.allVoyages) {
         background = 'rgb(55, 148, 141)';
     } else if (item === TYPESOFDATASET.intraAmerican) {
         background = 'rgba(127, 118, 191)';
-    }
-    else if (item === TYPESOFDATASET.transatlantic) {
+    } else if (item === TYPESOFDATASET.transatlantic) {
         background = '#1976d2';
     } else if (item === TYPESOFDATASET.texas) {
         background = 'rgba(187, 105, 46)';
+    } else if (item === allEnslavers) {
+        background = '#3f9d82'
+    } else if (item === INTRAAMERICANTRADS) {
+        background = 'rgba(127, 118, 191)';
+    } else if (item === TRANSATLANTICTRADS) {
+        background = '#1976d2';
     }
     return background;
 };
@@ -113,7 +141,6 @@ export const getColorNavbarEnslavedBackground = (item: string) => {
     return background;
 };
 export const getColorHoverBackground = (item: string) => {
-
     let background = 'rgb(6 186 171 / 83%)';
     if (item === TYPESOFDATASET.allVoyages) {
         background = 'rgb(6 186 171 / 83%)';
@@ -129,11 +156,17 @@ export const getColorHoverBackground = (item: string) => {
         background = 'rgb(25, 118, 210)';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
         background = 'rgb(187, 105, 46)';
+    } else if (item === allEnslavers) {
+        background = 'rgb(6 186 171 / 83%)';
+    } else if (item === TRANSATLANTICTRADS) {
+        background = 'rgb(25, 118, 210)';
+    } else if (item === INTRAAMERICANTRADS) {
+        background = 'rgb(127, 118, 191)';
     }
+
     return background;
 };
 export const getColorTextCollection = (item: string) => {
-
     let textColor = 'rgb(0 205 188)';
     if (item === TYPESOFDATASET.allVoyages) {
         textColor = 'rgb(0 205 188)';
@@ -149,6 +182,12 @@ export const getColorTextCollection = (item: string) => {
         textColor = '#42a5f5';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
         textColor = 'rgb(237 100 2)';
+    } else if (item === allEnslavers) {
+        textColor = 'rgb(0 205 188)';
+    } else if (item === TRANSATLANTICTRADS) {
+        textColor = '#42a5f5';
+    } else if (item === INTRAAMERICANTRADS) {
+        textColor = 'rgb(230 150 243)';
     }
     return textColor;
 };
@@ -176,7 +215,6 @@ export const getColorHoverBackgroundCollection = (item: string) => {
     return boxShadow;
 };
 
-
 export const getColorBTNHoverEnslavedBackground = (item: string) => {
     let background = 'rgb(178, 148, 147)';
     if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
@@ -189,13 +227,13 @@ export const getColorBTNHoverEnslavedBackground = (item: string) => {
     return background;
 };
 export const getColorBTNHoverEnslaversBackground = (item: string) => {
-    let background = '#3f9d82';
-    if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
-        background = '#3f9d82';
-    } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
-        background = '#42a5f5';
-    } else if (item === TYPESOFDATASETPEOPLE.texas) {
-        background = 'rgb(237 100 2)';
+    let background = 'rgb(2 188 173)';
+    if (item === allEnslavers) {
+        background = 'rgb(2 188 173)';
+    } else if (item === TRANSATLANTICTRADS) {
+        background = 'rgb(25, 118, 210)';
+    } else if (item === INTRAAMERICANTRADS) {
+        background = 'rgb(127, 118, 191)';
     }
     return background;
 };
@@ -215,20 +253,23 @@ export const getColorBoxShadow = (item: string) => {
         boxShadow = '1px 2px 8px #42a5f5';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
         boxShadow = '1px 2px 8px rgb(237 100 2)';
+    } else if (item === allEnslavers) {
+        boxShadow = 'rgb(2 188 173) 1px 2px 8px';
+    } else if (item === TRANSATLANTICTRADS) {
+        boxShadow = '1px 2px 8px #42a5f5';
+    } else if (item === INTRAAMERICANTRADS) {
+        boxShadow = 'rgb(226, 134, 241) 1px 2px 8px';
     }
     return boxShadow;
 };
 
-
 export const getColorBoxShadowEnslaved = (item: string) => {
-
     let boxShadow = '1px 2px 8px#9c8180';
     if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
         boxShadow = '1px 2px 8px #9c8180';
     } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
         boxShadow = '1px 2px 8px #42a5f5';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
-
         boxShadow = '1px 2px 8px rgb(216 93 5)';
     }
     return boxShadow;
@@ -245,7 +286,6 @@ export const getColorBoxShadowEnslavers = (item: string) => {
     return boxShadow;
 };
 export const getIdStyleName = (idStyle: string) => {
-
     let idName = 'main-voyagepage';
     if (idStyle === TYPESOFDATASET.allVoyages) {
         idName = 'main-voyagepage';
@@ -259,7 +299,6 @@ export const getIdStyleName = (idStyle: string) => {
     return idName;
 };
 export const getIdStypleEnslaved = (idStyle: string) => {
-
     let idName = 'main-enslaved-home';
     if (idStyle === TYPESOFDATASETPEOPLE.allEnslaved) {
         idName = 'main-enslaved-home';
@@ -311,7 +350,6 @@ export const getBoderColor = (item: string) => {
 };
 
 export const getHeaderColomnColor = (item: string) => {
-
     let color = 'rgb(25, 118, 210)';
     if (item === TYPESOFDATASET.allVoyages) {
         color = '#007269';
@@ -327,8 +365,12 @@ export const getHeaderColomnColor = (item: string) => {
         color = 'rgb(2 83 204)';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
         color = 'rgb(167 70 0)';
-    } else if (item === 'enslaver') {
+    } else if (item === allEnslavers) {
         color = '#46a88c';
+    } else if (item === INTRAAMERICANTRADS) {
+        color = '#ab47bc';
+    } else if (item === TRANSATLANTICTRADS) {
+        color = 'rgb(2 83 204)';
     }
     return color;
 };

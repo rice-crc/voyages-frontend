@@ -30,7 +30,6 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
     const resetAllEstimate = () => {
         dispatch(resetAll());
         const keysToRemove = Object.keys(localStorage);
-
         keysToRemove.forEach((key) => {
             localStorage.removeItem(key);
         });
@@ -68,10 +67,8 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
                         </a>
                     </div>
                 </div>
-                <div>{(currentBlockName === 'tables' || currentBlockName === '') && <SaveSearchComponent />}</div>
-
+                <div>{(currentBlockName !== 'maps') && <SaveSearchComponent />}</div>
             </div>
-
         </div>
     )
 }

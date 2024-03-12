@@ -25,6 +25,7 @@ import {
   GlobalSearchEnslavedType,
   GlobalSearchEnslaversType,
   GlobalSearchVoyagesType,
+  allEnslavers,
 } from '@/share/CONST_DATA';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
@@ -133,7 +134,7 @@ const AutoGlobalSearchBar = () => {
       } else if (type === GlobalSearchEnslaversType) {
         dispatch(setCurrentEnslaversPage(1));
         dispatch(setCurrentBlockName('people'));
-        navigate(`${ENSALVERSPAGE}#people`);
+        navigate(`${ENSALVERSPAGE}/${allEnslavers}#people`);
       } else if (type === GlobalSearchBlogType) {
         navigate(`${BLOGPAGE}`);
       }

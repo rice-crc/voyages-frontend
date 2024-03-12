@@ -17,6 +17,9 @@ import {
   EnslaversTitle,
   ALLENSLAVEDPAGE,
   ENSALVERSTYLE,
+  allEnslavers,
+  INTRAAMERICANENSLAVERS,
+  TRANSATLANTICENSLAVERS,
 } from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { useDispatch } from 'react-redux';
@@ -50,7 +53,7 @@ export default function HeaderPeopleNavBar() {
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setPathNameEnslaved(ALLENSLAVED));
     } else if (item === EnslaversTitle) {
-      navigate(`${ENSALVERSPAGE}/${ENSALVERSTYLE}#people`);
+      navigate(`${ENSALVERSPAGE}/${allEnslavers}#people`);
       dispatch(setCurrentEnslaversPage(1));
       dispatch(setPathEnslavers(ALLENSLAVERS));
     } else {

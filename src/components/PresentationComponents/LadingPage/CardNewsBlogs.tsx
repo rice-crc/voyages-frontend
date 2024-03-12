@@ -5,7 +5,9 @@ import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import Carousel from "react-multi-carousel";
-
+import { Link } from 'react-router-dom';
+import { BLOGPAGE } from '@/share/CONST_DATA';
+import { formatTextURL } from '@/utils/functions/formatText';
 
 const responsive = {
     desktopM: {
@@ -51,9 +53,14 @@ export const CardNewsBlogs = () => {
                 const { thumbnail, title, id } = t;
                 const imageUrl = thumbnail ? `${BASEURL}${thumbnail}` : defaultImage;
                 return (
+
                     <div className="slider" key={id} >
-                        <img src={imageUrl} alt={title} />
+                        <Link to={`/${BLOGPAGE}/${formatTextURL(title)}/${id}`}>
+                            <img src={imageUrl} alt={title} className="content-image-slide" />
+                            <div className='carousel-caption'><h5>{title}</h5></div>
+                        </Link>
                     </div>
+
                 )
 
             })}

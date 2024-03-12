@@ -1,5 +1,5 @@
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { SaveSearchRequest } from '@/share/InterfaceTypes';
+import { Filter, SaveSearchRequest } from '@/share/InterfaceTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { fetchCommonMakeSavedSearch } from '@/fetch/saveSearch/fetchCommonMakeSavedSearch';
@@ -9,26 +9,42 @@ import { setListSaveSearchURL, setSaveSearchUrlID } from '@/redux/getSaveSearchS
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
     const { endpointPath, styleName, endpointPeopleDirect } = usePageRouter();
-    console.log({ endpointPath })
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { saveSearchUrlID, listSaveSearchURL } = useSelector((state: RootState) => state.getSaveSearch);
-    let endPointEstimate: string = ''
+
+    let endpointSaveURL: string = ''
+    if (endpointPeopleDirect === 'past/enslaved') {
+        endpointSaveURL = `${endpointPeopleDirect}/${styleName}`
+    } else if (endpointPeopleDirect === 'past/enslaver') {
+        endpointSaveURL = `${endpointPeopleDirect}/${styleName}`
+    } else if (endpointPath === 'voyage') {
+        endpointSaveURL = `${endpointPath}/${styleName}`
+    } else if (endpointPath === 'assessment') {
+        endpointSaveURL = `${endpointPath}/${styleName}`
+    }
     let endpointSaveSearch: string = ''
     if (endpointPeopleDirect === 'past/enslaved') {
         endpointSaveSearch = endpointPeopleDirect
     } else if (endpointPeopleDirect === 'past/enslaver') {
-        endpointSaveSearch = 'past/enslaver'
+        endpointSaveSearch = endpointPeopleDirect
     } else if (endpointPath === 'voyage') {
         endpointSaveSearch = endpointPath
     } else if (endpointPath === 'assessment') {
         endpointSaveSearch = endpointPath
-        endPointEstimate = `${endpointPath}`
+    }
+    console.log({ endpointSaveURL, endpointSaveSearch })
+
+    let filters: Filter[] = []
+    if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+        filters = filtersObj;
+    } else {
+        filters = filtersObj;
     }
     const dataSend: SaveSearchRequest = {
         endpoint: endpointSaveSearch,
-        query: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
+        query: filters,
     };
-    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointPath !== 'assessment' ? endpointSaveSearch : endPointEstimate}/${styleName ? `${styleName}` : ''}&id=${saveSearchUrlID}`
+    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
 
     const handleSaveSearch = () => {
         fetchData();

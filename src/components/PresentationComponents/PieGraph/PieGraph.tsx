@@ -17,6 +17,7 @@ import {
   PlotPIEX,
   PlotPIEY,
   IRootFilterObjectScatterRequest,
+  Filter,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import { getMobileMaxHeight, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
@@ -64,12 +65,18 @@ function PieGraph() {
       }
     );
   };
+  let filters: Filter[] = []
+  if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+    filters = filtersObj;
+  } else {
+    filters = filtersObj;
+  }
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: pieGraphOptions.x_vars,
     groupby_cols: [pieGraphOptions.y_vars],
     agg_fn: aggregation,
     cachename: 'voyage_bar_and_donut_charts',
-    filter: filtersObj?.[0]?.searchTerm?.length > 0 ? filtersObj : [],
+    filter: filters,
   };
 
   if (inputSearchValue) {

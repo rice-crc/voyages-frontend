@@ -3,7 +3,7 @@ import '@/style/estimates.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
-import { CreateAQueryLinkRequest } from '@/share/InterfaceTypes';
+import { CreateAQueryLinkRequest, Filter } from '@/share/InterfaceTypes';
 import { fetchQueryLinkSaveSearch } from '@/fetch/estimateFetch/fetchQueryLinkSaveSearch';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,10 +13,15 @@ const QueryLink = () => {
   const dispatch: AppDispatch = useDispatch();
   const [link, setNewLink] = useState<string>('');
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const navigate = useNavigate();
 
+  let filters: Filter[] = []
+  if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+    filters = filtersObj;
+  } else {
+    filters = filtersObj;
+  }
   const dataSend: CreateAQueryLinkRequest = {
-    filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : []
+    filter: filters
   };
   const fetchData = async () => {
     try {

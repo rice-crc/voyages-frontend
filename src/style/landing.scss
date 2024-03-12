@@ -79,7 +79,7 @@ $animationSpeed: 100s;
     height: fit-content;
     text-align: center;
     margin: 0;
-    padding: 2rem 0 4.5rem 0;
+    padding: 2rem 0 6.5rem 0;
 
     @include breakpoint-standard(5) {
         padding: 0 0 2rem 0;
@@ -697,7 +697,7 @@ $animationSpeed: 100s;
     height: fit-content;
     text-align: center;
     margin: 0;
-    padding: 3rem 0 10rem 0;
+    padding: 3rem 0 6rem 0;
 
     @include breakpoint-standard(5) {
         padding: 0 0 2rem 0;
@@ -787,7 +787,7 @@ $animationSpeed: 100s;
         .african-content-bg {
             background-color: rgba(203, 185, 155, 48%);
             padding: 3rem 0;
-            width: 65%;
+            width: 50%;
             display: flex;
             justify-content: flex-end;
 
@@ -817,7 +817,7 @@ $animationSpeed: 100s;
         }
 
         .african-img {
-            width: 80%;
+            width: 90%;
 
             @include breakpoint-standard(5) {
                 width: 100%;
@@ -849,11 +849,10 @@ $animationSpeed: 100s;
             // font-family: "Cormorant Garamond";
             color: rgba(0, 0, 0, 0.95);
             text-align: center;
-            width: 33%;
+            width: 50%;
             position: relative;
-            left: 8%;
             background: #ffff;
-            padding: 2rem;
+            padding: 2rem 4rem;
 
 
             @include breakpoint-standard(5) {
@@ -1017,21 +1016,120 @@ $animationSpeed: 100s;
     cursor: pointer;
 }
 
+.react-multi-carousel-dot-list {
+    bottom: 6.5rem !important;
+}
+
 .parent-carousel {
-    background-color: #3f3f3f;
-    height: 355px;
+    height: 350px;
 }
 
 .slider {
     margin: 0 20px;
-    overflow: "hidden";
+    overflow: hidden;
     padding: 2rem 0;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.carousel-caption {
+    padding: 1rem 1.5rem;
+    position: relative;
+    bottom: 11rem;
+
+    h5 {
+        background-color: rgb(0, 0, 0, 0.3);
+        padding: 1rem;
+        border-radius: 2px;
+        color: #fff;
+        font-size: 1.20rem;
+        height: 100px;
+
+        @include breakpoint-standard(7) {
+            font-size: 1.1rem;
+        }
+
+        @include breakpoint-standard(6) {
+            font-size: 1rem;
+        }
+
+        @include breakpoint-standard(5) {
+            font-size: 0.95rem;
+        }
+
+        @include breakpoint-standard(4) {
+            font-size: 0.95rem;
+        }
+
+        @include breakpoint-standard(3) {
+            font-size: 0.95rem;
+        }
+
+        @include breakpoint-standard(2) {
+            font-size: 0.95rem;
+        }
+
+        @include breakpoint-standard(1) {
+            font-size: 0.95rem;
+        }
+
+        @include breakpoint-standard(0) {
+            font-size: 0.95rem;
+        }
+    }
+}
+
+.react-multiple-carousel__arrow--left {
+    left: calc(2% + 1px) !important;
+}
+
+.react-multiple-carousel__arrow--right {
+    right: calc(2% + 1px) !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+}
+
+.react-multiple-carousel__arrow {
+    top: 9rem !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
 }
 
 .slider img {
     width: 100%;
     border-radius: 10px;
-    height: 260px;
+    height: 300px;
+    box-shadow: 8px 8px 5px 2px #3f3f3f;
+
+    @include breakpoint-standard(6) {
+        height: 280px;
+    }
+
+    @include breakpoint-standard(5) {
+        height: 270px;
+    }
+
+    @include breakpoint-standard(4) {
+        height: 250px;
+    }
+
+    @include breakpoint-standard(3) {
+        height: 250px;
+    }
+
+    @include breakpoint-standard(2) {
+        height: 250px;
+    }
+
+    @include breakpoint-standard(1) {
+        height: 250px;
+    }
+
+    @include breakpoint-standard(0) {
+        height: 250px;
+    }
 }
 
 .react-multi-carousel-dot button {

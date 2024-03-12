@@ -9,12 +9,12 @@ interface HeaderTitleProps {
 }
 export const HeaderTitle = (props: HeaderTitleProps) => {
   const { textHeader, HeaderTitle, pathLink, onClickReset } = props;
-  const { styleName: styleNameRoute, endpointPath } = usePageRouter();
+  const { styleName: endpointPath } = usePageRouter();
 
   return (
     <div className="enslaved-header-subtitle">
       <Link
-        to={endpointPath !== VOYAGEPATHENPOINT ? `/${pathLink}` : ''}
+        to={endpointPath !== VOYAGEPATHENPOINT ? `${pathLink}` : ''}
         onClick={onClickReset}
         style={{
           textDecoration: 'none',

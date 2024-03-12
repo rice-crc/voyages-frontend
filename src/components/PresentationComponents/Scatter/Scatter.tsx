@@ -15,6 +15,7 @@ import {
   RangeSliderState,
   CurrentPageInitialState,
   IRootFilterObjectScatterRequest,
+  Filter,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import '@/style/page.scss';
@@ -81,13 +82,18 @@ function Scatter() {
       }
     );
   }, []);
-
+  let filters: Filter[] = []
+  if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+    filters = filtersObj;
+  } else {
+    filters = filtersObj;
+  }
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: scatterOptions.x_vars,
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_xyscatter',
-    filter: filtersObj?.[0]?.searchTerm?.length > 0 ? filtersObj : [],
+    filter: filters
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue

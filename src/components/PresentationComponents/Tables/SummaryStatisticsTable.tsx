@@ -52,7 +52,7 @@ const SummaryStatisticsTable = () => {
     );
     let filters: Filter[] = [];
     if (styleNameRoute === 'trans-atlantic') {
-        if (filtersObj[0]?.searchTerm?.length > 0) {
+        if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
             filters = filtersObj
         } else {
             filters.push({
@@ -62,12 +62,12 @@ const SummaryStatisticsTable = () => {
             });
         }
     } else {
-        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
+        filters = Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 ? filtersObj : [];
     }
 
     const dataSend: SummaryStatisticsTableRequest = {
         mode: mode,
-        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters,
+        filter: Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 ? filtersObj : filters,
     };
 
 

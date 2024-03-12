@@ -5,36 +5,121 @@ import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { EnslaversTitle, PASTHOMEPAGE } from '@/share/CONST_DATA';
+import { ALLENSLAVERS, EnslaversTitle, INTRAAMERICANENSLAVERS, INTRAAMERICANTRADS, PASTHOMEPAGE, TRANSATLANTICENSLAVERS, TRANSATLANTICTRADS, allEnslavers } from '@/share/CONST_DATA';
 import CanscandingMenu from '@/components/SelectorComponents/Cascading/CanscandingMenu';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import '@/style/Nav.scss';
-import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
 import HeaderLogo from './HeaderLogo';
+import { BaseFilter, DataSetCollectionProps } from '@/share/InterfactTypesDatasetCollection';
+import { DatasetButton } from './DatasetButton';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { Filter } from '@/share/InterfaceTypes';
+import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground, getColorNavbarBackground } from '@/utils/functions/getColorStyle';
+import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
+import { setBaseFilterEnslaversDataSetValue, setDataSetEnslaversHeader, setEnslaversBlocksMenuList, setEnslaversFilterMenuFlatfile, setEnslaversStyleName, setPeopleTableEnslavedFlatfile } from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
+import { useNavigate } from 'react-router-dom';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const { value, textHeader } = useSelector(
+    (state: RootState) => state.getEnslaverDataSetCollections
+  );
+  const { currentBlockName } = useSelector(
+    (state: RootState) => state.getScrollEnslaversPage
+  );
+  const { styleName: styleNameRoute } = usePageRouter()
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
 
+
+  const [isClick, setIsClick] = useState(false);
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
   };
+
+  const styleNameToPathMap: { [key: string]: string } = {
+    [allEnslavers]: `${ALLENSLAVERS}/${allEnslavers}#${currentBlockName}`,
+    [INTRAAMERICANTRADS]: `${ALLENSLAVERS}${INTRAAMERICANENSLAVERS}#${currentBlockName}`,
+    [TRANSATLANTICTRADS]: `${ALLENSLAVERS}${TRANSATLANTICENSLAVERS}#${currentBlockName}`,
+  };
+
+
   const onClickResetOnHeader = () => {
+
+    dispatch(resetAll());
+    dispatch(resetBlockNameAndPageName());
     dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
   };
+
+  const handleSelectEnslaversDataset = (
+    baseFilter: BaseFilter[],
+    textHeder: string,
+    textIntro: string,
+    styleName: string,
+    blocks: string[],
+    filterMenuFlatfile?: string,
+    tableFlatfile?: string
+  ) => {
+
+    dispatch(resetAll());
+    const filters: Filter[] = [];
+
+    setIsClick(!isClick);
+    dispatch(setBaseFilterEnslaversDataSetValue(baseFilter));
+
+    for (const base of baseFilter) {
+      filters.push({
+        varName: base.var_name,
+        searchTerm: base.value,
+        op: "exact"
+      })
+
+      dispatch(setFilterObject(filters));
+    }
+    if (filters) {
+      localStorage.setItem('filterObject', JSON.stringify({
+        filter: filters
+      }));
+    } else {
+      localStorage.setItem('filterObject', JSON.stringify({
+        filter: filters
+      }));
+    }
+    dispatch(setDataSetEnslaversHeader(textHeder));
+    dispatch(setEnslaversStyleName(styleName));
+    dispatch(setEnslaversBlocksMenuList(blocks));
+    dispatch(setEnslaversFilterMenuFlatfile(filterMenuFlatfile ? filterMenuFlatfile : '')
+    );
+    dispatch(
+      setPeopleTableEnslavedFlatfile(tableFlatfile ? tableFlatfile : '')
+    );
+
+
+    if (styleNameToPathMap[styleName]) {
+      navigate(styleNameToPathMap[styleName]);
+    }
+
+    const keysToRemove = Object.keys(localStorage);
+
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
+
 
   return (
     <Box
@@ -45,6 +130,10 @@ const HeaderEnslaversNavBar: React.FC = () => {
       <AppBar
         component="nav"
         className='nav-enslavers'
+        style={{
+          backgroundColor: getColorNavbarBackground(styleNameRoute!),
+          paddingTop: 5
+        }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
@@ -58,20 +147,12 @@ const HeaderEnslaversNavBar: React.FC = () => {
             <span className='header-logo-icon'>
               <HeaderLogo />
               <HeaderTitle
-                textHeader={''}
+                textHeader={textHeader}
                 HeaderTitle={EnslaversTitle}
-                pathLink={PASTHOMEPAGE}
+                pathLink={`/${PASTHOMEPAGE}`}
                 onClickReset={onClickResetOnHeader}
               />
             </span>
-
-            <Divider
-              sx={{
-                width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
-                borderWidth: '0.25px',
-                borderClor: 'rgb(0 0 0 / 50%)',
-              }}
-            />
             <Typography
               component="div"
               variant="body1"
@@ -107,9 +188,27 @@ const HeaderEnslaversNavBar: React.FC = () => {
                 fontSize: 20,
               },
             }}
-          ></Box>
+          >
+            {value.map((item: DataSetCollectionProps, index: number) => (
+              <DatasetButton
+                key={`${item}-${index}`}
+                item={item}
+                index={index}
+                handleSelectDataset={handleSelectEnslaversDataset}
+                getColorBoxShadow={getColorBoxShadow}
+                getColorBTNBackground={getColorBTNVoyageDatasetBackground}
+                getColorHover={getColorHoverBackground}
+              />
+            ))}
+          </Box>
         </Toolbar>
         <Hidden mdDown>
+          <Divider
+            sx={{
+              borderWidth: '0.25px',
+              borderClor: 'rgb(0 0 0 / 50%)',
+            }}
+          />
           <CanscandingMenu />
         </Hidden>
       </AppBar>
@@ -128,3 +227,4 @@ const HeaderEnslaversNavBar: React.FC = () => {
 };
 
 export default HeaderEnslaversNavBar;
+

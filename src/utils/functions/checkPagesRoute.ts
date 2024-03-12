@@ -5,6 +5,8 @@ import {
     ENSALVERSTYLE,
     ENSLAVEDTEXAS,
     ESTIMATES,
+    INTRAAMERICANTRADS,
+    TRANSATLANTICTRADS,
 } from '@/share/CONST_DATA';
 import { TYPESOFDATASET } from '@/share/InterfaceTypes';
 
@@ -50,6 +52,8 @@ export const checkPagesRouteForEnslavers = (pathStyleRoute: string) => {
 
     switch (pathStyleRoute) {
         case ENSALVERSTYLE:
+        case INTRAAMERICANTRADS:
+        case TRANSATLANTICTRADS:
             return true;
         default:
             return false;

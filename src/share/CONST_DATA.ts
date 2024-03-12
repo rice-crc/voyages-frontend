@@ -42,6 +42,11 @@ export const BLOGPAGE = 'Blog'
 export const ALLENSLAVERS = '/past/enslaver'
 export const ENSALVERSPAGE = '/past/enslaver'
 export const ENSALVERSTYLE = 'enslaver'
+export const INTRAAMERICANENSLAVERS = '/intra-american-trades'
+export const TRANSATLANTICENSLAVERS = '/trans-atlantic-trades'
+export const allEnslavers = 'enslaver'
+export const INTRAAMERICANTRADS = 'intra-american-trades'
+export const TRANSATLANTICTRADS = 'trans-atlantic-trades'
 
 
 export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGhqMXZ5YmxjZCJ9.eP7ZuC68Q5iBZQa8I13AGw`;

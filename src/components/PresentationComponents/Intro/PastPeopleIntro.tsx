@@ -12,8 +12,8 @@ import {
   ALLENSLAVERS,
   ENSALVEDPAGE,
   ENSALVERSPAGE,
-  ENSALVERSTYLE,
-  PASTHOMEPAGE,
+  TRANSATLANTICENSLAVERS,
+  allEnslavers,
 } from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
@@ -70,7 +70,7 @@ const PastPeopleIntro = () => {
                   <div className="enslaved-btn">Enslaved</div>
                 </Link>
                 <Link
-                  to={`${ENSALVERSPAGE}/${ENSALVERSTYLE}#people`}
+                  to={`${ENSALVERSPAGE}/${allEnslavers}#people`}
                   style={{ textDecoration: 'none' }}
                   onClick={() => {
                     dispatch(setCurrentEnslaversPage(1));

@@ -47,7 +47,9 @@ import {
     AFRICANORIGINS,
     ENSLAVEDTEXAS,
     INTRAAMERICAN,
+    INTRAAMERICANTRADS,
     TRANSATLANTICPATH,
+    TRANSATLANTICTRADS,
 } from '@/share/CONST_DATA';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 
@@ -65,6 +67,7 @@ const Tables: React.FC = () => {
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
+    console.log({ data })
     const { isChangeAuto, autoLabelName } = useSelector(
         (state: RootState) => state.autoCompleteList
     );
@@ -139,10 +142,14 @@ const Tables: React.FC = () => {
         };
     }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute]);
 
-    let filters: Filter[] =
-        filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
-    if (filtersObj[0]?.searchTerm?.length > 0) {
-        filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters;
+    let filters: Filter[] = []
+
+
+    if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
+        filters = filtersObj;
+    } else if (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+        console.log({ styleNameRoute })
+        filters = filtersObj;
     } else if (styleNameRoute === TRANSATLANTICPATH) {
         filters.push({
             varName: 'dataset',
@@ -167,6 +174,18 @@ const Tables: React.FC = () => {
             varName: 'dataset',
             searchTerm: [0, 0],
             op: 'in',
+        });
+    } else if (styleNameRoute === TRANSATLANTICTRADS) {
+        filters.push({
+            varName: 'aliases__enslaver_relations__relation__voyage__dataset',
+            searchTerm: 0,
+            op: "exact"
+        });
+    } else if (styleNameRoute === INTRAAMERICANTRADS) {
+        filters.push({
+            varName: 'aliases__enslaver_relations__relation__voyage__dataset',
+            searchTerm: 1,
+            op: "exact"
         });
     }
 
@@ -228,7 +247,7 @@ const Tables: React.FC = () => {
         isChangeGeoTree,
         isChangeAuto,
         autoLabelName,
-        currentBlockName,
+        currentBlockName, styleNameRoute
     ]);
 
     const saveDataToLocalStorage = useCallback(
@@ -264,7 +283,7 @@ const Tables: React.FC = () => {
         dispatch,
         tableFlatfileVoyages,
         tableFlatfileEnslaved,
-        tableFlatfileEnslavers,
+        tableFlatfileEnslavers, tablesCell
     ]);
 
     const defaultColDef = useMemo(

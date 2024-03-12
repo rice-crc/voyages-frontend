@@ -25,14 +25,17 @@ import {
   ENSALVERSTYLE,
   ENSLAVEDTEXASPAGE,
   ESTIMATES,
+  INTRAAMERICANENSLAVERS,
   INTRAAMERICANPAGE,
   INTRODUCTORYMAPS,
   LESSONPLANS,
   PASTHOMEPAGE,
   TIMELAPSEPAGE,
+  TRANSATLANTICENSLAVERS,
   TRANSATLANTICPAGE,
   USESAVESEARCHURL,
   VOYAGESTEXASPAGE,
+  allEnslavers,
 } from '@/share/CONST_DATA';
 import BlogPage from '@/pages/BlogPage';
 
@@ -131,9 +134,18 @@ const App: React.FC = () => {
             element={<EnslavedHomePage />}
           />
           <Route
-            path={`${ENSALVERSPAGE}/${ENSALVERSTYLE}`}
+            path={`${ENSALVERSPAGE}/${allEnslavers}`}
             element={<EnslaversHomePage />}
           />
+          <Route
+            path={`${ENSALVERSPAGE}${INTRAAMERICANENSLAVERS}`}
+            element={<EnslaversHomePage />}
+          />
+          <Route
+            path={`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}`}
+            element={<EnslaversHomePage />}
+          />
+
           {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}
           <Route path={`${DOCUMENTPAGE}`} element={<DocumentPageHold />} />
           <Route path={`${BLOGPAGE}`} element={<BlogPage />} />

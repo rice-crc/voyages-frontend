@@ -63,7 +63,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
 
-  const { value, textHeader, styleName, } = useSelector(
+  const { value, textHeader } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
 
@@ -100,7 +100,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           searchTerm: base.value,
           op: "in"
         })
-
         dispatch(setFilterObject(filters));
       }
       if (filters) {
@@ -233,11 +232,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               },
             }}
           >
-            {/* <Box
-              className="menu-nav-bar-select"
-            >
-              Select dataset
-            </Box> */}
             {value.map((item: DataSetCollectionProps, index: number) => {
               return (
                 <DatasetButton
