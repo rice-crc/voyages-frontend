@@ -31,6 +31,7 @@ import Tables from '@/components/PresentationComponents/Tables/Tables';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
 import { setFilterObject } from '@/redux/getFilterSlice';
+import { Divider } from 'antd';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -155,6 +156,7 @@ const VoyagesPage = () => {
         <CollectionTabVoyages />
         <Grid id="content-container">{displayPage}</Grid>
       </div>
+      <Divider />
     </div>
   );
 };

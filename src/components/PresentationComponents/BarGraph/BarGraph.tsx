@@ -58,11 +58,13 @@ function BarGraph() {
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   ]);
 
+
   const [barGraphOptions, setBarOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
     y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   });
   const maxWidth = maxWidthSize(width);
+
   const [aggregation, setAggregation] = useState<string>('sum');
   const VoyageBargraphOptions = useCallback(() => {
     Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(
@@ -187,13 +189,12 @@ function BarGraph() {
         aggregation={aggregation}
       />
 
-      <Grid className="voyages-data-grid">
+      <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
         <Plot
           data={barData}
           layout={{
-            width: getMobileMaxWidth(maxWidth),
+            width: getMobileMaxWidth(maxWidth - 5),
             height: getMobileMaxHeight(height),
-            // title: title || barGraphSelectedX[0]?.label,
             title: 'Bar Graph',
             font: {
               family: 'Arial, sans-serif',

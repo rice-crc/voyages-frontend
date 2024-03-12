@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '@/style/landing.scss';
 import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
 import { setBlogData, setBlogPost } from '@/redux/getBlogDataSlice';
@@ -7,12 +7,10 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { BlogDataProps, BlogDataPropsRequest, BlogFilter, InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import { CardNewsBlogs } from './CardNewsBlogs';
-import { ButtonNextPrevBlog } from '@/components/SelectorComponents/ButtonComponents/ButtonNextPrevBlog';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 
 const ArtInspiredBySlaveVoyages: React.FC = () => {
     const imagesPerPage = 127
-    const [moveClass, setMoveClass] = useState('slide-track slider');
     const { data: carouselItems } = useSelector(
         (state: RootState) => state.getBlogData as InitialStateBlogProps
     );
@@ -26,27 +24,6 @@ const ArtInspiredBySlaveVoyages: React.FC = () => {
             carouselItems.length.toString()
         );
     }, [carouselItems]);
-
-    const handleAnimationEnd = () => {
-        if (moveClass === 'prev') {
-            shiftNext([...carouselItems]);
-        } else if (moveClass === 'next') {
-            shiftPrev([...carouselItems]);
-        }
-        setMoveClass('');
-    };
-
-    const shiftPrev = (copy: any) => {
-        let lastcard = copy.pop();
-        copy.splice(0, 0, lastcard);
-        dispatch(setBlogData(copy));
-    };
-
-    const shiftNext = (copy: any) => {
-        let firstcard = copy.shift();
-        copy.splice(copy.length, 0, firstcard);
-        dispatch(setBlogData(copy));
-    };
 
     const effectOnce = useRef(false);
     const fetchDataBlog = async () => {
@@ -90,24 +67,7 @@ const ArtInspiredBySlaveVoyages: React.FC = () => {
                 </p>
                 <ButtonLearnMore path={BLOGPAGE} />
             </div>
-
-            <div className="carouselwrapper module-wrapper">
-                <ButtonNextPrevBlog setMoveClass={setMoveClass} />
-                <ul
-                    onAnimationEnd={handleAnimationEnd}
-                    className={`${moveClass} carousel`}
-                >
-                    {carouselItems.length > 0 &&
-                        carouselItems.map((t, index) => (
-                            <CardNewsBlogs
-                                key={t?.title + index}
-                                thumbnail={t?.thumbnail!}
-                                title={t?.title!}
-                                id={t?.id!}
-                            />
-                        ))}
-                </ul>
-            </div>
+            <CardNewsBlogs />
         </div>
     );
 };

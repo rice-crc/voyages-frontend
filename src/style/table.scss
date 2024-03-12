@@ -266,6 +266,10 @@ div .customHeaderLabelSummaryTable {
   align-items: center;
   padding: 10px 0;
 
+  .css-1to7aaw-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    background-color: var(--pagination-table--, --pagination-table--);
+  }
+
   nav>ul>li>button:focus {
     background-color: var(--pagination-table--, --pagination-table--);
   }

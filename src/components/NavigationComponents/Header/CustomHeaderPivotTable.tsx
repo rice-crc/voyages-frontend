@@ -53,8 +53,7 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     filter,
     setTotalResultsCount, page, setPage
   } = props;
-  const { querySaveSearch } = useSelector((state: RootState) => state.getQuerySaveSearch);
-  console.log({ querySaveSearch })
+
   const dispatch: AppDispatch = useDispatch();
   const [ascSort, setAscSort] = useState<string>('inactive');
   const [descSort, setDescSort] = useState<string>('inactive');

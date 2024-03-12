@@ -79,7 +79,7 @@ $animationSpeed: 100s;
     height: fit-content;
     text-align: center;
     margin: 0;
-    padding: 3rem 0 10rem 0;
+    padding: 2rem 0 4.5rem 0;
 
     @include breakpoint-standard(5) {
         padding: 0 0 2rem 0;
@@ -408,7 +408,7 @@ $animationSpeed: 100s;
     .shouth-sea-content-bg {
         background-color: var(--color-bg);
         padding: 3rem 0;
-        width: 67%;
+        width: 50%;
 
         @include breakpoint-standard(5) {
             width: 100%;
@@ -438,12 +438,10 @@ $animationSpeed: 100s;
 
 
     .shouth-sea-content-detail {
-        // font-family: "Cormorant Garamond";
         color: rgba(0, 0, 0, 0.95);
         text-align: center;
-        width: 33%;
-        position: relative;
-        right: 8%;
+        width: 45%;
+        padding-right: 2%;
 
         @include breakpoint-standard(5) {
             width: 70%;
@@ -583,7 +581,7 @@ $animationSpeed: 100s;
         .enslavers-content-bg {
             background-color: rgb(203, 185, 155, 54%);
             padding: 3rem 0;
-            width: 60%;
+            width: 50%;
 
             @include breakpoint-standard(5) {
                 width: 100%;
@@ -614,9 +612,9 @@ $animationSpeed: 100s;
             // font-family: "Cormorant Garamond";
             color: rgba(0, 0, 0, 0.95);
             text-align: center;
-            width: 40%;
+            width: 45%;
             position: relative;
-            right: 8%;
+            right: 2%;
 
             @include breakpoint-standard(5) {
                 width: 70%;
@@ -681,7 +679,7 @@ $animationSpeed: 100s;
             }
 
             p {
-                padding: 2rem;
+                padding: 2rem 5rem;
                 font-size: 1.12rem;
                 font-weight: 400;
 
@@ -965,7 +963,7 @@ $animationSpeed: 100s;
 }
 
 .register-img {
-    width: auto;
+    width: 90%;
 
     @include breakpoint-standard(5) {
         width: 100%;
@@ -1017,4 +1015,38 @@ $animationSpeed: 100s;
 .slide-track:hover {
     animation-play-state: paused;
     cursor: pointer;
+}
+
+.parent-carousel {
+    background-color: #3f3f3f;
+    height: 355px;
+}
+
+.slider {
+    margin: 0 20px;
+    overflow: "hidden";
+    padding: 2rem 0;
+}
+
+.slider img {
+    width: 100%;
+    border-radius: 10px;
+    height: 260px;
+}
+
+.react-multi-carousel-dot button {
+    width: 15px !important;
+    height: 15px !important;
+    border-radius: 50%;
+}
+
+
+.custom-dot-list-style button {
+    border: none;
+    background: rgb(249, 249, 249);
+
+}
+
+.react-multi-carousel-dot.react-multi-carousel-dot--active button {
+    background: rgb(255, 255, 255) !important;
 }

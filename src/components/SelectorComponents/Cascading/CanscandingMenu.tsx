@@ -11,6 +11,7 @@ import { setPeopleEnslavedBlocksMenuList } from '@/redux/getPeopleEnslavedDataSe
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
 import SaveSearchComponent from '@/components/FilterComponents/SaveSearchComponent/SaveSearchComponent';
 import '@/style/Nav.scss'
+import { VOYAGE } from '@/share/CONST_DATA';
 
 export default function CanscandingMenu(props: CanscandingMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -18,6 +19,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
     (state: RootState) => state.rangeSlider
   );
   const { currentBlockName } = usePageRouter();
+  console.log({ currentBlockName })
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
@@ -61,7 +63,8 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
           </div>
         </Hidden>
       </Toolbar>
-      <SaveSearchComponent />
+      {(currentBlockName === VOYAGE || currentBlockName === 'people') && <SaveSearchComponent />}
+
     </div>
   );
 }

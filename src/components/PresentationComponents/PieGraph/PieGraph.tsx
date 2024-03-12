@@ -147,7 +147,7 @@ function PieGraph() {
         aggregation={aggregation}
       />
       {plotX.length > 0 && !isPlotYZeroAll ? (
-        <Grid className="voyages-data-grid">
+        <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
           <Plot
             data={[
               {
@@ -163,7 +163,7 @@ function PieGraph() {
               },
             ]}
             layout={{
-              width: getMobileMaxWidth(maxWidth),
+              width: getMobileMaxWidth(maxWidth - 5),
               height: getMobileMaxHeight(height),
               title: `The ${aggregation} of ${optionFlat[pieGraphOptions.x_vars]?.label || ''
                 } vs <br> ${optionFlat[pieGraphOptions.y_vars]?.label || ''

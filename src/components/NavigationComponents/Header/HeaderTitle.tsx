@@ -9,7 +9,7 @@ export const HeaderTitle = (props: HeaderTitleProps) => {
   const { textHeader, HeaderTitle, pathLink, onClickReset } = props;
 
   return (
-    <div className="enslaved-header" style={{ color: '#000000' }}>
+    <div className="enslaved-header-subtitle">
       <Link
         to={`/${pathLink}`}
         onClick={onClickReset}
@@ -20,8 +20,8 @@ export const HeaderTitle = (props: HeaderTitleProps) => {
       >
         {HeaderTitle}
       </Link>
-      {textHeader && <span className="enslaved-title">:</span>}
-      <div className="enslaved-header-subtitle">{textHeader}</div>
+      {textHeader && <span className="enslaved-title">-</span>}
+      <div >{textHeader}</div>
     </div>
   );
 };

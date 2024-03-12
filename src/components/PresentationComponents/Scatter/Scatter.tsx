@@ -195,11 +195,11 @@ function Scatter() {
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-      <Grid className="voyages-data-grid">
+      <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
         <Plot
           data={scatterData}
           layout={{
-            width: getMobileMaxWidth(maxWidth),
+            width: getMobileMaxWidth(maxWidth - 5),
             height: getMobileMaxHeight(height),
             title: 'Line Graph',
             font: {

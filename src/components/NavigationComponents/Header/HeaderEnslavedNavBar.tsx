@@ -204,14 +204,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 onClickReset={onClickResetOnHeader}
               />
             </span>
-
-            <Divider
-              sx={{
-                width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
-                borderWidth: '0.25px',
-                borderClor: 'rgb(0 0 0 / 50%)',
-              }}
-            />
             <Typography
               component="div"
               variant="body1"
@@ -232,6 +224,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
 
             </Typography>
           </Typography>
+
           <CanscandingMenuMobile />
           <Box
             className="menu-nav-bar-select-box"
@@ -248,9 +241,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
               },
             }}
           >
-            <Box className="menu-nav-bar-select" >
+            {/* <Box className="menu-nav-bar-select" >
               Select dataset
-            </Box>
+            </Box> */}
             {value.map((item: DataSetCollectionProps, index: number) => (
               <DatasetButton
                 key={`${item}-${index}`}
@@ -264,6 +257,12 @@ const HeaderEnslavedNavBar: React.FC = () => {
             ))}
           </Box>
         </Toolbar>
+        <Divider
+          sx={{
+            borderWidth: '0.25px',
+            borderClor: 'rgb(0 0 0 / 50%)',
+          }}
+        />
         <Hidden mdDown>
           <CanscandingMenu />
         </Hidden>

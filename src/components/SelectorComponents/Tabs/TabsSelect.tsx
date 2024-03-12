@@ -1,4 +1,3 @@
-import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import { Divider, Tabs } from 'antd';
 import '@/style/cards.scss';
 import { setValueVariable } from '@/redux/getCardFlatObjectSlice';
