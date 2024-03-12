@@ -67,7 +67,7 @@ const Tables: React.FC = () => {
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
-    console.log({ data })
+
     const { isChangeAuto, autoLabelName } = useSelector(
         (state: RootState) => state.autoCompleteList
     );
@@ -148,7 +148,6 @@ const Tables: React.FC = () => {
     if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
         filters = filtersObj;
     } else if (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
-        console.log({ styleNameRoute })
         filters = filtersObj;
     } else if (styleNameRoute === TRANSATLANTICPATH) {
         filters.push({
@@ -269,7 +268,6 @@ const Tables: React.FC = () => {
                 : checkPagesRouteForEnslavers(styleNameRoute!)
                     ? tableFlatfileEnslavers
                     : null;
-
         updateColumnDefsAndRowData(
             data,
             visibleColumnCells,

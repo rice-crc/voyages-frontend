@@ -32,7 +32,6 @@ const DropDownSaveSearch = () => {
     } else if (endpointPath === 'assessment') {
         endpointSaveSearch = endpointPath
     }
-    console.log({ endpointSaveURL, endpointSaveSearch })
 
     let filters: Filter[] = []
     if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {

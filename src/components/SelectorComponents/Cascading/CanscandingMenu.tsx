@@ -32,7 +32,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
       dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
     }
 
-  }, [styleNamePeople, currentBlockName,]);
+  }, [styleNamePeople, currentBlockName]);
 
   const handleResetAll = () => {
     dispatch(resetAllStateToInitailState())

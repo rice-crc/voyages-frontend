@@ -70,7 +70,7 @@ const PastPeopleIntro = () => {
                   <div className="enslaved-btn">Enslaved</div>
                 </Link>
                 <Link
-                  to={`${ENSALVERSPAGE}/${allEnslavers}#people`}
+                  to={`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}#people`}
                   style={{ textDecoration: 'none' }}
                   onClick={() => {
                     dispatch(setCurrentEnslaversPage(1));

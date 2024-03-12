@@ -133,10 +133,7 @@ const App: React.FC = () => {
             path={`${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
             element={<EnslavedHomePage />}
           />
-          <Route
-            path={`${ENSALVERSPAGE}/${allEnslavers}`}
-            element={<EnslaversHomePage />}
-          />
+
           <Route
             path={`${ENSALVERSPAGE}${INTRAAMERICANENSLAVERS}`}
             element={<EnslaversHomePage />}
@@ -145,7 +142,10 @@ const App: React.FC = () => {
             path={`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}`}
             element={<EnslaversHomePage />}
           />
-
+          <Route
+            path={`${ENSALVERSPAGE}/${allEnslavers}`}
+            element={<EnslaversHomePage />}
+          />
           {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}
           <Route path={`${DOCUMENTPAGE}`} element={<DocumentPageHold />} />
           <Route path={`${BLOGPAGE}`} element={<BlogPage />} />
