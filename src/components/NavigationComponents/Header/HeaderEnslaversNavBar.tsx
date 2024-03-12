@@ -13,10 +13,10 @@ import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
+import HeaderLogo from './HeaderLogo';
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-
 
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
@@ -55,12 +55,16 @@ const HeaderEnslaversNavBar: React.FC = () => {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <HeaderTitle
-              textHeader={''}
-              HeaderTitle={EnslaversTitle}
-              pathLink={PASTHOMEPAGE}
-              onClickReset={onClickResetOnHeader}
-            />
+            <span className='header-logo-icon'>
+              <HeaderLogo />
+              <HeaderTitle
+                textHeader={''}
+                HeaderTitle={EnslaversTitle}
+                pathLink={PASTHOMEPAGE}
+                onClickReset={onClickResetOnHeader}
+              />
+            </span>
+
             <Divider
               sx={{
                 width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },

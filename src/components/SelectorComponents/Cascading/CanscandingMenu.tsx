@@ -19,7 +19,6 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
     (state: RootState) => state.rangeSlider
   );
   const { currentBlockName } = usePageRouter();
-  console.log({ currentBlockName })
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );

@@ -81,7 +81,7 @@ const Tables: React.FC = () => {
         (state: RootState) => state.getGeoTreeData
     );
     // Voyages States
-    const { tableFlatfileVoyages, styleName } = useSelector(
+    const { tableFlatfileVoyages } = useSelector(
         (state: RootState) => state.getDataSetCollection
     );
     const { currentPage } = useSelector(
@@ -122,7 +122,9 @@ const Tables: React.FC = () => {
                 .map((cell: any) => cell.colID);
             dispatch(setVisibleColumn(visibleColumns));
         }
-        const headerColor = getHeaderColomnColor(styleName!);
+
+        const headerColor = getHeaderColomnColor(styleNameRoute!);
+
         document.documentElement.style.setProperty(
             '--pagination-table--',
             headerColor
@@ -135,7 +137,7 @@ const Tables: React.FC = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleName]);
+    }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute]);
 
     let filters: Filter[] =
         filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
@@ -222,7 +224,6 @@ const Tables: React.FC = () => {
         visibleColumnCells,
         inputSearchValue,
         styleNamePeople,
-        styleName,
         isChange,
         isChangeGeoTree,
         isChangeAuto,

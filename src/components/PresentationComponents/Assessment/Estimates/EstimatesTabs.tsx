@@ -53,7 +53,8 @@ const EstimatesTabs = () => {
             label: 'Maps',
             children: (
                 <Box sx={styleCardEstimate} className="estimate-tab">
-                    <VoyagesMaps />{' '}
+                    Map is coming soon
+                    {/* <VoyagesMaps />{' '} */}
                 </Box>
             ),
         },

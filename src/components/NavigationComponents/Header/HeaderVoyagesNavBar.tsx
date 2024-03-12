@@ -38,7 +38,6 @@ import {
   INTRAAMERICANPAGE,
   TRANSATLANTIC,
   TRANSATLANTICPAGE,
-  VOYAGESPAGE,
   VOYAGESTEXAS,
   VOYAGESTEXASPAGE,
   VOYAGETILE,
@@ -162,8 +161,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
         component="nav"
         style={{
           backgroundColor: getColorNavbarBackground(styleNameRoute!),
-          fontSize: 12,
-          boxShadow: 'none',
+          paddingTop: 5
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -196,13 +194,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 onClickReset={onClickReset}
               />
             </span>
-            {/* <Divider
-              sx={{
-                // width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
-                borderWidth: '0.25px',
-                borderClor: 'rgb(0 0 0 / 50%)',
-              }}
-            /> */}
             <Typography
               component="div"
               variant="body1"

@@ -68,8 +68,6 @@ export default function HeaderPeopleNavBar() {
         component="nav"
         style={{
           backgroundColor: '#ffffff',
-          fontSize: 12,
-          boxShadow: 'none',
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>

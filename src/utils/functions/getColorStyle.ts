@@ -311,6 +311,7 @@ export const getBoderColor = (item: string) => {
 };
 
 export const getHeaderColomnColor = (item: string) => {
+
     let color = 'rgb(25, 118, 210)';
     if (item === TYPESOFDATASET.allVoyages) {
         color = '#007269';
@@ -326,6 +327,8 @@ export const getHeaderColomnColor = (item: string) => {
         color = 'rgb(2 83 204)';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
         color = 'rgb(167 70 0)';
+    } else if (item === 'enslaver') {
+        color = '#46a88c';
     }
     return color;
 };

@@ -38,7 +38,7 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
         <div className="nav-header">
             <span className='header-logo-icon'>
                 <HeaderLogoEstimate />
-                <div>Trans-Atlantic Slave Trade - Estimates</div>
+                <div>Estimates: Trans-Atlantic Slave Trade</div>
             </span>
             <div className="navbar-subtitle flex-navbar">
                 <div className='flex-navbar'>

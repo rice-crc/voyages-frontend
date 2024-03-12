@@ -171,8 +171,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
         component="nav"
         style={{
           backgroundColor: getColorNavbarEnslavedBackground(styleNameRoute!),
-          fontSize: 12,
-          boxShadow: 'none',
+          paddingTop: 5
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -241,9 +240,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
               },
             }}
           >
-            {/* <Box className="menu-nav-bar-select" >
-              Select dataset
-            </Box> */}
             {value.map((item: DataSetCollectionProps, index: number) => (
               <DatasetButton
                 key={`${item}-${index}`}
