@@ -1,4 +1,5 @@
 import { fetchCommonUseSavedSearch } from '@/fetch/saveSearch/fetchCommonUseSavedSearch';
+import { usePageRouter } from '@/hooks/usePageRouter';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { setQuerySaveSeary } from '@/redux/getQuerySaveSearchSlice';
 import { AppDispatch, } from '@/redux/store';
@@ -11,6 +12,8 @@ import { useLocation, } from 'react-router-dom';
 
 const UseSaveSearchURL = () => {
     const dispatch: AppDispatch = useDispatch();
+    const { styleName: styleNamePage } = usePageRouter();
+
     const location = useLocation();
     const navigate = useNavigate()
     const params = new URLSearchParams(location.search);
@@ -28,7 +31,10 @@ const UseSaveSearchURL = () => {
                     const { query } = response;
                     dispatch(setFilterObject(query));
                     if (returnUrl !== `${ASSESSMENT}/${ESTIMATES}/`) {
-                        localStorage.setItem('filterObject', query)
+                        const filterObjectEstimate = {
+                            filter: query
+                        }
+                        localStorage.setItem('filterObject', JSON.stringify(filterObjectEstimate))
                     }
                     dispatch(setQuerySaveSeary(query));
                 }

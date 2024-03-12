@@ -45,6 +45,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
     localStorage.removeItem('saveSearchID');
   };
 
+
   return (
     <div className='list-filter-menu-bar'
     >
@@ -63,7 +64,6 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
         </Hidden>
       </Toolbar>
       {(currentBlockName === VOYAGE || currentBlockName === 'people') && <SaveSearchComponent />}
-
     </div>
   );
 }

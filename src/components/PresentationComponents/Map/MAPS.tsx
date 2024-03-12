@@ -54,7 +54,7 @@ function MAPComponents() {
   return (
     <div className={calassNameMap}>
       <MapContainer
-        style={{ width: styleNameRoute === 'map' ? "100%" : '95%' }}
+        style={{ width: (styleNameRoute === 'map' || styleNameRoute === ESTIMATES) ? "100%" : '95%' }}
         className="map-container"
         ref={mapRef}
       >

@@ -9,6 +9,7 @@ import { setListSaveSearchURL, setSaveSearchUrlID } from '@/redux/getSaveSearchS
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
     const { endpointPath, styleName, endpointPeopleDirect } = usePageRouter();
+    console.log({ endpointPath })
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { saveSearchUrlID, listSaveSearchURL } = useSelector((state: RootState) => state.getSaveSearch);
     let endPointEstimate: string = ''
@@ -21,9 +22,8 @@ const DropDownSaveSearch = () => {
         endpointSaveSearch = endpointPath
     } else if (endpointPath === 'assessment') {
         endpointSaveSearch = endpointPath
-        endPointEstimate = `${endpointPath}/estimates`
+        endPointEstimate = `${endpointPath}`
     }
-
     const dataSend: SaveSearchRequest = {
         endpoint: endpointSaveSearch,
         query: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],

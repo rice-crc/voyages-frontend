@@ -140,8 +140,9 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
   let filters: Filter[] = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [];
   const filterByVarName = filtersObj && filtersObj.filter((filterItem: Filter) => filterItem.varName !== clusterNodeKeyVariable);
+
   if (filtersObj[0]?.searchTerm?.length > 0) {
-    filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : filters;
+    filters = filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [...filters];
   } else if (styleNamePage === TRANSATLANTICPATH) {
     filters.push({
       varName: 'dataset',
@@ -150,12 +151,13 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     });
   }
   if (clusterNodeKeyVariable && clusterNodeValue) {
-    filters.push({
+    filters = filters.concat({
       varName: clusterNodeKeyVariable,
       searchTerm: [clusterNodeValue],
       op: "in"
-    })
+    });
   }
+
   const dataSend: MapPropsRequest = {
     filter: [...(filterByVarName), ...filters]
   };

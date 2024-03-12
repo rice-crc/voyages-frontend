@@ -10,6 +10,7 @@ import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { resetAll } from '@/redux/resetAllSlice';
 import SaveSearchComponent from '@/components/FilterComponents/SaveSearchComponent/SaveSearchComponent';
+import { usePageRouter } from '@/hooks/usePageRouter';
 interface EstimatesNavBarProps {
     handleViewAll: () => void
 }
@@ -25,6 +26,7 @@ const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
 
 const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAll }) => {
     const dispatch: AppDispatch = useDispatch();
+    const { currentBlockName } = usePageRouter();
     const resetAllEstimate = () => {
         dispatch(resetAll());
         const keysToRemove = Object.keys(localStorage);
@@ -66,7 +68,7 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
                         </a>
                     </div>
                 </div>
-                <div><SaveSearchComponent /></div>
+                <div>{(currentBlockName === 'tables' || currentBlockName === '') && <SaveSearchComponent />}</div>
 
             </div>
 

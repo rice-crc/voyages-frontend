@@ -14,6 +14,7 @@ import TimeLineGraph from './TimeLineGraph';
 import { ASSESSMENT, ESTIMATES } from '@/share/CONST_DATA';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { AppDispatch } from '@/redux/store';
+import zIndex from '@mui/material/styles/zIndex';
 
 
 const EstimatesTabs = () => {
@@ -52,7 +53,7 @@ const EstimatesTabs = () => {
             key: 'maps',
             label: 'Maps',
             children: (
-                <Box sx={styleCardEstimate} className="estimate-tab">
+                <Box sx={styleCardEstimate} className="estimate-tab" style={{ zIndex: 3 }}>
                     <MAPComponents />{' '}
                 </Box>
             ),
