@@ -67,6 +67,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     (state: RootState) => state.getDataSetCollection
   );
 
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
@@ -227,7 +228,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 textAlign: 'center',
                 paddingRight: 40,
                 fontWeight: 600,
-                fontSize: 20,
 
               },
             }}

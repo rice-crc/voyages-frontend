@@ -69,11 +69,12 @@ const CollectionTabEnslaved = () => {
                   width: 75,
                   margin: '5px',
                   cursor: 'pointer',
+                  textTransform: 'unset',
                   backgroundColor: getColorBTNBackgroundEnslaved(styleName!),
                   boxShadow: currentPageBlockName === page.toLocaleLowerCase() ? getColorBoxShadowEnslaved(styleName!) : '',
                   color: currentPageBlockName === page.toLocaleLowerCase() ? 'white' : getColorTextCollection(styleName!),
                   fontWeight: currentPageBlockName === page.toLocaleLowerCase() ? 'bold' : 600,
-                  fontSize: '0.70rem',
+                  fontSize: '0.80rem',
                   '&:hover': {
                     backgroundColor: getColorHoverBackgroundCollection(styleName!!),
                     color: getColorBTNVoyageDatasetBackground(styleName!)
@@ -86,7 +87,7 @@ const CollectionTabEnslaved = () => {
                 }}
                 variant={currentEnslavedPage === buttonIndex ? 'contained' : 'outlined'}
               >
-                {page.toUpperCase()}
+                {page}
               </Button>
             );
           })}

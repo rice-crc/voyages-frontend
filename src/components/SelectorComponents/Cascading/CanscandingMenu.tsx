@@ -26,6 +26,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
+
   useEffect(() => {
 
     if (currentBlockName === 'table' && styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins) {
@@ -63,7 +64,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
           </div>
         </Hidden>
       </Toolbar>
-      {(currentBlockName === VOYAGE || currentBlockName === 'people') && <SaveSearchComponent />}
+      {(currentBlockName === '' || currentBlockName === VOYAGE || currentBlockName === 'people') && <SaveSearchComponent />}
     </div>
   );
 }

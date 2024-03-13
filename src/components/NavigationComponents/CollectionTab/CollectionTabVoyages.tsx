@@ -16,6 +16,7 @@ import { setIsFilter } from '@/redux/getFilterSlice';
 import { setPathNameVoyages } from '@/redux/getDataPathNameSlice';
 import { ALLVOYAGES } from '@/share/CONST_DATA';
 import { useNavigate } from 'react-router-dom';
+import { pageVariantsFromTop } from '@/utils/functions/pageVariantsFromTop';
 
 const CollectionTabVoyages = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -52,11 +53,12 @@ const CollectionTabVoyages = () => {
                 sx={{
                   margin: '5px',
                   cursor: 'pointer',
+                  textTransform: 'unset',
                   backgroundColor: getColorBackground(styleName),
                   boxShadow: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? getColorBoxShadow(styleName) : '',
                   color: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'white' : getColorTextCollection(styleName),
                   fontWeight: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'bold' : 600,
-                  fontSize: '0.70rem',
+                  fontSize: '0.80rem',
                   '&:hover': {
                     backgroundColor: getColorHoverBackgroundCollection(styleName!),
                     color: getColorBTNVoyageDatasetBackground(styleName)
@@ -69,7 +71,7 @@ const CollectionTabVoyages = () => {
                 }}
                 variant={currentPage === buttonIndex ? 'contained' : 'outlined'}
               >
-                {page.toUpperCase()}
+                {page}
               </Button>
             );
           })}
