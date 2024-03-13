@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { AppBar, Box, Hidden, Divider } from '@mui/material';
+import { MouseEventHandler, useState } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Box, Hidden, Divider, IconButton, } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
@@ -23,10 +24,13 @@ import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import { setBaseFilterEnslaversDataSetValue, setDataSetEnslaversHeader, setEnslaversBlocksMenuList, setEnslaversFilterMenuFlatfile, setEnslaversStyleName, setPeopleTableEnslavedFlatfile } from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
 import { useNavigate } from 'react-router-dom';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { DrawerMenuBar } from './DrawerMenuBar';
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
   const { value, textHeader } = useSelector(
     (state: RootState) => state.getEnslaverDataSetCollections
   );
@@ -120,6 +124,13 @@ const HeaderEnslaversNavBar: React.FC = () => {
     });
   };
 
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
   return (
     <Box
@@ -136,6 +147,17 @@ const HeaderEnslaversNavBar: React.FC = () => {
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
+          <Hidden mdUp>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleMenuOpen}
+              sx={{ mr: 2, display: { md: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
           <Typography
             component="div"
             sx={{
@@ -211,6 +233,19 @@ const HeaderEnslaversNavBar: React.FC = () => {
           />
           <CanscandingMenu />
         </Hidden>
+        <Box component="nav">
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClick={handleMenuClose}
+            disableScrollLock={true}
+          >
+            <DrawerMenuBar
+              value={value}
+              handleSelectDataset={handleSelectEnslaversDataset}
+            />
+          </Menu>
+        </Box>
       </AppBar>
       <Menu
         disableScrollLock={true}
