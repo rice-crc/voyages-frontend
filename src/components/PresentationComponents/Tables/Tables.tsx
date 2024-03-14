@@ -294,27 +294,27 @@ const Tables: React.FC = () => {
         tableFlatfileEnslavers, tablesCell
     ]);
 
-    useEffect(() => {
-        const fetchDataUseSaveSearch = async () => {
-            try {
-                const response = await dispatch(
-                    fetchCommonUseSavedSearch(IDSaveSearch!)
-                ).unwrap();
-                if (response) {
-                    const { query } = response;
-                    dispatch(setFilterObject(query));
-                    dispatch(setQuerySaveSeary(query));
-                }
-            } catch (error) {
-                console.log('error', error);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchDataUseSaveSearch = async () => {
+    //         try {
+    //             const response = await dispatch(
+    //                 fetchCommonUseSavedSearch(IDSaveSearch!)
+    //             ).unwrap();
+    //             if (response) {
+    //                 const { query } = response;
+    //                 dispatch(setFilterObject(query));
+    //                 dispatch(setQuerySaveSeary(query));
+    //             }
+    //         } catch (error) {
+    //             console.log('error', error);
+    //         }
+    //     };
 
-        if (IDSaveSearch) {
-            fetchDataUseSaveSearch()
-            navigate(`/${returnUrl!}`, { replace: true });
-        }
-    }, [dispatch, returnUrl, IDSaveSearch, navigate]);
+    //     if (IDSaveSearch) {
+    //         fetchDataUseSaveSearch()
+    //         navigate(`/${returnUrl!}`, { replace: true });
+    //     }
+    // }, [dispatch, returnUrl, IDSaveSearch, navigate]);
 
     const defaultColDef = useMemo(
         () => ({

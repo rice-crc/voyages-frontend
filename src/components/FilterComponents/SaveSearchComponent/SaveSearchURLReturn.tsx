@@ -10,14 +10,14 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const UseSaveSearchURL = () => {
     const dispatch: AppDispatch = useDispatch();
-
     const location = useLocation();
     const navigate = useNavigate()
     const params = new URLSearchParams(location.search);
     const returnUrl = params.get('returnUrl');
     const id = params.get('id');
-    useEffect(() => {
 
+    useEffect(() => {
+        console.log({ returnUrl })
         const fetchDataUseSaveSearch = async () => {
             try {
                 const response = await dispatch(
@@ -40,11 +40,12 @@ const UseSaveSearchURL = () => {
         };
 
         if (id) {
+            console.log({ id })
             fetchDataUseSaveSearch()
             navigate(`/${returnUrl!}`, { replace: true });
         }
     }, [dispatch, returnUrl, id, navigate]);
-    return null
+    return <>Hello UseSaveSearchURL</>
 };
 
 export default UseSaveSearchURL;

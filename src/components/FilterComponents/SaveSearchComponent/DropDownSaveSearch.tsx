@@ -5,12 +5,14 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { fetchCommonMakeSavedSearch } from '@/fetch/saveSearch/fetchCommonMakeSavedSearch';
 import { BASE_URL_FRONTEND } from '@/share/AUTH_BASEURL';
 import { setListSaveSearchURL, setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
+import { useNavigate } from 'react-router-dom';
 
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
     const { endpointPath, styleName, endpointPeopleDirect } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { saveSearchUrlID, listSaveSearchURL } = useSelector((state: RootState) => state.getSaveSearch);
+    const navigate = useNavigate()
 
     let endpointSaveURL: string = ''
     if (endpointPeopleDirect === 'past/enslaved') {
@@ -44,9 +46,8 @@ const DropDownSaveSearch = () => {
         query: filters,
     };
 
-    // const URLSAVESEARCH = `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
-    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${endpointSaveURL}?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
-
+    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
+    // const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${endpointSaveURL}?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
     const handleSaveSearch = () => {
         fetchData();
     };
@@ -55,7 +56,6 @@ const DropDownSaveSearch = () => {
         if (saveSearchUrlID) {
             navigator.clipboard.writeText(`${URLSAVESEARCH}`)
             alert(`Your URL ${URLSAVESEARCH} is copied`);
-
         }
     };
 
