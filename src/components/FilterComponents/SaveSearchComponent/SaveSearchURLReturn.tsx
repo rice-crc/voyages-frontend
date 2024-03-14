@@ -16,7 +16,6 @@ const UseSaveSearchURL = () => {
     const params = new URLSearchParams(location.search);
     const returnUrl = params.get('returnUrl');
     const id = params.get('id');
-    console.log({ location, returnUrl })
     useEffect(() => {
 
         const fetchDataUseSaveSearch = async () => {

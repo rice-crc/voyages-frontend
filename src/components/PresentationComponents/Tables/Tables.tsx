@@ -309,7 +309,6 @@ const Tables: React.FC = () => {
                 console.log('error', error);
             }
         };
-        console.log({ returnUrl })
 
         if (IDSaveSearch) {
             fetchDataUseSaveSearch()

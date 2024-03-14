@@ -47,7 +47,6 @@ const Estimates = () => {
                 console.log('error', error);
             }
         };
-        console.log({ returnUrl })
 
         if (IDSaveSearch) {
             fetchDataUseSaveSearch()
