@@ -61,7 +61,8 @@ const HeaderEnslavedNavBar: React.FC = () => {
     (state: RootState) => state.getScrollEnslavedPage
   );
 
-  const { value, textHeader, styleNamePeople } = useSelector(
+
+  const { value, textHeader } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
@@ -74,11 +75,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     useState<null | HTMLElement>(null);
 
   const [isClick, setIsClick] = useState(false);
-  // const styleNameToPathMap: { [key: string]: string } = {
-  //   [ALLENSLAVED]: `${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName === 'map' ? 'people' : currentPageBlockName}`,
-  //   [AFRICANORIGINS]: `${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
-  //   [ENSLAVEDTEXAS]: `${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName === 'map' ? 'people' : currentPageBlockName}`,
-  // };
+
   const styleNameToPathMap: { [key: string]: string } = {
     [ALLENSLAVED]: `${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName}`,
     [AFRICANORIGINS]: `${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
@@ -171,8 +168,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
         component="nav"
         style={{
           backgroundColor: getColorNavbarEnslavedBackground(styleNameRoute!),
-          fontSize: 12,
-          boxShadow: 'none',
+          paddingTop: 5
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -200,18 +196,10 @@ const HeaderEnslavedNavBar: React.FC = () => {
               <HeaderTitle
                 textHeader={textHeader}
                 HeaderTitle={EnslavedTitle}
-                pathLink={PASTHOMEPAGE}
+                pathLink={`/${PASTHOMEPAGE}`}
                 onClickReset={onClickResetOnHeader}
               />
             </span>
-
-            <Divider
-              sx={{
-                width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
-                borderWidth: '0.25px',
-                borderClor: 'rgb(0 0 0 / 50%)',
-              }}
-            />
             <Typography
               component="div"
               variant="body1"
@@ -232,6 +220,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
 
             </Typography>
           </Typography>
+
           <CanscandingMenuMobile />
           <Box
             className="menu-nav-bar-select-box"
@@ -248,9 +237,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
               },
             }}
           >
-            <Box className="menu-nav-bar-select" >
-              Select dataset
-            </Box>
             {value.map((item: DataSetCollectionProps, index: number) => (
               <DatasetButton
                 key={`${item}-${index}`}
@@ -264,6 +250,12 @@ const HeaderEnslavedNavBar: React.FC = () => {
             ))}
           </Box>
         </Toolbar>
+        <Divider
+          sx={{
+            borderWidth: '0.25px',
+            borderClor: 'rgb(0 0 0 / 50%)',
+          }}
+        />
         <Hidden mdDown>
           <CanscandingMenu />
         </Hidden>

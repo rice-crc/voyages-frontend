@@ -22,11 +22,15 @@ import { useDispatch } from 'react-redux';
 import { handerRenderEdges } from './handerRenderEdges';
 import { createTooltipEmbarkDiseEmbarkEdges } from '@/utils/functions/createTooltipClusterEdges';
 import { Filter } from '@/share/InterfaceTypes';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 
 const NodeEdgesCurvedLinesMap = () => {
   const map = useMap();
   const dispatch: AppDispatch = useDispatch();
+  const {
+    styleName: styleNamePage,
+  } = usePageRouter();
 
   const { nodesData, edgesData, } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData

@@ -11,6 +11,7 @@ import { setPeopleEnslavedBlocksMenuList } from '@/redux/getPeopleEnslavedDataSe
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
 import SaveSearchComponent from '@/components/FilterComponents/SaveSearchComponent/SaveSearchComponent';
 import '@/style/Nav.scss'
+import { VOYAGE } from '@/share/CONST_DATA';
 
 export default function CanscandingMenu(props: CanscandingMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -25,13 +26,14 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
+
   useEffect(() => {
 
     if (currentBlockName === 'table' && styleNamePeople === TYPESOFDATASETPEOPLE.africanOrigins) {
       dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
     }
 
-  }, [styleNamePeople, currentBlockName,]);
+  }, [styleNamePeople, currentBlockName]);
 
   const handleResetAll = () => {
     dispatch(resetAllStateToInitailState())
@@ -43,6 +45,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
     });
     localStorage.removeItem('saveSearchID');
   };
+
 
   return (
     <div className='list-filter-menu-bar'
@@ -61,7 +64,7 @@ export default function CanscandingMenu(props: CanscandingMenuProps) {
           </div>
         </Hidden>
       </Toolbar>
-      <SaveSearchComponent />
+      {(currentBlockName === '' || currentBlockName === VOYAGE || currentBlockName === 'people') && <SaveSearchComponent />}
     </div>
   );
 }

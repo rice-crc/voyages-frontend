@@ -17,6 +17,7 @@ import {
   CurrentPageInitialState,
   BargraphXYVar,
   IRootFilterObjectScatterRequest,
+  Filter,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import {
@@ -58,11 +59,13 @@ function BarGraph() {
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   ]);
 
+
   const [barGraphOptions, setBarOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
     y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   });
   const maxWidth = maxWidthSize(width);
+
   const [aggregation, setAggregation] = useState<string>('sum');
   const VoyageBargraphOptions = useCallback(() => {
     Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(
@@ -76,13 +79,18 @@ function BarGraph() {
       }
     );
   }, []);
-
+  let filters: Filter[] = []
+  if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+    filters = filtersObj;
+  } else {
+    filters = filtersObj;
+  }
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: barGraphOptions.x_vars,
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_bar_and_donut_charts',
-    filter: filtersObj?.[0]?.searchTerm?.length > 0 ? filtersObj : [],
+    filter: filters
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
@@ -187,13 +195,12 @@ function BarGraph() {
         aggregation={aggregation}
       />
 
-      <Grid className="voyages-data-grid">
+      <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
         <Plot
           data={barData}
           layout={{
-            width: getMobileMaxWidth(maxWidth),
+            width: getMobileMaxWidth(maxWidth - 5),
             height: getMobileMaxHeight(height),
-            // title: title || barGraphSelectedX[0]?.label,
             title: 'Bar Graph',
             font: {
               family: 'Arial, sans-serif',

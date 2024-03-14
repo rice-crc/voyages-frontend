@@ -10,6 +10,7 @@ import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { resetAll } from '@/redux/resetAllSlice';
 import SaveSearchComponent from '@/components/FilterComponents/SaveSearchComponent/SaveSearchComponent';
+import { usePageRouter } from '@/hooks/usePageRouter';
 interface EstimatesNavBarProps {
     handleViewAll: () => void
 }
@@ -25,10 +26,10 @@ const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
 
 const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAll }) => {
     const dispatch: AppDispatch = useDispatch();
+    const { currentBlockName } = usePageRouter();
     const resetAllEstimate = () => {
         dispatch(resetAll());
         const keysToRemove = Object.keys(localStorage);
-
         keysToRemove.forEach((key) => {
             localStorage.removeItem(key);
         });
@@ -38,7 +39,7 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
         <div className="nav-header">
             <span className='header-logo-icon'>
                 <HeaderLogoEstimate />
-                <div>Trans-Atlantic Slave Trade - Estimates</div>
+                <div>Estimates: Trans-Atlantic Slave Trade</div>
             </span>
             <div className="navbar-subtitle flex-navbar">
                 <div className='flex-navbar'>
@@ -66,10 +67,8 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
                         </a>
                     </div>
                 </div>
-                <div><SaveSearchComponent /></div>
-
+                <div>{(currentBlockName !== 'maps') && <SaveSearchComponent />}</div>
             </div>
-
         </div>
     )
 }

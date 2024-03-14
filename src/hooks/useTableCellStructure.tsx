@@ -3,6 +3,7 @@ import { fetchTableCellStructure } from "@/fetch/voyagesFetch/fetchTableCellStru
 
 
 export const useTableCellStructure = (styleNameRoute?: string) => {
+
     const { data, isLoading, isError } = useQuery(
         ['tableCellStructure', styleNameRoute!],
         () => fetchTableCellStructure(styleNameRoute!)

@@ -48,6 +48,10 @@
   }
 }
 
+.leaflet-pane {
+  z-index: 1 !important;
+}
+
 .legendtable {
   padding: 4px
 }

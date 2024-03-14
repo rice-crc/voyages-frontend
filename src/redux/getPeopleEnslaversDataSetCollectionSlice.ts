@@ -13,7 +13,7 @@ export const initialState: InitialStateDataPeopleEnslaversSetCollection = {
     dataSetValueBaseFilter: [],
     dataSetKeyPeople: '',
     dataSetValuePeople: [],
-    blocksPeople: jsonDataEnslaversCOLLECTIONS[0].blocks,
+    blocksEnslavers: jsonDataEnslaversCOLLECTIONS[0].blocks,
     filterMenuEnslaversFlatfile: jsonDataEnslaversCOLLECTIONS[0].filter_menu_flatfile,
     tableFlatfileEnslavers: jsonDataEnslaversCOLLECTIONS[0].table_flatfile,
 };
@@ -53,7 +53,7 @@ export const getPeopleEnslaversDataSetCollectionSlice = createSlice({
             state,
             action: PayloadAction<string[]>
         ) => {
-            state.blocksPeople = action.payload;
+            state.blocksEnslavers = action.payload;
         },
         setEnslaversFilterMenuFlatfile: (
             state,
@@ -70,7 +70,6 @@ export const getPeopleEnslaversDataSetCollectionSlice = createSlice({
                 state.dataSetValuePeople,
                 state.textHeader,
                 state.textIntroduce,
-                state.blocksPeople,
                 state.filterMenuEnslaversFlatfile,
                 state.tableFlatfileEnslavers
         },
@@ -87,7 +86,7 @@ export const { resetAllStateSlice,
     setPeopleTableEnslavedFlatfile,
     setEnslaversTextIntro,
     setEnslaversStyleName,
-    setEnslaversBlocksMenuList,
+    setEnslaversBlocksMenuList, setEnslaversFilterMenuFlatfile
 } = getPeopleEnslaversDataSetCollectionSlice.actions;
 
 export default getPeopleEnslaversDataSetCollectionSlice.reducer;

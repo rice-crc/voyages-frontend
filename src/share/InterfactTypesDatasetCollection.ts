@@ -16,7 +16,7 @@ export interface Headers {
 
 export interface BaseFilter {
     var_name: string
-    value: any[]
+    value: any[] | number
 }
 
 
@@ -50,7 +50,7 @@ export interface InitialStateDataPeopleEnslaversSetCollection {
     dataSetValueBaseFilter: BaseFilter[];
     dataSetKeyPeople: string;
     dataSetValuePeople: string[] | number[];
-    blocksPeople: string[];
+    blocksEnslavers: string[];
     filterMenuEnslaversFlatfile: string,
     tableFlatfileEnslavers: string
 }

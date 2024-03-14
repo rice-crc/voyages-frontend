@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import VoyagesPage from '@/pages/VoyagesPage';
 import HomePage from '@/pages/HomePage';
@@ -25,17 +25,17 @@ import {
   ENSALVERSTYLE,
   ENSLAVEDTEXASPAGE,
   ESTIMATES,
-  INTRAAMERICAN,
+  INTRAAMERICANENSLAVERS,
   INTRAAMERICANPAGE,
   INTRODUCTORYMAPS,
   LESSONPLANS,
   PASTHOMEPAGE,
   TIMELAPSEPAGE,
-  TRANSATLANTIC,
+  TRANSATLANTICENSLAVERS,
   TRANSATLANTICPAGE,
-  VOYAGE,
+  USESAVESEARCHURL,
   VOYAGESTEXASPAGE,
-  voyageURL,
+  allEnslavers,
 } from '@/share/CONST_DATA';
 import BlogPage from '@/pages/BlogPage';
 
@@ -54,11 +54,8 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import DocumentPageHold from '@/pages/DocumentPageHold';
 import AboutPage from '@/pages/AboutPage';
 import DownloadPage from '@/pages/DownloadPage';
-import { setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
-import { checkPathURLSaveSearchVoyages } from '@/utils/functions/checkPathURLSaveSearch';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { Filter } from '@/share/InterfaceTypes';
-
+import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
+import { setSaveSearchUrlID } from './redux/getSaveSearchSlice';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,18 +68,17 @@ const queryClient = new QueryClient({
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { cardRowID, nodeTypeClass } = useSelector((state: RootState) => state.getCardFlatObjectData);
-  const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch)
   const { styleName, voyageURLID } = usePageRouter();
   const [ID, setID] = useState(cardRowID)
   const [nodeClass, setNodeTypeClass] = useState(nodeTypeClass)
+
 
   useEffect(() => {
     const url = window.location.pathname;
     const parts = url.split('/');
 
-    const entityType = parts[1]; // voyages / enslavers / enslaved
+    const entityType = parts[1];
     const voyageID = parts[2];
     const typeOfData = parts[3]
 
@@ -93,35 +89,6 @@ const App: React.FC = () => {
       dispatch(setNodeClass(entityType))
       dispatch(setValueVariable(typeOfData))
     }
-
-    // Check URL to direct to when user copy paste
-    // const checkURL = checkPathURLSaveSearchVoyages(url)
-    // if (saveSearchID) {
-    //   if (checkURL === ALLVOYAGES) {
-    //     navigate(`${voyageURL}/${ALLVOYAGES}`)
-    //   } else if (checkURL === TRANSATLANTIC) {
-    //     navigate(`${voyageURL}/${TRANSATLANTIC}`)
-    //   } else if (checkURL === INTRAAMERICAN) {
-    //     navigate(`${voyageURL}/${INTRAAMERICAN}`)
-    //   }
-    // }
-
-  }, [dispatch, ID, nodeClass, styleName, voyageURLID, saveSearchUrlID]);
-
-  useEffect(() => {
-
-    const storedValue = localStorage.getItem('filterObject');
-    const getSaveSearchID = localStorage.getItem('saveSearchID')
-    if (!storedValue || !getSaveSearchID) return;
-
-    dispatch(setSaveSearchUrlID(getSaveSearchID))
-
-    const parsedValue = JSON.parse(storedValue);
-    const filter: Filter[] = parsedValue.filter;
-    if (!filter) return;
-
-    dispatch(setFilterObject(filter));
-
   }, [dispatch, ID, nodeClass, styleName, voyageURLID]);
 
 
@@ -133,9 +100,14 @@ const App: React.FC = () => {
           <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
           <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
           <Route
+            path={`${USESAVESEARCHURL}`}
+            element={<UseSaveSearchURL />}
+          />
+          <Route
             path={`${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}
           />
+
           <Route
             path={`${INTRAAMERICANPAGE}`}
             element={<VoyagesPage />}
@@ -161,8 +133,17 @@ const App: React.FC = () => {
             path={`${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
             element={<EnslavedHomePage />}
           />
+
           <Route
-            path={`${ENSALVERSPAGE}/${ENSALVERSTYLE}`}
+            path={`${ENSALVERSPAGE}${INTRAAMERICANENSLAVERS}`}
+            element={<EnslaversHomePage />}
+          />
+          <Route
+            path={`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}`}
+            element={<EnslaversHomePage />}
+          />
+          <Route
+            path={`${ENSALVERSPAGE}/${allEnslavers}`}
             element={<EnslaversHomePage />}
           />
           {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}

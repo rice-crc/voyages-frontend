@@ -110,7 +110,7 @@
         .intra-american-bg {
             background-color: var(--color-bg);
             text-align: center;
-            padding: 4rem 10rem 4rem 0;
+            padding: 4rem 4rem 4rem 0;
 
             @include breakpoint-standard(5) {
                 width: 100%;
@@ -154,12 +154,12 @@
             color: rgba(0, 0, 0, 0.95);
             text-align: center;
             position: relative;
-            right: 6rem;
+            // right: 6rem;
             width: 45%;
 
             @include breakpoint-standard(5) {
                 width: 70%;
-                padding: 2rem;
+                padding: 1.5rem;
                 position: static;
                 right: 0;
 
@@ -167,7 +167,7 @@
 
             @include breakpoint-standard(4) {
                 width: 70%;
-                padding: 2rem;
+                padding: 1.5rem;
                 position: static;
                 right: 0;
             }
@@ -216,7 +216,7 @@
             }
 
             p {
-                padding: 2rem;
+                padding: 2rem 5rem;
                 font-size: 1.12rem;
                 font-weight: 400;
 

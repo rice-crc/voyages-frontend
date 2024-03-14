@@ -148,9 +148,14 @@
 }
 
 .ag-header-cell-label {
-  color: var(--header-color--, #007269);
+
   text-align: center;
 }
+
+.ag-header-group-text {
+  color: var(--header-color--, #007269) !important;
+}
+
 
 .ag-header-cell-label,
 .ag-header-group-cell-label {
@@ -260,6 +265,10 @@ div .customHeaderLabelSummaryTable {
   justify-content: flex-end;
   align-items: center;
   padding: 10px 0;
+
+  .css-1to7aaw-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    background-color: var(--pagination-table--, --pagination-table--);
+  }
 
   nav>ul>li>button:focus {
     background-color: var(--pagination-table--, --pagination-table--);
@@ -623,15 +632,19 @@ div .customHeaderLabelSummaryTable {
   }
 }
 
+.mobile-responsive-map-url {
+  padding: 22px !important;
+}
+
 .mobile-responsive-map {
-  padding: 140px 22px !important;
+  padding: 140px 40px !important;
 
   @include breakpoint-standard(5) {
-    padding: 140px 60px 10px 10px !important
+    padding: 150px 60px 10px 10px !important
   }
 
   @include breakpoint-standard(4) {
-    padding: 145px 0px 0px 20px !important
+    padding: 180px 0px 0px 20px !important
   }
 
   @include breakpoint-standard(3) {

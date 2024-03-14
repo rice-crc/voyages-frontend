@@ -3,7 +3,7 @@ import { Filter, RangeSliderState } from '@/share/InterfaceTypes';
 import '@/style/estimates.scss'
 import { Button } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 interface ShowAllSelectedProps {
     setViewAll: React.Dispatch<React.SetStateAction<boolean>>

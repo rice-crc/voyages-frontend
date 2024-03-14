@@ -31,6 +31,7 @@ import Tables from '@/components/PresentationComponents/Tables/Tables';
 import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
 import { setFilterObject } from '@/redux/getFilterSlice';
+import { Divider } from 'antd';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -135,7 +136,7 @@ const VoyagesPage = () => {
       {currentPage === 6 && currentVoyageBlockName === 'table' && (
         <PivotTables />
       )}
-      {currentPage === 7 && currentVoyageBlockName === 'map' && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
+      {currentPage === 7 && currentVoyageBlockName === 'map' && <div> <VoyagesMaps /></div>}
 
     </motion.div>
   );
@@ -155,6 +156,7 @@ const VoyagesPage = () => {
         <CollectionTabVoyages />
         <Grid id="content-container">{displayPage}</Grid>
       </div>
+      <Divider />
     </div>
   );
 };

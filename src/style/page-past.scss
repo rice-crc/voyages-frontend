@@ -260,11 +260,10 @@
 }
 
 .people-header {
-  // font-family: 'Cormorant Garamond';
   display: flex;
   align-items: center;
   cursor: pointer;
-  font-size: 60px;
+  font-size: 52px;
   color: black;
 
   @include breakpoint-standard(6) {
@@ -437,15 +436,15 @@
 
 .enslaved-title {
   color: #fff;
+  padding: 0 0.65rem;
 }
 
 .enslaved-header-subtitle {
   display: flex;
-  font-size: 20px;
+  font-size: 1.4rem;
   padding-left: 5px;
   position: relative;
-  font-weight: 600;
-  top: 5px;
+  font-weight: bold;
   color: #fff;
 
   @include breakpoint-standard(6) {

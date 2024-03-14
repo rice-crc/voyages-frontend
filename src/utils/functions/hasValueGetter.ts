@@ -42,6 +42,8 @@ export function hasValueGetter(
             const fieldValue = data[fieldName];
             if (fieldValue !== null) {
                 dataValue += fieldValue + '  ';
+            } else {
+                dataValue += '--'
             }
         }
         const result = dataValue.substring(0, dataValue.length - 1);
