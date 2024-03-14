@@ -17,7 +17,7 @@ const UseSaveSearchURL = () => {
     const id = params.get('id');
 
     useEffect(() => {
-        console.log({ returnUrl })
+
         const fetchDataUseSaveSearch = async () => {
             try {
                 const response = await dispatch(
@@ -40,12 +40,12 @@ const UseSaveSearchURL = () => {
         };
 
         if (id) {
-            console.log({ id })
+
             fetchDataUseSaveSearch()
             navigate(`/${returnUrl!}`, { replace: true });
         }
     }, [dispatch, returnUrl, id, navigate]);
-    return <>Hello UseSaveSearchURL</>
+    return <>UseSaveSearchURL</>
 };
 
 export default UseSaveSearchURL;
