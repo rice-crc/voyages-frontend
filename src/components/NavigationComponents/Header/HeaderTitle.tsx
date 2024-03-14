@@ -23,7 +23,7 @@ export const HeaderTitle = (props: HeaderTitleProps) => {
       >
         {HeaderTitle}
       </Link>
-      {textHeader && <span className="enslaved-title">-</span>}
+      {textHeader && <span className="enslaved-title">:</span>}
       <div >{textHeader}</div>
     </div>
   );
