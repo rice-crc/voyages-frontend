@@ -56,10 +56,9 @@ import { fetchEstimatesMap } from '@/fetch/estimateFetch/fetchEstimatesMap';
 interface LeafletMapProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
   zoomLevel: number;
-  children?: ReactNode
 }
 
-export const LeafletMap = ({ setZoomLevel, zoomLevel, children }: LeafletMapProps) => {
+export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const dispatch: AppDispatch = useDispatch();
   const mapRef = useRef(null);
   const location = useLocation();
@@ -345,7 +344,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel, children }: LeafletMapProp
               </LayersControl.Overlay>
             </LayersControl>
             <NodeEdgesCurvedLinesMap />
-            {children}
           </MapContainer>
           <ShowsColoredNodeOnMap />
         </>

@@ -1,7 +1,18 @@
 import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react"
-import { LeafletMap } from "./LeafletMap"
-import { useMap } from "react-leaflet"
+import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
 import { LatLngBounds } from "leaflet"
+import { AUTHTOKEN, BASEURL } from '../../../share/AUTH_BASEURL';
+import OBSOLETE_regionalSegments from './regional.json'
+import OBSOLETE_voyages from './voyages.json'
+import {
+  MAP_CENTER,
+  MAXIMUM_ZOOM,
+  MINIMUM_ZOOM,
+  mappingSpecialists,
+  mappingSpecialistsCountries,
+  mappingSpecialistsRivers
+} from '@/share/CONST_DATA';
+import { HandleZoomEvent } from "./HandleZoomEvent";
 
 // TODO: move out the basic geometry/calculation stuff to a separate file.
 
@@ -32,14 +43,14 @@ export interface GreatCircle {
  * the total arc.
  */
 export const arcInterpolate = (arc: GreatCircle, t: number): LatLngPathPointRad => {
-    const { start: [sx, sy], end: [ex, ey], centralAngle: g } = arc
+    const { start: [slat, slng], end: [elat, elng], centralAngle: g } = arc
     const A = Math.sin((1 - t) * g) / Math.sin(g);
     const B = Math.sin(t * g) / Math.sin(g);
-    const x = A * Math.cos(sy) * Math.cos(sx) + B * Math.cos(ey) * Math.cos(ex);
-    const y = A * Math.cos(sy) * Math.sin(sx) + B * Math.cos(ey) * Math.sin(ex);
-    const z = A * Math.sin(sy) + B * Math.sin(ey);
-    const lat = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
-    const lng = Math.atan2(y, x);
+    const x = A * Math.cos(slng) * Math.cos(slat) + B * Math.cos(elng) * Math.cos(elat);
+    const y = A * Math.cos(slng) * Math.sin(slat) + B * Math.cos(elng) * Math.sin(elat);
+    const z = A * Math.sin(slng) + B * Math.sin(elng);
+    const lng = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
+    const lat = Math.atan2(y, x);
     return [lat, lng]
 }
 
@@ -150,13 +161,9 @@ const reduceSharpCorner = ({
     }
     // Instead of taking a direct jump from the point to the path[idxBest], our
     // approach is to produce a smooth approximation.
-    //
-    // Denote A = path[idxBest + step], B = path[idxBest], C = point. Let rho be
-    // the angle BAC. Consider N - 1 rays {A + mu * r} where r is a unit vector
-    // that such that (A + r) A C forms a rho/N angle at A.
     const angleInfo = new AngleInfo(path[idxBest + step], path[idxBest], point)
     const n1 = normSq(angleInfo.delta1)
-    const n2 = normSq(angleInfo.delta1)
+    const n2 = normSq(angleInfo.delta2)
     const endTangentScalar = Math.sqrt(n1 * n2) / n2;
     const prefix: Point2D[] = new Array(9)
     for (let i = 0; i < prefix.length; ++i) {
@@ -166,14 +173,14 @@ const reduceSharpCorner = ({
         const d = sum(v1, v2, -1) // d = v1 - v2
         // Using a quadratic scaling: pt = v2 + s^2 * (v1 - v2)
         const pt = sum(v2, d, scalar * scalar)
-        prefix[reversed ? prefix.length - 1 - i : i] = pt
+        prefix[reversed ? i : prefix.length - 1 - i] = pt
     }
     return reversed
         ? [...path.slice(0, idxBest), ...prefix]
-        : [...prefix, ...path.slice(idxBest)]
+        : [...prefix, ...path.slice(idxBest + 1)]
 }
 
-export type InterpolatedRoute = (time: number) => LatLngPathPointRad
+export type InterpolatedPath = (time: number) => LatLngPathPointRad
 
 class MapRoute {
     private readonly _totalAngle: number
@@ -202,7 +209,7 @@ class MapRoute {
      * Creates an interpolated route with a maximum perturbation in the latitude
      * and longitude of the points.
      */
-    createInterpolation = (perturbLat: number, perturbLng: number): InterpolatedRoute => {
+    createInterpolation = (perturbLat: number, perturbLng: number): InterpolatedPath => {
         if (this._arcs.length === 0) {
             return _ => [0, 0]
         }
@@ -217,11 +224,11 @@ class MapRoute {
         // then it would be better to precompute the prefix sums and do a binary
         // search every time.
         let capture = { idxArc: 0, accAngle: 0.0, time: 0 }
-        const initial = capture
+        const initial = { ...capture }
         return time => {
             if (time < capture.time) {
                 // The search has to start from zero now.
-                capture = initial
+                capture = { ...initial }
             }
             const targetAngle = time * this._totalAngle
             while (capture.idxArc < this._arcs.length - 1 &&
@@ -249,11 +256,11 @@ interface PortData {
 }
 
 interface PortCollectionData {
-    src: Record<number, PortData>
-    dst: Record<number, PortData>
+    src: Record<string, PortData>
+    dst: Record<string, PortData>
 }
 
-type RegionSegments = Record<number, Record<number, LatLngPathPointDeg[]>>
+type RegionSegments = Record<string, Record<string, LatLngPathPointDeg[]>>
 
 class MapRouteBuilder {
     private readonly cache: Record<string, MapRoute> = {}
@@ -273,7 +280,9 @@ class MapRouteBuilder {
         // Compile route based on three segments.
         const srcPort = this.ports.src[source]
         const dstPort = this.ports.dst[destination]
-        if (!srcPort || !dstPort) {
+        if (!srcPort?.path || !dstPort?.path ||
+            !this.regionSegments[srcPort.reg] ||
+            !this.regionSegments[srcPort.reg][dstPort.reg]) {
             return this.cache[key] = MapRouteBuilder.invalidRoute
         }
         const first = srcPort.path
@@ -305,16 +314,25 @@ interface VoyageRoute {
     readonly animationDuration: number
     readonly embarked: number
     readonly disembarked: number
-    route: InterpolatedRoute
+    route: MapRoute
 }
 
-class VoyageRouteCollection {
-    readonly voyageRoutes: ReadonlyArray<VoyageRoute>
+type InterpolatedVoyageRoute = VoyageRoute & { interpolatedPath: InterpolatedPath }
 
-    constructor(voyageRoutes: VoyageRoute[]) {
-        // Enforce sorting by startTime and immutability. These are the only
-        // goals of this class.
-        this.voyageRoutes = [...voyageRoutes].sort((a, b) => a.startTime - b.startTime)
+class VoyageRouteCollection {
+    readonly voyageRoutes: ReadonlyArray<InterpolatedVoyageRoute>
+
+    constructor(voyageRoutes: VoyageRoute[], maxLatPerturb: number, maxLngPerturb: number) {
+        // Enforce sorting by startTime, immutability, and generate randomly
+        // perturbed interpolated paths for each voyage.
+        this.voyageRoutes = voyageRoutes
+            .filter(v => v.route.isValid())
+            .map(v => ({
+                ...v, interpolatedPath: v.route.createInterpolation(
+                    maxLatPerturb * (Math.random() - 0.5),
+                    maxLngPerturb * (Math.random() - 0.5))
+            }))
+            .sort((a, b) => a.startTime - b.startTime)
     }
 }
 
@@ -329,16 +347,20 @@ interface VoyageRoutesCluster {
 }
 
 class VoyageRouteCollectionWindow {
-    private readonly vs: ReadonlyArray<VoyageRoute>
+    private readonly vs: ReadonlyArray<InterpolatedVoyageRoute>
     private readonly time: number
     private idxSearch: number
 
     private static buffer: (VoyageRoutePoint | null)[] = new Array(2048)
 
-    constructor(collection: VoyageRouteCollection, private readonly speed: number) {
-        this.vs = collection.voyageRoutes
-        this.time = this.vs.length === 0 ? 0 : this.vs[0].startTime
-        this.idxSearch = 0
+    constructor(
+            voyageRoutes: ReadonlyArray<InterpolatedVoyageRoute>,
+            private readonly speed: number,
+            time?: number,
+            idxSearch?: number) {
+        this.vs = voyageRoutes
+        this.time = time ?? (this.vs.length === 0 ? 0 : this.vs[0].startTime)
+        this.idxSearch = idxSearch ?? 0
     }
 
     static createStyleIterable = function* (blockStart: number, count: number): Iterable<VoyageRoutePoint> {
@@ -348,7 +370,9 @@ class VoyageRouteCollectionWindow {
         }
     }
 
-    advance = (delta: number) => ({ ...this, time: this.time + delta } as VoyageRouteCollectionWindow)
+    advance = (delta: number) => new VoyageRouteCollectionWindow(this.vs, this.speed, this.time + delta, this.idxSearch)
+
+    hasFinished = () => this.idxSearch >= this.vs.length
 
     /**
      * This is a performance oriented, limited-capacity group-by. Yielded groups
@@ -363,17 +387,18 @@ class VoyageRouteCollectionWindow {
                 throw Error('No way you need so many styles??')
             }
             const counts = renderStyles.styles.map(_ => 0)
-            const blockSize = buffer.length / counts.length
+            const blockSize = Math.trunc(buffer.length / counts.length)
             const source = self.window()
             const creator = VoyageRouteCollectionWindow.createStyleIterable
             for (const voyage of source) {
                 const idx = renderStyles.getStyleForVoyage(voyage)
                 const blockStart = idx * blockSize
-                const pt = convertToDeg(voyage.route(self.time))
-                if (!bounds.contains(pt)) {
+                const fraction = (self.time - voyage.startTime) / voyage.animationDuration
+                const pt = convertToDeg(voyage.interpolatedPath(fraction))
+                //if (!bounds.contains(pt)) {
                     // Skip points that do not show up inside the bounds.
-                    continue
-                }
+                //    continue
+                //}
                 buffer[blockStart + counts[idx]++] = { voyage, pt }
                 if (counts[idx] === blockSize) {
                     // A block is full, yield them all and clear the block.
@@ -391,7 +416,9 @@ class VoyageRouteCollectionWindow {
         return generator(this)
     }
 
-    window = (): Iterable<VoyageRoute> => {
+    restart = () => new VoyageRouteCollectionWindow(this.vs, this.speed)
+
+    window = (): Iterable<InterpolatedVoyageRoute> => {
         const self = this
         const generator = function* () {
             const { vs, time, speed } = self
@@ -431,34 +458,45 @@ interface CanvasAnimationProps {
 
 const CanvasAnimation = ({ collection, renderStyles, speed }: CanvasAnimationProps) => {
     const windowRef = useRef<VoyageRouteCollectionWindow>()
-    const canvasRef = createRef<HTMLCanvasElement>()
+    const canvasRef = useRef<CanvasRenderingContext2D | null>()
     const map = useMap()
     useEffect(
-        () => { windowRef.current = new VoyageRouteCollectionWindow(collection, speed) },
+        () => {
+            windowRef.current = new VoyageRouteCollectionWindow(
+                collection.voyageRoutes,
+                speed,
+                1720 * 360)
+            },
         [collection, speed])
     const render = (elapsed: number) => {
-        const canvas = canvasRef.current
-        const ctx = canvas?.getContext('2d')
+        const ctx = canvasRef.current
         let win = windowRef.current
-        if (!ctx || !canvas || !win) {
+        if (!ctx || !win) {
             return
         }
         // Clear canvas before rendering frame.
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
         // Advance the window.
-        windowRef.current = win = win.advance(elapsed * speed)
+        win = win.advance(elapsed * speed / 10)
+        if (win.hasFinished()) {
+            // Restart
+            win = win.restart()
+        }
+        windowRef.current = win
         // We are grouping the work so that Canvas draw operations are batched
         // (e.g. we draw several circles with the same style in one step). Our
         // grouping method also skips over points that would be outside the map
         // bounds.
         const bounds = map.getBounds()
+        const topLeft = map.latLngToLayerPoint(bounds.getNorthWest());
+        ctx.setTransform(1, 0, 0, 1, -topLeft.x, -topLeft.y);
         const active = win.groupByStyle(renderStyles, bounds)
         for (const { style, voyages } of active) {
             ctx.beginPath()
             ctx.fillStyle = style
             for (const { voyage, pt } of voyages) {
                 const radius = renderStyles.getRadiusForVoyage(voyage)
-                const { x, y } = map.latLngToContainerPoint(pt)
+                const { x, y } = map.latLngToLayerPoint(pt)
                 // Start a new sub-path with moveTo.
                 ctx.moveTo(x + radius, y);
                 ctx.arc(x, y, radius, 0, 2 * Math.PI);
@@ -480,7 +518,7 @@ const CanvasAnimation = ({ collection, renderStyles, speed }: CanvasAnimationPro
         fRef.current = requestAnimationFrame(frame)
         return () => { fRef.current && cancelAnimationFrame(fRef.current) }
     }, [collection, renderStyles, speed])
-    return <canvas ref={canvasRef} />
+    return <canvas width="1200" height="800" ref={c => canvasRef.current = c?.getContext('2d')} style={{ position: 'relative', zIndex: 5000 }} />
 }
 
 const InteractiveVoyageRoutesFrame = () => {
@@ -512,14 +550,14 @@ interface OBSOLETE_APIVoyageEntry {
 
 const rndInteger = (max: number) => Math.round(Math.random() * max)
 
-const OBSOLETE_legacyToVoyageRout = (entry: OBSOLETE_APIVoyageEntry): VoyageRoute => {
+const OBSOLETE_legacyToVoyageRoute = (routeBuilder: MapRouteBuilder, entry: OBSOLETE_APIVoyageEntry): VoyageRoute => {
     // The start time is expressed in "days" elapsed, however since we not
     // always have a month available on record, we use a random value to better
     // distribute 
     const { year, month, embarked, disembarked } = entry
-    const startTime = year * 360 + month >= 1 && month <= 12
+    const startTime = year * 360 + (month >= 1 && month <= 12
         ? (month - 1) * 30 + rndInteger(30)
-        : rndInteger(360)
+        : rndInteger(360))
     // The animation duration is now randomly generated. Our time scale for the
     // routes are in "days", and an entire year in the timelapse goes relatively
     // quickly, hence the duration needs to be somewhat large otherwise the
@@ -531,24 +569,96 @@ const OBSOLETE_legacyToVoyageRout = (entry: OBSOLETE_APIVoyageEntry): VoyageRout
         embarked,
         disembarked,
         animationDuration,
-        route: null! // TODO build the route
+        route: routeBuilder.getRoute(entry.src, entry.dst)
     }
+}
+
+const OBSOLETE_legacyVoyageCollection = async () => {
+    const regionSeg: RegionSegments = OBSOLETE_regionalSegments
+    const ports: PortCollectionData = await
+        (await fetch(`${BASEURL}/timelapse/get-compiled-routes/?networkName=trans&routeType=port`, {
+            headers: { 'Authorization': AUTHTOKEN }
+        }))
+            .json()
+    const routeBuilder = new MapRouteBuilder(ports, regionSeg)
+    const post = { "searchData": { "items": [{ "op": "is between", "searchTerm": [1514, 1866], "varName": "imp_arrival_at_port_of_dis" }], "orderBy": [] }, "output": "mapAnimation" }
+    //const voyagesPromise = fetch(
+    //    `${BASEURL}/timelapse/records/`, {
+    //    method: 'POST',
+    //    headers: {
+    //        'Authorization': AUTHTOKEN,
+    //        "Content-Type": "application/json",
+    //    },
+    //    body: JSON.stringify(post)
+    //})
+    //const voyages: OBSOLETE_APIVoyageEntry[] = await (await voyagesPromise).json()
+    const voyages: OBSOLETE_APIVoyageEntry = OBSOLETE_voyages
+    // TODO: replace hardcoded args.
+    return new VoyageRouteCollection(voyages.map(v => OBSOLETE_legacyToVoyageRoute(routeBuilder, v)), 0.01, 0.01)
 }
 
 export interface TimelapseMapProps {
     renderStyles: VoyageRouteRenderStyles
     collection: VoyageRouteCollection
     initialSpeed: number
-    minSpeed: number
-    maxSpeed: number
+    // minSpeed: number
+    // maxSpeed: number
+}
+
+export const DemoTimelapseMap = () => {
+    const loadedRef = useRef<boolean>(false)
+    const [collection, setCollection] = useState<VoyageRouteCollection | null>(null)
+    useEffect(() => {
+        if (!loadedRef.current) {
+            loadedRef.current = true
+            OBSOLETE_legacyVoyageCollection().then(setCollection)
+        }
+    }, [])
+    const baseLine = 200 // TODO: not hardcoded!
+    const renderStyles: VoyageRouteRenderStyles = {
+        styles: ['red'],
+        getRadiusForVoyage: v => v.embarked <= baseLine ? 2 : Math.min(9, 2 * (1.0 + Math.log2(v.embarked / baseLine))),
+        getStyleForVoyage: _ => 0
+    }
+    return collection && <TimelapseMap collection={collection} initialSpeed={1} renderStyles={renderStyles} />
 }
 
 export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: TimelapseMapProps) => {
     const [zoomLevel, setZoomLevel] = useState<number>(3)
     const [isPaused, setPaused] = useState(false)
     const [speed, setSpeed] = useState(initialSpeed)
-    return <LeafletMap zoomLevel={zoomLevel} setZoomLevel={setZoomLevel}>
-        {!isPaused && <CanvasAnimation collection={collection} speed={speed} renderStyles={renderStyles} />}
-        {isPaused && <InteractiveVoyageRoutesFrame />}
-    </LeafletMap>
+    return <div className='mobile-responsive-map'>
+        <MapContainer
+            style={{ width: "100%" }}
+            className="map-container"
+        >
+        <MapContainer
+          center={MAP_CENTER}
+          zoom={zoomLevel}
+          className="lealfetMap-container"
+          maxZoom={MAXIMUM_ZOOM}
+          minZoom={MINIMUM_ZOOM}
+          attributionControl={false}
+          scrollWheelZoom={true}
+          zoomControl={true}
+        >
+          <HandleZoomEvent
+            setZoomLevel={setZoomLevel}
+            setRegionPlace={() => {}}
+            zoomLevel={zoomLevel}
+          />
+          <TileLayer url={mappingSpecialists} />
+          <LayersControl position="topright">
+            <LayersControl.Overlay name="River">
+              <TileLayer url={mappingSpecialistsRivers} />
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Modern Countries">
+              <TileLayer url={mappingSpecialistsCountries} />
+            </LayersControl.Overlay>
+          </LayersControl>
+            {!isPaused && <CanvasAnimation collection={collection} speed={speed} renderStyles={renderStyles} />}
+            {isPaused && <InteractiveVoyageRoutesFrame />}
+        </MapContainer>
+        </MapContainer>
+    </div>
 }
