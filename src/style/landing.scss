@@ -79,7 +79,7 @@ $animationSpeed: 100s;
     height: fit-content;
     text-align: center;
     margin: 0;
-    padding: 3rem 0 10rem 0;
+    padding: 2rem 0 6.5rem 0;
 
     @include breakpoint-standard(5) {
         padding: 0 0 2rem 0;
@@ -408,7 +408,7 @@ $animationSpeed: 100s;
     .shouth-sea-content-bg {
         background-color: var(--color-bg);
         padding: 3rem 0;
-        width: 67%;
+        width: 50%;
 
         @include breakpoint-standard(5) {
             width: 100%;
@@ -438,12 +438,10 @@ $animationSpeed: 100s;
 
 
     .shouth-sea-content-detail {
-        // font-family: "Cormorant Garamond";
         color: rgba(0, 0, 0, 0.95);
         text-align: center;
-        width: 33%;
-        position: relative;
-        right: 8%;
+        width: 45%;
+        padding-right: 2%;
 
         @include breakpoint-standard(5) {
             width: 70%;
@@ -583,7 +581,7 @@ $animationSpeed: 100s;
         .enslavers-content-bg {
             background-color: rgb(203, 185, 155, 54%);
             padding: 3rem 0;
-            width: 60%;
+            width: 50%;
 
             @include breakpoint-standard(5) {
                 width: 100%;
@@ -614,9 +612,9 @@ $animationSpeed: 100s;
             // font-family: "Cormorant Garamond";
             color: rgba(0, 0, 0, 0.95);
             text-align: center;
-            width: 40%;
+            width: 45%;
             position: relative;
-            right: 8%;
+            right: 2%;
 
             @include breakpoint-standard(5) {
                 width: 70%;
@@ -681,7 +679,7 @@ $animationSpeed: 100s;
             }
 
             p {
-                padding: 2rem;
+                padding: 2rem 5rem;
                 font-size: 1.12rem;
                 font-weight: 400;
 
@@ -699,7 +697,7 @@ $animationSpeed: 100s;
     height: fit-content;
     text-align: center;
     margin: 0;
-    padding: 3rem 0 10rem 0;
+    padding: 3rem 0 6rem 0;
 
     @include breakpoint-standard(5) {
         padding: 0 0 2rem 0;
@@ -789,7 +787,7 @@ $animationSpeed: 100s;
         .african-content-bg {
             background-color: rgba(203, 185, 155, 48%);
             padding: 3rem 0;
-            width: 65%;
+            width: 50%;
             display: flex;
             justify-content: flex-end;
 
@@ -819,7 +817,7 @@ $animationSpeed: 100s;
         }
 
         .african-img {
-            width: 80%;
+            width: 90%;
 
             @include breakpoint-standard(5) {
                 width: 100%;
@@ -851,11 +849,10 @@ $animationSpeed: 100s;
             // font-family: "Cormorant Garamond";
             color: rgba(0, 0, 0, 0.95);
             text-align: center;
-            width: 33%;
+            width: 50%;
             position: relative;
-            left: 8%;
             background: #ffff;
-            padding: 2rem;
+            padding: 2rem 4rem;
 
 
             @include breakpoint-standard(5) {
@@ -965,7 +962,7 @@ $animationSpeed: 100s;
 }
 
 .register-img {
-    width: auto;
+    width: 90%;
 
     @include breakpoint-standard(5) {
         width: 100%;
@@ -1017,4 +1014,137 @@ $animationSpeed: 100s;
 .slide-track:hover {
     animation-play-state: paused;
     cursor: pointer;
+}
+
+.react-multi-carousel-dot-list {
+    bottom: 6.5rem !important;
+}
+
+.parent-carousel {
+    height: 350px;
+}
+
+.slider {
+    margin: 0 20px;
+    overflow: hidden;
+    padding: 2rem 0;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.carousel-caption {
+    padding: 1rem 1.5rem;
+    position: relative;
+    bottom: 11rem;
+
+    h5 {
+        background-color: rgb(0, 0, 0, 0.3);
+        padding: 1rem;
+        border-radius: 2px;
+        color: #fff;
+        font-size: 1.20rem;
+        height: 100px;
+
+        @include breakpoint-standard(7) {
+            font-size: 1.1rem;
+        }
+
+        @include breakpoint-standard(6) {
+            font-size: 1rem;
+        }
+
+        @include breakpoint-standard(5) {
+            font-size: 0.95rem;
+        }
+
+        @include breakpoint-standard(4) {
+            font-size: 0.95rem;
+        }
+
+        @include breakpoint-standard(3) {
+            font-size: 0.95rem;
+        }
+
+        @include breakpoint-standard(2) {
+            font-size: 0.95rem;
+        }
+
+        @include breakpoint-standard(1) {
+            font-size: 0.95rem;
+        }
+
+        @include breakpoint-standard(0) {
+            font-size: 0.95rem;
+        }
+    }
+}
+
+.react-multiple-carousel__arrow--left {
+    left: calc(2% + 1px) !important;
+}
+
+.react-multiple-carousel__arrow--right {
+    right: calc(2% + 1px) !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+}
+
+.react-multiple-carousel__arrow {
+    top: 9rem !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+}
+
+.slider img {
+    width: 100%;
+    border-radius: 10px;
+    height: 300px;
+    box-shadow: 8px 8px 5px 2px #3f3f3f;
+
+    @include breakpoint-standard(6) {
+        height: 260px;
+    }
+
+    @include breakpoint-standard(5) {
+        height: 260px;
+    }
+
+    @include breakpoint-standard(4) {
+        height: 220px;
+    }
+
+    @include breakpoint-standard(3) {
+        height: 220px;
+    }
+
+    @include breakpoint-standard(2) {
+        height: 220px;
+    }
+
+    @include breakpoint-standard(1) {
+        height: 220px;
+    }
+
+    @include breakpoint-standard(0) {
+        height: 250px;
+    }
+}
+
+.react-multi-carousel-dot button {
+    width: 15px !important;
+    height: 15px !important;
+    border-radius: 50%;
+}
+
+
+.custom-dot-list-style button {
+    border: none;
+    background: rgb(249, 249, 249);
+
+}
+
+.react-multi-carousel-dot.react-multi-carousel-dot--active button {
+    background: rgb(255, 255, 255) !important;
 }

@@ -39,6 +39,7 @@ export const DatasetButton = (props: DatasetButtonProps) => {
   } = item;
   const { styleName } = usePageRouter()
 
+
   return (
     <Button
       key={`${item}-${index}`}
@@ -58,7 +59,8 @@ export const DatasetButton = (props: DatasetButtonProps) => {
         color: getColorTextCollection(style_name),
         fontWeight: 600,
         height: 32,
-        fontSize: 12,
+        fontSize: '0.80rem',
+        textTransform: 'unset',
         margin: '0 2px',
         backgroundColor: getColorBTNBackground(style_name),
         '&:hover': {

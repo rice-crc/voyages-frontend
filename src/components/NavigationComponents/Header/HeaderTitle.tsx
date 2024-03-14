@@ -1,3 +1,5 @@
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { VOYAGEPATHENPOINT } from '@/share/CONST_DATA';
 import { Link } from 'react-router-dom';
 interface HeaderTitleProps {
   textHeader: string;
@@ -7,11 +9,12 @@ interface HeaderTitleProps {
 }
 export const HeaderTitle = (props: HeaderTitleProps) => {
   const { textHeader, HeaderTitle, pathLink, onClickReset } = props;
+  const { styleName: endpointPath } = usePageRouter();
 
   return (
-    <div className="enslaved-header" style={{ color: '#000000' }}>
+    <div className="enslaved-header-subtitle">
       <Link
-        to={`/${pathLink}`}
+        to={endpointPath !== VOYAGEPATHENPOINT ? `${pathLink}` : ''}
         onClick={onClickReset}
         style={{
           textDecoration: 'none',
@@ -20,8 +23,8 @@ export const HeaderTitle = (props: HeaderTitleProps) => {
       >
         {HeaderTitle}
       </Link>
-      {textHeader && <span className="enslaved-title">:</span>}
-      <div className="enslaved-header-subtitle">{textHeader}</div>
+      {textHeader && <span className="enslaved-title">-</span>}
+      <div >{textHeader}</div>
     </div>
   );
 };

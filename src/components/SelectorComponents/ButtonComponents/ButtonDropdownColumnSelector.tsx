@@ -20,7 +20,7 @@ import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.js
 import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { ENSALVERSTYLE } from '@/share/CONST_DATA';
+import { ENSALVERSTYLE, INTRAAMERICANENSLAVERS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
 import { DropdownCanscanding } from '../Cascading/DropdownCanscanding';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
 
@@ -60,6 +60,10 @@ const ButtonDropdownColumnSelector = () => {
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
           setMenuValueCells(TEXAS_TABLE.column_selector_tree);
         } else if (styleNameRoute === ENSALVERSTYLE) {
+          setMenuValueCells(ENSLAVERS_TABLE.column_selector_tree);
+        } else if (styleNameRoute === TRANSATLANTICTRADS) {
+          setMenuValueCells(ENSLAVERS_TABLE.column_selector_tree);
+        } else if (styleNameRoute === INTRAAMERICANENSLAVERS) {
           setMenuValueCells(ENSLAVERS_TABLE.column_selector_tree);
         }
       } catch (error) {
@@ -110,12 +114,13 @@ const ButtonDropdownColumnSelector = () => {
         <span style={{ display: 'flex', alignItems: 'center' }}>
           <Button
             sx={{
-              fontSize: 10,
+              fontSize: '0.80rem',
+              textTransform: 'unset',
               backgroundColor: getColorBTNVoyageDatasetBackground(styleNameRoute!),
               boxShadow: getColorBoxShadow(styleNameRoute!),
               fontWeight: 600,
               color: '#ffffff',
-              width: { xs: 160, sm: 160 },
+              width: { xs: 170, sm: 170 },
               '&:hover': {
                 backgroundColor: getColorHoverBackground(styleNameRoute!),
               },

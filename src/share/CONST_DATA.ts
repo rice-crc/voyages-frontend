@@ -24,6 +24,7 @@ export const TRANSATLANTICPATH = 'trans-atlantic'
 export const TRANSATLANTICPAGE = '/voyage/trans-atlantic'
 export const VOYAGESTEXAS = 'texas'
 export const VOYAGESTEXASPAGE = '/voyage/texas'
+export const USESAVESEARCHURL = 'saveUrl'
 
 export const PASTHOMEPAGE = 'PastHomePage'
 export const Enslaved = 'Enslaved'
@@ -41,6 +42,11 @@ export const BLOGPAGE = 'Blog'
 export const ALLENSLAVERS = '/past/enslaver'
 export const ENSALVERSPAGE = '/past/enslaver'
 export const ENSALVERSTYLE = 'enslaver'
+export const INTRAAMERICANENSLAVERS = '/intra-american-trades'
+export const TRANSATLANTICENSLAVERS = '/trans-atlantic-trades'
+export const allEnslavers = 'enslaver'
+export const INTRAAMERICANTRADS = 'intra-american-trades'
+export const TRANSATLANTICTRADS = 'trans-atlantic-trades'
 
 
 export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGhqMXZ5YmxjZCJ9.eP7ZuC68Q5iBZQa8I13AGw`;
@@ -55,6 +61,7 @@ export const MAXIMUM_NATIVE_ZOOM = 10;
 export const MINIMUM_ZOOM = 2;
 export const MAXIMUM_ZOOM = 22;
 export const ZOOM_LEVEL_THRESHOLD = 5;
+export const VOYAGEPATHENPOINT = 'voyage'
 export const VOYAGESTYPE = 'voyages'
 export const ENSALVEDTYPE = 'enslaved'
 export const ENSLAVERSTYPE = 'enslavers'

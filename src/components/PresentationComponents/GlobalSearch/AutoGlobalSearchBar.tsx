@@ -25,6 +25,8 @@ import {
   GlobalSearchEnslavedType,
   GlobalSearchEnslaversType,
   GlobalSearchVoyagesType,
+  TRANSATLANTICENSLAVERS,
+  allEnslavers,
 } from '@/share/CONST_DATA';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
@@ -133,7 +135,7 @@ const AutoGlobalSearchBar = () => {
       } else if (type === GlobalSearchEnslaversType) {
         dispatch(setCurrentEnslaversPage(1));
         dispatch(setCurrentBlockName('people'));
-        navigate(`${ENSALVERSPAGE}#people`);
+        navigate(`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}#people`);
       } else if (type === GlobalSearchBlogType) {
         navigate(`${BLOGPAGE}`);
       }

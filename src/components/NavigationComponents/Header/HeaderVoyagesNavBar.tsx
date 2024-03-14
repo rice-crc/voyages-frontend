@@ -38,7 +38,6 @@ import {
   INTRAAMERICANPAGE,
   TRANSATLANTIC,
   TRANSATLANTICPAGE,
-  VOYAGESPAGE,
   VOYAGESTEXAS,
   VOYAGESTEXASPAGE,
   VOYAGETILE,
@@ -64,9 +63,10 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
 
-  const { value, textHeader, styleName, } = useSelector(
+  const { value, textHeader } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -101,7 +101,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           searchTerm: base.value,
           op: "in"
         })
-
         dispatch(setFilterObject(filters));
       }
       if (filters) {
@@ -162,8 +161,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
         component="nav"
         style={{
           backgroundColor: getColorNavbarBackground(styleNameRoute!),
-          fontSize: 12,
-          boxShadow: 'none',
+          paddingTop: 5
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -196,13 +194,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 onClickReset={onClickReset}
               />
             </span>
-            <Divider
-              sx={{
-                width: { xs: 300, sm: 400, md: 470, lg: 800, xl: 900 },
-                borderWidth: '0.25px',
-                borderClor: 'rgb(0 0 0 / 50%)',
-              }}
-            />
             <Typography
               component="div"
               variant="body1"
@@ -224,6 +215,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
             </Typography>
           </Typography>
+
           <CanscandingMenuMobile />
           <Box
             className="menu-nav-bar-select-box"
@@ -236,16 +228,10 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 textAlign: 'center',
                 paddingRight: 40,
                 fontWeight: 600,
-                fontSize: 20,
 
               },
             }}
           >
-            <Box
-              className="menu-nav-bar-select"
-            >
-              Select dataset
-            </Box>
             {value.map((item: DataSetCollectionProps, index: number) => {
               return (
                 <DatasetButton
@@ -262,6 +248,12 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
           </Box>
         </Toolbar>
+        <Divider
+          sx={{
+            borderWidth: '0.25px',
+            borderClor: 'rgb(0 0 0 / 50%)',
+          }}
+        />
         <Hidden mdDown>
           <CanscandingMenu />
         </Hidden>

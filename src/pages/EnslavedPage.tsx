@@ -68,7 +68,6 @@ const EnslavedPage: React.FC = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {/* {currentEnslavedPage === 1 && currentPageBlockName === 'intro' && <EnslavedIntro />} */}
       {currentEnslavedPage === 1 && currentPageBlockName === 'people' && <Tables />}
       {currentEnslavedPage === 2 && currentPageBlockName === 'map' && <EnslavedMap />}
     </motion.div>

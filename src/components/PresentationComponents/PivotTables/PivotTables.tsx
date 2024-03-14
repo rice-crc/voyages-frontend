@@ -118,7 +118,7 @@ const PivotTables = () => {
             value_field={cell_vars}
             offset={offset}
             limit={rowsPerPage}
-            filter={filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : []}
+            filter={Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 ? filtersObj : []}
             setPage={setPage}
             page={page}
             {...props} />
@@ -193,7 +193,7 @@ const PivotTables = () => {
     value_field: cell_vars,
     offset: offset,
     limit: rowsPerPage,
-    filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
+    filter: Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 ? filtersObj : [],
   }
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue

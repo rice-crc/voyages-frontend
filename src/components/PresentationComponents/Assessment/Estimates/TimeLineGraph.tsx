@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import { select } from 'd3-selection';
 import { Button, } from "antd";
 import { fetchEstimateTimeLines } from '@/fetch/estimateFetch/fetchEstimateTimeLines';
-import { DataTimeLinesItem, ElementTimeLine, EventsTimeLinesType, RangeSliderState, TimeLineGraphRequest } from '@/share/InterfaceTypes';
+import { DataTimeLinesItem, ElementTimeLine, EventsTimeLinesType, Filter, RangeSliderState, TimeLineGraphRequest } from '@/share/InterfaceTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import '@/style/estimates.scss';
@@ -17,8 +17,14 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
     const graphContainerRef = useRef<HTMLDivElement | null>(null);
     const mouseOverInfoRef = useRef<HTMLDivElement | null>(null);
     const historicalEventsContainerRef = useRef<HTMLDivElement | null>(null);
+    let filters: Filter[] = []
+    if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+        filters = filtersObj;
+    } else {
+        filters = filtersObj;
+    }
     const dataSend: TimeLineGraphRequest = {
-        filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : []
+        filter: filters
     };
     const { varName } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState

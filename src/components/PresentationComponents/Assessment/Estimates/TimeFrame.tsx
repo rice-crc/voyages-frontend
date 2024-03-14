@@ -27,6 +27,7 @@ const TimeFrame = () => {
         if (storedValue) {
             const parsedValue = JSON.parse(storedValue);
             const filter: Filter[] = parsedValue.filter;
+
             const filterByVarName =
                 filter?.length > 0 &&
                 filter.find((filterItem) => filterItem.varName === varName);

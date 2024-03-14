@@ -16,13 +16,13 @@
 		"table_flatfile": "voyage_table_cell_structure__updated21June.json",
 		"style_name": "trans-atlantic",
 		"blocks": [
-			"VOYAGES",
+			"Voyages",
 			"Summary\nstatistics",
-			"LINE",
-			"BAR",
-			"PIE",
-			"TABLE",
-			"MAP"
+			"Line",
+			"Bar",
+			"Pie",
+			"Table",
+			"Map"
 		]
 	},
 	{
@@ -42,13 +42,13 @@
 		"table_flatfile": "voyage_table_cell_structure__updated21June.json",
 		"style_name": "intra-american",
 		"blocks": [
-			"VOYAGES",
+			"Voyages",
 			"Summary\nstatistics",
-			"LINE",
-			"BAR",
-			"PIE",
-			"TABLE",
-			"MAP"
+			"Line",
+			"Bar",
+			"Pie",
+			"Table",
+			"Map"
 		]
 	},
 	{
@@ -61,13 +61,13 @@
 		"table_flatfile": "voyage_table_cell_structure__updated21June.json",
 		"style_name": "all-voyages",
 		"blocks": [
-			"VOYAGES",
+			"Voyages",
 			"Summary\nstatistics",
-			"LINE",
-			"BAR",
-			"PIE",
-			"TABLE",
-			"MAP"
+			"Line",
+			"Bar",
+			"Pie",
+			"Table",
+			"Map"
 		]
 	}
 ]

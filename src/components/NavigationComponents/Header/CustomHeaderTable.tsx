@@ -7,7 +7,7 @@ import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEns
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { TableListPropsRequest } from '@/share/InterfaceTypes';
+import { Filter, TableListPropsRequest } from '@/share/InterfaceTypes';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 
@@ -69,9 +69,14 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
       props.column.removeEventListener('sortChanged', onSortChanged);
     }
   }, []);
-
+  let filters: Filter[] = []
+  if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+    filters = filtersObj;
+  } else {
+    filters = filtersObj;
+  }
   const dataSend: TableListPropsRequest = {
-    filter: filtersObj[0]?.searchTerm?.length > 0 ? filtersObj : [],
+    filter: filters,
     page: Number(page + 1),
     page_size: Number(pageSize),
   };

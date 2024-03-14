@@ -15,6 +15,7 @@ import {
   RangeSliderState,
   CurrentPageInitialState,
   IRootFilterObjectScatterRequest,
+  Filter,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import '@/style/page.scss';
@@ -81,13 +82,18 @@ function Scatter() {
       }
     );
   }, []);
-
+  let filters: Filter[] = []
+  if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+    filters = filtersObj;
+  } else {
+    filters = filtersObj;
+  }
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: scatterOptions.x_vars,
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_xyscatter',
-    filter: filtersObj?.[0]?.searchTerm?.length > 0 ? filtersObj : [],
+    filter: filters
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
@@ -195,11 +201,11 @@ function Scatter() {
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-      <Grid className="voyages-data-grid">
+      <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
         <Plot
           data={scatterData}
           layout={{
-            width: getMobileMaxWidth(maxWidth),
+            width: getMobileMaxWidth(maxWidth - 5),
             height: getMobileMaxHeight(height),
             title: 'Line Graph',
             font: {

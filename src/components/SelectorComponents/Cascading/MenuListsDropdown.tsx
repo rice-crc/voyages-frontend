@@ -32,7 +32,7 @@ import { setIsChange, setKeyValueName } from '@/redux/getRangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
-import { ENSALVERSTYLE, } from '@/share/CONST_DATA';
+import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICENSLAVERS, TRANSATLANTICTRADS, } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -78,6 +78,10 @@ export const MenuListsDropdown = () => {
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
           setFilterMenu(valueEnslavedTexas);
         } else if (styleNameRoute === ENSALVERSTYLE) {
+          setFilterMenu(valueEnslavers);
+        } else if (styleNameRoute === TRANSATLANTICTRADS) {
+          setFilterMenu(valueEnslavers);
+        } else if (styleNameRoute === INTRAAMERICANTRADS) {
           setFilterMenu(valueEnslavers);
         }
       } catch (error) {
