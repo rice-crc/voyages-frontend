@@ -65,7 +65,7 @@
     "react-plotly.js": "^2.6.0",
     "react-query": "^3.39.3",
     "react-redux": "^8.0.5",
-    "react-router-dom": "^6.12.1",
+    "react-router-dom": "^6.22.3",
     "react-scroll": "^1.8.9",
     "react-slick": "^0.29.0",
     "react-virtualized": "^9.22.5",

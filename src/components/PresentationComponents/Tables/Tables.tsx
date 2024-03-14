@@ -45,16 +45,28 @@ import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEns
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import {
     AFRICANORIGINS,
+    ASSESSMENT,
     ENSLAVEDTEXAS,
+    ESTIMATES,
     INTRAAMERICAN,
     INTRAAMERICANTRADS,
     TRANSATLANTICPATH,
     TRANSATLANTICTRADS,
 } from '@/share/CONST_DATA';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+import { fetchCommonUseSavedSearch } from '@/fetch/saveSearch/fetchCommonUseSavedSearch';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { setQuerySaveSeary } from '@/redux/getQuerySaveSearchSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate()
+    const params = new URLSearchParams(location.search);
+    const returnUrl = params.get('returnUrl');
+    const IDSaveSearch = params.get('id');
+
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { varName, isChange } = useSelector(
@@ -144,7 +156,6 @@ const Tables: React.FC = () => {
 
     let filters: Filter[] = []
 
-
     if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
         filters = filtersObj;
     } else if (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
@@ -231,7 +242,6 @@ const Tables: React.FC = () => {
             }
         };
         fetchDataTable();
-        return () => { };
     }, [
         dispatch, filtersObj,
         rowsPerPage,
@@ -283,6 +293,29 @@ const Tables: React.FC = () => {
         tableFlatfileEnslaved,
         tableFlatfileEnslavers, tablesCell
     ]);
+
+    useEffect(() => {
+        const fetchDataUseSaveSearch = async () => {
+            try {
+                const response = await dispatch(
+                    fetchCommonUseSavedSearch(IDSaveSearch!)
+                ).unwrap();
+                if (response) {
+                    const { query } = response;
+                    dispatch(setFilterObject(query));
+                    dispatch(setQuerySaveSeary(query));
+                }
+            } catch (error) {
+                console.log('error', error);
+            }
+        };
+        console.log({ returnUrl })
+
+        if (IDSaveSearch) {
+            fetchDataUseSaveSearch()
+            navigate(`/${returnUrl!}`, { replace: true });
+        }
+    }, [dispatch, returnUrl, IDSaveSearch, navigate]);
 
     const defaultColDef = useMemo(
         () => ({

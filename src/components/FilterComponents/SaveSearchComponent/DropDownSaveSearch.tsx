@@ -20,7 +20,7 @@ const DropDownSaveSearch = () => {
     } else if (endpointPath === 'voyage') {
         endpointSaveURL = `${endpointPath}/${styleName}`
     } else if (endpointPath === 'assessment') {
-        endpointSaveURL = `${endpointPath}/${styleName}`
+        endpointSaveURL = `${endpointPath}/estimates/`
     }
     let endpointSaveSearch: string = ''
     if (endpointPeopleDirect === 'past/enslaved') {
@@ -43,7 +43,9 @@ const DropDownSaveSearch = () => {
         endpoint: endpointSaveSearch,
         query: filters,
     };
-    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
+
+    // const URLSAVESEARCH = `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
+    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${endpointSaveURL}?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
 
     const handleSaveSearch = () => {
         fetchData();
@@ -139,7 +141,7 @@ const DropDownSaveSearch = () => {
                                     <div className="v-title">URL</div>
                                 </div>{' '}
                                 <div className="flex-between v-saved-searches-item">
-                                    <div id="SzPhOxXs">
+                                    <div id="SzPhOxXs" className='url-searches-item'>
                                         {saveSearchUrlID &&
                                             `${URLSAVESEARCH}`}
                                     </div>{' '}

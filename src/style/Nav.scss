@@ -416,6 +416,10 @@
     color: #666666;
     word-break: break-all;
     font-weight: 500;
+
+    .url-searches-item {
+        width: 70%;
+    }
 }
 
 .btn-outline-secondary:hover {
@@ -426,5 +430,5 @@
 
 .search-submenu {
     padding: 0.75rem 0.95rem;
-    width: 700px;
+    width: 600px;
 }

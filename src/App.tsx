@@ -13,7 +13,6 @@ import {
   ABOUTPAGE,
   AFRICANORIGINSPAGE,
   ALLENSLAVEDPAGE,
-  ALLVOYAGES,
   ALLVOYAGESPAGE,
   ASSESSMENT,
   BLOGPAGE,
@@ -22,7 +21,6 @@ import {
   DOWNLOADS,
   ENSALVEDPAGE,
   ENSALVERSPAGE,
-  ENSALVERSTYLE,
   ENSLAVEDTEXASPAGE,
   ESTIMATES,
   INTRAAMERICANENSLAVERS,
@@ -54,8 +52,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import DocumentPageHold from '@/pages/DocumentPageHold';
 import AboutPage from '@/pages/AboutPage';
 import DownloadPage from '@/pages/DownloadPage';
-import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
-import { setSaveSearchUrlID } from './redux/getSaveSearchSlice';
+// import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -99,10 +96,10 @@ const App: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
           <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
-          <Route
+          {/* <Route
             path={`${USESAVESEARCHURL}`}
             element={<UseSaveSearchURL />}
-          />
+          /> */}
           <Route
             path={`${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}

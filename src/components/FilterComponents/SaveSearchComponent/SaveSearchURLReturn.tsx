@@ -1,14 +1,12 @@
 import { fetchCommonUseSavedSearch } from '@/fetch/saveSearch/fetchCommonUseSavedSearch';
-import { usePageRouter } from '@/hooks/usePageRouter';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { setQuerySaveSeary } from '@/redux/getQuerySaveSearchSlice';
 import { AppDispatch, } from '@/redux/store';
 import { ASSESSMENT, ESTIMATES } from '@/share/CONST_DATA';
-import { convertToSlug } from '@/utils/functions/convertToSlug';
 import { useEffect } from 'react';
 import { useDispatch, } from 'react-redux';
-import { useNavigate, } from 'react-router-dom';
-import { useLocation, } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 const UseSaveSearchURL = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -18,7 +16,7 @@ const UseSaveSearchURL = () => {
     const params = new URLSearchParams(location.search);
     const returnUrl = params.get('returnUrl');
     const id = params.get('id');
-
+    console.log({ location, returnUrl })
     useEffect(() => {
 
         const fetchDataUseSaveSearch = async () => {
