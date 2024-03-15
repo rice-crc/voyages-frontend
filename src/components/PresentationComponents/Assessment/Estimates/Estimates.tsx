@@ -25,34 +25,34 @@ const Estimates = () => {
         setViewAll(!viewAll);
     };
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     const fetchDataUseSaveSearch = async () => {
-    //         try {
-    //             const response = await dispatch(
-    //                 fetchCommonUseSavedSearch(IDSaveSearch!)
-    //             ).unwrap();
-    //             if (response) {
-    //                 const { query } = response;
-    //                 dispatch(setFilterObject(query));
-    //                 if (returnUrl === `${ASSESSMENT}/${ESTIMATES}/`) {
-    //                     const filterObjectEstimate = {
-    //                         filter: query
-    //                     }
-    //                     localStorage.setItem('filterObject', JSON.stringify(filterObjectEstimate))
-    //                 }
-    //                 dispatch(setQuerySaveSeary(query));
-    //             }
-    //         } catch (error) {
-    //             console.log('error', error);
-    //         }
-    //     };
+        const fetchDataUseSaveSearch = async () => {
+            try {
+                const response = await dispatch(
+                    fetchCommonUseSavedSearch(IDSaveSearch!)
+                ).unwrap();
+                if (response) {
+                    const { query } = response;
+                    dispatch(setFilterObject(query));
+                    if (returnUrl === `${ASSESSMENT}/${ESTIMATES}/`) {
+                        const filterObjectEstimate = {
+                            filter: query
+                        }
+                        localStorage.setItem('filterObject', JSON.stringify(filterObjectEstimate))
+                    }
+                    dispatch(setQuerySaveSeary(query));
+                }
+            } catch (error) {
+                console.log('error', error);
+            }
+        };
 
-    //     if (IDSaveSearch) {
-    //         fetchDataUseSaveSearch()
-    //         navigate(`/${returnUrl!}`, { replace: true });
-    //     }
-    // }, [dispatch, returnUrl, IDSaveSearch, navigate]);
+        if (IDSaveSearch) {
+            fetchDataUseSaveSearch()
+            navigate(`/${returnUrl!}`, { replace: true });
+        }
+    }, [dispatch, returnUrl, IDSaveSearch, navigate]);
 
     return (
         <>

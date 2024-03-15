@@ -46,8 +46,8 @@ const DropDownSaveSearch = () => {
         query: filters,
     };
 
-    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
-    // const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${endpointSaveURL}?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
+    // const URLSAVESEARCH = `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
+    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${endpointSaveURL}?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
     const handleSaveSearch = () => {
         fetchData();
     };
