@@ -1,16 +1,16 @@
 import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react"
-import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, LayersControl, useMap, SVGOverlay } from 'react-leaflet';
 import { LatLngBounds } from "leaflet"
 import { AUTHTOKEN, BASEURL } from '../../../share/AUTH_BASEURL';
 import OBSOLETE_regionalSegments from './regional.json'
 import OBSOLETE_voyages from './voyages.json'
 import {
-  MAP_CENTER,
-  MAXIMUM_ZOOM,
-  MINIMUM_ZOOM,
-  mappingSpecialists,
-  mappingSpecialistsCountries,
-  mappingSpecialistsRivers
+    MAP_CENTER,
+    MAXIMUM_ZOOM,
+    MINIMUM_ZOOM,
+    mappingSpecialists,
+    mappingSpecialistsCountries,
+    mappingSpecialistsRivers
 } from '@/share/CONST_DATA';
 import { HandleZoomEvent } from "./HandleZoomEvent";
 
@@ -354,10 +354,10 @@ class VoyageRouteCollectionWindow {
     private static buffer: (VoyageRoutePoint | null)[] = new Array(2048)
 
     constructor(
-            voyageRoutes: ReadonlyArray<InterpolatedVoyageRoute>,
-            private readonly speed: number,
-            time?: number,
-            idxSearch?: number) {
+        voyageRoutes: ReadonlyArray<InterpolatedVoyageRoute>,
+        private readonly speed: number,
+        time?: number,
+        idxSearch?: number) {
         this.vs = voyageRoutes
         this.time = time ?? (this.vs.length === 0 ? 0 : this.vs[0].startTime)
         this.idxSearch = idxSearch ?? 0
@@ -373,6 +373,8 @@ class VoyageRouteCollectionWindow {
     advance = (delta: number) => new VoyageRouteCollectionWindow(this.vs, this.speed, this.time + delta, this.idxSearch)
 
     hasFinished = () => this.idxSearch >= this.vs.length
+
+    year = () => Math.floor(this.time / 360)
 
     /**
      * This is a performance oriented, limited-capacity group-by. Yielded groups
@@ -396,7 +398,7 @@ class VoyageRouteCollectionWindow {
                 const fraction = (self.time - voyage.startTime) / voyage.animationDuration
                 const pt = convertToDeg(voyage.interpolatedPath(fraction))
                 //if (!bounds.contains(pt)) {
-                    // Skip points that do not show up inside the bounds.
+                // Skip points that do not show up inside the bounds.
                 //    continue
                 //}
                 buffer[blockStart + counts[idx]++] = { voyage, pt }
@@ -454,19 +456,39 @@ interface CanvasAnimationProps {
     collection: VoyageRouteCollection
     speed: number
     renderStyles: VoyageRouteRenderStyles
+    paused: boolean
+    onWindowChange: (win: VoyageRouteCollectionWindow) => void
 }
 
-const CanvasAnimation = ({ collection, renderStyles, speed }: CanvasAnimationProps) => {
+const useMapPosition = () => {
+    const map = useMap()
+    const getSizeOfMap = (m: L.Map): Size => {
+        const { x: width, y: height } = m.getSize()
+        return { width, height }
+    }
+    const [bounds, setBounds] = useState<LatLngBounds>(map.getBounds())
+    const [size, setSize] = useState(getSizeOfMap(map))
+    useEffect(() => {
+        const refreshBounds = () => setBounds(map.getBounds())
+        map.on('dragend', refreshBounds)
+        map.on('zoomend', refreshBounds)
+        map.on('resize', () => setSize(getSizeOfMap(map)))
+    }, [map])
+    return { bounds, size }
+}
+
+const CanvasAnimation = ({ collection, paused, renderStyles, speed, onWindowChange }: CanvasAnimationProps) => {
     const windowRef = useRef<VoyageRouteCollectionWindow>()
     const canvasRef = useRef<CanvasRenderingContext2D | null>()
     const map = useMap()
+    const { size } = useMapPosition()
     useEffect(
         () => {
             windowRef.current = new VoyageRouteCollectionWindow(
                 collection.voyageRoutes,
                 speed,
                 1720 * 360)
-            },
+        },
         [collection, speed])
     const render = (elapsed: number) => {
         const ctx = canvasRef.current
@@ -474,14 +496,13 @@ const CanvasAnimation = ({ collection, renderStyles, speed }: CanvasAnimationPro
         if (!ctx || !win) {
             return
         }
-        // Clear canvas before rendering frame.
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
         // Advance the window.
         win = win.advance(elapsed * speed / 10)
         if (win.hasFinished()) {
             // Restart
             win = win.restart()
         }
+        onWindowChange(win)
         windowRef.current = win
         // We are grouping the work so that Canvas draw operations are batched
         // (e.g. we draw several circles with the same style in one step). Our
@@ -490,6 +511,13 @@ const CanvasAnimation = ({ collection, renderStyles, speed }: CanvasAnimationPro
         const bounds = map.getBounds()
         const topLeft = map.latLngToLayerPoint(bounds.getNorthWest());
         ctx.setTransform(1, 0, 0, 1, -topLeft.x, -topLeft.y);
+        // Clear canvas before rendering frame.
+        ctx.clearRect(topLeft.x, topLeft.y, ctx.canvas.width, ctx.canvas.height)
+        if (paused) {
+            // This is the right point to stop when paused: after clearing,
+            // before drawing.
+            return
+        }
         const active = win.groupByStyle(renderStyles, bounds)
         for (const { style, voyages } of active) {
             ctx.beginPath()
@@ -510,23 +538,93 @@ const CanvasAnimation = ({ collection, renderStyles, speed }: CanvasAnimationPro
     useLayoutEffect(() => {
         const frame = (now: DOMHighResTimeStamp) => {
             const elapsed = lastTick.current ? (now - lastTick.current) : 0
-            lastTick.current = now
-            // Request next frame and render current.
-            fRef.current = requestAnimationFrame(frame)
+            if (paused) {
+                // Reset the last tick so that when the animation resumes, no
+                // time would have elapsed.
+                lastTick.current = 0
+            } else {
+                // Request next frame and render current.
+                lastTick.current = now
+                fRef.current = requestAnimationFrame(frame)
+            }
             render(elapsed)
         }
         fRef.current = requestAnimationFrame(frame)
         return () => { fRef.current && cancelAnimationFrame(fRef.current) }
-    }, [collection, renderStyles, speed])
-    return <canvas width="1200" height="800" ref={c => canvasRef.current = c?.getContext('2d')} style={{ position: 'relative', zIndex: 5000 }} />
+    }, [collection, renderStyles, speed, paused, map])
+    return <canvas width={size.width} height={size.height}
+        style={{ pointerEvents: 'none', position: 'relative', zIndex: 5000 }}
+        ref={c => canvasRef.current = c?.getContext('2d')} />
 }
 
-const InteractiveVoyageRoutesFrame = () => {
+interface InteractiveShipProps {
+    voyage: VoyageRoute
+    pt: Point2D
+    radius: number
+    color: string
+    isSelected: boolean
+    onClick: (voyage: VoyageRoute) => void
+    onHover: (voyage: VoyageRoute) => void
+}
+
+const InteractiveShip = ({ voyage, pt, radius, color, isSelected, onClick, onHover }: InteractiveShipProps) => {
+    return <g onClick={() => onClick(voyage)} onMouseOver={() => onHover(voyage)}>
+        <circle r={radius} cx={pt[0]} cy={pt[1]} fill={color} />
+        <circle
+            opacity={isSelected ? 1 : 0}
+            r={Math.max(10, 5 + radius)} cx={pt[0]} cy={pt[1]} stroke="gray" strokeWidth={2} fill="transparent" />
+    </g>
+}
+
+interface InteractiveVoyageRoutesFrameProps {
+    window: VoyageRouteCollectionWindow
+    renderStyles: VoyageRouteRenderStyles
+}
+
+const InteractiveVoyageRoutesFrame = ({ window, renderStyles }: InteractiveVoyageRoutesFrameProps) => {
     // TODO: when paused, we should render every voyage as an SVG element that
     // is interactive.
-    return <></>
+    const [selected, setSelected] = useState<VoyageRoute | null>(null)
+    const map = useMap()
+    const { bounds } = useMapPosition()
+    const topLeft = map.latLngToLayerPoint(bounds.getNorthWest());
+    const active = window.groupByStyle(renderStyles, bounds)
+    const children = [...active].flatMap(
+        ({ style, voyages }) => [...voyages].map(
+            ({ voyage, pt }) => {
+                const radius = renderStyles.getRadiusForVoyage(voyage)
+                const { x, y } = map.latLngToLayerPoint(pt)
+                return <InteractiveShip
+                    key={voyage.id}
+                    isSelected={voyage === selected}
+                    voyage={voyage}
+                    pt={[x - topLeft.x, y - topLeft.y]}
+                    color={style}
+                    radius={radius}
+                    onClick={console.log}
+                    onHover={setSelected} />
+            })
+    )
+    return <SVGOverlay attributes={{ style: "pointer-events: auto; z-index: 5500;" }} bounds={bounds}>
+        {children}
+    </SVGOverlay>
 }
 
+interface TimelapseUIProps {
+    year?: number
+    paused: boolean
+    onPlay: () => void
+    onPause: () => void
+    // chartData: any
+}
+
+const TimelapseUI = ({ year, paused, onPlay, onPause }: TimelapseUIProps) => {
+    const size = useMapPosition()
+    return <div style={{ position: 'absolute', top: 0, zIndex: 6000, width: size.width, height: size.height }}>
+        <h1>{year}</h1>
+        <button onClick={() => paused ? onPlay() : onPause()}>{paused ? 'Play' : 'Pause'}</button>
+    </div>
+}
 
 /**
  * TODO: remove this once we can use the new API
@@ -592,9 +690,9 @@ const OBSOLETE_legacyVoyageCollection = async () => {
     //    body: JSON.stringify(post)
     //})
     //const voyages: OBSOLETE_APIVoyageEntry[] = await (await voyagesPromise).json()
-    const voyages: OBSOLETE_APIVoyageEntry = OBSOLETE_voyages
+    const voyages: OBSOLETE_APIVoyageEntry[] = OBSOLETE_voyages
     // TODO: replace hardcoded args.
-    return new VoyageRouteCollection(voyages.map(v => OBSOLETE_legacyToVoyageRoute(routeBuilder, v)), 0.01, 0.01)
+    return new VoyageRouteCollection(voyages.map(v => OBSOLETE_legacyToVoyageRoute(routeBuilder, v)), 0.3, 0.2)
 }
 
 export interface TimelapseMapProps {
@@ -623,42 +721,65 @@ export const DemoTimelapseMap = () => {
     return collection && <TimelapseMap collection={collection} initialSpeed={1} renderStyles={renderStyles} />
 }
 
+interface Size { width: number, height: number }
+
 export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: TimelapseMapProps) => {
     const [zoomLevel, setZoomLevel] = useState<number>(3)
-    const [isPaused, setPaused] = useState(false)
+    const [pauseWin, setPauseWin] = useState<VoyageRouteCollectionWindow | null>(null)
     const [speed, setSpeed] = useState(initialSpeed)
-    return <div className='mobile-responsive-map'>
+    const [year, setYear] = useState<number | undefined>()
+    const window = useRef<VoyageRouteCollectionWindow | undefined>()
+    return <div className='mobile-responsive-map' style={{ paddingTop: "90px" }}>
         <MapContainer
-            style={{ width: "100%" }}
+            style={{ width: "95%" }}
             className="map-container"
         >
-        <MapContainer
-          center={MAP_CENTER}
-          zoom={zoomLevel}
-          className="lealfetMap-container"
-          maxZoom={MAXIMUM_ZOOM}
-          minZoom={MINIMUM_ZOOM}
-          attributionControl={false}
-          scrollWheelZoom={true}
-          zoomControl={true}
-        >
-          <HandleZoomEvent
-            setZoomLevel={setZoomLevel}
-            setRegionPlace={() => {}}
-            zoomLevel={zoomLevel}
-          />
-          <TileLayer url={mappingSpecialists} />
-          <LayersControl position="topright">
-            <LayersControl.Overlay name="River">
-              <TileLayer url={mappingSpecialistsRivers} />
-            </LayersControl.Overlay>
-            <LayersControl.Overlay name="Modern Countries">
-              <TileLayer url={mappingSpecialistsCountries} />
-            </LayersControl.Overlay>
-          </LayersControl>
-            {!isPaused && <CanvasAnimation collection={collection} speed={speed} renderStyles={renderStyles} />}
-            {isPaused && <InteractiveVoyageRoutesFrame />}
-        </MapContainer>
+            <MapContainer
+                center={MAP_CENTER}
+                zoom={zoomLevel}
+                className="lealfetMap-container"
+                maxZoom={MAXIMUM_ZOOM}
+                minZoom={MINIMUM_ZOOM}
+                attributionControl={false}
+                scrollWheelZoom={true}
+                zoomControl={true}
+                style={{ width: "95%" }}
+            >
+                <HandleZoomEvent
+                    setZoomLevel={setZoomLevel}
+                    setRegionPlace={() => { }}
+                    zoomLevel={zoomLevel}
+                />
+                <TileLayer url={mappingSpecialists} />
+                <LayersControl position="topright">
+                    <LayersControl.Overlay name="River">
+                        <TileLayer url={mappingSpecialistsRivers} />
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay name="Modern Countries">
+                        <TileLayer url={mappingSpecialistsCountries} />
+                    </LayersControl.Overlay>
+                </LayersControl>
+                <TimelapseUI
+                    year={year}
+                    paused={pauseWin !== null}
+                    onPause={() => setPauseWin(window.current ?? null)}
+                    onPlay={() => setPauseWin(null)} />
+                <CanvasAnimation
+                    collection={collection}
+                    speed={speed}
+                    paused={pauseWin !== null}
+                    renderStyles={renderStyles}
+                    onWindowChange={win => {
+                        const prev = window.current
+                        if (prev?.year() !== win.year()) {
+                            setYear(win.year())
+                        }
+                        window.current = win
+                    }} />
+                {pauseWin !== null && <InteractiveVoyageRoutesFrame
+                    window={pauseWin}
+                    renderStyles={renderStyles} />}
+            </MapContainer>
         </MapContainer>
     </div>
 }
