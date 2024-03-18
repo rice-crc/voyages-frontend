@@ -20,6 +20,7 @@ import {
 } from '@/share/CONST_DATA';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { cleanUpTexDisplay } from '@/utils/functions/cleanUpTextDisplay';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
@@ -76,7 +77,7 @@ export const GenerateCellTableRenderer = (
                 dispatch(setIsModalCard(true));
                 dispatch(setNodeClass(nodeType));
               }}
-            >{`${value}\n`}</div>
+            >{`${cleanUpTexDisplay(value)}\n`}</div>
           </span>
         )
       });
@@ -94,7 +95,7 @@ export const GenerateCellTableRenderer = (
           {remainingRows.length > 0 && (
             <div style={ellipsisStyle}>
               {remainingRows.map((value, index) => (
-                <div key={`${index}-${value}`}>{value}</div>
+                <div key={`${index}-${value}`}>{cleanUpTexDisplay(value)}</div>
               ))}
             </div>
           )}

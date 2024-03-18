@@ -178,7 +178,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       (savedNodesDataRegion && saveEdgesDataRegion) ||
       (saveEdgesDataPlace && savedNodesDataPlace) || (savedNodesDataBroadRegion && saveEdgesDataBroadRegion)
     ) {
-      console.log('data in local')
       if (
         zoomLevel >= ZOOM_LEVEL_THRESHOLD &&
         !varName &&
@@ -295,7 +294,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
   useEffect(() => {
     let timeout: NodeJS.Timeout | undefined;
-    console.log('call place')
     if (!hasFetchedPlaceRef.current && styleNamePage !== ESTIMATES) { // check if route is esimates, will not call zoom place
       timeout = setTimeout(() => {
         setLoading(false);

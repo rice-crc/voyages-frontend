@@ -49,7 +49,7 @@ const TablesEstimates = () => {
             binsize: ESTIMATE_OPTIONS.row_vars[8].binsize!,
             rows_label: ESTIMATE_OPTIONS.row_vars[8].rows_label,
             label: ESTIMATE_OPTIONS.row_vars[8].label,
-            column_vars: ESTIMATE_OPTIONS.column_vars[0].cols,
+            column_vars: ESTIMATE_OPTIONS.column_vars[1].cols,
             cell_vars: ESTIMATE_OPTIONS.cell_vars[1].vals,
         });
 

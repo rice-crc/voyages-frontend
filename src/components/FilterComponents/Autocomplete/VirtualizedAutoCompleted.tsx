@@ -20,6 +20,7 @@ import { IRootFilterObject } from '@/share/InterfaceTypes';
 import CustomAutoListboxComponent from "./CustomAutoListboxComponent";
 import { useAutoComplete } from "@/hooks/useAutoComplete";
 import { setFilterObject } from "@/redux/getFilterSlice";
+import { cleanUpTexDisplay } from "@/utils/functions/cleanUpTextDisplay";
 
 export default function VirtualizedAutoCompleted() {
     const { varName } = useSelector(
@@ -154,6 +155,7 @@ export default function VirtualizedAutoCompleted() {
         params.children
     ];
 
+
     return (
         <Autocomplete
             ListboxComponent={CustomAutoListboxComponent}
@@ -165,7 +167,10 @@ export default function VirtualizedAutoCompleted() {
             isOptionEqualToValue={(option, value) => {
                 return option.value === value.value;
             }}
-            getOptionLabel={(option) => option.value}
+            getOptionLabel={(option) => {
+                console.log({ option })
+                return cleanUpTexDisplay(option.value)
+            }}
             onInputChange={handleInputChange}
             inputValue={autoValue}
             value={selectedValue}
