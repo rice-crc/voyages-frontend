@@ -124,5 +124,6 @@ export interface HandleZoomEventProps {
     setZoomLevel: (zoomLevel: number) => void;
     setRegionPlace: (value: string) => void
     zoomLevel: number
+    styleRouteName?: string
 }
 

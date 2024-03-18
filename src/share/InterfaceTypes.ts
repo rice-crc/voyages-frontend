@@ -582,5 +582,6 @@ export interface SummaryStatisticsTableRequest {
 
 export interface SaveSearchRequest {
     endpoint: string
+    route: string
     query: Filter[]
 }

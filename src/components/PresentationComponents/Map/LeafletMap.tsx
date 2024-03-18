@@ -23,6 +23,9 @@ import {
   PLACE,
   AFRICANORIGINS,
   TRANSATLANTICPATH,
+  ESTIMATES,
+  REGION,
+  broadRegion,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
@@ -69,8 +72,8 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     styleName: styleNamePage,
     nodeTypeURL,
   } = usePageRouter();
-
-  const [regionPlace, setRegionPlace] = useState<string>('region');
+  const zoomlevelValue = styleNamePage !== ESTIMATES ? REGION : broadRegion
+  const [regionPlace, setRegionPlace] = useState<string>(zoomlevelValue);
   const [loading, setLoading] = useState<boolean>(false);
   const hasFetchedPlaceRef = useRef(false);
   const { styleName } = useSelector(
@@ -105,40 +108,12 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     if (!filter) return;
     dispatch(setFilterObject(filter));
 
-    const savedNodesDataRegion = localStorage.getItem('nodesDataregion');
-    const saveEdgesDataRegion = localStorage.getItem('edgesDataregion');
-    const savedNodesDataPlace = localStorage.getItem('nodesDataplace');
-    const saveEdgesDataPlace = localStorage.getItem('edgesDataplace');
-
-    if (
-      (savedNodesDataRegion && saveEdgesDataRegion) ||
-      (saveEdgesDataPlace && savedNodesDataPlace)
-    ) {
-      if (
-        zoomLevel >= ZOOM_LEVEL_THRESHOLD &&
-        !varName &&
-        !clusterNodeValue &&
-        !clusterNodeKeyVariable
-      ) {
-        dispatch(setNodesDataPlace(JSON.parse(savedNodesDataPlace!)));
-        dispatch(setEdgesDataPlace(JSON.parse(saveEdgesDataPlace!)));
-        setLoading(false);
-      } else if (
-        zoomLevel < ZOOM_LEVEL_THRESHOLD &&
-        !varName &&
-        !clusterNodeValue &&
-        !clusterNodeKeyVariable
-      ) {
-        dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion!)));
-        dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion!)));
-        setLoading(false);
-      }
-    }
+  }, []);
 
 
-  }, [zoomLevel, varName, styleNamePage]);
   let filters: Filter[] = []
-  const filterByVarName = filtersObj && filtersObj.filter((filterItem: Filter) => filterItem.varName !== clusterNodeKeyVariable);
+  const filterByVarName = filtersObj && filtersObj.filter((filterItem: Filter) => filterItem.varName !== clusterNodeKeyVariable || filterItem.varName !== varName);
+
   if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
     filters = filtersObj;
   } else if (styleNamePage === TRANSATLANTICPATH) {
@@ -158,8 +133,10 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     });
   }
 
+  const filterSet = new Set([...filters, ...filterByVarName]);
+
   const dataSend: MapPropsRequest = {
-    filter: [...(filterByVarName), ...filters]
+    filter: Array.from(filterSet)
   };
 
   if (inputSearchValue) {
@@ -183,7 +160,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     }
 
     if (response) {
-
       handleDataResponse(response, regionOrPlace);
       dispatch(setHasFetchedRegion(false));
     }
@@ -191,12 +167,67 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   };
 
   useEffect(() => {
-    if (!effectOnce.current ||
-      hasFetchedRegion ||
-      (clusterNodeKeyVariable !== '' && clusterNodeValue !== '') ||
-      varName !== ''
+    const savedNodesDataRegion = localStorage.getItem('nodesDataregion');
+    const saveEdgesDataRegion = localStorage.getItem('edgesDataregion');
+    const savedNodesDataBroadRegion = localStorage.getItem('nodesDatabroad_region');
+    const saveEdgesDataBroadRegion = localStorage.getItem('edgesDatabroad_region');
+    const savedNodesDataPlace = localStorage.getItem('nodesDataplace');
+    const saveEdgesDataPlace = localStorage.getItem('edgesDataplace');
+
+    if (
+      (savedNodesDataRegion && saveEdgesDataRegion) ||
+      (saveEdgesDataPlace && savedNodesDataPlace) || (savedNodesDataBroadRegion && saveEdgesDataBroadRegion)
     ) {
-      fetchData(regionPlace);
+      console.log('data in local')
+      if (
+        zoomLevel >= ZOOM_LEVEL_THRESHOLD &&
+        !varName &&
+        !clusterNodeValue &&
+        !clusterNodeKeyVariable && styleNamePage !== ESTIMATES
+      ) {
+        dispatch(setNodesDataPlace(JSON.parse(savedNodesDataPlace!)));
+        dispatch(setEdgesDataPlace(JSON.parse(saveEdgesDataPlace!)));
+        setLoading(false);
+      } else if (
+        zoomLevel < ZOOM_LEVEL_THRESHOLD &&
+        !varName &&
+        !clusterNodeValue &&
+        !clusterNodeKeyVariable && styleNamePage !== ESTIMATES
+      ) {
+        dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion!)));
+        dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion!)));
+        setLoading(false);
+      } else if (
+        zoomLevel >= ZOOM_LEVEL_THRESHOLD &&
+        !varName &&
+        !clusterNodeValue &&
+        !clusterNodeKeyVariable && styleNamePage === ESTIMATES
+      ) {
+        console.log('Save estimate region')
+        dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion!)));
+        dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion!)));
+        setLoading(false);
+      }
+      else if (
+        zoomLevel < ZOOM_LEVEL_THRESHOLD &&
+        !varName &&
+        !clusterNodeValue &&
+        !clusterNodeKeyVariable && styleNamePage === ESTIMATES
+      ) {
+        console.log('Save estimate broad region')
+        dispatch(setNodesDataRegion(JSON.parse(savedNodesDataBroadRegion!)));
+        dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataBroadRegion!)));
+        setLoading(false);
+      }
+    } else {
+      console.log('if no in local host')
+      if (!effectOnce.current ||
+        hasFetchedRegion ||
+        (clusterNodeKeyVariable !== '' && clusterNodeValue !== '') ||
+        varName !== ''
+      ) {
+        fetchData(regionPlace);
+      }
     }
   }, [
     nodeTypeURL,
@@ -208,16 +239,18 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     pathName,
     styleName, styleNamePage,
     inputSearchValue,
-    regionPlace,
+    zoomLevel, styleNamePage,
     clusterNodeKeyVariable,
     clusterNodeValue, filtersObj
   ]);
 
   const handleDataResponse = (response: any, regionOrPlace: string) => {
+
     if (response) {
       const { nodes, edges, paths } = response;
       dispatch(setMapData(response));
-      if (regionOrPlace === 'region') {
+
+      if (regionOrPlace === broadRegion) {
         setLoading(false);
         dispatch(setNodesDataRegion(nodes));
         dispatch(setEdgesDataRegion(edges));
@@ -229,7 +262,19 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
           `edgesData${regionOrPlace}`,
           JSON.stringify(edges)
         );
-      } else if (regionOrPlace === 'place' && varName === '') {
+      } else if (regionOrPlace === REGION) {
+        setLoading(false);
+        dispatch(setNodesDataRegion(nodes));
+        dispatch(setEdgesDataRegion(edges));
+        localStorage.setItem(
+          `nodesData${regionOrPlace}`,
+          JSON.stringify(nodes)
+        );
+        localStorage.setItem(
+          `edgesData${regionOrPlace}`,
+          JSON.stringify(edges)
+        );
+      } else if (regionOrPlace === PLACE && varName === '') {
         localStorage.setItem(
           `nodesData${regionOrPlace}`,
           JSON.stringify(nodes)
@@ -247,9 +292,11 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     }
   };
 
+
   useEffect(() => {
     let timeout: NodeJS.Timeout | undefined;
-    if (!hasFetchedPlaceRef.current) {
+    console.log('call place')
+    if (!hasFetchedPlaceRef.current && styleNamePage !== ESTIMATES) { // check if route is esimates, will not call zoom place
       timeout = setTimeout(() => {
         setLoading(false);
         fetchData(PLACE);
@@ -301,6 +348,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
               setZoomLevel={setZoomLevel}
               setRegionPlace={setRegionPlace}
               zoomLevel={zoomLevel}
+              styleRouteName={styleNamePage}
             />
             <TileLayer url={mappingSpecialists} />
             <LayersControl position="topright">
