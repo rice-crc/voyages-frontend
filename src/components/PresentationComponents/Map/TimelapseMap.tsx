@@ -1,4 +1,4 @@
-import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react"
+import { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { MapContainer, TileLayer, LayersControl, useMap, SVGOverlay } from 'react-leaflet';
 import { LatLngBounds } from "leaflet"
 import { AUTHTOKEN, BASEURL } from '../../../share/AUTH_BASEURL';
@@ -374,7 +374,21 @@ class VoyageRouteCollectionWindow {
 
     hasFinished = () => this.idxSearch >= this.vs.length
 
-    year = () => Math.floor(this.time / 360)
+    years = (): [number, number] => {
+        let min: number | null = null
+        let max: number | null = null
+        for (const v of this.window()) {
+            const y = Math.floor(v.startTime / 360)
+            if (!min || y < min) {
+                min = y
+            }
+            if (!max || y > max) {
+                max = y
+            }
+        }
+        let winYear = Math.floor(this.time / 360)
+        return [min ?? winYear, max ?? winYear]
+    }
 
     /**
      * This is a performance oriented, limited-capacity group-by. Yielded groups
@@ -395,12 +409,12 @@ class VoyageRouteCollectionWindow {
             for (const voyage of source) {
                 const idx = renderStyles.getStyleForVoyage(voyage)
                 const blockStart = idx * blockSize
-                const fraction = (self.time - voyage.startTime) / voyage.animationDuration
+                const fraction = (self.time - voyage.startTime) / (voyage.animationDuration * self.speed)
                 const pt = convertToDeg(voyage.interpolatedPath(fraction))
-                //if (!bounds.contains(pt)) {
-                // Skip points that do not show up inside the bounds.
-                //    continue
-                //}
+                if (!bounds.contains(pt)) {
+                    // Skip points that do not show up inside the bounds.
+                    continue
+                }
                 buffer[blockStart + counts[idx]++] = { voyage, pt }
                 if (counts[idx] === blockSize) {
                     // A block is full, yield them all and clear the block.
@@ -611,18 +625,29 @@ const InteractiveVoyageRoutesFrame = ({ window, renderStyles }: InteractiveVoyag
 }
 
 interface TimelapseUIProps {
-    year?: number
+    years?: [number, number]
     paused: boolean
+    speed: number
     onPlay: () => void
     onPause: () => void
+    onSpeedChange: (speed: number) => void
     // chartData: any
 }
 
-const TimelapseUI = ({ year, paused, onPlay, onPause }: TimelapseUIProps) => {
-    const size = useMapPosition()
-    return <div style={{ position: 'absolute', top: 0, zIndex: 6000, width: size.width, height: size.height }}>
-        <h1>{year}</h1>
-        <button onClick={() => paused ? onPlay() : onPause()}>{paused ? 'Play' : 'Pause'}</button>
+const TimelapseUI = ({ years, paused, speed, onPlay, onPause, onSpeedChange }: TimelapseUIProps) => {
+    const { size } = useMapPosition()
+    const handleSpeedChange = () => {
+        let next = speed * 2;
+        if (next > 16) {
+            next = 1
+        }
+        onSpeedChange(next)
+    }
+    const btnStyle: CSSProperties = { pointerEvents: 'all' }
+    return <div style={{ position: 'absolute', pointerEvents: 'none', top: 0, left: 50, zIndex: 6000, width: size.width, height: size.height }}>
+        {years && <h1>{years[0] === years[1] ? years[0] : `${years[0]}-${years[1]}`}</h1>}
+        <button style={btnStyle} onClick={() => paused ? onPlay() : onPause()}>{paused ? 'Play' : 'Pause'}</button>
+        <button style={btnStyle} onClick={handleSpeedChange}>{speed} x</button>
     </div>
 }
 
@@ -727,59 +752,54 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
     const [zoomLevel, setZoomLevel] = useState<number>(3)
     const [pauseWin, setPauseWin] = useState<VoyageRouteCollectionWindow | null>(null)
     const [speed, setSpeed] = useState(initialSpeed)
-    const [year, setYear] = useState<number | undefined>()
+    const [years, setYears] = useState<[number, number] | undefined>()
     const window = useRef<VoyageRouteCollectionWindow | undefined>()
-    return <div className='mobile-responsive-map' style={{ paddingTop: "90px" }}>
-        <MapContainer
-            style={{ width: "95%" }}
-            className="map-container"
-        >
-            <MapContainer
-                center={MAP_CENTER}
-                zoom={zoomLevel}
-                className="lealfetMap-container"
-                maxZoom={MAXIMUM_ZOOM}
-                minZoom={MINIMUM_ZOOM}
-                attributionControl={false}
-                scrollWheelZoom={true}
-                zoomControl={true}
-                style={{ width: "95%" }}
-            >
-                <HandleZoomEvent
-                    setZoomLevel={setZoomLevel}
-                    setRegionPlace={() => { }}
-                    zoomLevel={zoomLevel}
-                />
-                <TileLayer url={mappingSpecialists} />
-                <LayersControl position="topright">
-                    <LayersControl.Overlay name="River">
-                        <TileLayer url={mappingSpecialistsRivers} />
-                    </LayersControl.Overlay>
-                    <LayersControl.Overlay name="Modern Countries">
-                        <TileLayer url={mappingSpecialistsCountries} />
-                    </LayersControl.Overlay>
-                </LayersControl>
-                <TimelapseUI
-                    year={year}
-                    paused={pauseWin !== null}
-                    onPause={() => setPauseWin(window.current ?? null)}
-                    onPlay={() => setPauseWin(null)} />
-                <CanvasAnimation
-                    collection={collection}
-                    speed={speed}
-                    paused={pauseWin !== null}
-                    renderStyles={renderStyles}
-                    onWindowChange={win => {
-                        const prev = window.current
-                        if (prev?.year() !== win.year()) {
-                            setYear(win.year())
-                        }
-                        window.current = win
-                    }} />
-                {pauseWin !== null && <InteractiveVoyageRoutesFrame
-                    window={pauseWin}
-                    renderStyles={renderStyles} />}
-            </MapContainer>
-        </MapContainer>
-    </div>
+    return <MapContainer
+        center={MAP_CENTER}
+        zoom={zoomLevel}
+        className="lealfetMap-container"
+        maxZoom={MAXIMUM_ZOOM}
+        minZoom={MINIMUM_ZOOM}
+        attributionControl={false}
+        scrollWheelZoom={true}
+        zoomControl={true}
+        style={{ position: 'absolute', top: '120px', marginLeft: '30px', width: "calc(-150px + 100vw)", height: 'calc(-150px + 100vh)' }}
+    >
+        <HandleZoomEvent
+            setZoomLevel={setZoomLevel}
+            setRegionPlace={() => { }}
+            zoomLevel={zoomLevel}
+        />
+        <TileLayer url={mappingSpecialists} />
+        <LayersControl position="topright">
+            <LayersControl.Overlay name="River">
+                <TileLayer url={mappingSpecialistsRivers} />
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Modern Countries">
+                <TileLayer url={mappingSpecialistsCountries} />
+            </LayersControl.Overlay>
+        </LayersControl>
+        <TimelapseUI
+            years={years}
+            paused={pauseWin !== null}
+            speed={speed}
+            onPause={() => setPauseWin(window.current ?? null)}
+            onPlay={() => setPauseWin(null)}
+            onSpeedChange={setSpeed} />
+        <CanvasAnimation
+            collection={collection}
+            speed={speed}
+            paused={pauseWin !== null}
+            renderStyles={renderStyles}
+            onWindowChange={win => {
+                const nextYears = win.years()
+                if (years !== nextYears) {
+                    setYears(nextYears)
+                }
+                window.current = win
+            }} />
+        {pauseWin !== null && <InteractiveVoyageRoutesFrame
+            window={pauseWin}
+            renderStyles={renderStyles} />}
+    </MapContainer>
 }
