@@ -215,8 +215,8 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
             </Typography>
           </Typography>
-
-          <CanscandingMenuMobile />
+          {!inputSearchValue &&
+            <CanscandingMenuMobile />}
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -255,7 +255,8 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           }}
         />
         <Hidden mdDown>
-          <CanscandingMenu />
+          {!inputSearchValue &&
+            <CanscandingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu

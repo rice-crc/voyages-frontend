@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, SyntheticEvent, useCallback, useRef } from "react";
-import { Autocomplete, TextField, Typography, ListSubheader } from '@mui/material';
+import React, { useState, useEffect, SyntheticEvent } from "react";
+import { Autocomplete, TextField, Typography, ListSubheader, Paper, Tooltip } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -20,7 +20,7 @@ import { IRootFilterObject } from '@/share/InterfaceTypes';
 import CustomAutoListboxComponent from "./CustomAutoListboxComponent";
 import { useAutoComplete } from "@/hooks/useAutoComplete";
 import { setFilterObject } from "@/redux/getFilterSlice";
-import { cleanUpTexDisplay } from "@/utils/functions/cleanUpTextDisplay";
+
 
 export default function VirtualizedAutoCompleted() {
     const { varName } = useSelector(
@@ -160,8 +160,9 @@ export default function VirtualizedAutoCompleted() {
         <Autocomplete
             ListboxComponent={CustomAutoListboxComponent}
             multiple
+            autoHighlight
             id="tags-outlined"
-            style={{ width: 400 }}
+            style={{ width: 450 }}
             options={autoList}
             ListboxProps={{ style: { overscrollBehaviorX: 'none' } }}
             isOptionEqualToValue={(option, value) => {
@@ -176,12 +177,18 @@ export default function VirtualizedAutoCompleted() {
             value={selectedValue}
             onChange={handleAutoCompletedChange}
             renderGroup={renderGroup}
+            PaperComponent={({ children }) => (
+                <Paper className="auto-options-list">
+                    {children}
+                </Paper>
+            )}
             filterSelectedOptions
             renderInput={(params) => (
                 <TextField
                     {...params}
+                    variant="outlined"
                     label={
-                        <Typography variant="body1" style={{ fontSize: 16 }}>
+                        <Typography variant="body1" style={{ fontSize: 14 }} height={50} >
                             field
                         </Typography>
                     }
@@ -189,6 +196,7 @@ export default function VirtualizedAutoCompleted() {
                     style={{ marginTop: 20 }}
                 />
             )}
+
         />
     );
 }

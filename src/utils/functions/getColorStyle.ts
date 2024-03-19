@@ -41,6 +41,12 @@ export const getColorBackground = (item: string) => {
         background = '#906866';
     } else if (item === 'Blog') {
         background = '#d45b01';
+    } else if (item === allEnslavers) {
+        background = '#007269';
+    } else if (item === TRANSATLANTICTRADS) {
+        background = 'rgb(2 83 204)';
+    } else if (item === INTRAAMERICANTRADS) {
+        background = '#ab47bc';
     }
     return background;
 };
