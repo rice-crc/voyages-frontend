@@ -168,8 +168,8 @@ export default function VirtualizedAutoCompleted() {
                 return option.value === value.value;
             }}
             getOptionLabel={(option) => {
-                console.log({ option })
-                return cleanUpTexDisplay(option.value)
+                const textContent = new DOMParser().parseFromString(option.value ?? '', 'text/html').body.textContent;
+                return textContent ?? '';
             }}
             onInputChange={handleInputChange}
             inputValue={autoValue}

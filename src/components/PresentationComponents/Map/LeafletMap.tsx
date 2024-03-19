@@ -219,7 +219,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         setLoading(false);
       }
     } else {
-      console.log('if no in local host')
       if (!effectOnce.current ||
         hasFetchedRegion ||
         (clusterNodeKeyVariable !== '' && clusterNodeValue !== '') ||

@@ -6,37 +6,39 @@ import { fetchCommonMakeSavedSearch } from '@/fetch/saveSearch/fetchCommonMakeSa
 import { BASE_URL_FRONTEND } from '@/share/AUTH_BASEURL';
 import { setListSaveSearchURL, setRouteSaveSearch, setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
 import { useEffect } from 'react';
+import { ASSESSMENT, ENSALVEDPAGE, ENSALVEDROUTE, ENSALVEDTYPE, ENSALVERSPAGE, ENSALVERSROUTE, ESTIMATES, VOYAGE, VOYAGEPATHENPOINT, allEnslavers } from '@/share/CONST_DATA';
 
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
     const { endpointPath, styleName, endpointPeopleDirect } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { saveSearchUrlID, listSaveSearchURL, routeSaveSearch } = useSelector((state: RootState) => state.getSaveSearch);
+
     let saveSearhURL: string = ''
     let endpointSaveSearch: string = ''
-    if (endpointPeopleDirect === 'past/enslaved') {
+    if (endpointPeopleDirect === ENSALVEDROUTE) {
         endpointSaveSearch = endpointPeopleDirect
-        saveSearhURL = 'enslaved'
-    } else if (endpointPeopleDirect === 'past/enslaver') {
+        saveSearhURL = ENSALVEDTYPE
+    } else if (endpointPeopleDirect === ENSALVERSROUTE) {
         endpointSaveSearch = endpointPeopleDirect
-        saveSearhURL = 'enslaver'
-    } else if (endpointPath === 'voyage') {
+        saveSearhURL = allEnslavers
+    } else if (endpointPath === VOYAGEPATHENPOINT) {
         endpointSaveSearch = endpointPath
-        saveSearhURL = 'voyages'
-    } else if (endpointPath === 'assessment') {
+        saveSearhURL = VOYAGE
+    } else if (endpointPath === ASSESSMENT) {
         endpointSaveSearch = endpointPath
-        saveSearhURL = 'estimates'
+        saveSearhURL = ESTIMATES
     }
 
     useEffect(() => {
-        if (endpointPeopleDirect === 'past/enslaved') {
+        if (endpointPeopleDirect === ENSALVEDROUTE) {
             dispatch(setRouteSaveSearch(`${endpointPeopleDirect}/${styleName}`))
-        } else if (endpointPeopleDirect === 'past/enslaver') {
+        } else if (endpointPeopleDirect === ENSALVERSROUTE) {
             dispatch(setRouteSaveSearch(`${endpointPeopleDirect}/${styleName}`))
-        } else if (endpointPath === 'voyage') {
+        } else if (endpointPath === VOYAGEPATHENPOINT) {
             dispatch(setRouteSaveSearch(`${endpointPath}/${styleName}`))
-        } else if (endpointPath === 'assessment') {
-            dispatch(setRouteSaveSearch(`${endpointPath}/estimates/`))
+        } else if (endpointPath === ASSESSMENT) {
+            dispatch(setRouteSaveSearch(`${endpointPath}/${ESTIMATES}/`))
         }
     }, [routeSaveSearch])
 
@@ -48,14 +50,14 @@ const DropDownSaveSearch = () => {
     }
     const dataSend: SaveSearchRequest = {
         endpoint: endpointSaveSearch,
-        route: routeSaveSearch,
+        front_end_path: routeSaveSearch,
         query: filters,
     };
+
 
     const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${saveSearhURL}/${saveSearchUrlID}`
     const handleSaveSearch = () => {
         fetchData();
-        localStorage.setItem('routeSaveSearch', routeSaveSearch);
     };
 
     const handleCopySaveSearch = () => {

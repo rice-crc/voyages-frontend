@@ -77,7 +77,9 @@ export const GenerateCellTableRenderer = (
                 dispatch(setIsModalCard(true));
                 dispatch(setNodeClass(nodeType));
               }}
-            >{`${cleanUpTexDisplay(value)}\n`}</div>
+              dangerouslySetInnerHTML={{ __html: value ?? null }}
+            >
+            </div>
           </span>
         )
       });

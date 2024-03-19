@@ -101,12 +101,12 @@ const App: React.FC = () => {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
-          <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
           {saveSearchURL && <Route
             path={`${saveSearchURL}`}
             element={<UseSaveSearchURL />}
           />}
+          <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
+          <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
           <Route
             path={`${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}
