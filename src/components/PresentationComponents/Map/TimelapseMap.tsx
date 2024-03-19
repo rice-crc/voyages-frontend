@@ -1,5 +1,5 @@
-import { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react"
-import { MapContainer, TileLayer, LayersControl, useMap, SVGOverlay } from 'react-leaflet';
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { MapContainer, TileLayer, LayersControl, useMap, SVGOverlay, LayerGroup } from 'react-leaflet';
 import { LatLngBounds } from "leaflet"
 import { AUTHTOKEN, BASEURL } from '../../../share/AUTH_BASEURL';
 import OBSOLETE_regionalSegments from './regional.json'
@@ -13,8 +13,17 @@ import {
     mappingSpecialistsRivers
 } from '@/share/CONST_DATA';
 import { HandleZoomEvent } from "./HandleZoomEvent";
+import * as d3 from "d3";
+import * as L from 'leaflet'
+import { GeodesicLine } from 'leaflet.geodesic';
+import 'leaflet-easybutton';
+import 'leaflet-easybutton/src/easy-button.css';
 
-// TODO: move out the basic geometry/calculation stuff to a separate file.
+// TODO
+// - move out the basic geometry/calculation stuff to a separate file.
+// - i18n
+// - use the new site's approach to searching and connect to the backend api
+// - add more comments to document components
 
 export type LatLngPathPointDeg = [lat: number, lng: number]
 export type LatLngPathPointRad = [lat: number, lng: number]
@@ -144,7 +153,7 @@ const reduceSharpCorner = ({
         //        /
         //       /
         //      |___
-        const { angle } = new AngleInfo(path[idx + step], path[idx], point)
+        const { angle } = new AngleInfo(path[idx + step], point, path[idx])
         if (angle <= angleThreshold) {
             // If we found an angle below threshold, stop going further along
             // the path since we want to preserve as much of the original as
@@ -161,7 +170,7 @@ const reduceSharpCorner = ({
     }
     // Instead of taking a direct jump from the point to the path[idxBest], our
     // approach is to produce a smooth approximation.
-    const angleInfo = new AngleInfo(path[idxBest + step], path[idxBest], point)
+    const angleInfo = new AngleInfo(path[idxBest + step], point, path[idxBest])
     const n1 = normSq(angleInfo.delta1)
     const n2 = normSq(angleInfo.delta2)
     const endTangentScalar = Math.sqrt(n1 * n2) / n2;
@@ -308,16 +317,29 @@ class MapRouteBuilder {
     }
 }
 
+interface Nation {
+    code: number
+    name: string
+}
+
 interface VoyageRoute {
     readonly id: number
     readonly startTime: number
     readonly animationDuration: number
     readonly embarked: number
     readonly disembarked: number
-    route: MapRoute
+    readonly shipName: string
+    readonly tonnage?: number
+    readonly flag?: Nation
+    readonly sourceRegion: number
+    readonly destinationBroadRegion: number
+    readonly route: MapRoute
 }
 
-type InterpolatedVoyageRoute = VoyageRoute & { interpolatedPath: InterpolatedPath }
+type InterpolatedVoyageRoute = VoyageRoute & {
+    interpolatedPath: InterpolatedPath
+    geodesic: () => GeodesicLine
+}
 
 class VoyageRouteCollection {
     readonly voyageRoutes: ReadonlyArray<InterpolatedVoyageRoute>
@@ -327,17 +349,29 @@ class VoyageRouteCollection {
         // perturbed interpolated paths for each voyage.
         this.voyageRoutes = voyageRoutes
             .filter(v => v.route.isValid())
-            .map(v => ({
-                ...v, interpolatedPath: v.route.createInterpolation(
+            .map(v => {
+                const interpolatedPath = v.route.createInterpolation(
                     maxLatPerturb * (Math.random() - 0.5),
                     maxLngPerturb * (Math.random() - 0.5))
-            }))
+                let geo: GeodesicLine | null = null
+                const geodesic = () => {
+                    if (geo) {
+                        return geo
+                    }
+                    const pts: LatLngPathPointDeg[] = new Array(64)
+                    for (let i = 0; i < pts.length; ++i) {
+                        pts[i] = convertToDeg(interpolatedPath(i / (pts.length - 1)))
+                    }
+                    return geo = new GeodesicLine(pts)
+                }
+                return { ...v, interpolatedPath, geodesic }
+            })
             .sort((a, b) => a.startTime - b.startTime)
     }
 }
 
 interface VoyageRoutePoint {
-    readonly voyage: VoyageRoute
+    readonly voyage: InterpolatedVoyageRoute
     readonly pt: LatLngPathPointDeg
 }
 
@@ -346,12 +380,15 @@ interface VoyageRoutesCluster {
     readonly voyages: Iterable<VoyageRoutePoint>
 }
 
+const timeToYear = (time: number) => Math.floor(time / 360)
+
 class VoyageRouteCollectionWindow {
     private readonly vs: ReadonlyArray<InterpolatedVoyageRoute>
     private readonly time: number
     private idxSearch: number
 
-    private static buffer: (VoyageRoutePoint | null)[] = new Array(2048)
+    private static _buffer: (VoyageRoutePoint | null)[] = new Array(2048)
+    private static _version: number = 0
 
     constructor(
         voyageRoutes: ReadonlyArray<InterpolatedVoyageRoute>,
@@ -363,10 +400,15 @@ class VoyageRouteCollectionWindow {
         this.idxSearch = idxSearch ?? 0
     }
 
-    static createStyleIterable = function* (blockStart: number, count: number): Iterable<VoyageRoutePoint> {
+    private static createStyleIterable = function* (blockStart: number, count: number): Iterable<VoyageRoutePoint> {
         const blockEnd = blockStart + count
+        const myVersion = VoyageRouteCollectionWindow._version
         for (let i = blockStart; i < blockEnd; ++i) {
-            yield VoyageRouteCollectionWindow.buffer[i]!
+            const entry = VoyageRouteCollectionWindow._buffer[i]!
+            if (myVersion !== VoyageRouteCollectionWindow._version) {
+                throw "The iterable was consumed after it was disposed"
+            }
+            yield entry
         }
     }
 
@@ -378,7 +420,7 @@ class VoyageRouteCollectionWindow {
         let min: number | null = null
         let max: number | null = null
         for (const v of this.window()) {
-            const y = Math.floor(v.startTime / 360)
+            const y = timeToYear(v.startTime)
             if (!min || y < min) {
                 min = y
             }
@@ -386,7 +428,7 @@ class VoyageRouteCollectionWindow {
                 max = y
             }
         }
-        let winYear = Math.floor(this.time / 360)
+        let winYear = timeToYear(this.time)
         return [min ?? winYear, max ?? winYear]
     }
 
@@ -398,7 +440,7 @@ class VoyageRouteCollectionWindow {
      */
     groupByStyle = (renderStyles: VoyageRouteRenderStyles, bounds: LatLngBounds): Iterable<VoyageRoutesCluster> => {
         const generator = function* (self: VoyageRouteCollectionWindow) {
-            const buffer = VoyageRouteCollectionWindow.buffer
+            const buffer = VoyageRouteCollectionWindow._buffer
             if (renderStyles.styles.length > buffer.length) {
                 throw Error('No way you need so many styles??')
             }
@@ -415,6 +457,7 @@ class VoyageRouteCollectionWindow {
                     // Skip points that do not show up inside the bounds.
                     continue
                 }
+                ++VoyageRouteCollectionWindow._version
                 buffer[blockStart + counts[idx]++] = { voyage, pt }
                 if (counts[idx] === blockSize) {
                     // A block is full, yield them all and clear the block.
@@ -466,6 +509,50 @@ export interface VoyageRouteRenderStyles {
     getStyleForVoyage: (voyage: VoyageRoute) => number
 }
 
+// TODO: use the custom colors
+const CustomShipFlagColors: Record<string, string> = {
+    // colors are either mixed or adopted based on national flag colors
+    "Portugal / Brazil": "#009c3b", // brazil - green
+    "Great Britain": "#cf142b", // uk - red
+    France: "#00209F", // france - blue
+    Netherlands: "#FF4F00", // netherlands orange
+    "Spain / Uruguay": "#FFC400", // spain - yellow
+    "U.S.A.": "#00A0D1", // usa - blend of blue and white
+    "Denmark / Baltic": "#E07A8E", // denmark mix
+    Portugal: "#5D4100", // portugal mix
+    Other: "#999999" // grey
+}
+
+const createRenderStyles = (
+    collection: VoyageRouteCollection,
+    embarkationBaseLine: number,
+    grouping: (voyage: VoyageRoute) => number,
+    styling?: Record<number, string>): VoyageRouteRenderStyles => {
+    let count = 0
+    const map: Record<number, number> = {}
+    for (const v of collection.voyageRoutes) {
+        const key = grouping(v)
+        if (!map[key]) {
+            map[key] = count++
+        }
+    }
+    const color = d3
+        .scaleOrdinal()
+        .domain(Object.keys(map))
+        .range(d3.schemeSet3) as (key: string) => string;
+    const styles: string[] = new Array(count)
+    for (const [key, idx] of Object.entries(map)) {
+        styles[idx] = (styling ? styling[parseInt(key)] : null) ?? color(key)
+    }
+    return {
+        styles,
+        getRadiusForVoyage: v => v.embarked <= embarkationBaseLine
+            ? 2
+            : Math.min(9, 2 * (1.0 + Math.log2(v.embarked / embarkationBaseLine))),
+        getStyleForVoyage: (voyage) => map[grouping(voyage)],
+    }
+}
+
 interface CanvasAnimationProps {
     collection: VoyageRouteCollection
     speed: number
@@ -473,6 +560,8 @@ interface CanvasAnimationProps {
     paused: boolean
     onWindowChange: (win: VoyageRouteCollectionWindow) => void
 }
+
+interface Size { width: number, height: number }
 
 const useMapPosition = () => {
     const map = useMap()
@@ -572,59 +661,89 @@ const CanvasAnimation = ({ collection, paused, renderStyles, speed, onWindowChan
 }
 
 interface InteractiveShipProps {
-    voyage: VoyageRoute
+    voyage: InterpolatedVoyageRoute
     pt: Point2D
     radius: number
     color: string
-    isSelected: boolean
-    onClick: (voyage: VoyageRoute) => void
-    onHover: (voyage: VoyageRoute) => void
+    status: 'normal' | 'hovered' | 'selected'
+    onClick: (voyage: InterpolatedVoyageRoute) => void
+    onHover: (voyage: InterpolatedVoyageRoute) => void
 }
 
-const InteractiveShip = ({ voyage, pt, radius, color, isSelected, onClick, onHover }: InteractiveShipProps) => {
+const InteractiveShip = ({ voyage, pt, radius, color, status, onClick, onHover }: InteractiveShipProps) => {
+    const selectionRadius = Math.max(10, 5 + radius)
     return <g onClick={() => onClick(voyage)} onMouseOver={() => onHover(voyage)}>
         <circle r={radius} cx={pt[0]} cy={pt[1]} fill={color} />
         <circle
-            opacity={isSelected ? 1 : 0}
-            r={Math.max(10, 5 + radius)} cx={pt[0]} cy={pt[1]} stroke="gray" strokeWidth={2} fill="transparent" />
+            opacity={status !== 'normal' ? 1 : 0}
+            r={selectionRadius} cx={pt[0]} cy={pt[1]} stroke={status === 'hovered' ? 'gray' : '#3388ff'} strokeWidth={2} fill="transparent" />
+        <text opacity={status === 'hovered' ? 1 : 0} x={pt[0] + selectionRadius + 4} y={pt[1] + selectionRadius + 4}>{voyage.shipName}</text>
     </g>
 }
 
 interface InteractiveVoyageRoutesFrameProps {
     window: VoyageRouteCollectionWindow
     renderStyles: VoyageRouteRenderStyles
+    onSelect: (voyage: VoyageRoute) => void
 }
 
-const InteractiveVoyageRoutesFrame = ({ window, renderStyles }: InteractiveVoyageRoutesFrameProps) => {
-    // TODO: when paused, we should render every voyage as an SVG element that
-    // is interactive.
-    const [selected, setSelected] = useState<VoyageRoute | null>(null)
+const InteractiveVoyageRoutesFrame = ({ window, renderStyles, onSelect }: InteractiveVoyageRoutesFrameProps) => {
+    const [hovered, setHovered] = useState<VoyageRoute | null>(null)
+    const [selected, setSelected] = useState<InterpolatedVoyageRoute | null>(null)
     const map = useMap()
     const { bounds } = useMapPosition()
     const topLeft = map.latLngToLayerPoint(bounds.getNorthWest());
+    const children: JSX.Element[] = []
+    // Note: Do not convert the nested loop to flatMap/map functional style: the
+    // groupByStyle method returns clusters that are only valid within the
+    // iteration that produced it.
     const active = window.groupByStyle(renderStyles, bounds)
-    const children = [...active].flatMap(
-        ({ style, voyages }) => [...voyages].map(
-            ({ voyage, pt }) => {
-                const radius = renderStyles.getRadiusForVoyage(voyage)
-                const { x, y } = map.latLngToLayerPoint(pt)
-                return <InteractiveShip
-                    key={voyage.id}
-                    isSelected={voyage === selected}
-                    voyage={voyage}
-                    pt={[x - topLeft.x, y - topLeft.y]}
-                    color={style}
-                    radius={radius}
-                    onClick={console.log}
-                    onHover={setSelected} />
-            })
-    )
+    let hoveredShip: JSX.Element | null = null
+    for (const { style, voyages } of active) {
+        for (const { voyage, pt } of voyages) {
+            const radius = renderStyles.getRadiusForVoyage(voyage)
+            const { x, y } = map.latLngToLayerPoint(pt)
+            const isHovered = voyage === hovered
+            const ship = <InteractiveShip
+                key={voyage.id}
+                status={voyage === selected ? 'selected' : (isHovered ? 'hovered' : 'normal')}
+                voyage={voyage}
+                pt={[x - topLeft.x, y - topLeft.y]}
+                color={style}
+                radius={radius}
+                onClick={v => {
+                    setHovered(v)
+                    setSelected(v)
+                    onSelect(v)
+                }}
+                onHover={setHovered} />
+            if (isHovered) {
+                hoveredShip = ship
+            } else {
+                children.push(ship)
+            }
+        }
+    }
+    if (hoveredShip) {
+        // Place the selected ship *last* as in SVG the render order is
+        // sequential.
+        children.push(hoveredShip)
+    }
+    useEffect(() => {
+        const current = selected?.geodesic()
+        if (current) {
+            map.addLayer(current)
+        }
+        return () => { current && map.removeLayer(current) }
+    }, [selected])
     return <SVGOverlay attributes={{ style: "pointer-events: auto; z-index: 5500;" }} bounds={bounds}>
         {children}
     </SVGOverlay>
 }
 
 interface TimelapseUIProps {
+    collection: VoyageRouteCollection
+    selected?: VoyageRoute
     years?: [number, number]
     paused: boolean
     speed: number
@@ -634,20 +753,124 @@ interface TimelapseUIProps {
     // chartData: any
 }
 
-const TimelapseUI = ({ years, paused, speed, onPlay, onPause, onSpeedChange }: TimelapseUIProps) => {
+const TimelapseUI = ({ collection, selected, years, paused, speed, onPlay, onPause, onSpeedChange }: TimelapseUIProps) => {
+    const timelapseHelpPopup = `<div>
+        <h1>About this Timelapse</h1>
+        <p>
+        This timelapse offers an overall preview as well as demonstration of how the slave movement happened.
+        The results of any user query will display in this timelapse feature. Also, please note the following:
+        </p>
+        <h3>Voyage Size</h3>
+        <p>
+        Each circle on this timelapse represents a single voyage and is both sized, according to the number of
+        captives on board, and colored, according to the three icons at the bottom left of the graph.
+        </p>
+        <h3>Voyage Nationality</h3>
+        <p>
+        Each circle is color coded and the color code represents the nationality of the slave vessel, but users
+        can instead choose Region of Embarkation, or Region of Disembarkation by clicking on the icons to the
+        left of the graph.
+        </p>
+        <h3>Voyage Details</h3>
+        <p>
+        To inspect details of an individual voyage, pause and click on a circle.
+        </p>
+    </div>`
+    const [fullscreen, setFullscreen] = useState(false)
     const { size } = useMapPosition()
+    const map = useMap()
     const handleSpeedChange = () => {
         let next = speed * 2;
         if (next > 16) {
             next = 1
         }
         onSpeedChange(next)
+        return next
     }
-    const btnStyle: CSSProperties = { pointerEvents: 'all' }
-    return <div style={{ position: 'absolute', pointerEvents: 'none', top: 0, left: 50, zIndex: 6000, width: size.width, height: size.height }}>
-        {years && <h1>{years[0] === years[1] ? years[0] : `${years[0]}-${years[1]}`}</h1>}
-        <button style={btnStyle} onClick={() => paused ? onPlay() : onPause()}>{paused ? 'Play' : 'Pause'}</button>
-        <button style={btnStyle} onClick={handleSpeedChange}>{speed} x</button>
+    const toggleFullscreen = () => {
+        if (fullscreen) {
+            document.exitFullscreen()
+        } else {
+            map.getContainer().requestFullscreen()
+        }
+        setFullscreen(!fullscreen)
+    }
+    useEffect(() => {
+        const playPauseBtn = L.easyButton({
+            states: [{
+                stateName: 'play',
+                onClick: (btn) => {
+                    btn.state('pause')
+                    onPlay()
+                },
+                title: 'Play',
+                icon: 'fa-play'
+            }, {
+                stateName: 'pause',
+                onClick: (btn) => {
+                    btn.state('play')
+                    onPause()
+                },
+                title: 'Pause',
+                icon: 'fa-pause'
+            }]
+        })
+        playPauseBtn.state(paused ? 'play' : 'pause')
+        const speedLabel = (s: number) => `${s}x`
+        const speedBtn = L.easyButton({
+            states: [1, 2, 4, 8, 16].map(speed => {
+                const stateName = speedLabel(speed)
+                return {
+                    stateName,
+                    onClick: (btn) => {
+                        const next = handleSpeedChange()
+                        btn.state(speedLabel(next))
+                    },
+                    title: stateName,
+                    icon: `fa-fast-forward`
+                }
+            })
+        })
+        speedBtn.state(speedLabel(speed))
+        const bar = L.easyBar([playPauseBtn, speedBtn])
+        map.addControl(bar)
+        const helpBtn = L.easyButton(
+            'fa-question-circle',
+            (_, map) => {
+                const bounds = map.getBounds()
+                const { lng } = bounds.getCenter()
+                const lat = bounds.getSouth() + 10
+                onPause()
+                map.openPopup(timelapseHelpPopup, { lat, lng }, { autoPan: false })
+            },
+            'Help'
+        )
+        map.addControl(helpBtn)
+        const fullscreenBtn = L.easyButton('fa-arrows-alt', toggleFullscreen, 'Toggle full-screen')
+        map.addControl(fullscreenBtn)
+        return () => {
+            map.removeControl(bar)
+            map.removeControl(helpBtn)
+            map.removeControl(fullscreenBtn)
+        }
+    }, [map, paused, speed, fullscreen])
+    return <div style={{ position: 'absolute', pointerEvents: 'none', top: 6, left: 50, zIndex: 6000, width: size.width, height: size.height }}>
+        <div className="timelapseInfoBox">
+            {years && <h1>{(years[1] - years[0] <= 1) ? years[0] : `${years[0]}-${years[1]}`}</h1>}
+        </div>
+        <div className="timelapseInfoBox">
+            View the movement of {collection.voyageRoutes.length} Slave Ships
+        </div>
+        {selected && <div className="timelapseInfoBox">
+            <h2>{selected.shipName}</h2>
+            <h3>{selected.flag.name}</h3>
+            <p>
+                This {selected.tonnage ? `${selected.tonnage} tons` : ''} ship
+                left {selected.sourceRegion} in {timeToYear(selected.startTime)} with {selected.embarked} enslaved
+                people and arrived in {selected.destinationBroadRegion} with {selected.disembarked}.
+            </p>
+            <button>Read more</button>
+        </div>}
     </div>
 }
 
@@ -673,7 +896,7 @@ interface OBSOLETE_APIVoyageEntry {
 
 const rndInteger = (max: number) => Math.round(Math.random() * max)
 
-const OBSOLETE_legacyToVoyageRoute = (routeBuilder: MapRouteBuilder, entry: OBSOLETE_APIVoyageEntry): VoyageRoute => {
+const OBSOLETE_legacyToVoyageRoute = (routeBuilder: MapRouteBuilder, nations: Record<number, Nation>, entry: OBSOLETE_APIVoyageEntry): VoyageRoute => {
     // The start time is expressed in "days" elapsed, however since we not
     // always have a month available on record, we use a random value to better
     // distribute 
@@ -692,6 +915,10 @@ const OBSOLETE_legacyToVoyageRoute = (routeBuilder: MapRouteBuilder, entry: OBSO
         embarked,
         disembarked,
         animationDuration,
+        shipName: entry.ship_name,
+        flag: nations[entry.nat_id],
+        sourceRegion: entry.regsrc,
+        destinationBroadRegion: entry.bregdst,
         route: routeBuilder.getRoute(entry.src, entry.dst)
     }
 }
@@ -702,9 +929,14 @@ const OBSOLETE_legacyVoyageCollection = async () => {
         (await fetch(`${BASEURL}/timelapse/get-compiled-routes/?networkName=trans&routeType=port`, {
             headers: { 'Authorization': AUTHTOKEN }
         }))
-            .json()
+        .json()
     const routeBuilder = new MapRouteBuilder(ports, regionSeg)
-    const post = { "searchData": { "items": [{ "op": "is between", "searchTerm": [1514, 1866], "varName": "imp_arrival_at_port_of_dis" }], "orderBy": [] }, "output": "mapAnimation" }
+    const nations = await
+        (await fetch(`${BASEURL}/timelapse/nations/`, {
+            headers: { 'Authorization': AUTHTOKEN }
+        }))
+        .json()
+    // const post = { "searchData": { "items": [{ "op": "is between", "searchTerm": [1514, 1866], "varName": "imp_arrival_at_port_of_dis" }], "orderBy": [] }, "output": "mapAnimation" }
     //const voyagesPromise = fetch(
     //    `${BASEURL}/timelapse/records/`, {
     //    method: 'POST',
@@ -714,10 +946,11 @@ const OBSOLETE_legacyVoyageCollection = async () => {
     //    },
     //    body: JSON.stringify(post)
     //})
-    //const voyages: OBSOLETE_APIVoyageEntry[] = await (await voyagesPromise).json()
-    const voyages: OBSOLETE_APIVoyageEntry[] = OBSOLETE_voyages
+    //const OBSOLETE_voyages: OBSOLETE_APIVoyageEntry[] = await (await voyagesPromise).json()
+    const voyages = (OBSOLETE_voyages as OBSOLETE_APIVoyageEntry[])
+        .map(v => OBSOLETE_legacyToVoyageRoute(routeBuilder, nations, v))
     // TODO: replace hardcoded args.
-    return new VoyageRouteCollection(voyages.map(v => OBSOLETE_legacyToVoyageRoute(routeBuilder, v)), 0.3, 0.2)
+    return new VoyageRouteCollection(voyages, 0.3, 0.2)
 }
 
 export interface TimelapseMapProps {
@@ -728,32 +961,41 @@ export interface TimelapseMapProps {
     // maxSpeed: number
 }
 
+const flagStyling: Record<number, string> = {}
+
 export const DemoTimelapseMap = () => {
     const loadedRef = useRef<boolean>(false)
     const [collection, setCollection] = useState<VoyageRouteCollection | null>(null)
+    const [renderStyles, setStyles] = useState<VoyageRouteRenderStyles | null>(null)
+    const updateCollection = (col: VoyageRouteCollection) => {
+        setStyles(createRenderStyles(col, 200, v => v.flag?.code, flagStyling))
+        setCollection(col)
+    }
     useEffect(() => {
         if (!loadedRef.current) {
             loadedRef.current = true
-            OBSOLETE_legacyVoyageCollection().then(setCollection)
+            OBSOLETE_legacyVoyageCollection().then(updateCollection)
         }
     }, [])
-    const baseLine = 200 // TODO: not hardcoded!
-    const renderStyles: VoyageRouteRenderStyles = {
-        styles: ['red'],
-        getRadiusForVoyage: v => v.embarked <= baseLine ? 2 : Math.min(9, 2 * (1.0 + Math.log2(v.embarked / baseLine))),
-        getStyleForVoyage: _ => 0
-    }
-    return collection && <TimelapseMap collection={collection} initialSpeed={1} renderStyles={renderStyles} />
+    return collection && renderStyles && <TimelapseMap
+        collection={collection}
+        initialSpeed={1}
+        renderStyles={renderStyles} />
 }
-
-interface Size { width: number, height: number }
 
 export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: TimelapseMapProps) => {
     const [zoomLevel, setZoomLevel] = useState<number>(3)
     const [pauseWin, setPauseWin] = useState<VoyageRouteCollectionWindow | null>(null)
+    const [selected, setSelected] = useState<VoyageRoute | undefined>(undefined)
     const [speed, setSpeed] = useState(initialSpeed)
     const [years, setYears] = useState<[number, number] | undefined>()
     const window = useRef<VoyageRouteCollectionWindow | undefined>()
+    useEffect(() => {
+        if (!pauseWin) {
+            // Clear selection when resuming playing.
+            setSelected(undefined)
+        }
+    }, [pauseWin])
     return <MapContainer
         center={MAP_CENTER}
         zoom={zoomLevel}
@@ -779,13 +1021,6 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
                 <TileLayer url={mappingSpecialistsCountries} />
             </LayersControl.Overlay>
         </LayersControl>
-        <TimelapseUI
-            years={years}
-            paused={pauseWin !== null}
-            speed={speed}
-            onPause={() => setPauseWin(window.current ?? null)}
-            onPlay={() => setPauseWin(null)}
-            onSpeedChange={setSpeed} />
         <CanvasAnimation
             collection={collection}
             speed={speed}
@@ -800,6 +1035,16 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
             }} />
         {pauseWin !== null && <InteractiveVoyageRoutesFrame
             window={pauseWin}
-            renderStyles={renderStyles} />}
+            renderStyles={renderStyles}
+            onSelect={setSelected} />}
+        <TimelapseUI
+            collection={collection}
+            selected={pauseWin !== null ? selected : undefined}
+            years={years}
+            paused={pauseWin !== null}
+            speed={speed}
+            onPause={() => setPauseWin(window.current ?? null)}
+            onPlay={() => setPauseWin(null)}
+            onSpeedChange={setSpeed} />
     </MapContainer>
 }

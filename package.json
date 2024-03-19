@@ -51,6 +51,8 @@
     "html-table-to-csv": "^1.0.3",
     "leaflet": "^1.9.4",
     "leaflet-curve": "^1.0.0",
+    "leaflet-easybutton": "^2.4.0",
+    "leaflet.geodesic": "^2.7.1",
     "leaflet.markercluster": "^1.5.3",
     "lodash.debounce": "^4.0.8",
     "multi-nested-select": "^1.2.1",
