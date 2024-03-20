@@ -21,9 +21,12 @@ import '@/style/table.scss';
 import { fetchEstimateCrosstabsTables } from '@/fetch/estimateFetch/fetchEstimateCrosstabsTables';
 import { SelectDropdownEstimateTable } from '@/components/SelectorComponents/SelectDrowdown/SelectDropdownEstimateTable';
 import { setFilterObject } from '@/redux/getFilterSlice';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { ESTIMATES } from '@/share/CONST_DATA';
 
 const TablesEstimates = () => {
     const dispatch: AppDispatch = useDispatch();
+    const { currentBlockName, endpointPathEstimate } = usePageRouter();
     const aggregation = 'sum';
     const {
         currentSliderValue,
@@ -123,8 +126,11 @@ const TablesEstimates = () => {
 
     useEffect(() => {
         EstimateTableOptions();
-        fetchData();
-
+        if (!currentBlockName && endpointPathEstimate === ESTIMATES) {
+            fetchData();
+        } else if (currentBlockName === 'tables') {
+            fetchData();
+        }
         const storedValue = localStorage.getItem('filterObject');
         if (!storedValue) return;
         const parsedValue = JSON.parse(storedValue);
@@ -141,7 +147,7 @@ const TablesEstimates = () => {
         currentSliderValue,
         changeFlag,
         checkedListEmbarkation,
-        checkedListDisEmbarkation,
+        checkedListDisEmbarkation, endpointPathEstimate
     ]);
 
     const handleButtonExportCSV = useCallback(() => {

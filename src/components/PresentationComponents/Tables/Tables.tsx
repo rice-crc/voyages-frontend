@@ -224,7 +224,6 @@ const Tables: React.FC = () => {
                     const { count, results } = response.data;
                     setTotalResultsCount(Number(count));
                     dispatch(setData(results));
-                    saveDataToLocalStorage(results, visibleColumnCells);
                 }
             } catch (error) {
                 console.log('error', error);
@@ -247,17 +246,6 @@ const Tables: React.FC = () => {
         autoLabelName,
         currentBlockName, styleNameRoute
     ]);
-
-    const saveDataToLocalStorage = useCallback(
-        (data: Record<string, any>[], visibleColumnCells: string[]) => {
-            localStorage.setItem('data', JSON.stringify(data));
-            localStorage.setItem(
-                'visibleColumnCells',
-                JSON.stringify(visibleColumnCells)
-            );
-        },
-        []
-    );
 
     useEffect(() => {
         const tableFileName = checkPagesRouteForVoyages(styleNameRoute!)

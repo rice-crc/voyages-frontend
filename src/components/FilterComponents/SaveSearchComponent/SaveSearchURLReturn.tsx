@@ -15,6 +15,8 @@ const UseSaveSearchURL = () => {
     const saveSearchID = pathName.slice(-1).join('');
     const [isLoading, setLoading] = useState(true)
 
+
+
     useEffect(() => {
         const fetchDataUseSaveSearch = async () => {
             try {
@@ -23,7 +25,9 @@ const UseSaveSearchURL = () => {
                 ).unwrap();
 
                 if (response) {
+
                     const { query, front_end_path } = response;
+                    console.log({ front_end_path })
                     dispatch(setFilterObject(query));
                     dispatch(setRouteSaveSearch(front_end_path))
                     navigate(`/${front_end_path}`, { replace: true });

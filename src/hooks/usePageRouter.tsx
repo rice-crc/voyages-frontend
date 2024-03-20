@@ -12,6 +12,7 @@ export function usePageRouter() {
     const voyageURLID = location.pathname.split('/').at(-2);
     const styleName = location.pathname.split('/').at(-1);
     const hash = location.hash;
+
     const currentBlockName = hash ? hash.slice(1) : '';
     return {
         styleName,
