@@ -77,7 +77,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-  console.log({ currentBlockName })
   const { styleNamePeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
