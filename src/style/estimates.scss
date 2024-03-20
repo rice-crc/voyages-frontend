@@ -169,18 +169,6 @@
 .tab-container-estimate {
     padding: 1rem 3rem 0 3rem;
 
-    // @include breakpoint-standard(5) {
-    //     padding: 1.5rem 0 0 3rem;
-    // }
-
-    // @include breakpoint-standard(4) {
-    //     padding: 1.5rem 0 0 3rem;
-    // }
-
-    // @include breakpoint-standard(3) {
-    //     padding: 1rem 1rem;
-    // }
-
     @include breakpoint-standard(2) {
         padding: 1rem;
     }
