@@ -223,22 +223,27 @@
 
     @include breakpoint-standard(4) {
         display: block;
+        font-size: 22px;
     }
 
     @include breakpoint-standard(3) {
         display: block;
+        font-size: 20px;
     }
 
     @include breakpoint-standard(2) {
         display: block;
+        font-size: 20px;
     }
 
     @include breakpoint-standard(1) {
         display: block;
+        font-size: 16px;
     }
 
     @include breakpoint-standard(0) {
         display: block;
+        font-size: 16px;
     }
 }
 

@@ -1,3 +1,60 @@
+@mixin breakpoint-standard($size) {
+    @if $size==0 {
+        @media only screen and (max-width: 374px) {
+            @content;
+        }
+    }
+
+    @else if $size==1 {
+        @media only screen and (min-width: 375px) and (max-width: 425px) {
+            @content;
+        }
+    }
+
+    @else if $size==1.1 {
+        @media only screen and (min-width: 425px) and (max-width: 479px) {
+            @content;
+        }
+    }
+
+    @else if $size==2 {
+        @media only screen and (min-width: 480px) and (max-width: 575px) {
+            @content;
+        }
+    }
+
+    @else if $size==3 {
+        @media only screen and (min-width: 576px) and (max-width: 767px) {
+            @content;
+        }
+    }
+
+    @else if $size==4 {
+        @media only screen and (min-width: 768px) and (max-width: 991px) {
+            @content;
+        }
+    }
+
+    @else if $size==5 {
+        @media only screen and (min-width: 992px) and (max-width: 1024px) {
+            @content;
+        }
+    }
+
+    @else if $size==6 {
+        @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+            @content;
+        }
+    }
+
+    @else if $size==7 {
+        @media only screen and (max-width: 1440px) {
+            @content;
+        }
+    }
+}
+
+
 .nav-header {
     z-index: 1;
     width: 100%;
@@ -6,6 +63,22 @@
     padding: 0px 3rem;
     font-size: 1.4rem;
     font-weight: bold;
+
+    @include breakpoint-standard(2) {
+        padding: 10px;
+    }
+
+    @include breakpoint-standard(1.1) {
+        padding: 10px 1.5rem;
+    }
+
+    @include breakpoint-standard(1) {
+        padding: 10px 1.5rem;
+    }
+
+    @include breakpoint-standard(0) {
+        padding: 10px;
+    }
 }
 
 
@@ -29,6 +102,14 @@
     font-size: .85rem;
     color: #fff;
     padding: 0 5rem 0.5rem 0.5rem;
+
+    @include breakpoint-standard(1) {
+        padding: 0.25rem 1.75rem 0 0.25rem
+    }
+
+    @include breakpoint-standard(0) {
+        padding: 0.25rem 1.75rem 0 0.25rem
+    }
 }
 
 .navbar-subitem {
@@ -51,6 +132,13 @@
     padding: 0 0.5rem 0 0.35rem;
     cursor: pointer;
 
+    @include breakpoint-standard(1) {
+        font-size: 9px;
+    }
+
+    @include breakpoint-standard(0) {
+        font-size: 9px;
+    }
 }
 
 .btn-navbar>i {
@@ -80,6 +168,40 @@
 
 .tab-container-estimate {
     padding: 1rem 3rem 0 3rem;
+
+    // @include breakpoint-standard(5) {
+    //     padding: 1.5rem 0 0 3rem;
+    // }
+
+    // @include breakpoint-standard(4) {
+    //     padding: 1.5rem 0 0 3rem;
+    // }
+
+    // @include breakpoint-standard(3) {
+    //     padding: 1rem 1rem;
+    // }
+
+    @include breakpoint-standard(2) {
+        padding: 1rem;
+    }
+
+    @include breakpoint-standard(1) {
+        padding: 1rem;
+    }
+
+    @include breakpoint-standard(0) {
+        padding: 1rem 1rem;
+    }
+
+    .tab-estimate {
+        @include breakpoint-standard(1) {
+            padding-top: 1rem;
+        }
+
+        @include breakpoint-standard(0) {
+            padding-top: 1rem;
+        }
+    }
 }
 
 .tab-container-estimate,
