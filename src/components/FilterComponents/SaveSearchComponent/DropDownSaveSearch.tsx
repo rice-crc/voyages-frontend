@@ -4,34 +4,43 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { fetchCommonMakeSavedSearch } from '@/fetch/saveSearch/fetchCommonMakeSavedSearch';
 import { BASE_URL_FRONTEND } from '@/share/AUTH_BASEURL';
-import { setListSaveSearchURL, setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
+import { setListSaveSearchURL, setRouteSaveSearch, setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
+import { useEffect } from 'react';
+import { ASSESSMENT, ENSALVEDPAGE, ENSALVEDROUTE, ENSALVEDTYPE, ENSALVERSPAGE, ENSALVERSROUTE, ESTIMATES, VOYAGE, VOYAGEPATHENPOINT, allEnslavers } from '@/share/CONST_DATA';
 
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
     const { endpointPath, styleName, endpointPeopleDirect } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-    const { saveSearchUrlID, listSaveSearchURL } = useSelector((state: RootState) => state.getSaveSearch);
+    const { saveSearchUrlID, listSaveSearchURL, routeSaveSearch } = useSelector((state: RootState) => state.getSaveSearch);
 
-    let endpointSaveURL: string = ''
-    if (endpointPeopleDirect === 'past/enslaved') {
-        endpointSaveURL = `${endpointPeopleDirect}/${styleName}`
-    } else if (endpointPeopleDirect === 'past/enslaver') {
-        endpointSaveURL = `${endpointPeopleDirect}/${styleName}`
-    } else if (endpointPath === 'voyage') {
-        endpointSaveURL = `${endpointPath}/${styleName}`
-    } else if (endpointPath === 'assessment') {
-        endpointSaveURL = `${endpointPath}/${styleName}`
-    }
+    let saveSearhURL: string = ''
     let endpointSaveSearch: string = ''
-    if (endpointPeopleDirect === 'past/enslaved') {
+    if (endpointPeopleDirect === ENSALVEDROUTE) {
         endpointSaveSearch = endpointPeopleDirect
-    } else if (endpointPeopleDirect === 'past/enslaver') {
+        saveSearhURL = ENSALVEDTYPE
+    } else if (endpointPeopleDirect === ENSALVERSROUTE) {
         endpointSaveSearch = endpointPeopleDirect
-    } else if (endpointPath === 'voyage') {
+        saveSearhURL = allEnslavers
+    } else if (endpointPath === VOYAGEPATHENPOINT) {
         endpointSaveSearch = endpointPath
-    } else if (endpointPath === 'assessment') {
+        saveSearhURL = VOYAGE
+    } else if (endpointPath === ASSESSMENT) {
         endpointSaveSearch = endpointPath
+        saveSearhURL = ESTIMATES
     }
+
+    useEffect(() => {
+        if (endpointPeopleDirect === ENSALVEDROUTE) {
+            dispatch(setRouteSaveSearch(`${endpointPeopleDirect}/${styleName}`))
+        } else if (endpointPeopleDirect === ENSALVERSROUTE) {
+            dispatch(setRouteSaveSearch(`${endpointPeopleDirect}/${styleName}`))
+        } else if (endpointPath === VOYAGEPATHENPOINT) {
+            dispatch(setRouteSaveSearch(`${endpointPath}/${styleName}`))
+        } else if (endpointPath === ASSESSMENT) {
+            dispatch(setRouteSaveSearch(`${endpointPath}/${ESTIMATES}/`))
+        }
+    }, [routeSaveSearch])
 
     let filters: Filter[] = []
     if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
@@ -41,10 +50,12 @@ const DropDownSaveSearch = () => {
     }
     const dataSend: SaveSearchRequest = {
         endpoint: endpointSaveSearch,
+        front_end_path: routeSaveSearch,
         query: filters,
     };
-    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/saveUrl?returnUrl=${endpointSaveURL}&id=${saveSearchUrlID}`
 
+
+    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${saveSearhURL}/${saveSearchUrlID}`
     const handleSaveSearch = () => {
         fetchData();
     };
@@ -53,7 +64,6 @@ const DropDownSaveSearch = () => {
         if (saveSearchUrlID) {
             navigator.clipboard.writeText(`${URLSAVESEARCH}`)
             alert(`Your URL ${URLSAVESEARCH} is copied`);
-
         }
     };
 
@@ -139,7 +149,7 @@ const DropDownSaveSearch = () => {
                                     <div className="v-title">URL</div>
                                 </div>{' '}
                                 <div className="flex-between v-saved-searches-item">
-                                    <div id="SzPhOxXs">
+                                    <div id="SzPhOxXs" className='url-searches-item'>
                                         {saveSearchUrlID &&
                                             `${URLSAVESEARCH}`}
                                     </div>{' '}

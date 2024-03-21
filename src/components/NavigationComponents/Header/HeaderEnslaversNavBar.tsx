@@ -195,7 +195,8 @@ const HeaderEnslaversNavBar: React.FC = () => {
               {inputSearchValue && <GlobalSearchButton />}
             </Typography>
           </Typography>
-          <CanscandingMenuMobile />
+          {!inputSearchValue &&
+            <CanscandingMenuMobile />}
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -231,7 +232,8 @@ const HeaderEnslaversNavBar: React.FC = () => {
               borderClor: 'rgb(0 0 0 / 50%)',
             }}
           />
-          <CanscandingMenu />
+          {!inputSearchValue &&
+            <CanscandingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu

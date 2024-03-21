@@ -19,6 +19,7 @@ export const updateColumnDefsAndRowData = (
     dispatch(setColumnDefs(newColumnDefs));
     dispatch(setRowData(finalRowData as Record<string, any>[]));
   } else {
+    dispatch(setRowData([]));
     return null;
   }
 };

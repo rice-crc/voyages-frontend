@@ -135,8 +135,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
     });
   };
 
-
-
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
   };
@@ -220,8 +218,8 @@ const HeaderEnslavedNavBar: React.FC = () => {
 
             </Typography>
           </Typography>
+          {!inputSearchValue && <CanscandingMenuMobile />}
 
-          <CanscandingMenuMobile />
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -257,7 +255,8 @@ const HeaderEnslavedNavBar: React.FC = () => {
           }}
         />
         <Hidden mdDown>
-          <CanscandingMenu />
+          {!inputSearchValue &&
+            <CanscandingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu

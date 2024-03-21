@@ -11,7 +11,6 @@ import { SxProps } from '@mui/system';
 const SaveSearchComponent = () => {
     const { styleName } = usePageRouter();
     const [isOpen, setIsOpen] = useState(false);
-
     const handleClick = () => {
         setIsOpen((prev) => !prev);
     };
@@ -44,7 +43,7 @@ const SaveSearchComponent = () => {
     return (
 
         <ClickAwayListener onClickAway={handleClickAway}>
-            <Box sx={{ position: 'relative' }} >
+            <Box>
                 <div onClick={handleClick} className="save-sarch-content"><StarOutlined /></div>
                 {isOpen ? (
                     <Box sx={styles}>
