@@ -61,6 +61,7 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     const { nodesData } = useSelector(
         (state: RootState) => state.getNodeEdgesAggroutesMapData
     );
+
     const {
         styleName: styleNamePage,
         nodeTypeURL,

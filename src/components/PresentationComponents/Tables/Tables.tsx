@@ -52,6 +52,7 @@ import {
     TRANSATLANTICTRADS,
 } from '@/share/CONST_DATA';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -144,7 +145,6 @@ const Tables: React.FC = () => {
 
     let filters: Filter[] = []
 
-
     if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
         filters = filtersObj;
     } else if (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
@@ -224,14 +224,12 @@ const Tables: React.FC = () => {
                     const { count, results } = response.data;
                     setTotalResultsCount(Number(count));
                     dispatch(setData(results));
-                    saveDataToLocalStorage(results, visibleColumnCells);
                 }
             } catch (error) {
                 console.log('error', error);
             }
         };
         fetchDataTable();
-        return () => { };
     }, [
         dispatch, filtersObj,
         rowsPerPage,
@@ -248,17 +246,6 @@ const Tables: React.FC = () => {
         autoLabelName,
         currentBlockName, styleNameRoute
     ]);
-
-    const saveDataToLocalStorage = useCallback(
-        (data: Record<string, any>[], visibleColumnCells: string[]) => {
-            localStorage.setItem('data', JSON.stringify(data));
-            localStorage.setItem(
-                'visibleColumnCells',
-                JSON.stringify(visibleColumnCells)
-            );
-        },
-        []
-    );
 
     useEffect(() => {
         const tableFileName = checkPagesRouteForVoyages(styleNameRoute!)

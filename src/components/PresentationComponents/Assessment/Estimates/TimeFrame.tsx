@@ -1,6 +1,6 @@
 
 import { Button, } from "antd";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect } from "react";
 import '@/style/estimates.scss'
 import { CustomSliderTimeFrame, Input } from '@/styleMUI';
 import { Filter } from "@/share/InterfaceTypes";

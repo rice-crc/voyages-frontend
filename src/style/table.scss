@@ -266,6 +266,10 @@ div .customHeaderLabelSummaryTable {
   align-items: center;
   padding: 10px 0;
 
+  .css-1omp2b7.Mui-selected {
+    background-color: var(--pagination-table--, --pagination-table--);
+  }
+
   .css-1to7aaw-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
     background-color: var(--pagination-table--, --pagination-table--);
   }
@@ -404,22 +408,22 @@ div .customHeaderLabelSummaryTable {
 
   @include breakpoint-standard(0) {
     width: 100%;
-    padding: 10px;
+    padding: 5px 0;
   }
 
   @include breakpoint-standard(1) {
     width: 100%;
-    padding: 10px;
+    padding: 5px 0;
   }
 
   @include breakpoint-standard(2) {
     width: 100%;
-    padding: 10px;
+    padding: 5px 0;
   }
 
   @include breakpoint-standard(3) {
     width: 100%;
-    padding: 10px;
+    padding: 5px 0;
   }
 
   @include breakpoint-standard(4) {
@@ -637,10 +641,10 @@ div .customHeaderLabelSummaryTable {
 }
 
 .mobile-responsive-map {
-  padding: 140px 40px !important;
+  padding: 140px 40px 40px 40px !important;
 
   @include breakpoint-standard(5) {
-    padding: 150px 60px 10px 10px !important
+    padding: 150px 40px 10px 10px !important
   }
 
   @include breakpoint-standard(4) {

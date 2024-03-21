@@ -9,11 +9,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import '@/style/estimates.scss';
 import { Disembarked, Embarked } from '@/share/CONST_DATA';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> = () => {
     const dispatch: AppDispatch = useDispatch();
     const [dataSort, setDataSort] = useState<DataTimeLinesItem[]>([])
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+    const { currentBlockName } = usePageRouter();
     const graphContainerRef = useRef<HTMLDivElement | null>(null);
     const mouseOverInfoRef = useRef<HTMLDivElement | null>(null);
     const historicalEventsContainerRef = useRef<HTMLDivElement | null>(null);
@@ -48,9 +50,9 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                 console.log('error', error);
             }
         };
-
-        fetchData();
-
+        if (currentBlockName === 'timeline') {
+            fetchData();
+        }
     }, [dispatch, varName,
         currentSliderValue,
         changeFlag,

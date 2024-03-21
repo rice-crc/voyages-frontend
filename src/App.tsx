@@ -13,7 +13,6 @@ import {
   ABOUTPAGE,
   AFRICANORIGINSPAGE,
   ALLENSLAVEDPAGE,
-  ALLVOYAGES,
   ALLVOYAGESPAGE,
   ASSESSMENT,
   BLOGPAGE,
@@ -21,9 +20,10 @@ import {
   DOCUMENTPAGE,
   DOWNLOADS,
   ENSALVEDPAGE,
+  ENSALVEDTYPE,
   ENSALVERSPAGE,
-  ENSALVERSTYLE,
   ENSLAVEDTEXASPAGE,
+  ENSLAVERSTYPE,
   ESTIMATES,
   INTRAAMERICANENSLAVERS,
   INTRAAMERICANPAGE,
@@ -34,6 +34,7 @@ import {
   TRANSATLANTICENSLAVERS,
   TRANSATLANTICPAGE,
   USESAVESEARCHURL,
+  VOYAGE,
   VOYAGESTEXASPAGE,
   allEnslavers,
 } from '@/share/CONST_DATA';
@@ -55,7 +56,7 @@ import DocumentPageHold from '@/pages/DocumentPageHold';
 import AboutPage from '@/pages/AboutPage';
 import DownloadPage from '@/pages/DownloadPage';
 import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
-import { setSaveSearchUrlID } from './redux/getSaveSearchSlice';
+// import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -70,17 +71,20 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const { cardRowID, nodeTypeClass } = useSelector((state: RootState) => state.getCardFlatObjectData);
   const { styleName, voyageURLID } = usePageRouter();
+  const [saveSearchURL, setSaveSearchURL] = useState('')
   const [ID, setID] = useState(cardRowID)
   const [nodeClass, setNodeTypeClass] = useState(nodeTypeClass)
-
 
   useEffect(() => {
     const url = window.location.pathname;
     const parts = url.split('/');
-
     const entityType = parts[1];
     const voyageID = parts[2];
     const typeOfData = parts[3]
+
+    if (entityType === VOYAGE || entityType === ENSALVEDTYPE || entityType === allEnslavers || entityType === ESTIMATES) {
+      setSaveSearchURL(url)
+    }
 
     if (voyageID && entityType) {
       setID(Number(voyageID))
@@ -88,21 +92,21 @@ const App: React.FC = () => {
       dispatch(setCardRowID(Number(voyageID)))
       dispatch(setNodeClass(entityType))
       dispatch(setValueVariable(typeOfData))
-    }
-  }, [dispatch, ID, nodeClass, styleName, voyageURLID]);
 
+    }
+  }, [dispatch, ID, nodeClass, styleName, voyageURLID, saveSearchURL]);
 
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          {saveSearchURL && <Route
+            path={`${saveSearchURL}`}
+            element={<UseSaveSearchURL />}
+          />}
           <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
           <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
-          <Route
-            path={`${USESAVESEARCHURL}`}
-            element={<UseSaveSearchURL />}
-          />
           <Route
             path={`${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}
@@ -146,6 +150,12 @@ const App: React.FC = () => {
             path={`${ENSALVERSPAGE}/${allEnslavers}`}
             element={<EnslaversHomePage />}
           />
+          <Route
+            path={`${ASSESSMENT}/${ESTIMATES}/`}
+            element={<Estimates />}
+          />
+
+
           {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}
           <Route path={`${DOCUMENTPAGE}`} element={<DocumentPageHold />} />
           <Route path={`${BLOGPAGE}`} element={<BlogPage />} />
@@ -165,10 +175,7 @@ const App: React.FC = () => {
             path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
             element={<InstitutionAuthorsPage />}
           />
-          <Route
-            path={`${ASSESSMENT}/${ESTIMATES}/`}
-            element={<Estimates />}
-          />
+
           <Route
             path={`${CONTRIBUTE}`}
             element={<Contribute />}

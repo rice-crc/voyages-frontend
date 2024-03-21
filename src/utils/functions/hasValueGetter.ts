@@ -43,10 +43,10 @@ export function hasValueGetter(
             if (fieldValue !== null) {
                 dataValue += fieldValue + '  ';
             } else {
-                dataValue += '--'
+                dataValue += ''
             }
         }
         const result = dataValue.substring(0, dataValue.length - 1);
-        return result
+        return result.length === 0 ? '--' : result
     }
 }
