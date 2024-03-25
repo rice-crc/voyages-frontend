@@ -161,7 +161,8 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
         component="nav"
         style={{
           backgroundColor: getColorNavbarBackground(styleNameRoute!),
-          paddingTop: 5
+          paddingTop: 5,
+          zIndex: 5
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>

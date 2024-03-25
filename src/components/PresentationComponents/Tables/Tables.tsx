@@ -52,7 +52,6 @@ import {
     TRANSATLANTICTRADS,
 } from '@/share/CONST_DATA';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -149,16 +148,18 @@ const Tables: React.FC = () => {
         filters = filtersObj;
     } else if (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
         filters = filtersObj;
-    } else if (styleNameRoute === TRANSATLANTICPATH) {
-        filters.push({
-            varName: 'dataset',
-            searchTerm: [0],
-            op: 'in',
-        });
-    } else if (styleNameRoute === INTRAAMERICAN) {
+    }
+    else if (styleNameRoute === INTRAAMERICAN && !filtersObj) {
         filters.push({
             varName: 'dataset',
             searchTerm: [1],
+            op: 'in',
+        });
+    }
+    else if (styleNameRoute === TRANSATLANTICPATH) {
+        filters.push({
+            varName: 'dataset',
+            searchTerm: [0],
             op: 'in',
         });
     } else if (styleNameRoute === ENSLAVEDTEXAS) {
@@ -188,13 +189,6 @@ const Tables: React.FC = () => {
         });
     }
 
-    localStorage.setItem(
-        'filterObject',
-        JSON.stringify({
-            filter: filters,
-        })
-    );
-
     let dataSend: TableListPropsRequest = {
         filter: filters,
         page: Number(page + 1),
@@ -202,12 +196,13 @@ const Tables: React.FC = () => {
     };
 
     useEffect(() => {
+
         const fetchDataTable = async () => {
             let response;
+            if (inputSearchValue) {
+                dataSend['global_search'] = inputSearchValue;
+            }
             try {
-                if (inputSearchValue) {
-                    dataSend['global_search'] = inputSearchValue;
-                }
                 if (checkPagesRouteForVoyages(styleNameRoute!)) {
                     response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
                 } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
@@ -219,10 +214,9 @@ const Tables: React.FC = () => {
                         fetchEnslaversOptionsList(dataSend)
                     ).unwrap();
                 }
-
                 if (response) {
                     const { count, results } = response.data;
-                    setTotalResultsCount(Number(count));
+                    setTotalResultsCount(() => Number(count));
                     dispatch(setData(results));
                 }
             } catch (error) {
@@ -237,14 +231,13 @@ const Tables: React.FC = () => {
         currentPage,
         currentEnslavedPage,
         varName,
-        visibleColumnCells,
         inputSearchValue,
         styleNamePeople,
         isChange,
         isChangeGeoTree,
         isChangeAuto,
         autoLabelName,
-        currentBlockName, styleNameRoute
+        currentBlockName,
     ]);
 
     useEffect(() => {

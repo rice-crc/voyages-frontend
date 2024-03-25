@@ -313,7 +313,6 @@ $animationSpeed: 100s;
         padding: 0.5rem;
         line-height: 1.12rem;
         font-weight: 700;
-        // font-family: 'Cormorant Garamond', serif;
     }
 
     a {
@@ -609,7 +608,6 @@ $animationSpeed: 100s;
         }
 
         .enslavers-content-detail {
-            // font-family: "Cormorant Garamond";
             color: rgba(0, 0, 0, 0.95);
             text-align: center;
             width: 45%;
@@ -846,7 +844,6 @@ $animationSpeed: 100s;
 
 
         .african-content-detail {
-            // font-family: "Cormorant Garamond";
             color: rgba(0, 0, 0, 0.95);
             text-align: center;
             width: 50%;
@@ -1027,7 +1024,7 @@ $animationSpeed: 100s;
 .slider {
     margin: 0 20px;
     overflow: hidden;
-    padding: 2rem 0;
+    padding: 1rem 0 0.5rem 0;
 
     a {
         text-decoration: none;

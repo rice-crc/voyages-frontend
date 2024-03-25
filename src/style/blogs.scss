@@ -208,8 +208,6 @@
 
 .container-new-author-head {
   margin: 5rem 4rem 1rem 4rem;
-  // font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
-  //   "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
   @include breakpoint-standard(4) {
     margin: 5rem 1.5rem;
@@ -549,7 +547,6 @@ h4 {
   color: #6c757d;
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  // font-family: inherit;
   font-weight: 600;
 }
 
