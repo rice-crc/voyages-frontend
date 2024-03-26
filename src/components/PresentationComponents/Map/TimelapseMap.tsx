@@ -1,8 +1,7 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { MapContainer, TileLayer, LayersControl, useMap, SVGOverlay, LayerGroup } from 'react-leaflet';
 import { LatLngBounds } from "leaflet"
 import { AUTHTOKEN, BASEURL } from '../../../share/AUTH_BASEURL';
-import OBSOLETE_regionalSegments from './regional.json'
 import OBSOLETE_voyages from './voyages.json'
 import {
     MAP_CENTER,
@@ -13,11 +12,14 @@ import {
     mappingSpecialistsRivers
 } from '@/share/CONST_DATA';
 import { HandleZoomEvent } from "./HandleZoomEvent";
+import { Button } from '@mui/material';
 import * as d3 from "d3";
 import * as L from 'leaflet'
 import { GeodesicLine } from 'leaflet.geodesic';
 import 'leaflet-easybutton';
 import 'leaflet-easybutton/src/easy-button.css';
+import '@/style/timelapse.scss';
+import { preview } from "vite";
 
 // TODO
 // - move out the basic geometry/calculation stuff to a separate file.
@@ -344,7 +346,10 @@ type InterpolatedVoyageRoute = VoyageRoute & {
 class VoyageRouteCollection {
     readonly voyageRoutes: ReadonlyArray<InterpolatedVoyageRoute>
 
-    constructor(voyageRoutes: VoyageRoute[], maxLatPerturb: number, maxLngPerturb: number) {
+    constructor(voyageRoutes: VoyageRoute[],
+        maxLatPerturb: number,
+        maxLngPerturb: number,
+        public readonly nations: Record<number, Nation>) {
         // Enforce sorting by startTime, immutability, and generate randomly
         // perturbed interpolated paths for each voyage.
         this.voyageRoutes = voyageRoutes
@@ -461,14 +466,14 @@ class VoyageRouteCollectionWindow {
                 buffer[blockStart + counts[idx]++] = { voyage, pt }
                 if (counts[idx] === blockSize) {
                     // A block is full, yield them all and clear the block.
-                    yield { style: renderStyles.styles[idx], voyages: creator(blockStart, blockSize) }
+                    yield { style: renderStyles.styles[idx].style, voyages: creator(blockStart, blockSize) }
                     counts[idx] = 0
                 }
             }
             // Now yield all the remaining clusters.
             for (let idx = 0; idx < counts.length; ++idx) {
                 if (counts[idx] > 0) {
-                    yield { style: renderStyles.styles[idx], voyages: creator(idx * blockSize, counts[idx]) }
+                    yield { style: renderStyles.styles[idx].style, voyages: creator(idx * blockSize, counts[idx]) }
                 }
             }
         }
@@ -503,13 +508,18 @@ class VoyageRouteCollectionWindow {
     }
 }
 
+export interface VoyageGroupStyle {
+    label: string
+    style: string
+    isLeftoverGroup: boolean
+}
+
 export interface VoyageRouteRenderStyles {
-    readonly styles: readonly string[]
+    readonly styles: readonly VoyageGroupStyle[]
     getRadiusForVoyage: (voyage: VoyageRoute) => number
     getStyleForVoyage: (voyage: VoyageRoute) => number
 }
 
-// TODO: use the custom colors
 const CustomShipFlagColors: Record<string, string> = {
     // colors are either mixed or adopted based on national flag colors
     "Portugal / Brazil": "#009c3b", // brazil - green
@@ -527,22 +537,18 @@ const createRenderStyles = (
     collection: VoyageRouteCollection,
     embarkationBaseLine: number,
     grouping: (voyage: VoyageRoute) => number,
-    styling?: Record<number, string>): VoyageRouteRenderStyles => {
+    styling: Record<number, VoyageGroupStyle>): VoyageRouteRenderStyles => {
     let count = 0
     const map: Record<number, number> = {}
     for (const v of collection.voyageRoutes) {
         const key = grouping(v)
-        if (!map[key]) {
+        if (map[key] === undefined) {
             map[key] = count++
         }
     }
-    const color = d3
-        .scaleOrdinal()
-        .domain(Object.keys(map))
-        .range(d3.schemeSet3) as (key: string) => string;
-    const styles: string[] = new Array(count)
+    const styles: VoyageGroupStyle[] = new Array(count)
     for (const [key, idx] of Object.entries(map)) {
-        styles[idx] = (styling ? styling[parseInt(key)] : null) ?? color(key)
+        styles[idx] = styling[parseInt(key)]
     }
     return {
         styles,
@@ -677,19 +683,19 @@ const InteractiveShip = ({ voyage, pt, radius, color, status, onClick, onHover }
         <circle
             opacity={status !== 'normal' ? 1 : 0}
             r={selectionRadius} cx={pt[0]} cy={pt[1]} stroke={status === 'hovered' ? 'gray' : '#3388ff'} strokeWidth={2} fill="transparent" />
-        <text opacity={status === 'hovered' ? 1 : 0} x={pt[0] + selectionRadius + 4} y={pt[1] + selectionRadius + 4}>{voyage.shipName}</text>
+        <text pointerEvents="none" opacity={status === 'hovered' ? 1 : 0} x={pt[0] + selectionRadius + 4} y={pt[1] + selectionRadius + 4}>{voyage.shipName}</text>
     </g>
 }
 
 interface InteractiveVoyageRoutesFrameProps {
+    selected?: InterpolatedVoyageRoute
     window: VoyageRouteCollectionWindow
     renderStyles: VoyageRouteRenderStyles
-    onSelect: (voyage: VoyageRoute) => void
+    onSelect: (voyage: InterpolatedVoyageRoute) => void
 }
 
-const InteractiveVoyageRoutesFrame = ({ window, renderStyles, onSelect }: InteractiveVoyageRoutesFrameProps) => {
+const InteractiveVoyageRoutesFrame = ({ selected, window, renderStyles, onSelect }: InteractiveVoyageRoutesFrameProps) => {
     const [hovered, setHovered] = useState<VoyageRoute | null>(null)
-    const [selected, setSelected] = useState<InterpolatedVoyageRoute | null>(null)
     const map = useMap()
     const { bounds } = useMapPosition()
     const topLeft = map.latLngToLayerPoint(bounds.getNorthWest());
@@ -713,7 +719,6 @@ const InteractiveVoyageRoutesFrame = ({ window, renderStyles, onSelect }: Intera
                 radius={radius}
                 onClick={v => {
                     setHovered(v)
-                    setSelected(v)
                     onSelect(v)
                 }}
                 onHover={setHovered} />
@@ -747,13 +752,35 @@ interface TimelapseUIProps {
     years?: [number, number]
     paused: boolean
     speed: number
+    onClearSelection: () => void
     onPlay: () => void
     onPause: () => void
+    onShowDetails: (selected: VoyageRoute) => void
     onSpeedChange: (speed: number) => void
     // chartData: any
 }
 
-const TimelapseUI = ({ collection, selected, years, paused, speed, onPlay, onPause, onSpeedChange }: TimelapseUIProps) => {
+const FlagNames: Record<number, string> = {
+    1: "Spain",
+    2: "Uruguay",
+    3: "Spain_Uruguay",
+    4: "Portugal",
+    5: "Brazil",
+    6: "Portugal_Brazil",
+    7: "United-Kingdom",
+    8: "Netherlands",
+    9: "United-States",
+    10: "France",
+    11: "Denmark",
+    13: "Sweden",
+    15: "Mexico",
+    17: "Norway",
+    18: "Denmark_Baltic",
+    19: "Argentina",
+    20: "Russia"
+};
+
+const TimelapseUI = ({ collection, selected, years, paused, speed, onClearSelection, onPlay, onPause, onShowDetails, onSpeedChange }: TimelapseUIProps) => {
     const timelapseHelpPopup = `<div>
         <h1>About this Timelapse</h1>
         <p>
@@ -854,24 +881,99 @@ const TimelapseUI = ({ collection, selected, years, paused, speed, onPlay, onPau
             map.removeControl(fullscreenBtn)
         }
     }, [map, paused, speed, fullscreen])
+    const flag = selected?.flag?.code ? FlagNames[selected.flag.code] : null
     return <div style={{ position: 'absolute', pointerEvents: 'none', top: 6, left: 50, zIndex: 6000, width: size.width, height: size.height }}>
-        <div className="timelapseInfoBox">
+        <div className="timelapseInfoBox" style={{ maxWidth: 'fit-content' }}>
             {years && <h1>{(years[1] - years[0] <= 1) ? years[0] : `${years[0]}-${years[1]}`}</h1>}
         </div>
-        <div className="timelapseInfoBox">
+        <div className="timelapseInfoBox" style={{ width: 'fit-content' }}>
             View the movement of {collection.voyageRoutes.length} Slave Ships
         </div>
-        {selected && <div className="timelapseInfoBox">
-            <h2>{selected.shipName}</h2>
-            <h3>{selected.flag.name}</h3>
+        {selected && <div className="timelapseInfoBox" style={{ width: '350px', pointerEvents: 'auto' }}>
+            <h1>{selected.shipName}<span onClick={onClearSelection} className="timelapseInfoBoxClose fa fa-close" style={{ float: 'right' }}></span></h1>
+            {selected.flag && <h2>{selected.flag.name}{flag && <img src={`/flags/${flag}.png`} height="24px" style={{ float: 'right' }} />}</h2>}
             <p>
                 This {selected.tonnage ? `${selected.tonnage} tons` : ''} ship
                 left {selected.sourceRegion} in {timeToYear(selected.startTime)} with {selected.embarked} enslaved
                 people and arrived in {selected.destinationBroadRegion} with {selected.disembarked}.
             </p>
-            <button>Read more</button>
+            <Button onClick={() => onShowDetails(selected)}>Read more</Button>
         </div>}
     </div>
+}
+
+interface TimelapseAggregateChartProps {
+    collection: VoyageRouteCollection
+    years?: [number, number]
+    renderStyles: VoyageRouteRenderStyles
+    aggregatedField?: 'embarked' | 'disembarked'
+    onYearChange: (year: number) => void
+}
+
+interface AggregateValue {
+    year: number
+    group: number
+    aggregate: number
+}
+
+const TimelapseAggregateChart = ({ collection, renderStyles, aggregatedField = 'embarked' }: TimelapseAggregateChartProps) => {
+    const svg = useRef<SVGSVGElement>(null)
+    const { size } = useMapPosition()
+    const { startYear, sequence } = useMemo(() => {
+        const sequence: (AggregateValue[])[] = []
+        if (collection.voyageRoutes.length === 0) {
+            return { startYear: -1, sequence }
+        }
+        // Generate the chart aggregate data.
+        const startYear = timeToYear(collection.voyageRoutes[0].startTime)
+        sequence.push(renderStyles.styles
+            .map((_, group) => ({ year: startYear, group, aggregate: 0 })))
+        // Note: the collection is already sorted by year.
+        for (const v of collection.voyageRoutes) {
+            const year = timeToYear(v.startTime)
+            while (startYear + sequence.length - 1 < year) {
+                // Carry the aggregate over when changing years.
+                const next = sequence.at(-1)!.map(item => ({ ...item }))
+                for (const agg of next) {
+                    agg.year = sequence.length + startYear
+                }
+                sequence.push(next)
+            }
+            const group = renderStyles.getStyleForVoyage(v)
+            const val = sequence.at(-1)![group] ??= { year, group, aggregate: 0 }
+            val.aggregate += v[aggregatedField]
+        }
+        return { startYear, sequence }
+    }, [collection, renderStyles])
+    if (sequence.length === 0) {
+        return <></>
+    }
+    // Now we use D3.js to produce a stacked area chart. The areas correspond to
+    // the aggregated field and are sorted by final value (with the special case
+    // 'Other' being always placed left).
+    const LeftMargin = 280
+    const RightMargin = 60
+    const NormalHeight = 100
+    const PlotVerticalMargin = 4
+    const XAxisLabelOffset = 16
+    const x = d3.scaleLinear()
+        .domain([startYear, startYear + sequence.length])
+        .range([0, size.width - LeftMargin - RightMargin])
+    const xAxis = d3
+        .axisBottom(x)
+        .ticks(20)
+        .tickFormat()
+    const yMaxValue = sequence.at(-1)!.map(x => x.aggregate).reduce((x, y) => x + y)
+    const y = d3
+        .scaleLinear()
+        .domain([0, yMaxValue])
+        .range([
+            NormalHeight - 2 * PlotVerticalMargin - XAxisLabelOffset, // 16 is the offset for the x-axis label
+            PlotVerticalMargin
+        ])
+    const yAxis = d3.axisRight(y).ticks(4)
+    return <svg ref={svg}>
+    </svg>
 }
 
 /**
@@ -924,18 +1026,20 @@ const OBSOLETE_legacyToVoyageRoute = (routeBuilder: MapRouteBuilder, nations: Re
 }
 
 const OBSOLETE_legacyVoyageCollection = async () => {
-    const regionSeg: RegionSegments = OBSOLETE_regionalSegments
-    const ports: PortCollectionData = await
-        (await fetch(`${BASEURL}/timelapse/get-compiled-routes/?networkName=trans&routeType=port`, {
+    const { ports, routes: regionSeg } = await
+        (await fetch(`${BASEURL}/timelapse/get-compiled-routes/?networkName=trans`, {
             headers: { 'Authorization': AUTHTOKEN }
         }))
-        .json()
+            .json()
     const routeBuilder = new MapRouteBuilder(ports, regionSeg)
-    const nations = await
+    const nationsSource = await
         (await fetch(`${BASEURL}/timelapse/nations/`, {
             headers: { 'Authorization': AUTHTOKEN }
         }))
-        .json()
+            .json()
+    const nations = (Object.values(nationsSource) as Nation[]).reduce<Record<string, Nation>>(
+        (prev, item) => ({ ...prev, [item.code]: item }), {})
+    // We actually don't need the code but only the id.
     // const post = { "searchData": { "items": [{ "op": "is between", "searchTerm": [1514, 1866], "varName": "imp_arrival_at_port_of_dis" }], "orderBy": [] }, "output": "mapAnimation" }
     //const voyagesPromise = fetch(
     //    `${BASEURL}/timelapse/records/`, {
@@ -950,7 +1054,7 @@ const OBSOLETE_legacyVoyageCollection = async () => {
     const voyages = (OBSOLETE_voyages as OBSOLETE_APIVoyageEntry[])
         .map(v => OBSOLETE_legacyToVoyageRoute(routeBuilder, nations, v))
     // TODO: replace hardcoded args.
-    return new VoyageRouteCollection(voyages, 0.3, 0.2)
+    return new VoyageRouteCollection(voyages, 0.3, 0.2, nations)
 }
 
 export interface TimelapseMapProps {
@@ -961,14 +1065,30 @@ export interface TimelapseMapProps {
     // maxSpeed: number
 }
 
-const flagStyling: Record<number, string> = {}
-
 export const DemoTimelapseMap = () => {
     const loadedRef = useRef<boolean>(false)
     const [collection, setCollection] = useState<VoyageRouteCollection | null>(null)
     const [renderStyles, setStyles] = useState<VoyageRouteRenderStyles | null>(null)
     const updateCollection = (col: VoyageRouteCollection) => {
-        setStyles(createRenderStyles(col, 200, v => v.flag?.code, flagStyling))
+        const unknownLabel = 'Unknown'
+        const color = d3
+            .scaleOrdinal()
+            .domain([ ...Object.keys(col.nations), unknownLabel])
+            .range(d3.schemeSet3) as (key: string) => string;
+        const styles = Object.values(col.nations)
+            .reduce<Record<number, VoyageGroupStyle>>(
+                (prev, nat) => ({
+                    ...prev,
+                    [nat.code]: {
+                        label: nat.name,
+                        style: CustomShipFlagColors[nat.name] ?? color(nat.code + ''),
+                        isLeftoverGroup: nat.name === 'Other'
+                    }
+                }),
+                {}
+            )
+        styles[-1] = { label: unknownLabel, style: color(unknownLabel), isLeftoverGroup: true }
+        setStyles(createRenderStyles(col, 200, v => v.flag?.code ?? -1, styles))
         setCollection(col)
     }
     useEffect(() => {
@@ -986,7 +1106,7 @@ export const DemoTimelapseMap = () => {
 export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: TimelapseMapProps) => {
     const [zoomLevel, setZoomLevel] = useState<number>(3)
     const [pauseWin, setPauseWin] = useState<VoyageRouteCollectionWindow | null>(null)
-    const [selected, setSelected] = useState<VoyageRoute | undefined>(undefined)
+    const [selected, setSelected] = useState<InterpolatedVoyageRoute | undefined>(undefined)
     const [speed, setSpeed] = useState(initialSpeed)
     const [years, setYears] = useState<[number, number] | undefined>()
     const window = useRef<VoyageRouteCollectionWindow | undefined>()
@@ -1034,6 +1154,7 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
                 window.current = win
             }} />
         {pauseWin !== null && <InteractiveVoyageRoutesFrame
+            selected={selected}
             window={pauseWin}
             renderStyles={renderStyles}
             onSelect={setSelected} />}
@@ -1043,8 +1164,14 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
             years={years}
             paused={pauseWin !== null}
             speed={speed}
+            onClearSelection={() => setSelected(undefined)}
             onPause={() => setPauseWin(window.current ?? null)}
             onPlay={() => setPauseWin(null)}
+            onShowDetails={selected => alert(JSON.stringify(selected))}
             onSpeedChange={setSpeed} />
+        <TimelapseAggregateChart
+            collection={collection}
+            renderStyles={renderStyles}
+            onYearChange={() => { /* TODO */ }} />
     </MapContainer>
 }
