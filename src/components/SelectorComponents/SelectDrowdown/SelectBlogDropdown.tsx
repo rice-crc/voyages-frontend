@@ -1,14 +1,11 @@
-import { useState, MouseEvent, useCallback, useMemo, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Fade from '@mui/material/Fade';
+import { useState, MouseEvent, useCallback } from 'react';
+import { Button, Menu, MenuItem, Fade } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { setSearchAutoKey, setSearchBlogTitle } from '@/redux/getBlogDataSlice';
-import { SearchBlogData } from '@/share/InterfaceTypesBlog';
+import { searchBlogData } from '@/share/InterfaceTypesBlog';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import { useParams } from 'react-router-dom';
 interface SelectBlogDropdownProps {
@@ -36,7 +33,6 @@ export default function SelectBlogDropdown({
   const handleChangeSearch = useCallback((value: string, title: string) => {
     dispatch(setSearchAutoKey(value));
     dispatch(setSearchBlogTitle(title));
-
   }, []);
 
   return (
@@ -52,6 +48,7 @@ export default function SelectBlogDropdown({
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        className='blog-select-tag'
         endIcon={
           <span>
             <ArrowDropDown
@@ -77,7 +74,7 @@ export default function SelectBlogDropdown({
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        {SearchBlogData.map((value) => (
+        {searchBlogData.map((value) => (
           <div className="dropdown-item" key={value.tag}>
             {blogTitle || authorName ? (
               <Link to={`/${BLOGPAGE}`}>

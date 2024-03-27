@@ -28,10 +28,10 @@ import {
 } from '@/redux/getScrollPageSlice';
 import { INTRAAMERICAN, TRANSATLANTIC, VOYAGESTEXAS } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
-import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { Divider } from 'antd';
+import TimeLapse from '@/components/PresentationComponents/TimeLapse/TimeLapse';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -39,7 +39,6 @@ const VoyagesPage = () => {
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-  const { saveSearchUrlID } = useSelector((state: RootState) => state.getSaveSearch);
 
   const { currentPage, currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -108,6 +107,9 @@ const VoyagesPage = () => {
     } else if (currentBlockName === 'map') {
       dispatch(setCurrentPage(7));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    } else if (currentBlockName === 'timelapse') {
+      dispatch(setCurrentPage(8));
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }
   }, [
     styleVoyagesName,
@@ -137,7 +139,7 @@ const VoyagesPage = () => {
         <PivotTables />
       )}
       {currentPage === 7 && currentVoyageBlockName === 'map' && <div> <VoyagesMaps /></div>}
-
+      {currentPage === 8 && currentVoyageBlockName === 'timelapse' && <div> <TimeLapse /></div>}
     </motion.div>
   );
 
