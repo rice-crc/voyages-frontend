@@ -166,7 +166,8 @@ const HeaderEnslavedNavBar: React.FC = () => {
         component="nav"
         style={{
           backgroundColor: getColorNavbarEnslavedBackground(styleNameRoute!),
-          paddingTop: 5
+          paddingTop: 5,
+          zIndex: 5
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>

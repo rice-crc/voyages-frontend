@@ -130,7 +130,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     const saveEdgesDataBroadRegion = localStorage.getItem('edgesDatabroad_region');
     const savedNodesDataPlace = localStorage.getItem('nodesDataplace');
     const saveEdgesDataPlace = localStorage.getItem('edgesDataplace');
-    console.log({ zoomLevel })
     /** ToSetZoom:  Voyages, Enslaved , Enslaver Map  with broad_region and region form localStorage */
     if (saveEdgesDataPlace && savedNodesDataPlace && savedNodesDataRegion && saveEdgesDataRegion) {
 

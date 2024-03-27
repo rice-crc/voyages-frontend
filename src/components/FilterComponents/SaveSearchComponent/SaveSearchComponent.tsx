@@ -1,4 +1,4 @@
-import { StarOutlined } from "@mui/icons-material";
+
 import '@/style/Nav.scss';
 import { useEffect, useState } from "react";
 import DropDownSaveSearch from "./DropDownSaveSearch";
@@ -6,7 +6,8 @@ import { usePageRouter } from "@/hooks/usePageRouter";
 import { getColorHoverBackgroundCollection, getHeaderColomnColor } from "@/utils/functions/getColorStyle";
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import { Box } from "@mui/material";
-import { SxProps } from '@mui/system';
+import { Tooltip } from 'antd';
+import { StarOutlined } from '@mui/icons-material';
 
 const SaveSearchComponent = () => {
     const { styleName } = usePageRouter();
@@ -26,27 +27,18 @@ const SaveSearchComponent = () => {
         document.documentElement.style.setProperty('--saveSearchHover--', buttonHover);
     }, [styleName]);
 
-
-    const styles: SxProps = {
-        position: 'absolute',
-        top: 50,
-        right: 0,
-        zIndex: 2,
-        border: '1px solid rgba(0,0,0,.15)',
-        p: 1,
-        bgcolor: '#fff',
-        borderRadius: 2,
-        boxShadow: '14px 14px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.1);'
-
-    };
-
+    const text = <div style={{ fontSize: 14 }}>Save a search</div>
     return (
 
         <ClickAwayListener onClickAway={handleClickAway}>
             <Box>
-                <div onClick={handleClick} className="save-sarch-content"><StarOutlined /></div>
+                <div onClick={handleClick} className="save-sarch-content" >
+                    <Tooltip placement="top" title={text} color="rgba(0, 0, 0, 0.75)" >
+                        <StarOutlined />
+                    </Tooltip>
+                </div>
                 {isOpen ? (
-                    <Box sx={styles}>
+                    <Box className="save-search-box">
                         <DropDownSaveSearch />
                     </Box>
                 ) : null}

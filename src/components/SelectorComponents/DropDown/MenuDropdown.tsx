@@ -1,4 +1,4 @@
-import { ABOUTPAGE, ASSESSMENT, BLOGPAGE, CONTRIBUTE, ESTIMATES, INTRODUCTORYMAPS, LESSONPLANS, TIMELAPSEPAGE, } from '@/share/CONST_DATA';
+import { ABOUTPAGE, ASSESSMENT, BLOGPAGE, CONTRIBUTE, DOCUMENTPAGE, ESTIMATES, TRANSATLANTICTIMELAPSE } from '@/share/CONST_DATA';
 import { StyledMenu } from '@/styleMUI/stylesMenu/StyledMenu';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -14,7 +14,8 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
     { name: 'Contribute', url: `${CONTRIBUTE}` },
     { name: 'LESSON PLANS', url: `${BLOGPAGE}#lesson-plan` },
     { name: 'INTRODUCTORY MAPS', url: `${BLOGPAGE}#introductory-maps` },
-    { name: 'TIMELAPSE', url: `${TIMELAPSEPAGE}` },
+    { name: 'DOCUMENTS', url: `${DOCUMENTPAGE}` },
+    { name: 'TIMELAPSE', url: `${TRANSATLANTICTIMELAPSE}#timelapse` },
     { name: '3D VIDEOS', url: `https://www.slavevoyages.org/voyage/ship#3dmodel/0/en/` },
     { name: 'ABOUT', url: `${ABOUTPAGE}` },
   ]

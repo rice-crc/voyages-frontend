@@ -78,14 +78,13 @@ const PivotTables = () => {
 
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const [offset, setOffset] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
   const [rowVars, setSelectRowValues] = useState<PivotRowVar[]>([]);
   const [columnVars, setSelectColumnValue] = useState<PivotColumnVar[]>([]);
   const [cellVars, setSelectCellValue] = useState<PivotCellVar[]>([]);
   const [pivotValueOptions, setPivotValueOptions] = useState<PivotTablesProps>({
-    row_vars: VOYAGE_PIVOT_OPTIONS.row_vars[0].rows,
-    rows_label: VOYAGE_PIVOT_OPTIONS.row_vars[0].rows_label,
-    binsize: VOYAGE_PIVOT_OPTIONS.row_vars[0].binsize,
+    row_vars: VOYAGE_PIVOT_OPTIONS.row_vars[7].rows,
+    rows_label: VOYAGE_PIVOT_OPTIONS.row_vars[7].rows_label,
+    binsize: VOYAGE_PIVOT_OPTIONS.row_vars[7].binsize,
     column_vars: VOYAGE_PIVOT_OPTIONS.column_vars[0].columns,
     cell_vars: VOYAGE_PIVOT_OPTIONS.cell_vars[0].value_field,
   });
@@ -96,7 +95,6 @@ const PivotTables = () => {
   );
   const [width, height] = useWindowSize();
   const maxWidth = maxWidthSize(width);
-  const topPosition = createTopPositionVoyages(currentPage, inputSearchValue);
 
   const [style, setStyle] = useState({
     width: maxWidth,
@@ -183,6 +181,7 @@ const PivotTables = () => {
   } = pivotValueOptions;
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
+  console.log({ updatedRowsValue })
 
   const dataSend: PivotTablesPropsRequest = {
     columns: column_vars,
@@ -201,7 +200,6 @@ const PivotTables = () => {
 
   const fetchData = async () => {
 
-    setLoading(true);
     try {
       const response = await dispatch(
         fetchPivotCrosstabsTables(dataSend)
@@ -212,11 +210,11 @@ const PivotTables = () => {
         dispatch(setPivotTablColumnDefs(tablestructure));
         dispatch(setRowPivotTableData(data));
         setTotalResultsCount(metadata.total_results_count)
-        setLoading(false);
+
       }
     } catch (error) {
       console.log('error', error);
-      setLoading(false);
+
     }
   };
   useEffect(() => {
@@ -269,9 +267,8 @@ const PivotTables = () => {
   const getRowRowStyle = () => {
     return {
       fontSize: 13,
-      fontWeight: 500,
       color: '#000',
-      fontFamily: `Roboto`,
+      fontFamily: `sans-serif`,
       paddingLeft: '20px',
     };
   };
@@ -398,7 +395,7 @@ const PivotTables = () => {
             onRowsPerPageChange={handleChangeRowsPerPage}
 
           />
-          < AgGridReact
+          <AgGridReact
             domLayout={'autoHeight'}
             ref={gridRef}
             rowData={newRowsData}

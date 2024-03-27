@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import NewsBlog from '@/components/PresentationComponents/LadingPage/NewsBlog';
 import SouthSeaCompanyDocuments from '@/components/PresentationComponents/LadingPage/SouthSeaCompanyDocuments';
-import TexasBound from '@/components/PresentationComponents/LadingPage/TexasBound';
 import ArtInspiredBySlaveVoyages from '@/components/PresentationComponents/LadingPage/ArtInspiredBySlaveVoyages';
 import EnslaversBlogs from '@/components/PresentationComponents/LadingPage/EnslaversBlogs';
 import AfricanOrigins from '@/components/PresentationComponents/LadingPage/AfricanOrigins';

@@ -68,6 +68,18 @@
   object-fit: cover;
   width: 100%;
   height: 102%;
+
+  @include breakpoint-standard(2) {
+    height: 100%;
+  }
+
+  @include breakpoint-standard(1) {
+    height: 100%;
+  }
+
+  @include breakpoint-standard(0) {
+    height: 100%;
+  }
 }
 
 #home-voyagepage-container {
@@ -169,13 +181,15 @@
 
   @include breakpoint-standard(2) {
     img {
-      width: 25%;
+      position: relative;
+      width: 50%;
     }
   }
 
   @include breakpoint-standard(1) {
     img {
-      width: 25%;
+      position: relative;
+      width: 50%;
     }
   }
 
@@ -255,7 +269,7 @@
 
 .search-count {
   color: rgb(56, 116, 203);
-  font-family: 600;
+  font-weight: 600;
 }
 
 .voyages-search-box {
@@ -420,7 +434,6 @@
 .voyages-people-places-title {
   font-size: 20px;
   font-weight: bold;
-  // font-family: 'Helvetica Neue';
   text-transform: uppercase;
   text-shadow: 1px 1px 1px #000;
 
@@ -457,7 +470,6 @@
 .voyages-people-places-subtitle {
   font-size: 16px;
   font-weight: normal;
-  // font-family: 'Helvetica Neue';
   text-shadow: 1px 1px 1px #000000;
 
   @include breakpoint-standard(5) {
@@ -553,7 +565,6 @@
 .document-resources-text {
   font-size: 12px;
   font-weight: bold;
-  // font-family: 'Helvetica Neue';
   position: relative;
   top: 45%;
 }
@@ -592,7 +603,6 @@
   background-color: #baa372;
   color: #ffffff;
   font-size: 14px;
-  // font-family: 'Helvetica Neue';
   font-weight: bold;
   height: 38px;
   line-height: 38px;

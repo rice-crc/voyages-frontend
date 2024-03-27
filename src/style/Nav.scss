@@ -156,7 +156,6 @@
 }
 
 .menu-nav-bar {
-    // font-family: "Cormorant Garamond";
     color: #fff;
 
     @include breakpoint-standard(1) {
@@ -169,7 +168,6 @@
 }
 
 .menu-filter-search-enslavers {
-    // font-family: "Cormorant Garamond";
     color: #ffffff;
 }
 
@@ -209,7 +207,6 @@
 }
 
 .menu-nav-bar-select {
-    // font-family: "Cormorant Garamond";
     color: #fff;
     text-transform: uppercase;
     font-size: 18px;
@@ -306,6 +303,9 @@
     cursor: pointer;
     color: rgba(255, 255, 255, 0.75);
     font-weight: 900;
+    position: relative;
+    right: 2.5rem;
+    z-index: 6;
 
     :hover {
         color: #ffffff;
@@ -436,4 +436,16 @@
 .search-submenu {
     padding: 0.75rem 0.95rem;
     width: 560px;
+}
+
+.save-search-box {
+    position: absolute;
+    top: 120px;
+    right: 5px;
+    z-index: 2;
+    border: 1px solid rgba(0, 0, 0, .15);
+    padding: 1px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 14px 14px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
 }

@@ -68,7 +68,7 @@ export const SelectDropdownEstimateTable: FunctionComponent<
               {selectRowValue.map((option: EstimateRowVar, index: number) => (
                 <MenuItem
                   key={`${option.label}-${index}`}
-                  value={option.rows}
+                  value={option.rows as string[]}
                   sx={{
                     fontSize: '0.85rem'
                   }}

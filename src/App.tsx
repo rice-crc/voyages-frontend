@@ -23,17 +23,14 @@ import {
   ENSALVEDTYPE,
   ENSALVERSPAGE,
   ENSLAVEDTEXASPAGE,
-  ENSLAVERSTYPE,
   ESTIMATES,
   INTRAAMERICANENSLAVERS,
   INTRAAMERICANPAGE,
   INTRODUCTORYMAPS,
   LESSONPLANS,
   PASTHOMEPAGE,
-  TIMELAPSEPAGE,
   TRANSATLANTICENSLAVERS,
   TRANSATLANTICPAGE,
-  USESAVESEARCHURL,
   VOYAGE,
   VOYAGESTEXASPAGE,
   allEnslavers,
@@ -56,7 +53,6 @@ import DocumentPageHold from '@/pages/DocumentPageHold';
 import AboutPage from '@/pages/AboutPage';
 import DownloadPage from '@/pages/DownloadPage';
 import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
-// import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -70,7 +66,8 @@ const queryClient = new QueryClient({
 const App: React.FC = () => {
   const dispatch = useDispatch();
   const { cardRowID, nodeTypeClass } = useSelector((state: RootState) => state.getCardFlatObjectData);
-  const { styleName, voyageURLID } = usePageRouter();
+  const { styleName, voyageURLID, blogURL } = usePageRouter();
+
   const [saveSearchURL, setSaveSearchURL] = useState('')
   const [ID, setID] = useState(cardRowID)
   const [nodeClass, setNodeTypeClass] = useState(nodeTypeClass)
@@ -94,7 +91,7 @@ const App: React.FC = () => {
       dispatch(setValueVariable(typeOfData))
 
     }
-  }, [dispatch, ID, nodeClass, styleName, voyageURLID, saveSearchURL]);
+  }, [dispatch, ID, nodeClass, styleName, voyageURLID, saveSearchURL, blogURL]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -120,10 +117,6 @@ const App: React.FC = () => {
             path={`${ALLVOYAGESPAGE}`}
             element={<VoyagesPage />}
           />
-          <Route
-            path={`${VOYAGESTEXASPAGE}`}
-            element={<VoyagesPage />}
-          />
           <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
           <Route
             path={`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
@@ -137,7 +130,6 @@ const App: React.FC = () => {
             path={`${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
             element={<EnslavedHomePage />}
           />
-
           <Route
             path={`${ENSALVERSPAGE}${INTRAAMERICANENSLAVERS}`}
             element={<EnslaversHomePage />}
@@ -158,11 +150,9 @@ const App: React.FC = () => {
 
           {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}
           <Route path={`${DOCUMENTPAGE}`} element={<DocumentPageHold />} />
-          <Route path={`${BLOGPAGE}`} element={<BlogPage />} />
-          <Route
-            path={`${BLOGPAGE}/tag/:tagName/:tagID`}
-            element={<BlogPage />}
-          />
+          <Route path={`${BLOGPAGE}/`} element={<BlogPage />} />
+          <Route path={`${BLOGPAGE}/tag/${blogURL}`} element={<BlogPage />} />
+
           <Route
             path={`${BLOGPAGE}/:blogTitle/:ID`}
             element={<BlogDetailsPost />}
@@ -188,9 +178,6 @@ const App: React.FC = () => {
             path={`${INTRODUCTORYMAPS}/`}
             element={<IntroductoryMaps />}
           />
-          <Route
-            path={`${TIMELAPSEPAGE}`}
-            element={<TimeLapse />} />
           <Route
             path={`${ABOUTPAGE}`}
             element={<AboutPage />}

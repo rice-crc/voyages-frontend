@@ -4,6 +4,7 @@ export function usePageRouter() {
     const location = useLocation();
 
     const pathName = location.pathname
+
     const pathParts = location.pathname.split('/');
     const endpointPeopleDirect = `${pathParts[1]}/${pathParts[2]}`;
     const endpointPath = location.pathname.split('/').at(1);
@@ -11,13 +12,13 @@ export function usePageRouter() {
     const nodeTypeURL = location.pathname.split('/').at(-3);
     const voyageURLID = location.pathname.split('/').at(-2);
     const styleName = location.pathname.split('/').at(-1);
+    const blogURL = pathParts[3]
     const hash = location.hash;
-
     const currentBlockName = hash ? hash.slice(1) : '';
     return {
         styleName,
         currentBlockName,
-        nodeTypeURL,
+        nodeTypeURL, blogURL,
         voyageURLID, endpointPath, endpointPathEstimate, endpointPeopleDirect, pathName
     }
 }

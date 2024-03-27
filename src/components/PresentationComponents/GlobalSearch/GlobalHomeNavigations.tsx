@@ -1,6 +1,6 @@
 import voyageIcon from '@/assets/voyage-cycle.svg';
 import peopleIcon from '@/assets/people-cycle.svg';
-import documentIcon from '@/assets/documents.svg';
+import timelapseIcon from '@/assets/timelapse.png';
 import resourceIcon from '@/assets/resources.svg';
 import { Link } from 'react-router-dom';
 import {
@@ -11,7 +11,7 @@ import {
   DOCUMENTPAGE,
   PASTHOMEPAGE,
   TRANSATLANTICPAGE,
-  VOYAGESPAGE,
+  TRANSATLANTICTIMELAPSE,
 } from '@/share/CONST_DATA';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
@@ -62,13 +62,23 @@ const GlobalHomeNavigations = () => {
           </Link>
           <div className="voyages-people-places-subtitle">Find a person</div>
         </div>
-        <div className="place-page-box">
+        {/* <div className="place-page-box">
           <div className="voyages-people-places-title">Documents</div>
           <Link to={`/${DOCUMENTPAGE}`}>
             <img src={documentIcon} alt="Documents" width={129} />
           </Link>
           <div className="voyages-people-places-subtitle">
             Read primary sources
+          </div>
+        </div> */}
+        <div className="place-page-box">
+          <div className="voyages-people-places-title">Timelapse</div>
+          <Link to={`${TRANSATLANTICTIMELAPSE}#timelapse`}>
+            <img src={timelapseIcon} alt="Timelapse" style={{ opacity: 0.75, width: 111, height: 111, borderRadius: '50%', padding: 10 }} />
+          </Link>
+          <div className="voyages-people-places-subtitle">
+            <div>View the movement of slave ships </div>
+            <div>across the Atlantic</div>
           </div>
         </div>
         <div className="place-page-box">

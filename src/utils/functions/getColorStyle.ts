@@ -39,7 +39,7 @@ export const getColorBackground = (item: string) => {
         background = 'rgb(167 70 0)';
     } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
         background = '#906866';
-    } else if (item === 'Blog') {
+    } else if (item === 'blog') {
         background = '#d45b01';
     } else if (item === allEnslavers) {
         background = '#007269';
@@ -215,7 +215,7 @@ export const getColorHoverBackgroundCollection = (item: string) => {
         boxShadow = 'rgb(216 93 5)';
     } else if (item === TYPESOFDATASETPEOPLE.allEnslavers) {
         boxShadow = '#3ec59e';
-    } else if (item === 'Blog') {
+    } else if (item === 'blog') {
         boxShadow = 'rgb(96 40 0)';
     }
     return boxShadow;

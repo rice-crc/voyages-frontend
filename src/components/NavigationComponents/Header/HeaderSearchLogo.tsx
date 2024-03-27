@@ -23,8 +23,6 @@ import {
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
-import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
-import { BLOGPAGE } from '@/share/CONST_DATA';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
 import AutoCompletedSearhBlog from '@/components/FilterComponents/AutoCompletedSearhBlog/AutoCompletedSearhBlog';
@@ -75,6 +73,7 @@ export default function HeaderLogoSearch() {
       localStorage.removeItem(key);
     });
   };
+
   return (
     <>
       <div className="nav-blog-header-logo nav-blog-header-sticky-logo ">
