@@ -741,7 +741,7 @@ const InteractiveVoyageRoutesFrame = ({ selected, window, renderStyles, onSelect
         }
         return () => { current && map.removeLayer(current) }
     }, [selected])
-    return <SVGOverlay attributes={{ style: "pointer-events: auto; z-index: 5500;" }} bounds={bounds}>
+    return <SVGOverlay attributes={{ class: "timelapseSvgFrame", style: "pointer-events: auto; z-index: 5500;", focusable: "false" }} bounds={bounds}>
         {children}
     </SVGOverlay>
 }
@@ -916,18 +916,21 @@ interface AggregateValue {
     aggregate: number
 }
 
+type TimelapseAggregateChartTable = Record<string, number>[]
+
 const TimelapseAggregateChart = ({ collection, renderStyles, aggregatedField = 'embarked' }: TimelapseAggregateChartProps) => {
     const svg = useRef<SVGSVGElement>(null)
     const { size } = useMapPosition()
-    const { startYear, sequence } = useMemo(() => {
-        const sequence: (AggregateValue[])[] = []
+    const { startYear, table } = useMemo(() => {
         if (collection.voyageRoutes.length === 0) {
-            return { startYear: -1, sequence }
+            return { startYear: -1, table: [] }
         }
         // Generate the chart aggregate data.
         const startYear = timeToYear(collection.voyageRoutes[0].startTime)
-        sequence.push(renderStyles.styles
-            .map((_, group) => ({ year: startYear, group, aggregate: 0 })))
+        const sequence: (AggregateValue[])[] = [
+            renderStyles.styles
+                .map((_, group) => ({ year: startYear, group, aggregate: 0 }))
+        ]
         // Note: the collection is already sorted by year.
         for (const v of collection.voyageRoutes) {
             const year = timeToYear(v.startTime)
@@ -943,36 +946,91 @@ const TimelapseAggregateChart = ({ collection, renderStyles, aggregatedField = '
             const val = sequence.at(-1)![group] ??= { year, group, aggregate: 0 }
             val.aggregate += v[aggregatedField]
         }
-        return { startYear, sequence }
+        const table: TimelapseAggregateChartTable = sequence
+            .map(item => item
+                .reduce((prev, x) => ({
+                    ...prev,
+                    year: x.year,
+                    [renderStyles.styles[x.group].label]: x.aggregate
+                }),
+                    {})
+            )
+        return { startYear, table }
     }, [collection, renderStyles])
-    if (sequence.length === 0) {
-        return <></>
-    }
-    // Now we use D3.js to produce a stacked area chart. The areas correspond to
-    // the aggregated field and are sorted by final value (with the special case
-    // 'Other' being always placed left).
     const LeftMargin = 280
-    const RightMargin = 60
+    const RightMargin = 120
     const NormalHeight = 100
-    const PlotVerticalMargin = 4
+    const VerticalMargin = 4
     const XAxisLabelOffset = 16
-    const x = d3.scaleLinear()
-        .domain([startYear, startYear + sequence.length])
-        .range([0, size.width - LeftMargin - RightMargin])
-    const xAxis = d3
-        .axisBottom(x)
-        .ticks(20)
-        .tickFormat()
-    const yMaxValue = sequence.at(-1)!.map(x => x.aggregate).reduce((x, y) => x + y)
-    const y = d3
-        .scaleLinear()
-        .domain([0, yMaxValue])
-        .range([
-            NormalHeight - 2 * PlotVerticalMargin - XAxisLabelOffset, // 16 is the offset for the x-axis label
-            PlotVerticalMargin
-        ])
-    const yAxis = d3.axisRight(y).ticks(4)
-    return <svg ref={svg}>
+    const XAxisLineOffset = 25
+    useEffect(() => {
+        if (table.length > 0 && svg.current) {
+            // Now we use D3.js to produce a stacked area chart. The areas correspond to
+            // the aggregated field and are sorted by final value (with the special case
+            // 'Other' being always placed left).            
+            const x = d3.scaleLinear()
+                .domain([startYear, startYear + table.length])
+                .range([0, size.width - LeftMargin - RightMargin])
+            const xAxis = d3
+                .axisBottom(x)
+                .ticks(20)
+                .tickFormat(a => a + '')
+            const yMaxValue = Object.values(table.at(-1)!).reduce((x, y) => x + y)
+            const y = d3
+                .scaleLinear()
+                .domain([0, yMaxValue])
+                .range([
+                    NormalHeight - 2 * VerticalMargin - XAxisLabelOffset,
+                    VerticalMargin
+                ])
+            const yAxis = d3.axisRight(y).ticks(4)
+            const stack = d3.stack()
+            const last = table.at(-1)!
+            const getSortKey: (s: VoyageGroupStyle) => number = s =>
+                (s.isLeftoverGroup ? 1e-9 : 1) * last[s.label]
+            stack.keys([... renderStyles.styles]
+                .sort((a, b) => getSortKey(b) - getSortKey(a))
+                .map(s => s.label))
+            const stackData = stack(table)
+            const g = d3
+                .select(svg.current)
+                .append("g")
+                .attr("id", "timeline_slider")
+                .classed("timeline_slider_group", true)
+            const categories = g
+                .selectAll(".category")
+                .data(stackData)
+                .enter()
+                .append("g")
+                .attr("class", (d: any) => `category ${d.key}`)
+            const area = d3
+                .area()
+                .x((d: any) => x(d.data.year))
+                .y0(d => y(d[0]))
+                .y1(d => y(d[1]))
+            categories
+                .append("path")
+                .attr("class", "area")
+                .attr("d", area)
+                .attr("transform", "translate(" + LeftMargin + ", 0)")
+                .style("pointer-events", "none")
+                .style("fill", (d: any) => renderStyles.styles.find(s => s.label === d.key)?.style ?? '')
+            g.append("g")
+                .attr("class", "t_axis")
+                .attr(
+                    "transform",
+                    `translate(${LeftMargin},${NormalHeight - XAxisLineOffset})`)
+                .attr("color", "black")
+                .call(xAxis)
+            g.append("g")
+                .attr("class", "aggregate_axis")
+                .attr("transform", `translate(${size.width - RightMargin - 2},-1)`)
+                .attr("color", "black")
+                .call(yAxis);
+            return () => document.getElementById("timeline_slider")?.remove()
+        }
+    }, [table, size, svg])
+    return <svg width={size.width} height={NormalHeight} style={{ position: 'absolute', bottom: 0, left: 0, zIndex: 6100 }} ref={svg}>
     </svg>
 }
 
@@ -1073,7 +1131,7 @@ export const DemoTimelapseMap = () => {
         const unknownLabel = 'Unknown'
         const color = d3
             .scaleOrdinal()
-            .domain([ ...Object.keys(col.nations), unknownLabel])
+            .domain([...Object.keys(col.nations), unknownLabel])
             .range(d3.schemeSet3) as (key: string) => string;
         const styles = Object.values(col.nations)
             .reduce<Record<number, VoyageGroupStyle>>(

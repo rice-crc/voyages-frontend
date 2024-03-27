@@ -9,3 +9,7 @@
     color: red;
     cursor: pointer;
 }
+
+.timelapseSvgFrame:focus {
+    outline-width: 0;
+}
