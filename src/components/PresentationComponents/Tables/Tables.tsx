@@ -140,7 +140,6 @@ const Tables: React.FC = () => {
     // set filters object to send to request data
 
     const filters = filtersTableDataSend(filtersObj, styleNameRoute!)
-    console.log({ filters })
 
     let dataSend: TableListPropsRequest = {
         filter: filters,
