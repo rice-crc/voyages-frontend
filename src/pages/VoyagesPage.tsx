@@ -31,7 +31,7 @@ import Tables from '@/components/PresentationComponents/Tables/Tables';
 import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { Divider } from 'antd';
-import { DemoTimelapseMap } from '@/components/PresentationComponents/Map/TimelapseMap';
+import { VoyagesTimelapseMap } from '@/components/PresentationComponents/Map/TimelapseMap';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -139,7 +139,7 @@ const VoyagesPage = () => {
         <PivotTables />
       )}
       {currentPage === 7 && currentVoyageBlockName === 'map' && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
-      {currentPage === 8 && currentVoyageBlockName === 'timelapse' && <DemoTimelapseMap />}
+      {currentPage === 8 && currentVoyageBlockName === 'timelapse' && <VoyagesTimelapseMap />}
 
     </motion.div>
   );

@@ -1,8 +1,8 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
-import { MapContainer, TileLayer, LayersControl, useMap, SVGOverlay, LayerGroup } from 'react-leaflet'
+import { useDispatch, useSelector } from 'react-redux';
+import { MapContainer, TileLayer, LayersControl, useMap, SVGOverlay } from 'react-leaflet'
 import { LatLngBounds } from "leaflet"
 import { AUTHTOKEN, BASEURL } from '../../../share/AUTH_BASEURL'
-import OBSOLETE_voyages from './voyages.json'
 import {
     MAP_CENTER,
     MAXIMUM_ZOOM,
@@ -13,13 +13,18 @@ import {
 } from '@/share/CONST_DATA'
 import { HandleZoomEvent } from "./HandleZoomEvent"
 import { Button } from '@mui/material'
+import CardModal from '@/components/PresentationComponents/Cards/CardModal'
+import {
+  setCardRowID,
+  setIsModalCard
+} from '@/redux/getCardFlatObjectSlice';
 import * as d3 from "d3"
 import * as L from 'leaflet'
 import { GeodesicLine } from 'leaflet.geodesic'
 import 'leaflet-easybutton'
 import 'leaflet-easybutton/src/easy-button.css'
 import '@/style/timelapse.scss'
-import { preview } from "vite"
+import { RootState } from "@/redux/store"
 
 // TODO
 // - move out the basic geometry/calculation stuff to a separate file.
@@ -608,7 +613,7 @@ const CanvasAnimation = ({
             onWindowChange(windowRef.current)
         }
     },
-    [userStartYear])
+        [userStartYear])
     useEffect(
         () => {
             const routes = collection.voyageRoutes
@@ -761,7 +766,7 @@ const InteractiveVoyageRoutesFrame = ({ selected, window, renderStyles, onSelect
         }
     }
     if (hoveredShip) {
-        // Place the selected ship *last* as in SVG the render order is
+        // Place the hovered ship *last* as in SVG the render order is
         // sequential.
         children.push(hoveredShip)
     }
@@ -912,7 +917,7 @@ const TimelapseUI = ({ collection, selected, years, paused, speed, onClearSelect
         }
     }, [map, paused, speed, fullscreen])
     const flag = selected?.flag?.code ? FlagNames[selected.flag.code] : null
-    return <div style={{ position: 'absolute', pointerEvents: 'none', top: 6, left: 50, zIndex: 6000, width: size.width, height: size.height }}>
+    return collection.voyageRoutes.length > 0 && <div style={{ position: 'absolute', pointerEvents: 'none', top: 6, left: 50, zIndex: 6000, width: size.width, height: size.height }}>
         <div className="timelapseInfoBox" style={{ maxWidth: 'fit-content' }}>
             {years && <h1>{(years[1] - years[0] <= 1) ? years[0] : `${years[0]}-${years[1]}`}</h1>}
         </div>
@@ -1000,7 +1005,7 @@ const TimelapseAggregateChart = ({ collection, renderStyles, years, aggregatedFi
     }, [collection, renderStyles])
     const getStyle = (key: string) => renderStyles.styles.find(s => s.label === key)?.style ?? ''
     useEffect(() => {
-        if (table.length > 0 && svg.current && x) {
+        if (table.length > 0 && renderStyles.styles.length > 0 && svg.current && x) {
             // Now we use D3.js to produce a stacked area chart. The areas correspond to
             // the aggregated field and are sorted by final value (with the special case
             // 'Other' being always placed left).
@@ -1129,7 +1134,7 @@ const TimelapseAggregateChart = ({ collection, renderStyles, years, aggregatedFi
             .style('opacity', '0.7')
         return () => document.getElementById(sliderId)?.remove()
     }, [years])
-    return <div className="timelapseInfoBox"
+    return collection.voyageRoutes.length > 0 && <div className="timelapseInfoBox"
         onMouseOver={(e) => e.currentTarget.style.setProperty('opacity', '0.8')}
         onMouseLeave={(e) => {
             e.currentTarget.style.setProperty('opacity', '0.4')
@@ -1197,57 +1202,92 @@ const OBSOLETE_legacyToVoyageRoute = (routeBuilder: MapRouteBuilder, nations: Re
     }
 }
 
-const OBSOLETE_legacyVoyageCollection = async () => {
-    const { ports, routes: regionSeg } = await
-        (await fetch(`${BASEURL}/timelapse/get-compiled-routes/?networkName=trans`, {
-            headers: { 'Authorization': AUTHTOKEN }
-        }))
-            .json()
-    const routeBuilder = new MapRouteBuilder(ports, regionSeg)
-    const nationsSource = await
-        (await fetch(`${BASEURL}/timelapse/nations/`, {
-            headers: { 'Authorization': AUTHTOKEN }
-        }))
-            .json()
-    const nations = (Object.values(nationsSource) as Nation[]).reduce<Record<string, Nation>>(
-        (prev, item) => ({ ...prev, [item.code]: item }), {})
-    // We actually don't need the code but only the id.
-    // const post = { "searchData": { "items": [{ "op": "is between", "searchTerm": [1514, 1866], "varName": "imp_arrival_at_port_of_dis" }], "orderBy": [] }, "output": "mapAnimation" }
-    //const voyagesPromise = fetch(
-    //    `${BASEURL}/timelapse/records/`, {
-    //    method: 'POST',
-    //    headers: {
-    //        'Authorization': AUTHTOKEN,
-    //        "Content-Type": "application/json",
-    //    },
-    //    body: JSON.stringify(post)
-    //})
-    //const OBSOLETE_voyages: OBSOLETE_APIVoyageEntry[] = await (await voyagesPromise).json()
-    const voyages = (OBSOLETE_voyages as OBSOLETE_APIVoyageEntry[])
-        .map(v => OBSOLETE_legacyToVoyageRoute(routeBuilder, nations, v))
-    // TODO: replace hardcoded args.
-    return new VoyageRouteCollection(voyages, 0.3, 0.2, nations)
+const useFilteredVoyageRoutes = () => {
+    const queryRef = useRef<string>('')
+    const abortController = useRef<AbortController>()
+    const emptyCol = new VoyageRouteCollection([], 0, 0, {})
+    const [routeBuilder, setRouteBuilder] = useState<MapRouteBuilder | null>(null)
+    const [nations, setNations] = useState<Record<string, Nation> | null>(null)
+    const [collection, setCollection] = useState<VoyageRouteCollection>(emptyCol)
+    useEffect(() => {
+        // Fetch and keep cached the data that does not change with the filter.
+        const fetchData = async () => {
+            const { ports, routes: regionSeg } = await
+                (await fetch(`${BASEURL}/timelapse/get-compiled-routes/?networkName=trans`, {
+                    headers: { 'Authorization': AUTHTOKEN }
+                })).json()
+            const nationsSource = await
+                (await fetch(`${BASEURL}/timelapse/nations/`, {
+                    headers: { 'Authorization': AUTHTOKEN }
+                })).json()
+            setNations((Object.values(nationsSource) as Nation[]).reduce<Record<string, Nation>>(
+                (prev, item) => ({ ...prev, [item.code]: item }), {}))
+            setRouteBuilder(new MapRouteBuilder(ports, regionSeg))
+        }
+        fetchData()
+    }, [])
+    const { filtersObj: filter } = useSelector((state: RootState) => state.getFilter)
+    useEffect(() => {
+        const fetchVoyages = async() => {
+            if (!routeBuilder || !nations) {
+                return
+            }
+            // Use our reference fields to ensure:
+            // 1) That we do not submit two identical queries if the filter
+            //    array was changed but not its values.
+            // 2) That if the filter changes while the request is in-flight,
+            //    when it returns, we try to abort the previous fetch and ignore
+            //    the return value rather than having a race-condition decide
+            //    the result set.
+            const body = JSON.stringify({ filter })
+            if (queryRef.current === body) {
+                return
+            }
+            queryRef.current = body
+            if (abortController.current) {
+                abortController.current.abort()
+            }
+            const controller = new AbortController()
+            abortController.current  = controller
+            const voyagesRes = await fetch(
+                `${BASEURL}/timelapse/records/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': AUTHTOKEN,
+                    "Content-Type": "application/json",
+                },
+                body,
+                signal: controller.signal
+            })
+            const OBSOLETE_voyages: OBSOLETE_APIVoyageEntry[] = await voyagesRes.json()
+            if (queryRef.current === body) {
+                const voyages = (OBSOLETE_voyages as OBSOLETE_APIVoyageEntry[])
+                    .map(v => OBSOLETE_legacyToVoyageRoute(routeBuilder, nations, v))
+                // TODO: replace hardcoded args.
+                setCollection(new VoyageRouteCollection(voyages, 0.3, 0.2, nations))
+            }
+        }
+        fetchVoyages()
+    }, [filter, routeBuilder, nations])
+    return collection
 }
 
 export interface TimelapseMapProps {
     renderStyles: VoyageRouteRenderStyles
     collection: VoyageRouteCollection
     initialSpeed: number
-    // minSpeed: number
-    // maxSpeed: number
 }
 
-export const DemoTimelapseMap = () => {
-    const loadedRef = useRef<boolean>(false)
-    const [collection, setCollection] = useState<VoyageRouteCollection | null>(null)
+export const VoyagesTimelapseMap = () => {
+    const collection = useFilteredVoyageRoutes()
     const [renderStyles, setStyles] = useState<VoyageRouteRenderStyles | null>(null)
-    const updateCollection = (col: VoyageRouteCollection) => {
+    useEffect(() => {
         const unknownLabel = 'Unknown'
         const color = d3
             .scaleOrdinal()
-            .domain([...Object.keys(col.nations), unknownLabel])
+            .domain([...Object.keys(collection.nations), unknownLabel])
             .range(d3.schemePaired) as (key: string) => string
-        const styles = Object.values(col.nations)
+        const styles = Object.values(collection.nations)
             .reduce<Record<number, VoyageGroupStyle>>(
                 (prev, nat) => ({
                     ...prev,
@@ -1260,15 +1300,8 @@ export const DemoTimelapseMap = () => {
                 {}
             )
         styles[-1] = { label: unknownLabel, style: color(unknownLabel), isLeftoverGroup: true }
-        setStyles(createRenderStyles(col, 200, v => v.flag?.code ?? -1, styles))
-        setCollection(col)
-    }
-    useEffect(() => {
-        if (!loadedRef.current) {
-            loadedRef.current = true
-            OBSOLETE_legacyVoyageCollection().then(updateCollection)
-        }
-    }, [])
+        setStyles(createRenderStyles(collection, 200, v => v.flag?.code ?? -1, styles))
+    }, [collection])
     return collection && renderStyles && <TimelapseMap
         collection={collection}
         initialSpeed={1}
@@ -1283,6 +1316,7 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
     const [years, setYears] = useState<[number, number] | undefined>()
     const [userStartYear, setUserStartYear] = useState<number | null>(null)
     const window = useRef<VoyageRouteCollectionWindow | undefined>()
+    const dispatch = useDispatch()
     useEffect(() => {
         if (!pauseWin) {
             // Clear selection when resuming playing.
@@ -1344,12 +1378,16 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
             onClearSelection={() => setSelected(undefined)}
             onPause={() => setPauseWin(window.current ?? null)}
             onPlay={() => setPauseWin(null)}
-            onShowDetails={selected => alert(JSON.stringify(selected))}
+            onShowDetails={selected => {
+                dispatch(setCardRowID(selected.id))
+                dispatch(setIsModalCard(true))
+            }}
             onSpeedChange={setSpeed} />
         <TimelapseAggregateChart
             collection={collection}
             renderStyles={renderStyles}
             years={years}
             onYearChange={setUserStartYear} />
+        <CardModal />
     </MapContainer>
 }
