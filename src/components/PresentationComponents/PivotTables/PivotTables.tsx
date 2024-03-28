@@ -181,7 +181,6 @@ const PivotTables = () => {
   } = pivotValueOptions;
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
-  console.log({ updatedRowsValue })
 
   const dataSend: PivotTablesPropsRequest = {
     columns: column_vars,
