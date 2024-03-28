@@ -53,7 +53,7 @@ export const GenerateCellTableRenderer = (
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       margin: '5px 0',
-      textAlign: 'center',
+      textAlign: 'left',
       lineHeight: '25px',
       fontSize: '13px',
       cursor: 'pointer',
@@ -62,7 +62,7 @@ export const GenerateCellTableRenderer = (
     if (values.length <= 0) {
       return (
         <span >
-          <div style={{ textAlign: 'center' }}>--</div>
+          <div style={{ textAlign: 'left' }}>--</div>
         </span>
       )
     } else {
