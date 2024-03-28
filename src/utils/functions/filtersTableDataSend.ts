@@ -55,5 +55,13 @@ export const filtersTableDataSend = (filtersObj: Filter[], styleNameRoute: strin
             op: "exact"
         });
     }
+    // Update filterObject state
+    const filterObjectUpdate = {
+        filter: filters
+    };
+
+    // Update localStorage
+    const filterObjectString = JSON.stringify(filterObjectUpdate);
+    localStorage.setItem('filterObject', filterObjectString);
     return filters;
 }

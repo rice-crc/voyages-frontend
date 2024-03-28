@@ -20,7 +20,6 @@ import {
 } from '@/share/InterfaceTypesTable';
 import {
     CurrentPageInitialState,
-    Filter,
     RangeSliderState,
     TableListPropsRequest,
 } from '@/share/InterfaceTypes';
@@ -52,6 +51,7 @@ const Tables: React.FC = () => {
     const effectOnce = useRef(false);
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
@@ -137,7 +137,11 @@ const Tables: React.FC = () => {
         };
     }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!]);
 
+    // set filters object to send to request data
+
     const filters = filtersTableDataSend(filtersObj, styleNameRoute!)
+    console.log({ filters })
+
     let dataSend: TableListPropsRequest = {
         filter: filters,
         page: Number(page + 1),
