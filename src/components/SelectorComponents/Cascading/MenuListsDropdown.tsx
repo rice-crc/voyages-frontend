@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTitle,
 } from '@mui/material';
+import { Tooltip } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { DropdownCanscanding } from './DropdownCanscanding';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -32,7 +33,12 @@ import { setIsChange, setKeyValueName } from '@/redux/getRangeSliderSlice';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
-import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICENSLAVERS, TRANSATLANTICTRADS, } from '@/share/CONST_DATA';
+import {
+  ENSALVERSTYLE,
+  INTRAAMERICANTRADS,
+  TRANSATLANTICENSLAVERS,
+  TRANSATLANTICTRADS,
+} from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -41,10 +47,17 @@ import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
 
 export const MenuListsDropdown = () => {
+  const {
+    valueVoyages,
+    valueEnslaved,
+    valueAfricanOrigin,
+    valueEnslavedTexas,
+    valueEnslavers,
+  } = useSelector(
+    (state: RootState) => state.getFilterMenuList.filterValueList
+  );
 
-  const { valueVoyages, valueEnslaved, valueAfricanOrigin, valueEnslavedTexas, valueEnslavers } = useSelector((state: RootState) => state.getFilterMenuList.filterValueList);
-
-  const { styleName: styleNameRoute } = usePageRouter()
+  const { styleName: styleNameRoute } = usePageRouter();
 
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -57,14 +70,11 @@ export const MenuListsDropdown = () => {
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
 
-
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [label, setLabel] = useState<string>('');
   const [type, setType] = useState<string>('');
-  const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>(
-    []
-  );
+  const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
 
   useEffect(() => {
     const loadFilterCellStructure = async () => {
@@ -131,7 +141,9 @@ export const MenuListsDropdown = () => {
     });
   };
 
-  const renderDropdownMenu = (nodes: FilterMenu | ChildrenFilter | (FilterMenu | ChildrenFilter)[]): React.ReactElement<any>[] | undefined => {
+  const renderDropdownMenu = (
+    nodes: FilterMenu | ChildrenFilter | (FilterMenu | ChildrenFilter)[]
+  ): React.ReactElement<any>[] | undefined => {
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
         const { label, children, var_name, type } = node;
@@ -183,7 +195,13 @@ export const MenuListsDropdown = () => {
                 fontSize: 14,
               }}
             >
-              {item.label}
+              <Tooltip
+                placement="top"
+                title={`Filter by ${item.label}`}
+                color="rgba(0, 0, 0, 0.75)"
+              >
+                {item.label}
+              </Tooltip>
             </Button>
           ) : (
             <DropdownCanscanding
@@ -220,7 +238,13 @@ export const MenuListsDropdown = () => {
                     </span>
                   }
                 >
-                  {item.label}
+                  <Tooltip
+                    placement="top"
+                    title={`Filter by ${item.label}`}
+                    color="rgba(0, 0, 0, 0.75)"
+                  >
+                    {item.label}{' '}
+                  </Tooltip>
                 </Button>
               }
               menu={renderDropdownMenu(item.children!)}
@@ -246,7 +270,9 @@ export const MenuListsDropdown = () => {
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}
           {((varName && type === TYPES.IntegerField) ||
-            (varName && type === TYPES.DecimalField)) && <RangeSliderComponent />}
+            (varName && type === TYPES.DecimalField)) && (
+              <RangeSliderComponent />
+            )}
         </DialogContent>
         <DialogActions>
           <Button

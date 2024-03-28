@@ -20,7 +20,6 @@ import {
 } from '@/share/InterfaceTypesTable';
 import {
     CurrentPageInitialState,
-    Filter,
     RangeSliderState,
     TableListPropsRequest,
 } from '@/share/InterfaceTypes';
@@ -43,21 +42,16 @@ import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-import {
-    AFRICANORIGINS,
-    ENSLAVEDTEXAS,
-    INTRAAMERICAN,
-    INTRAAMERICANTRADS,
-    TRANSATLANTICPATH,
-    TRANSATLANTICTRADS,
-} from '@/share/CONST_DATA';
+
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { filtersTableDataSend } from '@/utils/functions/filtersTableDataSend';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
+    const effectOnce = useRef(false);
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
@@ -141,59 +135,11 @@ const Tables: React.FC = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute]);
+    }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!]);
 
-    let filters: Filter[] = []
+    // set filters object to send to request data
 
-    if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
-        filters = filtersObj;
-    } else if (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
-        filters = filtersObj;
-    } else if (styleNameRoute === TRANSATLANTICPATH) {
-        filters.push({
-            varName: 'dataset',
-            searchTerm: [0],
-            op: 'in',
-        });
-    } else if (styleNameRoute === INTRAAMERICAN) {
-        filters.push({
-            varName: 'dataset',
-            searchTerm: [1],
-            op: 'in',
-        });
-    } else if (styleNameRoute === ENSLAVEDTEXAS) {
-        filters.push({
-            varName:
-                'enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_region_slave_dis__name',
-            searchTerm: ['Texas'],
-            op: 'in',
-        });
-    } else if (styleNameRoute === AFRICANORIGINS) {
-        filters.push({
-            varName: 'dataset',
-            searchTerm: [0, 0],
-            op: 'in',
-        });
-    } else if (styleNameRoute === TRANSATLANTICTRADS) {
-        filters.push({
-            varName: 'aliases__enslaver_relations__relation__voyage__dataset',
-            searchTerm: 0,
-            op: "exact"
-        });
-    } else if (styleNameRoute === INTRAAMERICANTRADS) {
-        filters.push({
-            varName: 'aliases__enslaver_relations__relation__voyage__dataset',
-            searchTerm: 1,
-            op: "exact"
-        });
-    }
-
-    localStorage.setItem(
-        'filterObject',
-        JSON.stringify({
-            filter: filters,
-        })
-    );
+    const filters = filtersTableDataSend(filtersObj, styleNameRoute!)
 
     let dataSend: TableListPropsRequest = {
         filter: filters,
@@ -204,10 +150,10 @@ const Tables: React.FC = () => {
     useEffect(() => {
         const fetchDataTable = async () => {
             let response;
+            if (inputSearchValue) {
+                dataSend['global_search'] = inputSearchValue;
+            }
             try {
-                if (inputSearchValue) {
-                    dataSend['global_search'] = inputSearchValue;
-                }
                 if (checkPagesRouteForVoyages(styleNameRoute!)) {
                     response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
                 } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
@@ -219,17 +165,19 @@ const Tables: React.FC = () => {
                         fetchEnslaversOptionsList(dataSend)
                     ).unwrap();
                 }
-
                 if (response) {
                     const { count, results } = response.data;
-                    setTotalResultsCount(Number(count));
+                    setTotalResultsCount(() => Number(count));
                     dispatch(setData(results));
                 }
             } catch (error) {
                 console.log('error', error);
             }
         };
-        fetchDataTable();
+        if (!effectOnce.current) {
+            fetchDataTable();
+        }
+
     }, [
         dispatch, filtersObj,
         rowsPerPage,
@@ -237,14 +185,13 @@ const Tables: React.FC = () => {
         currentPage,
         currentEnslavedPage,
         varName,
-        visibleColumnCells,
         inputSearchValue,
         styleNamePeople,
         isChange,
         isChangeGeoTree,
         isChangeAuto,
         autoLabelName,
-        currentBlockName, styleNameRoute
+        currentBlockName,
     ]);
 
     useEffect(() => {

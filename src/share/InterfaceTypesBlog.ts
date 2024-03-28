@@ -67,10 +67,11 @@ export interface SearchBlogProps {
     tag: string
     title: string
 }
-export const SearchBlogData: SearchBlogProps[] = [
-    { search: 'Tags Name', tag: 'tags__name', title: 'tags' },
-    { search: 'Authors Name', tag: 'authors__name', title: 'authors' },
+export const searchBlogData: SearchBlogProps[] = [
+    { search: 'Tags', tag: 'tags__name', title: 'tags' },
+    { search: 'Authors', tag: 'authors__name', title: 'authors' },
     { search: 'Title', tag: 'title', title: 'title' },
+    // { search: 'About', tag: 'about', title: 'about' },
 ]
 
 
@@ -103,7 +104,7 @@ export const InitialStateBlog: InitialStateBlogProps = {
         status: 0,
         thumbnail: ''
     },
-    searchTitle: 'tags',
+    searchTitle: 'Tags',
     searchAutoKey: 'tags__name',
     searchAutoValue: '',
     blogAutoLists: [],

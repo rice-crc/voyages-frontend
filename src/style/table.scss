@@ -222,7 +222,7 @@ div .customHeaderLabel {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 85%;
-  text-align: center;
+  text-align: left;
 }
 
 div .customHeaderLabelSummaryTable {
@@ -285,7 +285,6 @@ div .customHeaderLabelSummaryTable {
 
 .pagination-div>nav>ul>li>button {
   font-size: 0.875rem;
-  // font-family: sans-serif;
 }
 
 .Skeleton-loading {
@@ -303,7 +302,7 @@ div .customHeaderLabelSummaryTable {
     line-height: normal;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     padding-top: 1rem;
   }
 }
@@ -316,9 +315,9 @@ div .customHeaderLabelSummaryTable {
 
 .network-icon {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px 0 10px 10px;
 
   img {
     width: 12%;

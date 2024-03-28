@@ -1,4 +1,3 @@
-import HeaderLogoSearch from "@/components/NavigationComponents/Header/HeaderSearchLogo";
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import React from 'react';
 

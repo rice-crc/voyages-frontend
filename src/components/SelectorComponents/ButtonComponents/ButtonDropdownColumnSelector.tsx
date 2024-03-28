@@ -128,7 +128,7 @@ const ButtonDropdownColumnSelector = () => {
             className="configureColumnsButton"
             endIcon={<ArrowDropDown />}
           >
-            configure columns
+            Configure columns
           </Button>
         </span>
       }
