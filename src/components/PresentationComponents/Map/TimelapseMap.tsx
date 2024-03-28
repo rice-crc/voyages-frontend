@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
-import { MapContainer, TileLayer, LayersControl, useMap, SVGOverlay, LayerGroup } from 'react-leaflet';
+import { MapContainer, TileLayer, LayersControl, useMap, SVGOverlay, LayerGroup } from 'react-leaflet'
 import { LatLngBounds } from "leaflet"
-import { AUTHTOKEN, BASEURL } from '../../../share/AUTH_BASEURL';
+import { AUTHTOKEN, BASEURL } from '../../../share/AUTH_BASEURL'
 import OBSOLETE_voyages from './voyages.json'
 import {
     MAP_CENTER,
@@ -10,16 +10,16 @@ import {
     mappingSpecialists,
     mappingSpecialistsCountries,
     mappingSpecialistsRivers
-} from '@/share/CONST_DATA';
-import { HandleZoomEvent } from "./HandleZoomEvent";
-import { Button } from '@mui/material';
-import * as d3 from "d3";
+} from '@/share/CONST_DATA'
+import { HandleZoomEvent } from "./HandleZoomEvent"
+import { Button } from '@mui/material'
+import * as d3 from "d3"
 import * as L from 'leaflet'
-import { GeodesicLine } from 'leaflet.geodesic';
-import 'leaflet-easybutton';
-import 'leaflet-easybutton/src/easy-button.css';
-import '@/style/timelapse.scss';
-import { preview } from "vite";
+import { GeodesicLine } from 'leaflet.geodesic'
+import 'leaflet-easybutton'
+import 'leaflet-easybutton/src/easy-button.css'
+import '@/style/timelapse.scss'
+import { preview } from "vite"
 
 // TODO
 // - move out the basic geometry/calculation stuff to a separate file.
@@ -55,13 +55,13 @@ export interface GreatCircle {
  */
 export const arcInterpolate = (arc: GreatCircle, t: number): LatLngPathPointRad => {
     const { start: [slat, slng], end: [elat, elng], centralAngle: g } = arc
-    const A = Math.sin((1 - t) * g) / Math.sin(g);
-    const B = Math.sin(t * g) / Math.sin(g);
-    const x = A * Math.cos(slng) * Math.cos(slat) + B * Math.cos(elng) * Math.cos(elat);
-    const y = A * Math.cos(slng) * Math.sin(slat) + B * Math.cos(elng) * Math.sin(elat);
-    const z = A * Math.sin(slng) + B * Math.sin(elng);
-    const lng = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
-    const lat = Math.atan2(y, x);
+    const A = Math.sin((1 - t) * g) / Math.sin(g)
+    const B = Math.sin(t * g) / Math.sin(g)
+    const x = A * Math.cos(slng) * Math.cos(slat) + B * Math.cos(elng) * Math.cos(elat)
+    const y = A * Math.cos(slng) * Math.sin(slat) + B * Math.cos(elng) * Math.sin(elat)
+    const z = A * Math.sin(slng) + B * Math.sin(elng)
+    const lng = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)))
+    const lat = Math.atan2(y, x)
     return [lat, lng]
 }
 
@@ -175,7 +175,7 @@ const reduceSharpCorner = ({
     const angleInfo = new AngleInfo(path[idxBest + step], point, path[idxBest])
     const n1 = normSq(angleInfo.delta1)
     const n2 = normSq(angleInfo.delta2)
-    const endTangentScalar = Math.sqrt(n1 * n2) / n2;
+    const endTangentScalar = Math.sqrt(n1 * n2) / n2
     const prefix: Point2D[] = new Array(9)
     for (let i = 0; i < prefix.length; ++i) {
         const scalar = (i + 1) / (prefix.length + 1)
@@ -389,11 +389,12 @@ const timeToYear = (time: number) => Math.floor(time / 360)
 
 class VoyageRouteCollectionWindow {
     private readonly vs: ReadonlyArray<InterpolatedVoyageRoute>
-    private readonly time: number
     private idxSearch: number
 
     private static _buffer: (VoyageRoutePoint | null)[] = new Array(2048)
     private static _version: number = 0
+
+    public readonly time: number
 
     constructor(
         voyageRoutes: ReadonlyArray<InterpolatedVoyageRoute>,
@@ -564,6 +565,7 @@ interface CanvasAnimationProps {
     speed: number
     renderStyles: VoyageRouteRenderStyles
     paused: boolean
+    userStartYear: number | null
     onWindowChange: (win: VoyageRouteCollectionWindow) => void
 }
 
@@ -586,17 +588,46 @@ const useMapPosition = () => {
     return { bounds, size }
 }
 
-const CanvasAnimation = ({ collection, paused, renderStyles, speed, onWindowChange }: CanvasAnimationProps) => {
+const CanvasAnimation = ({
+    collection,
+    paused,
+    renderStyles,
+    speed,
+    userStartYear,
+    onWindowChange }: CanvasAnimationProps) => {
     const windowRef = useRef<VoyageRouteCollectionWindow>()
     const canvasRef = useRef<CanvasRenderingContext2D | null>()
     const map = useMap()
     const { size } = useMapPosition()
-    useEffect(
-        () => {
+    useEffect(() => {
+        if (userStartYear) {
             windowRef.current = new VoyageRouteCollectionWindow(
                 collection.voyageRoutes,
                 speed,
-                1720 * 360)
+                userStartYear * 360)
+            onWindowChange(windowRef.current)
+        }
+    },
+    [userStartYear])
+    useEffect(
+        () => {
+            const routes = collection.voyageRoutes
+            if (routes.length === 0) {
+                windowRef.current = undefined
+                return
+            }
+            // Pick a good start year considering the volume of ships.
+            const fullYearRange = [routes[0], routes.at(-1)!].map(r => timeToYear(r.startTime))
+            let defaultYearStart = 1660
+            if (defaultYearStart < fullYearRange[0] ||
+                defaultYearStart > 0.25 * fullYearRange[0] + 0.75 * fullYearRange[1]) {
+                defaultYearStart = fullYearRange[0]
+            }
+            windowRef.current = new VoyageRouteCollectionWindow(
+                collection.voyageRoutes,
+                speed,
+                // TODO: replace constant year
+                windowRef.current?.time ?? defaultYearStart * 360)
         },
         [collection, speed])
     const render = (elapsed: number) => {
@@ -618,8 +649,8 @@ const CanvasAnimation = ({ collection, paused, renderStyles, speed, onWindowChan
         // grouping method also skips over points that would be outside the map
         // bounds.
         const bounds = map.getBounds()
-        const topLeft = map.latLngToLayerPoint(bounds.getNorthWest());
-        ctx.setTransform(1, 0, 0, 1, -topLeft.x, -topLeft.y);
+        const topLeft = map.latLngToLayerPoint(bounds.getNorthWest())
+        ctx.setTransform(1, 0, 0, 1, -topLeft.x, -topLeft.y)
         // Clear canvas before rendering frame.
         ctx.clearRect(topLeft.x, topLeft.y, ctx.canvas.width, ctx.canvas.height)
         if (paused) {
@@ -635,8 +666,8 @@ const CanvasAnimation = ({ collection, paused, renderStyles, speed, onWindowChan
                 const radius = renderStyles.getRadiusForVoyage(voyage)
                 const { x, y } = map.latLngToLayerPoint(pt)
                 // Start a new sub-path with moveTo.
-                ctx.moveTo(x + radius, y);
-                ctx.arc(x, y, radius, 0, 2 * Math.PI);
+                ctx.moveTo(x + radius, y)
+                ctx.arc(x, y, radius, 0, 2 * Math.PI)
             }
             ctx.fill()
         }
@@ -698,7 +729,7 @@ const InteractiveVoyageRoutesFrame = ({ selected, window, renderStyles, onSelect
     const [hovered, setHovered] = useState<VoyageRoute | null>(null)
     const map = useMap()
     const { bounds } = useMapPosition()
-    const topLeft = map.latLngToLayerPoint(bounds.getNorthWest());
+    const topLeft = map.latLngToLayerPoint(bounds.getNorthWest())
     const children: JSX.Element[] = []
     // Note: Do not convert the nested loop to flatMap/map functional style: the
     // groupByStyle method returns clusters that are only valid within the
@@ -757,7 +788,6 @@ interface TimelapseUIProps {
     onPause: () => void
     onShowDetails: (selected: VoyageRoute) => void
     onSpeedChange: (speed: number) => void
-    // chartData: any
 }
 
 const FlagNames: Record<number, string> = {
@@ -778,7 +808,7 @@ const FlagNames: Record<number, string> = {
     18: "Denmark_Baltic",
     19: "Argentina",
     20: "Russia"
-};
+}
 
 const TimelapseUI = ({ collection, selected, years, paused, speed, onClearSelection, onPlay, onPause, onShowDetails, onSpeedChange }: TimelapseUIProps) => {
     const timelapseHelpPopup = `<div>
@@ -807,7 +837,7 @@ const TimelapseUI = ({ collection, selected, years, paused, speed, onClearSelect
     const { size } = useMapPosition()
     const map = useMap()
     const handleSpeedChange = () => {
-        let next = speed * 2;
+        let next = speed * 2
         if (next > 16) {
             next = 1
         }
@@ -918,12 +948,20 @@ interface AggregateValue {
 
 type TimelapseAggregateChartTable = Record<string, number>[]
 
-const TimelapseAggregateChart = ({ collection, renderStyles, aggregatedField = 'embarked' }: TimelapseAggregateChartProps) => {
+const TimelapseAggregateChart = ({ collection, renderStyles, years, aggregatedField = 'embarked', onYearChange }: TimelapseAggregateChartProps) => {
     const svg = useRef<SVGSVGElement>(null)
+    const [sortedKeys, setSortedKeys] = useState<string[]>([])
     const { size } = useMapPosition()
-    const { startYear, table } = useMemo(() => {
+    const LeftMargin = 120
+    const RightMargin = 60
+    const NormalHeight = 100
+    const VerticalMargin = 4
+    const XAxisLabelOffset = 16
+    const XAxisLineOffset = 25
+    const chartWidth = Math.max(100, size.width - 360)
+    const { table, x } = useMemo(() => {
         if (collection.voyageRoutes.length === 0) {
-            return { startYear: -1, table: [] }
+            return { table: [], x: undefined }
         }
         // Generate the chart aggregate data.
         const startYear = timeToYear(collection.voyageRoutes[0].startTime)
@@ -955,22 +993,17 @@ const TimelapseAggregateChart = ({ collection, renderStyles, aggregatedField = '
                 }),
                     {})
             )
-        return { startYear, table }
+        const x = d3.scaleLinear()
+            .domain([startYear, startYear + table.length])
+            .range([0, chartWidth - LeftMargin - RightMargin])
+        return { table, x }
     }, [collection, renderStyles])
-    const LeftMargin = 280
-    const RightMargin = 120
-    const NormalHeight = 100
-    const VerticalMargin = 4
-    const XAxisLabelOffset = 16
-    const XAxisLineOffset = 25
+    const getStyle = (key: string) => renderStyles.styles.find(s => s.label === key)?.style ?? ''
     useEffect(() => {
-        if (table.length > 0 && svg.current) {
+        if (table.length > 0 && svg.current && x) {
             // Now we use D3.js to produce a stacked area chart. The areas correspond to
             // the aggregated field and are sorted by final value (with the special case
-            // 'Other' being always placed left).            
-            const x = d3.scaleLinear()
-                .domain([startYear, startYear + table.length])
-                .range([0, size.width - LeftMargin - RightMargin])
+            // 'Other' being always placed left).
             const xAxis = d3
                 .axisBottom(x)
                 .ticks(20)
@@ -985,36 +1018,44 @@ const TimelapseAggregateChart = ({ collection, renderStyles, aggregatedField = '
                 ])
             const yAxis = d3.axisRight(y).ticks(4)
             const stack = d3.stack()
+            // Sort keys by total aggregated value (in the final frame). The
+            // "leftover" groups (e.g. Unknown/Other) are always placed in the
+            // end even if their values are larger than other groups.
             const last = table.at(-1)!
             const getSortKey: (s: VoyageGroupStyle) => number = s =>
                 (s.isLeftoverGroup ? 1e-9 : 1) * last[s.label]
-            stack.keys([... renderStyles.styles]
+            const sortedKeys = [...renderStyles.styles]
                 .sort((a, b) => getSortKey(b) - getSortKey(a))
-                .map(s => s.label))
+                .map(s => s.label)
+            stack.keys(sortedKeys)
+            setSortedKeys(sortedKeys)
             const stackData = stack(table)
-            const g = d3
-                .select(svg.current)
+            // Create the root element for the chart. Note that the effect
+            // clean-up function removes this element (by id).
+            const MainTimelapseElementId = 'timelapse_slider'
+            const root = d3.select(svg.current)
+            const g = root
                 .append("g")
-                .attr("id", "timeline_slider")
-                .classed("timeline_slider_group", true)
-            const categories = g
-                .selectAll(".category")
+                .attr("id", MainTimelapseElementId)
+                .classed("timelapse_slider_group", true)
+            const groups = g
+                .selectAll(".group")
                 .data(stackData)
                 .enter()
                 .append("g")
-                .attr("class", (d: any) => `category ${d.key}`)
+                .attr("class", (d: any) => `group ${d.key}`)
             const area = d3
                 .area()
                 .x((d: any) => x(d.data.year))
                 .y0(d => y(d[0]))
                 .y1(d => y(d[1]))
-            categories
+            groups
                 .append("path")
                 .attr("class", "area")
-                .attr("d", area)
+                .attr("d", area as any)
                 .attr("transform", "translate(" + LeftMargin + ", 0)")
                 .style("pointer-events", "none")
-                .style("fill", (d: any) => renderStyles.styles.find(s => s.label === d.key)?.style ?? '')
+                .style("fill", (d: any) => getStyle(d.key))
             g.append("g")
                 .attr("class", "t_axis")
                 .attr(
@@ -1024,14 +1065,87 @@ const TimelapseAggregateChart = ({ collection, renderStyles, aggregatedField = '
                 .call(xAxis)
             g.append("g")
                 .attr("class", "aggregate_axis")
-                .attr("transform", `translate(${size.width - RightMargin - 2},-1)`)
+                .attr("transform", `translate(${chartWidth - RightMargin - 2},-1)`)
                 .attr("color", "black")
-                .call(yAxis);
-            return () => document.getElementById("timeline_slider")?.remove()
+                .call(yAxis)
+            // Add a Y-axis label.
+            g.append("text")
+                .attr(
+                    "transform",
+                    `translate(${LeftMargin},${VerticalMargin})`)
+                .attr("dy", "1em")
+                .attr("class", "timelapse-timelapse-title-label")
+                .text(`Accumulated captives (${aggregatedField})`)
+            // Create mouse-over line that allows jumping to any given year in the chart.
+            const hoverLine = g.append("g")
+                .classed("timelapse_slider_x_axis_hover", true)
+                .attr("id", "timelapse_hoverline")
+                .attr("transform", `translate(${LeftMargin},${RightMargin})`)
+                .style("opacity", 0)
+            hoverLine
+                .append("rect")
+                .attr("x", -1)
+                .attr("width", 2)
+                .attr("height", NormalHeight - XAxisLineOffset)
+                .attr("fill", "white")
+            hoverLine
+                .append("line")
+                .attr("stroke", "red")
+                .attr("stroke-width", 2)
+                .style("stroke-dasharray", "2, 2")
+                .attr("y2", NormalHeight - XAxisLineOffset)
+            root.on("mousemove", e => {
+                const { offsetX } = e
+                if (offsetX >= LeftMargin && offsetX <= chartWidth - RightMargin) {
+                    hoverLine
+                        .style("opacity", "0.8")
+                        .attr("transform", `translate(${offsetX},0)`)
+                } else {
+                    hoverLine.style("opacity", 0)
+                }
+            })
+            root.on("click", e => {
+                const { offsetX } = e
+                if (offsetX >= LeftMargin && offsetX <= chartWidth - RightMargin) {
+                    onYearChange(x.invert(offsetX - LeftMargin))
+                }
+            })
+            return () => document.getElementById(MainTimelapseElementId)?.remove()
         }
     }, [table, size, svg])
-    return <svg width={size.width} height={NormalHeight} style={{ position: 'absolute', bottom: 0, left: 0, zIndex: 6100 }} ref={svg}>
-    </svg>
+    useEffect(() => {
+        if (!years || !svg.current || !x) {
+            return
+        }
+        const sliderId = 'timelapse_slider_id'
+        d3.select(svg.current).select('g')
+            .append('rect')
+            .classed('timelapse_slider_x_axis_bar', true)
+            .attr('id', sliderId)
+            .attr('x', LeftMargin + x(years[0]))
+            .attr('width', x(years[1] + 1) - x(years[0]))
+            .attr('height', NormalHeight - XAxisLineOffset)
+            .style('fill', 'black')
+            .style('opacity', '0.7')
+        return () => document.getElementById(sliderId)?.remove()
+    }, [years])
+    return <div className="timelapseInfoBox"
+        onMouseOver={(e) => e.currentTarget.style.setProperty('opacity', '0.8')}
+        onMouseLeave={(e) => {
+            e.currentTarget.style.setProperty('opacity', '0.4')
+            document.getElementById('timelapse_hoverline')?.style.setProperty('opacity', '0')
+        }
+        }
+        style={{ opacity: 0.3, paddingBottom: 0, position: 'absolute', marginLeft: 160, marginRight: 160, bottom: 0, left: 0, zIndex: 6100 }}>
+        <div style={{ position: 'absolute', bottom: 0, paddingRight: "4px", maxHeight: NormalHeight, overflowY: 'scroll' }}>
+            <ul>
+                {sortedKeys.map(key => <li key={key} style={{ fontWeight: 'bold', color: getStyle(key) }}>{key}</li>)}
+            </ul>
+        </div>
+        <svg width={chartWidth} height={NormalHeight}
+            ref={svg}>
+        </svg>
+    </div>
 }
 
 /**
@@ -1132,7 +1246,7 @@ export const DemoTimelapseMap = () => {
         const color = d3
             .scaleOrdinal()
             .domain([...Object.keys(col.nations), unknownLabel])
-            .range(d3.schemeSet3) as (key: string) => string;
+            .range(d3.schemePaired) as (key: string) => string
         const styles = Object.values(col.nations)
             .reduce<Record<number, VoyageGroupStyle>>(
                 (prev, nat) => ({
@@ -1167,6 +1281,7 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
     const [selected, setSelected] = useState<InterpolatedVoyageRoute | undefined>(undefined)
     const [speed, setSpeed] = useState(initialSpeed)
     const [years, setYears] = useState<[number, number] | undefined>()
+    const [userStartYear, setUserStartYear] = useState<number | null>(null)
     const window = useRef<VoyageRouteCollectionWindow | undefined>()
     useEffect(() => {
         if (!pauseWin) {
@@ -1204,10 +1319,14 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
             speed={speed}
             paused={pauseWin !== null}
             renderStyles={renderStyles}
+            userStartYear={userStartYear}
             onWindowChange={win => {
                 const nextYears = win.years()
                 if (years !== nextYears) {
                     setYears(nextYears)
+                }
+                if (pauseWin) {
+                    setPauseWin(win)
                 }
                 window.current = win
             }} />
@@ -1230,6 +1349,7 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
         <TimelapseAggregateChart
             collection={collection}
             renderStyles={renderStyles}
-            onYearChange={() => { /* TODO */ }} />
+            years={years}
+            onYearChange={setUserStartYear} />
     </MapContainer>
 }
