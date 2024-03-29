@@ -813,3 +813,27 @@ div .customHeaderLabelSummaryTable {
     padding: 0;
   }
 }
+
+.loading-logo-sumarytable {
+  display: flex;
+  justify-content: center;
+  animation: center;
+  margin: auto;
+  height: 60%;
+
+  >img {
+    width: 10%;
+
+    @include breakpoint-standard(5) {
+      width: 10%;
+    }
+
+    @include breakpoint-standard(4) {
+      width: 10%;
+    }
+
+    @include breakpoint-standard(3) {
+      width: 10%;
+    }
+  }
+}

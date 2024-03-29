@@ -4,14 +4,13 @@ import TEXAS from '@/assets/texasbound1.png';
 import TEXASBOUND from '@/assets/Texas Bound.png';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
-import { CONTRIBUTE, VOYAGESTEXASPAGE, TRANSATLANTICPAGE, VOYAGESPAGE, ABOUTPAGE, DOWNLOADS } from '@/share/CONST_DATA';
+import { CONTRIBUTE, VOYAGESTEXASPAGE, TRANSATLANTICPAGE, VOYAGESPAGE, ABOUTPAGE, DOWNLOADS, BLOGPAGE } from '@/share/CONST_DATA';
 
 const TexasBound: React.FC = () => {
     const lists = [
-        { name: 'About', url: `/${ABOUTPAGE}` },
+        { name: 'About', url: `${BLOGPAGE}/tag/about` },
         { name: 'Database', url: `${TRANSATLANTICPAGE}#voyages` },
-        { name: 'Downloads', url: `${DOWNLOADS}` },
-        { name: 'Contribute', url: `${CONTRIBUTE}` },
+        { name: 'Downloads', url: `${BLOGPAGE}/tag/downloads` },
     ];
     return (
         <div className="container-texas">

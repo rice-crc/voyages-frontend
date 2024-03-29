@@ -9,7 +9,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeaderTable from '../../NavigationComponents/Header/CustomHeaderTable';
-import { setData } from '@/redux/getTableSlice';
+import { setColumnDefs, setData, setRowData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { Pagination } from '@mui/material';
@@ -17,6 +17,7 @@ import {
     StateRowData,
     TableCellStructureInitialStateProp,
     TableCellStructure,
+    ColumnDef,
 } from '@/share/InterfaceTypesTable';
 import {
     CurrentPageInitialState,
@@ -28,7 +29,6 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
-import { updateColumnDefsAndRowData } from '@/utils/functions/updateColumnDefsAndRowData';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import {
@@ -39,16 +39,14 @@ import {
 import { CustomTablePagination } from '@/styleMUI';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import { useTableCellStructure } from '@/hooks/useTableCellStructure';
-import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
-import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
-import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 import { filtersTableDataSend } from '@/utils/functions/filtersTableDataSend';
+import { useTableData } from '@/hooks/useTableData';
+import { generateRowsData } from '@/utils/functions/generateRowsData';
+import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
-    const effectOnce = useRef(false);
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
@@ -63,7 +61,7 @@ const Tables: React.FC = () => {
         (state: RootState) => state.getTableData as StateRowData
     );
 
-    const { isChangeAuto, autoLabelName } = useSelector(
+    const { autoLabelName } = useSelector(
         (state: RootState) => state.autoCompleteList
     );
 
@@ -74,6 +72,7 @@ const Tables: React.FC = () => {
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
     );
+    console.log({ inputSearchValue })
 
     const { isChangeGeoTree } = useSelector(
         (state: RootState) => state.getGeoTreeData
@@ -87,7 +86,7 @@ const Tables: React.FC = () => {
     );
 
     // Enslaved States
-    const { styleNamePeople, tableFlatfileEnslaved } = useSelector(
+    const { tableFlatfileEnslaved } = useSelector(
         (state: RootState) => state.getPeopleEnlavedDataSetCollection
     );
     const { currentEnslavedPage } = useSelector(
@@ -138,58 +137,38 @@ const Tables: React.FC = () => {
     }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!]);
 
     // set filters object to send to request data
-
     const filters = filtersTableDataSend(filtersObj, styleNameRoute!)
-
-    let dataSend: TableListPropsRequest = {
+    const dataSend: TableListPropsRequest = {
         filter: filters,
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
+    if (inputSearchValue) {
+        dataSend['global_search'] = inputSearchValue;
+    }
+    const {
+        data: tableData,
+        isLoading: loading,
+        isError: error
+    } = useTableData(dataSend, styleNameRoute!);
 
     useEffect(() => {
-        const fetchDataTable = async () => {
-            let response;
-            if (inputSearchValue) {
-                dataSend['global_search'] = inputSearchValue;
-            }
-            try {
-                if (checkPagesRouteForVoyages(styleNameRoute!)) {
-                    response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-                } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslavedOptionsList(dataSend)
-                    ).unwrap();
-                } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslaversOptionsList(dataSend)
-                    ).unwrap();
-                }
-                if (response) {
-                    const { count, results } = response.data;
-                    setTotalResultsCount(() => Number(count));
-                    dispatch(setData(results));
-                }
-            } catch (error) {
-                console.log('error', error);
-            }
-        };
-        if (!effectOnce.current) {
-            fetchDataTable();
-        }
 
+        if (!loading && !error && tableData) {
+            const { count, results } = tableData;
+            setTotalResultsCount(() => Number(count));
+            dispatch(setData(results));
+        }
     }, [
-        dispatch, filtersObj,
+        dispatch, filtersObj, loading, error, tableData,
         rowsPerPage,
         page,
         currentPage,
         currentEnslavedPage,
         varName,
         inputSearchValue,
-        styleNamePeople,
         isChange,
         isChangeGeoTree,
-        isChangeAuto,
         autoLabelName,
         currentBlockName,
     ]);
@@ -202,13 +181,19 @@ const Tables: React.FC = () => {
                 : checkPagesRouteForEnslavers(styleNameRoute!)
                     ? tableFlatfileEnslavers
                     : null;
-        updateColumnDefsAndRowData(
-            data,
-            visibleColumnCells,
-            dispatch,
-            tableFileName!,
-            tablesCell
-        );
+        if (data.length > 0) {
+            const finalRowData = generateRowsData(data, tableFileName!);
+            const newColumnDefs: ColumnDef[] = tablesCell.map(
+                (value: TableCellStructure) =>
+                    generateColumnDef(value, visibleColumnCells)
+            );
+            dispatch(setColumnDefs(newColumnDefs));
+            dispatch(setRowData(finalRowData as Record<string, any>[]));
+        } else {
+            dispatch(setRowData([]));
+        }
+        // Ensure to return undefined if there's no cleanup needed
+        return undefined;
     }, [
         data,
         visibleColumnCells,

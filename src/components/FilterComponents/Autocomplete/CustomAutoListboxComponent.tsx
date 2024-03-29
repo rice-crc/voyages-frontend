@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, forwardRef, useContext, ReactNode, HTMLAttributes } from "react";
+import React, { useEffect, useRef, forwardRef, useContext, ReactNode, HTMLAttributes, useMemo } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme, Theme } from "@mui/material/styles";
 import { VariableSizeList } from "react-window";
@@ -7,14 +7,17 @@ import { RenderRowProps } from '@/share/InterfaceTypes';
 import '@/style/Slider.scss';
 import '@/style/table.scss';
 import { ListSubheader } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { setIsLoadingList, } from "@/redux/getAutoCompleteSlice";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const LISTBOX_PADDING = 8;
 
 function renderRow(props: RenderRowProps) {
+
     const { data, index, style } = props;
+
     return React.cloneElement(data[index] as React.ReactElement, {
         style: {
             ...style,
@@ -46,25 +49,30 @@ interface CustomAutoListboxProps extends HTMLAttributes<HTMLDivElement> {
 }
 const CustomAutoListboxComponent = forwardRef<HTMLDivElement, CustomAutoListboxProps>((props, ref) => {
     const { children, ...other } = props;
+    const { isLoadingList } = useSelector(
+        (state: any) => state.autoCompleteList
+    );
     const dispatch: AppDispatch = useDispatch();
     const itemData = React.Children.toArray(children);
     const theme = useTheme<Theme>();
     const smUp = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
     const itemCount = itemData.length;
     const itemSize = smUp ? 36 : 48;
-    const getItemSize = (child: any) => {
+    // Memoize the getItemSize function to avoid unnecessary recalculations
+    const getItemSize = useMemo(() => useDebounce((child: any) => {
         if (React.isValidElement(child) && child.type === ListSubheader) {
             return 48;
         }
         return itemSize;
-    };
+    }, 300), [itemSize]);
 
-    const getHeight = () => {
+    // Memoize the getHeight function to avoid unnecessary recalculations
+    const getHeight = useMemo(() => useDebounce(() => {
         if (itemCount > 8) {
             return 8 * itemSize;
         }
-        return itemData.map(getItemSize).reduce((a, b) => a + b, 0);
-    };
+        return itemData.map(getItemSize).reduce((a, b) => a + b!, 0);
+    }, 300), [itemCount, itemData, getItemSize]);
 
     const gridRef = useResetCache([itemCount]);
 
@@ -80,12 +88,12 @@ const CustomAutoListboxComponent = forwardRef<HTMLDivElement, CustomAutoListboxP
                         }
                     }}
                     itemData={itemData}
-                    height={getHeight() + 2 * LISTBOX_PADDING}
+                    height={getHeight()! + 2 * LISTBOX_PADDING}
                     width="100%"
                     ref={gridRef as React.RefObject<VariableSizeList>}
                     outerElementType={OuterElementType}
                     innerElementType="ul"
-                    itemSize={getItemSize}
+                    itemSize={getItemSize!}
                     overscanCount={5}
                     itemCount={itemCount}
                 >
