@@ -54,6 +54,7 @@
 						"type": "CharField",
 						"label": "Place registered"
 					}
+					
 				]
 			},
 			{
@@ -89,6 +90,7 @@
 						"type": "DecimalField",
 						"label": "Standardized Tonnage (IMP)"
 					},
+					
 					{
 						"var_name": "voyage_ship__guns_mounted",
 						"type": "IntegerField",
@@ -163,7 +165,7 @@
 						"var_name": "voyage_itinerary__first_landing_place__value",
 						"type": "GeoTreeSelect",
 						"label": "Third place where captives were landed"
-					}
+          }
 				]
 			},
 			{
@@ -316,8 +318,10 @@
 				"type": "CharField",
 				"label": "Captive background"
 			}
+			
 		]
 	},
+	
 	{
 		"label": "Dates",
 		"children": [
