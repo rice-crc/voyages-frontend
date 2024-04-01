@@ -1,5 +1,5 @@
 import { BASEURL } from '@/share/AUTH_BASEURL';
-import defaultImage from '@/assets/no-imge-default.avif';
+import defaultImage from '@/assets/voyage-blog.png';
 import '@/style/landing.scss';
 import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { useSelector } from 'react-redux';

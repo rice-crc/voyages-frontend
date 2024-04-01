@@ -13,7 +13,7 @@ import {
   setInstitutionAuthorsList,
 } from '@/redux/getBlogDataSlice';
 import InstitutionAuthorsList from './InstitutionAuthorsList';
-import defaultImage from '@/assets/no-imge-default.avif';
+import defaultImage from '@/assets/voyage-blog.png';
 import { useInstitutionAuthor } from '@/hooks/useInstitutionAuthor';
 
 const InstitutionAuthors: React.FC = () => {

@@ -62,7 +62,20 @@ export default function VirtualizedAutoCompleted() {
         if (!isLoading && !isError && data) {
             const { suggested_values } = data as DataSuggestedValuesProps;
             const newAutoList: AutoCompleteOption[] = suggested_values.map((value: AutoCompleteOption) => value);
-            setAutoLists((prevAutoList) => [...prevAutoList, ...newAutoList]);
+
+            // Create a Set to track unique values
+            const uniqueValues = new Set<string>();
+            newAutoList.forEach((value) => uniqueValues.add(value.value));
+
+            // Convert Set back to an array without duplicates
+            const filteredAutoList = Array.from(uniqueValues).map(
+                (value) => ({ value })
+            );
+
+            setAutoLists((prevAutoList) => {
+                const uniquePrevAutoList = prevAutoList.filter((item) => !uniqueValues.has(item.value))
+                return [...uniquePrevAutoList, ...filteredAutoList]
+            });
         }
     }, [data, isLoading, isError]);
 
@@ -74,7 +87,6 @@ export default function VirtualizedAutoCompleted() {
         if (isLoadingList) {
             refetchAutoComplete();
         }
-
         const storedValue = localStorage.getItem('filterObject');
         if (!storedValue) return;
 
@@ -95,7 +107,6 @@ export default function VirtualizedAutoCompleted() {
         if (event) {
             event.preventDefault();
         }
-        dispatch(setIsChangeAuto(!isChangeAuto));
         setAutoValue(value);
         if (!value) {
             setOffset((prev) => prev - offset)
@@ -106,58 +117,61 @@ export default function VirtualizedAutoCompleted() {
         event: SyntheticEvent<Element, Event>,
         newValue: AutoCompleteOption[]
     ) => {
-        if (newValue) {
-            setSelectedValue(newValue as AutoCompleteOption[]);
-            dispatch(setIsChangeAuto(!isChangeAuto));
-            const autuLabel: string[] = newValue.map((ele) => ele.value);
-            dispatch(setAutoLabel(autuLabel));
-            // Retrieve existing filterObject from localStorage
-            const existingFilterObjectString = localStorage.getItem('filterObject');
-
-            let existingFilterObject: any = {};
-
-            if (existingFilterObjectString) {
-                existingFilterObject = JSON.parse(existingFilterObjectString);
-            }
-
-            // Retrieve existing filters array
-            const existingFilters: Filter[] = existingFilterObject.filter || [];
-            const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === varName);
-
-            if (existingFilterIndex !== -1) {
-                existingFilters[existingFilterIndex].searchTerm = [...autuLabel];
-            } else {
-                // If it doesn't exist, create a new filter
-                const newFilter: Filter = {
-                    varName: varName,
-                    searchTerm: autuLabel,
-                    op: 'in'
-                };
-                existingFilters.push(newFilter);
-            }
-
-            dispatch(setFilterObject(existingFilters));
-
-            // Update filterObject state
-            const filterObjectUpdate = {
-                filter: existingFilters
-            };
-
-            // Update localStorage
-            const filterObjectString = JSON.stringify(filterObjectUpdate);
-            localStorage.setItem('filterObject', filterObjectString);
+        if (!newValue) {
+            return;
         }
+
+        const autuLabels: string[] = newValue.map((ele) => ele.value);
+        setSelectedValue(newValue as AutoCompleteOption[]);
+        dispatch(setIsChangeAuto(!isChangeAuto));
+        dispatch(setAutoLabel(autuLabels));
+
+        const existingFilterObjectString = localStorage.getItem('filterObject');
+        let existingFilters: Filter[] = [];
+
+        if (existingFilterObjectString) {
+            existingFilters = JSON.parse(existingFilterObjectString).filter || [];
+        }
+
+        const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === varName);
+
+        // Type guard to check if autuLabels is an array before accessing its length property
+        if (Array.isArray(autuLabels) && autuLabels.length > 0) {
+            if (existingFilterIndex !== -1) {
+                existingFilters[existingFilterIndex].searchTerm = [...autuLabels];
+            } else {
+                existingFilters.push({
+                    varName: varName,
+                    searchTerm: autuLabels,
+                    op: 'in'
+                });
+            }
+        } else if (existingFilterIndex !== -1 && Array.isArray(existingFilters[existingFilterIndex].searchTerm) && existingFilters[existingFilterIndex].searchTerm) {
+            existingFilters[existingFilterIndex].searchTerm = [];
+        }
+
+        const filteredFilters = existingFilters.filter(filter => Array.isArray(filter.searchTerm) && filter.searchTerm.length > 0);
+
+        dispatch(setFilterObject(filteredFilters));
+
+        const filterObjectUpdate = {
+            filter: filteredFilters
+        };
+        const filterObjectString = JSON.stringify(filterObjectUpdate);
+        localStorage.setItem('filterObject', filterObjectString);
     };
+
     const renderGroup = (params: any) => [
         <ListSubheader key={params.key} component="div">
             {params.group}
         </ListSubheader>,
         params.children
     ];
-
+    console.log({ autoList })
 
     return (
         <Autocomplete
+            loading
             ListboxComponent={CustomAutoListboxComponent}
             multiple
             autoHighlight

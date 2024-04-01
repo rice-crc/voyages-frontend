@@ -165,7 +165,7 @@
 						"var_name": "voyage_itinerary__first_landing_place__value",
 						"type": "GeoTreeSelect",
 						"label": "Third place where captives were landed"
-					}	
+          }
 				]
 			},
 			{

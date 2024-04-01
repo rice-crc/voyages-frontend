@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { IconButton, List, ListItem, ListItemText, Stack } from '@mui/material';
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material';
 import { TextFieldSearch } from '@/styleMUI';
@@ -12,7 +12,6 @@ import {
   setTypePage,
 } from '@/redux/getCommonGlobalSearchResultSlice';
 import { GlobalSearchProp } from '@/share/InterfaceTypesGlobalSearch';
-import debounce from 'lodash.debounce';
 import '@/style/homepage.scss';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -26,7 +25,6 @@ import {
   GlobalSearchEnslaversType,
   GlobalSearchVoyagesType,
   TRANSATLANTICENSLAVERS,
-  allEnslavers,
 } from '@/share/CONST_DATA';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
@@ -89,20 +87,11 @@ const AutoGlobalSearchBar = () => {
     };
   }, [dispatch, inputSearchValue, requestId, calledIds]);
 
-  const handleInputChangeDebounced = useCallback(
-    debounce((value: string) => {
-      dispatch(setInputSearchValue(value));
-    }, 300),
-    []
-  );
-
-  const handleInputChange = useCallback(
+  const handleInputChange =
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
       dispatch(setInputSearchValue(value));
-      // dispatch(setFilterObject(value))
       setShowClearButton(value !== '');
-      handleInputChangeDebounced(value);
       const newRequestId = Date.now();
       dispatch(setRequestId(newRequestId));
 
@@ -115,9 +104,7 @@ const AutoGlobalSearchBar = () => {
       // Create a new signal for the fetch request
       const newSignal = new AbortController();
       signalRef.current = newSignal;
-    },
-    [handleInputChangeDebounced]
-  );
+    }
 
   const handleSelect = (option: GlobalSearchProp | null) => {
     if (option) {

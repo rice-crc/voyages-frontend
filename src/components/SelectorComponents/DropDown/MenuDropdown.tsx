@@ -1,4 +1,4 @@
-import { ABOUTPAGE, ASSESSMENT, BLOGPAGE, CONTRIBUTE, DOCUMENTPAGE, ESTIMATES, TRANSATLANTICTIMELAPSE } from '@/share/CONST_DATA';
+import { ASSESSMENT, BLOGPAGE, CONTRIBUTE, DOCUMENTPAGE, ESTIMATES, TRANSATLANTICTIMELAPSE } from '@/share/CONST_DATA';
 import { StyledMenu } from '@/styleMUI/stylesMenu/StyledMenu';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -11,13 +11,12 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
   const [maxTextLength, setMaxTextLength] = useState(0);
   const menuLists = [
     { name: 'Estimates', url: `${ASSESSMENT}/${ESTIMATES}/` },
-    { name: 'Contribute', url: `${CONTRIBUTE}` },
-    { name: 'LESSON PLANS', url: `${BLOGPAGE}#lesson-plan` },
-    { name: 'INTRODUCTORY MAPS', url: `${BLOGPAGE}#introductory-maps` },
+    { name: 'LESSON PLANS', url: `${BLOGPAGE}/tag/lesson-plan` },
+    { name: 'INTRODUCTORY MAPS', url: `${BLOGPAGE}/tag/introductory-maps` },
     { name: 'DOCUMENTS', url: `${DOCUMENTPAGE}` },
     { name: 'TIMELAPSE', url: `${TRANSATLANTICTIMELAPSE}#timelapse` },
     { name: '3D VIDEOS', url: `https://www.slavevoyages.org/voyage/ship#3dmodel/0/en/` },
-    { name: 'ABOUT', url: `${ABOUTPAGE}` },
+    { name: 'ABOUT', url: `${BLOGPAGE}/tag/about` },
   ]
 
 

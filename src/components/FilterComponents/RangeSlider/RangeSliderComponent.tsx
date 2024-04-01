@@ -44,8 +44,8 @@ const RangeSlider = () => {
     if (!isLoading && !isError && data) {
       const { min, max } = data
       const initialValue: number[] = [
-        parseInt(min),
-        parseInt(max),
+        parseInt(min ?? 0),
+        parseInt(max ?? 0),
       ];
       dispatch(setKeyValueName(varName))
       setCurrentSliderValue(initialValue);

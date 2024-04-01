@@ -11,7 +11,7 @@ import '@/style/blogs.scss';
 import { setAuthorData, setAuthorPost } from '@/redux/getBlogDataSlice';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import { convertToSlug } from '@/utils/functions/convertToSlug';
-import defaultImage from '@/assets/no-imge-default.avif';
+import defaultImage from '@/assets/voyage-blog.png';
 
 const AuthorInfo: React.FC = () => {
   const { ID } = useParams();
