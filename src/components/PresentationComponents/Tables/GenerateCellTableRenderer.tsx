@@ -33,7 +33,7 @@ export const GenerateCellTableRenderer = (
   const yearArrivedID = 'voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year'
   const voyageID = 'voyage_id'
   const values = params.value;
-  const isYearArrivedAndVoyageID = (colID == yearArrivedID) || (colID == voyageID)
+  const isYearArrivedAndVoyageID = (colID == yearArrivedID) // || (colID == voyageID)
 
   const ID = params.data.id;
   const dispatch = useDispatch();
@@ -115,8 +115,7 @@ export const GenerateCellTableRenderer = (
   } else if (typeof values !== 'object' && cellFN !== 'networks') {
     const values = params.value;
     let justifyContent: CSSProperties['justifyContent'] = 'flex-end';
-    console.log({ isYearArrivedAndVoyageID })
-    if ((typeof values === 'number' && !isYearArrivedAndVoyageID)) {
+    if ((typeof values === 'number')) {
       justifyContent = 'flex-end';
     }
     else {

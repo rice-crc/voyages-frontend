@@ -42,6 +42,7 @@ import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { CustomTablePagination } from '@/styleMUI';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
 import { PivotColumnDef, RowDataPivotTable, StatePivotRowData } from '@/share/InterfaceTypePivotTable';
+import { textAlign } from '@mui/system';
 
 const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -269,6 +270,7 @@ const PivotTables = () => {
       color: '#000',
       fontFamily: `sans-serif`,
       paddingLeft: '20px',
+      textAlign: 'right'
     };
   };
   const handleChangeAggregation = useCallback(

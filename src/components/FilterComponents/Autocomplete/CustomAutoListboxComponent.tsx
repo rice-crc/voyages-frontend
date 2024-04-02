@@ -67,7 +67,7 @@ const CustomAutoListboxComponent = forwardRef<HTMLDivElement, CustomAutoListboxP
     };
 
     const gridRef = useResetCache([itemCount]);
-    console.log(itemData.length)
+
     return (
         <div   {...other} ref={ref} style={{ overflowY: 'hidden' }} >
             <OuterElementContext.Provider value={other}>

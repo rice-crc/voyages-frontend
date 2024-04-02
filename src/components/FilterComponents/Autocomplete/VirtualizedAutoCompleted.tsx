@@ -20,6 +20,7 @@ import { IRootFilterObject } from '@/share/InterfaceTypes';
 import CustomAutoListboxComponent from "./CustomAutoListboxComponent";
 import { useAutoComplete } from "@/hooks/useAutoComplete";
 import { setFilterObject } from "@/redux/getFilterSlice";
+import { INTRAAMERICANTRADS, TRANSATLANTICTRADS } from "@/share/CONST_DATA";
 
 
 export default function VirtualizedAutoCompleted() {
@@ -82,7 +83,7 @@ export default function VirtualizedAutoCompleted() {
     const refetchAutoComplete = () => {
         setOffset((prevOffset) => prevOffset + limit);
     };
-    console.log({ offset })
+
 
     useEffect(() => {
         if (isLoadingList) {
@@ -151,7 +152,10 @@ export default function VirtualizedAutoCompleted() {
             existingFilters[existingFilterIndex].searchTerm = [];
         }
 
-        const filteredFilters = existingFilters.filter(filter => Array.isArray(filter.searchTerm) && filter.searchTerm.length > 0);
+
+        const filteredFilters = existingFilters.filter(filter => {
+            return filter.searchTerm !== undefined && filter.searchTerm !== null;
+        });
 
         dispatch(setFilterObject(filteredFilters));
 
