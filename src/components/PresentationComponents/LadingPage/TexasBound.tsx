@@ -11,6 +11,7 @@ const TexasBound: React.FC = () => {
         { name: 'About', url: `${BLOGPAGE}/tag/about` },
         { name: 'Database', url: `${TRANSATLANTICPAGE}#voyages` },
         { name: 'Downloads', url: `${BLOGPAGE}/tag/downloads` },
+        { name: 'Contribute', url: `${CONTRIBUTE}` },
     ];
     return (
         <div className="container-texas">

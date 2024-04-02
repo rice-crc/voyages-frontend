@@ -11,6 +11,7 @@ const IntraAmerican: React.FC = () => {
         { name: 'About', url: `${BLOGPAGE}/tag/about` },
         { name: 'Database', url: `${INTRAAMERICANPAGE}#voyages` },
         { name: 'Downloads', url: `${BLOGPAGE}/tag/downloads` },
+        { name: 'Contribute', url: `${CONTRIBUTE}` },
     ];
     return (
         <div className="container-intra-american">

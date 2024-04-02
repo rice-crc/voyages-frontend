@@ -12,14 +12,11 @@ import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAv
 import {
   PlotXYVar,
   VoyagesOptionProps,
-  Options,
   RangeSliderState,
   CurrentPageInitialState,
   BargraphXYVar,
   IRootFilterObjectScatterRequest,
-  Filter,
 } from '@/share/InterfaceTypes';
-import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import {
   getMobileMaxHeight,
   getMobileMaxWidth,
@@ -27,6 +24,8 @@ import {
 } from '@/utils/functions/maxWidthSize';
 import { useGroupBy } from '@/hooks/useGroupBy';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { filtersTableDataSend } from '@/utils/functions/filtersTableDataSend';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -36,7 +35,7 @@ function BarGraph() {
     isLoading,
   } = useGetOptionsQuery(datas);
   const { varName } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
-
+  const { styleName: styleNameRoute } = usePageRouter();
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -47,11 +46,10 @@ function BarGraph() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const [optionFlat, setOptionsFlat] = useState<Options>({});
+
   const [width, height] = useWindowSize();
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
-  const [title, setTitle] = useState<string>(barGraphSelectedX[0]?.label);
   const [barData, setBarData] = useState<Data[]>([]);
   const [xAxes, setXAxes] = useState<string>(VOYAGE_BARGRAPH_OPTIONS.x_vars[0].label);
   const [yAxes, setYAxes] = useState<string[]>([VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label]);
@@ -79,12 +77,7 @@ function BarGraph() {
       }
     );
   }, []);
-  let filters: Filter[] = []
-  if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
-    filters = filtersObj;
-  } else {
-    filters = filtersObj;
-  }
+  const filters = filtersTableDataSend(filtersObj, styleNameRoute!)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: barGraphOptions.x_vars,
     groupby_cols: [...chips],
@@ -99,7 +92,6 @@ function BarGraph() {
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
   useEffect(() => {
     VoyageBargraphOptions();
-    fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
     if (!loading && !isError && response) {
       const values = Object.values(response);
       const data: Data[] = [];

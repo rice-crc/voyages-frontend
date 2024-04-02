@@ -11,6 +11,7 @@ const TransAtlantic: React.FC = () => {
         { name: 'Estimates', url: `/${ASSESSMENT}/${ESTIMATES}` },
         { name: 'Essays', url: `${BLOGPAGE}/tag/essays` },
         { name: 'Downloads', url: `${BLOGPAGE}/tag/downloads` },
+        { name: 'Contribute', url: `${CONTRIBUTE}` },
     ];
 
     return (

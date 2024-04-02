@@ -36,7 +36,6 @@ import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import {
   ENSALVERSTYLE,
   INTRAAMERICANTRADS,
-  TRANSATLANTICENSLAVERS,
   TRANSATLANTICTRADS,
 } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';

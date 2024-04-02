@@ -11,13 +11,10 @@ import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import {
   PlotXYVar,
   VoyagesOptionProps,
-  Options,
   RangeSliderState,
   CurrentPageInitialState,
   IRootFilterObjectScatterRequest,
-  Filter,
 } from '@/share/InterfaceTypes';
-import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import '@/style/page.scss';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAverage/AggregationSumAverage';
@@ -28,6 +25,8 @@ import {
 } from '@/utils/functions/maxWidthSize';
 import { useGroupBy } from '@/hooks/useGroupBy';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
+import { filtersTableDataSend } from '@/utils/functions/filtersTableDataSend';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 function Scatter() {
   const datas = useSelector(
@@ -51,8 +50,7 @@ function Scatter() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-
-  const [optionFlat, setOptionsFlat] = useState<Options>({});
+  const { styleName: styleNameRoute } = usePageRouter();
   const [width, height] = useWindowSize();
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [scatterSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
@@ -82,12 +80,7 @@ function Scatter() {
       }
     );
   }, []);
-  let filters: Filter[] = []
-  if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
-    filters = filtersObj;
-  } else {
-    filters = filtersObj;
-  }
+  const filters = filtersTableDataSend(filtersObj, styleNameRoute!)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: scatterOptions.x_vars,
     groupby_cols: [...chips],
@@ -101,7 +94,6 @@ function Scatter() {
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
   useEffect(() => {
     VoyageScatterOptions();
-    fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
     if (!loading && !isError && response) {
       const values = Object.values(response);
       const data: Data[] = [];

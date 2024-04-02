@@ -10,5 +10,6 @@ export const useGroupBy = (dataSend: IRootFilterObjectScatterRequest) => {
             queryFn: () => fetchVoyageGraphGroupby(dataSend)
         }
     );
+
     return { data, isLoading, isError };
 };

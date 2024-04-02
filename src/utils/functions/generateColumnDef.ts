@@ -6,6 +6,7 @@ import { GenerateCellTableRenderer } from "@/components/PresentationComponents/T
 export const generateColumnDef = (value: TableCellStructure, visibleColumnCells?: string[]) => {
     const nodeClass = value?.cell_val?.fields[0]?.node_class;
     const CELLFN = value?.cell_val?.fields[0]?.cell_fn;
+    const colID = value.colID
     return {
         headerName: value.header_label,
         field: value.colID,
@@ -17,7 +18,7 @@ export const generateColumnDef = (value: TableCellStructure, visibleColumnCells?
         tooltipField: value.colID,
         hide: !visibleColumnCells!.includes(value.colID),
         filter: true,
-        cellRenderer: (params: ICellRendererParams) => GenerateCellTableRenderer(params, CELLFN, nodeClass),
+        cellRenderer: (params: ICellRendererParams) => GenerateCellTableRenderer(params, CELLFN, colID, nodeClass,),
         valueGetter: (params: ICellRendererParams) => hasValueGetter(params, value),
     };
 };
