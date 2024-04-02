@@ -82,9 +82,9 @@ const PivotTables = () => {
   const [columnVars, setSelectColumnValue] = useState<PivotColumnVar[]>([]);
   const [cellVars, setSelectCellValue] = useState<PivotCellVar[]>([]);
   const [pivotValueOptions, setPivotValueOptions] = useState<PivotTablesProps>({
-    row_vars: VOYAGE_PIVOT_OPTIONS.row_vars[7].rows,
-    rows_label: VOYAGE_PIVOT_OPTIONS.row_vars[7].rows_label,
-    binsize: VOYAGE_PIVOT_OPTIONS.row_vars[7].binsize,
+    row_vars: VOYAGE_PIVOT_OPTIONS.row_vars[13].rows,
+    rows_label: VOYAGE_PIVOT_OPTIONS.row_vars[13].rows_label,
+    binsize: VOYAGE_PIVOT_OPTIONS.row_vars[13].binsize,
     column_vars: VOYAGE_PIVOT_OPTIONS.column_vars[0].columns,
     cell_vars: VOYAGE_PIVOT_OPTIONS.cell_vars[0].value_field,
   });

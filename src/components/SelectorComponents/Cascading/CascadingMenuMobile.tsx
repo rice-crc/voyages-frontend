@@ -41,11 +41,11 @@ import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE } from '@/share/CONST_DATA';
-import { DropdownCanscanding } from './DropdownCanscanding';
+import { DropdownCascading } from './DropdownCascading';
 import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
 
-const CanscandingMenuMobile = () => {
+const CascadingMenuMobile = () => {
   const { styleName: styleNameRoute } = usePageRouter()
 
   const { valueVoyages, valueEnslaved, valueAfricanOrigin, valueEnslavedTexas, valueEnslavers } = useSelector((state: RootState) => state.getFilterMenuList.filterValueList);
@@ -174,7 +174,7 @@ const CanscandingMenuMobile = () => {
   return (
     <>
 
-      <DropdownCanscanding
+      <DropdownCascading
         trigger={
           <IconButton
             edge="start"
@@ -222,7 +222,7 @@ const CanscandingMenuMobile = () => {
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}
           {((varName && type === TYPES.IntegerField) ||
-            (varName && type === TYPES.DecimalField)) && <RangeSliderComponent />}
+            (varName && type === TYPES.DecimalField) || (varName && type === TYPES.FloatField)) && <RangeSliderComponent />}
         </DialogContent>
         <DialogActions>
           <Button
@@ -238,4 +238,4 @@ const CanscandingMenuMobile = () => {
   );
 };
 
-export default CanscandingMenuMobile;
+export default CascadingMenuMobile;

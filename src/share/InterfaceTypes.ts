@@ -88,11 +88,13 @@ export interface AutoCompleteValueInitialState {
 export const TYPES: {
     IntegerField: string;
     DecimalField: string;
+    FloatField: string;
     CharField: string;
     GeoTreeSelect: string;
 } = {
     IntegerField: 'IntegerField',
     DecimalField: 'DecimalField',
+    FloatField: 'FloatField',
     CharField: 'CharField',
     GeoTreeSelect: 'GeoTreeSelect',
 };
@@ -254,7 +256,7 @@ export interface NavProps {
     window?: () => Window;
 }
 
-export interface CanscandingMenuProps {
+export interface CascadingMenuProps {
     window?: () => Window;
 }
 

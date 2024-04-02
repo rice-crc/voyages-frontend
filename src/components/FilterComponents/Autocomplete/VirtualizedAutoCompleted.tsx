@@ -82,6 +82,7 @@ export default function VirtualizedAutoCompleted() {
     const refetchAutoComplete = () => {
         setOffset((prevOffset) => prevOffset + limit);
     };
+    console.log({ offset })
 
     useEffect(() => {
         if (isLoadingList) {
@@ -167,7 +168,6 @@ export default function VirtualizedAutoCompleted() {
         </ListSubheader>,
         params.children
     ];
-    console.log({ autoList })
 
     return (
         <Autocomplete

@@ -27,7 +27,7 @@ import {
   BaseFilter,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
-import CanscandingMenu from '@/components/SelectorComponents/Cascading/CanscandingMenu';
+import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
 import {
   setBaseFilterPeopleEnslavedDataSetValue,
   setDataSetPeopleEnslavedHeader,
@@ -47,7 +47,7 @@ import '@/style/homepage.scss';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import HeaderLogo from './HeaderLogo';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
-import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
+import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { Filter } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -219,7 +219,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
 
             </Typography>
           </Typography>
-          {!inputSearchValue && <CanscandingMenuMobile />}
+          {!inputSearchValue && <CascadingMenuMobile />}
 
           <Box
             className="menu-nav-bar-select-box"
@@ -257,7 +257,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
         />
         <Hidden mdDown>
           {!inputSearchValue &&
-            <CanscandingMenu />}
+            <CascadingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu

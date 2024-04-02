@@ -7,13 +7,13 @@ import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { ALLENSLAVERS, EnslaversTitle, INTRAAMERICANENSLAVERS, INTRAAMERICANTRADS, PASTHOMEPAGE, TRANSATLANTICENSLAVERS, TRANSATLANTICTRADS, allEnslavers } from '@/share/CONST_DATA';
-import CanscandingMenu from '@/components/SelectorComponents/Cascading/CanscandingMenu';
+import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import '@/style/Nav.scss';
 import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
-import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
+import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import HeaderLogo from './HeaderLogo';
 import { BaseFilter, DataSetCollectionProps } from '@/share/InterfactTypesDatasetCollection';
 import { DatasetButton } from './DatasetButton';
@@ -197,7 +197,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
             </Typography>
           </Typography>
           {!inputSearchValue &&
-            <CanscandingMenuMobile />}
+            <CascadingMenuMobile />}
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -234,7 +234,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
             }}
           />
           {!inputSearchValue &&
-            <CanscandingMenu />}
+            <CascadingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu

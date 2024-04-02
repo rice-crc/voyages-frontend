@@ -21,7 +21,7 @@ interface DropdownProps {
   onOpen?: (event: MouseEvent<Element, MouseEvent> | null) => void;
 }
 
-export const DropdownCanscanding = forwardRef<HTMLDivElement, DropdownProps>(
+export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
   (
     { trigger, menu, isOpen: controlledIsOpen, onOpen: onControlledOpen },
     ref

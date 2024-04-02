@@ -72,7 +72,7 @@ const Tables: React.FC = () => {
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
     );
-    console.log({ inputSearchValue })
+
 
     const { isChangeGeoTree } = useSelector(
         (state: RootState) => state.getGeoTreeData
