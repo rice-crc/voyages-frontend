@@ -1,19 +1,33 @@
 {
 	"cell_structure": [
 		{
-			"header_label": "Names",
+			"header_label": "Documented Name",
 			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
 				"documented_name"
 			],
-			"colID": "enslaved_name",
+			"colID": "documented_name",
 			"cell_val": {
 				"fields": [
 					{
 						"var_name": "documented_name",
 						"cell_fn": "literal"
-					},
+					}
+				],
+				"join": " / "
+			}
+		},
+		{
+			"header_label": "Modern Name",
+			"cell_type": "literal-concat",
+			"visible": true,
+			"order_by": [
+				"modern_name"
+			],
+			"colID": "modern_name",
+			"cell_val": {
+				"fields": [
 					{
 						"var_name": "modern_name",
 						"cell_fn": "literal"
@@ -259,8 +273,12 @@
 			"label": "Names",
 			"children": [
 				{
-					"colID": "enslaved_name",
-					"label": "Names"
+					"colID": "documented_name",
+					"label": "Documented Name"
+				},
+				{
+					"colID": "modern_name",
+					"label": "Modern Name"
 				}
 			]
 		},
