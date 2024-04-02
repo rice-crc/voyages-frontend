@@ -21,6 +21,7 @@ import CustomAutoListboxComponent from "./CustomAutoListboxComponent";
 import { useAutoComplete } from "@/hooks/useAutoComplete";
 import { setFilterObject } from "@/redux/getFilterSlice";
 import { INTRAAMERICANTRADS, TRANSATLANTICTRADS } from "@/share/CONST_DATA";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 
 
 export default function VirtualizedAutoCompleted() {
@@ -152,11 +153,11 @@ export default function VirtualizedAutoCompleted() {
             existingFilters[existingFilterIndex].searchTerm = [];
         }
 
-
         const filteredFilters = existingFilters.filter(filter => {
-            return filter.searchTerm !== undefined && filter.searchTerm !== null;
+            return !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0;
         });
 
+        console.log({ existingFilters, filteredFilters })
         dispatch(setFilterObject(filteredFilters));
 
         const filterObjectUpdate = {
