@@ -28,18 +28,13 @@ export const GenerateCellTableRenderer = (
   cellFN: string,
   colID: string,
   nodeClass?: string
-
 ) => {
   const yearArrivedID = 'voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year'
-  const voyageID = 'voyage_id'
   const values = params.value;
   const isYearArrivedAndVoyageID = (colID == yearArrivedID) // || (colID == voyageID)
-
   const ID = params.data.id;
   const dispatch = useDispatch();
   const { styleName } = usePageRouter()
-
-
 
   let nodeType: string = '';
   if (checkPagesRouteForVoyages(styleName!)) {

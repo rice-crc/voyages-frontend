@@ -44,6 +44,10 @@ import { filtersTableDataSend } from '@/utils/functions/filtersTableDataSend';
 import { useTableData } from '@/hooks/useTableData';
 import { generateRowsData } from '@/utils/functions/generateRowsData';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
+import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
+import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
+import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
+
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -146,21 +150,37 @@ const Tables: React.FC = () => {
     if (inputSearchValue) {
         dataSend['global_search'] = inputSearchValue;
     }
-    const {
-        data: tableData,
-        isLoading: loading,
-        isError: error
-    } = useTableData(dataSend, styleNameRoute!);
 
     useEffect(() => {
-
-        if (!loading && !error && tableData) {
-            const { count, results } = tableData;
-            setTotalResultsCount(() => Number(count));
-            dispatch(setData(results));
-        }
+        const fetchDataTable = async () => {
+            let response;
+            if (inputSearchValue) {
+                dataSend['global_search'] = inputSearchValue;
+            }
+            try {
+                if (checkPagesRouteForVoyages(styleNameRoute!)) {
+                    response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+                } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+                    response = await dispatch(
+                        fetchEnslavedOptionsList(dataSend)
+                    ).unwrap();
+                } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
+                    response = await dispatch(
+                        fetchEnslaversOptionsList(dataSend)
+                    ).unwrap();
+                }
+                if (response) {
+                    const { count, results } = response.data;
+                    setTotalResultsCount(() => Number(count));
+                    dispatch(setData(results));
+                }
+            } catch (error) {
+                console.log('error', error);
+            }
+        };
+        fetchDataTable();
     }, [
-        dispatch, filtersObj, loading, error, tableData,
+        dispatch, filtersObj,
         rowsPerPage,
         page,
         currentPage,
@@ -183,6 +203,8 @@ const Tables: React.FC = () => {
                     : null;
         if (data.length > 0) {
             const finalRowData = generateRowsData(data, tableFileName!);
+
+
             const newColumnDefs: ColumnDef[] = tablesCell.map(
                 (value: TableCellStructure) =>
                     generateColumnDef(value, visibleColumnCells)

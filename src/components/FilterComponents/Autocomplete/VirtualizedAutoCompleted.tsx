@@ -20,8 +20,6 @@ import { IRootFilterObject } from '@/share/InterfaceTypes';
 import CustomAutoListboxComponent from "./CustomAutoListboxComponent";
 import { useAutoComplete } from "@/hooks/useAutoComplete";
 import { setFilterObject } from "@/redux/getFilterSlice";
-import { INTRAAMERICANTRADS, TRANSATLANTICTRADS } from "@/share/CONST_DATA";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
 
 
 export default function VirtualizedAutoCompleted() {
@@ -90,6 +88,7 @@ export default function VirtualizedAutoCompleted() {
         if (isLoadingList) {
             refetchAutoComplete();
         }
+
         const storedValue = localStorage.getItem('filterObject');
         if (!storedValue) return;
 
@@ -110,6 +109,7 @@ export default function VirtualizedAutoCompleted() {
         if (event) {
             event.preventDefault();
         }
+        dispatch(setIsChangeAuto(!isChangeAuto));
         setAutoValue(value);
         if (!value) {
             setOffset((prev) => prev - offset)
@@ -157,7 +157,6 @@ export default function VirtualizedAutoCompleted() {
             return !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0;
         });
 
-        console.log({ existingFilters, filteredFilters })
         dispatch(setFilterObject(filteredFilters));
 
         const filterObjectUpdate = {
@@ -166,13 +165,13 @@ export default function VirtualizedAutoCompleted() {
         const filterObjectString = JSON.stringify(filterObjectUpdate);
         localStorage.setItem('filterObject', filterObjectString);
     };
-
     const renderGroup = (params: any) => [
         <ListSubheader key={params.key} component="div">
             {params.group}
         </ListSubheader>,
         params.children
     ];
+
 
     return (
         <Autocomplete

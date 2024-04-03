@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, forwardRef, useContext, ReactNode, HTMLAttributes } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme, Theme } from "@mui/material/styles";
@@ -60,8 +59,8 @@ const CustomAutoListboxComponent = forwardRef<HTMLDivElement, CustomAutoListboxP
     };
 
     const getHeight = () => {
-        if (itemCount > 18) {
-            return 18 * itemSize;
+        if (itemCount > 8) {
+            return 8 * itemSize;
         }
         return itemData.map(getItemSize).reduce((a, b) => a + b, 0);
     };
