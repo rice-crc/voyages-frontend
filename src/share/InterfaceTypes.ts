@@ -369,6 +369,8 @@ export interface Tablestructure {
     filter?: string
     sort?: string
     pinned?: string;
+    type?: 'rightAligned' | 'leftAligned' | 'centerAligned';
+    cellClass?: string
 }
 
 export interface Children {
@@ -379,6 +381,7 @@ export interface Children {
     sort: string
     pinned: string
     type?: 'rightAligned' | 'leftAligned' | 'centerAligned';
+    cellClass?: string
 }
 export interface Metadata {
     offset: number

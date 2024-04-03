@@ -67,7 +67,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
         {menuLists.map((item) => {
           return (
             <div key={item.name} style={{ padding: 0 }}>
-              <ListItemButton onClick={item.submenu ? handleClick : undefined} style={{ padding: '0 0 0 10px' }}>
+              <ListItemButton onClick={item.submenu ? handleClick : undefined} style={{ padding: '0 0 0 10px', marginTop: 0, marginBottom: 0, cursor: 'pointer' }}>
                 <Link to={`/${item.url}`}><ListItemText primary={item.name} /></Link>
                 {item.submenu ? displayIcon : null}
               </ListItemButton>
@@ -76,7 +76,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
                   <Collapse in={!openSubMenu} timeout="auto" unmountOnExit key={sumMenu.name}>
                     <List component="div" style={{ paddingLeft: 20 }}>
                       <ListItemButton style={{ padding: 0 }}>
-                        <Link to={`${sumMenu.url}`}> <ListItemText primary={sumMenu.name} /></Link>
+                        <Link to={`${sumMenu.url}`}> <ListItemText primary={sumMenu.name} style={{ paddingLeft: 20, marginTop: 0, marginBottom: 0, cursor: 'pointer' }} /></Link>
                       </ListItemButton>
                     </List>
                   </Collapse>

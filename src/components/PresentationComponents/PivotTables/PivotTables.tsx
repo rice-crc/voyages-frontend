@@ -214,13 +214,18 @@ const PivotTables = () => {
           if (structure.children) {
             structure.children.forEach(child => {
               if (child.field === 'Year range') {
-                console.log({ child })
-                child.type = 'leftAligned';
+                child.type = 'leftAligned'
+                child.cellClass = 'ag-left-aligned-cell'
+              } else if (child.field === 'All') {
+                child.type = 'rightAligned'
+                child.cellClass = 'ag-right-aligned-cell'
               }
             });
+          } else {
+            structure.type = 'rightAligned'
+            structure.cellClass = 'ag-right-aligned-cell'
           }
         });
-        console.log({ tablestructure })
         dispatch(setPivotTablColumnDefs(tablestructure));
         dispatch(setRowPivotTableData(data));
         setTotalResultsCount(metadata.total_results_count)
@@ -291,7 +296,7 @@ const PivotTables = () => {
       color: '#000',
       fontFamily: 'sans-serif',
       paddingLeft: '20px',
-      textAlign: 'right'
+      // textAlign: 'right'
     };
   };
 

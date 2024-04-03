@@ -27,7 +27,6 @@ export const StyledMenu = styled.nav<StyledMenuProps>`
   /* Main menu item styles */
   a {
     font-size: 14px;
-    padding: 5px 0;
     font-weight: bold;
     color: #000000;
     text-decoration: none;
