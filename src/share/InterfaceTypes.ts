@@ -355,6 +355,36 @@ export interface PivotColumnVar {
     columns: string[]
     label: string
 }
+export interface PivotTableResponse {
+    tablestructure: Tablestructure[]
+    data: any[]
+    metadata: Metadata
+}
+
+export interface Tablestructure {
+    headerName: string
+    children?: Children[]
+    columnGroupShow?: string
+    field?: string
+    filter?: string
+    sort?: string
+    pinned?: string;
+}
+
+export interface Children {
+    columnGroupShow: string
+    headerName: string
+    field: string
+    filter: string
+    sort: string
+    pinned: string
+    type?: 'rightAligned' | 'leftAligned' | 'centerAligned';
+}
+export interface Metadata {
+    offset: number
+    limit: number
+    total_results_count: number
+}
 
 export interface PivotCellVar {
     value_field: string

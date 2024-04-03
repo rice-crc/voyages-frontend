@@ -23,7 +23,7 @@ import { getMobileMaxHeight, getMobileMaxWidth, maxWidthSize } from '@/utils/fun
 import '@/style/homepage.scss';
 import { useGroupBy } from '@/hooks/useGroupBy';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { filtersTableDataSend } from '@/utils/functions/filtersTableDataSend';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -65,7 +65,7 @@ function PieGraph() {
       }
     );
   };
-  const filters = filtersTableDataSend(filtersObj, styleNameRoute!)
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: pieGraphOptions.x_vars,
     groupby_cols: [pieGraphOptions.y_vars],

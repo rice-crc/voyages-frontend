@@ -836,3 +836,8 @@ div .customHeaderLabelSummaryTable {
     }
   }
 }
+
+.ag-pinned-left-cols-container .align-left-header {
+  // justify-content: flex-start !important;
+  text-align: left !important;
+}

@@ -25,7 +25,7 @@ import {
 import { useGroupBy } from '@/hooks/useGroupBy';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { filtersTableDataSend } from '@/utils/functions/filtersTableDataSend';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -77,7 +77,7 @@ function BarGraph() {
       }
     );
   }, []);
-  const filters = filtersTableDataSend(filtersObj, styleNameRoute!)
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: barGraphOptions.x_vars,
     groupby_cols: [...chips],

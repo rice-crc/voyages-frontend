@@ -40,8 +40,7 @@ import { CustomTablePagination } from '@/styleMUI';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
-import { filtersTableDataSend } from '@/utils/functions/filtersTableDataSend';
-import { useTableData } from '@/hooks/useTableData';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { generateRowsData } from '@/utils/functions/generateRowsData';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
@@ -141,7 +140,7 @@ const Tables: React.FC = () => {
     }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!]);
 
     // set filters object to send to request data
-    const filters = filtersTableDataSend(filtersObj, styleNameRoute!)
+    const filters = filtersDataSend(filtersObj, styleNameRoute!)
     const dataSend: TableListPropsRequest = {
         filter: filters,
         page: Number(page + 1),

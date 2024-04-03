@@ -25,7 +25,7 @@ import {
 } from '@/utils/functions/maxWidthSize';
 import { useGroupBy } from '@/hooks/useGroupBy';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
-import { filtersTableDataSend } from '@/utils/functions/filtersTableDataSend';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { usePageRouter } from '@/hooks/usePageRouter';
 
 function Scatter() {
@@ -80,7 +80,7 @@ function Scatter() {
       }
     );
   }, []);
-  const filters = filtersTableDataSend(filtersObj, styleNameRoute!)
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: scatterOptions.x_vars,
     groupby_cols: [...chips],
