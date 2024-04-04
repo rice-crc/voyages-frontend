@@ -1,22 +1,58 @@
 {
 	"row_vars": [
 		{
-			"rows": "voyage_itinerary__imp_principal_port_slave_dis__name",
+			"rows": "voyage_ship__imputed_nationality__name",
 			"binsize": null,
-			"rows_label": "Imputed Principle Port of Disembarkation (MJSLPTIMP)",
-			"label": "Imputed Principle Port of Disembarkation (MJSLPTIMP)"
+			"rows_label": "Flag (IMP)",
+			"label": "Flag (IMP)"
 		},
 		{
-			"rows": "voyage_itinerary__imp_principal_region_slave_dis__name",
+			"rows": "voyage_itinerary__imp_broad_region_voyage_begin__name",
 			"binsize": null,
-			"rows_label": "Imputed Principle Region of Disembarkation (MJSELIMP)",
-			"label": "Imputed Principle Region of Disembarkation (MJSELIMP)"
+			"rows_label": "Broad Region Where Voyage Began (IMP)",
+			"label": "Broad Region Where Voyage Began (IMP)"
+		},
+		{
+			"rows": "voyage_itinerary__imp_region_voyage_begin__name",
+			"binsize": null,
+			"rows_label": "Region Where Voyage Began (IMP)",
+			"label": "Region Where Voyage Began (IMP)"
+		},
+		{
+			"rows": "voyage_itinerary__imp_port_voyage_begin__name",
+			"binsize": null,
+			"rows_label": "Port Where Voyage Began (IMP)",
+			"label": "Port Where Voyage Began (IMP)"
+		},
+		{
+			"rows": "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
+			"binsize": null,
+			"rows_label": "Principle Region of Embarkation (IMP)",
+			"label":  "Principle Region of Embarkation (IMP)"
+		},
+		{
+			"rows": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+			"binsize": null,
+			"rows_label":  "Principle Place of Embarkation (IMP)",
+			"label":  "Principle Place of Embarkation (IMP)"
 		},
 		{
 			"rows": "voyage_itinerary__imp_broad_region_slave_dis__name",
 			"binsize": null,
-			"rows_label": "Imputed Principle Port of Disembarkation (MJSELIMP1)",
-			"label": "Imputed Principle Port of Disembarkation (MJSELIMP1)"
+			"rows_label": "Broad Region of Disembarkation (IMP)",
+			"label": "Broad Region of Disembarkation (IMP)"
+		},
+		{
+			"rows": "voyage_itinerary__imp_principal_region_slave_dis__name",
+			"binsize": null,
+			"rows_label": "Region of Disembarkation (IMP)",
+			"label": "Region of Disembarkation (IMP)"
+		},
+		{
+			"rows": "voyage_itinerary__imp_principal_port_slave_dis__name",
+			"binsize": null,
+			"rows_label": "Principal Place of Landing (IMP)",
+			"label": "Principal Place of Landing (IMP)"
 		},
 		{
 			"rows": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year_1",
@@ -58,24 +94,60 @@
 	"column_vars": [
 		{
 			"columns": [
-				"voyage_itinerary__imp_broad_region_of_slave_purchase__name",
-				"voyage_itinerary__imp_principal_region_of_slave_purchase__name",
-				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
+				"voyage_itinerary__imp_broad_region_voyage_begin__name"
 			],
-			"label": "Imputed Principle Port of Embarkation"
+			"label": "Broad Region Where Voyage Began (IMP)"
+		},
+		{
+			"columns": [
+				"voyage_itinerary__imp_broad_region_voyage_begin__name",
+				"voyage_itinerary__imp_region_voyage_begin__name"
+			],
+			"label": "Region Where Voyage Began (IMP)"
+		},
+		{
+			"columns": [
+				"voyage_itinerary__imp_broad_region_voyage_begin__name",
+				"voyage_itinerary__imp_region_voyage_begin__name",
+				"voyage_itinerary__imp_port_voyage_begin__name"
+			],
+			"label": "Port Where Voyage Began (IMP)"
 		},
 		{
 			"columns": [
 				"voyage_itinerary__imp_broad_region_of_slave_purchase__name",
 				"voyage_itinerary__imp_principal_region_of_slave_purchase__name"
 			],
-			"label": "Imputed Principle Region of Embarkation"
+			"label": "Region of Embarkation (IMP)"
 		},
 		{
 			"columns": [
-				"voyage_itinerary__imp_broad_region_of_slave_purchase__name"
+				"voyage_itinerary__imp_broad_region_of_slave_purchase__name",
+				"voyage_itinerary__imp_principal_region_of_slave_purchase__name",
+				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
 			],
-			"label": "Imputed Principle Broad Region of Embarkation"
+			"label": "Principle Port of Embarkation (IMP)"
+		},
+		{
+			"columns": [
+				"voyage_itinerary__imp_broad_region_slave_dis__name"
+			],
+			"label": "Broad Region of Disembarkation (IMP)"
+		},
+		{
+			"columns": [
+				"voyage_itinerary__imp_broad_region_slave_dis__name",
+				"voyage_itinerary__imp_principal_region_slave_dis__name"
+			],
+			"label": "Region of Disembarkation (IMP)"
+		},
+		{
+			"columns": [
+				"voyage_itinerary__imp_broad_region_slave_dis__name",
+				"voyage_itinerary__imp_principal_region_slave_dis__name",
+				"voyage_itinerary__imp_principal_port_slave_dis__name"
+			],
+			"label": "Principal Place of Disembarkation (IMP)"
 		}
 	],
 	"cell_vars": [
@@ -86,6 +158,10 @@
 		{
 			"value_field": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
 			"label": "Imputed Number of Enslaved People Disembarked"
+		},
+		{
+			"value_field": "voyage_slaves_numbers__imp_jamaican_cash_price",
+			"label": "Sterling Cash Price in Jamaica"
 		}
 	]
 }

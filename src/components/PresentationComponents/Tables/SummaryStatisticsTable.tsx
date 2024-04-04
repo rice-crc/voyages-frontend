@@ -1,36 +1,42 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AgGridReact } from 'ag-grid-react';
 import { useWindowSize } from '@react-hook/window-size';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import {
     getMobileMaxHeightTable,
     maxWidthSize,
 } from '@/utils/functions/maxWidthSize';
-import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    CurrentPageInitialState,
     Filter,
     RangeSliderState,
     SummaryStatisticsTableRequest,
 } from '@/share/InterfaceTypes';
-import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummaryStatisticsTable';
 import '@/style/table.scss';
 import { Button } from '@mui/material';
-import { getColorBoxShadow, getColorBTNVoyageDatasetBackground, getColorHoverBackground, getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+import {
+    getColorBoxShadow,
+    getColorBTNVoyageDatasetBackground,
+    getColorHoverBackground,
+    getHeaderColomnColor,
+} from '@/utils/functions/getColorStyle';
+import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummaryStatisticsTable';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import SummaryStatisticsTableEmpty from './SummaryStatisticsTableEmpty';
 
 const SummaryStatisticsTable = () => {
     const dispatch: AppDispatch = useDispatch();
 
     const [mode, setMode] = useState('html');
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-    const [data, setData] = useState<string>('');
+    const [summaryData, setSummaryData] = useState<string>('');
+    const [loading, setLoading] = useState(false);
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
+    const effectOnce = useRef(false);
     const { styleName: styleNameRoute } = usePageRouter();
     const { isChangeAuto, autoLabelName } = useSelector(
         (state: RootState) => state.autoCompleteList
@@ -42,40 +48,45 @@ const SummaryStatisticsTable = () => {
         (state: RootState) => state.getGeoTreeData
     );
 
-    const { currentPage } = useSelector(
-        (state: RootState) => state.getScrollPage as CurrentPageInitialState
-    );
-
-
     const { styleName } = useSelector(
         (state: RootState) => state.getDataSetCollection
     );
     let filters: Filter[] = [];
     if (styleNameRoute === 'trans-atlantic') {
-        if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
-            filters = filtersObj
+        if (
+            Array.isArray(filtersObj[0]?.searchTerm) &&
+            filtersObj[0]?.searchTerm.length > 0
+        ) {
+            filters = filtersObj;
         } else {
             filters.push({
-                varName: "dataset",
+                varName: 'dataset',
                 searchTerm: [0],
-                op: "in"
+                op: 'in',
             });
         }
     } else {
-        filters = Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 ? filtersObj : [];
+        filters =
+            Array.isArray(filtersObj[0]?.searchTerm) &&
+                filtersObj[0]?.searchTerm.length > 0
+                ? filtersObj
+                : [];
     }
 
     const dataSend: SummaryStatisticsTableRequest = {
         mode: mode,
-        filter: Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 ? filtersObj : filters,
+        filter:
+            Array.isArray(filtersObj[0]?.searchTerm) &&
+                filtersObj[0]?.searchTerm.length > 0
+                ? filtersObj
+                : filters,
     };
-
-
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             if (inputSearchValue) {
-                dataSend['global_search'] = inputSearchValue
+                dataSend['global_search'] = inputSearchValue;
             }
             try {
                 const response = await dispatch(
@@ -83,14 +94,16 @@ const SummaryStatisticsTable = () => {
                 ).unwrap();
                 if (response) {
                     const { data } = response;
-                    setData(data.data);
+                    setSummaryData(data.data);
+                    setLoading(false);
                 }
             } catch (error) {
                 console.log('error', error);
             }
         };
-
-        fetchData();
+        if (!effectOnce.current) {
+            fetchData();
+        }
     }, [
         varName,
         inputSearchValue,
@@ -107,7 +120,7 @@ const SummaryStatisticsTable = () => {
 
     const [style, setStyle] = useState({
         width: percentageString,
-        height: 400
+        height: 400,
     });
 
     const containerStyle = useMemo(
@@ -120,6 +133,11 @@ const SummaryStatisticsTable = () => {
             width: percentageString,
             height: getMobileMaxHeightTable(height / 1.2),
         });
+        const headerColor = getHeaderColomnColor(styleName!);
+        document.documentElement.style.setProperty(
+            '--header-color-summary',
+            headerColor
+        );
     }, [width, height, maxWidth]);
 
     const handleButtonExportCSV = useCallback(() => {
@@ -149,24 +167,21 @@ const SummaryStatisticsTable = () => {
         setMode('csv');
     }, [mode]);
 
-    useEffect(() => {
-        const headerColor = getHeaderColomnColor(styleName!);
-        document.documentElement.style.setProperty('--header-color-summary', headerColor);
-    }, []);
-
-
     return (
         <>
             <div className="summary-box">
                 <div style={containerStyle} className="ag-theme-alpine">
-                    <div style={style} className='summary-box-content'>
+                    <div style={style} className="summary-box-content">
                         <div className="button-export-csv-summary">
-                            <Button onClick={handleButtonExportCSV}
+                            <Button
+                                onClick={handleButtonExportCSV}
                                 style={{
-                                    boxShadow: getColorBoxShadow(styleName!)
+                                    boxShadow: getColorBoxShadow(styleName!),
                                 }}
                                 sx={{
-                                    backgroundColor: getColorBTNVoyageDatasetBackground(styleName!),
+                                    backgroundColor: getColorBTNVoyageDatasetBackground(
+                                        styleName!
+                                    ),
                                     boxShadow: getColorBoxShadow(styleName!),
                                     '&:hover': {
                                         backgroundColor: getColorHoverBackground(styleName!),
@@ -176,15 +191,22 @@ const SummaryStatisticsTable = () => {
                                 Download CSV Export file
                             </Button>
                         </div>
-                        <div className="summary-table-container">
-                            <div className="summary-table">
-                                {/* <div dangerouslySetInnerHTML={{ __html: formatNumberWithCommasOrPercentage(data) ?? null }} /> */}
-                                <div dangerouslySetInnerHTML={{ __html: data ?? null }} />
+                        {!summaryData ? (
+                            <div className="loading-logo-sumarytable">
+                                <img src={LOADINGLOGO} />
                             </div>
-                        </div>
+                        ) : (
+                            <div className="summary-table-container">
+                                <div className="summary-table">
+                                    <div
+                                        dangerouslySetInnerHTML={{ __html: summaryData ?? null }}
+                                    />
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     );
 };

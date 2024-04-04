@@ -6,52 +6,59 @@ export const summaryStatisticsData = {
     data: [
         [
             "Captives embarked *IMP",
-            10643364,
-            34447,
-            309.0,
-            154.9
+            0,
+            0,
+            0,
+            0,
+            0
         ],
         [
             "Captives disembarked *IMP",
-            9187425,
-            34155,
-            269.0,
-            137.5
+            0,
+            0,
+            0,
+            0,
+            0
         ],
         [
             "Percentage of captives embarked who died during crossing",
-            "",
-            6497,
-            "12.2%",
-            "15.0%"
+            0,
+            0,
+            0,
+            0,
+            0
         ],
         [
             "Duration of captives' crossing (in days)",
-            "",
-            7313,
-            60.4,
-            33.1
+            0,
+            0,
+            0,
+            0,
+            0
         ],
         [
             "Percentage male",
-            "",
-            3942,
-            "64.5%",
-            "12.2%"
+            0,
+            0,
+            0,
+            0,
+            0
         ],
         [
             "Percentage children",
-            "",
-            4208,
-            "21.5%",
-            "16.6%"
+            0,
+            0,
+            0,
+            0,
+            0
         ],
         [
             "Tonnage of vessel",
-            "",
-            17671,
-            157.8,
-            113.8
+            0,
+            0,
+            0,
+            0,
+            0
         ]
     ]
 }

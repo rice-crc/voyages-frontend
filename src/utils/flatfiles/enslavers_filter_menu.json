@@ -1,12 +1,17 @@
 [
 	{
-		"label": "Name",
-		"var_name": "principal_alias",
+		"label": "Enslaver Names",
+		"var_name": "aliases__alias",
 		"type": "CharField"
 	},
 	{
 		"label": "Voyages",
 		"children": [
+			{
+				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_id",
+				"type": "CharField",
+				"label": "Voyage ID"
+			},
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
 				"type": "CharField",
@@ -18,20 +23,30 @@
 				"label": "Year of Arrival"
 			},
 			{
+				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__port_of_departure__value",
+				"type": "GeoTreeSelect",
+				"label": "Ports of Departure"
+			},
+			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__value",
 				"type": "GeoTreeSelect",
-				"label": "Port of Embarkation"
+				"label": "Ports of Embarkation"
 			},
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__value",
 				"type": "GeoTreeSelect",
-				"label": "Port of Disembarkation"
+				"label": "Ports of Disembarkation"
 			}
 		]
 	},
 	{
-		"label": "Personal Data",
+		"label": "Enslaver Details",
 		"children": [
+			{
+				"var_name": "aliases__enslaver_relations__roles__name",
+				"type": "CharField",
+				"label": "Roles"
+			},
 			{
 				"var_name": "birth_place__value",
 				"type": "GeoTreeSelect",
@@ -55,23 +70,29 @@
 		]
 	},
 	{
-		"label": "Enslavement Relations",
+		"label": "Captives",
 		"children": [
 			{
 				"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
 				"type": "CharField",
 				"label": "Documented Name of Enslaved Person"
+			}
+		]
+	},
+	{
+		"label": "Sources",
+		"children": [
+			{
+				"var_name": "enslaver_source_connections__source__title",
+				"type": "CharField",
+				"label": "Biographical Sources"
 			},
 			{
-				"var_name": "aliases__enslaver_relations__role__name",
+				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_source_connections__source__title",
 				"type": "CharField",
-				"label": "Enslaver Role"
-			},
-			{
-				"var_name": "aliases__enslaver_relations__relation__date",
-				"type": "CharField",
-				"label": "Date of Enslavement"
+				"label": "Documentary (Voyage) Sources"
 			}
 		]
 	}
+	
 ]

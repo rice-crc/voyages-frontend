@@ -172,7 +172,11 @@
 }
 
 .container-new {
-  margin: 5rem 4rem;
+  margin: 4rem;
+}
+
+.container-new-with-intro {
+  margin: 1rem 4rem;
 }
 
 .logo-blog {
@@ -269,11 +273,7 @@
 }
 
 .card-columns {
-  -webkit-column-count: 3;
-  -moz-column-count: 3;
   column-count: 3;
-  -webkit-column-gap: 1.25rem;
-  -moz-column-gap: 1.25rem;
   column-gap: 1.25rem;
 
   @include breakpoint-standard(4) {
@@ -297,6 +297,15 @@
   }
 }
 
+.card-columns .card {
+  display: inline-block;
+  width: 100%;
+}
+
+.card-columns .card {
+  margin-bottom: .75rem;
+}
+
 .card {
   position: relative;
   overflow: hidden;
@@ -304,6 +313,10 @@
   border-radius: 0.25rem;
   width: 100%;
   box-sizing: border-box;
+}
+
+.blog_intro {
+  margin: 1rem 0 0 4.25rem;
 }
 
 .card-columns .card {

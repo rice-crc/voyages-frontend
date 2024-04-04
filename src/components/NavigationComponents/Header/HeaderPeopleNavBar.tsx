@@ -121,7 +121,7 @@ export default function HeaderPeopleNavBar() {
                   onClick={() => handleSelectMenuItems(item)}
                   key={`${item}-${index}`}
                   sx={{
-                    color: '#000000',
+                    color: 'rgba(0, 0, 0, 0.85)',
                     fontWeight: 600,
                     fontSize: 20,
                     margin: '0 2px',

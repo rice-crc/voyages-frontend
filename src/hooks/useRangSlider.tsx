@@ -6,6 +6,7 @@ import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRout
 import { useQuery } from "react-query";
 
 export const useRangSlider = (dataSend: RangeSliderStateProps | undefined, styleName?: string) => {
+
     const { data, isLoading, isError } = useQuery(
         {
             queryKey: ['rangSlider', dataSend],

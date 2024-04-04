@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import { SummaryStatisticsTableRequest } from '@/share/InterfaceTypes';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchSummaryStatisticsTable = createAsyncThunk(
     'voyage/fetchSummaryStatisticsTable',

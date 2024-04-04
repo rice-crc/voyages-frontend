@@ -21,17 +21,20 @@ import {
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { cleanUpTexDisplay } from '@/utils/functions/cleanUpTextDisplay';
+import { numberWithCommas } from '@/utils/functions/numberWithCommas';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
   cellFN: string,
+  colID: string,
   nodeClass?: string
 ) => {
+  const yearArrivedID = 'voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year'
   const values = params.value;
+  const isYearArrivedAndVoyageID = (colID == yearArrivedID) // || (colID == voyageID)
   const ID = params.data.id;
   const dispatch = useDispatch();
   const { styleName } = usePageRouter()
-
 
   let nodeType: string = '';
   if (checkPagesRouteForVoyages(styleName!)) {
@@ -69,7 +72,6 @@ export const GenerateCellTableRenderer = (
       const renderedValues = values.map((value: string, index: number) => {
         return (
           <span key={`${index}-${value}`}>
-
             <div
               style={style}
               onClick={() => {
@@ -106,17 +108,31 @@ export const GenerateCellTableRenderer = (
     }
 
   } else if (typeof values !== 'object' && cellFN !== 'networks') {
+    const values = params.value;
+    let justifyContent: CSSProperties['justifyContent'] = 'flex-end';
+    if ((typeof values === 'number')) {
+      justifyContent = 'flex-end';
+    }
+    else {
+      justifyContent = 'flex-start';
+    }
+
+    let formatComma = false;
+    if ((typeof values === 'number' && !isYearArrivedAndVoyageID)) {
+      formatComma = true
+    }
     return (
       <div className="div-value">
         <div
           className="value-cell"
+          style={{ justifyContent: justifyContent }}
           onClick={() => {
             dispatch(setCardRowID(ID));
             dispatch(setIsModalCard(true));
             dispatch(setNodeClass(nodeType));
           }}
         >
-          {values}
+          {formatComma ? numberWithCommas(values) : values}
         </div>
       </div>
     );

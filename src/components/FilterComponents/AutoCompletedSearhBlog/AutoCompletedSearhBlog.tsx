@@ -21,7 +21,8 @@ const AutoCompletedSearhBlog = () => {
   const navigate = useNavigate();
   const { searchTitle, searchAutoKey, searchAutoValue, blogAutoLists } =
     useSelector((state: RootState) => state.getBlogData);
-  const { currentBlockName } = usePageRouter();
+
+  const { currentBlockName, blogURL } = usePageRouter();
   const [inputValue, setInputValue] = useState<
     ResultAutoList | undefined | null
   >(null);
@@ -40,8 +41,8 @@ const AutoCompletedSearhBlog = () => {
     filter: filters
   };
   const { data, isLoading, isError } = useAutoBlogList(dataSend)
-
   useEffect(() => {
+
     if (!isLoading && !isError && data) {
       const { suggested_values } = data
       dispatch(setBlogAutoLists(suggested_values));

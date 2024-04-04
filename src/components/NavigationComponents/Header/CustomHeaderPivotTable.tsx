@@ -7,6 +7,7 @@ import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosst
 import { setPivotTablColumnDefs, setRowPivotTableData } from '@/redux/getPivotTablesDataSlice';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
   column: {
@@ -31,7 +32,6 @@ interface Props {
   value_field: string;
   offset: number
   limit: number
-  filter: Filter[]
   page: number
   setTotalResultsCount: React.Dispatch<React.SetStateAction<number>>
   setPage: React.Dispatch<React.SetStateAction<number>>
@@ -50,7 +50,6 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     value_field,
     offset,
     limit,
-    filter,
     setTotalResultsCount, page, setPage
   } = props;
 
@@ -58,7 +57,8 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   const [ascSort, setAscSort] = useState<string>('inactive');
   const [descSort, setDescSort] = useState<string>('inactive');
   const { styleName } = usePageRouter()
-
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+  const filters = filtersDataSend(filtersObj, styleName!)
 
   useEffect(() => {
     const headerColor = getHeaderColomnColor(styleName!);
@@ -89,7 +89,7 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     value_field: value_field,
     offset: offset,
     limit: limit,
-    filter: filter ?? [],
+    filter: filters,
   }
 
   const fetchDataPivotTable = async (sortOrder: string, sortingOrder: string[]) => {

@@ -7,7 +7,7 @@ import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { Filter, HeaderNavBarMenuProps } from '@/share/InterfaceTypes';
-import CanscandingMenu from '../../SelectorComponents/Cascading/CanscandingMenu';
+import CascadingMenu from '../../SelectorComponents/Cascading/CascadingMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import {
@@ -48,7 +48,7 @@ import GlobalSearchButton from '../../PresentationComponents/GlobalSearch/Global
 import { DrawerMenuBar } from './DrawerMenuBar';
 import HeaderLogo from './HeaderLogo';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
-import CanscandingMenuMobile from '@/components/SelectorComponents/Cascading/CanscandingMenuMobile';
+import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 
@@ -217,7 +217,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
             </Typography>
           </Typography>
           {!inputSearchValue &&
-            <CanscandingMenuMobile />}
+            <CascadingMenuMobile />}
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -257,7 +257,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
         />
         <Hidden mdDown>
           {!inputSearchValue &&
-            <CanscandingMenu />}
+            <CascadingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu
