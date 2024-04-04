@@ -16,7 +16,7 @@ import { Link, useParams } from 'react-router-dom';
 import { BASEURL } from '@/share/AUTH_BASEURL';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import { convertToSlug } from '@/utils/functions/convertToSlug';
-import defaultImage from '@/assets/no-imge-default.avif';
+import defaultImage from '@/assets/voyage-blog.png';
 
 const BlogCardHeaderBody = () => {
   const { ID } = useParams();

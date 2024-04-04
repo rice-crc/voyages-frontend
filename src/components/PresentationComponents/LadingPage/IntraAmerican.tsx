@@ -3,14 +3,14 @@ import '@/style/intra-american.scss';
 import INTRAMERCAN from '@/assets/Intra-American.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
-import { CONTRIBUTE, INTRAAMERICANPAGE, ABOUTPAGE, DOWNLOADS } from '@/share/CONST_DATA';
+import { CONTRIBUTE, INTRAAMERICANPAGE, ABOUTPAGE, DOWNLOADS, BLOGPAGE } from '@/share/CONST_DATA';
 
 const IntraAmerican: React.FC = () => {
     //http://localhost:3000/voyage/intra-american#voyages
     const lists = [
-        { name: 'About', url: `/${ABOUTPAGE}` },
+        { name: 'About', url: `${BLOGPAGE}/tag/about` },
         { name: 'Database', url: `${INTRAAMERICANPAGE}#voyages` },
-        { name: 'Downloads', url: `${DOWNLOADS}` },
+        { name: 'Downloads', url: `${BLOGPAGE}/tag/downloads` },
         { name: 'Contribute', url: `${CONTRIBUTE}` },
     ];
     return (

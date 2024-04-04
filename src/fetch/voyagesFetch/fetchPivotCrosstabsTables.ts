@@ -3,6 +3,7 @@ import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { PivotTablesPropsRequest } from '@/share/InterfaceTypes';
 
+
 export const fetchPivotCrosstabsTables = createAsyncThunk(
     'voyage/fetchPivotCrosstabsTables',
     async (dataSend?: PivotTablesPropsRequest) => {

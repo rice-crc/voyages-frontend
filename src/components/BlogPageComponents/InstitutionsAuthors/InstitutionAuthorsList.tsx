@@ -5,7 +5,7 @@ import { BASEURL } from '@/share/AUTH_BASEURL';
 import { Link } from 'react-router-dom';
 import '@/style/blogs.scss';
 import { BLOGPAGE } from '@/share/CONST_DATA';
-import defaultImage from '@/assets/no-imge-default.avif';
+import defaultImage from '@/assets/voyage-blog.png';
 
 const InstitutionAuthorsList: React.FC = () => {
   const { institutionList } = useSelector(

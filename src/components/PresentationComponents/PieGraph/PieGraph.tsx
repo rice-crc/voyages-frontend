@@ -17,12 +17,13 @@ import {
   PlotPIEX,
   PlotPIEY,
   IRootFilterObjectScatterRequest,
-  Filter,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import { getMobileMaxHeight, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import '@/style/homepage.scss';
 import { useGroupBy } from '@/hooks/useGroupBy';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -38,7 +39,7 @@ function PieGraph() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-
+  const { styleName: styleNameRoute } = usePageRouter();
   const [optionFlat, setOptionsFlat] = useState<Options>({});
   const [width, height] = useWindowSize();
   const [pieGraphSelectedX, setSelectedX] = useState<PlotPIEX[]>([]);
@@ -52,7 +53,6 @@ function PieGraph() {
     y_vars: PIECHART_OPTIONS.y_vars[0].var_name,
   });
   const [aggregation, setAggregation] = useState<string>('sum');
-
   const VoyagepieGraphOptions = () => {
     Object.entries(PIECHART_OPTIONS).forEach(
       ([key, value]: [string, PlotPIEX[]]) => {
@@ -65,12 +65,7 @@ function PieGraph() {
       }
     );
   };
-  let filters: Filter[] = []
-  if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
-    filters = filtersObj;
-  } else {
-    filters = filtersObj;
-  }
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: pieGraphOptions.x_vars,
     groupby_cols: [pieGraphOptions.y_vars],
@@ -84,6 +79,7 @@ function PieGraph() {
   }
 
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
+  console.log({ response })
   useEffect(() => {
     VoyagepieGraphOptions();
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);
@@ -112,7 +108,6 @@ function PieGraph() {
     currentPage,
     isSuccess,
     styleName,
-    VoyagepieGraphOptions,
   ]);
 
 

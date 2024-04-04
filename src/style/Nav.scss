@@ -294,6 +294,11 @@
     align-items: center;
 
     button {
+        color: rgba(255, 255, 255, 0.75);
+        font-weight: 600;
+    }
+
+    button:hover {
         color: #ffffff;
         font-weight: 600;
     }

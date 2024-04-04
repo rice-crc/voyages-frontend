@@ -8,7 +8,7 @@ import {
 } from '@/share/CONST_DATA';
 import { Filter } from "@/share/InterfaceTypes";
 
-export const filtersTableDataSend = (filtersObj: Filter[], styleNameRoute: string) => {
+export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string) => {
     let filters: Filter[] = []
     if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
         filters = filtersObj;

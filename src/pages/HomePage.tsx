@@ -17,6 +17,7 @@ import AfricanOrigins from '@/components/PresentationComponents/LadingPage/Afric
 import IntraAmerican from '@/components/PresentationComponents/LadingPage/IntraAmerican';
 import TransAtlantic from '@/components/PresentationComponents/LadingPage/TransAtlantic';
 import { FooterComponent } from '@/components/SelectorComponents/ButtonComponents/FooterComponents';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 
 const HomePage: React.FC = () => {
   const handleBackToTop = () => {
@@ -53,6 +54,7 @@ const HomePage: React.FC = () => {
       <div className="centered-content">
         <VideoBackground />
         <MenuButtonHomePage />
+        <div className='languages-homepage'> <LanguagesDropdown /></div>
         <div className="home-voyagepage-content">
           <div data-aos="flip-up">
             <SlaveVoyageLogo />

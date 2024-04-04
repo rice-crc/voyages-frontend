@@ -1,5 +1,5 @@
 import { Toolbar, Hidden } from '@mui/material';
-import { CanscandingMenuProps, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
+import { CascadingMenuProps, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { MenuListsDropdown } from './MenuListsDropdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -13,7 +13,7 @@ import SaveSearchComponent from '@/components/FilterComponents/SaveSearchCompone
 import '@/style/Nav.scss'
 import { VOYAGE } from '@/share/CONST_DATA';
 
-export default function CanscandingMenu(props: CanscandingMenuProps) {
+export default function CascadingMenu(props: CascadingMenuProps) {
   const dispatch: AppDispatch = useDispatch();
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider

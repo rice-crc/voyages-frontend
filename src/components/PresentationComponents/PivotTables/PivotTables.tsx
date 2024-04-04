@@ -15,7 +15,6 @@ import { useWindowSize } from '@react-hook/window-size';
 import { getMobileMaxHeightPivotTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
 import {
   setRowPivotTableData,
   setPivotTablColumnDefs,
@@ -23,6 +22,7 @@ import {
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
+  PivotTableResponse,
   PivotTablesPropsRequest,
   RangeSliderState,
 } from '@/share/InterfaceTypes';
@@ -36,12 +36,16 @@ import {
   PivotTablesProps,
 } from '@/share/InterfaceTypes';
 import { SelectDropdownPivotable } from '../../SelectorComponents/SelectDrowdown/SelectDropdownPivotable';
-import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { getRowHeightPivotTable } from '@/utils/functions/getRowHeightTable';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { CustomTablePagination } from '@/styleMUI';
-import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
-import { PivotColumnDef, RowDataPivotTable, StatePivotRowData } from '@/share/InterfaceTypePivotTable';
+import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground, getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+import { RowDataPivotTable, } from '@/share/InterfaceTypePivotTable';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
+import { convertToSlug } from '@/utils/functions/convertToSlug';
+
 
 const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -75,6 +79,7 @@ const PivotTables = () => {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+  const { styleName: styleNameRoute } = usePageRouter();
 
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const [offset, setOffset] = useState<number>(0);
@@ -82,9 +87,9 @@ const PivotTables = () => {
   const [columnVars, setSelectColumnValue] = useState<PivotColumnVar[]>([]);
   const [cellVars, setSelectCellValue] = useState<PivotCellVar[]>([]);
   const [pivotValueOptions, setPivotValueOptions] = useState<PivotTablesProps>({
-    row_vars: VOYAGE_PIVOT_OPTIONS.row_vars[7].rows,
-    rows_label: VOYAGE_PIVOT_OPTIONS.row_vars[7].rows_label,
-    binsize: VOYAGE_PIVOT_OPTIONS.row_vars[7].binsize,
+    row_vars: VOYAGE_PIVOT_OPTIONS.row_vars[13].rows,
+    rows_label: VOYAGE_PIVOT_OPTIONS.row_vars[13].rows_label,
+    binsize: VOYAGE_PIVOT_OPTIONS.row_vars[13].binsize,
     column_vars: VOYAGE_PIVOT_OPTIONS.column_vars[0].columns,
     cell_vars: VOYAGE_PIVOT_OPTIONS.cell_vars[0].value_field,
   });
@@ -116,7 +121,6 @@ const PivotTables = () => {
             value_field={cell_vars}
             offset={offset}
             limit={rowsPerPage}
-            filter={Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 ? filtersObj : []}
             setPage={setPage}
             page={page}
             {...props} />
@@ -181,7 +185,7 @@ const PivotTables = () => {
   } = pivotValueOptions;
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
-
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: PivotTablesPropsRequest = {
     columns: column_vars,
     rows: updatedRowsValue,
@@ -191,12 +195,11 @@ const PivotTables = () => {
     value_field: cell_vars,
     offset: offset,
     limit: rowsPerPage,
-    filter: Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 ? filtersObj : [],
+    filter: filters,
   }
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
   }
-
   const fetchData = async () => {
 
     try {
@@ -205,7 +208,24 @@ const PivotTables = () => {
       ).unwrap();
 
       if (response) {
-        const { tablestructure, data, metadata } = response.data
+        const { tablestructure, data, metadata } = response.data as PivotTableResponse
+
+        tablestructure.forEach(structure => {
+          if (structure.children) {
+            structure.children.forEach(child => {
+              if (child.field === 'Year range') {
+                child.type = 'leftAligned'
+                child.cellClass = 'ag-left-aligned-cell'
+              } else if (child.field === 'All') {
+                child.type = 'rightAligned'
+                child.cellClass = 'ag-right-aligned-cell'
+              }
+            });
+          } else {
+            structure.type = 'rightAligned'
+            structure.cellClass = 'ag-right-aligned-cell'
+          }
+        });
         dispatch(setPivotTablColumnDefs(tablestructure));
         dispatch(setRowPivotTableData(data));
         setTotalResultsCount(metadata.total_results_count)
@@ -223,10 +243,15 @@ const PivotTables = () => {
     if (!effectOnce.current) {
       fetchData();
     }
+    const headerColor = getHeaderColomnColor(styleNameRoute!);
+
+    document.documentElement.style.setProperty(
+      '--pagination-table--',
+      headerColor
+    );
     const handleResize = () => {
       setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
     };
-
 
     window.addEventListener('resize', handleResize);
     return () => {
@@ -251,6 +276,7 @@ const PivotTables = () => {
     page,
   ]);
 
+
   const gridOptions = useMemo(
     () => ({
       headerHeight: 35,
@@ -263,14 +289,17 @@ const PivotTables = () => {
     }),
     []
   );
+
   const getRowRowStyle = () => {
     return {
       fontSize: 13,
       color: '#000',
-      fontFamily: `sans-serif`,
+      fontFamily: 'sans-serif',
       paddingLeft: '20px',
+      // textAlign: 'right'
     };
   };
+
   const handleChangeAggregation = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       setAggregation(event.target.value);
@@ -410,6 +439,7 @@ const PivotTables = () => {
             enableBrowserTooltips={true}
             tooltipShowDelay={0}
             tooltipHideDelay={1000}
+          // rowClassRules={}
           />
           <div className="pagination-div">
             <Pagination

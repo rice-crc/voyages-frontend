@@ -10,10 +10,12 @@ import { RootState } from '@/redux/store';
 import { setLanguages } from '@/redux/getLanguagesSlice';
 import { setBlogPost } from '@/redux/getBlogDataSlice';
 import { BlogDataProps } from '@/share/InterfaceTypesBlog';
+import { usePageRouter } from '@/hooks/usePageRouter';
 
 export default function LanguagesDropdown() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { styleName } = usePageRouter()
   const { language } = useSelector((state: RootState) => state.getLanguages);
   const post = useSelector(
     (state: RootState) => state.getBlogData.post as BlogDataProps
@@ -39,7 +41,7 @@ export default function LanguagesDropdown() {
     <div className="select-languages">
       <Button
         id="fade-button"
-        style={{ color: '#ffffff', fontSize: 12, fontWeight: 600 }}
+        style={{ color: styleName ? '#ffffff' : '#000', fontSize: 12, fontWeight: 600 }}
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}

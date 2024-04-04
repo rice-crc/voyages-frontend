@@ -151,7 +151,7 @@
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslavers__enslaver__principal_alias",
+						"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
 						"cell_fn": "literal"
 					}
 				]

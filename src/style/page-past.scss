@@ -263,7 +263,7 @@
   align-items: center;
   cursor: pointer;
   font-size: 52px;
-  color: black;
+  color: rgba(0, 0, 0, 0.75);
 
   @include breakpoint-standard(6) {
     font-size: 50px;

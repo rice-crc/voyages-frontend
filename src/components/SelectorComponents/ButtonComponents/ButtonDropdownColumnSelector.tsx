@@ -21,7 +21,7 @@ import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE, INTRAAMERICANENSLAVERS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
-import { DropdownCanscanding } from '../Cascading/DropdownCanscanding';
+import { DropdownCascading } from '../Cascading/DropdownCascading';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
 
 const ButtonDropdownColumnSelector = () => {
@@ -109,7 +109,7 @@ const ButtonDropdownColumnSelector = () => {
     });
   }
   return (
-    <DropdownCanscanding
+    <DropdownCascading
       trigger={
         <span style={{ display: 'flex', alignItems: 'center' }}>
           <Button

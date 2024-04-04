@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { Tooltip } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { DropdownCanscanding } from './DropdownCanscanding';
+import { DropdownCascading } from './DropdownCascading';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   ChildrenFilter,
@@ -36,7 +36,6 @@ import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import {
   ENSALVERSTYLE,
   INTRAAMERICANTRADS,
-  TRANSATLANTICENSLAVERS,
   TRANSATLANTICTRADS,
 } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
@@ -56,6 +55,7 @@ export const MenuListsDropdown = () => {
   } = useSelector(
     (state: RootState) => state.getFilterMenuList.filterValueList
   );
+
 
   const { styleName: styleNameRoute } = usePageRouter();
 
@@ -204,7 +204,7 @@ export const MenuListsDropdown = () => {
               </Tooltip>
             </Button>
           ) : (
-            <DropdownCanscanding
+            <DropdownCascading
               key={`${item.label}-${index}`}
               trigger={
                 <Button
@@ -270,7 +270,7 @@ export const MenuListsDropdown = () => {
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
           {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}
           {((varName && type === TYPES.IntegerField) ||
-            (varName && type === TYPES.DecimalField)) && (
+            (varName && type === TYPES.DecimalField) || (varName && type === TYPES.FloatField)) && (
               <RangeSliderComponent />
             )}
         </DialogContent>
