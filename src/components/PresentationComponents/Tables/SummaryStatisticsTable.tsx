@@ -24,7 +24,7 @@ import {
 } from '@/utils/functions/getColorStyle';
 import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummaryStatisticsTable';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import SummaryStatisticsTableEmpty from './SummaryStatisticsTableEmpty';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
 const SummaryStatisticsTable = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -48,30 +48,28 @@ const SummaryStatisticsTable = () => {
         (state: RootState) => state.getGeoTreeData
     );
 
-    const { styleName } = useSelector(
-        (state: RootState) => state.getDataSetCollection
-    );
-    let filters: Filter[] = [];
-    if (styleNameRoute === 'trans-atlantic') {
-        if (
-            Array.isArray(filtersObj[0]?.searchTerm) &&
-            filtersObj[0]?.searchTerm.length > 0
-        ) {
-            filters = filtersObj;
-        } else {
-            filters.push({
-                varName: 'dataset',
-                searchTerm: [0],
-                op: 'in',
-            });
-        }
-    } else {
-        filters =
-            Array.isArray(filtersObj[0]?.searchTerm) &&
-                filtersObj[0]?.searchTerm.length > 0
-                ? filtersObj
-                : [];
-    }
+    // let filters: Filter[] = [];
+    const filters = filtersDataSend(filtersObj, styleNameRoute!)
+    // if (styleNameRoute === 'trans-atlantic') {
+    //     if (
+    //         Array.isArray(filtersObj[0]?.searchTerm) &&
+    //         filtersObj[0]?.searchTerm.length > 0
+    //     ) {
+    //         filters = filtersObj;
+    //     } else {
+    //         filters.push({
+    //             varName: 'dataset',
+    //             searchTerm: [0],
+    //             op: 'in',
+    //         });
+    //     }
+    // } else {
+    //     filters =
+    //         Array.isArray(filtersObj[0]?.searchTerm) &&
+    //             filtersObj[0]?.searchTerm.length > 0
+    //             ? filtersObj
+    //             : [];
+    // }
 
     const dataSend: SummaryStatisticsTableRequest = {
         mode: mode,
@@ -107,7 +105,7 @@ const SummaryStatisticsTable = () => {
     }, [
         varName,
         inputSearchValue,
-        styleName,
+        styleNameRoute,
         isChange,
         isChangeGeoTree,
         isChangeAuto,
@@ -133,7 +131,7 @@ const SummaryStatisticsTable = () => {
             width: percentageString,
             height: getMobileMaxHeightTable(height / 1.2),
         });
-        const headerColor = getHeaderColomnColor(styleName!);
+        const headerColor = getHeaderColomnColor(styleNameRoute!);
         document.documentElement.style.setProperty(
             '--header-color-summary',
             headerColor
@@ -176,15 +174,15 @@ const SummaryStatisticsTable = () => {
                             <Button
                                 onClick={handleButtonExportCSV}
                                 style={{
-                                    boxShadow: getColorBoxShadow(styleName!),
+                                    boxShadow: getColorBoxShadow(styleNameRoute!),
                                 }}
                                 sx={{
                                     backgroundColor: getColorBTNVoyageDatasetBackground(
-                                        styleName!
+                                        styleNameRoute!
                                     ),
-                                    boxShadow: getColorBoxShadow(styleName!),
+                                    boxShadow: getColorBoxShadow(styleNameRoute!),
                                     '&:hover': {
-                                        backgroundColor: getColorHoverBackground(styleName!),
+                                        backgroundColor: getColorHoverBackground(styleNameRoute!),
                                     },
                                 }}
                             >
