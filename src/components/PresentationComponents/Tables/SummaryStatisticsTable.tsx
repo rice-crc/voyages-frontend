@@ -50,26 +50,6 @@ const SummaryStatisticsTable = () => {
 
     // let filters: Filter[] = [];
     const filters = filtersDataSend(filtersObj, styleNameRoute!)
-    // if (styleNameRoute === 'trans-atlantic') {
-    //     if (
-    //         Array.isArray(filtersObj[0]?.searchTerm) &&
-    //         filtersObj[0]?.searchTerm.length > 0
-    //     ) {
-    //         filters = filtersObj;
-    //     } else {
-    //         filters.push({
-    //             varName: 'dataset',
-    //             searchTerm: [0],
-    //             op: 'in',
-    //         });
-    //     }
-    // } else {
-    //     filters =
-    //         Array.isArray(filtersObj[0]?.searchTerm) &&
-    //             filtersObj[0]?.searchTerm.length > 0
-    //             ? filtersObj
-    //             : [];
-    // }
 
     const dataSend: SummaryStatisticsTableRequest = {
         mode: mode,
