@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
@@ -34,10 +34,13 @@ import {
 import {
   ALLVOYAGES,
   ALLVOYAGESPAGE,
+  AllVoyagesTitle,
   INTRAAMERICAN,
   INTRAAMERICANPAGE,
+  IntraAmericanTitle,
   TRANSATLANTIC,
   TRANSATLANTICPAGE,
+  TransAtlanticTitle,
   VOYAGESTEXAS,
   VOYAGESTEXASPAGE,
   VOYAGETILE,
@@ -59,6 +62,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+
   const { currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -67,6 +71,15 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     (state: RootState) => state.getDataSetCollection
   );
 
+  useEffect(() => {
+    if (styleNameRoute === TRANSATLANTIC) {
+      dispatch(setDataSetHeader(TransAtlanticTitle))
+    } else if (styleNameRoute === INTRAAMERICAN) {
+      dispatch(setDataSetHeader(IntraAmericanTitle))
+    } else if (styleNameRoute === ALLVOYAGES) {
+      dispatch(setDataSetHeader(AllVoyagesTitle))
+    }
+  }, [])
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -189,7 +202,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
             <span className='header-logo-icon'>
               <HeaderLogo />
               <HeaderTitle
-                textHeader={styleNameRoute === ALLVOYAGES ? 'All Voyages' : textHeader}
+                textHeader={textHeader}
                 HeaderTitle={VOYAGETILE}
                 pathLink={`${TRANSATLANTICPAGE}#voyages`}
                 onClickReset={onClickReset}

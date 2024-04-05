@@ -14,22 +14,19 @@ export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string) =>
         filters = filtersObj;
     } else if (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
         filters = filtersObj;
-    }
-    else if (styleNameRoute === INTRAAMERICAN) {
-        filters.push({
-            varName: 'dataset',
-            searchTerm: [1],
-            op: 'in',
-        });
-    }
-    else if (styleNameRoute === TRANSATLANTICPATH) {
+    } else if (styleNameRoute === TRANSATLANTICPATH) {
         filters.push({
             varName: 'dataset',
             searchTerm: [0],
             op: 'in',
         });
-    }
-    else if (styleNameRoute === ENSLAVEDTEXAS) {
+    } else if (styleNameRoute === INTRAAMERICAN) {
+        filters.push({
+            varName: 'dataset',
+            searchTerm: [1],
+            op: 'in',
+        });
+    } else if (styleNameRoute === ENSLAVEDTEXAS) {
         filters.push({
             varName:
                 'enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_region_slave_dis__name',

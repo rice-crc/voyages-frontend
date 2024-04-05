@@ -7,6 +7,7 @@ import { BASE_URL_FRONTEND } from '@/share/AUTH_BASEURL';
 import { setListSaveSearchURL, setRouteSaveSearch, setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
 import { useEffect } from 'react';
 import { ASSESSMENT, ENSALVEDPAGE, ENSALVEDROUTE, ENSALVEDTYPE, ENSALVERSPAGE, ENSALVERSROUTE, ESTIMATES, VOYAGE, VOYAGEPATHENPOINT, allEnslavers } from '@/share/CONST_DATA';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -42,19 +43,12 @@ const DropDownSaveSearch = () => {
         }
     }, [routeSaveSearch])
 
-    let filters: Filter[] = []
-    if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
-        filters = filtersObj;
-    } else {
-        filters = filtersObj;
-    }
+    const filters = filtersDataSend(filtersObj, styleName!)
     const dataSend: SaveSearchRequest = {
         endpoint: endpointSaveSearch,
         front_end_path: routeSaveSearch,
         query: filters,
     };
-
-
     const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${saveSearhURL}/${saveSearchUrlID}`
     const handleSaveSearch = () => {
         fetchData();
