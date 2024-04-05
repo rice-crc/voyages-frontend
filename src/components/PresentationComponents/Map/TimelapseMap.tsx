@@ -7,6 +7,7 @@ import {
     MAP_CENTER,
     MAXIMUM_ZOOM,
     MINIMUM_ZOOM,
+    VOYAGE,
     mappingSpecialists,
     mappingSpecialistsCountries,
     mappingSpecialistsRivers
@@ -15,8 +16,9 @@ import { HandleZoomEvent } from "./HandleZoomEvent"
 import { Button } from '@mui/material'
 import CardModal from '@/components/PresentationComponents/Cards/CardModal'
 import {
-  setCardRowID,
-  setIsModalCard
+    setCardRowID,
+    setIsModalCard,
+    setNodeClass
 } from '@/redux/getCardFlatObjectSlice';
 import * as d3 from "d3"
 import * as L from 'leaflet'
@@ -25,6 +27,8 @@ import 'leaflet-easybutton'
 import 'leaflet-easybutton/src/easy-button.css'
 import '@/style/timelapse.scss'
 import { RootState } from "@/redux/store"
+import { filtersDataSend } from '@/utils/functions/filtersDataSend'
+import { usePageRouter } from "@/hooks/usePageRouter"
 
 // TODO
 // - move out the basic geometry/calculation stuff to a separate file.
@@ -74,7 +78,7 @@ export const arcInterpolate = (arc: GreatCircle, t: number): LatLngPathPointRad 
  * Computes the central angle of a great circle. In the very exceptional case of
  * antipodal points or numerical errors, an exception is thrown.
  */
-export const greatCircle = (start: LatLngPathPointDeg, end: LatLngPathPointDeg): GreatCircle => {
+export const greatCircle = (start: LatLngPathPointDeg, end: LatLngPathPointDeg): GreatCircle | null => {
     const [sx, sy] = convertToRadians(start)
     const [ex, ey] = convertToRadians(end)
     const w = sx - ex
@@ -86,7 +90,7 @@ export const greatCircle = (start: LatLngPathPointDeg, end: LatLngPathPointDeg):
         Math.pow(Math.sin(w / 2.0), 2)
     const centralAngle = 2.0 * Math.asin(Math.sqrt(z))
     if (centralAngle === Math.PI || isNaN(centralAngle)) {
-        throw Error('Failed to calculate the great circle central angle')
+        return null
     }
     return { start: [sx, sy], end: [ex, ey], centralAngle }
 }
@@ -202,11 +206,17 @@ class MapRoute {
     private readonly _totalAngle: number
     private readonly _arcs: ReadonlyArray<GreatCircle>
 
-    constructor(points: LatLngPathPointDeg[]) {
+    constructor(points: LatLngPathPointDeg[], public readonly source: string, public readonly destination: string) {
         const arcs = []
         let totalAngle = 0.0
         for (let i = 0; i < points.length - 1; ++i) {
             const arc = greatCircle(points[i], points[i + 1])
+            if (arc === null) {
+                // Bad data
+                this._arcs = []
+                this._totalAngle = 0
+                return
+            }
             arcs.push(arc)
             totalAngle += arc.centralAngle
         }
@@ -279,13 +289,19 @@ interface PortCollectionData {
 type RegionSegments = Record<string, Record<string, LatLngPathPointDeg[]>>
 
 class MapRouteBuilder {
+    public readonly portNames: Record<number, string>
     private readonly cache: Record<string, MapRoute> = {}
 
-    private static readonly invalidRoute = new MapRoute([])
+    private static readonly invalidRoute = new MapRoute([], '', '')
 
     constructor(
         readonly ports: PortCollectionData,
         readonly regionSegments: RegionSegments) {
+        const names: Record<number, string> = {}
+        for (const [key, port] of [...Object.entries(ports.src), ...Object.entries(ports.dst)]) {
+            names[parseInt(key)] = port.name
+        }
+        this.portNames = names
     }
 
     getRoute = (source: number, destination: number) => {
@@ -320,7 +336,7 @@ class MapRouteBuilder {
         }
         third = [...third].reverse()
         const path = [...first, ...second, ...third]
-        return this.cache[key] = new MapRoute(path)
+        return this.cache[key] = new MapRoute(path, this.portNames[source], this.portNames[destination])
     }
 }
 
@@ -698,7 +714,7 @@ const CanvasAnimation = ({
         return () => { fRef.current && cancelAnimationFrame(fRef.current) }
     }, [collection, renderStyles, speed, paused, map])
     return <canvas width={size.width} height={size.height}
-        style={{ pointerEvents: 'none', position: 'relative', zIndex: 5000 }}
+        style={{ pointerEvents: 'none', position: 'relative', zIndex: 500 }}
         ref={c => canvasRef.current = c?.getContext('2d')} />
 }
 
@@ -903,7 +919,7 @@ const TimelapseUI = ({ collection, selected, years, paused, speed, onClearSelect
                 const { lng } = bounds.getCenter()
                 const lat = bounds.getSouth() + 10
                 onPause()
-                map.openPopup(timelapseHelpPopup, { lat, lng }, { autoPan: false })
+                map.openPopup(timelapseHelpPopup, { lat, lng })
             },
             'Help'
         )
@@ -917,7 +933,7 @@ const TimelapseUI = ({ collection, selected, years, paused, speed, onClearSelect
         }
     }, [map, paused, speed, fullscreen])
     const flag = selected?.flag?.code ? FlagNames[selected.flag.code] : null
-    return collection.voyageRoutes.length > 0 && <div style={{ position: 'absolute', pointerEvents: 'none', top: 6, left: 50, zIndex: 6000, width: size.width, height: size.height }}>
+    return collection.voyageRoutes.length > 0 && <div style={{ position: 'absolute', pointerEvents: 'none', top: 6, left: 50, zIndex: 600, width: size.width, height: size.height }}>
         <div className="timelapseInfoBox" style={{ maxWidth: 'fit-content' }}>
             {years && <h1>{(years[1] - years[0] <= 1) ? years[0] : `${years[0]}-${years[1]}`}</h1>}
         </div>
@@ -929,10 +945,16 @@ const TimelapseUI = ({ collection, selected, years, paused, speed, onClearSelect
             {selected.flag && <h2>{selected.flag.name}{flag && <img src={`/flags/${flag}.png`} height="24px" style={{ float: 'right' }} />}</h2>}
             <p>
                 This {selected.tonnage ? `${selected.tonnage} tons` : ''} ship
-                left {selected.sourceRegion} in {timeToYear(selected.startTime)} with {selected.embarked} enslaved
-                people and arrived in {selected.destinationBroadRegion} with {selected.disembarked}.
+                left {selected.route.source} in {timeToYear(selected.startTime)} with {selected.embarked} enslaved
+                people and arrived in {selected.route.destination} with {selected.disembarked}.
             </p>
-            <Button onClick={() => onShowDetails(selected)}>Read more</Button>
+            <Button onClick={() => {
+                if (fullscreen) {
+                    // The details dialog does not work in full screen.
+                    toggleFullscreen()
+                }
+                onShowDetails(selected)
+            }}>Read more</Button>
         </div>}
     </div>
 }
@@ -1141,8 +1163,8 @@ const TimelapseAggregateChart = ({ collection, renderStyles, years, aggregatedFi
             document.getElementById('timelapse_hoverline')?.style.setProperty('opacity', '0')
         }
         }
-        style={{ opacity: 0.3, paddingBottom: 0, position: 'absolute', marginLeft: 160, marginRight: 160, bottom: 0, left: 0, zIndex: 6100 }}>
-        <div style={{ position: 'absolute', bottom: 0, paddingRight: "4px", maxHeight: NormalHeight, overflowY: 'scroll' }}>
+        style={{ opacity: 0.3, paddingBottom: 0, position: 'absolute', marginLeft: 160, marginRight: 160, bottom: 0, left: 0, zIndex: 610 }}>
+        <div style={{ position: 'absolute', bottom: 0, width: `${LeftMargin - 4}px`, marginRight: "3px", maxHeight: NormalHeight, overflowY: 'scroll' }}>
             <ul>
                 {sortedKeys.map(key => <li key={key} style={{ fontWeight: 'bold', color: getStyle(key) }}>{key}</li>)}
             </ul>
@@ -1202,33 +1224,67 @@ const OBSOLETE_legacyToVoyageRoute = (routeBuilder: MapRouteBuilder, nations: Re
     }
 }
 
+const builders: Record<string, MapRouteBuilder> = {} 
+
+const useMapRouteBuilder = (network: string) => {
+    const [routeBuilder, setRouteBuilder] = useState<MapRouteBuilder | null>(null)
+    useEffect(() => {
+        // Fetch and keep cached the data that does not change with the filter.
+        const fetchData = async (networkName: string) => {
+            const res = await fetch(`${BASEURL}/timelapse/get-compiled-routes/?networkName=${networkName}`, {
+                headers: { 'Authorization': AUTHTOKEN }
+            })
+            const { ports, routes: regionSeg } = await res.json()
+            const b = builders[networkName] = new MapRouteBuilder(ports, regionSeg)
+            setRouteBuilder(b)
+        }
+        const current = builders[network]
+        if (current) {
+            setRouteBuilder(current)
+        } else if (current === undefined) {
+            // Set to null while fetching in the background to avoid multiple
+            // hits to the API endpoint.
+            builders[network] = null!
+            fetchData(network)
+        }
+    }, [network])
+    return routeBuilder
+}
+
 const useFilteredVoyageRoutes = () => {
     const queryRef = useRef<string>('')
     const abortController = useRef<AbortController>()
     const emptyCol = new VoyageRouteCollection([], 0, 0, {})
-    const [routeBuilder, setRouteBuilder] = useState<MapRouteBuilder | null>(null)
+    const { styleName } = usePageRouter()
+    let network = styleName ?? 'trans'
+    // TODO: the API should have network names that correspond to the usage in
+    // the front-end.
+    if (network.startsWith('trans')) {
+        network = 'trans'
+    } else {
+        network = 'intra'
+    }
+    const routeBuilder = useMapRouteBuilder(network)
     const [nations, setNations] = useState<Record<string, Nation> | null>(null)
     const [collection, setCollection] = useState<VoyageRouteCollection>(emptyCol)
     useEffect(() => {
         // Fetch and keep cached the data that does not change with the filter.
-        const fetchData = async () => {
-            const { ports, routes: regionSeg } = await
-                (await fetch(`${BASEURL}/timelapse/get-compiled-routes/?networkName=trans`, {
-                    headers: { 'Authorization': AUTHTOKEN }
-                })).json()
-            const nationsSource = await
-                (await fetch(`${BASEURL}/timelapse/nations/`, {
-                    headers: { 'Authorization': AUTHTOKEN }
-                })).json()
-            setNations((Object.values(nationsSource) as Nation[]).reduce<Record<string, Nation>>(
-                (prev, item) => ({ ...prev, [item.code]: item }), {}))
-            setRouteBuilder(new MapRouteBuilder(ports, regionSeg))
+        const fetchNations = async () => {
+            const res = await fetch(`${BASEURL}/timelapse/nations/`, {
+                headers: { 'Authorization': AUTHTOKEN }
+            })
+            const nationsSource = await res.json()
+            setNations(
+                (Object.values(nationsSource) as Nation[])
+                    .reduce<Record<string, Nation>>(
+                        (prev, item) => ({ ...prev, [item.code]: item }), {}))
         }
-        fetchData()
+        fetchNations()
     }, [])
-    const { filtersObj: filter } = useSelector((state: RootState) => state.getFilter)
+    const { filtersObj } = useSelector((state: RootState) => state.getFilter)
+    const filters = filtersDataSend(filtersObj, styleName!)
     useEffect(() => {
-        const fetchVoyages = async() => {
+        const fetchVoyages = async () => {
             if (!routeBuilder || !nations) {
                 return
             }
@@ -1239,7 +1295,7 @@ const useFilteredVoyageRoutes = () => {
             //    when it returns, we try to abort the previous fetch and ignore
             //    the return value rather than having a race-condition decide
             //    the result set.
-            const body = JSON.stringify({ filter })
+            const body = JSON.stringify({ filters })
             if (queryRef.current === body) {
                 return
             }
@@ -1248,7 +1304,7 @@ const useFilteredVoyageRoutes = () => {
                 abortController.current.abort()
             }
             const controller = new AbortController()
-            abortController.current  = controller
+            abortController.current = controller
             const voyagesRes = await fetch(
                 `${BASEURL}/timelapse/records/`, {
                 method: 'POST',
@@ -1259,16 +1315,16 @@ const useFilteredVoyageRoutes = () => {
                 body,
                 signal: controller.signal
             })
-            const OBSOLETE_voyages: OBSOLETE_APIVoyageEntry[] = await voyagesRes.json()
+            const data: OBSOLETE_APIVoyageEntry[] = await voyagesRes.json()
             if (queryRef.current === body) {
-                const voyages = (OBSOLETE_voyages as OBSOLETE_APIVoyageEntry[])
+                const voyages = (data as OBSOLETE_APIVoyageEntry[])
                     .map(v => OBSOLETE_legacyToVoyageRoute(routeBuilder, nations, v))
                 // TODO: replace hardcoded args.
                 setCollection(new VoyageRouteCollection(voyages, 0.3, 0.2, nations))
             }
         }
         fetchVoyages()
-    }, [filter, routeBuilder, nations])
+    }, [filters, routeBuilder, nations])
     return collection
 }
 
@@ -1381,6 +1437,7 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
             onShowDetails={selected => {
                 dispatch(setCardRowID(selected.id))
                 dispatch(setIsModalCard(true))
+                dispatch(setNodeClass(VOYAGE))
             }}
             onSpeedChange={setSpeed} />
         <TimelapseAggregateChart
