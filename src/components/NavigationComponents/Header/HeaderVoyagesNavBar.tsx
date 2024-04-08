@@ -41,8 +41,6 @@ import {
   TRANSATLANTIC,
   TRANSATLANTICPAGE,
   TransAtlanticTitle,
-  VOYAGESTEXAS,
-  VOYAGESTEXASPAGE,
   VOYAGETILE,
 } from '@/share/CONST_DATA';
 import '@/style/Nav.scss';
@@ -104,8 +102,8 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
     dispatch(resetAll());
     const filters: Filter[] = [];
-    if (styleName === VOYAGESTEXAS && currentVoyageBlockName === 'pie') {
-      navigate(`/${VOYAGESTEXASPAGE}#voyages`);
+    if (styleName === ALLVOYAGES && currentVoyageBlockName === 'timelapse') {
+      navigate(`${ALLVOYAGESPAGE}#voyages`);
     } else {
       dispatch(setBaseFilterDataSetValue(base_filter));
       for (const base of base_filter) {

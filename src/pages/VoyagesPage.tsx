@@ -26,7 +26,7 @@ import {
   setCurrentPage,
   setCurrentVoyagesBlockName,
 } from '@/redux/getScrollPageSlice';
-import { INTRAAMERICAN, TRANSATLANTIC, VOYAGESTEXAS } from '@/share/CONST_DATA';
+import { ALLVOYAGES, INTRAAMERICAN, TRANSATLANTIC } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
 import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
 import { setFilterObject } from '@/redux/getFilterSlice';
@@ -67,25 +67,22 @@ const VoyagesPage = () => {
       }
     };
 
-    if (styleVoyagesName === INTRAAMERICAN) {
+    if (styleVoyagesName === TRANSATLANTIC) {
       setBaseFilterDataForStyle(1);
-    } else if (styleVoyagesName === TRANSATLANTIC) {
+    } else if (styleVoyagesName === INTRAAMERICAN) {
       setBaseFilterDataForStyle(2);
-    } else if (styleVoyagesName === VOYAGESTEXAS) {
+    } else if (styleVoyagesName === ALLVOYAGES) {
       setBaseFilterDataForStyle(3);
     }
 
-    if (styleVoyagesName === INTRAAMERICAN) {
+    if (styleVoyagesName === TRANSATLANTIC) {
+      dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
+    } else if (styleVoyagesName === INTRAAMERICAN) {
       dispatch(setBlocksMenuList(jsonDataVoyageCollection[1].blocks));
-    } else if (styleVoyagesName === VOYAGESTEXAS) {
-      dispatch(setBlocksMenuList(jsonDataVoyageCollection[3].blocks));
+    } else if (styleVoyagesName === ALLVOYAGES) {
+      dispatch(setBlocksMenuList(jsonDataVoyageCollection[2].blocks));
     }
 
-    if (styleVoyagesName === INTRAAMERICAN && currentBlockName === 'pie') {
-      dispatch(setCurrentVoyagesBlockName('voyages'));
-    } else if (styleVoyagesName === VOYAGESTEXAS && currentBlockName === 'pie') {
-      dispatch(setCurrentVoyagesBlockName('voyages'));
-    }
     if (currentBlockName === 'voyages') {
       dispatch(setCurrentPage(1));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
@@ -107,7 +104,10 @@ const VoyagesPage = () => {
     } else if (currentBlockName === 'map') {
       dispatch(setCurrentPage(7));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (currentBlockName === 'timelapse') {
+    } else if (styleVoyagesName === ALLVOYAGES && currentBlockName === 'timelapse') {
+      dispatch(setCurrentPage(1));
+      dispatch(setCurrentVoyagesBlockName('voyages'));
+    } else if ((styleVoyagesName === TRANSATLANTIC) || (styleVoyagesName === INTRAAMERICAN) && currentBlockName === 'timelapse') {
       dispatch(setCurrentPage(8));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }

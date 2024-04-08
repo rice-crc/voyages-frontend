@@ -2,8 +2,10 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import { MapContainer, TileLayer, LayersControl, useMap, SVGOverlay } from 'react-leaflet'
 import { LatLngBounds } from "leaflet"
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { AUTHTOKEN, BASEURL } from '../../../share/AUTH_BASEURL'
 import {
+    AFRICANORIGINS,
     MAP_CENTER,
     MAXIMUM_ZOOM,
     MINIMUM_ZOOM,
@@ -29,6 +31,8 @@ import '@/style/timelapse.scss'
 import { RootState } from "@/redux/store"
 import { filtersDataSend } from '@/utils/functions/filtersDataSend'
 import { usePageRouter } from "@/hooks/usePageRouter"
+import { checkPagesRouteForVoyages } from "@/utils/functions/checkPagesRoute";
+import { getMapBackgroundColor } from "@/utils/functions/getMapBackgroundColor";
 
 // TODO
 // - move out the basic geometry/calculation stuff to a separate file.
@@ -1379,72 +1383,91 @@ export const TimelapseMap = ({ collection, initialSpeed, renderStyles }: Timelap
             setSelected(undefined)
         }
     }, [pauseWin])
-    return <MapContainer
-        center={MAP_CENTER}
-        zoom={zoomLevel}
-        className="lealfetMap-container"
-        maxZoom={MAXIMUM_ZOOM}
-        minZoom={MINIMUM_ZOOM}
-        attributionControl={false}
-        scrollWheelZoom={true}
-        zoomControl={true}
-        style={{ position: 'absolute', top: '120px', marginLeft: '30px', width: "calc(-150px + 100vw)", height: 'calc(-150px + 100vh)' }}
-    >
-        <HandleZoomEvent
-            setZoomLevel={setZoomLevel}
-            setRegionPlace={() => { }}
-            zoomLevel={zoomLevel}
-        />
-        <TileLayer url={mappingSpecialists} />
-        <LayersControl position="topright">
-            <LayersControl.Overlay name="River">
-                <TileLayer url={mappingSpecialistsRivers} />
-            </LayersControl.Overlay>
-            <LayersControl.Overlay name="Modern Countries">
-                <TileLayer url={mappingSpecialistsCountries} />
-            </LayersControl.Overlay>
-        </LayersControl>
-        <CanvasAnimation
-            collection={collection}
-            speed={speed}
-            paused={pauseWin !== null}
-            renderStyles={renderStyles}
-            userStartYear={userStartYear}
-            onWindowChange={win => {
-                const nextYears = win.years()
-                if (years !== nextYears) {
-                    setYears(nextYears)
-                }
-                if (pauseWin) {
-                    setPauseWin(win)
-                }
-                window.current = win
-            }} />
-        {pauseWin !== null && <InteractiveVoyageRoutesFrame
-            selected={selected}
-            window={pauseWin}
-            renderStyles={renderStyles}
-            onSelect={setSelected} />}
-        <TimelapseUI
-            collection={collection}
-            selected={pauseWin !== null ? selected : undefined}
-            years={years}
-            paused={pauseWin !== null}
-            speed={speed}
-            onClearSelection={() => setSelected(undefined)}
-            onPause={() => setPauseWin(window.current ?? null)}
-            onPlay={() => setPauseWin(null)}
-            onShowDetails={selected => {
-                dispatch(setCardRowID(selected.id))
-                dispatch(setIsModalCard(true))
-                dispatch(setNodeClass(VOYAGE))
-            }}
-            onSpeedChange={setSpeed} />
-        <TimelapseAggregateChart
-            collection={collection}
-            renderStyles={renderStyles}
-            years={years}
-            onYearChange={setUserStartYear} />
-        <CardModal />
-    </MapContainer>
+    const { styleName } = useSelector(
+        (state: RootState) => state.getDataSetCollection
+    );
+    const { styleNamePeople } = useSelector(
+        (state: RootState) => state.getPeopleEnlavedDataSetCollection
+    );
+    let backgroundColor = styleNamePeople;
+    if (checkPagesRouteForVoyages(styleName)) {
+        backgroundColor = styleName;
+    }
+    if (styleNamePeople === AFRICANORIGINS) {
+        backgroundColor = styleNamePeople;
+    }
+    return collection.voyageRoutes.length == 0 ? (
+        <div className="loading-logo" style={{ backgroundColor: getMapBackgroundColor(backgroundColor), position: 'absolute', top: '120px', marginLeft: '30px', width: "calc(-150px + 100vw)", height: 'calc(-150px + 100vh)' }} >
+            <img src={LOADINGLOGO} />
+        </div>
+    ) : (
+        <MapContainer
+            center={MAP_CENTER}
+            zoom={zoomLevel}
+            className="lealfetMap-container"
+            maxZoom={MAXIMUM_ZOOM}
+            minZoom={MINIMUM_ZOOM}
+            attributionControl={false}
+            scrollWheelZoom={true}
+            zoomControl={true}
+            style={{ position: 'absolute', top: '120px', marginLeft: '30px', width: "calc(-150px + 100vw)", height: 'calc(-150px + 100vh)' }}
+        >
+            <HandleZoomEvent
+                setZoomLevel={setZoomLevel}
+                setRegionPlace={() => { }}
+                zoomLevel={zoomLevel}
+            />
+            <TileLayer url={mappingSpecialists} />
+            <LayersControl position="topright">
+                <LayersControl.Overlay name="River">
+                    <TileLayer url={mappingSpecialistsRivers} />
+                </LayersControl.Overlay>
+                <LayersControl.Overlay name="Modern Countries">
+                    <TileLayer url={mappingSpecialistsCountries} />
+                </LayersControl.Overlay>
+            </LayersControl>
+            <CanvasAnimation
+                collection={collection}
+                speed={speed}
+                paused={pauseWin !== null}
+                renderStyles={renderStyles}
+                userStartYear={userStartYear}
+                onWindowChange={win => {
+                    const nextYears = win.years()
+                    if (years !== nextYears) {
+                        setYears(nextYears)
+                    }
+                    if (pauseWin) {
+                        setPauseWin(win)
+                    }
+                    window.current = win
+                }} />
+            {pauseWin !== null && <InteractiveVoyageRoutesFrame
+                selected={selected}
+                window={pauseWin}
+                renderStyles={renderStyles}
+                onSelect={setSelected} />}
+            <TimelapseUI
+                collection={collection}
+                selected={pauseWin !== null ? selected : undefined}
+                years={years}
+                paused={pauseWin !== null}
+                speed={speed}
+                onClearSelection={() => setSelected(undefined)}
+                onPause={() => setPauseWin(window.current ?? null)}
+                onPlay={() => setPauseWin(null)}
+                onShowDetails={selected => {
+                    dispatch(setCardRowID(selected.id))
+                    dispatch(setIsModalCard(true))
+                    dispatch(setNodeClass(VOYAGE))
+                }}
+                onSpeedChange={setSpeed} />
+            <TimelapseAggregateChart
+                collection={collection}
+                renderStyles={renderStyles}
+                years={years}
+                onYearChange={setUserStartYear} />
+            <CardModal />
+        </MapContainer>
+    )
 }

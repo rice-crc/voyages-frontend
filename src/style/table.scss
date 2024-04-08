@@ -293,7 +293,6 @@ div .customHeaderLabelSummaryTable {
 }
 
 .div-value {
-  width: 160px;
   cursor: pointer;
 
   .value-cell {
@@ -314,12 +313,12 @@ div .customHeaderLabelSummaryTable {
 
 .network-icon {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
-  padding: 10px 0 10px 10px;
+  padding: 10px;
 
   img {
-    width: 12%;
+    width: 22%;
     cursor: pointer;
   }
 }
@@ -639,14 +638,14 @@ div .customHeaderLabelSummaryTable {
 }
 
 .mobile-responsive-map {
-  padding: 140px 40px 40px 40px !important;
+  padding: 95px 0px 0px 0px !important;
 
   @include breakpoint-standard(5) {
-    padding: 150px 40px 10px 10px !important
+    padding: 95px 30px 0px 0px !important
   }
 
   @include breakpoint-standard(4) {
-    padding: 180px 0px 0px 20px !important
+    padding: 150px 0px 0px 20px !important
   }
 
   @include breakpoint-standard(3) {

@@ -228,7 +228,6 @@ const Tables: React.FC = () => {
             sortable: true,
             resizable: true,
             filter: true,
-            initialWidth: 220,
             wrapHeaderText: true,
             autoHeaderHeight: true,
         }),
