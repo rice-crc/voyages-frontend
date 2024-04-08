@@ -1282,8 +1282,8 @@ const useFilteredVoyageRoutes = () => {
         fetchNations()
     }, [])
     const { filtersObj } = useSelector((state: RootState) => state.getFilter)
+    const filter = filtersDataSend(filtersObj, styleName!)
 
-    const filters = filtersDataSend(filtersObj, styleName!)
     useEffect(() => {
         const fetchVoyages = async () => {
             if (!routeBuilder || !nations) {
@@ -1296,7 +1296,7 @@ const useFilteredVoyageRoutes = () => {
             //    when it returns, we try to abort the previous fetch and ignore
             //    the return value rather than having a race-condition decide
             //    the result set.
-            const body = JSON.stringify({ filters })
+            const body = JSON.stringify({ filter })
             if (queryRef.current === body) {
                 return
             }
@@ -1325,7 +1325,7 @@ const useFilteredVoyageRoutes = () => {
             }
         }
         fetchVoyages()
-    }, [filters, routeBuilder, nations])
+    }, [filter, routeBuilder, nations])
     return collection
 }
 
