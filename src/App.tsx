@@ -32,7 +32,6 @@ import {
   TRANSATLANTICENSLAVERS,
   TRANSATLANTICPAGE,
   VOYAGE,
-  VOYAGESTEXASPAGE,
   allEnslavers,
 } from '@/share/CONST_DATA';
 import BlogPage from '@/pages/BlogPage';
@@ -108,7 +107,6 @@ const App: React.FC = () => {
             path={`${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}
           />
-
           <Route
             path={`${INTRAAMERICANPAGE}`}
             element={<VoyagesPage />}
