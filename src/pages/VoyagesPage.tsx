@@ -68,11 +68,11 @@ const VoyagesPage = () => {
     };
 
     if (styleVoyagesName === TRANSATLANTIC) {
-      setBaseFilterDataForStyle(1);
+      setBaseFilterDataForStyle(0);
     } else if (styleVoyagesName === INTRAAMERICAN) {
-      setBaseFilterDataForStyle(2);
+      setBaseFilterDataForStyle(1);
     } else if (styleVoyagesName === ALLVOYAGES) {
-      setBaseFilterDataForStyle(3);
+      setBaseFilterDataForStyle(2);
     }
 
     if (styleVoyagesName === TRANSATLANTIC) {
@@ -107,7 +107,10 @@ const VoyagesPage = () => {
     } else if (styleVoyagesName === ALLVOYAGES && currentBlockName === 'timelapse') {
       dispatch(setCurrentPage(1));
       dispatch(setCurrentVoyagesBlockName('voyages'));
-    } else if ((styleVoyagesName === TRANSATLANTIC) || (styleVoyagesName === INTRAAMERICAN) && currentBlockName === 'timelapse') {
+    } else if ((styleVoyagesName === TRANSATLANTIC) && currentBlockName === 'timelapse') {
+      dispatch(setCurrentPage(8));
+      dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    } else if ((styleVoyagesName === INTRAAMERICAN) && currentBlockName === 'timelapse') {
       dispatch(setCurrentPage(8));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }
@@ -119,7 +122,6 @@ const VoyagesPage = () => {
     currentPage,
     currentVoyageBlockName,
   ]);
-
 
   const displayPage = (
     <motion.div
@@ -140,7 +142,6 @@ const VoyagesPage = () => {
       )}
       {currentPage === 7 && currentVoyageBlockName === 'map' && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
       {currentPage === 8 && currentVoyageBlockName === 'timelapse' && <VoyagesTimelapseMap />}
-
     </motion.div>
   );
 

@@ -5,7 +5,7 @@ export function calculateWidthColumnDef(
     value: TableCellStructure,
     colID: string,
 ) {
-    console.log({ colID })
+
     let width = 200;
     if (colID === 'connections' || colID === 'age' || colID === 'gender' || colID === 'height') {
         width = 150
