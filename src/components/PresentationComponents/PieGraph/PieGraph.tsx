@@ -79,7 +79,7 @@ function PieGraph() {
   }
 
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
-  console.log({ response })
+
   useEffect(() => {
     VoyagepieGraphOptions();
     fetchOptionsFlat(isSuccess, options_flat as Options, setOptionsFlat);

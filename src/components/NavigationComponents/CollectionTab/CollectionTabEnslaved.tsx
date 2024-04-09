@@ -11,8 +11,8 @@ import {
 } from '@/utils/functions/getColorStyle';
 import '@/style/page.scss';
 import { setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
-import { AFRICANORIGINS, ALLENSLAVED, } from '@/share/CONST_DATA';
-import { setIsFilter } from '@/redux/getFilterSlice';
+import { ALLENSLAVED, } from '@/share/CONST_DATA';
+import { setFilterObject, setIsFilter } from '@/redux/getFilterSlice';
 import { useNavigate } from 'react-router-dom';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { useEffect } from 'react';
@@ -30,7 +30,7 @@ const CollectionTabEnslaved = () => {
   const { currentEnslavedPage, currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
-
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
   useEffect(() => {
     if (currentBlockName === 'table' && styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
@@ -51,6 +51,7 @@ const CollectionTabEnslaved = () => {
       dispatch(setPathNameEnslaved(ALLENSLAVED));
     }
     navigate(`#${(blockName).toLowerCase()}`)
+    dispatch(setFilterObject(filtersObj));
   };
 
   return (

@@ -44,7 +44,6 @@ import { RowDataPivotTable, } from '@/share/InterfaceTypePivotTable';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
-import { convertToSlug } from '@/utils/functions/convertToSlug';
 
 
 const PivotTables = () => {

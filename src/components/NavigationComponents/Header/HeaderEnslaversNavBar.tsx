@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Box, Hidden, Divider, IconButton, } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,7 +6,7 @@ import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { ALLENSLAVERS, EnslaversTitle, INTRAAMERICANENSLAVERS, INTRAAMERICANTRADS, PASTHOMEPAGE, TRANSATLANTICENSLAVERS, TRANSATLANTICTRADS, allEnslavers } from '@/share/CONST_DATA';
+import { ALLENSLAVERS, ENSALVERSTYLE, EnslaversAllTrades, EnslaversTitle, INTRAAMERICANENSLAVERS, INTRAAMERICANTRADS, IntraAmericanTitle, PASTHOMEPAGE, TRANSATLANTICENSLAVERS, TRANSATLANTICTRADS, TransAtlanticTitle, allEnslavers } from '@/share/CONST_DATA';
 import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import '@/style/Nav.scss';
@@ -42,10 +42,19 @@ const HeaderEnslaversNavBar: React.FC = () => {
     (state: RootState) => state.getCommonGlobalSearch
   );
 
-
   const [isClick, setIsClick] = useState(false);
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
+
+  useEffect(() => {
+    if (styleNameRoute === TRANSATLANTICTRADS) {
+      dispatch(setDataSetEnslaversHeader(TransAtlanticTitle))
+    } else if (styleNameRoute === INTRAAMERICANTRADS) {
+      dispatch(setDataSetEnslaversHeader(IntraAmericanTitle))
+    } else if (styleNameRoute === ENSALVERSTYLE) {
+      dispatch(setDataSetEnslaversHeader(EnslaversAllTrades))
+    }
+  }, [])
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);

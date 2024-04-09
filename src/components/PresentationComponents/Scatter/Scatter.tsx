@@ -50,6 +50,7 @@ function Scatter() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+
   const { styleName: styleNameRoute } = usePageRouter();
   const [width, height] = useWindowSize();
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
@@ -92,6 +93,7 @@ function Scatter() {
     dataSend['global_search'] = inputSearchValue
   }
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
+
   useEffect(() => {
     VoyageScatterOptions();
     if (!loading && !isError && response) {
@@ -127,7 +129,7 @@ function Scatter() {
     currentPage,
     isSuccess,
     styleName,
-    VoyageScatterOptions,
+    VoyageScatterOptions, styleNameRoute,
   ]);
 
   const handleChangeAggregation = useCallback(

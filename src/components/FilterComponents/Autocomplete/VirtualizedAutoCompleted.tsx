@@ -108,7 +108,6 @@ export default function VirtualizedAutoCompleted() {
         if (event) {
             event.preventDefault();
         }
-        dispatch(setIsChangeAuto(!isChangeAuto))
         setAutoValue(value);
         if (!value) {
             setOffset((prev) => prev - offset)
@@ -127,7 +126,6 @@ export default function VirtualizedAutoCompleted() {
 
         const autuLabels: string[] = newValue.map((ele) => ele); //  const autuLabels: string[] = newValue.map((ele) => ele.value)
         setSelectedValue(autuLabels);
-        dispatch(setIsChangeAuto(!isChangeAuto));
         dispatch(setAutoLabel(autuLabels));
 
         const existingFilterObjectString = localStorage.getItem('filterObject');
