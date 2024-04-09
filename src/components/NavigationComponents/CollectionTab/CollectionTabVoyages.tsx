@@ -12,11 +12,10 @@ import {
   getColorTextCollection,
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
-import { setIsFilter } from '@/redux/getFilterSlice';
+import { setFilterObject, setIsFilter } from '@/redux/getFilterSlice';
 import { setPathNameVoyages } from '@/redux/getDataPathNameSlice';
 import { ALLVOYAGES } from '@/share/CONST_DATA';
 import { useNavigate } from 'react-router-dom';
-import { pageVariantsFromTop } from '@/utils/functions/pageVariantsFromTop';
 
 const CollectionTabVoyages = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -27,6 +26,7 @@ const CollectionTabVoyages = () => {
   const { currentPage, currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
   const handlePageNavigation = (page: number, blockName: string) => {
     dispatch(setCurrentPage(page));
@@ -36,6 +36,7 @@ const CollectionTabVoyages = () => {
       dispatch(setPathNameVoyages(ALLVOYAGES));
     }
     navigate(`#${(blockName).toLowerCase()}`)
+    dispatch(setFilterObject(filtersObj));
   };
 
   return (

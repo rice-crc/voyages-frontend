@@ -1,14 +1,16 @@
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { VOYAGEPATHENPOINT } from '@/share/CONST_DATA';
 import { Link } from 'react-router-dom';
+import { VOYAGEPATHENPOINT } from '@/share/CONST_DATA';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
 interface HeaderTitleProps {
-  textHeader: string;
-  HeaderTitle: string;
+  HeaderTitle: string
+  textHeader: string
   pathLink: string;
   onClickReset: () => void;
 }
 export const HeaderTitle = (props: HeaderTitleProps) => {
-  const { textHeader, HeaderTitle, pathLink, onClickReset } = props;
+  const { HeaderTitle, pathLink, textHeader, onClickReset } = props;
   const { styleName: endpointPath } = usePageRouter();
 
   return (

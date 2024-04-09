@@ -100,7 +100,6 @@ const Tables: React.FC = () => {
     const { tableFlatfileEnslavers } = useSelector(
         (state: RootState) => state.getEnslaverDataSetCollections
     );
-
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState(
         getRowsPerPage(window.innerWidth, window.innerHeight)
@@ -179,7 +178,7 @@ const Tables: React.FC = () => {
         };
         fetchDataTable();
     }, [
-        dispatch, filtersObj,
+        dispatch,
         rowsPerPage,
         page,
         currentPage,
@@ -189,7 +188,7 @@ const Tables: React.FC = () => {
         isChange,
         isChangeGeoTree,
         autoLabelName,
-        currentBlockName,
+        currentBlockName, styleNameRoute,
     ]);
 
     useEffect(() => {
@@ -229,7 +228,6 @@ const Tables: React.FC = () => {
             sortable: true,
             resizable: true,
             filter: true,
-            initialWidth: 220,
             wrapHeaderText: true,
             autoHeaderHeight: true,
         }),

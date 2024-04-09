@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
@@ -22,6 +22,9 @@ import {
   PASTHOMEPAGE,
   ENSLAVEDTEXAS,
   ALLENSLAVED,
+  AllEnslavedPeople,
+  AfricanOriginsTransAtlantic,
+  TEXBOUND,
 } from '@/share/CONST_DATA';
 import {
   BaseFilter,
@@ -81,6 +84,17 @@ const HeaderEnslavedNavBar: React.FC = () => {
     [AFRICANORIGINS]: `${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
     [ENSLAVEDTEXAS]: `${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}#${currentPageBlockName}`,
   };
+
+  useEffect(() => {
+    if (styleNameRoute === ALLENSLAVED) {
+      dispatch(setDataSetPeopleEnslavedHeader(AllEnslavedPeople))
+    } else if (styleNameRoute === AFRICANORIGINS) {
+      dispatch(setDataSetPeopleEnslavedHeader(AfricanOriginsTransAtlantic))
+    } else if (styleNameRoute === ENSLAVEDTEXAS) {
+      dispatch(setDataSetPeopleEnslavedHeader(TEXBOUND))
+    }
+  }, [])
+
   const handleSelectEnslavedDataset = (
     baseFilter: BaseFilter[],
     textHeder: string,

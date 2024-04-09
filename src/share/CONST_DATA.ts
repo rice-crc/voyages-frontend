@@ -130,3 +130,11 @@ export const Disembarked = 'Disembarked '
 export const Embarked = "Embarked"
 export const ABOUTPAGE = 'about'
 export const DOWNLOADS = '/voyage/downloads'
+
+export const TransAtlanticTitle = 'Trans-Atlantic'
+export const IntraAmericanTitle = 'Intra-American'
+export const AllVoyagesTitle = 'All Voyages'
+export const AllEnslavedPeople = 'All Enslaved People'
+export const AfricanOriginsTransAtlantic = 'African Origins/Trans-Atlantic'
+export const TEXBOUND = 'Texas Bound'
+export const EnslaversAllTrades = 'All Trades'
