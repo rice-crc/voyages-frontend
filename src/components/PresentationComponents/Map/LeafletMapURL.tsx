@@ -23,6 +23,7 @@ import {
     AFRICANORIGINS,
     ENSLAVEDNODE,
     VOYAGE,
+    VOYAGESTYPE,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
@@ -61,7 +62,6 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     const { nodesData } = useSelector(
         (state: RootState) => state.getNodeEdgesAggroutesMapData
     );
-
     const {
         styleName: styleNamePage,
         nodeTypeURL,
@@ -132,7 +132,7 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
             filtersObj &&
             filtersObj.filter((filterItem: Filter) => filterItem.varName !== varName);
 
-        if (voyageURLID !== ENSLAVEDNODE && voyageURLID !== VOYAGE) {
+        if (voyageURLID !== ENSLAVEDNODE && voyageURLID !== VOYAGESTYPE) {
             if (nameIdURL) {
                 filters.push({
                     varName: nameIdURL,

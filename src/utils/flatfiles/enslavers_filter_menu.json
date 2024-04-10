@@ -9,7 +9,7 @@
 		"children": [
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_id",
-				"type": "CharField",
+				"type": "IntegerField",
 				"label": "Voyage ID"
 			},
 			{
@@ -94,5 +94,4 @@
 			}
 		]
 	}
-	
 ]

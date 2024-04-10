@@ -35,7 +35,7 @@ export const GenerateCellTableRenderer = (
   const ID = params.data.id;
   const dispatch = useDispatch();
   const { styleName } = usePageRouter()
-  console.log({ styleName })
+
   let nodeType: string = '';
   if (checkPagesRouteForVoyages(styleName!)) {
     nodeType = VOYAGESNODE;

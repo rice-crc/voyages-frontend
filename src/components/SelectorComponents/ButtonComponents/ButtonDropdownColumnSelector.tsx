@@ -20,7 +20,7 @@ import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.js
 import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { ENSALVERSTYLE, INTRAAMERICANENSLAVERS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
+import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
 import { DropdownCascading } from '../Cascading/DropdownCascading';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
 
@@ -34,6 +34,7 @@ const ButtonDropdownColumnSelector = () => {
   const [menuValueCells, setMenuValueCells] = useState<ColumnSelectorTree[]>(
     []
   );
+
 
   const handleColumnVisibilityChange = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -63,7 +64,7 @@ const ButtonDropdownColumnSelector = () => {
           setMenuValueCells(ENSLAVERS_TABLE.column_selector_tree);
         } else if (styleNameRoute === TRANSATLANTICTRADS) {
           setMenuValueCells(ENSLAVERS_TABLE.column_selector_tree);
-        } else if (styleNameRoute === INTRAAMERICANENSLAVERS) {
+        } else if (styleNameRoute === INTRAAMERICANTRADS) {
           setMenuValueCells(ENSLAVERS_TABLE.column_selector_tree);
         }
       } catch (error) {

@@ -18,37 +18,36 @@ function MAPComponents() {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage
   );
-  const { styleName: styleNameRoute, nodeTypeURL } = usePageRouter()
+  const { styleName: styleNameRoute, nodeTypeURL, voyageURLID } = usePageRouter()
 
 
   const { currentEnslavedPage } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
   const { nameIdURL } = useSelector((state: RootState) => state.getFilter);
-  console.log({ nameIdURL })
 
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-
+  let isUrLMap = false;
   useEffect(() => {
-    if (nodeTypeURL === VOYAGESTYPE) {
+    const NUMBER = '0123456789'
+
+    for (const num of styleNameRoute!) {
+      if (NUMBER.includes(num)) {
+        isUrLMap = true
+      }
+    }
+    if ((nodeTypeURL === VOYAGESTYPE) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('voyage_id'));
-    } else if (nodeTypeURL === ENSLAVEDNODE) {
+    } else if ((nodeTypeURL === ENSLAVEDNODE) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('enslaved_id'));
-    } else if (nodeTypeURL === ENSLAVERSNODE) {
+    } else if ((nodeTypeURL === ENSLAVERSNODE) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id'));
     }
   }, [])
 
-  let topPositionPage = 0;
-  if (checkPagesRouteForVoyages(styleNameRoute!)) {
-    topPositionPage = createTopPositionVoyages(currentPage, inputSearchValue!);
-  } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-    topPositionPage = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue!)
-  }
-
-  const calassNameMap = (nameIdURL || styleNameRoute === ESTIMATES) ? 'mobile-responsive-map-ur' : 'mobile-responsive-map'
+  const calassNameMap = (nameIdURL || styleNameRoute === ESTIMATES) ? 'mobile-responsive-map-url' : 'mobile-responsive-map'
 
   return (
     <div className={calassNameMap}>
@@ -57,7 +56,7 @@ function MAPComponents() {
         className="map-container"
         ref={mapRef}
       >
-        {!nameIdURL ? <LeafletMapURL zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} /> : <LeafletMap zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />}
+        {nameIdURL ? <LeafletMapURL zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} /> : <LeafletMap zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />}
       </MapContainer>
     </div>
   );

@@ -122,7 +122,7 @@ export const TYPESOFDATASET: {
     intraAmerican: 'intra-american',
     transatlantic: 'trans-atlantic',
     texas: 'texas',
-    voyages: 'voyages'
+    voyages: 'voyage'
 };
 
 
