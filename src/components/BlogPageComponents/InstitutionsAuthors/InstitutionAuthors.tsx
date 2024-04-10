@@ -13,7 +13,6 @@ import {
   setInstitutionAuthorsList,
 } from '@/redux/getBlogDataSlice';
 import InstitutionAuthorsList from './InstitutionAuthorsList';
-import defaultImage from '@/assets/voyage-blog.png';
 import { useInstitutionAuthor } from '@/hooks/useInstitutionAuthor';
 
 const InstitutionAuthors: React.FC = () => {
@@ -69,12 +68,9 @@ const InstitutionAuthors: React.FC = () => {
                     width="300"
                   />
                 ) : (
-                  <img
-                    src={defaultImage}
-                    alt={name}
-                    className="rounded-circle"
-                    width="300"
-                  />
+                  <div className="avatar">
+                    <i className="fas fa-user fa-3x" aria-hidden="true"></i>
+                  </div>
                 )}
                 <div className="mt-3">
                   <h4 className="auther-name">{name}</h4>

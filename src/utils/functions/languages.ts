@@ -1,6 +1,6 @@
 export const LanguageOptions = [
     { language: "English", value: "en" },
-    { language: "Spanish", value: "es" },
-    { language: "Portuguese", value: "pt" }
+    { language: "Español", value: "es" },
+    { language: "Português", value: "pt" }
 ]
 

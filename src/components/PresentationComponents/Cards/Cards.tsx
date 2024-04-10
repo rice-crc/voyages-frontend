@@ -65,7 +65,6 @@ const VoyageCard = () => {
 
   const fetchData = async () => {
     const ID = networkID || cardRowID;
-
     try {
       let response = null;
       switch (nodeTypeClass) {

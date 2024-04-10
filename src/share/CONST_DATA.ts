@@ -89,7 +89,7 @@ export const nodeTypePostDisembarkation = 'postDisembarkation'
 // Network Graph Node Type
 export const ENSLAVEDNODE = 'enslaved'
 export const ENSLAVERSNODE = 'enslavers'
-export const VOYAGESNODE = 'voyages'
+export const VOYAGESNODE = 'voyage'
 export const ENSLAVEMENTNODE = 'enslavement_relations'
 export const classToColor = {
     enslaved: '#906866',

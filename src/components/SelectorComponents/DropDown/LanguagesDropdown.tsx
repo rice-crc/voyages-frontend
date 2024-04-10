@@ -41,7 +41,7 @@ export default function LanguagesDropdown() {
     <div className="select-languages">
       <Button
         id="fade-button"
-        style={{ color: styleName ? '#ffffff' : '#000', fontSize: 12, fontWeight: 600 }}
+        style={{ color: styleName ? '#ffffff' : '#000', fontSize: '1rem', fontWeight: 600 }}
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}

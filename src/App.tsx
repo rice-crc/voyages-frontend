@@ -78,7 +78,7 @@ const App: React.FC = () => {
     const entityType = parts[1];
     const voyageID = parts[2];
     const typeOfData = parts[3]
-
+    // console.log({ parts })
     if (entityType === VOYAGE || entityType === ENSALVEDTYPE || entityType === allEnslavers || entityType === ESTIMATES) {
       setSaveSearchURL(url)
     }

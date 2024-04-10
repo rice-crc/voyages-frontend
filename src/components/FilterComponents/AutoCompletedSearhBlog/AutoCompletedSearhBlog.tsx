@@ -56,7 +56,6 @@ const AutoCompletedSearhBlog = () => {
   }, [data, isLoading, isError]);
 
   useEffect(() => {
-
     if (isInitialLoad) {
       const tagLabel = blogAutoLists.find((item: any) => item.id === Number(tagID));
       if (tagLabel) {
@@ -68,12 +67,12 @@ const AutoCompletedSearhBlog = () => {
 
   useEffect(() => {
     if (isFetchHashLoad && currentBlockName && listData.length > 0) {
-
       const tagLabel = listData.find(
         (item) => {
           return formatTextURL(item.value) === currentBlockName
         }
       );
+
       if (tagLabel) {
         setInputValue(tagLabel);
         setFetchHashLoad(false);
@@ -97,7 +96,12 @@ const AutoCompletedSearhBlog = () => {
       navigate(`/${BLOGPAGE}`);
     }
     if (newValue) {
-      navigate(`/${BLOGPAGE}/tag/${formatTextURL(newValue.value)}`);
+      if (newValue.value === 'Introductory Maps') {
+        navigate(`/${BLOGPAGE}/tag/${formatTextURL('all Intro Maps')}`);
+      } else {
+        navigate(`/${BLOGPAGE}/tag/${formatTextURL(newValue.value)}`);
+      }
+
     }
   };
 

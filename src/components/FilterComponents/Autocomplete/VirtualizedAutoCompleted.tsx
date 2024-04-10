@@ -1,5 +1,5 @@
 import React, { useState, useEffect, SyntheticEvent } from "react";
-import { Autocomplete, TextField, Typography, ListSubheader, Paper, Tooltip } from '@mui/material';
+import { Autocomplete, TextField, Typography, ListSubheader, Paper, Tooltip, Checkbox, createFilterOptions, AutocompleteRenderOptionState, FilterOptionsState } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,9 +9,10 @@ import {
     Filter,
     RangeSliderState,
 } from '@/share/InterfaceTypes';
+import CheckIcon from '@mui/icons-material/Check';
+import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
 import {
     setAutoLabel,
-    setIsChangeAuto,
 } from '@/redux/getAutoCompleteSlice';
 import '@/style/Slider.scss';
 import '@/style/table.scss';
@@ -34,8 +35,7 @@ export default function VirtualizedAutoCompleted() {
     );
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const [autoList, setAutoLists] = useState<AutoCompleteOption[]>([]);
-    // const [selectedValue, setSelectedValue] = useState<AutoCompleteOption[]>([]);
-    const [selectedValue, setSelectedValue] = useState<string[]>([]);
+    const [selectedValue, setSelectedValue] = useState<AutoCompleteOption[]>([]);
     const [autoValue, setAutoValue] = useState<string>('');
     const [offset, setOffset] = useState<number>(0);
     const dispatch: AppDispatch = useDispatch();
@@ -95,10 +95,8 @@ export default function VirtualizedAutoCompleted() {
 
         const autoValueList: string[] = filterByVarName.searchTerm as string[];
 
-        // const values = autoValueList.map<AutoCompleteOption>((item: string) => ({ value: item }));
-        // setSelectedValue(() => values);
-
-        setSelectedValue(() => autoValueList);
+        const values = autoValueList.map<AutoCompleteOption>((item: string) => ({ value: item }));
+        setSelectedValue(() => values);
         dispatch(setFilterObject(filter));
 
     }, [isLoadingList, varName, styleName]);
@@ -115,19 +113,15 @@ export default function VirtualizedAutoCompleted() {
     }
 
     const handleAutoCompletedChange = (
-        // event: SyntheticEvent<Element, Event>,
-        // newValue: AutoCompleteOption[]
         event: SyntheticEvent<Element, Event>,
-        newValue: string[], // Change newValue to value and its type to string[]
+        newValue: AutoCompleteOption[]
     ) => {
         if (!newValue) {
             return;
         }
-
-        const autuLabels: string[] = newValue.map((ele) => ele); //  const autuLabels: string[] = newValue.map((ele) => ele.value)
-        setSelectedValue(autuLabels);
+        const autuLabels: string[] = newValue.map((ele) => ele.value);
+        setSelectedValue(newValue as AutoCompleteOption[]);
         dispatch(setAutoLabel(autuLabels));
-
         const existingFilterObjectString = localStorage.getItem('filterObject');
         let existingFilters: Filter[] = [];
 
@@ -140,11 +134,11 @@ export default function VirtualizedAutoCompleted() {
         // Type guard to check if autuLabels is an array before accessing its length property
         if (Array.isArray(newValue) && newValue.length > 0) {
             if (existingFilterIndex !== -1) {
-                existingFilters[existingFilterIndex].searchTerm = [...newValue];
+                existingFilters[existingFilterIndex].searchTerm = [...autuLabels]//[...newValue];
             } else {
                 existingFilters.push({
                     varName: varName,
-                    searchTerm: newValue,
+                    searchTerm: autuLabels, //newValue,
                     op: 'in'
                 });
             }
@@ -170,30 +164,56 @@ export default function VirtualizedAutoCompleted() {
         </ListSubheader>,
         params.children
     ];
+    const allSelected = autoList.length === selectedValue.length;
 
+    const optionRenderer = (
+        props: React.HTMLAttributes<HTMLLIElement>,
+        option: AutoCompleteOption,
+        { selected }: AutocompleteRenderOptionState
+    ) => {
+        return (
+            <li {...props} key={`${option.value}`
+            }>
+                <Checkbox
+                    color="primary"
+                    icon={<CheckBoxOutlineBlankOutlinedIcon fontSize="small" />}
+                    checkedIcon={<CheckIcon fontSize="small" />}
+                    checked={selected}
+                />
+                {getOptionLabel(option)}
+            </li >
+        );
+    };
+    const getOptionSelected = (option: AutoCompleteOption, anotherOption: AutoCompleteOption) =>
+        option.value === anotherOption.value;
+
+    const getOptionLabel = (option: AutoCompleteOption) => {
+        const textContent = new DOMParser().parseFromString(option.value ?? '', 'text/html').body.textContent;
+        return textContent ?? '';
+    }
+    const filter = createFilterOptions();
+    const selectAllLabel = "Select all"
     return (
         <Autocomplete
             loading
+            disableCloseOnSelect
             ListboxComponent={CustomAutoListboxComponent}
             multiple
             autoHighlight
             id="tags-outlined"
             style={{ width: 450 }}
-            // options={autoList}
-            options={autoList.map((option) => {
-                const textContent = new DOMParser().parseFromString(option.value ?? '', 'text/html').body.textContent;
-                return textContent ?? '';
-            })}
+            options={autoList}
+            getOptionLabel={getOptionLabel}
             ListboxProps={{ style: { overscrollBehaviorX: 'none' } }}
-
-            // isOptionEqualToValue={(option, value) => {
-            //     return option.value === value.value;
+            isOptionEqualToValue={(option, value) => {
+                return option.value === value.value;
+            }}
+            renderOption={optionRenderer}
+            // getOptionSelected={getOptionSelected}
+            // filterOptions={(options: AutoCompleteOption[], params: any) => { //
+            //     const filtered = filter(options, params);
+            //     return [{ label: selectAllLabel, value: "select-all" }, ...filtered];
             // }}
-            // getOptionLabel={(option) => {
-            //     const textContent = new DOMParser().parseFromString(option.value ?? '', 'text/html').body.textContent;
-            //     return textContent ?? '';
-            // }}
-
             onInputChange={handleInputChange}
             inputValue={autoValue}
             value={selectedValue}
@@ -203,7 +223,8 @@ export default function VirtualizedAutoCompleted() {
                 <Paper className="auto-options-list">
                     {children}
                 </Paper>
-            )}
+            )
+            }
             renderInput={(params) => (
                 <TextField
                     {...params}

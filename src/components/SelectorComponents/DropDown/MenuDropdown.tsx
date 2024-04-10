@@ -19,7 +19,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
   const [openSubMenu, setOpenSubMenu] = useState(true);
   const menuLists = [
     { name: 'About', url: `${BLOGPAGE}/tag/about` },
-    { name: 'Intro Maps', url: `${BLOGPAGE}/tag/introductory-maps` },
+    { name: 'Intro Maps', url: `${BLOGPAGE}/introductory-maps-to-the-transatlantic-slave-trade/148` },
     {
       name: 'Essays', url: `${BLOGPAGE}/tag/essays`,
       submenu: [

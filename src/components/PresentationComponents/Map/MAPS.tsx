@@ -25,6 +25,7 @@ function MAPComponents() {
     (state: RootState) => state.getScrollEnslavedPage
   );
   const { nameIdURL } = useSelector((state: RootState) => state.getFilter);
+  console.log({ nameIdURL })
 
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
@@ -37,7 +38,6 @@ function MAPComponents() {
       dispatch(setVariableNameIdURL('enslaved_id'));
     } else if (nodeTypeURL === ENSLAVERSNODE) {
       dispatch(setVariableNameIdURL('voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id'));
-
     }
   }, [])
 
@@ -57,10 +57,12 @@ function MAPComponents() {
         className="map-container"
         ref={mapRef}
       >
-        {nameIdURL ? <LeafletMapURL zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} /> : <LeafletMap zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />}
+        {!nameIdURL ? <LeafletMapURL zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} /> : <LeafletMap zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />}
       </MapContainer>
     </div>
   );
 }
 
 export default MAPComponents;
+
+
