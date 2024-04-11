@@ -180,7 +180,7 @@ const Tables: React.FC = () => {
         page,
         currentPage,
         currentEnslavedPage,
-        varName,
+        // varName,
         inputSearchValue,
         isChange,
         isChangeGeoTree,
