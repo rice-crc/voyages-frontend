@@ -69,7 +69,7 @@ const BlogResultsList: React.FC = () => {
     };
 
     if (inputSearchValue) {
-      dataSend['global_search'] = [inputSearchValue];
+      dataSend['global_search'] = inputSearchValue;
     }
 
     try {
