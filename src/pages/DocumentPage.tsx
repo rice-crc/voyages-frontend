@@ -7,7 +7,6 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import Pagination from '@mui/material/Pagination';
-import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import MiradorViewer from '@/components/DocumentComponents/MiradorViewer';
 // Icons
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
@@ -15,6 +14,8 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from '@mui/icons-material/Search';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import { Filter } from '@/share/InterfaceTypes';
+import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 
 function useDebounce<T>(value: T, wait: number = 500) {
   const [debounceValue, setDebounceValue] = useState<T>(value);
@@ -30,8 +31,12 @@ function useDebounce<T>(value: T, wait: number = 500) {
 // Note: while the Documents API is under development, the schemas and fetch
 // code are placed here. They can be later wrapped by createApi.
 
+const DocumentSearchFieldNames = ['label', 'voyages', 'shipname', 'enslaver'] as const
+
+type DocumentSearchFields = typeof DocumentSearchFieldNames[number]
+
 interface DocumentEntitySearchModel {
-  typename: string,
+  typename: DocumentSearchFields,
   keys: string[]
 }
 
@@ -58,11 +63,65 @@ interface DocumentSearchApiResult {
 type DocumentSearchApi = (search: DocumentSearchModel) => Promise<DocumentSearchApiResult>
 
 const docSearch: DocumentSearchApi = async (search) => {
-  const res = await fetch('https://daast.azurewebsites.net/api/search', {
-    'method': 'POST',
-    'body': JSON.stringify(search)
+  // Map our search model to the backend API.
+  const filter: Filter[] = []
+  filter.push({    
+    "varName": "has_published_manifest",
+    "op": "exact",
+    "searchTerm": true
   })
-  return (await res.json()) as DocumentSearchApiResult
+  if (search.label) {
+    filter.push({    
+      "varName": "title",
+      "op": "icontains",
+      "searchTerm": search.label
+    })
+  }
+  const fieldMap: Partial<Record<DocumentSearchFields, Omit<Filter, 'searchTerm'>>> = {
+    'voyages': {
+      varName: 'source_voyage_connections__voyage__id',
+      op: 'in'
+    },
+    'enslaver': {
+      varName: 'source_enslaver_connections__enslaver__principal_alias',
+      op: 'icontains'
+    },
+    'shipname': {
+      varName: 'source_voyage_connections__voyage__shipname',
+      op: 'icontains'
+    },
+    //'Enslaved': 'source_enslaver_connections__'
+  }
+  for (const entity of search.entities) {
+    const entityFilter = fieldMap[entity.typename]
+    if (entityFilter) {
+      filter.push({ ...entityFilter, searchTerm: entity.keys })
+    }
+  }
+  const { page_size, results_page: page } = search
+  const response = await fetch(`${BASEURL}/docs/`, {
+    method: 'POST',
+    body: JSON.stringify({ filter, page, page_size }),
+    headers: {
+        'Authorization': AUTHTOKEN,
+        "Content-Type": "application/json",
+    },
+  })
+  const data = await response.json()
+  const result: DocumentSearchApiResult = {
+    matches: data.count,
+    results: data.results.map((r: any) => {
+      const { thumbnail: thumb, bib, title: label, zotero_group_id, zotero_item_id } = r
+      return {
+        key: `${zotero_group_id}__${zotero_item_id}.json`,
+        label,
+        bib,
+        revision_number: 1,
+        thumb
+      }
+    })
+  }
+  return result
 }
 
 interface DocumentPaginationSource {
@@ -75,10 +134,6 @@ interface DocumentSearchBoxProps {
   onClick?: () => void,
   onUpdate: (source: DocumentPaginationSource) => void
 }
-
-const DocumentSearchFieldNames = ['label', 'voyages', 'shipname', 'enslaver'] as const
-
-type DocumentSearchFields = typeof DocumentSearchFieldNames[number]
 
 const UIDocumentSearchFieldHeader: Record<DocumentSearchFields, string> = {
   label: 'Title',
@@ -100,10 +155,16 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
     if (debouncedSearch.voyages) {
       try {
         const idArray = JSON.parse(`[${debouncedSearch.voyages}]`)
-        entities.push({ typename: 'Voyages', keys: idArray })
+        entities.push({ typename: 'voyages', keys: idArray })
       } catch {
         const msg = 'Voyage IDs could not be properly parsed'
         validated['voyages'] = msg
+      }
+    }
+    for (const field of DocumentSearchFieldNames) {
+      const value = debouncedSearch[field]
+      if (field !== 'voyages' && value) {
+        entities.push({ typename: field, keys: [value] })
       }
     }
     const model: DocumentSearchModel = {
@@ -366,7 +427,6 @@ const DocumentPage: React.FC = () => {
   const tabSource = sources[tab]
   return (
     <Stack direction="row">
-      {!doc && <HeaderLogoSearch />}
       <div style={{ marginTop: '5%', marginLeft: '5%', width: '90vw', height: '90vh', display: doc ? 'none' : 'block' }}>
         <div style={{ display: 'flex' }}>
           <div style={tab === 'Workspace' ? { opacity: 0.33 } : {}}>
@@ -396,7 +456,7 @@ const DocumentPage: React.FC = () => {
           onPageChange={pageNum => setSources({ ...sources, [tab]: { ...tabSource, currentPage: pageNum } })} />}
       </div>
       {doc && <MiradorViewer
-        manifestUrlBase='https://daast.azurewebsites.net/api/manifest'
+        manifestUrlBase='https://voyages-api-staging.crc.rice.edu/static/iiif_manifests/'
         domId='__mirador'
         onClose={handleMiradorClose}
         manifestId={doc.key}

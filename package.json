@@ -55,6 +55,7 @@
     "leaflet.geodesic": "^2.7.1",
     "leaflet.markercluster": "^1.5.3",
     "lodash.debounce": "^4.0.8",
+    "mirador": "^4.0.0-alpha.2",
     "multi-nested-select": "^1.2.1",
     "plotly.js": "^2.23.2",
     "react": "^18.2.0",
