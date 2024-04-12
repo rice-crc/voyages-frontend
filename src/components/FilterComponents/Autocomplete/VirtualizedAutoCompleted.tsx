@@ -28,6 +28,7 @@ import CustomAutoListboxComponent from './CustomAutoListboxComponent';
 import { useAutoComplete } from '@/hooks/useAutoComplete';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import debounce from 'lodash.debounce';
 
 export default function VirtualizedAutoCompleted() {
     const { varName } = useSelector(
@@ -77,7 +78,7 @@ export default function VirtualizedAutoCompleted() {
                 const uniquePrevAutoList = prevAutoList.filter(
                     (item) => !uniqueValues.has(item.value)
                 );
-                return [...filteredAutoList, ...uniquePrevAutoList,];
+                return [...filteredAutoList, ...uniquePrevAutoList];
             });
         }
     }, [data, isLoading, isError]);
@@ -109,19 +110,17 @@ export default function VirtualizedAutoCompleted() {
         dispatch(setFilterObject(filter));
     }, [isLoadingList, varName, styleName]);
 
-    const handleInputChange = (
-        event: React.SyntheticEvent<Element, Event>,
-        value: string
-    ) => {
-        if (event) {
-            event.preventDefault();
-        }
-        setAutoValue(value);
-        if (!value) {
-            setOffset((prev) => prev - offset);
-        }
-    };
-    const [checkAll, setCheckAll] = React.useState(false);
+    const handleInputChange = debounce(
+        (event: React.SyntheticEvent<Element, Event>, value: string) => {
+            if (event) {
+                event.preventDefault();
+            }
+            setAutoValue(value);
+            if (!value) {
+                setOffset((prev) => prev - offset);
+            }
+        }, 100
+    );
 
     const handleAutoCompletedChange = (
         event: SyntheticEvent<Element, Event>,

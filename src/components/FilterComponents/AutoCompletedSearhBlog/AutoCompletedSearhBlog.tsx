@@ -84,7 +84,7 @@ const AutoCompletedSearhBlog = () => {
     (event: React.SyntheticEvent<Element, Event>, value: string) => {
       dispatch(setSearchAutoValue(value));
     },
-    300
+    200
   );
 
   const handleAutocompleteChange = (

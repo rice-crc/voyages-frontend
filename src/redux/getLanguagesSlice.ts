@@ -7,16 +7,21 @@ const setSelectedLanguageToLocalStorage = (language: string) => {
 export const getLanguagesSlice = createSlice({
     name: 'getLanguagesSlice',
     initialState: {
-        language: 'en'
+        languageValue: 'en',
+        languageValueLabel: 'English'
     },
     reducers: {
         setLanguages: (state, action: PayloadAction<string>) => {
-            state.language = action.payload;
+            state.languageValue = action.payload;
+            setSelectedLanguageToLocalStorage(action.payload);
+        },
+        setLanguagesLabel: (state, action: PayloadAction<string>) => {
+            state.languageValueLabel = action.payload;
             setSelectedLanguageToLocalStorage(action.payload);
         },
     },
 });
 
-export const { setLanguages } = getLanguagesSlice.actions;
+export const { setLanguages, setLanguagesLabel } = getLanguagesSlice.actions;
 
 export default getLanguagesSlice.reducer;

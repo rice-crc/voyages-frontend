@@ -7,7 +7,7 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { LanguageOptions } from '@/utils/functions/languages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { setLanguages } from '@/redux/getLanguagesSlice';
+import { setLanguages, setLanguagesLabel } from '@/redux/getLanguagesSlice';
 import { setBlogPost } from '@/redux/getBlogDataSlice';
 import { BlogDataProps } from '@/share/InterfaceTypesBlog';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -16,7 +16,7 @@ export default function LanguagesDropdown() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { styleName } = usePageRouter()
-  const { language } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValueLabel } = useSelector((state: RootState) => state.getLanguages);
   const post = useSelector(
     (state: RootState) => state.getBlogData.post as BlogDataProps
   );
@@ -31,17 +31,22 @@ export default function LanguagesDropdown() {
     setAnchorEl(null);
   };
 
-  const handleChangeLanguage = (value: string) => {
+  const handleChangeLanguage = (value: string, label: string) => {
     dispatch(setLanguages(value));
+    dispatch(setLanguagesLabel(label));
     dispatch(setBlogPost(post as BlogDataProps));
     localStorage.setItem('languages', value);
   };
+  console.log({ languageValueLabel })
 
   return (
     <div className="select-languages">
       <Button
         id="fade-button"
-        style={{ color: styleName ? '#ffffff' : '#000', fontSize: '1rem', fontWeight: 600 }}
+        sx={{
+          textTransform: 'none',
+        }}
+        style={{ color: styleName ? '#ffffff' : '#000', fontSize: '1.2rem', fontWeight: 600 }}
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
@@ -54,14 +59,14 @@ export default function LanguagesDropdown() {
                   sm: 'none',
                   md: 'flex',
                 },
-                fontSize: 16,
+                fontSize: '1.1rem',
               }}
             />
           </span>
         }
         onClick={handleClick}
       >
-        {language.toUpperCase()}
+        {languageValueLabel}
       </Button>
       <Menu
         id="fade-menu"
@@ -70,11 +75,13 @@ export default function LanguagesDropdown() {
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
+        PaperProps={{ sx: { width: '150px', } }}
       >
         {LanguageOptions.map((lag) => (
           <MenuItem
+            style={{ fontSize: '1.1rem' }}
             key={lag.language}
-            onClick={() => handleChangeLanguage(lag.value)}
+            onClick={() => handleChangeLanguage(lag.value, lag.lable)}
           >
             {lag.language}
           </MenuItem>

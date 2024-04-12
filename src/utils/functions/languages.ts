@@ -1,6 +1,6 @@
 export const LanguageOptions = [
-    { language: "English", value: "en" },
-    { language: "Español", value: "es" },
-    { language: "Português", value: "pt" }
+    { language: "English", value: "en", lable: 'English' },
+    { language: "Español", value: "es", lable: 'Español' },
+    { language: "Português", value: "pt", lable: 'Português' }
 ]
 
