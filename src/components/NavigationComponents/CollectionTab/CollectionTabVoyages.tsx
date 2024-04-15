@@ -2,7 +2,7 @@ import { Button, Hidden } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { CurrentPageInitialState } from '@/share/InterfaceTypes';
+import { CurrentPageInitialState, LabelFilterMeneList } from '@/share/InterfaceTypes';
 
 import '@/style/page.scss';
 import {
@@ -16,6 +16,7 @@ import { setFilterObject, setIsFilter } from '@/redux/getFilterSlice';
 import { setPathNameVoyages } from '@/redux/getDataPathNameSlice';
 import { ALLVOYAGES } from '@/share/CONST_DATA';
 import { useNavigate } from 'react-router-dom';
+import { BlockCollectionProps } from '@/share/InterfactTypesDatasetCollection';
 
 const CollectionTabVoyages = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -23,12 +24,15 @@ const CollectionTabVoyages = () => {
   const { styleName, blocks } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
   const { currentPage, currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
   const handlePageNavigation = (page: number, blockName: string) => {
+    console.log({ page, blockName })
     dispatch(setCurrentPage(page));
     if (page === 1) {
       dispatch(setIsFilter(false));
@@ -39,12 +43,18 @@ const CollectionTabVoyages = () => {
     dispatch(setFilterObject(filtersObj));
   };
 
+
   return (
     <Hidden>
       <div className="navbar-wrapper">
         <nav className="nav-button">
-          {blocks.map((page: string, index: number) => {
-            const newBlockName = page.toLowerCase().replace(/\s/g, '');
+
+          {blocks.map((items: any, index: number) => {
+
+            // const { label: page } = items;
+            // const blockName = (page as LabelFilterMeneList)[languageValue];
+            const blockName = (items as string)
+            const newBlockName = items.toLowerCase().replace(/\s/g, '');
             const buttonIndex = index + 1;
             return (
               <Button
@@ -72,7 +82,7 @@ const CollectionTabVoyages = () => {
                 }}
                 variant={currentPage === buttonIndex ? 'contained' : 'outlined'}
               >
-                {page}
+                {blockName}
               </Button>
             );
           })}

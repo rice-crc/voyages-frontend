@@ -59,8 +59,6 @@ export const MenuListsDropdown = () => {
     (state: RootState) => state.getFilterMenuList.filterValueList
   );
   const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-
-
   const { styleName: styleNameRoute } = usePageRouter();
 
   const { currentPage } = useSelector(
@@ -85,20 +83,19 @@ export const MenuListsDropdown = () => {
       try {
         if (checkPagesRouteForVoyages(styleNameRoute!)) {
           setFilterMenu(valueVoyages);
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
+          setFilterMenu(valueEnslaved);
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {
+          setFilterMenu(valueAfricanOrigin);
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
+          setFilterMenu(valueEnslavedTexas);
+        } else if (styleNameRoute === ENSALVERSTYLE) {
+          setFilterMenu(valueEnslavers);
+        } else if (styleNameRoute === TRANSATLANTICTRADS) {
+          setFilterMenu(valueEnslavers);
+        } else if (styleNameRoute === INTRAAMERICANTRADS) {
+          setFilterMenu(valueEnslavers);
         }
-        // else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
-        //   setFilterMenu(valueEnslaved);
-        // } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {
-        //   setFilterMenu(valueAfricanOrigin);
-        // } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
-        //   setFilterMenu(valueEnslavedTexas);
-        // } else if (styleNameRoute === ENSALVERSTYLE) {
-        //   setFilterMenu(valueEnslavers);
-        // } else if (styleNameRoute === TRANSATLANTICTRADS) {
-        //   setFilterMenu(valueEnslavers);
-        // } else if (styleNameRoute === INTRAAMERICANTRADS) {
-        //   setFilterMenu(valueEnslavers);
-        // }
       } catch (error) {
         console.error('Failed to load table cell structure:', error);
       }
@@ -109,7 +106,6 @@ export const MenuListsDropdown = () => {
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
   ) => {
-    console.log(event.currentTarget.dataset)
     const { value, type, label } = event.currentTarget.dataset;
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);

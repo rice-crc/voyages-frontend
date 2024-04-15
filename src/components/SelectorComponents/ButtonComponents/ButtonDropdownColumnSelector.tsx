@@ -31,6 +31,8 @@ const ButtonDropdownColumnSelector = () => {
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
 
+  const { configureColumns } = useSelector((state: RootState) => state.getLanguages);
+
   const [menuValueCells, setMenuValueCells] = useState<ColumnSelectorTree[]>(
     []
   );
@@ -50,6 +52,8 @@ const ButtonDropdownColumnSelector = () => {
   };
 
   useEffect(() => {
+
+
     const loadMenuValueCellStructure = async () => {
       try {
         if (checkPagesRouteForVoyages(styleNameRoute!)) {
@@ -121,7 +125,7 @@ const ButtonDropdownColumnSelector = () => {
               boxShadow: getColorBoxShadow(styleNameRoute!),
               fontWeight: 600,
               color: '#ffffff',
-              width: { xs: 170, sm: 170 },
+              width: { xs: 180, sm: 180 },
               '&:hover': {
                 backgroundColor: getColorHoverBackground(styleNameRoute!),
               },
@@ -129,7 +133,7 @@ const ButtonDropdownColumnSelector = () => {
             className="configureColumnsButton"
             endIcon={<ArrowDropDown />}
           >
-            Configure columns
+            {configureColumns}
           </Button>
         </span>
       }

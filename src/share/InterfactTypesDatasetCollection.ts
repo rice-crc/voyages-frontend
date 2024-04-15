@@ -1,16 +1,21 @@
+import { LabelFilterMeneList } from "./InterfaceTypes"
+
 export type DataSetCollectionType = DataSetCollectionProps[]
 
 export interface DataSetCollectionProps {
     headers: Headers
     base_filter: BaseFilter[]
     style_name: string
-    blocks: string[]
+    blocks: string[] //BlockCollectionProps[]
     filter_menu_flatfile: string
     table_flatfile: string
 }
+export interface BlockCollectionProps {
+    label: LabelFilterMeneList
+}
 
 export interface Headers {
-    label: string
+    label: LabelFilterMeneList
     text_introduce: string
 }
 
@@ -22,11 +27,11 @@ export interface BaseFilter {
 
 export interface InitialStateDataSetCollection {
     value: DataSetCollectionProps[];
-    textHeader: string;
+    textHeader: string//LabelFilterMeneList;
     textIntroduce: string;
     styleName: string;
     dataSetValueBaseFilter: BaseFilter[];
-    blocks: string[];
+    blocks: string[] //BlockCollectionProps[]
     filterMenuVoyageFlatfile: string;
     tableFlatfileVoyages: string
 }

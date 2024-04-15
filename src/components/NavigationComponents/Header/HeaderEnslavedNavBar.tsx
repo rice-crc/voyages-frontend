@@ -54,6 +54,7 @@ import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/Casca
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { Filter } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {
@@ -241,12 +242,12 @@ const HeaderEnslavedNavBar: React.FC = () => {
               display: {
                 xs: 'none',
                 sm: 'none',
-                md: 'block',
-                lg: 'block',
+                md: 'flex',
+                lg: 'flex',
                 textAlign: 'center',
-                paddingRight: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
                 fontWeight: 600,
-                fontSize: 20,
               },
             }}
           >
@@ -261,6 +262,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 getColorHover={getColorBTNHoverEnslavedBackground}
               />
             ))}
+            <LanguagesDropdown />
           </Box>
         </Toolbar>
         <Divider

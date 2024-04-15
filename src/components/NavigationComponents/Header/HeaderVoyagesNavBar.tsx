@@ -72,11 +72,11 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
   useEffect(() => {
     if (styleNameRoute === TRANSATLANTIC) {
-      dispatch(setDataSetHeader(TransAtlanticTitle))
+      // dispatch(setDataSetHeader(TransAtlanticTitle))
     } else if (styleNameRoute === INTRAAMERICAN) {
-      dispatch(setDataSetHeader(IntraAmericanTitle))
+      // dispatch(setDataSetHeader(IntraAmericanTitle))
     } else if (styleNameRoute === ALLVOYAGES) {
-      dispatch(setDataSetHeader(AllVoyagesTitle))
+      // dispatch(setDataSetHeader(AllVoyagesTitle))
     }
   }, [])
 
@@ -124,10 +124,10 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           filter: filters
         }));
       }
-      dispatch(setDataSetHeader(textHeder));
+      // dispatch(setDataSetHeader(textHeder));
       dispatch(setTextIntro(textIntro));
       dispatch(setStyleName(styleName));
-      dispatch(setBlocksMenuList(blocks));
+      // dispatch(setBlocksMenuList(blocks));
       dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile!))
       dispatch(setTableVoyagesFlatfile(tableFlatfile!))
       if (styleNameToPathMap[styleName]) {
@@ -200,7 +200,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
             <span className='header-logo-icon'>
               <HeaderLogo />
               <HeaderTitle
-                textHeader={textHeader}
+                // textHeader={textHeader}
                 HeaderTitle={VOYAGETILE}
                 pathLink={`${TRANSATLANTICPAGE}#voyages`}
                 onClickReset={onClickReset}
@@ -246,7 +246,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
             {value.map((item: DataSetCollectionProps, index: number) => {
               return (
                 <DatasetButton
-                  key={`${item}-${index}`}
+                  key={`${item.style_name}-${index}`}
                   item={item}
                   index={index}
                   handleSelectDataset={handleSelectDataset}

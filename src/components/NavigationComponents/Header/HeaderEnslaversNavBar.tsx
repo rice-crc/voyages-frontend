@@ -25,6 +25,7 @@ import { setBaseFilterEnslaversDataSetValue, setDataSetEnslaversHeader, setEnsla
 import { useNavigate } from 'react-router-dom';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { DrawerMenuBar } from './DrawerMenuBar';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -213,12 +214,12 @@ const HeaderEnslaversNavBar: React.FC = () => {
               display: {
                 xs: 'none',
                 sm: 'none',
-                md: 'block',
-                lg: 'block',
+                md: 'flex',
+                lg: 'flex',
                 textAlign: 'center',
-                paddingRight: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
                 fontWeight: 600,
-                fontSize: 20,
               },
             }}
           >
@@ -233,6 +234,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
                 getColorHover={getColorHoverBackground}
               />
             ))}
+            <LanguagesDropdown />
           </Box>
         </Toolbar>
         <Hidden mdDown>

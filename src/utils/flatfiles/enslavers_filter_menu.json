@@ -1,96 +1,172 @@
 [
 	{
-		"label": "Enslaver Names",
+		"label": {
+			"en": "Enslaver Names",
+			"es": "Nomes dos Escravizadores",
+			"pt": "Nomes dos Escravizadores"
+		},
 		"var_name": "aliases__alias",
 		"type": "CharField"
 	},
 	{
-		"label": "Voyages",
+		"label": {
+			"en": "Voyages",
+			"es": "Viagens",
+			"pt": "Viagens"
+		},
 		"children": [
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_id",
 				"type": "IntegerField",
-				"label": "Voyage ID"
+				"label": {
+					"en": "Voyage ID",
+					"es": "ID da Viagem ",
+					"pt": "ID da Viagem"
+				}
 			},
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
 				"type": "CharField",
-				"label": "Ship Name"
+				"label": {
+					"en": "Ship Name",
+					"es": "Nombre del Barco",
+					"pt": "Nome do Navio"
+				}
 			},
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 				"type": "IntegerField",
-				"label": "Year of Arrival"
+				"label": {
+					"en": "Year of Arrival",
+					"es": "Año de Llegada ",
+					"pt": "Ano de Chegada"
+				}
 			},
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__port_of_departure__value",
 				"type": "GeoTreeSelect",
-				"label": "Ports of Departure"
+				"label": {
+					"en": "Ports of Departure",
+					"es": "Puertos de Salida",
+					"pt": "Portos de Partida"
+				}
 			},
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__value",
 				"type": "GeoTreeSelect",
-				"label": "Ports of Embarkation"
+				"label": {
+					"en": "Ports of Embarkation",
+					"es": "Puertos de Embarque",
+					"pt": "Portos de Embarque"
+				}
 			},
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__value",
 				"type": "GeoTreeSelect",
-				"label": "Ports of Disembarkation"
+				"label": {
+					"en": "Ports of Disembarkation",
+					"es": "Puertos de Desembarque",
+					"pt": "Portos de Desembarque"
+				}
 			}
 		]
 	},
 	{
-		"label": "Enslaver Details",
+		"label": {
+			"en": "Enslaver Details",
+			"es": "Detalles de los Esclavizadores ",
+			"pt": "Detalhes dos Escravizadores"
+		},
 		"children": [
 			{
 				"var_name": "aliases__enslaver_relations__roles__name",
 				"type": "CharField",
-				"label": "Roles"
+				"label": {
+					"en": "Roles",
+					"es": "Roles",
+					"pt": "Papéis"
+				}
 			},
 			{
 				"var_name": "birth_place__value",
 				"type": "GeoTreeSelect",
-				"label": "Birth Place"
+				"label": {
+					"en": "Birth Place",
+					"es": "Lugar de Nacimiento",
+					"pt": "Local de Nascimento"
+				}
 			},
 			{
 				"var_name": "birth_year",
 				"type": "IntegerField",
-				"label": "Birth Year"
+				"label": {
+					"en": "Birth Year",
+					"es": "Año de Nacimiento",
+					"pt": "Ano de Nascimento"
+				}
 			},
 			{
 				"var_name": "death_place__value",
 				"type": "GeoTreeSelect",
-				"label": "Death Place"
+				"label": {
+					"en": "Death Place",
+					"es": "Lugar de Fallecimiento",
+					"pt": "Local de Falecimento"
+				}
 			},
 			{
 				"var_name": "death_year",
 				"type": "IntegerField",
-				"label": "Death Year"
+				"label": {
+					"en": "Death Year",
+					"es": "Año de Fallecimiento ",
+					"pt": "Ano de Falecimento"
+				}
 			}
 		]
 	},
 	{
-		"label": "Captives",
+		"label": {
+			"en": "Captives",
+			"es": "Cautivos",
+			"pt": "Cativos"
+		},
 		"children": [
 			{
 				"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
 				"type": "CharField",
-				"label": "Documented Name of Enslaved Person"
+				"label": {
+					"en": "Documented Name of Enslaved Person",
+					"es": "Nombre Documentado de la Persona Esclavizada",
+					"pt": "Nome Documentado da pessoa Escravizada"
+				}
 			}
 		]
 	},
 	{
-		"label": "Sources",
+		"label": {
+			"en": "Sources",
+			"es": "Fuentes",
+			"pt": "Fontes"
+		},
 		"children": [
 			{
 				"var_name": "enslaver_source_connections__source__title",
 				"type": "CharField",
-				"label": "Biographical Sources"
+				"label": {
+					"en": "Biographical Sources",
+					"es": "Fuentes Biográficas ",
+					"pt": "Fontes Biográficas"
+				}
 			},
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_source_connections__source__title",
 				"type": "CharField",
-				"label": "Documentary (Voyage) Sources"
+				"label": {
+					"en": "Documentary (Voyage) Sources",
+					"es": "Fuentes Documentales (viaje)",
+					"pt": "Fontes Documentais (viagem)"
+				}
 			}
 		]
 	}

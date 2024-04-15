@@ -7,10 +7,11 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { LanguageOptions } from '@/utils/functions/languages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { setLanguages, setLanguagesLabel } from '@/redux/getLanguagesSlice';
+import { setConfigureColumns, setLanguages, setLanguagesLabel, setResetAllLanguage } from '@/redux/getLanguagesSlice';
 import { setBlogPost } from '@/redux/getBlogDataSlice';
 import { BlogDataProps } from '@/share/InterfaceTypesBlog';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { setCurrentVoyagesBlockName } from '@/redux/getScrollPageSlice';
 
 export default function LanguagesDropdown() {
   const dispatch = useDispatch();
@@ -35,6 +36,17 @@ export default function LanguagesDropdown() {
     dispatch(setLanguages(value));
     dispatch(setLanguagesLabel(label));
     dispatch(setBlogPost(post as BlogDataProps));
+    if (value === 'en') {
+      dispatch(setConfigureColumns('Configure Columns'))
+      dispatch(setResetAllLanguage('Reset all'))
+      // dispatch(setCurrentVoyagesBlockName(currentBlockName));
+    } else if (value === 'es') {
+      dispatch(setConfigureColumns('Configurar columnas'))
+      dispatch(setResetAllLanguage('Restablecer todo'))
+    } else if (value === 'pt') {
+      dispatch(setConfigureColumns('Configurar colunas'))
+      dispatch(setResetAllLanguage('Resetar tudo'))
+    }
     localStorage.setItem('languages', value);
   };
 

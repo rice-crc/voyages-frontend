@@ -5,9 +5,9 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 interface HeaderTitleProps {
   HeaderTitle: string
-  textHeader: string
   pathLink: string;
   onClickReset: () => void;
+  textHeader?: string
 }
 export const HeaderTitle = (props: HeaderTitleProps) => {
   const { HeaderTitle, pathLink, textHeader, onClickReset } = props;

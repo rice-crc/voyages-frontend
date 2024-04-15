@@ -1,9 +1,10 @@
-import { BaseFilter, InitialStateDataSetCollection } from '@/share/InterfactTypesDatasetCollection';
+import { LabelFilterMeneList } from '@/share/InterfaceTypes';
+import { BaseFilter, BlockCollectionProps, InitialStateDataSetCollection } from '@/share/InterfactTypesDatasetCollection';
 import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 export const initialState: InitialStateDataSetCollection = {
     value: jsonDataVoyageCollection,
-    textHeader: jsonDataVoyageCollection[0].headers.label,
+    textHeader: jsonDataVoyageCollection[0].headers.label.en,
     textIntroduce: jsonDataVoyageCollection[0].headers.text_introduce,
     styleName: jsonDataVoyageCollection[0].style_name,
     dataSetValueBaseFilter: [],
@@ -28,7 +29,7 @@ export const getDataSetCollectionSlice = createSlice({
         setStyleName: (state, action: PayloadAction<string>) => {
             state.styleName = action.payload
         },
-        setBlocksMenuList: (state, action: PayloadAction<string[]>) => {
+        setBlocksMenuList: (state, action: PayloadAction<string[]>) => { //
             state.blocks = action.payload
         },
         setTableVoyagesFlatfile: (state, action: PayloadAction<string>) => {

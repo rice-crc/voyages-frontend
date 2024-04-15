@@ -467,10 +467,10 @@ export interface InitialStateFilterMenuProps {
 
 export interface ValueFilterList {
     valueVoyages: FilterMenuList[];
-    valueEnslaved?: FilterMenuList[];
-    valueAfricanOrigin?: FilterMenuList[];
-    valueEnslavedTexas?: FilterMenuList[];
-    valueEnslavers?: FilterMenuList[];
+    valueEnslaved: FilterMenuList[];
+    valueAfricanOrigin: FilterMenuList[];
+    valueEnslavedTexas: FilterMenuList[];
+    valueEnslavers: FilterMenuList[];
 }
 
 export interface FilterMenuList {

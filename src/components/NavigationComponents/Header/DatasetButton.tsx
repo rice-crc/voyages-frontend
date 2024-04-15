@@ -2,7 +2,9 @@ import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
 import { Button } from '@mui/material';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { getColorTextCollection } from '@/utils/functions/getColorStyle';
-
+import { useSelector } from 'react-redux';
+import { LabelFilterMeneList } from '@/share/InterfaceTypes';
+import { RootState } from '@/redux/store';
 interface DatasetButtonProps {
   item: any;
   index: any;
@@ -29,6 +31,9 @@ export const DatasetButton = (props: DatasetButtonProps) => {
     getColorBTNBackground,
     getColorHover,
   } = props;
+
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
   const {
     base_filter,
     headers,
@@ -37,12 +42,13 @@ export const DatasetButton = (props: DatasetButtonProps) => {
     table_flatfile,
     filter_menu_flatfile,
   } = item;
-  const { styleName } = usePageRouter()
-
+  const { label: labelDataset } = headers
+  const { styleName, } = usePageRouter()
+  const menuLabel = (labelDataset as LabelFilterMeneList)[languageValue];
 
   return (
     <Button
-      key={`${item}-${index}`}
+      key={`${menuLabel}-${index}`}
       disabled={styleName === style_name}
       onClick={() =>
         handleSelectDataset(
@@ -75,7 +81,7 @@ export const DatasetButton = (props: DatasetButtonProps) => {
         },
       }}
     >
-      <div>{headers.label}</div>
+      <div>{menuLabel}</div>
     </Button>
   );
 };

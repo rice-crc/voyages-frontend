@@ -26,13 +26,13 @@ import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
 import AutoCompletedSearhBlog from '@/components/FilterComponents/AutoCompletedSearhBlog/AutoCompletedSearhBlog';
+import { LabelFilterMeneList } from '@/share/InterfaceTypes';
 
 export default function HeaderLogoSearch() {
   const dispatch: AppDispatch = useDispatch();
   const { blogTitle, institutionName } = useParams();
-  const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
-  );
+  const { inputSearchValue } = useSelector((state: RootState) => state.getCommonGlobalSearch);
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
 
   const onChangePath = () => {
     dispatch(resetAllStateToInitailState());
@@ -40,7 +40,7 @@ export default function HeaderLogoSearch() {
     dispatch(setCurrentEnslavedPage(1));
     dispatch(setCurrentPage(1));
     dispatch(setInputSearchValue(''));
-    dispatch(setDataSetHeader(jsonDataVoyageCollection[0].headers.label));
+    dispatch(setDataSetHeader(jsonDataVoyageCollection[0].headers.label.en));
     dispatch(setTextIntro(jsonDataVoyageCollection[0].headers.text_introduce));
     dispatch(setStyleName(jsonDataVoyageCollection[0].style_name));
     dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
