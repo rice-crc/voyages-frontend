@@ -1,11 +1,5 @@
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 
-export interface Flatlabel {
-    key: string;
-    label: string;
-    id: number;
-    type: string;
-}
 export interface Options {
     [key: string]: VoyageOptionsValue;
 }
@@ -154,7 +148,7 @@ export interface InitialStateFilterMenu {
 export type VoyagaesFilterMenu = FilterMenu[]
 
 export interface FilterMenu {
-    label: string
+    label: LabelFilterMeneList
     var_name?: string
     type?: string
     flatlabel?: string
@@ -162,17 +156,15 @@ export interface FilterMenu {
 }
 
 export interface ChildrenFilter {
-    label?: string
+    label: LabelFilterMeneList
     children?: ChildrenFilterArr[]
     var_name?: string
     type?: string
-    flatlabel?: string
 }
 export interface ChildrenFilterArr {
     var_name: string
     type: string
-    label: string
-    flatlabel?: string
+    label: LabelFilterMeneList
 }
 
 
@@ -475,18 +467,23 @@ export interface InitialStateFilterMenuProps {
 
 export interface ValueFilterList {
     valueVoyages: FilterMenuList[];
-    valueEnslaved: FilterMenuList[];
-    valueAfricanOrigin: FilterMenuList[];
-    valueEnslavedTexas: FilterMenuList[];
-    valueEnslavers: FilterMenuList[];
+    valueEnslaved?: FilterMenuList[];
+    valueAfricanOrigin?: FilterMenuList[];
+    valueEnslavedTexas?: FilterMenuList[];
+    valueEnslavers?: FilterMenuList[];
 }
 
 export interface FilterMenuList {
-    label: string;
+    label: LabelFilterMeneList;
     var_name?: string;
     type?: string;
-    flatlabel?: string;
     children?: ChildrenFilter[];
+}
+export interface LabelFilterMeneList {
+    [key: string]: string;
+    en: string
+    es: string
+    pt: string
 }
 export interface FetchAutoVoyageParams {
     varName?: string;

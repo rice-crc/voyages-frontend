@@ -9,11 +9,12 @@ import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/Bu
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import "react-multi-carousel/lib/styles.css";
 import { CardNewsBlogs } from './CardNewsBlogs';
+import { LanguagesProps } from '@/share/InterfaceTypeLanguages';
 
 const NewsBlog: React.FC = () => {
 
   const dispatch: AppDispatch = useDispatch();
-  const { language } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValueLabel } = useSelector((state: RootState) => state.getLanguages as LanguagesProps);
   const { data: carouselItems } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
@@ -51,7 +52,7 @@ const NewsBlog: React.FC = () => {
     return () => {
       dispatch(setBlogPost({} as BlogDataProps));
     };
-  }, [dispatch, language]);
+  }, [dispatch, languageValueLabel]);
 
   return (
     <div className="content-news-blog-container">

@@ -90,6 +90,7 @@ export const nodeTypePostDisembarkation = 'postDisembarkation'
 export const ENSLAVEDNODE = 'enslaved'
 export const ENSLAVERSNODE = 'enslavers'
 export const VOYAGESNODE = 'voyage'
+export const VOYAGESNODECLASS = 'voyages'
 export const ENSLAVEMENTNODE = 'enslavement_relations'
 export const classToColor = {
     enslaved: '#906866',

@@ -37,7 +37,6 @@ export default function LanguagesDropdown() {
     dispatch(setBlogPost(post as BlogDataProps));
     localStorage.setItem('languages', value);
   };
-  console.log({ languageValueLabel })
 
   return (
     <div className="select-languages">
@@ -46,7 +45,7 @@ export default function LanguagesDropdown() {
         sx={{
           textTransform: 'none',
         }}
-        style={{ color: styleName ? '#ffffff' : '#000', fontSize: '1.2rem', fontWeight: 600 }}
+        style={{ color: styleName ? '#ffffff' : '#000', fontSize: styleName ? '0.80rem' : '1.15rem', fontWeight: 600 }}
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
@@ -75,11 +74,11 @@ export default function LanguagesDropdown() {
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
-        PaperProps={{ sx: { width: '150px', } }}
+        PaperProps={{ sx: { width: styleName ? null : '150px' } }}
       >
         {LanguageOptions.map((lag) => (
           <MenuItem
-            style={{ fontSize: '1.1rem' }}
+            style={{ fontSize: styleName ? '0.85rem' : '1.15rem' }}
             key={lag.language}
             onClick={() => handleChangeLanguage(lag.value, lag.lable)}
           >

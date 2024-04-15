@@ -3,6 +3,7 @@ import {
     ENSLAVERSNODE,
     VOYAGESNODE,
     ENSLAVEMENTNODE,
+    VOYAGESNODECLASS,
 } from '@/share/CONST_DATA';
 import { Nodes, Edges } from '@/share/InterfaceTypePastNetworks';
 
@@ -48,7 +49,7 @@ export const createdLabelNodeHover = (node: Nodes) => {
         LableNode = alias;
     } else if (node_class === ENSLAVEMENTNODE) {
         LableNode = relation_type__name;
-    } else if (node_class === VOYAGESNODE) {
+    } else if (node_class === VOYAGESNODECLASS) {
         LableNode = `${shipName ?? shipName}, ${purhcaseLocation ? purhcaseLocation : 'unknown'
             } to ${disembarkationLocation} ${year}`;
     }

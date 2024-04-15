@@ -52,6 +52,7 @@ import ButtonDropdownColumnSelector from '@/components/SelectorComponents/Button
 import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -188,7 +189,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               <MenuIcon />
             </IconButton>
           </Hidden>
-
           <Typography
             component="div"
             sx={{
@@ -224,7 +224,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               }}
             >
               {inputSearchValue && <GlobalSearchButton />}
-
             </Typography>
           </Typography>
           {!inputSearchValue &&
@@ -235,12 +234,12 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               display: {
                 xs: 'none',
                 sm: 'none',
-                md: 'block',
-                lg: 'block',
+                md: 'flex',
+                lg: 'flex',
                 textAlign: 'center',
-                paddingRight: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
                 fontWeight: 600,
-
               },
             }}
           >
@@ -257,7 +256,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 />
               );
             })}
-
+            <LanguagesDropdown />
           </Box>
         </Toolbar>
         <Divider

@@ -17,6 +17,7 @@ import {
   ENSLAVEDNODE,
   ENSLAVERSNODE,
   VOYAGESNODE,
+  VOYAGESNODECLASS,
 } from '@/share/CONST_DATA';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
@@ -31,14 +32,14 @@ export const GenerateCellTableRenderer = (
 ) => {
   const yearArrivedID = 'voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year'
   const values = params.value;
-  const isYearArrivedAndVoyageID = (colID == yearArrivedID) // || (colID == voyageID)
+  const isYearArrivedAndVoyageID = (colID == yearArrivedID)
   const ID = params.data.id;
   const dispatch = useDispatch();
   const { styleName } = usePageRouter()
 
   let nodeType: string = '';
   if (checkPagesRouteForVoyages(styleName!)) {
-    nodeType = VOYAGESNODE;
+    nodeType = VOYAGESNODECLASS;
   } else if (checkPagesRouteForEnslaved(styleName!)) {
     nodeType = ENSLAVEDNODE;
   } else if (checkPagesRouteForEnslavers(styleName!)) {
