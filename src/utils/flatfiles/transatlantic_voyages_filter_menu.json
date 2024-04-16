@@ -68,8 +68,8 @@
 						}
 					},
 					{
-						"var_name": "voyage_ship__vessel_construction_place__name",
-						"type": "CharField",
+						"var_name": "voyage_ship__vessel_construction_place__value",
+						"type": "GeoTreeSelect",
 						"label": {
 							"en": "Region constructed",
 							"es": "Region constructed ES",
@@ -86,8 +86,8 @@
 						}
 					},
 					{
-						"var_name": "voyage_ship__registered_place__name",
-						"type": "CharField",
+						"var_name": "voyage_ship__registered_place__value",
+						"type": "GeoTreeSelect",
 						"label": {
 							"en": "Place registered",
 							"es": "Place registered ES",
