@@ -142,9 +142,7 @@ const Tables: React.FC = () => {
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
-    if (inputSearchValue) {
-        dataSend['global_search'] = inputSearchValue;
-    }
+
 
     useEffect(() => {
         const fetchDataTable = async () => {

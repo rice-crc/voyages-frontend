@@ -18,7 +18,6 @@ import {
   ALLENSLAVEDPAGE,
   ENSALVEDPAGE,
   ENSLAVEDTEXASPAGE,
-  EnslavedTitle,
   PASTHOMEPAGE,
   ENSLAVEDTEXAS,
   ALLENSLAVED,
@@ -53,9 +52,10 @@ import HeaderLogo from './HeaderLogo';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import { Filter } from '@/share/InterfaceTypes';
+import { Filter, LabelFilterMeneList } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import { enslavedHeader } from '@/utils/flatfiles/title_pages';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {
@@ -172,6 +172,12 @@ const HeaderEnslavedNavBar: React.FC = () => {
       localStorage.removeItem(key);
     });
   };
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
+  let EnslavedTitle = ''
+  for (const header of enslavedHeader.header) {
+    EnslavedTitle = (header.label as LabelFilterMeneList)[languageValue];
+  }
   return (
     <Box
       sx={{

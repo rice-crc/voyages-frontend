@@ -6,7 +6,7 @@ import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { ALLENSLAVERS, ENSALVERSTYLE, EnslaversAllTrades, EnslaversTitle, INTRAAMERICANENSLAVERS, INTRAAMERICANTRADS, IntraAmericanTitle, PASTHOMEPAGE, TRANSATLANTICENSLAVERS, TRANSATLANTICTRADS, TransAtlanticTitle, allEnslavers } from '@/share/CONST_DATA';
+import { ALLENSLAVERS, ENSALVERSTYLE, EnslaversAllTrades, INTRAAMERICANENSLAVERS, INTRAAMERICANTRADS, IntraAmericanTitle, PASTHOMEPAGE, TRANSATLANTICENSLAVERS, TRANSATLANTICTRADS, TransAtlanticTitle, allEnslavers } from '@/share/CONST_DATA';
 import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import '@/style/Nav.scss';
@@ -18,7 +18,7 @@ import HeaderLogo from './HeaderLogo';
 import { BaseFilter, BlockCollectionProps, DataSetCollectionProps } from '@/share/InterfactTypesDatasetCollection';
 import { DatasetButton } from './DatasetButton';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import { Filter } from '@/share/InterfaceTypes';
+import { Filter, LabelFilterMeneList } from '@/share/InterfaceTypes';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground, getColorNavbarBackground } from '@/utils/functions/getColorStyle';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import { setBaseFilterEnslaversDataSetValue, setDataSetEnslaversHeader, setEnslaversBlocksMenuList, setEnslaversFilterMenuFlatfile, setEnslaversStyleName, setPeopleTableEnslavedFlatfile } from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
@@ -26,6 +26,7 @@ import { useNavigate } from 'react-router-dom';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { DrawerMenuBar } from './DrawerMenuBar';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import { enslaversHeader } from '@/utils/flatfiles/title_pages';
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -141,6 +142,13 @@ const HeaderEnslaversNavBar: React.FC = () => {
   const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
+  let EnslaversTitle = ''
+  for (const header of enslaversHeader.header) {
+    EnslaversTitle = (header.label as LabelFilterMeneList)[languageValue];
+  }
 
   return (
     <Box

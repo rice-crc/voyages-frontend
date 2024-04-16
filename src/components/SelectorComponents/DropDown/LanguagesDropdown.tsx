@@ -56,7 +56,16 @@ export default function LanguagesDropdown() {
     dispatch(setDataSetEnslaversHeader(hederTitleName))
     localStorage.setItem('languages', value);
   };
-
+  let colorText = '#ffffff'
+  if (styleName === '' || styleName === 'PastHomePage') {
+    colorText = 'rgba(0, 0, 0, 0.85)'
+  }
+  let fontSize = '0.80rem'
+  if (styleName === 'PastHomePage') {
+    fontSize = '1rem'
+  } else if (!styleName) {
+    fontSize = '1rem'
+  }
   return (
     <div className="select-languages">
       <Button
@@ -64,7 +73,7 @@ export default function LanguagesDropdown() {
         sx={{
           textTransform: 'none',
         }}
-        style={{ color: styleName ? '#ffffff' : '#000', fontSize: styleName ? '0.80rem' : '1.15rem', fontWeight: 600 }}
+        style={{ color: colorText, fontSize: fontSize, fontWeight: 600 }}
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
@@ -77,7 +86,7 @@ export default function LanguagesDropdown() {
                   sm: 'none',
                   md: 'flex',
                 },
-                fontSize: '1.1rem',
+                fontSize: '1rem',
               }}
             />
           </span>
@@ -97,7 +106,7 @@ export default function LanguagesDropdown() {
       >
         {LanguageOptions.map((lag) => (
           <MenuItem
-            style={{ fontSize: styleName ? '0.85rem' : '1.15rem' }}
+            style={{ fontSize: styleName ? '0.85rem' : '1rem' }}
             key={lag.language}
             onClick={() => handleChangeLanguage(lag.value, lag.lable)}
           >

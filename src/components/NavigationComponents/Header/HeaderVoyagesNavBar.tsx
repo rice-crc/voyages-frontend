@@ -42,7 +42,6 @@ import {
   TRANSATLANTIC,
   TRANSATLANTICPAGE,
   TransAtlanticTitle,
-  VOYAGETILE,
 } from '@/share/CONST_DATA';
 import '@/style/Nav.scss';
 import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
@@ -54,6 +53,7 @@ import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/Casca
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import { voyagesHeader } from '@/utils/flatfiles/title_pages';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -62,6 +62,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
 
   const { currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -162,6 +163,11 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     });
   };
 
+
+  let VOYAGETILE = ''
+  for (const header of voyagesHeader.header) {
+    VOYAGETILE = (header.label as LabelFilterMeneList)[languageValue];
+  }
 
   return (
     <Box

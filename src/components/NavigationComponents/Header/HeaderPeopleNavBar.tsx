@@ -5,35 +5,31 @@ import Toolbar from '@mui/material/Toolbar';
 import { Button, Menu } from '@mui/material';
 import PEOPLE from '@/utils/flatfiles/people_page_data.json';
 import { useNavigate } from 'react-router-dom';
-import { HeaderDrawerMenuPeopleBar } from './HeaderDrawerMenuPeopleBar';
 import '@/style/Nav.scss';
 import {
   ALLENSLAVED,
   ALLENSLAVERS,
   ENSALVEDPAGE,
   ENSALVERSPAGE,
-  Enslaved,
-  POPELETILET,
-  EnslaversTitle,
   ALLENSLAVEDPAGE,
-  ENSALVERSTYLE,
-  allEnslavers,
-  INTRAAMERICANENSLAVERS,
   TRANSATLANTICENSLAVERS,
 } from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 import { setPathEnslavers, setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
 import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import HeaderLogo from './HeaderLogo';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import { LabelFilterMeneList } from '@/share/InterfaceTypes';
+
 
 export default function HeaderPeopleNavBar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const dispatch: AppDispatch = useDispatch();
-
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -48,11 +44,11 @@ export default function HeaderPeopleNavBar() {
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
-    if (item === Enslaved) {
+    if (item === "Enslaved" || item === "Esclavizados" || item === "Escravizados") {
       navigate(`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#people`);
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setPathNameEnslaved(ALLENSLAVED));
-    } else if (item === EnslaversTitle) {
+    } else if (item === "Enslavers" || item === "Esclavistas" || item === "Escravizadores") {
       navigate(`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}#people`);
       dispatch(setCurrentEnslaversPage(1));
       dispatch(setPathEnslavers(ALLENSLAVERS));
@@ -95,7 +91,14 @@ export default function HeaderPeopleNavBar() {
           >
             <span className='header-logo-icon'>
               <HeaderLogo />
-              <div className="people-header">{POPELETILET}</div>
+              {PEOPLE.map((item, index) => {
+                const { title } = item
+                const textHeaderTitle = (title.label as LabelFilterMeneList)[languageValue];
+                return (
+                  <div className="people-header" key={`${index}-${textHeaderTitle}`}>{textHeaderTitle}</div>
+                )
+              })}
+
             </span>
 
           </Typography>
@@ -105,33 +108,38 @@ export default function HeaderPeopleNavBar() {
               display: {
                 xs: 'none',
                 sm: 'none',
-                md: 'block',
-                lg: 'block',
+                md: 'flex',
+                lg: 'flex',
                 textAlign: 'center',
+                alignItems: 'center',
                 paddingRight: 40,
                 fontWeight: 600,
                 fontSize: 20,
-
               },
             }}
           >
-            {PEOPLE[0].header?.map((item, index) => {
-              return (
-                <Button
-                  onClick={() => handleSelectMenuItems(item)}
-                  key={`${item}-${index}`}
-                  sx={{
-                    color: 'rgba(0, 0, 0, 0.85)',
-                    fontWeight: 600,
-                    fontSize: 20,
-                    margin: '0 2px',
-                    textTransform: 'none',
-                  }}
-                >
-                  <div>{item}</div>
-                </Button>
-              );
-            })}
+            {PEOPLE.map((items) => (
+              items.header.map((title, index) => {
+                const { label: textLabel } = title
+                const textTitle = (textLabel as LabelFilterMeneList)[languageValue];
+                return (
+                  <Button
+                    onClick={() => handleSelectMenuItems(textTitle)}
+                    key={`${textTitle}-${index}`}
+                    sx={{
+                      color: 'rgba(0, 0, 0, 0.85)',
+                      fontWeight: 600,
+                      fontSize: '1.15rem',
+                      margin: '0 2px',
+                      textTransform: 'none',
+                    }}
+                  >
+                    <div>{textTitle}</div>
+                  </Button>
+                )
+              })
+            ))}
+            <LanguagesDropdown />
           </Box>
         </Toolbar>
         <Box component="nav">
@@ -141,10 +149,10 @@ export default function HeaderPeopleNavBar() {
             open={Boolean(anchorEl)}
             onClick={handleMenuClose}
           >
-            <HeaderDrawerMenuPeopleBar
-              value={PEOPLE[0]?.header}
+            {/* <HeaderDrawerMenuPeopleBar
+              // value={PEOPLE[0]?.header}
               handleSelectMenuItems={handleSelectMenuItems}
-            />
+            /> */}
           </Menu>
         </Box>
       </AppBar>
