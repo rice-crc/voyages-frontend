@@ -243,16 +243,16 @@
 }
 
 .nav-button-page {
-  width: 85px !important;
-  height: 40px;
+  width: 92px !important;
+  height: 38px;
   line-height: 14px !important;
 
   @include breakpoint-standard(7) {
-    width: 75px !important;
+    width: 92px !important;
   }
 
   @include breakpoint-standard(6) {
-    width: 75px !important;
+    width: 92px !important;
   }
 
   @include breakpoint-standard(5) {

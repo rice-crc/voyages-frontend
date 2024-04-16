@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
-import { Filter, HeaderNavBarMenuProps } from '@/share/InterfaceTypes';
+import { Filter, HeaderNavBarMenuProps, LabelFilterMeneList } from '@/share/InterfaceTypes';
 import CascadingMenu from '../../SelectorComponents/Cascading/CascadingMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
@@ -29,6 +29,7 @@ import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitl
 import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
 import {
   BaseFilter,
+  BlockCollectionProps,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
 import {
@@ -72,16 +73,15 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
   useEffect(() => {
     if (styleNameRoute === TRANSATLANTIC) {
-      // dispatch(setDataSetHeader(TransAtlanticTitle))
+      dispatch(setDataSetHeader(TransAtlanticTitle))
     } else if (styleNameRoute === INTRAAMERICAN) {
-      // dispatch(setDataSetHeader(IntraAmericanTitle))
+      dispatch(setDataSetHeader(IntraAmericanTitle))
     } else if (styleNameRoute === ALLVOYAGES) {
-      // dispatch(setDataSetHeader(AllVoyagesTitle))
+      dispatch(setDataSetHeader(AllVoyagesTitle))
     }
   }, [])
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
 
@@ -96,7 +96,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     textHeder: string,
     textIntro: string,
     styleName: string,
-    blocks: string[],
+    blocks: BlockCollectionProps[],
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
@@ -124,10 +124,10 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           filter: filters
         }));
       }
-      // dispatch(setDataSetHeader(textHeder));
+      dispatch(setDataSetHeader(textHeder));
       dispatch(setTextIntro(textIntro));
       dispatch(setStyleName(styleName));
-      // dispatch(setBlocksMenuList(blocks));
+      dispatch(setBlocksMenuList(blocks));
       dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile!))
       dispatch(setTableVoyagesFlatfile(tableFlatfile!))
       if (styleNameToPathMap[styleName]) {
@@ -200,7 +200,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
             <span className='header-logo-icon'>
               <HeaderLogo />
               <HeaderTitle
-                // textHeader={textHeader}
+                textHeader={textHeader}
                 HeaderTitle={VOYAGETILE}
                 pathLink={`${TRANSATLANTICPAGE}#voyages`}
                 onClickReset={onClickReset}

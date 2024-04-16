@@ -6,7 +6,7 @@ export interface DataSetCollectionProps {
     headers: Headers
     base_filter: BaseFilter[]
     style_name: string
-    blocks: string[] //BlockCollectionProps[]
+    blocks: BlockCollectionProps[] // string[]
     filter_menu_flatfile: string
     table_flatfile: string
 }
@@ -27,11 +27,11 @@ export interface BaseFilter {
 
 export interface InitialStateDataSetCollection {
     value: DataSetCollectionProps[];
-    textHeader: string//LabelFilterMeneList;
+    textHeader: string
     textIntroduce: string;
     styleName: string;
     dataSetValueBaseFilter: BaseFilter[];
-    blocks: string[] //BlockCollectionProps[]
+    blocks: BlockCollectionProps[]
     filterMenuVoyageFlatfile: string;
     tableFlatfileVoyages: string
 }
@@ -43,7 +43,7 @@ export interface InitialStateDataPeopleSetCollection {
     dataSetValueBaseFilter: BaseFilter[];
     dataSetKeyPeople: string;
     dataSetValuePeople: string[] | number[];
-    blocksPeople: string[];
+    blocksPeople: BlockCollectionProps[]
     filterMenuFlatfile: string,
     tableFlatfileEnslaved: string
 }
@@ -55,7 +55,7 @@ export interface InitialStateDataPeopleEnslaversSetCollection {
     dataSetValueBaseFilter: BaseFilter[];
     dataSetKeyPeople: string;
     dataSetValuePeople: string[] | number[];
-    blocksEnslavers: string[];
+    blocksEnslavers: BlockCollectionProps[];
     filterMenuEnslaversFlatfile: string,
     tableFlatfileEnslavers: string
 }

@@ -45,7 +45,7 @@ export default function HeaderLogoSearch() {
     dispatch(setStyleName(jsonDataVoyageCollection[0].style_name));
     dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
     dispatch(
-      setDataSetPeopleEnslavedHeader(jsonDataPEOPLECOLLECTIONS[0].headers.label)
+      setDataSetPeopleEnslavedHeader(jsonDataPEOPLECOLLECTIONS[0].headers.label.en)
     );
     dispatch(
       setPeopleEnslavedTextIntro(

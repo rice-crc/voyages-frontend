@@ -45,9 +45,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
-interface LabelFilterMenuList {
-  [key: string]: string;
-}
+
 export const MenuListsDropdown = () => {
   const {
     valueVoyages,

@@ -1,13 +1,11 @@
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { Link } from 'react-router-dom';
 import { VOYAGEPATHENPOINT } from '@/share/CONST_DATA';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
 interface HeaderTitleProps {
   HeaderTitle: string
   pathLink: string;
   onClickReset: () => void;
-  textHeader?: string
+  textHeader: string
 }
 export const HeaderTitle = (props: HeaderTitleProps) => {
   const { HeaderTitle, pathLink, textHeader, onClickReset } = props;

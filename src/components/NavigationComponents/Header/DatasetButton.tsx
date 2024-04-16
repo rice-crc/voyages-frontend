@@ -1,4 +1,4 @@
-import { BaseFilter } from '@/share/InterfactTypesDatasetCollection';
+import { BaseFilter, BlockCollectionProps } from '@/share/InterfactTypesDatasetCollection';
 import { Button } from '@mui/material';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { getColorTextCollection } from '@/utils/functions/getColorStyle';
@@ -13,7 +13,7 @@ interface DatasetButtonProps {
     textHeder: string,
     textIntro: string,
     styleName: string,
-    blocks: string[],
+    blocks: BlockCollectionProps[],
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => void;
@@ -53,7 +53,7 @@ export const DatasetButton = (props: DatasetButtonProps) => {
       onClick={() =>
         handleSelectDataset(
           base_filter,
-          headers.label,
+          menuLabel,
           headers.text_introduce,
           style_name,
           blocks,

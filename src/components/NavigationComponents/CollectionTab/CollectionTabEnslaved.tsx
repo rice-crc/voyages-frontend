@@ -18,7 +18,9 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { useEffect } from 'react';
 import { setPeopleEnslavedBlocksMenuList, } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
-import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
+import { LabelFilterMeneList, TYPESOFBLOCKENSLAVED, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
+import { BlockCollectionProps } from '@/share/InterfactTypesDatasetCollection';
+import { checkBlockCollectionNameForEnslaved } from '@/utils/functions/checkBlockCollectionName';
 
 const CollectionTabEnslaved = () => {
   const navigate = useNavigate();
@@ -31,6 +33,7 @@ const CollectionTabEnslaved = () => {
     (state: RootState) => state.getScrollEnslavedPage
   );
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
 
   useEffect(() => {
     if (currentBlockName === 'table' && styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
@@ -50,7 +53,11 @@ const CollectionTabEnslaved = () => {
     if (page === 2) {
       dispatch(setPathNameEnslaved(ALLENSLAVED));
     }
-    navigate(`#${(blockName).toLowerCase()}`)
+    if (checkBlockCollectionNameForEnslaved(blockName) === TYPESOFBLOCKENSLAVED.enslavedEN) {
+      navigate(`#${TYPESOFBLOCKENSLAVED.enslavedEN.toLowerCase()}`)
+    } else if (checkBlockCollectionNameForEnslaved(blockName) === TYPESOFBLOCKENSLAVED.mapEN) {
+      navigate(`#${TYPESOFBLOCKENSLAVED.mapEN.toLowerCase()}`)
+    }
     dispatch(setFilterObject(filtersObj));
   };
 
@@ -58,13 +65,15 @@ const CollectionTabEnslaved = () => {
     <Hidden>
       <div className="navbar-wrapper">
         <nav className="nav-button-enslaved">
-          {blocksPeople.map((page: string, index: number) => {
+          {blocksPeople.map((items: BlockCollectionProps, index: number) => {
+            const { label: block } = items;
+            const blockName = (block as LabelFilterMeneList)[languageValue];
+            const newBlockName = blockName.toLowerCase().replace(/\s/g, '');
             const buttonIndex = index + 1;
             return (
-
               <Button
-                key={`${page}-${buttonIndex}`}
-                onClick={() => handlePageNavigation(buttonIndex, page.toLowerCase())}
+                key={`${newBlockName}-${buttonIndex}`}
+                onClick={() => handlePageNavigation(buttonIndex, newBlockName)}
                 className="nav-button-page"
                 sx={{
                   width: 75,
@@ -72,9 +81,9 @@ const CollectionTabEnslaved = () => {
                   cursor: 'pointer',
                   textTransform: 'unset',
                   backgroundColor: getColorBTNBackgroundEnslaved(styleName!),
-                  boxShadow: currentPageBlockName === page.toLocaleLowerCase() ? getColorBoxShadowEnslaved(styleName!) : '',
-                  color: currentPageBlockName === page.toLocaleLowerCase() ? 'white' : getColorTextCollection(styleName!),
-                  fontWeight: currentPageBlockName === page.toLocaleLowerCase() ? 'bold' : 600,
+                  boxShadow: currentPageBlockName === checkBlockCollectionNameForEnslaved(newBlockName.toLocaleLowerCase()) ? getColorBoxShadowEnslaved(styleName!) : '',
+                  color: currentPageBlockName === checkBlockCollectionNameForEnslaved(newBlockName.toLocaleLowerCase()) ? 'white' : getColorTextCollection(styleName!),
+                  fontWeight: currentPageBlockName === checkBlockCollectionNameForEnslaved(newBlockName.toLocaleLowerCase()) ? 'bold' : 600,
                   fontSize: '0.80rem',
                   '&:hover': {
                     backgroundColor: getColorHoverBackgroundCollection(styleName!!),
@@ -88,13 +97,13 @@ const CollectionTabEnslaved = () => {
                 }}
                 variant={currentEnslavedPage === buttonIndex ? 'contained' : 'outlined'}
               >
-                {page}
+                {blockName}
               </Button>
             );
           })}
         </nav>
       </div>
-    </Hidden>
+    </Hidden >
   );
 };
 

@@ -29,7 +29,7 @@ export const getDataSetCollectionSlice = createSlice({
         setStyleName: (state, action: PayloadAction<string>) => {
             state.styleName = action.payload
         },
-        setBlocksMenuList: (state, action: PayloadAction<string[]>) => { //
+        setBlocksMenuList: (state, action: PayloadAction<BlockCollectionProps[]>) => {
             state.blocks = action.payload
         },
         setTableVoyagesFlatfile: (state, action: PayloadAction<string>) => {

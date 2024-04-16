@@ -2,7 +2,7 @@ import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { CurrentPageInitialState } from '@/share/InterfaceTypes';
+import { CurrentPageInitialState, TYPESOFBLOCKVOYAGES } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json';
 import {
@@ -32,6 +32,7 @@ import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/S
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { Divider } from 'antd';
 import { VoyagesTimelapseMap } from '@/components/PresentationComponents/Map/TimelapseMap';
+import { checkBlockCollectionNameForVoyages } from '@/utils/functions/checkBlockCollectionName';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -132,16 +133,16 @@ const VoyagesPage = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentPage === 1 && currentVoyageBlockName === 'voyages' && <Tables />}
-      {currentPage === 2 && currentVoyageBlockName === 'summarystatistics' && <SummaryStatisticsTable />}
-      {currentPage === 3 && currentVoyageBlockName === 'line' && <Scatter />}
-      {currentPage === 4 && currentVoyageBlockName === 'bar' && <BarGraph />}
-      {currentPage === 5 && currentVoyageBlockName === 'pie' && <PieGraph />}
-      {currentPage === 6 && currentVoyageBlockName === 'table' && (
+      {currentPage === 1 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.voyagesEN && <Tables />}
+      {currentPage === 2 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.summaryStatisticsEN && <SummaryStatisticsTable />}
+      {currentPage === 3 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.lineEN && <Scatter />}
+      {currentPage === 4 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.barEN && <BarGraph />}
+      {currentPage === 5 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.pieEN && <PieGraph />}
+      {currentPage === 6 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.tableEN && (
         <PivotTables />
       )}
-      {currentPage === 7 && currentVoyageBlockName === 'map' && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
-      {currentPage === 8 && currentVoyageBlockName === 'timelapse' && <VoyagesTimelapseMap />}
+      {currentPage === 7 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.mapEN && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
+      {currentPage === 8 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.timeLapseEN && <VoyagesTimelapseMap />}
     </motion.div>
   );
 

@@ -28,6 +28,7 @@ import {
 } from '@/share/CONST_DATA';
 import {
   BaseFilter,
+  BlockCollectionProps,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
 import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
@@ -101,7 +102,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     textHeder: string,
     textIntro: string,
     styleName: string,
-    blocks: string[],
+    blocks: BlockCollectionProps[],
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {

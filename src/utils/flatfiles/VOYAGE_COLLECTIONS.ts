@@ -56,3 +56,14 @@ const blocks = [
         }
     }
 ]
+
+const listblock = [
+    "Voyages",
+    "Summary\nstatistics",
+    "Line",
+    "Bar",
+    "Pie",
+    "Table",
+    "Map",
+    "Timelapse"
+]

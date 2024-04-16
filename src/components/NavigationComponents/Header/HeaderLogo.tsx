@@ -37,12 +37,12 @@ export default function HeaderLogo() {
     dispatch(setCurrentEnslavedPage(1));
     dispatch(setCurrentPage(1));
     dispatch(setInputSearchValue(''));
-    // dispatch(setDataSetHeader(jsonDataVoyageCollection[0].headers.label));
+    dispatch(setDataSetHeader(jsonDataVoyageCollection[0].headers.label.en));
     dispatch(setTextIntro(jsonDataVoyageCollection[0].headers.text_introduce));
     dispatch(setStyleName(jsonDataVoyageCollection[0].style_name));
     dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
     dispatch(
-      setDataSetPeopleEnslavedHeader(jsonDataPEOPLECOLLECTIONS[0].headers.label)
+      setDataSetPeopleEnslavedHeader(jsonDataPEOPLECOLLECTIONS[0].headers.label.en)
     );
     dispatch(
       setPeopleEnslavedTextIntro(

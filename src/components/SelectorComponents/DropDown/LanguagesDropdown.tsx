@@ -1,4 +1,4 @@
-import { useState, MouseEvent, useEffect } from 'react';
+import { useState, MouseEvent } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,13 +11,17 @@ import { setConfigureColumns, setLanguages, setLanguagesLabel, setResetAllLangua
 import { setBlogPost } from '@/redux/getBlogDataSlice';
 import { BlogDataProps } from '@/share/InterfaceTypesBlog';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { setCurrentVoyagesBlockName } from '@/redux/getScrollPageSlice';
+import { setDataSetHeader } from '@/redux/getDataSetCollectionSlice';
+import { checkHeaderTitleLanguages } from '@/utils/functions/checkHeaderTitleLanguages';
+import { setDataSetPeopleEnslavedHeader } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import { setDataSetEnslaversHeader } from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
 
 export default function LanguagesDropdown() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { styleName } = usePageRouter()
   const { languageValueLabel } = useSelector((state: RootState) => state.getLanguages);
+  const { styleName: styleNameRoute } = usePageRouter()
   const post = useSelector(
     (state: RootState) => state.getBlogData.post as BlogDataProps
   );
@@ -39,7 +43,6 @@ export default function LanguagesDropdown() {
     if (value === 'en') {
       dispatch(setConfigureColumns('Configure Columns'))
       dispatch(setResetAllLanguage('Reset all'))
-      // dispatch(setCurrentVoyagesBlockName(currentBlockName));
     } else if (value === 'es') {
       dispatch(setConfigureColumns('Configurar columnas'))
       dispatch(setResetAllLanguage('Restablecer todo'))
@@ -47,6 +50,10 @@ export default function LanguagesDropdown() {
       dispatch(setConfigureColumns('Configurar colunas'))
       dispatch(setResetAllLanguage('Resetar tudo'))
     }
+    const hederTitleName = checkHeaderTitleLanguages(value, styleNameRoute!)
+    dispatch(setDataSetHeader(hederTitleName))
+    dispatch(setDataSetPeopleEnslavedHeader(hederTitleName))
+    dispatch(setDataSetEnslaversHeader(hederTitleName))
     localStorage.setItem('languages', value);
   };
 

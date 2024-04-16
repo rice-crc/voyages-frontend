@@ -119,6 +119,74 @@ export const TYPESOFDATASET: {
     voyages: 'voyage'
 };
 
+export const TYPESOFBLOCKVOYAGES: {
+    voyagesEN: string;
+    voyagesES: string;
+    voyagesPT: string;
+    summaryStatisticsEN: string
+    summaryStatisticsES: string
+    summaryStatisticsPT: string
+    lineEN: string
+    lineES: string
+    linePT: string
+    barEN: string
+    barES: string
+    barPT: string
+    pieEN: string
+    pieES: string
+    piePT: string
+    tableEN: string
+    tableES: string
+    tablePT: string
+    mapEN: string
+    mapES: string
+    mapPT: string
+    timeLapseEN: string
+    timeLapseES: string
+    timeLapsePT: string
+} = {
+    voyagesEN: "voyages",
+    voyagesES: "viajes",
+    voyagesPT: "viagens",
+    summaryStatisticsEN: "summarystatistics",
+    summaryStatisticsES: "estadísticasresumidas",
+    summaryStatisticsPT: "estatísticasresumidas",
+    lineEN: "line",
+    lineES: "línea",
+    linePT: "linha",
+    barEN: "bar",
+    barES: "barra",
+    barPT: "barra",
+    pieEN: "pie",
+    pieES: "pastel",
+    piePT: "pizza",
+    tableEN: "table",
+    tableES: "tabla",
+    tablePT: "tabela",
+    mapEN: "map",
+    mapES: "mapa",
+    mapPT: "mapa",
+    timeLapseEN: "timelapse",
+    timeLapseES: "líneadetiempo",
+    timeLapsePT: "lapsodetempo",
+};
+
+
+export const TYPESOFBLOCKENSLAVED: {
+    enslavedEN: string;
+    enslavedES: string;
+    enslavedPT: string;
+    mapEN: string
+    mapES: string
+    mapPT: string
+} = {
+    enslavedEN: "people",
+    enslavedES: "personas",
+    enslavedPT: "pessoas",
+    mapEN: "map",
+    mapES: "mapa",
+    mapPT: "mapa",
+};
 
 export interface AutoCompleteSliceLists {
     results: string[]

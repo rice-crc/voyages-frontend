@@ -1,5 +1,6 @@
 import {
     BaseFilter,
+    BlockCollectionProps,
     InitialStateDataPeopleSetCollection,
 } from '@/share/InterfactTypesDatasetCollection';
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
@@ -7,7 +8,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export const initialState: InitialStateDataPeopleSetCollection = {
     value: jsonDataPEOPLECOLLECTIONS,
-    textHeader: jsonDataPEOPLECOLLECTIONS[0].headers.label,
+    textHeader: jsonDataPEOPLECOLLECTIONS[0].headers.label.en,
     textIntroduce: jsonDataPEOPLECOLLECTIONS[0].headers.text_introduce,
     styleNamePeople: jsonDataPEOPLECOLLECTIONS[0].style_name,
     dataSetValueBaseFilter: [],
@@ -50,7 +51,7 @@ export const getPeopleEnslavedDataSetCollectionSlice = createSlice({
         },
         setPeopleEnslavedBlocksMenuList: (
             state,
-            action: PayloadAction<string[]>
+            action: PayloadAction<BlockCollectionProps[]>
         ) => {
             state.blocksPeople = action.payload;
         },

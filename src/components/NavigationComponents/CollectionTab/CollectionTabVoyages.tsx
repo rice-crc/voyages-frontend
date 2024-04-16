@@ -2,7 +2,7 @@ import { Button, Hidden } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { CurrentPageInitialState, LabelFilterMeneList } from '@/share/InterfaceTypes';
+import { CurrentPageInitialState, LabelFilterMeneList, TYPESOFBLOCKVOYAGES } from '@/share/InterfaceTypes';
 
 import '@/style/page.scss';
 import {
@@ -17,6 +17,7 @@ import { setPathNameVoyages } from '@/redux/getDataPathNameSlice';
 import { ALLVOYAGES } from '@/share/CONST_DATA';
 import { useNavigate } from 'react-router-dom';
 import { BlockCollectionProps } from '@/share/InterfactTypesDatasetCollection';
+import { checkBlockCollectionNameForVoyages } from '@/utils/functions/checkBlockCollectionName';
 
 const CollectionTabVoyages = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -32,14 +33,32 @@ const CollectionTabVoyages = () => {
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
   const handlePageNavigation = (page: number, blockName: string) => {
-    console.log({ page, blockName })
+
     dispatch(setCurrentPage(page));
     if (page === 1) {
       dispatch(setIsFilter(false));
     } else if (page === 5) {
       dispatch(setPathNameVoyages(ALLVOYAGES));
     }
-    navigate(`#${(blockName).toLowerCase()}`)
+    if (checkBlockCollectionNameForVoyages(blockName) === TYPESOFBLOCKVOYAGES.voyagesEN) {
+      navigate(`#${TYPESOFBLOCKVOYAGES.voyagesEN.toLowerCase()}`)
+    } else if (checkBlockCollectionNameForVoyages(blockName) === TYPESOFBLOCKVOYAGES.summaryStatisticsEN) {
+      navigate(`#${TYPESOFBLOCKVOYAGES.summaryStatisticsEN.toLowerCase()}`)
+    } else if (checkBlockCollectionNameForVoyages(blockName) === TYPESOFBLOCKVOYAGES.lineEN) {
+      navigate(`#${TYPESOFBLOCKVOYAGES.lineEN.toLowerCase()}`)
+    } else if (checkBlockCollectionNameForVoyages(blockName) === TYPESOFBLOCKVOYAGES.barEN) {
+      navigate(`#${TYPESOFBLOCKVOYAGES.barEN.toLowerCase()}`)
+    } else if (checkBlockCollectionNameForVoyages(blockName) === TYPESOFBLOCKVOYAGES.pieEN) {
+      navigate(`#${TYPESOFBLOCKVOYAGES.pieEN.toLowerCase()}`)
+    } else if (checkBlockCollectionNameForVoyages(blockName) === TYPESOFBLOCKVOYAGES.tableEN) {
+      navigate(`#${TYPESOFBLOCKVOYAGES.tableEN.toLowerCase()}`)
+    } else if (checkBlockCollectionNameForVoyages(blockName) === TYPESOFBLOCKVOYAGES.mapEN) {
+      navigate(`#${TYPESOFBLOCKVOYAGES.mapEN.toLowerCase()}`)
+    } else if (checkBlockCollectionNameForVoyages(blockName) === TYPESOFBLOCKVOYAGES.timeLapseEN) {
+      navigate(`#${TYPESOFBLOCKVOYAGES.timeLapseEN.toLowerCase()}`)
+    }
+
+
     dispatch(setFilterObject(filtersObj));
   };
 
@@ -49,12 +68,10 @@ const CollectionTabVoyages = () => {
       <div className="navbar-wrapper">
         <nav className="nav-button">
 
-          {blocks.map((items: any, index: number) => {
-
-            // const { label: page } = items;
-            // const blockName = (page as LabelFilterMeneList)[languageValue];
-            const blockName = (items as string)
-            const newBlockName = items.toLowerCase().replace(/\s/g, '');
+          {blocks.map((items: BlockCollectionProps, index: number) => {
+            const { label: block } = items;
+            const blockName = (block as LabelFilterMeneList)[languageValue];
+            const newBlockName = blockName.toLowerCase().replace(/\s/g, '');
             const buttonIndex = index + 1;
             return (
               <Button
@@ -66,9 +83,9 @@ const CollectionTabVoyages = () => {
                   cursor: 'pointer',
                   textTransform: 'unset',
                   backgroundColor: getColorBackground(styleName),
-                  boxShadow: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? getColorBoxShadow(styleName) : '',
-                  color: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'white' : getColorTextCollection(styleName),
-                  fontWeight: currentVoyageBlockName === newBlockName.toLocaleLowerCase() ? 'bold' : 600,
+                  boxShadow: currentVoyageBlockName === checkBlockCollectionNameForVoyages(newBlockName.toLocaleLowerCase()) ? getColorBoxShadow(styleName) : '',
+                  color: currentVoyageBlockName === checkBlockCollectionNameForVoyages(newBlockName.toLocaleLowerCase()) ? 'white' : getColorTextCollection(styleName),
+                  fontWeight: currentVoyageBlockName === checkBlockCollectionNameForVoyages(newBlockName.toLocaleLowerCase()) ? 'bold' : 600,
                   fontSize: '0.80rem',
                   '&:hover': {
                     backgroundColor: getColorHoverBackgroundCollection(styleName!),

@@ -15,7 +15,7 @@ import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import HeaderLogo from './HeaderLogo';
-import { BaseFilter, DataSetCollectionProps } from '@/share/InterfactTypesDatasetCollection';
+import { BaseFilter, BlockCollectionProps, DataSetCollectionProps } from '@/share/InterfactTypesDatasetCollection';
 import { DatasetButton } from './DatasetButton';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { Filter } from '@/share/InterfaceTypes';
@@ -84,7 +84,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
     textHeder: string,
     textIntro: string,
     styleName: string,
-    blocks: string[],
+    blocks: BlockCollectionProps[],
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
