@@ -8,6 +8,7 @@
 			},
 			"cell_type": "literal-concat",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"documented_name"
 			],
@@ -34,6 +35,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"enslaved_relations__relation__relation_enslavers__enslaver_alias__alias"
 			],
@@ -55,6 +57,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name"
 			],
@@ -76,6 +79,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"voyages__voyage_itinerary__imp_principal_port_slave_dis__name"
 			],
@@ -97,6 +101,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"post_disembark_location__name"
 			],
@@ -118,6 +123,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"enslaved_source_connections__source__title"
 			],
@@ -139,6 +145,7 @@
 			},
 			"cell_type": "network_modal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [],
 			"colID": "connections",
 			"cell_val": {
@@ -159,6 +166,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"voyages__voyage_id"
 			],
@@ -180,6 +188,7 @@
 			},
 			"cell_type": "literal-concat",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 				"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
@@ -212,6 +221,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"captive_fate__name"
 			],

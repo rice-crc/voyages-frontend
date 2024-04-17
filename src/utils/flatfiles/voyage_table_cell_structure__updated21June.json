@@ -660,7 +660,11 @@
 			}
 		},
 		{
-			"header_label": "Places of call before Atlantic crossing",
+			"header_label": {
+				"en": "Places of call before Atlantic crossing",
+				"es": "Third place where captives were purchased ES",
+				"pt": "Third place where captives were purchased PT"
+			},
 			"cell_type": "literal",
 			"visible": false,
 			"number_format": null,

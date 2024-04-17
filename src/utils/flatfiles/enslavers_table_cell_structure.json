@@ -8,6 +8,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"principal_alias"
 			],
@@ -29,6 +30,7 @@
 			},
 			"cell_type": "literal-concat",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"birth_place__name",
 				"birth_year"
@@ -56,6 +58,7 @@
 			},
 			"cell_type": "literal-concat",
 			"visible": true,
+			"number_format": "comma",
 			"order_by": [
 				"death_place__name",
 				"death_year"
@@ -83,6 +86,7 @@
 			},
 			"cell_type": "literal-concat",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 				"aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
@@ -124,6 +128,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name"
 			],
@@ -145,6 +150,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"enslaver_source_connections__source__title"
 			],
@@ -166,6 +172,7 @@
 			},
 			"cell_type": "network_modal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [],
 			"colID": "connections",
 			"cell_val": {

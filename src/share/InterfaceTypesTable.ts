@@ -846,18 +846,13 @@ export interface StateRowData {
     error: null | any;
 }
 export interface TableCellStructure {
-    header_label: LabelFilterMeneList;
+    header_label: LabelFilterMeneList | string
     cell_type: string;
     visible: boolean;
-    number_format: string | null;
+    number_format?: string | null;
     order_by: string[];
     colID: string;
     cell_val: CellVal;
-}
-export interface TabelHederLabelProps {
-    en: string;
-    es: string;
-    pt: string;
 }
 
 export interface CellVal {
