@@ -1,3 +1,5 @@
+import { LabelFilterMeneList } from "./InterfaceTypes"
+
 export interface VoyageOptionsGropProps {
     id: number
     voyage_itinerary: VoyageItinerary
@@ -821,7 +823,7 @@ export interface RowData {
 }
 
 export interface ColumnDef {
-    headerName: string;
+    headerName: string
     valueGetter: (params: any) => void;
     field: string;
     sortable: boolean;
@@ -845,7 +847,7 @@ export interface StateRowData {
 }
 
 export interface TableCellStructure {
-    header_label: string
+    header_label: LabelFilterMeneList
     cell_type: string
     visible: boolean
     order_by: string[]
@@ -872,13 +874,19 @@ export interface TableCellStructureProps {
     column_selector_tree: ColumnSelectorTree[]
 }
 export interface ColumnSelectorTree {
-    label: string
+    label: LabelColumnSelectorTree
     children: Children[]
+}
+export interface LabelColumnSelectorTree {
+    [key: string]: string;
+    en: string
+    es: string
+    pt: string
 }
 
 export interface Children {
     colID: string
-    label: string
+    label: LabelColumnSelectorTree
 }
 export interface InitialStateColumnProps {
     valueCells: TableCellStructureProps

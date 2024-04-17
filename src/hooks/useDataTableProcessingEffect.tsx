@@ -1,11 +1,11 @@
 import { setColumnDefs, setRowData } from '@/redux/getTableSlice';
-import { AppDispatch } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import { TableCellStructure } from '@/share/InterfaceTypesTable';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { generateRowsData } from '@/utils/functions/generateRowsData';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { usePageRouter } from './usePageRouter';
 
 function useDataTableProcessingEffect(
@@ -17,6 +17,8 @@ function useDataTableProcessingEffect(
     tablesCell: TableCellStructure[],
 ) {
     const dispatch: AppDispatch = useDispatch();
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
     const { styleName: styleNameRoute } = usePageRouter();
     useEffect(() => {
         const tableFileName = checkPagesRouteForVoyages(styleNameRoute!)
@@ -31,7 +33,7 @@ function useDataTableProcessingEffect(
 
             const newColumnDefs = tablesCell.map(
                 (value) =>
-                    generateColumnDef(value, visibleColumnCells)
+                    generateColumnDef(value, languageValue, visibleColumnCells,)
             );
             dispatch(setColumnDefs(newColumnDefs));
             dispatch(setRowData(finalRowData as Record<string, any>[]));
@@ -41,6 +43,7 @@ function useDataTableProcessingEffect(
         // Ensure to return undefined if there's no cleanup needed
         return undefined;
     }, [
+        languageValue,
         data,
         visibleColumnCells,
         dispatch,

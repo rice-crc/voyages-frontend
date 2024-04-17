@@ -1,7 +1,11 @@
 {
 	"cell_structure": [
 		{
-			"header_label": "Names",
+			"header_label": {
+				"en": "Names",
+				"es": "Names ES",
+				"pt": "Names PT"
+			},
 			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
@@ -23,7 +27,11 @@
 			}
 		},
 		{
-			"header_label": "Language Group",
+			"header_label": {
+				"en": "Language Group",
+				"es": "Language Group ES",
+				"pt": "Language Group PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -40,7 +48,11 @@
 			}
 		},
 		{
-			"header_label": "Age",
+			"header_label": {
+				"en": "Age",
+				"es": "Age ES",
+				"pt": "Age PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -57,7 +69,11 @@
 			}
 		},
 		{
-			"header_label": "Gender",
+			"header_label": {
+				"en": "Gender",
+				"es": "Gender ES",
+				"pt": "Gender PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -74,7 +90,11 @@
 			}
 		},
 		{
-			"header_label": "Height",
+			"header_label": {
+				"en": "Height",
+				"es": "Height ES",
+				"pt": "Height PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -91,7 +111,11 @@
 			}
 		},
 		{
-			"header_label": "Connections",
+			"header_label": {
+				"en": "Connections",
+				"es": "Connections ES",
+				"pt": "Connections PT"
+			},
 			"cell_type": "network_modal",
 			"visible": true,
 			"order_by": [],
@@ -107,7 +131,11 @@
 			}
 		},
 		{
-			"header_label": "Voyage ID",
+			"header_label": {
+				"en": "Voyage ID",
+				"es": "Voyage ID ES",
+				"pt": "Voyage ID PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -124,7 +152,11 @@
 			}
 		},
 		{
-			"header_label": "Ship Name",
+			"header_label": {
+				"en": "Ship Name",
+				"es": "Ship Name ES",
+				"pt": "Ship Name PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -141,7 +173,11 @@
 			}
 		},
 		{
-			"header_label": "Enslavers",
+			"header_label": {
+				"en": "Enslavers",
+				"es": "Enslavers ES",
+				"pt": "Enslavers PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -158,7 +194,11 @@
 			}
 		},
 		{
-			"header_label": "Embarkation Port",
+			"header_label": {
+				"en": "Embarkation Port",
+				"es": "Embarkation Port ES",
+				"pt": "Embarkation Port PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -175,7 +215,11 @@
 			}
 		},
 		{
-			"header_label": "Disembarkation Port",
+			"header_label": {
+				"en": "Disembarkation Port",
+				"es": "Disembarkation Port ES",
+				"pt": "Disembarkation Port PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -192,7 +236,11 @@
 			}
 		},
 		{
-			"header_label": "Date of Arrival",
+			"header_label": {
+				"en": "Date of Arrival",
+				"es": "Date of Arrival ES",
+				"pt": "Date of Arrival PT"
+			},
 			"cell_type": "literal-concat",
 			"visible": false,
 			"order_by": [
@@ -220,7 +268,11 @@
 			}
 		},
 		{
-			"header_label": "Intended Port of Disembarkation",
+			"header_label": {
+				"en": "Intended Port of Disembarkation",
+				"es": "Intended Port of Disembarkation ES",
+				"pt": "Intended Port of Disembarkation PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -237,7 +289,11 @@
 			}
 		},
 		{
-			"header_label": "Captive Fate",
+			"header_label": {
+				"en": "Captive Fate",
+				"es": "Captive Fate ES",
+				"pt": "Captive Fate PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -254,7 +310,11 @@
 			}
 		},
 		{
-			"header_label": "Post-Disembarkation Location",
+			"header_label": {
+				"en": "Post-Disembarkation Location",
+				"es": "Post-Disembarkation Location ES",
+				"pt": "Post-Disembarkation Location PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -271,7 +331,11 @@
 			}
 		},
 		{
-			"header_label": "Vessel Fate",
+			"header_label": {
+				"en": "Vessel Fate",
+				"es": "Vessel Fate ES",
+				"pt": "Vessel Fate PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -288,7 +352,11 @@
 			}
 		},
 		{
-			"header_label": "Documentary Sources",
+			"header_label": {
+				"en": "Documentary Sources",
+				"es": "Documentary Sources ES",
+				"pt": "Documentary Sources PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -307,93 +375,177 @@
 	],
 	"column_selector_tree": [
 		{
-			"label": "Names",
+			"label": {
+				"en": "Names",
+				"es": "Names ES",
+				"pt": "Names PT"
+			},
 			"children": [
 				{
 					"colID": "enslaved_name",
-					"label": "Names"
+					"label": {
+						"en": "Names",
+						"es": "Names ES",
+						"pt": "Names PT"
+					}
 				}
 			]
 		},
 		{
-			"label": "Bio Data",
+			"label": {
+				"en": "Bio Data",
+				"es": "Bio Data ES",
+				"pt": "Bio Data PT"
+			},
 			"children": [
 				{
 					"colID": "age",
-					"label": "Age"
+					"label": {
+						"en": "Age",
+						"es": "Age ES",
+						"pt": "Age PT"
+					}
 				},
 				{
 					"colID": "gender",
-					"label": "Gender"
+					"label": {
+						"en": "Gender",
+						"es": "Gender ES",
+						"pt": "Gender PT"
+					}
 				},
 				{
 					"colID": "height",
-					"label": "Height"
+					"label": {
+						"en": "Height",
+						"es": "Height ES",
+						"pt": "Height PT"
+					}
 				}
 			]
 		},
 		{
-			"label": "Itinerary",
+			"label": {
+				"en": "Itinerary",
+				"es": "Itinerary ES",
+				"pt": "Itinerary PT"
+			},
 			"children": [
 				{
 					"colID": "voyages__voyage_id",
-					"label": "Voyage ID"
+					"label": {
+						"en": "Voyage ID",
+						"es": "Voyage ID ES",
+						"pt": "Voyage ID PT"
+					}
 				},
 				{
 					"colID": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
-					"label": "Embarkation Port"
+					"label": {
+						"en": "Embarkation Port",
+						"es": "Embarkation Port ES",
+						"pt": "Embarkation Port PT"
+					}
 				},
 				{
 					"colID": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
-					"label": "Disembarkation Port"
+					"label": {
+						"en": "Disembarkation Port",
+						"es": "Disembarkation Port ES",
+						"pt": "Disembarkation Port PT"
+					}
 				},
 				{
 					"colID": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
-					"label": "Arrival Date"
+					"label": {
+						"en": "Arrival Date",
+						"es": "Arrival Date ES",
+						"pt": "Arrival Date PT"
+					}
 				},
 				{
 					"colID": "voyages__voyage_itinerary__int_first_port_dis__name",
-					"label": "Intended Disembarkation Port"
+					"label": {
+						"en": "Intended Disembarkation Port",
+						"es": "Intended Disembarkation Port ES",
+						"pt": "Intended Disembarkation Port PT"
+					}
 				}
 			]
 		},
 		{
-			"label": "Cultural Association",
+			"label": {
+				"en": "Cultural Association",
+				"es": "Cultural Association ES",
+				"pt": "Cultural Association PT"
+			},
 			"children": [
 				{
 					"colID": "language_group__name",
-					"label": "Language Group"
+					"label": {
+						"en": "Language Group",
+						"es": "Language Group ES",
+						"pt": "Language Group PT"
+					}
 				}
 			]
 		},
 		{
-			"label": "Fate",
+			"label": {
+				"en": "Fate",
+				"es": "Fate ES",
+				"pt": "Fate PT"
+			},
 			"children": [
 				{
 					"colID": "captive_fate__name",
-					"label": "Captive Outcome"
+					"label": {
+						"en": "Captive Outcome",
+						"es": "Captive Outcome ES",
+						"pt": "Captive Outcome PT"
+					}
 				},
 				{
 					"colID": "post_disembark_location__name",
-					"label": "Post-Disembark Location"
+					"label": {
+						"en": "Post-Disembark Location",
+						"es": "Post-Disembark Location ES",
+						"pt": "Post-Disembark Location PT"
+					}
 				}
 			]
 		},
 		{
-			"label": "Sources",
+			"label": {
+				"en": "Sources",
+				"es": "Sources ES",
+				"pt": "Sources PT"
+			},
 			"children": [
 				{
 					"colID": "voyage_sources",
-					"label": "Sources"
+					"label": {
+						"en": "Sources",
+						"es": "Sources ES",
+						"pt": "Sources PT"
+					}
 				}
 			]
 		},
 		{
-			"label": "Connections",
+			"label": {
+				"en": "Connections",
+				"es": "Connections ES",
+				"pt": "Connections PT"
+			},
 			"children": [
 				{
 					"colID": "connections",
-					"label": "Connections"
+					"label": {
+						"en": "Connections",
+						"es": "Connections ES",
+						"pt": "Connections PT"
+					}
 				}
 			]
 		}

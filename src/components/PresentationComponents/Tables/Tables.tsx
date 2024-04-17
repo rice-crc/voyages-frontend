@@ -9,7 +9,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeaderTable from '../../NavigationComponents/Header/CustomHeaderTable';
-import { setColumnDefs, setData, setRowData } from '@/redux/getTableSlice';
+import { setData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { Pagination } from '@mui/material';
@@ -17,7 +17,6 @@ import {
     StateRowData,
     TableCellStructureInitialStateProp,
     TableCellStructure,
-    ColumnDef,
 } from '@/share/InterfaceTypesTable';
 import {
     CurrentPageInitialState,

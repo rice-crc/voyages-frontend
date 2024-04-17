@@ -148,6 +148,7 @@ export const MenuListsDropdown = () => {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
 
         const { children, var_name, type, label: nodeLabel } = node;
+
         const hasChildren = children && children.length >= 1;
         const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
 
@@ -203,7 +204,7 @@ export const MenuListsDropdown = () => {
             >
               <Tooltip
                 placement="top"
-                title={`Filter by ${item.label}`}
+                title={`Filter by ${itemLabel}`}
                 color="rgba(0, 0, 0, 0.75)"
               >
                 {itemLabel}

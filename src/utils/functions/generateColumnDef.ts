@@ -4,14 +4,15 @@ import { hasValueGetter } from "./hasValueGetter";
 import { GenerateCellTableRenderer } from "@/components/PresentationComponents/Tables/GenerateCellTableRenderer";
 import { calculateWidthColumnDef } from "./calculateWidthColumnDef";
 
-export const generateColumnDef = (value: TableCellStructure, visibleColumnCells?: string[]) => {
+export const generateColumnDef = (value: TableCellStructure, languageValue: string, visibleColumnCells?: string[]) => {
     const nodeClass = value?.cell_val?.fields[0]?.node_class;
     const CELLFN = value?.cell_val?.fields[0]?.cell_fn;
     const colID = value.colID
     const width = calculateWidthColumnDef(value, colID)
+    const columnHeader = value.header_label[languageValue];
 
     return {
-        headerName: value.header_label,
+        headerName: columnHeader,
         field: value.colID,
         width: width,
         sortable: true,
@@ -19,7 +20,7 @@ export const generateColumnDef = (value: TableCellStructure, visibleColumnCells?
         wrapText: true,
         resizable: true,
         sortingOrder: value.order_by,
-        headerTooltip: value.header_label,
+        headerTooltip: columnHeader,
         tooltipField: value.colID,
         hide: !visibleColumnCells!.includes(value.colID),
         filter: true,

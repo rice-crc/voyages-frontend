@@ -6,11 +6,12 @@ import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import HeaderLogoEstimate from '@/components/NavigationComponents/Header/HeaderLogoEstimate';
 import { FunctionComponent } from 'react';
-import { AppDispatch } from '@/redux/store';
-import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { resetAll } from '@/redux/resetAllSlice';
 import SaveSearchComponent from '@/components/FilterComponents/SaveSearchComponent/SaveSearchComponent';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 interface EstimatesNavBarProps {
     handleViewAll: () => void
 }
@@ -34,12 +35,18 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
             localStorage.removeItem(key);
         });
     }
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
 
     return (
         <div className="nav-header">
-            <span className='header-logo-icon'>
-                <HeaderLogoEstimate />
-                <div>Estimates: Trans-Atlantic Slave Trade</div>
+            <span className='header-logo-icon-estimate'>
+                <div className='logo-header-estimate'>
+                    <HeaderLogoEstimate />
+                    <div>Estimates: Trans-Atlantic Slave Trade</div>
+                </div>
+                <div> <LanguagesDropdown /></div>
+
             </span>
             <div className="navbar-subtitle flex-navbar">
                 <div className='flex-navbar'>
@@ -67,8 +74,12 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({ handleViewAl
                         </a>
                     </div>
                 </div>
-                <div>{(currentBlockName !== 'maps') && <SaveSearchComponent />}</div>
+                <div>
+
+                    {(currentBlockName !== 'maps') && <SaveSearchComponent />}
+                </div>
             </div>
+
         </div>
     )
 }

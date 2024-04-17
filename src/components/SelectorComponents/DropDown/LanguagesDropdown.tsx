@@ -19,9 +19,8 @@ import { setDataSetEnslaversHeader } from '@/redux/getPeopleEnslaversDataSetColl
 export default function LanguagesDropdown() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { styleName } = usePageRouter()
   const { languageValueLabel } = useSelector((state: RootState) => state.getLanguages);
-  const { styleName: styleNameRoute } = usePageRouter()
+  const { styleName: styleNameRoute, endpointPathEstimate } = usePageRouter()
   const post = useSelector(
     (state: RootState) => state.getBlogData.post as BlogDataProps
   );
@@ -56,14 +55,18 @@ export default function LanguagesDropdown() {
     dispatch(setDataSetEnslaversHeader(hederTitleName))
     localStorage.setItem('languages', value);
   };
+  console.log({ endpointPathEstimate })
   let colorText = '#ffffff'
-  if (styleName === '' || styleName === 'PastHomePage') {
+  if (endpointPathEstimate === 'estimates') {
+    colorText = '#ffffff'
+  } else if (styleNameRoute === '' || styleNameRoute === 'PastHomePage') {
     colorText = 'rgba(0, 0, 0, 0.85)'
   }
+
   let fontSize = '0.80rem'
-  if (styleName === 'PastHomePage') {
+  if (styleNameRoute === 'PastHomePage') {
     fontSize = '1rem'
-  } else if (!styleName) {
+  } else if (!styleNameRoute) {
     fontSize = '1rem'
   }
   return (
@@ -102,11 +105,11 @@ export default function LanguagesDropdown() {
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
-        PaperProps={{ sx: { width: styleName ? null : '150px' } }}
+        PaperProps={{ sx: { width: styleNameRoute ? null : '150px' } }}
       >
         {LanguageOptions.map((lag) => (
           <MenuItem
-            style={{ fontSize: styleName ? '0.85rem' : '1rem' }}
+            style={{ fontSize: styleNameRoute ? '0.85rem' : '1rem' }}
             key={lag.language}
             onClick={() => handleChangeLanguage(lag.value, lag.lable)}
           >

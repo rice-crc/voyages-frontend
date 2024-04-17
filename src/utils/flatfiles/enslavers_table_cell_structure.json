@@ -1,7 +1,11 @@
 {
 	"cell_structure": [
 		{
-			"header_label": "Names",
+			"header_label": {
+				"en": "Names",
+				"es": "Names ES",
+				"pt": "Names PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -18,7 +22,11 @@
 			}
 		},
 		{
-			"header_label": "Birth",
+			"header_label": {
+				"en": "Birth",
+				"es": "Birth ES",
+				"pt": "Birth PT"
+			},
 			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
@@ -41,7 +49,11 @@
 			}
 		},
 		{
-			"header_label": "Death",
+			"header_label": {
+				"en": "Death",
+				"es": "Death ES",
+				"pt": "Death PT"
+			},
 			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
@@ -64,7 +76,11 @@
 			}
 		},
 		{
-			"header_label": "Voyages",
+			"header_label": {
+				"en": "Voyages",
+				"es": "Voyages ES",
+				"pt": "Voyages PT"
+			},
 			"cell_type": "literal-concat",
 			"visible": true,
 			"order_by": [
@@ -101,7 +117,11 @@
 			}
 		},
 		{
-			"header_label": "Enslaved Peoples' Names",
+			"header_label": {
+				"en": "Enslaved Peoples' Names",
+				"es": "Enslaved Peoples' Names ES",
+				"pt": "Enslaved Peoples' Names PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -118,7 +138,11 @@
 			}
 		},
 		{
-			"header_label": "Documentary Sources",
+			"header_label": {
+				"en": "Documentary Sources",
+				"es": "Documentary Sources ES",
+				"pt": "Documentary Sources PT"
+			},
 			"cell_type": "literal",
 			"visible": true,
 			"order_by": [
@@ -135,7 +159,11 @@
 			}
 		},
 		{
-			"header_label": "Connections",
+			"header_label": {
+				"en": "Connections",
+				"es": "Connections ES",
+				"pt": "Connections PT"
+			},
 			"cell_type": "network_modal",
 			"visible": true,
 			"order_by": [],
@@ -153,60 +181,112 @@
 	],
 	"column_selector_tree": [
 		{
-			"label": "Name",
+			"label": {
+				"en": "Names",
+				"es": "Names ES",
+				"pt": "Names PT"
+			},
 			"children": [
 				{
 					"colID": "aliases",
-					"label": "Names"
+					"label": {
+						"en": "Names",
+						"es": "Names ES",
+						"pt": "Names PT"
+					}
 				}
 			]
 		},
 		{
-			"label": "Personal Data",
+			"label": {
+				"en": "Personal Data",
+				"es": "Personal Data ES",
+				"pt": "Personal Data PT"
+			},
 			"children": [
 				{
 					"colID": "birth",
-					"label": "Birth"
+					"label": {
+						"en": "Birth",
+						"es": "Birth ES",
+						"pt": "Birth PT"
+					}
 				},
 				{
 					"colID": "death",
-					"label": "Death"
+					"label": {
+						"en": "Death",
+						"es": "Death ES",
+						"pt": "Death PT"
+					}
 				}
 			]
 		},
 		{
-			"label": "Voyages",
+			"label": {
+				"en": "Voyages",
+				"es": "Voyages ES",
+				"pt": "Voyages PT"
+			},
 			"children": [
 				{
 					"colID": "voyages",
-					"label": "Voyages"
+					"label": {
+						"en": "Voyages",
+						"es": "Voyages ES",
+						"pt": "Voyages PT"
+					}
 				}
 			]
 		},
 		{
-			"label": "Enslavement Relations",
+			"label": {
+				"en": "Enslavement Relations",
+				"es": "Enslavement Relations ES",
+				"pt": "Enslavement Relations PT"
+			},
 			"children": [
 				{
 					"colID": "enslavement_relations",
-					"label": "Enslavement Relations"
+					"label": {
+						"en": "Enslavement Relations",
+						"es": "Enslavement Relations ES",
+						"pt": "Enslavement Relations PT"
+					}
 				}
 			]
 		},
 		{
-			"label": "Documentary Sources",
+			"label": {
+				"en": "Documentary Sources",
+				"es": "Documentary Sources ES",
+				"pt": "Documentary Sources PT"
+			},
 			"children": [
 				{
 					"colID": "documentary_sources",
-					"label": "Documentary Sources"
+					"label": {
+						"en": "Documentary Sources",
+						"es": "Documentary Sources ES",
+						"pt": "Documentary Sources PT"
+					}
 				}
 			]
 		},
 		{
-			"label": "Connections",
+			"label": {
+				"en": "Connections",
+				"es": "Connections ES",
+				"pt": "Connections PT"
+			},
 			"children": [
 				{
 					"colID": "connections",
-					"label": "Connections"
+					"label": {
+						"en": "Connections",
+						"es": "Connections ES",
+						"pt": "Connections PT"
+					}
 				}
 			]
 		}
