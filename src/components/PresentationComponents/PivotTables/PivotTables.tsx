@@ -22,6 +22,7 @@ import {
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
+  LabelFilterMeneList,
   PivotTableResponse,
   PivotTablesPropsRequest,
   RangeSliderState,
@@ -44,12 +45,14 @@ import { RowDataPivotTable, } from '@/share/InterfaceTypePivotTable';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
+import { downLoadText } from '@/utils/flatfiles/title_pages';
 
 
 const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
   const effectOnce = useRef(false);
 
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
   const [aggregation, setAggregation] = useState<string>('sum');
   const gridRef = useRef<AgGridReact>(null);
   const { columnDefs, rowData } = useSelector(
@@ -88,6 +91,7 @@ const PivotTables = () => {
   const [pivotValueOptions, setPivotValueOptions] = useState<PivotTablesProps>({
     row_vars: VOYAGE_PIVOT_OPTIONS.row_vars[13].rows,
     rows_label: VOYAGE_PIVOT_OPTIONS.row_vars[13].rows_label,
+    label: VOYAGE_PIVOT_OPTIONS.row_vars[13].label,
     binsize: VOYAGE_PIVOT_OPTIONS.row_vars[13].binsize,
     column_vars: VOYAGE_PIVOT_OPTIONS.column_vars[0].columns,
     cell_vars: VOYAGE_PIVOT_OPTIONS.cell_vars[0].value_field,
@@ -373,6 +377,11 @@ const PivotTables = () => {
     [page]
   );
 
+  let DownloadCSVExport = ''
+  for (const header of downLoadText.title) {
+    DownloadCSVExport = (header.label as LabelFilterMeneList)[languageValue];
+  }
+
 
   return (
     <div className="mobile-responsive">
@@ -405,7 +414,7 @@ const PivotTables = () => {
                   },
                 }}
               >
-                Download CSV Export file
+                {DownloadCSVExport}
               </Button>
             </div>
           </span>

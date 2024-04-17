@@ -55,7 +55,7 @@ export default function LanguagesDropdown() {
     dispatch(setDataSetEnslaversHeader(hederTitleName))
     localStorage.setItem('languages', value);
   };
-  console.log({ endpointPathEstimate })
+
   let colorText = '#ffffff'
   if (endpointPathEstimate === 'estimates') {
     colorText = '#ffffff'
@@ -67,6 +67,8 @@ export default function LanguagesDropdown() {
   if (styleNameRoute === 'PastHomePage') {
     fontSize = '1rem'
   } else if (!styleNameRoute) {
+    fontSize = '1rem'
+  } else if (styleNameRoute === 'estimates') {
     fontSize = '1rem'
   }
   return (
@@ -109,7 +111,7 @@ export default function LanguagesDropdown() {
       >
         {LanguageOptions.map((lag) => (
           <MenuItem
-            style={{ fontSize: styleNameRoute ? '0.85rem' : '1rem' }}
+            style={{ fontSize: fontSize }}
             key={lag.language}
             onClick={() => handleChangeLanguage(lag.value, lag.lable)}
           >

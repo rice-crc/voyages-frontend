@@ -10,14 +10,12 @@ import {
 } from '@mui/material';
 import { FunctionComponent, ReactNode } from 'react';
 import {
-  CurrentPageInitialState,
   PlotXYVar,
   VoyagesOptionProps,
 } from '@/share/InterfaceTypes';
 import { getBoderColor } from '@/utils/functions/getColorStyle';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 
 interface SelectDropdownProps {
   selectedX: PlotXYVar[];
@@ -33,7 +31,7 @@ interface SelectDropdownProps {
   XFieldText?: string;
   YFieldText?: string;
   optionsFlatY: PlotXYVar[];
-  graphType?: string; //xAxes, setXAxes
+  graphType?: string;
   setXAxes?: React.Dispatch<React.SetStateAction<string>>
   setYAxes?: React.Dispatch<React.SetStateAction<string[]>>
 }
@@ -65,9 +63,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-  const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
-  );
+
   const isDisabledX = (option: PlotXYVar) => {
     return option.var_name === selectedOptions.y_vars;
   };

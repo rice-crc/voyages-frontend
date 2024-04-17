@@ -10,7 +10,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    Filter,
+    LabelFilterMeneList,
     RangeSliderState,
     SummaryStatisticsTableRequest,
 } from '@/share/InterfaceTypes';
@@ -25,17 +25,21 @@ import {
 import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummaryStatisticsTable';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import { downLoadText } from '@/utils/flatfiles/title_pages';
 
 const SummaryStatisticsTable = () => {
     const dispatch: AppDispatch = useDispatch();
 
     const [mode, setMode] = useState('html');
-    const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+
     const [summaryData, setSummaryData] = useState<string>('');
     const [loading, setLoading] = useState(false);
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
+    const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
     const effectOnce = useRef(false);
     const { styleName: styleNameRoute } = usePageRouter();
     const { isChangeAuto, autoLabelName } = useSelector(
@@ -48,7 +52,6 @@ const SummaryStatisticsTable = () => {
         (state: RootState) => state.getGeoTreeData
     );
 
-    // let filters: Filter[] = [];
     const filters = filtersDataSend(filtersObj, styleNameRoute!)
 
     const dataSend: SummaryStatisticsTableRequest = {
@@ -145,6 +148,13 @@ const SummaryStatisticsTable = () => {
         setMode('csv');
     }, [mode]);
 
+
+    let DownloadCSVExport = ''
+    for (const header of downLoadText.title) {
+        DownloadCSVExport = (header.label as LabelFilterMeneList)[languageValue];
+    }
+
+
     return (
         <>
             <div className="summary-box">
@@ -166,10 +176,10 @@ const SummaryStatisticsTable = () => {
                                     },
                                 }}
                             >
-                                Download CSV Export file
+                                {DownloadCSVExport}
                             </Button>
                         </div>
-                        {!summaryData ? (
+                        {!summaryData && loading ? (
                             <div className="loading-logo-sumarytable">
                                 <img src={LOADINGLOGO} />
                             </div>

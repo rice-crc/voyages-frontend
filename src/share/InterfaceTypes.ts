@@ -393,11 +393,17 @@ export interface MedatadataProps {
 export interface PivotTablesProps {
     row_vars: string
     rows_label: string
+    label: PivotTableLabelProps
     binsize: number | null
     column_vars: string[]
     cell_vars: string
 }
-
+export interface PivotTableLabelProps {
+    [key: string]: string;
+    en: string;
+    es: string;
+    pt: string;
+}
 export interface VoyagesPivotOptionsProps {
     row_vars: PivotRowVar[]
     column_vars: PivotColumnVar[]
@@ -408,12 +414,12 @@ export interface PivotRowVar {
     rows: string
     binsize: number | null
     rows_label: string
-    label: string
+    label: LabelFilterMeneList
 }
 
 export interface PivotColumnVar {
     columns: string[]
-    label: string
+    label: LabelFilterMeneList
 }
 export interface PivotTableResponse {
     tablestructure: Tablestructure[]
@@ -451,7 +457,7 @@ export interface Metadata {
 
 export interface PivotCellVar {
     value_field: string
-    label: string
+    label: LabelFilterMeneList
 }
 export interface InitialStateTransatlanticCard {
     cardData: Record<string, any>[]
@@ -553,6 +559,19 @@ export interface LabelFilterMeneList {
     es: string
     pt: string
 }
+export interface LabelTranslations {
+    en: string;
+    es: string;
+    pt: string;
+}
+
+export interface KeyTranslations {
+    label: LabelTranslations;
+}
+
+export interface TranslateType {
+    [key: string]: KeyTranslations;
+}
 export interface FetchAutoVoyageParams {
     varName?: string;
     autoValue?: string;
@@ -585,7 +604,7 @@ export interface EstimateOptionProps {
     rows: string[]
     binsize: number | null
     rows_label: string
-    label: string
+    label: EstimateLabelProps
     column_vars: string[]
     cell_vars: string[]
 }
@@ -593,18 +612,23 @@ export interface EstimateRowVar {
     rows: string[]
     binsize?: number
     rows_label: string
-    label: string
+    label: EstimateLabelProps
 }
-
+export interface EstimateLabelProps {
+    [key: string]: string;
+    en: string;
+    es: string;
+    pt: string;
+}
 
 export interface EstimateColumnVar {
     cols: string[]
-    label: string
+    label: EstimateLabelProps
 }
 
 export interface EstimateCellVar {
     vals: string[]
-    label: string
+    label: EstimateLabelProps //string
 }
 
 export interface InitialStateDataEstimateAssesment {

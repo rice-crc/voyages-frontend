@@ -24,7 +24,7 @@ import { setFilterObject } from '@/redux/getFilterSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { ESTIMATES } from '@/share/CONST_DATA';
 
-const TablesEstimates = () => {
+const EstimateTable = () => {
     const dispatch: AppDispatch = useDispatch();
     const { currentBlockName, endpointPathEstimate } = usePageRouter();
     const aggregation = 'sum';
@@ -39,13 +39,12 @@ const TablesEstimates = () => {
     const { varName } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
-
-
     const [data, setData] = useState<string>('');
     const [rowVars, setSelectRowValues] = useState<EstimateRowVar[]>([]);
     const [columnVars, setSelectColumnValue] = useState<EstimateColumnVar[]>([]);
     const [cellVars, setSelectCellValue] = useState<EstimateCellVar[]>([]);
     const [mode, setMode] = useState('html');
+
     const [estimateValueOptions, setEstimateValueOptions] =
         useState<EstimateOptionProps>({
             rows: ESTIMATE_OPTIONS.row_vars[8].rows,
@@ -60,12 +59,16 @@ const TablesEstimates = () => {
         Object.entries(ESTIMATE_OPTIONS).forEach(([key, value]) => {
             if (key === 'row_vars' && Array.isArray(value)) {
                 const pivotRowVars: EstimateRowVar[] = (value as EstimateRowVar[]).map(
-                    (item: EstimateRowVar) => ({
-                        rows: item.rows,
-                        binsize: item.binsize!,
-                        rows_label: item.rows_label,
-                        label: item.label,
-                    })
+                    (item: EstimateRowVar) => {
+                        return (
+                            {
+                                rows: item.rows,
+                                binsize: item.binsize!,
+                                rows_label: item.rows_label,
+                                label: item.label
+                            }
+                        )
+                    }
                 );
                 setSelectRowValues(pivotRowVars);
             } else if (key === 'column_vars' && Array.isArray(value)) {
@@ -76,7 +79,8 @@ const TablesEstimates = () => {
                     label: item.label,
                 }));
                 setSelectColumnValue(estimateColumnVars);
-            } else if (key === 'cell_vars' && Array.isArray(value)) {
+            }
+            else if (key === 'cell_vars' && Array.isArray(value)) {
                 const estimateCellVars: EstimateCellVar[] = (
                     value as EstimateCellVar[]
                 ).map((item: any) => ({
@@ -218,11 +222,10 @@ const TablesEstimates = () => {
         },
         [setEstimateValueOptions]
     );
-
     return (
         <div className="estimate-table-card">
             <SelectDropdownEstimateTable
-                selectedPivottablesOptions={estimateValueOptions}
+                selectedEstimateTablesOptions={estimateValueOptions}
                 selectRowValue={rowVars}
                 selectColumnValue={columnVars}
                 selectCellValue={cellVars}
@@ -239,4 +242,4 @@ const TablesEstimates = () => {
     );
 };
 
-export default TablesEstimates;
+export default EstimateTable;
