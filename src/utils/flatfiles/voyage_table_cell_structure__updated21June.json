@@ -610,7 +610,11 @@
 			}
 		},
 		{
-			"header_label": "Places of call before Atlantic crossing",
+			"header_label": {
+				"en": "Places of call before Atlantic crossing",
+				"es": "Places of call before Atlantic crossing ES",
+				"pt": "Places of call before Atlantic crossing PT"
+			},
 			"cell_type": "literal",
 			"visible": false,
 			"order_by": [

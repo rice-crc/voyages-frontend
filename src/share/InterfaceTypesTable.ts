@@ -847,7 +847,7 @@ export interface StateRowData {
 }
 
 export interface TableCellStructure {
-    header_label: LabelFilterMeneList
+    header_label: LabelFilterMeneList | string
     cell_type: string
     visible: boolean
     order_by: string[]
