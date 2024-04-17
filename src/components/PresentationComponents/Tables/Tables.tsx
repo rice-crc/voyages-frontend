@@ -109,7 +109,7 @@ const Tables: React.FC = () => {
 
     useEffect(() => {
         if (!isLoading && !isError && tableCellStructure) {
-            setTableCell(tableCellStructure);
+            setTableCell(tableCellStructure as any);
         }
         if (tablesCell.length > 0) {
             const visibleColumns = tablesCell

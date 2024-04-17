@@ -8,6 +8,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
 			],
@@ -29,6 +30,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"voyage_id"
 			],
@@ -50,6 +52,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"voyage_ship__ship_name"
 			],
@@ -71,6 +74,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"voyage_itinerary__imp_port_voyage_begin__name"
 			],
@@ -92,6 +96,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
 			],
@@ -113,6 +118,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"voyage_itinerary__imp_principal_port_slave_dis__name"
 			],
@@ -134,6 +140,7 @@
 			},
 			"cell_type": "network_modal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [],
 			"colID": "connections",
 			"cell_val": {
@@ -154,6 +161,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_disembark_first_place"
 			],
@@ -175,6 +183,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": null,
 			"order_by": [
 				"voyage_enslaver_connection__enslaver_alias__alias"
 			],
@@ -196,6 +205,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_crew__crew_died_complete_voyage"
 			],
@@ -217,6 +227,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_source_connections__source__title"
 			],
@@ -238,6 +249,7 @@
 			},
 			"cell_type": "literal-concat",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_dates__voyage_began_sparsedate__day",
 				"voyage_dates__voyage_began_sparsedate__month",
@@ -270,6 +282,7 @@
 			},
 			"cell_type": "literal-concat",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_dates__slave_purchase_began_sparsedate__day",
 				"voyage_dates__slave_purchase_began_sparsedate__month",
@@ -302,6 +315,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_ship__year_of_construction"
 			],
@@ -323,6 +337,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_ship__vessel_construction_place__name"
 			],
@@ -344,6 +359,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_ship__registered_year"
 			],
@@ -365,6 +381,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_ship__registered_place__name"
 			],
@@ -380,12 +397,35 @@
 		},
 		{
 			"header_label": {
+				"en": "Flag of vessel",
+				"es": "Flag of vessel ES",
+				"pt": "Flag of vessel PT"
+			},
+			"cell_type": "literal",
+			"visible": false,
+			"number_format": null,
+			"order_by": [
+				"voyage_ship__nationality_ship__name"
+			],
+			"colID": "voyage_ship__nationality_ship__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_ship__nationality_ship__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
 				"en": "Flag of vessel (imp*)",
 				"es": "Flag of vessel (imp*) ES",
 				"pt": "Flag of vessel (imp*) PT"
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_ship__imputed_nationality__name"
 			],
@@ -407,6 +447,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_ship__rig_of_vessel__name"
 			],
@@ -428,6 +469,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_ship__tonnage"
 			],
@@ -449,6 +491,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_ship__tonnage_mod"
 			],
@@ -469,6 +512,7 @@
 				"pt": "Guns mounted PT"
 			},
 			"cell_type": "literal",
+			"number_format": null,
 			"visible": false,
 			"order_by": [
 				"voyage_ship__guns_mounted"
@@ -491,6 +535,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "comma",
 			"order_by": [
 				"voyage_crew__crew_voyage_outset"
 			],
@@ -512,6 +557,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_crew__crew_first_landing"
 			],
@@ -533,6 +579,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "comma",
 			"order_by": [
 				"voyage_crew__crew_died_complete_voyage"
 			],
@@ -554,6 +601,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_itinerary__first_place_slave_purchase__name"
 			],
@@ -575,6 +623,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_itinerary__second_place_slave_purchase__name"
 			],
@@ -596,6 +645,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_itinerary__third_place_slave_purchase__name"
 			],
@@ -613,6 +663,7 @@
 			"header_label": "Places of call before Atlantic crossing",
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_itinerary__port_of_call_before_atl_crossing__name"
 			],
@@ -634,6 +685,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_itinerary__first_landing_place__name"
 			],
@@ -655,6 +707,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_itinerary__second_landing_place__name"
 			],
@@ -676,6 +729,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_itinerary__third_landing_place__name"
 			],
@@ -697,6 +751,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_itinerary__place_voyage_ended__name"
 			],
@@ -718,6 +773,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": "comma",
 			"order_by": [
 				"voyage_slaves_numbers__imp_total_num_slaves_embarked"
 			],
@@ -739,6 +795,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "comma",
 			"order_by": [
 				"voyage_slaves_numbers__total_num_slaves_purchased"
 			],
@@ -760,6 +817,7 @@
 			},
 			"cell_type": "literal",
 			"visible": true,
+			"number_format": "comma",
 			"order_by": [
 				"voyage_slaves_numbers__imp_total_num_slaves_disembarked"
 			],
@@ -781,6 +839,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "comma",
 			"order_by": [
 				"voyage_slaves_numbers__total_num_slaves_arr_first_port_embark"
 			],
@@ -802,6 +861,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_intended_first_port"
 			],
@@ -823,6 +883,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_carried_first_port"
 			],
@@ -844,6 +905,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_carried_second_port"
 			],
@@ -865,6 +927,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_carried_third_port"
 			],
@@ -886,6 +949,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_disembark_second_place"
 			],
@@ -907,6 +971,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_disembark_third_place"
 			],
@@ -928,6 +993,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "percent",
 			"order_by": [
 				"voyage_slaves_numbers__percentage_men_among_embarked_slaves"
 			],
@@ -949,6 +1015,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "percent",
 			"order_by": [
 				"voyage_slaves_numbers__percentage_women_among_embarked_slaves"
 			],
@@ -970,6 +1037,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "percent",
 			"order_by": [
 				"voyage_slaves_numbers__percentage_boys_among_embarked_slaves"
 			],
@@ -991,6 +1059,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "percent",
 			"order_by": [
 				"voyage_slaves_numbers__percentage_girls_among_embarked_slaves"
 			],
@@ -1012,6 +1081,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "percent",
 			"order_by": [
 				"voyage_slaves_numbers__male_ratio_among_embarked_slaves"
 			],
@@ -1033,6 +1103,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "percent",
 			"order_by": [
 				"voyage_slaves_numbers__child_ratio_among_embarked_slaves"
 			],
@@ -1054,6 +1125,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "comma",
 			"order_by": [
 				"voyage_slaves_numbers__imp_jamaican_cash_price"
 			],
@@ -1075,6 +1147,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "comma",
 			"order_by": [
 				"voyage_slaves_numbers__imp_mortality_during_voyage"
 			],
@@ -1096,6 +1169,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "percent",
 			"order_by": [
 				"voyage_slaves_numbers__imp_mortality_ratio"
 			],
@@ -1117,6 +1191,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "comma",
 			"order_by": [
 				"voyage_dates__length_middle_passage_days"
 			],
@@ -1138,6 +1213,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": "comma",
 			"order_by": [
 				"voyage_dates__imp_length_home_to_disembark"
 			],
@@ -1159,6 +1235,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_dates__imp_arrival_at_port_of_dis"
 			],
@@ -1180,6 +1257,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_dates__departure_last_place_of_landing"
 			],
@@ -1201,6 +1279,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_dates__voyage_completed"
 			],
@@ -1222,6 +1301,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_outcome__particular_outcome__name"
 			],
@@ -1243,6 +1323,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_outcome__outcome_slaves__name"
 			],
@@ -1264,6 +1345,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_outcome__vessel_captured_outcome__name"
 			],
@@ -1285,6 +1367,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_outcome__outcome_owner__name"
 			],
@@ -1306,6 +1389,7 @@
 			},
 			"cell_type": "literal",
 			"visible": false,
+			"number_format": null,
 			"order_by": [
 				"voyage_outcome__resistance__name"
 			],

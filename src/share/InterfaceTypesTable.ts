@@ -845,14 +845,19 @@ export interface StateRowData {
     loading: boolean
     error: null | any;
 }
-
 export interface TableCellStructure {
-    header_label: LabelFilterMeneList
-    cell_type: string
-    visible: boolean
-    order_by: string[]
-    colID: string
-    cell_val: CellVal
+    header_label: LabelFilterMeneList;
+    cell_type: string;
+    visible: boolean;
+    number_format: string | null;
+    order_by: string[];
+    colID: string;
+    cell_val: CellVal;
+}
+export interface TabelHederLabelProps {
+    en: string;
+    es: string;
+    pt: string;
 }
 
 export interface CellVal {
