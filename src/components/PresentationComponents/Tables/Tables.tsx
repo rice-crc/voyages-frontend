@@ -249,6 +249,7 @@ const Tables: React.FC = () => {
         () => ({
             headerHeight: 40,
             suppressHorizontalScroll: true,
+            autoSizeStrategy: 'alignedGrid',
             onGridReady: (params: any) => {
                 const { columnApi } = params;
                 columnApi.autoSizeColumns();
@@ -281,6 +282,10 @@ const Tables: React.FC = () => {
     const pageCount = Math.ceil(
         totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
     );
+    const autoSizeStrategy = {
+        type: 'fitCellContents'
+    };
+
 
     return (
         <div className="mobile-responsive">
@@ -315,6 +320,7 @@ const Tables: React.FC = () => {
                         enableBrowserTooltips={true}
                         tooltipShowDelay={0}
                         tooltipHideDelay={1000}
+                    // autoSizeStrategy={autoSizeStrategy}
                     />
                     <div className="pagination-div">
                         <Pagination

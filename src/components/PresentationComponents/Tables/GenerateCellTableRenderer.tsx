@@ -66,7 +66,7 @@ export const GenerateCellTableRenderer = (
       margin: '5px 0',
       textAlign: 'left',
       lineHeight: '25px',
-      fontSize: '13px',
+      fontSize: '.85rem',
       cursor: 'pointer',
     };
 

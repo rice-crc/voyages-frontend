@@ -51,6 +51,8 @@ const CustomAutoListboxComponent = forwardRef<HTMLDivElement, CustomAutoListboxP
     const smUp = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
     const itemCount = itemData.length;
     const itemSize = smUp ? 36 : 48;
+    const gridRef = useResetCache([itemCount]);
+
     const getItemSize = (child: any) => {
         if (React.isValidElement(child) && child.type === ListSubheader) {
             return 48;
@@ -60,12 +62,11 @@ const CustomAutoListboxComponent = forwardRef<HTMLDivElement, CustomAutoListboxP
 
     const getHeight = () => {
         if (itemCount > 8) {
-            return 12 * itemSize;
+            return 14 * itemSize;
         }
         return itemData.map(getItemSize).reduce((a, b) => a + b, 0);
     };
 
-    const gridRef = useResetCache([itemCount]);
 
     return (
         <div   {...other} ref={ref} style={{ overflowY: 'hidden' }} >
@@ -85,7 +86,7 @@ const CustomAutoListboxComponent = forwardRef<HTMLDivElement, CustomAutoListboxP
                     outerElementType={OuterElementType}
                     innerElementType="ul"
                     itemSize={getItemSize}
-                    overscanCount={5}
+                    overscanCount={2}
                     itemCount={itemCount}
                 >
                     {renderRow}
