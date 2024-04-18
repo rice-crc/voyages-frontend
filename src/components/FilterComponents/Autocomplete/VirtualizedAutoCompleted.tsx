@@ -31,8 +31,7 @@ import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import debounce from 'lodash.debounce';
 
 export default function VirtualizedAutoCompleted() {
-    const { varName } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
+    const { varName } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState
     );
     const { styleName } = usePageRouter();
     const limit = 20;
@@ -110,27 +109,16 @@ export default function VirtualizedAutoCompleted() {
         dispatch(setFilterObject(filter));
     }, [isLoadingList, varName, styleName]);
 
-    // const handleInputChange = debounce(
-    //     (event: React.SyntheticEvent<Element, Event>, value: string) => {
-    //         event.preventDefault();
-    //         setAutoValue(value);
-    //         if (!value) {
-    //             setOffset(0);
-    //         }
-    //     }, 100
-    // );
-
-    const handleInputChange =
+    const handleInputChange = debounce(
         (event: React.SyntheticEvent<Element, Event>, value: string) => {
             if (event) event.preventDefault();
+            console.log({ value })
             setAutoValue(value);
-            if (!value) {
-                setOffset(0);
-            }
-        }
+            if (!value) setOffset(0);
+        }, 100
+    );
 
-
-
+    console.log({ autoList })
     const handleAutoCompletedChange = (
         event: SyntheticEvent<Element, Event>,
         newValue: AutoCompleteOption[]
@@ -178,6 +166,13 @@ export default function VirtualizedAutoCompleted() {
         };
         const filterObjectString = JSON.stringify(filterObjectUpdate);
         localStorage.setItem('filterObject', filterObjectString);
+
+        // Move selected value to the top of autoList
+        const updatedAutoList = autoList.filter((item) => !autuLabels.includes(item.value));
+        const selectedValueItem = newValue.map((item) => ({
+            value: item.value,
+        }));
+        setAutoLists([...selectedValueItem, ...updatedAutoList]);
     };
     const renderGroup = (params: any) => [
         <ListSubheader key={params.key} component="div">
@@ -212,6 +207,7 @@ export default function VirtualizedAutoCompleted() {
     };
 
     return (
+
         <Autocomplete
             loading
             disableCloseOnSelect
@@ -251,3 +247,24 @@ export default function VirtualizedAutoCompleted() {
         />
     );
 }
+
+/*
+
+ const handleTextInputChange = (event: React.SyntheticEvent<Element, Event>) => {
+        console.log(event.target)
+    };
+   // <TextField
+        //     variant="outlined"
+        //     onChange={handleTextInputChange}
+        //     // value={selectedValue}
+        //     label={
+        //         <Typography variant="body1" style={{ fontSize: 14 }} height={50}>
+        //             field
+        //         </Typography>
+        //     }
+        //     placeholder="SelectedOptions"
+        //     style={{ marginTop: 20 }}
+        // />
+
+
+*/

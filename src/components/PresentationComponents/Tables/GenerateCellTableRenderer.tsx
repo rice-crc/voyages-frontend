@@ -131,7 +131,6 @@ export const GenerateCellTableRenderer = (
     } else if (numberFormat === 'percent') {
       valueFormat = `${values}%`
     }
-
     return (
       <div className="div-value">
         <div
