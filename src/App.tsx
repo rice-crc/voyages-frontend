@@ -77,7 +77,6 @@ const App: React.FC = () => {
     const entityType = parts[1];
     const voyageID = parts[2];
     const typeOfData = parts[3]
-
     if (entityType === VOYAGE || entityType === ENSALVEDTYPE || entityType === allEnslavers || entityType === ESTIMATES) {
       setSaveSearchURL(url)
     }
@@ -97,12 +96,11 @@ const App: React.FC = () => {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          {saveSearchURL && <Route
+          {saveSearchURL && !ID && <Route
             path={`${saveSearchURL}`}
             element={<UseSaveSearchURL />}
           />}
           <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
-          <Route path={`${nodeClass}/${ID}/${styleName}`} element={<TabsSelect />} />
           <Route
             path={`${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}

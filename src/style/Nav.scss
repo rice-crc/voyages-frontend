@@ -214,6 +214,38 @@
     font-weight: bold;
 }
 
+.header-logo-icon-estimate {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.45rem 2rem 0;
+
+    @include breakpoint-standard(4) {
+        display: block;
+        font-size: 22px;
+    }
+
+    @include breakpoint-standard(3) {
+        display: block;
+        font-size: 20px;
+    }
+
+    @include breakpoint-standard(2) {
+        display: block;
+        font-size: 20px;
+    }
+
+    @include breakpoint-standard(1) {
+        display: block;
+        font-size: 16px;
+    }
+
+    @include breakpoint-standard(0) {
+        display: block;
+        font-size: 16px;
+    }
+}
+
 .header-logo-icon {
     display: flex;
     align-items: center;
@@ -242,6 +274,12 @@
         display: block;
         font-size: 16px;
     }
+}
+
+.logo-header-estimate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .logo-voyage {

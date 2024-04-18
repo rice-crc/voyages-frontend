@@ -11,8 +11,12 @@ import {
   PivotColumnVar,
   PivotCellVar,
   PivotTablesProps,
+  LabelFilterMeneList,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
 interface SelectDropdownPivotableProps {
   selectRowValue: PivotRowVar[];
@@ -43,11 +47,15 @@ export const SelectDropdownPivotable: FunctionComponent<
       },
     };
 
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
+    const translatedEstimates = translationLanguagesEstimatePage(languageValue)
+
     return (
       <div className="pivot-table-flex-container">
         <div className="pivot-table-flex-item">
           <FormControl fullWidth>
-            <InputLabel id="rows-field-label" style={{ color: '#000' }}>{'Rows'}</InputLabel>
+            <InputLabel id="rows-field-label" style={{ color: '#000' }}>{translatedEstimates.rowDropDownTitle}</InputLabel>
             <Select
               sx={{
                 height: 36,
@@ -58,26 +66,29 @@ export const SelectDropdownPivotable: FunctionComponent<
               labelId="rows-field-label"
               id="rows-field-select"
               value={selectedPivottablesOptions?.row_vars}
-              label={'Rows'}
+              label={translatedEstimates.rowDropDownTitle}
               onChange={(event: SelectChangeEvent<string>) => {
                 handleChangeOptions(event, 'row_vars', selectRowValue);
               }}
               name="row_vars"
             >
-              {selectRowValue.map((option: PivotRowVar, index: number) => (
-                <MenuItem
-                  key={`${option.label}-${index}`}
-                  value={option.rows}
-                >
-                  {option.label}
-                </MenuItem>
-              ))}
+              {selectRowValue.map((option: PivotRowVar, index: number) => {
+                const rowLabel = (option.label as LabelFilterMeneList)[languageValue]
+                return (
+                  <MenuItem
+                    key={`${rowLabel}-${index}`}
+                    value={option.rows}
+                  >
+                    {rowLabel}
+                  </MenuItem>
+                )
+              })}
             </Select>
           </FormControl>
         </div>
         <div className="pivot-table-flex-item">
           <FormControl fullWidth>
-            <InputLabel id="columns-field-label" style={{ color: '#000' }}>{'Columns'}</InputLabel>
+            <InputLabel id="columns-field-label" style={{ color: '#000' }}>{translatedEstimates.columnsDropDownTitle}</InputLabel>
             <Select
               sx={{
                 height: 36,
@@ -88,19 +99,20 @@ export const SelectDropdownPivotable: FunctionComponent<
               labelId="columns-field-label"
               id="columns-field-select"
               value={selectedPivottablesOptions?.column_vars as any}
-              label={'Column'}
+              label={translatedEstimates.columnsDropDownTitle}
               onChange={(event: SelectChangeEvent<string>) => {
                 handleChangeOptions(event, 'column_vars');
               }}
               name="column_vars"
             >
               {selectColumnValue.map((option: any, index: number) => {
+                const columnLabel = (option.label as LabelFilterMeneList)[languageValue]
                 return (
                   <MenuItem
-                    key={`${option.label}-${index}`}
+                    key={`$columnLabel}-${index}`}
                     value={option.columns}
                   >
-                    {option.label}
+                    {columnLabel}
                   </MenuItem>
                 );
               })}
@@ -109,7 +121,7 @@ export const SelectDropdownPivotable: FunctionComponent<
         </div>
         <div className="pivot-table-flex-item">
           <FormControl fullWidth>
-            <InputLabel id="cells-field-label" style={{ color: '#000' }}>{'Cells'}</InputLabel>
+            <InputLabel id="cells-field-label" style={{ color: '#000' }}>{translatedEstimates.cellDropDownTitle}</InputLabel>
             <Select
               sx={{
                 height: 36, fontSize: '0.95rem', color: '#000'
@@ -118,20 +130,23 @@ export const SelectDropdownPivotable: FunctionComponent<
               labelId="cells-field-label"
               id="cells-field-select"
               value={selectedPivottablesOptions?.cell_vars}
-              label={'Cells'}
+              label={translatedEstimates.cellDropDownTitle}
               onChange={(event: SelectChangeEvent<string>) => {
                 handleChangeOptions(event, 'cell_vars');
               }}
               name="cell_vars"
             >
-              {selectCellValue.map((option: any, index: number) => (
-                <MenuItem
-                  key={`${option.label}-${index}`}
-                  value={option.value_field}
-                >
-                  {option.label}
-                </MenuItem>
-              ))}
+              {selectCellValue.map((option: any, index: number) => {
+                const cellLabel = (option.label as LabelFilterMeneList)[languageValue]
+                return (
+                  <MenuItem
+                    key={`${cellLabel}-${index}`}
+                    value={option.value_field}
+                  >
+                    {cellLabel}
+                  </MenuItem>
+                )
+              })}
             </Select>
           </FormControl>
         </div>

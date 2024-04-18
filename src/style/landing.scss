@@ -1097,19 +1097,19 @@ $animationSpeed: 100s;
 .slider img {
     width: 100%;
     border-radius: 10px;
-    height: 290px;
+    height: 230px;
     box-shadow: 8px 8px 5px 2px #3f3f3f;
 
     @include breakpoint-standard(6) {
-        height: 270px;
+        height: 230px;
     }
 
     @include breakpoint-standard(5) {
-        height: 260px;
+        height: 230px;
     }
 
     @include breakpoint-standard(4) {
-        height: 220px;
+        height: 230px;
     }
 
     @include breakpoint-standard(3) {

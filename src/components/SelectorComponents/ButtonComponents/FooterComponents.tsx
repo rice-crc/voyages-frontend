@@ -109,24 +109,6 @@ export const FooterComponent = () => {
                                 data-was-processed="true"
                             />
                         </div>
-
-                        <Link
-                            to="https://www.berkeley.edu/"
-                            target="_blank"
-                            rel="noopener"
-                            aria-label="University of California, Berkeley"
-                        >
-                            <div className="logo-grid-item fade-in">
-                                <img
-                                    className="card-img sponsor-card-img block lazy loaded"
-                                    data-src="https://www.slavevoyages.org/static/images/site/logos/ucberkeley_noshield_white_1200_369.png"
-                                    aria-label="University of California, Berkeley"
-                                    src="https://www.slavevoyages.org/static/images/site/logos/ucberkeley_noshield_white_1200_369.png"
-                                    data-was-processed="true"
-                                />
-                            </div>
-                        </Link>
-
                         <Link
                             to="https://uci.edu/"
                             target="_blank"

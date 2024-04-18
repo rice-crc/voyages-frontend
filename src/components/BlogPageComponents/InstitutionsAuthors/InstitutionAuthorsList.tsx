@@ -5,7 +5,6 @@ import { BASEURL } from '@/share/AUTH_BASEURL';
 import { Link } from 'react-router-dom';
 import '@/style/blogs.scss';
 import { BLOGPAGE } from '@/share/CONST_DATA';
-import defaultImage from '@/assets/voyage-blog.png';
 
 const InstitutionAuthorsList: React.FC = () => {
   const { institutionList } = useSelector(
@@ -33,12 +32,9 @@ const InstitutionAuthorsList: React.FC = () => {
                     height="64"
                   />
                 ) : (
-                  <img
-                    className="rounded-circle"
-                    src={defaultImage}
-                    width="64"
-                    height="64"
-                  />
+                  <div className="avatar">
+                    <i className="fas fa-user fa-10x" aria-hidden="true"></i>
+                  </div>
                 )}
               </Link>
             </div>

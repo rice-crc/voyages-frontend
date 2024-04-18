@@ -3,7 +3,6 @@ import { generateCardsData } from "./generateCardsData";
 import { TransatlanticCardProps } from "@/share/InterfaceTypes";
 
 export const processCardData = (data: Record<string, any>[], cardDataArray: TransatlanticCardProps[], fileCardName: string) => {
-
     if (data.length > 0) {
         const finalData = generateRowsData(data, fileCardName);
         const newCardData: Record<string, any>[] = cardDataArray.map((value) => {

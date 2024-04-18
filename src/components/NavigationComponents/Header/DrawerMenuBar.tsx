@@ -1,8 +1,12 @@
+import { RootState } from '@/redux/store';
+import { LabelFilterMeneList } from '@/share/InterfaceTypes';
 import {
   BaseFilter,
+  BlockCollectionProps,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
 import { ListItemText, MenuItem, MenuList } from '@mui/material';
+import { useSelector } from 'react-redux';
 interface DrawerMenuBarProps {
   value: DataSetCollectionProps[];
   handleSelectDataset: (
@@ -10,7 +14,7 @@ interface DrawerMenuBarProps {
     textHeder: string,
     textIntro: string,
     styleName: string,
-    blocks: string[],
+    blocks: BlockCollectionProps[],
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => void;
@@ -28,11 +32,14 @@ export const DrawerMenuBar = (props: DrawerMenuBarProps) => {
       table_flatfile,
       filter_menu_flatfile,
     } = item;
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const { label: headerLable } = headers
+    const menuLabel = (headerLable as LabelFilterMeneList)[languageValue];
     return (
       <MenuList
         dense
         style={{ padding: 0 }}
-        key={`${item.headers.label}-${index}`}
+        key={`${menuLabel}-${index}`}
       >
         <MenuItem>
           <ListItemText
@@ -41,7 +48,7 @@ export const DrawerMenuBar = (props: DrawerMenuBarProps) => {
             onClick={() =>
               handleSelectDataset(
                 base_filter,
-                headers.label,
+                menuLabel,
                 headers.text_introduce,
                 style_name,
                 blocks,
@@ -49,7 +56,7 @@ export const DrawerMenuBar = (props: DrawerMenuBarProps) => {
                 table_flatfile
               )
             }
-            primary={item.headers.label}
+            primary={menuLabel}
           />
         </MenuItem>
       </MenuList>

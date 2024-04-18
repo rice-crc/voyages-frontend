@@ -634,14 +634,15 @@ div .customHeaderLabelSummaryTable {
 }
 
 .mobile-responsive-map-url {
-  padding: 22px !important;
+  padding: 0 !important;
+  width: 100%;
 }
 
 .mobile-responsive-map {
-  padding: 95px 0px 0px 0px !important;
+  padding: 135px 30px 0px 20px !important;
 
   @include breakpoint-standard(5) {
-    padding: 95px 30px 0px 0px !important
+    padding: 135px 50px 0px 20px !important;
   }
 
   @include breakpoint-standard(4) {

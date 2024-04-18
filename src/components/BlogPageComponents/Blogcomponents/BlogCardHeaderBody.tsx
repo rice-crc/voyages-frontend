@@ -16,7 +16,6 @@ import { Link, useParams } from 'react-router-dom';
 import { BASEURL } from '@/share/AUTH_BASEURL';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import { convertToSlug } from '@/utils/functions/convertToSlug';
-import defaultImage from '@/assets/voyage-blog.png';
 
 const BlogCardHeaderBody = () => {
   const { ID } = useParams();
@@ -105,13 +104,9 @@ const BlogCardHeaderBody = () => {
                       alt={author.name}
                     />
                   ) : (
-                    <img
-                      className="rounded-circle"
-                      src={defaultImage}
-                      width="40"
-                      height="40"
-                      alt={author.name}
-                    />
+                    <div className="avatar">
+                      <i className="fas fa-user fa-3x" aria-hidden="true"></i>
+                    </div>
                   )}
                 </Link>
               </div>

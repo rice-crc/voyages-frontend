@@ -18,6 +18,7 @@ import {
   TYPESOFDATASETPEOPLE,
   FilterMenuList,
   FilterMenu,
+  LabelFilterMeneList,
 } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss';
 import {
@@ -55,8 +56,7 @@ export const MenuListsDropdown = () => {
   } = useSelector(
     (state: RootState) => state.getFilterMenuList.filterValueList
   );
-
-
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
   const { styleName: styleNameRoute } = usePageRouter();
 
   const { currentPage } = useSelector(
@@ -99,7 +99,7 @@ export const MenuListsDropdown = () => {
       }
     };
     loadFilterCellStructure();
-  }, [styleNameRoute]);
+  }, [styleNameRoute, languageValue]);
 
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -146,32 +146,36 @@ export const MenuListsDropdown = () => {
   ): React.ReactElement<any>[] | undefined => {
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
-        const { label, children, var_name, type } = node;
+
+        const { children, var_name, type, label: nodeLabel } = node;
+
         const hasChildren = children && children.length >= 1;
+        const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
+
         if (hasChildren) {
           return (
             <DropdownNestedMenuItemChildren
               onClickMenu={handleClickMenu}
-              key={`${label}-${index}`}
-              label={`${label}`}
+              key={`${menuLabel}-${index}`}
+              label={`${menuLabel}`}
               rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
               data-value={var_name}
               data-type={type}
-              data-label={label}
+              data-label={menuLabel}
               menu={renderDropdownMenu(children)}
             />
           );
         }
         return (
           <DropdownMenuItem
-            key={`${label}-${index}`}
+            key={`${menuLabel}-${index}`}
             onClick={handleClickMenu}
             dense
             data-value={var_name}
             data-type={type}
-            data-label={label}
+            data-label={menuLabel}
           >
-            {label}
+            {menuLabel}
           </DropdownMenuItem>
         );
       });
@@ -182,12 +186,15 @@ export const MenuListsDropdown = () => {
     <div>
       <Box className="filter-menu-bar">
         {filterMenu.map((item: FilterMenuList, index: number) => {
-          return item.var_name ? (
+
+          const { var_name, label, type } = item
+          const itemLabel = (label as LabelFilterMeneList)[languageValue];
+          return var_name ? (
             <Button
-              key={`${item.label}-${index}`}
-              data-value={item.var_name}
-              data-type={item.type}
-              data-label={item.label}
+              key={`${itemLabel}-${index}`}
+              data-value={var_name}
+              data-type={type}
+              data-label={itemLabel}
               onClick={(event: any) => handleClickMenu(event)}
               sx={{
                 color: '#000000',
@@ -197,15 +204,15 @@ export const MenuListsDropdown = () => {
             >
               <Tooltip
                 placement="top"
-                title={`Filter by ${item.label}`}
+                title={`Filter by ${itemLabel}`}
                 color="rgba(0, 0, 0, 0.75)"
               >
-                {item.label}
+                {itemLabel}
               </Tooltip>
             </Button>
           ) : (
             <DropdownCascading
-              key={`${item.label}-${index}`}
+              key={`${itemLabel}-${index}`}
               trigger={
                 <Button
                   sx={{
@@ -240,10 +247,10 @@ export const MenuListsDropdown = () => {
                 >
                   <Tooltip
                     placement="top"
-                    title={`Filter by ${item.label}`}
+                    title={`Filter by ${itemLabel}`}
                     color="rgba(0, 0, 0, 0.75)"
                   >
-                    {item.label}{' '}
+                    {itemLabel}{' '}
                   </Tooltip>
                 </Button>
               }

@@ -1,11 +1,5 @@
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 
-export interface Flatlabel {
-    key: string;
-    label: string;
-    id: number;
-    type: string;
-}
 export interface Options {
     [key: string]: VoyageOptionsValue;
 }
@@ -122,9 +116,77 @@ export const TYPESOFDATASET: {
     intraAmerican: 'intra-american',
     transatlantic: 'trans-atlantic',
     texas: 'texas',
-    voyages: 'voyages'
+    voyages: 'voyage'
 };
 
+export const TYPESOFBLOCKVOYAGES: {
+    voyagesEN: string;
+    voyagesES: string;
+    voyagesPT: string;
+    summaryStatisticsEN: string
+    summaryStatisticsES: string
+    summaryStatisticsPT: string
+    lineEN: string
+    lineES: string
+    linePT: string
+    barEN: string
+    barES: string
+    barPT: string
+    pieEN: string
+    pieES: string
+    piePT: string
+    tableEN: string
+    tableES: string
+    tablePT: string
+    mapEN: string
+    mapES: string
+    mapPT: string
+    timeLapseEN: string
+    timeLapseES: string
+    timeLapsePT: string
+} = {
+    voyagesEN: "voyages",
+    voyagesES: "viajes",
+    voyagesPT: "viagens",
+    summaryStatisticsEN: "summarystatistics",
+    summaryStatisticsES: "estadísticasresumidas",
+    summaryStatisticsPT: "estatísticasresumidas",
+    lineEN: "line",
+    lineES: "línea",
+    linePT: "linha",
+    barEN: "bar",
+    barES: "barra",
+    barPT: "barra",
+    pieEN: "pie",
+    pieES: "pastel",
+    piePT: "pizza",
+    tableEN: "table",
+    tableES: "tabla",
+    tablePT: "tabela",
+    mapEN: "map",
+    mapES: "mapa",
+    mapPT: "mapa",
+    timeLapseEN: "timelapse",
+    timeLapseES: "líneadetiempo",
+    timeLapsePT: "lapsodetempo",
+};
+
+
+export const TYPESOFBLOCKENSLAVED: {
+    enslavedEN: string;
+    enslavedES: string;
+    enslavedPT: string;
+    mapEN: string
+    mapES: string
+    mapPT: string
+} = {
+    enslavedEN: "people",
+    enslavedES: "personas",
+    enslavedPT: "pessoas",
+    mapEN: "map",
+    mapES: "mapa",
+    mapPT: "mapa",
+};
 
 export interface AutoCompleteSliceLists {
     results: string[]
@@ -154,7 +216,7 @@ export interface InitialStateFilterMenu {
 export type VoyagaesFilterMenu = FilterMenu[]
 
 export interface FilterMenu {
-    label: string
+    label: LabelFilterMeneList
     var_name?: string
     type?: string
     flatlabel?: string
@@ -162,17 +224,15 @@ export interface FilterMenu {
 }
 
 export interface ChildrenFilter {
-    label?: string
+    label: LabelFilterMeneList
     children?: ChildrenFilterArr[]
     var_name?: string
     type?: string
-    flatlabel?: string
 }
 export interface ChildrenFilterArr {
     var_name: string
     type: string
-    label: string
-    flatlabel?: string
+    label: LabelFilterMeneList
 }
 
 
@@ -333,11 +393,17 @@ export interface MedatadataProps {
 export interface PivotTablesProps {
     row_vars: string
     rows_label: string
+    label: PivotTableLabelProps
     binsize: number | null
     column_vars: string[]
     cell_vars: string
 }
-
+export interface PivotTableLabelProps {
+    [key: string]: string;
+    en: string;
+    es: string;
+    pt: string;
+}
 export interface VoyagesPivotOptionsProps {
     row_vars: PivotRowVar[]
     column_vars: PivotColumnVar[]
@@ -348,12 +414,12 @@ export interface PivotRowVar {
     rows: string
     binsize: number | null
     rows_label: string
-    label: string
+    label: LabelFilterMeneList
 }
 
 export interface PivotColumnVar {
     columns: string[]
-    label: string
+    label: LabelFilterMeneList
 }
 export interface PivotTableResponse {
     tablestructure: Tablestructure[]
@@ -391,7 +457,7 @@ export interface Metadata {
 
 export interface PivotCellVar {
     value_field: string
-    label: string
+    label: LabelFilterMeneList
 }
 export interface InitialStateTransatlanticCard {
     cardData: Record<string, any>[]
@@ -482,11 +548,29 @@ export interface ValueFilterList {
 }
 
 export interface FilterMenuList {
-    label: string;
+    label: LabelFilterMeneList;
     var_name?: string;
     type?: string;
-    flatlabel?: string;
     children?: ChildrenFilter[];
+}
+export interface LabelFilterMeneList {
+    [key: string]: string;
+    en: string
+    es: string
+    pt: string
+}
+export interface LabelTranslations {
+    en: string;
+    es: string;
+    pt: string;
+}
+
+export interface KeyTranslations {
+    label: LabelTranslations;
+}
+
+export interface TranslateType {
+    [key: string]: KeyTranslations;
 }
 export interface FetchAutoVoyageParams {
     varName?: string;
@@ -520,7 +604,7 @@ export interface EstimateOptionProps {
     rows: string[]
     binsize: number | null
     rows_label: string
-    label: string
+    label: EstimateLabelProps
     column_vars: string[]
     cell_vars: string[]
 }
@@ -528,18 +612,23 @@ export interface EstimateRowVar {
     rows: string[]
     binsize?: number
     rows_label: string
-    label: string
+    label: EstimateLabelProps
 }
-
+export interface EstimateLabelProps {
+    [key: string]: string;
+    en: string;
+    es: string;
+    pt: string;
+}
 
 export interface EstimateColumnVar {
     cols: string[]
-    label: string
+    label: EstimateLabelProps
 }
 
 export interface EstimateCellVar {
     vals: string[]
-    label: string
+    label: EstimateLabelProps //string
 }
 
 export interface InitialStateDataEstimateAssesment {

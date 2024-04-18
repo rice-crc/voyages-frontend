@@ -16,7 +16,7 @@ import '@/style/table.scss';
 import {
   ENSLAVEDNODE,
   ENSLAVERSNODE,
-  VOYAGESNODE,
+  VOYAGESNODECLASS,
 } from '@/share/CONST_DATA';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
@@ -27,24 +27,24 @@ export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
   cellFN: string,
   colID: string,
+  numberFormat?: string | null,
   nodeClass?: string
 ) => {
-  const yearArrivedID = 'voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year'
+
   const values = params.value;
-  const isYearArrivedAndVoyageID = (colID == yearArrivedID) // || (colID == voyageID)
   const ID = params.data.id;
   const dispatch = useDispatch();
   const { styleName } = usePageRouter()
 
   let nodeType: string = '';
+
   if (checkPagesRouteForVoyages(styleName!)) {
-    nodeType = VOYAGESNODE;
+    nodeType = VOYAGESNODECLASS;
   } else if (checkPagesRouteForEnslaved(styleName!)) {
     nodeType = ENSLAVEDNODE;
   } else if (checkPagesRouteForEnslavers(styleName!)) {
     nodeType = ENSLAVERSNODE;
   }
-
   const calculateHeight = (rowCount: number) => {
     const rowHeight = 40; // Adjust this value as needed based on your design
     const maxRowsToShow = 5; // Maximum rows to show before applying overflow
@@ -125,9 +125,11 @@ export const GenerateCellTableRenderer = (
       justifyContent = 'flex-start';
     }
 
-    let formatComma = false;
-    if ((typeof values === 'number' && !isYearArrivedAndVoyageID)) {
-      formatComma = true
+    let valueFormat = values;
+    if (numberFormat === 'comma') {
+      valueFormat = numberWithCommas(values)
+    } else if (numberFormat === 'percent') {
+      valueFormat = `${values}%`
     }
     return (
       <div className="div-value">
@@ -140,7 +142,7 @@ export const GenerateCellTableRenderer = (
             dispatch(setNodeClass(nodeType));
           }}
         >
-          {formatComma ? numberWithCommas(values) : values}
+          {valueFormat}
         </div>
       </div>
     );

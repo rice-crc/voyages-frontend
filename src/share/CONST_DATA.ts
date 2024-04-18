@@ -2,7 +2,7 @@ export const VOYAGETILE = 'Voyages Database'
 export const POPELETILET = 'People Database';
 export const EnslavedTitle = 'Enslaved People'
 export const EnslaversTitle = 'Enslavers'
-export const VOYAGESTABLEFILE = 'voyage_table_cell_structure__updated21June.json'//'voyages_table'
+export const VOYAGESTABLEFILE = 'voyage_table_cell_structure__updated21June.json'
 export const YOYAGESCARDFILE = 'transatlantic_voyages_card.json'
 export const ENSLAVEDCARDFILE = 'enslaved_card.json'
 export const ENSLAVERSCARDFILE = 'enslavers_card.json'
@@ -66,7 +66,7 @@ export const MAXIMUM_ZOOM = 22;
 export const ZOOM_LEVEL_THRESHOLD = 5;
 export const ZOOM_LEVEL_REGION_ESTIMATE_MIN = 4;
 export const VOYAGEPATHENPOINT = 'voyage'
-export const VOYAGESTYPE = 'voyages'
+export const VOYAGESTYPE = 'voyage'
 export const ENSALVEDTYPE = 'enslaved'
 export const ENSLAVERSTYPE = 'enslavers'
 export const BLOGTYPE = 'blog'
@@ -89,7 +89,8 @@ export const nodeTypePostDisembarkation = 'postDisembarkation'
 // Network Graph Node Type
 export const ENSLAVEDNODE = 'enslaved'
 export const ENSLAVERSNODE = 'enslavers'
-export const VOYAGESNODE = 'voyages'
+export const VOYAGESNODE = 'voyage'
+export const VOYAGESNODECLASS = 'voyages'
 export const ENSLAVEMENTNODE = 'enslavement_relations'
 export const classToColor = {
     enslaved: '#906866',

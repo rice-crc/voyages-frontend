@@ -7,7 +7,6 @@ import {
   pageVariantsFromBottom,
   pageVariantsFromTop,
 } from '@/utils/functions/pageVariantsFromTop';
-import EnslaversIntro from '@/components/PresentationComponents/Intro/EnslaversIntro';
 import { Grid } from '@mui/material';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';

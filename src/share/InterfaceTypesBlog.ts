@@ -16,7 +16,7 @@ export interface BlogDataPropsRequest {
     filter: BlogFilter[]
     page?: number
     page_size?: number
-    global_search?: string[]
+    global_search?: string
     id?: number
 }
 export interface BlogFilter {

@@ -11,7 +11,6 @@ import '@/style/blogs.scss';
 import { setAuthorData, setAuthorPost } from '@/redux/getBlogDataSlice';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import { convertToSlug } from '@/utils/functions/convertToSlug';
-import defaultImage from '@/assets/voyage-blog.png';
 
 const AuthorInfo: React.FC = () => {
   const { ID } = useParams();
@@ -64,17 +63,14 @@ const AuthorInfo: React.FC = () => {
                 {photo ? (
                   <img
                     src={`${BASEURL}${photo ? photo : ''}`}
-                    alt="Greg O'Malley"
+                    alt={name}
                     className="rounded-circle "
                     width="300"
                   />
                 ) : (
-                  <img
-                    src={defaultImage}
-                    alt="Greg O'Malley"
-                    className="rounded-circle "
-                    width="300"
-                  />
+                  <div className="avatar">
+                    <i className="fas fa-user fa-10x" aria-hidden="true"></i>
+                  </div>
                 )}
                 <div className="mt-3">
                   <h4 className="auther-name">{name}</h4>

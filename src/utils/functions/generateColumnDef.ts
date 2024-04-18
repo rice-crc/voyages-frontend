@@ -3,15 +3,18 @@ import { ICellRendererParams } from "ag-grid-community";
 import { hasValueGetter } from "./hasValueGetter";
 import { GenerateCellTableRenderer } from "@/components/PresentationComponents/Tables/GenerateCellTableRenderer";
 import { calculateWidthColumnDef } from "./calculateWidthColumnDef";
+import { LabelFilterMeneList } from "@/share/InterfaceTypes";
 
-export const generateColumnDef = (value: TableCellStructure, visibleColumnCells?: string[]) => {
+export const generateColumnDef = (value: TableCellStructure, languageValue: string, visibleColumnCells?: string[]) => {
     const nodeClass = value?.cell_val?.fields[0]?.node_class;
     const CELLFN = value?.cell_val?.fields[0]?.cell_fn;
     const colID = value.colID
     const width = calculateWidthColumnDef(value, colID)
+    const numberFormat = value.number_format
+    const columnHeader = (value.header_label as LabelFilterMeneList)[languageValue];
 
     return {
-        headerName: value.header_label,
+        headerName: columnHeader,
         field: value.colID,
         width: width,
         sortable: true,
@@ -19,11 +22,11 @@ export const generateColumnDef = (value: TableCellStructure, visibleColumnCells?
         wrapText: true,
         resizable: true,
         sortingOrder: value.order_by,
-        headerTooltip: value.header_label,
+        headerTooltip: columnHeader,
         tooltipField: value.colID,
         hide: !visibleColumnCells!.includes(value.colID),
         filter: true,
-        cellRenderer: (params: ICellRendererParams) => GenerateCellTableRenderer(params, CELLFN, colID, nodeClass),
+        cellRenderer: (params: ICellRendererParams) => GenerateCellTableRenderer(params, CELLFN, colID, numberFormat, nodeClass),
         valueGetter: (params: ICellRendererParams) => hasValueGetter(params, value),
     };
 };

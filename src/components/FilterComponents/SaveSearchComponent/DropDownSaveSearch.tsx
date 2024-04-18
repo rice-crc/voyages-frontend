@@ -1,13 +1,14 @@
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { Filter, SaveSearchRequest } from '@/share/InterfaceTypes';
+import { SaveSearchRequest } from '@/share/InterfaceTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { fetchCommonMakeSavedSearch } from '@/fetch/saveSearch/fetchCommonMakeSavedSearch';
 import { BASE_URL_FRONTEND } from '@/share/AUTH_BASEURL';
 import { setListSaveSearchURL, setRouteSaveSearch, setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
 import { useEffect } from 'react';
-import { ASSESSMENT, ENSALVEDPAGE, ENSALVEDROUTE, ENSALVEDTYPE, ENSALVERSPAGE, ENSALVERSROUTE, ESTIMATES, VOYAGE, VOYAGEPATHENPOINT, allEnslavers } from '@/share/CONST_DATA';
+import { ASSESSMENT, ENSALVEDROUTE, ENSALVEDTYPE, ENSALVERSROUTE, ESTIMATES, VOYAGE, VOYAGEPATHENPOINT, allEnslavers } from '@/share/CONST_DATA';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import { translationLanguagesSaveSearch } from '@/utils/functions/translationLanguages';
 
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -64,6 +65,8 @@ const DropDownSaveSearch = () => {
     const handleLoadSaveSearch = () => {
         if (styleName) {
             window.location.href = `${BASE_URL_FRONTEND}/${endpointSaveSearch}/${styleName}`;
+        } else if (endpointSaveSearch === 'assessment') {
+            window.location.href = `${BASE_URL_FRONTEND}/${endpointSaveSearch}/estimates`;
         }
     };
 
@@ -88,6 +91,9 @@ const DropDownSaveSearch = () => {
             console.log('error', error);
         }
     };
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const translatedSaveSearch = translationLanguagesSaveSearch(languageValue)
+
 
     return (
         <div
@@ -99,13 +105,10 @@ const DropDownSaveSearch = () => {
                 <div>
                     <div className="v-panel-header">
                         <div className="v-panel-title-container">
-                            <div className="v-panel-title">Current searches</div>{' '}
+                            <div className="v-panel-title">{translatedSaveSearch.saveSearchTitle}</div>{' '}
                         </div>
                         <div className="v-panel-description">
-                            You can save a search by creating a link that can be later used to
-                            retrieve your particular set of search variables. You may also
-                            share your search by sharing the link to this search with other
-                            people.
+                            {translatedSaveSearch.saveSearchDescription}
                         </div>
                     </div>
                 </div>{' '}
@@ -114,7 +117,7 @@ const DropDownSaveSearch = () => {
                         <div className="flex-between">
                             <div className="v-title">
                                 <span>
-                                    Current Searches<span> ({listSaveSearchURL?.length})</span>
+                                    {translatedSaveSearch.saveSearchTitle}<span> ({listSaveSearchURL?.length})</span>
                                 </span>
                             </div>{' '}
                             <div>
@@ -123,19 +126,19 @@ const DropDownSaveSearch = () => {
                                     className="btn btn-outline-secondary btn-sm"
                                     onClick={handleClearSaveSearch}
                                 >
-                                    Clear
+                                    {translatedSaveSearch.clearBtn}
                                 </button>{' '}
                                 <button
                                     type="button"
                                     className="btn btn-info btn-sm"
                                     onClick={handleSaveSearch}
                                 >
-                                    Save
+                                    {translatedSaveSearch.saveBtn}
                                 </button>
                             </div>
                         </div>{' '}
                         <div className="v-description">
-                            <div>Here are the queries saved during this session.</div>
+                            <div>{translatedSaveSearch.hereDetail}</div>
                         </div>{' '}
                         {saveSearchUrlID && (
                             <>
@@ -153,7 +156,7 @@ const DropDownSaveSearch = () => {
                                             type="button"
                                             className="btn btn-outline-secondary btn-sm"
                                         >
-                                            Load
+                                            {translatedSaveSearch.loadBtn}
                                         </button>{' '}
                                         <button
                                             type="button"

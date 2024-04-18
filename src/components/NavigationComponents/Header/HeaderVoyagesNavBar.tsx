@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
-import { Filter, HeaderNavBarMenuProps } from '@/share/InterfaceTypes';
+import { Filter, HeaderNavBarMenuProps, LabelFilterMeneList } from '@/share/InterfaceTypes';
 import CascadingMenu from '../../SelectorComponents/Cascading/CascadingMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
@@ -29,6 +29,7 @@ import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitl
 import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
 import {
   BaseFilter,
+  BlockCollectionProps,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
 import {
@@ -41,7 +42,6 @@ import {
   TRANSATLANTIC,
   TRANSATLANTICPAGE,
   TransAtlanticTitle,
-  VOYAGETILE,
 } from '@/share/CONST_DATA';
 import '@/style/Nav.scss';
 import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
@@ -52,6 +52,8 @@ import ButtonDropdownColumnSelector from '@/components/SelectorComponents/Button
 import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import { voyagesHeader } from '@/utils/flatfiles/title_pages';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -60,6 +62,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
 
   const { currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -80,7 +83,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   }, [])
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
 
@@ -95,7 +97,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     textHeder: string,
     textIntro: string,
     styleName: string,
-    blocks: string[],
+    blocks: BlockCollectionProps[],
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
@@ -162,6 +164,11 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   };
 
 
+  let VOYAGETILE = ''
+  for (const header of voyagesHeader.header) {
+    VOYAGETILE = (header.label as LabelFilterMeneList)[languageValue];
+  }
+
   return (
     <Box
       sx={{
@@ -188,7 +195,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               <MenuIcon />
             </IconButton>
           </Hidden>
-
           <Typography
             component="div"
             sx={{
@@ -224,7 +230,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               }}
             >
               {inputSearchValue && <GlobalSearchButton />}
-
             </Typography>
           </Typography>
           {!inputSearchValue &&
@@ -235,19 +240,19 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               display: {
                 xs: 'none',
                 sm: 'none',
-                md: 'block',
-                lg: 'block',
+                md: 'flex',
+                lg: 'flex',
                 textAlign: 'center',
-                paddingRight: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
                 fontWeight: 600,
-
               },
             }}
           >
             {value.map((item: DataSetCollectionProps, index: number) => {
               return (
                 <DatasetButton
-                  key={`${item}-${index}`}
+                  key={`${item.style_name}-${index}`}
                   item={item}
                   index={index}
                   handleSelectDataset={handleSelectDataset}
@@ -257,7 +262,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
                 />
               );
             })}
-
+            <LanguagesDropdown />
           </Box>
         </Toolbar>
         <Divider
