@@ -127,7 +127,6 @@ export const GenerateCellTableRenderer = (
 
     let valueFormat = values;
     if (numberFormat === 'comma') {
-      console.log(numberFormat === 'comma')
       valueFormat = numberWithCommas(values)
     } else if (numberFormat === 'percent') {
       valueFormat = `${values}%`

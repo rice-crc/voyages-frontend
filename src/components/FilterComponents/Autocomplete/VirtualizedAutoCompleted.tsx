@@ -110,17 +110,26 @@ export default function VirtualizedAutoCompleted() {
         dispatch(setFilterObject(filter));
     }, [isLoadingList, varName, styleName]);
 
-    const handleInputChange = debounce(
+    // const handleInputChange = debounce(
+    //     (event: React.SyntheticEvent<Element, Event>, value: string) => {
+    //         event.preventDefault();
+    //         setAutoValue(value);
+    //         if (!value) {
+    //             setOffset(0);
+    //         }
+    //     }, 100
+    // );
+
+    const handleInputChange =
         (event: React.SyntheticEvent<Element, Event>, value: string) => {
-            if (event) {
-                event.preventDefault();
-            }
+            if (event) event.preventDefault();
             setAutoValue(value);
             if (!value) {
-                setOffset((prev) => prev - offset);
+                setOffset(0);
             }
-        }, 100
-    );
+        }
+
+
 
     const handleAutoCompletedChange = (
         event: SyntheticEvent<Element, Event>,

@@ -60,7 +60,7 @@ const CustomAutoListboxComponent = forwardRef<HTMLDivElement, CustomAutoListboxP
 
     const getHeight = () => {
         if (itemCount > 8) {
-            return 8 * itemSize;
+            return 12 * itemSize;
         }
         return itemData.map(getItemSize).reduce((a, b) => a + b, 0);
     };
