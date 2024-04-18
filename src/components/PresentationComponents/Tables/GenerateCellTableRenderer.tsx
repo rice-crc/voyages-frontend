@@ -16,7 +16,6 @@ import '@/style/table.scss';
 import {
   ENSLAVEDNODE,
   ENSLAVERSNODE,
-  VOYAGESNODE,
   VOYAGESNODECLASS,
 } from '@/share/CONST_DATA';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -28,11 +27,11 @@ export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
   cellFN: string,
   colID: string,
+  numberFormat?: string | null,
   nodeClass?: string
 ) => {
-  const yearArrivedID = 'voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year'
+
   const values = params.value;
-  const isYearArrivedAndVoyageID = (colID == yearArrivedID)
   const ID = params.data.id;
   const dispatch = useDispatch();
   const { styleName } = usePageRouter()
@@ -126,10 +125,14 @@ export const GenerateCellTableRenderer = (
       justifyContent = 'flex-start';
     }
 
-    let formatComma = false;
-    if ((typeof values === 'number' && !isYearArrivedAndVoyageID)) {
-      formatComma = true
+    let valueFormat = values;
+    if (numberFormat === 'comma') {
+      console.log(numberFormat === 'comma')
+      valueFormat = numberWithCommas(values)
+    } else if (numberFormat === 'percent') {
+      valueFormat = `${values}%`
     }
+
     return (
       <div className="div-value">
         <div
@@ -141,7 +144,7 @@ export const GenerateCellTableRenderer = (
             dispatch(setNodeClass(nodeType));
           }}
         >
-          {formatComma ? numberWithCommas(values) : values}
+          {valueFormat}
         </div>
       </div>
     );
