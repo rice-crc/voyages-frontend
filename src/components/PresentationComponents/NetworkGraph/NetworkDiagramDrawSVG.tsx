@@ -207,54 +207,49 @@ export const NetworkDiagramDrawSVG = ({
 
             newNodes.on('mouseover', async (event: MouseEvent, node: Nodes) => {
                 event.preventDefault();
-                const checkNode = isVoyagesClass(node)
-                if (!checkNode) {
+                const labelNode = createdLabelNodeHover(node);
+                // Append the background when hover
+                const [x, y] = [node.x!, node.y!];
+                labels = svg.select<SVGGElement>('#labels');
+                const group = labels.append('g').attr('class', 'label-group');
+                const textElement = group.append('text')
+                    .attr('class', 'label-hover')
+                    .attr('x', x + 22)
+                    .attr('y', y)
+                    .attr('text-anchor', 'start')
+                    .attr('alignment-baseline', 'start')
+                    .attr('font-size', 15)
+                    .attr('font-weight', 'bold')
+                    .attr('fill', '#000')
+                    .text(labelNode || '');
+                const textBoundingBox = textElement.node()?.getBBox();
+                if (textBoundingBox) {
+                    const rectPadding = 4;
+                    const rectWidth = textBoundingBox.width + (2 * rectPadding);
+                    const rectHeight = textBoundingBox.height + (2 * rectPadding);
 
-                    const labelNode = createdLabelNodeHover(node);
+                    group.append('rect')
+                        .attr('class', 'background-rect')
+                        .attr('x', textBoundingBox.x - rectPadding)
+                        .attr('y', textBoundingBox.y - rectPadding)
+                        .attr('width', rectWidth)
+                        .attr('height', rectHeight)
+                        .attr('rx', 8)
+                        .attr('ry', 8)
+                        .attr('fill', '#fff')
 
-                    // Append the background when hover
-                    const [x, y] = [node.x!, node.y!];
-                    labels = svg.select<SVGGElement>('#labels');
-                    const group = labels.append('g').attr('class', 'label-group');
-
-                    const textElement = group.append('text')
-                        .attr('class', 'label-hover')
-                        .attr('x', x + 22)
-                        .attr('y', y)
-                        .attr('text-anchor', 'start')
-                        .attr('alignment-baseline', 'start')
-                        .attr('font-size', 15)
-                        .attr('font-weight', 'bold')
-                        .attr('fill', '#000')
-                        .text(labelNode || '');
-                    const textBoundingBox = textElement.node()?.getBBox();
-                    if (textBoundingBox) {
-                        const rectPadding = 4;
-                        const rectWidth = textBoundingBox.width + (2 * rectPadding);
-                        const rectHeight = textBoundingBox.height + (2 * rectPadding);
-
-                        group.append('rect')
-                            .attr('class', 'background-rect')
-                            .attr('x', textBoundingBox.x - rectPadding)
-                            .attr('y', textBoundingBox.y - rectPadding)
-                            .attr('width', rectWidth)
-                            .attr('height', rectHeight)
-                            .attr('rx', 8)
-                            .attr('ry', 8)
-                            .attr('fill', '#fff')
-
-                        textElement.raise();
-                    }
+                    textElement.raise();
                 }
+                // }
             });
 
             newNodes.on('mouseout', async (event: MouseEvent, node: Nodes) => {
                 event.preventDefault();
-                const nodeClass = isVoyagesClass(node);
-                if (!nodeClass) {
-                    d3.select('.label-hover').remove();
-                    d3.select('.background-rect').remove();
-                }
+                // const nodeClass = isVoyagesClass(node);
+                // if (!nodeClass) {
+                d3.select('.label-hover').remove();
+                d3.select('.background-rect').remove();
+                // }
             });
 
 
@@ -277,25 +272,35 @@ export const NetworkDiagramDrawSVG = ({
 
 
             // Label 
+
             nodeLabels = labels.selectAll<SVGTextElement, Nodes>('text.label').data(graph.current.nodes);
-
             const newNodeLabels = nodeLabels.enter().append('text')
-                .attr('class', 'label')
-                .attr('x', (node) => !isNaN(Number(node.x)) ? Number(node.x) + 17 : 0)
-                .attr('y', (node) => node.y!)
-                .attr('text-anchor', 'start')
-                .attr('alignment-baseline', 'start')
-                .attr('font-size', 16)
-                .attr('fill', '#fff')
-                .attr('font-weight', 'bold')
-                .text((node: Nodes) => {
-                    const nodeClass = isVoyagesClass(node)
-                    const labelNode = createdLabelNodeHover(node);
-                    return nodeClass ? labelNode! : '';
-                });
-
-            // Merge new label nodes with existing ones
             nodeLabels = newNodeLabels.merge(nodeLabels);
+
+            /** Requested from JM-0116  
+             * Right now, we are hiding the labels on enslavers and enslaved, and only showing those labels on rollover. 
+             * Can we do the same thing with the yellow voyages nodes?
+             * 
+             ***  ** This code, will show label on voyages **** 
+             * const newNodeLabels = nodeLabels.enter().append('text')
+                 .attr('class', 'label')
+                 .attr('x', (node) => !isNaN(Number(node.x)) ? Number(node.x) + 17 : 0)
+                 .attr('y', (node) => node.y!)
+                 .attr('text-anchor', 'start')
+                 .attr('alignment-baseline', 'start')
+                 .attr('font-size', 16)
+                 .attr('fill', '#fff')
+                 .attr('font-weight', 'bold')
+             .text((node: Nodes) => {
+                 const nodeClass = isVoyagesClass(node)
+                 const labelNode = createdLabelNodeHover(node);
+                 return nodeClass ? labelNode! : '';
+             });
+             
+             nodeLabels = newNodeLabels.merge(nodeLabels);
+             */
+
+
 
             function handleZoom(event: d3.D3ZoomEvent<SVGSVGElement, any>) {
                 transformRef.current = event.transform;

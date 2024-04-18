@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { InitialStatePastNetworksData, Datas, Nodes, Edges } from '@/share/InterfaceTypePastNetworks';
+import { InitialStatePastNetworksData, netWorkDataProps, Nodes, Edges } from '@/share/InterfaceTypePastNetworks';
 
 const initialState: InitialStatePastNetworksData = {
     data: {
@@ -17,7 +17,7 @@ const getPastNetworksGraphDataSlice = createSlice({
     name: 'pastNetworks',
     initialState,
     reducers: {
-        setPastNetworksData: (state, action: PayloadAction<Datas>) => {
+        setPastNetworksData: (state, action: PayloadAction<netWorkDataProps>) => {
             state.data = action.payload;
         },
         setNetworkNode: (state, action: PayloadAction<Nodes[]>) => {

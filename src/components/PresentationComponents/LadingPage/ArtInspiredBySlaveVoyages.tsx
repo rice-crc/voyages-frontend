@@ -16,7 +16,7 @@ const ArtInspiredBySlaveVoyages: React.FC = () => {
     );
     const dispatch: AppDispatch = useDispatch();
 
-    const { language } = useSelector((state: RootState) => state.getLanguages);
+    const { languageValueLabel } = useSelector((state: RootState) => state.getLanguages);
 
     useEffect(() => {
         document.documentElement.style.setProperty(
@@ -52,7 +52,7 @@ const ArtInspiredBySlaveVoyages: React.FC = () => {
         return () => {
             dispatch(setBlogPost({} as BlogDataProps));
         };
-    }, [dispatch, language]);
+    }, [dispatch, languageValueLabel]);
 
     return (
         <div className="content-inspried-container">

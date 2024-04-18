@@ -79,7 +79,9 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     fetchDataPivotTable(sortOrder, [column.colDef.field])
   };
 
-
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const dataSend: PivotTablesPropsRequest = {
     columns: columns,
     rows: rows,
@@ -90,6 +92,10 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     offset: offset,
     limit: limit,
     filter: filters,
+  }
+
+  if (inputSearchValue) {
+    dataSend['global_search'] = inputSearchValue
   }
 
   const fetchDataPivotTable = async (sortOrder: string, sortingOrder: string[]) => {

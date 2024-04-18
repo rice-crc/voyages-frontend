@@ -9,12 +9,14 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setKeyValueName } from "@/redux/getRangeSliderSlice";
 import { setCurrentSliderValue } from "@/redux/getEstimateAssessmentSlice";
+import { translationLanguagesEstimatePage } from "@/utils/functions/translationLanguages";
 
 const TimeFrame = () => {
     const dispatch: AppDispatch = useDispatch();
     const { currentSliderValue } = useSelector(
         (state: RootState) => state.getEstimateAssessment
     );
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
     const min = currentSliderValue[0]
     const max = currentSliderValue[1]
     const varName = "year";
@@ -93,12 +95,13 @@ const TimeFrame = () => {
         const filterObjectString = JSON.stringify(filterObjectUpdate);
         localStorage.setItem('filterObject', filterObjectString);
     }
+    const translatedEstimates = translationLanguagesEstimatePage(languageValue)
 
     return (
         <div>
             <div id="form:_idJsp7" className="__web-inspector-hide-shortcut__">
                 <span className="sidebar-label-form">
-                    <span style={{ marginRight: 5 }}> Show data from:</span>
+                    <span style={{ marginRight: 5 }}>{translatedEstimates.showDataFrom}</span>
                     <span>
                         <Input
                             color="secondary"
@@ -117,7 +120,7 @@ const TimeFrame = () => {
 
                             }}
                         />
-                        <span style={{ margin: '0 6px' }}>to</span>
+                        <span style={{ margin: '0 6px' }}>{translatedEstimates.toData}</span>
                         <Input
                             value={currentSliderValue[1] !== undefined ? currentSliderValue[1] : defaultValue[1]}
                             size="small"
@@ -144,9 +147,9 @@ const TimeFrame = () => {
                         </span>
                     </span>
                 </span>
-                <div className="text-description">Full extent of coverage by estimates is {min ?? defaultValue[0]} - {max ?? defaultValue[1]}.</div>
+                <div className="text-description">{translatedEstimates.showDataDetails} {min ?? defaultValue[0]} - {max ?? defaultValue[1]}.</div>
                 <div className="reset-btn-estimate">
-                    <Button className="deselec-btn" onClick={handleResetSlider}  >Reset</Button>
+                    <Button className="deselec-btn" onClick={handleResetSlider}>{translatedEstimates.resetBTN}</Button>
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchPastEnslavedCard = createAsyncThunk(
     'enslavedOptions/fetchEnslavedOptionsList',
     async (id?: number) => {
+        console.log({ id })
         try {
             const response = await axios.get(
                 `${BASEURL}/past/enslaved/${id}`,

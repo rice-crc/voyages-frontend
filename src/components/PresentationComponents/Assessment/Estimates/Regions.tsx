@@ -4,11 +4,12 @@ import { setCheckedListDisEmbarkation, setCheckedListEmbarkation } from '@/redux
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { setKeyValueName } from '@/redux/getRangeSliderSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { Filter } from '@/share/InterfaceTypes';
+import { Filter, LabelFilterMeneList } from '@/share/InterfaceTypes';
 import {
     disembarkationListData,
     embarkationListData,
 } from '@/utils/flatfiles/estimate_text';
+import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 import { Button } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { useEffect } from 'react';
@@ -19,7 +20,7 @@ const Regions: React.FC = () => {
     const { checkedListEmbarkation, checkedListDisEmbarkation } = useSelector(
         (state: RootState) => state.getEstimateAssessment
     );
-
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
     const storedValue = localStorage.getItem("filterObject");
 
     useEffect(() => {
@@ -160,9 +161,12 @@ const Regions: React.FC = () => {
         const filterObjectString = JSON.stringify(filterObjectUpdate);
         localStorage.setItem('filterObject', filterObjectString);
     }
+
+    const translatedEstimates = translationLanguagesEstimatePage(languageValue)
+
     return (
         <>
-            <h4>Embarkation Regions</h4>
+            <h4>{translatedEstimates.regionesEmbarkation}</h4>
             {embarkationListData.map((group, index) => (
                 <div key={`${group.label}-${index}`}>
                     <CustomCheckboxEmbarkationGroup
@@ -182,15 +186,15 @@ const Regions: React.FC = () => {
                     onClick={handleSelectAllEmbarkation}
                     className='selected-all-btn'
                 >
-                    Select All
+                    {translatedEstimates.selectAllBTN}
                 </Button>
                 <Button onClick={handleDeselectAllEmbarkation} className="deselec-btn">
-                    Deselect All
+                    {translatedEstimates.deselectAllBTN}
                 </Button>
             </div>
 
             <br />
-            <h4>Disembarkation Regions</h4>
+            <h4>{translatedEstimates.regionesDesEmbarkation}</h4>
             {disembarkationListData.map((group, index) => (
                 <div key={`${group.label}-${index}`}>
                     <CustomCheckboxDisEmbarkationGroup
@@ -210,13 +214,13 @@ const Regions: React.FC = () => {
                     onClick={handleSelectAllDisEmbarkation}
                     className='selected-all-btn'
                 >
-                    Select All
+                    {translatedEstimates.selectAllBTN}
                 </Button>
                 <Button
                     onClick={handleDeselectAllDisEmbarkation}
                     className="deselec-btn"
                 >
-                    Deselect All
+                    {translatedEstimates.deselectAllBTN}
                 </Button>
             </div>
         </>

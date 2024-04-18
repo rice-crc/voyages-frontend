@@ -24,6 +24,7 @@ import {
   CurrentPageInitialState,
   TYPESOFDATASETPEOPLE,
   FilterMenuList,
+  LabelFilterMeneList,
 } from '@/share/InterfaceTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -40,7 +41,7 @@ import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelecte
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { ENSALVERSTYLE } from '@/share/CONST_DATA';
+import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
 import { DropdownCascading } from './DropdownCascading';
 import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
@@ -56,12 +57,8 @@ const CascadingMenuMobile = () => {
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
-  const { currentEnslavedPage } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
-  );
-  const { currentEnslaversPage } = useSelector(
-    (state: RootState) => state.getScrollEnslaversPage
-  );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
   const { isOpenDialogMobile } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -73,6 +70,7 @@ const CascadingMenuMobile = () => {
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>(
     []
   );
+
   useEffect(() => {
     const loadFilterCellStructure = async () => {
       try {
@@ -85,6 +83,10 @@ const CascadingMenuMobile = () => {
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
           setFilterMenu(valueEnslavedTexas);
         } else if (styleNameRoute === ENSALVERSTYLE) {
+          setFilterMenu(valueEnslavers);
+        } else if (styleNameRoute === TRANSATLANTICTRADS) {
+          setFilterMenu(valueEnslavers);
+        } else if (styleNameRoute === INTRAAMERICANTRADS) {
           setFilterMenu(valueEnslavers);
         }
       } catch (error) {
@@ -139,18 +141,19 @@ const CascadingMenuMobile = () => {
 
   const renderDropdownMenu = (nodes: FilterMenu[] | ChildrenFilter[]) => {
     return nodes?.map((node: FilterMenu | ChildrenFilter, index: number) => {
-      const { label, children, var_name, type } = node;
+      const { label: nodeLabel, children, var_name, type } = node;
+      const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
       const hasChildren = children && children.length >= 1;
       if (hasChildren) {
         return (
           <DropdownNestedMenuItemChildren
             onClickMenu={handleClickMenu}
-            key={`${label}-${index}`}
-            label={`${label}`}
+            key={`${menuLabel}-${index}`}
+            label={`${menuLabel}`}
             rightIcon={<ArrowLeft style={{ fontSize: 15 }} />}
             data-value={var_name}
             data-type={type}
-            data-label={label}
+            data-label={menuLabel}
             menu={renderDropdownMenu(children)}
           />
         );
@@ -158,14 +161,14 @@ const CascadingMenuMobile = () => {
 
       return (
         <DropdownMenuItem
-          key={`${label}-${index}`}
+          key={`${menuLabel}-${index}`}
           onClick={handleClickMenu}
           dense
           data-value={var_name}
           data-type={type}
-          data-label={label}
+          data-label={menuLabel}
         >
-          {label}
+          {menuLabel}
         </DropdownMenuItem>
       );
     });

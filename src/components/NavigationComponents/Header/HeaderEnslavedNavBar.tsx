@@ -18,7 +18,6 @@ import {
   ALLENSLAVEDPAGE,
   ENSALVEDPAGE,
   ENSLAVEDTEXASPAGE,
-  EnslavedTitle,
   PASTHOMEPAGE,
   ENSLAVEDTEXAS,
   ALLENSLAVED,
@@ -28,6 +27,7 @@ import {
 } from '@/share/CONST_DATA';
 import {
   BaseFilter,
+  BlockCollectionProps,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
 import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
@@ -52,8 +52,10 @@ import HeaderLogo from './HeaderLogo';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import { Filter } from '@/share/InterfaceTypes';
+import { Filter, LabelFilterMeneList } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import { enslavedHeader } from '@/utils/flatfiles/title_pages';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {
@@ -100,7 +102,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     textHeder: string,
     textIntro: string,
     styleName: string,
-    blocks: string[],
+    blocks: BlockCollectionProps[],
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
@@ -170,6 +172,12 @@ const HeaderEnslavedNavBar: React.FC = () => {
       localStorage.removeItem(key);
     });
   };
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
+  let EnslavedTitle = ''
+  for (const header of enslavedHeader.header) {
+    EnslavedTitle = (header.label as LabelFilterMeneList)[languageValue];
+  }
   return (
     <Box
       sx={{
@@ -241,12 +249,12 @@ const HeaderEnslavedNavBar: React.FC = () => {
               display: {
                 xs: 'none',
                 sm: 'none',
-                md: 'block',
-                lg: 'block',
+                md: 'flex',
+                lg: 'flex',
                 textAlign: 'center',
-                paddingRight: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
                 fontWeight: 600,
-                fontSize: 20,
               },
             }}
           >
@@ -261,6 +269,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
                 getColorHover={getColorBTNHoverEnslavedBackground}
               />
             ))}
+            <LanguagesDropdown />
           </Box>
         </Toolbar>
         <Divider

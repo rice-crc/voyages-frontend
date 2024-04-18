@@ -1,133 +1,201 @@
 {
-	"row_vars": [
-		{
-			"rows": [
-				"nation__name"
-			],
-			"binsize": null,
-			"rows_label": "Flag",
-			"label": "Flag"
-		},
-		{
-			"rows": [
-				"embarkation_region__name"
-			],
-			"binsize": null,
-			"rows_label": "Embarkation regions",
-			"label": "Embarkation regions"
-		},
-		{
-			"rows": [
-				"disembarkation_region__import_area__name"
-			],
-			"binsize": null,
-			"rows_label": "Broad disembarkation regions",
-			"label": "Broad disembarkation regions"
-		},
-		{
-			"rows": [
-				"disembarkation_region__import_area__name",
-				"disembarkation_region__name"
-			],
-			"binsize": null,
-			"rows_label": "Specific disembarkation regions",
-			"label": "Specific disembarkation regions"
-		},
-		{
-			"rows": [
-				"year_1"
-			],
-			"binsize": 1,
-			"label": "Individual years",
-			"rows_label": "Year"
-		},
-		{
-			"rows": [
-				"year_5"
-			],
-			"binsize": 5,
-			"label": "5-year periods",
-			"rows_label": "5-year periods"
-		},
-		{
-			"rows": [
-				"year_10"
-			],
-			"binsize": 10,
-			"rows_label": "10-year periods",
-			"label": "10-year periods"
-		},
-		{
-			"rows": [
-				"year_25"
-			],
-			"binsize": 25,
-			"label": "25-year periods",
-			"rows_label": "25-year periods"
-		},
-		{
-			"rows": [
-				"year_50"
-			],
-			"binsize": 50,
-			"label": "50-year periods",
-			"rows_label": "50-year periods"
-		},
-		{
-			"rows": [
-				"year_100"
-			],
-			"binsize": 100,
-			"label": "100-year periods",
-			"rows_label": "100-year periods"
-		}
-	],
-	"column_vars": [
-		{
-			"cols": [
-				"nation__name"
-			],
-			"label": "Flag"
-		},
-		{
-			"cols": [
-				"embarkation_region__name"
-			],
-			"label": "Embarkation regions"
-		},
-		{
-			"cols": [
-				"disembarkation_region__import_area__name"
-			],
-			"label": "Broad disembarkation regions"
-		},
-		{
-			"cols": [
-				"disembarkation_region__import_area__name",
-				"disembarkation_region__name"
-			],
-			"label": "Specific disembarkation regions"
-		}
-	],
-	"cell_vars": [
-		{
-			"vals": [
-				"embarked_slaves",
-				"disembarked_slaves"
-			],
-			"label": "Embarked/Disembarked"
-		},
-		{
-			"vals": [
-				"embarked_slaves"
-			],
-			"label": "Only embarked"
-		},
-		{
-			"vals": [
-				"disembarked_slaves"
-			],
-			"label": "Only disembarked"
-		}
-	]
+    "row_vars": [
+        {
+            "rows": [
+                "nation__name"
+            ],
+            "binsize": null,
+            "rows_label": "Flag",
+            "label": {
+                "en": "Flag",
+                "es": "Bandera",
+                "pt": "Bandeira"
+            }
+        },
+        {
+            "rows": [
+                "embarkation_region__name"
+            ],
+            "binsize": null,
+            "rows_label": "Embarkation regions",
+            "label": {
+                "en": "Embarkation regions",
+                "es": "Regiones de embarque",
+                "pt": "Regiões de embarque"
+            }
+        },
+        {
+            "rows": [
+                "disembarkation_region__import_area__name"
+            ],
+            "binsize": null,
+            "rows_label": "Broad disembarkation regions",
+            "label": {
+                "en": "Broad disembarkation regions",
+                "es": "Regiones amplias de desembarco",
+                "pt": "Grande regiões de desembarque"
+            }
+        },
+        {
+            "rows": [
+                "disembarkation_region__import_area__name",
+                "disembarkation_region__name"
+            ],
+            "binsize": null,
+            "rows_label": "Specific disembarkation regions",
+            "label": {
+                "en": "Specific disembarkation regions",
+                "es": "Regiones de desembarco específicas",
+                "pt": "Regiões específicas de desembarque"
+            }
+        },
+        {
+            "rows": [
+                "year_1"
+            ],
+            "binsize": 1,
+            "rows_label": "Year",
+            "label": {
+                "en": "Individual years",
+                "es": "Años individuales",
+                "pt": "Anos específicos"
+            }
+        },
+        {
+            "rows": [
+                "year_5"
+            ],
+            "binsize": 5,
+            "rows_label": "5-year periods",
+            "label": {
+                "en": "5-year periods",
+                "es": "Periodo de 5 años",
+                "pt": "Períodos de 5 anos"
+            }
+        },
+        {
+            "rows": [
+                "year_10"
+            ],
+            "binsize": 10,
+            "rows_label": "10-year periods",
+            "label": {
+                "en": "10-year periods",
+                "es": "Periodo de 10 años",
+                "pt": "Períodos de 10 anos"
+            }
+        },
+        {
+            "rows": [
+                "year_25"
+            ],
+            "binsize": 25,
+            "rows_label": "25-year periods",
+            "label": {
+                "en": "25-year periods",
+                "es": "Periodo de 25 años",
+                "pt": "Períodos de 25 anos"
+            }
+        },
+        {
+            "rows": [
+                "year_50"
+            ],
+            "binsize": 50,
+            "rows_label": "50-year periods",
+            "label": {
+                "en": "50-year periods",
+                "es": "Periodo de 50 años",
+                "pt": "Períodos de 50 anos"
+            }
+        },
+        {
+            "rows": [
+                "year_100"
+            ],
+            "binsize": 100,
+            "rows_label": "100-year periods",
+            "label": {
+                "en": "100-year periods",
+                "es": "Periodo de 100 años",
+                "pt": "Períodos de 100 anos"
+            }
+        }
+    ],
+    "column_vars": [
+        {
+            "cols": [
+                "nation__name"
+            ],
+            "label": {
+                "en": "Flag",
+                "es": "Bandera",
+                "pt": "Bandeira"
+            }
+        },
+        {
+            "cols": [
+                "embarkation_region__name"
+            ],
+            "label": {
+                "en": "Embarkation regions",
+                "es": "Regiones de embarque",
+                "pt": "PT Embarkation regions"
+            }
+        },
+        {
+            "cols": [
+                "disembarkation_region__import_area__name"
+            ],
+            "label": {
+                "en": "Broad disembarkation regions",
+                "es": "Regiones amplias de desembarco",
+                "pt": "PT Broad disembarkation regions"
+            }
+        },
+        {
+            "cols": [
+                "disembarkation_region__import_area__name",
+                "disembarkation_region__name"
+            ],
+            "label": {
+                "en": "Specific disembarkation regions",
+                "es": "Regiones de desembarco específicas",
+                "pt": "PT Specific disembarkation regions"
+            }
+        }
+    ],
+    "cell_vars": [
+        {
+            "vals": [
+                "embarked_slaves",
+                "disembarked_slaves"
+            ],
+            "label": {
+                "en": "Embarked/Disembarked",
+                "es": "Embarcado/desembarcado",
+                "pt": "Embarcados/Desembarcados"
+            }
+        },
+        {
+            "vals": [
+                "embarked_slaves"
+            ],
+            "label": {
+                "en": "Only embarked",
+                "es": "ESolo embarcado",
+                "pt": "Apenas embarcados"
+            }
+        },
+        {
+            "vals": [
+                "disembarked_slaves"
+            ],
+            "label": {
+                "en": "Only disembarked",
+                "es": "Solo desembarcado",
+                "pt": "Apenas desembarcados"
+            }
+        }
+    ]
 }

@@ -11,14 +11,18 @@ import {
   EstimateColumnVar,
   EstimateCellVar,
   EstimateOptionProps,
+  LabelFilterMeneList,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
 interface SelectDropdownEstimateTableProps {
   selectRowValue: EstimateRowVar[];
   selectColumnValue: EstimateColumnVar[];
   selectCellValue: EstimateCellVar[];
-  selectedPivottablesOptions: EstimateOptionProps;
+  selectedEstimateTablesOptions: EstimateOptionProps;
   handleChangeOptions: (event: SelectChangeEvent<string[]>, name: string, selectRowValue?: EstimateRowVar[]) => void;
   handleButtonExportCSV: () => void
   setMode: React.Dispatch<React.SetStateAction<string>>
@@ -30,11 +34,12 @@ export const SelectDropdownEstimateTable: FunctionComponent<
   selectRowValue,
   selectColumnValue,
   selectCellValue,
-  selectedPivottablesOptions,
+  selectedEstimateTablesOptions,
   handleChangeOptions, handleButtonExportCSV, setMode
 }) => {
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
     const MenuProps = {
       disableScrollLock: true,
       PaperProps: {
@@ -45,11 +50,13 @@ export const SelectDropdownEstimateTable: FunctionComponent<
       },
     };
 
+    const translatedEstimates = translationLanguagesEstimatePage(languageValue)
+
     return (
       <div className="pivot-table-flex-container">
         <div className="estimate-table-flex-item">
           <FormControl fullWidth>
-            <InputLabel id="rows-field-label">{'Rows'}</InputLabel>
+            <InputLabel id="rows-field-label">{translatedEstimates.rowDropDownTitle}</InputLabel>
             <Select
               sx={{
                 height: 26,
@@ -58,30 +65,33 @@ export const SelectDropdownEstimateTable: FunctionComponent<
               MenuProps={MenuProps}
               labelId="rows-field-label"
               id="rows-field-select"
-              value={selectedPivottablesOptions?.rows || []}
-              label={'Rows'}
+              value={selectedEstimateTablesOptions?.rows || []}
+              label={translatedEstimates.rowDropDownTitle}
               onChange={(event: SelectChangeEvent<string[]>) => {
                 handleChangeOptions(event, 'row_vars', selectRowValue);
               }}
               name="row_vars"
             >
-              {selectRowValue.map((option: EstimateRowVar, index: number) => (
-                <MenuItem
-                  key={`${option.label}-${index}`}
-                  value={option.rows as string[]}
-                  sx={{
-                    fontSize: '0.85rem'
-                  }}
-                >
-                  {option.label}
-                </MenuItem>
-              ))}
+              {selectRowValue.map((option: EstimateRowVar, index: number) => {
+                const rowLabel = (option.label as LabelFilterMeneList)[languageValue]
+                return (
+                  <MenuItem
+                    key={`${rowLabel}-${index}`}
+                    value={option.rows as string[]}
+                    sx={{
+                      fontSize: '0.85rem'
+                    }}
+                  >
+                    {rowLabel}
+                  </MenuItem>
+                )
+              })}
             </Select>
           </FormControl>
         </div>
         <div className="estimate-table-flex-item">
           <FormControl fullWidth>
-            <InputLabel id="columns-field-label">{'Columns'}</InputLabel>
+            <InputLabel id="columns-field-label">{translatedEstimates.columnsDropDownTitle}</InputLabel>
             <Select
               sx={{
                 height: 26,
@@ -90,25 +100,25 @@ export const SelectDropdownEstimateTable: FunctionComponent<
               MenuProps={MenuProps}
               labelId="columns-field-label"
               id="columns-field-select"
-              value={selectedPivottablesOptions?.column_vars || []}
-              label={'Column'}
+              value={selectedEstimateTablesOptions?.column_vars || []}
+              label={translatedEstimates.columnsDropDownTitle}
               onChange={(event: SelectChangeEvent<string[]>) => {
                 handleChangeOptions(event, 'column_vars');
               }}
               name="column_vars"
             >
               {selectColumnValue.map((option: any, index: number) => {
-
+                const columnLabel = (option.label as LabelFilterMeneList)[languageValue]
                 return (
                   <MenuItem
-                    key={`${option.label}-${index}`}
+                    key={`${columnLabel}-${index}`}
                     value={option.cols.cols}
                     sx={{
                       fontSize: '0.85rem'
                     }}
 
                   >
-                    {option.label}
+                    {columnLabel}
                   </MenuItem>
                 );
               })}
@@ -117,7 +127,7 @@ export const SelectDropdownEstimateTable: FunctionComponent<
         </div>
         <div className="estimate-table-flex-item">
           <FormControl fullWidth>
-            <InputLabel id="cells-field-label">{'Cells'}</InputLabel>
+            <InputLabel id="cells-field-label">{translatedEstimates.cellDropDownTitle}</InputLabel>
             <Select
               sx={{
                 height: 26, fontSize: '0.85rem'
@@ -125,24 +135,27 @@ export const SelectDropdownEstimateTable: FunctionComponent<
               MenuProps={MenuProps}
               labelId="cells-field-label"
               id="cells-field-select"
-              value={selectedPivottablesOptions?.cell_vars || []}
-              label={'Cells'}
+              value={selectedEstimateTablesOptions?.cell_vars || []}
+              label={translatedEstimates.cellDropDownTitle}
               onChange={(event: SelectChangeEvent<string[]>) => {
                 handleChangeOptions(event, 'cell_vars');
               }}
               name="cell_vars"
             >
-              {selectCellValue.map((option: any, index: number) => (
-                <MenuItem
-                  key={`${option.label}-${index}`}
-                  value={option.vals}
-                  sx={{
-                    fontSize: '0.85rem'
-                  }}
-                >
-                  {option.label}
-                </MenuItem>
-              ))}
+              {selectCellValue.map((option: any, index: number) => {
+                const cellLabel = (option.label as LabelFilterMeneList)[languageValue]
+                return (
+                  <MenuItem
+                    key={`${cellLabel}-${index}`}
+                    value={option.vals}
+                    sx={{
+                      fontSize: '0.85rem'
+                    }}
+                  >
+                    {cellLabel}
+                  </MenuItem>
+                )
+              })}
             </Select>
           </FormControl>
         </div>
@@ -152,7 +165,7 @@ export const SelectDropdownEstimateTable: FunctionComponent<
               onClick={handleButtonExportCSV}
               onMouseLeave={() => setMode('html')}
             >
-              Download Table
+              {translatedEstimates.downloadTable}
             </button>
           </div>
         </div>

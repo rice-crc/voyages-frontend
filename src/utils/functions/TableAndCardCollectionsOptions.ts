@@ -35,7 +35,9 @@ export const TableAndCardCollectionsOptions = (file?: string): Record<string, an
             });
         });
     };
+
     if (file === VOYAGESTABLEFILE) {
+
         TABLE_FLAT.cell_structure.forEach((value) => {
             const fieldsData = value.cell_val.fields;
             processFieldsData(fieldsData);
@@ -85,6 +87,5 @@ export const TableAndCardCollectionsOptions = (file?: string): Record<string, an
             })
         });
     }
-
     return columnObject;
 };

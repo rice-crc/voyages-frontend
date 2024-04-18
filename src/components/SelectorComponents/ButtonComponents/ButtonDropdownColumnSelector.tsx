@@ -17,10 +17,10 @@ import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_s
 import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
 import VOYAGESTABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
 import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.json';
-import { TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
+import { LabelFilterMeneList, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { ENSALVERSTYLE, INTRAAMERICANENSLAVERS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
+import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
 import { DropdownCascading } from '../Cascading/DropdownCascading';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
 
@@ -30,10 +30,14 @@ const ButtonDropdownColumnSelector = () => {
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
+  const { configureColumns } = useSelector((state: RootState) => state.getLanguages);
 
   const [menuValueCells, setMenuValueCells] = useState<ColumnSelectorTree[]>(
     []
   );
+
 
   const handleColumnVisibilityChange = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -49,21 +53,20 @@ const ButtonDropdownColumnSelector = () => {
   };
 
   useEffect(() => {
+
+
     const loadMenuValueCellStructure = async () => {
       try {
         if (checkPagesRouteForVoyages(styleNameRoute!)) {
           setMenuValueCells(VOYAGESTABLE_FLAT.column_selector_tree);
-        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
+        }
+        else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
           setMenuValueCells(ENSLAVED_TABLE.column_selector_tree);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {
           setMenuValueCells(AFRICANORIGINS_TABLE.column_selector_tree);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
           setMenuValueCells(TEXAS_TABLE.column_selector_tree);
-        } else if (styleNameRoute === ENSALVERSTYLE) {
-          setMenuValueCells(ENSLAVERS_TABLE.column_selector_tree);
-        } else if (styleNameRoute === TRANSATLANTICTRADS) {
-          setMenuValueCells(ENSLAVERS_TABLE.column_selector_tree);
-        } else if (styleNameRoute === INTRAAMERICANENSLAVERS) {
+        } else if ((styleNameRoute === ENSALVERSTYLE) || (styleNameRoute === TRANSATLANTICTRADS) || styleNameRoute === INTRAAMERICANTRADS) {
           setMenuValueCells(ENSLAVERS_TABLE.column_selector_tree);
         }
       } catch (error) {
@@ -73,19 +76,21 @@ const ButtonDropdownColumnSelector = () => {
     loadMenuValueCellStructure();
   }, [menuValueCells]);
 
+
   function renderMenuItems(nodes: any[]) {
     return nodes.map((node) => {
-      const { label, children, var_name, colID } = node;
+      const { label: nodeLabel, children, var_name, colID } = node;
       const hasChildren = children && children.length > 0;
+      const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
 
       if (hasChildren) {
         return (
           <DropdownNestedMenuItemChildren
-            label={`${label}`}
+            label={`${menuLabel}`}
             dense
             data-colid={colID}
             data-value={var_name}
-            data-label={label}
+            data-label={menuLabel}
             rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
             onClickMenu={handleColumnVisibilityChange}
             menu={renderMenuItems(children)}
@@ -99,11 +104,11 @@ const ButtonDropdownColumnSelector = () => {
           onClick={handleColumnVisibilityChange}
           data-colid={colID}
           data-value={var_name}
-          data-label={label}
+          data-label={menuLabel}
           dense
           disabled={visibleColumnCells.includes(colID)}
         >
-          {label}
+          {menuLabel}
         </DropdownMenuItem>
       );
     });
@@ -120,7 +125,7 @@ const ButtonDropdownColumnSelector = () => {
               boxShadow: getColorBoxShadow(styleNameRoute!),
               fontWeight: 600,
               color: '#ffffff',
-              width: { xs: 170, sm: 170 },
+              width: { xs: 180, sm: 180 },
               '&:hover': {
                 backgroundColor: getColorHoverBackground(styleNameRoute!),
               },
@@ -128,7 +133,7 @@ const ButtonDropdownColumnSelector = () => {
             className="configureColumnsButton"
             endIcon={<ArrowDropDown />}
           >
-            Configure columns
+            {configureColumns}
           </Button>
         </span>
       }

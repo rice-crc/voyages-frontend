@@ -1,6 +1,6 @@
 import { RootState } from '@/redux/store';
-import { Filter, RangeSliderState } from '@/share/InterfaceTypes';
 import '@/style/estimates.scss'
+import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 import { Button } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { FunctionComponent, useEffect, useState } from 'react';
@@ -13,6 +13,7 @@ const ShowAllSelected: FunctionComponent<ShowAllSelectedProps> = ({ setViewAll, 
     const { checkedListEmbarkation, checkedListDisEmbarkation, selectedFlags } = useSelector(
         (state: RootState) => state.getEstimateAssessment
     );
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
     const [flagNation, setFlagNation] = useState<CheckboxValueType[]>([])
     const [embarkationShow, setEmbarkationShow] = useState<CheckboxValueType[]>([])
     const [disembarkationShow, setDisEmbarkationShow] = useState<CheckboxValueType[]>([])
@@ -37,23 +38,25 @@ const ShowAllSelected: FunctionComponent<ShowAllSelectedProps> = ({ setViewAll, 
         setDisEmbarkationShow(updatedShowDisEmbarktion);
     }, [checkedListEmbarkation, checkedListDisEmbarkation, selectedFlags]);
 
+    const translatedEstimates = translationLanguagesEstimatePage(languageValue)
+
     return (
         <div id="panelCollapse" className="panel-list" v-if="hasCurrentQuery">
             <div className="panel-list-item-wrapper">
                 <div className="row-selected">
-                    <h4 className="col-selected">Selected National Carriers{' :'}</h4>
+                    <h4 className="col-selected">{translatedEstimates.selectNation}{' :'}</h4>
                     <span className='col-selected-all'>
                         {!flagNation ? 'all' : flagNation.join(', ')}
                     </span>
                 </div>
                 <div className="row-selected">
-                    <h4 className="col-selected">Selected Embarkation Regions{' :'}</h4>
+                    <h4 className="col-selected">{translatedEstimates.selectEmbarkation}{' :'}</h4>
                     <span className='col-selected-all'>
                         {!embarkationShow ? 'all' : embarkationShow.join(', ')}
                     </span>
                 </div>
                 <div className="row-selected">
-                    <h4 className="col-selected">Selected Disembarkation Regions{' :'}</h4>
+                    <h4 className="col-selected">{translatedEstimates.selectDesEmbarkation}{' :'}</h4>
                     <span className='col-selected-all'>
                         {!disembarkationShow ? 'all' : disembarkationShow.join(', ')}
                     </span>
@@ -61,7 +64,7 @@ const ShowAllSelected: FunctionComponent<ShowAllSelectedProps> = ({ setViewAll, 
             </div>
             <div>
                 <Button className="btn-panel deselec-btn-hide" onClick={() => setViewAll(false)}>
-                    <i className="fa fa-times-circle" style={{ paddingRight: 5 }} aria-hidden="true"></i>Hide<div></div>
+                    <i className="fa fa-times-circle" style={{ paddingRight: 5 }} aria-hidden="true"></i>{translatedEstimates.hideText}<div></div>
                 </Button>
             </div>
 

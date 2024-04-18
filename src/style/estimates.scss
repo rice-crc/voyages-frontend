@@ -60,7 +60,6 @@
     width: 100%;
     color: white;
     background-color: rgb(25, 118, 210);
-    padding: 0px 3rem;
     font-size: 1.4rem;
     font-weight: bold;
 
@@ -99,9 +98,9 @@
 
 .navbar-subtitle {
     font-weight: 500;
-    font-size: .85rem;
+    font-size: 0.85rem;
     color: #fff;
-    padding: 0 5rem 0.5rem 0.5rem;
+    padding: 0 0 0.65rem 3rem;
 
     @include breakpoint-standard(1) {
         padding: 0.25rem 1.75rem 0 0.25rem
@@ -299,26 +298,27 @@
     padding-top: 12px;
 
     .selected-all-btn {
-        color: #fff; // #008ca8;
+        color: #fff;
         background-color: rgb(25, 118, 210);
-        border: 1.5px solid rgb(25, 118, 210); //#008ca8;
+        border: 1.5px solid rgb(25, 118, 210);
         margin-left: 8px;
     }
 
     .selected-all-btn:hover {
         color: #fff !important;
+        background-color: rgb(68, 156, 244) !important;
     }
 
     .deselec-btn {
-        color: rgb(25, 118, 210); // #008ca8;
+        color: rgb(25, 118, 210);
         background-color: white;
-        border: 1.5px solid rgb(25, 118, 210); //#008ca8;
+        border: 1.5px solid rgb(25, 118, 210);
         margin-left: 8px;
     }
 
     .deselec-btn:hover {
-        background-color: rgb(25, 118, 210); // #008ca8 !important;
-        border-color: rgb(25, 118, 210); // #008ca8 !important;
+        background-color: rgb(25, 118, 210) !important;
+        border-color: rgb(25, 118, 210) !important;
         opacity: 1;
         color: white !important;
     }

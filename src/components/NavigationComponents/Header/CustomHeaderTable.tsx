@@ -46,6 +46,9 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
   const [ascSort, setAscSort] = useState<string>('inactive');
   const [descSort, setDescSort] = useState<string>('inactive');
   const { styleName } = usePageRouter()
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
 
   const onSortChanged = () => {
     setAscSort(column.isSortAscending() ? 'active' : 'inactive');
@@ -81,9 +84,12 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     page_size: Number(pageSize),
   };
 
+
+
   const fetchData = async (sortOrder: string, sortingOrder: string[]) => {
-
-
+    if (inputSearchValue) {
+      dataSend['global_search'] = inputSearchValue;
+    }
     if (sortOrder === 'asc') {
       if (sortingOrder?.length > 0) {
         sortingOrder.forEach((sort: string) => (dataSend['order_by'] = [sort]));
@@ -98,7 +104,6 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
 
     try {
       let response;
-
       if (checkPagesRouteForVoyages(styleName!)) {
         response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
       } else if (checkPagesRouteForEnslaved(styleName!)) {

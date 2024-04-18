@@ -37,7 +37,7 @@ const BlogResultsList: React.FC = () => {
   const [page, setPage] = useState<number>(1);
 
   const imagesPerPage = 12;
-  const { language } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
   const [loading, setLoading] = useState(false);
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
@@ -46,10 +46,10 @@ const BlogResultsList: React.FC = () => {
   const effectOnce = useRef(false);
   const fetchDataBlog = async () => {
     const filters: BlogFilter[] = [];
-    if (language) {
+    if (languageValue) {
       filters.push({
         varName: 'language',
-        searchTerm: [language],
+        searchTerm: [languageValue],
         op: 'in',
       });
     }
@@ -69,7 +69,7 @@ const BlogResultsList: React.FC = () => {
     };
 
     if (inputSearchValue) {
-      dataSend['global_search'] = [inputSearchValue];
+      dataSend['global_search'] = inputSearchValue;
     }
 
     try {
@@ -100,7 +100,7 @@ const BlogResultsList: React.FC = () => {
     };
   }, [
     dispatch,
-    language,
+    languageValue,
     inputSearchValue,
     page,
     searchAutoKey,

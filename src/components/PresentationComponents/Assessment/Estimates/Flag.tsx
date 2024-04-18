@@ -1,6 +1,6 @@
 import { Button } from "antd";
-import Checkbox, { CheckboxChangeEvent } from "antd/es/checkbox";
-import { useEffect, useState } from "react";
+import Checkbox from "antd/es/checkbox";
+import { useEffect } from "react";
 import '@/style/estimates.scss'
 import { flagText } from "@/utils/flatfiles/estimate_text";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -10,6 +10,7 @@ import { Filter } from "@/share/InterfaceTypes";
 import { setFilterObject } from "@/redux/getFilterSlice";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { setOnChangeFlag, setSelectedFlags } from "@/redux/getEstimateAssessmentSlice";
+import { translationLanguagesEstimatePage } from "@/utils/functions/translationLanguages";
 const CheckboxGroup = Checkbox.Group;
 
 const Flag = () => {
@@ -19,6 +20,8 @@ const Flag = () => {
     const { changeFlag, selectedFlags } = useSelector(
         (state: RootState) => state.getEstimateAssessment
     );
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const translatedEstimates = translationLanguagesEstimatePage(languageValue)
 
     useEffect(() => {
         dispatch(setKeyValueName(varName));
@@ -92,7 +95,7 @@ const Flag = () => {
                 style={{ display: 'flex', flexDirection: 'column' }}
             />
             <div className="reset-btn-estimate">
-                <Button className="deselec-btn" onClick={handleResetAll}  >Reset</Button>
+                <Button className="deselec-btn" onClick={handleResetAll}>{translatedEstimates.resetBTN}</Button>
             </div>
         </>
 

@@ -15,6 +15,7 @@ import {
   ENSLAVERSCARDFILE,
   ENSLAVERSNODE,
   VOYAGESNODE,
+  VOYAGESNODECLASS,
   YOYAGESCARDFILE,
 } from '@/share/CONST_DATA';
 import '@/style/cards.scss';
@@ -44,6 +45,7 @@ const VoyageCard = () => {
     let newCardFileName: string = '';
     const newCardDataArray: TransatlanticCardProps[] = [];
     switch (nodeTypeClass) {
+      case VOYAGESNODECLASS:
       case VOYAGESNODE:
         newCardFileName = YOYAGESCARDFILE;
         newCardDataArray.push(...CARDS_VOYAGES_COLLECTION);
@@ -62,13 +64,14 @@ const VoyageCard = () => {
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
   }, [nodeTypeClass]);
-
   const fetchData = async () => {
     const ID = networkID || cardRowID;
-
     try {
       let response = null;
-      switch (nodeTypeClass) {
+
+
+      switch (nodeTypeClass || VOYAGESNODE) {
+        case VOYAGESNODECLASS:
         case VOYAGESNODE:
           response = await dispatch(fetchVoyageCard(ID)).unwrap();
           break;
@@ -86,6 +89,7 @@ const VoyageCard = () => {
           response = null;
       }
 
+
       if (response) {
         setCardData(response.data);
       }
@@ -95,7 +99,6 @@ const VoyageCard = () => {
   };
 
   useEffect(() => {
-
     if (!effectOnce.current) {
       fetchData();
     }
@@ -106,6 +109,7 @@ const VoyageCard = () => {
 
 
   const newCardData = processCardData([cardData], cardDataArray, cardFileName);
+
   const toggleExpand = (header: string) => {
     if (!globalExpand) {
       // If globalExpand is false, just toggle the individual header

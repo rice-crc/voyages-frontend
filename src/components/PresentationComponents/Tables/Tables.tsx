@@ -9,7 +9,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeaderTable from '../../NavigationComponents/Header/CustomHeaderTable';
-import { setColumnDefs, setData, setRowData } from '@/redux/getTableSlice';
+import { setData } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { Pagination } from '@mui/material';
@@ -17,7 +17,6 @@ import {
     StateRowData,
     TableCellStructureInitialStateProp,
     TableCellStructure,
-    ColumnDef,
 } from '@/share/InterfaceTypesTable';
 import {
     CurrentPageInitialState,
@@ -41,12 +40,10 @@ import ButtonDropdownColumnSelector from '@/components/SelectorComponents/Button
 import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import { generateRowsData } from '@/utils/functions/generateRowsData';
-import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-
+import useDataTableProcessingEffect from '@/hooks/useDataTableProcessingEffect';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -75,7 +72,6 @@ const Tables: React.FC = () => {
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
     );
-
 
     const { isChangeGeoTree } = useSelector(
         (state: RootState) => state.getGeoTreeData
@@ -145,9 +141,7 @@ const Tables: React.FC = () => {
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
-    if (inputSearchValue) {
-        dataSend['global_search'] = inputSearchValue;
-    }
+
 
     useEffect(() => {
         const fetchDataTable = async () => {
@@ -183,7 +177,6 @@ const Tables: React.FC = () => {
         page,
         currentPage,
         currentEnslavedPage,
-        varName,
         inputSearchValue,
         isChange,
         isChangeGeoTree,
@@ -191,37 +184,15 @@ const Tables: React.FC = () => {
         currentBlockName, styleNameRoute,
     ]);
 
-    useEffect(() => {
-        const tableFileName = checkPagesRouteForVoyages(styleNameRoute!)
-            ? tableFlatfileVoyages
-            : checkPagesRouteForEnslaved(styleNameRoute!)
-                ? tableFlatfileEnslaved
-                : checkPagesRouteForEnslavers(styleNameRoute!)
-                    ? tableFlatfileEnslavers
-                    : null;
-        if (data.length > 0) {
-            const finalRowData = generateRowsData(data, tableFileName!);
-
-
-            const newColumnDefs: ColumnDef[] = tablesCell.map(
-                (value: TableCellStructure) =>
-                    generateColumnDef(value, visibleColumnCells)
-            );
-            dispatch(setColumnDefs(newColumnDefs));
-            dispatch(setRowData(finalRowData as Record<string, any>[]));
-        } else {
-            dispatch(setRowData([]));
-        }
-        // Ensure to return undefined if there's no cleanup needed
-        return undefined;
-    }, [
+    // Call the custom hook to Process Table Data
+    useDataTableProcessingEffect(
         data,
         visibleColumnCells,
-        dispatch,
         tableFlatfileVoyages,
         tableFlatfileEnslaved,
-        tableFlatfileEnslavers, tablesCell
-    ]);
+        tableFlatfileEnslavers,
+        tablesCell,
+    );
 
     const defaultColDef = useMemo(
         () => ({

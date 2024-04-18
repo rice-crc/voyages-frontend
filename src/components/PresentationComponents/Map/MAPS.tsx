@@ -1,55 +1,38 @@
 import { MapContainer } from 'react-leaflet';
-import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { LeafletMap } from './LeafletMap';
 import { useEffect, useRef, useState } from 'react';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { checkPagesRouteForEnslaved, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { createTopPositionEnslavedPage } from '@/utils/functions/createTopPositionEnslavedPage';
 import { setVariableNameIdURL } from '@/redux/getFilterSlice';
-import { ENSLAVEDNODE, ENSLAVERSNODE, ESTIMATES, VOYAGESTYPE } from '@/share/CONST_DATA';
+import { ENSLAVEDNODE, ENSLAVERSNODE, ESTIMATES, VOYAGESNODECLASS, VOYAGESTYPE } from '@/share/CONST_DATA';
 import { LeafletMapURL } from './LeafletMapURL';
 
 function MAPComponents() {
   const dispatch: AppDispatch = useDispatch();
   const [zoomLevel, setZoomLevel] = useState<number>(3);
   const mapRef = useRef(null);
-  const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage
-  );
-  const { styleName: styleNameRoute, nodeTypeURL } = usePageRouter()
-
-
-  const { currentEnslavedPage } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
-  );
+  const { styleName: styleNameRoute, nodeTypeURL, voyageURLID } = usePageRouter()
   const { nameIdURL } = useSelector((state: RootState) => state.getFilter);
-
-  const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
-  );
-
+  let isUrLMap = false;
   useEffect(() => {
-    if (nodeTypeURL === VOYAGESTYPE) {
-      dispatch(setVariableNameIdURL('voyage_id'));
-    } else if (nodeTypeURL === ENSLAVEDNODE) {
-      dispatch(setVariableNameIdURL('enslaved_id'));
-    } else if (nodeTypeURL === ENSLAVERSNODE) {
-      dispatch(setVariableNameIdURL('voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id'));
+    const NUMBER = '0123456789'
 
+    for (const num of styleNameRoute!) {
+      if (NUMBER.includes(num)) {
+        isUrLMap = true
+      }
+    }
+    if ((nodeTypeURL === VOYAGESTYPE || (nodeTypeURL === VOYAGESNODECLASS)) && (isUrLMap)) {
+      dispatch(setVariableNameIdURL('voyage_id'));
+    } else if ((nodeTypeURL === ENSLAVEDNODE) && (isUrLMap)) {
+      dispatch(setVariableNameIdURL('enslaved_id'));
+    } else if ((nodeTypeURL === ENSLAVERSNODE) && (isUrLMap)) {
+      dispatch(setVariableNameIdURL('voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id'));
     }
   }, [])
 
-  let topPositionPage = 0;
-  if (checkPagesRouteForVoyages(styleNameRoute!)) {
-    topPositionPage = createTopPositionVoyages(currentPage, inputSearchValue!);
-  } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-    topPositionPage = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue!)
-  }
-
-  const calassNameMap = (nameIdURL || styleNameRoute === ESTIMATES) ? 'mobile-responsive-map-ur' : 'mobile-responsive-map'
-
+  const calassNameMap = (nameIdURL || styleNameRoute === ESTIMATES) ? 'mobile-responsive-map-url' : 'mobile-responsive-map'
   return (
     <div className={calassNameMap}>
       <MapContainer
@@ -64,3 +47,5 @@ function MAPComponents() {
 }
 
 export default MAPComponents;
+
+
