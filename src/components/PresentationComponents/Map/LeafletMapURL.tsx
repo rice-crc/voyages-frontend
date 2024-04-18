@@ -22,7 +22,6 @@ import {
     PLACE,
     AFRICANORIGINS,
     ENSLAVEDNODE,
-    VOYAGE,
     VOYAGESTYPE,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';

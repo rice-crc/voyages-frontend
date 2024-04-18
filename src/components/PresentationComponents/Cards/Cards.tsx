@@ -14,6 +14,7 @@ import {
   ENSLAVEDNODE,
   ENSLAVERSCARDFILE,
   ENSLAVERSNODE,
+  VOYAGESNODE,
   VOYAGESNODECLASS,
   YOYAGESCARDFILE,
 } from '@/share/CONST_DATA';
@@ -45,6 +46,7 @@ const VoyageCard = () => {
     const newCardDataArray: TransatlanticCardProps[] = [];
     switch (nodeTypeClass) {
       case VOYAGESNODECLASS:
+      case VOYAGESNODE:
         newCardFileName = YOYAGESCARDFILE;
         newCardDataArray.push(...CARDS_VOYAGES_COLLECTION);
         break;
@@ -62,14 +64,15 @@ const VoyageCard = () => {
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
   }, [nodeTypeClass]);
-
   const fetchData = async () => {
     const ID = networkID || cardRowID;
     try {
       let response = null;
 
-      switch (nodeTypeClass) {
+
+      switch (nodeTypeClass || VOYAGESNODE) {
         case VOYAGESNODECLASS:
+        case VOYAGESNODE:
           response = await dispatch(fetchVoyageCard(ID)).unwrap();
           break;
         case ENSLAVEDNODE:
@@ -85,6 +88,7 @@ const VoyageCard = () => {
         default:
           response = null;
       }
+
 
       if (response) {
         setCardData(response.data);

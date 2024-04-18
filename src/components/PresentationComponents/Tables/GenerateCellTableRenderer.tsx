@@ -37,6 +37,7 @@ export const GenerateCellTableRenderer = (
   const { styleName } = usePageRouter()
 
   let nodeType: string = '';
+
   if (checkPagesRouteForVoyages(styleName!)) {
     nodeType = VOYAGESNODECLASS;
   } else if (checkPagesRouteForEnslaved(styleName!)) {
@@ -44,7 +45,6 @@ export const GenerateCellTableRenderer = (
   } else if (checkPagesRouteForEnslavers(styleName!)) {
     nodeType = ENSLAVERSNODE;
   }
-
   const calculateHeight = (rowCount: number) => {
     const rowHeight = 40; // Adjust this value as needed based on your design
     const maxRowsToShow = 5; // Maximum rows to show before applying overflow

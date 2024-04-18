@@ -1,34 +1,19 @@
 import { MapContainer } from 'react-leaflet';
-import { createTopPositionVoyages } from '@/utils/functions/createTopPositionVoyages';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { LeafletMap } from './LeafletMap';
 import { useEffect, useRef, useState } from 'react';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { checkPagesRouteForEnslaved, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { createTopPositionEnslavedPage } from '@/utils/functions/createTopPositionEnslavedPage';
 import { setVariableNameIdURL } from '@/redux/getFilterSlice';
-import { ENSLAVEDNODE, ENSLAVERSNODE, ESTIMATES, VOYAGESTYPE } from '@/share/CONST_DATA';
+import { ENSLAVEDNODE, ENSLAVERSNODE, ESTIMATES, VOYAGESNODECLASS, VOYAGESTYPE } from '@/share/CONST_DATA';
 import { LeafletMapURL } from './LeafletMapURL';
 
 function MAPComponents() {
   const dispatch: AppDispatch = useDispatch();
   const [zoomLevel, setZoomLevel] = useState<number>(3);
   const mapRef = useRef(null);
-  const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage
-  );
   const { styleName: styleNameRoute, nodeTypeURL, voyageURLID } = usePageRouter()
-
-
-  const { currentEnslavedPage } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
-  );
   const { nameIdURL } = useSelector((state: RootState) => state.getFilter);
-
-  const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
-  );
   let isUrLMap = false;
   useEffect(() => {
     const NUMBER = '0123456789'
@@ -38,7 +23,7 @@ function MAPComponents() {
         isUrLMap = true
       }
     }
-    if ((nodeTypeURL === VOYAGESTYPE) && (isUrLMap)) {
+    if ((nodeTypeURL === VOYAGESTYPE || (nodeTypeURL === VOYAGESNODECLASS)) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('voyage_id'));
     } else if ((nodeTypeURL === ENSLAVEDNODE) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('enslaved_id'));
@@ -48,7 +33,6 @@ function MAPComponents() {
   }, [])
 
   const calassNameMap = (nameIdURL || styleNameRoute === ESTIMATES) ? 'mobile-responsive-map-url' : 'mobile-responsive-map'
-
   return (
     <div className={calassNameMap}>
       <MapContainer
