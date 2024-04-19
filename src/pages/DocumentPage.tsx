@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DOMPurify from 'dompurify'
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Chip, CircularProgress, InputBase, List, ListItem, Menu, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Chip, CircularProgress, List, ListItem, Menu, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import Badge from '@mui/material/Badge';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -16,6 +16,9 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import { Filter } from '@/share/InterfaceTypes';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
+import { Link } from 'react-router-dom';
+import voyageLogo from '@/assets/sv-logo.png';
+import { useDimensions } from '@/hooks/useDimensions';
 
 function useDebounce<T>(value: T, wait: number = 500) {
   const [debounceValue, setDebounceValue] = useState<T>(value);
@@ -65,13 +68,13 @@ type DocumentSearchApi = (search: DocumentSearchModel) => Promise<DocumentSearch
 const docSearch: DocumentSearchApi = async (search) => {
   // Map our search model to the backend API.
   const filter: Filter[] = []
-  filter.push({    
+  filter.push({
     "varName": "has_published_manifest",
     "op": "exact",
     "searchTerm": true
   })
   if (search.label) {
-    filter.push({    
+    filter.push({
       "varName": "title",
       "op": "icontains",
       "searchTerm": search.label
@@ -87,8 +90,8 @@ const docSearch: DocumentSearchApi = async (search) => {
       op: 'icontains'
     },
     'shipname': {
-      varName: 'source_voyage_connections__voyage__shipname',
-      op: 'icontains'
+      varName: 'source_voyage_connections__voyage__voyage_ship__ship_name',
+      op: 'in'
     },
     //'Enslaved': 'source_enslaver_connections__'
   }
@@ -103,8 +106,8 @@ const docSearch: DocumentSearchApi = async (search) => {
     method: 'POST',
     body: JSON.stringify({ filter, page, page_size }),
     headers: {
-        'Authorization': AUTHTOKEN,
-        "Content-Type": "application/json",
+      'Authorization': AUTHTOKEN,
+      "Content-Type": "application/json",
     },
   })
   const data = await response.json()
@@ -205,6 +208,7 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
     .filter(field => searchData[field] === undefined)
     .map(field => <MenuItem
       key={`menuitem_${field}`}
+      disabled={field === 'enslaver'}
       onClick={() => {
         setAnchorEl(null)
         setSearchData({ [field]: '', ...searchData })
@@ -234,6 +238,12 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
                   placeholder={UIDocumentSearchFieldHeader[field]}
                   onChange={(e) => handleValueChange(field, e.target.value)}
                   onBlur={() => setEditingField(null)}
+                  onKeyDown={e => {
+                    if (e.key === "Enter") {
+                      e.preventDefault()
+                      setEditingField(null)
+                    }
+                  }}
                   autoFocus
                 />
               ) : <>
@@ -286,13 +296,15 @@ const DocumentGallery = ({ title, pageSize, source, thumbSize, viewMode, onDocum
     refresh()
   }, [source])
   const paginator = <Pagination style={{ paddingTop: '4px', paddingBottom: '4px' }} count={numPages} page={source.currentPage ?? 1} onChange={(_, p) => onPageChange(p)} />
-  return <>
+  const galleryDivRef = useRef<HTMLDivElement>(null)
+  const { width } = useDimensions(galleryDivRef)
+  return <div ref={galleryDivRef}>
     <h2>{title} <small>(Item count: {source.count})</small></h2>
     {viewMode === 'list' && <>
-      <List sx={{ width: '80vw' }}>
+      <List sx={{ width: '100%', overflowY: 'auto', maxHeight: 'calc(100vh - 220px)' }}>
         {contents.map((item) => (
           <ListItem key={item.key}>
-            <Card sx={{ display: 'flex' }}>
+            <Card sx={{ display: 'flex', ...(viewMode === 'list' ? { width: '100%' } : {}) }}>
               {item.thumb && <CardMedia
                 component="img"
                 sx={{ width: thumbSize }}
@@ -325,16 +337,15 @@ const DocumentGallery = ({ title, pageSize, source, thumbSize, viewMode, onDocum
           </ListItem>
         ))}
       </List>
-      {paginator}
     </>}
     {viewMode !== 'list' && <>
-      {paginator}
-      <ImageList sx={{ width: '80vw' }} cols={5} rowHeight={thumbSize}>
+      <ImageList sx={{ width: '100%', overflowY: 'auto', maxHeight: 'calc(100vh - 220px)' }} cols={Math.floor(0.9 * width / thumbSize)} rowHeight={thumbSize}>
         {contents.map((item) => (
           <ImageListItem key={item.key} style={{ width: thumbSize, height: thumbSize }}>
             {item.thumb && <img
               width={thumbSize}
               height={thumbSize}
+              style={{ maxWidth: thumbSize, maxHeight: thumbSize }}
               src={item.thumb}
               alt={item.label}
               loading="lazy"
@@ -342,20 +353,21 @@ const DocumentGallery = ({ title, pageSize, source, thumbSize, viewMode, onDocum
             <ImageListItemBar
               title={item.label}
               actionIcon={
-                <IconButton
-                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                <Button
+                  variant="contained"
                   color="primary"
                   aria-label={`Open ${item.label}`}
                   onClick={() => onDocumentOpen(item)}
                 >
                   <AutoStoriesIcon />
-                </IconButton>}
+                </Button>}
             />
           </ImageListItem>
         ))}
       </ImageList>
     </>}
-  </>
+    {paginator}
+  </div>
 }
 
 const UserWorkspaceLocalStorageKey = 'my-workspace'
@@ -425,45 +437,57 @@ const DocumentPage: React.FC = () => {
     refreshWorkspace()
   }
   const tabSource = sources[tab]
-  return (
-    <Stack direction="row">
-      <div style={{ marginTop: '5%', marginLeft: '5%', width: '90vw', height: '90vh', display: doc ? 'none' : 'block' }}>
-        <div style={{ display: 'flex' }}>
-          <div style={tab === 'Workspace' ? { opacity: 0.33 } : {}}>
-            <DocumentSearchBox onClick={() => setTab('Search')} onUpdate={src => setSources({ ...sources, Search: src })} />
-          </div>
-          {sources.Workspace &&
-            <Tooltip title={sources.Workspace.count ? "My Workspace Documents" : "No Documents added to My Workspace yet"}>
-              <IconButton aria-label="my-workspace" onClick={() => setTab('Workspace')}>
-                <Badge badgeContent={sources.Workspace.count + ''} color="primary">
-                  <BookmarksIcon color="action" />
-                </Badge>
-              </IconButton>
-            </Tooltip>}
-          <Tooltip title={viewMode === 'list' ? 'Switch to grid view' : 'Switch to list view'}>
-            <IconButton onClick={() => setViewMode(viewMode === 'list' ? 'grid' : 'list')}>
-              {viewMode === 'list' ? <GridViewIcon /> : <ViewListIcon />}
-            </IconButton>
-          </Tooltip>
+  // TODO: Change the header colors.
+  return <>
+
+    <div className="nav-blog-header-logo nav-blog-header-sticky-logo ">
+      <Link
+        to={'/'}
+        style={{ textDecoration: 'none' }}
+      >
+        <img
+          src={voyageLogo}
+          alt={'voyages logo'}
+          className='logo-blog'
+        />
+      </Link>
+      <div style={{ display: 'flex' }}>
+        <div style={tab === 'Workspace' ? { opacity: 0.33 } : {}}>
+          <DocumentSearchBox onClick={() => setTab('Search')} onUpdate={src => setSources({ ...sources, Search: src })} />
         </div>
-        {tabSource && <DocumentGallery
-          title={tab}
-          source={tabSource}
-          pageSize={15}
-          thumbSize={200}
-          viewMode={viewMode}
-          onDocumentOpen={setDoc}
-          onPageChange={pageNum => setSources({ ...sources, [tab]: { ...tabSource, currentPage: pageNum } })} />}
+        {sources.Workspace &&
+          <Tooltip title={sources.Workspace.count ? "My Workspace Documents" : "No Documents added to My Workspace yet"}>
+            <IconButton aria-label="my-workspace" onClick={() => tab !== 'Workspace' ? setTab('Workspace') : setTab('Search')}>
+              <Badge badgeContent={sources.Workspace.count + ''} color="primary">
+                <BookmarksIcon color="action" />
+              </Badge>
+            </IconButton>
+          </Tooltip>}
+        <Tooltip title={viewMode === 'list' ? 'Switch to grid view' : 'Switch to list view'}>
+          <IconButton onClick={() => setViewMode(viewMode === 'list' ? 'grid' : 'list')}>
+            {viewMode === 'list' ? <GridViewIcon /> : <ViewListIcon />}
+          </IconButton>
+        </Tooltip>
       </div>
-      {doc && <MiradorViewer
-        manifestUrlBase='https://voyages-api-staging.crc.rice.edu/static/iiif_manifests/'
-        domId='__mirador'
-        onClose={handleMiradorClose}
-        manifestId={doc.key}
-        workspaceAction={docIndexInWorkspace(doc) >= 0 ? 'Remove' : 'Add'}
-        onWorkspaceAction={handleWorkspaceAction} />}
-    </Stack>
-  );
+    </div>
+    <div style={{ marginTop: '20px', marginLeft: '5vw', marginRight: '5vw', width: '90vw', display: doc ? 'none' : 'block' }}>
+      {tabSource && <DocumentGallery
+        title={tab}
+        source={tabSource}
+        pageSize={12}
+        thumbSize={320}
+        viewMode={viewMode}
+        onDocumentOpen={setDoc}
+        onPageChange={pageNum => setSources({ ...sources, [tab]: { ...tabSource, currentPage: pageNum } })} />}
+    </div>
+    {doc && <MiradorViewer
+      manifestUrlBase='https://voyages-api-staging.crc.rice.edu/static/iiif_manifests/'
+      domId='__mirador'
+      onClose={handleMiradorClose}
+      manifestId={doc.key}
+      workspaceAction={docIndexInWorkspace(doc) >= 0 ? 'Remove' : 'Add'}
+      onWorkspaceAction={handleWorkspaceAction} />}
+  </>
 };
 
 export default DocumentPage;
