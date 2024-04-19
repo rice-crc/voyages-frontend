@@ -223,11 +223,10 @@ const Tables: React.FC = () => {
 
     const getRowRowStyle = useCallback(
         () => ({
-            fontSize: 13,
+            fontSize: '0.8rem',
             fontWeight: 500,
             color: '#000',
             fontFamily: 'sans-serif',
-            paddingLeft: '20px',
         }),
         []
     );
@@ -247,7 +246,7 @@ const Tables: React.FC = () => {
 
     const gridOptions = useMemo(
         () => ({
-            headerHeight: 40,
+            headerHeight: 35,
             suppressHorizontalScroll: true,
             autoSizeStrategy: 'alignedGrid',
             onGridReady: (params: any) => {

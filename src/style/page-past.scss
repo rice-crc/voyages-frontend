@@ -443,6 +443,11 @@
   font-weight: bold;
   color: #fff;
 
+  @include breakpoint-standard(7) {
+    font-size: 1rem;
+    top: 2px;
+  }
+
   @include breakpoint-standard(6) {
     font-size: 18px;
     top: 2px;

@@ -46,7 +46,7 @@ export const GenerateCellTableRenderer = (
     nodeType = ENSLAVERSNODE;
   }
   const calculateHeight = (rowCount: number) => {
-    const rowHeight = 40; // Adjust this value as needed based on your design
+    const rowHeight = 35; // Adjust this value as needed based on your design
     const maxRowsToShow = 5; // Maximum rows to show before applying overflow
     const maxHeight = rowHeight * maxRowsToShow;
     return rowCount * rowHeight <= maxHeight ? rowCount * rowHeight : maxHeight;
