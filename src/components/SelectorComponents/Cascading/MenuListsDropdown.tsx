@@ -45,6 +45,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
+import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
 
 export const MenuListsDropdown = () => {
   const {
@@ -275,7 +276,8 @@ export const MenuListsDropdown = () => {
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
-          {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}
+          {/* {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />} */}
+          {varName && type === TYPES.CharField && <AutoCompleteListBox />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField) || (varName && type === TYPES.FloatField)) && (
               <RangeSliderComponent />

@@ -18,6 +18,7 @@ import '@/style/Slider.scss';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { useRangSlider } from '@/hooks/useRangSlider';
 import { setFilterObject } from '@/redux/getFilterSlice';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
 const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -27,16 +28,16 @@ const RangeSlider = () => {
   const { rangeValue, varName, rangeSliderMinMax, isChange } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
-
+  const { styleName: styleNameRoute } = usePageRouter();
   const rangeMinMax = rangeSliderMinMax?.[varName] || rangeValue?.[varName] || [0, 0];
   const min = rangeValue?.[varName]?.[0] || 0;
   const max = rangeValue?.[varName]?.[1] || 0;
   const [currentSliderValue, setCurrentSliderValue] = useState<number | number[]>(rangeMinMax);
-  const filterByVarName = filtersObj && filtersObj.filter(filterItem => filterItem.varName !== varName);
 
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: RangeSliderStateProps = {
     varName: varName,
-    filter: filtersObj ? filterByVarName : []
+    filter: filters
   };
   const { data, isLoading, isError } = useRangSlider(dataSend, styleName);
 

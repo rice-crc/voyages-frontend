@@ -25,24 +25,21 @@
 
 //     )
 
-
-
 // }
 
 // export default AutoCompleteLazyLoad;
-import { border, margin, padding } from "@mui/system";
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 function AutoCompleteLazyLoad() {
-    const [dataSource, setDataSource] = useState([])
+    const [dataSource, setDataSource] = useState(Array.from({ length: 20 }))
     const [hasMore, setHasMore] = useState<boolean>(true)
 
     const fetchMoreDataList = () => {
-        if (dataSource.length < 20) {
+        if (dataSource.length < 200) {
             // MAKE API CALL
             setTimeout(() => {
                 setDataSource(dataSource.concat(Array.from({ length: 20 })))
-            }, 500)
+            }, 100)
 
         } else {
             setHasMore(false)
@@ -53,22 +50,21 @@ function AutoCompleteLazyLoad() {
         margin: 12,
         padding: 8
     }
+    console.log({ hasMore })
+
 
     return (
         <div>
             <InfiniteScroll
                 dataLength={dataSource.length}
                 loader={<p>Loading...</p>}
-                // next={() => {
-                //     setOffset(offset + limit)
-                // }}
                 next={fetchMoreDataList}
                 scrollThreshold={0.9}
                 endMessage={<p>No more items</p>}
                 hasMore={hasMore}
             >
                 {dataSource.map((item, index) => {
-                    return <div style={style}>This is a div #{index + 1}</div>
+                    return <div style={style} key={index}>This is a div #{index + 1}</div>
                 })}
 
             </InfiniteScroll>

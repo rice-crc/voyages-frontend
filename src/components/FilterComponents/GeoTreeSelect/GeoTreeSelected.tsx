@@ -16,6 +16,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { TreeItemProps } from '@mui/lab';
 import { useGeoTreeSelected } from '@/hooks/useGeoTreeSelected';
 import { setFilterObject } from '@/redux/getFilterSlice';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
 const GeoTreeSelected: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -32,23 +33,13 @@ const GeoTreeSelected: React.FC = () => {
   const { isChangeGeoTree } = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
-
+  const { styleName: styleNameRoute } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
-  const filters: Filter[] = [];
-  const filterByVarName =
-    filtersObj &&
-    filtersObj.filter((filterItem: Filter) => filterItem.varName !== varName);
-  if (!filtersObj && filterByVarName) {
-    filters.push({
-      varName: varName,
-      searchTerm: selectedValue.map((item) => item),
-      op: 'in',
-    });
-  }
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: GeoTreeSelectStateProps = {
     geotree_valuefields: [varName],
-    filter: [...(filterByVarName || []), ...filters],
+    filter: filters,
   };
 
   const { data, isLoading, isError } = useGeoTreeSelected(dataSend, styleName);
