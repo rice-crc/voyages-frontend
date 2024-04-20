@@ -3,6 +3,7 @@ import { fetchPastEnslaversAutoCompleted } from "@/fetch/pastEnslaversFetch/fetc
 import { fetchAutoVoyageComplete } from "@/fetch/voyagesFetch/fetchAutoVoyageComplete";
 import { IRootFilterObject } from "@/share/InterfaceTypes";
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from "@/utils/functions/checkPagesRoute";
+
 import { useQuery } from "react-query";
 
 export const useAutoComplete = (dataSend: IRootFilterObject | undefined, styleName?: string) => {

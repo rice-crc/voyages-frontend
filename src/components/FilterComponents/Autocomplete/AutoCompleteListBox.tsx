@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, UIEventHandler, SyntheticEvent } from "react";
-import MuiAutocomplete, { AutocompleteRenderOptionState } from "@mui/material/Autocomplete";
-import { AutoCompleteInitialState, AutoCompleteOption, DataSuggestedValuesProps, Filter, IRootFilterObject, RangeSliderState } from "@/share/InterfaceTypes";
+import React, { useState, useEffect, useRef, UIEventHandler, SyntheticEvent, useCallback } from "react";
+import { AutocompleteRenderOptionState } from "@mui/material/Autocomplete";
+import { AutoCompleteOption, DataSuggestedValuesProps, Filter, IRootFilterObject, RangeSliderState } from "@/share/InterfaceTypes";
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
 import { Autocomplete, Checkbox, Typography, TextField } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
@@ -22,10 +22,12 @@ export default function AutoCompleteListBox() {
     const { styleName } = usePageRouter();
     const limit = 20;
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-    const [autoList, setAutoLists] = useState<AutoCompleteOption[]>([]);
+    const [autoList, setAutoList] = useState<AutoCompleteOption[]>([]);
     const [selectedValue, setSelectedValue] = useState<AutoCompleteOption[]>([]);
     const [autoValue, setAutoValue] = useState<string>('');
     const [offset, setOffset] = useState<number>(0);
+    const [page, setPage] = useState(1);
+
     const dispatch: AppDispatch = useDispatch();
 
     const filters = filtersDataSend(filtersObj, styleName!);
@@ -42,31 +44,27 @@ export default function AutoCompleteListBox() {
     useEffect(() => {
         if (!isLoading && !isError && data) {
             const { suggested_values } = data as DataSuggestedValuesProps;
-
             const newAutoList: AutoCompleteOption[] = suggested_values.map(
                 (value: AutoCompleteOption) => value
             );
-            const items = paginate(newAutoList, 10, 1);
-            setAutoLists((prevAutoList) => [...prevAutoList, ...items]);
-            setOffset(offset)
-            // Create a Set to track unique values
+            const items = paginate(newAutoList, limit, 1);
             const uniqueValues = new Set<string>();
-            newAutoList.forEach((value) => uniqueValues.add(value.value));
+            items.forEach((value) => uniqueValues.add(value.value));
 
             // Convert Set back to an array without duplicates
             const filteredAutoList = Array.from(uniqueValues).map((value) => ({
                 value,
             }));
 
-            setAutoLists((prevAutoList) => {
+            setAutoList((prevAutoList) => {
                 const uniquePrevAutoList = prevAutoList.filter(
                     (item) => !uniqueValues.has(item.value)
                 );
-                return [...filteredAutoList, ...uniquePrevAutoList];
+                return [...uniquePrevAutoList, ...filteredAutoList];
             });
         }
-    }, [data, isLoading, isError]);
 
+    }, [data, isLoading, isError]);
 
     useEffect(() => {
         if (listboxNodeRef.current !== null) {
@@ -75,7 +73,6 @@ export default function AutoCompleteListBox() {
     }, [position, listboxNodeRef]);
 
     useEffect(() => {
-
         const storedValue = localStorage.getItem('filterObject');
         if (!storedValue) return;
 
@@ -95,25 +92,24 @@ export default function AutoCompleteListBox() {
         dispatch(setFilterObject(filter));
     }, [varName, styleName]);
 
-
     const loadMoreResults = () => {
-        // const nextPage = page + 1;
-        // setPage(nextPage);
-        const nextPage = offset + 20;
-        setOffset(nextPage)
-        const { suggested_values } = data as DataSuggestedValuesProps;
-
-        const newAutoList: AutoCompleteOption[] = suggested_values.map(
-            (value: AutoCompleteOption) => value
-        );
-        const items = paginate(newAutoList, limit, 1);
-        setAutoLists((prevAutoList) => [...prevAutoList, ...items]);
-    };
+        if (!isLoading && !isError && data) {
+            const nextPage = page + 1
+            setPage(nextPage);
+            const newOffset = nextPage * limit;
+            setOffset(newOffset);
+            const { suggested_values } = data as DataSuggestedValuesProps;
+            const newAutoList: AutoCompleteOption[] = suggested_values.map(
+                (value: AutoCompleteOption) => value
+            );
+            const items = paginate(newAutoList, limit, nextPage);
+            setAutoList((prevAutoList) => [...prevAutoList, ...items]);
+        }
+    }
 
     const handleScroll: UIEventHandler<HTMLUListElement> = (event) => {
         const { currentTarget } = event;
         const position = currentTarget.scrollTop + currentTarget.clientHeight;
-
         if (currentTarget.scrollHeight - position <= 1) {
             setPosition(position);
             loadMoreResults();
@@ -131,7 +127,6 @@ export default function AutoCompleteListBox() {
             }
         }, 100
     );
-
     const handleAutoCompletedChange = (
         event: SyntheticEvent<Element, Event>,
         newValue: AutoCompleteOption[]
@@ -141,6 +136,11 @@ export default function AutoCompleteListBox() {
         const autuLabels: string[] = newValue.map((ele) => ele.value);
         dispatch(setAutoLabel(autuLabels));
         setSelectedValue(newValue as AutoCompleteOption[]);
+        //Update filter and save to localStorage
+        updateFilter(autuLabels);
+    };
+
+    const updateFilter = (autuLabels: string[]) => {
         const existingFilterObjectString = localStorage.getItem('filterObject');
         let existingFilters: Filter[] = [];
 
@@ -153,13 +153,13 @@ export default function AutoCompleteListBox() {
         );
 
         // Type guard to check if autuLabels is an array before accessing its length property
-        if (Array.isArray(newValue) && newValue.length > 0) {
+        if (Array.isArray(autuLabels) && autuLabels.length > 0) {
             if (existingFilterIndex !== -1) {
-                existingFilters[existingFilterIndex].searchTerm = [...autuLabels]; //[...newValue];
+                existingFilters[existingFilterIndex].searchTerm = [...autuLabels];
             } else {
                 existingFilters.push({
                     varName: varName,
-                    searchTerm: autuLabels, //newValue,
+                    searchTerm: autuLabels,
                     op: 'in',
                 });
             }
@@ -180,11 +180,11 @@ export default function AutoCompleteListBox() {
         const filterObjectString = JSON.stringify(filterObjectUpdate);
         localStorage.setItem('filterObject', filterObjectString);
     };
-
     const optionRenderer = (
         props: React.HTMLAttributes<HTMLLIElement>,
         option: AutoCompleteOption,
         { selected }: AutocompleteRenderOptionState
+
     ) => {
         return (
             <li {...props} key={`${option.value}`}>
@@ -206,22 +206,23 @@ export default function AutoCompleteListBox() {
         ).body.textContent;
         return textContent ?? '';
     };
-    console.log({ autoList })
 
     return (
         <>
             <Autocomplete
+                loading
+                disableCloseOnSelect
                 options={autoList}
                 autoHighlight
                 multiple
                 id="tags-outlined"
                 style={{ width: 450 }}
-                loading={true}
-                getOptionLabel={getOptionLabel}
-                renderOption={optionRenderer}
                 onInputChange={handleInputChange}
                 inputValue={autoValue}
                 value={selectedValue}
+                getOptionLabel={getOptionLabel}
+                renderOption={optionRenderer}
+                onChange={handleAutoCompletedChange}
                 renderInput={(params) => (
                     <TextField
                         {...params}

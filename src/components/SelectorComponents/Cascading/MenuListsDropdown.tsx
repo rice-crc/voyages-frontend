@@ -276,8 +276,8 @@ export const MenuListsDropdown = () => {
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
-          {/* {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />} */}
-          {varName && type === TYPES.CharField && <AutoCompleteListBox />}
+          {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}
+          {/* {varName && type === TYPES.CharField && <AutoCompleteListBox />} */}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField) || (varName && type === TYPES.FloatField)) && (
               <RangeSliderComponent />
