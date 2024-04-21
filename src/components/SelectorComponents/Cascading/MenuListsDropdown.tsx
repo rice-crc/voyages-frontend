@@ -19,6 +19,7 @@ import {
   FilterMenuList,
   FilterMenu,
   LabelFilterMeneList,
+  Filter,
 } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss';
 import {
@@ -31,7 +32,7 @@ import {
 import { useState, MouseEvent, useEffect } from 'react';
 import { PaperDraggable } from './PaperDraggable';
 import { setIsChange, setKeyValueName } from '@/redux/getRangeSliderSlice';
-import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
+import { setIsChangeAuto, setTextFilterValue } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import {
@@ -46,6 +47,15 @@ import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
 import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
+import FilterTextBox from '@/components/FilterComponents/Autocomplete/FilterTextBox';
+import {
+  getColorBTNVoyageDatasetBackground,
+  getColorBackground,
+  getColorBoxShadow,
+  getColorTextCollection,
+  getColorHoverBackgroundCollection,
+} from '@/utils/functions/getColorStyle';
+import { setFilterObject } from '@/redux/getFilterSlice';
 
 export const MenuListsDropdown = () => {
   const {
@@ -70,12 +80,16 @@ export const MenuListsDropdown = () => {
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+  const { textFilterValue } = useSelector(
+    (state: RootState) => state.autoCompleteList
+  );
 
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [label, setLabel] = useState<string>('');
   const [type, setType] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
+  const [textFilter, setTextFilter] = useState<string>('');
 
   useEffect(() => {
     const loadFilterCellStructure = async () => {
@@ -100,7 +114,11 @@ export const MenuListsDropdown = () => {
       }
     };
     loadFilterCellStructure();
-  }, [styleNameRoute, languageValue]);
+    if (!isOpenDialog) {
+      setTextFilter('');
+    }
+
+  }, [styleNameRoute, languageValue, isOpenDialog]);
 
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -136,11 +154,54 @@ export const MenuListsDropdown = () => {
       dispatch(setIsChangeAuto(!value));
     }
     dispatch(resetAll());
+    setTextFilter('')
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
   };
+
+
+  const handleApplyTextFilterDataDialog = (value: string) => {
+
+    dispatch(setTextFilterValue(value));
+    updateFilter(value)
+  }
+  const updateFilter = (newValue: string) => {
+    const existingFilterObjectString = localStorage.getItem('filterObject');
+    let existingFilters: Filter[] = [];
+
+    if (existingFilterObjectString) {
+      existingFilters = JSON.parse(existingFilterObjectString).filter || [];
+    }
+
+    const existingFilterIndex = existingFilters.findIndex(
+      (filter) => filter.varName === varName
+    );
+    if (newValue.length > 0) {
+      if (existingFilterIndex !== -1) {
+        existingFilters[existingFilterIndex].searchTerm = [newValue];
+      } else {
+        existingFilters.push({
+          varName: varName,
+          searchTerm: [newValue],
+          op: 'in',
+        });
+      }
+    } else if (existingFilterIndex !== -1) {
+      existingFilters[existingFilterIndex].searchTerm = [];
+    }
+    const filteredFilters = existingFilters.filter((filter) =>
+      !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
+    );
+    dispatch(setFilterObject(filteredFilters));
+
+    const filterObjectUpdate = {
+      filter: filteredFilters,
+    };
+    const filterObjectString = JSON.stringify(filterObjectUpdate);
+    localStorage.setItem('filterObject', filterObjectString);
+  }
 
   const renderDropdownMenu = (
     nodes: FilterMenu | ChildrenFilter | (FilterMenu | ChildrenFilter)[]
@@ -276,20 +337,61 @@ export const MenuListsDropdown = () => {
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
-          {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}
+          {/* {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />} */}
           {/* {varName && type === TYPES.CharField && <AutoCompleteListBox />} */}
+          {varName && type === TYPES.CharField && <FilterTextBox textValue={textFilter} setTextValue={setTextFilter} />}
           {((varName && type === TYPES.IntegerField) ||
             (varName && type === TYPES.DecimalField) || (varName && type === TYPES.FloatField)) && (
               <RangeSliderComponent />
             )}
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{ paddingRight: '2rem' }}>
+          {varName && type === TYPES.CharField &&
+            <Button
+              autoFocus
+              type='submit'
+              onClick={() => handleApplyTextFilterDataDialog(textFilter)}
+              sx={{
+                color: 'white', textTransform: 'unset',
+                height: 30,
+                cursor: 'pointer',
+                backgroundColor: getColorBackground(styleNameRoute!),
+                fontSize: '0.80rem',
+                '&:hover': {
+                  backgroundColor: getColorHoverBackgroundCollection(styleNameRoute!),
+                  color: getColorBTNVoyageDatasetBackground(styleNameRoute!)
+                },
+                '&:disabled': {
+                  color: '#fff',
+                  boxShadow: getColorBoxShadow(styleNameRoute!),
+                  cursor: 'not-allowed',
+                },
+              }}
+            >
+              Apply
+            </Button>}
           <Button
             autoFocus
             onClick={handleResetDataDialog}
-            sx={{ color: BLACK, fontSize: 15 }}
+            sx={{
+              color: 'black', textTransform: 'unset',
+              height: 30,
+              cursor: 'pointer',
+              backgroundColor: 'transparent',
+              border: `1px solid ${getColorBackground(styleNameRoute!)}`,
+              fontSize: '0.80rem',
+              '&:hover': {
+                backgroundColor: getColorHoverBackgroundCollection(styleNameRoute!),
+                color: getColorBTNVoyageDatasetBackground(styleNameRoute!)
+              },
+              '&:disabled': {
+                color: '#fff',
+                boxShadow: getColorBoxShadow(styleNameRoute!),
+                cursor: 'not-allowed',
+              },
+            }}
           >
-            RESET
+            Reset
           </Button>
         </DialogActions>
       </Dialog>

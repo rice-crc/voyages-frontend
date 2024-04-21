@@ -34,6 +34,7 @@ export interface AutoCompleteInitialState {
     total_results_count: number,
     autoCompleteValue: Record<string, string[]>;
     autoLabelName: string[]
+    textFilterValue: string
     isChangeAuto: boolean
     offset: number
     isLoadingList: boolean

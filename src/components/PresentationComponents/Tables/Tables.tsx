@@ -61,9 +61,6 @@ const Tables: React.FC = () => {
         (state: RootState) => state.getTableData as StateRowData
     );
 
-    const { autoLabelName } = useSelector(
-        (state: RootState) => state.autoCompleteList
-    );
 
     const [totalResultsCount, setTotalResultsCount] = useState(0);
     const gridRef = useRef<any>(null);
@@ -142,7 +139,6 @@ const Tables: React.FC = () => {
         page_size: Number(rowsPerPage),
     };
 
-
     useEffect(() => {
         const fetchDataTable = async () => {
             let response;
@@ -172,6 +168,7 @@ const Tables: React.FC = () => {
         };
         fetchDataTable();
     }, [
+        filtersObj,
         dispatch,
         rowsPerPage,
         page,
@@ -180,7 +177,6 @@ const Tables: React.FC = () => {
         inputSearchValue,
         isChange,
         isChangeGeoTree,
-        autoLabelName,
         currentBlockName, styleNameRoute,
     ]);
 

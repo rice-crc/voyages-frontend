@@ -18,7 +18,7 @@ import IntraAmerican from '@/components/PresentationComponents/LadingPage/IntraA
 import TransAtlantic from '@/components/PresentationComponents/LadingPage/TransAtlantic';
 import { FooterComponent } from '@/components/SelectorComponents/ButtonComponents/FooterComponents';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import AutoCompleteLazyLoad from '@/components/FilterComponents/Autocomplete/AutoCompleteLazyLoad';
+import AutoCompleteLazyLoad from '@/components/FilterComponents/Autocomplete/FilterTextBox';
 
 const HomePage: React.FC = () => {
   const handleBackToTop = () => {
