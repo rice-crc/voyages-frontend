@@ -6,7 +6,8 @@
 			"pt": "Nomes dos Escravizadores"
 		},
 		"var_name": "aliases__alias",
-		"type": "CharField"
+		"type": "CharField",
+		"ops":["icontains"]
 	},
 	{
 		"label": {
@@ -27,6 +28,7 @@
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Ship Name",
 					"es": "Nombre del Barco",
@@ -81,6 +83,7 @@
 			{
 				"var_name": "aliases__enslaver_relations__roles__name",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Roles",
 					"es": "Roles",
@@ -135,6 +138,7 @@
 			{
 				"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Documented Name of Enslaved Person",
 					"es": "Nombre Documentado de la Persona Esclavizada",
@@ -153,6 +157,7 @@
 			{
 				"var_name": "enslaver_source_connections__source__title",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Biographical Sources",
 					"es": "Fuentes Biográficas ",
@@ -162,6 +167,7 @@
 			{
 				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_source_connections__source__title",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Documentary (Voyage) Sources",
 					"es": "Fuentes Documentales (viaje)",
