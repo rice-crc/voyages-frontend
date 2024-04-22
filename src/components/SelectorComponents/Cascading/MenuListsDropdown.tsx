@@ -53,6 +53,8 @@ import {
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
 import { setFilterObject } from '@/redux/getFilterSlice';
+import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
+import AutoCompletedFilterListBox from '@/components/FilterComponents/Autocomplete/AutoCompletedFilterListBox';
 
 export const MenuListsDropdown = () => {
   const {
@@ -274,7 +276,6 @@ export const MenuListsDropdown = () => {
     <div>
       <Box className="filter-menu-bar">
         {filterMenu.map((item: FilterMenuList, index: number) => {
-
           const { var_name, label, type } = item
           const itemLabel = (label as LabelFilterMeneList)[languageValue];
           return var_name ? (

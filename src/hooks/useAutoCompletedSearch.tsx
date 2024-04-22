@@ -65,17 +65,6 @@ export const useAutoCompletedSearch = (
             }
         };
 
-        const fetchAutoList = async () => {
-            let response;
-            if (checkPagesRouteForVoyages(styleName!)) {
-                response = await fetchAutoVoyageComplete(dataSend);
-            } else if (checkPagesRouteForEnslaved(styleName!)) {
-                response = await fetchPastEnslavedAutoComplete(dataSend);
-            } else if (checkPagesRouteForEnslavers(styleName!)) {
-                response = await fetchPastEnslaversAutoCompleted(dataSend);
-            }
-            return response;
-        };
 
         fetchAutoListData();
 
@@ -85,6 +74,18 @@ export const useAutoCompletedSearch = (
         };
 
     }, [pageNumber, query]); // Run effect when pageNumber changes
+
+    const fetchAutoList = async () => {
+        let response;
+        if (checkPagesRouteForVoyages(styleName!)) {
+            response = await fetchAutoVoyageComplete(dataSend);
+        } else if (checkPagesRouteForEnslaved(styleName!)) {
+            response = await fetchPastEnslavedAutoComplete(dataSend);
+        } else if (checkPagesRouteForEnslavers(styleName!)) {
+            response = await fetchPastEnslaversAutoCompleted(dataSend);
+        }
+        return response;
+    };
 
     return { loading, error, autoList, hasMore }
 

@@ -61,8 +61,6 @@ const AutoCompletedFilterListBox = () => {
         filter: filters,
     };
 
-
-
     const {
         loading,
         error,
@@ -103,6 +101,7 @@ const AutoCompletedFilterListBox = () => {
         if (!mounted.current) mounted.current = true;
         else if (position && listboxNodeRef.current)
             listboxNodeRef.current.scrollTop = position - (listboxNodeRef.current.offsetHeight || 0);
+        console.log({ position })
     }, [listboxNodeRef, position]);
 
     // Debounce the handleInputChange function
@@ -114,7 +113,7 @@ const AutoCompletedFilterListBox = () => {
             setAutoValue(value);
             setPage(1);
         },
-        300
+        100
     );
 
     // Use the debounced function in your Autocomplete component
