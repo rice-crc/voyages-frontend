@@ -7,6 +7,7 @@
 				"pt": "Documented Name PT"
 			},
 			"cell_type": "literal-concat",
+			"col_width_px":100,
 			"visible": true,
 			"number_format": null,
 			"order_by": [
@@ -30,6 +31,7 @@
 				"pt": "Modern Name PT"
 			},
 			"cell_type": "literal-concat",
+			"col_width_px":100,
 			"visible": true,
 			"number_format": null,
 			"order_by": [
@@ -272,6 +274,7 @@
 				"pt": "Date of Arrival PT"
 			},
 			"cell_type": "literal-concat",
+			"col_width_px":100,
 			"visible": false,
 			"number_format": null,
 			"order_by": [
