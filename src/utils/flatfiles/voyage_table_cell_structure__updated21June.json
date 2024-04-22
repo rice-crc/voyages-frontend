@@ -12,7 +12,7 @@
 			"order_by": [
 				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 			"cell_val": {
 				"fields": [
@@ -35,7 +35,7 @@
 			"order_by": [
 				"voyage_id"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_id",
 			"cell_val": {
 				"fields": [
@@ -58,7 +58,7 @@
 			"order_by": [
 				"voyage_ship__ship_name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_ship__ship_name",
 			"cell_val": {
 				"fields": [
@@ -81,7 +81,7 @@
 			"order_by": [
 				"voyage_itinerary__imp_port_voyage_begin__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_itinerary__imp_port_voyage_begin__name",
 			"cell_val": {
 				"fields": [
@@ -104,7 +104,7 @@
 			"order_by": [
 				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 			"cell_val": {
 				"fields": [
@@ -127,7 +127,7 @@
 			"order_by": [
 				"voyage_itinerary__imp_principal_port_slave_dis__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_itinerary__imp_principal_port_slave_dis__name",
 			"cell_val": {
 				"fields": [
@@ -148,7 +148,7 @@
 			"visible": true,
 			"number_format": null,
 			"order_by": [],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "connections",
 			"cell_val": {
 				"fields": [
@@ -172,7 +172,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_disembark_first_place"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__num_slaves_disembark_first_place",
 			"cell_val": {
 				"fields": [
@@ -195,7 +195,7 @@
 			"order_by": [
 				"voyage_enslaver_connection__enslaver_alias__alias"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_enslavers",
 			"cell_val": {
 				"fields": [
@@ -218,7 +218,7 @@
 			"order_by": [
 				"voyage_crew__crew_died_complete_voyage"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_crew__crew_died_complete_voyage",
 			"cell_val": {
 				"fields": [
@@ -241,7 +241,7 @@
 			"order_by": [
 				"voyage_source_connections__source__title"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_sources",
 			"cell_val": {
 				"fields": [
@@ -266,7 +266,7 @@
 				"voyage_dates__voyage_began_sparsedate__month",
 				"voyage_dates__voyage_began_sparsedate__year"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_dates__voyage_began",
 			"cell_val": {
 				"fields": [
@@ -300,7 +300,7 @@
 				"voyage_dates__slave_purchase_began_sparsedate__month",
 				"voyage_dates__slave_purchase_began_sparsedate__year"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_dates__slave_purchase_began",
 			"cell_val": {
 				"fields": [
@@ -332,7 +332,7 @@
 			"order_by": [
 				"voyage_ship__year_of_construction"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_ship__year_of_construction",
 			"cell_val": {
 				"fields": [
@@ -355,7 +355,7 @@
 			"order_by": [
 				"voyage_ship__vessel_construction_place__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_ship__vessel_construction_place__name",
 			"cell_val": {
 				"fields": [
@@ -378,7 +378,7 @@
 			"order_by": [
 				"voyage_ship__registered_year"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_ship__registered_year",
 			"cell_val": {
 				"fields": [
@@ -401,7 +401,7 @@
 			"order_by": [
 				"voyage_ship__registered_place__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_ship__registered_place__name",
 			"cell_val": {
 				"fields": [
@@ -424,7 +424,7 @@
 			"order_by": [
 				"voyage_ship__nationality_ship__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_ship__nationality_ship__name",
 			"cell_val": {
 				"fields": [
@@ -447,7 +447,7 @@
 			"order_by": [
 				"voyage_ship__imputed_nationality__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_ship__imputed_nationality__name",
 			"cell_val": {
 				"fields": [
@@ -470,7 +470,7 @@
 			"order_by": [
 				"voyage_ship__rig_of_vessel__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_ship__rig_of_vessel__name",
 			"cell_val": {
 				"fields": [
@@ -493,7 +493,7 @@
 			"order_by": [
 				"voyage_ship__tonnage"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_ship__tonnage",
 			"cell_val": {
 				"fields": [
@@ -516,7 +516,7 @@
 			"order_by": [
 				"voyage_ship__tonnage_mod"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_ship__tonnage_mod",
 			"cell_val": {
 				"fields": [
@@ -539,7 +539,7 @@
 			"order_by": [
 				"voyage_ship__guns_mounted"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_ship__guns_mounted",
 			"cell_val": {
 				"fields": [
@@ -562,7 +562,7 @@
 			"order_by": [
 				"voyage_crew__crew_voyage_outset"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_crew__crew_voyage_outset",
 			"cell_val": {
 				"fields": [
@@ -585,7 +585,7 @@
 			"order_by": [
 				"voyage_crew__crew_first_landing"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_crew__crew_first_landing",
 			"cell_val": {
 				"fields": [
@@ -608,7 +608,7 @@
 			"order_by": [
 				"voyage_crew__crew_died_complete_voyage"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_crew__crew_died_complete_voyage",
 			"cell_val": {
 				"fields": [
@@ -631,7 +631,7 @@
 			"order_by": [
 				"voyage_itinerary__first_place_slave_purchase__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_itinerary__first_place_slave_purchase__name",
 			"cell_val": {
 				"fields": [
@@ -654,7 +654,7 @@
 			"order_by": [
 				"voyage_itinerary__second_place_slave_purchase__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_itinerary__second_place_slave_purchase__name",
 			"cell_val": {
 				"fields": [
@@ -677,7 +677,7 @@
 			"order_by": [
 				"voyage_itinerary__third_place_slave_purchase__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_itinerary__third_place_slave_purchase__name",
 			"cell_val": {
 				"fields": [
@@ -700,7 +700,7 @@
 			"order_by": [
 				"voyage_itinerary__port_of_call_before_atl_crossing__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_itinerary__port_of_call_before_atl_crossing__name",
 			"cell_val": {
 				"fields": [
@@ -723,7 +723,7 @@
 			"order_by": [
 				"voyage_itinerary__first_landing_place__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_itinerary__first_landing_place__name",
 			"cell_val": {
 				"fields": [
@@ -746,7 +746,7 @@
 			"order_by": [
 				"voyage_itinerary__second_landing_place__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_itinerary__second_landing_place__name",
 			"cell_val": {
 				"fields": [
@@ -769,7 +769,7 @@
 			"order_by": [
 				"voyage_itinerary__third_landing_place__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_itinerary__third_landing_place__name",
 			"cell_val": {
 				"fields": [
@@ -792,7 +792,7 @@
 			"order_by": [
 				"voyage_itinerary__place_voyage_ended__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_itinerary__place_voyage_ended__name",
 			"cell_val": {
 				"fields": [
@@ -815,7 +815,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__imp_total_num_slaves_embarked"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
 			"cell_val": {
 				"fields": [
@@ -838,7 +838,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__total_num_slaves_purchased"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__total_num_slaves_purchased",
 			"cell_val": {
 				"fields": [
@@ -861,7 +861,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__imp_total_num_slaves_disembarked"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
 			"cell_val": {
 				"fields": [
@@ -884,7 +884,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__total_num_slaves_arr_first_port_embark"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
 			"cell_val": {
 				"fields": [
@@ -907,7 +907,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_intended_first_port"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__num_slaves_intended_first_port",
 			"cell_val": {
 				"fields": [
@@ -930,7 +930,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_carried_first_port"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__num_slaves_carried_first_port",
 			"cell_val": {
 				"fields": [
@@ -953,7 +953,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_carried_second_port"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__num_slaves_carried_second_port",
 			"cell_val": {
 				"fields": [
@@ -976,7 +976,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_carried_third_port"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__num_slaves_carried_third_port",
 			"cell_val": {
 				"fields": [
@@ -999,7 +999,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_disembark_second_place"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__num_slaves_disembark_second_place",
 			"cell_val": {
 				"fields": [
@@ -1022,7 +1022,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__num_slaves_disembark_third_place"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__num_slaves_disembark_third_place",
 			"cell_val": {
 				"fields": [
@@ -1045,7 +1045,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__percentage_men_among_embarked_slaves"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__percentage_men_among_embarked_slaves",
 			"cell_val": {
 				"fields": [
@@ -1068,7 +1068,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__percentage_women_among_embarked_slaves"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__percentage_women_among_embarked_slaves",
 			"cell_val": {
 				"fields": [
@@ -1091,7 +1091,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__percentage_boys_among_embarked_slaves"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__percentage_boys_among_embarked_slaves",
 			"cell_val": {
 				"fields": [
@@ -1114,7 +1114,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__percentage_girls_among_embarked_slaves"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__percentage_girls_among_embarked_slaves",
 			"cell_val": {
 				"fields": [
@@ -1137,7 +1137,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__male_ratio_among_embarked_slaves"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__male_ratio_among_embarked_slaves",
 			"cell_val": {
 				"fields": [
@@ -1160,7 +1160,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__child_ratio_among_embarked_slaves"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__child_ratio_among_embarked_slaves",
 			"cell_val": {
 				"fields": [
@@ -1183,7 +1183,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__imp_jamaican_cash_price"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__imp_jamaican_cash_price",
 			"cell_val": {
 				"fields": [
@@ -1206,7 +1206,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__imp_mortality_during_voyage"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__imp_mortality_during_voyage",
 			"cell_val": {
 				"fields": [
@@ -1229,7 +1229,7 @@
 			"order_by": [
 				"voyage_slaves_numbers__imp_mortality_ratio"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_slaves_numbers__imp_mortality_ratio",
 			"cell_val": {
 				"fields": [
@@ -1252,7 +1252,7 @@
 			"order_by": [
 				"voyage_dates__length_middle_passage_days"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_dates__length_middle_passage_days",
 			"cell_val": {
 				"fields": [
@@ -1275,7 +1275,7 @@
 			"order_by": [
 				"voyage_dates__imp_length_home_to_disembark"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_dates__imp_length_home_to_disembark",
 			"cell_val": {
 				"fields": [
@@ -1298,7 +1298,7 @@
 			"order_by": [
 				"voyage_dates__imp_arrival_at_port_of_dis"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_dates__imp_arrival_at_port_of_dis",
 			"cell_val": {
 				"fields": [
@@ -1321,7 +1321,7 @@
 			"order_by": [
 				"voyage_dates__departure_last_place_of_landing"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_dates__departure_last_place_of_landing",
 			"cell_val": {
 				"fields": [
@@ -1344,7 +1344,7 @@
 			"order_by": [
 				"voyage_dates__voyage_completed"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_dates__voyage_completed",
 			"cell_val": {
 				"fields": [
@@ -1367,7 +1367,7 @@
 			"order_by": [
 				"voyage_outcome__particular_outcome__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_outcome__particular_outcome__name",
 			"cell_val": {
 				"fields": [
@@ -1390,7 +1390,7 @@
 			"order_by": [
 				"voyage_outcome__outcome_slaves__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_outcome__outcome_slaves__name",
 			"cell_val": {
 				"fields": [
@@ -1413,7 +1413,7 @@
 			"order_by": [
 				"voyage_outcome__vessel_captured_outcome__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_outcome__vessel_captured_outcome__name",
 			"cell_val": {
 				"fields": [
@@ -1436,7 +1436,7 @@
 			"order_by": [
 				"voyage_outcome__outcome_owner__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_outcome__outcome_owner__name",
 			"cell_val": {
 				"fields": [
@@ -1459,7 +1459,7 @@
 			"order_by": [
 				"voyage_outcome__resistance__name"
 			],
-			"col_width_px":100,
+			"col_width_px": 100,
 			"colID": "voyage_outcome__resistance__name",
 			"cell_val": {
 				"fields": [
@@ -1480,8 +1480,8 @@
 			},
 			"children": [
 				{
-					"col_width_px":100,
-			"colID": "voyage_id",
+					"col_width_px": 100,
+					"colID": "voyage_id",
 					"label": {
 						"en": "Voyage ID",
 						"es": "Voyage ID ES",
@@ -1489,8 +1489,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_ship__ship_name",
+					"col_width_px": 100,
+					"colID": "voyage_ship__ship_name",
 					"label": {
 						"en": "Vessel name",
 						"es": "Vessel name ES",
@@ -1498,8 +1498,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_ship__year_of_construction",
+					"col_width_px": 100,
+					"colID": "voyage_ship__year_of_construction",
 					"label": {
 						"en": "Year constructed",
 						"es": "Year constructed ES",
@@ -1507,8 +1507,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_ship__vessel_construction_place__name",
+					"col_width_px": 100,
+					"colID": "voyage_ship__vessel_construction_place__name",
 					"label": {
 						"en": "Place constructed",
 						"es": "Place constructed ES",
@@ -1516,8 +1516,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_ship__registered_year",
+					"col_width_px": 100,
+					"colID": "voyage_ship__registered_year",
 					"label": {
 						"en": "Year registered",
 						"es": "Year registered ES",
@@ -1525,8 +1525,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_ship__registered_place__name",
+					"col_width_px": 100,
+					"colID": "voyage_ship__registered_place__name",
 					"label": {
 						"en": "Place registered",
 						"es": "Place registered ES",
@@ -1534,8 +1534,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_ship__nationality_ship__name",
+					"col_width_px": 100,
+					"colID": "voyage_ship__nationality_ship__name",
 					"label": {
 						"en": "Flag of vessel",
 						"es": "Flag of vessel ES",
@@ -1543,8 +1543,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_ship__imputed_nationality__name",
+					"col_width_px": 100,
+					"colID": "voyage_ship__imputed_nationality__name",
 					"label": {
 						"en": "Flag of vessel (imp*)",
 						"es": "Flag of vessel (imp*) ES",
@@ -1552,8 +1552,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_ship__rig_of_vessel__name",
+					"col_width_px": 100,
+					"colID": "voyage_ship__rig_of_vessel__name",
 					"label": {
 						"en": "Rig or type of vessel",
 						"es": "Rig or type of vessel ES",
@@ -1561,8 +1561,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_ship__tonnage",
+					"col_width_px": 100,
+					"colID": "voyage_ship__tonnage",
 					"label": {
 						"en": "Tonnage",
 						"es": "Tonnage ES",
@@ -1570,8 +1570,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_ship__tonnage_mod",
+					"col_width_px": 100,
+					"colID": "voyage_ship__tonnage_mod",
 					"label": {
 						"en": "Standardized tonnage (imp*)",
 						"es": "Standardized tonnage (imp*) ES",
@@ -1579,8 +1579,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_ship__guns_mounted",
+					"col_width_px": 100,
+					"colID": "voyage_ship__guns_mounted",
 					"label": {
 						"en": "Guns mounted",
 						"es": "Guns mounted ES",
@@ -1597,8 +1597,8 @@
 			},
 			"children": [
 				{
-					"col_width_px":100,
-			"colID": "voyage_enslavers",
+					"col_width_px": 100,
+					"colID": "voyage_enslavers",
 					"label": {
 						"en": "Name(s) of Enslaver(s)",
 						"es": "Name(s) of Enslaver(s) ES",
@@ -1606,8 +1606,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_crew__crew_voyage_outset",
+					"col_width_px": 100,
+					"colID": "voyage_crew__crew_voyage_outset",
 					"label": {
 						"en": "Crew at voyage outset",
 						"es": "Crew at voyage outset ES",
@@ -1615,8 +1615,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_crew__crew_first_landing",
+					"col_width_px": 100,
+					"colID": "voyage_crew__crew_first_landing",
 					"label": {
 						"en": "Crew at first landing of captives",
 						"es": "Crew at first landing of captives ES",
@@ -1624,8 +1624,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_crew__crew_died_complete_voyage",
+					"col_width_px": 100,
+					"colID": "voyage_crew__crew_died_complete_voyage",
 					"label": {
 						"en": "Crew deaths during complete voyage",
 						"es": "Crew deaths during complete voyage ES",
@@ -1642,8 +1642,8 @@
 			},
 			"children": [
 				{
-					"col_width_px":100,
-			"colID": "voyage_itinerary__imp_port_voyage_begin__name",
+					"col_width_px": 100,
+					"colID": "voyage_itinerary__imp_port_voyage_begin__name",
 					"label": {
 						"en": "Place where vessel's voyage began (*imp)",
 						"es": "Place where vessel's voyage began (*imp) ES",
@@ -1651,8 +1651,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+					"col_width_px": 100,
+					"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 					"label": {
 						"en": "Principal place where captives were purchased",
 						"es": "Principal place where captives were purchased ES",
@@ -1660,8 +1660,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_itinerary__first_place_slave_purchase__name",
+					"col_width_px": 100,
+					"colID": "voyage_itinerary__first_place_slave_purchase__name",
 					"label": {
 						"en": "First place where captives were purchased",
 						"es": "First place where captives were purchased ES",
@@ -1669,8 +1669,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_itinerary__second_place_slave_purchase__name",
+					"col_width_px": 100,
+					"colID": "voyage_itinerary__second_place_slave_purchase__name",
 					"label": {
 						"en": "Second place where captives were purchased",
 						"es": "Second place where captives were purchased ES",
@@ -1678,8 +1678,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_itinerary__third_place_slave_purchase__name",
+					"col_width_px": 100,
+					"colID": "voyage_itinerary__third_place_slave_purchase__name",
 					"label": {
 						"en": "Third place where captives were purchased",
 						"es": "Third place where captives were purchased ES",
@@ -1687,8 +1687,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_itinerary__port_of_call_before_atl_crossing__name",
+					"col_width_px": 100,
+					"colID": "voyage_itinerary__port_of_call_before_atl_crossing__name",
 					"label": {
 						"en": "Places of call before Atlantic crossing",
 						"es": "Places of call before Atlantic crossing ES",
@@ -1696,8 +1696,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_itinerary__imp_principal_port_slave_dis__name",
+					"col_width_px": 100,
+					"colID": "voyage_itinerary__imp_principal_port_slave_dis__name",
 					"label": {
 						"en": "Principal place where captives were landed (*imp)",
 						"es": "Principal place where captives were landed (*imp) ES",
@@ -1705,8 +1705,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_itinerary__first_landing_place__name",
+					"col_width_px": 100,
+					"colID": "voyage_itinerary__first_landing_place__name",
 					"label": {
 						"en": "First place where captives were landed",
 						"es": "First place where captives were landed ES",
@@ -1714,8 +1714,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_itinerary__second_landing_place__name",
+					"col_width_px": 100,
+					"colID": "voyage_itinerary__second_landing_place__name",
 					"label": {
 						"en": "Second place where captives were landed",
 						"es": "Second place where captives were landed ES",
@@ -1723,8 +1723,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_itinerary__third_landing_place__name",
+					"col_width_px": 100,
+					"colID": "voyage_itinerary__third_landing_place__name",
 					"label": {
 						"en": "Third place where captives were landed",
 						"es": "Third place where captives were landed ES",
@@ -1732,8 +1732,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_itinerary__place_voyage_ended__name",
+					"col_width_px": 100,
+					"colID": "voyage_itinerary__place_voyage_ended__name",
 					"label": {
 						"en": "Place where vessel's voyage ended",
 						"es": "Place where vessel's voyage ended ES",
@@ -1750,8 +1750,8 @@
 			},
 			"children": [
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
 					"label": {
 						"en": "Total embarked (*imp)",
 						"es": "Total embarked (*imp) ES",
@@ -1759,8 +1759,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__total_num_slaves_purchased",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__total_num_slaves_purchased",
 					"label": {
 						"en": "Total embarked",
 						"es": "Total embarked ES",
@@ -1768,8 +1768,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
 					"label": {
 						"en": "Total disembarked (*imp)",
 						"es": "Total disembarked (*imp) ES",
@@ -1777,8 +1777,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
 					"label": {
 						"en": "Total disembarked",
 						"es": "Total disembarked ES",
@@ -1786,8 +1786,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__num_slaves_intended_first_port",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__num_slaves_intended_first_port",
 					"label": {
 						"en": "Captives intended to be purchased at 1st place",
 						"es": "Captives intended to be purchased at 1st place ES",
@@ -1795,8 +1795,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__num_slaves_carried_first_port",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__num_slaves_carried_first_port",
 					"label": {
 						"en": "Captives carried from 1st port",
 						"es": "Captives carried from 1st port ES",
@@ -1804,8 +1804,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__num_slaves_carried_second_port",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__num_slaves_carried_second_port",
 					"label": {
 						"en": "Captives carried from 2nd port",
 						"es": "Captives carried from 2nd port ES",
@@ -1813,8 +1813,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__num_slaves_carried_third_port",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__num_slaves_carried_third_port",
 					"label": {
 						"en": "Captives carried from 3rd port",
 						"es": "Captives carried from 3rd port ES",
@@ -1822,8 +1822,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__num_slaves_disembark_first_place",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__num_slaves_disembark_first_place",
 					"label": {
 						"en": "Captives landed at 1st port",
 						"es": "Captives landed at 1st port ES",
@@ -1831,8 +1831,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__num_slaves_disembark_second_place",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__num_slaves_disembark_second_place",
 					"label": {
 						"en": "Captives landed at 2nd port",
 						"es": "Captives landed at 2nd port ES",
@@ -1840,8 +1840,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__num_slaves_disembark_third_place",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__num_slaves_disembark_third_place",
 					"label": {
 						"en": "Captives landed at 3rd port",
 						"es": "Captives landed at 3rd port ES",
@@ -1849,8 +1849,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__percentage_men_among_embarked_slaves",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__percentage_men_among_embarked_slaves",
 					"label": {
 						"en": "Percent men",
 						"es": "Percent men ES",
@@ -1858,8 +1858,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__percentage_women_among_embarked_slaves",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__percentage_women_among_embarked_slaves",
 					"label": {
 						"en": "Percent women",
 						"es": "Percent women ES",
@@ -1867,8 +1867,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__percentage_boys_among_embarked_slaves",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__percentage_boys_among_embarked_slaves",
 					"label": {
 						"en": "Percent boys",
 						"es": "Percent boys ES",
@@ -1876,8 +1876,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__percentage_girls_among_embarked_slaves",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__percentage_girls_among_embarked_slaves",
 					"label": {
 						"en": "Percent girls",
 						"es": "Percent girls ES",
@@ -1885,8 +1885,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__male_ratio_among_embarked_slaves",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__male_ratio_among_embarked_slaves",
 					"label": {
 						"en": "Percent males",
 						"es": "Percent males ES",
@@ -1894,8 +1894,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__child_ratio_among_embarked_slaves",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__child_ratio_among_embarked_slaves",
 					"label": {
 						"en": "Percent children",
 						"es": "Percent children ES",
@@ -1903,8 +1903,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__imp_jamaican_cash_price",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__imp_jamaican_cash_price",
 					"label": {
 						"en": "Sterling cash price in Jamaica (*imp)",
 						"es": "Sterling cash price in Jamaica (*imp) ES",
@@ -1912,8 +1912,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__imp_mortality_during_voyage",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__imp_mortality_during_voyage",
 					"label": {
 						"en": "Captive deaths during crossing",
 						"es": "Captive deaths during crossing ES",
@@ -1921,8 +1921,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_slaves_numbers__imp_mortality_ratio",
+					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__imp_mortality_ratio",
 					"label": {
 						"en": "Percentage of captives who died during crossing (*imp)",
 						"es": "Percentage of captives who died during crossing (*imp) ES",
@@ -1939,8 +1939,8 @@
 			},
 			"children": [
 				{
-					"col_width_px":100,
-			"colID": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+					"col_width_px": 100,
+					"colID": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 					"label": {
 						"en": "Year arrived with captives",
 						"es": "Year arrived with captives ES",
@@ -1948,8 +1948,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_dates__length_middle_passage_days",
+					"col_width_px": 100,
+					"colID": "voyage_dates__length_middle_passage_days",
 					"label": {
 						"en": "Duration of captives' crossing (in days)",
 						"es": "Duration of captives' crossing (in days) ES",
@@ -1957,8 +1957,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_dates__imp_length_home_to_disembark",
+					"col_width_px": 100,
+					"colID": "voyage_dates__imp_length_home_to_disembark",
 					"label": {
 						"en": "Voyage duration, homepart to disembarkation (in days)",
 						"es": "Voyage duration, homepart to disembarkation (in days) ES",
@@ -1966,8 +1966,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_dates__voyage_began",
+					"col_width_px": 100,
+					"colID": "voyage_dates__voyage_began",
 					"label": {
 						"en": "Date vessel's voyage began",
 						"es": "Date vessel's voyage began ES",
@@ -1975,8 +1975,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_dates__slave_purchase_began",
+					"col_width_px": 100,
+					"colID": "voyage_dates__slave_purchase_began",
 					"label": {
 						"en": "Date captive embarkation began",
 						"es": "Date captive embarkation began ES",
@@ -1984,8 +1984,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_dates__imp_arrival_at_port_of_dis",
+					"col_width_px": 100,
+					"colID": "voyage_dates__imp_arrival_at_port_of_dis",
 					"label": {
 						"en": "Date vessel arrived with captives",
 						"es": "Date vessel arrived with captives ES",
@@ -1993,8 +1993,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_dates__departure_last_place_of_landing",
+					"col_width_px": 100,
+					"colID": "voyage_dates__departure_last_place_of_landing",
 					"label": {
 						"en": "Date departed for homeport",
 						"es": "Date departed for homeport ES",
@@ -2002,8 +2002,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_dates__voyage_completed",
+					"col_width_px": 100,
+					"colID": "voyage_dates__voyage_completed",
 					"label": {
 						"en": "Date vessel arrived at homeport",
 						"es": "Date vessel arrived at homeport ES",
@@ -2020,8 +2020,8 @@
 			},
 			"children": [
 				{
-					"col_width_px":100,
-			"colID": "voyage_outcome__particular_outcome__name",
+					"col_width_px": 100,
+					"colID": "voyage_outcome__particular_outcome__name",
 					"label": {
 						"en": "Particular outcome of voyage",
 						"es": "Particular outcome of voyage ES",
@@ -2029,8 +2029,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_outcome__outcome_slaves__name",
+					"col_width_px": 100,
+					"colID": "voyage_outcome__outcome_slaves__name",
 					"label": {
 						"en": "Outcome of voyage for captives",
 						"es": "Outcome of voyage for captives ES",
@@ -2038,8 +2038,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_outcome__vessel_captured_outcome__name",
+					"col_width_px": 100,
+					"colID": "voyage_outcome__vessel_captured_outcome__name",
 					"label": {
 						"en": "Outcome of voyage if ship captured",
 						"es": "Outcome of voyage if ship captured ES",
@@ -2047,8 +2047,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_outcome__outcome_owner__name",
+					"col_width_px": 100,
+					"colID": "voyage_outcome__outcome_owner__name",
 					"label": {
 						"en": "Outcome of voyage for owner",
 						"es": "Outcome of voyage for owner ES",
@@ -2056,8 +2056,8 @@
 					}
 				},
 				{
-					"col_width_px":100,
-			"colID": "voyage_outcome__resistance__name",
+					"col_width_px": 100,
+					"colID": "voyage_outcome__resistance__name",
 					"label": {
 						"en": "Resistance",
 						"es": "Resistance ES",
@@ -2074,8 +2074,8 @@
 			},
 			"children": [
 				{
-					"col_width_px":100,
-			"colID": "voyage_sources",
+					"col_width_px": 100,
+					"colID": "voyage_sources",
 					"label": {
 						"en": "Source(s)",
 						"es": "Source(s) ES",
@@ -2092,8 +2092,8 @@
 			},
 			"children": [
 				{
-					"col_width_px":100,
-			"colID": "connections",
+					"col_width_px": 100,
+					"colID": "connections",
 					"label": {
 						"en": "Connections",
 						"es": "Connections ES",
