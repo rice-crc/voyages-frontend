@@ -34,6 +34,7 @@
 					{
 						"var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__alias",
 						"type": "CharField",
+						"ops":["icontains"],
 						"label": {
 							"en": "Enslavers",
 							"es": "Enslavers ES",
@@ -43,6 +44,7 @@
 					{
 						"var_name": "voyage_ship__ship_name",
 						"type": "CharField",
+						"ops":["icontains"],
 						"label": {
 							"en": "Name of vessel",
 							"es": "Name of vessel ES",
@@ -106,6 +108,7 @@
 					{
 						"var_name": "voyage_ship__nationality_ship__name",
 						"type": "CharField",
+						"ops":["icontains"],
 						"label": {
 							"en": "Flag of vessel",
 							"es": "Flag of vessel ES",
@@ -115,6 +118,7 @@
 					{
 						"var_name": "voyage_ship__imputed_nationality__name",
 						"type": "CharField",
+						"ops":["icontains"],
 						"label": {
 							"en": "Flag of vessel (IMP)",
 							"es": "Flag of vessel (IMP) ES",
@@ -133,6 +137,7 @@
 					{
 						"var_name": "voyage_ship__rig_of_vessel__name",
 						"type": "CharField",
+						"ops":["icontains"],
 						"label": {
 							"en": "Rig of Vessel",
 							"es": "Rig of Vessel ES",
@@ -171,6 +176,7 @@
 			{
 				"var_name": "cargo__cargo__name",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Cargo",
 					"es": "Cargo ES",
@@ -558,6 +564,7 @@
 			{
 				"var_name": "african_info__name",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Captive background",
 					"es": "Captive background ES",
@@ -666,6 +673,7 @@
 			{
 				"var_name": "voyage_outcome__particular_outcome__name",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Particular Outcome",
 					"es": "Particular Outcome ES",
@@ -675,6 +683,7 @@
 			{
 				"var_name": "voyage_outcome__outcome_slaves__name",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Outcome of voyage for captives",
 					"es": "Outcome of voyage for captives ES",
@@ -684,6 +693,7 @@
 			{
 				"var_name": "voyage_outcome__vessel_captured_outcome__name",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Outcome of voyage if ship captured",
 					"es": "Outcome of voyage if ship captured ES",
@@ -693,6 +703,7 @@
 			{
 				"var_name": "voyage_outcome__outcome_owner__name",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Outcome of voyage for owner",
 					"es": "Outcome of voyage for owner ES",
@@ -702,6 +713,7 @@
 			{
 				"var_name": "voyage_outcome__resistance__name",
 				"type": "CharField",
+				"ops":["icontains"],
 				"label": {
 					"en": "Resistance",
 					"es": "Resistance ES",
@@ -717,6 +729,7 @@
 			"pt": "Sources PT"
 		},
 		"var_name": "voyage_source_connections__source__title",
-		"type": "CharField"
+		"type": "CharField",
+		"ops":["icontains"]
 	}
 ]
