@@ -74,6 +74,9 @@ export interface GeoTreeSelectStateProps {
     geotree_valuefields: string[]
     filter: Filter[]
 }
+export interface LanguageTreeSelectProps {
+    filter: Filter[]
+}
 
 
 export interface AutoCompleteValueInitialState {
@@ -86,12 +89,14 @@ export const TYPES: {
     FloatField: string;
     CharField: string;
     GeoTreeSelect: string;
+    LanguageTreeSelect: string
 } = {
     IntegerField: 'IntegerField',
     DecimalField: 'DecimalField',
     FloatField: 'FloatField',
     CharField: 'CharField',
     GeoTreeSelect: 'GeoTreeSelect',
+    LanguageTreeSelect: 'LanguageTreeSelect',
 };
 
 export const TYPESOFDATASETPEOPLE: {
@@ -505,6 +510,29 @@ export interface GeoTreeSelectItem {
     location_type: LocationType
     spatial_extent: any
     children: GeoTreeSelectChildren[]
+}
+export interface TreeSelectItem {
+    id: number;
+    key: string;
+    title: string;
+    value: string;
+    children?: TreeSelectItem[];
+    disabled?: boolean
+}
+export interface LanguagesTreeSelectItem {
+    name: string;
+    id: null | number;
+    children: LanguagesTreeSelectItemChildren[]
+}
+export interface LanguagesTreeSelectItemChildren {
+    name: string;
+    id: null | number;
+}
+export interface LanguagesTreeSelectItemList {
+    id: number | null;
+    value: string;
+    title: string;
+    children?: LanguagesTreeSelectItemList[];
 }
 export interface LocationType {
     name: string

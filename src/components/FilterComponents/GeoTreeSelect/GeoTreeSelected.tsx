@@ -5,6 +5,7 @@ import {
   GeoTreeSelectItem,
   GeoTreeSelectStateProps,
   RangeSliderState,
+  TYPES,
 } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
 import { TreeSelect } from 'antd';
@@ -14,11 +15,18 @@ import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
 import { convertDataToGeoTreeSelectFormat } from '@/utils/functions/convertDataToGeoTreeSelectFormat';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { TreeItemProps } from '@mui/lab';
-import { useGeoTreeSelected } from '@/hooks/useGeoTreeSelected';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-
-const GeoTreeSelected: React.FC = () => {
+import { convertDataToLanguagesTreeSelectFormat } from '@/utils/functions/convertDataToLanguagesTreeSelectFormat';
+import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { fetcVoyagesGeoTreeSelectLists } from '@/fetch/geoFetch/fetchVoyagesGeoTreeSelect';
+import { fetchEnslavedGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslavedGeoTreeSelect';
+import { fetchEnslaversGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslaversGeoTreeSelect';
+import { fetchEnslavedLanguageTreeSelect } from '@/fetch/geoFetch/fetchEnslavedLanguageTreeSelect';
+interface GeoTreeSelectedProps {
+  type: string
+}
+const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch: AppDispatch = useDispatch();
   const [selectedValue, setSelectedValue] = useState<string[]>([]);
@@ -42,23 +50,41 @@ const GeoTreeSelected: React.FC = () => {
     filter: filters,
   };
 
-  const { data, isLoading, isError } = useGeoTreeSelected(dataSend, styleName);
 
-  useEffect(() => {
-    if (!isLoading && !isError && data) {
-      const geoList: GeoTreeSelectItem[] = data.map(
-        (value: GeoTreeSelectItem) => value
-      );
-      setGeoTreeValueList((prevGeoList: GeoTreeSelectItem[]) => [
-        ...prevGeoList,
-        ...geoList,
-      ]);
+  const fetchDataList = async (type: string) => {
+    try {
+      let response;
+      if (type === TYPES.GeoTreeSelect) {
+        if (checkPagesRouteForVoyages(styleName!)) {
+          response = await fetcVoyagesGeoTreeSelectLists(dataSend);
+        } else if (checkPagesRouteForEnslaved(styleName!)) {
+          response = await fetchEnslavedGeoTreeSelect(dataSend);
+        } else if (checkPagesRouteForEnslavers(styleName!)) {
+          response = await fetchEnslaversGeoTreeSelect(dataSend);
+        }
+      } else if (type === TYPES.LanguageTreeSelect) {
+        response = await fetchEnslavedLanguageTreeSelect(dataSend);
+      }
+
+      if (response) {
+        const geoList: GeoTreeSelectItem[] = response.map(
+          (value: GeoTreeSelectItem) => value
+        );
+        setGeoTreeValueList((prevGeoList: GeoTreeSelectItem[]) => [
+          ...prevGeoList,
+          ...geoList,
+        ]);
+      }
+    } catch (error) {
+      console.log(`Error fetch data tree select ${error}`)
     }
 
-    return () => {
-      setGeoTreeValueList([]);
-    };
-  }, [data, isLoading, isError]);
+  }
+  useEffect(() => {
+
+    fetchDataList(type)
+
+  }, [type])
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
@@ -131,7 +157,12 @@ const GeoTreeSelected: React.FC = () => {
     localStorage.setItem('filterObject', filterObjectString);
   };
 
-  const dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeValueList);
+  let dataForTreeSelect;
+  if (type === TYPES.GeoTreeSelect) {
+    dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeValueList);
+  } else if (type === TYPES.LanguageTreeSelect) {
+    dataForTreeSelect = convertDataToLanguagesTreeSelectFormat(geoTreeValueList);
+  }
 
   const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
     return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
@@ -139,7 +170,7 @@ const GeoTreeSelected: React.FC = () => {
 
   return (
     <div ref={ref}>
-      {dataForTreeSelect.length > 0 && (
+      {dataForTreeSelect && dataForTreeSelect.length > 0 && (
         <TreeSelect
           loading
           showSearch

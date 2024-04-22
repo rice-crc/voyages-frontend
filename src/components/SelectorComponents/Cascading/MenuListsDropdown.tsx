@@ -53,8 +53,6 @@ import {
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
-import AutoCompletedFilterListBox from '@/components/FilterComponents/Autocomplete/AutoCompletedFilterListBox';
 
 export const MenuListsDropdown = () => {
   const {
@@ -78,10 +76,6 @@ export const MenuListsDropdown = () => {
   );
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
-  );
-
-  const { textFilterValue } = useSelector(
-    (state: RootState) => state.autoCompleteList
   );
 
   const dispatch: AppDispatch = useDispatch();
@@ -191,7 +185,6 @@ export const MenuListsDropdown = () => {
 
 
   const handleApplyTextFilterDataDialog = (value: string) => {
-
     dispatch(setTextFilterValue(value));
     updateFilter(value)
   }
@@ -272,6 +265,20 @@ export const MenuListsDropdown = () => {
     }
   };
 
+  let displayComponent;
+
+  if (varName) {
+    if ((type === TYPES.GeoTreeSelect) || (type === TYPES.LanguageTreeSelect)) {
+      displayComponent = <GeoTreeSelected type={type} />
+    } else if (type === TYPES.CharField) {
+      displayComponent = <FilterTextBox textValue={textFilter} setTextValue={setTextFilter} />
+      // displayComponent = <VirtualizedAutoCompleted />
+      // displayComponent= <AutoCompletedFilterListBox />
+      // displayComponent=  <AutoCompleteListBox />
+    } else if ((type === TYPES.IntegerField) || varName && type === TYPES.DecimalField) {
+      displayComponent = <RangeSliderComponent />
+    }
+  }
   return (
     <div>
       <Box className="filter-menu-bar">
@@ -363,15 +370,7 @@ export const MenuListsDropdown = () => {
           <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
-          {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
-          {/* {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}*/}
-          {/* {varName && type === TYPES.CharField && <AutoCompletedFilterListBox />} */}
-          {/* {varName && type === TYPES.CharField && <AutoCompleteListBox />} */}
-          {varName && type === TYPES.CharField && <FilterTextBox textValue={textFilter} setTextValue={setTextFilter} />}
-          {((varName && type === TYPES.IntegerField) ||
-            (varName && type === TYPES.DecimalField) || (varName && type === TYPES.FloatField)) && (
-              <RangeSliderComponent />
-            )}
+          {displayComponent}
         </DialogContent>
         <DialogActions style={{ paddingRight: '2rem' }}>
           {varName && type === TYPES.CharField &&

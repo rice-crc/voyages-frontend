@@ -49,7 +49,7 @@ const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-
+    const { textFilterValue } = useSelector((state: RootState) => state.autoCompleteList);
     const { varName, isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
@@ -60,7 +60,6 @@ const Tables: React.FC = () => {
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
-
 
     const [totalResultsCount, setTotalResultsCount] = useState(0);
     const gridRef = useRef<any>(null);
@@ -168,7 +167,6 @@ const Tables: React.FC = () => {
         };
         fetchDataTable();
     }, [
-        filtersObj,
         dispatch,
         rowsPerPage,
         page,
@@ -177,7 +175,7 @@ const Tables: React.FC = () => {
         inputSearchValue,
         isChange,
         isChangeGeoTree,
-        currentBlockName, styleNameRoute,
+        currentBlockName, styleNameRoute, textFilterValue
     ]);
 
     // Call the custom hook to Process Table Data
