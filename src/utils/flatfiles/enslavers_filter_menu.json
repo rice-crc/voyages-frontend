@@ -43,7 +43,7 @@
 				}
 			},
 			{
-				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__port_of_departure__value",
+				"var_name": "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_port_voyage_begin__value",
 				"type": "GeoTreeSelect",
 				"label": {
 					"en": "Ports of Departure",
