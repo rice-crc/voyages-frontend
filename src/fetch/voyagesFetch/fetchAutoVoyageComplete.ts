@@ -7,7 +7,6 @@ export const fetchAutoVoyageComplete = async (dataSend?: IRootFilterObject) => {
         headers: {
             'Authorization': AUTHTOKEN,
             "Content-Type": "application/json",
-
         }
     });
     return response.data;

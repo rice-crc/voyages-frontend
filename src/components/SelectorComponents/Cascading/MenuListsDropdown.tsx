@@ -20,10 +20,10 @@ import {
   FilterMenu,
   LabelFilterMeneList,
   Filter,
+  AutoCompleteOption,
 } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss';
 import {
-  BLACK,
   DialogModalStyle,
   DropdownMenuItem,
   DropdownNestedMenuItemChildren,
@@ -44,15 +44,12 @@ import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelecte
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
-import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
 import FilterTextBox from '@/components/FilterComponents/Autocomplete/FilterTextBox';
 import {
   getColorBTNVoyageDatasetBackground,
   getColorBackground,
   getColorBoxShadow,
-  getColorTextCollection,
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
 import { setFilterObject } from '@/redux/getFilterSlice';
@@ -80,6 +77,7 @@ export const MenuListsDropdown = () => {
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
+
   const { textFilterValue } = useSelector(
     (state: RootState) => state.autoCompleteList
   );
@@ -114,11 +112,39 @@ export const MenuListsDropdown = () => {
       }
     };
     loadFilterCellStructure();
-    if (!isOpenDialog) {
-      setTextFilter('');
+  }, [styleNameRoute, languageValue, isOpenDialog]);
+
+
+  useEffect(() => {
+    const storedValue = localStorage.getItem('filterObject');
+    if (!storedValue) return;
+
+    const parsedValue = JSON.parse(storedValue);
+
+    const filter: Filter[] = parsedValue.filter;
+    const filterByVarName =
+      filter?.length > 0 &&
+      filter.find((filterItem) => filterItem.varName === varName);
+
+    if (!filterByVarName) {
+      setTextFilter('')
+      return;
     }
 
-  }, [styleNameRoute, languageValue, isOpenDialog]);
+    const autoValueList: string[] = filterByVarName.searchTerm as string[];
+
+    const values = autoValueList.map<AutoCompleteOption>((item: string) => ({
+      value: item,
+    }));
+
+    let newTextValue = ''
+    for (const value of values) {
+      newTextValue = value.value
+    }
+    setTextFilter(newTextValue);
+    dispatch(setFilterObject(filter));
+  }, [varName]);
+
 
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
@@ -337,7 +363,8 @@ export const MenuListsDropdown = () => {
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
           {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
-          {/* {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />} */}
+          {/* {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}*/}
+          {/* {varName && type === TYPES.CharField && <AutoCompletedFilterListBox />} */}
           {/* {varName && type === TYPES.CharField && <AutoCompleteListBox />} */}
           {varName && type === TYPES.CharField && <FilterTextBox textValue={textFilter} setTextValue={setTextFilter} />}
           {((varName && type === TYPES.IntegerField) ||

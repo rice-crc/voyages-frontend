@@ -12,6 +12,7 @@ import { usePageRouter } from "@/hooks/usePageRouter";
 import { setFilterObject } from "@/redux/getFilterSlice";
 import debounce from "lodash.debounce";
 import { setAutoLabel } from "@/redux/getAutoCompleteSlice";
+import { it } from "node:test";
 
 export default function AutoCompleteListBox() {
     const [position, setPosition] = useState<number>(0);
@@ -48,19 +49,21 @@ export default function AutoCompleteListBox() {
                 (value: AutoCompleteOption) => value
             );
             const items = paginate(newAutoList, limit, 1);
-            const uniqueValues = new Set<string>();
-            items.forEach((value) => uniqueValues.add(value.value));
-
-            // Convert Set back to an array without duplicates
-            const filteredAutoList = Array.from(uniqueValues).map((value) => ({
-                value,
-            }));
-
             setAutoList((prevAutoList) => {
-                const uniquePrevAutoList = prevAutoList.filter(
-                    (item) => !uniqueValues.has(item.value)
-                );
-                return [...uniquePrevAutoList, ...filteredAutoList];
+                // Create a Set to track unique values
+                const uniqueValues = new Set<string>();
+
+                // Add previous values to the Set
+                prevAutoList.forEach((item) => uniqueValues.add(item.value));
+
+                // Add new values from suggested_values to the Set
+                items.forEach((value) => uniqueValues.add(value.value));
+
+                // Convert Set back to an array without duplicates
+                const uniqueAutoList = Array.from(uniqueValues).map((value) => ({
+                    value,
+                }));
+                return uniqueAutoList;
             });
         }
 
@@ -104,9 +107,10 @@ export default function AutoCompleteListBox() {
             );
             const items = paginate(newAutoList, limit, nextPage);
             setAutoList((prevAutoList) => [...prevAutoList, ...items]);
+
         }
     }
-
+    console.log({ autoList, autoValue })
     const handleScroll: UIEventHandler<HTMLUListElement> = (event) => {
         const { currentTarget } = event;
         const position = currentTarget.scrollTop + currentTarget.clientHeight;
@@ -184,7 +188,6 @@ export default function AutoCompleteListBox() {
         props: React.HTMLAttributes<HTMLLIElement>,
         option: AutoCompleteOption,
         { selected }: AutocompleteRenderOptionState
-
     ) => {
         return (
             <li {...props} key={`${option.value}`}>
@@ -210,7 +213,7 @@ export default function AutoCompleteListBox() {
     return (
         <>
             <Autocomplete
-                loading
+                // loading
                 disableCloseOnSelect
                 options={autoList}
                 autoHighlight
