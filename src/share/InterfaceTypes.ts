@@ -225,6 +225,7 @@ export interface FilterMenu {
     label: LabelFilterMeneList
     var_name?: string
     type?: string
+    ops?: string[]
     flatlabel?: string
     children?: ChildrenFilter[]
 }
@@ -581,6 +582,7 @@ export interface FilterMenuList {
     label: LabelFilterMeneList;
     var_name?: string;
     type?: string;
+    ops?: string[];
     children?: ChildrenFilter[];
 }
 export interface LabelFilterMeneList {

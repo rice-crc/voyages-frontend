@@ -54,6 +54,8 @@ import {
 } from '@/utils/functions/getColorStyle';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { convertToSlug } from '@/utils/functions/convertToSlug';
+import AutoCompletedFilterListBox from '@/components/FilterComponents/Autocomplete/AutoCompletedFilterListBox';
+import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
 
 export const MenuListsDropdown = () => {
   const {
@@ -83,9 +85,10 @@ export const MenuListsDropdown = () => {
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [label, setLabel] = useState<string>('');
   const [type, setType] = useState<string>('');
+  const [ops, setOps] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
   const [textFilter, setTextFilter] = useState<string>('');
-  convertToSlug
+
 
   useEffect(() => {
     const loadFilterCellStructure = async () => {
@@ -111,7 +114,6 @@ export const MenuListsDropdown = () => {
     };
     loadFilterCellStructure();
   }, [styleNameRoute, languageValue, isOpenDialog]);
-  console.log({ valueVoyages })
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
@@ -145,14 +147,26 @@ export const MenuListsDropdown = () => {
 
 
   const handleClickMenu = (
-    event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
+    event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>,
+    ops: string[]
   ) => {
     const { value, type, label } = event.currentTarget.dataset;
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
+    let opsValue = ''
     if (value && type && label) {
       dispatch(setKeyValueName(value));
       setType(type);
+      if (ops) {
+        for (const ele of ops) {
+          if (ele === 'icontains') {
+            opsValue = 'icontains'
+          } else if (ele === 'in') {
+            opsValue = 'in'
+          }
+        }
+        setOps(opsValue)
+      }
       setLabel(label);
       dispatch(setIsOpenDialog(true));
     }
@@ -191,7 +205,6 @@ export const MenuListsDropdown = () => {
     updateFilter(value)
   }
   const updateFilter = (newValue: string) => {
-    console.log({ newValue })
     const existingFilterObjectString = localStorage.getItem('filterObject');
     let existingFilters: Filter[] = [];
 
@@ -204,12 +217,12 @@ export const MenuListsDropdown = () => {
     );
     if (newValue.length > 0) {
       if (existingFilterIndex !== -1) {
-        existingFilters[existingFilterIndex].searchTerm = newValue;
+        existingFilters[existingFilterIndex].searchTerm = ops === 'icontains' ? newValue as string : [newValue]
       } else {
         existingFilters.push({
           varName: varName,
-          searchTerm: newValue as string,
-          op: 'icontains',
+          searchTerm: ops === 'icontains' ? newValue as string : [newValue],
+          op: ops,
         });
       }
     } else if (existingFilterIndex !== -1) {
@@ -232,16 +245,14 @@ export const MenuListsDropdown = () => {
   ): React.ReactElement<any>[] | undefined => {
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
-
-        const { children, var_name, type, label: nodeLabel } = node;
-
+        const { children, var_name, type, label: nodeLabel, ops } = node;
         const hasChildren = children && children.length >= 1;
         const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
 
         if (hasChildren) {
           return (
             <DropdownNestedMenuItemChildren
-              onClickMenu={handleClickMenu}
+              onClickMenu={(event) => handleClickMenu(event, ops!)}
               key={`${menuLabel}-${index}`}
               label={`${menuLabel}`}
               rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
@@ -255,7 +266,7 @@ export const MenuListsDropdown = () => {
         return (
           <DropdownMenuItem
             key={`${menuLabel}-${index}`}
-            onClick={handleClickMenu}
+            onClick={(event) => handleClickMenu(event, ops!)}
             dense
             data-value={var_name}
             data-type={type}
@@ -273,12 +284,15 @@ export const MenuListsDropdown = () => {
   if (varName) {
     if ((type === TYPES.GeoTreeSelect) || (type === TYPES.LanguageTreeSelect)) {
       displayComponent = <GeoTreeSelected type={type} />
-    } else if (type === TYPES.CharField) {
+    } else if (type === TYPES.CharField && ops === 'icontains') {
       displayComponent = <FilterTextBox textValue={textFilter} setTextValue={setTextFilter} />
+
+    } else if (type === TYPES.CharField && ops == 'in') {
+      displayComponent = <AutoCompleteListBox />
       // displayComponent = <VirtualizedAutoCompleted />
       // displayComponent= <AutoCompletedFilterListBox />
-      // displayComponent=  <AutoCompleteListBox />
-    } else if ((type === TYPES.IntegerField) || varName && type === TYPES.DecimalField) {
+    }
+    else if ((type === TYPES.IntegerField) || varName && type === TYPES.DecimalField) {
       displayComponent = <RangeSliderComponent />
     }
   }
@@ -286,7 +300,7 @@ export const MenuListsDropdown = () => {
     <div>
       <Box className="filter-menu-bar">
         {filterMenu.map((item: FilterMenuList, index: number) => {
-          const { var_name, label, type } = item
+          const { var_name, label, type, ops } = item
           const itemLabel = (label as LabelFilterMeneList)[languageValue];
           return var_name ? (
             <Button
@@ -294,7 +308,7 @@ export const MenuListsDropdown = () => {
               data-value={var_name}
               data-type={type}
               data-label={itemLabel}
-              onClick={(event: any) => handleClickMenu(event)}
+              onClick={(event: any) => handleClickMenu(event, ops!)}
               sx={{
                 color: '#000000',
                 textTransform: 'none',
@@ -376,7 +390,7 @@ export const MenuListsDropdown = () => {
           {displayComponent}
         </DialogContent>
         <DialogActions style={{ paddingRight: '2rem' }}>
-          {varName && type === TYPES.CharField &&
+          {varName && type === TYPES.CharField && ops === 'icontains' &&
             <Button
               autoFocus
               type='submit'

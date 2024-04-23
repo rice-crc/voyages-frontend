@@ -45,6 +45,7 @@ import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from '@/share/C
 import { DropdownCascading } from './DropdownCascading';
 import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
+import FilterTextBox from '@/components/FilterComponents/Autocomplete/FilterTextBox';
 
 const CascadingMenuMobile = () => {
   const { styleName: styleNameRoute } = usePageRouter()
@@ -70,6 +71,7 @@ const CascadingMenuMobile = () => {
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>(
     []
   );
+  const [textFilter, setTextFilter] = useState<string>('');
 
   useEffect(() => {
     const loadFilterCellStructure = async () => {
@@ -96,7 +98,20 @@ const CascadingMenuMobile = () => {
     loadFilterCellStructure();
   }, [styleNameRoute]);
 
+  let displayComponent;
 
+  if (varName) {
+    if ((type === TYPES.GeoTreeSelect) || (type === TYPES.LanguageTreeSelect)) {
+      displayComponent = <GeoTreeSelected type={type} />
+    } else if (type === TYPES.CharField) {
+      displayComponent = <FilterTextBox textValue={textFilter} setTextValue={setTextFilter} />
+      // displayComponent = <VirtualizedAutoCompleted />
+      // displayComponent= <AutoCompletedFilterListBox />
+      // displayComponent=  <AutoCompleteListBox />
+    } else if ((type === TYPES.IntegerField) || varName && type === TYPES.DecimalField) {
+      displayComponent = <RangeSliderComponent />
+    }
+  }
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
   ) => {
@@ -222,10 +237,7 @@ const CascadingMenuMobile = () => {
           <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
-          {varName && type === TYPES.GeoTreeSelect && <GeoTreeSelected />}
-          {varName && type === TYPES.CharField && <VirtualizedAutoCompleted />}
-          {((varName && type === TYPES.IntegerField) ||
-            (varName && type === TYPES.DecimalField) || (varName && type === TYPES.FloatField)) && <RangeSliderComponent />}
+          {displayComponent}
         </DialogContent>
         <DialogActions>
           <Button
