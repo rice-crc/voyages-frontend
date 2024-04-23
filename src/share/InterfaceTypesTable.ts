@@ -901,3 +901,7 @@ export interface InitialStateColumnProps {
     valueCells: TableCellStructureProps
     visibleColumnCells: string[]
 }
+
+export interface OtherPropertiesColumnTable {
+    default_order_by: string
+}

@@ -44,14 +44,14 @@ import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAP
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import useDataTableProcessingEffect from '@/hooks/useDataTableProcessingEffect';
-import { convertToSlug } from '@/utils/functions/convertToSlug';
+import { useOtherTableCellStructure } from '@/hooks/useOtherTableCellStructure';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { textFilterValue } = useSelector((state: RootState) => state.autoCompleteList);
-    const { varName, isChange } = useSelector(
+    const { isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
     const { visibleColumnCells } = useSelector(
@@ -97,7 +97,8 @@ const Tables: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(
         getRowsPerPage(window.innerWidth, window.innerHeight)
     );
-    const [sortColumn, setSortColumn] = useState<string[]>([])
+    const otherTableCellStrructure = useOtherTableCellStructure(styleNameRoute!)
+    const [sortColumn, setSortColumn] = useState<string[]>(otherTableCellStrructure?.default_order_by ? [otherTableCellStrructure?.default_order_by] : [])
     const {
         data: tableCellStructure,
         isLoading,
@@ -105,6 +106,7 @@ const Tables: React.FC = () => {
     } = useTableCellStructure(styleNameRoute);
 
     useEffect(() => {
+
         if (!isLoading && !isError && tableCellStructure) {
             setTableCell(tableCellStructure as TableCellStructure[]);
         }

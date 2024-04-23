@@ -6,10 +6,8 @@ import VOYAGESTABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__up
 import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.json';
 import { TYPESOFDATASETPEOPLE } from "@/share/InterfaceTypes";
 import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from "@/share/CONST_DATA";
-import { TableCellStructure } from "@/share/InterfaceTypesTable";
 
-
-export const fetchTableCellStructure = async (styleNameRoute?: string) => {
+export const useFetchTableCellStructure = async (styleNameRoute?: string) => {
 
     let cellStructure = null;
     if (checkPagesRouteForVoyages(styleNameRoute!)) {
