@@ -193,6 +193,9 @@
 			}
 		}
 	],
+	"other_properties":{
+	    "default_order_by":"birth_year"
+	},
 	"column_selector_tree": [
 		{
 			"label": {
