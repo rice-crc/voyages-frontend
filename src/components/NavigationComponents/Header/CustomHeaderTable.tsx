@@ -31,6 +31,7 @@ interface Props {
   page: number
   pageSize: number
   setPage: React.Dispatch<React.SetStateAction<number>>
+  setSortColumn: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 const CustomHeaderTable: React.FC<Props> = (props) => {
@@ -38,7 +39,7 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     column,
     setSort,
     enableSorting, setPage,
-    displayName, page, pageSize
+    displayName, page, pageSize, setSortColumn
   } = props;
 
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
@@ -62,6 +63,7 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
   ) => {
     setSort(order, event.shiftKey);
     const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
+
     fetchData(sortOrder, column.colDef.sortingOrder);
   };
 
@@ -87,17 +89,25 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
 
 
   const fetchData = async (sortOrder: string, sortingOrder: string[]) => {
+
     if (inputSearchValue) {
       dataSend['global_search'] = inputSearchValue;
     }
     if (sortOrder === 'asc') {
       if (sortingOrder?.length > 0) {
-        sortingOrder.forEach((sort: string) => (dataSend['order_by'] = [sort]));
+
+        sortingOrder.forEach((sort: string) => {
+          setSortColumn([sort])
+          return dataSend['order_by'] = [sort]
+        });
       }
     } else if (sortOrder === 'desc') {
       if (sortingOrder?.length > 0) {
         sortingOrder.forEach(
-          (sort: string) => (dataSend['order_by'] = [`-${sort}`])
+          (sort: string) => {
+            setSortColumn([`-${sort}`])
+            return dataSend['order_by'] = [`-${sort}`]
+          }
         );
       }
     }

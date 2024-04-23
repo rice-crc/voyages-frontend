@@ -44,6 +44,7 @@ import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAP
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import useDataTableProcessingEffect from '@/hooks/useDataTableProcessingEffect';
+import { convertToSlug } from '@/utils/functions/convertToSlug';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -96,7 +97,7 @@ const Tables: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(
         getRowsPerPage(window.innerWidth, window.innerHeight)
     );
-
+    const [sortColumn, setSortColumn] = useState<string[]>([])
     const {
         data: tableCellStructure,
         isLoading,
@@ -144,6 +145,9 @@ const Tables: React.FC = () => {
             let response;
             if (inputSearchValue) {
                 dataSend['global_search'] = inputSearchValue;
+            }
+            if (sortColumn) {
+                dataSend['order_by'] = sortColumn
             }
             try {
                 if (checkPagesRouteForVoyages(styleNameRoute!)) {
@@ -208,6 +212,7 @@ const Tables: React.FC = () => {
                         page={page}
                         pageSize={rowsPerPage}
                         setPage={setPage}
+                        setSortColumn={setSortColumn}
                         {...props}
                     />
                 );
@@ -252,12 +257,9 @@ const Tables: React.FC = () => {
         []
     );
 
-    const handleChangePage = useCallback(
-        (event: any, newPage: number) => {
-            setPage(newPage);
-        },
-        [page]
-    );
+    const handleChangePage = (event: any, newPage: number) => {
+        setPage(newPage);
+    }
 
     const handleChangeRowsPerPage = useCallback(
         (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -266,20 +268,14 @@ const Tables: React.FC = () => {
         [page]
     );
 
-    const handleChangePagePagination = useCallback(
+    const handleChangePagePagination =
         (event: any, newPage: number) => {
             setPage(newPage - 1);
-        },
-        []
-    );
+        }
 
     const pageCount = Math.ceil(
         totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
     );
-    const autoSizeStrategy = {
-        type: 'fitCellContents'
-    };
-
 
     return (
         <div className="mobile-responsive">
