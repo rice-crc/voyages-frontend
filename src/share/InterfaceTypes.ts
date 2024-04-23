@@ -63,7 +63,7 @@ export interface IRootFilterTableObject {
 
 export interface Filter {
     varName: string
-    searchTerm: number[] | string[] | string | CheckboxValueType[] | number
+    searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType
     op: string
 }
 export interface RangeSliderStateProps {
