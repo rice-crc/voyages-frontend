@@ -53,6 +53,7 @@ import {
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
 import { setFilterObject } from '@/redux/getFilterSlice';
+import { convertToSlug } from '@/utils/functions/convertToSlug';
 
 export const MenuListsDropdown = () => {
   const {
@@ -84,6 +85,7 @@ export const MenuListsDropdown = () => {
   const [type, setType] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
   const [textFilter, setTextFilter] = useState<string>('');
+  convertToSlug
 
   useEffect(() => {
     const loadFilterCellStructure = async () => {
@@ -109,7 +111,7 @@ export const MenuListsDropdown = () => {
     };
     loadFilterCellStructure();
   }, [styleNameRoute, languageValue, isOpenDialog]);
-
+  console.log({ valueVoyages })
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
@@ -189,6 +191,7 @@ export const MenuListsDropdown = () => {
     updateFilter(value)
   }
   const updateFilter = (newValue: string) => {
+    console.log({ newValue })
     const existingFilterObjectString = localStorage.getItem('filterObject');
     let existingFilters: Filter[] = [];
 
@@ -201,12 +204,12 @@ export const MenuListsDropdown = () => {
     );
     if (newValue.length > 0) {
       if (existingFilterIndex !== -1) {
-        existingFilters[existingFilterIndex].searchTerm = [newValue];
+        existingFilters[existingFilterIndex].searchTerm = newValue;
       } else {
         existingFilters.push({
           varName: varName,
-          searchTerm: [newValue],
-          op: 'in',
+          searchTerm: newValue as string,
+          op: 'icontains',
         });
       }
     } else if (existingFilterIndex !== -1) {

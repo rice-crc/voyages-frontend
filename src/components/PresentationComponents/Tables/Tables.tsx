@@ -105,8 +105,9 @@ const Tables: React.FC = () => {
 
     useEffect(() => {
         if (!isLoading && !isError && tableCellStructure) {
-            setTableCell(tableCellStructure);
+            setTableCell(tableCellStructure as TableCellStructure[]);
         }
+
         if (tablesCell.length > 0) {
             const visibleColumns = tablesCell
                 .filter((cell: any) => cell.visible)

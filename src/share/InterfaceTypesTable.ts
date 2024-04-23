@@ -851,6 +851,7 @@ export interface TableCellStructure {
     visible: boolean;
     number_format?: string | null;
     order_by: string[];
+    col_width_px: number;
     colID: string;
     cell_val: CellVal;
 }
@@ -874,20 +875,28 @@ export interface TableCellStructureProps {
     column_selector_tree: ColumnSelectorTree[]
 }
 export interface ColumnSelectorTree {
-    label: LabelColumnSelectorTree
-    children: Children[]
+    label: HeaderLabel
+    children: ChildrenColumnSelector[]
 }
-export interface LabelColumnSelectorTree {
-    [key: string]: string;
+export interface HeaderLabel {
     en: string
     es: string
     pt: string
 }
 
-export interface Children {
+export interface ChildrenColumnSelector {
+    col_width_px: number
     colID: string
-    label: LabelColumnSelectorTree
+    label: HeaderLabel
 }
+
+export interface LabelColumnSelectorTree {
+    en: string
+    es: string
+    pt: string
+}
+
+
 export interface InitialStateColumnProps {
     valueCells: TableCellStructureProps
     visibleColumnCells: string[]

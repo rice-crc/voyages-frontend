@@ -19,7 +19,6 @@ export function calculateWidthColumnDef(
     } else if (colID === 'voyages') {
         width = 720
     } else if (colID === "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year" || colID === 'voyage_id' || colID === 'voyages__voyage_id') {
-
         width = 100
     } else if (colID === 'connections' || colID === 'voyage_slaves_numbers__imp_total_num_slaves_embarked' || colID === 'voyage_slaves_numbers__imp_total_num_slaves_disembarked' || colID === "enslaved_name") {
         width = 130

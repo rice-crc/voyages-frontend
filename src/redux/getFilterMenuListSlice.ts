@@ -7,11 +7,11 @@ import TEXAS_FILTER_MENU from '@/utils/flatfiles/texas_filter_menu.json';
 import ENSLAVERS_FILTER_MENU from '@/utils/flatfiles/enslavers_filter_menu.json'
 const initialState: InitialStateFilterMenuProps = {
     filterValueList: {
-        valueVoyages: VOYAGES_FILTR_MENU,
-        valueEnslaved: ENSLAVED_FILTER_MENU,
-        valueAfricanOrigin: AFRICAN_FILTER_MENU,
-        valueEnslavedTexas: TEXAS_FILTER_MENU,
-        valueEnslavers: ENSLAVERS_FILTER_MENU
+        valueVoyages: VOYAGES_FILTR_MENU as any,
+        valueEnslaved: ENSLAVED_FILTER_MENU as any,
+        valueAfricanOrigin: AFRICAN_FILTER_MENU as any,
+        valueEnslavedTexas: TEXAS_FILTER_MENU as any,
+        valueEnslavers: ENSLAVERS_FILTER_MENU as any
     }
 };
 export const getFilterMenuListSlice = createSlice({
