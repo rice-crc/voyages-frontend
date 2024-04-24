@@ -36,14 +36,13 @@ import {
 import { setIsOpenDialogMobile } from '@/redux/getScrollPageSlice';
 import { PaperDraggable } from './PaperDraggable';
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
-import { setIsFilter } from '@/redux/getFilterSlice';
+import { setIsFilter, setType } from '@/redux/getFilterSlice';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
 import { DropdownCascading } from './DropdownCascading';
-import VirtualizedAutoCompleted from '@/components/FilterComponents/Autocomplete/VirtualizedAutoCompleted';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
 import FilterTextBox from '@/components/FilterComponents/Autocomplete/FilterTextBox';
 
@@ -51,7 +50,7 @@ const CascadingMenuMobile = () => {
   const { styleName: styleNameRoute } = usePageRouter()
 
   const { valueVoyages, valueEnslaved, valueAfricanOrigin, valueEnslavedTexas, valueEnslavers } = useSelector((state: RootState) => state.getFilterMenuList.filterValueList);
-
+  const { type } = useSelector((state: RootState) => state.getFilter);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -67,7 +66,6 @@ const CascadingMenuMobile = () => {
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [label, setLabel] = useState<string>('');
-  const [type, setType] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>(
     []
   );
@@ -120,7 +118,7 @@ const CascadingMenuMobile = () => {
     setIsClickMenu(!isClickMenu);
     if (value && type && label) {
       dispatch(setKeyValueName(value));
-      setType(type);
+      dispatch(setType(type));
       setLabel(label);
       dispatch(setIsOpenDialogMobile(true));
     }

@@ -6,6 +6,7 @@ import {
 } from '@/share/CONST_DATA';
 import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { all } from 'axios';
+import { convertToSlug } from './convertToSlug';
 
 export const getColorVoyagePageBackground = (
     item: string,

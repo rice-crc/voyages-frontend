@@ -168,14 +168,10 @@ function Scatter() {
     []
   );
 
-  if (isLoading) {
-    <div className="loading-logo">
-      <img src={LOADINGLOGO} />
-    </div>;
-  }
 
-
-  return (
+  return isLoading ? (<div className="loading-logo">
+    <img src={LOADINGLOGO} />
+  </div>) : (
     <div className="mobile-responsive">
       <SelectDropdown
         selectedX={scatterSelectedX}

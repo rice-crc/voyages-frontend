@@ -3,4 +3,5 @@ export interface LanguagesProps {
     languageValueLabel: string
     configureColumns: string
     resetAll: string
+    viewAll: string
 }

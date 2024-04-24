@@ -54,6 +54,7 @@ const Tables: React.FC = () => {
     const { isChange } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
+    const { viewAll } = useSelector((state: RootState) => state.getShowFilterObject)
     const { visibleColumnCells } = useSelector(
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
     );
@@ -141,7 +142,7 @@ const Tables: React.FC = () => {
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
-
+    const refreshFilterObj = styleNameRoute !== 'intra-american' ? filtersObj : null
     useEffect(() => {
         const fetchDataTable = async () => {
             let response;
@@ -174,6 +175,7 @@ const Tables: React.FC = () => {
         };
         fetchDataTable();
     }, [
+        refreshFilterObj,
         dispatch,
         rowsPerPage,
         page,
@@ -280,7 +282,7 @@ const Tables: React.FC = () => {
     );
 
     return (
-        <div className="mobile-responsive">
+        <div className={!viewAll ? "mobile-responsive" : "mobile-responsive-view"}>
             <div className="ag-theme-alpine grid-container">
                 <span className="tableContainer">
                     <ButtonDropdownColumnSelector />

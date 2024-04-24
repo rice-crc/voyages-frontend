@@ -23,6 +23,7 @@ import {
   AutoCompleteOption,
 } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss';
+import { setType } from '@/redux/getFilterSlice';
 import {
   DialogModalStyle,
   DropdownMenuItem,
@@ -53,9 +54,9 @@ import {
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import { convertToSlug } from '@/utils/functions/convertToSlug';
-import AutoCompletedFilterListBox from '@/components/FilterComponents/Autocomplete/AutoCompletedFilterListBox';
 import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
+import { setLabelVarName } from '@/redux/getShowFilterObjectSlice';
+import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
 
 export const MenuListsDropdown = () => {
   const {
@@ -67,6 +68,7 @@ export const MenuListsDropdown = () => {
   } = useSelector(
     (state: RootState) => state.getFilterMenuList.filterValueList
   );
+  const { type: typeData } = useSelector((state: RootState) => state.getFilter);
   const { languageValue } = useSelector((state: RootState) => state.getLanguages);
   const { styleName: styleNameRoute } = usePageRouter();
 
@@ -80,15 +82,14 @@ export const MenuListsDropdown = () => {
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-
+  const { labelVarName } = useSelector(
+    (state: RootState) => state.getShowFilterObject
+  );
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
-  const [label, setLabel] = useState<string>('');
-  const [type, setType] = useState<string>('');
   const [ops, setOps] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
   const [textFilter, setTextFilter] = useState<string>('');
-
 
   useEffect(() => {
     const loadFilterCellStructure = async () => {
@@ -156,7 +157,7 @@ export const MenuListsDropdown = () => {
     let opsValue = ''
     if (value && type && label) {
       dispatch(setKeyValueName(value));
-      setType(type);
+      dispatch(setType(type));
       if (ops) {
         for (const ele of ops) {
           if (ele === 'icontains') {
@@ -167,21 +168,26 @@ export const MenuListsDropdown = () => {
         }
         setOps(opsValue)
       }
-      setLabel(label);
+      dispatch(setLabelVarName(label));
       dispatch(setIsOpenDialog(true));
     }
   };
 
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
+    dispatch(setIsChange(false));
+    dispatch(setIsChangeAuto(false));
+    dispatch(setIsChangeGeoTree(false));
     const value = event.cancelable;
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialog(false));
     if (currentPage !== 5) {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
+      dispatch(setIsChangeGeoTree(!value));
     }
   };
+
   const handleResetDataDialog = (event: any) => {
     event.stopPropagation();
     const value = event.cancelable;
@@ -190,6 +196,7 @@ export const MenuListsDropdown = () => {
     if (currentPage !== 5) {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
+      dispatch(setIsChangeGeoTree(!value));
     }
     dispatch(resetAll());
     setTextFilter('')
@@ -223,6 +230,7 @@ export const MenuListsDropdown = () => {
           varName: varName,
           searchTerm: ops === 'icontains' ? newValue as string : [newValue],
           op: ops,
+          label: labelVarName
         });
       }
     } else if (existingFilterIndex !== -1) {
@@ -238,6 +246,7 @@ export const MenuListsDropdown = () => {
     };
     const filterObjectString = JSON.stringify(filterObjectUpdate);
     localStorage.setItem('filterObject', filterObjectString);
+
   }
 
   const renderDropdownMenu = (
@@ -282,17 +291,17 @@ export const MenuListsDropdown = () => {
   let displayComponent;
 
   if (varName) {
-    if ((type === TYPES.GeoTreeSelect) || (type === TYPES.LanguageTreeSelect)) {
-      displayComponent = <GeoTreeSelected type={type} />
-    } else if (type === TYPES.CharField && ops === 'icontains') {
+    if ((typeData === TYPES.GeoTreeSelect) || (typeData === TYPES.LanguageTreeSelect)) {
+      displayComponent = <GeoTreeSelected type={typeData} />
+    } else if (typeData === TYPES.CharField && ops === 'icontains') {
       displayComponent = <FilterTextBox textValue={textFilter} setTextValue={setTextFilter} />
 
-    } else if (type === TYPES.CharField && ops == 'in') {
+    } else if (typeData === TYPES.CharField && ops == 'in') {
       displayComponent = <AutoCompleteListBox />
       // displayComponent = <VirtualizedAutoCompleted />
       // displayComponent= <AutoCompletedFilterListBox />
     }
-    else if ((type === TYPES.IntegerField) || varName && type === TYPES.DecimalField) {
+    else if ((typeData === TYPES.IntegerField) || varName && typeData === TYPES.DecimalField) {
       displayComponent = <RangeSliderComponent />
     }
   }
@@ -384,13 +393,13 @@ export const MenuListsDropdown = () => {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
-          <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
+          <div style={{ fontSize: 16, fontWeight: 500 }}>{labelVarName}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
           {displayComponent}
         </DialogContent>
         <DialogActions style={{ paddingRight: '2rem' }}>
-          {varName && type === TYPES.CharField && ops === 'icontains' &&
+          {varName && typeData === TYPES.CharField && ops === 'icontains' &&
             <Button
               autoFocus
               type='submit'

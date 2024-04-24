@@ -1,13 +1,18 @@
+import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
+import { AppDispatch } from '@/redux/store';
 import { TextField, Typography } from '@mui/material';
 import { ChangeEvent, FunctionComponent } from 'react';
+import { useDispatch } from 'react-redux';
 interface FilterTextBoxProp {
     textValue: string
     setTextValue: React.Dispatch<React.SetStateAction<string>>
 }
 const FilterTextBox: FunctionComponent<FilterTextBoxProp> = ({ textValue, setTextValue }) => {
+    const dispatch: AppDispatch = useDispatch();
     const handleTextInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         setTextValue(newValue)
+        dispatch(setIsChangeAuto(true));
     };
 
     return (

@@ -248,6 +248,20 @@
     }
 }
 
+.panel-list-view-all {
+    margin-bottom: 0;
+    list-style: none;
+    font-size: .85rem;
+    padding: 0.5rem 3.5rem;
+    display: flex;
+    justify-content: space-between;
+    background-color: #f8f9fa;
+
+    a {
+        text-decoration: none;
+    }
+}
+
 .btn-panel {
     // color: #0c9ab1;
     // border: 1px #0c9ab1 solid;
@@ -277,6 +291,11 @@
 .col-selected-all {
     position: relative;
     left: 1rem;
+}
+
+.col-selected-all-view {
+    position: relative;
+    left: 0.5rem;
 }
 
 
@@ -486,13 +505,13 @@ table>.dataframe {
 .panel-list-unshow {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease;
+    transition: max-height 0.1s ease;
 }
 
 .panel-list-unshow-show {
     max-height: 10000px;
     overflow: hidden;
-    transition: max-height 0.5s ease;
+    transition: max-height 0.1s ease;
 }
 
 .tab-title-timeline {
@@ -527,4 +546,17 @@ table>.dataframe {
     stroke: darkgreen;
     stroke-width: 1px;
     stroke-dasharray: 1 1;
+}
+
+.view-show-row {
+    display: flex;
+    border-radius: 6px;
+    border: 0.75px solid #fff;
+    padding-left: 6px;
+    margin-right: 4px;
+}
+
+.value-list {
+    padding: 0 0.5rem 0 0.25rem;
+    font-size: 0.85rem;
 }

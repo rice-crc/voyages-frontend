@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Filter,
+  GeoTreeSelectChildren,
   GeoTreeSelectItem,
   GeoTreeSelectStateProps,
   RangeSliderState,
@@ -33,17 +34,15 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
   const [geoTreeValueList, setGeoTreeValueList] = useState<GeoTreeSelectItem[]>(
     []
   );
-
   const { styleName } = usePageRouter();
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
-  const { isChangeGeoTree } = useSelector(
-    (state: RootState) => state.getGeoTreeData
-  );
   const { styleName: styleNameRoute } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-
+  const { labelVarName } = useSelector(
+    (state: RootState) => state.getShowFilterObject
+  );
   const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: GeoTreeSelectStateProps = {
     geotree_valuefields: [varName],
@@ -86,6 +85,7 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
 
   }, [type])
 
+
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
 
@@ -106,14 +106,44 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     dispatch(setFilterObject(filter));
   }, [varName, styleName, geoTreeValueList]);
 
+  let dataForTreeSelect: any
+  if (type === TYPES.GeoTreeSelect) {
+    dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeValueList);
+  } else if (type === TYPES.LanguageTreeSelect) {
+    dataForTreeSelect = convertDataToLanguagesTreeSelectFormat(geoTreeValueList);
+  }
+
+  const findSelectedItems = (data: GeoTreeSelectItem[], value: string | number): GeoTreeSelectItem[] => {
+    const selectedItems: GeoTreeSelectItem[] = [];
+    const searchItems = (items: GeoTreeSelectItem[]) => {
+      for (const item of items) {
+        if (item.value === value) {
+          selectedItems.push(item);
+        }
+        if (item.children && item.children.length > 0) {
+          searchItems(item.children as GeoTreeSelectItem[]);
+        }
+      }
+    };
+    searchItems(data);
+    return selectedItems;
+  };
+
+
   const handleTreeOnChange = (newValue: string[]) => {
     if (!newValue) {
       return;
     }
     const valueSelect: string[] = newValue.map((ele) => ele);
-    dispatch(setIsChangeGeoTree(!isChangeGeoTree));
+    dispatch(setIsChangeGeoTree(true));
     setSelectedValue(newValue);
-
+    const selectedTitles: string[] = [];
+    valueSelect.forEach((value) => {
+      const selectedItem = findSelectedItems(dataForTreeSelect || [], value as string);
+      for (const item of selectedItem) {
+        selectedTitles.push(item.title as string);
+      }
+    });
     const existingFilterObjectString = localStorage.getItem('filterObject');
     let existingFilters: Filter[] = [];
 
@@ -123,7 +153,6 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     const existingFilterIndex = existingFilters.findIndex(
       (filter) => filter.varName === varName
     );
-
     // Type guard to check if autuLabels is an array before accessing its length property
     if (Array.isArray(valueSelect) && valueSelect.length > 0) {
       if (existingFilterIndex !== -1) {
@@ -133,6 +162,8 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
           varName: varName,
           searchTerm: valueSelect,
           op: 'in',
+          label: labelVarName,
+          title: [...selectedTitles]
         });
       }
     } else if (
@@ -157,16 +188,12 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     localStorage.setItem('filterObject', filterObjectString);
   };
 
-  let dataForTreeSelect;
-  if (type === TYPES.GeoTreeSelect) {
-    dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeValueList);
-  } else if (type === TYPES.LanguageTreeSelect) {
-    dataForTreeSelect = convertDataToLanguagesTreeSelectFormat(geoTreeValueList);
-  }
 
   const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
+    console.log(treeNode.title)
     return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
   };
+
 
   return (
     <div ref={ref}>

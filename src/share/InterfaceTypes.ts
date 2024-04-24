@@ -65,7 +65,10 @@ export interface Filter {
     varName: string
     searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType
     op: string
+    label?: string
+    title?: string[]
 }
+
 export interface RangeSliderStateProps {
     varName: string
     filter: Filter[]
@@ -504,15 +507,17 @@ export interface GeoTreeSelectValueInitialState {
 }
 
 export interface GeoTreeSelectItem {
-    id: number
-    name: string
-    longitude: string
-    latitude: string
-    value: number
-    location_type: LocationType
-    spatial_extent: any
-    children: GeoTreeSelectChildren[]
+    id: number;
+    name: string;
+    longitude?: string | undefined; // Optional longitude property
+    latitude?: string;
+    value: number;
+    location_type: LocationType;
+    spatial_extent: any;
+    children: GeoTreeSelectChildren[];
+    title?: string
 }
+
 export interface TreeSelectItem {
     id: number;
     key: string;
