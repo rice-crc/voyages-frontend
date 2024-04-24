@@ -32,7 +32,6 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
         const parsedValue = JSON.parse(storedValue);
 
         const filter: Filter[] = parsedValue.filter;
-        console.log({ filter })
 
         const combinedData: { label: string; searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType }[] = [];
 
@@ -51,7 +50,6 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
         }
         setFilterData(combinedData)
     }, [varName, isChange, isChangeGeoTree, isChangeAuto]);
-    console.log({ filterData })
 
     return (
         <div id="panelCollapse" className="panel-list-view-all" v-if="hasCurrentQuery" style={{ backgroundColor: getColorNavbarBackground(styleNameRoute!) }}>
