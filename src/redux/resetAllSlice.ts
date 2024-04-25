@@ -17,6 +17,7 @@ import { resetSlice as resetAllStateSliceDataVoyage } from './getDataSetCollecti
 import { resetAllStateSlice as resetAllStateSliceDataEnslaved } from './getPeopleEnslavedDataSetCollectionSlice'
 import { resetAllStateSlice as resetAllStateSliceDataEnslavers } from './getPeopleEnslaversDataSetCollectionSlice'
 import { resetSliceSaveSearch } from './getSaveSearchSlice'
+import { resetSliceShowHideFilter } from './getShowFilterObjectSlice'
 
 export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetOptionsData());
@@ -33,6 +34,7 @@ export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetScrollEnslaved())
     dispatch(resetEstimateAssesment())
     dispatch(resetSliceSaveSearch())
+    dispatch(resetSliceShowHideFilter())
 
 };
 
@@ -53,5 +55,6 @@ export const resetAllStateToInitailState = () => (dispatch: Dispatch) => {
     dispatch(resetSliceGlobalSearch())
     dispatch(resetEstimateAssesment())
     dispatch(resetSliceSaveSearch())
+    dispatch(resetSliceShowHideFilter())
 };
 

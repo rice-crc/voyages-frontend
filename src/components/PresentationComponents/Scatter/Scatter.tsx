@@ -87,7 +87,7 @@ function Scatter() {
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_xyscatter',
-    filter: filters
+    filter: filters || []
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
@@ -168,14 +168,10 @@ function Scatter() {
     []
   );
 
-  if (isLoading) {
-    <div className="loading-logo">
-      <img src={LOADINGLOGO} />
-    </div>;
-  }
 
-
-  return (
+  return isLoading ? (<div className="loading-logo">
+    <img src={LOADINGLOGO} />
+  </div>) : (
     <div className="mobile-responsive">
       <SelectDropdown
         selectedX={scatterSelectedX}

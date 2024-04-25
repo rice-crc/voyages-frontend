@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAverage/AggregationSumAverage';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import NODATA from '@/assets/noData.png';
 import {
   VoyagesOptionProps,
@@ -19,7 +20,11 @@ import {
   IRootFilterObjectScatterRequest,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
-import { getMobileMaxHeight, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
+import {
+  getMobileMaxHeight,
+  getMobileMaxWidth,
+  maxWidthSize,
+} from '@/utils/functions/maxWidthSize';
 import '@/style/homepage.scss';
 import { useGroupBy } from '@/hooks/useGroupBy';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -28,7 +33,9 @@ import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
   const { data: options_flat, isSuccess } = useGetOptionsQuery(datas);
-  const { varName } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+  const { varName } = useSelector(
+    (state: RootState) => state.rangeSlider as RangeSliderState
+  );
 
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
@@ -65,17 +72,17 @@ function PieGraph() {
       }
     );
   };
-  const filters = filtersDataSend(filtersObj, styleNameRoute!)
+  const filters = filtersDataSend(filtersObj, styleNameRoute!);
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: pieGraphOptions.x_vars,
     groupby_cols: [pieGraphOptions.y_vars],
     agg_fn: aggregation,
     cachename: 'voyage_bar_and_donut_charts',
-    filter: filters,
+    filter: filters || [],
   };
 
   if (inputSearchValue) {
-    dataSend['global_search'] = inputSearchValue
+    dataSend['global_search'] = inputSearchValue;
   }
 
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
@@ -110,8 +117,6 @@ function PieGraph() {
     styleName,
   ]);
 
-
-
   const handleChangeAggregation = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       setAggregation(event.target.value);
@@ -132,7 +137,7 @@ function PieGraph() {
   const isPlotYZeroAll = plotY.every((item) => item === 0);
 
   return (
-    <div className='mobile-responsive'>
+    <div className="mobile-responsive">
       <SelectDropdown
         selectedX={pieGraphSelectedX}
         selectedY={pieGraphSelectedY}
@@ -148,7 +153,11 @@ function PieGraph() {
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-      {plotX.length > 0 && !isPlotYZeroAll ? (
+      {loading ? (
+        <div className="loading-logo-display">
+          <img src={LOADINGLOGO} />
+        </div>
+      ) : plotX.length > 0 && !isPlotYZeroAll ? (
         <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
           <Plot
             data={[

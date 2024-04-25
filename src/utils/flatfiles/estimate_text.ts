@@ -165,17 +165,17 @@ export const EstimateTranslate: TranslateType = {
     },
     viewAll: {
         label: {
-            "en": "View All",
-            "es": "Ver Todo",
-            "pt": "Ver Todos"
+            "en": "View all",
+            "es": "Ver todo",
+            "pt": "Ver todos"
 
         }
     },
     resetAll: {
         label: {
-            "en": "Reset All",
-            "es": "Resetear Todo",
-            "pt": "Redefinir Tudo"
+            "en": "Reset all",
+            "es": "Resetear todo",
+            "pt": "Redefinir tudo"
         }
     },
     tabTable: {

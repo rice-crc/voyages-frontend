@@ -15,6 +15,7 @@ import { setDataSetHeader } from '@/redux/getDataSetCollectionSlice';
 import { checkHeaderTitleLanguages } from '@/utils/functions/checkHeaderTitleLanguages';
 import { setDataSetPeopleEnslavedHeader } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import { setDataSetEnslaversHeader } from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
+import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
 export default function LanguagesDropdown() {
   const dispatch = useDispatch();
@@ -34,6 +35,9 @@ export default function LanguagesDropdown() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+
+  const translatedLanguageValue = translationLanguagesEstimatePage(languageValue)
 
   const handleChangeLanguage = (value: string, label: string) => {
     dispatch(setLanguages(value));
@@ -41,13 +45,13 @@ export default function LanguagesDropdown() {
     dispatch(setBlogPost(post as BlogDataProps));
     if (value === 'en') {
       dispatch(setConfigureColumns('Configure Columns'))
-      dispatch(setResetAllLanguage('Reset all'))
+      dispatch(setResetAllLanguage(translatedLanguageValue.resetAll))
     } else if (value === 'es') {
       dispatch(setConfigureColumns('Configurar columnas'))
-      dispatch(setResetAllLanguage('Restablecer todo'))
+      dispatch(setResetAllLanguage(translatedLanguageValue.resetAll))
     } else if (value === 'pt') {
       dispatch(setConfigureColumns('Configurar colunas'))
-      dispatch(setResetAllLanguage('Resetar tudo'))
+      dispatch(setResetAllLanguage(translatedLanguageValue.resetAll))
     }
     const hederTitleName = checkHeaderTitleLanguages(value, styleNameRoute!)
     dispatch(setDataSetHeader(hederTitleName))

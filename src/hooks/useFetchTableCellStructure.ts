@@ -7,8 +7,7 @@ import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.js
 import { TYPESOFDATASETPEOPLE } from "@/share/InterfaceTypes";
 import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from "@/share/CONST_DATA";
 
-
-export const fetchTableCellStructure = async (styleNameRoute?: string) => {
+export const useFetchTableCellStructure = async (styleNameRoute?: string) => {
 
     let cellStructure = null;
     if (checkPagesRouteForVoyages(styleNameRoute!)) {
@@ -26,5 +25,5 @@ export const fetchTableCellStructure = async (styleNameRoute?: string) => {
     } else if (styleNameRoute === TRANSATLANTICTRADS) {
         cellStructure = ENSLAVERS_TABLE.cell_structure;
     }
-    return cellStructure;
+    return cellStructure
 };

@@ -6,6 +6,7 @@ import {
 } from '@/share/CONST_DATA';
 import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { all } from 'axios';
+import { convertToSlug } from './convertToSlug';
 
 export const getColorVoyagePageBackground = (
     item: string,
@@ -47,6 +48,10 @@ export const getColorBackground = (item: string) => {
         background = 'rgb(2 83 204)';
     } else if (item === INTRAAMERICANTRADS) {
         background = '#ab47bc';
+    } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        background = 'rgb(2 83 204)';
+    } else if (item === TYPESOFDATASETPEOPLE.texas) {
+        background = 'rgb(167 70 0)';
     }
     return background;
 };
@@ -210,6 +215,7 @@ export const getColorHoverBackgroundCollection = (item: string) => {
     } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
         boxShadow = '#dbcccbe8';
     } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        console.log('africanOrigins', { item })
         boxShadow = '#42a5f5';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
         boxShadow = 'rgb(216 93 5)';

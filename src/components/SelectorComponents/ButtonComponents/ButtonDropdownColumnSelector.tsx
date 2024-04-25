@@ -33,10 +33,7 @@ const ButtonDropdownColumnSelector = () => {
   const { languageValue } = useSelector((state: RootState) => state.getLanguages);
 
   const { configureColumns } = useSelector((state: RootState) => state.getLanguages);
-
-  const [menuValueCells, setMenuValueCells] = useState<ColumnSelectorTree[]>(
-    []
-  );
+  const [menuValueCells, setMenuValueCells] = useState<ColumnSelectorTree[]>([]);
 
 
   const handleColumnVisibilityChange = (
@@ -52,29 +49,32 @@ const ButtonDropdownColumnSelector = () => {
     }
   };
 
+  const voyageColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(VOYAGESTABLE_FLAT.column_selector_tree))
+  const enslavedColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(ENSLAVED_TABLE.column_selector_tree))
+  const africanOriginsColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(AFRICANORIGINS_TABLE.column_selector_tree))
+  const texasColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(TEXAS_TABLE.column_selector_tree))
+  const enslaversColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(ENSLAVERS_TABLE.column_selector_tree))
+
   useEffect(() => {
-
-
     const loadMenuValueCellStructure = async () => {
       try {
         if (checkPagesRouteForVoyages(styleNameRoute!)) {
-          setMenuValueCells(VOYAGESTABLE_FLAT.column_selector_tree);
-        }
-        else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
-          setMenuValueCells(ENSLAVED_TABLE.column_selector_tree);
+          setMenuValueCells(voyageColumnSelector)
+        } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
+          setMenuValueCells(enslavedColumnSelector);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {
-          setMenuValueCells(AFRICANORIGINS_TABLE.column_selector_tree);
+          setMenuValueCells(africanOriginsColumnSelector);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
-          setMenuValueCells(TEXAS_TABLE.column_selector_tree);
+          setMenuValueCells(texasColumnSelector);
         } else if ((styleNameRoute === ENSALVERSTYLE) || (styleNameRoute === TRANSATLANTICTRADS) || styleNameRoute === INTRAAMERICANTRADS) {
-          setMenuValueCells(ENSLAVERS_TABLE.column_selector_tree);
+          setMenuValueCells(enslaversColumnSelector);
         }
       } catch (error) {
         console.error('Failed to load table cell structure:', error);
       }
     };
     loadMenuValueCellStructure();
-  }, [menuValueCells]);
+  }, []);
 
 
   function renderMenuItems(nodes: any[]) {

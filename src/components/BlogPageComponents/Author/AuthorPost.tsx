@@ -24,7 +24,7 @@ const AuthorPost: React.FC = () => {
       })
     }
     const dataSend: BlogDataPropsRequest = {
-      filter: filters,
+      filter: filters || [],
     };
     try {
       const response = await dispatch(fetchAuthorData(dataSend)).unwrap();

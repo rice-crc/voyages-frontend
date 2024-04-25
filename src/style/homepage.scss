@@ -644,6 +644,21 @@
   }
 }
 
+.btn-navbar-hide {
+  margin-left: 15px;
+  cursor: pointer;
+  border: 1px white solid;
+  border-radius: 3px;
+  color: white;
+  padding: 0 0.5rem 0 0.35rem;
+  font-size: 0.85rem;
+  width: 65px;
+
+  span {
+    margin-left: 4px;
+  }
+}
+
 .reset-filter {
   display: flex;
   align-items: center;
@@ -800,4 +815,29 @@
   position: absolute;
   top: 1%;
   left: 91%;
+}
+
+.loading-logo-display {
+  display: flex;
+  justify-content: center;
+  animation: center;
+  margin: auto;
+  height: 45vh;
+  background: transparent;
+
+  >img {
+    width: 10%;
+
+    @include breakpoint-standard(5) {
+      width: 10%;
+    }
+
+    @include breakpoint-standard(4) {
+      width: 10%;
+    }
+
+    @include breakpoint-standard(3) {
+      width: 10%;
+    }
+  }
 }

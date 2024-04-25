@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Filter,
+  GeoTreeSelectChildren,
   GeoTreeSelectItem,
   GeoTreeSelectStateProps,
   RangeSliderState,
+  TYPES,
 } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
 import { TreeSelect } from 'antd';
@@ -14,60 +16,74 @@ import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
 import { convertDataToGeoTreeSelectFormat } from '@/utils/functions/convertDataToGeoTreeSelectFormat';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { TreeItemProps } from '@mui/lab';
-import { useGeoTreeSelected } from '@/hooks/useGeoTreeSelected';
 import { setFilterObject } from '@/redux/getFilterSlice';
-
-const GeoTreeSelected: React.FC = () => {
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import { convertDataToLanguagesTreeSelectFormat } from '@/utils/functions/convertDataToLanguagesTreeSelectFormat';
+import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { fetcVoyagesGeoTreeSelectLists } from '@/fetch/geoFetch/fetchVoyagesGeoTreeSelect';
+import { fetchEnslavedGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslavedGeoTreeSelect';
+import { fetchEnslaversGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslaversGeoTreeSelect';
+import { fetchEnslavedLanguageTreeSelect } from '@/fetch/geoFetch/fetchEnslavedLanguageTreeSelect';
+interface GeoTreeSelectedProps {
+  type: string
+}
+const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch: AppDispatch = useDispatch();
   const [selectedValue, setSelectedValue] = useState<string[]>([]);
   const [geoTreeValueList, setGeoTreeValueList] = useState<GeoTreeSelectItem[]>(
     []
   );
-
   const { styleName } = usePageRouter();
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
-  const { isChangeGeoTree } = useSelector(
-    (state: RootState) => state.getGeoTreeData
-  );
-
+  const { styleName: styleNameRoute } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-
-  const filters: Filter[] = [];
-  const filterByVarName =
-    filtersObj &&
-    filtersObj.filter((filterItem: Filter) => filterItem.varName !== varName);
-  if (!filtersObj && filterByVarName) {
-    filters.push({
-      varName: varName,
-      searchTerm: selectedValue.map((item) => item),
-      op: 'in',
-    });
-  }
+  const { labelVarName } = useSelector(
+    (state: RootState) => state.getShowFilterObject
+  );
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: GeoTreeSelectStateProps = {
     geotree_valuefields: [varName],
-    filter: [...(filterByVarName || []), ...filters],
+    filter: filters || [],
   };
 
-  const { data, isLoading, isError } = useGeoTreeSelected(dataSend, styleName);
+  const fetchDataList = async (type: string) => {
+    try {
+      let response;
+      if (type === TYPES.GeoTreeSelect) {
+        if (checkPagesRouteForVoyages(styleName!)) {
+          response = await fetcVoyagesGeoTreeSelectLists(dataSend);
+        } else if (checkPagesRouteForEnslaved(styleName!)) {
+          response = await fetchEnslavedGeoTreeSelect(dataSend);
+        } else if (checkPagesRouteForEnslavers(styleName!)) {
+          response = await fetchEnslaversGeoTreeSelect(dataSend);
+        }
+      } else if (type === TYPES.LanguageTreeSelect) {
+        response = await fetchEnslavedLanguageTreeSelect(dataSend);
+      }
 
-  useEffect(() => {
-    if (!isLoading && !isError && data) {
-      const geoList: GeoTreeSelectItem[] = data.map(
-        (value: GeoTreeSelectItem) => value
-      );
-      setGeoTreeValueList((prevGeoList: GeoTreeSelectItem[]) => [
-        ...prevGeoList,
-        ...geoList,
-      ]);
+      if (response) {
+        const geoList: GeoTreeSelectItem[] = response.map(
+          (value: GeoTreeSelectItem) => value
+        );
+        setGeoTreeValueList((prevGeoList: GeoTreeSelectItem[]) => [
+          ...prevGeoList,
+          ...geoList,
+        ]);
+      }
+    } catch (error) {
+      console.log(`Error fetch data tree select ${error}`)
     }
 
-    return () => {
-      setGeoTreeValueList([]);
-    };
-  }, [data, isLoading, isError]);
+  }
+  useEffect(() => {
+
+    fetchDataList(type)
+
+  }, [type])
+
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
@@ -89,14 +105,44 @@ const GeoTreeSelected: React.FC = () => {
     dispatch(setFilterObject(filter));
   }, [varName, styleName, geoTreeValueList]);
 
+  let dataForTreeSelect: any
+  if (type === TYPES.GeoTreeSelect) {
+    dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeValueList);
+  } else if (type === TYPES.LanguageTreeSelect) {
+    dataForTreeSelect = convertDataToLanguagesTreeSelectFormat(geoTreeValueList);
+  }
+
+  const findSelectedItems = (data: GeoTreeSelectItem[], value: string | number): GeoTreeSelectItem[] => {
+    const selectedItems: GeoTreeSelectItem[] = [];
+    const searchItems = (items: GeoTreeSelectItem[]) => {
+      for (const item of items) {
+        if (item.value === value) {
+          selectedItems.push(item);
+        }
+        if (item.children && item.children.length > 0) {
+          searchItems(item.children as GeoTreeSelectItem[]);
+        }
+      }
+    };
+    searchItems(data);
+    return selectedItems;
+  };
+
+
   const handleTreeOnChange = (newValue: string[]) => {
     if (!newValue) {
       return;
     }
     const valueSelect: string[] = newValue.map((ele) => ele);
-    dispatch(setIsChangeGeoTree(!isChangeGeoTree));
+    dispatch(setIsChangeGeoTree(true));
     setSelectedValue(newValue);
-
+    const selectedTitles: string[] = [];
+    valueSelect.forEach((value) => {
+      const selectedItem = findSelectedItems(dataForTreeSelect || [], value as string);
+      for (const item of selectedItem) {
+        selectedTitles.push(item.title as string)
+      }
+    });
     const existingFilterObjectString = localStorage.getItem('filterObject');
     let existingFilters: Filter[] = [];
 
@@ -106,7 +152,6 @@ const GeoTreeSelected: React.FC = () => {
     const existingFilterIndex = existingFilters.findIndex(
       (filter) => filter.varName === varName
     );
-
     // Type guard to check if autuLabels is an array before accessing its length property
     if (Array.isArray(valueSelect) && valueSelect.length > 0) {
       if (existingFilterIndex !== -1) {
@@ -116,6 +161,8 @@ const GeoTreeSelected: React.FC = () => {
           varName: varName,
           searchTerm: valueSelect,
           op: 'in',
+          label: labelVarName,
+          title: [...selectedTitles]
         });
       }
     } else if (
@@ -140,15 +187,16 @@ const GeoTreeSelected: React.FC = () => {
     localStorage.setItem('filterObject', filterObjectString);
   };
 
-  const dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeValueList);
 
   const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
+    console.log(treeNode.title)
     return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
   };
 
+
   return (
     <div ref={ref}>
-      {dataForTreeSelect.length > 0 && (
+      {dataForTreeSelect && dataForTreeSelect.length > 0 && (
         <TreeSelect
           loading
           showSearch

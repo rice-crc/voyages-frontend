@@ -34,6 +34,7 @@ export interface AutoCompleteInitialState {
     total_results_count: number,
     autoCompleteValue: Record<string, string[]>;
     autoLabelName: string[]
+    textFilterValue: string
     isChangeAuto: boolean
     offset: number
     isLoadingList: boolean
@@ -62,15 +63,21 @@ export interface IRootFilterTableObject {
 
 export interface Filter {
     varName: string
-    searchTerm: number[] | string[] | CheckboxValueType[] | number
+    searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType
     op: string
+    label?: string
+    title?: string[]
 }
+
 export interface RangeSliderStateProps {
     varName: string
     filter: Filter[]
 }
 export interface GeoTreeSelectStateProps {
     geotree_valuefields: string[]
+    filter: Filter[]
+}
+export interface LanguageTreeSelectProps {
     filter: Filter[]
 }
 
@@ -85,12 +92,14 @@ export const TYPES: {
     FloatField: string;
     CharField: string;
     GeoTreeSelect: string;
+    LanguageTreeSelect: string
 } = {
     IntegerField: 'IntegerField',
     DecimalField: 'DecimalField',
     FloatField: 'FloatField',
     CharField: 'CharField',
     GeoTreeSelect: 'GeoTreeSelect',
+    LanguageTreeSelect: 'LanguageTreeSelect',
 };
 
 export const TYPESOFDATASETPEOPLE: {
@@ -219,6 +228,7 @@ export interface FilterMenu {
     label: LabelFilterMeneList
     var_name?: string
     type?: string
+    ops?: string[]
     flatlabel?: string
     children?: ChildrenFilter[]
 }
@@ -228,6 +238,7 @@ export interface ChildrenFilter {
     children?: ChildrenFilterArr[]
     var_name?: string
     type?: string
+    ops?: string[]
 }
 export interface ChildrenFilterArr {
     var_name: string
@@ -496,14 +507,39 @@ export interface GeoTreeSelectValueInitialState {
 }
 
 export interface GeoTreeSelectItem {
-    id: number
-    name: string
-    longitude: string
-    latitude: string
-    value: number
-    location_type: LocationType
-    spatial_extent: any
-    children: GeoTreeSelectChildren[]
+    id: number;
+    name: string;
+    longitude?: string | undefined; // Optional longitude property
+    latitude?: string;
+    value: number;
+    location_type: LocationType;
+    spatial_extent: any;
+    children: GeoTreeSelectChildren[];
+    title?: string
+}
+
+export interface TreeSelectItem {
+    id: number;
+    key: string;
+    title: string;
+    value: string;
+    children?: TreeSelectItem[];
+    disabled?: boolean
+}
+export interface LanguagesTreeSelectItem {
+    name: string;
+    id: null | number;
+    children: LanguagesTreeSelectItemChildren[]
+}
+export interface LanguagesTreeSelectItemChildren {
+    name: string;
+    id: null | number;
+}
+export interface LanguagesTreeSelectItemList {
+    id: number | null;
+    value: string;
+    title: string;
+    children?: LanguagesTreeSelectItemList[];
 }
 export interface LocationType {
     name: string
@@ -551,6 +587,7 @@ export interface FilterMenuList {
     label: LabelFilterMeneList;
     var_name?: string;
     type?: string;
+    ops?: string[];
     children?: ChildrenFilter[];
 }
 export interface LabelFilterMeneList {

@@ -1,35 +1,32 @@
-import { GeoTreeSelectItem, TreeSelectItem } from "@/share/InterfaceTypes";
+import { LanguagesTreeSelectItem, LanguagesTreeSelectItemList } from "@/share/InterfaceTypes";
 
-export const convertDataToGeoTreeSelectFormat = (
-    data: GeoTreeSelectItem[],
+export const convertDataToLanguagesTreeSelectFormat = (
+    data: LanguagesTreeSelectItem[],
     includeSelectAll: boolean = true
-): TreeSelectItem[] => {
-    const treeData: TreeSelectItem[] = [];
+): LanguagesTreeSelectItemList[] => {
+    const treeData: LanguagesTreeSelectItemList[] = [];
     const uniqueValues = new Set<string>()
+
     if (includeSelectAll) {
-        const selectAllItem: TreeSelectItem = {
+        const selectAllItem: LanguagesTreeSelectItemList = {
             id: 0,
-            key: 'select-all',
-            title: 'Select All',
             value: 'select-all',
+            title: 'Select All',
             children: [],
-            disabled: data.length === 0
         };
         treeData.push(selectAllItem);
         uniqueValues.add('select-all');
     }
 
     data.forEach((item) => {
-        const treeItem: TreeSelectItem = {
+        const treeItem: LanguagesTreeSelectItemList = {
             id: item.id,
-            key: item.value.toString(),
+            value: item.name,
             title: item.name,
-            value: item.value.toString(),
             children: item.children
-                ? convertDataToGeoTreeSelectFormat(item.children as GeoTreeSelectItem[], false)
+                ? convertDataToLanguagesTreeSelectFormat(item.children as LanguagesTreeSelectItem[], false)
                 : [],
         };
-
 
         if (!uniqueValues.has(item.name)) {
             if (includeSelectAll && treeData.length > 0) {

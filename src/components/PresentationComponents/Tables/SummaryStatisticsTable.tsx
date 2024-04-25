@@ -60,7 +60,7 @@ const SummaryStatisticsTable = () => {
             Array.isArray(filtersObj[0]?.searchTerm) &&
                 filtersObj[0]?.searchTerm.length > 0
                 ? filtersObj
-                : filters,
+                : filters || [],
     };
 
     useEffect(() => {

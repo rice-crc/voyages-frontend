@@ -48,7 +48,7 @@ const DropDownSaveSearch = () => {
     const dataSend: SaveSearchRequest = {
         endpoint: endpointSaveSearch,
         front_end_path: routeSaveSearch,
-        query: filters,
+        query: filters || [],
     };
     const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${saveSearhURL}/${saveSearchUrlID}`
     const handleSaveSearch = () => {

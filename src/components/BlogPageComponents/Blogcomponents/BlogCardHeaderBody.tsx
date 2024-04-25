@@ -37,7 +37,7 @@ const BlogCardHeaderBody = () => {
       })
     }
     const dataSend: BlogDataPropsRequest = {
-      filter: filters,
+      filter: filters || [],
     };
 
     try {
