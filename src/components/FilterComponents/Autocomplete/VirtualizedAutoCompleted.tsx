@@ -56,7 +56,7 @@ export default function VirtualizedAutoCompleted() {
         querystr: autoValue,
         offset: offset,
         limit: limit,
-        filter: filters,
+        filter: filters || [],
     };
     const fetchAutoList = async () => {
         try {

@@ -23,7 +23,7 @@ export const ViewAllButton = (props: ViewAllButtonProps) => {
     const { viewAll } = useSelector((state: RootState) => state.getLanguages);
     return (
         <>
-            {(isChange || isChangeGeoTree || isChangeAuto || filtersObj?.length > 1 || (clusterNodeKeyVariable && clusterNodeValue)) && (
+            {(isChange || isChangeGeoTree || isChangeAuto || filtersObj?.length > 0 || (clusterNodeKeyVariable && clusterNodeValue)) && (
                 <div className="btn-navbar-reset-all" onClick={handleViewAll}>
                     <i aria-hidden="true" className="fa fa-filter"></i>
                     <span>{viewAll}</span>

@@ -22,10 +22,9 @@ export const ResetAllButton = (props: ResetAllButtonProps) => {
     const { isChangeAuto } = useSelector((state: RootState) => state.autoCompleteList);
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { resetAll } = useSelector((state: RootState) => state.getLanguages);
-
     return (
         <>
-            {(isChange || isChangeGeoTree || isChangeAuto || filtersObj?.length > 1 || (clusterNodeKeyVariable && clusterNodeValue)) && (
+            {(isChange || isChangeGeoTree || isChangeAuto || filtersObj?.length > 0 || (clusterNodeKeyVariable && clusterNodeValue)) && (
                 <div className="btn-navbar-reset-all" onClick={handleResetAll}>
                     <i aria-hidden="true" className="fa fa-times"></i>
                     <span>{resetAll}</span>

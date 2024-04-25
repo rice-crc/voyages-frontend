@@ -59,6 +59,7 @@ import { setLabelVarName } from '@/redux/getShowFilterObjectSlice';
 import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
 
 export const MenuListsDropdown = () => {
+  const dispatch: AppDispatch = useDispatch();
   const {
     valueVoyages,
     valueEnslaved,
@@ -75,7 +76,6 @@ export const MenuListsDropdown = () => {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
@@ -85,7 +85,7 @@ export const MenuListsDropdown = () => {
   const { labelVarName } = useSelector(
     (state: RootState) => state.getShowFilterObject
   );
-  const dispatch: AppDispatch = useDispatch();
+
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [ops, setOps] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
@@ -133,14 +133,17 @@ export const MenuListsDropdown = () => {
     }
 
     const autoValueList: string[] = filterByVarName.searchTerm as string[];
-
-    const values = autoValueList.map<AutoCompleteOption>((item: string) => ({
-      value: item,
-    }));
-
     let newTextValue = ''
-    for (const value of values) {
-      newTextValue = value.value
+
+    if (Array.isArray(autoValueList)) { // use with autocomplete list will be all array list
+      const values = autoValueList.map<AutoCompleteOption>((item: string) => ({
+        value: item,
+      }));
+      for (const value of values) {
+        newTextValue = value.value
+      }
+    } else { // use with TextFilter with string type, if autoValueList is string type
+      newTextValue = autoValueList
     }
     setTextFilter(newTextValue);
     dispatch(setFilterObject(filter));
@@ -175,9 +178,9 @@ export const MenuListsDropdown = () => {
 
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
-    dispatch(setIsChange(false));
-    dispatch(setIsChangeAuto(false));
-    dispatch(setIsChangeGeoTree(false));
+    // dispatch(setIsChange(false));
+    // dispatch(setIsChangeAuto(false));
+    // dispatch(setIsChangeGeoTree(false));
     const value = event.cancelable;
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialog(false));
@@ -190,6 +193,7 @@ export const MenuListsDropdown = () => {
 
   const handleResetDataDialog = (event: any) => {
     event.stopPropagation();
+    setTextFilter('')
     const value = event.cancelable;
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialog(false));
@@ -199,7 +203,6 @@ export const MenuListsDropdown = () => {
       dispatch(setIsChangeGeoTree(!value));
     }
     dispatch(resetAll());
-    setTextFilter('')
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -239,13 +242,12 @@ export const MenuListsDropdown = () => {
     const filteredFilters = existingFilters.filter((filter) =>
       !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
     );
-    dispatch(setFilterObject(filteredFilters));
-
     const filterObjectUpdate = {
       filter: filteredFilters,
     };
     const filterObjectString = JSON.stringify(filterObjectUpdate);
     localStorage.setItem('filterObject', filterObjectString);
+    dispatch(setFilterObject(filteredFilters));
 
   }
 

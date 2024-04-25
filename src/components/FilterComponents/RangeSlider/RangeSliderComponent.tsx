@@ -41,7 +41,7 @@ const RangeSlider = () => {
   const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: RangeSliderStateProps = {
     varName: varName,
-    filter: filters
+    filter: filters || []
   };
 
   const fetchRangeSliderData = async () => {

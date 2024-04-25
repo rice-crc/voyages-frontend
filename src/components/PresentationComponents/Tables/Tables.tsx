@@ -20,6 +20,7 @@ import {
 } from '@/share/InterfaceTypesTable';
 import {
     CurrentPageInitialState,
+    Filter,
     RangeSliderState,
     TableListPropsRequest,
 } from '@/share/InterfaceTypes';
@@ -51,7 +52,7 @@ const Tables: React.FC = () => {
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { textFilterValue } = useSelector((state: RootState) => state.autoCompleteList);
-    const { isChange } = useSelector(
+    const { isChange, varName } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
     const { viewAll } = useSelector((state: RootState) => state.getShowFilterObject)
@@ -137,11 +138,13 @@ const Tables: React.FC = () => {
 
     // set filters object to send to request data
     const filters = filtersDataSend(filtersObj, styleNameRoute!)
+
     const dataSend: TableListPropsRequest = {
-        filter: filters,
+        filter: filters || [],
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
+
     const refreshFilterObj = styleNameRoute !== 'intra-american' ? filtersObj : null
     useEffect(() => {
         const fetchDataTable = async () => {

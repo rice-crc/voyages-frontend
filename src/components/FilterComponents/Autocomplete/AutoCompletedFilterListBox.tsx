@@ -58,7 +58,7 @@ const AutoCompletedFilterListBox = () => {
         querystr: autoValue,
         offset: offset,
         limit: limit,
-        filter: filters,
+        filter: filters || [],
     };
 
     const {

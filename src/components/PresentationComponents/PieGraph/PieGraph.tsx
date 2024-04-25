@@ -78,7 +78,7 @@ function PieGraph() {
     groupby_cols: [pieGraphOptions.y_vars],
     agg_fn: aggregation,
     cachename: 'voyage_bar_and_donut_charts',
-    filter: filters,
+    filter: filters || [],
   };
 
   if (inputSearchValue) {

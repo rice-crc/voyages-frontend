@@ -34,16 +34,13 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
         const filter: Filter[] = parsedValue.filter;
 
         const combinedData: { label: string; searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType }[] = [];
-
         if (Array.isArray(filter)) {
             filter.forEach((item) => {
                 if (item.label) {
-                    const searchTermArray = Array.isArray(item.searchTerm) ? item.searchTerm : [item.searchTerm].filter((val) => val !== undefined);
+                    const searchTermToUse = Array.isArray(item.title) ? item.title.join(', ') : (Array.isArray(item.searchTerm) ? item.searchTerm.join(' - ') : item.searchTerm);
                     combinedData.push({
-                        label: item.label,
-                        searchTerm: (typeData === TYPES.GeoTreeSelect || typeData === TYPES.LanguageTreeSelect) ?
-                            (Array.isArray(item.title) ? item.title.join(', ') : item.title || '') :
-                            searchTermArray.length > 0 ? searchTermArray.join(' - ') : [''].join(' - ')
+                        label: item.label!,
+                        searchTerm: searchTermToUse
                     });
                 }
             });
@@ -61,10 +58,8 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
                             <h4 >{label} : </h4>
                             <div className='value-list'>{searchTerm}</div>
                         </span>
-
                     )
                 })}
-
             </div>
             <div>
                 <div className="btn-navbar-hide" onClick={handleViewAll}>

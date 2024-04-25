@@ -46,9 +46,8 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
   const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: GeoTreeSelectStateProps = {
     geotree_valuefields: [varName],
-    filter: filters,
+    filter: filters || [],
   };
-
 
   const fetchDataList = async (type: string) => {
     try {
@@ -141,7 +140,7 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     valueSelect.forEach((value) => {
       const selectedItem = findSelectedItems(dataForTreeSelect || [], value as string);
       for (const item of selectedItem) {
-        selectedTitles.push(item.title as string);
+        selectedTitles.push(item.title as string)
       }
     });
     const existingFilterObjectString = localStorage.getItem('filterObject');

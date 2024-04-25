@@ -37,7 +37,7 @@ export default function AutoCompleteListBox() {
         querystr: autoValue,
         offset: offset,
         limit: limit,
-        filter: filters,
+        filter: filters || [],
     };
 
     const { data, isLoading, isError } = useAutoComplete(dataSend, styleName);

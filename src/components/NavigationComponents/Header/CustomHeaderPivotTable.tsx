@@ -91,7 +91,7 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     value_field: value_field,
     offset: offset,
     limit: limit,
-    filter: filters,
+    filter: filters || [],
   }
 
   if (inputSearchValue) {
