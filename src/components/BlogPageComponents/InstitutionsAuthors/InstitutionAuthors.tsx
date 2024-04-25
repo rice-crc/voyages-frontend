@@ -33,7 +33,7 @@ const InstitutionAuthors: React.FC = () => {
     })
   }
   const dataSend: BlogDataPropsRequest = {
-    filter: filters,
+    filter: filters || [],
     page: 0,
     page_size: 12
   };

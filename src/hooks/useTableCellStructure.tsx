@@ -1,12 +1,11 @@
 import { useQuery } from "react-query";
-import { fetchTableCellStructure } from "@/fetch/voyagesFetch/fetchTableCellStructure";
-
+import { useFetchTableCellStructure } from "./useFetchTableCellStructure";
 
 export const useTableCellStructure = (styleNameRoute?: string) => {
 
     const { data, isLoading, isError } = useQuery(
         ['tableCellStructure', styleNameRoute!],
-        () => fetchTableCellStructure(styleNameRoute!)
+        () => useFetchTableCellStructure(styleNameRoute!)
     );
     return { data, isLoading, isError };
 };

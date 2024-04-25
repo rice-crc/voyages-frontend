@@ -31,7 +31,7 @@ export const styleCard: CSSProperties = {
   // overflowWrap: 'break-word',
   textAlign: 'left',
   lineHeight: '25px',
-  fontSize: '13px',
+  fontSize: '.8rem',
   cursor: 'pointer',
   wordWrap: 'break-word'
 };

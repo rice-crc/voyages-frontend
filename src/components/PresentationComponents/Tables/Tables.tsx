@@ -20,6 +20,7 @@ import {
 } from '@/share/InterfaceTypesTable';
 import {
     CurrentPageInitialState,
+    Filter,
     RangeSliderState,
     TableListPropsRequest,
 } from '@/share/InterfaceTypes';
@@ -44,25 +45,23 @@ import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAP
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import useDataTableProcessingEffect from '@/hooks/useDataTableProcessingEffect';
+import { useOtherTableCellStructure } from '@/hooks/useOtherTableCellStructure';
 
 const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-
-    const { varName, isChange } = useSelector(
+    const { textFilterValue } = useSelector((state: RootState) => state.autoCompleteList);
+    const { isChange, varName } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
+    const { viewAll } = useSelector((state: RootState) => state.getShowFilterObject)
     const { visibleColumnCells } = useSelector(
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
     );
 
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
-    );
-
-    const { autoLabelName } = useSelector(
-        (state: RootState) => state.autoCompleteList
     );
 
     const [totalResultsCount, setTotalResultsCount] = useState(0);
@@ -100,7 +99,8 @@ const Tables: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(
         getRowsPerPage(window.innerWidth, window.innerHeight)
     );
-
+    const otherTableCellStrructure = useOtherTableCellStructure(styleNameRoute!)
+    const [sortColumn, setSortColumn] = useState<string[]>(otherTableCellStrructure?.default_order_by ? [otherTableCellStrructure?.default_order_by] : [])
     const {
         data: tableCellStructure,
         isLoading,
@@ -108,9 +108,11 @@ const Tables: React.FC = () => {
     } = useTableCellStructure(styleNameRoute);
 
     useEffect(() => {
+
         if (!isLoading && !isError && tableCellStructure) {
-            setTableCell(tableCellStructure);
+            setTableCell(tableCellStructure as TableCellStructure[]);
         }
+
         if (tablesCell.length > 0) {
             const visibleColumns = tablesCell
                 .filter((cell: any) => cell.visible)
@@ -136,18 +138,22 @@ const Tables: React.FC = () => {
 
     // set filters object to send to request data
     const filters = filtersDataSend(filtersObj, styleNameRoute!)
+
     const dataSend: TableListPropsRequest = {
-        filter: filters,
+        filter: filters || [],
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
 
-
+    const refreshFilterObj = styleNameRoute !== 'intra-american' ? filtersObj : null
     useEffect(() => {
         const fetchDataTable = async () => {
             let response;
             if (inputSearchValue) {
                 dataSend['global_search'] = inputSearchValue;
+            }
+            if (sortColumn) {
+                dataSend['order_by'] = sortColumn
             }
             try {
                 if (checkPagesRouteForVoyages(styleNameRoute!)) {
@@ -172,6 +178,7 @@ const Tables: React.FC = () => {
         };
         fetchDataTable();
     }, [
+        refreshFilterObj,
         dispatch,
         rowsPerPage,
         page,
@@ -180,8 +187,7 @@ const Tables: React.FC = () => {
         inputSearchValue,
         isChange,
         isChangeGeoTree,
-        autoLabelName,
-        currentBlockName, styleNameRoute,
+        currentBlockName, styleNameRoute, textFilterValue
     ]);
 
     // Call the custom hook to Process Table Data
@@ -213,6 +219,7 @@ const Tables: React.FC = () => {
                         page={page}
                         pageSize={rowsPerPage}
                         setPage={setPage}
+                        setSortColumn={setSortColumn}
                         {...props}
                     />
                 );
@@ -223,11 +230,10 @@ const Tables: React.FC = () => {
 
     const getRowRowStyle = useCallback(
         () => ({
-            fontSize: 13,
+            fontSize: '0.8rem',
             fontWeight: 500,
             color: '#000',
             fontFamily: 'sans-serif',
-            paddingLeft: '20px',
         }),
         []
     );
@@ -247,8 +253,9 @@ const Tables: React.FC = () => {
 
     const gridOptions = useMemo(
         () => ({
-            headerHeight: 40,
+            headerHeight: 35,
             suppressHorizontalScroll: true,
+            autoSizeStrategy: 'alignedGrid',
             onGridReady: (params: any) => {
                 const { columnApi } = params;
                 columnApi.autoSizeColumns();
@@ -257,12 +264,9 @@ const Tables: React.FC = () => {
         []
     );
 
-    const handleChangePage = useCallback(
-        (event: any, newPage: number) => {
-            setPage(newPage);
-        },
-        [page]
-    );
+    const handleChangePage = (event: any, newPage: number) => {
+        setPage(newPage);
+    }
 
     const handleChangeRowsPerPage = useCallback(
         (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -271,19 +275,17 @@ const Tables: React.FC = () => {
         [page]
     );
 
-    const handleChangePagePagination = useCallback(
+    const handleChangePagePagination =
         (event: any, newPage: number) => {
             setPage(newPage - 1);
-        },
-        []
-    );
+        }
 
     const pageCount = Math.ceil(
         totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
     );
 
     return (
-        <div className="mobile-responsive">
+        <div className={!viewAll ? "mobile-responsive" : "mobile-responsive-view"}>
             <div className="ag-theme-alpine grid-container">
                 <span className="tableContainer">
                     <ButtonDropdownColumnSelector />
@@ -315,6 +317,7 @@ const Tables: React.FC = () => {
                         enableBrowserTooltips={true}
                         tooltipShowDelay={0}
                         tooltipHideDelay={1000}
+                    // autoSizeStrategy={autoSizeStrategy}
                     />
                     <div className="pagination-div">
                         <Pagination

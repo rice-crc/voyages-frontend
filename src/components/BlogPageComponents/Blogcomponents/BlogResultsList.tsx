@@ -63,7 +63,7 @@ const BlogResultsList: React.FC = () => {
     }
 
     const dataSend: BlogDataPropsRequest = {
-      filter: filters,
+      filter: filters || [],
       page: page,
       page_size: imagesPerPage,
     };

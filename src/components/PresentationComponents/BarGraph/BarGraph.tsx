@@ -8,6 +8,7 @@ import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAverage/AggregationSumAverage';
 import {
   PlotXYVar,
@@ -83,7 +84,7 @@ function BarGraph() {
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_bar_and_donut_charts',
-    filter: filters
+    filter: filters || []
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
@@ -186,35 +187,39 @@ function BarGraph() {
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-
-      <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
-        <Plot
-          data={barData}
-          layout={{
-            width: getMobileMaxWidth(maxWidth - 5),
-            height: getMobileMaxHeight(height),
-            title: 'Bar Graph',
-            font: {
-              family: 'Arial, sans-serif',
-              size: maxWidth < 400 ? 7 : 10,
-              color: '#333333',
-            },
-            xaxis: {
-              title: {
-                text: xAxes || barGraphSelectedX[0]?.label
+      {loading ? (
+        <div className="loading-logo-display">
+          <img src={LOADINGLOGO} />
+        </div>
+      ) : (
+        <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
+          <Plot
+            data={barData}
+            layout={{
+              width: getMobileMaxWidth(maxWidth - 5),
+              height: getMobileMaxHeight(height),
+              title: 'Bar Graph',
+              font: {
+                family: 'Arial, sans-serif',
+                size: maxWidth < 400 ? 7 : 10,
+                color: '#333333',
               },
-              fixedrange: true,
-            },
-            yaxis: {
-              title: {
-                text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes
+              xaxis: {
+                title: {
+                  text: xAxes || barGraphSelectedX[0]?.label
+                },
+                fixedrange: true,
               },
-              fixedrange: true,
-            },
-          }}
-          config={{ responsive: true }}
-        />
-      </Grid>
+              yaxis: {
+                title: {
+                  text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes
+                },
+                fixedrange: true,
+              },
+            }}
+            config={{ responsive: true }}
+          />
+        </Grid>)}
     </div>
   );
 }

@@ -46,7 +46,7 @@ export const GenerateCellTableRenderer = (
     nodeType = ENSLAVERSNODE;
   }
   const calculateHeight = (rowCount: number) => {
-    const rowHeight = 40; // Adjust this value as needed based on your design
+    const rowHeight = 35; // Adjust this value as needed based on your design
     const maxRowsToShow = 5; // Maximum rows to show before applying overflow
     const maxHeight = rowHeight * maxRowsToShow;
     return rowCount * rowHeight <= maxHeight ? rowCount * rowHeight : maxHeight;
@@ -60,15 +60,16 @@ export const GenerateCellTableRenderer = (
       backgroundColor: '#e5e5e5',
       borderRadius: '8px',
       padding: '0px 10px',
-      height: '25px',
-      whiteSpace: 'nowrap',
+      height: 'auto',
+      whiteSpace: 'normal',
       overflow: 'hidden',
       margin: '5px 0',
       textAlign: 'left',
-      lineHeight: '25px',
-      fontSize: '13px',
+      lineHeight: '1.5',
+      fontSize: '.85rem',
       cursor: 'pointer',
     };
+
 
     if (values.length <= 0) {
       return (

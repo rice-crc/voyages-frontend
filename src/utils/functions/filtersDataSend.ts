@@ -58,7 +58,14 @@ export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string) =>
     };
 
     // Update localStorage
-    const filterObjectString = JSON.stringify(filterObjectUpdate);
-    localStorage.setItem('filterObject', filterObjectString);
+    if (filters.length === 0) {
+        const storedValue = localStorage.getItem('filterObject');
+        if (!storedValue) return;
+        const parsedValue = JSON.parse(storedValue);
+        filters = parsedValue.filter;
+    } else {
+        const filterObjectString = JSON.stringify(filterObjectUpdate);
+        localStorage.setItem('filterObject', filterObjectString);
+    }
     return filters;
 }

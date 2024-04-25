@@ -12,6 +12,7 @@
 			"order_by": [
 				"documented_name"
 			],
+			"col_width_px": 130,
 			"colID": "documented_name",
 			"cell_val": {
 				"fields": [
@@ -35,6 +36,7 @@
 			"order_by": [
 				"modern_name"
 			],
+			"col_width_px": 100,
 			"colID": "modern_name",
 			"cell_val": {
 				"fields": [
@@ -58,6 +60,7 @@
 			"order_by": [
 				"age"
 			],
+			"col_width_px": 70,
 			"colID": "age",
 			"cell_val": {
 				"fields": [
@@ -80,6 +83,7 @@
 			"order_by": [
 				"gender"
 			],
+			"col_width_px": 90,
 			"colID": "gender",
 			"cell_val": {
 				"fields": [
@@ -102,6 +106,7 @@
 			"order_by": [
 				"height"
 			],
+			"col_width_px": 90,
 			"colID": "height",
 			"cell_val": {
 				"fields": [
@@ -124,6 +129,7 @@
 			"order_by": [
 				"voyages__voyage_id"
 			],
+			"col_width_px": 100,
 			"colID": "voyages__voyage_id",
 			"cell_val": {
 				"fields": [
@@ -146,6 +152,7 @@
 			"order_by": [
 				"voyages__voyage_ship__ship_name"
 			],
+			"col_width_px": 140,
 			"colID": "voyages__voyage_ship__ship_name",
 			"cell_val": {
 				"fields": [
@@ -166,6 +173,7 @@
 			"visible": true,
 			"number_format": null,
 			"order_by": [],
+			"col_width_px": 100,
 			"colID": "connections",
 			"cell_val": {
 				"fields": [
@@ -189,6 +197,7 @@
 			"order_by": [
 				"enslaved_relations__relation__relation_enslavers__enslaver_alias__alias"
 			],
+			"col_width_px": 160,
 			"colID": "enslavers",
 			"cell_val": {
 				"fields": [
@@ -211,6 +220,7 @@
 			"order_by": [
 				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
 			],
+			"col_width_px": 140,
 			"colID": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 			"cell_val": {
 				"fields": [
@@ -233,6 +243,7 @@
 			"order_by": [
 				"voyages__voyage_itinerary__imp_principal_port_slave_dis__name"
 			],
+			"col_width_px": 140,
 			"colID": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
 			"cell_val": {
 				"fields": [
@@ -257,6 +268,7 @@
 				"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
 				"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day"
 			],
+			"col_width_px": 100,
 			"colID": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
 			"cell_val": {
 				"fields": [
@@ -288,6 +300,7 @@
 			"order_by": [
 				"captive_fate__name"
 			],
+			"col_width_px": 100,
 			"colID": "captive_fate__name",
 			"cell_val": {
 				"fields": [
@@ -310,6 +323,7 @@
 			"order_by": [
 				"post_disembark_location__name"
 			],
+			"col_width_px": 100,
 			"colID": "post_disembark_location__name",
 			"cell_val": {
 				"fields": [
@@ -332,6 +346,7 @@
 			"order_by": [
 				"enslaved_source_connections__source__title"
 			],
+			"col_width_px": 100,
 			"colID": "voyage_sources",
 			"cell_val": {
 				"fields": [
@@ -343,6 +358,9 @@
 			}
 		}
 	],
+	"other_properties":{
+	    "default_order_by":"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
+	},
 	"column_selector_tree": [
 		{
 			"label": {
@@ -352,6 +370,7 @@
 			},
 			"children": [
 				{
+					"col_width_px": 100,
 					"colID": "documented_name",
 					"label": {
 						"en": "Documented Name",
@@ -360,6 +379,7 @@
 					}
 				},
 				{
+					"col_width_px": 100,
 					"colID": "modern_name",
 					"label": {
 						"en": "Modern Name",
@@ -377,6 +397,7 @@
 			},
 			"children": [
 				{
+					"col_width_px": 100,
 					"colID": "age",
 					"label": {
 						"en": "Age",
@@ -385,6 +406,7 @@
 					}
 				},
 				{
+					"col_width_px": 100,
 					"colID": "gender",
 					"label": {
 						"en": "Gender",
@@ -393,6 +415,7 @@
 					}
 				},
 				{
+					"col_width_px": 100,
 					"colID": "height",
 					"label": {
 						"en": "Height",
@@ -410,6 +433,7 @@
 			},
 			"children": [
 				{
+					"col_width_px": 100,
 					"colID": "voyages__voyage_id",
 					"label": {
 						"en": "Voyage ID",
@@ -418,6 +442,7 @@
 					}
 				},
 				{
+					"col_width_px": 100,
 					"colID": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 					"label": {
 						"en": "Embarkation Port",
@@ -426,6 +451,7 @@
 					}
 				},
 				{
+					"col_width_px": 100,
 					"colID": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
 					"label": {
 						"en": "Disembarkation Port",
@@ -434,6 +460,7 @@
 					}
 				},
 				{
+					"col_width_px": 100,
 					"colID": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
 					"label": {
 						"en": "Arrival Date",
@@ -451,6 +478,7 @@
 			},
 			"children": [
 				{
+					"col_width_px": 100,
 					"colID": "captive_fate__name",
 					"label": {
 						"en": "Captive Outcome",
@@ -459,6 +487,7 @@
 					}
 				},
 				{
+					"col_width_px": 100,
 					"colID": "post_disembark_location__name",
 					"label": {
 						"en": "Post-Disembark Location",
@@ -476,6 +505,7 @@
 			},
 			"children": [
 				{
+					"col_width_px": 100,
 					"colID": "enslavers",
 					"label": {
 						"en": "Enslavers",
@@ -493,6 +523,7 @@
 			},
 			"children": [
 				{
+					"col_width_px": 100,
 					"colID": "voyage_sources",
 					"label": {
 						"en": "Sources",
@@ -510,6 +541,7 @@
 			},
 			"children": [
 				{
+					"col_width_px": 100,
 					"colID": "connections",
 					"label": {
 						"en": "Connections",

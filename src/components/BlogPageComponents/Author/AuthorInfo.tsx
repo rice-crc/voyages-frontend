@@ -33,7 +33,7 @@ const AuthorInfo: React.FC = () => {
       })
     }
     const dataSend: BlogDataPropsRequest = {
-      filter: filters,
+      filter: filters || [],
     };
 
     try {

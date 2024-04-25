@@ -48,7 +48,7 @@ import { setCardRowID, setNodeClass, setValueVariable } from '@/redux/getCardFla
 import { RootState } from '@/redux/store';
 import TabsSelect from '@/components/SelectorComponents/Tabs/TabsSelect';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import DocumentPageHold from '@/pages/DocumentPageHold';
+import DocumentPage from '@/pages/DocumentPage';
 import AboutPage from '@/pages/AboutPage';
 import DownloadPage from '@/pages/DownloadPage';
 import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
@@ -145,7 +145,7 @@ const App: React.FC = () => {
 
 
           {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}
-          <Route path={`${DOCUMENTPAGE}`} element={<DocumentPageHold />} />
+          <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
           <Route path={`${BLOGPAGE}/`} element={<BlogPage />} />
           <Route path={`${BLOGPAGE}/tag/${blogURL}`} element={<BlogPage />} />
 

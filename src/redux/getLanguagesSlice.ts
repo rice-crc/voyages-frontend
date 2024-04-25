@@ -10,6 +10,7 @@ const initialStateLanguages: LanguagesProps = {
     languageValueLabel: 'English',
     configureColumns: 'Configure Columns',
     resetAll: 'Reset all',
+    viewAll: 'View all'
 }
 
 export const getLanguagesSlice = createSlice({
@@ -32,9 +33,13 @@ export const getLanguagesSlice = createSlice({
             (state, action: PayloadAction<string>) => {
                 state.resetAll = action.payload;
             },
+        setViewAllLanguage:
+            (state, action: PayloadAction<string>) => {
+                state.resetAll = action.payload;
+            },
     },
 });
 
-export const { setLanguages, setLanguagesLabel, setConfigureColumns, setResetAllLanguage } = getLanguagesSlice.actions;
+export const { setLanguages, setLanguagesLabel, setConfigureColumns, setResetAllLanguage, setViewAllLanguage } = getLanguagesSlice.actions;
 
 export default getLanguagesSlice.reducer;

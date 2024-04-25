@@ -32,7 +32,6 @@ import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/S
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { Divider } from 'antd';
 import { VoyagesTimelapseMap } from '@/components/PresentationComponents/Map/TimelapseMap';
-import { checkBlockCollectionNameForVoyages } from '@/utils/functions/checkBlockCollectionName';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();

@@ -5,11 +5,13 @@ interface FilterState {
     isFilter: boolean;
     filtersObj: Filter[];
     nameIdURL: string;
+    type: string
 }
 const initialState: FilterState = {
     isFilter: false,
     filtersObj: [],
-    nameIdURL: ''
+    nameIdURL: '',
+    type: ''
 };
 export const getFilterSlice = createSlice({
     name: 'getFilter',
@@ -24,10 +26,13 @@ export const getFilterSlice = createSlice({
         setVariableNameIdURL: (state, action: PayloadAction<string>) => {
             state.nameIdURL = action.payload;
         },
+        setType: (state, action: PayloadAction<string>) => {
+            state.type = action.payload;
+        },
         resetSlice: (state) => initialState,
     },
 });
 
-export const { resetSlice, setIsFilter, setFilterObject, setVariableNameIdURL } = getFilterSlice.actions;
+export const { resetSlice, setIsFilter, setType, setFilterObject, setVariableNameIdURL } = getFilterSlice.actions;
 
 export default getFilterSlice.reducer;
