@@ -52,7 +52,7 @@ const Tables: React.FC = () => {
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { textFilterValue } = useSelector((state: RootState) => state.autoCompleteList);
-    const { isChange, varName } = useSelector(
+    const { isChange, rangeSliderMinMax } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
     const { viewAll } = useSelector((state: RootState) => state.getShowFilterObject)
@@ -72,7 +72,7 @@ const Tables: React.FC = () => {
         (state: RootState) => state.getCommonGlobalSearch
     );
 
-    const { isChangeGeoTree } = useSelector(
+    const { isChangeGeoTree, geoTreeValue } = useSelector(
         (state: RootState) => state.getGeoTreeData
     );
     // Voyages States
@@ -82,7 +82,6 @@ const Tables: React.FC = () => {
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
     );
-
     // Enslaved States
     const { tableFlatfileEnslaved } = useSelector(
         (state: RootState) => state.getPeopleEnlavedDataSetCollection
@@ -90,6 +89,10 @@ const Tables: React.FC = () => {
     const { currentEnslavedPage } = useSelector(
         (state: RootState) => state.getScrollEnslavedPage
     );
+    const { textFilter } = useSelector(
+        (state: RootState) => state.getShowFilterObject
+    );
+
 
     // Enslavers States
     const { tableFlatfileEnslavers } = useSelector(
@@ -108,7 +111,6 @@ const Tables: React.FC = () => {
     } = useTableCellStructure(styleNameRoute);
 
     useEffect(() => {
-
         if (!isLoading && !isError && tableCellStructure) {
             setTableCell(tableCellStructure as TableCellStructure[]);
         }
@@ -145,7 +147,6 @@ const Tables: React.FC = () => {
         page_size: Number(rowsPerPage),
     };
 
-    const refreshFilterObj = styleNameRoute !== 'intra-american' ? filtersObj : null
     useEffect(() => {
         const fetchDataTable = async () => {
             let response;
@@ -178,10 +179,9 @@ const Tables: React.FC = () => {
         };
         fetchDataTable();
     }, [
-        refreshFilterObj,
         dispatch,
         rowsPerPage,
-        page,
+        page, rangeSliderMinMax, geoTreeValue,
         currentPage,
         currentEnslavedPage,
         inputSearchValue,

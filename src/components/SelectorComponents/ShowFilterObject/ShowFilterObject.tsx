@@ -2,7 +2,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
 import { Filter, RangeSliderState, TYPES } from '@/share/InterfaceTypes';
 import '@/style/estimates.scss'
-import { getColorNavbarBackground } from '@/utils/functions/getColorStyle';
+import { getColorBackgroundHeader, getColorNavbarBackground } from '@/utils/functions/getColorStyle';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { FunctionComponent, useEffect, useState } from 'react';
@@ -49,7 +49,7 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
     }, [varName, isChange, isChangeGeoTree, isChangeAuto]);
 
     return (
-        <div id="panelCollapse" className="panel-list-view-all" v-if="hasCurrentQuery" style={{ backgroundColor: getColorNavbarBackground(styleNameRoute!) }}>
+        <div id="panelCollapse" className="panel-list-view-all" v-if="hasCurrentQuery" style={{ backgroundColor: getColorBackgroundHeader(styleNameRoute!) }}>
             <div className="panel-list-item-wrapper" style={{ display: 'flex' }}>
                 {filterData.length > 0 && filterData.map((item, index) => {
                     const { label, searchTerm } = item;

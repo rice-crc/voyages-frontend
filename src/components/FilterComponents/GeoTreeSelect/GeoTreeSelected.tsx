@@ -118,15 +118,15 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
       for (const item of items) {
         if (item.value === value) {
           selectedItems.push(item);
-        }
-        if (item.children && item.children.length > 0) {
-          searchItems(item.children as GeoTreeSelectItem[]);
+        } else if (item.children && item.children.length > 0) {
+          searchItems(item.children as GeoTreeSelectItem[])
         }
       }
     };
     searchItems(data);
     return selectedItems;
   };
+
 
 
   const handleTreeOnChange = (newValue: string[]) => {
@@ -137,12 +137,20 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     dispatch(setIsChangeGeoTree(true));
     setSelectedValue(newValue);
     const selectedTitles: string[] = [];
+    const selectedItemTitles: any[] = []
     valueSelect.forEach((value) => {
       const selectedItem = findSelectedItems(dataForTreeSelect || [], value as string);
-      for (const item of selectedItem) {
-        selectedTitles.push(item.title as string)
-      }
+      selectedItemTitles.push(selectedItem)
     });
+    const combinedArray = ([] as GeoTreeSelectItem[]).concat(...selectedItemTitles);
+
+    combinedArray.forEach((items) => {
+      for (const item in items) {
+        if (item === 'title') {
+          selectedTitles.push(items[item] as string)
+        }
+      }
+    })
     const existingFilterObjectString = localStorage.getItem('filterObject');
     let existingFilters: Filter[] = [];
 
@@ -156,13 +164,14 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     if (Array.isArray(valueSelect) && valueSelect.length > 0) {
       if (existingFilterIndex !== -1) {
         existingFilters[existingFilterIndex].searchTerm = [...valueSelect];
+        existingFilters[existingFilterIndex].title = [...selectedTitles];
       } else {
         existingFilters.push({
           varName: varName,
           searchTerm: valueSelect,
           op: 'in',
           label: labelVarName,
-          title: [...selectedTitles]
+          title: selectedTitles
         });
       }
     } else if (
@@ -186,7 +195,6 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     const filterObjectString = JSON.stringify(filterObjectUpdate);
     localStorage.setItem('filterObject', filterObjectString);
   };
-
 
   const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
     console.log(treeNode.title)

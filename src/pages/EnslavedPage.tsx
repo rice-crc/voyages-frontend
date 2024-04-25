@@ -73,7 +73,6 @@ const EnslavedPage: React.FC = () => {
     </motion.div>
   );
 
-  // const topPosition = createTopPositionEnslavedPage(currentEnslavedPage, inputSearchValue);
   return (
     <div id="enslaved-home-page" >
       <HeaderEnslavedNavBar />

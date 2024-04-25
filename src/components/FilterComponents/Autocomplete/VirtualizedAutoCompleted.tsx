@@ -124,7 +124,6 @@ export default function VirtualizedAutoCompleted() {
     const handleScroll: UIEventHandler<HTMLUListElement> = (event) => {
         const { currentTarget } = event;
         const position = currentTarget.scrollTop + currentTarget.clientHeight;
-        console.log({ position }, currentTarget.scrollHeight)
         if (currentTarget.scrollHeight - position <= 1) {
             setPosition(position);
             loadMoreResults();

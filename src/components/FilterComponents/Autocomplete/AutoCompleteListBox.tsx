@@ -110,7 +110,6 @@ export default function AutoCompleteListBox() {
 
         }
     }
-    console.log({ autoList, autoValue })
     const handleScroll: UIEventHandler<HTMLUListElement> = (event) => {
         const { currentTarget } = event;
         const position = currentTarget.scrollTop + currentTarget.clientHeight;

@@ -1,6 +1,10 @@
+import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
-import { RangeSliderState } from '@/share/InterfaceTypes';
+import { allEnslavers } from '@/share/CONST_DATA';
+import { LanguagesProps } from '@/share/InterfaceTypeLanguages';
+import { RangeSliderState, TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss'
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 interface ViewAllButtonProps {
@@ -11,23 +15,27 @@ interface ViewAllButtonProps {
 }
 
 export const ViewAllButton = (props: ViewAllButtonProps) => {
-    const { isChange } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
-    );
-    const { isChangeGeoTree } = useSelector(
-        (state: RootState) => state.getGeoTreeData
-    );
-    const { isChangeAuto } = useSelector((state: RootState) => state.autoCompleteList);
+    const { styleName: styleNameRoute } = usePageRouter()
     const { clusterNodeKeyVariable, clusterNodeValue, handleViewAll } = props;
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-    const { viewAll } = useSelector((state: RootState) => state.getLanguages);
+    const { viewAll } = useSelector((state: RootState) => state.getLanguages as LanguagesProps);
+    const storedValue = localStorage.getItem('saveSearchID');
+
+    let isView = false
+    if (storedValue) {
+        isView = false
+    } else if ((styleNameRoute === TYPESOFDATASET.allVoyages || styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved || styleNameRoute === allEnslavers) && filtersObj.length > 0) {
+        isView = true
+    } else if (filtersObj.length > 1) {
+        isView = true
+    }
     return (
         <>
-            {(isChange || isChangeGeoTree || isChangeAuto || filtersObj?.length > 0 || (clusterNodeKeyVariable && clusterNodeValue)) && (
+            {isView || (clusterNodeKeyVariable && clusterNodeValue) ? (
                 <div className="btn-navbar-reset-all" onClick={handleViewAll}>
                     <i aria-hidden="true" className="fa fa-filter"></i>
                     <span>{viewAll}</span>
                 </div>
-            )}</>
+            ) : null}</>
     )
 }

@@ -47,6 +47,7 @@ export default function CascadingMenu(props: CascadingMenuProps) {
       }
     });
     localStorage.removeItem('saveSearchID');
+    window.location.reload()
   };
 
   const handleViewAll = () => {
