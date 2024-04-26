@@ -22,6 +22,7 @@ import {
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
+  Filter,
   LabelFilterMeneList,
   PivotTableResponse,
   PivotTablesPropsRequest,
@@ -188,7 +189,17 @@ const PivotTables = () => {
   } = pivotValueOptions;
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
-  const filters = filtersDataSend(filtersObj, styleNameRoute!)
+
+  let filters: Filter[] | undefined = []
+  const storedValue = localStorage.getItem('filterObject');
+
+  if (!storedValue) {
+    filters = filtersDataSend(filtersObj, styleNameRoute!)
+  } else if (storedValue) {
+    const parsedValue = JSON.parse(storedValue);
+    const updateFilter = parsedValue.filter;
+    filters = filtersDataSend(updateFilter, styleNameRoute!)
+  }
   const dataSend: PivotTablesPropsRequest = {
     columns: column_vars,
     rows: updatedRowsValue,
@@ -198,7 +209,7 @@ const PivotTables = () => {
     value_field: cell_vars,
     offset: offset,
     limit: rowsPerPage,
-    filter: filters || [],
+    filter: filters!,
   }
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
@@ -273,7 +284,7 @@ const PivotTables = () => {
     autoLabelName,
     geoTreeValue,
     isChange,
-    styleName,
+    // styleName,
     inputSearchValue,
     rowsPerPage,
     page,

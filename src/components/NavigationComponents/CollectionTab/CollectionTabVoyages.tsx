@@ -59,7 +59,7 @@ const CollectionTabVoyages = () => {
     }
 
 
-    dispatch(setFilterObject(filtersObj));
+    // dispatch(setFilterObject(filtersObj));
   };
 
 

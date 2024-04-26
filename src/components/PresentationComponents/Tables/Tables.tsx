@@ -89,11 +89,7 @@ const Tables: React.FC = () => {
     const { currentEnslavedPage } = useSelector(
         (state: RootState) => state.getScrollEnslavedPage
     );
-    const { textFilter } = useSelector(
-        (state: RootState) => state.getShowFilterObject
-    );
-
-
+    const { isFilter } = useSelector((state: RootState) => state.getFilter);
     // Enslavers States
     const { tableFlatfileEnslavers } = useSelector(
         (state: RootState) => state.getEnslaverDataSetCollections
@@ -136,18 +132,27 @@ const Tables: React.FC = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!]);
+    }, [dispatch, filtersObj, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!]);
 
-    // set filters object to send to request data
-    const filters = filtersDataSend(filtersObj, styleNameRoute!)
+    let filters: Filter[] | undefined = []
+    const storedValue = localStorage.getItem('filterObject');
+
+    if (!storedValue) {
+        filters = filtersDataSend(filtersObj, styleNameRoute!)
+    } else if (storedValue) {
+        const parsedValue = JSON.parse(storedValue);
+        const updateFilter = parsedValue.filter;
+        filters = filtersDataSend(updateFilter, styleNameRoute!)
+    }
 
     const dataSend: TableListPropsRequest = {
-        filter: filters || [],
+        filter: filters || filtersObj,
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
 
     useEffect(() => {
+
         const fetchDataTable = async () => {
             let response;
             if (inputSearchValue) {
@@ -187,7 +192,7 @@ const Tables: React.FC = () => {
         inputSearchValue,
         isChange,
         isChangeGeoTree,
-        currentBlockName, styleNameRoute, textFilterValue
+        currentBlockName, textFilterValue
     ]);
 
     // Call the custom hook to Process Table Data

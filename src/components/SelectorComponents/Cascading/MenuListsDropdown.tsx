@@ -21,6 +21,7 @@ import {
   LabelFilterMeneList,
   Filter,
   AutoCompleteOption,
+  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss';
 import { setType } from '@/redux/getFilterSlice';
@@ -37,6 +38,7 @@ import { setIsChangeAuto, setTextFilterValue } from '@/redux/getAutoCompleteSlic
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import {
+  allEnslavers,
   ENSALVERSTYLE,
   INTRAAMERICANTRADS,
   TRANSATLANTICTRADS,
@@ -55,7 +57,7 @@ import {
 } from '@/utils/functions/getColorStyle';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
-import { setLabelVarName, setTextFilter } from '@/redux/getShowFilterObjectSlice';
+import { setIsViewButtonViewAllResetAll, setLabelVarName, setTextFilter } from '@/redux/getShowFilterObjectSlice';
 import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
 
 export const MenuListsDropdown = () => {
@@ -245,7 +247,11 @@ export const MenuListsDropdown = () => {
     const filterObjectString = JSON.stringify(filterObjectUpdate);
     localStorage.setItem('filterObject', filterObjectString);
     dispatch(setFilterObject(filteredFilters));
-
+    if ((styleNameRoute === TYPESOFDATASET.allVoyages || styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved || styleNameRoute === allEnslavers) && filteredFilters.length > 0) {
+      dispatch(setIsViewButtonViewAllResetAll(true))
+    } else if (filteredFilters.length > 1) {
+      dispatch(setIsViewButtonViewAllResetAll(true))
+    }
   }
 
   const renderDropdownMenu = (

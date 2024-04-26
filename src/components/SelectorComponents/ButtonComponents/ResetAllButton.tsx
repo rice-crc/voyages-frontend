@@ -1,10 +1,11 @@
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { RootState } from '@/redux/store';
+import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
+import { AppDispatch, RootState } from '@/redux/store';
 import { allEnslavers } from '@/share/CONST_DATA';
 import { RangeSliderState, TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss'
-import { useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface ResetAllButtonProps {
     varName: string;
@@ -14,16 +15,20 @@ interface ResetAllButtonProps {
 }
 
 export const ResetAllButton = (props: ResetAllButtonProps) => {
+    const dispatch: AppDispatch = useDispatch();
     const { clusterNodeKeyVariable, clusterNodeValue, handleResetAll } = props;
     const { styleName: styleNameRoute } = usePageRouter()
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { resetAll } = useSelector((state: RootState) => state.getLanguages);
-    let isView = false
-    if ((styleNameRoute === TYPESOFDATASET.allVoyages || styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved || styleNameRoute === allEnslavers) && filtersObj.length > 0) {
-        isView = true
-    } else if (filtersObj.length > 1) {
-        isView = true
-    }
+    const { isView } = useSelector((state: RootState) => state.getShowFilterObject);
+
+    useEffect(() => {
+        if ((styleNameRoute === TYPESOFDATASET.allVoyages || styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved || styleNameRoute === allEnslavers) && filtersObj.length > 0) {
+            dispatch(setIsViewButtonViewAllResetAll(true))
+        } else if (filtersObj.length > 1) {
+            dispatch(setIsViewButtonViewAllResetAll(true))
+        }
+    }, [])
 
     return (
         <>

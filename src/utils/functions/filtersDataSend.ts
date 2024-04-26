@@ -1,3 +1,5 @@
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { AppDispatch } from '@/redux/store';
 import {
     AFRICANORIGINS,
     ENSLAVEDTEXAS,
@@ -8,24 +10,40 @@ import {
 } from '@/share/CONST_DATA';
 import { Filter } from "@/share/InterfaceTypes";
 
-export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string) => {
-    let filters: Filter[] = []
-    if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
+export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string, varName?: string, clusterNodeKeyVariable?: string, clusterNodeValue?: string) => {
+    let filters: Filter[] = [];
+    const filterByVarName = filtersObj && filtersObj.filter((filterItem: Filter) =>
+        filterItem.varName !== clusterNodeKeyVariable ||
+        filterItem.varName !== varName
+    );
+
+    if (clusterNodeKeyVariable && clusterNodeValue) {
+        filters = filters.concat({
+            varName: clusterNodeKeyVariable,
+            searchTerm: [clusterNodeValue],
+            op: 'in',
+        });
+    } else if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
         filters = filtersObj;
-    } else if (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+    } else if ((Array.isArray(filtersObj[0]?.searchTerm) &&
+        filtersObj[0]?.searchTerm.length > 0) || (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact')) {
         filters = filtersObj;
-    } else if (styleNameRoute === TRANSATLANTICPATH) {
-        filters.push({
+    }
+    if (styleNameRoute === TRANSATLANTICPATH) {
+        filters.map((item) => ({
+            ...item,
             varName: 'dataset',
             searchTerm: [0],
             op: 'in',
-        });
-    } else if (styleNameRoute === INTRAAMERICAN) {
-        filters.push({
+        }));
+    }
+    else if (styleNameRoute === INTRAAMERICAN) {
+        filters.map((item) => ({
+            ...item,
             varName: 'dataset',
             searchTerm: [1],
             op: 'in',
-        });
+        }));
     } else if (styleNameRoute === ENSLAVEDTEXAS) {
         filters.push({
             varName:
@@ -51,6 +69,8 @@ export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string) =>
             searchTerm: 1,
             op: "exact"
         });
+    } else {
+        filters = filtersObj;
     }
     // Update filterObject state
     const filterObjectUpdate = {
@@ -67,5 +87,7 @@ export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string) =>
         const filterObjectString = JSON.stringify(filterObjectUpdate);
         localStorage.setItem('filterObject', filterObjectString);
     }
-    return filters;
+    const filterSet = new Set([...filters, ...filterByVarName]);
+    return Array.from(filterSet)
 }
+

@@ -10,6 +10,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    Filter,
     LabelFilterMeneList,
     RangeSliderState,
     SummaryStatisticsTableRequest,
@@ -51,16 +52,26 @@ const SummaryStatisticsTable = () => {
     const { isChangeGeoTree } = useSelector(
         (state: RootState) => state.getGeoTreeData
     );
+    const { isFilter } = useSelector((state: RootState) => state.getFilter);
 
-    const filters = filtersDataSend(filtersObj, styleNameRoute!)
+    let filters: Filter[] | undefined = []
+    const storedValue = localStorage.getItem('filterObject');
+    if (!storedValue) {
+        filters = filtersDataSend(filtersObj, styleNameRoute!)
+    } else if (storedValue) {
+        const parsedValue = JSON.parse(storedValue);
+        const updateFilter = parsedValue.filter;
+        filters = filtersDataSend(updateFilter, styleNameRoute!)
+    }
 
     const dataSend: SummaryStatisticsTableRequest = {
         mode: mode,
-        filter:
-            Array.isArray(filtersObj[0]?.searchTerm) &&
-                filtersObj[0]?.searchTerm.length > 0
-                ? filtersObj
-                : filters || [],
+        filter: filters!,
+        // filter:
+        //     Array.isArray(filtersObj[0]?.searchTerm) &&
+        //         filtersObj[0]?.searchTerm.length > 0
+        //         ? filtersObj
+        //         : filters || [],
     };
 
     useEffect(() => {
@@ -85,7 +96,7 @@ const SummaryStatisticsTable = () => {
         if (!effectOnce.current) {
             fetchData();
         }
-    }, [
+    }, [isFilter,
         varName,
         inputSearchValue,
         styleNameRoute,

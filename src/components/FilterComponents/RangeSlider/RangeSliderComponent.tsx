@@ -13,6 +13,8 @@ import {
   Filter,
   RangeSliderState,
   RangeSliderStateProps,
+  TYPESOFDATASET,
+  TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
 import '@/style/Slider.scss';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -22,6 +24,8 @@ import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRout
 import { fetchRangeVoyageSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
 import { fetchPastEnslavedRangeSliderData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedRangeSliderData';
 import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
+import { allEnslavers } from '@/share/CONST_DATA';
+import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 
 const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -165,15 +169,17 @@ const RangeSlider = () => {
       };
       existingFilters.push(newFilter);
     }
-
-    dispatch(setFilterObject(existingFilters));
-
     const filterObjectUpdate = {
       filter: existingFilters
     };
     const filterObjectString = JSON.stringify(filterObjectUpdate);
+    dispatch(setFilterObject(existingFilters));
     localStorage.setItem('filterObject', filterObjectString);
-
+    if ((styleNameRoute === TYPESOFDATASET.allVoyages || styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved || styleNameRoute === allEnslavers) && existingFilters.length > 0) {
+      dispatch(setIsViewButtonViewAllResetAll(true))
+    } else if (existingFilters.length > 1) {
+      dispatch(setIsViewButtonViewAllResetAll(true))
+    }
   }
 
   return (

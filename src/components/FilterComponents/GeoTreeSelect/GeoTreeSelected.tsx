@@ -7,6 +7,8 @@ import {
   GeoTreeSelectStateProps,
   RangeSliderState,
   TYPES,
+  TYPESOFDATASET,
+  TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
 import { TreeSelect } from 'antd';
@@ -24,6 +26,8 @@ import { fetcVoyagesGeoTreeSelectLists } from '@/fetch/geoFetch/fetchVoyagesGeoT
 import { fetchEnslavedGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslavedGeoTreeSelect';
 import { fetchEnslaversGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslaversGeoTreeSelect';
 import { fetchEnslavedLanguageTreeSelect } from '@/fetch/geoFetch/fetchEnslavedLanguageTreeSelect';
+import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
+import { allEnslavers } from '@/share/CONST_DATA';
 interface GeoTreeSelectedProps {
   type: string
 }
@@ -46,7 +50,7 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
   const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: GeoTreeSelectStateProps = {
     geotree_valuefields: [varName],
-    filter: filters || [],
+    filter: [],
   };
 
   const fetchDataList = async (type: string) => {
@@ -194,10 +198,14 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     };
     const filterObjectString = JSON.stringify(filterObjectUpdate);
     localStorage.setItem('filterObject', filterObjectString);
+    if ((styleNameRoute === TYPESOFDATASET.allVoyages || styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved || styleNameRoute === allEnslavers) && filteredFilters.length > 0) {
+      dispatch(setIsViewButtonViewAllResetAll(true))
+    } else if (filteredFilters.length > 1) {
+      dispatch(setIsViewButtonViewAllResetAll(true))
+    }
   };
 
   const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
-    console.log(treeNode.title)
     return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
   };
 

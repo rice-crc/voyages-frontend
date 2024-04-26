@@ -14,6 +14,7 @@ import {
   RangeSliderState,
   CurrentPageInitialState,
   IRootFilterObjectScatterRequest,
+  Filter,
 } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
@@ -81,13 +82,23 @@ function Scatter() {
       }
     );
   }, []);
-  const filters = filtersDataSend(filtersObj, styleNameRoute!)
+
+  let filters: Filter[] | undefined = []
+  const storedValue = localStorage.getItem('filterObject');
+
+  if (!storedValue) {
+    filters = filtersDataSend(filtersObj, styleNameRoute!)
+  } else if (storedValue) {
+    const parsedValue = JSON.parse(storedValue);
+    const updateFilter = parsedValue.filter;
+    filters = filtersDataSend(updateFilter, styleNameRoute!)
+  }
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: scatterOptions.x_vars,
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_xyscatter',
-    filter: filters || []
+    filter: filters!
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
