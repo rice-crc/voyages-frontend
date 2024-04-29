@@ -190,16 +190,7 @@ const PivotTables = () => {
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
 
-  let filters: Filter[] | undefined = []
-  const storedValue = localStorage.getItem('filterObject');
-
-  if (!storedValue) {
-    filters = filtersDataSend(filtersObj, styleNameRoute!)
-  } else if (storedValue) {
-    const parsedValue = JSON.parse(storedValue);
-    const updateFilter = parsedValue.filter;
-    filters = filtersDataSend(updateFilter, styleNameRoute!)
-  }
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: PivotTablesPropsRequest = {
     columns: column_vars,
     rows: updatedRowsValue,
@@ -458,7 +449,6 @@ const PivotTables = () => {
             enableBrowserTooltips={true}
             tooltipShowDelay={0}
             tooltipHideDelay={1000}
-          // rowClassRules={}
           />
           <div className="pagination-div">
             <Pagination

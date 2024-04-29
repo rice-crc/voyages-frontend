@@ -41,6 +41,7 @@ function Scatter() {
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
+  const [error, setError] = useState(false)
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -83,16 +84,7 @@ function Scatter() {
     );
   }, []);
 
-  let filters: Filter[] | undefined = []
-  const storedValue = localStorage.getItem('filterObject');
-
-  if (!storedValue) {
-    filters = filtersDataSend(filtersObj, styleNameRoute!)
-  } else if (storedValue) {
-    const parsedValue = JSON.parse(storedValue);
-    const updateFilter = parsedValue.filter;
-    filters = filtersDataSend(updateFilter, styleNameRoute!)
-  }
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: scatterOptions.x_vars,
     groupby_cols: [...chips],
@@ -167,7 +159,11 @@ function Scatter() {
   const handleChangeScatterChipYSelected = useCallback(
     (event: SelectChangeEvent<string[]>, name: string) => {
       const value = event.target.value;
-
+      if (value.length === 0) {
+        setError(true)
+      } else {
+        setError(false)
+      }
       setChips(typeof value === 'string' ? value.split(',') : value);
       setScatterOptions((prevOptions) => ({
         ...prevOptions,
@@ -179,10 +175,7 @@ function Scatter() {
     []
   );
 
-
-  return isLoading ? (<div className="loading-logo">
-    <img src={LOADINGLOGO} />
-  </div>) : (
+  return (
     <div className="mobile-responsive">
       <SelectDropdown
         selectedX={scatterSelectedX}
@@ -197,12 +190,15 @@ function Scatter() {
         optionsFlatY={VOYAGE_SCATTER_OPTIONS.y_vars}
         setXAxes={setXAxes}
         setYAxes={setYAxes}
+        error={error}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-      <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
+      {isLoading || yAxes.length === 0 ? (<div className="loading-logo-graph">
+        <img src={LOADINGLOGO} />
+      </div>) : (<Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
         <Plot
           data={scatterData}
           layout={{
@@ -229,9 +225,10 @@ function Scatter() {
           }}
           config={{ responsive: true }}
         />
-      </Grid>
+      </Grid>)}
     </div>
-  );
+  )
+
 }
 
 export default Scatter;

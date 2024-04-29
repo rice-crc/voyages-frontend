@@ -52,28 +52,6 @@ const VoyagesPage = () => {
     if (styleVoyagesName) {
       dispatch(setStyleName(styleVoyagesName));
     }
-    const setBaseFilterDataForStyle = (index: number) => {
-      if (
-        jsonDataVoyageCollection[index]?.base_filter &&
-        jsonDataVoyageCollection[index]?.base_filter[0]
-      ) {
-        dispatch(setFilterObject([
-          {
-            varName: jsonDataVoyageCollection[index].base_filter[0].var_name!,
-            searchTerm: jsonDataVoyageCollection[index].base_filter[0].value!,
-            op: "in"
-          }
-        ]));
-      }
-    };
-
-    if (styleVoyagesName === TRANSATLANTIC) {
-      setBaseFilterDataForStyle(0);
-    } else if (styleVoyagesName === INTRAAMERICAN) {
-      setBaseFilterDataForStyle(1);
-    } else if (styleVoyagesName === ALLVOYAGES) {
-      setBaseFilterDataForStyle(2);
-    }
 
     if (styleVoyagesName === TRANSATLANTIC) {
       dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));

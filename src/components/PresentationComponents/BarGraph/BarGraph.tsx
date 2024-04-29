@@ -48,7 +48,7 @@ function BarGraph() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-
+  const [error, setError] = useState(false)
   const [width, height] = useWindowSize();
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
@@ -79,16 +79,7 @@ function BarGraph() {
       }
     );
   }, []);
-  let filters: Filter[] | undefined = []
-  const storedValue = localStorage.getItem('filterObject');
-
-  if (!storedValue) {
-    filters = filtersDataSend(filtersObj, styleNameRoute!)
-  } else if (storedValue) {
-    const parsedValue = JSON.parse(storedValue);
-    const updateFilter = parsedValue.filter;
-    filters = filtersDataSend(updateFilter, styleNameRoute!)
-  }
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: barGraphOptions.x_vars,
     groupby_cols: [...chips],
@@ -160,6 +151,11 @@ function BarGraph() {
   const handleChangeBarGraphChipYSelected = useCallback(
     (event: SelectChangeEvent<string[]>, name: string) => {
       const value = event.target.value;
+      if (value.length === 0) {
+        setError(true)
+      } else {
+        setError(false)
+      }
       setChips(typeof value === 'string' ? value.split(',') : value);
       setBarOptions((prevVoyageOption) => ({
         ...prevVoyageOption,
@@ -192,13 +188,14 @@ function BarGraph() {
         optionsFlatY={VOYAGE_BARGRAPH_OPTIONS.y_vars}
         setXAxes={setXAxes}
         setYAxes={setYAxes}
+        error={error}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-      {loading ? (
-        <div className="loading-logo-display">
+      {loading || yAxes.length === 0 ? (
+        <div className="loading-logo-graph">
           <img src={LOADINGLOGO} />
         </div>
       ) : (

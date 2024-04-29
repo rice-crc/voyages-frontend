@@ -1,5 +1,3 @@
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { AppDispatch } from '@/redux/store';
 import {
     AFRICANORIGINS,
     ENSLAVEDTEXAS,
@@ -78,16 +76,11 @@ export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string, va
     };
 
     // Update localStorage
-    if (filters.length === 0) {
-        const storedValue = localStorage.getItem('filterObject');
-        if (!storedValue) return;
-        const parsedValue = JSON.parse(storedValue);
-        filters = parsedValue.filter;
-    } else {
-        const filterObjectString = JSON.stringify(filterObjectUpdate);
-        localStorage.setItem('filterObject', filterObjectString);
-    }
+    const filterObjectString = JSON.stringify(filterObjectUpdate);
+    localStorage.setItem('filterObject', filterObjectString);
+
     const filterSet = new Set([...filters, ...filterByVarName]);
     return Array.from(filterSet)
 }
+
 

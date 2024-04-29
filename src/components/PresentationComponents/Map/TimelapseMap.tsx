@@ -1287,17 +1287,8 @@ const useFilteredVoyageRoutes = () => {
         fetchNations()
     }, [])
     const { filtersObj } = useSelector((state: RootState) => state.getFilter)
+    const filter = filtersDataSend(filtersObj, styleName!)
 
-    let filter: Filter[] | undefined = []
-    const storedValue = localStorage.getItem('filterObject');
-
-    if (!storedValue) {
-        filter = filtersDataSend(filtersObj, styleName!)
-    } else if (storedValue) {
-        const parsedValue = JSON.parse(storedValue);
-        const updateFilter = parsedValue.filter;
-        filter = filtersDataSend(updateFilter, styleName!)
-    }
     useEffect(() => {
         const fetchVoyages = async () => {
             if (!routeBuilder || !nations) {

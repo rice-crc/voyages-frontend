@@ -73,16 +73,7 @@ function PieGraph() {
       }
     );
   };
-  let filters: Filter[] | undefined = []
-  const storedValue = localStorage.getItem('filterObject');
-
-  if (!storedValue) {
-    filters = filtersDataSend(filtersObj, styleNameRoute!)
-  } else if (storedValue) {
-    const parsedValue = JSON.parse(storedValue);
-    const updateFilter = parsedValue.filter;
-    filters = filtersDataSend(updateFilter, styleNameRoute!)
-  }
+  const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: pieGraphOptions.x_vars,
     groupby_cols: [pieGraphOptions.y_vars],

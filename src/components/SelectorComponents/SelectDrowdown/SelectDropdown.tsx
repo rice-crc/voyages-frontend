@@ -34,13 +34,14 @@ interface SelectDropdownProps {
   graphType?: string;
   setXAxes?: React.Dispatch<React.SetStateAction<string>>
   setYAxes?: React.Dispatch<React.SetStateAction<string[]>>
+  error?: boolean
 }
 
 export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   selectedX,
   selectedY,
   graphType,
-  chips,
+  chips, error,
   selectedOptions,
   handleChange,
   handleChangeMultipleYSelected,
@@ -123,7 +124,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
       {graphType !== 'PIE' ? (
         <Box sx={{ maxWidth, my: 2 }}>
           <FormControl fullWidth>
-            <InputLabel id="demo-multiple-chip-label" style={{ color: '#000' }}>{YFieldText}</InputLabel>
+            <InputLabel id="demo-multiple-chip-label" style={{ color: chips?.length === 0 && error ? "red" : '#000' }}>{chips?.length === 0 && error ? "Value can't be empty" : YFieldText}</InputLabel>
             <Select
               MenuProps={MenuProps}
               labelId="demo-multiple-chip-label"
@@ -146,8 +147,11 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               input={
                 <OutlinedInput id="select-multiple-chip" label={YFieldText} />
               }
+              //   {chips?.length === 0 && error && <Box sx={{ maxWidth, my: 2, color: 'red', fontSize: '0.75rem' }}>
+              //   Value can't be empty
+              // </Box>}
               renderValue={(value): ReactNode => (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', color: 'red', fontSize: '0.75rem' }}>
                   {value.map((option: string, index: number) => (
                     <Chip
                       style={{
@@ -175,46 +179,47 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
           </FormControl>
         </Box>
       ) : (
-        <Box sx={{ maxWidth, my: 2 }}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label" style={{ color: '#000' }}>{YFieldText}</InputLabel>
-            <Select
-              sx={{
-                height: 36,
-                fontSize: '0.95rem',
-                color: '#000'
-              }}
-              MenuProps={{
-                PaperProps: {
-                  sx: {
-                    height: 380,
-                    '& .MuiMenuItem-root': {
-                      padding: 2,
-                    },
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label" style={{ color: '#000' }}>{YFieldText}</InputLabel>
+          <Select
+            sx={{
+              height: 36,
+              fontSize: '0.95rem',
+              color: '#000'
+            }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  height: 380,
+                  '& .MuiMenuItem-root': {
+                    padding: 2,
                   },
                 },
-              }}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={selectedOptions.y_vars}
-              label={XFieldText}
-              onChange={(event: SelectChangeEvent<string>) => {
-                handleChange(event, 'y_vars');
-              }}
-              name="y_vars"
-            >
-              {selectedY.map((option: PlotXYVar, index: number) => (
-                <MenuItem
-                  key={`${option.label}-${index}`}
-                  value={option.var_name}
-                  disabled={isDisabledY(option)}
-                >
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+              },
+            }}
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={selectedOptions.y_vars}
+            label={XFieldText}
+            onChange={(event: SelectChangeEvent<string>) => {
+              handleChange(event, 'y_vars');
+            }}
+            name="y_vars"
+          >
+            {selectedY.map((option: PlotXYVar, index: number) => (
+              <MenuItem
+                key={`${option.label}-${index}`}
+                value={option.var_name}
+                disabled={isDisabledY(option)}
+              >
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
+          {chips?.length === 0 && error && <Box sx={{ maxWidth, my: 2, color: 'red', fontSize: '0.75rem' }}>
+            Value can't be empty
+          </Box>}
+        </FormControl>
       )}
     </>
   );

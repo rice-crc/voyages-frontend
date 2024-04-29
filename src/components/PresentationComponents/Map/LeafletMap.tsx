@@ -162,16 +162,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   }, [zoomLevel, styleNamePage]);
 
 
-  let filters: Filter[] | undefined = []
-  const storedValue = localStorage.getItem('filterObject');
-
-  if (!storedValue) {
-    filters = filtersDataSend(filtersObj, styleNamePage!)
-  } else if (storedValue) {
-    const parsedValue = JSON.parse(storedValue);
-    const updateFilter = parsedValue.filter;
-    filters = filtersDataSend(updateFilter, styleNamePage!)
-  }
+  const filters = filtersDataSend(filtersObj, styleNamePage!)
   const dataSend: MapPropsRequest = {
     filter: filters!,
   };
