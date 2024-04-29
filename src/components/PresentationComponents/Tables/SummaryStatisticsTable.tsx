@@ -54,24 +54,10 @@ const SummaryStatisticsTable = () => {
     );
     const { isFilter } = useSelector((state: RootState) => state.getFilter);
 
-    let filters: Filter[] | undefined = []
-    const storedValue = localStorage.getItem('filterObject');
-    if (!storedValue) {
-        filters = filtersDataSend(filtersObj, styleNameRoute!)
-    } else if (storedValue) {
-        const parsedValue = JSON.parse(storedValue);
-        const updateFilter = parsedValue.filter;
-        filters = filtersDataSend(updateFilter, styleNameRoute!)
-    }
-
+    const filters = filtersDataSend(filtersObj, styleNameRoute!)
     const dataSend: SummaryStatisticsTableRequest = {
         mode: mode,
-        filter: filters!,
-        // filter:
-        //     Array.isArray(filtersObj[0]?.searchTerm) &&
-        //         filtersObj[0]?.searchTerm.length > 0
-        //         ? filtersObj
-        //         : filters || [],
+        filter: filters || [],
     };
 
     useEffect(() => {

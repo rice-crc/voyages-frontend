@@ -32,10 +32,6 @@ const EnslavedPage: React.FC = () => {
     if (styleName) {
       dispatch(setPeopleEnslavedStyleName(styleName));
     }
-    // if (currentBlockName === 'intro') {
-    //   dispatch(setCurrentEnslavedPage(1));
-    //   dispatch(setCurrentBlockName(currentBlockName))
-    // } else 
     if (currentBlockName === 'people') {
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setCurrentBlockName(currentBlockName))
@@ -45,13 +41,6 @@ const EnslavedPage: React.FC = () => {
       dispatch(
         setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks)
       );
-    }
-    if (currentBlockName === 'people' && styleName === AFRICANORIGINS) {
-      dispatch(setBaseFilterPeopleEnslavedDataKey(jsonDataPEOPLECOLLECTIONS[1].base_filter[0].var_name));
-      dispatch(setBaseFilterPeopleEnslavedDataValue(jsonDataPEOPLECOLLECTIONS[1].base_filter[0].value));
-    } else if (currentBlockName === 'people' && styleName === ENSLAVEDTEXAS) {
-      dispatch(setBaseFilterPeopleEnslavedDataKey(jsonDataPEOPLECOLLECTIONS[2].base_filter[0].var_name));
-      dispatch(setBaseFilterPeopleEnslavedDataValue(jsonDataPEOPLECOLLECTIONS[2].base_filter[0].value));
     }
   }, [styleName, currentBlockName, currentEnslavedPage, currentPageBlockName]);
 

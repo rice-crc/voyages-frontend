@@ -8,40 +8,25 @@ import {
 } from '@/share/CONST_DATA';
 import { Filter } from "@/share/InterfaceTypes";
 
-export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string, varName?: string, clusterNodeKeyVariable?: string, clusterNodeValue?: string) => {
-    let filters: Filter[] = [];
-    const filterByVarName = filtersObj && filtersObj.filter((filterItem: Filter) =>
-        filterItem.varName !== clusterNodeKeyVariable ||
-        filterItem.varName !== varName
-    );
+export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string, clusterNodeKeyVariable?: string, clusterNodeValue?: string) => {
 
-    if (clusterNodeKeyVariable && clusterNodeValue) {
-        filters = filters.concat({
-            varName: clusterNodeKeyVariable,
-            searchTerm: [clusterNodeValue],
-            op: 'in',
-        });
-    } else if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
+    let filters: Filter[] = []
+    if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
         filters = filtersObj;
-    } else if ((Array.isArray(filtersObj[0]?.searchTerm) &&
-        filtersObj[0]?.searchTerm.length > 0) || (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact')) {
+    } else if (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
         filters = filtersObj;
-    }
-    if (styleNameRoute === TRANSATLANTICPATH) {
-        filters.map((item) => ({
-            ...item,
+    } else if (styleNameRoute === TRANSATLANTICPATH) {
+        filters.push({
             varName: 'dataset',
             searchTerm: [0],
             op: 'in',
-        }));
-    }
-    else if (styleNameRoute === INTRAAMERICAN) {
-        filters.map((item) => ({
-            ...item,
+        });
+    } else if (styleNameRoute === INTRAAMERICAN) {
+        filters.push({
             varName: 'dataset',
             searchTerm: [1],
             op: 'in',
-        }));
+        });
     } else if (styleNameRoute === ENSLAVEDTEXAS) {
         filters.push({
             varName:
@@ -67,20 +52,30 @@ export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string, va
             searchTerm: 1,
             op: "exact"
         });
-    } else {
-        filters = filtersObj;
     }
+    if (clusterNodeKeyVariable && clusterNodeValue) {
+        console.log({ clusterNodeKeyVariable, clusterNodeValue })
+        filters = filters.concat({
+            varName: clusterNodeKeyVariable,
+            searchTerm: [clusterNodeValue],
+            op: 'in',
+        });
+    }
+
     // Update filterObject state
     const filterObjectUpdate = {
         filter: filters
     };
 
     // Update localStorage
-    const filterObjectString = JSON.stringify(filterObjectUpdate);
-    localStorage.setItem('filterObject', filterObjectString);
-
-    const filterSet = new Set([...filters, ...filterByVarName]);
-    return Array.from(filterSet)
+    if (filters.length === 0) {
+        const storedValue = localStorage.getItem('filterObject');
+        if (!storedValue) return;
+        const parsedValue = JSON.parse(storedValue);
+        filters = parsedValue.filter;
+    } else {
+        const filterObjectString = JSON.stringify(filterObjectUpdate);
+        localStorage.setItem('filterObject', filterObjectString);
+    }
+    return filters;
 }
-
-

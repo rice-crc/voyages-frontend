@@ -200,7 +200,7 @@ const PivotTables = () => {
     value_field: cell_vars,
     offset: offset,
     limit: rowsPerPage,
-    filter: filters!,
+    filter: filters || [],
   }
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue

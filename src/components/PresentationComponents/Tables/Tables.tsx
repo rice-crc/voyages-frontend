@@ -51,6 +51,8 @@ const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+    const { textFilter } = useSelector((state: RootState) => state.getShowFilterObject);
+
     const { textFilterValue } = useSelector((state: RootState) => state.autoCompleteList);
     const { isChange, rangeSliderMinMax } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
@@ -89,7 +91,6 @@ const Tables: React.FC = () => {
     const { currentEnslavedPage } = useSelector(
         (state: RootState) => state.getScrollEnslavedPage
     );
-    const { isFilter } = useSelector((state: RootState) => state.getFilter);
     // Enslavers States
     const { tableFlatfileEnslavers } = useSelector(
         (state: RootState) => state.getEnslaverDataSetCollections
@@ -132,27 +133,16 @@ const Tables: React.FC = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [dispatch, filtersObj, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!]);
+    }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!, data]);
 
-    let filters: Filter[] | undefined = []
-    const storedValue = localStorage.getItem('filterObject');
-
-    if (!storedValue) {
-        filters = filtersDataSend(filtersObj, styleNameRoute!)
-    } else if (storedValue) {
-        const parsedValue = JSON.parse(storedValue);
-        const updateFilter = parsedValue.filter;
-        filters = filtersDataSend(updateFilter, styleNameRoute!)
-    }
-
+    const filters = filtersDataSend(filtersObj, styleNameRoute!)
     const dataSend: TableListPropsRequest = {
-        filter: filters || filtersObj,
+        filter: filters || [],
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
 
     useEffect(() => {
-
         const fetchDataTable = async () => {
             let response;
             if (inputSearchValue) {
@@ -183,8 +173,13 @@ const Tables: React.FC = () => {
             }
         };
         fetchDataTable();
+        return () => {
+            if (!textFilter) {
+                dispatch(setData([]));
+            }
+        }
     }, [
-        dispatch,
+        dispatch, filtersObj,
         rowsPerPage,
         page, rangeSliderMinMax, geoTreeValue,
         currentPage,
@@ -194,6 +189,7 @@ const Tables: React.FC = () => {
         isChangeGeoTree,
         currentBlockName, textFilterValue
     ]);
+
 
     // Call the custom hook to Process Table Data
     useDataTableProcessingEffect(

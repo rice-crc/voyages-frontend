@@ -37,6 +37,7 @@ const NodeEdgesCurvedLinesMap = () => {
   );
 
   const handleSetClusterKeyValue = (value: string, nodeType: string) => {
+
     if (nodeType === nodeTypeOrigin) {
       dispatch(setClusterNodeKeyVariable(ORIGINLanguageGroupKEY))
       dispatch(setClusterNodeValue(value))

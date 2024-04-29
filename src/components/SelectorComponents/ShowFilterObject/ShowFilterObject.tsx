@@ -1,8 +1,8 @@
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
-import { Filter, RangeSliderState, TYPES } from '@/share/InterfaceTypes';
+import { Filter, RangeSliderState } from '@/share/InterfaceTypes';
 import '@/style/estimates.scss'
-import { getColorBackgroundHeader, getColorNavbarBackground } from '@/utils/functions/getColorStyle';
+import { getColorBackgroundHeader } from '@/utils/functions/getColorStyle';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { FunctionComponent, useEffect, useState } from 'react';

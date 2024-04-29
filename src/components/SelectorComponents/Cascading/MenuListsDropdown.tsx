@@ -224,6 +224,7 @@ export const MenuListsDropdown = () => {
     const existingFilterIndex = existingFilters.findIndex(
       (filter) => filter.varName === varName
     );
+
     if (newValue.length > 0) {
       if (existingFilterIndex !== -1) {
         existingFilters[existingFilterIndex].searchTerm = ops === 'icontains' ? newValue as string : [newValue]
@@ -238,6 +239,7 @@ export const MenuListsDropdown = () => {
     } else if (existingFilterIndex !== -1) {
       existingFilters[existingFilterIndex].searchTerm = [];
     }
+
     const filteredFilters = existingFilters.filter((filter) =>
       !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
     );
@@ -245,7 +247,8 @@ export const MenuListsDropdown = () => {
       filter: filteredFilters,
     };
     const filterObjectString = JSON.stringify(filterObjectUpdate);
-    localStorage.setItem('filterObject', filterObjectString);
+    localStorage.setItem('filterObject', filterObjectString)
+
     dispatch(setFilterObject(filteredFilters));
     if ((styleNameRoute === TYPESOFDATASET.allVoyages || styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved || styleNameRoute === allEnslavers) && filteredFilters.length > 0) {
       dispatch(setIsViewButtonViewAllResetAll(true))
@@ -299,7 +302,7 @@ export const MenuListsDropdown = () => {
     if ((typeData === TYPES.GeoTreeSelect) || (typeData === TYPES.LanguageTreeSelect)) {
       displayComponent = <GeoTreeSelected type={typeData} />
     } else if (typeData === TYPES.CharField && ops === 'icontains') {
-      displayComponent = <FilterTextBox />
+      displayComponent = <FilterTextBox handleKeyDownTextFilter={handleApplyTextFilterDataDialog} />
 
     } else if (typeData === TYPES.CharField && ops == 'in') {
       displayComponent = <AutoCompleteListBox />

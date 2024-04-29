@@ -85,7 +85,7 @@ function BarGraph() {
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_bar_and_donut_charts',
-    filter: filters!
+    filter: filters || [],
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue

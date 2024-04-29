@@ -50,7 +50,7 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
   const filters = filtersDataSend(filtersObj, styleNameRoute!)
   const dataSend: GeoTreeSelectStateProps = {
     geotree_valuefields: [varName],
-    filter: [],
+    filter: filters || [],
   };
 
   const fetchDataList = async (type: string) => {

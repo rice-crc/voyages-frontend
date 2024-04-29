@@ -21,15 +21,12 @@ import {
   mappingSpecialistsCountries,
   mappingSpecialistsRivers,
   PLACE,
-  AFRICANORIGINS,
-  TRANSATLANTICPATH,
   ESTIMATES,
   REGION,
   broadRegion,
 } from '@/share/CONST_DATA';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
-import { getMapBackgroundColor } from '@/utils/functions/getMapBackgroundColor';
 import {
   setEdgesDataPlace,
   setEdgesDataRegion,
@@ -53,6 +50,7 @@ import {
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { fetchEstimatesMap } from '@/fetch/estimateFetch/fetchEstimatesMap';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import { getColorBackgroundHeader } from '@/utils/functions/getColorStyle';
 
 interface LeafletMapProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
@@ -77,9 +75,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const hasFetchedPlaceRef = useRef(false);
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
-  );
-  const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
 
   const { hasFetchedRegion, clusterNodeKeyVariable, clusterNodeValue } =
@@ -162,9 +157,9 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   }, [zoomLevel, styleNamePage]);
 
 
-  const filters = filtersDataSend(filtersObj, styleNamePage!)
+  const filters = filtersDataSend(filtersObj, styleNamePage!, clusterNodeKeyVariable, clusterNodeValue)
   const dataSend: MapPropsRequest = {
-    filter: filters!,
+    filter: filters || [],
   };
 
   if (inputSearchValue) {
@@ -271,16 +266,8 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     setZoomLevel(newZoomLevel);
   });
 
-  let backgroundColor = styleNamePeople;
-  if (checkPagesRouteForVoyages(styleName)) {
-    backgroundColor = styleName;
-  }
-  if (styleNamePeople === AFRICANORIGINS) {
-    backgroundColor = styleNamePeople;
-  }
-
   return (
-    <div style={{ backgroundColor: getMapBackgroundColor(backgroundColor) }}>
+    <div style={{ backgroundColor: getColorBackgroundHeader(styleNamePage!) }}>
       {loading || nodesData?.length === 0 ? (
         <div className="loading-logo">
           <img src={LOADINGLOGO} />
