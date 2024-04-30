@@ -37,6 +37,8 @@ function PieGraph() {
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
+  const { clusterNodeKeyVariable, clusterNodeValue } =
+    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
@@ -73,7 +75,7 @@ function PieGraph() {
       }
     );
   };
-  const filters = filtersDataSend(filtersObj, styleNameRoute!)
+  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: pieGraphOptions.x_vars,
     groupby_cols: [pieGraphOptions.y_vars],

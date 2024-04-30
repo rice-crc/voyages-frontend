@@ -1,6 +1,6 @@
 import { LabelFilterMeneList } from "@/share/InterfaceTypes";
-import { EstimateTranslate } from "../flatfiles/estimate_text";
-import { saveSearchTranslated } from "../flatfiles/save_search";
+import { EstimateTranslate } from "../languages/estimate_text";
+import { saveSearchTranslated } from "../languages/save_search";
 
 export const translationLanguagesEstimatePage = (languageValue: string) => {
     const translatedEstimates: Record<string, string> = {};

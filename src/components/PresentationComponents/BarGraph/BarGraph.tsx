@@ -48,6 +48,9 @@ function BarGraph() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+  const { clusterNodeKeyVariable, clusterNodeValue } =
+    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
+
   const [error, setError] = useState(false)
   const [width, height] = useWindowSize();
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
@@ -58,7 +61,6 @@ function BarGraph() {
   const [chips, setChips] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   ]);
-
 
   const [barGraphOptions, setBarOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
@@ -79,7 +81,7 @@ function BarGraph() {
       }
     );
   }, []);
-  const filters = filtersDataSend(filtersObj, styleNameRoute!)
+  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: barGraphOptions.x_vars,
     groupby_cols: [...chips],

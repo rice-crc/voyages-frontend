@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { ASSESSMENT, ENSALVEDROUTE, ENSALVEDTYPE, ENSALVERSROUTE, ESTIMATES, VOYAGE, VOYAGEPATHENPOINT, allEnslavers } from '@/share/CONST_DATA';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { translationLanguagesSaveSearch } from '@/utils/functions/translationLanguages';
+import { resetAll } from '@/redux/resetAllSlice';
 
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -65,9 +66,15 @@ const DropDownSaveSearch = () => {
     const handleLoadSaveSearch = () => {
         if (styleName) {
             window.location.href = `${BASE_URL_FRONTEND}/${endpointSaveSearch}/${styleName}`;
+            dispatch(resetAll())
         } else if (endpointSaveSearch === 'assessment') {
             window.location.href = `${BASE_URL_FRONTEND}/${endpointSaveSearch}/estimates`;
+            dispatch(resetAll())
         }
+        const keysToRemove = Object.keys(localStorage);
+        keysToRemove.forEach((key) => {
+            localStorage.removeItem(key);
+        });
     };
 
     const handleClearSaveSearch = () => {

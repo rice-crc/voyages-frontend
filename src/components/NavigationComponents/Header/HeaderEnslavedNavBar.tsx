@@ -55,7 +55,7 @@ import { setFilterObject } from '@/redux/getFilterSlice';
 import { Filter, LabelFilterMeneList } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import { enslavedHeader } from '@/utils/flatfiles/title_pages';
+import { enslavedHeader } from '@/utils/languages/title_pages';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {

@@ -73,6 +73,8 @@ const Tables: React.FC = () => {
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
     );
+    const { clusterNodeKeyVariable, clusterNodeValue } =
+        useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
     const { isChangeGeoTree, geoTreeValue } = useSelector(
         (state: RootState) => state.getGeoTreeData
@@ -135,7 +137,7 @@ const Tables: React.FC = () => {
         };
     }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!, data]);
 
-    const filters = filtersDataSend(filtersObj, styleNameRoute!)
+    const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
     const dataSend: TableListPropsRequest = {
         filter: filters || [],
         page: Number(page + 1),

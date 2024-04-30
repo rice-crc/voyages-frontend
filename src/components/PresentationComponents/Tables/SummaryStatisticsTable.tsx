@@ -26,7 +26,7 @@ import {
 import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummaryStatisticsTable';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import { downLoadText } from '@/utils/flatfiles/title_pages';
+import { downLoadText } from '@/utils/languages/title_pages';
 
 const SummaryStatisticsTable = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -52,9 +52,12 @@ const SummaryStatisticsTable = () => {
     const { isChangeGeoTree } = useSelector(
         (state: RootState) => state.getGeoTreeData
     );
+    const { clusterNodeKeyVariable, clusterNodeValue } =
+        useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
+
     const { isFilter } = useSelector((state: RootState) => state.getFilter);
 
-    const filters = filtersDataSend(filtersObj, styleNameRoute!)
+    const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
     const dataSend: SummaryStatisticsTableRequest = {
         mode: mode,
         filter: filters || [],

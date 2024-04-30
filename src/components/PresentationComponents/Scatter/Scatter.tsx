@@ -52,6 +52,8 @@ function Scatter() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+  const { clusterNodeKeyVariable, clusterNodeValue } =
+    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
   const { styleName: styleNameRoute } = usePageRouter();
   const [width, height] = useWindowSize();
@@ -84,7 +86,7 @@ function Scatter() {
     );
   }, []);
 
-  const filters = filtersDataSend(filtersObj, styleNameRoute!)
+  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: scatterOptions.x_vars,
     groupby_cols: [...chips],

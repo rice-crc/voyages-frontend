@@ -54,7 +54,6 @@ export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string, cl
         });
     }
     if (clusterNodeKeyVariable && clusterNodeValue) {
-        console.log({ clusterNodeKeyVariable, clusterNodeValue })
         filters = filters.concat({
             varName: clusterNodeKeyVariable,
             searchTerm: [clusterNodeValue],
@@ -62,20 +61,29 @@ export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string, cl
         });
     }
 
-    // Update filterObject state
+    const uniqueFiltersSet = new Set<string>();
+    let uniqueFilters: Filter[] = [];
+    for (const filter of filters) {
+        const key = `${filter.varName}_${JSON.stringify(filter.searchTerm)}`;
+        if (!uniqueFiltersSet.has(key)) {
+            uniqueFiltersSet.add(key);
+            uniqueFilters.push(filter);
+        }
+    }
     const filterObjectUpdate = {
-        filter: filters
+        filter: uniqueFilters
     };
 
-    // Update localStorage
+    // Update localStorages
     if (filters.length === 0) {
         const storedValue = localStorage.getItem('filterObject');
         if (!storedValue) return;
         const parsedValue = JSON.parse(storedValue);
-        filters = parsedValue.filter;
+        uniqueFilters = parsedValue.filter;
     } else {
         const filterObjectString = JSON.stringify(filterObjectUpdate);
         localStorage.setItem('filterObject', filterObjectString);
     }
-    return filters;
+
+    return uniqueFilters;
 }
