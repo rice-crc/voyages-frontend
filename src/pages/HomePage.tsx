@@ -18,9 +18,13 @@ import IntraAmerican from '@/components/PresentationComponents/LadingPage/IntraA
 import TransAtlantic from '@/components/PresentationComponents/LadingPage/TransAtlantic';
 import { FooterComponent } from '@/components/SelectorComponents/ButtonComponents/FooterComponents';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import AutoCompleteLazyLoad from '@/components/FilterComponents/Autocomplete/FilterTextBox';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 const HomePage: React.FC = () => {
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const translatedHomepage = translationHomepage(languageValue)
   const handleBackToTop = () => {
     window.scrollTo({
       top: 0,
@@ -72,7 +76,7 @@ const HomePage: React.FC = () => {
           <div className="document-resources-container">
             <div className="about-project">
               <Link to={`/${BLOGPAGE}/slavevoyages-introduction/50`}>
-                <div className="about-project-btn">Learn more</div>
+                <div className="about-project-btn">{translatedHomepage.learnMore}</div>
               </Link>
             </div>
           </div>
@@ -84,9 +88,6 @@ const HomePage: React.FC = () => {
       <div data-aos="fade-up">
         <SouthSeaCompanyDocuments />
       </div>
-      {/* <div data-aos="fade-up">
-        <TexasBound />
-      </div> */}
       <div data-aos="fade-up">
         <ArtInspiredBySlaveVoyages />
       </div>
@@ -110,7 +111,7 @@ const HomePage: React.FC = () => {
           id="backToTop"
           title="Go to top"
         >
-          Back to Top
+          {translatedHomepage.btnBackToTop}
         </div>
       </div>
       <FooterComponent />

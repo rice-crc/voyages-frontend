@@ -8,6 +8,7 @@ import { BlogDataProps, BlogDataPropsRequest, BlogFilter, InitialStateBlogProps 
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import { CardNewsBlogs } from './CardNewsBlogs';
 import { BLOGPAGE } from '@/share/CONST_DATA';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 const ArtInspiredBySlaveVoyages: React.FC = () => {
     const imagesPerPage = 127
@@ -54,16 +55,15 @@ const ArtInspiredBySlaveVoyages: React.FC = () => {
         };
     }, [dispatch, languageValueLabel]);
 
+
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const translatedHomepage = translationHomepage(languageValue)
+
     return (
         <div className="content-inspried-container">
             <div className="blog-news-header">
-                <h1>Art Inspired by SlaveVoyages</h1>
-                <p>
-                    A selection of artwork inspired by the data on the site. Lorem ipsum
-                    dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
+                <h1>{translatedHomepage.homePageArt}</h1>
+                <p>{translatedHomepage.homePageArtDes}
                 </p>
                 <ButtonLearnMore path={BLOGPAGE} />
             </div>

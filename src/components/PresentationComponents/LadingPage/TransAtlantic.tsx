@@ -3,15 +3,21 @@ import '@/style/landing.scss';
 import TRANSATLANTICIMG from '@/assets/transAtlantic.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
-import { TRANSATLANTICPAGE, VOYAGESPAGE, TRANSATLANTIC, CONTRIBUTE, ABOUTPAGE, ASSESSMENT, ESTIMATES, DOWNLOADS, BLOGPAGE } from '@/share/CONST_DATA';
+import { TRANSATLANTICPAGE, TRANSATLANTIC, CONTRIBUTE, ASSESSMENT, ESTIMATES, BLOGPAGE } from '@/share/CONST_DATA';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 const TransAtlantic: React.FC = () => {
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const translatedHomepage = translationHomepage(languageValue)
+
     const lists = [
-        { name: 'About', url: `${BLOGPAGE}/tag/about` },
-        { name: 'Database', url: `${TRANSATLANTICPAGE}#voyages` },
-        { name: 'Estimates', url: `/${ASSESSMENT}/${ESTIMATES}` },
-        { name: 'Essays', url: `${BLOGPAGE}/tag/essays` },
-        { name: 'Downloads', url: `${BLOGPAGE}/tag/downloads` },
-        { name: 'Contribute', url: `${CONTRIBUTE}` },
+        { name: `${translatedHomepage.btnAbout}`, url: `${BLOGPAGE}/tag/about` },
+        { name: `${translatedHomepage.btnDatabase}`, url: `${TRANSATLANTICPAGE}#voyages` },
+        { name: `${translatedHomepage.btnEstimates}`, url: `/${ASSESSMENT}/${ESTIMATES}` },
+        { name: `${translatedHomepage.btnEssays}`, url: `${BLOGPAGE}/tag/essays` },
+        { name: `${translatedHomepage.btnDownloads}`, url: `${BLOGPAGE}/tag/downloads` },
+        { name: `${translatedHomepage.btnContribute}`, url: `${CONTRIBUTE}` },
     ];
 
     return (
@@ -25,14 +31,8 @@ const TransAtlantic: React.FC = () => {
                     />
                 </div>
                 <div className="african-content-detail">
-                    <h1>Trans-Atlantic</h1>
-                    <p>
-                        This database compiles information about more than 36,000 voyages
-                        that forcibly transported enslaved Africans across the Atlantic
-                        between 1514 and 1866. Search and analyze the database for
-                        information on the broad origins of enslaved people, the tortuous
-                        Middle Passage, and the destinations of Africans in the Americas.
-                    </p>
+                    <h1>{translatedHomepage.homeTrans}</h1>
+                    <p>{translatedHomepage.homeTransDes}</p>
                     <ButtonLearnMore path={`${TRANSATLANTICPAGE}#voyages`} styleName={TRANSATLANTIC} />
                     <ButtonLists lists={lists} />
                 </div>

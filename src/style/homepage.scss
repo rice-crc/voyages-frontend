@@ -841,3 +841,25 @@
     }
   }
 }
+
+.pie-plot-container {
+  .pielayer {
+    .slicetext {
+      >text {
+        font-size: 0.85rem !important;
+
+        @include breakpoint-standard(5) {
+          font-size: 12px !important;
+        }
+
+        @include breakpoint-standard(4) {
+          font-size: 12px !important;
+        }
+
+        @include breakpoint-standard(3) {
+          font-size: 12px !important;
+        }
+      }
+    }
+  }
+}

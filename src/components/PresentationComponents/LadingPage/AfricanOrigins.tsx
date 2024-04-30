@@ -3,8 +3,14 @@ import '@/style/landing.scss';
 import AFRICANORIGINS from '@/assets/People_of_the_Atlantic.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import { AFRICANORIGINSPAGE, ENSALVEDPAGE, PASTHOMEPAGE } from '@/share/CONST_DATA';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const AfricanOrigins: React.FC = () => {
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const translatedHomepage = translationHomepage(languageValue)
+
     return (
         <div className="container-african">
             <div className="african-content">
@@ -12,17 +18,8 @@ const AfricanOrigins: React.FC = () => {
                     <img src={AFRICANORIGINS} alt="African Origins" className="african-img" />
                 </div>
                 <div className="african-content-detail">
-                    <h1>African Origins</h1>
-                    <p>
-                        During the last 60 years of the trans-Atlantic slave trade, courts
-                        around the Atlantic basins condemned over two thousand vessels for
-                        engaging in the traffic and recorded the details of captives found
-                        on board including their African names. The African Names Database
-                        was created from these records, now located in the Registers of
-                        Liberated Africans at the Sierra Leone National Archives, Freetown,
-                        as well as Series FO84, FO313, CO247 and CO267 held at the British
-                        National Archives in London.
-                    </p>
+                    <h1>{translatedHomepage.homeAfrican}</h1>
+                    <p>{translatedHomepage.homeAfricanDes}</p>
                     <ButtonLearnMore path={`${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#map`} stylePeopleName={'african-origins'} />
                 </div>
             </div>

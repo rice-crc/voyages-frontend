@@ -3,9 +3,10 @@
 import { setStyleName } from '@/redux/getDataSetCollectionSlice';
 import { setPeopleEnslavedStyleName } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import { resetAll } from '@/redux/resetAllSlice';
-import { AppDispatch, } from '@/redux/store';
+import { AppDispatch, RootState, } from '@/redux/store';
 import '@/style/landing.scss';
-import { useDispatch } from 'react-redux';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 interface ButtonLearnMoreProps {
     path: string
@@ -26,11 +27,12 @@ const ButtonLearnMore = ({ path, styleName, stylePeopleName }: ButtonLearnMorePr
             dispatch(setPeopleEnslavedStyleName(stylePeopleName));
         }
     }
-
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const translatedHomepage = translationHomepage(languageValue)
     return (
         (
             <div className="learn-more-btn" onClick={handleClikLink}>
-                <span>Learn more</span>
+                <span>{translatedHomepage.learnMore}</span>
             </div>
         )
     )

@@ -34,6 +34,7 @@ interface SelectDropdownProps {
   graphType?: string;
   setXAxes?: React.Dispatch<React.SetStateAction<string>>
   setYAxes?: React.Dispatch<React.SetStateAction<string[]>>
+  setYAxesPie?: React.Dispatch<React.SetStateAction<string>>
   error?: boolean
 }
 
@@ -48,7 +49,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   maxWidth,
   XFieldText,
   YFieldText,
-  optionsFlatY, setXAxes, setYAxes
+  optionsFlatY, setXAxes, setYAxes, setYAxesPie
 }) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -147,9 +148,6 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               input={
                 <OutlinedInput id="select-multiple-chip" label={YFieldText} />
               }
-              //   {chips?.length === 0 && error && <Box sx={{ maxWidth, my: 2, color: 'red', fontSize: '0.75rem' }}>
-              //   Value can't be empty
-              // </Box>}
               renderValue={(value): ReactNode => (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', color: 'red', fontSize: '0.75rem' }}>
                   {value.map((option: string, index: number) => (
@@ -203,6 +201,8 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
             label={XFieldText}
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, 'y_vars');
+              const selectYoption = selectedY.find(option => option.var_name === event.target.value);
+              setYAxesPie && setYAxesPie(selectYoption ? selectYoption.label : '');
             }}
             name="y_vars"
           >

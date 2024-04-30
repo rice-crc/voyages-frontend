@@ -10,6 +10,7 @@ import { BLOGPAGE } from '@/share/CONST_DATA';
 import "react-multi-carousel/lib/styles.css";
 import { CardNewsBlogs } from './CardNewsBlogs';
 import { LanguagesProps } from '@/share/InterfaceTypeLanguages';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 const NewsBlog: React.FC = () => {
 
@@ -54,16 +55,14 @@ const NewsBlog: React.FC = () => {
     };
   }, [dispatch, languageValueLabel]);
 
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const translatedHomepage = translationHomepage(languageValue)
+
   return (
     <div className="content-news-blog-container">
       <div className="blog-news-header">
-        <h1>News</h1>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur.
+        <h1>{translatedHomepage.homePageNews}</h1>
+        <p>{translatedHomepage.homePageNewsDes}
         </p>
         <ButtonLearnMore path={BLOGPAGE} />
       </div>
