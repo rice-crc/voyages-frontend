@@ -14,7 +14,6 @@ import {
   RangeSliderState,
   CurrentPageInitialState,
   IRootFilterObjectScatterRequest,
-  Filter,
 } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';

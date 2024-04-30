@@ -122,31 +122,40 @@ const SummaryStatisticsTable = () => {
     }, [width, height, maxWidth]);
 
     const handleButtonExportCSV = useCallback(() => {
-        const table = document.querySelector('.summary-table');
-
-        if (!table) {
-            console.error('Table element not found');
-            return;
-        }
-
-        const rows = Array.from(table.querySelectorAll('tr'));
-        const csvContent = rows
-            .map((row) =>
-                Array.from(row.children)
-                    .map((cell) => cell.textContent)
-                    .join(',')
-            )
-            .join('\n');
-        const blob = new Blob([csvContent], { type: 'text/csv' });
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = 'summarystats_table_data.csv';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
+        const filename = 'summary_table_data';
         setMode('csv');
-    }, [mode]);
+        const table = document.querySelector('table');
+        if (!table) return;
+
+        const rows = table.querySelectorAll('tr:has(td),tr:has(th)');
+        const tmpColDelim = String.fromCharCode(11);
+        const tmpRowDelim = String.fromCharCode(0);
+        const colDelim = '","';
+        const rowDelim = '"\r\n"';
+
+        // Grab text from table into CSV formatted string
+        const csvRows = [...rows].map((row) => {
+            const cols = row.querySelectorAll('td,th');
+            const csvCols = [...cols].map((col) => {
+                const text = col.textContent?.trim() ?? '';
+                return text.replace(/"/g, '""');
+            });
+            return csvCols.join(tmpColDelim);
+        });
+
+        const csv = '"' + csvRows.join(tmpRowDelim)
+            .split(tmpRowDelim).join(rowDelim)
+            .split(tmpColDelim).join(colDelim) + '"';
+
+        const csvData = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+
+        const link = document.createElement('a');
+        link.href = csvData;
+        link.download = filename;
+        link.target = '_blank';
+        link.click();
+        setMode('html')
+    }, [mode, summaryData]);
 
 
     let DownloadCSVExport = ''
