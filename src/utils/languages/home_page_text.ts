@@ -324,5 +324,48 @@ export const homePageTranslated: TranslateType = {
             "pt": "Alimentado por:",
         }
     },
+    userFeedback: {
+        label: {
+            "en": 'user feedback',
+            "es": "user feedback",
+            "pt": "user feedback",
+        }
+    },
+    reportIssue: {
+        label: {
+            "en": "report issues",
+            "es": "report issues",
+            "pt": "report issues",
+        }
+    },
+    scrollMore: {
+        label: {
+            "en": "scroll down to learn more",
+            "es": "desplácese hacia abajo para aprender más",
+            "pt": "rolar para baixo para saber mais",
+        }
+    },
+    viewAll: {
+        label: {
+            "en": "View all",
+            "es": "Ver todo",
+            "pt": "Ver todos"
+
+        }
+    },
+    resetAll: {
+        label: {
+            "en": "Reset all",
+            "es": "Resetear todo",
+            "pt": "Redefinir tudo"
+        },
+    },
+    configureColumns: {
+        label: {
+            "en": 'Configure Columns',
+            "es": "Configurar columnas",
+            "pt": "Configurar colunas"
+        }
+    },
 
 }

@@ -1,6 +1,13 @@
 import BackGroundVideo from '@/assets/wavesBG.mp4';
+import { RootState } from '@/redux/store';
 import '@/style/page.scss';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
+import { useSelector } from 'react-redux';
+
 const VideoBackground = () => {
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const translatedHomepage = translationHomepage(languageValue)
+
   return (
     <div className="video-background">
       <video autoPlay muted loop>
@@ -59,7 +66,7 @@ const VideoBackground = () => {
                   src="https://www.slavevoyages.org/static/images/site/feedback.svg"
                   alt="Feedback Button"
                 />
-                <span className="separator">user feedback</span>
+                <span className="separator">{translatedHomepage.userFeedback}</span>
               </a>
               <a
                 href="mailto:svopcom@googlegroups.com?subject=Report an Issue"
@@ -77,11 +84,9 @@ const VideoBackground = () => {
                   src="https://www.slavevoyages.org/static/images/site/bug.svg"
                   alt="Issue Button"
                 />
-                <span className="separator">report issues</span>
+                <span className="separator">{translatedHomepage.reportIssue}</span>
               </a></span>
-
-
-            <div className="scroll"> scroll down to learn more</div>
+            <div className="scroll">{translatedHomepage.scrollMore}</div>
           </div>
 
           <div className="social-icon-container">

@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { allEnslavers } from '@/share/CONST_DATA';
 import { RangeSliderState, TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss'
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -19,8 +20,9 @@ export const ResetAllButton = (props: ResetAllButtonProps) => {
     const { clusterNodeKeyVariable, clusterNodeValue, handleResetAll } = props;
     const { styleName: styleNameRoute } = usePageRouter()
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-    const { resetAll } = useSelector((state: RootState) => state.getLanguages);
     const { isView } = useSelector((state: RootState) => state.getShowFilterObject);
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const translatedHomepage = translationHomepage(languageValue)
 
     useEffect(() => {
         if ((styleNameRoute === TYPESOFDATASET.allVoyages || styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved || styleNameRoute === allEnslavers) && filtersObj.length > 0) {
@@ -35,7 +37,7 @@ export const ResetAllButton = (props: ResetAllButtonProps) => {
             {isView || (clusterNodeKeyVariable && clusterNodeValue) ? (
                 <div className="btn-navbar-reset-all" onClick={handleResetAll}>
                     <i aria-hidden="true" className="fa fa-times"></i>
-                    <span>{resetAll}</span>
+                    <span>{translatedHomepage.resetAll}</span>
                 </div>
             ) : null}</>
     )
