@@ -157,13 +157,9 @@ const Tables: React.FC = () => {
                 if (checkPagesRouteForVoyages(styleNameRoute!)) {
                     response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
                 } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslavedOptionsList(dataSend)
-                    ).unwrap();
+                    response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
                 } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslaversOptionsList(dataSend)
-                    ).unwrap();
+                    response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
                 }
                 if (response) {
                     const { count, results } = response.data;
@@ -288,7 +284,7 @@ const Tables: React.FC = () => {
     );
 
     return (
-        <div className={!viewAll ? "mobile-responsive" : "mobile-responsive-view"}>
+        <> <div className={!viewAll ? "mobile-responsive" : "mobile-responsive-view"}>
             <div className="ag-theme-alpine grid-container">
                 <span className="tableContainer">
                     <ButtonDropdownColumnSelector />
@@ -297,7 +293,7 @@ const Tables: React.FC = () => {
                         count={totalResultsCount}
                         page={page}
                         onPageChange={handleChangePage}
-                        rowsPerPageOptions={[5, 8, 10, 15, 20, 25, 30, 45, 50, 100]}
+                        rowsPerPageOptions={[5, 8, 10, 12, 15, 20, 25, 30, 45, 50, 100]}
                         rowsPerPage={rowsPerPage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
@@ -320,7 +316,6 @@ const Tables: React.FC = () => {
                         enableBrowserTooltips={true}
                         tooltipShowDelay={0}
                         tooltipHideDelay={1000}
-                    // autoSizeStrategy={autoSizeStrategy}
                     />
                     <div className="pagination-div">
                         <Pagination
@@ -332,14 +327,14 @@ const Tables: React.FC = () => {
                     </div>
                 </>
             </div>
-            <div>
-                <ModalNetworksGraph />
-            </div>
-            <div>
-                <CardModal />
-            </div>
         </div>
+            <ModalNetworksGraph />
+            <CardModal />
+        </>
+
     );
 };
 
 export default Tables;
+/**/
+

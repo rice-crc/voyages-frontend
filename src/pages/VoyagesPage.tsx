@@ -138,7 +138,6 @@ const VoyagesPage = () => {
         <CollectionTabVoyages />
         <Grid id="content-container">{displayPage}</Grid>
       </div>
-      <Divider />
     </div>
   );
 };
