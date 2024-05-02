@@ -1,3 +1,4 @@
+import { PivotTablesProps } from "./InterfaceTypes";
 
 export interface RespnseCrosstabsPivotTablesData {
     tablestructure: PivotColumnDef[]
@@ -8,6 +9,10 @@ export interface StatePivotRowData {
     data: Record<string, any>[]
     rowData: Record<string, any>[]
     columnDefs: PivotColumnDef[];
+    offset: number
+    pivotValueOptions: PivotTablesProps
+    aggregation: string
+    rowsPerPage: number
 }
 export interface PivotColumnDef {
     headerName: string;

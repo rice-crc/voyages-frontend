@@ -30,7 +30,6 @@ interface SelectDropdownProps {
   maxWidth?: number;
   XFieldText?: string;
   YFieldText?: string;
-  optionsFlatY: PlotXYVar[];
   graphType?: string;
   setXAxes?: React.Dispatch<React.SetStateAction<string>>
   setYAxes?: React.Dispatch<React.SetStateAction<string[]>>
@@ -48,8 +47,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   handleChangeMultipleYSelected,
   maxWidth,
   XFieldText,
-  YFieldText,
-  optionsFlatY, setXAxes, setYAxes, setYAxesPie
+  YFieldText, setXAxes, setYAxes, setYAxesPie
 }) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -137,11 +135,9 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               onChange={(event: SelectChangeEvent<string[]>) => {
                 if (handleChangeMultipleYSelected) {
                   handleChangeMultipleYSelected(event, 'y_vars');
-
                   const selectedOptions = selectedY
                     .filter(option => event.target.value.includes(option.var_name))
                     .map(option => option.label);
-
                   setYAxes && setYAxes(selectedOptions);
                 }
               }}
@@ -150,17 +146,20 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               }
               renderValue={(value): ReactNode => (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', color: 'red', fontSize: '0.75rem' }}>
-                  {value.map((option: string, index: number) => (
-                    <Chip
-                      style={{
-                        margin: 2,
-                        border: getBoderColor(styleName),
-                        color: '#000'
-                      }}
-                      key={`${option}-${index}`}
-                      label={optionsFlatY[index].label}
-                    />
-                  ))}
+                  {value.map((option: string, index: number) => {
+                    const selectedOption = selectedY.find((item) => item.var_name === option);
+                    return (
+                      <Chip
+                        style={{
+                          margin: 2,
+                          border: getBoderColor(styleName),
+                          color: '#000',
+                        }}
+                        key={`${option}-${index}`}
+                        label={selectedOption ? selectedOption.label : ''}
+                      />
+                    );
+                  })}
                 </Box>
               )}
             >

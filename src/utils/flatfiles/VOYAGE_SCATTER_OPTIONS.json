@@ -40,42 +40,71 @@
 		{
 			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
 			"type": "Integer",
-			"label": "Total slaves disembarked imputed * (SLAMIMP)"
+			"label": "Total slaves disembarked imputed * (SLAMIMP)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
 			"type": "Integer",
-			"label": "Total slaves embarked imputed * (slaximp)"
+			"label": "Total slaves embarked imputed * (slaximp)",
+			"agg_fns": [
+				"sum"
+			]
 		},
 		{
 			"var_name": "voyage_crew__crew_first_landing",
 			"type": "Integer",
-			"label": "Crew at first landing of slaves"
+			"label": "Crew at first landing of slaves",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_crew__crew_voyage_outset",
 			"type": "Integer",
-			"label": "Crew at voyage outset"
+			"label": "Crew at voyage outset",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_ship__tonnage_mod",
 			"type": "DecimalField",
-			"label": "Tonnage standardized on British measured tons 1773-1870"
+			"label": "Tonnage standardized on British measured tons 1773-1870",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__imp_jamaican_cash_price",
 			"type": "DecimalField",
-			"label": "Sterling cash price in Jamaica* (imputed)"
+			"label": "Sterling cash price in Jamaica* (imputed)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__imp_mortality_ratio",
 			"type": "FloatField",
-			"label": "Imputed mortality ratio (VYMRTRAT)"
+			"label": "Imputed mortality ratio (VYMRTRAT)",
+			"agg_fns": [
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__percentage_women_among_embarked_slaves",
 			"type": "FloatField",
-			"label": "Percentage of women among embarked slaves (WOMRAT1)"
+			"label": "Percentage of women among embarked slaves (WOMRAT1)",
+			"agg_fns": [
+				"mean"
+			]
 		}
 	]
 }

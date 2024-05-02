@@ -2,7 +2,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
-import { Filter, PivotTablesPropsRequest } from '@/share/InterfaceTypes';
+import { PivotTablesPropsRequest } from '@/share/InterfaceTypes';
 import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
 import { setPivotTablColumnDefs, setRowPivotTableData } from '@/redux/getPivotTablesDataSlice';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
@@ -23,18 +23,8 @@ interface Props {
   enableMenu: boolean;
   menuIcon: string;
   enableSorting: boolean;
-  displayName: string;
-  columns: string[]
-  rows: string;
-  rows_label: string;
-  agg_fn: string;
-  binsize: number | null
-  value_field: string;
-  offset: number
-  limit: number
-  page: number
-  setTotalResultsCount: React.Dispatch<React.SetStateAction<number>>
-  setPage: React.Dispatch<React.SetStateAction<number>>
+  dataSend: PivotTablesPropsRequest
+  displayName?: string;
 }
 
 const CustomHeaderPivotTable: React.FC<Props> = (props) => {
@@ -42,15 +32,7 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     column,
     setSort,
     enableSorting,
-    displayName, columns,
-    rows,
-    rows_label,
-    agg_fn,
-    binsize,
-    value_field,
-    offset,
-    limit,
-    setTotalResultsCount, page, setPage
+    displayName,
   } = props;
 
   const dispatch: AppDispatch = useDispatch();
@@ -58,47 +40,55 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   const [descSort, setDescSort] = useState<string>('inactive');
   const { styleName } = usePageRouter()
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+  const { offset, pivotValueOptions, aggregation, rowsPerPage } = useSelector(
+    (state: RootState) => state.getPivotTablesData
+  );
   const filters = filtersDataSend(filtersObj, styleName!)
 
-  useEffect(() => {
-    const headerColor = getHeaderColomnColor(styleName!);
-    document.documentElement.style.setProperty('--header-color--', headerColor);
-    document.documentElement.style.setProperty('--ag-secondary-foreground-color', headerColor);
-    document.documentElement.style.setProperty('--ag-header-foreground-color', headerColor);
-  }, []);
-
+  const onSortChanged = () => {
+    setAscSort(column!.isSortAscending() ? 'active' : 'inactive');
+    setDescSort(column!.isSortDescending() ? 'active' : 'inactive');
+  };
   const onSortRequested = (
     order: string,
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
-    setSort(order, event.shiftKey);
-    setAscSort(column.isSortAscending() ? 'active' : 'inactive');
-    setDescSort(column.isSortDescending() ? 'active' : 'inactive');
-    setPage(page)
-    const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
+    if (setSort) {
+      setSort(order, event.shiftKey);
+    }
+
+    const sortOrder = column!.isSortAscending() ? 'asc' : 'desc';
     fetchDataPivotTable(sortOrder, [column.colDef.field])
   };
 
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+
+  const {
+    row_vars, rows_label, binsize,
+    column_vars,
+    cell_vars,
+  } = pivotValueOptions;
+  const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
+  const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
+
   const dataSend: PivotTablesPropsRequest = {
-    columns: columns,
-    rows: rows,
-    rows_label: rows_label,
-    agg_fn: agg_fn,
+    columns: column_vars,
+    rows: updatedRowsValue,
+    rows_label: updatedRowsLabel,
+    agg_fn: aggregation,
     binsize: binsize!,
-    value_field: value_field,
+    value_field: cell_vars,
     offset: offset,
-    limit: limit,
+    limit: rowsPerPage,
     filter: filters || [],
   }
 
-  if (inputSearchValue) {
-    dataSend['global_search'] = inputSearchValue
-  }
-
   const fetchDataPivotTable = async (sortOrder: string, sortingOrder: string[]) => {
+    if (inputSearchValue) {
+      dataSend['global_search'] = inputSearchValue
+    }
     if (sortOrder === 'asc') {
       if (sortingOrder?.length > 0) {
         sortingOrder.forEach((sort: string) => (dataSend['order_by'] = [sort]));
@@ -119,12 +109,24 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
         const { tablestructure, data, metadata } = response.data
         dispatch(setPivotTablColumnDefs(tablestructure));
         dispatch(setRowPivotTableData(data));
-        setTotalResultsCount(metadata.total_results_count)
       }
     } catch (error) {
       console.log('error', error);
     }
   };
+
+  useEffect(() => {
+    props.column.addEventListener('sortChanged', onSortChanged);
+    onSortChanged();
+
+    const headerColor = getHeaderColomnColor(styleName!);
+    document.documentElement.style.setProperty('--header-color--', headerColor);
+    document.documentElement.style.setProperty('--ag-secondary-foreground-color', headerColor);
+    document.documentElement.style.setProperty('--ag-header-foreground-color', headerColor);
+    return () => {
+      props.column.removeEventListener('sortChanged', onSortChanged);
+    }
+  }, []);
 
   let sort: React.ReactNode = null;
   if (enableSorting) {
