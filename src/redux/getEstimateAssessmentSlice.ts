@@ -1,6 +1,6 @@
 
 import { InitialStateDataEstimateAssesment } from "@/share/InterfaceTypes";
-import { disembarkationListData, embarkationListData, flagText } from "@/utils/flatfiles/estimate_text";
+import { disembarkationListData, embarkationListData, flagText } from "@/utils/languages/estimate_text";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 

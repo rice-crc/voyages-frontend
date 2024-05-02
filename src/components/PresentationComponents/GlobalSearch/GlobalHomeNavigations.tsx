@@ -6,21 +6,22 @@ import { Link } from 'react-router-dom';
 import {
   ALLENSLAVED,
   ALLVOYAGES,
-  ALLVOYAGESPAGE,
   BLOGPAGE,
-  DOCUMENTPAGE,
   PASTHOMEPAGE,
   TRANSATLANTICPAGE,
   TRANSATLANTICTIMELAPSE,
 } from '@/share/CONST_DATA';
-import { AppDispatch } from '@/redux/store';
-import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { setPathNameEnslaved, setPathNameVoyages } from '@/redux/getDataPathNameSlice';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { resetAll } from '@/redux/resetAllSlice';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 const GlobalHomeNavigations = () => {
   const dispatch: AppDispatch = useDispatch();
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const translatedHomepage = translationHomepage(languageValue)
 
   const handleHomeSearch = () => {
     dispatch(setCurrentPage(1));
@@ -35,7 +36,7 @@ const GlobalHomeNavigations = () => {
     <>
       <div className="voyages-people-places">
         <div className="place-page-box">
-          <div className="voyages-people-places-title">Voyages</div>
+          <div className="voyages-people-places-title">{translatedHomepage.navigatorTitleVoyages}</div>
           <Link
             to={`${TRANSATLANTICPAGE}#voyages`}
             onClick={handleHomeSearch}
@@ -43,11 +44,11 @@ const GlobalHomeNavigations = () => {
             <img src={voyageIcon} alt="Search by Vessels" style={{ opacity: 0.65 }} />
           </Link>
           <div className="voyages-people-places-subtitle">
-            Search by vessels, places, and periods
+            {translatedHomepage.navigatorSubTitleVoyages}
           </div>
         </div>
         <div className="place-page-box">
-          <div className="voyages-people-places-title">People</div>
+          <div className="voyages-people-places-title">{translatedHomepage.navigatorTitlePeople}</div>
           <Link
             to={`/${PASTHOMEPAGE}`}
             onClick={() => {
@@ -60,34 +61,25 @@ const GlobalHomeNavigations = () => {
           >
             <img src={peopleIcon} alt="People" style={{ opacity: 0.65 }} />
           </Link>
-          <div className="voyages-people-places-subtitle">Find a person</div>
+          <div className="voyages-people-places-subtitle">{translatedHomepage.navigatorSubTitlePeople}</div>
         </div>
-        {/* <div className="place-page-box">
-          <div className="voyages-people-places-title">Documents</div>
-          <Link to={`/${DOCUMENTPAGE}`}>
-            <img src={documentIcon} alt="Documents" width={129} />
-          </Link>
-          <div className="voyages-people-places-subtitle">
-            Read primary sources
-          </div>
-        </div> */}
         <div className="place-page-box">
-          <div className="voyages-people-places-title">Timelapse</div>
+          <div className="voyages-people-places-title">{translatedHomepage.navigatorTitleTimelapse}</div>
           <Link to={`${TRANSATLANTICTIMELAPSE}#timelapse`}>
             <img src={timelapseIcon} alt="Timelapse" style={{ opacity: 0.75, width: 111, height: 111, borderRadius: '50%', padding: 10 }} />
           </Link>
           <div className="voyages-people-places-subtitle">
-            <div>View the movement of slave ships </div>
-            <div>across the Atlantic</div>
+            <div>{translatedHomepage.navigatorSubTitleTimelapse}</div>
+            <div>{translatedHomepage.navigatorSubTitleTimelapseNewLine}</div>
           </div>
         </div>
         <div className="place-page-box">
-          <div className="voyages-people-places-title">Writing</div>
+          <div className="voyages-people-places-title">{translatedHomepage.navigatorTitleWriting}</div>
           <Link to={`/${BLOGPAGE}`}>
             <img src={resourceIcon} alt="Writing" width={129} />
           </Link>
           <div className="voyages-people-places-subtitle">
-            Lesson plans, essays, and more
+            {translatedHomepage.navigatorSubTitleWriting}
           </div>
         </div>
       </div>

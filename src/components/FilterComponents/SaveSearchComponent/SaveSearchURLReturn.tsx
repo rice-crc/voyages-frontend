@@ -15,8 +15,6 @@ const UseSaveSearchURL = () => {
     const saveSearchID = pathName.slice(-1).join('');
     const [isLoading, setLoading] = useState(true)
 
-
-
     useEffect(() => {
         const fetchDataUseSaveSearch = async () => {
             try {

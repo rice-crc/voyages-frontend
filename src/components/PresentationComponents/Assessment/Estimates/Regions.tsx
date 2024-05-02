@@ -8,7 +8,7 @@ import { Filter, LabelFilterMeneList } from '@/share/InterfaceTypes';
 import {
     disembarkationListData,
     embarkationListData,
-} from '@/utils/flatfiles/estimate_text';
+} from '@/utils/languages/estimate_text';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 import { Button } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';

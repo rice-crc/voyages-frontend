@@ -204,7 +204,7 @@
 .customHeaderLabel {
   float: left;
   text-align: center;
-  font-size: .8rem
+  font-size: .75rem
 }
 
 .customHeaderLabel-box {
@@ -302,7 +302,7 @@ div .customHeaderLabelSummaryTable {
 
 .div-value {
   cursor: pointer;
-  font-size: 0.80rem;
+  font-size: 0.75rem;
 
   .value-cell {
     white-space: pre-line;
@@ -327,7 +327,7 @@ div .customHeaderLabelSummaryTable {
   padding: 10px;
 
   img {
-    width: 45%;
+    width: 32%;
     cursor: pointer;
   }
 }
@@ -889,6 +889,10 @@ div .customHeaderLabelSummaryTable {
 }
 
 .ag-pinned-left-cols-container .align-left-header {
-  // justify-content: flex-start !important;
   text-align: left !important;
+}
+
+.ag-cell-wrap-text {
+  white-space: normal;
+  word-break: break-word;
 }

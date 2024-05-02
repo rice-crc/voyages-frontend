@@ -1,25 +1,19 @@
-// import voyageLogo from '@/assets/logo-voyage.svg';
 import voyageLogo from '@/assets/sv-logo.png';
-import voyageText from '@/assets/slave-text.svg';
+import { RootState } from '@/redux/store';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
+import { useSelector } from 'react-redux';
 
 const SlaveVoyageLogo = () => {
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const translatedHomepage = translationHomepage(languageValue)
   return (
     <div className="header-logo-slave-voyages">
       <div className="voyageLogo-img">
         <img src={voyageLogo} />
         <div className="voyage-description">
-
-          Explore the voyages that relocated more than 12 million enslaved Africans across the world
+          {translatedHomepage.header}
         </div>
       </div>
-      {/*<div className="voyage-text-box">
-         <div>
-          <img src={voyageText} alt="voyages logo" />
-        </div> 
-       <div className="voyage-description">
-          Explore the voyages that relocated more than 12 million enslaved Africans across the world
-        </div> 
-      </div>*/}
     </div>
   );
 };

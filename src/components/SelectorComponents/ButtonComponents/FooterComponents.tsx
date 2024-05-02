@@ -1,7 +1,15 @@
-import { ABOUTPAGE, BLOGPAGE } from '@/share/CONST_DATA';
+import { BLOGPAGE } from '@/share/CONST_DATA';
 import '@/style/homepage.scss';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
+
 export const FooterComponent = () => {
+
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const translatedHomepage = translationHomepage(languageValue)
+
     return (
         <div className="footer-container">
             <div
@@ -188,24 +196,23 @@ export const FooterComponent = () => {
                                 rel="noopener"
                                 className="link grey"
                             >
-                                <span className="bold">Slave Voyages</span> v2.2.13
+                                <span className="bold">{translatedHomepage.homeFootSlave}</span> v2.2.13
                             </Link>
                         </div>
                         <div className="highlight">
-                            Copyright 2021 The Slave Voyages Consortium. Software licensed
-                            under{' '}
+                            {translatedHomepage.homeFootSlaveCopyright}{' '}
                             <Link
                                 target="_blank"
                                 rel="noopener"
                                 to="https://www.gnu.org/licenses/gpl-3.0.en.html"
                                 className="grey"
                             >
-                                <span className="link">GNU General Public License 3.0</span>
+                                <span className="link"> {translatedHomepage.homeFootLicense}</span>
                             </Link>{' '}
-                            or later version.
+                            {translatedHomepage.homeFootLicenseOrVersion}
                         </div>
                         <div className="highlight">
-                            Some content licensed under{' '}
+                            {translatedHomepage.homeFootSomeContent}
                             <Link
                                 target="_blank"
                                 rel="noopener"
@@ -213,7 +220,7 @@ export const FooterComponent = () => {
                                 className="grey"
                             >
                                 <span className="link">
-                                    Creative Commons Attribution-Non-Commercial 3.0
+                                    {translatedHomepage.homeFootCreative}
                                 </span>
                             </Link>
                             .
@@ -222,7 +229,7 @@ export const FooterComponent = () => {
                 </div>
 
                 <div className="footer-logo">
-                    <i>Powered by:</i>
+                    <i>{translatedHomepage.homeFootPowerBy}</i>
                     <br />
                     <Link
                         target="_blank"

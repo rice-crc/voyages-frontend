@@ -650,9 +650,10 @@
   border: 1px white solid;
   border-radius: 3px;
   color: white;
+  text-align: center;
   padding: 0 0.5rem 0 0.35rem;
   font-size: 0.85rem;
-  width: 65px;
+  width: 80px;
 
   span {
     margin-left: 4px;
@@ -838,6 +839,28 @@
 
     @include breakpoint-standard(3) {
       width: 10%;
+    }
+  }
+}
+
+.pie-plot-container {
+  .pielayer {
+    .slicetext {
+      >text {
+        font-size: 0.85rem !important;
+
+        @include breakpoint-standard(5) {
+          font-size: 12px !important;
+        }
+
+        @include breakpoint-standard(4) {
+          font-size: 12px !important;
+        }
+
+        @include breakpoint-standard(3) {
+          font-size: 12px !important;
+        }
+      }
     }
   }
 }

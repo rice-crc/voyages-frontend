@@ -1,12 +1,9 @@
 import {
     INTRAAMERICANTRADS,
-    TRANSATLANTICENSLAVERS,
     TRANSATLANTICTRADS,
     allEnslavers,
 } from '@/share/CONST_DATA';
 import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
-import { all } from 'axios';
-import { convertToSlug } from './convertToSlug';
 
 export const getColorVoyagePageBackground = (
     item: string,
@@ -140,6 +137,28 @@ export const getColorNavbarBackground = (item: string) => {
     return background;
 };
 
+
+export const getColorBackgroundHeader = (item: string) => {
+    let background = 'rgb(55, 148, 141)';
+    if (item === TYPESOFDATASET.allVoyages) {
+        background = 'rgb(55, 148, 141)';
+    } else if (item === TYPESOFDATASET.intraAmerican) {
+        background = 'rgba(127, 118, 191)';
+    } else if (item === TYPESOFDATASET.transatlantic || item === TYPESOFDATASETPEOPLE.africanOrigins) {
+        background = '#1976d2';
+    } else if (item === TYPESOFDATASET.texas || item === TYPESOFDATASETPEOPLE.texas) {
+        background = 'rgba(187, 105, 46)';
+    } else if (item === allEnslavers) {
+        background = '#3f9d82'
+    } else if (item === INTRAAMERICANTRADS) {
+        background = 'rgba(127, 118, 191)';
+    } else if (item === TRANSATLANTICTRADS) {
+        background = '#1976d2';
+    } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
+        background = 'rgb(178, 148, 147)';
+    }
+    return background;
+};
 export const getColorNavbarEnslavedBackground = (item: string) => {
     let background = '#b29493';
     if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
@@ -215,7 +234,6 @@ export const getColorHoverBackgroundCollection = (item: string) => {
     } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
         boxShadow = '#dbcccbe8';
     } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
-        console.log('africanOrigins', { item })
         boxShadow = '#42a5f5';
     } else if (item === TYPESOFDATASETPEOPLE.texas) {
         boxShadow = 'rgb(216 93 5)';

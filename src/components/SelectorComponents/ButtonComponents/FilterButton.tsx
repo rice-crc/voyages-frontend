@@ -3,12 +3,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
-interface FilterButtonProps {
-  pathName: string;
-  currentPageBlockName?: string
-  currentPage?: number;
-}
-export const FilterButton = ({ currentPageBlockName, currentPage }: FilterButtonProps) => {
+export const FilterButton = () => {
   const dispatch: AppDispatch = useDispatch();
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
   const handleClick = () => {

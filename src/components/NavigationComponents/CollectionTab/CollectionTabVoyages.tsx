@@ -2,7 +2,7 @@ import { Button, Hidden } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { CurrentPageInitialState, LabelFilterMeneList, TYPESOFBLOCKVOYAGES } from '@/share/InterfaceTypes';
+import { CurrentPageInitialState, Filter, LabelFilterMeneList, TYPESOFBLOCKVOYAGES } from '@/share/InterfaceTypes';
 
 import '@/style/page.scss';
 import {
@@ -33,7 +33,6 @@ const CollectionTabVoyages = () => {
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
   const handlePageNavigation = (page: number, blockName: string) => {
-
     dispatch(setCurrentPage(page));
     if (page === 1) {
       dispatch(setIsFilter(false));
@@ -57,11 +56,18 @@ const CollectionTabVoyages = () => {
     } else if (checkBlockCollectionNameForVoyages(blockName) === TYPESOFBLOCKVOYAGES.timeLapseEN) {
       navigate(`#${TYPESOFBLOCKVOYAGES.timeLapseEN.toLowerCase()}`)
     }
+    const storedValue = localStorage.getItem('filterObject');
+    if (!storedValue) return;
+    const parsedValue = JSON.parse(storedValue);
+    const filter: Filter[] = parsedValue.filter;
 
-
-    dispatch(setFilterObject(filtersObj));
+    const filterObjectUpdate = {
+      filter: filter
+    };
+    dispatch(setFilterObject(filter));
+    const filterObjectString = JSON.stringify(filterObjectUpdate);
+    localStorage.setItem('filterObject', filterObjectString);
   };
-
 
   return (
     <Hidden>
