@@ -1,10 +1,11 @@
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
-import { Filter, RangeSliderState, TYPES } from '@/share/InterfaceTypes';
+import { Filter, RangeSliderState } from '@/share/InterfaceTypes';
 import '@/style/estimates.scss'
-import { getColorNavbarBackground } from '@/utils/functions/getColorStyle';
+import { getColorBackgroundHeader } from '@/utils/functions/getColorStyle';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { it } from 'node:test';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 interface ShowAllSelectedProps {
@@ -32,7 +33,6 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
         const parsedValue = JSON.parse(storedValue);
 
         const filter: Filter[] = parsedValue.filter;
-
         const combinedData: { label: string; searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType }[] = [];
         if (Array.isArray(filter)) {
             filter.forEach((item) => {
@@ -42,14 +42,21 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
                         label: item.label!,
                         searchTerm: searchTermToUse
                     });
+                } else if (item.varName === 'language_group__name') {
+                    const searchTermToUse = (item.searchTerm as string[]).join(' - ')
+                    combinedData.push({
+                        label: `Language Group`,
+                        searchTerm: searchTermToUse
+                    });
                 }
             });
         }
         setFilterData(combinedData)
     }, [varName, isChange, isChangeGeoTree, isChangeAuto]);
 
+
     return (
-        <div id="panelCollapse" className="panel-list-view-all" v-if="hasCurrentQuery" style={{ backgroundColor: getColorNavbarBackground(styleNameRoute!) }}>
+        <div id="panelCollapse" className="panel-list-view-all" v-if="hasCurrentQuery" style={{ backgroundColor: getColorBackgroundHeader(styleNameRoute!) }}>
             <div className="panel-list-item-wrapper" style={{ display: 'flex' }}>
                 {filterData.length > 0 && filterData.map((item, index) => {
                     const { label, searchTerm } = item;

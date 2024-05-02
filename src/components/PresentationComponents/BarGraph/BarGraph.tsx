@@ -17,6 +17,7 @@ import {
   CurrentPageInitialState,
   BargraphXYVar,
   IRootFilterObjectScatterRequest,
+  Filter,
 } from '@/share/InterfaceTypes';
 import {
   getMobileMaxHeight,
@@ -47,7 +48,10 @@ function BarGraph() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+  const { clusterNodeKeyVariable, clusterNodeValue } =
+    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
+  const [error, setError] = useState(false)
   const [width, height] = useWindowSize();
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
@@ -57,7 +61,6 @@ function BarGraph() {
   const [chips, setChips] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   ]);
-
 
   const [barGraphOptions, setBarOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
@@ -78,13 +81,13 @@ function BarGraph() {
       }
     );
   }, []);
-  const filters = filtersDataSend(filtersObj, styleNameRoute!)
+  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: barGraphOptions.x_vars,
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_bar_and_donut_charts',
-    filter: filters || []
+    filter: filters || [],
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
@@ -150,6 +153,11 @@ function BarGraph() {
   const handleChangeBarGraphChipYSelected = useCallback(
     (event: SelectChangeEvent<string[]>, name: string) => {
       const value = event.target.value;
+      if (value.length === 0) {
+        setError(true)
+      } else {
+        setError(false)
+      }
       setChips(typeof value === 'string' ? value.split(',') : value);
       setBarOptions((prevVoyageOption) => ({
         ...prevVoyageOption,
@@ -182,13 +190,14 @@ function BarGraph() {
         optionsFlatY={VOYAGE_BARGRAPH_OPTIONS.y_vars}
         setXAxes={setXAxes}
         setYAxes={setYAxes}
+        error={error}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-      {loading ? (
-        <div className="loading-logo-display">
+      {loading || yAxes.length === 0 ? (
+        <div className="loading-logo-graph">
           <img src={LOADINGLOGO} />
         </div>
       ) : (

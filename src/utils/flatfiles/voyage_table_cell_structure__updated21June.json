@@ -104,7 +104,6 @@
 			"order_by": [
 				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
 			],
-			"col_width_px": 135,
 			"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 			"cell_val": {
 				"fields": [
@@ -148,7 +147,7 @@
 			"visible": true,
 			"number_format": null,
 			"order_by": [],
-			"col_width_px": 100,
+			"col_width_px": 120,
 			"colID": "connections",
 			"cell_val": {
 				"fields": [
@@ -2095,7 +2094,7 @@
 			},
 			"children": [
 				{
-					"col_width_px": 100,
+					"col_width_px": 130,
 					"colID": "connections",
 					"label": {
 						"en": "Connections",

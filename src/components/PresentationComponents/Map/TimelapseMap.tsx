@@ -33,6 +33,7 @@ import { filtersDataSend } from '@/utils/functions/filtersDataSend'
 import { usePageRouter } from "@/hooks/usePageRouter"
 import { checkPagesRouteForVoyages } from "@/utils/functions/checkPagesRoute";
 import { getMapBackgroundColor } from "@/utils/functions/getMapBackgroundColor";
+import { Filter } from "@/share/InterfaceTypes";
 
 // TODO
 // - move out the basic geometry/calculation stuff to a separate file.
@@ -1286,7 +1287,8 @@ const useFilteredVoyageRoutes = () => {
         fetchNations()
     }, [])
     const { filtersObj } = useSelector((state: RootState) => state.getFilter)
-    const filter = filtersDataSend(filtersObj, styleName!)
+    const filter = filtersDataSend(filtersObj, styleName!) || []
+
     useEffect(() => {
         const fetchVoyages = async () => {
             if (!routeBuilder || !nations) {

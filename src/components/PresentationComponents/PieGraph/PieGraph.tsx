@@ -36,6 +36,8 @@ function PieGraph() {
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
+  const { clusterNodeKeyVariable, clusterNodeValue } =
+    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
@@ -53,6 +55,8 @@ function PieGraph() {
   const [pieGraphSelectedY, setSelectedY] = useState<PlotPIEY[]>([]);
   const [plotX, setPlotX] = useState<any[]>([]);
   const [plotY, setPlotY] = useState<any[]>([]);
+  const [xAxes, setXAxes] = useState<string>(PIECHART_OPTIONS.x_vars[0].label);
+  const [yAxes, setYAxes] = useState<string>(PIECHART_OPTIONS.y_vars[0].label);
   const maxWidth = maxWidthSize(width);
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const [pieGraphOptions, setPieOptions] = useState<VoyagesOptionProps>({
@@ -72,13 +76,13 @@ function PieGraph() {
       }
     );
   };
-  const filters = filtersDataSend(filtersObj, styleNameRoute!);
+  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: pieGraphOptions.x_vars,
     groupby_cols: [pieGraphOptions.y_vars],
     agg_fn: aggregation,
     cachename: 'voyage_bar_and_donut_charts',
-    filter: filters || [],
+    filter: filters!,
   };
 
   if (inputSearchValue) {
@@ -114,7 +118,7 @@ function PieGraph() {
     varName,
     currentPage,
     isSuccess,
-    styleName,
+    styleName, fetchOptionsFlat
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -148,6 +152,8 @@ function PieGraph() {
         XFieldText={'Sectors'}
         YFieldText={'Values'}
         optionsFlatY={PIECHART_OPTIONS.y_vars}
+        setXAxes={setXAxes}
+        setYAxesPie={setYAxes}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
@@ -160,6 +166,7 @@ function PieGraph() {
       ) : plotX.length > 0 && !isPlotYZeroAll ? (
         <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
           <Plot
+            className='pie-plot-container'
             data={[
               {
                 labels: plotX,
@@ -168,22 +175,22 @@ function PieGraph() {
                 mode: 'lines+markers',
                 textinfo: 'label+percent',
                 insidetextorientation: 'radial',
-                hole: 0.2,
+                hole: 0.1,
                 textposition: 'inside',
-                showlegend: maxWidth < 400 ? false : true,
+                showlegend: maxWidth < 420 ? false : true,
               },
             ]}
             layout={{
               width: getMobileMaxWidth(maxWidth - 5),
               height: getMobileMaxHeight(height),
-              title: `The ${aggregation} of ${optionFlat[pieGraphOptions.x_vars]?.label || ''
-                } vs <br> ${optionFlat[pieGraphOptions.y_vars]?.label || ''
+              title: `The ${aggregation} of ${xAxes || ''
+                } vs <br> ${yAxes || ''
                 } Pie Chart`,
               font: {
                 family: 'Arial, sans-serif',
-                size: maxWidth < 400 ? 7 : 10,
+                size: maxWidth < 500 ? 8 : 12,
                 color: '#333333',
-              },
+              }
             }}
             config={{ responsive: true }}
           />

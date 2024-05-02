@@ -40,6 +40,7 @@ function Scatter() {
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as RangeSliderState
   );
+  const [error, setError] = useState(false)
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -50,6 +51,8 @@ function Scatter() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+  const { clusterNodeKeyVariable, clusterNodeValue } =
+    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
   const { styleName: styleNameRoute } = usePageRouter();
   const [width, height] = useWindowSize();
@@ -81,13 +84,14 @@ function Scatter() {
       }
     );
   }, []);
-  const filters = filtersDataSend(filtersObj, styleNameRoute!)
+
+  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: scatterOptions.x_vars,
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_xyscatter',
-    filter: filters || []
+    filter: filters || [],
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
@@ -156,7 +160,11 @@ function Scatter() {
   const handleChangeScatterChipYSelected = useCallback(
     (event: SelectChangeEvent<string[]>, name: string) => {
       const value = event.target.value;
-
+      if (value.length === 0) {
+        setError(true)
+      } else {
+        setError(false)
+      }
       setChips(typeof value === 'string' ? value.split(',') : value);
       setScatterOptions((prevOptions) => ({
         ...prevOptions,
@@ -168,10 +176,7 @@ function Scatter() {
     []
   );
 
-
-  return isLoading ? (<div className="loading-logo">
-    <img src={LOADINGLOGO} />
-  </div>) : (
+  return (
     <div className="mobile-responsive">
       <SelectDropdown
         selectedX={scatterSelectedX}
@@ -186,12 +191,15 @@ function Scatter() {
         optionsFlatY={VOYAGE_SCATTER_OPTIONS.y_vars}
         setXAxes={setXAxes}
         setYAxes={setYAxes}
+        error={error}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-      <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
+      {isLoading || yAxes.length === 0 ? (<div className="loading-logo-graph">
+        <img src={LOADINGLOGO} />
+      </div>) : (<Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
         <Plot
           data={scatterData}
           layout={{
@@ -218,9 +226,10 @@ function Scatter() {
           }}
           config={{ responsive: true }}
         />
-      </Grid>
+      </Grid>)}
     </div>
-  );
+  )
+
 }
 
 export default Scatter;

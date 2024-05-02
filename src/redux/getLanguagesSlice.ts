@@ -8,9 +8,6 @@ const setSelectedLanguageToLocalStorage = (language: string) => {
 const initialStateLanguages: LanguagesProps = {
     languageValue: 'en',
     languageValueLabel: 'English',
-    configureColumns: 'Configure Columns',
-    resetAll: 'Reset all',
-    viewAll: 'View all'
 }
 
 export const getLanguagesSlice = createSlice({
@@ -25,21 +22,9 @@ export const getLanguagesSlice = createSlice({
             state.languageValueLabel = action.payload;
             setSelectedLanguageToLocalStorage(action.payload);
         },
-        setConfigureColumns: (state, action: PayloadAction<string>) => {
-            state.configureColumns = action.payload;
-            setSelectedLanguageToLocalStorage(action.payload);
-        },
-        setResetAllLanguage:
-            (state, action: PayloadAction<string>) => {
-                state.resetAll = action.payload;
-            },
-        setViewAllLanguage:
-            (state, action: PayloadAction<string>) => {
-                state.resetAll = action.payload;
-            },
     },
 });
 
-export const { setLanguages, setLanguagesLabel, setConfigureColumns, setResetAllLanguage, setViewAllLanguage } = getLanguagesSlice.actions;
+export const { setLanguages, setLanguagesLabel } = getLanguagesSlice.actions;
 
 export default getLanguagesSlice.reducer;

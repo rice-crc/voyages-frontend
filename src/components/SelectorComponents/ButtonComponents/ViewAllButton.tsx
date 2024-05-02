@@ -1,7 +1,13 @@
-import { RootState } from '@/redux/store';
-import { RangeSliderState } from '@/share/InterfaceTypes';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { allEnslavers } from '@/share/CONST_DATA';
+import { LanguagesProps } from '@/share/InterfaceTypeLanguages';
+import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss'
-import { useSelector } from 'react-redux';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface ViewAllButtonProps {
     varName: string;
@@ -11,23 +17,32 @@ interface ViewAllButtonProps {
 }
 
 export const ViewAllButton = (props: ViewAllButtonProps) => {
-    const { isChange } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
-    );
-    const { isChangeGeoTree } = useSelector(
-        (state: RootState) => state.getGeoTreeData
-    );
-    const { isChangeAuto } = useSelector((state: RootState) => state.autoCompleteList);
+    const dispatch: AppDispatch = useDispatch();
+    const { styleName: styleNameRoute } = usePageRouter()
     const { clusterNodeKeyVariable, clusterNodeValue, handleViewAll } = props;
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-    const { viewAll } = useSelector((state: RootState) => state.getLanguages);
+    const { isView } = useSelector((state: RootState) => state.getShowFilterObject);
+    const storedValue = localStorage.getItem('saveSearchID');
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const translatedHomepage = translationHomepage(languageValue)
+
+    useEffect(() => {
+        if (storedValue) {
+            dispatch(setIsViewButtonViewAllResetAll(false))
+        } else if ((styleNameRoute === TYPESOFDATASET.allVoyages || styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved || styleNameRoute === allEnslavers) && filtersObj.length > 0) {
+            dispatch(setIsViewButtonViewAllResetAll(true))
+        } else if (filtersObj.length > 1) {
+            dispatch(setIsViewButtonViewAllResetAll(true))
+        }
+    }, [isView])
+
     return (
         <>
-            {(isChange || isChangeGeoTree || isChangeAuto || filtersObj?.length > 0 || (clusterNodeKeyVariable && clusterNodeValue)) && (
+            {isView || (clusterNodeKeyVariable && clusterNodeValue) ? (
                 <div className="btn-navbar-reset-all" onClick={handleViewAll}>
                     <i aria-hidden="true" className="fa fa-filter"></i>
-                    <span>{viewAll}</span>
+                    <span>{translatedHomepage.viewAll}</span>
                 </div>
-            )}</>
+            ) : null}</>
     )
 }

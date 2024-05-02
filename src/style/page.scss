@@ -636,3 +636,28 @@
     transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
   }
 }
+
+
+.loading-logo-graph {
+  display: flex;
+  justify-content: center;
+  animation: center;
+  margin: auto;
+  height: 50vh;
+
+  >img {
+    width: 15%;
+
+    @include breakpoint-standard(5) {
+      width: 10%;
+    }
+
+    @include breakpoint-standard(4) {
+      width: 10%;
+    }
+
+    @include breakpoint-standard(3) {
+      width: 10%;
+    }
+  }
+}

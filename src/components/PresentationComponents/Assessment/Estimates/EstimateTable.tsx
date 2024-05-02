@@ -6,7 +6,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import '@/style/estimates.scss';
-
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import {
     EstimateCellVar,
     EstimateColumnVar,
@@ -39,7 +39,9 @@ const EstimateTable = () => {
     const { varName } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
-    const [data, setData] = useState<string>('');
+    // const [data, setData] = useState<string>('');
+    const [loading, setLoading] = useState(false)
+    const [data, setData] = useState<string | null>(null)
     const [rowVars, setSelectRowValues] = useState<EstimateRowVar[]>([]);
     const [columnVars, setSelectColumnValue] = useState<EstimateColumnVar[]>([]);
     const [cellVars, setSelectCellValue] = useState<EstimateCellVar[]>([]);
@@ -115,6 +117,7 @@ const EstimateTable = () => {
     };
 
     const fetchData = async () => {
+        setLoading(true)
         try {
             const response = await dispatch(
                 fetchEstimateCrosstabsTables(dataSend)
@@ -122,6 +125,7 @@ const EstimateTable = () => {
 
             if (response) {
                 setData(response.data.data);
+                setLoading(false)
             }
         } catch (error) {
             console.log('error', error);
@@ -155,43 +159,41 @@ const EstimateTable = () => {
     ]);
 
     const handleButtonExportCSV = useCallback(() => {
-
-        const table = document.querySelector('.estimate-table');
-
-        if (!table) {
-            console.error('Table element not found');
-            return;
-        }
-
-        // Extract table data
-        const rows = Array.from(table.querySelectorAll('tr'));
-
-        // Create CSV content
-        const csvContent = rows
-            .map((row) =>
-                Array.from(row.children)
-                    .map((cell) => cell.textContent)
-                    .join(',')
-            )
-            .join('\n');
-
-        // Create a Blob containing the CSV data
-        const blob = new Blob([csvContent], { type: 'text/csv' });
-
-        // Create a temporary link element to trigger the download
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = 'estimates_table_data.csv';
-
-        // Trigger the download
-        document.body.appendChild(link);
-        link.click();
-
-        // Clean up
-        document.body.removeChild(link);
-
+        const filename = 'estimates_table_data';
         setMode('csv');
-    }, [mode]);
+        const table = document.querySelector('table');
+        if (!table) return;
+
+        const rows = table.querySelectorAll('tr:has(td),tr:has(th)');
+        const tmpColDelim = String.fromCharCode(11);
+        const tmpRowDelim = String.fromCharCode(0);
+        const colDelim = '","';
+        const rowDelim = '"\r\n"';
+
+        // Grab text from table into CSV formatted string
+        const csvRows = [...rows].map((row) => {
+            const cols = row.querySelectorAll('td,th');
+            const csvCols = [...cols].map((col) => {
+                const text = col.textContent?.trim() ?? '';
+                return text.replace(/"/g, '""');
+            });
+            return csvCols.join(tmpColDelim);
+        });
+
+        const csv = '"' + csvRows.join(tmpRowDelim)
+            .split(tmpRowDelim).join(rowDelim)
+            .split(tmpColDelim).join(colDelim) + '"';
+
+        const csvData = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+
+        const link = document.createElement('a');
+        link.href = csvData;
+        link.download = filename;
+        link.target = '_blank';
+        link.click();
+        setMode('html')
+    }, [mode, data]);
+
 
     const handleChangeOptions = useCallback(
         (
@@ -222,6 +224,7 @@ const EstimateTable = () => {
         },
         [setEstimateValueOptions]
     );
+
     return (
         <div className="estimate-table-card">
             <SelectDropdownEstimateTable
@@ -231,13 +234,16 @@ const EstimateTable = () => {
                 selectCellValue={cellVars}
                 handleChangeOptions={handleChangeOptions}
                 handleButtonExportCSV={handleButtonExportCSV}
-                setMode={setMode}
             />
-            <div className="estimate-table-container">
-                <div className="estimate-table" >
-                    <div dangerouslySetInnerHTML={{ __html: data ?? null }} />
-                </div>
-            </div>
+            {loading && data ? <div className="loading-logo-graph">
+                <img src={LOADINGLOGO} />
+            </div> :
+                <div className="estimate-table-container">
+                    <div className="estimate-table" >
+                        <div dangerouslySetInnerHTML={{ __html: data !== null ? data : '' }} />
+                    </div>
+                </div>}
+
         </div>
     );
 };

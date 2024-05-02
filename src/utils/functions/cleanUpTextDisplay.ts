@@ -1,5 +1,5 @@
 
-export const cleanUpTexDisplay = (textDisplay: string) => {
+export const cleanUpTextDisplay = (textDisplay: string) => {
     if (typeof textDisplay !== 'string') {
         textDisplay = String(textDisplay);
     }

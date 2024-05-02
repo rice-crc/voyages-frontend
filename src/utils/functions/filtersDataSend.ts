@@ -8,7 +8,8 @@ import {
 } from '@/share/CONST_DATA';
 import { Filter } from "@/share/InterfaceTypes";
 
-export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string) => {
+export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string, clusterNodeKeyVariable?: string, clusterNodeValue?: string) => {
+
     let filters: Filter[] = []
     if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0) {
         filters = filtersObj;
@@ -52,20 +53,37 @@ export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string) =>
             op: "exact"
         });
     }
-    // Update filterObject state
+    if (clusterNodeKeyVariable && clusterNodeValue) {
+        filters = filters.concat({
+            varName: clusterNodeKeyVariable,
+            searchTerm: [clusterNodeValue],
+            op: 'in',
+        });
+    }
+
+    const uniqueFiltersSet = new Set<string>();
+    let uniqueFilters: Filter[] = [];
+    for (const filter of filters) {
+        const key = `${filter.varName}_${JSON.stringify(filter.searchTerm)}`;
+        if (!uniqueFiltersSet.has(key)) {
+            uniqueFiltersSet.add(key);
+            uniqueFilters.push(filter);
+        }
+    }
     const filterObjectUpdate = {
-        filter: filters
+        filter: uniqueFilters
     };
 
-    // Update localStorage
+    // Update localStorages
     if (filters.length === 0) {
         const storedValue = localStorage.getItem('filterObject');
         if (!storedValue) return;
         const parsedValue = JSON.parse(storedValue);
-        filters = parsedValue.filter;
+        uniqueFilters = parsedValue.filter;
     } else {
         const filterObjectString = JSON.stringify(filterObjectUpdate);
         localStorage.setItem('filterObject', filterObjectString);
     }
-    return filters;
+
+    return uniqueFilters;
 }

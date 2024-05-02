@@ -53,7 +53,7 @@ import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/Casca
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import { voyagesHeader } from '@/utils/flatfiles/title_pages';
+import { voyagesHeader } from '@/utils/languages/title_pages';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();

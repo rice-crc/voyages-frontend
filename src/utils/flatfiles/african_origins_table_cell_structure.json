@@ -84,7 +84,7 @@
 				"age"
 			],
 			"colID": "age",
-			"col_width_px": 100,
+			"col_width_px": 75,
 			"cell_val": {
 				"fields": [
 					{
@@ -107,7 +107,7 @@
 				"gender"
 			],
 			"colID": "gender",
-			"col_width_px": 100,
+			"col_width_px": 90,
 			"cell_val": {
 				"fields": [
 					{
@@ -130,7 +130,7 @@
 				"height"
 			],
 			"colID": "height",
-			"col_width_px": 100,
+			"col_width_px": 90,
 			"cell_val": {
 				"fields": [
 					{
@@ -151,7 +151,7 @@
 			"number_format": null,
 			"order_by": [],
 			"colID": "connections",
-			"col_width_px": 100,
+			"col_width_px": 120,
 			"cell_val": {
 				"fields": [
 					{
@@ -198,7 +198,7 @@
 				"voyages__voyage_ship__ship_name"
 			],
 			"colID": "voyages__voyage_ship__ship_name",
-			"col_width_px": 100,
+			"col_width_px": 160,
 			"cell_val": {
 				"fields": [
 					{
@@ -244,7 +244,7 @@
 				"voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name"
 			],
 			"colID": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
-			"col_width_px": 100,
+			"col_width_px": 140,
 			"cell_val": {
 				"fields": [
 					{
@@ -267,7 +267,7 @@
 				"voyages__voyage_itinerary__imp_principal_port_slave_dis__name"
 			],
 			"colID": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
-			"col_width_px": 100,
+			"col_width_px": 140,
 			"cell_val": {
 				"fields": [
 					{
@@ -427,8 +427,8 @@
 			}
 		}
 	],
-	"other_properties":{
-	    "default_order_by":"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
+	"other_properties": {
+		"default_order_by": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
 	},
 	"column_selector_tree": [
 		{
@@ -619,7 +619,7 @@
 			"children": [
 				{
 					"colID": "connections",
-					"col_width_px": 100,
+					"col_width_px": 120,
 					"label": {
 						"en": "Connections",
 						"es": "Connections ES",

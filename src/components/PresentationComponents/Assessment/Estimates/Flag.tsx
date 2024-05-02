@@ -2,7 +2,7 @@ import { Button } from "antd";
 import Checkbox from "antd/es/checkbox";
 import { useEffect } from "react";
 import '@/style/estimates.scss'
-import { flagText } from "@/utils/flatfiles/estimate_text";
+import { flagText } from "@/utils/languages/estimate_text";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setKeyValueName } from "@/redux/getRangeSliderSlice";

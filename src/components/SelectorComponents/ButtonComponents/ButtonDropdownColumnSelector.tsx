@@ -23,6 +23,7 @@ import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
 import { DropdownCascading } from '../Cascading/DropdownCascading';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 const ButtonDropdownColumnSelector = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -31,9 +32,9 @@ const ButtonDropdownColumnSelector = () => {
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
   const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-
-  const { configureColumns } = useSelector((state: RootState) => state.getLanguages);
   const [menuValueCells, setMenuValueCells] = useState<ColumnSelectorTree[]>([]);
+  const translatedHomepage = translationHomepage(languageValue)
+
 
 
   const handleColumnVisibilityChange = (
@@ -48,6 +49,7 @@ const ButtonDropdownColumnSelector = () => {
       dispatch(setVisibleColumn(updatedVisibleColumns));
     }
   };
+
 
   const voyageColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(VOYAGESTABLE_FLAT.column_selector_tree))
   const enslavedColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(ENSLAVED_TABLE.column_selector_tree))
@@ -133,7 +135,7 @@ const ButtonDropdownColumnSelector = () => {
             className="configureColumnsButton"
             endIcon={<ArrowDropDown />}
           >
-            {configureColumns}
+            {translatedHomepage.configureColumns}
           </Button>
         </span>
       }

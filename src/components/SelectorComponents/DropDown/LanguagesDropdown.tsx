@@ -7,7 +7,7 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { LanguageOptions } from '@/utils/functions/languages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { setConfigureColumns, setLanguages, setLanguagesLabel, setResetAllLanguage } from '@/redux/getLanguagesSlice';
+import { setLanguages, setLanguagesLabel } from '@/redux/getLanguagesSlice';
 import { setBlogPost } from '@/redux/getBlogDataSlice';
 import { BlogDataProps } from '@/share/InterfaceTypesBlog';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -43,16 +43,6 @@ export default function LanguagesDropdown() {
     dispatch(setLanguages(value));
     dispatch(setLanguagesLabel(label));
     dispatch(setBlogPost(post as BlogDataProps));
-    if (value === 'en') {
-      dispatch(setConfigureColumns('Configure Columns'))
-      dispatch(setResetAllLanguage(translatedLanguageValue.resetAll))
-    } else if (value === 'es') {
-      dispatch(setConfigureColumns('Configurar columnas'))
-      dispatch(setResetAllLanguage(translatedLanguageValue.resetAll))
-    } else if (value === 'pt') {
-      dispatch(setConfigureColumns('Configurar colunas'))
-      dispatch(setResetAllLanguage(translatedLanguageValue.resetAll))
-    }
     const hederTitleName = checkHeaderTitleLanguages(value, styleNameRoute!)
     dispatch(setDataSetHeader(hederTitleName))
     dispatch(setDataSetPeopleEnslavedHeader(hederTitleName))

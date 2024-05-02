@@ -51,8 +51,10 @@ const Tables: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+    const { textFilter } = useSelector((state: RootState) => state.getShowFilterObject);
+
     const { textFilterValue } = useSelector((state: RootState) => state.autoCompleteList);
-    const { isChange, varName } = useSelector(
+    const { isChange, rangeSliderMinMax } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
     const { viewAll } = useSelector((state: RootState) => state.getShowFilterObject)
@@ -71,8 +73,10 @@ const Tables: React.FC = () => {
     const { inputSearchValue } = useSelector(
         (state: RootState) => state.getCommonGlobalSearch
     );
+    const { clusterNodeKeyVariable, clusterNodeValue } =
+        useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
-    const { isChangeGeoTree } = useSelector(
+    const { isChangeGeoTree, geoTreeValue } = useSelector(
         (state: RootState) => state.getGeoTreeData
     );
     // Voyages States
@@ -82,7 +86,6 @@ const Tables: React.FC = () => {
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
     );
-
     // Enslaved States
     const { tableFlatfileEnslaved } = useSelector(
         (state: RootState) => state.getPeopleEnlavedDataSetCollection
@@ -90,7 +93,6 @@ const Tables: React.FC = () => {
     const { currentEnslavedPage } = useSelector(
         (state: RootState) => state.getScrollEnslavedPage
     );
-
     // Enslavers States
     const { tableFlatfileEnslavers } = useSelector(
         (state: RootState) => state.getEnslaverDataSetCollections
@@ -108,7 +110,6 @@ const Tables: React.FC = () => {
     } = useTableCellStructure(styleNameRoute);
 
     useEffect(() => {
-
         if (!isLoading && !isError && tableCellStructure) {
             setTableCell(tableCellStructure as TableCellStructure[]);
         }
@@ -134,18 +135,15 @@ const Tables: React.FC = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!]);
+    }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!, data]);
 
-    // set filters object to send to request data
-    const filters = filtersDataSend(filtersObj, styleNameRoute!)
-
+    const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
     const dataSend: TableListPropsRequest = {
         filter: filters || [],
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
 
-    const refreshFilterObj = styleNameRoute !== 'intra-american' ? filtersObj : null
     useEffect(() => {
         const fetchDataTable = async () => {
             let response;
@@ -159,13 +157,9 @@ const Tables: React.FC = () => {
                 if (checkPagesRouteForVoyages(styleNameRoute!)) {
                     response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
                 } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslavedOptionsList(dataSend)
-                    ).unwrap();
+                    response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
                 } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-                    response = await dispatch(
-                        fetchEnslaversOptionsList(dataSend)
-                    ).unwrap();
+                    response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
                 }
                 if (response) {
                     const { count, results } = response.data;
@@ -177,18 +171,23 @@ const Tables: React.FC = () => {
             }
         };
         fetchDataTable();
+        return () => {
+            if (!textFilter) {
+                dispatch(setData([]));
+            }
+        }
     }, [
-        refreshFilterObj,
-        dispatch,
+        dispatch, filtersObj,
         rowsPerPage,
-        page,
+        page, rangeSliderMinMax, geoTreeValue,
         currentPage,
         currentEnslavedPage,
         inputSearchValue,
         isChange,
         isChangeGeoTree,
-        currentBlockName, styleNameRoute, textFilterValue
+        currentBlockName, textFilterValue
     ]);
+
 
     // Call the custom hook to Process Table Data
     useDataTableProcessingEffect(
@@ -285,7 +284,7 @@ const Tables: React.FC = () => {
     );
 
     return (
-        <div className={!viewAll ? "mobile-responsive" : "mobile-responsive-view"}>
+        <> <div className={!viewAll ? "mobile-responsive" : "mobile-responsive-view"}>
             <div className="ag-theme-alpine grid-container">
                 <span className="tableContainer">
                     <ButtonDropdownColumnSelector />
@@ -294,7 +293,7 @@ const Tables: React.FC = () => {
                         count={totalResultsCount}
                         page={page}
                         onPageChange={handleChangePage}
-                        rowsPerPageOptions={[5, 8, 10, 15, 20, 25, 30, 45, 50, 100]}
+                        rowsPerPageOptions={[5, 8, 10, 12, 15, 20, 25, 30, 45, 50, 100]}
                         rowsPerPage={rowsPerPage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
@@ -317,7 +316,6 @@ const Tables: React.FC = () => {
                         enableBrowserTooltips={true}
                         tooltipShowDelay={0}
                         tooltipHideDelay={1000}
-                    // autoSizeStrategy={autoSizeStrategy}
                     />
                     <div className="pagination-div">
                         <Pagination
@@ -329,14 +327,14 @@ const Tables: React.FC = () => {
                     </div>
                 </>
             </div>
-            <div>
-                <ModalNetworksGraph />
-            </div>
-            <div>
-                <CardModal />
-            </div>
         </div>
+            <ModalNetworksGraph />
+            <CardModal />
+        </>
+
     );
 };
 
 export default Tables;
+/**/
+

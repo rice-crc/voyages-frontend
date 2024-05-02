@@ -6,10 +6,14 @@ const setSelectedLanguageToLocalStorage = (language: string) => {
 interface StateViewHideProps {
     viewAll: boolean
     labelVarName: string
+    textFilter: string
+    isView: boolean
 }
 const initialStateViewHide: StateViewHideProps = {
     viewAll: false,
     labelVarName: '',
+    textFilter: '',
+    isView: false
 }
 
 export const getShowFilterObjectSlice = createSlice({
@@ -22,10 +26,16 @@ export const getShowFilterObjectSlice = createSlice({
         setLabelVarName: (state, action: PayloadAction<string>) => {
             state.labelVarName = action.payload;
         },
+        setTextFilter: (state, action: PayloadAction<string>) => {
+            state.textFilter = action.payload;
+        },
+        setIsViewButtonViewAllResetAll: (state, action: PayloadAction<boolean>) => {
+            state.isView = action.payload;
+        },
         resetSliceShowHideFilter: (state) => initialStateViewHide,
     },
 });
 
-export const { setViewAll, resetSliceShowHideFilter, setLabelVarName } = getShowFilterObjectSlice.actions;
+export const { setViewAll, setIsViewButtonViewAllResetAll, resetSliceShowHideFilter, setLabelVarName, setTextFilter } = getShowFilterObjectSlice.actions;
 
 export default getShowFilterObjectSlice.reducer;

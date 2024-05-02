@@ -22,6 +22,7 @@ import {
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
+  Filter,
   LabelFilterMeneList,
   PivotTableResponse,
   PivotTablesPropsRequest,
@@ -45,7 +46,7 @@ import { RowDataPivotTable, } from '@/share/InterfaceTypePivotTable';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
-import { downLoadText } from '@/utils/flatfiles/title_pages';
+import { downLoadText } from '@/utils/languages/title_pages';
 
 
 const PivotTables = () => {
@@ -82,6 +83,8 @@ const PivotTables = () => {
     (state: RootState) => state.getCommonGlobalSearch
   );
   const { styleName: styleNameRoute } = usePageRouter();
+  const { clusterNodeKeyVariable, clusterNodeValue } =
+    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const [offset, setOffset] = useState<number>(0);
@@ -188,7 +191,8 @@ const PivotTables = () => {
   } = pivotValueOptions;
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
-  const filters = filtersDataSend(filtersObj, styleNameRoute!)
+
+  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
   const dataSend: PivotTablesPropsRequest = {
     columns: column_vars,
     rows: updatedRowsValue,
@@ -273,7 +277,7 @@ const PivotTables = () => {
     autoLabelName,
     geoTreeValue,
     isChange,
-    styleName,
+    // styleName,
     inputSearchValue,
     rowsPerPage,
     page,
@@ -447,7 +451,6 @@ const PivotTables = () => {
             enableBrowserTooltips={true}
             tooltipShowDelay={0}
             tooltipHideDelay={1000}
-          // rowClassRules={}
           />
           <div className="pagination-div">
             <Pagination

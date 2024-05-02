@@ -101,7 +101,6 @@ const AutoCompletedFilterListBox = () => {
         if (!mounted.current) mounted.current = true;
         else if (position && listboxNodeRef.current)
             listboxNodeRef.current.scrollTop = position - (listboxNodeRef.current.offsetHeight || 0);
-        console.log({ position })
     }, [listboxNodeRef, position]);
 
     // Debounce the handleInputChange function

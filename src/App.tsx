@@ -52,6 +52,7 @@ import DocumentPage from '@/pages/DocumentPage';
 import AboutPage from '@/pages/AboutPage';
 import DownloadPage from '@/pages/DownloadPage';
 import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
+import { checkEntityType } from './utils/functions/checkEntityType';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -72,12 +73,14 @@ const App: React.FC = () => {
   const [nodeClass, setNodeTypeClass] = useState(nodeTypeClass)
 
   useEffect(() => {
+
     const url = window.location.pathname;
+
     const parts = url.split('/');
     const entityType = parts[1];
     const voyageID = parts[2];
     const typeOfData = parts[3]
-    if (entityType === VOYAGE || entityType === ENSALVEDTYPE || entityType === allEnslavers || entityType === ESTIMATES) {
+    if (checkEntityType(entityType)) {
       setSaveSearchURL(url)
     }
 
@@ -96,7 +99,7 @@ const App: React.FC = () => {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          {saveSearchURL && !ID && <Route
+          {saveSearchURL && nodeClass && <Route
             path={`${saveSearchURL}`}
             element={<UseSaveSearchURL />}
           />}
