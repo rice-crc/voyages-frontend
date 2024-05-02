@@ -20,7 +20,7 @@ import {
 } from '@/share/CONST_DATA';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { cleanUpTexDisplay } from '@/utils/functions/cleanUpTextDisplay';
+import { cleanUpTextDisplay } from '@/utils/functions/cleanUpTextDisplay';
 import { numberWithCommas } from '@/utils/functions/numberWithCommas';
 
 export const GenerateCellTableRenderer = (
@@ -45,14 +45,14 @@ export const GenerateCellTableRenderer = (
   } else if (checkPagesRouteForEnslavers(styleName!)) {
     nodeType = ENSLAVERSNODE;
   }
+  const maxRowsToShow = 5; // Maximum rows to show before applying overflow
   const calculateHeight = (rowCount: number) => {
     const rowHeight = 35; // Adjust this value as needed based on your design
-    const maxRowsToShow = 5; // Maximum rows to show before applying overflow
+
     const maxHeight = rowHeight * maxRowsToShow;
     return rowCount * rowHeight <= maxHeight ? rowCount * rowHeight : maxHeight;
   };
   if (Array.isArray(values)) {
-    const maxRowsToShow = 5;
     const rowCount = values.length;
     const calculatedHeight = calculateHeight(rowCount);
 
@@ -79,6 +79,7 @@ export const GenerateCellTableRenderer = (
       )
     } else {
       const renderedValues = values.map((value: string, index: number) => {
+
         return (
           <span key={`${index}-${value}`}>
             <div
@@ -100,7 +101,7 @@ export const GenerateCellTableRenderer = (
         whiteSpace: 'normal',
         overflow: 'hidden',
       };
-
+      console.log({ renderedValues })
       const remainingRows = values.slice(maxRowsToShow);
       return (
         <div style={{ maxHeight: calculatedHeight, overflowY: 'auto' }}>
@@ -108,7 +109,7 @@ export const GenerateCellTableRenderer = (
           {remainingRows.length > 0 && (
             <div style={ellipsisStyle}>
               {remainingRows.map((value, index) => (
-                <div key={`${index}-${value}`}>{cleanUpTexDisplay(value)}</div>
+                <div key={`${index}-${value}`}>{cleanUpTextDisplay(value)}</div>
               ))}
             </div>
           )}
