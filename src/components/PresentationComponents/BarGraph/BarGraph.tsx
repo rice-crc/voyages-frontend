@@ -190,6 +190,7 @@ function BarGraph() {
         setXAxes={setXAxes}
         setYAxes={setYAxes}
         error={error}
+        aggregation={aggregation}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}

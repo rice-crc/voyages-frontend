@@ -271,6 +271,7 @@ export interface PlotXYVar {
     var_name: string
     type?: string
     label: string
+    agg_fns?: string[]
 }
 export interface PlotPieProps {
     x_vars: PlotPIEX[]
@@ -290,6 +291,7 @@ export interface BargraphXYVar {
     var_name: string
     type: string
     label: string
+    agg_fns?: string[]
 }
 
 export interface PiegraphXYVar {

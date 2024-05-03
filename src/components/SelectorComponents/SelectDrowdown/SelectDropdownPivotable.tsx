@@ -24,6 +24,7 @@ interface SelectDropdownPivotableProps {
   selectCellValue: PivotCellVar[];
   selectedPivottablesOptions: PivotTablesProps;
   handleChangeOptions: (event: SelectChangeEvent<string>, name: string, selectRowValue?: PivotRowVar[]) => void;
+  aggregation: string
 }
 
 export const SelectDropdownPivotable: FunctionComponent<
@@ -33,7 +34,7 @@ export const SelectDropdownPivotable: FunctionComponent<
   selectColumnValue,
   selectCellValue,
   selectedPivottablesOptions,
-  handleChangeOptions
+  handleChangeOptions, aggregation
 }) => {
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;

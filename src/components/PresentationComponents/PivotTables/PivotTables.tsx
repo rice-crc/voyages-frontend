@@ -379,6 +379,7 @@ const PivotTables = () => {
             selectColumnValue={columnVars}
             selectCellValue={cellVars}
             handleChangeOptions={handleChangeOptions}
+            aggregation={aggregation}
           />
           <span className="tableContainer">
             <AggregationSumAverage

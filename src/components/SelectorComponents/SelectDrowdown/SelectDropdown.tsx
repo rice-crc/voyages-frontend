@@ -27,6 +27,7 @@ interface SelectDropdownProps {
     event: SelectChangeEvent<string[]>,
     name: string
   ) => void;
+  aggregation: string
   maxWidth?: number;
   XFieldText?: string;
   YFieldText?: string;
@@ -46,7 +47,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   handleChange,
   handleChangeMultipleYSelected,
   maxWidth,
-  XFieldText,
+  XFieldText, aggregation,
   YFieldText, setXAxes, setYAxes, setYAxesPie
 }) => {
   const ITEM_HEIGHT = 48;
@@ -135,10 +136,10 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               onChange={(event: SelectChangeEvent<string[]>) => {
                 if (handleChangeMultipleYSelected) {
                   handleChangeMultipleYSelected(event, 'y_vars');
-                  const selectedOptions = selectedY
+                  const selectedYOptions = selectedY
                     .filter(option => event.target.value.includes(option.var_name))
                     .map(option => option.label);
-                  setYAxes && setYAxes(selectedOptions);
+                  setYAxes && setYAxes(selectedYOptions);
                 }
               }}
               input={
@@ -163,15 +164,17 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                 </Box>
               )}
             >
-              {selectedY.map((option: PlotXYVar, index: number) => (
-                <MenuItem
-                  key={`${option.label}-${index}`}
-                  value={option.var_name}
-                  disabled={isDisabledY(option)}
-                >
-                  {option.label}
-                </MenuItem>
-              ))}
+              {selectedY.map((option: PlotXYVar, index: number) => {
+                const label = displayYLabel(aggregation!, option.agg_fns!, option.label)
+                return label !== null &&
+                  <MenuItem
+                    key={`${option.label}-${index}`}
+                    value={option.var_name}
+                    disabled={isDisabledY(option)}
+                  >
+                    {label}
+                  </MenuItem>
+              })}
             </Select>
           </FormControl>
         </Box>
@@ -223,3 +226,16 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
     </>
   );
 };
+
+// Create label Y depending on sum or mean to display
+const displayYLabel = (aggregation: string, agg_fns: string[], label: string) => {
+  let yLabel = null;
+  if (aggregation === 'sum' && agg_fns!.includes('sum') && agg_fns!.includes('mean')) {
+    yLabel = label
+  } else if (aggregation === 'sum' && agg_fns!.includes('sum')) {
+    yLabel = label
+  } else if (aggregation === 'mean' && agg_fns!.includes('mean')) {
+    yLabel = label
+  }
+  return yLabel
+}
