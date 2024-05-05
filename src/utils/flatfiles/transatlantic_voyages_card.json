@@ -27,14 +27,19 @@
 				"label": "Name of vessel"
 			},
 			{
-				"cell_type": "literal",
+				"cell_type": "literal-concat",
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__alias",
+							"var_name": "enslavers__enslaver__principal_alias",
+							"cell_fn": "literal"
+						},
+						{
+							"var_name": "enslavers__enslaver__roles",
 							"cell_fn": "literal"
 						}
-					]
+					],
+					"join":" : "
 				},
 				"label": "Enslavers"
 			},
