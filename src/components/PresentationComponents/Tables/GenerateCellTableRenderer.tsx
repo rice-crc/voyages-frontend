@@ -30,7 +30,6 @@ export const GenerateCellTableRenderer = (
   numberFormat?: string | null,
   nodeClass?: string
 ) => {
-
   const values = params.value;
   const ID = params.data.id;
   const dispatch = useDispatch();

@@ -3,7 +3,7 @@ import jsonDataTable from '@/utils/flatfiles/voyage_table_cell_structure__update
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const initialState: InitialStateColumnProps = {
-    valueCells: jsonDataTable,
+    valueCells: jsonDataTable as any,
     visibleColumnCells: []
 };
 export const getColumnsSlice = createSlice({

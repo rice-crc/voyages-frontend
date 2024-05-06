@@ -7,19 +7,15 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { LanguageOptions } from '@/utils/functions/languages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { setLanguages, setLanguagesLabel } from '@/redux/getLanguagesSlice';
-import { setBlogPost } from '@/redux/getBlogDataSlice';
 import { BlogDataProps } from '@/share/InterfaceTypesBlog';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { setDataSetHeader } from '@/redux/getDataSetCollectionSlice';
-import { checkHeaderTitleLanguages } from '@/utils/functions/checkHeaderTitleLanguages';
-import { setDataSetPeopleEnslavedHeader } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
-import { setDataSetEnslaversHeader } from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
+import { translationDataBasePage } from '@/utils/functions/translationLanguages';
+import { setDataBasesPage, setDataBasesPageLabel } from '@/redux/getDabasePagesSlice';
 
-export default function LanguagesDropdown() {
+export default function DatabaseDropdown() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { languageValueLabel } = useSelector((state: RootState) => state.getLanguages);
+  const { databasePageValue, databasePageValueLabel } = useSelector((state: RootState) => state.getDabasePages);
   const { styleName: styleNameRoute, endpointPathEstimate } = usePageRouter()
   const post = useSelector(
     (state: RootState) => state.getBlogData.post as BlogDataProps
@@ -34,16 +30,13 @@ export default function LanguagesDropdown() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
 
-  const handleChangeLanguage = (value: string, label: string) => {
-    dispatch(setLanguages(value));
-    dispatch(setLanguagesLabel(label));
-    dispatch(setBlogPost(post as BlogDataProps));
-    const hederTitleName = checkHeaderTitleLanguages(value, styleNameRoute!)
-    dispatch(setDataSetHeader(hederTitleName))
-    dispatch(setDataSetPeopleEnslavedHeader(hederTitleName))
-    dispatch(setDataSetEnslaversHeader(hederTitleName))
-    localStorage.setItem('languages', value);
+  const translatedPageValue = translationDataBasePage(languageValue)
+
+  const handleChangeDataBasePages = (value: string, label: string) => {
+    dispatch(setDataBasesPage(value));
+    dispatch(setDataBasesPageLabel(label));
   };
 
   let colorText = '#ffffff'
@@ -88,7 +81,7 @@ export default function LanguagesDropdown() {
         }
         onClick={handleClick}
       >
-        {languageValueLabel}
+        {databasePageValueLabel}
       </Button>
       <Menu
         id="fade-menu"
@@ -103,9 +96,9 @@ export default function LanguagesDropdown() {
           <MenuItem
             style={{ fontSize: fontSize }}
             key={lag.language}
-            onClick={() => handleChangeLanguage(lag.value, lag.lable)}
+            onClick={() => handleChangeDataBasePages(lag.value, lag.lable)}
           >
-            {lag.language}
+            {databasePageValueLabel}
           </MenuItem>
         ))}
       </Menu>

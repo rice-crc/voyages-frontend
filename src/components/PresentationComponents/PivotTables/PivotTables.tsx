@@ -315,16 +315,22 @@ const PivotTables = () => {
     [dispatch, pivotValueOptions]
   );
 
+  // Define a helper function to format numbers as strings with commas
+  const formatNumber = (value: string | number): string => {
+    if (typeof value === 'number') {
+      return value.toLocaleString('en-US');
+    }
+    return value;
+  };
+
+  // Map and format the rows
   const newRowsData = rowData.slice(0, -1).map((row) => {
     return Object.entries(row).reduce((acc, [key, value]) => {
-      if (typeof value === 'number') {
-        acc[key] = value.toLocaleString('en-US');
-      } else {
-        acc[key] = value;
-      }
+      acc[key] = formatNumber(value);
       return acc;
     }, {} as RowDataPivotTable);
   });
+
 
   const handleButtonExportCSV = useCallback(() => {
     (gridRef.current as AgGridReact<any>).api.exportDataAsCsv();

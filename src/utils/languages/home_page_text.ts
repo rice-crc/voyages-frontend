@@ -367,5 +367,47 @@ export const homePageTranslated: TranslateType = {
             "pt": "Configurar colunas"
         }
     },
+    voyagesPage: {
+        label: {
+            "en": 'Voyages',
+            "es": "ES:Voyages",
+            "pt": "PT:Voyages"
+        }
+    },
+    PeoplePage: {
+        label: {
+            "en": 'People',
+            "es": "ES:People",
+            "pt": "PT:People"
+        }
+    },
+    EnslavedPage: {
+        label: {
+            "en": 'Enslaved',
+            "es": "ES:Enslaved",
+            "pt": "PT:Enslaved"
+        }
+    },
+    EnslaversPage: {
+        label: {
+            "en": 'Enslavers',
+            "es": "ES:Enslavers",
+            "pt": "PT:Enslavers"
+        }
+    },
+    TimeLapsePage: {
+        label: {
+            "en": 'Timelapse',
+            "es": "ES:Timelapse",
+            "pt": "PT:Timelaps"
+        }
+    },
+    writingPage: {
+        label: {
+            "en": 'Writing',
+            "es": "ES:Writing",
+            "pt": "PT:Writing"
+        }
+    },
 
 }

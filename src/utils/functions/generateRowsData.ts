@@ -11,7 +11,6 @@ export const generateRowsData = (
 
     if (varNames) {
         dataRow.forEach((data) => {
-
             const finalRowObj: Record<string, any> = {};
             varNames.forEach((varName: string) => {
                 const varArray = varName.split('__');
