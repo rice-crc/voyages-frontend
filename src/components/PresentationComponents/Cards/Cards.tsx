@@ -213,9 +213,6 @@ const VoyageCard = () => {
                             </div>
                           </div>
                         );
-                      } else if (typeof values === 'object') {
-                        // console.log({ values }) Why Object again???
-                        return null
                       } else {
                         return values && (
                           <div

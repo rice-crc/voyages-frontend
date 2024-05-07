@@ -32,7 +32,6 @@ import getEstimateAssesmentSlice from './getEstimateAssessmentSlice';
 import getSaveSearchSlice from './getSaveSearchSlice';
 import getQuerySaveSearchSlice from './getQuerySaveSearchSlice'
 import getShowFilterObjectSlice from './getShowFilterObjectSlice'
-import getDabasePagesSlice from './getDabasePagesSlice';
 
 
 // Define types for slices
@@ -53,7 +52,6 @@ type ScrollEnslaversPageSlice = ReturnType<typeof getScrollEnslaversPageSlice>;
 type OptionsDataPastPeopleEnslavedSlice = ReturnType<typeof getOptionsDataPastPeopleEnslavedSlice>;
 type BlogDataSlice = ReturnType<typeof getBlogDataSlice>;
 type LanguagesSlice = ReturnType<typeof getLanguagesSlice>;
-type DatabasePageSlice = ReturnType<typeof getDabasePagesSlice>;
 type CommonGlobalSearchResultSlice = ReturnType<typeof getCommonGlobalSearchResultSlice>;
 type PastNetworksGraphDataSlice = ReturnType<typeof getPastNetworksGraphDataSlice>;
 type NodeEdgesAggroutesMapDataSlice = ReturnType<typeof getNodeEdgesAggroutesMapDataSlice>;
@@ -85,7 +83,6 @@ export type RootState = {
         getOptionsEnslaved: OptionsDataPastPeopleEnslavedSlice;
         getBlogData: BlogDataSlice;
         getLanguages: LanguagesSlice;
-        getDabasePages: DatabasePageSlice;
         getCommonGlobalSearch: CommonGlobalSearchResultSlice;
         getPastNetworksGraphData: PastNetworksGraphDataSlice;
         getNodeEdgesAggroutesMapData: NodeEdgesAggroutesMapDataSlice;
@@ -119,7 +116,6 @@ const store = configureStore({
                 getOptionsEnslaved: getOptionsDataPastPeopleEnslavedSlice,
                 getBlogData: getBlogDataSlice,
                 getLanguages: getLanguagesSlice,
-                getDabasePages: getDabasePagesSlice,
                 getCommonGlobalSearch: getCommonGlobalSearchResultSlice,
                 getPastNetworksGraphData: getPastNetworksGraphDataSlice,
                 getNodeEdgesAggroutesMapData: getNodeEdgesAggroutesMapDataSlice,

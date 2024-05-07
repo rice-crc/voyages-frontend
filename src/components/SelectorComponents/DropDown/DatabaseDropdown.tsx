@@ -1,27 +1,41 @@
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import { ArrowDropDown } from '@mui/icons-material';
-import { LanguageOptions } from '@/utils/functions/languages';
-import { useDispatch, useSelector } from 'react-redux';
+import { PagesOptions } from '@/utils/functions/languages';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { BlogDataProps } from '@/share/InterfaceTypesBlog';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { translationDataBasePage } from '@/utils/functions/translationLanguages';
-import { setDataBasesPage, setDataBasesPageLabel } from '@/redux/getDabasePagesSlice';
+import { LabelFilterMeneList } from '@/share/InterfaceTypes';
+import { Link } from 'react-router-dom';
+import { ENSALVEDROUTE, ENSALVERSROUTE, VOYAGEPATHENPOINT } from '@/share/CONST_DATA';
 
-export default function DatabaseDropdown() {
-  const dispatch = useDispatch();
+interface DatabaseDropdownProps {
+  onClickReset: () => void;
+}
+
+export default function DatabaseDropdown(props: DatabaseDropdownProps) {
+  const { onClickReset } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { databasePageValue, databasePageValueLabel } = useSelector((state: RootState) => state.getDabasePages);
-  const { styleName: styleNameRoute, endpointPathEstimate } = usePageRouter()
-  const post = useSelector(
-    (state: RootState) => state.getBlogData.post as BlogDataProps
-  );
-
+  const [headerTitle, setHeadTitle] = useState('')
   const open = Boolean(anchorEl);
+  const { styleName: styleNameRoute, endpointPath, endpointPeopleDirect } = usePageRouter();
+
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const translatedPageValue = translationDataBasePage(languageValue)
+
+  useEffect(() => {
+    if (endpointPath === VOYAGEPATHENPOINT) {
+      setHeadTitle(translatedPageValue.voyagesPage);
+    } else if (endpointPeopleDirect === ENSALVEDROUTE) {
+      setHeadTitle(translatedPageValue.enslavedPage);
+    } else if (endpointPeopleDirect === ENSALVERSROUTE) {
+      setHeadTitle(translatedPageValue.enslaversPage);
+    }
+  }, [headerTitle, languageValue])
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -30,30 +44,6 @@ export default function DatabaseDropdown() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-
-  const translatedPageValue = translationDataBasePage(languageValue)
-
-  const handleChangeDataBasePages = (value: string, label: string) => {
-    dispatch(setDataBasesPage(value));
-    dispatch(setDataBasesPageLabel(label));
-  };
-
-  let colorText = '#ffffff'
-  if (endpointPathEstimate === 'estimates') {
-    colorText = '#ffffff'
-  } else if (styleNameRoute === '' || styleNameRoute === 'PastHomePage') {
-    colorText = 'rgba(0, 0, 0, 0.85)'
-  }
-
-  let fontSize = '0.80rem'
-  if (styleNameRoute === 'PastHomePage') {
-    fontSize = '1rem'
-  } else if (!styleNameRoute) {
-    fontSize = '1rem'
-  } else if (styleNameRoute === 'estimates') {
-    fontSize = '1rem'
-  }
   return (
     <div className="select-languages">
       <Button
@@ -61,7 +51,7 @@ export default function DatabaseDropdown() {
         sx={{
           textTransform: 'none',
         }}
-        style={{ color: colorText, fontSize: fontSize, fontWeight: 600 }}
+        style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 700 }}
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
@@ -74,17 +64,18 @@ export default function DatabaseDropdown() {
                   sm: 'none',
                   md: 'flex',
                 },
-                fontSize: '1rem',
+                fontSize: '1.25rem',
               }}
             />
           </span>
         }
         onClick={handleClick}
       >
-        {databasePageValueLabel}
+        {headerTitle}
       </Button>
       <Menu
         id="fade-menu"
+        className="enslaved-header-subtitle"
         disableScrollLock={true}
         anchorEl={anchorEl}
         open={open}
@@ -92,15 +83,25 @@ export default function DatabaseDropdown() {
         TransitionComponent={Fade}
         PaperProps={{ sx: { width: styleNameRoute ? null : '150px' } }}
       >
-        {LanguageOptions.map((lag) => (
-          <MenuItem
-            style={{ fontSize: fontSize }}
-            key={lag.language}
-            onClick={() => handleChangeDataBasePages(lag.value, lag.lable)}
+        {PagesOptions.map((value) => {
+          const { name, label, pathUrl } = value.page
+          const labelPage = (label! as LabelFilterMeneList)[languageValue];
+          return labelPage !== headerTitle ? <MenuItem
+            style={{ fontSize: '1rem' }}
+            key={name}
           >
-            {databasePageValueLabel}
-          </MenuItem>
-        ))}
+            <Link
+              to={pathUrl}
+              onClick={onClickReset}
+              style={{
+                textDecoration: 'none',
+                color: '#000',
+              }}
+            >
+              {labelPage!}
+            </Link>
+          </MenuItem> : null
+        })}
       </Menu>
     </div>
   );

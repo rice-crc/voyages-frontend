@@ -206,11 +206,11 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           >
             <span className='header-logo-icon'>
               <HeaderLogo />
+              <DatabaseDropdown
+                onClickReset={onClickReset}
+              />
               <HeaderTitle
                 textHeader={textHeader}
-                HeaderTitle={VOYAGETILE}
-                pathLink={`${TRANSATLANTICPAGE}#voyages`}
-                onClickReset={onClickReset}
               />
             </span>
             <Typography

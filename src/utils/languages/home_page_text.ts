@@ -369,44 +369,44 @@ export const homePageTranslated: TranslateType = {
     },
     voyagesPage: {
         label: {
-            "en": 'Voyages',
-            "es": "ES:Voyages",
-            "pt": "PT:Voyages"
+            "en": 'Voyages Database',
+            "es": "Base de Datos de Viajes",
+            "pt": "Base de Dados de Viagens"
         }
     },
-    PeoplePage: {
+    peoplePage: {
         label: {
             "en": 'People',
-            "es": "ES:People",
-            "pt": "PT:People"
+            "es": "Personas",
+            "pt": "Pessoas"
         }
     },
-    EnslavedPage: {
+    enslavedPage: {
         label: {
-            "en": 'Enslaved',
-            "es": "ES:Enslaved",
-            "pt": "PT:Enslaved"
+            "en": 'Enslaved People',
+            "es": "Personas Esclavizadas",
+            "pt": "Pessoas Escravizadas"
         }
     },
-    EnslaversPage: {
+    enslaversPage: {
         label: {
             "en": 'Enslavers',
-            "es": "ES:Enslavers",
-            "pt": "PT:Enslavers"
+            "es": "Esclavistas",
+            "pt": "Escravizadores"
         }
     },
-    TimeLapsePage: {
+    timeLapsePage: {
         label: {
             "en": 'Timelapse',
-            "es": "ES:Timelapse",
-            "pt": "PT:Timelaps"
+            "es": "Lapso Temporal",
+            "pt": "Cronologia"
         }
     },
     writingPage: {
         label: {
             "en": 'Writing',
-            "es": "ES:Writing",
-            "pt": "PT:Writing"
+            "es": "Escritura",
+            "pt": "Escrita"
         }
     },
 

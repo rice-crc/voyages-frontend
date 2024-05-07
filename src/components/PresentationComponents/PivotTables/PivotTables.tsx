@@ -275,7 +275,7 @@ const PivotTables = () => {
     []
   );
 
-  const getRowRowStyle = () => {
+  const getRowStyle = () => {
     return {
       fontSize: 13,
       color: '#000',
@@ -323,15 +323,6 @@ const PivotTables = () => {
     return value;
   };
 
-  // Map and format the rows
-  const newRowsData = rowData.slice(0, -1).map((row) => {
-    return Object.entries(row).reduce((acc, [key, value]) => {
-      acc[key] = formatNumber(value);
-      return acc;
-    }, {} as RowDataPivotTable);
-  });
-
-
   const handleButtonExportCSV = useCallback(() => {
     (gridRef.current as AgGridReact<any>).api.exportDataAsCsv();
   }, []);
@@ -374,6 +365,34 @@ const PivotTables = () => {
     DownloadCSVExport = (header.label as LabelFilterMeneList)[languageValue];
   }
 
+  // Map and format the rows
+  const newRowsData = rowData.slice(0, -1).map((row) => {
+    return Object.entries(row).reduce((acc, [key, value]) => {
+      acc[key] = formatNumber(value);
+      return acc;
+    }, {} as RowDataPivotTable);
+  });
+
+  // Extract the last item from the rowData array
+  const lastItem = rowData[rowData.length - 1];
+
+  // Format the last item for display in pinnedBottomRowData
+  const pinnedBottomRowData = useMemo<any[]>(() => {
+    if (lastItem) {
+      const formattedLastItem = Object.entries(lastItem).reduce((acc, [key, value]) => {
+        acc[key] = formatNumber(value); // You can format the value as needed
+        return acc;
+      }, {} as RowDataPivotTable);
+
+      return [
+        {
+          ...formattedLastItem,
+        },
+      ];
+    } else {
+      return []
+    }
+  }, [lastItem]);
 
   return (
     <div className="mobile-responsive">
@@ -427,6 +446,7 @@ const PivotTables = () => {
           <AgGridReact
             domLayout={'autoHeight'}
             ref={gridRef}
+            pinnedBottomRowData={pinnedBottomRowData}
             rowData={newRowsData}
             columnDefs={columnDefs as any}
             suppressMenuHide={true}
@@ -436,10 +456,11 @@ const PivotTables = () => {
             getRowHeight={getRowHeightPivotTable}
             paginationPageSize={rowsPerPage}
             components={components}
-            getRowStyle={getRowRowStyle}
+            getRowStyle={getRowStyle}
             enableBrowserTooltips={true}
             tooltipShowDelay={0}
             tooltipHideDelay={1000}
+            groupDefaultExpanded={-1}
           />
           <div className="pagination-div">
             <Pagination

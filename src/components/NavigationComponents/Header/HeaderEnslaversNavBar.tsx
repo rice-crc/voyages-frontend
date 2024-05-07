@@ -27,6 +27,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { DrawerMenuBar } from './DrawerMenuBar';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import { enslaversHeader } from '@/utils/languages/title_pages';
+import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -187,11 +188,11 @@ const HeaderEnslaversNavBar: React.FC = () => {
           >
             <span className='header-logo-icon'>
               <HeaderLogo />
+              <DatabaseDropdown
+                onClickReset={onClickResetOnHeader}
+              />
               <HeaderTitle
                 textHeader={textHeader}
-                HeaderTitle={EnslaversTitle}
-                pathLink={`/${PASTHOMEPAGE}`}
-                onClickReset={onClickResetOnHeader}
               />
             </span>
             <Typography

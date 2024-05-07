@@ -39,7 +39,7 @@
 							"cell_fn": "literal"
 						}
 					],
-					"join":" : "
+					"join": " : "
 				},
 				"label": "Enslavers"
 			},
@@ -392,7 +392,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_enslavement_relations__enslaved_in_relation__enslaved__documented_name",
+							"var_name": "named_enslaved_people__documented_name",
 							"cell_fn": "literal"
 						}
 					]

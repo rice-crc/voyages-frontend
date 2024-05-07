@@ -56,6 +56,7 @@ import { Filter, LabelFilterMeneList } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import { enslavedHeader } from '@/utils/languages/title_pages';
+import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
 
 
 const HeaderEnslavedNavBar: React.FC = () => {
@@ -214,11 +215,11 @@ const HeaderEnslavedNavBar: React.FC = () => {
           >
             <span className='header-logo-icon'>
               <HeaderLogo />
+              <DatabaseDropdown
+                onClickReset={onClickResetOnHeader}
+              />
               <HeaderTitle
                 textHeader={textHeader}
-                HeaderTitle={EnslavedTitle}
-                pathLink={`/${PASTHOMEPAGE}`}
-                onClickReset={onClickResetOnHeader}
               />
             </span>
             <Typography

@@ -107,11 +107,9 @@ export const GenerateCellTableRenderer = (
         <div style={{ maxHeight: calculatedHeight, overflowY: 'auto' }}>
           {renderRows}
           {remainingRows.length > 0 && (
-            <div style={ellipsisStyle}>
-              {remainingRows.map((value, index) => (
-                <div key={`${index}-${value}`}>{cleanUpTextDisplay(value)}</div>
-              ))}
-            </div>
+            remainingRows.map((value, index) => (
+              <div key={`${index}-${value}`} style={ellipsisStyle}>{cleanUpTextDisplay(value)}</div>
+            ))
           )}
         </div>
       );
