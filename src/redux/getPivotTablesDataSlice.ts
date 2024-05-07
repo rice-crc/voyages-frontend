@@ -18,7 +18,8 @@ const initialState: StatePivotRowData = {
         cell_vars: VOYAGE_PIVOT_OPTIONS.cell_vars[0].value_field,
     },
     aggregation: 'sum',
-    rowsPerPage: getRowsPerPage(window.innerWidth, window.innerHeight)
+    rowsPerPage: getRowsPerPage(window.innerWidth, window.innerHeight),
+    totalResultsCount: 0
 };
 export const getPivotTablesDataSlice = createSlice({
     name: 'getPivotTablesDataSlice',
@@ -46,8 +47,11 @@ export const getPivotTablesDataSlice = createSlice({
         setRowsPerPage: (state, action: PayloadAction<number>) => {
             state.rowsPerPage = action.payload;
         },
+        setTotalResultsCount: (state, action: PayloadAction<number>) => {
+            state.totalResultsCount = action.payload;
+        },
     }
 });
 
-export const { setRowsPerPage, setPivotTableData, setRowPivotTableData, setAggregation, setPivotTablColumnDefs, setOffset, setPivotValueOptions } = getPivotTablesDataSlice.actions;
+export const { setTotalResultsCount, setRowsPerPage, setPivotTableData, setRowPivotTableData, setAggregation, setPivotTablColumnDefs, setOffset, setPivotValueOptions } = getPivotTablesDataSlice.actions;
 export default getPivotTablesDataSlice.reducer;

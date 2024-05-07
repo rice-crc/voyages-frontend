@@ -2,12 +2,13 @@ import { AppDispatch, RootState } from '@/redux/store';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
-import { PivotTablesPropsRequest } from '@/share/InterfaceTypes';
+import { PivotTableResponse, PivotTablesPropsRequest } from '@/share/InterfaceTypes';
 import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
-import { setPivotTablColumnDefs, setRowPivotTableData } from '@/redux/getPivotTablesDataSlice';
+import { setPivotTablColumnDefs, setRowPivotTableData, setTotalResultsCount } from '@/redux/getPivotTablesDataSlice';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import { customValueFormatter } from '@/utils/functions/customValueFormatter';
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
   column: {
@@ -106,9 +107,28 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
         fetchPivotCrosstabsTables(dataSend)
       ).unwrap();
       if (response) {
-        const { tablestructure, data, metadata } = response.data
+        const { tablestructure, data, metadata } = response.data as PivotTableResponse
+        tablestructure.forEach(structure => {
+          if (structure.children) {
+            structure.children.forEach(child => {
+              if (child.field === 'Year range') {
+                child.type = 'leftAligned'
+                child.cellClass = 'ag-left-aligned-cell'
+              } else if (child.field === 'All') {
+                child.type = 'rightAligned'
+                child.cellClass = 'ag-right-aligned-cell'
+                child.valueFormatter = (params: any) => customValueFormatter(params)
+              }
+            });
+          } else {
+            structure.type = 'rightAligned'
+            structure.cellClass = 'ag-right-aligned-cell'
+            structure.valueFormatter = (params: any) => customValueFormatter(params)
+          }
+        });
         dispatch(setPivotTablColumnDefs(tablestructure));
         dispatch(setRowPivotTableData(data));
+        dispatch(setTotalResultsCount(metadata.total_results_count))
       }
     } catch (error) {
       console.log('error', error);

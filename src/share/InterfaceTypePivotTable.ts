@@ -13,6 +13,7 @@ export interface StatePivotRowData {
     pivotValueOptions: PivotTablesProps
     aggregation: string
     rowsPerPage: number
+    totalResultsCount: number
 }
 export interface PivotColumnDef {
     headerName: string;

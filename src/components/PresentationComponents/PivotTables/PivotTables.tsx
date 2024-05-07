@@ -22,6 +22,7 @@ import {
   setPivotValueOptions,
   setAggregation,
   setRowsPerPage,
+  setTotalResultsCount,
 } from '@/redux/getPivotTablesDataSlice';
 import {
   AutoCompleteInitialState,
@@ -49,6 +50,7 @@ import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
 import { downLoadText } from '@/utils/languages/title_pages';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
+import { customValueFormatter } from '@/utils/functions/customValueFormatter';
 
 
 const PivotTables = () => {
@@ -81,10 +83,8 @@ const PivotTables = () => {
   const { styleName: styleNameRoute } = usePageRouter();
   const { clusterNodeKeyVariable, clusterNodeValue } =
     useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
-
-  const [totalResultsCount, setTotalResultsCount] = useState(0);
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { columnDefs, rowData, offset, pivotValueOptions, aggregation, rowsPerPage } = useSelector(
+  const { columnDefs, rowData, totalResultsCount, offset, pivotValueOptions, aggregation, rowsPerPage } = useSelector(
     (state: RootState) => state.getPivotTablesData
   );
 
@@ -186,8 +186,9 @@ const PivotTables = () => {
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
   }
-  const fetchData = async () => {
 
+
+  const fetchData = async () => {
     try {
       const response = await dispatch(
         fetchPivotCrosstabsTables(dataSend)
@@ -195,31 +196,31 @@ const PivotTables = () => {
 
       if (response) {
         const { tablestructure, data, metadata } = response.data as PivotTableResponse
-
         tablestructure.forEach(structure => {
           if (structure.children) {
             structure.children.forEach(child => {
-              if (child.field === 'Year range') {
+              if (child.field === 'Year range') { // DO WE NEED TO Handle the condition here?
                 child.type = 'leftAligned'
                 child.cellClass = 'ag-left-aligned-cell'
-              } else if (child.field === 'All') {
+              } else if (child.field === 'All') { // DO WE NEED TO Handle the condition here? 
                 child.type = 'rightAligned'
                 child.cellClass = 'ag-right-aligned-cell'
+                child.valueFormatter = (params: any) => customValueFormatter(params)
               }
             });
           } else {
             structure.type = 'rightAligned'
             structure.cellClass = 'ag-right-aligned-cell'
+            // We will need to check if the valueFromatter will be comma or percent
+            structure.valueFormatter = (params: any) => customValueFormatter(params)
           }
         });
         dispatch(setPivotTablColumnDefs(tablestructure));
         dispatch(setRowPivotTableData(data));
-        setTotalResultsCount(metadata.total_results_count)
-
+        dispatch(setTotalResultsCount(metadata.total_results_count))
       }
     } catch (error) {
       console.log('error', error);
-
     }
   };
   useEffect(() => {
@@ -316,12 +317,18 @@ const PivotTables = () => {
   );
 
   // Define a helper function to format numbers as strings with commas
-  const formatNumber = (value: string | number): string => {
-    if (typeof value === 'number') {
-      return value.toLocaleString('en-US');
+  const formatNumber = (number: number) => {
+    if (typeof number === 'number') {
+      return number.toLocaleString('en-US');
     }
-    return value;
+    return number;
   };
+  // const formatNumber = (value: string | number): string => {
+  //   if (typeof value === 'number') {
+  //     return value.toLocaleString('en-US');
+  //   }
+  //   return value;
+  // };
 
   const handleButtonExportCSV = useCallback(() => {
     (gridRef.current as AgGridReact<any>).api.exportDataAsCsv();
@@ -365,34 +372,9 @@ const PivotTables = () => {
     DownloadCSVExport = (header.label as LabelFilterMeneList)[languageValue];
   }
 
-  // Map and format the rows
-  const newRowsData = rowData.slice(0, -1).map((row) => {
-    return Object.entries(row).reduce((acc, [key, value]) => {
-      acc[key] = formatNumber(value);
-      return acc;
-    }, {} as RowDataPivotTable);
-  });
 
-  // Extract the last item from the rowData array
-  const lastItem = rowData[rowData.length - 1];
-
-  // Format the last item for display in pinnedBottomRowData
-  const pinnedBottomRowData = useMemo<any[]>(() => {
-    if (lastItem) {
-      const formattedLastItem = Object.entries(lastItem).reduce((acc, [key, value]) => {
-        acc[key] = formatNumber(value); // You can format the value as needed
-        return acc;
-      }, {} as RowDataPivotTable);
-
-      return [
-        {
-          ...formattedLastItem,
-        },
-      ];
-    } else {
-      return []
-    }
-  }, [lastItem]);
+  const newRowsData = rowData.slice(0, -1)
+  const totalItemData = rowData.slice(-1)
 
   return (
     <div className="mobile-responsive">
@@ -446,7 +428,7 @@ const PivotTables = () => {
           <AgGridReact
             domLayout={'autoHeight'}
             ref={gridRef}
-            pinnedBottomRowData={pinnedBottomRowData}
+            pinnedBottomRowData={totalItemData}
             rowData={newRowsData}
             columnDefs={columnDefs as any}
             suppressMenuHide={true}
