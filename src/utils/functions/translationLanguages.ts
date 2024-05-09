@@ -26,12 +26,23 @@ export const translationLanguagesSaveSearch = (languageValue: string) => {
 }
 
 export const translationHomepage = (languageValue: string) => {
-    const translatedHompage: Record<string, string> = {};
+    const translatedHomepage: Record<string, string> = {};
     for (const key in homePageTranslated) {
         if (Object.prototype.hasOwnProperty.call(homePageTranslated, key)) {
             const label = homePageTranslated[key].label;
-            translatedHompage[key] = (label as LabelFilterMeneList)[languageValue];
+            translatedHomepage[key] = (label as LabelFilterMeneList)[languageValue];
         }
     }
-    return translatedHompage
+    return translatedHomepage
+}
+
+export const translationDataBasePage = (languageValue: string) => {
+    const translatedPage: Record<string, string> = {};
+    for (const key in homePageTranslated) {
+        if (Object.prototype.hasOwnProperty.call(homePageTranslated, key)) {
+            const label = homePageTranslated[key].label;
+            translatedPage[key] = (label as LabelFilterMeneList)[languageValue];
+        }
+    }
+    return translatedPage
 }

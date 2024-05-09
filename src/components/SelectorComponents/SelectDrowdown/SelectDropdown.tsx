@@ -27,10 +27,10 @@ interface SelectDropdownProps {
     event: SelectChangeEvent<string[]>,
     name: string
   ) => void;
+  aggregation: string
   maxWidth?: number;
   XFieldText?: string;
   YFieldText?: string;
-  optionsFlatY: PlotXYVar[];
   graphType?: string;
   setXAxes?: React.Dispatch<React.SetStateAction<string>>
   setYAxes?: React.Dispatch<React.SetStateAction<string[]>>
@@ -47,9 +47,8 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   handleChange,
   handleChangeMultipleYSelected,
   maxWidth,
-  XFieldText,
-  YFieldText,
-  optionsFlatY, setXAxes, setYAxes, setYAxesPie
+  XFieldText, aggregation,
+  YFieldText, setXAxes, setYAxes, setYAxesPie
 }) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -137,12 +136,10 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               onChange={(event: SelectChangeEvent<string[]>) => {
                 if (handleChangeMultipleYSelected) {
                   handleChangeMultipleYSelected(event, 'y_vars');
-
-                  const selectedOptions = selectedY
+                  const selectedYOptions = selectedY
                     .filter(option => event.target.value.includes(option.var_name))
                     .map(option => option.label);
-
-                  setYAxes && setYAxes(selectedOptions);
+                  setYAxes && setYAxes(selectedYOptions);
                 }
               }}
               input={
@@ -150,29 +147,34 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               }
               renderValue={(value): ReactNode => (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', color: 'red', fontSize: '0.75rem' }}>
-                  {value.map((option: string, index: number) => (
-                    <Chip
-                      style={{
-                        margin: 2,
-                        border: getBoderColor(styleName),
-                        color: '#000'
-                      }}
-                      key={`${option}-${index}`}
-                      label={optionsFlatY[index].label}
-                    />
-                  ))}
+                  {value.map((option: string, index: number) => {
+                    const selectedOption = selectedY.find((item) => item.var_name === option);
+                    return (
+                      <Chip
+                        style={{
+                          margin: 2,
+                          border: getBoderColor(styleName),
+                          color: '#000',
+                        }}
+                        key={`${option}-${index}`}
+                        label={selectedOption ? selectedOption.label : ''}
+                      />
+                    );
+                  })}
                 </Box>
               )}
             >
-              {selectedY.map((option: PlotXYVar, index: number) => (
-                <MenuItem
-                  key={`${option.label}-${index}`}
-                  value={option.var_name}
-                  disabled={isDisabledY(option)}
-                >
-                  {option.label}
-                </MenuItem>
-              ))}
+              {selectedY.map((option: PlotXYVar, index: number) => {
+                const label = displayYLabel(aggregation!, option.agg_fns!, option.label)
+                return label !== null &&
+                  <MenuItem
+                    key={`${option.label}-${index}`}
+                    value={option.var_name}
+                    disabled={isDisabledY(option)}
+                  >
+                    {label}
+                  </MenuItem>
+              })}
             </Select>
           </FormControl>
         </Box>
@@ -224,3 +226,16 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
     </>
   );
 };
+
+// Create label Y depending on sum or mean to display
+const displayYLabel = (aggregation: string, agg_fns: string[], label: string) => {
+  let yLabel = null;
+  if (aggregation === 'sum' && agg_fns!.includes('sum') && agg_fns!.includes('mean')) {
+    yLabel = label
+  } else if (aggregation === 'sum' && agg_fns!.includes('sum')) {
+    yLabel = label
+  } else if (aggregation === 'mean' && agg_fns!.includes('mean')) {
+    yLabel = label
+  }
+  return yLabel
+}

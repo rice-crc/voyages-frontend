@@ -188,7 +188,6 @@ const Tables: React.FC = () => {
         currentBlockName, textFilterValue
     ]);
 
-
     // Call the custom hook to Process Table Data
     useDataTableProcessingEffect(
         data,
@@ -336,5 +335,4 @@ const Tables: React.FC = () => {
 };
 
 export default Tables;
-/**/
 

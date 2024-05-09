@@ -191,7 +191,7 @@
 				"es": "Enslavers ES",
 				"pt": "Enslavers PT"
 			},
-			"cell_type": "literal",
+			"cell_type": "literal-concat",
 			"visible": true,
 			"number_format": null,
 			"order_by": [
@@ -204,8 +204,13 @@
 					{
 						"var_name": "enslavers__enslaver__principal_alias",
 						"cell_fn": "literal"
+					},
+					{
+						"var_name": "enslavers__roles",
+						"cell_fn": "literal"
 					}
-				]
+				],
+				"join":" : "
 			}
 		},
 		{
@@ -243,7 +248,7 @@
 			"order_by": [
 				"voyages__voyage_itinerary__imp_principal_port_slave_dis__name"
 			],
-			"col_width_px": 140,
+			"col_width_px": 150,
 			"colID": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
 			"cell_val": {
 				"fields": [
@@ -300,7 +305,7 @@
 			"order_by": [
 				"captive_fate__name"
 			],
-			"col_width_px": 100,
+			"col_width_px": 190,
 			"colID": "captive_fate__name",
 			"cell_val": {
 				"fields": [

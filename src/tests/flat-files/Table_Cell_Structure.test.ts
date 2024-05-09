@@ -15,7 +15,7 @@ describe('Voyages TABLE_FLAT Service', () => {
 test("getColumnsSelectorTree reducer sets the valueCells", () => {
     const tableCellStructure = TABLE_FLAT;
 
-    const state = getColumnsReducer(initialState, setColumnsSelectorTree(tableCellStructure));
+    const state = getColumnsReducer(initialState, setColumnsSelectorTree(tableCellStructure as any));
 
     expect(state.valueCells).toEqual(tableCellStructure);
 });

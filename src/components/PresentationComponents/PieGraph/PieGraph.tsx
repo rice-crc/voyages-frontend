@@ -151,9 +151,9 @@ function PieGraph() {
         maxWidth={maxWidth}
         XFieldText={'Sectors'}
         YFieldText={'Values'}
-        optionsFlatY={PIECHART_OPTIONS.y_vars}
         setXAxes={setXAxes}
         setYAxesPie={setYAxes}
+        aggregation={aggregation}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}

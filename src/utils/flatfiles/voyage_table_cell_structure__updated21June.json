@@ -188,7 +188,7 @@
 				"es": "Enslavers ES",
 				"pt": "Enslavers PT"
 			},
-			"cell_type": "literal",
+			"cell_type": "literal-concat",
 			"visible": true,
 			"number_format": null,
 			"order_by": [
@@ -199,10 +199,15 @@
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__principal_alias",
+						"var_name": "enslavers__enslaver__principal_alias",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "enslavers__roles",
 						"cell_fn": "literal"
 					}
-				]
+				],
+				"join": " : "
 			}
 		},
 		{

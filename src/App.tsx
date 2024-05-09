@@ -41,7 +41,6 @@ import InstitutionAuthorsPage from '@/pages/InstitutionAuthorsPage';
 import BlogDetailsPost from '@/components/BlogPageComponents/Blogcomponents/BlogDetailsPost';
 import Estimates from '@/components/PresentationComponents/Assessment/Estimates/Estimates';
 import Contribute from '@/components/PresentationComponents/Assessment/Contribute/Contribute';
-import TimeLapse from '@/components/PresentationComponents/TimeLapse/TimeLapse';
 import LessonPlans from '@/components/PresentationComponents/Assessment/LessonPlans/LessonPlans';
 import IntroductoryMaps from '@/components/PresentationComponents/Assessment/IntroductoryMaps/IntroductoryMaps';
 import { setCardRowID, setNodeClass, setValueVariable } from '@/redux/getCardFlatObjectSlice';
@@ -98,12 +97,12 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Routes>
+          {nodeClass && ID && <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />}
           <Route path="/" element={<HomePage />} />
           {saveSearchURL && nodeClass && <Route
             path={`${saveSearchURL}`}
             element={<UseSaveSearchURL />}
           />}
-          <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
           <Route
             path={`${TRANSATLANTICPAGE}`}
             element={<VoyagesPage />}

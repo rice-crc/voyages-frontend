@@ -271,6 +271,7 @@ export interface PlotXYVar {
     var_name: string
     type?: string
     label: string
+    agg_fns?: string[]
 }
 export interface PlotPieProps {
     x_vars: PlotPIEX[]
@@ -290,6 +291,7 @@ export interface BargraphXYVar {
     var_name: string
     type: string
     label: string
+    agg_fns?: string[]
 }
 
 export interface PiegraphXYVar {
@@ -442,6 +444,7 @@ export interface Tablestructure {
     headerName: string
     children?: Children[]
     columnGroupShow?: string
+    valueFormatter?: (params: any) => any;
     field?: string
     filter?: string
     sort?: string
@@ -454,6 +457,7 @@ export interface Children {
     columnGroupShow: string
     headerName: string
     field: string
+    valueFormatter?: (params: any) => any;
     filter: string
     sort: string
     pinned: string

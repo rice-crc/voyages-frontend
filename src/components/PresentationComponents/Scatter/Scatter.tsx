@@ -27,10 +27,10 @@ import { useGroupBy } from '@/hooks/useGroupBy';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { sum } from 'd3';
 
 function Scatter() {
-  const datas = useSelector(
-    (state: RootState | any) => state.getOptions?.value
+  const datas = useSelector((state: RootState | any) => state.getOptions?.value
   );
   const {
     data: options_flat,
@@ -188,10 +188,10 @@ function Scatter() {
         maxWidth={maxWidth}
         XFieldText="X Field"
         YFieldText="Multi-Selector Y-Feild"
-        optionsFlatY={VOYAGE_SCATTER_OPTIONS.y_vars}
         setXAxes={setXAxes}
         setYAxes={setYAxes}
         error={error}
+        aggregation={aggregation}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}
