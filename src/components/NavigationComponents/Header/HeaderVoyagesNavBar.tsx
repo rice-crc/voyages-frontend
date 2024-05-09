@@ -54,6 +54,7 @@ import { setFilterObject } from '@/redux/getFilterSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import { voyagesHeader } from '@/utils/languages/title_pages';
+import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -205,11 +206,11 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           >
             <span className='header-logo-icon'>
               <HeaderLogo />
+              <DatabaseDropdown
+                onClickReset={onClickReset}
+              />
               <HeaderTitle
                 textHeader={textHeader}
-                HeaderTitle={VOYAGETILE}
-                pathLink={`${TRANSATLANTICPAGE}#voyages`}
-                onClickReset={onClickReset}
               />
             </span>
             <Typography

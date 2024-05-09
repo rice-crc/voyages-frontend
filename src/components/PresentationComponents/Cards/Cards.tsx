@@ -110,6 +110,7 @@ const VoyageCard = () => {
 
   const newCardData = processCardData([cardData], cardDataArray, cardFileName);
 
+
   const toggleExpand = (header: string) => {
     if (!globalExpand) {
       // If globalExpand is false, just toggle the individual header
@@ -160,6 +161,7 @@ const VoyageCard = () => {
         {newCardData.length > 0 &&
           newCardData.map((element, index) => {
             const childValue = element.childValue;
+
             const isExpanded =
               expandedHeaders.includes(element.header) || globalExpand;
 
@@ -177,7 +179,6 @@ const VoyageCard = () => {
                   <div className="container-card-body">
                     {childValue.map((child: any) => {
                       const values = child.value;
-
                       if (Array.isArray(values)) {
                         const renderedValues = values.map(
                           (value: string, index: number) => {
@@ -213,7 +214,7 @@ const VoyageCard = () => {
                           </div>
                         );
                       } else {
-                        return (
+                        return values && (
                           <div
                             className="grid-container-card-body"
                             key={`${child.label}-${index}`}

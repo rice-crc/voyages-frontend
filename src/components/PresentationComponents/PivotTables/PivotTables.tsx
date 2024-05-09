@@ -18,11 +18,15 @@ import { AppDispatch, RootState } from '@/redux/store';
 import {
   setRowPivotTableData,
   setPivotTablColumnDefs,
+  setOffset,
+  setPivotValueOptions,
+  setAggregation,
+  setRowsPerPage,
+  setTotalResultsCount,
 } from '@/redux/getPivotTablesDataSlice';
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
-  Filter,
   LabelFilterMeneList,
   PivotTableResponse,
   PivotTablesPropsRequest,
@@ -35,11 +39,9 @@ import {
   PivotRowVar,
   PivotColumnVar,
   PivotCellVar,
-  PivotTablesProps,
 } from '@/share/InterfaceTypes';
 import { SelectDropdownPivotable } from '../../SelectorComponents/SelectDrowdown/SelectDropdownPivotable';
 import { getRowHeightPivotTable } from '@/utils/functions/getRowHeightTable';
-import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { CustomTablePagination } from '@/styleMUI';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground, getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 import { RowDataPivotTable, } from '@/share/InterfaceTypePivotTable';
@@ -47,24 +49,20 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
 import { downLoadText } from '@/utils/languages/title_pages';
+import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
+import { customValueFormatter } from '@/utils/functions/customValueFormatter';
 
 
 const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
   const effectOnce = useRef(false);
+  const gridRef = useRef<AgGridReact>(null);
 
   const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-  const [aggregation, setAggregation] = useState<string>('sum');
-  const gridRef = useRef<AgGridReact>(null);
-  const { columnDefs, rowData } = useSelector(
-    (state: RootState) => state.getPivotTablesData
-  );
 
   const { autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
-  const [totalResultsCount, setTotalResultsCount] = useState(0);
-
   const {
     rangeSliderMinMax: rang,
     varName,
@@ -85,25 +83,15 @@ const PivotTables = () => {
   const { styleName: styleNameRoute } = usePageRouter();
   const { clusterNodeKeyVariable, clusterNodeValue } =
     useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
-
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const [offset, setOffset] = useState<number>(0);
+  const { columnDefs, rowData, totalResultsCount, offset, pivotValueOptions, aggregation, rowsPerPage } = useSelector(
+    (state: RootState) => state.getPivotTablesData
+  );
+
   const [rowVars, setSelectRowValues] = useState<PivotRowVar[]>([]);
   const [columnVars, setSelectColumnValue] = useState<PivotColumnVar[]>([]);
   const [cellVars, setSelectCellValue] = useState<PivotCellVar[]>([]);
-  const [pivotValueOptions, setPivotValueOptions] = useState<PivotTablesProps>({
-    row_vars: VOYAGE_PIVOT_OPTIONS.row_vars[13].rows,
-    rows_label: VOYAGE_PIVOT_OPTIONS.row_vars[13].rows_label,
-    label: VOYAGE_PIVOT_OPTIONS.row_vars[13].label,
-    binsize: VOYAGE_PIVOT_OPTIONS.row_vars[13].binsize,
-    column_vars: VOYAGE_PIVOT_OPTIONS.column_vars[0].columns,
-    cell_vars: VOYAGE_PIVOT_OPTIONS.cell_vars[0].value_field,
-  });
-
   const [page, setPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState(
-    getRowsPerPage(window.innerWidth, window.innerHeight)
-  );
   const [width, height] = useWindowSize();
   const maxWidth = maxWidthSize(width);
 
@@ -118,17 +106,6 @@ const PivotTables = () => {
       agColumnHeader: (props: any) => {
         return <div className='pivot-table-header'>
           <CustomHeaderPivotTable
-            setTotalResultsCount={setTotalResultsCount}
-            columns={column_vars}
-            rows={updatedRowsValue}
-            rows_label={updatedRowsLabel}
-            agg_fn={aggregation}
-            binsize={binsize!}
-            value_field={cell_vars}
-            offset={offset}
-            limit={rowsPerPage}
-            setPage={setPage}
-            page={page}
             {...props} />
         </div>
 
@@ -193,6 +170,7 @@ const PivotTables = () => {
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
 
   const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
+
   const dataSend: PivotTablesPropsRequest = {
     columns: column_vars,
     rows: updatedRowsValue,
@@ -204,11 +182,13 @@ const PivotTables = () => {
     limit: rowsPerPage,
     filter: filters || [],
   }
+
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
   }
-  const fetchData = async () => {
 
+
+  const fetchData = async () => {
     try {
       const response = await dispatch(
         fetchPivotCrosstabsTables(dataSend)
@@ -216,31 +196,31 @@ const PivotTables = () => {
 
       if (response) {
         const { tablestructure, data, metadata } = response.data as PivotTableResponse
-
         tablestructure.forEach(structure => {
           if (structure.children) {
             structure.children.forEach(child => {
-              if (child.field === 'Year range') {
+              if (child.field === 'Year range') { // DO WE NEED TO Handle the condition here?
                 child.type = 'leftAligned'
                 child.cellClass = 'ag-left-aligned-cell'
-              } else if (child.field === 'All') {
+              } else if (child.field === 'All') { // DO WE NEED TO Handle the condition here? 
                 child.type = 'rightAligned'
                 child.cellClass = 'ag-right-aligned-cell'
+                child.valueFormatter = (params: any) => customValueFormatter(params)
               }
             });
           } else {
             structure.type = 'rightAligned'
             structure.cellClass = 'ag-right-aligned-cell'
+            // We will need to check if the valueFromatter will be comma or percent
+            structure.valueFormatter = (params: any) => customValueFormatter(params)
           }
         });
         dispatch(setPivotTablColumnDefs(tablestructure));
         dispatch(setRowPivotTableData(data));
-        setTotalResultsCount(metadata.total_results_count)
-
+        dispatch(setTotalResultsCount(metadata.total_results_count))
       }
     } catch (error) {
       console.log('error', error);
-
     }
   };
   useEffect(() => {
@@ -257,7 +237,7 @@ const PivotTables = () => {
       headerColor
     );
     const handleResize = () => {
-      setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
+      dispatch(setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight)));
     };
 
     window.addEventListener('resize', handleResize);
@@ -277,7 +257,6 @@ const PivotTables = () => {
     autoLabelName,
     geoTreeValue,
     isChange,
-    // styleName,
     inputSearchValue,
     rowsPerPage,
     page,
@@ -297,19 +276,18 @@ const PivotTables = () => {
     []
   );
 
-  const getRowRowStyle = () => {
+  const getRowStyle = () => {
     return {
       fontSize: 13,
       color: '#000',
       fontFamily: 'sans-serif',
       paddingLeft: '20px',
-      // textAlign: 'right'
     };
   };
 
   const handleChangeAggregation = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      setAggregation(event.target.value);
+      dispatch(setAggregation(event.target.value));
     },
     []
   );
@@ -317,12 +295,11 @@ const PivotTables = () => {
   const handleChangeOptions = useCallback(
     (event: SelectChangeEvent<string>, name: string, options?: PivotRowVar[]) => {
       const value = event.target.value;
-
       if (name === 'row_vars' && options) {
         const selectedRow = options.find((row) => row.rows === value);
         if (selectedRow) {
-          setPivotValueOptions((prevVoyageOption) => ({
-            ...prevVoyageOption,
+          dispatch(setPivotValueOptions({
+            ...pivotValueOptions,
             [name]: selectedRow.rows,
             binsize: selectedRow.binsize ?? null,
             rows_label: selectedRow.rows_label ?? '',
@@ -330,25 +307,28 @@ const PivotTables = () => {
           }));
         }
       } else {
-        setPivotValueOptions((prevVoyageOption) => ({
-          ...prevVoyageOption,
+        dispatch(setPivotValueOptions({
+          ...pivotValueOptions,
           [name]: value,
         }));
       }
     },
-    [setPivotValueOptions]
+    [dispatch, pivotValueOptions]
   );
 
-  const newRowsData = rowData.slice(0, -1).map((row) => {
-    return Object.entries(row).reduce((acc, [key, value]) => {
-      if (typeof value === 'number') {
-        acc[key] = value.toLocaleString('en-US');
-      } else {
-        acc[key] = value;
-      }
-      return acc;
-    }, {} as RowDataPivotTable);
-  });
+  // Define a helper function to format numbers as strings with commas
+  const formatNumber = (number: number) => {
+    if (typeof number === 'number') {
+      return number.toLocaleString('en-US');
+    }
+    return number;
+  };
+  // const formatNumber = (value: string | number): string => {
+  //   if (typeof value === 'number') {
+  //     return value.toLocaleString('en-US');
+  //   }
+  //   return value;
+  // };
 
   const handleButtonExportCSV = useCallback(() => {
     (gridRef.current as AgGridReact<any>).api.exportDataAsCsv();
@@ -357,28 +337,34 @@ const PivotTables = () => {
   const handleChangePage = useCallback(
     (event: any, newPage: number) => {
       setPage(newPage);
-      setOffset((prev) => prev + rowsPerPage)
+      const newOffset = newPage > page ? offset + rowsPerPage : offset - rowsPerPage;
+      dispatch(setOffset(newOffset >= 0 ? newOffset : 0))
     },
-    [page]
+    [page, rowsPerPage, offset]
   );
 
-  const handleChangeRowsPerPage = useCallback(
+  const handleChangeRowsPerPage =
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { value } = event.target
-      setRowsPerPage(parseInt(value));
-    },
-    [page, rowsPerPage]
-  );
+      const { value } = event.target;
+      const newRowsPerPage = parseInt(value);
+      dispatch(setRowsPerPage(newRowsPerPage));
+    }
 
   const pageCount = Math.ceil(
     totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
   );
+
   const handleChangePagePagination = useCallback(
     (event: any, newPage: number) => {
       setPage(newPage - 1);
-      setOffset((prev) => prev + rowsPerPage)
+      if (newPage === 0 || newPage === 1) {
+        dispatch(setOffset(0));
+      } else {
+        const newOffset = newPage > page ? offset + rowsPerPage : offset - rowsPerPage;
+        dispatch(setOffset(newOffset));
+      }
     },
-    [page]
+    [page, rowsPerPage, offset]
   );
 
   let DownloadCSVExport = ''
@@ -386,6 +372,9 @@ const PivotTables = () => {
     DownloadCSVExport = (header.label as LabelFilterMeneList)[languageValue];
   }
 
+
+  const newRowsData = rowData.slice(0, -1)
+  const totalItemData = rowData.slice(-1)
 
   return (
     <div className="mobile-responsive">
@@ -397,6 +386,7 @@ const PivotTables = () => {
             selectColumnValue={columnVars}
             selectCellValue={cellVars}
             handleChangeOptions={handleChangeOptions}
+            aggregation={aggregation}
           />
           <span className="tableContainer">
             <AggregationSumAverage
@@ -438,6 +428,7 @@ const PivotTables = () => {
           <AgGridReact
             domLayout={'autoHeight'}
             ref={gridRef}
+            pinnedBottomRowData={totalItemData}
             rowData={newRowsData}
             columnDefs={columnDefs as any}
             suppressMenuHide={true}
@@ -447,10 +438,11 @@ const PivotTables = () => {
             getRowHeight={getRowHeightPivotTable}
             paginationPageSize={rowsPerPage}
             components={components}
-            getRowStyle={getRowRowStyle}
+            getRowStyle={getRowStyle}
             enableBrowserTooltips={true}
             tooltipShowDelay={0}
             tooltipHideDelay={1000}
+            groupDefaultExpanded={-1}
           />
           <div className="pagination-div">
             <Pagination

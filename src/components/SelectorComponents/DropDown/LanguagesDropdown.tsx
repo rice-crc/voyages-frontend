@@ -15,7 +15,6 @@ import { setDataSetHeader } from '@/redux/getDataSetCollectionSlice';
 import { checkHeaderTitleLanguages } from '@/utils/functions/checkHeaderTitleLanguages';
 import { setDataSetPeopleEnslavedHeader } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import { setDataSetEnslaversHeader } from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
-import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
 export default function LanguagesDropdown() {
   const dispatch = useDispatch();
@@ -35,9 +34,6 @@ export default function LanguagesDropdown() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-
-  const translatedLanguageValue = translationLanguagesEstimatePage(languageValue)
 
   const handleChangeLanguage = (value: string, label: string) => {
     dispatch(setLanguages(value));

@@ -30,7 +30,6 @@ export const GenerateCellTableRenderer = (
   numberFormat?: string | null,
   nodeClass?: string
 ) => {
-
   const values = params.value;
   const ID = params.data.id;
   const dispatch = useDispatch();
@@ -101,17 +100,16 @@ export const GenerateCellTableRenderer = (
         whiteSpace: 'normal',
         overflow: 'hidden',
       };
-      console.log({ renderedValues })
+
       const remainingRows = values.slice(maxRowsToShow);
+      const renderRows = renderedValues.slice(0, maxRowsToShow)
       return (
         <div style={{ maxHeight: calculatedHeight, overflowY: 'auto' }}>
-          {renderedValues}
+          {renderRows}
           {remainingRows.length > 0 && (
-            <div style={ellipsisStyle}>
-              {remainingRows.map((value, index) => (
-                <div key={`${index}-${value}`}>{cleanUpTextDisplay(value)}</div>
-              ))}
-            </div>
+            remainingRows.map((value, index) => (
+              <div key={`${index}-${value}`} style={ellipsisStyle}>{cleanUpTextDisplay(value)}</div>
+            ))
           )}
         </div>
       );

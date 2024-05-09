@@ -9,7 +9,7 @@ import { useDimensions } from '@/hooks/useDimensions';
 import { NetworkDiagramDrawSVG } from './NetworkDiagramDrawSVG';
 
 export const NetworkDiagramSlaveVoyagesSVG = ({
-  widthPercentage = 100,
+  widthPercentage = 92,
   heigthPercentage = 85,
 }) => {
   const dispatch: AppDispatch = useDispatch();

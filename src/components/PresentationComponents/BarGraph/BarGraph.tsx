@@ -187,10 +187,10 @@ function BarGraph() {
         maxWidth={maxWidth}
         XFieldText={'X Field'}
         YFieldText={'Multi-Selector Y-Feild'}
-        optionsFlatY={VOYAGE_BARGRAPH_OPTIONS.y_vars}
         setXAxes={setXAxes}
         setYAxes={setYAxes}
         error={error}
+        aggregation={aggregation}
       />
       <AggregationSumAverage
         handleChange={handleChangeAggregation}

@@ -846,7 +846,7 @@ export interface StateRowData {
     error: null | any;
 }
 export interface TableCellStructure {
-    header_label: LabelFilterMeneList | string
+    header_label: LabelFilterMeneList | string | any
     cell_type: string;
     visible: boolean;
     number_format?: string | null;

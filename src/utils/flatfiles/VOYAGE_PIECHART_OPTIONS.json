@@ -68,55 +68,107 @@
 	"y_vars": [
 		{
 			"var_name": "voyage_ship__tonnage_mod",
-			"label": "Tonnage standardized on British measured tons 1773-1870"
+			"label": "Tonnage standardized on British measured tons 1773-1870",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_dates__imp_length_home_to_disembark",
-			"label": "Voyage length from home port to disembarkation (days) (VOY1IMP)"
+			"label": "Voyage length from home port to disembarkation (days) (VOY1IMP)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_dates__length_middle_passage_days",
-			"label": "Length of Middle Passage in (days) (VOYAGE)"
+			"label": "Length of Middle Passage in (days) (VOYAGE)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_crew__crew_first_landing",
-			"label": "Crew at first landing of slaves"
+			"label": "Crew at first landing of slaves",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_crew__crew_voyage_outset",
-			"label": "Crew at voyage outset"
+			"label": "Crew at voyage outset",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__percentage_male",
-			"label": "Percentage male on voyage (MALRAT7)"
+			"label": "Percentage male on voyage (MALRAT7)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__percentage_child",
-			"label": "Percentage children on voyage (CHILRAT7)"
+			"label": "Percentage children on voyage (CHILRAT7)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__percentage_girl",
-			"label": "Percentage girl on voyage (GIRLRAT7)"
+			"label": "Percentage girl on voyage (GIRLRAT7)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__percentage_boy",
-			"label": "Percentage boy on voyage (BOYRAT7)"
+			"label": "Percentage boy on voyage (BOYRAT7)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__percentage_women",
-			"label": "Percentage women on voyage (WOMRAT7)"
+			"label": "Percentage women on voyage (WOMRAT7)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__percentage_men",
-			"label": "Percentage men on voyage (MENRAT7)"
+			"label": "Percentage men on voyage (MENRAT7)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
-			"label": "Total slaves disembarked imputed * (SLAMIMP)"
+			"label": "Total slaves disembarked imputed * (SLAMIMP)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		},
 		{
 			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
-			"label": "Total slaves embarked imputed * (slaximp)"
+			"label": "Total slaves embarked imputed * (slaximp)",
+			"agg_fns": [
+				"sum",
+				"mean"
+			]
 		}
 	]
 }

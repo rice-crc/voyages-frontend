@@ -134,21 +134,25 @@ export const NetworkDiagramDrawSVG = ({
         if (svgRef.current) {
             const svg = d3.select<SVGSVGElement, unknown>(svgRef.current);
 
+            let networkGroup: d3.Selection<SVGGElement, unknown, null, undefined> = svg.select<SVGGElement>("#networkGroup");
+            let link = networkGroup.select<SVGGElement>("#edges");
+            let node = networkGroup.select<SVGGElement>("#nodes");
+            let labels = networkGroup.select<SVGGElement>("#labels");
 
-            let link: d3.Selection<SVGGElement, unknown, null, undefined> = svg.select<SVGGElement>("#edges");
-            let node: d3.Selection<SVGGElement, unknown, null, undefined> = svg.select<SVGGElement>("#nodes");
-            let labels: d3.Selection<SVGGElement, unknown, null, undefined> = svg.select<SVGGElement>("#labels")
+            if (networkGroup.empty()) {
+                networkGroup = svg.append("g").attr("id", "networkGroup");
+            }
 
             if (link.empty()) {
-                link = svg.append("g").attr("id", "edges");
+                link = networkGroup.append("g").attr("id", "edges");
             }
 
             if (node.empty()) {
-                node = svg.append("g").attr("id", "nodes");
+                node = networkGroup.append("g").attr("id", "nodes");
             }
 
             if (labels.empty()) {
-                labels = svg.append("g").attr("id", "labels");
+                labels = networkGroup.append("g").attr("id", "labels");
             }
 
             // Links
@@ -245,11 +249,8 @@ export const NetworkDiagramDrawSVG = ({
 
             newNodes.on('mouseout', async (event: MouseEvent, node: Nodes) => {
                 event.preventDefault();
-                // const nodeClass = isVoyagesClass(node);
-                // if (!nodeClass) {
                 d3.select('.label-hover').remove();
                 d3.select('.background-rect').remove();
-                // }
             });
 
 
@@ -269,10 +270,7 @@ export const NetworkDiagramDrawSVG = ({
 
             nodesGraph = newNodes.merge(nodesGraph as d3.Selection<SVGCircleElement, Nodes, SVGGElement, unknown>)
 
-
-
             // Label 
-
             nodeLabels = labels.selectAll<SVGTextElement, Nodes>('text.label').data(graph.current.nodes);
             const newNodeLabels = nodeLabels.enter().append('text')
             nodeLabels = newNodeLabels.merge(nodeLabels);
@@ -296,23 +294,17 @@ export const NetworkDiagramDrawSVG = ({
                  const labelNode = createdLabelNodeHover(node);
                  return nodeClass ? labelNode! : '';
              });
-             
              nodeLabels = newNodeLabels.merge(nodeLabels);
              */
-
-
 
             function handleZoom(event: d3.D3ZoomEvent<SVGSVGElement, any>) {
                 transformRef.current = event.transform;
                 if (svgRef.current && transformRef.current) {
-                    const scale = transformRef.current.k;
-                    const { x, y } = transformRef.current;
-
-                    const transformString = `translate(${x}, ${y}) scale(${scale})`;
-                    svgRef.current.setAttribute('transform', transformString);
-                    svgRef.current.style.cursor = 'pointer';
+                    const transformString = `translate(${event.transform.x}, ${event.transform.y}) scale(${event.transform.k})`;
+                    d3.select('#networkGroup').attr('transform', transformString);
                 }
             }
+
             const dragStarted = (
                 event: d3.D3DragEvent<SVGGElement, Nodes, Nodes>
             ) => {
@@ -377,6 +369,7 @@ export const NetworkDiagramDrawSVG = ({
         }
 
     }, [svgRef, width, height]);
+
     function ticked() {
         linksGraph
             .attr('x1', (d) => d.source.x)

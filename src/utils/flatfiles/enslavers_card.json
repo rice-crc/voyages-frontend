@@ -7,15 +7,15 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "aliases__enslaver_relations__relation__voyage__id",
+							"var_name": "voyages__voyage_id",
 							"cell_fn": "literal"
 						},
 						{
-							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
+							"var_name": "voyages__voyage_ship__ship_name",
 							"cell_fn": "literal"
 						},
 						{
-							"var_name": "aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+							"var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 							"cell_fn": "literal"
 						}
 					],
@@ -98,7 +98,7 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name",
+							"var_name": "named_enslaved_people__enslaved__documented_name",
 							"cell_fn": "literal"
 						}
 					]
