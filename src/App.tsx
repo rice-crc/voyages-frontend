@@ -64,7 +64,7 @@ const queryClient = new QueryClient({
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const { cardRowID, nodeTypeClass } = useSelector((state: RootState) => state.getCardFlatObjectData);
+  const { cardRowID, nodeTypeClass, variable } = useSelector((state: RootState) => state.getCardFlatObjectData);
   const { styleName, voyageURLID, blogURL } = usePageRouter();
 
   const [saveSearchURL, setSaveSearchURL] = useState('')
@@ -79,6 +79,7 @@ const App: React.FC = () => {
     const entityType = parts[1];
     const voyageID = parts[2];
     const typeOfData = parts[3]
+    // console.log({ entityType, voyageID, typeOfData })
     if (checkEntityType(entityType)) {
       setSaveSearchURL(url)
     }
@@ -91,13 +92,13 @@ const App: React.FC = () => {
       dispatch(setValueVariable(typeOfData))
 
     }
-  }, [dispatch, ID, nodeClass, styleName, voyageURLID, saveSearchURL, blogURL]);
+  }, [dispatch, ID, nodeClass, styleName, voyageURLID, saveSearchURL, blogURL, variable]);
 
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Routes>
-          {nodeClass && ID && <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />}
+          {nodeClass && ID && <Route path={`${nodeClass}/${ID}/${variable}`} element={<TabsSelect />} />}
           <Route path="/" element={<HomePage />} />
           {saveSearchURL && nodeClass && <Route
             path={`${saveSearchURL}`}

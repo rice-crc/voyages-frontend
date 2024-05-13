@@ -62,11 +62,8 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         (state: RootState) => state.getNodeEdgesAggroutesMapData
     );
     const {
-        styleName: styleNamePage,
-        nodeTypeURL,
-        voyageURLID,
+        nodeTypeURL: voyageURLID, typeOfPathURL: styleNamePage,
     } = usePageRouter();
-
     const [regionPlace, setRegionPlace] = useState<string>('region');
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -147,13 +144,13 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
         hasFetchedRegion ? setLoading(true) : setLoading(false);
         let response;
-        if (checkPagesRouteForVoyages(styleNamePage! || nodeTypeURL!)) {
+        if (checkPagesRouteForVoyages(styleNamePage! || styleNamePage!)) {
             response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
-        } else if (checkPagesRouteMapURLForVoyages(nodeTypeURL!)) {
+        } else if (checkPagesRouteMapURLForVoyages(styleNamePage!)) {
             response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
         } else if (checkPagesRouteForEnslaved(styleNamePage!)) {
             response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
-        } else if (checkPagesRouteMapURLForEnslaved(nodeTypeURL!)) {
+        } else if (checkPagesRouteMapURLForEnslaved(styleNamePage!)) {
             response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
         }
 
@@ -171,7 +168,7 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
             fetchData(regionPlace);
         }
     }, [
-        nodeTypeURL,
+        // nodeTypeURL,
         rang,
         nameIdURL,
         varName,
