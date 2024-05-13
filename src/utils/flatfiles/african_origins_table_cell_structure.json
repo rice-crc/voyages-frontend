@@ -214,21 +214,26 @@
 				"es": "Enslavers ES",
 				"pt": "Enslavers PT"
 			},
-			"cell_type": "literal",
+			"cell_type": "literal-concat",
 			"visible": true,
 			"number_format": null,
 			"order_by": [
 				"enslaved_relations__relation__relation_enslavers__enslaver_alias__alias"
 			],
+			"col_width_px": 300,
 			"colID": "enslavers",
-			"col_width_px": 100,
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
+						"var_name": "enslavers__enslaver__principal_alias",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "enslavers__roles",
 						"cell_fn": "literal"
 					}
-				]
+				],
+				"join":": "
 			}
 		},
 		{
@@ -347,7 +352,7 @@
 				"captive_fate__name"
 			],
 			"colID": "captive_fate__name",
-			"col_width_px": 100,
+			"col_width_px": 180,
 			"cell_val": {
 				"fields": [
 					{
@@ -370,7 +375,7 @@
 				"post_disembark_location__name"
 			],
 			"colID": "post_disembark_location__name",
-			"col_width_px": 100,
+			"col_width_px": 160,
 			"cell_val": {
 				"fields": [
 					{
@@ -392,7 +397,7 @@
 			"order_by": [
 				"voyages__voyage_outcome__particular_outcome__name"
 			],
-			"colID": "voyage_sources",
+			"colID": "particular_outcome",
 			"col_width_px": 100,
 			"cell_val": {
 				"fields": [
@@ -409,21 +414,26 @@
 				"es": "Documentary Sources ES",
 				"pt": "Documentary Sources PT"
 			},
-			"cell_type": "literal",
+			"cell_type": "literal-concat",
 			"visible": true,
 			"number_format": null,
 			"order_by": [
 				"enslaved_source_connections__source__title"
 			],
-			"colID": "voyages__voyage_sources",
-			"col_width_px": 100,
+			"col_width_px": 350,
+			"colID": "enslaved_sources",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaved_source_connections__source__title",
+						"var_name": "sources__short_ref__name",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "sources__title",
 						"cell_fn": "literal"
 					}
-				]
+				],
+				"join":": "
 			}
 		}
 	],
@@ -583,7 +593,7 @@
 				},
 				{
 					"colID": "post_disembark_location__name",
-					"col_width_px": 100,
+					"col_width_px": 160,
 					"label": {
 						"en": "Post-Disembark Location",
 						"es": "Post-Disembark Location ES",
@@ -600,7 +610,7 @@
 			},
 			"children": [
 				{
-					"colID": "voyage_sources",
+					"colID": "enslaved_sources",
 					"col_width_px": 100,
 					"label": {
 						"en": "Sources",

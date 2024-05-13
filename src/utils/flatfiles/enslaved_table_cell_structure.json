@@ -197,7 +197,7 @@
 			"order_by": [
 				"enslaved_relations__relation__relation_enslavers__enslaver_alias__alias"
 			],
-			"col_width_px": 170,
+			"col_width_px": 300,
 			"colID": "enslavers",
 			"cell_val": {
 				"fields": [
@@ -225,7 +225,7 @@
 			"order_by": [
 				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
 			],
-			"col_width_px": 140,
+			"col_width_px": 160,
 			"colID": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 			"cell_val": {
 				"fields": [
@@ -248,7 +248,7 @@
 			"order_by": [
 				"voyages__voyage_itinerary__imp_principal_port_slave_dis__name"
 			],
-			"col_width_px": 150,
+			"col_width_px": 160,
 			"colID": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
 			"cell_val": {
 				"fields": [
@@ -345,21 +345,26 @@
 				"es": "Documentary Sources ES",
 				"pt": "Documentary Sources PT"
 			},
-			"cell_type": "literal",
+			"cell_type": "literal-concat",
 			"visible": true,
 			"number_format": null,
 			"order_by": [
 				"enslaved_source_connections__source__title"
 			],
-			"col_width_px": 100,
-			"colID": "voyage_sources",
+			"col_width_px": 350,
+			"colID": "enslaved_sources",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaved_source_connections__source__title",
+						"var_name": "sources__short_ref__name",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "sources__title",
 						"cell_fn": "literal"
 					}
-				]
+				],
+				"join":": "
 			}
 		}
 	],
@@ -510,7 +515,7 @@
 			},
 			"children": [
 				{
-					"col_width_px": 160,
+					"col_width_px": 300,
 					"colID": "enslavers",
 					"label": {
 						"en": "Enslavers",
@@ -528,8 +533,8 @@
 			},
 			"children": [
 				{
-					"col_width_px": 100,
-					"colID": "voyage_sources",
+					"col_width_px": 350,
+					"colID": "enslaved_sources",
 					"label": {
 						"en": "Sources",
 						"es": "Sources ES",

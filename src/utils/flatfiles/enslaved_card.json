@@ -148,19 +148,25 @@
 			}
 		]
 	},
+	
 	{
 		"label": "Sources",
 		"children": [
 			{
 				"label": "Documentary Sources",
-				"cell_type": "literal",
+				"cell_type": "literal-concat",
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "enslaved_source_connections__source__title",
+							"var_name": "sources__short_ref__name",
+							"cell_fn": "literal"
+						},
+						{
+							"var_name": "sources__title",
 							"cell_fn": "literal"
 						}
-					]
+					],
+					"join":": "
 				}
 			}
 		]
