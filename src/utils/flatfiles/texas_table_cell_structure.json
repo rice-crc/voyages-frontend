@@ -34,21 +34,26 @@
 				"es": "Enslavers ES",
 				"pt": "Enslavers PT"
 			},
-			"cell_type": "literal",
+			"cell_type": "literal-concat",
 			"visible": true,
 			"number_format": null,
 			"order_by": [
 				"enslaved_relations__relation__relation_enslavers__enslaver_alias__alias"
 			],
-			"col_width_px": 180,
-			"colID": "enslavers__enslaver",
+			"col_width_px": 300,
+			"colID": "enslavers",
 			"cell_val": {
 				"fields": [
 					{
 						"var_name": "enslavers__enslaver__principal_alias",
 						"cell_fn": "literal"
+					},
+					{
+						"var_name": "enslavers__roles",
+						"cell_fn": "literal"
 					}
-				]
+				],
+				"join":" : "
 			}
 		},
 		{
@@ -367,7 +372,7 @@
 			"children": [
 				{
 					"col_width_px": 100,
-					"colID": "voyages__voyage_sources",
+					"colID": "enslaved_sources",
 					"label": {
 						"en": "Sources",
 						"es": "Sources ES",

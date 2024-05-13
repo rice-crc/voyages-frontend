@@ -151,21 +151,26 @@
 				"es": "Documentary Sources ES",
 				"pt": "Documentary Sources PT"
 			},
-			"cell_type": "literal",
+			"cell_type": "literal-concat",
 			"visible": true,
 			"number_format": null,
 			"order_by": [
-				"enslaver_source_connections__source__title"
+				"enslaved_source_connections__source__title"
 			],
-			"col_width_px": 150,
-			"colID": "documentary_sources",
+			"col_width_px": 350,
+			"colID": "enslaved_sources",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslaver_source_connections__source__title",
-						"cell_fn": "enslavers"
+						"var_name": "sources__short_ref__name",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "sources__title",
+						"cell_fn": "literal"
 					}
-				]
+				],
+				"join":": "
 			}
 		},
 		{
