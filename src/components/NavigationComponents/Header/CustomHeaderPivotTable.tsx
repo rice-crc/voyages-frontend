@@ -45,7 +45,10 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     (state: RootState) => state.getPivotTablesData
   );
   const filters = filtersDataSend(filtersObj, styleName!)
-
+  const newFilters = filters!.map(filter => {
+    const { label, title, ...filteredFilter } = filter;
+    return filteredFilter;
+  });
   const onSortChanged = () => {
     setAscSort(column!.isSortAscending() ? 'active' : 'inactive');
     setDescSort(column!.isSortDescending() ? 'active' : 'inactive');
@@ -83,7 +86,7 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     value_field: cell_vars,
     offset: offset,
     limit: rowsPerPage,
-    filter: filters || [],
+    filter: newFilters || [],
   }
 
   const fetchDataPivotTable = async (sortOrder: string, sortingOrder: string[]) => {

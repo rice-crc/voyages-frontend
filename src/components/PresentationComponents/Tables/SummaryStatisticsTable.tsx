@@ -10,9 +10,8 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    Filter,
     LabelFilterMeneList,
-    RangeSliderState,
+    FilterObjectsState,
     SummaryStatisticsTableRequest,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
@@ -37,7 +36,7 @@ const SummaryStatisticsTable = () => {
     const [summaryData, setSummaryData] = useState<string>('');
     const [loading, setLoading] = useState(false);
     const { varName } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
+        (state: RootState) => state.rangeSlider as FilterObjectsState
     );
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { languageValue } = useSelector((state: RootState) => state.getLanguages);
@@ -59,10 +58,13 @@ const SummaryStatisticsTable = () => {
     const { isFilter } = useSelector((state: RootState) => state.getFilter);
 
     const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
-
+    const newFilters = filters!.map(filter => {
+        const { label, title, ...filteredFilter } = filter;
+        return filteredFilter;
+    });
     const dataSend: SummaryStatisticsTableRequest = {
         mode: mode,
-        filter: filters || [],
+        filter: newFilters || [],
     };
 
     useEffect(() => {

@@ -20,8 +20,6 @@ import {
 } from '@/share/InterfaceTypesTable';
 import {
     CurrentPageInitialState,
-    Filter,
-    RangeSliderState,
     TableListPropsRequest,
 } from '@/share/InterfaceTypes';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -63,7 +61,6 @@ const Tables: React.FC = () => {
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
-
     const [totalResultsCount, setTotalResultsCount] = useState(0);
     const gridRef = useRef<any>(null);
     const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
@@ -133,8 +130,12 @@ const Tables: React.FC = () => {
     }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!, data]);
 
     const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
+    const newFilters = filters!.map(filter => {
+        const { label, title, ...filteredFilter } = filter;
+        return filteredFilter;
+    });
     const dataSend: TableListPropsRequest = {
-        filter: filters || [],
+        filter: newFilters || [],
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };

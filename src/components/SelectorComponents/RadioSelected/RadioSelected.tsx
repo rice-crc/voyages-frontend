@@ -1,4 +1,6 @@
-import { TYPES } from '@/share/InterfaceTypes';
+import { setOpsRole } from '@/redux/getRangeSliderSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { FilterObjectsState, TYPES } from '@/share/InterfaceTypes';;
 import {
   FormControl,
   FormControlLabel,
@@ -7,7 +9,8 @@ import {
   RadioGroup,
   Typography,
 } from '@mui/material';
-import { ChangeEvent, FunctionComponent } from 'react';
+import { ChangeEvent, FunctionComponent, useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface RadioSelectedProps {
   aggregation?: string;
@@ -17,7 +20,13 @@ interface RadioSelectedProps {
 export const RadioSelected: FunctionComponent<
   RadioSelectedProps
 > = (props) => {
+  const dispatch: AppDispatch = useDispatch();
   const { aggregation, handleChange, type } = props;
+  const { opsRoles } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
+  const handleChangeEnslaversRoles = (event: ChangeEvent<HTMLInputElement>) => {
+    const newOpsRoles = event.target.value
+    dispatch(setOpsRole(newOpsRoles))
+  }
 
   return (
     <FormControl>
@@ -52,19 +61,19 @@ export const RadioSelected: FunctionComponent<
           <RadioGroup
             aria-labelledby="demo-controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"
-            value={aggregation}
-            onChange={handleChange}
             row
+            value={opsRoles}
+            onChange={handleChangeEnslaversRoles}
           >
             <FormControlLabel
-              value="any"
+              value="in"
               control={<Radio />}
-              label={<Typography variant="body1" >any</Typography>}
+              label={<Typography variant="body1">any</Typography>}
             />
             <FormControlLabel
-              value="all"
+              value="andlist"
               control={<Radio />}
-              label={<Typography variant="body1" >all of these roles: </Typography>}
+              label={<Typography variant="body1">all of these roles: </Typography>}
             />
           </RadioGroup></span>
       }

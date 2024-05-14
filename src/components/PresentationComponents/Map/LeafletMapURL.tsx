@@ -9,7 +9,7 @@ import {
     CurrentPageInitialState,
     Filter,
     MapPropsRequest,
-    RangeSliderState,
+    FilterObjectsState,
 } from '@/share/InterfaceTypes';
 import {
     MAP_CENTER,
@@ -80,7 +80,7 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
     const { filtersObj, nameIdURL } = useSelector((state: RootState) => state.getFilter);
     const { rangeSliderMinMax: rang, varName } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
+        (state: RootState) => state.rangeSlider as FilterObjectsState
     );
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState

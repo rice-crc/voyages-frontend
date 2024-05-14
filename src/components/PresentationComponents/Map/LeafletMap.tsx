@@ -10,7 +10,7 @@ import {
   CurrentPageInitialState,
   Filter,
   MapPropsRequest,
-  RangeSliderState,
+  FilterObjectsState,
 } from '@/share/InterfaceTypes';
 import {
   MAP_CENTER,
@@ -82,7 +82,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
   const { rangeSliderMinMax: rang, varName } = useSelector(
-    (state: RootState) => state.rangeSlider as RangeSliderState
+    (state: RootState) => state.rangeSlider as FilterObjectsState
   );
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -158,8 +158,12 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
 
   const filters = filtersDataSend(filtersObj, styleNamePage!, clusterNodeKeyVariable, clusterNodeValue)
+  const newFilters = filters!.map(filter => {
+    const { label, title, ...filteredFilter } = filter;
+    return filteredFilter;
+  });
   const dataSend: MapPropsRequest = {
-    filter: filters || [],
+    filter: newFilters || [],
   };
 
   if (inputSearchValue) {

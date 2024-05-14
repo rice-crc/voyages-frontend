@@ -1287,7 +1287,11 @@ const useFilteredVoyageRoutes = () => {
         fetchNations()
     }, [])
     const { filtersObj } = useSelector((state: RootState) => state.getFilter)
-    const filter = filtersDataSend(filtersObj, styleName!) || []
+    const filters = filtersDataSend(filtersObj, styleName!) || []
+    const filter = filters!.map(filter => {
+        const { label, title, ...filteredFilter } = filter;
+        return filteredFilter;
+    });
 
     useEffect(() => {
         const fetchVoyages = async () => {

@@ -4,7 +4,6 @@ import React, {
     SyntheticEvent,
     UIEventHandler,
     useRef,
-    forwardRef,
 } from 'react';
 import {
     Autocomplete,
@@ -14,14 +13,13 @@ import {
     Paper,
     Checkbox,
     AutocompleteRenderOptionState,
-    PaperProps,
 } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     AutoCompleteOption,
     Filter,
-    RangeSliderState,
+    FilterObjectsState,
 } from '@/share/InterfaceTypes';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
@@ -38,7 +36,7 @@ import { useAutoCompletedSearch } from '@/hooks/useAutoCompletedSearch';
 const AutoCompletedFilterListBox = () => {
     const dispatch: AppDispatch = useDispatch();
     const { varName } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
+        (state: RootState) => state.rangeSlider as FilterObjectsState
     );
 
     const { styleName } = usePageRouter();
@@ -53,12 +51,16 @@ const AutoCompletedFilterListBox = () => {
     const mounted = useRef<boolean>(false);
     const [page, setPage] = useState(1);
     const filters = filtersDataSend(filtersObj, styleName!);
+    const newFilters = filters!.map(filter => {
+        const { label, title, ...filteredFilter } = filter;
+        return filteredFilter;
+    });
     const dataSend: IRootFilterObject = {
         varName: varName,
         querystr: autoValue,
         offset: offset,
         limit: limit,
-        filter: filters || [],
+        filter: newFilters || [],
     };
 
     const {

@@ -30,7 +30,7 @@ import {
   LabelFilterMeneList,
   PivotTableResponse,
   PivotTablesPropsRequest,
-  RangeSliderState,
+  FilterObjectsState,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
 import CustomHeaderPivotTable from '../../NavigationComponents/Header/CustomHeaderPivotTable';
@@ -66,7 +66,7 @@ const PivotTables = () => {
     rangeSliderMinMax: rang,
     varName,
     isChange,
-  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+  } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -169,7 +169,10 @@ const PivotTables = () => {
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
 
   const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
-
+  const newFilters = filters!.map(filter => {
+    const { label, title, ...filteredFilter } = filter;
+    return filteredFilter;
+  });
   const dataSend: PivotTablesPropsRequest = {
     columns: column_vars,
     rows: updatedRowsValue,
@@ -179,7 +182,7 @@ const PivotTables = () => {
     value_field: cell_vars,
     offset: offset,
     limit: rowsPerPage,
-    filter: filters || [],
+    filter: newFilters || [],
   }
 
   if (inputSearchValue) {

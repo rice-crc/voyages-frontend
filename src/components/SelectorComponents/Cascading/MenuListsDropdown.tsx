@@ -12,7 +12,7 @@ import { DropdownCascading } from './DropdownCascading';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   ChildrenFilter,
-  RangeSliderState,
+  FilterObjectsState,
   TYPES,
   CurrentPageInitialState,
   TYPESOFDATASETPEOPLE,
@@ -22,6 +22,7 @@ import {
   Filter,
   AutoCompleteOption,
   TYPESOFDATASET,
+  RolesProps,
 } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss';
 import { setType } from '@/redux/getFilterSlice';
@@ -33,7 +34,7 @@ import {
 } from '@/styleMUI';
 import { useState, MouseEvent, useEffect, ChangeEvent } from 'react';
 import { PaperDraggable } from './PaperDraggable';
-import { setIsChange, setKeyValueName } from '@/redux/getRangeSliderSlice';
+import { setEnslaversNameAndRole, setIsChange, setKeyValueName } from '@/redux/getRangeSliderSlice';
 import { setIsChangeAuto, setTextFilterValue } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
@@ -61,6 +62,8 @@ import { setIsViewButtonViewAllResetAll, setLabelVarName, setTextFilter } from '
 import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
 import { SelectSearchDropdownEnslaversNameRole } from '../SelectDrowdown/SelectSearchDropdownEnslaversNameRole';
 import { RadioSelected } from '../RadioSelected/RadioSelected';
+import FilterTextNameEnslaversBox from '@/components/FilterComponents/Autocomplete/FilterTextNameEnslaversBox';
+import { updatedEnslaversRoleAndNameToLocalStorage } from '@/utils/functions/updatedEnslaversRoleAndNameToLocalStorage';
 
 export const MenuListsDropdown = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -79,15 +82,15 @@ export const MenuListsDropdown = () => {
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as RangeSliderState
-  );
+
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   const { labelVarName, textFilter } = useSelector(
     (state: RootState) => state.getShowFilterObject
   );
+
+  const { listEnslavers, varName, enslaverName, opsRoles } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
 
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [ops, setOps] = useState<string>('');
@@ -137,14 +140,14 @@ export const MenuListsDropdown = () => {
     const autoValueList: string[] = filterByVarName.searchTerm as string[];
     let newTextValue = ''
 
-    if (Array.isArray(autoValueList)) { // use with autocomplete list will be all array list
+    if (Array.isArray(autoValueList)) {
       const values = autoValueList.map<AutoCompleteOption>((item: string) => ({
         value: item,
       }));
       for (const value of values) {
         newTextValue = value.value
       }
-    } else { // use with TextFilter with string type, if autoValueList is string type
+    } else {
       newTextValue = autoValueList
     }
     setTextFilter(newTextValue);
@@ -154,14 +157,20 @@ export const MenuListsDropdown = () => {
 
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>,
-    ops: string[]
+    ops: string[],
+    roles?: RolesProps[]
   ) => {
     const { value, type, label } = event.currentTarget.dataset;
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
     let opsValue = ''
     if (value && type && label) {
-      dispatch(setKeyValueName(value));
+      if (type === 'EnslaverNameAndRole') {
+        dispatch(setKeyValueName(type));
+      } else {
+        dispatch(setKeyValueName(value));
+      }
+
       dispatch(setType(type));
       if (ops) {
         for (const ele of ops) {
@@ -175,6 +184,9 @@ export const MenuListsDropdown = () => {
       }
       dispatch(setLabelVarName(label));
       dispatch(setIsOpenDialog(true));
+      if (roles) {
+        dispatch(setEnslaversNameAndRole(roles))
+      }
     }
   };
 
@@ -211,6 +223,10 @@ export const MenuListsDropdown = () => {
     });
   };
 
+  const handleApplyEnslaversDialog = (roles: string[], name: string, ops: string) => {
+    updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, roles as string[], name, varName, ops!, labelVarName)
+  }
+
   const handleApplyTextFilterDataDialog = (value: string) => {
     dispatch(setTextFilterValue(value));
     updateFilter(value)
@@ -245,9 +261,11 @@ export const MenuListsDropdown = () => {
     const filteredFilters = existingFilters.filter((filter) =>
       !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
     );
+
     const filterObjectUpdate = {
       filter: filteredFilters,
     };
+
     const filterObjectString = JSON.stringify(filterObjectUpdate);
     localStorage.setItem('filterObject', filterObjectString)
 
@@ -264,14 +282,13 @@ export const MenuListsDropdown = () => {
   ): React.ReactElement<any>[] | undefined => {
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
-
         const { children, var_name, type, label: nodeLabel, ops, roles } = node;
         const hasChildren = children && children.length >= 1;
         const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
         if (hasChildren) {
           return (
             <DropdownNestedMenuItemChildren
-              onClickMenu={(event) => handleClickMenu(event, ops!)}
+              onClickMenu={(event) => handleClickMenu(event, ops!, roles!)}
               key={`${menuLabel}-${index}`}
               label={`${menuLabel}`}
               rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
@@ -285,7 +302,7 @@ export const MenuListsDropdown = () => {
         return (
           <DropdownMenuItem
             key={`${menuLabel}-${index}`}
-            onClick={(event) => handleClickMenu(event, ops!)}
+            onClick={(event) => handleClickMenu(event, ops!, roles!)}
             dense
             data-value={var_name}
             data-type={type}
@@ -299,7 +316,7 @@ export const MenuListsDropdown = () => {
   };
 
   let displayComponent;
-  console.log({ typeData })
+
   if (varName) {
     if ((typeData === TYPES.GeoTreeSelect) || (typeData === TYPES.LanguageTreeSelect)) {
       displayComponent = <GeoTreeSelected type={typeData} />
@@ -311,7 +328,7 @@ export const MenuListsDropdown = () => {
       // displayComponent= <AutoCompletedFilterListBox />
     } else if (typeData === TYPES.EnslaverNameAndRole) {
       displayComponent = <div>
-        <FilterTextBox handleKeyDownTextFilter={handleApplyTextFilterDataDialog} type={typeData} />
+        <FilterTextNameEnslaversBox />
         <RadioSelected type={typeData} />
         <SelectSearchDropdownEnslaversNameRole />
       </div>
@@ -412,12 +429,47 @@ export const MenuListsDropdown = () => {
         <DialogContent style={{ textAlign: 'center' }}>
           {displayComponent}
         </DialogContent>
-        <DialogActions style={{ paddingRight: '2rem' }}>
-          {(varName && (typeData === TYPES.CharField && ops === 'icontains')) || (varName && (typeData === TYPES.EnslaverNameAndRole)) ?
+        <DialogActions style={{ paddingRight: '2rem', marginTop: typeData === TYPES.EnslaverNameAndRole ? '10rem' : 0 }}>
+          {varName && (typeData === TYPES.CharField && ops === 'icontains') && <Button
+            autoFocus
+            type='submit'
+            onClickCapture={() => {
+              if (typeData === TYPES.CharField && ops === 'icontains') {
+                handleApplyTextFilterDataDialog(textFilter)
+              } else if (varName && (typeData === TYPES.EnslaverNameAndRole)) {
+                handleApplyEnslaversDialog(listEnslavers, enslaverName, opsRoles!)
+              }
+            }}
+            sx={{
+              color: 'white', textTransform: 'unset',
+              height: 30,
+              cursor: 'pointer',
+              backgroundColor: getColorBackground(styleNameRoute!),
+              fontSize: '0.80rem',
+              '&:hover': {
+                backgroundColor: getColorHoverBackgroundCollection(styleNameRoute!),
+                color: getColorBTNVoyageDatasetBackground(styleNameRoute!)
+              },
+              '&:disabled': {
+                color: '#fff',
+                boxShadow: getColorBoxShadow(styleNameRoute!),
+                cursor: 'not-allowed',
+              },
+            }}
+          >
+            Apply
+          </Button>}
+          {(varName && (typeData === TYPES.EnslaverNameAndRole)) &&
             <Button
               autoFocus
               type='submit'
-              onClick={() => handleApplyTextFilterDataDialog(textFilter)}
+              onClickCapture={() => {
+                if (typeData === TYPES.CharField && ops === 'icontains') {
+                  handleApplyTextFilterDataDialog(textFilter)
+                } else if (varName && (typeData === TYPES.EnslaverNameAndRole)) {
+                  handleApplyEnslaversDialog(listEnslavers, enslaverName, opsRoles!)
+                }
+              }}
               sx={{
                 color: 'white', textTransform: 'unset',
                 height: 30,
@@ -436,7 +488,7 @@ export const MenuListsDropdown = () => {
               }}
             >
               Apply
-            </Button> : null}
+            </Button>}
           <Button
             autoFocus
             onClick={handleResetDataDialog}
@@ -464,4 +516,5 @@ export const MenuListsDropdown = () => {
       </Dialog>
     </div>
   );
-};
+}
+

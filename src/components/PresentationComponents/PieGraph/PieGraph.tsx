@@ -13,7 +13,7 @@ import NODATA from '@/assets/noData.png';
 import {
   VoyagesOptionProps,
   Options,
-  RangeSliderState,
+  FilterObjectsState,
   CurrentPageInitialState,
   PlotPIEX,
   PlotPIEY,
@@ -34,7 +34,7 @@ function PieGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
   const { data: options_flat, isSuccess } = useGetOptionsQuery(datas);
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as RangeSliderState
+    (state: RootState) => state.rangeSlider as FilterObjectsState
   );
   const { clusterNodeKeyVariable, clusterNodeValue } =
     useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
@@ -77,12 +77,16 @@ function PieGraph() {
     );
   };
   const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
+  const newFilters = filters!.map(filter => {
+    const { label, title, ...filteredFilter } = filter;
+    return filteredFilter;
+  });
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: pieGraphOptions.x_vars,
     groupby_cols: [pieGraphOptions.y_vars],
     agg_fn: aggregation,
     cachename: 'voyage_bar_and_donut_charts',
-    filter: filters!,
+    filter: newFilters || [],
   };
 
   if (inputSearchValue) {

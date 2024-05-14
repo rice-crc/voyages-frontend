@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import { select } from 'd3-selection';
 import { Button, } from "antd";
 import { fetchEstimateTimeLines } from '@/fetch/estimateFetch/fetchEstimateTimeLines';
-import { DataTimeLinesItem, ElementTimeLine, EventsTimeLinesType, Filter, RangeSliderState, TimeLineGraphRequest } from '@/share/InterfaceTypes';
+import { DataTimeLinesItem, ElementTimeLine, EventsTimeLinesType, Filter, FilterObjectsState, TimeLineGraphRequest } from '@/share/InterfaceTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import '@/style/estimates.scss';
@@ -29,7 +29,7 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
         filter: filters
     };
     const { varName } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
+        (state: RootState) => state.rangeSlider as FilterObjectsState
     );
     const {
         currentSliderValue,

@@ -18,13 +18,17 @@ export interface OptionsDataState {
     value: Record<string, never>;
 }
 
-export interface RangeSliderState {
+export interface FilterObjectsState {
     rangeValue: RangeSliderMinMaxInitialState
     loading: boolean;
     error: boolean;
     varName: string;
     isChange?: boolean
     rangeSliderMinMax: RangeSliderMinMaxInitialState
+    enslaversNameAndRole?: RolesProps[]
+    enslaverName: string
+    opsRoles?: string
+    listEnslavers: string[]
 }
 export interface RangeSliderMinMaxInitialState {
     [key: string]: number[]
@@ -63,7 +67,7 @@ export interface IRootFilterTableObject {
 
 export interface Filter {
     varName: string
-    searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType
+    searchTerm: number[] | string[] | CheckboxValueType[] | RolesFilterProps[] | CheckboxValueType
     op: string
     label?: string
     title?: string[]
@@ -240,6 +244,10 @@ export interface RolesProps {
     value: string
 }
 
+export interface RolesFilterProps {
+    roles: string[]
+    name: string
+}
 export interface ChildrenFilter {
     label: LabelFilterMeneList
     children?: ChildrenFilterArr[]

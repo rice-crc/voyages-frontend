@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, UIEventHandler, SyntheticEvent, useCallback } from "react";
 import { AutocompleteRenderOptionState } from "@mui/material/Autocomplete";
-import { AutoCompleteOption, DataSuggestedValuesProps, Filter, IRootFilterObject, RangeSliderState } from "@/share/InterfaceTypes";
+import { AutoCompleteOption, DataSuggestedValuesProps, Filter, IRootFilterObject, FilterObjectsState } from "@/share/InterfaceTypes";
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
 import { Autocomplete, Checkbox, Typography, TextField } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
@@ -18,7 +18,7 @@ export default function AutoCompleteListBox() {
     const [position, setPosition] = useState<number>(0);
     const listboxNodeRef = useRef<HTMLUListElement | null>(null); // Update type to HTMLUListElement
     const { varName } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
+        (state: RootState) => state.rangeSlider as FilterObjectsState
     );
     const { styleName } = usePageRouter();
     const limit = 20;
@@ -32,12 +32,16 @@ export default function AutoCompleteListBox() {
     const dispatch: AppDispatch = useDispatch();
 
     const filters = filtersDataSend(filtersObj, styleName!);
+    const newFilters = filters!.map(filter => {
+        const { label, title, ...filteredFilter } = filter;
+        return filteredFilter;
+    });
     const dataSend: IRootFilterObject = {
         varName: varName,
         querystr: autoValue,
         offset: offset,
         limit: limit,
-        filter: filters || [],
+        filter: newFilters || [],
     };
 
     const { data, isLoading, isError } = useAutoComplete(dataSend, styleName);

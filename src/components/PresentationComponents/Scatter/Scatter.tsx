@@ -11,7 +11,7 @@ import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import {
   PlotXYVar,
   VoyagesOptionProps,
-  RangeSliderState,
+  FilterObjectsState,
   CurrentPageInitialState,
   IRootFilterObjectScatterRequest,
 } from '@/share/InterfaceTypes';
@@ -37,7 +37,7 @@ function Scatter() {
     isLoading,
   } = useGetOptionsQuery(datas);
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as RangeSliderState
+    (state: RootState) => state.rangeSlider as FilterObjectsState
   );
   const [error, setError] = useState(false)
   const { currentPage } = useSelector(
@@ -85,12 +85,16 @@ function Scatter() {
   }, []);
 
   const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
+  const newFilters = filters!.map(filter => {
+    const { label, title, ...filteredFilter } = filter;
+    return filteredFilter;
+  });
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: scatterOptions.x_vars,
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_xyscatter',
-    filter: filters || [],
+    filter: newFilters || [],
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
