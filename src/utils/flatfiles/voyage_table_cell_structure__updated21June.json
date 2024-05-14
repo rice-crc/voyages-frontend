@@ -245,16 +245,12 @@
 			"order_by": [
 				"voyage_source_connections__source__title"
 			],
-			"col_width_px": 100,
+			"col_width_px": 200,
 			"colID": "voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
 						"var_name": "sources__short_ref__name",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "sources__page_refs",
 						"cell_fn": "literal"
 					}
 				],
