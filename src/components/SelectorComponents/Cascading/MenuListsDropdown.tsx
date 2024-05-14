@@ -31,7 +31,7 @@ import {
   DropdownNestedMenuItemChildren,
   StyleDialog,
 } from '@/styleMUI';
-import { useState, MouseEvent, useEffect } from 'react';
+import { useState, MouseEvent, useEffect, ChangeEvent } from 'react';
 import { PaperDraggable } from './PaperDraggable';
 import { setIsChange, setKeyValueName } from '@/redux/getRangeSliderSlice';
 import { setIsChangeAuto, setTextFilterValue } from '@/redux/getAutoCompleteSlice';
@@ -59,6 +59,8 @@ import { setFilterObject } from '@/redux/getFilterSlice';
 import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
 import { setIsViewButtonViewAllResetAll, setLabelVarName, setTextFilter } from '@/redux/getShowFilterObjectSlice';
 import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
+import { SelectSearchDropdownEnslaversNameRole } from '../SelectDrowdown/SelectSearchDropdownEnslaversNameRole';
+import { RadioSelected } from '../RadioSelected/RadioSelected';
 
 export const MenuListsDropdown = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -262,10 +264,10 @@ export const MenuListsDropdown = () => {
   ): React.ReactElement<any>[] | undefined => {
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
-        const { children, var_name, type, label: nodeLabel, ops } = node;
+
+        const { children, var_name, type, label: nodeLabel, ops, roles } = node;
         const hasChildren = children && children.length >= 1;
         const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
-
         if (hasChildren) {
           return (
             <DropdownNestedMenuItemChildren
@@ -297,19 +299,23 @@ export const MenuListsDropdown = () => {
   };
 
   let displayComponent;
-
+  console.log({ typeData })
   if (varName) {
     if ((typeData === TYPES.GeoTreeSelect) || (typeData === TYPES.LanguageTreeSelect)) {
       displayComponent = <GeoTreeSelected type={typeData} />
     } else if (typeData === TYPES.CharField && ops === 'icontains') {
       displayComponent = <FilterTextBox handleKeyDownTextFilter={handleApplyTextFilterDataDialog} />
-
     } else if (typeData === TYPES.CharField && ops == 'in') {
       displayComponent = <AutoCompleteListBox />
       // displayComponent = <VirtualizedAutoCompleted />
       // displayComponent= <AutoCompletedFilterListBox />
-    }
-    else if ((typeData === TYPES.IntegerField) || varName && typeData === TYPES.DecimalField) {
+    } else if (typeData === TYPES.EnslaverNameAndRole) {
+      displayComponent = <div>
+        <FilterTextBox handleKeyDownTextFilter={handleApplyTextFilterDataDialog} type={typeData} />
+        <RadioSelected type={typeData} />
+        <SelectSearchDropdownEnslaversNameRole />
+      </div>
+    } else if ((typeData === TYPES.IntegerField) || varName && typeData === TYPES.DecimalField) {
       displayComponent = <RangeSliderComponent />
     }
   }
@@ -401,13 +407,13 @@ export const MenuListsDropdown = () => {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
-          <div style={{ fontSize: 16, fontWeight: 500 }}>{labelVarName}</div>
+          <div style={{ fontSize: 16, fontWeight: 500 }}>{typeData === TYPES.EnslaverNameAndRole ? `Search for ${labelVarName}:` : labelVarName}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
           {displayComponent}
         </DialogContent>
         <DialogActions style={{ paddingRight: '2rem' }}>
-          {varName && typeData === TYPES.CharField && ops === 'icontains' &&
+          {(varName && (typeData === TYPES.CharField && ops === 'icontains')) || (varName && (typeData === TYPES.EnslaverNameAndRole)) ?
             <Button
               autoFocus
               type='submit'
@@ -430,7 +436,7 @@ export const MenuListsDropdown = () => {
               }}
             >
               Apply
-            </Button>}
+            </Button> : null}
           <Button
             autoFocus
             onClick={handleResetDataDialog}

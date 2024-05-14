@@ -17,7 +17,7 @@ import {
 } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
-import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAverage/AggregationSumAverage';
+import { RadioSelected } from '../../SelectorComponents/RadioSelected/RadioSelected';
 import {
   getMobileMaxHeight,
   getMobileMaxWidth,
@@ -27,7 +27,6 @@ import { useGroupBy } from '@/hooks/useGroupBy';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { sum } from 'd3';
 
 function Scatter() {
   const datas = useSelector((state: RootState | any) => state.getOptions?.value
@@ -193,7 +192,7 @@ function Scatter() {
         error={error}
         aggregation={aggregation}
       />
-      <AggregationSumAverage
+      <RadioSelected
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />

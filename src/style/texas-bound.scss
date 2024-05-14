@@ -41,8 +41,15 @@
         }
     }
 
+
     @else if $size==7 {
-        @media only screen and (max-width: 1440px) {
+        @media only screen and (min-width: 1025px)and (max-width: 1440px) {
+            @content;
+        }
+    }
+
+    @else if $size==8 {
+        @media only screen and (max-width: 1512px) {
             @content;
         }
     }
@@ -305,13 +312,29 @@
         text-align: center;
         font-size: 0.85rem;
         font-weight: bold;
-        width: 125px;
+        width: 100px;
         border: 1px solid #565656;
         border-radius: 8px;
         line-height: 1.7rem;
         cursor: pointer;
         box-shadow: 1px 1px 1px black;
         padding: 0 5px;
+
+        @include breakpoint-standard(8) {
+            width: 100px;
+        }
+
+        @include breakpoint-standard(7) {
+            width: 100px;
+        }
+
+        @include breakpoint-standard(6) {
+            width: 100px;
+        }
+
+        @include breakpoint-standard(5) {
+            width: 100px;
+        }
 
         @include breakpoint-standard(2) {
             font-size: 0.75rem;

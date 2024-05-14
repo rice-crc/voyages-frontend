@@ -757,6 +757,22 @@
   width: 100%;
   border-radius: calc(0.25rem - 1px);
 
+  @include breakpoint-standard(5) {
+    width: 80%;
+  }
+
+  @include breakpoint-standard(4) {
+    width: 75%;
+  }
+
+  @include breakpoint-standard(3) {
+    width: 75%;
+  }
+
+  @include breakpoint-standard(2) {
+    width: 75%;
+  }
+
   @include breakpoint-standard(1) {
     width: 75%;
   }
@@ -816,6 +832,34 @@
   position: absolute;
   top: 1%;
   left: 91%;
+
+  @include breakpoint-standard(7) {
+    left: 91%;
+  }
+
+  @include breakpoint-standard(6) {
+    left: 90%;
+  }
+
+  @include breakpoint-standard(5) {
+    left: 90%;
+  }
+
+  @include breakpoint-standard(4) {
+    left: 85%;
+  }
+
+  @include breakpoint-standard(2) {
+    left: 80%;
+  }
+
+  @include breakpoint-standard(1) {
+    left: 75%;
+  }
+
+  @include breakpoint-standard(0) {
+    left: 75%;
+  }
 }
 
 .loading-logo-display {
@@ -863,4 +907,11 @@
       }
     }
   }
+}
+
+.enlavers-role-radio {
+  display: flex;
+  justify-self: start;
+  align-items: center;
+  padding-top: 10px;
 }

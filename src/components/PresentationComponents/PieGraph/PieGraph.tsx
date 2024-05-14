@@ -7,7 +7,7 @@ import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
-import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAverage/AggregationSumAverage';
+import { RadioSelected } from '../../SelectorComponents/RadioSelected/RadioSelected';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import NODATA from '@/assets/noData.png';
 import {
@@ -155,7 +155,7 @@ function PieGraph() {
         setYAxesPie={setYAxes}
         aggregation={aggregation}
       />
-      <AggregationSumAverage
+      <RadioSelected
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />

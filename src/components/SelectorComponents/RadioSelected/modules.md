@@ -4,4 +4,4 @@ The `"Aggregation Sum Average" `component lets you choose between two aggregatio
 
 The component's logic involves managing which aggregation option you've selected, showing an alert if the showAlert prop is set to true, and reacting to changes when you pick an aggregation option.
 
-![AggregationSumAverage](../../../assets/aggregation.png)
+![RadioSelected](../../../assets/aggregation.png)

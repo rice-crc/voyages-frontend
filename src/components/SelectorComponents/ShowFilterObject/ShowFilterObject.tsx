@@ -15,17 +15,13 @@ interface ShowAllSelectedProps {
 const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewAll }) => {
     const { languageValue } = useSelector((state: RootState) => state.getLanguages);
     const { styleName: styleNameRoute } = usePageRouter()
-    const { varName, isChange } = useSelector(
+    const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+    const { varName } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
-    const { type: typeData } = useSelector((state: RootState) => state.getFilter);
-    const { isChangeGeoTree } = useSelector(
-        (state: RootState) => state.getGeoTreeData
-    );
-    const { isChangeAuto } = useSelector((state: RootState) => state.autoCompleteList);
     const [filterData, setFilterData] = useState<{ label: string; searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType }[]>([]);
-
     const translated = translationLanguagesEstimatePage(languageValue)
+
     useEffect(() => {
         const storedValue = localStorage.getItem('filterObject');
         if (!storedValue) return;
@@ -52,7 +48,7 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
             });
         }
         setFilterData(combinedData)
-    }, [varName, isChange, isChangeGeoTree, isChangeAuto]);
+    }, [varName, filtersObj]);
 
 
     return (

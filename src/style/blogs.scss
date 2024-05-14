@@ -658,6 +658,18 @@ h4 {
 
 .select-languages {
   text-align: right;
+
+  @include breakpoint-standard(2) {
+    text-align: left
+  }
+
+  @include breakpoint-standard(1) {
+    text-align: left
+  }
+
+  @include breakpoint-standard(0) {
+    text-align: left
+  }
 }
 
 .search-autocomplete-blog {

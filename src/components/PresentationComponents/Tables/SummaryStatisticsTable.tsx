@@ -27,6 +27,7 @@ import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummarySt
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { downLoadText } from '@/utils/languages/title_pages';
+import { convertToSlug } from '@/utils/functions/convertToSlug';
 
 const SummaryStatisticsTable = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -35,7 +36,7 @@ const SummaryStatisticsTable = () => {
 
     const [summaryData, setSummaryData] = useState<string>('');
     const [loading, setLoading] = useState(false);
-    const { varName, isChange } = useSelector(
+    const { varName } = useSelector(
         (state: RootState) => state.rangeSlider as RangeSliderState
     );
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
@@ -58,6 +59,7 @@ const SummaryStatisticsTable = () => {
     const { isFilter } = useSelector((state: RootState) => state.getFilter);
 
     const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
+
     const dataSend: SummaryStatisticsTableRequest = {
         mode: mode,
         filter: filters || [],
@@ -85,13 +87,10 @@ const SummaryStatisticsTable = () => {
         if (!effectOnce.current) {
             fetchData();
         }
-    }, [isFilter,
+    }, [isFilter, filtersObj,
         varName,
         inputSearchValue,
         styleNameRoute,
-        isChange,
-        isChangeGeoTree,
-        isChangeAuto,
         autoLabelName,
     ]);
 

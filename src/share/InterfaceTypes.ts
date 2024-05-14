@@ -93,6 +93,7 @@ export const TYPES: {
     CharField: string;
     GeoTreeSelect: string;
     LanguageTreeSelect: string
+    EnslaverNameAndRole: string
 } = {
     IntegerField: 'IntegerField',
     DecimalField: 'DecimalField',
@@ -100,6 +101,7 @@ export const TYPES: {
     CharField: 'CharField',
     GeoTreeSelect: 'GeoTreeSelect',
     LanguageTreeSelect: 'LanguageTreeSelect',
+    EnslaverNameAndRole: 'EnslaverNameAndRole',
 };
 
 export const TYPESOFDATASETPEOPLE: {
@@ -229,8 +231,13 @@ export interface FilterMenu {
     var_name?: string
     type?: string
     ops?: string[]
+    roles?: RolesProps[]
     flatlabel?: string
     children?: ChildrenFilter[]
+}
+export interface RolesProps {
+    label: string
+    value: string
 }
 
 export interface ChildrenFilter {
@@ -239,6 +246,7 @@ export interface ChildrenFilter {
     var_name?: string
     type?: string
     ops?: string[]
+    roles?: RolesProps[]
 }
 export interface ChildrenFilterArr {
     var_name: string
