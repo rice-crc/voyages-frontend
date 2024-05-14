@@ -690,14 +690,6 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "sources__short_ref__name",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "sources__page_refs",
-							"cell_fn": "literal"
-						},
-						{
 							"var_name": "sources__title",
 							"cell_fn": "literal"
 						}
