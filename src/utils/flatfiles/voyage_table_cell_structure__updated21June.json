@@ -194,7 +194,7 @@
 			"order_by": [
 				"voyage_enslaver_connection__enslaver_alias__alias"
 			],
-			"col_width_px": 240,
+			"col_width_px": 280,
 			"colID": "voyage_enslavers",
 			"cell_val": {
 				"fields": [
@@ -245,15 +245,16 @@
 			"order_by": [
 				"voyage_source_connections__source__title"
 			],
-			"col_width_px": 100,
+			"col_width_px": 200,
 			"colID": "voyage_sources",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_source_connections__source__title",
+						"var_name": "sources__short_ref__name",
 						"cell_fn": "literal"
 					}
-				]
+				],
+				"join":": "
 			}
 		},
 		{

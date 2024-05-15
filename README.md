@@ -139,7 +139,7 @@ The project is structured as follows:
       │   │     │     ├── PastPeoplePage
       │   │     │── voyagePage
       │   │     │     ├── Results
-      │   │     │     │      ├── AggregationSumAverage
+      │   │     │     │      ├── RadioSelected
       │   │     │     │      ├── AutocompletedBox
       │   │     │     │      ├── BarGraph
       │   │     │     │      ├── PieGraph

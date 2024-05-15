@@ -1,36 +1,36 @@
-import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
-import { setTextFilter } from '@/redux/getShowFilterObjectSlice';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setEnslaversName } from '@/redux/getRangeSliderSlice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { FilterObjectsState } from '@/share/InterfaceTypes';
 import { TextField, Typography } from '@mui/material';
-import { ChangeEvent, FunctionComponent } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-interface FilterTextProps {
-    handleKeyDownTextFilter: (value: string) => void
-    type?: string
-}
-const FilterTextBox: FunctionComponent<FilterTextProps> = ({ handleKeyDownTextFilter, type }) => {
+
+const FilterTextNameEnslaversBox = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { textFilter } = useSelector((state: RootState) => state.getShowFilterObject);
+    const { enslaverName } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
 
     const handleTextInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
-        dispatch(setTextFilter(newValue))
-        dispatch(setIsChangeAuto(true));
-
+        dispatch(setEnslaversName(newValue))
         if (newValue.length === 0) {
-            dispatch(setTextFilter(''));
+            dispatch(setEnslaversName(''));
         }
-    };
+    }
+
+    const handleKeyDownTextFilter = (value: string) => {
+        dispatch(setEnslaversName(value));
+    }
 
     return (
         <TextField
             variant="outlined"
             fullWidth
-            value={textFilter}
+            value={enslaverName}
             onChange={handleTextInputChange}
             onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                    handleKeyDownTextFilter(textFilter);
+                    handleKeyDownTextFilter(enslaverName);
                 }
             }}
             label={
@@ -45,4 +45,4 @@ const FilterTextBox: FunctionComponent<FilterTextProps> = ({ handleKeyDownTextFi
     )
 }
 
-export default FilterTextBox;
+export default FilterTextNameEnslaversBox;

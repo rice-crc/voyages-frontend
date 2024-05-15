@@ -1,13 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RangeSliderState } from '@/share/InterfaceTypes';
+import { FilterObjectsState, RolesProps } from '@/share/InterfaceTypes';
 
-const initialState: RangeSliderState = {
+const initialState: FilterObjectsState = {
     rangeValue: {},
     loading: false,
     error: false,
     varName: '',
     isChange: false,
     rangeSliderMinMax: {},
+    enslaversNameAndRole: [],
+    enslaverName: '',
+    opsRoles: 'in',
+    listEnslavers: []
 };
 
 const rangeSliderSlice = createSlice({
@@ -26,9 +30,21 @@ const rangeSliderSlice = createSlice({
         setRangeSliderValue: (state, action: PayloadAction<Record<string, number[]>>) => {
             state.rangeSliderMinMax = action.payload;
         },
+        setEnslaversName: (state, action: PayloadAction<string>) => {
+            state.enslaverName = action.payload;
+        },
+        setEnslaversNameAndRole: (state, action: PayloadAction<RolesProps[] | undefined>) => {
+            state.enslaversNameAndRole = action.payload;
+        },
+        setOpsRole: (state, action: PayloadAction<string>) => {
+            state.opsRoles = action.payload;
+        },
+        setListEnslavers: (state, action: PayloadAction<string[]>) => {
+            state.listEnslavers = action.payload;
+        },
         resetSlice: (state) => initialState,
     },
 
 });
-export const { setRangeValue, setKeyValueName, setIsChange, resetSlice, setRangeSliderValue } = rangeSliderSlice.actions;
+export const { setEnslaversNameAndRole, setListEnslavers, setEnslaversName, setOpsRole, setRangeValue, setKeyValueName, setIsChange, resetSlice, setRangeSliderValue } = rangeSliderSlice.actions;
 export default rangeSliderSlice.reducer;

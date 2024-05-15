@@ -343,7 +343,7 @@ export const NetworkDiagramDrawSVG = ({
                 .on("end", dragEnded));
 
             const zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
-                .scaleExtent([0.5, 2.5])
+                .scaleExtent([0.5, 3.5])
                 .on('zoom', handleZoom)
 
 

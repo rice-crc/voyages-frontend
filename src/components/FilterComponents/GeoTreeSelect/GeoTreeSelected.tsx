@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Filter,
-  GeoTreeSelectChildren,
   GeoTreeSelectItem,
   GeoTreeSelectStateProps,
-  RangeSliderState,
+  FilterObjectsState,
   TYPES,
   TYPESOFDATASET,
   TYPESOFDATASETPEOPLE,
@@ -40,7 +39,7 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
   );
   const { styleName } = usePageRouter();
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as RangeSliderState
+    (state: RootState) => state.rangeSlider as FilterObjectsState
   );
   const { styleName: styleNameRoute } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
@@ -48,9 +47,13 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     (state: RootState) => state.getShowFilterObject
   );
   const filters = filtersDataSend(filtersObj, styleNameRoute!)
+  const newFilters = filters !== undefined && filters!.map(filter => {
+    const { label, title, ...filteredFilter } = filter;
+    return filteredFilter;
+  });
   const dataSend: GeoTreeSelectStateProps = {
     geotree_valuefields: [varName],
-    filter: filters || [],
+    filter: newFilters || [],
   };
 
   const fetchDataList = async (type: string) => {

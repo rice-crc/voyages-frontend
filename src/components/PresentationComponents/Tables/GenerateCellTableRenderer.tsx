@@ -118,10 +118,11 @@ export const GenerateCellTableRenderer = (
   } else if (typeof values !== 'object' && cellFN !== 'networks') {
     const values = params.value;
     let justifyContent: CSSProperties['justifyContent'] = 'flex-end';
-    if ((typeof values === 'number')) {
+    if (typeof values === 'number') {
       justifyContent = 'flex-end';
-    }
-    else {
+    } else if (values === '--' && numberFormat === 'comma' || values === '--' && numberFormat === 'percent') {
+      justifyContent = 'flex-end';
+    } else {
       justifyContent = 'flex-start';
     }
 
@@ -129,10 +130,11 @@ export const GenerateCellTableRenderer = (
     if (numberFormat === 'comma') {
       valueFormat = numberWithCommas(values)
     } else if (numberFormat === 'percent') {
-      valueFormat = `${values}%`
+      valueFormat = values === '--' ? '0.00%' : `${values.toFixed(2)}%`
     }
+
     return (
-      <div className="div-value">
+      <div className="div-value" >
         <div
           className="value-cell"
           style={{ justifyContent: justifyContent }}

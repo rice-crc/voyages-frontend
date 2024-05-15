@@ -39,7 +39,7 @@
 							"cell_fn": "literal"
 						}
 					],
-					"join": " : "
+					"join": ": "
 				},
 				"label": "Enslavers"
 			},
@@ -690,14 +690,11 @@
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "voyage_source_connections__source__short_ref",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "voyage_source_connections__source__title",
+							"var_name": "sources__title",
 							"cell_fn": "literal"
 						}
-					]
+					],
+					"join":": "
 				},
 				"label": "Data Sources"
 			}

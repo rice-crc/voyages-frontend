@@ -170,14 +170,17 @@
 
     @include breakpoint-standard(2) {
         padding: 1rem;
+        padding-left: 3rem;
     }
 
     @include breakpoint-standard(1) {
         padding: 1rem;
+        padding-left: 3rem;
     }
 
     @include breakpoint-standard(0) {
-        padding: 1rem 1rem;
+        padding: 1rem 0.5rem;
+        padding-left: 2rem;
     }
 
     .tab-estimate {

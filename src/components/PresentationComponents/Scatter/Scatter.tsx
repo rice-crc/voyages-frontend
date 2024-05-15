@@ -11,13 +11,13 @@ import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import {
   PlotXYVar,
   VoyagesOptionProps,
-  RangeSliderState,
+  FilterObjectsState,
   CurrentPageInitialState,
   IRootFilterObjectScatterRequest,
 } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
-import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAverage/AggregationSumAverage';
+import { RadioSelected } from '../../SelectorComponents/RadioSelected/RadioSelected';
 import {
   getMobileMaxHeight,
   getMobileMaxWidth,
@@ -27,7 +27,6 @@ import { useGroupBy } from '@/hooks/useGroupBy';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { sum } from 'd3';
 
 function Scatter() {
   const datas = useSelector((state: RootState | any) => state.getOptions?.value
@@ -38,7 +37,7 @@ function Scatter() {
     isLoading,
   } = useGetOptionsQuery(datas);
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as RangeSliderState
+    (state: RootState) => state.rangeSlider as FilterObjectsState
   );
   const [error, setError] = useState(false)
   const { currentPage } = useSelector(
@@ -86,12 +85,16 @@ function Scatter() {
   }, []);
 
   const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
+  const newFilters = filters !== undefined && filters!.map(filter => {
+    const { label, title, ...filteredFilter } = filter;
+    return filteredFilter;
+  });
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: scatterOptions.x_vars,
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_xyscatter',
-    filter: filters || [],
+    filter: newFilters || [],
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
@@ -193,7 +196,7 @@ function Scatter() {
         error={error}
         aggregation={aggregation}
       />
-      <AggregationSumAverage
+      <RadioSelected
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
