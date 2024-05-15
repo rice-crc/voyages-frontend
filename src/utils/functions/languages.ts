@@ -42,9 +42,9 @@ export const PagesOptions: PagesOptionsProps[] = [
             name: 'Enslaved',
             pathUrl: '/past/enslaved/all-enslaved#people',
             label: {
-                "en": 'Enslaved People',
-                "es": "Personas Esclavizadas",
-                "pt": "Pessoas Escravizadas"
+                "en": 'Enslaved',
+                "es": "Esclavizadas",
+                "pt": "Escravizadas"
             }
         }
     },

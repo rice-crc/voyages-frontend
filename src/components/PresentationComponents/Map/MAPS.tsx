@@ -12,22 +12,24 @@ function MAPComponents() {
   const dispatch: AppDispatch = useDispatch();
   const [zoomLevel, setZoomLevel] = useState<number>(3);
   const mapRef = useRef(null);
-  const { styleName: styleNameRoute, nodeTypeURL, voyageURLID } = usePageRouter()
+  const { styleName: styleNameRoute, nodeTypeURL: ID, voyageURLID, typeOfPathURL } = usePageRouter()
+
+
   const { nameIdURL } = useSelector((state: RootState) => state.getFilter);
   let isUrLMap = false;
   useEffect(() => {
     const NUMBER = '0123456789'
 
-    for (const num of styleNameRoute!) {
+    for (const num of ID!) {
       if (NUMBER.includes(num)) {
         isUrLMap = true
       }
     }
-    if ((nodeTypeURL === VOYAGESTYPE || (nodeTypeURL === VOYAGESNODECLASS)) && (isUrLMap)) {
+    if ((typeOfPathURL === VOYAGESTYPE || (typeOfPathURL === VOYAGESNODECLASS)) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('voyage_id'));
-    } else if ((nodeTypeURL === ENSLAVEDNODE) && (isUrLMap)) {
+    } else if ((typeOfPathURL === ENSLAVEDNODE) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('enslaved_id'));
-    } else if ((nodeTypeURL === ENSLAVERSNODE) && (isUrLMap)) {
+    } else if ((typeOfPathURL === ENSLAVERSNODE) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id'));
     }
   }, [])

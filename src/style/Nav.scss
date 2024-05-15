@@ -233,16 +233,19 @@
     @include breakpoint-standard(2) {
         display: block;
         font-size: 20px;
+        padding: 0.45rem;
     }
 
     @include breakpoint-standard(1) {
         display: block;
-        font-size: 16px;
+        font-size: 12px;
+        padding: 0.45rem;
     }
 
     @include breakpoint-standard(0) {
         display: block;
-        font-size: 16px;
+        font-size: 12px;
+        padding: 0.45rem;
     }
 }
 
@@ -280,6 +283,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @include breakpoint-standard(1) {
+        display: block;
+        font-size: 16px;
+        font-size: 0.75rem;
+    }
+
+    @include breakpoint-standard(0) {
+        display: block;
+        font-size: 16px;
+        font-size: 0.75rem;
+    }
 }
 
 .logo-voyage {
@@ -349,6 +364,18 @@
     position: relative;
     right: 2.5rem;
     z-index: 6;
+
+    @include breakpoint-standard(2) {
+        right: -1rem;
+    }
+
+    @include breakpoint-standard(1) {
+        right: -1rem;
+    }
+
+    @include breakpoint-standard(0) {
+        right: -1rem;
+    }
 
     :hover {
         color: #ffffff;

@@ -14,7 +14,7 @@ import {
     EstimateRowVar,
     EstimateTablesPropsRequest,
     Filter,
-    RangeSliderState,
+    FilterObjectsState,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
 
@@ -37,7 +37,7 @@ const EstimateTable = () => {
 
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
     const { varName } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
+        (state: RootState) => state.rangeSlider as FilterObjectsState
     );
     // const [data, setData] = useState<string>('');
     const [loading, setLoading] = useState(false)

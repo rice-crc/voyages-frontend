@@ -30,11 +30,11 @@ import {
   LabelFilterMeneList,
   PivotTableResponse,
   PivotTablesPropsRequest,
-  RangeSliderState,
+  FilterObjectsState,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
 import CustomHeaderPivotTable from '../../NavigationComponents/Header/CustomHeaderPivotTable';
-import { AggregationSumAverage } from '@/components/SelectorComponents/AggregationSumAverage/AggregationSumAverage';
+import { RadioSelected } from '@/components/SelectorComponents/RadioSelected/RadioSelected';
 import {
   PivotRowVar,
   PivotColumnVar,
@@ -44,7 +44,6 @@ import { SelectDropdownPivotable } from '../../SelectorComponents/SelectDrowdown
 import { getRowHeightPivotTable } from '@/utils/functions/getRowHeightTable';
 import { CustomTablePagination } from '@/styleMUI';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground, getHeaderColomnColor } from '@/utils/functions/getColorStyle';
-import { RowDataPivotTable, } from '@/share/InterfaceTypePivotTable';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
@@ -67,7 +66,7 @@ const PivotTables = () => {
     rangeSliderMinMax: rang,
     varName,
     isChange,
-  } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+  } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -170,7 +169,10 @@ const PivotTables = () => {
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
 
   const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
-
+  const newFilters = filters !== undefined && filters!.map(filter => {
+    const { label, title, ...filteredFilter } = filter;
+    return filteredFilter;
+  });
   const dataSend: PivotTablesPropsRequest = {
     columns: column_vars,
     rows: updatedRowsValue,
@@ -180,7 +182,7 @@ const PivotTables = () => {
     value_field: cell_vars,
     offset: offset,
     limit: rowsPerPage,
-    filter: filters || [],
+    filter: newFilters || [],
   }
 
   if (inputSearchValue) {
@@ -389,7 +391,7 @@ const PivotTables = () => {
             aggregation={aggregation}
           />
           <span className="tableContainer">
-            <AggregationSumAverage
+            <RadioSelected
               handleChange={handleChangeAggregation}
               aggregation={aggregation}
             />

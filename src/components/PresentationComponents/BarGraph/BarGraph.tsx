@@ -9,15 +9,14 @@ import { useSelector } from 'react-redux';
 import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
-import { AggregationSumAverage } from '../../SelectorComponents/AggregationSumAverage/AggregationSumAverage';
+import { RadioSelected } from '../../SelectorComponents/RadioSelected/RadioSelected';
 import {
   PlotXYVar,
   VoyagesOptionProps,
-  RangeSliderState,
+  FilterObjectsState,
   CurrentPageInitialState,
   BargraphXYVar,
   IRootFilterObjectScatterRequest,
-  Filter,
 } from '@/share/InterfaceTypes';
 import {
   getMobileMaxHeight,
@@ -36,7 +35,7 @@ function BarGraph() {
     isSuccess,
     isLoading,
   } = useGetOptionsQuery(datas);
-  const { varName } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState);
+  const { varName } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
   const { styleName: styleNameRoute } = usePageRouter();
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -82,12 +81,16 @@ function BarGraph() {
     );
   }, []);
   const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
+  const newFilters = filters !== undefined && filters!.map(filter => {
+    const { label, title, ...filteredFilter } = filter;
+    return filteredFilter;
+  });
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: barGraphOptions.x_vars,
     groupby_cols: [...chips],
     agg_fn: aggregation,
     cachename: 'voyage_bar_and_donut_charts',
-    filter: filters || [],
+    filter: newFilters || [],
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
@@ -192,7 +195,7 @@ function BarGraph() {
         error={error}
         aggregation={aggregation}
       />
-      <AggregationSumAverage
+      <RadioSelected
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />

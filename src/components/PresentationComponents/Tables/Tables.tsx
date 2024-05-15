@@ -20,8 +20,6 @@ import {
 } from '@/share/InterfaceTypesTable';
 import {
     CurrentPageInitialState,
-    Filter,
-    RangeSliderState,
     TableListPropsRequest,
 } from '@/share/InterfaceTypes';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -54,9 +52,7 @@ const Tables: React.FC = () => {
     const { textFilter } = useSelector((state: RootState) => state.getShowFilterObject);
 
     const { textFilterValue } = useSelector((state: RootState) => state.autoCompleteList);
-    const { isChange, rangeSliderMinMax } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
-    );
+
     const { viewAll } = useSelector((state: RootState) => state.getShowFilterObject)
     const { visibleColumnCells } = useSelector(
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
@@ -65,7 +61,6 @@ const Tables: React.FC = () => {
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
-
     const [totalResultsCount, setTotalResultsCount] = useState(0);
     const gridRef = useRef<any>(null);
     const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
@@ -76,9 +71,6 @@ const Tables: React.FC = () => {
     const { clusterNodeKeyVariable, clusterNodeValue } =
         useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
-    const { isChangeGeoTree, geoTreeValue } = useSelector(
-        (state: RootState) => state.getGeoTreeData
-    );
     // Voyages States
     const { tableFlatfileVoyages } = useSelector(
         (state: RootState) => state.getDataSetCollection
@@ -138,8 +130,13 @@ const Tables: React.FC = () => {
     }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!, data]);
 
     const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
+
+    const newFilters = filters !== undefined && filters!.map(filter => {
+        const { label, title, ...filteredFilter } = filter;
+        return filteredFilter;
+    });
     const dataSend: TableListPropsRequest = {
-        filter: filters || [],
+        filter: newFilters || [],
         page: Number(page + 1),
         page_size: Number(rowsPerPage),
     };
@@ -179,12 +176,10 @@ const Tables: React.FC = () => {
     }, [
         dispatch, filtersObj,
         rowsPerPage,
-        page, rangeSliderMinMax, geoTreeValue,
+        page,
         currentPage,
         currentEnslavedPage,
         inputSearchValue,
-        isChange,
-        isChangeGeoTree,
         currentBlockName, textFilterValue
     ]);
 

@@ -11,7 +11,7 @@ import { CustomSlider, Input } from '@/styleMUI';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   Filter,
-  RangeSliderState,
+  FilterObjectsState,
   RangeSliderStateProps,
   TYPESOFDATASET,
   TYPESOFDATASETPEOPLE,
@@ -32,7 +32,7 @@ const RangeSlider = () => {
   const { styleName: styleNameRoute } = usePageRouter();
   const { styleName } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { rangeValue, varName, rangeSliderMinMax, isChange } = useSelector((state: RootState) => state.rangeSlider as RangeSliderState
+  const { rangeValue, varName, rangeSliderMinMax, isChange } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState
   );
   const { labelVarName } = useSelector(
     (state: RootState) => state.getShowFilterObject
@@ -43,9 +43,13 @@ const RangeSlider = () => {
   const [currentSliderValue, setCurrentSliderValue] = useState<number | number[]>(rangeMinMax);
 
   const filters = filtersDataSend(filtersObj, styleNameRoute!)
+  const newFilters = filters !== undefined && filters!.map(filter => {
+    const { label, title, ...filteredFilter } = filter;
+    return filteredFilter;
+  });
   const dataSend: RangeSliderStateProps = {
     varName: varName,
-    filter: filters || []
+    filter: newFilters || []
   };
 
   const fetchRangeSliderData = async () => {

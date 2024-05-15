@@ -1,11 +1,10 @@
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
-import { Filter, RangeSliderState } from '@/share/InterfaceTypes';
+import { Filter, FilterObjectsState, RolesFilterProps } from '@/share/InterfaceTypes';
 import '@/style/estimates.scss'
 import { getColorBackgroundHeader } from '@/utils/functions/getColorStyle';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { it } from 'node:test';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 interface ShowAllSelectedProps {
@@ -15,17 +14,13 @@ interface ShowAllSelectedProps {
 const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewAll }) => {
     const { languageValue } = useSelector((state: RootState) => state.getLanguages);
     const { styleName: styleNameRoute } = usePageRouter()
-    const { varName, isChange } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
+    const { filtersObj } = useSelector((state: RootState) => state.getFilter);
+    const { varName } = useSelector(
+        (state: RootState) => state.rangeSlider as FilterObjectsState
     );
-    const { type: typeData } = useSelector((state: RootState) => state.getFilter);
-    const { isChangeGeoTree } = useSelector(
-        (state: RootState) => state.getGeoTreeData
-    );
-    const { isChangeAuto } = useSelector((state: RootState) => state.autoCompleteList);
-    const [filterData, setFilterData] = useState<{ label: string; searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType }[]>([]);
-
+    const [filterData, setFilterData] = useState<{ label: string; searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType | RolesFilterProps[] }[]>([]);
     const translated = translationLanguagesEstimatePage(languageValue)
+
     useEffect(() => {
         const storedValue = localStorage.getItem('filterObject');
         if (!storedValue) return;
@@ -33,7 +28,7 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
         const parsedValue = JSON.parse(storedValue);
 
         const filter: Filter[] = parsedValue.filter;
-        const combinedData: { label: string; searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType }[] = [];
+        const combinedData: { label: string; searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType | RolesFilterProps[] }[] = [];
         if (Array.isArray(filter)) {
             filter.forEach((item) => {
                 if (item.label) {
@@ -48,11 +43,20 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
                         label: `Language Group`,
                         searchTerm: searchTermToUse
                     });
+                } else if (item.varName === 'EnslaverNameAndRole') {
+
+                    const roles = (item.searchTerm as RolesFilterProps[]).map((role) => role.roles.join(', ')).join(' - ');
+                    const names = (item.searchTerm as RolesFilterProps[]).map((role) => role.name).join(' - ');
+                    const searchTermToUse = `${names}, Who had: ${roles} roles.`;
+                    combinedData.push({
+                        label: `Enslavers`,
+                        searchTerm: searchTermToUse
+                    });
                 }
             });
         }
         setFilterData(combinedData)
-    }, [varName, isChange, isChangeGeoTree, isChangeAuto]);
+    }, [varName, filtersObj]);
 
 
     return (
@@ -63,7 +67,7 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
                     return (
                         <span className='view-show-row' key={`${label}-${index}`}>
                             <h4 >{label} : </h4>
-                            <div className='value-list'>{searchTerm}</div>
+                            <div className='value-list'>{searchTerm as string}</div>
                         </span>
                     )
                 })}

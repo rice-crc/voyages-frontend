@@ -129,8 +129,40 @@
   }
 
   .lealfetMap-container {
-    height: 83vh;
+    height: 80vh;
     width: 100%;
+
+    @include breakpoint-standard(7) {
+      height: 80vh;
+    }
+
+    @include breakpoint-standard(6) {
+      height: 80vh;
+    }
+
+    @include breakpoint-standard(5) {
+      height: 80vh;
+    }
+
+    @include breakpoint-standard(4) {
+      height: 80vh;
+    }
+
+    @include breakpoint-standard(3) {
+      height: 80vh;
+    }
+
+    @include breakpoint-standard(2) {
+      height: 80vh;
+    }
+
+    @include breakpoint-standard(1) {
+      height: 80vh;
+    }
+
+    @include breakpoint-standard(0) {
+      height: 80vh;
+    }
   }
 
   .loading-logo {

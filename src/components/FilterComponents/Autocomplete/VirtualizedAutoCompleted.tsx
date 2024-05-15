@@ -11,11 +11,10 @@ import {
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    AutoCompleteInitialState,
     AutoCompleteOption,
     DataSuggestedValuesProps,
     Filter,
-    RangeSliderState,
+    FilterObjectsState,
 } from '@/share/InterfaceTypes';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
@@ -24,8 +23,6 @@ import '@/style/Slider.scss';
 import '@/style/table.scss';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { IRootFilterObject } from '@/share/InterfaceTypes';
-import CustomAutoListboxComponent from './CustomAutoListboxComponent';
-import { useAutoComplete } from '@/hooks/useAutoComplete';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import debounce from 'lodash.debounce';
@@ -37,7 +34,7 @@ import { fetchPastEnslaversAutoCompleted } from '@/fetch/pastEnslaversFetch/fetc
 export default function VirtualizedAutoCompleted() {
     const dispatch: AppDispatch = useDispatch();
     const { varName } = useSelector(
-        (state: RootState) => state.rangeSlider as RangeSliderState
+        (state: RootState) => state.rangeSlider as FilterObjectsState
     );
     const { styleName } = usePageRouter();
     const limit = 20;
@@ -51,12 +48,16 @@ export default function VirtualizedAutoCompleted() {
     const [page, setPage] = useState(1);
 
     const filters = filtersDataSend(filtersObj, styleName!);
+    const newFilters = filters !== undefined && filters!.map(filter => {
+        const { label, title, ...filteredFilter } = filter;
+        return filteredFilter;
+    });
     const dataSend: IRootFilterObject = {
         varName: varName,
         querystr: autoValue,
         offset: offset,
         limit: limit,
-        filter: filters || [],
+        filter: newFilters || [],
     };
     const fetchAutoList = async () => {
         try {
