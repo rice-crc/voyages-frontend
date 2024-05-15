@@ -144,7 +144,8 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
         hasFetchedRegion ? setLoading(true) : setLoading(false);
         let response;
-        if (checkPagesRouteForVoyages(styleNamePage! || styleNamePage!)) {
+
+        if (checkPagesRouteForVoyages(styleNamePage!)) {
             response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
         } else if (checkPagesRouteMapURLForVoyages(styleNamePage!)) {
             response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
@@ -155,6 +156,7 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         }
 
         if (response) {
+
             handleDataResponse(response, regionOrPlace);
             dispatch(setHasFetchedRegion(false));
         }

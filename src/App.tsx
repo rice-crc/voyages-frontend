@@ -79,7 +79,7 @@ const App: React.FC = () => {
     const entityType = parts[1];
     const voyageID = parts[2];
     const typeOfData = parts[3]
-    // console.log({ entityType, voyageID, typeOfData })
+
     if (checkEntityType(entityType)) {
       setSaveSearchURL(url)
     }

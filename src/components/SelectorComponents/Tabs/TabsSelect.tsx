@@ -19,6 +19,7 @@ const TabsSelect = () => {
     const dispatch: Dispatch = useDispatch();
     const { currentBlockName, nodeTypeURL: ID } = usePageRouter();
     const { variable, nodeTypeClass } = useSelector((state: RootState) => state.getCardFlatObjectData);
+
     const navigate = useNavigate();
     const onChange = (key: string) => {
         dispatch(setValueVariable(key))

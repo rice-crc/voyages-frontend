@@ -126,12 +126,14 @@ export const TYPESOFDATASET: {
     transatlantic: string;
     texas: string
     voyages: string
+    voyage: string
 } = {
     allVoyages: 'all-voyages',
     intraAmerican: 'intra-american',
     transatlantic: 'trans-atlantic',
     texas: 'texas',
-    voyages: 'voyage'
+    voyages: 'voyages',
+    voyage: 'voyage'
 };
 
 export const TYPESOFBLOCKVOYAGES: {
