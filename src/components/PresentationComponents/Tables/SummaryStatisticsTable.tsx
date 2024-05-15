@@ -58,7 +58,7 @@ const SummaryStatisticsTable = () => {
     const { isFilter } = useSelector((state: RootState) => state.getFilter);
 
     const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
-    const newFilters = filters!.map(filter => {
+    const newFilters = filters !== undefined && filters!.map(filter => {
         const { label, title, ...filteredFilter } = filter;
         return filteredFilter;
     });

@@ -43,7 +43,7 @@ const RangeSlider = () => {
   const [currentSliderValue, setCurrentSliderValue] = useState<number | number[]>(rangeMinMax);
 
   const filters = filtersDataSend(filtersObj, styleNameRoute!)
-  const newFilters = filters!.map(filter => {
+  const newFilters = filters !== undefined && filters!.map(filter => {
     const { label, title, ...filteredFilter } = filter;
     return filteredFilter;
   });

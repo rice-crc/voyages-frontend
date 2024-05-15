@@ -130,7 +130,8 @@ const Tables: React.FC = () => {
     }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!, data]);
 
     const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
-    const newFilters = filters!.map(filter => {
+
+    const newFilters = filters !== undefined && filters!.map(filter => {
         const { label, title, ...filteredFilter } = filter;
         return filteredFilter;
     });

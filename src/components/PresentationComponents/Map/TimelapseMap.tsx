@@ -1288,7 +1288,7 @@ const useFilteredVoyageRoutes = () => {
     }, [])
     const { filtersObj } = useSelector((state: RootState) => state.getFilter)
     const filters = filtersDataSend(filtersObj, styleName!) || []
-    const filter = filters!.map(filter => {
+    const filter = filters !== undefined && filters!.map(filter => {
         const { label, title, ...filteredFilter } = filter;
         return filteredFilter;
     });

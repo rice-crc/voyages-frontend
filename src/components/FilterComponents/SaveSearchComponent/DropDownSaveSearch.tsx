@@ -46,7 +46,7 @@ const DropDownSaveSearch = () => {
     }, [routeSaveSearch])
 
     const filters = filtersDataSend(filtersObj, styleName!)
-    const newFilters = filters!.map(filter => {
+    const newFilters = filters !== undefined && filters!.map(filter => {
         const { label, title, ...filteredFilter } = filter;
         return filteredFilter;
     });

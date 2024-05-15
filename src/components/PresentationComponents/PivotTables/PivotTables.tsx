@@ -169,7 +169,7 @@ const PivotTables = () => {
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
 
   const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
-  const newFilters = filters!.map(filter => {
+  const newFilters = filters !== undefined && filters!.map(filter => {
     const { label, title, ...filteredFilter } = filter;
     return filteredFilter;
   });
