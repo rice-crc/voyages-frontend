@@ -203,6 +203,7 @@ const VoyageCard = () => {
                               /<[^>]*>/g,
                               ' '
                             );
+
                             const additionalProps: any = {}
                             const additionalStyles: React.CSSProperties = {};
                             const extraElements: JSX.Element[] = []
@@ -223,7 +224,7 @@ const VoyageCard = () => {
                                 dispatch(setIsModalCard(false));
                               }
                             }
-                            return (
+                            return valueToRender ? (
                               <div
                                 key={`${index}-${value}`}
                                 style={{ padding: '2px 0' }}
@@ -236,7 +237,7 @@ const VoyageCard = () => {
                                 </span>
                                 <br />
                               </div>
-                            );
+                            ) : '-';
                           }
                         );
                         return (

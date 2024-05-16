@@ -35,7 +35,7 @@
 							"cell_fn": "literal"
 						},
 						{
-							"var_name": "enslavers__enslaver__roles",
+							"var_name": "enslavers__roles",
 							"cell_fn": "literal"
 						}
 					],
@@ -710,7 +710,7 @@
 							"cell_fn": "metadata"
 						}
 					],
-					"join":": "
+					"join": ": "
 				},
 				"label": "Data Sources"
 			}
