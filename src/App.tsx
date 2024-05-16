@@ -20,7 +20,6 @@ import {
   DOCUMENTPAGE,
   DOWNLOADS,
   ENSALVEDPAGE,
-  ENSALVEDTYPE,
   ENSALVERSPAGE,
   ENSLAVEDTEXASPAGE,
   ESTIMATES,
@@ -31,7 +30,6 @@ import {
   PASTHOMEPAGE,
   TRANSATLANTICENSLAVERS,
   TRANSATLANTICPAGE,
-  VOYAGE,
   allEnslavers,
 } from '@/share/CONST_DATA';
 import BlogPage from '@/pages/BlogPage';
@@ -52,6 +50,7 @@ import AboutPage from '@/pages/AboutPage';
 import DownloadPage from '@/pages/DownloadPage';
 import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
 import { checkEntityType } from './utils/functions/checkEntityType';
+import { DocumentViewerProvider } from './pages/DocumentViewerContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -97,97 +96,99 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <Routes>
-          {nodeClass && ID && <Route path={`${nodeClass}/${ID}/${variable}`} element={<TabsSelect />} />}
-          <Route path="/" element={<HomePage />} />
-          {saveSearchURL && nodeClass && <Route
-            path={`${saveSearchURL}`}
-            element={<UseSaveSearchURL />}
-          />}
-          <Route
-            path={`${TRANSATLANTICPAGE}`}
-            element={<VoyagesPage />}
-          />
-          <Route
-            path={`${INTRAAMERICANPAGE}`}
-            element={<VoyagesPage />}
-          />
-          <Route
-            path={`${ALLVOYAGESPAGE}`}
-            element={<VoyagesPage />}
-          />
-          <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
-          <Route
-            path={`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
-            element={<EnslavedHomePage />}
-          />
-          <Route
-            path={`${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
-            element={<EnslavedHomePage />}
-          />
-          <Route
-            path={`${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
-            element={<EnslavedHomePage />}
-          />
-          <Route
-            path={`${ENSALVERSPAGE}${INTRAAMERICANENSLAVERS}`}
-            element={<EnslaversHomePage />}
-          />
-          <Route
-            path={`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}`}
-            element={<EnslaversHomePage />}
-          />
-          <Route
-            path={`${ENSALVERSPAGE}/${allEnslavers}`}
-            element={<EnslaversHomePage />}
-          />
-          <Route
-            path={`${ASSESSMENT}/${ESTIMATES}/`}
-            element={<Estimates />}
-          />
+        <DocumentViewerProvider>
+          <Routes>
+            {nodeClass && ID && <Route path={`${nodeClass}/${ID}/${variable}`} element={<TabsSelect />} />}
+            <Route path="/" element={<HomePage />} />
+            {saveSearchURL && nodeClass && <Route
+              path={`${saveSearchURL}`}
+              element={<UseSaveSearchURL />}
+            />}
+            <Route
+              path={`${TRANSATLANTICPAGE}`}
+              element={<VoyagesPage />}
+            />
+            <Route
+              path={`${INTRAAMERICANPAGE}`}
+              element={<VoyagesPage />}
+            />
+            <Route
+              path={`${ALLVOYAGESPAGE}`}
+              element={<VoyagesPage />}
+            />
+            <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
+            <Route
+              path={`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
+              element={<EnslavedHomePage />}
+            />
+            <Route
+              path={`${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
+              element={<EnslavedHomePage />}
+            />
+            <Route
+              path={`${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
+              element={<EnslavedHomePage />}
+            />
+            <Route
+              path={`${ENSALVERSPAGE}${INTRAAMERICANENSLAVERS}`}
+              element={<EnslaversHomePage />}
+            />
+            <Route
+              path={`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}`}
+              element={<EnslaversHomePage />}
+            />
+            <Route
+              path={`${ENSALVERSPAGE}/${allEnslavers}`}
+              element={<EnslaversHomePage />}
+            />
+            <Route
+              path={`${ASSESSMENT}/${ESTIMATES}/`}
+              element={<Estimates />}
+            />
 
 
-          {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}
-          <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
-          <Route path={`${BLOGPAGE}/`} element={<BlogPage />} />
-          <Route path={`${BLOGPAGE}/tag/${blogURL}`} element={<BlogPage />} />
+            {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}
+            <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
+            <Route path={`${BLOGPAGE}/`} element={<BlogPage />} />
+            <Route path={`${BLOGPAGE}/tag/${blogURL}`} element={<BlogPage />} />
 
-          <Route
-            path={`${BLOGPAGE}/:blogTitle/:ID`}
-            element={<BlogDetailsPost />}
-          />
-          <Route
-            path={`${BLOGPAGE}/author/:authorName/:ID/`}
-            element={<AuthorPage />}
-          />
-          <Route
-            path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
-            element={<InstitutionAuthorsPage />}
-          />
+            <Route
+              path={`${BLOGPAGE}/:blogTitle/:ID`}
+              element={<BlogDetailsPost />}
+            />
+            <Route
+              path={`${BLOGPAGE}/author/:authorName/:ID/`}
+              element={<AuthorPage />}
+            />
+            <Route
+              path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
+              element={<InstitutionAuthorsPage />}
+            />
 
-          <Route
-            path={`${CONTRIBUTE}`}
-            element={<Contribute />}
-          />
-          <Route
-            path={`${LESSONPLANS}/`}
-            element={<LessonPlans />}
-          />
-          <Route
-            path={`${INTRODUCTORYMAPS}/`}
-            element={<IntroductoryMaps />}
-          />
-          <Route
-            path={`${ABOUTPAGE}`}
-            element={<AboutPage />}
-          />
-          <Route
-            path={`${DOWNLOADS}`}
-            element={<DownloadPage />}
-          />
+            <Route
+              path={`${CONTRIBUTE}`}
+              element={<Contribute />}
+            />
+            <Route
+              path={`${LESSONPLANS}/`}
+              element={<LessonPlans />}
+            />
+            <Route
+              path={`${INTRODUCTORYMAPS}/`}
+              element={<IntroductoryMaps />}
+            />
+            <Route
+              path={`${ABOUTPAGE}`}
+              element={<AboutPage />}
+            />
+            <Route
+              path={`${DOWNLOADS}`}
+              element={<DownloadPage />}
+            />
 
-        </Routes>
+          </Routes>
 
+        </DocumentViewerProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

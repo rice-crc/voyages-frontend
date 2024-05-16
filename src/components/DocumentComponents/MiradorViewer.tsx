@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+// @ts-ignore
 import mirador from "mirador"
 
 type WorkspaceAction = 'Add' | 'Remove' | 'None'

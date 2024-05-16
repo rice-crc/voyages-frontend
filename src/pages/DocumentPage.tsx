@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import DOMPurify from 'dompurify'
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Chip, CircularProgress, List, ListItem, Menu, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import Badge from '@mui/material/Badge';
@@ -19,6 +19,7 @@ import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { Link } from 'react-router-dom';
 import voyageLogo from '@/assets/sv-logo.png';
 import { useDimensions } from '@/hooks/useDimensions';
+import { DocumentItemInfo, getWorkspace, performWorkspaceAction, ManifestURLBase, DocumentViewerContext, DocumentWorkspace, createDocKey } from '@/utils/functions/documentWorkspace';
 
 function useDebounce<T>(value: T, wait: number = 500) {
   const [debounceValue, setDebounceValue] = useState<T>(value);
@@ -48,14 +49,6 @@ interface DocumentSearchModel {
   entities: DocumentEntitySearchModel[],
   results_page: number,
   page_size: number
-}
-
-interface DocumentItemInfo {
-  key: string,
-  label: string,
-  bib?: string,
-  revision_number: number,
-  thumb: string | null
 }
 
 interface DocumentSearchApiResult {
@@ -116,7 +109,7 @@ const docSearch: DocumentSearchApi = async (search) => {
     results: data.results.map((r: any) => {
       const { thumbnail: thumb, bib, title: label, zotero_group_id, zotero_item_id } = r
       return {
-        key: `${zotero_group_id}__${zotero_item_id}.json`,
+        key: createDocKey(zotero_group_id, zotero_item_id),
         label,
         bib,
         revision_number: 1,
@@ -370,16 +363,7 @@ const DocumentGallery = ({ title, pageSize, source, thumbSize, viewMode, onDocum
   </div>
 }
 
-const UserWorkspaceLocalStorageKey = 'my-workspace'
-
-const getWorkspace = () => {
-  const stored = localStorage.getItem(UserWorkspaceLocalStorageKey)
-  const items: DocumentItemInfo[] = JSON.parse(stored ?? '[]')
-  return items
-}
-
-const getWorkspaceSource = () => {
-  const items = getWorkspace()
+const getWorkspaceSource = (items: DocumentWorkspace) => {
   const paginationSource: DocumentPaginationSource = {
     count: items.length,
     getPage: (pageNum, pageSize) =>
@@ -395,47 +379,18 @@ type DocumentPageTab = 'Search' | 'Workspace'
 
 type DocumentSources = Partial<Record<DocumentPageTab, DocumentPaginationSource>>
 
-const docIndexInWorkspace = (doc: DocumentItemInfo, items?: DocumentItemInfo[]) => {
-  items ??= getWorkspace()
-  return items.findIndex(info => info.key === doc.key)
-}
-
 const DocumentPage: React.FC = () => {
   // Our state is composed of sources for each DocumentPageTab, which allow
   // switching tabs without loss of state.
+  const { workspace, doc, setDoc } = useContext(DocumentViewerContext)
   const [sources, setSources] = useState<DocumentSources>({
-    Workspace: getWorkspaceSource()
+    Workspace: getWorkspaceSource(workspace ?? [])
   })
-  const [doc, setDoc] = useState<DocumentItemInfo | null>(null)
   const [tab, setTab] = useState<DocumentPageTab>('Search')
   const [viewMode, setViewMode] = useState<DocumentGalleryViewMode>('list')
-  const refreshWorkspace = () => {
-    setSources({ ...sources, Workspace: getWorkspaceSource() })
-  }
-  const handleMiradorClose = () => {
-    setDoc(null)
-    return true
-  }
-  const handleWorkspaceAction = (manifestId: string, element: HTMLElement) => {
-    if (!doc || doc.key !== manifestId) {
-      console.log('Unexpected item added to collection')
-      return
-    }
-    const items = getWorkspace()
-    const matchIndex = docIndexInWorkspace(doc, items)
-    if (matchIndex >= 0) {
-      // Already in the workspace, so we remove it.
-      if (!confirm('Remove document from workspace?')) {
-        return
-      }
-      items.splice(matchIndex, 1)
-    } else {
-      items.push(doc)
-    }
-    localStorage.setItem(UserWorkspaceLocalStorageKey, JSON.stringify(items))
-    element.style.display = 'none'
-    refreshWorkspace()
-  }
+  useEffect(() => {
+    setSources({ ...sources, Workspace: getWorkspaceSource(workspace ?? []) })
+  }, [workspace])
   const tabSource = sources[tab]
   // TODO: Change the header colors.
   return <>
@@ -480,13 +435,6 @@ const DocumentPage: React.FC = () => {
         onDocumentOpen={setDoc}
         onPageChange={pageNum => setSources({ ...sources, [tab]: { ...tabSource, currentPage: pageNum } })} />}
     </div>
-    {doc && <MiradorViewer
-      manifestUrlBase='https://voyages-api-staging.crc.rice.edu/static/iiif_manifests/'
-      domId='__mirador'
-      onClose={handleMiradorClose}
-      manifestId={doc.key}
-      workspaceAction={docIndexInWorkspace(doc) >= 0 ? 'Remove' : 'Add'}
-      onWorkspaceAction={handleWorkspaceAction} />}
   </>
 };
 
