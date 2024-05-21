@@ -95,7 +95,7 @@ export const MenuListsDropdown = () => {
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [ops, setOps] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
-
+  const [textError, setTextError] = useState<string>('')
   useEffect(() => {
     const loadFilterCellStructure = async () => {
       try {
@@ -154,7 +154,6 @@ export const MenuListsDropdown = () => {
     dispatch(setFilterObject(filter));
   }, [varName]);
 
-
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>,
     ops: string[],
@@ -172,12 +171,16 @@ export const MenuListsDropdown = () => {
       }
 
       dispatch(setType(type));
+
       if (ops) {
+
         for (const ele of ops) {
           if (ele === 'icontains') {
             opsValue = 'icontains'
           } else if (ele === 'in') {
             opsValue = 'in'
+          } else if (ele === 'exact') {
+            opsValue = 'exact'
           }
         }
         setOps(opsValue)
@@ -192,6 +195,7 @@ export const MenuListsDropdown = () => {
 
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
+    setTextError('');
     dispatch(setIsChange(false));
     dispatch(setIsChangeAuto(false));
     dispatch(setIsChangeGeoTree(false));
@@ -208,6 +212,7 @@ export const MenuListsDropdown = () => {
   const handleResetDataDialog = (event: any) => {
     event.stopPropagation();
     setTextFilter('')
+    setTextError('');
     const value = event.cancelable;
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialog(false));
@@ -223,8 +228,11 @@ export const MenuListsDropdown = () => {
     });
   };
 
-  const handleApplyEnslaversDialog = (roles: string[], name: string, ops: string) => {
-    updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, roles as string[], name, varName, ops!, labelVarName)
+  const handleApplyEnslaversDialog = (roles: RolesProps[], name: string, ops: string) => {
+    console.log({ textError })
+    setTextError('Required could be more concise')
+    const newRoles: string[] = roles.map((ele) => ele.value);
+    updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, newRoles as string[], name, varName, ops!, labelVarName)
   }
 
   const handleApplyTextFilterDataDialog = (value: string) => {
@@ -245,11 +253,11 @@ export const MenuListsDropdown = () => {
 
     if (newValue.length > 0) {
       if (existingFilterIndex !== -1) {
-        existingFilters[existingFilterIndex].searchTerm = ops === 'icontains' ? newValue as string : [newValue]
+        existingFilters[existingFilterIndex].searchTerm = ops === 'icontains' || (ops === 'exact') ? newValue as string : [newValue]
       } else {
         existingFilters.push({
           varName: varName,
-          searchTerm: ops === 'icontains' ? newValue as string : [newValue],
+          searchTerm: (ops === 'icontains') || (ops === 'exact') ? newValue as string : [newValue],
           op: ops,
           label: labelVarName
         });
@@ -320,15 +328,13 @@ export const MenuListsDropdown = () => {
   if (varName) {
     if ((typeData === TYPES.GeoTreeSelect) || (typeData === TYPES.LanguageTreeSelect)) {
       displayComponent = <GeoTreeSelected type={typeData} />
-    } else if (typeData === TYPES.CharField && ops === 'icontains') {
-      displayComponent = <FilterTextBox handleKeyDownTextFilter={handleApplyTextFilterDataDialog} />
+    } else if ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.VoyageID && ops === 'exact')) {
+      displayComponent = <FilterTextBox handleKeyDownTextFilter={handleApplyTextFilterDataDialog} type={typeData} />
     } else if (typeData === TYPES.CharField && ops == 'in') {
       displayComponent = <AutoCompleteListBox />
-      // displayComponent = <VirtualizedAutoCompleted />
-      // displayComponent= <AutoCompletedFilterListBox />
     } else if (typeData === TYPES.EnslaverNameAndRole) {
       displayComponent = <div>
-        <FilterTextNameEnslaversBox />
+        <FilterTextNameEnslaversBox setTextError={setTextError} textError={textError} />
         <RadioSelected type={typeData} />
         <SelectSearchDropdownEnslaversNameRole />
       </div>
@@ -336,11 +342,12 @@ export const MenuListsDropdown = () => {
       displayComponent = <RangeSliderComponent />
     }
   }
+
   return (
     <div>
       <Box className="filter-menu-bar">
         {filterMenu.map((item: FilterMenuList, index: number) => {
-          const { var_name, label, type, ops } = item
+          const { var_name, label, type, ops } = item;
           const itemLabel = (label as LabelFilterMeneList)[languageValue];
           return var_name ? (
             <Button
@@ -430,16 +437,10 @@ export const MenuListsDropdown = () => {
           {displayComponent}
         </DialogContent>
         <DialogActions style={{ paddingRight: '2rem', marginTop: typeData === TYPES.EnslaverNameAndRole ? '10rem' : 0 }}>
-          {varName && (typeData === TYPES.CharField && ops === 'icontains') && <Button
+          {varName && ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.VoyageID && ops === 'exact')) && <Button
             autoFocus
             type='submit'
-            onClickCapture={() => {
-              if (typeData === TYPES.CharField && ops === 'icontains') {
-                handleApplyTextFilterDataDialog(textFilter)
-              } else if (varName && (typeData === TYPES.EnslaverNameAndRole)) {
-                handleApplyEnslaversDialog(listEnslavers, enslaverName, opsRoles!)
-              }
-            }}
+            onClickCapture={() => handleApplyTextFilterDataDialog(textFilter)}
             sx={{
               color: 'white', textTransform: 'unset',
               height: 30,
@@ -463,13 +464,7 @@ export const MenuListsDropdown = () => {
             <Button
               autoFocus
               type='submit'
-              onClickCapture={() => {
-                if (typeData === TYPES.CharField && ops === 'icontains') {
-                  handleApplyTextFilterDataDialog(textFilter)
-                } else if (varName && (typeData === TYPES.EnslaverNameAndRole)) {
-                  handleApplyEnslaversDialog(listEnslavers, enslaverName, opsRoles!)
-                }
-              }}
+              onClickCapture={() => handleApplyEnslaversDialog(listEnslavers, enslaverName, opsRoles!)}
               sx={{
                 color: 'white', textTransform: 'unset',
                 height: 30,

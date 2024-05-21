@@ -28,7 +28,7 @@ export interface FilterObjectsState {
     enslaversNameAndRole?: RolesProps[]
     enslaverName: string
     opsRoles?: string
-    listEnslavers: string[]
+    listEnslavers: RolesProps[]
 }
 export interface RangeSliderMinMaxInitialState {
     [key: string]: number[]
@@ -98,6 +98,7 @@ export const TYPES: {
     GeoTreeSelect: string;
     LanguageTreeSelect: string
     EnslaverNameAndRole: string
+    VoyageID: string
 } = {
     IntegerField: 'IntegerField',
     DecimalField: 'DecimalField',
@@ -106,6 +107,7 @@ export const TYPES: {
     GeoTreeSelect: 'GeoTreeSelect',
     LanguageTreeSelect: 'LanguageTreeSelect',
     EnslaverNameAndRole: 'EnslaverNameAndRole',
+    VoyageID: 'id_match'
 };
 
 export const TYPESOFDATASETPEOPLE: {
