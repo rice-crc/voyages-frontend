@@ -26,7 +26,8 @@
 						"var_name": "voyage_id",
 						"type": "id_match",
 						"ops": [
-							"exact"
+							"exact",
+							"btw"
 						],
 						"label": {
 							"en": "Voyage ID",
