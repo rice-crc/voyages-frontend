@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 // @ts-ignore
 import mirador from "mirador"
+import { useSelector } from 'react-redux'
+import { RootState } from '@/redux/store'
 
 type WorkspaceAction = 'Add' | 'Remove' | 'None'
 
@@ -42,25 +44,28 @@ const updateMiradorUI = (
     }
     removeButton('workspaceBtn')
     if (workspaceAction !== 'None') {
-        const workspaceBtn = document.createElement('button')
-        workspaceBtn.type = 'button'
-        workspaceBtn.style.minWidth = "260px"
-        workspaceBtn.style.maxHeight = "36px"
-        workspaceBtn.className = `workspaceBtn MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-j8xhxh-MuiButtonBase-root-MuiButton-root`
-        workspaceBtn.innerHTML = `<span class="MuiFab-label" style="width: 100%">
-                ${workspaceAction === 'Add' ? 'Add to Workspace' : 'Remove'}
-            </span>`
-        workspaceBtn.onclick = () => onWorkspaceAction(manifestId, workspaceBtn)
-        topBar[0].appendChild(workspaceBtn)
+        const template = document.getElementById(`__miradorWorkspace${workspaceAction}Btn`)
+        const workspaceBtn = template?.cloneNode(true) as HTMLButtonElement
+        if (workspaceBtn) {
+            workspaceBtn.classList.add('workspaceBtn')
+            workspaceBtn.onclick = () => onWorkspaceAction(manifestId, workspaceBtn)
+            topBar[0].appendChild(workspaceBtn)
+        }
     }
     return true
 }
 
+const MiradorUserSettingsKey = '__miradorSettings'
+
 const MiradorViewer = ({ manifestUrlBase, manifestId, domId, workspaceAction, onWorkspaceAction, onClose }: MiradorViewerProps) => {
     const [ready, setReady] = useState(false)
     const [target, setTarget] = useState(null)
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
     const container = useRef<HTMLDivElement>(null!)
     const activeDoc = useRef<string | null>(null)
+    // NOTE: Spanish is still not supported by Mirador! And for Portuguese, only
+    // the Brazilian variant is available.
+    const miradorLanguage = languageValue === 'pt' ? 'pt-BR' : 'en'
     useEffect(() => {
         if (!container.current) {
             return
@@ -69,9 +74,14 @@ const MiradorViewer = ({ manifestUrlBase, manifestId, domId, workspaceAction, on
         const div = document.createElement('div')
         div.id = domId
         container.current.appendChild(div)
-        setTarget(mirador.viewer({ id: domId }))
+        const userSettings = JSON.parse(localStorage.getItem(MiradorUserSettingsKey) ?? '{}')
+        setTarget(mirador.viewer({
+            ...userSettings,
+            id: domId,
+            language: miradorLanguage
+        }))
         return () => {
-
+            div.remove()
         }
     }, [domId])
     useEffect(() => {
@@ -94,12 +104,16 @@ const MiradorViewer = ({ manifestUrlBase, manifestId, domId, workspaceAction, on
         // - Create a window with the manifest...
         let canvasLoaded = false
         const unsubscribe = store.subscribe(() => {
-            if (activeDoc.current === manifestId && canvasLoaded && onClose && Object.keys(store.getState().windows).length === 0) {
+            const state = store.getState()
+            localStorage.setItem(MiradorUserSettingsKey, JSON.stringify({
+                selectedTheme: state.config.selectedTheme
+            }))
+            if (activeDoc.current === manifestId && canvasLoaded && onClose && Object.keys(state.windows).length === 0) {
                 onClose()
                 activeDoc.current = null
                 return
             }
-            if (canvasLoaded || (store.getState().manifests[path]?.isFetching ?? true)) {
+            if (canvasLoaded || (state.manifests[path]?.isFetching ?? true)) {
                 return
             }
             canvasLoaded = true

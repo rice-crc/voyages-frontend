@@ -1,5 +1,5 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import { CSSProperties } from 'react';
+import React, { CSSProperties, useContext } from 'react';
 import NETWORKICON from '@/assets/networksIcon.png';
 import { useDispatch } from 'react-redux';
 import {
@@ -22,6 +22,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { cleanUpTextDisplay } from '@/utils/functions/cleanUpTextDisplay';
 import { numberWithCommas } from '@/utils/functions/numberWithCommas';
+import { DocumentViewerContext, createDocKey } from '@/utils/functions/documentWorkspace';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
@@ -34,6 +35,7 @@ export const GenerateCellTableRenderer = (
   const ID = params.data.id;
   const dispatch = useDispatch();
   const { styleName } = usePageRouter()
+  const { setDoc } = useContext(DocumentViewerContext)
 
   let nodeType: string = '';
 
@@ -78,18 +80,39 @@ export const GenerateCellTableRenderer = (
       )
     } else {
       const renderedValues = values.map((value: string, index: number) => {
-
+        const additionalProps: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> = {
+          style,
+          onClick: () => {
+            dispatch(setCardRowID(ID));
+            dispatch(setIsModalCard(true));
+            dispatch(setNodeClass(nodeType));
+          },
+          dangerouslySetInnerHTML: { __html: value ?? null }
+        };
+        let extraElements: React.ReactNode = null
+        // Detect if source type with linked Document.
+        if (colID === 'voyage_sources' && params.data.sources__zotero_group_id &&
+          params.data.sources__title &&
+          params.data.sources__zotero_item_id &&
+          params.data.sources__has_published_manifest &&
+          params.data.sources__has_published_manifest[index]
+        ) {
+          additionalProps.style = { ...style, borderColor: 'blue', borderWidth: 1, borderStyle: 'solid' };
+          additionalProps.dangerouslySetInnerHTML = undefined;
+          extraElements = <><span>{value} </span>
+            <i className="fa fa-file-text" aria-hidden="true"></i>
+          </>;
+          additionalProps.onClick = () => setDoc({
+            key: createDocKey(params.data.sources__zotero_group_id[index], params.data.sources__zotero_item_id[index]),
+            label: params.data.sources__title[index],
+            thumb: params.data.sources__thumbnail?.at(index),
+            revision_number: 1
+          });
+        }
         return (
           <span key={`${index}-${value}`}>
-            <div
-              style={style}
-              onClick={() => {
-                dispatch(setCardRowID(ID));
-                dispatch(setIsModalCard(true));
-                dispatch(setNodeClass(nodeType));
-              }}
-              dangerouslySetInnerHTML={{ __html: value ?? null }}
-            >
+            <div {...additionalProps}>              
+              {extraElements}
             </div>
           </span>
         )

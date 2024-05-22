@@ -1,6 +1,9 @@
 import MiradorViewer from "@/components/DocumentComponents/MiradorViewer"
+import { RootState } from "@/redux/store"
 import { DocumentItemInfo, DocumentViewerContext, DocumentWorkspace, ManifestURLBase, getWorkspace, performWorkspaceAction } from "@/utils/functions/documentWorkspace"
+import Button from "@mui/material/Button"
 import { useState } from "react"
+import { useSelector } from "react-redux"
 
 interface DocumentViewerProviderProps {
     children: React.ReactNode
@@ -26,8 +29,27 @@ export const DocumentViewerProvider = ({ children }: DocumentViewerProviderProps
         setDoc(null)
         return true
     }
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const addLabels: Record<string, string> = {
+        en: 'Add to Workspace',
+        pt: 'Adicionar a área de trabalho',
+        es: 'Agregar al área de trabajo'
+    }
+    const removeLabels: Record<string, string> = {
+        en: 'Remove',
+        pt: 'Remover',
+        es: 'Eliminar'
+    }
+    // We hide the children when a document is open so that Mirador can be the
+    // only thing visible in the UI.
     return (<DocumentViewerContext.Provider value={{ doc, setDoc, workspace }}>
-        {children}
+        <div style={{ display: doc ? 'none' : 'block' }}>
+            {children}
+        </div>
+        <div style={{ display: 'none' }}>
+            <Button color='primary' id="__miradorWorkspaceAddBtn">{addLabels[languageValue ?? 'en']}</Button>
+            <Button color='error' id="__miradorWorkspaceRemoveBtn">{removeLabels[languageValue ?? 'en']}</Button>
+        </div>
         {doc && <MiradorViewer
             manifestUrlBase={ManifestURLBase}
             domId='__mirador'
