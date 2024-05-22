@@ -78,7 +78,6 @@ export const MenuListsDropdown = () => {
   const { type: typeData } = useSelector((state: RootState) => state.getFilter);
   const { languageValue } = useSelector((state: RootState) => state.getLanguages);
   const { styleName: styleNameRoute } = usePageRouter();
-
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -95,7 +94,8 @@ export const MenuListsDropdown = () => {
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [ops, setOps] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
-  const [textError, setTextError] = useState<string>('')
+  const [textError, setTextError] = useState<string>(!enslaverName ? 'Required could be more concise' : '')
+  const [textRoleListError, setTextRoleListError] = useState<string>(listEnslavers.length === 0 ? 'Required could be more concise' : '')
   useEffect(() => {
     const loadFilterCellStructure = async () => {
       try {
@@ -195,6 +195,7 @@ export const MenuListsDropdown = () => {
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
     setTextError('');
+    setTextRoleListError('')
     dispatch(setIsChange(false));
     dispatch(setIsChangeAuto(false));
     dispatch(setIsChangeGeoTree(false));
@@ -212,6 +213,7 @@ export const MenuListsDropdown = () => {
     event.stopPropagation();
     setTextFilter('')
     setTextError('');
+    setTextRoleListError('')
     const value = event.cancelable;
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialog(false));
@@ -228,8 +230,12 @@ export const MenuListsDropdown = () => {
   };
 
   const handleApplyEnslaversDialog = (roles: RolesProps[], name: string, ops: string) => {
-
-    setTextError('Required could be more concise')
+    if (roles.length === 0) {
+      setTextRoleListError('Required could be more concise')
+    }
+    if (!name) {
+      setTextError('Required could be more concise')
+    }
     const newRoles: string[] = roles.map((ele) => ele.value);
     updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, newRoles as string[], name, varName, ops!, labelVarName)
   }
@@ -273,6 +279,7 @@ export const MenuListsDropdown = () => {
     const filterObjectUpdate = {
       filter: filteredFilters,
     };
+    console.log({ enslaverName, })
 
     const filterObjectString = JSON.stringify(filterObjectUpdate);
     localStorage.setItem('filterObject', filterObjectString)
@@ -363,7 +370,7 @@ export const MenuListsDropdown = () => {
           <div>
             <FilterTextNameEnslaversBox setTextError={setTextError} textError={textError} />
             <RadioSelected type={typeData} />
-            <SelectSearchDropdownEnslaversNameRole />
+            <SelectSearchDropdownEnslaversNameRole setTextRoleListError={setTextRoleListError} textRoleListError={textRoleListError} />
           </div>
         );
         break;
@@ -498,13 +505,14 @@ export const MenuListsDropdown = () => {
           {(varName && (typeData === TYPES.EnslaverNameAndRole)) &&
             <Button
               autoFocus
+              disabled={!enslaverName && listEnslavers.length <= 0}
               type='submit'
               onClickCapture={() => handleApplyEnslaversDialog(listEnslavers, enslaverName, opsRoles!)}
               sx={{
                 color: 'white', textTransform: 'unset',
                 height: 30,
-                cursor: 'pointer',
-                backgroundColor: getColorBackground(styleNameRoute!),
+                cursor: enslaverName ? 'pointer' : 'not-allowed',
+                backgroundColor: enslaverName && listEnslavers.length > 0 ? getColorBackground(styleNameRoute!) : getColorHoverBackgroundCollection(styleNameRoute!),
                 fontSize: '0.80rem',
                 '&:hover': {
                   backgroundColor: getColorHoverBackgroundCollection(styleNameRoute!),
@@ -544,7 +552,7 @@ export const MenuListsDropdown = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </div >
   );
 }
 
