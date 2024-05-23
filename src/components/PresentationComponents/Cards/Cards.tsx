@@ -1,9 +1,10 @@
 import { Card, Collapse } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setCardDataArray,
   setCardFileName,
+  setIsModalCard,
 } from '@/redux/getCardFlatObjectSlice';
 import { processCardData } from '@/utils/functions/processCardData';
 import CARDS_VOYAGES_COLLECTION from '@/utils/flatfiles/transatlantic_voyages_card.json';
@@ -26,12 +27,28 @@ import { styleCard } from '@/styleMUI/customStyle';
 import { fetchVoyageCard } from '@/fetch/voyagesFetch/fetchVoyageCard';
 import { fetchPastEnslaversCard } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversCard';
 import { fetchPastEnslavedCard } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedCard';
+import { DocumentItemInfo, DocumentViewerContext, createDocKey } from '@/utils/functions/documentWorkspace';
+
+type DocumentReference = String & {
+  sources__has_published_manifest: boolean
+  sources__zotero_group_id: string
+  sources__zotero_item_id: string
+  sources__thumbnail?: string | null
+}
+
+function isDocumentReference(s?: string | DocumentReference): s is DocumentReference {
+  const cast = s as DocumentReference
+  return cast?.sources__has_published_manifest &&
+    !!cast.sources__zotero_group_id &&
+    !!cast.sources__zotero_item_id
+}
 
 const VoyageCard = () => {
   const dispatch: AppDispatch = useDispatch();
   const [globalExpand, setGlobalExpand] = useState(true);
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
   const [cardData, setCardData] = useState<Record<string, any>[]>([])
+  const { setDoc } = useContext(DocumentViewerContext)
 
   const { cardRowID, cardFileName, cardDataArray, nodeTypeClass } =
     useSelector((state: RootState) => state.getCardFlatObjectData);
@@ -181,22 +198,46 @@ const VoyageCard = () => {
                       const values = child.value;
                       if (Array.isArray(values)) {
                         const renderedValues = values.map(
-                          (value: string, index: number) => {
-                            const valueToRender = value?.replace(
+                          (value: string | DocumentReference, index: number) => {
+                            let valueToRender = value?.replace(
                               /<[^>]*>/g,
                               ' '
                             );
-                            return (
+
+                            const additionalProps: any = {}
+                            const additionalStyles: React.CSSProperties = {};
+                            const extraElements: JSX.Element[] = []
+                            if (isDocumentReference(value)) {
+                              valueToRender += ' '
+                              extraElements.push(<i className="fa fa-file-text" aria-hidden="true"></i>);
+                              additionalStyles.borderColor = 'blue';
+                              additionalStyles.borderWidth = 1;
+                              additionalStyles.borderStyle = 'solid';
+                              const doc: DocumentItemInfo = {
+                                label: value + '',
+                                key: createDocKey(value.sources__zotero_group_id, value.sources__zotero_item_id),
+                                revision_number: 1,
+                                thumb: value.sources__thumbnail ?? null
+                              };
+                              additionalProps.onClick = () => {
+                                setDoc(doc);
+                                dispatch(setIsModalCard(false));
+                              }
+                            }
+                            return valueToRender ? (
                               <div
                                 key={`${index}-${value}`}
                                 style={{ padding: '2px 0' }}
                               >
                                 <span
-                                  style={styleCard}
-                                >{`${valueToRender}`}</span>
+                                  {...additionalProps}
+                                  style={{ ...styleCard, ...additionalStyles }}
+                                >{`${valueToRender}`}
+                                  {extraElements}
+                                </span>
                                 <br />
                               </div>
-                            );
+                            ) : '-';
                           }
                         );
                         return (

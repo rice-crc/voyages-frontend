@@ -38,7 +38,7 @@ const FilterTextBox: FunctionComponent<FilterTextProps> = ({ handleKeyDownTextFi
                     field
                 </Typography>
             }
-            placeholder="filter text"
+            placeholder={type === 'id_match' ? "Filter by Voyage ID" : "Filter by Text"}
             style={{ marginTop: 20, width: 450 }}
         />
 

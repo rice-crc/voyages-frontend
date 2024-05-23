@@ -59,7 +59,7 @@
 			},
 			"cell_type": "literal-concat",
 			"visible": true,
-			"number_format": "comma",
+			"number_format": null,
 			"order_by": [
 				"death_year"
 			],
@@ -166,7 +166,7 @@
 						"cell_fn": "literal"
 					}
 				],
-				"join":": "
+				"join": ": "
 			}
 		},
 		{

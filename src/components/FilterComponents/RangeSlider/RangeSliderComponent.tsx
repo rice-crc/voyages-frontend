@@ -32,11 +32,12 @@ const RangeSlider = () => {
   const { styleName: styleNameRoute } = usePageRouter();
   const { styleName } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { rangeValue, varName, rangeSliderMinMax, isChange } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState
+  const { rangeValue, varName, rangeSliderMinMax, isChange, opsRoles } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState
   );
   const { labelVarName } = useSelector(
     (state: RootState) => state.getShowFilterObject
   );
+
   const rangeMinMax = rangeSliderMinMax?.[varName] || rangeValue?.[varName] || [0, 0.5];
   const min = rangeValue?.[varName]?.[0] || 0;
   const max = rangeValue?.[varName]?.[1] || 0;
@@ -163,12 +164,14 @@ const RangeSlider = () => {
     const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === varName);
 
     if (existingFilterIndex !== -1) {
+
       existingFilters[existingFilterIndex].searchTerm = updateValue as number[]
+      existingFilters[existingFilterIndex].op = opsRoles!
     } else {
       const newFilter: Filter = {
         varName: varName,
         searchTerm: updateValue!,
-        op: 'btw',
+        op: opsRoles!,
         label: labelVarName
       };
       existingFilters.push(newFilter);
@@ -187,7 +190,7 @@ const RangeSlider = () => {
   }
 
   return (
-    <Grid className="autocomplete-modal-box">
+    <Grid className="autocomplete-modal-box" style={{ width: 450, marginTop: 10 }}>
       <Input
         color="secondary"
         name="start"

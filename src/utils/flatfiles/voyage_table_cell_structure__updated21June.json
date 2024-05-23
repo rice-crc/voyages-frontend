@@ -252,9 +252,29 @@
 					{
 						"var_name": "sources__short_ref__name",
 						"cell_fn": "literal"
+					},
+					{
+						"var_name": "sources__title",
+						"cell_fn": "metadata"
+					},
+					{
+						"var_name": "sources__has_published_manifest",
+						"cell_fn": "metadata"
+					},
+					{
+						"var_name": "sources__zotero_group_id",
+						"cell_fn": "metadata"
+					},
+					{
+						"var_name": "sources__zotero_item_id",
+						"cell_fn": "metadata"
+					},
+					{
+						"var_name": "sources__thumbnail",
+						"cell_fn": "metadata"
 					}
 				],
-				"join":": "
+				"join": ": "
 			}
 		},
 		{
