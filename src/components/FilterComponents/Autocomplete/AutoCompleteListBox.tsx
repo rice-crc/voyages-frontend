@@ -12,7 +12,6 @@ import { usePageRouter } from "@/hooks/usePageRouter";
 import { setFilterObject } from "@/redux/getFilterSlice";
 import debounce from "lodash.debounce";
 import { setAutoLabel } from "@/redux/getAutoCompleteSlice";
-import { it } from "node:test";
 
 export default function AutoCompleteListBox() {
     const [position, setPosition] = useState<number>(0);
@@ -143,7 +142,6 @@ export default function AutoCompleteListBox() {
         const autuLabels: string[] = newValue.map((ele) => ele.value);
         dispatch(setAutoLabel(autuLabels));
         setSelectedValue(newValue as AutoCompleteOption[]);
-        //Update filter and save to localStorage
         updateFilter(autuLabels);
     };
 

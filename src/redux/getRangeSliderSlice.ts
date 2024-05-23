@@ -39,7 +39,7 @@ const rangeSliderSlice = createSlice({
         setOpsRole: (state, action: PayloadAction<string>) => {
             state.opsRoles = action.payload;
         },
-        setListEnslavers: (state, action: PayloadAction<string[]>) => {
+        setListEnslavers: (state, action: PayloadAction<RolesProps[]>) => {
             state.listEnslavers = action.payload;
         },
         resetSlice: (state) => initialState,

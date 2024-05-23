@@ -24,7 +24,11 @@
 				"children": [
 					{
 						"var_name": "voyage_id",
-						"type": "IntegerField",
+						"type": "id_match",
+						"ops": [
+							"exact",
+							"btw"
+						],
 						"label": {
 							"en": "Voyage ID",
 							"es": "Voyage ID ES",
