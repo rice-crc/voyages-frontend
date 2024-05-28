@@ -31,6 +31,7 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
         const combinedData: { label: string; searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType | RolesFilterProps[] }[] = [];
         if (Array.isArray(filter)) {
             filter.forEach((item) => {
+
                 if (item.label) {
                     const searchTermToUse = Array.isArray(item.title) ? item.title.join(', ') : (Array.isArray(item.searchTerm) ? item.searchTerm.join(' - ') : item.searchTerm);
                     combinedData.push({
@@ -44,13 +45,18 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
                         searchTerm: searchTermToUse
                     });
                 } else if (item.varName === 'EnslaverNameAndRole') {
-
                     const roles = (item.searchTerm as RolesFilterProps[]).map((role) => role.roles.join(', ')).join(' - ');
                     const names = (item.searchTerm as RolesFilterProps[]).map((role) => role.name).join(' - ');
                     const searchTermToUse = `${names}, Who had: ${roles} roles.`;
                     combinedData.push({
                         label: `Enslavers`,
                         searchTerm: searchTermToUse
+                    });
+                } else if (item && Array.isArray(item.searchTerm) && item.varName !== 'dataset') {
+                    const names = (item.searchTerm as string[]).map((name) => name).join(', ');
+                    combinedData.push({
+                        label: varName === 'voyage_ship__imputed_nationality__name' ? 'Flag of vessel (IMP)' : 'Flag of vessel',
+                        searchTerm: names
                     });
                 }
             });

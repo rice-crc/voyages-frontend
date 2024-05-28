@@ -34,9 +34,9 @@ export interface FilterNationalityList {
     nationalityList: NationalityListProps[]
 }
 export interface NationalityListProps {
-    id: number;
+    id?: number;
     name: string;
-    value: number;
+    value?: number;
 }
 export interface RangeSliderMinMaxInitialState {
     [key: string]: number[]

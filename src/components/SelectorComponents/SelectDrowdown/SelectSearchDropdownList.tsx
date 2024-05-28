@@ -52,11 +52,8 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
       filter.find((filterItem) => filterItem.varName === varName);
     if (!filterByVarName) return;
     const nationList: string[] = filterByVarName.searchTerm as string[];
-    const values = nationList.map<NationalityListProps>((item: string) => ({
-      // Assuming 'item' is the 'name' and you need to set 'id' and 'value' appropriately
-      id: 0, // You might need a function to generate unique IDs
-      name: item,
-      value: 1,
+    const values = nationList.map<NationalityListProps>((name: string) => ({
+      name: name,
     }));
     setNationList(values)
     dispatch(setFilterObject(filter));
