@@ -133,7 +133,7 @@
 				"children": [
 					{
 						"var_name": "voyage_ship__nationality_ship__name",
-						"type": "CharField",
+						"type": "MultiselectList",
 						"ops": [
 							"icontains"
 						],
@@ -145,7 +145,7 @@
 					},
 					{
 						"var_name": "voyage_ship__imputed_nationality__name",
-						"type": "CharField",
+						"type": "MultiselectList",
 						"ops": [
 							"icontains"
 						],

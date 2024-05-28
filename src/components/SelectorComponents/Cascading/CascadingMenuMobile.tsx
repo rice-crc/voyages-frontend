@@ -55,6 +55,7 @@ import { RadioSelected } from '../RadioSelected/RadioSelected';
 import { SelectSearchDropdownEnslaversNameRole } from '../SelectDrowdown/SelectSearchDropdownEnslaversNameRole';
 import { getColorBackground, getColorBTNVoyageDatasetBackground, getColorHoverBackgroundCollection, getColorBoxShadow, } from '@/utils/functions/getColorStyle';
 import { updatedEnslaversRoleAndNameToLocalStorage } from '@/utils/functions/updatedEnslaversRoleAndNameToLocalStorage';
+import { SelectSearchDropdownList } from '../SelectDrowdown/SelectSearchDropdownList';
 
 const CascadingMenuMobile = () => {
   const { styleName: styleNameRoute } = usePageRouter()
@@ -69,7 +70,7 @@ const CascadingMenuMobile = () => {
     (state: RootState) => state.rangeSlider as FilterObjectsState
   );
   const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-
+  const [textRoleListError, setTextRoleListError] = useState<string>('')
   const { isOpenDialogMobile } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -78,7 +79,6 @@ const CascadingMenuMobile = () => {
   );
   const dispatch: AppDispatch = useDispatch();
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
-  const [label, setLabel] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>(
     []
   );
@@ -109,7 +109,6 @@ const CascadingMenuMobile = () => {
   }, [styleNameRoute]);
 
   const handleApplyTextFilterDataDialog = (value: string) => {
-    console.log({ value })
     dispatch(setTextFilterValue(value));
     updateFilter(value)
   }
@@ -162,20 +161,59 @@ const CascadingMenuMobile = () => {
   let displayComponent;
 
   if (varName) {
-    if ((typeData === TYPES.GeoTreeSelect) || (typeData === TYPES.LanguageTreeSelect)) {
-      displayComponent = <GeoTreeSelected type={typeData} />
-    } else if ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.VoyageID && ops === 'exact')) {
-      displayComponent = <FilterTextBox handleKeyDownTextFilter={handleApplyTextFilterDataDialog} type={typeData} />
-    } else if (typeData === TYPES.CharField && ops == 'in') {
-      displayComponent = <AutoCompleteListBox />
-    } else if (typeData === TYPES.EnslaverNameAndRole) {
-      displayComponent = <div>
-        <FilterTextNameEnslaversBox setTextError={setTextError} textError={textError} />
-        <RadioSelected type={typeData} />
-        <SelectSearchDropdownEnslaversNameRole />
-      </div>
-    } else if ((typeData === TYPES.IntegerField) || varName && typeData === TYPES.DecimalField) {
-      displayComponent = <RangeSliderComponent />
+    switch (typeData) {
+      case TYPES.GeoTreeSelect:
+      case TYPES.LanguageTreeSelect:
+        displayComponent = <GeoTreeSelected type={typeData} />;
+        break;
+
+      case TYPES.CharField:
+        if (ops === 'icontains') {
+          displayComponent = <FilterTextBox handleKeyDownTextFilter={handleApplyTextFilterDataDialog} type={typeData} />;
+        } else if (ops === 'in') {
+          displayComponent = <AutoCompleteListBox />;
+        }
+        break;
+
+      case TYPES.VoyageID:
+        if (opsRoles === 'exact') {
+          displayComponent = (
+            <>
+              <RadioSelected type={typeData} />
+              <FilterTextBox handleKeyDownTextFilter={handleApplyTextFilterDataDialog} type={typeData} />
+            </>
+          );
+        } else if (opsRoles === 'btw') {
+          displayComponent = (
+            <>
+              <RadioSelected type={typeData} />
+              <RangeSliderComponent />
+            </>
+          );
+        }
+        break;
+
+      case TYPES.EnslaverNameAndRole:
+        displayComponent = (
+          <div>
+            <FilterTextNameEnslaversBox setTextError={setTextError} textError={textError} />
+            <RadioSelected type={typeData} />
+            <SelectSearchDropdownEnslaversNameRole setTextRoleListError={setTextRoleListError} textRoleListError={textRoleListError} />
+          </div>
+        );
+        break;
+
+      case TYPES.IntegerField:
+      case TYPES.DecimalField:
+        displayComponent = <RangeSliderComponent />;
+        break;
+
+      case TYPES.MultiselectList:
+        displayComponent = <SelectSearchDropdownList />
+        break;
+
+      default:
+        break;
     }
   }
 
@@ -339,39 +377,23 @@ const CascadingMenuMobile = () => {
           {displayComponent}
         </DialogContent>
         <DialogActions style={{ paddingRight: '2rem', marginTop: typeData === TYPES.EnslaverNameAndRole ? '10rem' : 0 }}>
-          {varName && ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.VoyageID && ops === 'exact')) && <Button
-            autoFocus
-            type='submit'
-            onClickCapture={() => handleApplyTextFilterDataDialog(textFilter)}
-            sx={{
-              color: 'white', textTransform: 'unset',
-              height: 30,
-              cursor: 'pointer',
-              backgroundColor: getColorBackground(styleNameRoute!),
-              fontSize: '0.80rem',
-              '&:hover': {
-                backgroundColor: getColorHoverBackgroundCollection(styleNameRoute!),
-                color: getColorBTNVoyageDatasetBackground(styleNameRoute!)
-              },
-              '&:disabled': {
-                color: '#fff',
-                boxShadow: getColorBoxShadow(styleNameRoute!),
-                cursor: 'not-allowed',
-              },
-            }}
-          >
-            Apply
-          </Button>}
-          {(varName && (typeData === TYPES.EnslaverNameAndRole)) &&
-            <Button
+          {varName && opsRoles !== 'btw' && ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.VoyageID && opsRoles === 'exact') || (typeData === TYPES.EnslaverNameAndRole) || (typeData === TYPES.MultiselectList))
+            && <Button
               autoFocus
+              disabled={listEnslavers.length === 0 && enslaverName === '' && typeData === TYPES.EnslaverNameAndRole}
               type='submit'
-              onClickCapture={() => handleApplyEnslaversDialog(listEnslavers, enslaverName, opsRoles!)}
+              onClickCapture={() => {
+                if (typeData === TYPES.EnslaverNameAndRole) {
+                  handleApplyEnslaversDialog(listEnslavers, enslaverName, opsRoles!)
+                } else {
+                  handleApplyTextFilterDataDialog(textFilter)
+                }
+              }}
               sx={{
                 color: 'white', textTransform: 'unset',
                 height: 30,
-                cursor: 'pointer',
-                backgroundColor: getColorBackground(styleNameRoute!),
+                cursor: listEnslavers.length === 0 && enslaverName === '' && typeData === TYPES.EnslaverNameAndRole ? 'not-allowed' : 'pointer',
+                backgroundColor: listEnslavers.length === 0 && enslaverName === '' && typeData === TYPES.EnslaverNameAndRole ? getColorHoverBackgroundCollection(styleNameRoute!) : getColorBackground(styleNameRoute!),
                 fontSize: '0.80rem',
                 '&:hover': {
                   backgroundColor: getColorHoverBackgroundCollection(styleNameRoute!),
@@ -411,33 +433,6 @@ const CascadingMenuMobile = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* <Dialog
-        BackdropProps={{
-          style: DialogModalStyle,
-        }}
-        disableScrollLock={true}
-        sx={StyleDialog}
-        open={isOpenDialogMobile}
-        onClose={handleCloseDialog}
-        PaperComponent={PaperDraggable}
-        aria-labelledby="draggable-dialog-title"
-      >
-        <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
-          <div style={{ fontSize: 16, fontWeight: 500 }}>{label}</div>
-        </DialogTitle>
-        <DialogContent style={{ textAlign: 'center' }}>
-          {displayComponent}
-        </DialogContent>
-        <DialogActions>
-          <Button
-            autoFocus
-            onClick={handleResetDataDialog}
-            sx={{ color: BLACK, fontSize: 15 }}
-          >
-            RESET
-          </Button>
-        </DialogActions>
-      </Dialog> */}
     </>
   );
 };

@@ -27,7 +27,7 @@ export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<SelectSear
   const handleSelectedRoleAndName = (event: SyntheticEvent<Element, Event>,
     newValue: RolesProps[]) => {
     if (!newValue) return;
-    if (newValue.length <= 0) {
+    if (newValue.length === 0) {
       setTextRoleListError('Required could be more concise')
     } else {
       setTextRoleListError('')

@@ -230,6 +230,7 @@ const VoyageCard = () => {
                                 style={{ padding: '2px 0' }}
                               >
                                 <span
+                                  key={`${index}-${value}`}
                                   {...additionalProps}
                                   style={{ ...styleCard, ...additionalStyles }}
                                 >{`${valueToRender}`}

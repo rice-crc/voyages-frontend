@@ -6,6 +6,7 @@ import { SxProps, } from '@mui/material';
 import NestedMenuItems from '@/components/SelectorComponents/Cascading/NestedMeneItems';
 import { styled, } from '@mui/material/styles';
 import { color } from 'framer-motion';
+import { minWidth } from '@mui/system';
 
 const blue500 = '#42a5f5';
 export const MAINBGGREEN = 'rgba(0, 128, 128, 0.5)'
@@ -172,6 +173,7 @@ export const DialogModalStyle = {
 };
 export const PaperDraggableStyle = {
   maxWidth: 500,
+  minWidth: 500
 }
 export const TextFieldSearch = styled(TextField)`
   & label.Mui-focused {
