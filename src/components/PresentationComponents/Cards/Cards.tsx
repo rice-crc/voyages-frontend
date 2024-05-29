@@ -209,7 +209,7 @@ const VoyageCard = () => {
                             const extraElements: JSX.Element[] = []
                             if (isDocumentReference(value)) {
                               valueToRender += ' '
-                              extraElements.push(<i className="fa fa-file-text" aria-hidden="true"></i>);
+                              extraElements.push(<i key={index} className="fa fa-file-text" aria-hidden="true"></i>);
                               additionalStyles.borderColor = 'blue';
                               additionalStyles.borderWidth = 1;
                               additionalStyles.borderStyle = 'solid';

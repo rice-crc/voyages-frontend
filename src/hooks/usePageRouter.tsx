@@ -16,7 +16,6 @@ export function usePageRouter() {
     const blogURL = pathParts[3]
     const hash = location.hash;
     const currentBlockName = hash ? hash.slice(1) : '';
-
     return {
         styleName, typeOfPathURL,
         currentBlockName,
