@@ -2,7 +2,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { allEnslavers } from '@/share/CONST_DATA';
-import { RangeSliderState, TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
+import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss'
 import { translationHomepage } from '@/utils/functions/translationLanguages';
 import { useEffect, useRef } from 'react';

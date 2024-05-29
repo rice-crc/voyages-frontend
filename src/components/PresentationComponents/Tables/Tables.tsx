@@ -105,12 +105,17 @@ const Tables: React.FC = () => {
         if (!isLoading && !isError && tableCellStructure) {
             setTableCell(tableCellStructure as TableCellStructure[]);
         }
-
-        if (tablesCell.length > 0) {
+        const storedValueVisibleColumns = localStorage.getItem('visibleColumns');
+        if (storedValueVisibleColumns) {
+            const parsedValue = JSON.parse(storedValueVisibleColumns);
+            dispatch(setVisibleColumn(parsedValue));
+        } else if (tablesCell.length > 0 && !storedValueVisibleColumns) {
             const visibleColumns = tablesCell
                 .filter((cell: any) => cell.visible)
                 .map((cell: any) => cell.colID);
             dispatch(setVisibleColumn(visibleColumns));
+            const visibleColumnsString = JSON.stringify(visibleColumns);
+            localStorage.setItem('visibleColumns', visibleColumnsString);
         }
 
         const headerColor = getHeaderColomnColor(styleNameRoute!);
@@ -238,8 +243,9 @@ const Tables: React.FC = () => {
             const visibleColumns = allColumns
                 .filter((column: any) => column.isVisible())
                 .map((column: any) => column.getColId());
-
             dispatch(setVisibleColumn(visibleColumns));
+            const visibleColumnsString = JSON.stringify(visibleColumns);
+            localStorage.setItem('visibleColumns', visibleColumnsString);
         },
         [dispatch]
     );
