@@ -126,7 +126,6 @@ export const MenuListsDropdown = () => {
     };
     loadFilterCellStructure();
   }, [styleNameRoute, languageValue, isOpenDialog]);
-
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
     if (!storedValue) return;
@@ -237,7 +236,6 @@ export const MenuListsDropdown = () => {
   };
 
   const handleApplyEnslaversDialog = (roles: RolesProps[], name: string, ops: string) => {
-    console.log("roles")
     if (roles.length === 0) {
       setTextRoleListError('Required could be more concise')
     }

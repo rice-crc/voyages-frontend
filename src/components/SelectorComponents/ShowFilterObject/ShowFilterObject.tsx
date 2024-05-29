@@ -38,24 +38,24 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
                         label: item.label!,
                         searchTerm: searchTermToUse
                     });
-                } else if (item.varName === 'language_group__name') {
-                    const searchTermToUse = (item.searchTerm as string[]).join(' - ')
-                    combinedData.push({
-                        label: `Language Group`,
-                        searchTerm: searchTermToUse
-                    });
-                } else if (item.varName === 'EnslaverNameAndRole') {
+                } else if (item && Array.isArray(item.searchTerm) && item.varName === 'EnslaverNameAndRole') {
                     const roles = (item.searchTerm as RolesFilterProps[]).map((role) => role.roles.join(', ')).join(' - ');
                     const names = (item.searchTerm as RolesFilterProps[]).map((role) => role.name).join(' - ');
-                    const searchTermToUse = `${names}, Who had: ${roles} roles.`;
+                    const searchTermToUse = `${names} : ${roles}`;
                     combinedData.push({
                         label: `Enslavers`,
                         searchTerm: searchTermToUse
                     });
-                } else if (item && Array.isArray(item.searchTerm) && item.varName !== 'dataset') {
+                } else if (item && Array.isArray(item.searchTerm) && (item.varName === 'voyage_ship__imputed_nationality__name')) {
                     const names = (item.searchTerm as string[]).map((name) => name).join(', ');
                     combinedData.push({
-                        label: varName === 'voyage_ship__imputed_nationality__name' ? 'Flag of vessel (IMP)' : 'Flag of vessel',
+                        label: `Flag of vessel (IMP)`,
+                        searchTerm: names
+                    });
+                } else if (item && Array.isArray(item.searchTerm) && item.varName === 'voyage_ship__nationality_ship__name') {
+                    const names = (item.searchTerm as string[]).map((name) => name).join(', ');
+                    combinedData.push({
+                        label: `Flag of vessel`,
                         searchTerm: names
                     });
                 }

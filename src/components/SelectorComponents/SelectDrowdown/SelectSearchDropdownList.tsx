@@ -86,10 +86,10 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
             variant="outlined"
             label={
               <Typography variant="body1" style={{ fontSize: 14 }} height={50}>
-                Selections
+                Selected nationality
               </Typography>
             }
-            placeholder="SelectedOptions"
+            placeholder="Selected nationality"
             style={{ marginTop: 20 }}
           />
         </div>
