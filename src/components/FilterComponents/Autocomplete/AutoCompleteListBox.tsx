@@ -94,6 +94,7 @@ export default function AutoCompleteListBox() {
         const values = autoValueList.map<AutoCompleteOption>((item: string) => ({
             value: item,
         }));
+
         setSelectedValue(() => values);
         dispatch(setFilterObject(filter));
     }, [varName, styleName]);

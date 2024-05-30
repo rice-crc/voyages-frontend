@@ -12,11 +12,11 @@ function MAPComponents() {
   const dispatch: AppDispatch = useDispatch();
   const [zoomLevel, setZoomLevel] = useState<number>(3);
   const mapRef = useRef(null);
-  const { styleName: styleNameRoute, nodeTypeURL: ID, voyageURLID, typeOfPathURL } = usePageRouter()
-
+  const { styleName: styleNameRoute, voyageURLID: ID, typeOfPathURL, nodeTypeURL } = usePageRouter()
 
   const { nameIdURL } = useSelector((state: RootState) => state.getFilter);
   let isUrLMap = false;
+
   useEffect(() => {
     const NUMBER = '0123456789'
 
@@ -25,14 +25,16 @@ function MAPComponents() {
         isUrLMap = true
       }
     }
-    if ((typeOfPathURL === VOYAGESTYPE || (typeOfPathURL === VOYAGESNODECLASS)) && (isUrLMap)) {
+    console.log({ nameIdURL })
+    if ((nodeTypeURL === VOYAGESTYPE || (nodeTypeURL === VOYAGESNODECLASS)) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('voyage_id'));
-    } else if ((typeOfPathURL === ENSLAVEDNODE) && (isUrLMap)) {
+    } else if ((nodeTypeURL === ENSLAVEDNODE) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('enslaved_id'));
-    } else if ((typeOfPathURL === ENSLAVERSNODE) && (isUrLMap)) {
+    } else if ((nodeTypeURL === ENSLAVERSNODE) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id'));
     }
-  }, [])
+  }, [nameIdURL])
+
 
   const calassNameMap = (nameIdURL || styleNameRoute === ESTIMATES) ? 'mobile-responsive-map-url' : 'mobile-responsive-map'
   return (

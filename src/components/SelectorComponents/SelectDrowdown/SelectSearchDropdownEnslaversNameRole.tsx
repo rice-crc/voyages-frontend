@@ -22,13 +22,13 @@ export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<SelectSear
     (state: RootState) => state.getDataSetCollection
   );
 
-  const { enslaversNameAndRole, listEnslavers } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
+  const { enslaversNameAndRole, listEnslavers, enslaverName } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
 
   const handleSelectedRoleAndName = (event: SyntheticEvent<Element, Event>,
     newValue: RolesProps[]) => {
     if (!newValue) return;
-    if (newValue.length <= 0) {
-      setTextRoleListError('Required could be more concise')
+    if (newValue.length === 0) {
+      setTextRoleListError('Please make a selection')
     } else {
       setTextRoleListError('')
     }
@@ -38,6 +38,7 @@ export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<SelectSear
   return (
     <Autocomplete
       disableCloseOnSelect
+      // disabled={enslaverName === ''}
       options={enslaversNameAndRole as RolesProps[]}
       multiple
       value={listEnslavers}
@@ -45,6 +46,7 @@ export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<SelectSear
       renderInput={(params) => (
         <div style={{ color: 'red', fontSize: '0.875rem', textAlign: 'left' }}>
           <TextField
+
             {...params}
             variant="outlined"
             label={
@@ -53,7 +55,7 @@ export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<SelectSear
               </Typography>
             }
             placeholder="SelectedOptions"
-            style={{ marginTop: 20 }}
+          // style={{ backgroundColor: enslaverName === '' ? '#e2e2e2' : 'white', marginTop: 20 }}
           />
           <span style={{ color: 'red', fontSize: '0.875rem', marginLeft: 14 }}>{textRoleListError}</span>
         </div>

@@ -44,8 +44,6 @@ import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForVoyages,
   checkPagesRouteMapEstimates,
-  checkPagesRouteMapURLForEnslaved,
-  checkPagesRouteMapURLForVoyages,
 } from '@/utils/functions/checkPagesRoute';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { fetchEstimatesMap } from '@/fetch/estimateFetch/fetchEstimatesMap';
@@ -176,11 +174,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     let response;
     if (checkPagesRouteForVoyages(styleNamePage! || nodeTypeURL!)) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
-    } else if (checkPagesRouteMapURLForVoyages(nodeTypeURL!)) {
-      response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
     } else if (checkPagesRouteForEnslaved(styleNamePage!)) {
-      response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
-    } else if (checkPagesRouteMapURLForEnslaved(nodeTypeURL!)) {
       response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
     } else if (checkPagesRouteMapEstimates(styleNamePage!)) {
       response = await dispatch(fetchEstimatesMap(dataSend)).unwrap();

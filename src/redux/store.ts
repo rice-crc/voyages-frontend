@@ -32,6 +32,7 @@ import getEstimateAssesmentSlice from './getEstimateAssessmentSlice';
 import getSaveSearchSlice from './getSaveSearchSlice';
 import getQuerySaveSearchSlice from './getQuerySaveSearchSlice'
 import getShowFilterObjectSlice from './getShowFilterObjectSlice'
+import getNationalityListSlice from './getNationalityListSlice'
 
 
 // Define types for slices
@@ -63,6 +64,7 @@ type EstimateAssesmentSlice = ReturnType<typeof getEstimateAssesmentSlice>;
 type SaveSearchSlice = ReturnType<typeof getSaveSearchSlice>;
 type QuerySaveSearchSlice = ReturnType<typeof getQuerySaveSearchSlice>;
 type ShowFilterObjectSlice = ReturnType<typeof getShowFilterObjectSlice>;
+type NationalityListSlice = ReturnType<typeof getNationalityListSlice>;
 
 // Define RootState
 export type RootState = {
@@ -94,6 +96,7 @@ export type RootState = {
         getSaveSearch: SaveSearchSlice
         getQuerySaveSearch: QuerySaveSearchSlice
         getShowFilterObject: ShowFilterObjectSlice
+        getNationalityList: NationalityListSlice
         [voyagesApi.reducerPath]: ReturnType<typeof voyagesApi.reducer>;
 };
 
@@ -127,6 +130,7 @@ const store = configureStore({
                 getSaveSearch: getSaveSearchSlice,
                 getQuerySaveSearch: getQuerySaveSearchSlice,
                 getShowFilterObject: getShowFilterObjectSlice,
+                getNationalityList: getNationalityListSlice,
                 [voyagesApi.reducerPath]: voyagesApi.reducer,
                 [pastEnslavedService.reducerPath]: pastEnslavedService.reducer,
                 [pastEnslaversService.reducerPath]: pastEnslaversService.reducer,

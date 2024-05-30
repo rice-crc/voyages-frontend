@@ -163,8 +163,8 @@ export const homePageTranslated: TranslateType = {
     homeEnslavers: {
         label: {
             "en": "Enslavers",
-            "es": "Almácenistas",
-            "pt": "Comerciantes de Escravos",
+            "es": "Esclavizadores",
+            "pt": "Escravizadores",
         }
     },
     homeEnslaversDes: {
