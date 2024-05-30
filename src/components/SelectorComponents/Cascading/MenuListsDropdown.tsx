@@ -98,9 +98,8 @@ export const MenuListsDropdown = () => {
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [ops, setOps] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
-  const [textError, setTextError] = useState<string>('') //!enslaverName ? 'Required could be more concise' : ''
-  const [textRoleListError, setTextRoleListError] = useState<string>('') //listEnslavers.length === 0 ? 'Required could be more concise' : ''
-
+  const [textError, setTextError] = useState<string>('')
+  const [textRoleListError, setTextRoleListError] = useState<string>('')
 
   useEffect(() => {
     const loadFilterCellStructure = async () => {
@@ -237,10 +236,10 @@ export const MenuListsDropdown = () => {
 
   const handleApplyEnslaversDialog = (roles: RolesProps[], name: string, ops: string) => {
     if (roles.length === 0) {
-      setTextRoleListError('Required could be more concise')
+      setTextRoleListError('Please make a selection')
     }
     if (!name) {
-      setTextError('Required could be more concise')
+      setTextError('Please make a selection')
     }
     const newRoles: string[] = roles.map((ele) => ele.value);
     updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, newRoles as string[], name, varName, ops!)

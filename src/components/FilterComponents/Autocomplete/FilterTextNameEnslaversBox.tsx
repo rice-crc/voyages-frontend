@@ -16,7 +16,7 @@ const FilterTextNameEnslaversBox: FunctionComponent<FilterTextNameEnslaversProps
         const newValue = event.target.value;
         dispatch(setEnslaversName(newValue))
         if (newValue.length === 0) {
-            setTextError('Required could be more concise');
+            setTextError('Please make a selection');
             dispatch(setEnslaversName(''));
         } else {
             setTextError('');
@@ -25,7 +25,7 @@ const FilterTextNameEnslaversBox: FunctionComponent<FilterTextNameEnslaversProps
 
     const handleKeyDownTextFilter = (value: string) => {
         if (value.length === 0) {
-            setTextError('Required could be more concise');
+            setTextError('Please make a selection');
         } else {
             dispatch(setEnslaversName(value));
             setTextError('');
