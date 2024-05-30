@@ -31,26 +31,32 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
         const combinedData: { label: string; searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType | RolesFilterProps[] }[] = [];
         if (Array.isArray(filter)) {
             filter.forEach((item) => {
+
                 if (item.label) {
                     const searchTermToUse = Array.isArray(item.title) ? item.title.join(', ') : (Array.isArray(item.searchTerm) ? item.searchTerm.join(' - ') : item.searchTerm);
                     combinedData.push({
                         label: item.label!,
                         searchTerm: searchTermToUse
                     });
-                } else if (item.varName === 'language_group__name') {
-                    const searchTermToUse = (item.searchTerm as string[]).join(' - ')
-                    combinedData.push({
-                        label: `Language Group`,
-                        searchTerm: searchTermToUse
-                    });
-                } else if (item.varName === 'EnslaverNameAndRole') {
-
+                } else if (item && Array.isArray(item.searchTerm) && item.varName === 'EnslaverNameAndRole') {
                     const roles = (item.searchTerm as RolesFilterProps[]).map((role) => role.roles.join(', ')).join(' - ');
                     const names = (item.searchTerm as RolesFilterProps[]).map((role) => role.name).join(' - ');
-                    const searchTermToUse = `${names}, Who had: ${roles} roles.`;
+                    const searchTermToUse = `${names} : ${roles}`;
                     combinedData.push({
                         label: `Enslavers`,
                         searchTerm: searchTermToUse
+                    });
+                } else if (item && Array.isArray(item.searchTerm) && (item.varName === 'voyage_ship__imputed_nationality__name')) {
+                    const names = (item.searchTerm as string[]).map((name) => name).join(', ');
+                    combinedData.push({
+                        label: `Flag of vessel (IMP)`,
+                        searchTerm: names
+                    });
+                } else if (item && Array.isArray(item.searchTerm) && item.varName === 'voyage_ship__nationality_ship__name') {
+                    const names = (item.searchTerm as string[]).map((name) => name).join(', ');
+                    combinedData.push({
+                        label: `Flag of vessel`,
+                        searchTerm: names
                     });
                 }
             });

@@ -83,7 +83,6 @@ export const RadioSelected: FunctionComponent<
               />
             ))}
           </RadioGroup>
-
           :
           <span className='enlavers-role-radio'>
             <FormLabel id="demo-controlled-radio-buttons-group" style={{ color: '#000', paddingRight: 15 }}>
@@ -104,7 +103,7 @@ export const RadioSelected: FunctionComponent<
               <FormControlLabel
                 value="andlist"
                 control={<Radio />}
-                label={<Typography variant="body1">all of these roles: </Typography>}
+                label={<Typography variant="body1">all of these roles</Typography>}
               />
             </RadioGroup></span>
       }

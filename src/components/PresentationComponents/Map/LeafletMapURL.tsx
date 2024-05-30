@@ -43,8 +43,6 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import {
     checkPagesRouteForEnslaved,
     checkPagesRouteForVoyages,
-    checkPagesRouteMapURLForEnslaved,
-    checkPagesRouteMapURLForVoyages,
 } from '@/utils/functions/checkPagesRoute';
 
 interface LeafletMapProps {
@@ -62,9 +60,10 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         (state: RootState) => state.getNodeEdgesAggroutesMapData
     );
     const {
-        nodeTypeURL: voyageURLID, typeOfPathURL: styleNamePage,
+        voyageURLID, endpointPath: styleNamePage,
     } = usePageRouter();
     const [regionPlace, setRegionPlace] = useState<string>('region');
+    console.log({ voyageURLID, styleNamePage })
 
     const [loading, setLoading] = useState<boolean>(false);
     const hasFetchedPlaceRef = useRef(false);
@@ -147,13 +146,12 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
         if (checkPagesRouteForVoyages(styleNamePage!)) {
             response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
-        } else if (checkPagesRouteMapURLForVoyages(styleNamePage!)) {
-            response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
         } else if (checkPagesRouteForEnslaved(styleNamePage!)) {
             response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
-        } else if (checkPagesRouteMapURLForEnslaved(styleNamePage!)) {
-            response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
         }
+        // else if (checkPagesRouteMapURLForEnslaved(styleNamePage!)) {
+        //     response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
+        // }
 
         if (response) {
 

@@ -39,7 +39,6 @@ export default function CascadingMenu(props: CascadingMenuProps) {
   }, [styleNamePeople, currentBlockName]);
 
   const handleResetAll = () => {
-    console.log('Reset')
     dispatch(resetAllStateToInitailState())
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
@@ -48,6 +47,7 @@ export default function CascadingMenu(props: CascadingMenuProps) {
       }
     });
     localStorage.removeItem('saveSearchID');
+    localStorage.removeItem('visibleColumns');
     window.location.reload()
   };
 

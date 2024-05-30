@@ -118,7 +118,7 @@ const PivotTables = () => {
       width: getMobileMaxWidth(maxWidth),
       height: getMobileMaxHeightPivotTable(height),
     });
-  }, [width, maxWidth,]);
+  }, [width, maxWidth]);
 
   const defaultColDef = useMemo(() => {
     return {
@@ -173,6 +173,7 @@ const PivotTables = () => {
     const { label, title, ...filteredFilter } = filter;
     return filteredFilter;
   });
+  console.log({ newFilters })
   const dataSend: PivotTablesPropsRequest = {
     columns: column_vars,
     rows: updatedRowsValue,
@@ -184,6 +185,7 @@ const PivotTables = () => {
     limit: rowsPerPage,
     filter: newFilters || [],
   }
+
 
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue
@@ -247,6 +249,7 @@ const PivotTables = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, [
+    filtersObj,
     pivotValueOptions.cell_vars,
     pivotValueOptions.column_vars,
     pivotValueOptions.row_vars,

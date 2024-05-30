@@ -17,14 +17,13 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 
 const TabsSelect = () => {
     const dispatch: Dispatch = useDispatch();
-    const { currentBlockName, nodeTypeURL: ID } = usePageRouter();
+    const { currentBlockName, voyageURLID: ID } = usePageRouter();
     const { variable, nodeTypeClass } = useSelector((state: RootState) => state.getCardFlatObjectData);
-
     const navigate = useNavigate();
     const onChange = (key: string) => {
         dispatch(setValueVariable(key))
         dispatch(setCurrentBlockName(key))
-        navigate(`/${nodeTypeClass}/${ID}/${key}#${(key).toLowerCase()}`)
+        navigate(`/${nodeTypeClass}/${ID}#${key.toLowerCase()}`)
     };
 
     const items: TabsProps['items'] = [

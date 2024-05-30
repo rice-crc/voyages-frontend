@@ -98,7 +98,7 @@ const App: React.FC = () => {
       <QueryClientProvider client={queryClient}>
         <DocumentViewerProvider>
           <Routes>
-            {nodeClass && ID && <Route path={`${nodeClass}/${ID}/${variable}`} element={<TabsSelect />} />}
+            {nodeClass && ID && <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />}
             <Route path="/" element={<HomePage />} />
             {saveSearchURL && nodeClass && <Route
               path={`${saveSearchURL}`}
