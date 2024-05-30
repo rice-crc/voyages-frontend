@@ -10,7 +10,7 @@ const initialState: FilterObjectsState = {
     rangeSliderMinMax: {},
     enslaversNameAndRole: [],
     enslaverName: '',
-    opsRoles: 'andlist',
+    opsRoles: 'in',
     listEnslavers: []
 };
 

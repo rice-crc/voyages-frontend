@@ -16,7 +16,7 @@ const FilterTextNameEnslaversBox: FunctionComponent<FilterTextNameEnslaversProps
         const newValue = event.target.value;
         dispatch(setEnslaversName(newValue))
         if (newValue.length === 0) {
-            setTextError('Please make a selection');
+            setTextError(`Please type enslavers name, can't be empty`);
             dispatch(setEnslaversName(''));
         } else {
             setTextError('');
@@ -25,12 +25,18 @@ const FilterTextNameEnslaversBox: FunctionComponent<FilterTextNameEnslaversProps
 
     const handleKeyDownTextFilter = (value: string) => {
         if (value.length === 0) {
-            setTextError('Please make a selection');
+            setTextError(`Please type enslavers name, can't be empty`);
         } else {
             dispatch(setEnslaversName(value));
             setTextError('');
         }
     }
+    const handleFocus = () => {
+        if (enslaverName.length === 0) {
+            setTextError(`Please type enslavers name, can't be empty`);
+        }
+    };
+
 
     return (
         <TextField
@@ -38,6 +44,7 @@ const FilterTextNameEnslaversBox: FunctionComponent<FilterTextNameEnslaversProps
             fullWidth
             value={enslaverName}
             onChange={handleTextInputChange}
+            onFocus={handleFocus}
             onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                     handleKeyDownTextFilter(enslaverName);

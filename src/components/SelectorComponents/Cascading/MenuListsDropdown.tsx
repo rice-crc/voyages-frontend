@@ -34,7 +34,7 @@ import {
 } from '@/styleMUI';
 import { useState, MouseEvent, useEffect } from 'react';
 import { PaperDraggable } from './PaperDraggable';
-import { setEnslaversNameAndRole, setIsChange, setKeyValueName, setOpsRole } from '@/redux/getRangeSliderSlice';
+import { setEnslaversNameAndRole, setIsChange, setKeyValueName, setListEnslavers, setOpsRole } from '@/redux/getRangeSliderSlice';
 import { setIsChangeAuto, setTextFilterValue } from '@/redux/getAutoCompleteSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
@@ -100,6 +100,7 @@ export const MenuListsDropdown = () => {
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
   const [textError, setTextError] = useState<string>('')
   const [textRoleListError, setTextRoleListError] = useState<string>('')
+  const isButtonDisabled = enslaverName === '' && typeData === TYPES.EnslaverNameAndRole;
 
   useEffect(() => {
     const loadFilterCellStructure = async () => {
@@ -193,6 +194,7 @@ export const MenuListsDropdown = () => {
       dispatch(setIsOpenDialog(true));
       if (roles) {
         dispatch(setEnslaversNameAndRole(roles))
+        dispatch(setListEnslavers(roles));
       }
     }
   };
@@ -238,8 +240,8 @@ export const MenuListsDropdown = () => {
     if (roles.length === 0) {
       setTextRoleListError('Please make a selection')
     }
-    if (!name) {
-      setTextError('Please make a selection')
+    if (name === '') {
+      setTextError(`Please type enslavers name, can't be empty`)
     }
     const newRoles: string[] = roles.map((ele) => ele.value);
     updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, newRoles as string[], name, varName, ops!)
@@ -445,7 +447,7 @@ export const MenuListsDropdown = () => {
           {varName && opsRoles !== 'btw' && ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.VoyageID && opsRoles === 'exact') || (typeData === TYPES.EnslaverNameAndRole) || (typeData === TYPES.MultiselectList))
             && <Button
               autoFocus
-              disabled={listEnslavers.length === 0 && enslaverName === '' && typeData === TYPES.EnslaverNameAndRole}
+              disabled={isButtonDisabled}
               type='submit'
               onClickCapture={() => {
                 if (typeData === TYPES.EnslaverNameAndRole) {
@@ -457,8 +459,8 @@ export const MenuListsDropdown = () => {
               sx={{
                 color: 'white', textTransform: 'unset',
                 height: 30,
-                cursor: listEnslavers.length === 0 && enslaverName === '' && typeData === TYPES.EnslaverNameAndRole ? 'not-allowed' : 'pointer',
-                backgroundColor: listEnslavers.length === 0 && enslaverName === '' && typeData === TYPES.EnslaverNameAndRole ? getColorHoverBackgroundCollection(styleNameRoute!) : getColorBackground(styleNameRoute!),
+                cursor: isButtonDisabled ? 'not-allowed' : 'pointer',
+                backgroundColor: isButtonDisabled ? getColorHoverBackgroundCollection(styleNameRoute!) : getColorBackground(styleNameRoute!),
                 fontSize: '0.80rem',
                 '&:hover': {
                   backgroundColor: getColorHoverBackgroundCollection(styleNameRoute!),
