@@ -57,27 +57,6 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
       console.log('Error fetching nationality data', error);
     }
   };
-  // const fetchNationalityData = async () => {
-  //   try {
-  //     let response;
-  //     if (varName === varNameOfFlagOfVessel || varName === varNameOfFlagOfVesselIMP) {
-  //       response = await fetchNationalityList()
-  //       if (response) {
-  //         const { data } = response
-  //         setMultipleOptionsList(data)
-  //       }
-  //     } else if (varName === varNameOfResistance) {
-  //       response = await fetchResistanceList()
-  //       console.log({ response })
-  //       if (response) {
-  //         const { data } = response
-  //         setMultipleOptionsList(data)
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log('Error fetchNationalityData', error);
-  //   }
-  // }
 
   useEffect(() => {
     fetchNationalityData()
