@@ -139,3 +139,11 @@ export const AllEnslavedPeople = 'All Enslaved People'
 export const AfricanOriginsTransAtlantic = 'African Origins/Trans-Atlantic'
 export const TEXBOUND = 'Texas Bound'
 export const EnslaversAllTrades = 'All Trades'
+
+
+export const varNameOfFlagOfVessel = 'voyage_ship__nationality_ship__name'
+export const varNameOfFlagOfVesselIMP = 'voyage_ship__imputed_nationality__name'
+export const varNameOfResistance = 'voyage_outcome__resistance__name'
+export const varNameParticularCoutComeList = 'voyage_outcome__particular_outcome__name'
+export const varNameRigOfVesselList = 'voyage_ship__rig_of_vessel__name'
+export const varNameOwnerOutcomeList = 'voyage_outcome__outcome_owner__name'

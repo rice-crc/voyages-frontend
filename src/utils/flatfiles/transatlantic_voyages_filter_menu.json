@@ -166,7 +166,7 @@
 				"children": [
 					{
 						"var_name": "voyage_ship__rig_of_vessel__name",
-						"type": "CharField",
+						"type": "MultiselectList",
 						"ops": [
 							"icontains"
 						],
@@ -708,7 +708,7 @@
 		"children": [
 			{
 				"var_name": "voyage_outcome__particular_outcome__name",
-				"type": "CharField",
+				"type": "MultiselectList",
 				"ops": [
 					"icontains"
 				],
@@ -744,7 +744,7 @@
 			},
 			{
 				"var_name": "voyage_outcome__outcome_owner__name",
-				"type": "CharField",
+				"type": "MultiselectList",
 				"ops": [
 					"icontains"
 				],
@@ -756,7 +756,7 @@
 			},
 			{
 				"var_name": "voyage_outcome__resistance__name",
-				"type": "CharField",
+				"type": "MultiselectList",
 				"ops": [
 					"icontains"
 				],
