@@ -63,10 +63,10 @@ const GlobalHomeNavigations = () => {
           </Link>
           <div className="voyages-people-places-subtitle">{translatedHomepage.navigatorSubTitlePeople}</div>
         </div>
-        <div className="place-page-box">
+        <div className="place-page-box-timelape">
           <div className="voyages-people-places-title">{translatedHomepage.navigatorTitleTimelapse}</div>
           <Link to={`${TRANSATLANTICTIMELAPSE}#timelapse`}>
-            <img src={timelapseIcon} alt="Timelapse" style={{ opacity: 0.75, width: 111, height: 111, borderRadius: '50%', padding: 10 }} />
+            <img src={timelapseIcon} alt="Timelapse" style={{ opacity: 0.65 }} />
           </Link>
           <div className="voyages-people-places-subtitle">
             <div>{translatedHomepage.navigatorSubTitleTimelapse}</div>

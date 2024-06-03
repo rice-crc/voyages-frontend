@@ -127,19 +127,19 @@
   padding: 6rem 6rem 2rem 4rem;
   color: #ffffff;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 1.25rem;
   text-align: center;
 
   @include breakpoint-standard(5) {
-    top: 3%;
+    top: 10%;
     padding: 2rem;
     font-size: 18px;
   }
 
   @include breakpoint-standard(4) {
-    top: 3%;
+    top: 12%;
     padding: 2rem;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   @include breakpoint-standard(3) {
@@ -190,6 +190,11 @@
 
   &:hover {
     background-color: rgb(219 214 251);
+  }
+
+  @include breakpoint-standard(4) {
+    font-size: 14px;
+    width: 120px;
   }
 
   @include breakpoint-standard(3) {

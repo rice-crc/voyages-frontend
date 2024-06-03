@@ -36,9 +36,9 @@ export const homePageTranslated: TranslateType = {
     navigatorTitleWriting:
     {
         label: {
-            "en": "WRITING",
-            "es": "ESCRITURA",
-            "pt": "ESCRITA"
+            "en": "READING",
+            "es": "LECTURA",
+            "pt": "LEITURA"
         }
     },
     navigatorSubTitleVoyages:
@@ -404,9 +404,9 @@ export const homePageTranslated: TranslateType = {
     },
     writingPage: {
         label: {
-            "en": 'Writing',
-            "es": "Escritura",
-            "pt": "Escrita"
+            "en": 'Reading',
+            "es": "Lectura",
+            "pt": "Leitura"
         }
     },
 

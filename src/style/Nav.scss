@@ -254,27 +254,30 @@
     align-items: center;
 
     @include breakpoint-standard(4) {
-        display: block;
+        >div {
+            width: 220px;
+        }
+
         font-size: 22px;
     }
 
     @include breakpoint-standard(3) {
-        display: block;
+        >div {
+            width: 220px;
+        }
+
         font-size: 20px;
     }
 
     @include breakpoint-standard(2) {
-        display: block;
         font-size: 20px;
     }
 
     @include breakpoint-standard(1) {
-        display: block;
         font-size: 16px;
     }
 
     @include breakpoint-standard(0) {
-        display: block;
         font-size: 16px;
     }
 }
@@ -303,28 +306,23 @@
     width: 160px;
 
     @include breakpoint-standard(4) {
-        width: 15%;
-        top: 10px;
+        width: 90%;
     }
 
     @include breakpoint-standard(3) {
-        width: 20%;
-        top: 10px;
+        width: 90%;
     }
 
     @include breakpoint-standard(2) {
-        width: 45%;
-        top: 10px;
+        width: 100%;
     }
 
     @include breakpoint-standard(1) {
-        width: 50%;
-        top: 10px;
+        width: 100%;
     }
 
     @include breakpoint-standard(0) {
-        width: 50%;
-        top: 10px;
+        width: 100%;
     }
 }
 
