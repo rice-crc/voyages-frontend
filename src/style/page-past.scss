@@ -204,19 +204,19 @@
 
   @include breakpoint-standard(2) {
     font-size: 12px;
-    width: 65px;
+    width: 90px;
     line-height: 22px;
   }
 
   @include breakpoint-standard(1) {
     font-size: 12px;
-    width: 65px;
+    width: 90px;
     line-height: 22px;
   }
 
   @include breakpoint-standard(0) {
     font-size: 12px;
-    width: 65px;
+    width: 90px;
     line-height: 22px;
   }
 }
@@ -261,41 +261,47 @@
   }
 }
 
-.people-header {
+.header-logo-icon-people {
   display: flex;
   align-items: center;
-  cursor: pointer;
-  font-size: 48px;
-  color: rgba(0, 0, 0, 0.75);
 
-  @include breakpoint-standard(6) {
-    font-size: 46px;
-  }
+  .people-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 48px;
+    color: rgba(0, 0, 0, 0.75);
 
-  @include breakpoint-standard(5) {
-    font-size: 42px;
-  }
+    @include breakpoint-standard(6) {
+      font-size: 46px;
+    }
 
-  @include breakpoint-standard(4) {
-    font-size: 36px;
-  }
+    @include breakpoint-standard(5) {
+      font-size: 42px;
+    }
 
-  @include breakpoint-standard(3) {
-    font-size: 30px;
-  }
+    @include breakpoint-standard(4) {
+      font-size: 36px;
+    }
 
-  @include breakpoint-standard(2) {
-    font-size: 28px;
-  }
+    @include breakpoint-standard(3) {
+      font-size: 30px;
+    }
 
-  @include breakpoint-standard(1) {
-    font-size: 22px;
-  }
+    @include breakpoint-standard(2) {
+      font-size: 28px;
+    }
 
-  @include breakpoint-standard(0) {
-    font-size: 22px;
+    @include breakpoint-standard(1) {
+      font-size: 22px;
+    }
+
+    @include breakpoint-standard(0) {
+      font-size: 22px;
+    }
   }
 }
+
 
 // Enslaved
 #enslaved-home-page {

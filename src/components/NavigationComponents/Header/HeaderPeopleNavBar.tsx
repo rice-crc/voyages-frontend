@@ -89,7 +89,7 @@ export default function HeaderPeopleNavBar() {
             }}
 
           >
-            <span className='header-logo-icon'>
+            <span className='header-logo-icon-people'>
               <HeaderLogo />
               {PEOPLE.map((item, index) => {
                 const { title } = item

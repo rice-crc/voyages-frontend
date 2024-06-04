@@ -604,23 +604,23 @@ div .customHeaderLabelSummaryTable {
 
 .mobile-responsive {
   position: relative;
-  padding: 30px 120px 0 30px;
+  padding: 40px 120px 0 30px;
   margin-top: 90px;
 
   @include breakpoint-standard(0) {
-    top: 10px;
+    top: 45px;
     padding: 10px 20px 0 10px;
     margin-top: 6rem;
   }
 
   @include breakpoint-standard(1) {
-    top: 60px;
+    top: 75px;
     padding: 30px 20px 0 10px;
     margin-top: 3rem
   }
 
   @include breakpoint-standard(1.1) {
-    top: 60px;
+    top: 75px;
     padding: 30px 20px 0 10px;
     margin-top: 3rem
   }
@@ -693,11 +693,11 @@ div .customHeaderLabelSummaryTable {
   padding: 135px 30px 0px 20px !important;
 
   @include breakpoint-standard(5) {
-    padding: 135px 50px 0px 20px !important;
+    padding: 155px 50px 0px 20px !important;
   }
 
   @include breakpoint-standard(4) {
-    padding: 150px 0px 0px 20px !important
+    padding: 135px 0px 0px 20px !important
   }
 
   @include breakpoint-standard(3) {
@@ -705,15 +705,15 @@ div .customHeaderLabelSummaryTable {
   }
 
   @include breakpoint-standard(2) {
-    padding: 150px 2px !important;
+    padding: 130px 2px !important;
   }
 
   @include breakpoint-standard(1) {
-    padding: 150px 2px !important;
+    padding: 130px 2px !important;
   }
 
   @include breakpoint-standard(0) {
-    padding: 150px 2px !important;
+    padding: 130px 2px !important;
   }
 }
 
