@@ -305,24 +305,28 @@
     position: relative;
     width: 160px;
 
+    @include breakpoint-standard(5) {
+        width: 80%;
+    }
+
     @include breakpoint-standard(4) {
-        width: 90%;
+        width: 80%;
     }
 
     @include breakpoint-standard(3) {
-        width: 90%;
+        width: 80%;
     }
 
     @include breakpoint-standard(2) {
-        width: 100%;
+        width: 90%;
     }
 
     @include breakpoint-standard(1) {
-        width: 100%;
+        width: 90%;
     }
 
     @include breakpoint-standard(0) {
-        width: 100%;
+        width: 90%;
     }
 }
 

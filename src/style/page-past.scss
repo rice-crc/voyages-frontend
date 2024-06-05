@@ -460,22 +460,22 @@
   }
 
   @include breakpoint-standard(6) {
-    font-size: 18px;
+    font-size: 1rem;
     top: 2px;
   }
 
   @include breakpoint-standard(5) {
-    font-size: 16px;
+    font-size: 0.75rem;
     top: 2px;
   }
 
   @include breakpoint-standard(4) {
-    font-size: 16px;
+    font-size: 0.75rem;
     top: 2px;
   }
 
   @include breakpoint-standard(3) {
-    font-size: 18px;
+    font-size: 1rem;
     top: 2px;
   }
 
