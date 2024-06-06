@@ -4,6 +4,7 @@
 		"children": [
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -16,6 +17,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -28,6 +30,7 @@
 			},
 			{
 				"cell_type": "literal-concat",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -45,6 +48,7 @@
 			},
 			{
 				"cell_type": "network_modal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -57,6 +61,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -69,6 +74,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -81,6 +87,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -93,6 +100,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -105,6 +113,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -117,6 +126,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -129,6 +139,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -141,6 +152,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -158,6 +170,7 @@
 		"children": [
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -170,6 +183,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -182,6 +196,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -199,6 +214,7 @@
 		"children": [
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -211,6 +227,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -223,6 +240,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -235,6 +253,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -247,6 +266,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -259,6 +279,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -271,6 +292,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -283,6 +305,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -295,6 +318,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -307,6 +331,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -336,6 +361,7 @@
 		"children": [
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -348,6 +374,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -360,6 +387,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -372,6 +400,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -389,6 +418,7 @@
 		"children": [
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -401,6 +431,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -413,6 +444,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -425,6 +457,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -437,6 +470,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -449,6 +483,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -461,6 +496,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -473,6 +509,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -485,6 +522,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -497,6 +535,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -509,6 +548,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -521,6 +561,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "percent",
 				"cell_val": {
 					"fields": [
 						{
@@ -533,6 +574,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "percent",
 				"cell_val": {
 					"fields": [
 						{
@@ -545,6 +587,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "percent",
 				"cell_val": {
 					"fields": [
 						{
@@ -557,6 +600,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "percent",
 				"cell_val": {
 					"fields": [
 						{
@@ -569,6 +613,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "percent",
 				"cell_val": {
 					"fields": [
 						{
@@ -581,6 +626,20 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "percent",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "voyage_slaves_numbers__percentage_men",
+							"cell_fn": "literal"
+						}
+					]
+				},
+				"label": "Percentage men on voyage (MENRAT7)"
+			},
+			{
+				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -593,6 +652,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -605,6 +665,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": "comma",
 				"cell_val": {
 					"fields": [
 						{
@@ -622,6 +683,7 @@
 		"children": [
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -634,6 +696,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -658,6 +721,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -670,6 +734,7 @@
 			},
 			{
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -687,6 +752,7 @@
 		"children": [
 			{
 				"cell_type": "literal-concat",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{

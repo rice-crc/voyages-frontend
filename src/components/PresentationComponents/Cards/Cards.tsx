@@ -28,6 +28,7 @@ import { fetchVoyageCard } from '@/fetch/voyagesFetch/fetchVoyageCard';
 import { fetchPastEnslaversCard } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversCard';
 import { fetchPastEnslavedCard } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedCard';
 import { DocumentItemInfo, DocumentViewerContext, createDocKey } from '@/utils/functions/documentWorkspace';
+import { numberWithCommas } from '@/utils/functions/numberWithCommas';
 
 type DocumentReference = String & {
   sources__has_published_manifest: boolean
@@ -178,7 +179,6 @@ const VoyageCard = () => {
         {newCardData.length > 0 &&
           newCardData.map((element, index) => {
             const childValue = element.childValue;
-
             const isExpanded =
               expandedHeaders.includes(element.header) || globalExpand;
 
@@ -196,6 +196,7 @@ const VoyageCard = () => {
                   <div className="container-card-body">
                     {childValue.map((child: any) => {
                       const values = child.value;
+                      const numberFormat = child.number_format
                       if (Array.isArray(values)) {
                         const renderedValues = values.map(
                           (value: string | DocumentReference, index: number) => {
@@ -256,6 +257,12 @@ const VoyageCard = () => {
                           </div>
                         );
                       } else {
+                        let valueFormat = values;
+                        if (numberFormat === 'comma') {
+                          valueFormat = numberWithCommas(values)
+                        } else if (numberFormat === 'percent') {
+                          valueFormat = values === '--' ? '0.00%' : `${values.toFixed(2)}%`
+                        }
                         return values && (
                           <div
                             className="grid-container-card-body"
@@ -266,7 +273,7 @@ const VoyageCard = () => {
                               className="grid-itenewCardDatam-card"
                               style={{ display: 'block' }}
                             >
-                              {values}
+                              {valueFormat}
                             </div>
                           </div>
                         );

@@ -523,7 +523,7 @@ export interface ChildrenCard {
     cell_val?: CellValCard
     label: string
     var_names?: string
-
+    number_format?: string | number | null
 }
 
 export interface CellValCard {
