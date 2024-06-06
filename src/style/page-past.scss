@@ -127,19 +127,19 @@
   padding: 6rem 6rem 2rem 4rem;
   color: #ffffff;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 1.25rem;
   text-align: center;
 
   @include breakpoint-standard(5) {
-    top: 3%;
+    top: 10%;
     padding: 2rem;
     font-size: 18px;
   }
 
   @include breakpoint-standard(4) {
-    top: 3%;
+    top: 12%;
     padding: 2rem;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   @include breakpoint-standard(3) {
@@ -192,6 +192,11 @@
     background-color: rgb(219 214 251);
   }
 
+  @include breakpoint-standard(4) {
+    font-size: 14px;
+    width: 120px;
+  }
+
   @include breakpoint-standard(3) {
     font-size: 14px;
     width: 80px;
@@ -199,19 +204,19 @@
 
   @include breakpoint-standard(2) {
     font-size: 12px;
-    width: 65px;
+    width: 90px;
     line-height: 22px;
   }
 
   @include breakpoint-standard(1) {
     font-size: 12px;
-    width: 65px;
+    width: 90px;
     line-height: 22px;
   }
 
   @include breakpoint-standard(0) {
     font-size: 12px;
-    width: 65px;
+    width: 90px;
     line-height: 22px;
   }
 }
@@ -256,41 +261,47 @@
   }
 }
 
-.people-header {
+.header-logo-icon-people {
   display: flex;
   align-items: center;
-  cursor: pointer;
-  font-size: 48px;
-  color: rgba(0, 0, 0, 0.75);
 
-  @include breakpoint-standard(6) {
-    font-size: 46px;
-  }
+  .people-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 48px;
+    color: rgba(0, 0, 0, 0.75);
 
-  @include breakpoint-standard(5) {
-    font-size: 42px;
-  }
+    @include breakpoint-standard(6) {
+      font-size: 46px;
+    }
 
-  @include breakpoint-standard(4) {
-    font-size: 36px;
-  }
+    @include breakpoint-standard(5) {
+      font-size: 42px;
+    }
 
-  @include breakpoint-standard(3) {
-    font-size: 30px;
-  }
+    @include breakpoint-standard(4) {
+      font-size: 36px;
+    }
 
-  @include breakpoint-standard(2) {
-    font-size: 28px;
-  }
+    @include breakpoint-standard(3) {
+      font-size: 30px;
+    }
 
-  @include breakpoint-standard(1) {
-    font-size: 22px;
-  }
+    @include breakpoint-standard(2) {
+      font-size: 28px;
+    }
 
-  @include breakpoint-standard(0) {
-    font-size: 22px;
+    @include breakpoint-standard(1) {
+      font-size: 22px;
+    }
+
+    @include breakpoint-standard(0) {
+      font-size: 22px;
+    }
   }
 }
+
 
 // Enslaved
 #enslaved-home-page {
@@ -449,22 +460,22 @@
   }
 
   @include breakpoint-standard(6) {
-    font-size: 18px;
+    font-size: 1rem;
     top: 2px;
   }
 
   @include breakpoint-standard(5) {
-    font-size: 16px;
+    font-size: 0.75rem;
     top: 2px;
   }
 
   @include breakpoint-standard(4) {
-    font-size: 16px;
+    font-size: 0.75rem;
     top: 2px;
   }
 
   @include breakpoint-standard(3) {
-    font-size: 18px;
+    font-size: 1rem;
     top: 2px;
   }
 

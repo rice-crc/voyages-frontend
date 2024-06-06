@@ -30,10 +30,10 @@ export interface FilterObjectsState {
     opsRoles?: string
     listEnslavers: RolesProps[]
 }
-export interface FilterNationalityList {
-    nationalityList: NationalityListProps[]
+export interface FilterMultiselectList {
+    multiselectList: MultiselectListProps[]
 }
-export interface NationalityListProps {
+export interface MultiselectListProps {
     id?: number;
     name: string;
     value?: number;

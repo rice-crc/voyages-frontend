@@ -173,7 +173,7 @@ const PivotTables = () => {
     const { label, title, ...filteredFilter } = filter;
     return filteredFilter;
   });
-  console.log({ newFilters })
+
   const dataSend: PivotTablesPropsRequest = {
     columns: column_vars,
     rows: updatedRowsValue,
