@@ -658,6 +658,40 @@ h4 {
 
 .select-languages {
   text-align: right;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 700;
+
+  .button-header {
+    text-align: right;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 700;
+
+    @include breakpoint-standard(5) {
+      font-size: 1rem;
+    }
+
+    @include breakpoint-standard(4) {
+      font-size: 1rem;
+    }
+
+    @include breakpoint-standard(3) {
+      font-size: 1rem;
+    }
+
+    @include breakpoint-standard(2) {
+      font-size: 1rem;
+    }
+
+    @include breakpoint-standard(1) {
+      font-size: 1rem;
+    }
+
+    @include breakpoint-standard(0) {
+      font-size: 1rem;
+    }
+  }
 
   @include breakpoint-standard(2) {
     text-align: left

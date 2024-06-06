@@ -5,17 +5,22 @@ import {
   Autocomplete,
 } from '@mui/material';
 import { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
-import { Filter, FilterObjectsState, NationalityListProps } from '@/share/InterfaceTypes';
+import { Filter, FilterObjectsState, MultiselectListProps } from '@/share/InterfaceTypes';
 import { getBoderColor } from '@/utils/functions/getColorStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { fetchNationalityList } from '@/fetch/voyagesFetch/fetchNationalityList';
-import { setNationalityList } from '@/redux/getNationalityListSlice';
 import { updateNationalityObject } from '@/utils/functions/updateNationalityObject';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setFilterObject } from '@/redux/getFilterSlice';
+import { fetchResistanceList } from '@/fetch/voyagesFetch/fetchResistanceList';
+import { varNameOfFlagOfVessel, varNameOfFlagOfVesselIMP, varNameOfResistance, varNameParticularCoutComeList, varNameRigOfVesselList, varNameOwnerOutcomeList } from '@/share/CONST_DATA';
+import { fetchParticularOutcomeList } from '@/fetch/voyagesFetch/fetchParticularOutcomeList';
+import { fetchRigOfVesselList } from '@/fetch/voyagesFetch/fetchRigOfVesselList';
+import { fetchOwnerOutcomeList } from '@/fetch/voyagesFetch/fetchOwnerOutcomeList';
 
-interface SelectSearchDropdownListProps { }
+interface SelectSearchDropdownListProps {
+}
 
 export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownListProps> = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -26,24 +31,36 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
     (state: RootState) => state.rangeSlider as FilterObjectsState
   );
   const { styleName: styleNameRoute } = usePageRouter();
-  const nationalityList = useSelector((state: RootState) => state.getNationalityList.nationalityList);
-  const [nationList, setNationList] = useState<NationalityListProps[]>([]);
+  const [multipleList, setMultipleList] = useState<MultiselectListProps[]>([]);
+  const [multipleOptionsList, setMultipleOptionsList] = useState<MultiselectListProps[]>([]);
+
+  const fetchFunctionMapping: Record<string, () => Promise<any>> = {
+    [varNameOfFlagOfVessel]: fetchNationalityList,
+    [varNameOfFlagOfVesselIMP]: fetchNationalityList,
+    [varNameOwnerOutcomeList]: fetchOwnerOutcomeList,
+    [varNameParticularCoutComeList]: fetchParticularOutcomeList,
+    [varNameOfResistance]: fetchResistanceList,
+    [varNameRigOfVesselList]: fetchRigOfVesselList,
+  };
 
   const fetchNationalityData = async () => {
+    const fetchFunction = fetchFunctionMapping[varName];
+    if (!fetchFunction) return;
+
     try {
-      const response = await fetchNationalityList()
+      const response = await fetchFunction();
       if (response) {
-        const { data } = response
-        dispatch(setNationalityList(data))
+        const { data } = response;
+        setMultipleOptionsList(data);
       }
     } catch (error) {
-      console.log('Error fetchNationalityData', error);
+      console.log('Error fetching nationality data', error);
     }
-  }
+  };
+
   useEffect(() => {
     fetchNationalityData()
     const storedValue = localStorage.getItem('filterObject');
-
     if (!storedValue) return;
     const parsedValue = JSON.parse(storedValue);
     const filter: Filter[] = parsedValue.filter;
@@ -51,21 +68,21 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
       filter?.length > 0 &&
       filter.find((filterItem) => filterItem.varName === varName);
     if (!filterByVarName) return;
-    const nationList: string[] = filterByVarName.searchTerm as string[];
-    const values = nationList.map<NationalityListProps>((name: string) => ({
+    const multipleList: string[] = filterByVarName.searchTerm as string[];
+    const values = multipleList.map<MultiselectListProps>((name: string) => ({
       name: name,
     }));
-    setNationList(values)
+    setMultipleList(values)
     dispatch(setFilterObject(filter));
   }, [varName, styleName]);
 
 
   const handleSelected = (
     event: SyntheticEvent<Element, Event>,
-    newValue: NationalityListProps[]
+    newValue: MultiselectListProps[]
   ) => {
     if (!newValue) return;
-    setNationList(newValue);
+    setMultipleList(newValue);
     const valueSelect: string[] = newValue.map((ele) => ele.name);
     updateNationalityObject(dispatch, valueSelect, varName, styleNameRoute!)
   };
@@ -74,9 +91,9 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
   return (
     <Autocomplete
       disableCloseOnSelect
-      options={nationalityList as NationalityListProps[]}
+      options={multipleOptionsList as MultiselectListProps[]}
       multiple
-      value={nationList as NationalityListProps[]}
+      value={multipleList as MultiselectListProps[]}
       onChange={handleSelected}
       getOptionLabel={(option) => option.name}
       renderInput={(params) => (
@@ -94,8 +111,8 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
           />
         </div>
       )}
-      renderTags={(value: readonly NationalityListProps[], getTagProps) =>
-        value.map((option: NationalityListProps, index: number) => (
+      renderTags={(value: readonly MultiselectListProps[], getTagProps) =>
+        value.map((option: MultiselectListProps, index: number) => (
           <Chip
             label={option.name}
             style={{

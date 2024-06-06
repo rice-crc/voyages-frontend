@@ -28,7 +28,7 @@ export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<SelectSear
     newValue: RolesProps[]) => {
     if (!newValue) return;
     if (newValue.length === 0) {
-      setTextRoleListError('Please make a selection')
+      setTextRoleListError('*Please select the role(s) for this enslaver')
     } else {
       setTextRoleListError('')
     }

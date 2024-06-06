@@ -1,16 +1,16 @@
 import axios from 'axios';
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 
-export const fetchNationalityList = async () => {
+export const fetchOwnerOutcomeList = async () => {
     try {
         const response = await axios.get(
-            `${BASEURL}/voyage/NationalityList/`,
+            `${BASEURL}/voyage/OwnerOutcomeList/`,
             {
                 headers: { 'Authorization': AUTHTOKEN },
             }
         );
         return response;
     } catch (error) {
-        throw new Error('Failed to fetchNationalityList data');
+        throw new Error('Failed to fetchOwnerOutcomeList data');
     }
 };

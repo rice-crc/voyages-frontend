@@ -63,7 +63,6 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         voyageURLID, endpointPath: styleNamePage,
     } = usePageRouter();
     const [regionPlace, setRegionPlace] = useState<string>('region');
-    console.log({ voyageURLID, styleNamePage })
 
     const [loading, setLoading] = useState<boolean>(false);
     const hasFetchedPlaceRef = useRef(false);

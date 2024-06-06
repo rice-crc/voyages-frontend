@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import axios, { CancelToken } from 'axios';
+import axios from 'axios';
 import { fetchAutoVoyageComplete } from '@/fetch/voyagesFetch/fetchAutoVoyageComplete';
 
 import { IRootFilterObject, AutoCompleteOption, DataSuggestedValuesProps } from '@/share/InterfaceTypes';
 import { checkPagesRouteForVoyages, checkPagesRouteForEnslaved, checkPagesRouteForEnslavers } from '@/utils/functions/checkPagesRoute';
 import { fetchPastEnslavedAutoComplete } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedAutoCompleted';
 import { fetchPastEnslaversAutoCompleted } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversAutoCompleted';
-import { ValueCache } from 'ag-grid-community';
 
 export const useAutoCompletedSearch = (
     dataSend: IRootFilterObject | undefined,

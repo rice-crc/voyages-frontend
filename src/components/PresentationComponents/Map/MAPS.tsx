@@ -25,7 +25,7 @@ function MAPComponents() {
         isUrLMap = true
       }
     }
-    console.log({ nameIdURL })
+
     if ((nodeTypeURL === VOYAGESTYPE || (nodeTypeURL === VOYAGESNODECLASS)) && (isUrLMap)) {
       dispatch(setVariableNameIdURL('voyage_id'));
     } else if ((nodeTypeURL === ENSLAVEDNODE) && (isUrLMap)) {
@@ -40,7 +40,7 @@ function MAPComponents() {
   return (
     <div className={calassNameMap}>
       <MapContainer
-        style={{ width: (styleNameRoute === 'map' || styleNameRoute === ESTIMATES) ? "100%" : '95%' }}
+        style={{ width: (styleNameRoute === 'map' || styleNameRoute === ESTIMATES) ? "100%" : '94%' }}
         className="map-container"
         ref={mapRef}
       >

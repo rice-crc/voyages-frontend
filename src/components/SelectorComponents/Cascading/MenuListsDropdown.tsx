@@ -21,7 +21,6 @@ import {
   LabelFilterMeneList,
   Filter,
   AutoCompleteOption,
-  TYPESOFDATASET,
   RolesProps,
 } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss';
@@ -39,7 +38,6 @@ import { setIsChangeAuto, setTextFilterValue } from '@/redux/getAutoCompleteSlic
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
 import {
-  allEnslavers,
   ENSALVERSTYLE,
   INTRAAMERICANTRADS,
   TRANSATLANTICTRADS,
@@ -58,15 +56,13 @@ import {
 } from '@/utils/functions/getColorStyle';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
-import { setIsViewButtonViewAllResetAll, setLabelVarName, setTextFilter } from '@/redux/getShowFilterObjectSlice';
+import { setLabelVarName, setTextFilter } from '@/redux/getShowFilterObjectSlice';
 import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
 import { SelectSearchDropdownEnslaversNameRole } from '../SelectDrowdown/SelectSearchDropdownEnslaversNameRole';
 import { RadioSelected } from '../RadioSelected/RadioSelected';
 import FilterTextNameEnslaversBox from '@/components/FilterComponents/Autocomplete/FilterTextNameEnslaversBox';
 import { updatedEnslaversRoleAndNameToLocalStorage } from '@/utils/functions/updatedEnslaversRoleAndNameToLocalStorage';
 import { SelectSearchDropdownList } from '../SelectDrowdown/SelectSearchDropdownList';
-import { fetchNationalityList } from '@/fetch/voyagesFetch/fetchNationalityList';
-import { setNationalityList } from '@/redux/getNationalityListSlice';
 import { updateFilterTextDialog } from '@/utils/functions/updateFilterTextDialog';
 
 export const MenuListsDropdown = () => {
@@ -238,10 +234,10 @@ export const MenuListsDropdown = () => {
 
   const handleApplyEnslaversDialog = (roles: RolesProps[], name: string, ops: string) => {
     if (roles.length === 0) {
-      setTextRoleListError('Please make a selection')
+      setTextRoleListError('*Please select the role(s) for this enslaver')
     }
     if (name === '') {
-      setTextError(`Please type enslavers name, can't be empty`)
+      setTextError(`*Please enter the enslaver's name`)
     }
     const newRoles: string[] = roles.map((ele) => ele.value);
     updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, newRoles as string[], name, varName, ops!)
@@ -265,7 +261,7 @@ export const MenuListsDropdown = () => {
           return (
             <DropdownNestedMenuItemChildren
               onClickMenu={(event) => handleClickMenu(event, ops!, roles!)}
-              key={`${menuLabel}-${index}`}
+              key={`${menuLabel} - ${index}`}
               label={`${menuLabel}`}
               rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
               data-value={var_name}
@@ -277,7 +273,7 @@ export const MenuListsDropdown = () => {
         }
         return (
           <DropdownMenuItem
-            key={`${menuLabel}-${index}`}
+            key={`${menuLabel} - ${index}`}
             onClick={(event) => handleClickMenu(event, ops!, roles!)}
             dense
             data-value={var_name}
@@ -358,7 +354,7 @@ export const MenuListsDropdown = () => {
           const itemLabel = (label as LabelFilterMeneList)[languageValue];
           return var_name ? (
             <Button
-              key={`${itemLabel}-${index}`}
+              key={`${itemLabel} - ${index}`}
               data-value={var_name}
               data-type={type}
               data-label={itemLabel}
@@ -379,7 +375,7 @@ export const MenuListsDropdown = () => {
             </Button>
           ) : (
             <DropdownCascading
-              key={`${itemLabel}-${index}`}
+              key={`${itemLabel} - ${index}`}
               trigger={
                 <Button
                   sx={{
@@ -438,7 +434,7 @@ export const MenuListsDropdown = () => {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
-          <div style={{ fontSize: 16, fontWeight: 500 }}>{typeData === TYPES.EnslaverNameAndRole ? `Search for ${labelVarName}:` : labelVarName}</div>
+          <div style={{ fontSize: 16, fontWeight: 500 }}>{typeData === TYPES.EnslaverNameAndRole ? `Search for ${labelVarName}: ` : labelVarName}</div>
         </DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
           {displayComponent}
@@ -483,7 +479,7 @@ export const MenuListsDropdown = () => {
               height: 30,
               cursor: 'pointer',
               backgroundColor: 'transparent',
-              border: `1px solid ${getColorBackground(styleNameRoute!)}`,
+              border: `1px solid ${getColorBackground(styleNameRoute!)} `,
               fontSize: '0.80rem',
               '&:hover': {
                 backgroundColor: getColorHoverBackgroundCollection(styleNameRoute!),

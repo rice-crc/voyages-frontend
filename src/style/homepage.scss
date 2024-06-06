@@ -556,6 +556,62 @@
   }
 }
 
+.place-page-box-timelape {
+  cursor: pointer;
+
+  img {
+    width: 34%;
+    border-radius: 50%;
+    height: 55%;
+    margin-top: 5px;
+  }
+
+  @include breakpoint-standard(6) {
+    img {
+      width: 44%;
+      border-radius: 50%;
+      height: 60%;
+      padding: 5px;
+    }
+  }
+
+  @include breakpoint-standard(5) {
+    img {
+      width: 44%;
+      border-radius: 50%;
+      height: 60%;
+      padding: 5px;
+    }
+  }
+
+  @include breakpoint-standard(4) {
+    img {
+      width: 65%;
+      border-radius: 50%;
+      height: 50%;
+      padding: 5%;
+    }
+  }
+
+  @include breakpoint-standard(1) {
+    img {
+      width: 50%;
+      border-radius: 50%;
+      height: 55%;
+      padding: 5%;
+    }
+  }
+
+  @include breakpoint-standard(0) {
+    img {
+      width: 50%;
+      border-radius: 50%;
+      height: 50%;
+      padding: 5%;
+    }
+  }
+}
+
 .document-resources {
   display: flex;
   justify-content: center;
