@@ -17,7 +17,8 @@ const ArtInspiredBySlaveVoyages: React.FC = () => {
     );
     const dispatch: AppDispatch = useDispatch();
 
-    const { languageValueLabel } = useSelector((state: RootState) => state.getLanguages);
+    const { languageValueLabel, languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const translatedHomepage = translationHomepage(languageValue)
 
     useEffect(() => {
         document.documentElement.style.setProperty(
@@ -29,7 +30,13 @@ const ArtInspiredBySlaveVoyages: React.FC = () => {
     const effectOnce = useRef(false);
     const fetchDataBlog = async () => {
         const filters: BlogFilter[] = [];
-
+        if (languageValue) {
+            filters.push({
+                varName: 'language',
+                searchTerm: [languageValue],
+                op: 'in',
+            });
+        }
         const dataSend: BlogDataPropsRequest = {
             filter: filters,
             page_size: imagesPerPage,
@@ -55,9 +62,6 @@ const ArtInspiredBySlaveVoyages: React.FC = () => {
         };
     }, [dispatch, languageValueLabel]);
 
-
-    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-    const translatedHomepage = translationHomepage(languageValue)
 
     return (
         <div className="content-inspried-container">

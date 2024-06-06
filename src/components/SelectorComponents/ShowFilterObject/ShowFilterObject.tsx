@@ -31,7 +31,6 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
         const combinedData: { label: string; searchTerm: number[] | string[] | CheckboxValueType[] | CheckboxValueType | RolesFilterProps[] }[] = [];
         if (Array.isArray(filter)) {
             filter.forEach((item) => {
-
                 if (item.label) {
                     const searchTermToUse = Array.isArray(item.title) ? item.title.join(', ') : (Array.isArray(item.searchTerm) ? item.searchTerm.join(' - ') : item.searchTerm);
                     combinedData.push({
@@ -66,7 +65,7 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({ handleViewA
 
 
     return (
-        <div id="panelCollapse" className="panel-list-view-all" v-if="hasCurrentQuery" style={{ backgroundColor: getColorBackgroundHeader(styleNameRoute!) }}>
+        <div id="panelCollapse" className="panel-list-view-all-show-filter" v-if="hasCurrentQuery" style={{ backgroundColor: getColorBackgroundHeader(styleNameRoute!) }}>
             <div className="panel-list-item-wrapper" style={{ display: 'flex' }}>
                 {filterData.length > 0 && filterData.map((item, index) => {
                     const { label, searchTerm } = item;
