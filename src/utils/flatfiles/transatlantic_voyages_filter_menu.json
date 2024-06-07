@@ -24,7 +24,7 @@
 				"children": [
 					{
 						"var_name": "voyage_id",
-						"type": "id_match",
+						"type": "IdMatch",
 						"ops": [
 							"exact",
 							"btw"

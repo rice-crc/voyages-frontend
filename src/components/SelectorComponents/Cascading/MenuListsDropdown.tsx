@@ -161,7 +161,6 @@ export const MenuListsDropdown = () => {
     roles?: RolesProps[]
   ) => {
     const { value, type, label } = event.currentTarget.dataset;
-
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
     let opsValue = ''
