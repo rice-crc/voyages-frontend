@@ -3,7 +3,7 @@ import CustomCheckboxEmbarkationGroup from '@/components/SelectorComponents/Sele
 import { setCheckedListDisEmbarkation, setCheckedListEmbarkation } from '@/redux/getEstimateAssessmentSlice';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { Filter, LabelFilterMeneList } from '@/share/InterfaceTypes';
+import { Filter } from '@/share/InterfaceTypes';
 import {
     disembarkationListData,
     embarkationListData,
@@ -13,6 +13,7 @@ import { Button } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { updatedSliderToLocalStrageDisEmbarkation } from '@/utils/functions/updatedSliderToLocalStrageDisEmbarkation';
 
 const Regions: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -62,6 +63,7 @@ const Regions: React.FC = () => {
     };
 
     const handleSetCheckedListDisEmbarkation = (label: string, list: CheckboxValueType[], varName: string) => {
+
         const newState: Record<string, CheckboxValueType[]> = { ...checkedListDisEmbarkation, [label]: list };
 
         const updataCheckList: CheckboxValueType[] = []
@@ -70,8 +72,7 @@ const Regions: React.FC = () => {
         }
 
         dispatch(setCheckedListDisEmbarkation(newState));
-        updatedSliderToLocalStrageDisEmbarkation(updataCheckList, varName)
-        return list;
+        updatedSliderToLocalStrageDisEmbarkation(updataCheckList, varName, dispatch)
     };
 
     const handleSelectAllDisEmbarkation = () => {
@@ -86,7 +87,7 @@ const Regions: React.FC = () => {
         });
 
         dispatch(setCheckedListDisEmbarkation(updatedList));
-        updatedSliderToLocalStrageDisEmbarkation(updataCheckList, 'disembarkation_region__name')
+        updatedSliderToLocalStrageDisEmbarkation(updataCheckList, 'disembarkation_region__name', dispatch)
     };
 
     const handleDeselectAllDisEmbarkation = () => {
@@ -95,8 +96,9 @@ const Regions: React.FC = () => {
         disembarkationListData.forEach((group) => {
             updatedList[group.label] = [];
         });
+
         dispatch(setCheckedListDisEmbarkation(updatedList));
-        updatedSliderToLocalStrageDisEmbarkation(updataCheckList, 'disembarkation_region__name')
+        updatedSliderToLocalStrageDisEmbarkation(updataCheckList, 'disembarkation_region__name', dispatch)
     };
 
     function updatedSliderToLocalStrageEmbarkation(updateValue: CheckboxValueType[], varName: string) {
@@ -130,51 +132,6 @@ const Regions: React.FC = () => {
         const filterObjectString = JSON.stringify(filterObjectUpdate);
         localStorage.setItem('filterObject', filterObjectString);
     }
-
-    function updatedSliderToLocalStrageDisEmbarkation(updateValue: CheckboxValueType[], varName: string) {
-        try {
-            const existingFilterObjectString = localStorage.getItem('filterObject');
-            let existingFilterObject: any = {};
-
-            if (existingFilterObjectString) {
-                existingFilterObject = JSON.parse(existingFilterObjectString);
-            }
-
-            // Ensure existing filters are an array
-            const existingFilters: Filter[] = existingFilterObject.filter || [];
-            const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === varName);
-
-            if (existingFilterIndex !== -1) {
-                const existingSearchTerms = new Set<string>(existingFilters[existingFilterIndex].searchTerm as string[]);
-                updateValue.forEach(value => existingSearchTerms.add(value as string));
-                existingFilters[existingFilterIndex].searchTerm = Array.from(existingSearchTerms);
-            } else {
-                const newFilter: Filter = {
-                    varName: varName,
-                    searchTerm: updateValue,
-                    op: "in"
-                };
-                existingFilters.push(newFilter);
-            }
-
-            // Dispatch the updated filter object
-            dispatch(setFilterObject(existingFilters));
-
-            // Create the updated filter object for storage
-            const filterObjectUpdate = {
-                filter: existingFilters
-            };
-            const filterObjectString = JSON.stringify(filterObjectUpdate);
-
-            // Store the updated filter object in localStorage
-            localStorage.setItem('filterObject', filterObjectString);
-            console.log('Filter object stored successfully:', JSON.parse(filterObjectString));
-        } catch (error) {
-            console.error('Error storing filter object in localStorage:', error);
-        }
-    }
-
-
 
     const translatedEstimates = translationLanguagesEstimatePage(languageValue)
 
