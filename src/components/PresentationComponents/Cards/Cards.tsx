@@ -261,7 +261,8 @@ const VoyageCard = () => {
                         if (numberFormat === 'comma') {
                           valueFormat = numberWithCommas(values)
                         } else if (numberFormat === 'percent') {
-                          valueFormat = values === '--' ? '0.0%' : `${values.toFixed(1)}%`
+                          const percent = values * 100
+                          valueFormat = values === '--' ? '0.0%' : `${percent.toFixed(1)}%`
                         }
                         return values && (
                           <div
