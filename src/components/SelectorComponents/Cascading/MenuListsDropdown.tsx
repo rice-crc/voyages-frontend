@@ -184,6 +184,8 @@ export const MenuListsDropdown = () => {
           }
         }
         setOps(opsValue)
+      } else if (ops === undefined && TYPES.IntegerField || TYPES.DecimalField) {
+        dispatch(setOpsRole('btw'))
       }
       dispatch(setLabelVarName(label));
       dispatch(setIsOpenDialog(true));
@@ -193,7 +195,6 @@ export const MenuListsDropdown = () => {
       }
     }
   };
-
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
     setTextError('');
