@@ -25,6 +25,28 @@
 		},
 		{
 			"header_label": {
+				"en": "Enumeration of Enslaved People",
+				"es": "Enumeración de personas esclavizadas",
+				"pt": "Enumeração de pessoas escravizadas"
+			},
+			"cell_type": "literal",
+			"visible": true,
+			"number_format": null,
+			"order_by": [
+				"number_enslaved_people"
+			],
+			"col_width_px": 175,
+			"colID": "number_enslaved_people",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "number_enslaved_people"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
 				"en": "Birth",
 				"es": "Birth ES",
 				"pt": "Birth PT"
@@ -256,6 +278,15 @@
 						"es": "Voyages ES",
 						"pt": "Voyages PT"
 					}
+				},
+				{
+					"label": {
+						"en": "Enumeration of Enslaved People",
+						"es": "Enumeración de personas esclavizadas",
+						"pt": "Enumeração de pessoas escravizadas"
+					},
+					"colID":"number_enslaved_people",
+					"col_width_px": 100
 				}
 			]
 		},
