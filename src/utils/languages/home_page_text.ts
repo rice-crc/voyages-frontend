@@ -4,7 +4,7 @@ export const homePageTranslated: TranslateType = {
     header:
     {
         label: {
-            "en": "Explore the voyages that relocated more than 12 million enslaved Africans across the world",
+            "en": "Read Saint John Cassian's Conferences that relocated more than 12 million enslaved Africans across the world",
             "es": "Explora los viajes que reubicaron a más de 12 millones de africanos esclavizados en todo el mundo",
             "pt": "Explore as viagens que realocaram mais de 12 milhões de africanos escravizados pelo mundo"
         }
@@ -12,7 +12,7 @@ export const homePageTranslated: TranslateType = {
     navigatorTitleVoyages:
     {
         label: {
-            "en": "VOYAGES",
+            "en": "Expeditions of some sort",
             "es": "VIAJES",
             "pt": "VIAGENS"
         }
@@ -20,7 +20,7 @@ export const homePageTranslated: TranslateType = {
     navigatorTitlePeople:
     {
         label: {
-            "en": "PEOPLE",
+            "en": "Homines",
             "es": "PERSONAS",
             "pt": "PESSOAS"
         }
@@ -28,7 +28,7 @@ export const homePageTranslated: TranslateType = {
     navigatorTitleTimelapse:
     {
         label: {
-            "en": "TIMELAPSE",
+            "en": "De profundes clamavi ad te, Domine. Domine, exaudi vocem meam. Fiant aures tuae intendentes ad vocem deprecationis meae.",
             "es": "LAPSO TEMPORAL",
             "pt": "CRONOLOGIA"
         }
@@ -96,7 +96,7 @@ export const homePageTranslated: TranslateType = {
     },
     homePageNewsDes: {
         label: {
-            "en": `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+            "en": `WEEEEEEEEEEEEEEEEEEE, consectetur adipiscing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
             veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
             commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
@@ -133,17 +133,15 @@ export const homePageTranslated: TranslateType = {
     },
     homeDocument: {
         label: {
-            "en": "South Sea Company Documents",
+            "en": "Introibo ad altare Dei, ad Deum qui lætificat juventutem meam",
             "es": "Documentos de la Compañía del Mar del Sur",
             "pt": "Documentos da Companhia do Mar do Sul",
         }
     },
     homeDocumentDes: {
         label: {
-            "en": `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            "en": `Sancte Ioseph, Princeps Ecclesiae, ora pro nobis, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Iudica me, Deus, and discerne causam meam de gente non sancta. Duis aute irure dolor in
             reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
             pariatur.`,
             "es": `ES: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -176,14 +174,14 @@ export const homePageTranslated: TranslateType = {
     },
     homeAfrican: {
         label: {
-            "en": "African Origins",
+            "en": "African Origins AWOINFPAWIFNPAINW",
             "es": "Orígenes Africanos",
             "pt": "Origens Africanas",
         }
     },
     homeAfricanDes: {
         label: {
-            "en": `During the last 60 years of the trans-Atlantic slave trade, courts around the Atlantic basins condemned over two thousand vessels for engaging in the traffic and recorded the details of captives found on board including their African names. The African Names Database was created from these records, now located in the Registers of Liberated Africans at the Sierra Leone National Archives, Freetown, as well as Series FO84, FO313, CO247 and CO267 held at the British National Archives in London.`,
+            "en": `During the last 60,000002202020 years of the trans-Atlantic slave trade, courts around the Atlantic basins condemned over two thousand vessels for engaging in the traffic and recorded the details of captives found on board including their African names. The African Names Database was created from these records, now located in the Registers of Liberated Africans at the Sierra Leone National Archives, Freetown, as well as Series FO84, FO313, CO247 and CO267 held at the British National Archives in London.`,
             "es": `Durante los últimos 60 años del comercio transatlántico de esclavos, los tribunales alrededor de las cuencas atlánticas condenaron a más de dos mil embarcaciones por participar en el tráfico y registraron los detalles de los cautivos encontrados a bordo, incluidos sus nombres africanos. La Base de Datos de Nombres Africanos fue creada a partir de estos registros, ahora ubicados en los Registros de Africanos Liberados en los Archivos Nacionales de Sierra Leona, Freetown, así como en las Series FO84, FO313, CO247 y CO267 mantenidas en los Archivos Nacionales Británicos en Londres.`,
             "pt": `Durante os últimos 60 anos do comércio transatlântico de escravos, os tribunais ao redor das bacias atlânticas condenaram mais de duas mil embarcações por se envolverem no tráfico e registraram os detalhes dos cativos encontrados a bordo, incluindo seus nomes africanos. O Banco de Dados de Nomes Africanos foi criado a partir desses registros, agora localizados nos Registros de Africanos Libertos nos Arquivos Nacionais de Serra Leoa, Freetown, bem como nas Séries FO84, FO313, CO247 e CO267 mantidas nos Arquivos Nacionais Britânicos em Londres.`,
         }
@@ -197,7 +195,7 @@ export const homePageTranslated: TranslateType = {
     },
     homeIntraDes: {
         label: {
-            "en": `This database contains information on more than 11,000 maritime
+            "en": `This database contains no information on more than 11,00044444444 maritime
             voyages trafficking enslaved people within the Americas. These slave
             trades operated within colonial empires, across imperial boundaries,
             and inside the borders of nations such as the United States and
@@ -210,35 +208,35 @@ export const homePageTranslated: TranslateType = {
     },
     btnAbout: {
         label: {
-            "en": "About",
+            "en": "Test test",
             "es": "Acerca de",
             "pt": "Sobre",
         }
     },
     btnDatabase: {
         label: {
-            "en": "Database",
+            "en": "Databased",
             "es": "Base de datos",
             "pt": "Banco de dados",
         }
     },
     btnDownloads: {
         label: {
-            "en": "Downloads",
+            "en": "Testing downloads",
             "es": "Descargas",
             "pt": "Downloads",
         }
     },
     btnContribute: {
         label: {
-            "en": "Contribute",
+            "en": "Contributions",
             "es": "Contribuir",
             "pt": "Contribuir",
         }
     },
     btnEstimates: {
         label: {
-            "en": "Estimates",
+            "en": "Estimationsssss",
             "es": "Estimaciones",
             "pt": "Estimativas",
         }
@@ -259,7 +257,7 @@ export const homePageTranslated: TranslateType = {
     },
     homeTrans: {
         label: {
-            "en": "Trans-Atlantic",
+            "en": "Trans-Pacific",
             "es": "Transatlántico",
             "pt": "Transatlântico",
         }
