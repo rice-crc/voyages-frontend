@@ -10,6 +10,7 @@ import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRout
 import { Filter, TableListPropsRequest } from '@/share/InterfaceTypes';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
@@ -50,6 +51,8 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+  const { clusterNodeKeyVariable, clusterNodeValue } =
+    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
   const onSortChanged = () => {
     setAscSort(column.isSortAscending() ? 'active' : 'inactive');
@@ -74,14 +77,14 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
       props.column.removeEventListener('sortChanged', onSortChanged);
     }
   }, []);
-  let filters: Filter[] = []
-  if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
-    filters = filtersObj;
-  } else {
-    filters = filtersObj;
-  }
+
+  const filters = filtersDataSend(filtersObj, styleName!, clusterNodeKeyVariable, clusterNodeValue)
+  const newFilters = filters !== undefined && filters!.map(filter => {
+    const { label, title, ...filteredFilter } = filter;
+    return filteredFilter;
+  });
   const dataSend: TableListPropsRequest = {
-    filter: filters,
+    filter: newFilters || [],
     page: Number(page + 1),
     page_size: Number(pageSize),
   };

@@ -111,7 +111,7 @@ export const GenerateCellTableRenderer = (
         }
         return (
           <span key={`${index}-${value}`}>
-            <div {...additionalProps}>              
+            <div {...additionalProps}>
               {extraElements}
             </div>
           </span>
@@ -153,7 +153,8 @@ export const GenerateCellTableRenderer = (
     if (numberFormat === 'comma') {
       valueFormat = numberWithCommas(values)
     } else if (numberFormat === 'percent') {
-      valueFormat = values === '--' ? '0.00%' : `${values.toFixed(2)}%`
+      const percent = values * 100
+      valueFormat = values === '--' ? '0.0%' : `${percent.toFixed(1)}%`
     }
 
     return (

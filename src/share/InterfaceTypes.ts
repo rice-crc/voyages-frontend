@@ -106,7 +106,7 @@ export const TYPES: {
     GeoTreeSelect: string;
     LanguageTreeSelect: string
     EnslaverNameAndRole: string
-    VoyageID: string
+    IdMatch: string
     MultiselectList: string
 } = {
     IntegerField: 'IntegerField',
@@ -116,7 +116,7 @@ export const TYPES: {
     GeoTreeSelect: 'GeoTreeSelect',
     LanguageTreeSelect: 'LanguageTreeSelect',
     EnslaverNameAndRole: 'EnslaverNameAndRole',
-    VoyageID: 'id_match',
+    IdMatch: 'IdMatch',
     MultiselectList: 'MultiselectList'
 };
 
@@ -523,7 +523,7 @@ export interface ChildrenCard {
     cell_val?: CellValCard
     label: string
     var_names?: string
-
+    number_format?: string | number | null
 }
 
 export interface CellValCard {

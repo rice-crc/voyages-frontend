@@ -188,8 +188,8 @@
   }
 
   @include breakpoint-standard(4) {
-    top: 10%;
-    right: 10%;
+    top: 7.25%;
+    right: 5%;
     height: auto;
     display: inline;
     align-items: flex-start;
@@ -224,21 +224,21 @@
   }
 
   @include breakpoint-standard(1) {
-    top: 9%;
+    top: 10%;
     height: auto;
     display: inline;
     align-items: center;
     padding-right: 5px;
-    right: 4%;
+    right: 0;
   }
 
   @include breakpoint-standard(0) {
-    top: 9%;
+    top: 10%;
     height: auto;
     display: inline;
     align-items: center;
     padding-right: 5px;
-    right: 2%;
+    right: 0;
   }
 }
 
@@ -293,10 +293,10 @@
   }
 
   @include breakpoint-standard(1) {
-    width: 46px !important;
+    width: 42px !important;
     height: 28px;
     font-size: 7px !important;
-    min-width: 46px !important;
+    min-width: 42px !important;
     margin: 0 2px !important;
   }
 
@@ -400,8 +400,16 @@
 
 .credit-bottom-right {
   position: absolute;
-  bottom: 8px;
-  right: 16px;
+  bottom: 10px;
+  right: 10px;
+
+  @include breakpoint-standard(1) {
+    display: none;
+  }
+
+  @include breakpoint-standard(0) {
+    display: none;
+  }
 }
 
 .main-script-text-box {

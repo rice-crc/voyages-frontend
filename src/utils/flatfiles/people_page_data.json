@@ -32,6 +32,15 @@
                 "es": "Base de Datos de Personas",
                 "pt": "Banco de Dados de Pessoas"
             }
+        },
+        "credit": {
+            "label": {
+                "en": "Credit",
+                "es": "Crédito",
+                "pt": "Crédito"
+            },
+            "artist_name": "April Frazier",
+            "hyperlink": "https://www.slavevoyages.org/blog/april-frazier"
         }
     }
 ]

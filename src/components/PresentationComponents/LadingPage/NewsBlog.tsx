@@ -15,7 +15,9 @@ import { translationHomepage } from '@/utils/functions/translationLanguages';
 const NewsBlog: React.FC = () => {
 
   const dispatch: AppDispatch = useDispatch();
-  const { languageValueLabel } = useSelector((state: RootState) => state.getLanguages as LanguagesProps);
+  const { languageValueLabel, languageValue } = useSelector((state: RootState) => state.getLanguages as LanguagesProps);
+  const translatedHomepage = translationHomepage(languageValue)
+
   const { data: carouselItems } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
@@ -27,14 +29,20 @@ const NewsBlog: React.FC = () => {
 
 
   const effectOnce = useRef(false);
+
   const fetchDataBlog = async () => {
     const filters: BlogFilter[] = [];
-
+    if (languageValue) {
+      filters.push({
+        varName: 'language',
+        searchTerm: [languageValue],
+        op: 'in',
+      });
+    }
     const dataSend: BlogDataPropsRequest = {
       filter: filters,
       page_size: imagesPerPage,
     };
-
     try {
       const response = await dispatch(fetchBlogData(dataSend)).unwrap();
       if (response) {
@@ -55,8 +63,6 @@ const NewsBlog: React.FC = () => {
     };
   }, [dispatch, languageValueLabel]);
 
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-  const translatedHomepage = translationHomepage(languageValue)
 
   return (
     <div className="content-news-blog-container">
