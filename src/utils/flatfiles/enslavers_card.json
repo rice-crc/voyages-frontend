@@ -22,6 +22,17 @@
 					"join": "-"
 				},
 				"label": "Voyage ID, Ship Name, and Year"
+			},
+			{
+				"label": "Enumeration of Enslaved People",
+				"cell_type": "literal",
+				"cell_val": {
+					"fields": [
+						{
+							"var_name": "number_enslaved_people"
+						}
+					]
+				}
 			}
 		]
 	},
