@@ -694,6 +694,10 @@
 							"cell_fn": "literal"
 						},
 						{
+							"var_name": "sources__bib",
+							"cell_fn": "metadata"
+						},
+						{
 							"var_name": "sources__has_published_manifest",
 							"cell_fn": "metadata"
 						},

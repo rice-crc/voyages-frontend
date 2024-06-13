@@ -23,6 +23,7 @@ import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRout
 import { cleanUpTextDisplay } from '@/utils/functions/cleanUpTextDisplay';
 import { numberWithCommas } from '@/utils/functions/numberWithCommas';
 import { DocumentViewerContext, createDocKey } from '@/utils/functions/documentWorkspace';
+import PopoverWrapper from '../Cards/PopoverWrapper';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
@@ -109,13 +110,19 @@ export const GenerateCellTableRenderer = (
             revision_number: 1
           });
         }
-        return (
-          <span key={`${index}-${value}`}>
-            <div {...additionalProps}>              
-              {extraElements}
-            </div>
-          </span>
-        )
+        let cellComponent = (<span key={`${index}-${value}`}>
+          <div {...additionalProps}>
+            {extraElements}
+          </div>
+        </span>)
+        if (colID === 'voyage_sources' && params.data.sources__bib) {
+          // Wrap the component so that we can display a tooltip.
+          cellComponent = <PopoverWrapper padding={4}
+            popoverContents={<div dangerouslySetInnerHTML={{ __html: params.data.sources__bib[index] }} />}>
+            {cellComponent}
+          </PopoverWrapper>
+        }
+        return cellComponent
       });
       const ellipsisStyle: CSSProperties = {
         ...style,
