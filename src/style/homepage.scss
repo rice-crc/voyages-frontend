@@ -54,6 +54,58 @@
   }
 }
 
+// @mixin breakpoint-standard($size) {
+//   @if $size==0 {
+//     @media only screen and (max-width: 320px) {
+//       // Small mobile devices
+//       @content;
+//     }
+//   }
+
+
+//   @else if $size==1 {
+//     @media only screen and (min-width: 321px) and (max-width: 480px) {
+//       // Medium mobile devices
+//       @content;
+//     }
+//   }
+
+//   @else if $size==2 {
+//     @media only screen and (min-width: 481px) and (max-width: 767px) {
+//       // Large mobile devices / small tablets
+//       @content;
+//     }
+//   }
+
+//   @else if $size==3 {
+//     @media only screen and (min-width: 768px) and (max-width: 991px) {
+//       // Tablets
+//       @content;
+//     }
+//   }
+
+//   @else if $size==4 {
+//     @media only screen and (min-width: 992px) and (max-width: 1199px) {
+//       // Small desktops
+//       @content;
+//     }
+//   }
+
+//   @else if $size==5 {
+//     @media only screen and (min-width: 1200px) and (max-width: 1399px) {
+//       // Medium desktops
+//       @content;
+//     }
+//   }
+
+//   @else if $size==6 {
+//     @media only screen and (min-width: 1400px) {
+//       // Large desktops
+//       @content;
+//     }
+//   }
+// }
+
 .video-background {
   position: absolute;
   top: 0;
@@ -556,58 +608,62 @@
   }
 }
 
-.place-page-box-timelape {
+.place-page-box-timelapse {
   cursor: pointer;
 
   img {
-    width: 34%;
+    width: 112px;
     border-radius: 50%;
-    height: 55%;
-    margin-top: 5px;
+    margin: 5px 0px 10px 0;
+    opacity: 0.65;
   }
 
   @include breakpoint-standard(6) {
     img {
-      width: 44%;
-      border-radius: 50%;
-      height: 60%;
-      padding: 5px;
+      width: 110px;
     }
   }
 
   @include breakpoint-standard(5) {
     img {
-      width: 44%;
-      border-radius: 50%;
-      height: 60%;
-      padding: 5px;
+      width: 110px;
+      margin: 5px 0px 5px 0;
     }
   }
 
   @include breakpoint-standard(4) {
     img {
       width: 65%;
-      border-radius: 50%;
-      height: 50%;
-      padding: 5%;
+      margin: 5px 0 5px 0;
     }
   }
+
+  @include breakpoint-standard(3) {
+    img {
+      width: 42%;
+      margin: 5px 0 5px 0;
+    }
+  }
+
+  @include breakpoint-standard(2) {
+    img {
+      width: 50%;
+      margin: 5px 0 5px 0;
+    }
+  }
+
 
   @include breakpoint-standard(1) {
     img {
       width: 50%;
-      border-radius: 50%;
-      height: 55%;
-      padding: 5%;
+      margin: 5px 0 5px 0;
     }
   }
 
   @include breakpoint-standard(0) {
     img {
       width: 50%;
-      border-radius: 50%;
-      height: 50%;
-      padding: 5%;
+      margin: 5px 0 5px 0;
     }
   }
 }

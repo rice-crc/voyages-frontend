@@ -4,7 +4,7 @@ import { AppDispatch } from "@/redux/store";
 import { allEnslavers } from "@/share/CONST_DATA";
 import { Filter, TYPESOFDATASET, TYPESOFDATASETPEOPLE } from "@/share/InterfaceTypes";
 
-export const updateNationalityObject = (dispatch: AppDispatch, valueSelect: string[], varName: string, styleNameRoute: string) => {
+export const updateNationalityObject = (dispatch: AppDispatch, valueSelect: string[], varName: string, labelVarName: string, styleNameRoute: string) => {
     const existingFilterObjectString = localStorage.getItem('filterObject');
     let existingFilters: Filter[] = [];
 
@@ -23,7 +23,7 @@ export const updateNationalityObject = (dispatch: AppDispatch, valueSelect: stri
                 varName: varName,
                 searchTerm: valueSelect,
                 op: 'in',
-                // label: labelVarName,
+                label: labelVarName,
                 // title: selectedTitles
             });
         }

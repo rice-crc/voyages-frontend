@@ -14,10 +14,13 @@ import { updateNationalityObject } from '@/utils/functions/updateNationalityObje
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { fetchResistanceList } from '@/fetch/voyagesFetch/fetchResistanceList';
-import { varNameOfFlagOfVessel, varNameOfFlagOfVesselIMP, varNameOfResistance, varNameParticularCoutComeList, varNameRigOfVesselList, varNameOwnerOutcomeList } from '@/share/CONST_DATA';
+import { varNameOfFlagOfVessel, varNameOfFlagOfVesselIMP, varNameOfResistance, varNameParticularCoutComeList, varNameRigOfVesselList, varNameOwnerOutcomeList, varNameTonTypList, varNameSlavesOutcomeList, varNameVesselCapturedOutcomeList } from '@/share/CONST_DATA';
 import { fetchParticularOutcomeList } from '@/fetch/voyagesFetch/fetchParticularOutcomeList';
 import { fetchRigOfVesselList } from '@/fetch/voyagesFetch/fetchRigOfVesselList';
 import { fetchOwnerOutcomeList } from '@/fetch/voyagesFetch/fetchOwnerOutcomeList';
+import { fetchSlavesOutcomeList } from '@/fetch/voyagesFetch/fetchSlavesOutcomeList';
+import { fetchTonTypeList } from '@/fetch/voyagesFetch/fetchTonTypeList';
+import { fetchVesselCapturedOutcomeList } from '@/fetch/voyagesFetch/fetchVesselCapturedOutcomeList';
 
 interface SelectSearchDropdownListProps {
 }
@@ -30,6 +33,9 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState
   );
+  const { labelVarName } = useSelector(
+    (state: RootState) => state.getShowFilterObject
+  );
   const { styleName: styleNameRoute } = usePageRouter();
   const [multipleList, setMultipleList] = useState<MultiselectListProps[]>([]);
   const [multipleOptionsList, setMultipleOptionsList] = useState<MultiselectListProps[]>([]);
@@ -41,6 +47,10 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
     [varNameParticularCoutComeList]: fetchParticularOutcomeList,
     [varNameOfResistance]: fetchResistanceList,
     [varNameRigOfVesselList]: fetchRigOfVesselList,
+    [varNameSlavesOutcomeList]: fetchSlavesOutcomeList,
+    [varNameTonTypList]: fetchTonTypeList,
+    [varNameVesselCapturedOutcomeList]: fetchVesselCapturedOutcomeList,
+
   };
 
   const fetchNationalityData = async () => {
@@ -84,7 +94,7 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
     if (!newValue) return;
     setMultipleList(newValue);
     const valueSelect: string[] = newValue.map((ele) => ele.name);
-    updateNationalityObject(dispatch, valueSelect, varName, styleNameRoute!)
+    updateNationalityObject(dispatch, valueSelect, varName, labelVarName, styleNameRoute!)
   };
 
 

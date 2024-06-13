@@ -42,7 +42,7 @@ export const RadioSelected: FunctionComponent<
   ];
   return (
     <FormControl>
-      {(type !== TYPES.EnslaverNameAndRole && type !== TYPES.VoyageID) ?
+      {(type !== TYPES.EnslaverNameAndRole && type !== TYPES.IdMatch) ?
         <span>
           <FormLabel id="demo-controlled-radio-buttons-group" style={{ color: '#000' }}>
             Aggregation Function
@@ -66,7 +66,7 @@ export const RadioSelected: FunctionComponent<
             />
           </RadioGroup>
         </span>
-        : (type === TYPES.VoyageID && type !== TYPES.EnslaverNameAndRole) ?
+        : (type === TYPES.IdMatch && type !== TYPES.EnslaverNameAndRole) ?
           <RadioGroup
             aria-labelledby="demo-controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"

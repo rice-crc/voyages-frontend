@@ -10,23 +10,23 @@ import { AppDispatch, RootState } from '@/redux/store';
 import '@/style/estimates.scss';
 import { Disembarked, Embarked } from '@/share/CONST_DATA';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
 const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> = () => {
     const dispatch: AppDispatch = useDispatch();
     const [dataSort, setDataSort] = useState<DataTimeLinesItem[]>([])
     const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-    const { currentBlockName } = usePageRouter();
+    const { currentBlockName, styleName } = usePageRouter();
     const graphContainerRef = useRef<HTMLDivElement | null>(null);
     const mouseOverInfoRef = useRef<HTMLDivElement | null>(null);
     const historicalEventsContainerRef = useRef<HTMLDivElement | null>(null);
-    let filters: Filter[] = []
-    if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
-        filters = filtersObj;
-    } else {
-        filters = filtersObj;
-    }
+    const filters = filtersDataSend(filtersObj, styleName!)
+    const newFilters = filters !== undefined && filters!.map(filter => {
+        const { label, title, ...filteredFilter } = filter;
+        return filteredFilter;
+    });
     const dataSend: TimeLineGraphRequest = {
-        filter: filters
+        filter: newFilters || []
     };
     const { varName } = useSelector(
         (state: RootState) => state.rangeSlider as FilterObjectsState

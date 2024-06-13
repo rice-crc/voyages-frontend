@@ -16,7 +16,7 @@ const FilterTextNameEnslaversBox: FunctionComponent<FilterTextNameEnslaversProps
         const newValue = event.target.value;
         dispatch(setEnslaversName(newValue))
         if (newValue.length === 0) {
-            setTextError(`*Please enter the enslaver's name`);
+            setTextError(`*Please enter the Investor, Captain, &c.`);
             dispatch(setEnslaversName(''));
         } else {
             setTextError('');
@@ -25,7 +25,7 @@ const FilterTextNameEnslaversBox: FunctionComponent<FilterTextNameEnslaversProps
 
     const handleKeyDownTextFilter = (value: string) => {
         if (value.length === 0) {
-            setTextError(`*Please enter the enslaver's name`);
+            setTextError(`*Please enter the Investor, Captain, &c.`);
         } else {
             dispatch(setEnslaversName(value));
             setTextError('');
@@ -33,7 +33,7 @@ const FilterTextNameEnslaversBox: FunctionComponent<FilterTextNameEnslaversProps
     }
     const handleFocus = () => {
         if (enslaverName.length === 0) {
-            setTextError(`*Please enter the enslaver's name`);
+            setTextError(`*Please enter the Investor, Captain, &c.`);
         }
     };
 

@@ -1,6 +1,7 @@
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setTextFilter } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { TYPES } from '@/share/InterfaceTypes';
 import { TextField, Typography } from '@mui/material';
 import { ChangeEvent, FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,7 +39,7 @@ const FilterTextBox: FunctionComponent<FilterTextProps> = ({ handleKeyDownTextFi
                     field
                 </Typography>
             }
-            placeholder={type === 'id_match' ? "Filter by Voyage ID" : "Filter by Text"}
+            placeholder={type === TYPES.IdMatch ? "Filter by Voyage ID" : "Filter by Text"}
             style={{ marginTop: 20, width: 450 }}
         />
 

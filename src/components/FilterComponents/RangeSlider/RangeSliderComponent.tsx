@@ -162,7 +162,6 @@ const RangeSlider = () => {
     }
     const existingFilters: Filter[] = existingFilterObject.filter || [];
     const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === varName);
-
     if (existingFilterIndex !== -1) {
 
       existingFilters[existingFilterIndex].searchTerm = updateValue as number[]

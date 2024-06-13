@@ -55,7 +55,9 @@
 }
 
 #main-page-past-home {
-  // height: 110vh;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
   background-repeat: no-repeat;
   background: linear-gradient(rgba(127, 118, 191, 0.85),
       rgba(127, 118, 191, 0.8)),
@@ -82,39 +84,67 @@
   }
 }
 
-.grid-people-image>img {
-  width: 90%;
-  padding: 7rem 1rem 1rem;
+.grid-people-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 
-  @include breakpoint-standard(5) {
-    padding: 7rem 1rem 1rem;
+  >img {
     width: 90%;
+    padding: 7rem 0 0 0;
+
+    @include breakpoint-standard(7) {
+      width: 90%;
+      padding: 10rem 0 0 0;
+    }
+
+    @include breakpoint-standard(6) {
+      width: 90%;
+      padding: 10rem 0 0 0;
+    }
+
+    @include breakpoint-standard(5) {
+      width: 100%;
+      padding: 10rem 0 0 0;
+    }
+
+    @include breakpoint-standard(4) {
+      width: 100%;
+      padding: 10rem 0 0 0;
+    }
+
+    @include breakpoint-standard(3) {
+      width: 75%;
+      padding-top: 3rem;
+    }
+
+    @include breakpoint-standard(2) {
+      width: 70%;
+      padding-top: 5rem;
+      height: 85%;
+      position: relative;
+      right: 15%;
+    }
+
+    @include breakpoint-standard(1) {
+      width: 70%;
+      padding-top: 5rem;
+      height: 85%;
+      position: relative;
+      right: 15%;
+    }
+
+    @include breakpoint-standard(0) {
+      width: 70%;
+      padding-top: 5rem;
+      height: 85%;
+      position: relative;
+      right: 15%;
+    }
   }
 
-  @include breakpoint-standard(4) {
-    padding: 7rem 1rem 1rem;
-    width: 90%;
-  }
 
-  @include breakpoint-standard(3) {
-    width: 75%;
-    padding-top: 3rem;
-  }
 
-  @include breakpoint-standard(2) {
-    width: 45%;
-    padding-top: 5rem;
-  }
-
-  @include breakpoint-standard(1) {
-    width: 35%;
-    padding-top: 7rem;
-  }
-
-  @include breakpoint-standard(0) {
-    width: 35%;
-    padding-top: 7rem;
-  }
 }
 
 .flipped-image {

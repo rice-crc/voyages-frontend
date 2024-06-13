@@ -12,10 +12,9 @@ import {
 import CollectionTabEnslaved from '@/components/NavigationComponents/CollectionTab/CollectionTabEnslaved';
 import EnslavedMap from '@/components/PresentationComponents/Map/MAPS';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { setBaseFilterPeopleEnslavedDataKey, setBaseFilterPeopleEnslavedDataValue, setPeopleEnslavedBlocksMenuList, setPeopleEnslavedStyleName } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import { setPeopleEnslavedBlocksMenuList, setPeopleEnslavedStyleName } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
-import { AFRICANORIGINS, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
 
 const EnslavedPage: React.FC = () => {

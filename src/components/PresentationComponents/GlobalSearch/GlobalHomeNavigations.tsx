@@ -1,6 +1,6 @@
 import voyageIcon from '@/assets/voyage-cycle.svg';
 import peopleIcon from '@/assets/people-cycle.svg';
-import timelapseIcon from '@/assets/timelapse.png';
+import timelapseIcon from '@/assets/timelapse.svg';
 import resourceIcon from '@/assets/resources.svg';
 import { Link } from 'react-router-dom';
 import {
@@ -63,10 +63,10 @@ const GlobalHomeNavigations = () => {
           </Link>
           <div className="voyages-people-places-subtitle">{translatedHomepage.navigatorSubTitlePeople}</div>
         </div>
-        <div className="place-page-box-timelape">
+        <div className="place-page-box-timelapse">
           <div className="voyages-people-places-title">{translatedHomepage.navigatorTitleTimelapse}</div>
-          <Link to={`${TRANSATLANTICTIMELAPSE}#timelapse`}>
-            <img src={timelapseIcon} alt="Timelapse" style={{ opacity: 0.65 }} />
+          <Link to={`${TRANSATLANTICTIMELAPSE}#timelapse`} >
+            <img src={timelapseIcon} alt="Timelapse" />
           </Link>
           <div className="voyages-people-places-subtitle">
             <div>{translatedHomepage.navigatorSubTitleTimelapse}</div>
