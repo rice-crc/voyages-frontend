@@ -829,11 +829,11 @@ const FlagNames: Record<number, string> = {
     10: "France",
     11: "Denmark",
     13: "Sweden",
-    15: "Mexico",
-    17: "Norway",
-    18: "Denmark_Baltic",
-    19: "Argentina",
-    20: "Russia"
+    14: "Norway",
+    15: "Denmark_Baltic",
+    16: "Argentina",
+    17: "Russia",
+    19: "Mexico"
 }
 
 const TimelapseUI = ({ collection, selected, years, paused, speed, onClearSelection, onPlay, onPause, onShowDetails, onSpeedChange }: TimelapseUIProps) => {
