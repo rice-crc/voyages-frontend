@@ -10,9 +10,9 @@
 	},
 	{
 		"label": {
-			"en": "Ship, nation, enslavers",
-			"es": "Ship, nation, enslavers ES",
-			"pt": "Ship, nation, enslavers PT"
+			"en": "Investor, Captain, &c.",
+			"es": "Investor, Captain, &c. :ES",
+			"pt": "Investor, Captain, &c. :PT"
 		},
 		"children": [
 			{
@@ -24,7 +24,7 @@
 				"children": [
 					{
 						"var_name": "voyage_id",
-						"type": "id_match",
+						"type": "IdMatch",
 						"ops": [
 							"exact",
 							"btw"
@@ -60,9 +60,9 @@
 							}
 						],
 						"label": {
-							"en": "Enslavers",
-							"es": "Enslavers ES",
-							"pt": "Enslavers PT"
+							"en": "Investor, Captain, &c.",
+							"es": "Investor, Captain, &c. ES",
+							"pt": "Investor, Captain, &c. PT"
 						}
 					},
 					{
@@ -201,6 +201,15 @@
 							"en": "Guns mounted",
 							"es": "Guns mounted ES",
 							"pt": "Guns mounted PT"
+						}
+					},
+					{
+						"var_name": "voyage_ship__ton_type__name",
+						"type": "MultiselectList",
+						"label": {
+							"en": "Ton Type",
+							"es": "Ton Type ES",
+							"pt": "Ton Type PT"
 						}
 					}
 				]
@@ -720,7 +729,7 @@
 			},
 			{
 				"var_name": "voyage_outcome__outcome_slaves__name",
-				"type": "CharField",
+				"type": "MultiselectList",
 				"ops": [
 					"icontains"
 				],
@@ -732,7 +741,7 @@
 			},
 			{
 				"var_name": "voyage_outcome__vessel_captured_outcome__name",
-				"type": "CharField",
+				"type": "MultiselectList",
 				"ops": [
 					"icontains"
 				],

@@ -12,6 +12,7 @@ export const processCardData = (data: Record<string, any>[], cardDataArray: Tran
                     return ({
                         label: child.label,
                         value: generateCardsData(finalData[0], child),
+                        number_format: child.number_format
                     })
                 }),
             };

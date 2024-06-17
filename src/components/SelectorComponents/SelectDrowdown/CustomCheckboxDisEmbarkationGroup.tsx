@@ -5,8 +5,10 @@ import { CheckboxGroupItem, Filter } from '@/share/InterfaceTypes';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { setKeyValueName } from '@/redux/getRangeSliderSlice';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import { AppDispatch } from '@/redux/store';
-import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { updatedSliderToLocalStrageDisEmbarkation } from '@/utils/functions/updatedSliderToLocalStrageDisEmbarkation';
+import { setCheckedListDisEmbarkation } from '@/redux/getEstimateAssessmentSlice';
 
 const CustomCheckboxDisEmbarkationGroup: React.FC<CheckboxGroupItem> = ({
     plainOptions,
@@ -19,7 +21,9 @@ const CustomCheckboxDisEmbarkationGroup: React.FC<CheckboxGroupItem> = ({
     const dispatch: AppDispatch = useDispatch();
     const [checkAll, setCheckAll] = useState(false);
     const storedValue = localStorage.getItem("filterObject");
-
+    const { checkedListDisEmbarkation } = useSelector(
+        (state: RootState) => state.getEstimateAssessment
+    );
     useEffect(() => {
         setCheckAll(checkedList.length === plainOptions.length);
         dispatch(setKeyValueName(varName));
@@ -32,7 +36,13 @@ const CustomCheckboxDisEmbarkationGroup: React.FC<CheckboxGroupItem> = ({
 
     const onChange = (list: CheckboxValueType[]) => {
         setCheckedList(list);
-        updatedSliderToLocalStrage(list as string[])
+        const newState: Record<string, CheckboxValueType[]> = { ...checkedListDisEmbarkation, [label]: list };
+        const updataCheckList: CheckboxValueType[] = []
+        for (const key in newState) {
+            updataCheckList.push(...newState[key]);
+        }
+        dispatch(setCheckedListDisEmbarkation(newState));
+        updatedSliderToLocalStrageDisEmbarkation(updataCheckList, varName, dispatch)
     };
 
     const onCheckAllChange: CheckboxProps['onChange'] = (e) => {
@@ -68,6 +78,7 @@ const CustomCheckboxDisEmbarkationGroup: React.FC<CheckboxGroupItem> = ({
         const filterObjectUpdate = {
             filter: existingFilters
         };
+        console.log('check', { filterObjectUpdate })
 
         const filterObjectString = JSON.stringify(filterObjectUpdate);
         localStorage.setItem('filterObject', filterObjectString);

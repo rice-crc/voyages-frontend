@@ -23,10 +23,11 @@ import { SelectDropdownEstimateTable } from '@/components/SelectorComponents/Sel
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { ESTIMATES } from '@/share/CONST_DATA';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
 const EstimateTable = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { currentBlockName, endpointPathEstimate } = usePageRouter();
+    const { currentBlockName, endpointPathEstimate, styleName } = usePageRouter();
     const aggregation = 'sum';
     const {
         currentSliderValue,
@@ -39,7 +40,6 @@ const EstimateTable = () => {
     const { varName } = useSelector(
         (state: RootState) => state.rangeSlider as FilterObjectsState
     );
-    // const [data, setData] = useState<string>('');
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState<string | null>(null)
     const [rowVars, setSelectRowValues] = useState<EstimateRowVar[]>([]);
@@ -100,12 +100,20 @@ const EstimateTable = () => {
         (row) => row.startsWith('year_') && row.length > 5
     );
     const updatedRowsValue = rows.join('').replace(/_(\d+)$/, '');
-    let filters: Filter[] = []
-    if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
-        filters = filtersObj;
-    } else {
-        filters = filtersObj;
-    }
+    // let filters: Filter[] = []
+
+    // if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+    //     filters = filtersObj;
+    // } else {
+    //     filters = filtersObj;
+    // }
+
+
+    const filters = filtersDataSend(filtersObj, styleName!)
+    const newFilters = filters !== undefined && filters!.map(filter => {
+        const { label, title, ...filteredFilter } = filter;
+        return filteredFilter;
+    });
     const dataSend: EstimateTablesPropsRequest = {
         cols: column_vars,
         rows: onlyYearRows.length > 0 ? [updatedRowsValue] : rows,
@@ -113,8 +121,9 @@ const EstimateTable = () => {
         agg_fn: aggregation,
         vals: cell_vars,
         mode: mode,
-        filter: filters,
+        filter: newFilters || [],
     };
+
 
     const fetchData = async () => {
         setLoading(true)

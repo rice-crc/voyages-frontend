@@ -265,9 +265,28 @@
     }
 }
 
+.panel-list-view-all-show-filter {
+    margin-bottom: 0;
+    list-style: none;
+    font-size: .85rem;
+    padding: 0.5rem 1rem 0.5rem 2.25rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.panel-list-item-wrapper {
+    margin-bottom: 0;
+    list-style: none;
+    font-size: .85rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    a {
+        text-decoration: none;
+    }
+}
+
 .btn-panel {
-    // color: #0c9ab1;
-    // border: 1px #0c9ab1 solid;
     color: rgb(25, 118, 210);
     border: 1px solid rgb(25, 118, 210);
     border: rgb(25, 118, 210);
@@ -555,8 +574,9 @@ table>.dataframe {
     display: flex;
     border-radius: 6px;
     border: 0.75px solid #fff;
-    padding-left: 6px;
     margin-right: 4px;
+    padding: 1px;
+    margin-top: 2px;
 }
 
 .value-list {
