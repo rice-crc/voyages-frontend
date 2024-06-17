@@ -197,7 +197,7 @@
   }
 
   @include breakpoint-standard(3) {
-    top: 8.5%;
+    top: 10%;
     height: auto;
     display: inline;
     align-items: center;
@@ -224,7 +224,7 @@
   }
 
   @include breakpoint-standard(1) {
-    top: 9%;
+    top: 10%;
     height: auto;
     display: inline;
     align-items: center;
@@ -233,7 +233,7 @@
   }
 
   @include breakpoint-standard(0) {
-    top: 9%;
+    top: 10%;
     height: auto;
     display: inline;
     align-items: center;
@@ -261,7 +261,7 @@
   }
 
   @include breakpoint-standard(4) {
-    width: 80px !important;
+    width: 75px !important;
     height: 32px;
     font-size: 10px !important;
     min-width: 75px !important;
@@ -272,7 +272,7 @@
     width: 45px !important;
     height: 24px;
     font-size: 10px !important;
-    min-width: 48px !important;
+    min-width: 45px !important;
     margin: 0 2px !important;
   }
 
@@ -280,31 +280,31 @@
     width: 45px !important;
     height: 24px;
     font-size: 10px !important;
-    min-width: 48px !important;
+    min-width: 45px !important;
     margin: 0 2px !important;
   }
 
   @include breakpoint-standard(1.1) {
-    width: 52px !important;
+    width: 45px !important;
     height: 24px;
     font-size: 8px !important;
-    min-width: 46px !important;
+    min-width: 45px !important;
     margin: 0 2px !important;
   }
 
   @include breakpoint-standard(1) {
-    width: 46px !important;
+    width: 40px !important;
     height: 28px;
     font-size: 7px !important;
-    min-width: 46px !important;
+    min-width: 40px !important;
     margin: 0 2px !important;
   }
 
   @include breakpoint-standard(0) {
-    width: 42px !important;
+    width: 35px !important;
     height: 26px;
     font-size: 6.5px !important;
-    min-width: 30px !important;
+    min-width: 35px !important;
     margin: 1px 1px !important;
   }
 }
