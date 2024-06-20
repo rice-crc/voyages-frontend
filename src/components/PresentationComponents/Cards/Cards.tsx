@@ -29,6 +29,7 @@ import { fetchPastEnslaversCard } from '@/fetch/pastEnslaversFetch/fetchPastEnsl
 import { fetchPastEnslavedCard } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedCard';
 import { DocumentItemInfo, DocumentViewerContext, createDocKey } from '@/utils/functions/documentWorkspace';
 import { numberWithCommas } from '@/utils/functions/numberWithCommas';
+import PopoverWrapper from './PopoverWrapper';
 
 type DocumentReference = String & {
   sources__has_published_manifest: boolean
@@ -42,6 +43,11 @@ function isDocumentReference(s?: string | DocumentReference): s is DocumentRefer
   return cast?.sources__has_published_manifest &&
     !!cast.sources__zotero_group_id &&
     !!cast.sources__zotero_item_id
+}
+
+const getSourceBib = (value: any) => {
+  const bib: string | undefined = value.sources__bib
+  return bib
 }
 
 const VoyageCard = () => {
@@ -225,7 +231,7 @@ const VoyageCard = () => {
                                 dispatch(setIsModalCard(false));
                               }
                             }
-                            return valueToRender ? (
+                            let component = valueToRender ? (
                               <div
                                 key={`${index}-${value}`}
                                 style={{ padding: '2px 0' }}
@@ -239,7 +245,14 @@ const VoyageCard = () => {
                                 </span>
                                 <br />
                               </div>
-                            ) : '-';
+                            ) : null
+                            const bib = getSourceBib(value)
+                            if (component && bib) {
+                              component = <PopoverWrapper padding={4} popoverContents={<div dangerouslySetInnerHTML={{ __html: bib }} />}>
+                                {component}
+                              </PopoverWrapper>
+                            }
+                            return component ?? '-';
                           }
                         );
                         return (
