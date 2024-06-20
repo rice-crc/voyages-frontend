@@ -1,25 +1,23 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import DOMPurify from 'dompurify'
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Chip, CircularProgress, List, ListItem, Menu, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Chip, CircularProgress, List, ListItem, Menu, MenuItem, Paper, Snackbar, TextField, Tooltip, Typography } from '@mui/material';
 import Badge from '@mui/material/Badge';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import Pagination from '@mui/material/Pagination';
-import MiradorViewer from '@/components/DocumentComponents/MiradorViewer';
 // Icons
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from '@mui/icons-material/Search';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ViewListIcon from '@mui/icons-material/ViewList';
-import { Filter } from '@/share/InterfaceTypes';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { Link } from 'react-router-dom';
 import voyageLogo from '@/assets/sv-logo.png';
 import { useDimensions } from '@/hooks/useDimensions';
-import { DocumentItemInfo, getWorkspace, performWorkspaceAction, ManifestURLBase, DocumentViewerContext, DocumentWorkspace, createDocKey } from '@/utils/functions/documentWorkspace';
+import { DocumentItemInfo, DocumentViewerContext, DocumentWorkspace, createDocKey } from '@/utils/functions/documentWorkspace';
 
 function useDebounce<T>(value: T, wait: number = 500) {
   const [debounceValue, setDebounceValue] = useState<T>(value);
@@ -35,89 +33,63 @@ function useDebounce<T>(value: T, wait: number = 500) {
 // Note: while the Documents API is under development, the schemas and fetch
 // code are placed here. They can be later wrapped by createApi.
 
-const DocumentSearchFieldNames = ['label', 'voyages', 'shipname', 'enslaver'] as const
+const DocumentSearchFieldNames = ['title', 'voyageIds', 'shipname', 'enslaver', 'fullText', 'bib'] as const
 
 type DocumentSearchFields = typeof DocumentSearchFieldNames[number]
 
-interface DocumentEntitySearchModel {
-  typename: DocumentSearchFields,
-  keys: string[]
-}
-
 interface DocumentSearchModel {
-  label: string,
-  entities: DocumentEntitySearchModel[],
-  results_page: number,
+  title?: string
+  fullText?: string
+  bib?: string
+  enslavers?: string[]
+  voyageIds?: number[]
+  page: number
   page_size: number
 }
 
 interface DocumentSearchApiResult {
-  matches: number,
+  matches: number
   results: DocumentItemInfo[]
+  error?: string
 }
+
+const mkDocumentSearchApiErrorResult = (msg: string) : DocumentSearchApiResult =>
+  ({ error: msg, matches: 0, results: [] }) 
 
 type DocumentSearchApi = (search: DocumentSearchModel) => Promise<DocumentSearchApiResult>
 
 const docSearch: DocumentSearchApi = async (search) => {
-  // Map our search model to the backend API.
-  const filter: Filter[] = []
-  filter.push({
-    "varName": "has_published_manifest",
-    "op": "exact",
-    "searchTerm": true
-  })
-  if (search.label) {
-    filter.push({
-      "varName": "title",
-      "op": "icontains",
-      "searchTerm": search.label
+  try {
+    const response = await fetch(`${BASEURL}/docs/DocumentSearch/`, {
+      method: 'POST',
+      body: JSON.stringify(search),
+      headers: {
+        'Authorization': AUTHTOKEN,
+        "Content-Type": "application/json",
+      },
     })
-  }
-  const fieldMap: Partial<Record<DocumentSearchFields, Omit<Filter, 'searchTerm'>>> = {
-    'voyages': {
-      varName: 'source_voyage_connections__voyage__id',
-      op: 'in'
-    },
-    'enslaver': {
-      varName: 'source_enslaver_connections__enslaver__principal_alias',
-      op: 'icontains'
-    },
-    'shipname': {
-      varName: 'source_voyage_connections__voyage__voyage_ship__ship_name',
-      op: 'in'
-    },
-    //'Enslaved': 'source_enslaver_connections__'
-  }
-  for (const entity of search.entities) {
-    const entityFilter = fieldMap[entity.typename]
-    if (entityFilter) {
-      filter.push({ ...entityFilter, searchTerm: entity.keys })
+    const data = await response.json()
+    if (!data.page_size) {
+      // Must be an error result.
+      return mkDocumentSearchApiErrorResult(JSON.stringify(data))
     }
+    const result: DocumentSearchApiResult = {
+      matches: data.count,
+      results: data.results.map((r: any) => {
+        const { thumbnail: thumb, bib, title: label, zotero_group_id, zotero_item_id } = r
+        return {
+          key: createDocKey(zotero_group_id, zotero_item_id),
+          label,
+          bib,
+          revision_number: 1,
+          thumb
+        }
+      })
+    }
+    return result
+  } catch (e) {
+    return mkDocumentSearchApiErrorResult((e as Error)?.message)
   }
-  const { page_size, results_page: page } = search
-  const response = await fetch(`${BASEURL}/docs/`, {
-    method: 'POST',
-    body: JSON.stringify({ filter, page, page_size }),
-    headers: {
-      'Authorization': AUTHTOKEN,
-      "Content-Type": "application/json",
-    },
-  })
-  const data = await response.json()
-  const result: DocumentSearchApiResult = {
-    matches: data.count,
-    results: data.results.map((r: any) => {
-      const { thumbnail: thumb, bib, title: label, zotero_group_id, zotero_item_id } = r
-      return {
-        key: createDocKey(zotero_group_id, zotero_item_id),
-        label,
-        bib,
-        revision_number: 1,
-        thumb
-      }
-    })
-  }
-  return result
 }
 
 interface DocumentPaginationSource {
@@ -132,49 +104,45 @@ interface DocumentSearchBoxProps {
 }
 
 const UIDocumentSearchFieldHeader: Record<DocumentSearchFields, string> = {
-  label: 'Title',
-  voyages: 'Voyage IDs',
+  title: 'Title',
+  voyageIds: 'Voyage IDs',
   enslaver: 'Enslavers',
-  shipname: 'Ship name'
+  shipname: 'Ship name',
+  bib: 'Bibliography',
+  fullText: 'Full text'
 }
 
 const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
   const [validation, setValidation] = useState<Partial<Record<DocumentSearchFields, string>>>({})
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [isSearching, setSearching] = useState(false)
-  const [searchData, setSearchData] = useState<Partial<Record<DocumentSearchFields, string>>>({ label: '' })
+  const [searchData, setSearchData] = useState<Partial<Record<DocumentSearchFields, string>>>({ title: '' })
   const [editingField, setEditingField] = useState<string | null>(null);
+  const [lastError, setLastError] = useState<string | undefined>()
   const debouncedSearch = useDebounce(searchData, 500)
   const search = (pageNum: number, pageSize: number) => {
-    const entities: DocumentEntitySearchModel[] = []
-    const validated: Partial<Record<DocumentSearchFields, string>> = {}
-    if (debouncedSearch.voyages) {
-      try {
-        const idArray = JSON.parse(`[${debouncedSearch.voyages}]`)
-        entities.push({ typename: 'voyages', keys: idArray })
-      } catch {
-        const msg = 'Voyage IDs could not be properly parsed'
-        validated['voyages'] = msg
-      }
+    const model: DocumentSearchModel = {
+      page: pageNum,
+      page_size: pageSize
     }
+    const validated: Partial<Record<DocumentSearchFields, string>> = {}
     for (const field of DocumentSearchFieldNames) {
       const value = debouncedSearch[field]
-      if (field !== 'voyages' && value) {
-        entities.push({ typename: field, keys: [value] })
+      if (!value) {
+        continue
       }
-    }
-    const model: DocumentSearchModel = {
-      label: debouncedSearch.label ?? '',
-      results_page: pageNum,
-      page_size: pageSize,
-      entities
+      if (field === 'enslaver' || field === 'voyageIds') {
+        Object.assign(model, { [field]: value.split(/[/;\|]/) })
+      } else {
+        Object.assign(model, { [field]: value })
+      }
     }
     setValidation(validated)
     return docSearch(model)
   }
   useEffect(() => {
     const update = async () => {
-      const { matches: count } = await search(1, 1)
+      const { matches: count, error } = await search(1, 1)
       const cache: Record<string, DocumentSearchApiResult> = {}
       const paginationSource: DocumentPaginationSource = {
         count,
@@ -188,6 +156,7 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
       }
       onUpdate(paginationSource)
       setSearching(false)
+      setLastError(error)
     }
     setSearching(true)
     update()
@@ -201,7 +170,6 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
     .filter(field => searchData[field] === undefined)
     .map(field => <MenuItem
       key={`menuitem_${field}`}
-      disabled={field === 'enslaver'}
       onClick={() => {
         setAnchorEl(null)
         setSearchData({ [field]: '', ...searchData })
@@ -264,6 +232,7 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
     <Menu anchorEl={anchorEl} open={anchorEl !== null} onClose={() => setAnchorEl(null)}>
       {menuItems}
     </Menu>
+    <Snackbar open={!!lastError} message={lastError} autoHideDuration={5000} />
   </Paper>
 }
 
