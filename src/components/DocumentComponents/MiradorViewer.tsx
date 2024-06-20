@@ -63,6 +63,7 @@ const MiradorViewer = ({ manifestUrlBase, manifestId, domId, workspaceAction, on
     const { languageValue } = useSelector((state: RootState) => state.getLanguages);
     const container = useRef<HTMLDivElement>(null!)
     const activeDoc = useRef<string | null>(null)
+    const prevTheme = useRef<string | null>(null)
     // NOTE: Spanish is still not supported by Mirador! And for Portuguese, only
     // the Brazilian variant is available.
     const miradorLanguage = languageValue === 'pt' ? 'pt-BR' : 'en'
@@ -105,9 +106,13 @@ const MiradorViewer = ({ manifestUrlBase, manifestId, domId, workspaceAction, on
         let canvasLoaded = false
         const unsubscribe = store.subscribe(() => {
             const state = store.getState()
-            localStorage.setItem(MiradorUserSettingsKey, JSON.stringify({
-                selectedTheme: state.config.selectedTheme
-            }))
+            const { selectedTheme } = state.config
+            if (prevTheme.current && prevTheme.current !== selectedTheme) {
+                localStorage.setItem(MiradorUserSettingsKey, JSON.stringify({
+                    selectedTheme: selectedTheme
+                }))
+            }
+            prevTheme.current = selectedTheme
             if (activeDoc.current === manifestId && canvasLoaded && onClose && Object.keys(state.windows).length === 0) {
                 onClose()
                 activeDoc.current = null

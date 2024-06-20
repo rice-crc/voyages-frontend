@@ -25,22 +25,22 @@ const PastPeopleIntro = () => {
     throw new Error(`Invalid language value: ${languageValue}`);
   }
   return (
-    <Grid container spacing={2} id="main-page-past-home">
-      <Grid item xs={12} sm={4} className="grid-people-image">
+    <Grid container id="main-page-past-home">
+      <Grid item sm={6} md={4} lg={4} className="grid-people-image">
         <img
           className="flipped-image"
           src={PersonImage}
           alt="PersonImage"
         />
       </Grid>
-      <Grid item xs={12} sm={8} className="grid-people-introduction">
+      <Grid item sm={6} md={8} lg={8} className="grid-people-introduction">
         {PEOPLE.map((item, index) => {
           const { text_description, text_introuduce, header, credit } = item
           const textDescription = (text_description as LabelFilterMeneList)[languageValue];
           const textIntrouduce = (text_introuduce as LabelFilterMeneList)[languageValue];
           const creDitLable = (credit.label as LabelFilterMeneList)[languageValue];
           return (
-            <div key={`${textIntrouduce}-${index}`}>
+            <div key={`${textIntrouduce}-${index}`} className='text-intro-box'>
               <div className='text-intro'>
                 {textIntrouduce}
                 <div style={{ marginTop: 15 }}>{textDescription}</div>
@@ -70,15 +70,15 @@ const PastPeopleIntro = () => {
               </div>
             </div>)
         })}
+        <Link
+          to={PEOPLE[0].credit.hyperlink}
+          style={{ textDecoration: 'none', color: '#000', fontSize: '0.95rem' }}
+          className="credit-bottom-right"
+        >
+          {`${PEOPLE[0].credit.label[languageValue as LanguageKeys]}: ${PEOPLE[0].credit.artist_name}`}
+          {/* ${currentYear} */}
+        </Link>
       </Grid>
-      <Link
-        to={PEOPLE[0].credit.hyperlink}
-        style={{ textDecoration: 'none', color: '#000', fontSize: '0.95rem' }}
-        className="credit-bottom-right"
-      >
-        {`${PEOPLE[0].credit.label[languageValue as LanguageKeys]}: ${PEOPLE[0].credit.artist_name}`}
-        {/* ${currentYear} */}
-      </Link>
     </Grid>
   );
 };

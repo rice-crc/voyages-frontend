@@ -3,7 +3,9 @@
 		"label": "Voyages",
 		"children": [
 			{
+				"label": "Voyage ID, Ship Name, and Year",
 				"cell_type": "literal-concat",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -20,16 +22,17 @@
 						}
 					],
 					"join": "-"
-				},
-				"label": "Voyage ID, Ship Name, and Year"
+				}
 			},
 			{
 				"label": "Enumeration of Enslaved People",
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
-							"var_name": "number_enslaved_people"
+							"var_name": "number_enslaved_people",
+							"cell_fn": "literal"
 						}
 					]
 				}
@@ -40,7 +43,9 @@
 		"label": "Personal Data",
 		"children": [
 			{
+				"label": "Name",
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -48,11 +53,12 @@
 							"cell_fn": "literal"
 						}
 					]
-				},
-				"label": "Name"
+				}
 			},
 			{
+				"label": "Birth Place",
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -60,11 +66,12 @@
 							"cell_fn": "literal"
 						}
 					]
-				},
-				"label": "Birth Place"
+				}
 			},
 			{
+				"label": "Birth Year",
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -72,11 +79,12 @@
 							"cell_fn": "literal"
 						}
 					]
-				},
-				"label": "Birth Year"
+				}
 			},
 			{
+				"label": "Death Place",
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -84,11 +92,12 @@
 							"cell_fn": "literal"
 						}
 					]
-				},
-				"label": "Death Place"
+				}
 			},
 			{
+				"label": "Death Year",
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -96,8 +105,7 @@
 							"cell_fn": "literal"
 						}
 					]
-				},
-				"label": "Death Year"
+				}
 			}
 		]
 	},
@@ -105,7 +113,9 @@
 		"label": "Enslavement Relations",
 		"children": [
 			{
+				"label": "Enslaved People",
 				"cell_type": "literal",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -113,8 +123,7 @@
 							"cell_fn": "literal"
 						}
 					]
-				},
-				"label": "Enslaved People"
+				}
 			}
 		]
 	},
@@ -122,7 +131,9 @@
 		"label": "Sources",
 		"children": [
 			{
+				"label": "Documentary Sources",
 				"cell_type": "literal-concat",
+				"number_format": null,
 				"cell_val": {
 					"fields": [
 						{
@@ -130,9 +141,8 @@
 							"cell_fn": "literal"
 						}
 					],
-					"join":": "
-				},
-				"label": "Documentary Sources"
+					"join": ": "
+				}
 			}
 		]
 	}
