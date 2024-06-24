@@ -36,9 +36,9 @@ export const homePageTranslated: TranslateType = {
     navigatorTitleWriting:
     {
         label: {
-            "en": "READING",
-            "es": "LECTURA",
-            "pt": "LEITURA"
+            en: "LEARN MORE",
+            es: "APRENDE MÁS",
+            pt: "SAIBA MAIS",
         }
     },
     navigatorSubTitleVoyages:
@@ -85,6 +85,13 @@ export const homePageTranslated: TranslateType = {
             "en": "Learn more",
             "es": "Aprende más",
             "pt": "Saiba mais"
+        }
+    },
+    aboutProject: {
+        label: {
+            "en": "About the project",
+            "es": "Sobre el proyecto",
+            "pt": "Sobre o projeto"
         }
     },
     homePageNews: {

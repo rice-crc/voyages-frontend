@@ -8,11 +8,11 @@ Selector Components are user interface elements that empower users to choose opt
 
 Each of the components listed below exhibits unique behavior and functionality within the Selector Components category. To gain insights into their workings and specific features, please refer to the corresponding TypeScript files located in the subfolders mentioned:
 
-- ![Aggregation Sum Average](./RadioSelected/modules.md)
 - ![Button Components](./ButtonComponents/modules.md)
-- ![Cascading Menu Factories](./Cascading/modules.md)
-- ![Column Selector Table](./ColumnSelectorTable/modules.md)
+- ![Cascading](./Cascading/modules.md)
 - ![Dropdown](./DropDown/modules.md)
+- ![RadioSelected](./RadioSelected/modules.md)
 - ![Select Drowdown](./SelectDrowdown/modules.md)
+- ![Show Filter Object](./ShowFilterObject/modules.md)
 
 Each of the components mentioned above may exhibit unique behavior and functionality within the context of Selector Components. To understand how they work and their specific features, please navigate to the corresponding documentation pages linked above.

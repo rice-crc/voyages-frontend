@@ -72,12 +72,12 @@ export const PagesOptions: PagesOptionsProps[] = [
     },
     {
         page: {
-            name: 'Writing',
+            name: 'Learn more',
             pathUrl: '/blog',
             label: {
-                "en": 'Writing',
-                "es": "Escritura",
-                "pt": "Escrita"
+                "en": 'Learn more',
+                "es": "Aprende más",
+                "pt": "Saiba mais",
             }
         }
     }

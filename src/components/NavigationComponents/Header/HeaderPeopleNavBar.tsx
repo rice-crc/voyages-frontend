@@ -23,6 +23,7 @@ import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import HeaderLogo from './HeaderLogo';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import { LabelFilterMeneList } from '@/share/InterfaceTypes';
+import { HeaderDrawerMenuPeopleBar } from './HeaderDrawerMenuPeopleBar';
 
 
 export default function HeaderPeopleNavBar() {
@@ -149,10 +150,10 @@ export default function HeaderPeopleNavBar() {
             open={Boolean(anchorEl)}
             onClick={handleMenuClose}
           >
-            {/* <HeaderDrawerMenuPeopleBar
-              // value={PEOPLE[0]?.header}
+            <HeaderDrawerMenuPeopleBar
+              value={PEOPLE[0]}
               handleSelectMenuItems={handleSelectMenuItems}
-            /> */}
+            />
           </Menu>
         </Box>
       </AppBar>
