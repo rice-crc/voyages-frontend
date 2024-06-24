@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
-// import PersonImage from '@/assets/personImg.png';
-import PersonImage from '@/assets/person.png';
+import PersonImage from '@/assets/peoplepage.png';
+// import PersonImage from '@/assets/person.png';
 import PEOPLE from '@/utils/flatfiles/people_page_data.json';
 import '@/style/page-past.scss';
 import { Link } from 'react-router-dom';
@@ -33,7 +33,13 @@ const PastPeopleIntro = () => {
             className="flipped-image"
             src={PersonImage}
             alt="PersonImage"
-          /></Link>
+          />
+        </Link>
+        {/* <img
+          className="flipped-image"
+          src={PersonImage}
+          alt="PersonImage"
+        /> */}
 
       </Grid>
       <Grid item sm={6} md={8} lg={8} className="grid-people-introduction">

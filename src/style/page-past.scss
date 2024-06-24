@@ -63,26 +63,6 @@
   background: linear-gradient(rgba(127, 118, 191, 0.85),
       rgba(127, 118, 191, 0.5)),
     url('../assets/intra-american.jpeg') center / cover;
-
-  @include breakpoint-standard(7) {
-    // height: 110vh;
-  }
-
-  @include breakpoint-standard(6) {
-    // height: 100vh;
-  }
-
-  @include breakpoint-standard(2) {
-    // height: 115vh;
-  }
-
-  @include breakpoint-standard(1) {
-    // height: 110vh;
-  }
-
-  @include breakpoint-standard(0) {
-    // height: 110vh;
-  }
 }
 
 .grid-people-image {
@@ -107,9 +87,12 @@
     display: none;
   }
 
-  a>img {
+  img {
     object-fit: cover;
-    height: 88vh;
+    height: 90vh;
+    max-height: 100%;
+    position: relative;
+    top: 6px;
 
     @include breakpoint-standard(6) {
       height: 80vh;
@@ -139,9 +122,6 @@
       display: none;
     }
   }
-
-
-
 }
 
 .flipped-image {

@@ -1,6 +1,7 @@
 import React from 'react';
 import '@/style/landing.scss';
-import ENSLAVERS from '@/assets/enslavers-blog.png';
+// import ENSLAVERS from '@/assets/enslavers_home.jpg';
+import ENSLAVERS from '@/assets/enslaver_enslaved_LOC_02.jpg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import { ENSALVERSPAGE, TRANSATLANTICENSLAVERS } from '@/share/CONST_DATA';
 import { translationHomepage } from '@/utils/functions/translationLanguages';

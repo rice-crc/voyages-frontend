@@ -13,14 +13,15 @@ const SouthSeaCompanyDocuments: React.FC = () => {
     return (
         <div className="container-shouth-sea">
             <div className="shouth-sea-content">
-                <div className="shouth-sea-content-bg">
-                    <img src={REGISTERSOUTH} alt="South Sea Company Documents" className="register-img" />
-                </div>
                 <div className="shouth-sea-content-detail">
                     <h1>{translatedHomepage.homeDocument}</h1>
                     <p>{translatedHomepage.homeDocumentDes}</p>
                     <ButtonLearnMore path={DOCUMENTPAGE} />
                 </div>
+                <div className="shouth-sea-content-bg">
+                    <img src={REGISTERSOUTH} alt="South Sea Company Documents" className="register-img" />
+                </div>
+
             </div>
         </div>
     );
