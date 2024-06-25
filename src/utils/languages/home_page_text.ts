@@ -4,7 +4,7 @@ export const homePageTranslated: TranslateType = {
     header:
     {
         label: {
-            "en": "Read Saint John Cassian's Conferences that relocated more than 12 million enslaved Africans across the world",
+            "en": "Explore the voyages that relocated more than 12 million enslaved Africans across the world",
             "es": "Explora los viajes que reubicaron a más de 12 millones de africanos esclavizados en todo el mundo",
             "pt": "Explore as viagens que realocaram mais de 12 milhões de africanos escravizados pelo mundo"
         }
@@ -12,7 +12,7 @@ export const homePageTranslated: TranslateType = {
     navigatorTitleVoyages:
     {
         label: {
-            "en": "Expeditions of some sort",
+            "en": "VOYAGES",
             "es": "VIAJES",
             "pt": "VIAGENS"
         }
@@ -20,7 +20,7 @@ export const homePageTranslated: TranslateType = {
     navigatorTitlePeople:
     {
         label: {
-            "en": "Homines",
+            "en": "PEOPLE",
             "es": "PERSONAS",
             "pt": "PESSOAS"
         }
@@ -28,7 +28,7 @@ export const homePageTranslated: TranslateType = {
     navigatorTitleTimelapse:
     {
         label: {
-            "en": "De profundes clamavi ad te, Domine. Domine, exaudi vocem meam. Fiant aures tuae intendentes ad vocem deprecationis meae.",
+            "en": "TIMELAPSE",
             "es": "LAPSO TEMPORAL",
             "pt": "CRONOLOGIA"
         }
@@ -96,21 +96,9 @@ export const homePageTranslated: TranslateType = {
     },
     homePageNewsDes: {
         label: {
-            "en": `WEEEEEEEEEEEEEEEEEEE, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur.`,
-            "es": `ES: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur.`,
-            "pt": `PT: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur.`,
+            "en": `Follow news about the SlaveVoyages project on our blog, Echoes: The SlaveVoyages Blog.`,
+            "es": `Siga la actualidad del proyecto SlaveVoyages en nuestro blog, Echoes: El blog de SlaveVoyages.`,
+            "pt": `Acompanhe as notícias sobre o projeto SlaveVoyages no nosso blogue, Echoes: O Blogue SlaveVoyages.`,
         }
     }
     , homePageArt: {
@@ -122,40 +110,23 @@ export const homePageTranslated: TranslateType = {
     },
     homePageArtDes: {
         label: {
-            "en": `A selection of artwork inspired by the data on the site. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat.`,
-            "es": "Una selección de obras de arte inspiradas en los datos del sitio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "pt": "Uma seleção de obras de arte inspiradas nos dados do site. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            "en": `A selection of artwork inspired by the data on the site.`,
+            "es": "Una selección de obras de arte inspiradas en los datos del sitio.",
+            "pt": "Uma seleção de obras de arte inspiradas nos dados do site."
         }
     },
     homeDocument: {
         label: {
-            "en": "Introibo ad altare Dei, ad Deum qui lætificat juventutem meam",
+            "en": "South Sea Company Documents",
             "es": "Documentos de la Compañía del Mar del Sur",
             "pt": "Documentos da Companhia do Mar do Sul",
         }
     },
     homeDocumentDes: {
         label: {
-            "en": `Sancte Ioseph, Princeps Ecclesiae, ora pro nobis, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Iudica me, Deus, and discerne causam meam de gente non sancta. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur.`,
-            "es": `ES: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur.`,
-            "pt": `PT: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur.`,
+            "en": `The South Sea Company was intimately involved in the Trans-Atlantic traffic of enslaved persons during the early eighteenth century. Using manuscripts of the South Sea Company's detailed meeting minutes preserved in the British National Archives, the SlaveVoyages project has been able to significantly fill in gaps in information concerning voyages which sailed during the South Sea Company's operations in the Atlantic.`,
+            "es": `La Compañía del Mar del Sur estuvo íntimamente implicada en el tráfico transatlántico de personas esclavizadas a principios del siglo XVIII. Gracias a los manuscritos de las actas detalladas de las reuniones de la Compañía del Mar del Sur que se conservan en los Archivos Nacionales Británicos, el proyecto SlaveVoyages ha podido colmar importantes lagunas de información sobre los viajes que se realizaron durante las operaciones de la Compañía en el Atlántico.`,
+            "pt": `A Companhia do Mar do Sul esteve intimamente envolvida no tráfico transatlântico de pessoas escravizadas durante o início do século XVIII. Utilizando manuscritos das actas detalhadas das reuniões da Companhia do Mar do Sul conservadas nos Arquivos Nacionais Britânicos, o projeto SlaveVoyages conseguiu colmatar significativamente as lacunas de informação relativas às viagens que se realizaram durante as operações da Companhia do Mar do Sul no Atlântico.`,
         }
     },
     homeEnslavers: {
@@ -174,14 +145,14 @@ export const homePageTranslated: TranslateType = {
     },
     homeAfrican: {
         label: {
-            "en": "African Origins AWOINFPAWIFNPAINW",
+            "en": "African Origins",
             "es": "Orígenes Africanos",
             "pt": "Origens Africanas",
         }
     },
     homeAfricanDes: {
         label: {
-            "en": `During the last 60,000002202020 years of the trans-Atlantic slave trade, courts around the Atlantic basins condemned over two thousand vessels for engaging in the traffic and recorded the details of captives found on board including their African names. The African Names Database was created from these records, now located in the Registers of Liberated Africans at the Sierra Leone National Archives, Freetown, as well as Series FO84, FO313, CO247 and CO267 held at the British National Archives in London.`,
+            "en": `During the last 60 years of the trans-Atlantic slave trade, courts around the Atlantic basins condemned over two thousand vessels for engaging in the traffic and recorded the details of captives found on board including their African names. The African Names Database was created from these records, now located in the Registers of Liberated Africans at the Sierra Leone National Archives, Freetown, as well as Series FO84, FO313, CO247 and CO267 held at the British National Archives in London.`,
             "es": `Durante los últimos 60 años del comercio transatlántico de esclavos, los tribunales alrededor de las cuencas atlánticas condenaron a más de dos mil embarcaciones por participar en el tráfico y registraron los detalles de los cautivos encontrados a bordo, incluidos sus nombres africanos. La Base de Datos de Nombres Africanos fue creada a partir de estos registros, ahora ubicados en los Registros de Africanos Liberados en los Archivos Nacionales de Sierra Leona, Freetown, así como en las Series FO84, FO313, CO247 y CO267 mantenidas en los Archivos Nacionales Británicos en Londres.`,
             "pt": `Durante os últimos 60 anos do comércio transatlântico de escravos, os tribunais ao redor das bacias atlânticas condenaram mais de duas mil embarcações por se envolverem no tráfico e registraram os detalhes dos cativos encontrados a bordo, incluindo seus nomes africanos. O Banco de Dados de Nomes Africanos foi criado a partir desses registros, agora localizados nos Registros de Africanos Libertos nos Arquivos Nacionais de Serra Leoa, Freetown, bem como nas Séries FO84, FO313, CO247 e CO267 mantidas nos Arquivos Nacionais Britânicos em Londres.`,
         }
@@ -195,7 +166,7 @@ export const homePageTranslated: TranslateType = {
     },
     homeIntraDes: {
         label: {
-            "en": `This database contains no information on more than 11,00044444444 maritime
+            "en": `This database contains information on more than 11,000 maritime
             voyages trafficking enslaved people within the Americas. These slave
             trades operated within colonial empires, across imperial boundaries,
             and inside the borders of nations such as the United States and
@@ -208,35 +179,35 @@ export const homePageTranslated: TranslateType = {
     },
     btnAbout: {
         label: {
-            "en": "Test test",
+            "en": "About",
             "es": "Acerca de",
             "pt": "Sobre",
         }
     },
     btnDatabase: {
         label: {
-            "en": "Databased",
+            "en": "Database",
             "es": "Base de datos",
             "pt": "Banco de dados",
         }
     },
     btnDownloads: {
         label: {
-            "en": "Testing downloads",
+            "en": "Downloads",
             "es": "Descargas",
             "pt": "Downloads",
         }
     },
     btnContribute: {
         label: {
-            "en": "Contributions",
+            "en": "Contribute",
             "es": "Contribuir",
             "pt": "Contribuir",
         }
     },
     btnEstimates: {
         label: {
-            "en": "Estimationsssss",
+            "en": "Estimates",
             "es": "Estimaciones",
             "pt": "Estimativas",
         }
@@ -257,7 +228,7 @@ export const homePageTranslated: TranslateType = {
     },
     homeTrans: {
         label: {
-            "en": "Trans-Pacific",
+            "en": "Trans-Atlantic",
             "es": "Transatlántico",
             "pt": "Transatlântico",
         }
@@ -290,8 +261,8 @@ export const homePageTranslated: TranslateType = {
     homeFootLicense: {
         label: {
             "en": "GNU General Public License 3.0",
-            "es": "GNU General Public License 3.0",
-            "pt": "GNU General Public License 3.0 ou versão posterior.",
+            "es": "Licencia Pública General de GNU 3.0",
+            "pt": "Licença Pública Geral GNU 3.0",
         }
     },
     homeFootLicenseOrVersion: {
@@ -303,15 +274,15 @@ export const homePageTranslated: TranslateType = {
     },
     homeFootSomeContent: {
         label: {
-            "en": "Some content licensed under",
-            "es": "Algunos contenidos con licencia bajo",
-            "pt": "Alguns conteúdos licenciados sob",
+            "en": "Some content licensed under ",
+            "es": "Algunos contenidos con licencia bajo ",
+            "pt": "Alguns conteúdos licenciados sob ",
         }
     },
     homeFootCreative: {
         label: {
             "en": "Creative Commons Attribution-Non-Commercial 3.0",
-            "es": "Creative Commons Attribution-Non-Commercial 3.0",
+            "es": "Creative Commons Reconocimiento-No comercial 3.0",
             "pt": "Creative Commons Attribution-Non-Commercial 3.0",
         }
     },
