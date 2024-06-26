@@ -215,22 +215,22 @@
 		},
 		{
 			"header_label": {
-				"en": "Embarkation Port",
-				"es": "Embarkation Port ES",
-				"pt": "Embarkation Port PT"
+				"en": "Embarkation Region",
+				"es": "Embarkation Region ES",
+				"pt": "Embarkation region PT"
 			},
 			"cell_type": "literal",
 			"visible": true,
 			"number_format": null,
 			"order_by": [
-				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
+				"voyage_itinerary__imp_principal_region_of_slave_purchase__name"
 			],
 			"col_width_px": 160,
-			"colID": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+			"colID": "voyages__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+						"var_name": "voyages__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -449,20 +449,20 @@
 				},
 				{
 					"col_width_px": 100,
-					"colID": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+					"colID": "voyages__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
 					"label": {
-						"en": "Embarkation Port",
-						"es": "Embarkation Port ES",
-						"pt": "Embarkation Port PT"
+						"en": "Embarkation Region",
+						"es": "Embarkation Region ES",
+						"pt": "Embarkation Region PT"
 					}
 				},
 				{
 					"col_width_px": 100,
-					"colID": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
+					"colID": "voyages__voyage_itinerary__imp_principal_region_slave_dis__name",
 					"label": {
-						"en": "Disembarkation Port",
-						"es": "Disembarkation Port ES",
-						"pt": "Disembarkation Port PT"
+						"en": "Disembarkation Region",
+						"es": "Disembarkation Region ES",
+						"pt": "Disembarkation Region PT"
 					}
 				},
 				{
