@@ -103,21 +103,9 @@ export const homePageTranslated: TranslateType = {
     },
     homePageNewsDes: {
         label: {
-            "en": `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur.`,
-            "es": `ES: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur.`,
-            "pt": `PT: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur.`,
+            "en": `Follow news about the SlaveVoyages project on our blog, Echoes: The SlaveVoyages Blog.`,
+            "es": `Siga la actualidad del proyecto SlaveVoyages en nuestro blog, Echoes: El blog de SlaveVoyages.`,
+            "pt": `Acompanhe as notícias sobre o projeto SlaveVoyages no nosso blogue, Echoes: O Blogue SlaveVoyages.`,
         }
     }
     , homePageArt: {
@@ -129,13 +117,9 @@ export const homePageTranslated: TranslateType = {
     },
     homePageArtDes: {
         label: {
-            "en": `A selection of artwork inspired by the data on the site. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat.`,
-            "es": "Una selección de obras de arte inspiradas en los datos del sitio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "pt": "Uma seleção de obras de arte inspiradas nos dados do site. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            "en": `A selection of artwork inspired by the data on the site.`,
+            "es": "Una selección de obras de arte inspiradas en los datos del sitio.",
+            "pt": "Uma seleção de obras de arte inspiradas nos dados do site."
         }
     },
     homeDocument: {
@@ -147,24 +131,9 @@ export const homePageTranslated: TranslateType = {
     },
     homeDocumentDes: {
         label: {
-            "en": `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur.`,
-            "es": `ES: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur.`,
-            "pt": `PT: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur.`,
+            "en": `The South Sea Company was intimately involved in the Trans-Atlantic traffic of enslaved persons during the early eighteenth century. Using manuscripts of the South Sea Company's detailed meeting minutes preserved in the British National Archives, the SlaveVoyages project has been able to significantly fill in gaps in information concerning voyages which sailed during the South Sea Company's operations in the Atlantic.`,
+            "es": `La Compañía del Mar del Sur estuvo íntimamente implicada en el tráfico transatlántico de personas esclavizadas a principios del siglo XVIII. Gracias a los manuscritos de las actas detalladas de las reuniones de la Compañía del Mar del Sur que se conservan en los Archivos Nacionales Británicos, el proyecto SlaveVoyages ha podido colmar importantes lagunas de información sobre los viajes que se realizaron durante las operaciones de la Compañía en el Atlántico.`,
+            "pt": `A Companhia do Mar do Sul esteve intimamente envolvida no tráfico transatlântico de pessoas escravizadas durante o início do século XVIII. Utilizando manuscritos das actas detalhadas das reuniões da Companhia do Mar do Sul conservadas nos Arquivos Nacionais Britânicos, o projeto SlaveVoyages conseguiu colmatar significativamente as lacunas de informação relativas às viagens que se realizaram durante as operações da Companhia do Mar do Sul no Atlântico.`,
         }
     },
     homeEnslavers: {
@@ -299,8 +268,8 @@ export const homePageTranslated: TranslateType = {
     homeFootLicense: {
         label: {
             "en": "GNU General Public License 3.0",
-            "es": "GNU General Public License 3.0",
-            "pt": "GNU General Public License 3.0 ou versão posterior.",
+            "es": "Licencia Pública General de GNU 3.0",
+            "pt": "Licença Pública Geral GNU 3.0",
         }
     },
     homeFootLicenseOrVersion: {
@@ -312,15 +281,15 @@ export const homePageTranslated: TranslateType = {
     },
     homeFootSomeContent: {
         label: {
-            "en": "Some content licensed under",
-            "es": "Algunos contenidos con licencia bajo",
-            "pt": "Alguns conteúdos licenciados sob",
+            "en": "Some content licensed under ",
+            "es": "Algunos contenidos con licencia bajo ",
+            "pt": "Alguns conteúdos licenciados sob ",
         }
     },
     homeFootCreative: {
         label: {
             "en": "Creative Commons Attribution-Non-Commercial 3.0",
-            "es": "Creative Commons Attribution-Non-Commercial 3.0",
+            "es": "Creative Commons Reconocimiento-No comercial 3.0",
             "pt": "Creative Commons Attribution-Non-Commercial 3.0",
         }
     },
