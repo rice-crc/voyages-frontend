@@ -390,9 +390,9 @@ export const homePageTranslated: TranslateType = {
     },
     enslavedPage: {
         label: {
-            "en": 'Enslaved People',
-            "es": "Personas Esclavizadas",
-            "pt": "Pessoas Escravizadas"
+            "en": 'Enslaved',
+            "es": "Esclavizadas",
+            "pt": "Escravizadas"
         }
     },
     enslaversPage: {

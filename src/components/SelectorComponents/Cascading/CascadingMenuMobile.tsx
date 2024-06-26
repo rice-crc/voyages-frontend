@@ -175,7 +175,7 @@ const CascadingMenuMobile = () => {
         }
         break;
 
-      case TYPES.VoyageID:
+      case TYPES.IdMatch:
         if (opsRoles === 'exact') {
           displayComponent = (
             <>
@@ -221,7 +221,7 @@ const CascadingMenuMobile = () => {
   const handleApplyEnslaversDialog = (roles: RolesProps[], name: string, ops: string) => {
     setTextError(textError)
     const newRoles: string[] = roles.map((ele) => ele.value);
-    updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, newRoles as string[], name, varName, ops!, labelVarName)
+    updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, newRoles as string[], name, varName, ops!)
   }
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>,
@@ -377,7 +377,7 @@ const CascadingMenuMobile = () => {
           {displayComponent}
         </DialogContent>
         <DialogActions style={{ paddingRight: '2rem', marginTop: typeData === TYPES.EnslaverNameAndRole ? '10rem' : 0 }}>
-          {varName && opsRoles !== 'btw' && ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.VoyageID && opsRoles === 'exact') || (typeData === TYPES.EnslaverNameAndRole) || (typeData === TYPES.MultiselectList))
+          {varName && opsRoles !== 'btw' && ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.IdMatch && opsRoles === 'exact') || (typeData === TYPES.EnslaverNameAndRole) || (typeData === TYPES.MultiselectList))
             && <Button
               autoFocus
               disabled={listEnslavers.length === 0 && enslaverName === '' && typeData === TYPES.EnslaverNameAndRole}

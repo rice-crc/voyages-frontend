@@ -85,5 +85,6 @@ export const filtersDataSend = (filtersObj: Filter[], styleNameRoute: string, cl
         localStorage.setItem('filterObject', filterObjectString);
     }
 
+
     return uniqueFilters;
 }

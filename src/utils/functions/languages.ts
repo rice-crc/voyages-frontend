@@ -1,3 +1,4 @@
+import { AFRICANORIGINSPAGE, BLOGPAGE, ENSALVEDPAGE, ENSALVERSPAGE, PASTHOMEPAGEPATH, TRANSATLANTICENSLAVERS, TRANSATLANTICTIMELAPSEPATH, VOYAGEPATHDROPDOWN } from "@/share/CONST_DATA"
 import { LabelFilterMeneList } from "@/share/InterfaceTypes"
 
 export const LanguageOptions = [
@@ -18,7 +19,7 @@ export const PagesOptions: PagesOptionsProps[] = [
     {
         page: {
             name: 'Voyages',
-            pathUrl: '/voyage/trans-atlantic#voyages',
+            pathUrl: `${VOYAGEPATHDROPDOWN}`,
             label: {
                 "en": 'Voyages Database',
                 "es": "Base de Datos de Viajes",
@@ -29,7 +30,7 @@ export const PagesOptions: PagesOptionsProps[] = [
     {
         page: {
             name: 'People',
-            pathUrl: '/PastHomePage',
+            pathUrl: `${PASTHOMEPAGEPATH}`,
             label: {
                 "en": 'People',
                 "es": "Personas",
@@ -40,7 +41,7 @@ export const PagesOptions: PagesOptionsProps[] = [
     {
         page: {
             name: 'Enslaved',
-            pathUrl: '/past/enslaved/all-enslaved#people',
+            pathUrl: `${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#people`,
             label: {
                 "en": 'Enslaved',
                 "es": "Esclavizadas",
@@ -51,7 +52,7 @@ export const PagesOptions: PagesOptionsProps[] = [
     {
         page: {
             name: 'Enslavers',
-            pathUrl: '/past/enslaver/trans-atlantic-trades#people',
+            pathUrl: `${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}#people`,
             label: {
                 "en": 'Enslavers',
                 "es": "Esclavistas",
@@ -62,7 +63,7 @@ export const PagesOptions: PagesOptionsProps[] = [
     {
         page: {
             name: 'Timelapse',
-            pathUrl: '/voyage/trans-atlantic#timelapse',
+            pathUrl: `${TRANSATLANTICTIMELAPSEPATH}`,
             label: {
                 "en": 'Timelapse',
                 "es": "Lapso Temporal",
@@ -73,7 +74,7 @@ export const PagesOptions: PagesOptionsProps[] = [
     {
         page: {
             name: 'Learn more',
-            pathUrl: '/blog',
+            pathUrl: `/${BLOGPAGE}`,
             label: {
                 "en": 'Learn more',
                 "es": "Aprende más",

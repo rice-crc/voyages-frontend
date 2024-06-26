@@ -89,7 +89,7 @@
 		"children": [
 			{
 				"var_name": "aliases__enslaver_relations__roles__name",
-				"type": "CharField",
+				"type": "MultiselectList",
 				"ops": [
 					"icontains"
 				],

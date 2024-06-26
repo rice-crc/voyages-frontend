@@ -13,6 +13,8 @@ import {
   ENSALVERSPAGE,
   ALLENSLAVEDPAGE,
   TRANSATLANTICENSLAVERS,
+  AFRICANORIGINSPAGE,
+  AFRICANORIGINS,
 } from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,9 +48,9 @@ export default function HeaderPeopleNavBar() {
       localStorage.removeItem(key);
     });
     if (item === "Enslaved" || item === "Esclavizados" || item === "Escravizados") {
-      navigate(`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#people`);
+      navigate(`${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#people`);
       dispatch(setCurrentEnslavedPage(1));
-      dispatch(setPathNameEnslaved(ALLENSLAVED));
+      dispatch(setPathNameEnslaved(AFRICANORIGINS));
     } else if (item === "Enslavers" || item === "Esclavistas" || item === "Escravizadores") {
       navigate(`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}#people`);
       dispatch(setCurrentEnslaversPage(1));
