@@ -225,8 +225,8 @@ The project is structured as follows:
       │   │     │     ├── enslaved_options.json
       │   │     │     ├── enslaved_table_cell_structure.json
       │   │     │     ├── people_page_data.json
-      │   │     │     ├── texas_filter_menu.json
-      │   │     │     ├── texas_table_cell_structure.json
+      │   │     │     ├── enslaved_texas_filter_menu.json
+      │   │     │     ├── enslaved_texas_table_cell_structure.json
       │   │     │     ├── transatlantic_voyages_filter_menu_SIMPLE.json
       │   │     │     ├── transatlantic_voyages_filter_menu.json
       │   │     │     ├── varnamechecker.py

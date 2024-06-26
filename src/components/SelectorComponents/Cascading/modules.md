@@ -1,6 +1,6 @@
 # Cascading Filter Menus
 
-Cascading filter menus are specified in the utils/flatfiles folder, with filenames like texas_filter_menu.json. In these files, we lay out the hierarchy of the filter menu, and the django var names and data types of the individual variables that the user can filter on. For example:
+Cascading filter menus are specified in the utils/flatfiles folder, with filenames like enslaved_texas_filter_menu.json In these files, we lay out the hierarchy of the filter menu, and the django var names and data types of the individual variables that the user can filter on. For example:
 
     [...
     	{

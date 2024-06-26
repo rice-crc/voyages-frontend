@@ -10,7 +10,7 @@ export const ENSLAVERS_TABLE_FILE = 'enslavers_table_cell_structure.json'
 export const pathFlatFile = '@/utils/flatfiles/';
 export const ENSLAVED_TABLE_FILE = 'enslaved_table_cell_structure.json';
 export const AFRICANORIGINS_TABLE_FILE = 'african_origins_table_cell_structure.json';
-export const TEXAS_TABLE_FILE = 'texas_table_cell_structure.json';
+export const TEXAS_TABLE_FILE = 'enslaved_texas_table_cell_structure.json';
 
 export const VOYAGESPAGE = 'VoyagesPage'
 export const ALLVOYAGES = 'all-voyages'
