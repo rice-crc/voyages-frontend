@@ -1,5 +1,5 @@
 import { fetchVoyagesOptionsApi } from '@/fetch/voyagesFetch/fetchVoyagesOptionsApi';
-import dataVoyageScatterOptions from "@/utils/flatfiles/VOYAGE_SCATTER_OPTIONS.json";
+import dataVoyageScatterOptions from "@/utils/flatfiles/voyages/VOYAGE_SCATTER_OPTIONS.json";
 import { expect, test, vi, describe } from "vitest";
 
 const fileName = 'VOYAGE_SCATTER_OPTIONS.json';

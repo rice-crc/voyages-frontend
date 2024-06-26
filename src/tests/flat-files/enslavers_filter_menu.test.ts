@@ -1,5 +1,5 @@
 import { expect, test, vi, describe } from "vitest";
-import ENSLAVERS_FILTER_MENU from '@/utils/flatfiles/enslavers_filter_menu.json';
+import ENSLAVERS_FILTER_MENU from '@/utils/flatfiles/enslavers/enslavers_filter_menu.json';
 import { extractTestVarNamesFlatFiles } from "@/utils/functions/extractVarNamesTest";
 import { fetchPastEnslaversOptions } from "@/fetch/pastEnslaversFetch/fetchPastEnslaversOptions";
 

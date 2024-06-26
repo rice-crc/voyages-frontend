@@ -224,7 +224,6 @@ The project is structured as follows:
       │   │     │     ├── enslaved_filter_menu.json
       │   │     │     ├── enslaved_options.json
       │   │     │     ├── enslaved_table_cell_structure.json
-      │   │     │     ├── enslaver_options.json
       │   │     │     ├── people_page_data.json
       │   │     │     ├── texas_filter_menu.json
       │   │     │     ├── texas_table_cell_structure.json

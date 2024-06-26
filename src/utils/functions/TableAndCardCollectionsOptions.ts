@@ -1,11 +1,11 @@
-import TABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
-import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
-import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
-import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
-import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.json';
-import CARDS_VOYAGES_COLLECTION from '@/utils/flatfiles/transatlantic_voyages_card.json';
-import CARDS_ENSLAVED_COLLECTION from '@/utils/flatfiles/enslaved_card.json';
-import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers_card.json';
+import TABLE_FLAT from '@/utils/flatfiles/voyages/voyage_table_cell_structure__updated21June.json';
+import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_table_cell_structure.json';
+import AFRICANORIGINS_TABLE from '@/utils/flatfiles/enslaved/african_origins_table_cell_structure.json';
+import TEXAS_TABLE from '@/utils/flatfiles/voyages/texas_table_cell_structure.json';
+import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers/enslavers_table_cell_structure.json';
+import CARDS_VOYAGES_COLLECTION from '@/utils/flatfiles/voyages/transatlantic_voyages_card.json';
+import CARDS_ENSLAVED_COLLECTION from '@/utils/flatfiles/enslaved/enslaved_card.json';
+import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers/enslavers_card.json';
 import {
     AFRICANORIGINS_TABLE_FILE,
     ENSLAVEDCARDFILE,

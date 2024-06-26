@@ -1,5 +1,5 @@
 import { fetchVoyagesOptionsApi } from '@/fetch/voyagesFetch/fetchVoyagesOptionsApi';
-import dataVoyagePieOptions from "@/utils/flatfiles/VOYAGE_PIECHART_OPTIONS.json";
+import dataVoyagePieOptions from "@/utils/flatfiles/voyages/VOYAGE_PIECHART_OPTIONS.json";
 import { expect, test, vi, describe } from "vitest";
 
 const fileName = 'VOYAGE_PIECHART_OPTIONS.json';

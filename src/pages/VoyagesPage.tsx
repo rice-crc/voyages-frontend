@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { CurrentPageInitialState, TYPESOFBLOCKVOYAGES } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
-import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json';
+import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/VOYAGE_COLLECTIONS.json';
 import {
   pageVariantsFromBottom,
   pageVariantsFromTop,

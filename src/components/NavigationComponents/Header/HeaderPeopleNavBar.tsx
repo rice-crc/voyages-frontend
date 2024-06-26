@@ -3,7 +3,7 @@ import { AppBar, Box, IconButton, Hidden, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { Button, Menu } from '@mui/material';
-import PEOPLE from '@/utils/flatfiles/people_page_data.json';
+import PEOPLE from '@/utils/flatfiles/people/people_page_data.json';
 import { useNavigate } from 'react-router-dom';
 import '@/style/Nav.scss';
 import {

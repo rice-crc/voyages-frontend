@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PivotColumnDef, StatePivotRowData } from '@/share/InterfaceTypePivotTable';
-import VOYAGE_PIVOT_OPTIONS from '@/utils/flatfiles/VOYAGE_PIVOT_OPTIONS.json';
+import VOYAGE_PIVOT_OPTIONS from '@/utils/flatfiles/voyages/VOYAGE_PIVOT_OPTIONS.json';
 import { PivotTablesProps } from '@/share/InterfaceTypes';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 

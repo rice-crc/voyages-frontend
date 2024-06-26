@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import jsonDataTransatlanticVoyages from '@/utils/flatfiles/transatlantic_voyages_filter_menu.json'
+import jsonDataTransatlanticVoyages from '@/utils/flatfiles/voyages/transatlantic_voyages_filter_menu.json'
 import { FilterMenu, InitialStateFilterMenu } from '@/share/InterfaceTypes';
 const initialState: InitialStateFilterMenu = {
     value: jsonDataTransatlanticVoyages

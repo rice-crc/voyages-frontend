@@ -7,9 +7,9 @@ import {
   setIsModalCard,
 } from '@/redux/getCardFlatObjectSlice';
 import { processCardData } from '@/utils/functions/processCardData';
-import CARDS_VOYAGES_COLLECTION from '@/utils/flatfiles/transatlantic_voyages_card.json';
-import CARDS_ENSLAVED_COLLECTION from '@/utils/flatfiles/enslaved_card.json';
-import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers_card.json';
+import CARDS_VOYAGES_COLLECTION from '@/utils/flatfiles/voyages/transatlantic_voyages_card.json';
+import CARDS_ENSLAVED_COLLECTION from '@/utils/flatfiles/enslaved/enslaved_card.json';
+import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers/enslavers_card.json';
 import {
   ENSLAVEDCARDFILE,
   ENSLAVEDNODE,

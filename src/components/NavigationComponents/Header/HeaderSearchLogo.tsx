@@ -9,9 +9,9 @@ import {
   setStyleName,
   setTextIntro,
 } from '@/redux/getDataSetCollectionSlice';
-import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json';
+import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/VOYAGE_COLLECTIONS.json';
 import { setInputSearchValue } from '@/redux/getCommonGlobalSearchResultSlice';
-import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/PEOPLE_COLLECTIONS.json';
 import {
   setDataSetPeopleEnslavedHeader,
   setPeopleEnslavedBlocksMenuList,

@@ -1,7 +1,6 @@
 import { Grid } from '@mui/material';
 import PersonImage from '@/assets/peoplepage.png';
-// import PersonImage from '@/assets/person.png';
-import PEOPLE from '@/utils/flatfiles/people_page_data.json';
+import PEOPLE from '@/utils/flatfiles/people/people_page_data.json';
 import '@/style/page-past.scss';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';

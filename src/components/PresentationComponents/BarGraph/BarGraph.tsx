@@ -1,7 +1,7 @@
 import { useState, useEffect, ChangeEvent, useCallback } from 'react';
 import Plot from 'react-plotly.js';
 import { Data } from 'plotly.js';
-import VOYAGE_BARGRAPH_OPTIONS from '@/utils/flatfiles/VOYAGE_BARGRAPH_OPTIONS.json';
+import VOYAGE_BARGRAPH_OPTIONS from '@/utils/flatfiles/voyages/VOYAGE_BARGRAPH_OPTIONS.json';
 import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
 import { RootState } from '@/redux/store';

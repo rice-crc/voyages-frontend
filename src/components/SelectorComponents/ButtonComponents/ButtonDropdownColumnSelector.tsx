@@ -12,11 +12,11 @@ import {
   ColumnSelectorTree,
   TableCellStructureInitialStateProp,
 } from '@/share/InterfaceTypesTable';
-import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
-import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
-import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
-import VOYAGESTABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
-import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.json';
+import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_table_cell_structure.json';
+import AFRICANORIGINS_TABLE from '@/utils/flatfiles/enslaved/african_origins_table_cell_structure.json';
+import TEXAS_TABLE from '@/utils/flatfiles/voyages/texas_table_cell_structure.json';
+import VOYAGESTABLE_FLAT from '@/utils/flatfiles/voyages/voyage_table_cell_structure__updated21June.json';
+import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers/enslavers_table_cell_structure.json';
 import { LabelFilterMeneList, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';

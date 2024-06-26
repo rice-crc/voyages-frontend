@@ -1,6 +1,5 @@
-import { LabelFilterMeneList } from '@/share/InterfaceTypes';
 import { BaseFilter, BlockCollectionProps, InitialStateDataSetCollection } from '@/share/InterfactTypesDatasetCollection';
-import jsonDataVoyageCollection from '@/utils/flatfiles/VOYAGE_COLLECTIONS.json'
+import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/VOYAGE_COLLECTIONS.json'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 export const initialState: InitialStateDataSetCollection = {
     value: jsonDataVoyageCollection,
