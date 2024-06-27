@@ -14,9 +14,9 @@ export const enslavedHeader = {
     "header": [
         {
             "label": {
-                "en": "Enslaved People",
-                "es": "Personas Esclavizadas",
-                "pt": "Pessoas Escravizadas"
+                "en": "Enslaved",
+                "es": "Esclavizadas",
+                "pt": "Escravizadas"
             }
         }
     ]

@@ -1,5 +1,5 @@
 import { InitialStateColumnProps, TableCellStructureProps } from '@/share/InterfaceTypesTable';
-import jsonDataTable from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json'
+import jsonDataTable from '@/utils/flatfiles/voyages/voyages_transatlantic_table.json'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const initialState: InitialStateColumnProps = {

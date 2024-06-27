@@ -18,6 +18,12 @@ Blog page component is responsible for displaying information about an author, i
 
 ##
 
+## Document Components:
+
+Document Components focus on presenting Document..
+
+##
+
 ## Filter Components:
 
 Filter Components focus on presenting filter options and controls.

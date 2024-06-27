@@ -1,15 +1,15 @@
 import { fetchVoyagesOptionsApi } from '@/fetch/voyagesFetch/fetchVoyagesOptionsApi';
-import dataVoyageBarGraphOptions from "@/utils/flatfiles/VOYAGE_BARGRAPH_OPTIONS.json";
+import dataVoyageBarGraphOptions from "@/utils/flatfiles/voyages/voyages_bargraph_options.json";
 import { expect, test, vi, describe } from "vitest";
-const fileName = 'VOYAGE_BARGRAPH_OPTIONS.json';
+const fileName = 'voyages_bargraph_options.json';
 global.fetch = vi.fn()
 const EndPoint = '/voyage/groupby/'
-describe('VOYAGE_BARGRAPH_OPTIONS.json API Service', () => {
-    test.todo('makes a VOYAGE_BARGRAPH_OPTIONS.json request to fetch data list')
+describe('voyages_bargraph_options.json API Service', () => {
+    test.todo('makes a voyages_bargraph_options.json request to fetch data list')
 })
 
-// Test the VOYAGE_BARGRAPH_OPTIONS.json API data
-test('VOYAGE_BARGRAPH_OPTIONS.json response data matches expected data', async () => {
+// Test the voyages_bargraph_options.json API data
+test('voyages_bargraph_options.json response data matches expected data', async () => {
     const asyncMock = vi.fn().mockResolvedValue(fetchVoyagesOptionsApi())
 
     const response = await asyncMock();
@@ -50,7 +50,7 @@ test('VOYAGE_BARGRAPH_OPTIONS.json response data matches expected data', async (
     );
 
 
-    const errorMessage = `Missing VOYAGE_BARGRAPH_OPTIONS.json: flat file ${fileName} names variables:\n\n ${missingXVars.map((xVar) => xVar.var_name).concat(missingYVars.map((yVar) => yVar.var_name).join(', \n'))}\n\nthat is not present in ${EndPoint}`
+    const errorMessage = `Missing voyages_bargraph_options.json: flat file ${fileName} names variables:\n\n ${missingXVars.map((xVar) => xVar.var_name).concat(missingYVars.map((yVar) => yVar.var_name).join(', \n'))}\n\nthat is not present in ${EndPoint}`
 
     if (missingXVars.length + missingYVars.length > 0) {
         throw new Error(errorMessage);

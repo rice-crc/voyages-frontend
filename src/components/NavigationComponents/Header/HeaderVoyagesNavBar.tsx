@@ -102,7 +102,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
-
     dispatch(resetAll());
     const filters: Filter[] = [];
     if (styleName === ALLVOYAGES && currentVoyageBlockName === 'timelapse') {

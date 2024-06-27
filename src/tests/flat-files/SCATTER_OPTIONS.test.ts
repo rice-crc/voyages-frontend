@@ -1,8 +1,8 @@
 import { fetchVoyagesOptionsApi } from '@/fetch/voyagesFetch/fetchVoyagesOptionsApi';
-import dataVoyageScatterOptions from "@/utils/flatfiles/VOYAGE_SCATTER_OPTIONS.json";
+import dataVoyageScatterOptions from "@/utils/flatfiles/voyages/voyages_scatter_options.json";
 import { expect, test, vi, describe } from "vitest";
 
-const fileName = 'VOYAGE_SCATTER_OPTIONS.json';
+const fileName = 'voyages_scatter_options.json';
 global.fetch = vi.fn()
 const EndPoint = '/voyage/groupby/'
 
@@ -50,7 +50,7 @@ test('Test the VOYAGE_SCATTER_OPTIONS if data does not match with API data', asy
         (yVar) => !options.includes(yVar.var_name)
     );
 
-    const errorMessage = `Missing VOYAGE_SCATTER_OPTIONS.json: flat file ${fileName} names variables:\n\n :${missingXVars.map((xVar) => xVar.var_name).concat(missingYVars.map((yVar) => yVar.var_name).join(', \n'))}\n\nthat is not present in ${EndPoint}`
+    const errorMessage = `Missing voyages_scatter_options.json: flat file ${fileName} names variables:\n\n :${missingXVars.map((xVar) => xVar.var_name).concat(missingYVars.map((yVar) => yVar.var_name).join(', \n'))}\n\nthat is not present in ${EndPoint}`
 
     if (missingXVars.length + missingYVars.length > 0) {
         throw new Error(errorMessage);

@@ -61,28 +61,8 @@
   margin: 0;
   background-repeat: no-repeat;
   background: linear-gradient(rgba(127, 118, 191, 0.85),
-      rgba(127, 118, 191, 0.8)),
+      rgba(127, 118, 191, 0.5)),
     url('../assets/intra-american.jpeg') center / cover;
-
-  @include breakpoint-standard(7) {
-    // height: 110vh;
-  }
-
-  @include breakpoint-standard(6) {
-    // height: 100vh;
-  }
-
-  @include breakpoint-standard(2) {
-    // height: 115vh;
-  }
-
-  @include breakpoint-standard(1) {
-    // height: 110vh;
-  }
-
-  @include breakpoint-standard(0) {
-    // height: 110vh;
-  }
 }
 
 .grid-people-image {
@@ -107,10 +87,24 @@
     display: none;
   }
 
-  >img {
-    max-height: 80vh;
-    max-width: 100%;
-    object-fit: contain;
+  img {
+    object-fit: cover;
+    height: 90vh;
+    max-height: 100%;
+    position: relative;
+    top: 6px;
+
+    @include breakpoint-standard(6) {
+      height: 80vh;
+    }
+
+    @include breakpoint-standard(5) {
+      height: 80vh;
+    }
+
+    @include breakpoint-standard(4) {
+      height: 75vh;
+    }
 
     @include breakpoint-standard(3) {
       display: none;
@@ -128,9 +122,6 @@
       display: none;
     }
   }
-
-
-
 }
 
 .flipped-image {
@@ -151,20 +142,20 @@
 
 .text-intro-box {
   margin: 0 auto;
-  padding: 2rem 7rem 0 2rem;
+  padding: 2rem 1rem 0 2rem;
 
   @include breakpoint-standard(6) {
     font-size: 1.15rem;
-    padding: 0 3rem 0 1rem
+    padding: 0 1rem 0 1rem
   }
 
   @include breakpoint-standard(5) {
     font-size: 1.15rem;
-    padding: 0 3rem 0 1rem
+    padding: 0 1.25rem 0 1rem
   }
 
   @include breakpoint-standard(4) {
-    font-size: 1rem;
+    font-size: 1.15rem;
     padding: 0;
   }
 
@@ -202,8 +193,8 @@
   background-color: #ffffff;
   color: black;
   margin-right: 20px;
-  padding: 0 10px;
-  font-size: 16px;
+  padding: 8px;
+  font-size: 1.15rem;
   line-height: 28px;
   width: 150px;
   border-radius: 12px;
@@ -290,35 +281,40 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    font-size: 48px;
+    font-size: 1.4rem;
+    font-weight: 700;
     color: rgba(0, 0, 0, 0.75);
 
     @include breakpoint-standard(6) {
-      font-size: 46px;
+      font-size: 1rem;
+    }
+
+    @include breakpoint-standard(6) {
+      font-size: 1rem;
     }
 
     @include breakpoint-standard(5) {
-      font-size: 42px;
+      font-size: 0.75rem;
     }
 
     @include breakpoint-standard(4) {
-      font-size: 36px;
+      font-size: 0.75rem;
     }
 
     @include breakpoint-standard(3) {
-      font-size: 30px;
+      font-size: 1rem;
     }
 
     @include breakpoint-standard(2) {
-      font-size: 28px;
+      font-size: 14px;
     }
 
     @include breakpoint-standard(1) {
-      font-size: 22px;
+      font-size: 10px;
     }
 
     @include breakpoint-standard(0) {
-      font-size: 22px;
+      font-size: 10px;
     }
   }
 }

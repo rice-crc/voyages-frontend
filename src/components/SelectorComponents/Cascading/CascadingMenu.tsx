@@ -9,7 +9,7 @@ import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { useEffect, useState } from 'react';
 import { setPeopleEnslavedBlocksMenuList } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
-import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/PEOPLE_COLLECTIONS.json';
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/people_collections.json';
 import SaveSearchComponent from '@/components/FilterComponents/SaveSearchComponent/SaveSearchComponent';
 import '@/style/Nav.scss'
 import { VOYAGE } from '@/share/CONST_DATA';

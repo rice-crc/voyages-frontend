@@ -19,7 +19,7 @@ import {
   VOYAGESNODECLASS,
 } from '@/share/CONST_DATA';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages, checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { cleanUpTextDisplay } from '@/utils/functions/cleanUpTextDisplay';
 import { numberWithCommas } from '@/utils/functions/numberWithCommas';
 import { DocumentViewerContext, createDocKey } from '@/utils/functions/documentWorkspace';
@@ -40,7 +40,7 @@ export const GenerateCellTableRenderer = (
 
   let nodeType: string = '';
 
-  if (checkPagesRouteForVoyages(styleName!)) {
+  if (checkRouteForVoyages(styleName!)) {
     nodeType = VOYAGESNODECLASS;
   } else if (checkPagesRouteForEnslaved(styleName!)) {
     nodeType = ENSLAVEDNODE;

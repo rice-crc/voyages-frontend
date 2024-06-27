@@ -1,6 +1,6 @@
-import { Box, Grid } from '@mui/material';
-import PersonImage from '@/assets/personImg.png';
-import PEOPLE from '@/utils/flatfiles/people_page_data.json';
+import { Grid } from '@mui/material';
+import PersonImage from '@/assets/peoplepage.png';
+import PEOPLE from '@/utils/flatfiles/people/people_page_data.json';
 import '@/style/page-past.scss';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,11 +27,13 @@ const PastPeopleIntro = () => {
   return (
     <Grid container id="main-page-past-home">
       <Grid item sm={6} md={4} lg={4} className="grid-people-image">
-        <img
-          className="flipped-image"
-          src={PersonImage}
-          alt="PersonImage"
-        />
+        <Link to="https://www.loc.gov/pictures/item/2017659626/" target="_blank" rel="noopener noreferrer">
+          <img
+            className="flipped-image"
+            src={PersonImage}
+            alt="PersonImage"
+          />
+        </Link>
       </Grid>
       <Grid item sm={6} md={8} lg={8} className="grid-people-introduction">
         {PEOPLE.map((item, index) => {

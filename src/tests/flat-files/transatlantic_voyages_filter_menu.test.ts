@@ -1,9 +1,9 @@
 import { expect, test, vi, describe } from "vitest";
-import TransatlanticVoyages_FILTER_MENU from '@/utils/flatfiles/transatlantic_voyages_filter_menu.json';
+import TransatlanticVoyages_FILTER_MENU from '@/utils/flatfiles/voyages/voyages_transatlantic_filter_menu.json';
 import { extractTestVarNamesFlatFiles } from "@/utils/functions/extractVarNamesTest";
 import { fetchVoyagesOptionsApi } from "@/fetch/voyagesFetch/fetchVoyagesOptionsApi";
 
-const fileName = 'transatlantic_voyages_filter_menu.json';
+const fileName = 'voyages_transatlantic_filter_menu.json';
 const EndPoint = '/common/schemas/?schema_name=Voyage&hierarchical=False'
 global.fetch = vi.fn();
 describe(fileName, () => {

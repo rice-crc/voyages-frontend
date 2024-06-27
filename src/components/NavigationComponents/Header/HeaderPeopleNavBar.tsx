@@ -3,16 +3,16 @@ import { AppBar, Box, IconButton, Hidden, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { Button, Menu } from '@mui/material';
-import PEOPLE from '@/utils/flatfiles/people_page_data.json';
+import PEOPLE from '@/utils/flatfiles/people/people_page_data.json';
 import { useNavigate } from 'react-router-dom';
 import '@/style/Nav.scss';
 import {
-  ALLENSLAVED,
   ALLENSLAVERS,
   ENSALVEDPAGE,
   ENSALVERSPAGE,
-  ALLENSLAVEDPAGE,
   TRANSATLANTICENSLAVERS,
+  AFRICANORIGINSPAGE,
+  AFRICANORIGINS,
 } from '@/share/CONST_DATA';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,6 +23,7 @@ import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import HeaderLogo from './HeaderLogo';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import { LabelFilterMeneList } from '@/share/InterfaceTypes';
+import { HeaderDrawerMenuPeopleBar } from './HeaderDrawerMenuPeopleBar';
 
 
 export default function HeaderPeopleNavBar() {
@@ -45,9 +46,9 @@ export default function HeaderPeopleNavBar() {
       localStorage.removeItem(key);
     });
     if (item === "Enslaved" || item === "Esclavizados" || item === "Escravizados") {
-      navigate(`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#people`);
+      navigate(`${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#people`);
       dispatch(setCurrentEnslavedPage(1));
-      dispatch(setPathNameEnslaved(ALLENSLAVED));
+      dispatch(setPathNameEnslaved(AFRICANORIGINS));
     } else if (item === "Enslavers" || item === "Esclavistas" || item === "Escravizadores") {
       navigate(`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}#people`);
       dispatch(setCurrentEnslaversPage(1));
@@ -149,10 +150,10 @@ export default function HeaderPeopleNavBar() {
             open={Boolean(anchorEl)}
             onClick={handleMenuClose}
           >
-            {/* <HeaderDrawerMenuPeopleBar
-              // value={PEOPLE[0]?.header}
+            <HeaderDrawerMenuPeopleBar
+              value={PEOPLE[0]}
               handleSelectMenuItems={handleSelectMenuItems}
-            /> */}
+            />
           </Menu>
         </Box>
       </AppBar>

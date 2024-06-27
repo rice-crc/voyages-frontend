@@ -219,23 +219,22 @@ The project is structured as follows:
       │   │     │     ├── valueGetter.test.ts
       │   │── utils
       │   │     ├── flatfiles
-      │   │     │     ├── african_origins_filter_menu.json
-      │   │     │     ├── african_origins_table_cell_structure.json
+      │   │     │     ├── enslaved_african_origins_filter_menu.json
+      │   │     │     ├── enslaved_african_origins_table.json
       │   │     │     ├── enslaved_filter_menu.json
       │   │     │     ├── enslaved_options.json
       │   │     │     ├── enslaved_table_cell_structure.json
-      │   │     │     ├── enslaver_options.json
       │   │     │     ├── people_page_data.json
-      │   │     │     ├── texas_filter_menu.json
-      │   │     │     ├── texas_table_cell_structure.json
+      │   │     │     ├── enslaved_texas_filter_menu.json
+      │   │     │     ├── enslaved_texas_table_cell_structure.json
       │   │     │     ├── transatlantic_voyages_filter_menu_SIMPLE.json
-      │   │     │     ├── transatlantic_voyages_filter_menu.json
+      │   │     │     ├── voyages_transatlantic_filter_menu.json
       │   │     │     ├── varnamechecker.py
-      │   │     │     ├── VOYAGE_BARGRAPH_OPTIONS.json
-      │   │     │     ├── VOYAGE_COLLECTIONS.json
-      │   │     │     ├── VOYAGE_PIECHART_OPTIONS.json
-      │   │     │     ├── VOYAGE_SCATTER_OPTIONS.json
-      │   │     │     ├── voyage_table_cell_structure__updated21June.json
+      │   │     │     ├── voyages_bargraph_options.json
+      │   │     │     ├── voyages_collections.json
+      │   │     │     ├── voyages_piechart_options.json
+      │   │     │     ├── voyages_scatter_options.json
+      │   │     │     ├── voyages_transatlantic_table.json
       │   │     ├── functions
       │   │     │     ├── generateRowsData.ts
       │   │     │     ├── getRowsPerPage.ts

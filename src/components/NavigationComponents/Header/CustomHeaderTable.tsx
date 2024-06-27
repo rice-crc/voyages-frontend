@@ -7,7 +7,7 @@ import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEns
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { Filter, TableListPropsRequest } from '@/share/InterfaceTypes';
+import { TableListPropsRequest } from '@/share/InterfaceTypes';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';

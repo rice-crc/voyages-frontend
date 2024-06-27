@@ -14,13 +14,14 @@ import { updateNationalityObject } from '@/utils/functions/updateNationalityObje
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { fetchResistanceList } from '@/fetch/voyagesFetch/fetchResistanceList';
-import { varNameOfFlagOfVessel, varNameOfFlagOfVesselIMP, varNameOfResistance, varNameParticularCoutComeList, varNameRigOfVesselList, varNameOwnerOutcomeList, varNameTonTypList, varNameSlavesOutcomeList, varNameVesselCapturedOutcomeList } from '@/share/CONST_DATA';
+import { varNameOfFlagOfVessel, varNameOfFlagOfVesselIMP, varNameOfResistance, varNameParticularCoutComeList, varNameRigOfVesselList, varNameOwnerOutcomeList, varNameTonTypList, varNameSlavesOutcomeList, varNameVesselCapturedOutcomeList, varNameEnslaverRoleList } from '@/share/CONST_DATA';
 import { fetchParticularOutcomeList } from '@/fetch/voyagesFetch/fetchParticularOutcomeList';
 import { fetchRigOfVesselList } from '@/fetch/voyagesFetch/fetchRigOfVesselList';
 import { fetchOwnerOutcomeList } from '@/fetch/voyagesFetch/fetchOwnerOutcomeList';
 import { fetchSlavesOutcomeList } from '@/fetch/voyagesFetch/fetchSlavesOutcomeList';
 import { fetchTonTypeList } from '@/fetch/voyagesFetch/fetchTonTypeList';
 import { fetchVesselCapturedOutcomeList } from '@/fetch/voyagesFetch/fetchVesselCapturedOutcomeList';
+import { fetchEnslaverRoleList } from '@/fetch/voyagesFetch/fetchEnslaverRoleList';
 
 interface SelectSearchDropdownListProps {
 }
@@ -50,7 +51,7 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
     [varNameSlavesOutcomeList]: fetchSlavesOutcomeList,
     [varNameTonTypList]: fetchTonTypeList,
     [varNameVesselCapturedOutcomeList]: fetchVesselCapturedOutcomeList,
-
+    [varNameEnslaverRoleList]: fetchEnslaverRoleList,
   };
 
   const fetchNationalityData = async () => {
@@ -64,7 +65,7 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
         setMultipleOptionsList(data);
       }
     } catch (error) {
-      console.log('Error fetching nationality data', error);
+      console.log(`Error fetching data`, error);
     }
   };
 
@@ -113,10 +114,10 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
             variant="outlined"
             label={
               <Typography variant="body1" style={{ fontSize: 14 }} height={50}>
-                Selected nationality
+                Selected {labelVarName}
               </Typography>
             }
-            placeholder="Selected nationality"
+            placeholder={`Selected ${labelVarName}`}
             style={{ marginTop: 20 }}
           />
         </div>
