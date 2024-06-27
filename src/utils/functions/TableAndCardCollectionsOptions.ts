@@ -9,14 +9,12 @@ import CARDS_TRANSATLANTIC_COLLECTION from '@/utils/flatfiles/voyages/voyages_tr
 import CARDS_INTRAAMERICAN_COLLECTION from '@/utils/flatfiles/voyages/voyages_intraamerican_card.json';
 import CARDS_ALLVOYAGES_COLLECTION from '@/utils/flatfiles/voyages/voyages_all_card.json';
 import CARDS_ENSLAVED_african_origins from '@/utils/flatfiles/enslaved/enslaved_african_origins_card.json';
-import CARDS_ENSLAVED_intraamerican from '@/utils/flatfiles/enslaved/enslaved_intraamerican_card.json';
 import CARDS_ALLENSLAVED from '@/utils/flatfiles/enslaved/enslaved_all_card_menu.json';
 import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers/enslavers_card.json';
 import {
     AFRICANORIGINS_TABLE_FILE,
     ENSLAVED_african_origins_CARDFILE,
     ENSLAVED_ALL_CARDFILE,
-    ENSLAVED_intraamerican_CARDFILE,
     ENSLAVED_TABLE_FILE,
     ENSLAVERSCARDFILE,
     ENSLAVERS_TABLE_FILE,
@@ -103,14 +101,6 @@ export const TableAndCardCollectionsOptions = (file?: string): Record<string, an
     }
     else if (file === ENSLAVED_african_origins_CARDFILE) {
         CARDS_ENSLAVED_african_origins.forEach((value) => {
-            value.children.forEach((element) => {
-                const fieldsData = element.cell_val?.fields;
-                processFieldsData(fieldsData);
-            })
-        });
-    }
-    else if (file === ENSLAVED_intraamerican_CARDFILE) {
-        CARDS_ENSLAVED_intraamerican.forEach((value) => {
             value.children.forEach((element) => {
                 const fieldsData = element.cell_val?.fields;
                 processFieldsData(fieldsData);

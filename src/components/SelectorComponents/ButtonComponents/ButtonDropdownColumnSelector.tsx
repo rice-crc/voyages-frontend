@@ -13,7 +13,6 @@ import {
   TableCellStructureInitialStateProp,
 } from '@/share/InterfaceTypesTable';
 import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_all_table_menu.json';
-import ENSLAVED_INTRAAMEICAN_TABLE from '@/utils/flatfiles/enslaved/enslaved_intraamerican_table.json';
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/enslaved/enslaved_african_origins_table.json';
 import TEXAS_TABLE from '@/utils/flatfiles/enslaved/enslaved_texas_table_cell_structure.json';
 import Transatlantic_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_transatlantic_table.json';
@@ -57,7 +56,6 @@ const ButtonDropdownColumnSelector = () => {
   const intraamericanColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(Intraamerican_TABLE_FLAT.column_selector_tree))
   const allVoyageColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(AllVoyages_TABLE_FLAT.column_selector_tree))
   const enslavedColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(ENSLAVED_TABLE.column_selector_tree))
-  const enslavedIntraamericanColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(ENSLAVED_INTRAAMEICAN_TABLE.column_selector_tree))
   const africanOriginsColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(AFRICANORIGINS_TABLE.column_selector_tree))
   const texasColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(TEXAS_TABLE.column_selector_tree))
   const enslaversColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(ENSLAVERS_TABLE.column_selector_tree))

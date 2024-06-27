@@ -13,7 +13,6 @@ import CARDS_INTRAAMERICAN_COLLECTION from '@/utils/flatfiles/voyages/voyages_in
 import CARDS_ALLVOYAGES_COLLECTION from '@/utils/flatfiles/voyages/voyages_all_card.json';
 // Enslaved Card
 import CARDS_ENSLAVED_african_origins from '@/utils/flatfiles/enslaved/enslaved_african_origins_card.json';
-import CARDS_ENSLAVED_intraamerican from '@/utils/flatfiles/enslaved/enslaved_intraamerican_card.json';
 import CARDS_ALLENSLAVED from '@/utils/flatfiles/enslaved/enslaved_all_card_menu.json';
 import CARDS_TEXAS_ENSLAVED from '@/utils/flatfiles/enslaved/enslaved_texas_card.json';
 // Enslavers Card
@@ -23,7 +22,6 @@ import {
   ALLVOYAGESFILECARD,
   ENSLAVED_african_origins_CARDFILE,
   ENSLAVED_ALL_CARDFILE,
-  ENSLAVED_intraamerican_CARDFILE,
   ENSLAVED_TEXAS_CARDFILE,
   ENSLAVEDNODE,
   ENSLAVERSCARDFILE,
@@ -101,10 +99,6 @@ const VoyageCard = () => {
       case ENSLAVEDNODE:
         newCardFileName = ENSLAVED_african_origins_CARDFILE;
         newCardDataArray.push(...CARDS_ENSLAVED_african_origins);
-        break;
-      case ENSLAVEDNODE:
-        newCardFileName = ENSLAVED_intraamerican_CARDFILE;
-        newCardDataArray.push(...CARDS_ENSLAVED_intraamerican);
         break;
       case ENSLAVEDNODE:
         newCardFileName = ENSLAVED_TEXAS_CARDFILE;
