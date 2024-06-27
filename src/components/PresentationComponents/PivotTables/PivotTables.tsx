@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { Button, Pagination, SelectChangeEvent } from '@mui/material';
-import VOYAGE_PIVOT_OPTIONS from '@/utils/flatfiles/voyages/VOYAGE_PIVOT_OPTIONS.json';
+import VOYAGE_PIVOT_OPTIONS from '@/utils/flatfiles/voyages/voyages_pivot_options.json';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useWindowSize } from '@react-hook/window-size';

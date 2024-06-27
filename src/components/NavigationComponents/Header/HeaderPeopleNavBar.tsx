@@ -7,11 +7,9 @@ import PEOPLE from '@/utils/flatfiles/people/people_page_data.json';
 import { useNavigate } from 'react-router-dom';
 import '@/style/Nav.scss';
 import {
-  ALLENSLAVED,
   ALLENSLAVERS,
   ENSALVEDPAGE,
   ENSALVERSPAGE,
-  ALLENSLAVEDPAGE,
   TRANSATLANTICENSLAVERS,
   AFRICANORIGINSPAGE,
   AFRICANORIGINS,

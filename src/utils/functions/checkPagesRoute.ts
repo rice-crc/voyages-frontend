@@ -15,6 +15,17 @@ export const checkPagesRouteForVoyages = (pathStyleRoute: string) => {
         case TYPESOFDATASET.allVoyages:
         case TYPESOFDATASET.voyages:
         case TYPESOFDATASET.voyage:
+            return true;
+        default:
+            return false;
+    }
+};
+
+export const checkRouteForVoyages = (pathStyleRoute: string) => {
+    switch (pathStyleRoute) {
+        case TYPESOFDATASET.allVoyages:
+        case TYPESOFDATASET.voyages:
+        case TYPESOFDATASET.voyage:
         case TYPESOFDATASET.intraAmerican:
         case TYPESOFDATASET.transatlantic:
         case TYPESOFDATASET.texas:

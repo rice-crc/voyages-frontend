@@ -1,9 +1,9 @@
 import { expect, test, vi, describe } from "vitest";
-import AFRICAN_FILTER_MENU from '@/utils/flatfiles/african_origins_filter_menu.json';
+import AFRICAN_FILTER_MENU from '@/utils/flatfiles/enslaved/enslaved_african_origins_filter_menu.json';
 import { fetchPastEnslavedServiceData } from "@/fetch/pastEnslavedFetch/fetchPastEnslavedServiceData";
 import { extractTestVarNamesFlatFiles } from "@/utils/functions/extractVarNamesTest";
 
-const fileName = 'african_origins_filter_menu.json';
+const fileName = 'enslaved/enslaved_african_origins_filter_menu.json';
 const EndPoint = '/common/schemas/?schema_name=Enslaved&hierarchical=False'
 global.fetch = vi.fn();
 describe(fileName, () => {

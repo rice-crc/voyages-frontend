@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { useEffect } from 'react';
 import { setPeopleEnslavedBlocksMenuList, } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
-import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/PEOPLE_COLLECTIONS.json';
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/people_collections.json';
 import { LabelFilterMeneList, TYPESOFBLOCKENSLAVED, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { BlockCollectionProps } from '@/share/InterfactTypesDatasetCollection';
 import { checkBlockCollectionNameForEnslaved } from '@/utils/functions/checkBlockCollectionName';

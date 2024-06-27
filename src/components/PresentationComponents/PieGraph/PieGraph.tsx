@@ -1,6 +1,6 @@
 import { useState, useEffect, ChangeEvent, useCallback, useMemo } from 'react';
 import Plot from 'react-plotly.js';
-import PIECHART_OPTIONS from '@/utils/flatfiles/voyages/VOYAGE_PIECHART_OPTIONS.json';
+import PIECHART_OPTIONS from '@/utils/flatfiles/voyages/voyages_piechart_options.json';
 import { Grid, SelectChangeEvent } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
 import { RootState } from '@/redux/store';

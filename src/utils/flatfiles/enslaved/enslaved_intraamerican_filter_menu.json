@@ -7,7 +7,9 @@
 		},
 		"var_name": "documented_name",
 		"type": "CharField",
-		"ops":["icontains"]
+		"ops": [
+			"icontains"
+		]
 	},
 	{
 		"label": {
@@ -23,15 +25,6 @@
 					"en": "Age",
 					"es": "Edad",
 					"pt": "Idade"
-				}
-			},
-			{
-				"var_name": "gender",
-				"type": "IntegerField",
-				"label": {
-					"en": "Gender",
-					"es": "Género",
-					"pt": "Gênero"
 				}
 			},
 			{
@@ -55,7 +48,9 @@
 			{
 				"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
 				"type": "CharField",
-				"ops":["icontains"],
+				"ops": [
+					"icontains"
+				],
 				"label": {
 					"en": "Individual Enslavers",
 					"es": "Esclavizadores Individuales ",
@@ -74,7 +69,9 @@
 			{
 				"var_name": "enslaved_relations__relation__voyage__voyage_ship__ship_name",
 				"type": "CharField",
-				"ops":["icontains"],
+				"ops": [
+					"icontains"
+				],
 				"label": {
 					"en": "Ship Name",
 					"es": "Nombre del Barco",
@@ -112,15 +109,6 @@
 	},
 	{
 		"label": {
-			"en": "Cultural Association",
-			"es": "Associação Cultural",
-			"pt": "Associação Cultural"
-		},
-		"var_name": "language_group__name",
-		"type": "LanguageTreeSelect"
-	},
-	{
-		"label": {
 			"en": "Fate",
 			"es": "Destino",
 			"pt": "Destino"
@@ -129,7 +117,9 @@
 			{
 				"var_name": "captive_fate__name",
 				"type": "CharField",
-				"ops":["icontains"],
+				"ops": [
+					"icontains"
+				],
 				"label": {
 					"en": "Captive Fate",
 					"es": "Destino del Cautivo",
@@ -137,19 +127,20 @@
 				}
 			},
 			{
-				"var_name": "post_disembark_location__name",
-				"type": "CharField",
-				"ops":["icontains"],
+				"var_name": "post_disembark_location__value",
+				"type": "GeoTreeSelect",
 				"label": {
 					"en": "Post-Disembark Location",
 					"es": "Ubicación Posterior al Desembarco",
-					"pt": "Localização Pós-desembarque"
+					"pt": "Localização Pós-Desembarque"
 				}
 			},
 			{
 				"var_name": "enslaved_relations__relation__voyage__voyage_outcome__particular_outcome__name",
 				"type": "CharField",
-				"ops":["icontains"],
+				"ops": [
+					"icontains"
+				],
 				"label": {
 					"en": "Vessel Fate",
 					"es": "Destino de la Embarcación ",
@@ -168,7 +159,9 @@
 			{
 				"var_name": "enslaved_source_connections__source__title",
 				"type": "CharField",
-				"ops":["icontains"],
+				"ops": [
+					"icontains"
+				],
 				"label": {
 					"en": "Documentary Sources",
 					"es": "Fuentes Documentales",

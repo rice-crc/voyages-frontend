@@ -210,7 +210,7 @@
 						"cell_fn": "literal"
 					}
 				],
-				"join":" : "
+				"join": " : "
 			}
 		},
 		{
@@ -360,7 +360,7 @@
 						"cell_fn": "literal"
 					}
 				],
-				"join":": "
+				"join": ": "
 			}
 		}
 	],

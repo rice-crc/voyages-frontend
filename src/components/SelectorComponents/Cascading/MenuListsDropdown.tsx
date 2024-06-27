@@ -22,6 +22,7 @@ import {
   Filter,
   AutoCompleteOption,
   RolesProps,
+  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss';
 import { setType } from '@/redux/getFilterSlice';
@@ -68,7 +69,8 @@ import { updateFilterTextDialog } from '@/utils/functions/updateFilterTextDialog
 export const MenuListsDropdown = () => {
   const dispatch: AppDispatch = useDispatch();
   const {
-    valueVoyages,
+    valueAllVoyages,
+    valueTransaslantic, valueIntraamerican,
     valueEnslaved,
     valueAfricanOrigin,
     valueEnslavedTexas,
@@ -101,8 +103,12 @@ export const MenuListsDropdown = () => {
   useEffect(() => {
     const loadFilterCellStructure = async () => {
       try {
-        if (checkPagesRouteForVoyages(styleNameRoute!)) {
-          setFilterMenu(valueVoyages);
+        if (styleNameRoute === TYPESOFDATASET.transatlantic) {
+          setFilterMenu(valueTransaslantic);
+        } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {
+          setFilterMenu(valueIntraamerican);
+        } else if (checkPagesRouteForVoyages(styleNameRoute!)) {
+          setFilterMenu(valueAllVoyages);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
           setFilterMenu(valueEnslaved);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {
@@ -350,6 +356,7 @@ export const MenuListsDropdown = () => {
     <div>
       <Box className="filter-menu-bar">
         {filterMenu.map((item: FilterMenuList, index: number) => {
+
           const { var_name, label, type, ops } = item;
           const itemLabel = (label as LabelFilterMeneList)[languageValue];
           return var_name ? (

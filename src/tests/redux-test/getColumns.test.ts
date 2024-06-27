@@ -1,4 +1,4 @@
-import TABLE_FLAT from "@/utils/flatfiles/voyages/voyage_table_cell_structure__updated21June.json";
+import TABLE_FLAT from "@/utils/flatfiles/voyages/voyages_transatlantic_table.json";
 import { expect, test, vi, describe } from "vitest";
 import getColumnsReducer, {
     initialState,
@@ -16,7 +16,7 @@ describe('Voyages ColumnsSelectorTree  Service', () => {
 test("setColumnsSelectorTree reducer sets the valueCells", () => {
     const tableCellStructure = TABLE_FLAT;
 
-    const state = getColumnsReducer(initialState, setColumnsSelectorTree(tableCellStructure));
+    const state = getColumnsReducer(initialState, setColumnsSelectorTree(tableCellStructure as any));
 
     expect(state.valueCells).toEqual(tableCellStructure);
 });

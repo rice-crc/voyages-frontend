@@ -34,12 +34,6 @@ const PastPeopleIntro = () => {
             alt="PersonImage"
           />
         </Link>
-        {/* <img
-          className="flipped-image"
-          src={PersonImage}
-          alt="PersonImage"
-        /> */}
-
       </Grid>
       <Grid item sm={6} md={8} lg={8} className="grid-people-introduction">
         {PEOPLE.map((item, index) => {

@@ -60,7 +60,7 @@ import { SelectSearchDropdownList } from '../SelectDrowdown/SelectSearchDropdown
 const CascadingMenuMobile = () => {
   const { styleName: styleNameRoute } = usePageRouter()
 
-  const { valueVoyages, valueEnslaved, valueAfricanOrigin, valueEnslavedTexas, valueEnslavers } = useSelector((state: RootState) => state.getFilterMenuList.filterValueList);
+  const { valueTransaslantic, valueIntraamerican, valueAllVoyages, valueEnslaved, valueAfricanOrigin, valueEnslavedTexas, valueEnslavers } = useSelector((state: RootState) => state.getFilterMenuList.filterValueList);
   const { type: typeData } = useSelector((state: RootState) => state.getFilter);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -86,8 +86,12 @@ const CascadingMenuMobile = () => {
   useEffect(() => {
     const loadFilterCellStructure = async () => {
       try {
-        if (checkPagesRouteForVoyages(styleNameRoute!)) {
-          setFilterMenu(valueVoyages);
+        if (styleNameRoute === TYPESOFDATASET.transatlantic) {
+          setFilterMenu(valueTransaslantic);
+        } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {
+          setFilterMenu(valueIntraamerican);
+        } else if (checkPagesRouteForVoyages(styleNameRoute!)) {
+          setFilterMenu(valueAllVoyages);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
           setFilterMenu(valueEnslaved);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {

@@ -14,7 +14,7 @@ import EnslavedMap from '@/components/PresentationComponents/Map/MAPS';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setPeopleEnslavedBlocksMenuList, setPeopleEnslavedStyleName } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
-import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/PEOPLE_COLLECTIONS.json';
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/people_collections.json';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
 
 const EnslavedPage: React.FC = () => {

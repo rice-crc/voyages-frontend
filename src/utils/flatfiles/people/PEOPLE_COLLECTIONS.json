@@ -17,8 +17,8 @@
 				]
 			}
 		],
-		"filter_menu_flatfile": "african_origins_filter_menu.json",
-		"table_flatfile": "african_origins_table_cell_structure.json",
+		"filter_menu_flatfile": "enslaved_african_origins_filter_menu.json",
+		"table_flatfile": "enslaved_african_origins_table.json",
 		"style_name": "african-origins",
 		"blocks": [
 			{

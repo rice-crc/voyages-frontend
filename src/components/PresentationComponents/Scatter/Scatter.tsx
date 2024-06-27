@@ -1,7 +1,7 @@
 import { useState, useEffect, ChangeEvent, useCallback } from 'react';
 import Plot from 'react-plotly.js';
 import { Data } from 'plotly.js';
-import VOYAGE_SCATTER_OPTIONS from '@/utils/flatfiles/voyages/VOYAGE_SCATTER_OPTIONS.json';
+import VOYAGE_SCATTER_OPTIONS from '@/utils/flatfiles/voyages/voyages_scatter_options.json';
 import { Grid, SelectChangeEvent } from '@mui/material';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { useWindowSize } from '@react-hook/window-size';

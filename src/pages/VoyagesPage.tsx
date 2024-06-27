@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { CurrentPageInitialState, TYPESOFBLOCKVOYAGES } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
-import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/VOYAGE_COLLECTIONS.json';
+import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/voyages_collections.json';
 import {
   pageVariantsFromBottom,
   pageVariantsFromTop,
@@ -29,8 +29,6 @@ import {
 import { ALLVOYAGES, INTRAAMERICAN, TRANSATLANTIC } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
 import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { Divider } from 'antd';
 import { VoyagesTimelapseMap } from '@/components/PresentationComponents/Map/TimelapseMap';
 
 const VoyagesPage = () => {

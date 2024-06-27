@@ -12,12 +12,15 @@ import {
   ColumnSelectorTree,
   TableCellStructureInitialStateProp,
 } from '@/share/InterfaceTypesTable';
-import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_table_cell_structure.json';
-import AFRICANORIGINS_TABLE from '@/utils/flatfiles/enslaved/african_origins_table_cell_structure.json';
+import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_all_table_menu.json';
+import ENSLAVED_INTRAAMEICAN_TABLE from '@/utils/flatfiles/enslaved/enslaved_intraamerican_table.json';
+import AFRICANORIGINS_TABLE from '@/utils/flatfiles/enslaved/enslaved_african_origins_table.json';
 import TEXAS_TABLE from '@/utils/flatfiles/enslaved/enslaved_texas_table_cell_structure.json';
-import VOYAGESTABLE_FLAT from '@/utils/flatfiles/voyages/voyage_table_cell_structure__updated21June.json';
-import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers/enslavers_table_cell_structure.json';
-import { LabelFilterMeneList, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
+import Transatlantic_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_transatlantic_table.json';
+import Intraamerican_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_intraamerican_table.json';
+import AllVoyages_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_all_table.json';
+import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers/enslavers_table.json';
+import { LabelFilterMeneList, TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
@@ -50,9 +53,11 @@ const ButtonDropdownColumnSelector = () => {
     }
   };
 
-
-  const voyageColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(VOYAGESTABLE_FLAT.column_selector_tree))
+  const transatlanticColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(Transatlantic_TABLE_FLAT.column_selector_tree))
+  const intraamericanColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(Intraamerican_TABLE_FLAT.column_selector_tree))
+  const allVoyageColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(AllVoyages_TABLE_FLAT.column_selector_tree))
   const enslavedColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(ENSLAVED_TABLE.column_selector_tree))
+  const enslavedIntraamericanColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(ENSLAVED_INTRAAMEICAN_TABLE.column_selector_tree))
   const africanOriginsColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(AFRICANORIGINS_TABLE.column_selector_tree))
   const texasColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(TEXAS_TABLE.column_selector_tree))
   const enslaversColumnSelector: ColumnSelectorTree[] = JSON.parse(JSON.stringify(ENSLAVERS_TABLE.column_selector_tree))
@@ -60,8 +65,12 @@ const ButtonDropdownColumnSelector = () => {
   useEffect(() => {
     const loadMenuValueCellStructure = async () => {
       try {
-        if (checkPagesRouteForVoyages(styleNameRoute!)) {
-          setMenuValueCells(voyageColumnSelector)
+        if (styleNameRoute === TYPESOFDATASET.transatlantic) {
+          setMenuValueCells(transatlanticColumnSelector)
+        } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {
+          setMenuValueCells(intraamericanColumnSelector)
+        } else if (checkPagesRouteForVoyages(styleNameRoute!)) {
+          setMenuValueCells(allVoyageColumnSelector)
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
           setMenuValueCells(enslavedColumnSelector);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {

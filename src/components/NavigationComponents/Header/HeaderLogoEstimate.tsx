@@ -9,9 +9,9 @@ import {
   setStyleName,
   setTextIntro,
 } from '@/redux/getDataSetCollectionSlice';
-import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/VOYAGE_COLLECTIONS.json';
+import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/voyages_collections.json';
 import { setInputSearchValue } from '@/redux/getCommonGlobalSearchResultSlice';
-import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/PEOPLE_COLLECTIONS.json';
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/people_collections.json';
 import {
   setDataSetPeopleEnslavedHeader,
   setPeopleEnslavedBlocksMenuList,
@@ -38,7 +38,7 @@ export default function HeaderLogoEstimate() {
     dispatch(setStyleName(jsonDataVoyageCollection[0].style_name));
     dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
     dispatch(
-      setDataSetPeopleEnslavedHeader(jsonDataPEOPLECOLLECTIONS[0].headers.label)
+      setDataSetPeopleEnslavedHeader(jsonDataPEOPLECOLLECTIONS[0].headers.label.en)
     );
     dispatch(
       setPeopleEnslavedTextIntro(

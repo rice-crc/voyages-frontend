@@ -3,7 +3,7 @@ import {
     BlockCollectionProps,
     InitialStateDataPeopleEnslaversSetCollection,
 } from '@/share/InterfactTypesDatasetCollection';
-import jsonDataEnslaversCOLLECTIONS from '@/utils/flatfiles/enslavers/ENSLAVERS_COLLECTIONS.json';
+import jsonDataEnslaversCOLLECTIONS from '@/utils/flatfiles/enslavers/enslavers_collections.json';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export const initialState: InitialStateDataPeopleEnslaversSetCollection = {
