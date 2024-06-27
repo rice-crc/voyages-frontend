@@ -131,7 +131,7 @@ export const homePageTranslated: TranslateType = {
     },
     homeDocumentDes: {
         label: {
-            "en": `The South Sea Company was intimately involved in the Trans-Atlantic traffic of enslaved persons during the early eighteenth century. Using manuscripts of the South Sea Company's detailed meeting minutes preserved in the British National Archives, the SlaveVoyages project has been able to significantly fill in gaps in information concerning voyages which sailed during the South Sea Company's operations in the Atlantic.`,
+            "en": `The South Sea Company was one of the chief carriers of enslaved people from Africa to the Americas during the first half of the eighteenth century. It also transported captives between ports within the New World. As a consequence, it left a significant paper trail now housed in archives on both sides of the Atlantic. View digital copies of these papers and explore how they document the trans-Atlantic and intra-American slaving voyages available on this website.`,
             "es": `La Compañía del Mar del Sur estuvo íntimamente implicada en el tráfico transatlántico de personas esclavizadas a principios del siglo XVIII. Gracias a los manuscritos de las actas detalladas de las reuniones de la Compañía del Mar del Sur que se conservan en los Archivos Nacionales Británicos, el proyecto SlaveVoyages ha podido colmar importantes lagunas de información sobre los viajes que se realizaron durante las operaciones de la Compañía en el Atlántico.`,
             "pt": `A Companhia do Mar do Sul esteve intimamente envolvida no tráfico transatlântico de pessoas escravizadas durante o início do século XVIII. Utilizando manuscritos das actas detalhadas das reuniões da Companhia do Mar do Sul conservadas nos Arquivos Nacionais Britânicos, o projeto SlaveVoyages conseguiu colmatar significativamente as lacunas de informação relativas às viagens que se realizaram durante as operações da Companhia do Mar do Sul no Atlântico.`,
         }
@@ -159,7 +159,7 @@ export const homePageTranslated: TranslateType = {
     },
     homeAfricanDes: {
         label: {
-            "en": `During the last 60 years of the trans-Atlantic slave trade, courts around the Atlantic basins condemned over two thousand vessels for engaging in the traffic and recorded the details of captives found on board including their African names. The African Names Database was created from these records, now located in the Registers of Liberated Africans at the Sierra Leone National Archives, Freetown, as well as Series FO84, FO313, CO247 and CO267 held at the British National Archives in London.`,
+            "en": `During the last 60 years of the trans-Atlantic slave trade, courts around the Atlantic basins condemned over two thousand vessels for engaging in the traffic and recorded the details of captives found on board including their African names. The African Origins Database was created from these records, now located in the Registers of Liberated Africans at the Sierra Leone National Archives, Freetown, as well as Series FO84, FO313, CO247 and CO267 held at the British National Archives in London. Links are provided to the ships in the Trans-Atlantic Database from which the liberated Africans were rescued, as well as to audio recordings allowing users to listen to the names and help us identify to which languages they belong.`,
             "es": `Durante los últimos 60 años del comercio transatlántico de esclavos, los tribunales alrededor de las cuencas atlánticas condenaron a más de dos mil embarcaciones por participar en el tráfico y registraron los detalles de los cautivos encontrados a bordo, incluidos sus nombres africanos. La Base de Datos de Nombres Africanos fue creada a partir de estos registros, ahora ubicados en los Registros de Africanos Liberados en los Archivos Nacionales de Sierra Leona, Freetown, así como en las Series FO84, FO313, CO247 y CO267 mantenidas en los Archivos Nacionales Británicos en Londres.`,
             "pt": `Durante os últimos 60 anos do comércio transatlântico de escravos, os tribunais ao redor das bacias atlânticas condenaram mais de duas mil embarcações por se envolverem no tráfico e registraram os detalhes dos cativos encontrados a bordo, incluindo seus nomes africanos. O Banco de Dados de Nomes Africanos foi criado a partir desses registros, agora localizados nos Registros de Africanos Libertos nos Arquivos Nacionais de Serra Leoa, Freetown, bem como nas Séries FO84, FO313, CO247 e CO267 mantidas nos Arquivos Nacionais Britânicos em Londres.`,
         }
@@ -173,13 +173,7 @@ export const homePageTranslated: TranslateType = {
     },
     homeIntraDes: {
         label: {
-            "en": `This database contains information on more than 11,000 maritime
-            voyages trafficking enslaved people within the Americas. These slave
-            trades operated within colonial empires, across imperial boundaries,
-            and inside the borders of nations such as the United States and
-            Brazil. Explore the forced removals, which not only dispersed
-            African survivors of the Atlantic crossing but also displaced
-            enslaved people born in the Americas.`,
+            "en": `This database contains information on more than 37,000 maritime voyages trafficking enslaved people within the Americas between 1550 and 1887. These slave trades operated within colonial empires, across imperial boundaries, and inside the borders of nations such as the United States and Brazil. Explore the forced removals, which not only dispersed African survivors of the Atlantic crossing but also displaced enslaved people born in the Americas.`,
             "es": `Esta base de datos contiene información sobre más de 11,000 viajes marítimos que traficaron personas esclavizadas dentro de las Américas. Estos comercios de esclavos operaban dentro de imperios coloniales, cruzando fronteras imperiales y dentro de las fronteras de naciones como Estados Unidos y Brasil. Explora las expulsiones forzadas, que no solo dispersaron a sobrevivientes africanos de la travesía atlántica, sino que también desplazaron a personas esclavizadas nacidas en las Américas.`,
             "pt": `Esta base de dados contém informações sobre mais de 11.000 viagens marítimas que traficaram pessoas escravizadas dentro das Américas. Esses comércios de escravos operavam dentro de impérios coloniais, atravessando fronteiras imperiais e dentro das fronteiras de nações como Estados Unidos e Brasil. Explore as remoções forçadas, que não apenas dispersaram sobreviventes africanos da travessia atlântica, mas também deslocaram pessoas escravizadas nascidas nas Américas.`,
         }
@@ -242,11 +236,7 @@ export const homePageTranslated: TranslateType = {
     },
     homeTransDes: {
         label: {
-            "en": `This database compiles information about more than 36,000 voyages
-            that forcibly transported enslaved Africans across the Atlantic
-            between 1514 and 1866. Search and analyze the database for
-            information on the broad origins of enslaved people, the tortuous
-            Middle Passage, and the destinations of Africans in the Americas.`,
+            "en": `This database compiles information about more than 36,000 voyages that forcibly transported enslaved Africans across the Atlantic between 1514 and 1866. Search and analyze the database for information on the broad origins of enslaved people, the tortuous Middle Passage, and the destinations of Africans in the Americas.`,
             "es": `Esta base de datos recopila información sobre más de 36,000 viajes que transportaron por la fuerza a africanos esclavizados a través del Atlántico entre 1514 y 1866. Busca y analiza la base de datos para obtener información sobre los amplios orígenes de las personas esclavizadas, la tortuosa Travesía del Medio, y los destinos de los africanos en las Américas.`,
             "pt": `Este banco de dados compila informações sobre mais de 36.000 viagens que transportaram à força africanos escravizados através do Atlântico entre 1514 e 1866. Pesquise e analise o banco de dados para obter informações sobre as amplas origens das pessoas escravizadas, a tortuosa Travesia do Meio e os destinos dos africanos nas Américas.`,
         }
