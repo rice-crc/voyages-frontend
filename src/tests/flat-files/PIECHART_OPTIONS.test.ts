@@ -1,8 +1,8 @@
 import { fetchVoyagesOptionsApi } from '@/fetch/voyagesFetch/fetchVoyagesOptionsApi';
-import dataVoyagePieOptions from "@/utils/flatfiles/VOYAGE_PIECHART_OPTIONS.json";
+import dataVoyagePieOptions from "@/utils/flatfiles/voyages/voyages_piechart_options.json";
 import { expect, test, vi, describe } from "vitest";
 
-const fileName = 'VOYAGE_PIECHART_OPTIONS.json';
+const fileName = 'voyages_piechart_options.json';
 global.fetch = vi.fn()
 const EndPoint = '/voyage/groupby/'
 

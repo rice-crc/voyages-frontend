@@ -76,7 +76,7 @@ const HomePage: React.FC = () => {
           <div className="document-resources-container">
             <div className="about-project">
               <Link to={`/${BLOGPAGE}/slavevoyages-introduction/50`}>
-                <div className="about-project-btn">{translatedHomepage.learnMore}</div>
+                <div className="about-project-btn">{translatedHomepage.aboutProject}</div>
               </Link>
             </div>
           </div>
@@ -88,9 +88,10 @@ const HomePage: React.FC = () => {
       <div data-aos="fade-up">
         <SouthSeaCompanyDocuments />
       </div>
-      <div data-aos="fade-up">
+      {/* <div data-aos="fade-up">
+      Task:TP-0225 Art Inspired by SlaveVoyages" section on the home page should be hidden
         <ArtInspiredBySlaveVoyages />
-      </div>
+      </div> */}
       <div data-aos="fade-up">
         <EnslaversBlogs />
       </div>

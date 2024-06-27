@@ -60,7 +60,7 @@ import { SelectSearchDropdownList } from '../SelectDrowdown/SelectSearchDropdown
 const CascadingMenuMobile = () => {
   const { styleName: styleNameRoute } = usePageRouter()
 
-  const { valueVoyages, valueEnslaved, valueAfricanOrigin, valueEnslavedTexas, valueEnslavers } = useSelector((state: RootState) => state.getFilterMenuList.filterValueList);
+  const { valueTransaslantic, valueIntraamerican, valueAllVoyages, valueEnslaved, valueAfricanOrigin, valueEnslavedTexas, valueEnslavers } = useSelector((state: RootState) => state.getFilterMenuList.filterValueList);
   const { type: typeData } = useSelector((state: RootState) => state.getFilter);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -86,8 +86,12 @@ const CascadingMenuMobile = () => {
   useEffect(() => {
     const loadFilterCellStructure = async () => {
       try {
-        if (checkPagesRouteForVoyages(styleNameRoute!)) {
-          setFilterMenu(valueVoyages);
+        if (styleNameRoute === TYPESOFDATASET.transatlantic) {
+          setFilterMenu(valueTransaslantic);
+        } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {
+          setFilterMenu(valueIntraamerican);
+        } else if (checkPagesRouteForVoyages(styleNameRoute!)) {
+          setFilterMenu(valueAllVoyages);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
           setFilterMenu(valueEnslaved);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {
@@ -175,7 +179,7 @@ const CascadingMenuMobile = () => {
         }
         break;
 
-      case TYPES.VoyageID:
+      case TYPES.IdMatch:
         if (opsRoles === 'exact') {
           displayComponent = (
             <>
@@ -221,7 +225,7 @@ const CascadingMenuMobile = () => {
   const handleApplyEnslaversDialog = (roles: RolesProps[], name: string, ops: string) => {
     setTextError(textError)
     const newRoles: string[] = roles.map((ele) => ele.value);
-    updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, newRoles as string[], name, varName, ops!, labelVarName)
+    updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, newRoles as string[], name, varName, ops!)
   }
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>,
@@ -377,7 +381,7 @@ const CascadingMenuMobile = () => {
           {displayComponent}
         </DialogContent>
         <DialogActions style={{ paddingRight: '2rem', marginTop: typeData === TYPES.EnslaverNameAndRole ? '10rem' : 0 }}>
-          {varName && opsRoles !== 'btw' && ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.VoyageID && opsRoles === 'exact') || (typeData === TYPES.EnslaverNameAndRole) || (typeData === TYPES.MultiselectList))
+          {varName && opsRoles !== 'btw' && ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.IdMatch && opsRoles === 'exact') || (typeData === TYPES.EnslaverNameAndRole) || (typeData === TYPES.MultiselectList))
             && <Button
               autoFocus
               disabled={listEnslavers.length === 0 && enslaverName === '' && typeData === TYPES.EnslaverNameAndRole}

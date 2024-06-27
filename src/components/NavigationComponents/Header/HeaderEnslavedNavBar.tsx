@@ -80,7 +80,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
 
-  const [isClick, setIsClick] = useState(false);
 
   const styleNameToPathMap: { [key: string]: string } = {
     [ALLENSLAVED]: `${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName}`,
@@ -96,7 +95,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     } else if (styleNameRoute === ENSLAVEDTEXAS) {
       dispatch(setDataSetPeopleEnslavedHeader(TEXBOUND))
     }
-  }, [])
+  }, [styleNameRoute])
 
   const handleSelectEnslavedDataset = (
     baseFilter: BaseFilter[],
@@ -108,45 +107,46 @@ const HeaderEnslavedNavBar: React.FC = () => {
     tableFlatfile?: string
   ) => {
 
-
     dispatch(resetAll());
     const filters: Filter[] = [];
-
-    setIsClick(!isClick);
-    dispatch(setBaseFilterPeopleEnslavedDataSetValue(baseFilter));
-    for (const base of baseFilter) {
-      filters.push({
-        varName: base.var_name,
-        searchTerm: base.value,
-        op: "in"
-      })
-      dispatch(setFilterObject(filters));
-    }
-    if (filters) {
-      localStorage.setItem('filterObject', JSON.stringify({
-        filter: filters
-      }));
+    if (styleName === ALLENSLAVED && currentPageBlockName === 'people') {
+      navigate(`/past/enslaved/all-enslaved#people`);
+      dispatch(setFilterObject([]));
     } else {
-      localStorage.setItem('filterObject', JSON.stringify({
-        filter: filters
-      }));
-    }
-    dispatch(setDataSetPeopleEnslavedHeader(textHeder));
-    dispatch(setPeopleEnslavedTextIntro(textIntro));
-    dispatch(setPeopleEnslavedStyleName(styleName));
-    dispatch(setPeopleEnslavedBlocksMenuList(blocks));
-    dispatch(setPeopleEnslavedFilterMenuFlatfile(filterMenuFlatfile ? filterMenuFlatfile : '')
-    );
-    dispatch(
-      setPeopleTableEnslavedFlatfile(tableFlatfile ? tableFlatfile : '')
-    );
+      dispatch(setBaseFilterPeopleEnslavedDataSetValue(baseFilter));
+      for (const base of baseFilter) {
+        filters.push({
+          varName: base.var_name,
+          searchTerm: base.value,
+          op: "in"
+        })
+        dispatch(setFilterObject(filters));
+      }
+      if (filters) {
+        localStorage.setItem('filterObject', JSON.stringify({
+          filter: filters
+        }));
+      } else {
+        localStorage.setItem('filterObject', JSON.stringify({
+          filter: filters
+        }));
+      }
+      dispatch(setDataSetPeopleEnslavedHeader(textHeder));
+      dispatch(setPeopleEnslavedTextIntro(textIntro));
+      dispatch(setPeopleEnslavedStyleName(styleName));
+      dispatch(setPeopleEnslavedBlocksMenuList(blocks));
+      dispatch(setPeopleEnslavedFilterMenuFlatfile(filterMenuFlatfile ? filterMenuFlatfile : '')
+      );
+      dispatch(
+        setPeopleTableEnslavedFlatfile(tableFlatfile ? tableFlatfile : '')
+      );
 
-    if (styleNameToPathMap[styleName]) {
-      navigate(styleNameToPathMap[styleName]);
+      if (styleNameToPathMap[styleName]) {
+        navigate(styleNameToPathMap[styleName]);
+      }
     }
 
     const keysToRemove = Object.keys(localStorage);
-
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });

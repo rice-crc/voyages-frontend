@@ -25,14 +25,3 @@ export const fetchVoyageOptionsAPI = createAsyncThunk(
         }
     }
 );
-
-
-// export const fetchVoyageOptionsAPI = async (dataSend?: TableListPropsRequest) => {
-//     const response = await axios.post(`${BASEURL}/voyage/`, dataSend, {
-//         headers: {
-//             'Authorization': AUTHTOKEN,
-//             "Content-Type": "application/json"
-//         }
-//     });
-//     return response.data;
-// };

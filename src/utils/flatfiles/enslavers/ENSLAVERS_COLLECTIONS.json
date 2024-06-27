@@ -15,7 +15,7 @@
             }
         ],
         "filter_menu_flatfile": "enslavers_filter_menu.json",
-        "table_flatfile": "enslavers_table_cell_structure.json",
+        "table_flatfile": "enslavers_table.json",
         "style_name": "trans-atlantic-trades",
         "blocks": [
             {
@@ -43,7 +43,7 @@
             }
         ],
         "filter_menu_flatfile": "enslavers_filter_menu.json",
-        "table_flatfile": "enslavers_table_cell_structure.json",
+        "table_flatfile": "enslavers_table.json",
         "style_name": "intra-american-trades",
         "blocks": [
             {
@@ -66,7 +66,7 @@
         },
         "base_filter": [],
         "filter_menu_flatfile": "enslavers_filter_menu.json",
-        "table_flatfile": "enslavers_table_cell_structure.json",
+        "table_flatfile": "enslavers_table.json",
         "style_name": "enslaver",
         "blocks": [
             {

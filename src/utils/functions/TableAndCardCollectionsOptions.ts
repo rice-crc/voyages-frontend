@@ -1,20 +1,26 @@
-import TABLE_FLAT from '@/utils/flatfiles/voyage_table_cell_structure__updated21June.json';
-import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved_table_cell_structure.json';
-import AFRICANORIGINS_TABLE from '@/utils/flatfiles/african_origins_table_cell_structure.json';
-import TEXAS_TABLE from '@/utils/flatfiles/texas_table_cell_structure.json';
-import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers_table_cell_structure.json';
-import CARDS_VOYAGES_COLLECTION from '@/utils/flatfiles/transatlantic_voyages_card.json';
-import CARDS_ENSLAVED_COLLECTION from '@/utils/flatfiles/enslaved_card.json';
-import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers_card.json';
+import TRANSATLANTIC_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_transatlantic_table.json';
+import INTRAAMERICAN_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_intraamerican_table.json';
+import ALLVOYAGES_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_all_table.json';
+import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_all_table_menu.json';
+import AFRICANORIGINS_TABLE from '@/utils/flatfiles/enslaved/enslaved_african_origins_table.json';
+import TEXAS_TABLE from '@/utils/flatfiles/enslaved/enslaved_texas_table_cell_structure.json';
+import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers/enslavers_table.json';
+import CARDS_TRANSATLANTIC_COLLECTION from '@/utils/flatfiles/voyages/voyages_transatlantic_card.json';
+import CARDS_INTRAAMERICAN_COLLECTION from '@/utils/flatfiles/voyages/voyages_intraamerican_card.json';
+import CARDS_ALLVOYAGES_COLLECTION from '@/utils/flatfiles/voyages/voyages_all_card.json';
+import CARDS_ENSLAVED_african_origins from '@/utils/flatfiles/enslaved/enslaved_african_origins_card.json';
+import CARDS_ALLENSLAVED from '@/utils/flatfiles/enslaved/enslaved_all_card_menu.json';
+import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers/enslavers_card.json';
 import {
     AFRICANORIGINS_TABLE_FILE,
-    ENSLAVEDCARDFILE,
+    ENSLAVED_african_origins_CARDFILE,
+    ENSLAVED_ALL_CARDFILE,
     ENSLAVED_TABLE_FILE,
     ENSLAVERSCARDFILE,
     ENSLAVERS_TABLE_FILE,
-    TEXAS_TABLE_FILE,
-    VOYAGESTABLEFILE,
-    YOYAGESCARDFILE,
+    TEXAS_TABLE_FILE, TRANSATLANTICFILECARD, INTRAAMERICANFILECARD,
+    ALLVOYAGESFILECARD,
+    TRANSATLANTICTABLEFILE, INTRAAMERICANTABLEFILE, ALLVOYAGESTABLEFILE
 } from '@/share/CONST_DATA';
 
 export const TableAndCardCollectionsOptions = (file?: string): Record<string, any> => {
@@ -36,14 +42,22 @@ export const TableAndCardCollectionsOptions = (file?: string): Record<string, an
         });
     };
 
-    if (file === VOYAGESTABLEFILE) {
-
-        TABLE_FLAT.cell_structure.forEach((value) => {
+    if (file === TRANSATLANTICTABLEFILE) { // voyages_transatlantic_table.json
+        TRANSATLANTIC_TABLE_FLAT.cell_structure.forEach((value) => {
+            const fieldsData = value.cell_val.fields;
+            processFieldsData(fieldsData);
+        });
+    } else if (file === INTRAAMERICANTABLEFILE) { //voyages_intraamerican_table.json
+        INTRAAMERICAN_TABLE_FLAT.cell_structure.forEach((value) => {
+            const fieldsData = value.cell_val.fields;
+            processFieldsData(fieldsData);
+        });
+    } else if (file === ALLVOYAGESTABLEFILE) { //voyages_all_table.json
+        ALLVOYAGES_TABLE_FLAT.cell_structure.forEach((value) => {
             const fieldsData = value.cell_val.fields;
             processFieldsData(fieldsData);
         });
     } else if (file === ENSLAVED_TABLE_FILE) {
-
         ENSLAVED_TABLE.cell_structure.forEach((value) => {
             const fieldsData = value.cell_val.fields;
             processFieldsData(fieldsData);
@@ -63,16 +77,38 @@ export const TableAndCardCollectionsOptions = (file?: string): Record<string, an
             const fieldsData = value.cell_val.fields;
             processFieldsData(fieldsData);
         });
-    } else if (file === YOYAGESCARDFILE) {
-        CARDS_VOYAGES_COLLECTION.forEach((value) => {
+    } else if (file === TRANSATLANTICFILECARD) {
+        CARDS_TRANSATLANTIC_COLLECTION.forEach((value) => {
+            value.children.forEach((element) => {
+                const fieldsData = element.cell_val?.fields;
+                processFieldsData(fieldsData);
+            })
+        });
+    } else if (file === INTRAAMERICANFILECARD) {
+        CARDS_INTRAAMERICAN_COLLECTION.forEach((value) => {
+            value.children.forEach((element) => {
+                const fieldsData = element.cell_val?.fields;
+                processFieldsData(fieldsData);
+            })
+        });
+    } else if (file === ALLVOYAGESFILECARD) {
+        CARDS_ALLVOYAGES_COLLECTION.forEach((value) => {
             value.children.forEach((element) => {
                 const fieldsData = element.cell_val?.fields;
                 processFieldsData(fieldsData);
             })
         });
     }
-    else if (file === ENSLAVEDCARDFILE) {
-        CARDS_ENSLAVED_COLLECTION.forEach((value) => {
+    else if (file === ENSLAVED_african_origins_CARDFILE) {
+        CARDS_ENSLAVED_african_origins.forEach((value) => {
+            value.children.forEach((element) => {
+                const fieldsData = element.cell_val?.fields;
+                processFieldsData(fieldsData);
+            })
+        });
+    }
+    else if (file === ENSLAVED_ALL_CARDFILE) {
+        CARDS_ALLENSLAVED.forEach((value) => {
             value.children.forEach((element) => {
                 const fieldsData = element.cell_val?.fields;
                 processFieldsData(fieldsData);

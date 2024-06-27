@@ -33,6 +33,7 @@ import {
     checkPagesRouteForEnslaved,
     checkPagesRouteForEnslavers,
     checkPagesRouteForVoyages,
+    checkRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
 import { CustomTablePagination } from '@/styleMUI';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
@@ -61,6 +62,7 @@ const Tables: React.FC = () => {
     const { columnDefs, data, rowData } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
+
     const [totalResultsCount, setTotalResultsCount] = useState(0);
     const gridRef = useRef<any>(null);
     const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
@@ -75,6 +77,7 @@ const Tables: React.FC = () => {
     const { tableFlatfileVoyages } = useSelector(
         (state: RootState) => state.getDataSetCollection
     );
+
     const { currentPage } = useSelector(
         (state: RootState) => state.getScrollPage as CurrentPageInitialState
     );
@@ -156,7 +159,7 @@ const Tables: React.FC = () => {
                 dataSend['order_by'] = sortColumn
             }
             try {
-                if (checkPagesRouteForVoyages(styleNameRoute!)) {
+                if (checkRouteForVoyages(styleNameRoute!)) {
                     response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
                 } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
                     response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();

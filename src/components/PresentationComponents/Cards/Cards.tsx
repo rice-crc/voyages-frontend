@@ -7,17 +7,29 @@ import {
   setIsModalCard,
 } from '@/redux/getCardFlatObjectSlice';
 import { processCardData } from '@/utils/functions/processCardData';
-import CARDS_VOYAGES_COLLECTION from '@/utils/flatfiles/transatlantic_voyages_card.json';
-import CARDS_ENSLAVED_COLLECTION from '@/utils/flatfiles/enslaved_card.json';
-import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers_card.json';
+// Voyages Card
+import CARDS_TRANSATLANTIC_COLLECTION from '@/utils/flatfiles/voyages/voyages_transatlantic_card.json';
+import CARDS_INTRAAMERICAN_COLLECTION from '@/utils/flatfiles/voyages/voyages_intraamerican_card.json';
+import CARDS_ALLVOYAGES_COLLECTION from '@/utils/flatfiles/voyages/voyages_all_card.json';
+// Enslaved Card
+import CARDS_ENSLAVED_african_origins from '@/utils/flatfiles/enslaved/enslaved_african_origins_card.json';
+import CARDS_ALLENSLAVED from '@/utils/flatfiles/enslaved/enslaved_all_card_menu.json';
+import CARDS_TEXAS_ENSLAVED from '@/utils/flatfiles/enslaved/enslaved_texas_card.json';
+// Enslavers Card
+import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers/enslavers_card.json';
+
 import {
-  ENSLAVEDCARDFILE,
+  ALLVOYAGESFILECARD,
+  ENSLAVED_african_origins_CARDFILE,
+  ENSLAVED_ALL_CARDFILE,
+  ENSLAVED_TEXAS_CARDFILE,
   ENSLAVEDNODE,
   ENSLAVERSCARDFILE,
   ENSLAVERSNODE,
+  INTRAAMERICANFILECARD,
+  TRANSATLANTICFILECARD,
   VOYAGESNODE,
   VOYAGESNODECLASS,
-  YOYAGESCARDFILE,
 } from '@/share/CONST_DATA';
 import '@/style/cards.scss';
 import { TransatlanticCardProps } from '@/share/InterfaceTypes';
@@ -71,12 +83,30 @@ const VoyageCard = () => {
     switch (nodeTypeClass) {
       case VOYAGESNODECLASS:
       case VOYAGESNODE:
-        newCardFileName = YOYAGESCARDFILE;
-        newCardDataArray.push(...CARDS_VOYAGES_COLLECTION);
+        newCardFileName = TRANSATLANTICFILECARD;
+        newCardDataArray.push(...CARDS_TRANSATLANTIC_COLLECTION);
+        break;
+      case VOYAGESNODECLASS:
+      case VOYAGESNODE:
+        newCardFileName = INTRAAMERICANFILECARD;
+        newCardDataArray.push(...CARDS_INTRAAMERICAN_COLLECTION);
+        break;
+      case VOYAGESNODECLASS:
+      case VOYAGESNODE:
+        newCardFileName = ALLVOYAGESFILECARD;
+        newCardDataArray.push(...CARDS_ALLVOYAGES_COLLECTION);
         break;
       case ENSLAVEDNODE:
-        newCardFileName = ENSLAVEDCARDFILE;
-        newCardDataArray.push(...CARDS_ENSLAVED_COLLECTION);
+        newCardFileName = ENSLAVED_african_origins_CARDFILE;
+        newCardDataArray.push(...CARDS_ENSLAVED_african_origins);
+        break;
+      case ENSLAVEDNODE:
+        newCardFileName = ENSLAVED_TEXAS_CARDFILE;
+        newCardDataArray.push(...CARDS_TEXAS_ENSLAVED);
+        break;
+      case ENSLAVEDNODE:
+        newCardFileName = ENSLAVED_ALL_CARDFILE;
+        newCardDataArray.push(...CARDS_ALLENSLAVED);
         break;
       case ENSLAVERSNODE:
         newCardFileName = ENSLAVERSCARDFILE;
@@ -93,7 +123,6 @@ const VoyageCard = () => {
     const ID = networkID || cardRowID;
     try {
       let response = null;
-
 
       switch (nodeTypeClass || VOYAGESNODE) {
         case VOYAGESNODECLASS:
