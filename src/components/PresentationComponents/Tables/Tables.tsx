@@ -32,7 +32,6 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import {
     checkPagesRouteForEnslaved,
     checkPagesRouteForEnslavers,
-    checkPagesRouteForVoyages,
     checkRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
 import { CustomTablePagination } from '@/styleMUI';
@@ -96,6 +95,7 @@ const Tables: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(
         getRowsPerPage(window.innerWidth, window.innerHeight)
     );
+
     const otherTableCellStrructure = useOtherTableCellStructure(styleNameRoute!)
     const [sortColumn, setSortColumn] = useState<string[]>(otherTableCellStrructure?.default_order_by ? [otherTableCellStrructure?.default_order_by] : [])
     const {

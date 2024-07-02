@@ -84,8 +84,8 @@
 			"text_introduce": "The Trans-Atlantic and Intra-American slave trade databases are the culmination of several decades of independent and collaborative research by scholars drawing upon data in libraries and archives around the Atlantic world. The new Slave Voyages website itself is the product of three years of development by a multi-disciplinary team of historians, librarians, curriculum specialists, cartographers, computer programmers, and web designers, in consultation with scholars of the slave trade from universities in Europe, Africa, South America, and North America. The National Endowment for the Humanities was the principal sponsor of this work carried out originally at Emory Center for Digital Scholarship, the University of California at Irvine, and the University of California at Santa Cruz. The Hutchins Center of Harvard University has also provided support. The website is currently hosted at Rice University."
 		},
 		"base_filter": [],
-		"filter_menu_flatfile": "enslaved_filter_menu.json",
-		"table_flatfile": "enslaved_table_cell_structure.json",
+		"filter_menu_flatfile": "enslaved_all_filter_menu.json",
+		"table_flatfile": "enslaved_all_table_menu.json",
 		"style_name": "all-enslaved",
 		"blocks": [
 			{

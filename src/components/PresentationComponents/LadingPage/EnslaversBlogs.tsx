@@ -6,15 +6,16 @@ import { ENSALVERSPAGE, TRANSATLANTICENSLAVERS } from '@/share/CONST_DATA';
 import { translationHomepage } from '@/utils/functions/translationLanguages';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { Link } from 'react-router-dom';
 const EnslaversBlogs: React.FC = () => {
     const { languageValue } = useSelector((state: RootState) => state.getLanguages);
     const translatedHomepage = translationHomepage(languageValue)
     return (
         <div className="container-enslavers">
             <div className="enslavers-content">
-                <div className="enslavers-content-bg">
+                <Link to="https://www.loc.gov/pictures/item/2014647512/" className="enslavers-content-bg" target="_blank" rel="noopener noreferrer" >
                     <img src={ENSLAVERS} alt="Enslavers" className="register-img" />
-                </div>
+                </Link>
                 <div className="enslavers-content-detail">
                     <h1>{translatedHomepage.homeEnslavers}</h1>
                     <p>{translatedHomepage.homeEnslaversDes}</p>

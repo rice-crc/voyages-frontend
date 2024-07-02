@@ -12,8 +12,8 @@
 			"order_by": [
 				"documented_name"
 			],
+			"col_width_px": 130,
 			"colID": "documented_name",
-			"col_width_px": 100,
 			"cell_val": {
 				"fields": [
 					{
@@ -31,12 +31,12 @@
 				"pt": "Modern Name PT"
 			},
 			"cell_type": "literal-concat",
-			"col_width_px": 100,
 			"visible": true,
 			"number_format": null,
 			"order_by": [
-				"documented_name"
+				"modern_name"
 			],
+			"col_width_px": 100,
 			"colID": "modern_name",
 			"cell_val": {
 				"fields": [
@@ -46,29 +46,6 @@
 					}
 				],
 				"join": " / "
-			}
-		},
-		{
-			"header_label": {
-				"en": "Language Group",
-				"es": "Language Group ES",
-				"pt": "Language Group PT"
-			},
-			"cell_type": "literal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"language_group__name"
-			],
-			"colID": "language_group__name",
-			"col_width_px": 100,
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "language_group__name",
-						"cell_fn": "literal"
-					}
-				]
 			}
 		},
 		{
@@ -83,8 +60,8 @@
 			"order_by": [
 				"age"
 			],
+			"col_width_px": 70,
 			"colID": "age",
-			"col_width_px": 75,
 			"cell_val": {
 				"fields": [
 					{
@@ -106,8 +83,8 @@
 			"order_by": [
 				"gender"
 			],
-			"colID": "gender",
 			"col_width_px": 90,
+			"colID": "gender",
 			"cell_val": {
 				"fields": [
 					{
@@ -129,35 +106,13 @@
 			"order_by": [
 				"height"
 			],
-			"colID": "height",
 			"col_width_px": 90,
+			"colID": "height",
 			"cell_val": {
 				"fields": [
 					{
 						"var_name": "height",
 						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Connections",
-				"es": "Connections ES",
-				"pt": "Connections PT"
-			},
-			"cell_type": "network_modal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [],
-			"colID": "connections",
-			"col_width_px": 120,
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "id",
-						"cell_fn": "networks",
-						"node_class": "enslaved"
 					}
 				]
 			}
@@ -174,8 +129,8 @@
 			"order_by": [
 				"voyages__voyage_id"
 			],
-			"colID": "voyages__voyage_id",
 			"col_width_px": 100,
+			"colID": "voyages__voyage_id",
 			"cell_val": {
 				"fields": [
 					{
@@ -197,13 +152,35 @@
 			"order_by": [
 				"voyages__voyage_ship__ship_name"
 			],
+			"col_width_px": 140,
 			"colID": "voyages__voyage_ship__ship_name",
-			"col_width_px": 160,
 			"cell_val": {
 				"fields": [
 					{
 						"var_name": "voyages__voyage_ship__ship_name",
 						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Connections",
+				"es": "Connections ES",
+				"pt": "Connections PT"
+			},
+			"cell_type": "network_modal",
+			"visible": true,
+			"number_format": null,
+			"order_by": [],
+			"col_width_px": 120,
+			"colID": "connections",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "id",
+						"cell_fn": "networks",
+						"node_class": "enslaved"
 					}
 				]
 			}
@@ -233,27 +210,27 @@
 						"cell_fn": "literal"
 					}
 				],
-				"join":": "
+				"join": " : "
 			}
 		},
 		{
 			"header_label": {
-				"en": "Embarkation Port",
-				"es": "Embarkation Port ES",
-				"pt": "Embarkation Port PT"
+				"en": "Embarkation Region",
+				"es": "Embarkation Region ES",
+				"pt": "Embarkation region PT"
 			},
 			"cell_type": "literal",
 			"visible": true,
 			"number_format": null,
 			"order_by": [
-				"voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name"
+				"voyage_itinerary__imp_principal_region_of_slave_purchase__name"
 			],
-			"colID": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
-			"col_width_px": 140,
+			"col_width_px": 160,
+			"colID": "voyages__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+						"var_name": "voyages__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -271,8 +248,8 @@
 			"order_by": [
 				"voyages__voyage_itinerary__imp_principal_port_slave_dis__name"
 			],
+			"col_width_px": 160,
 			"colID": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
-			"col_width_px": 140,
 			"cell_val": {
 				"fields": [
 					{
@@ -289,15 +266,15 @@
 				"pt": "Date of Arrival PT"
 			},
 			"cell_type": "literal-concat",
-			"visible": false,
+			"visible": true,
 			"number_format": null,
 			"order_by": [
 				"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 				"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
 				"voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day"
 			],
-			"colID": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
 			"col_width_px": 100,
+			"colID": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
 			"cell_val": {
 				"fields": [
 					{
@@ -318,29 +295,6 @@
 		},
 		{
 			"header_label": {
-				"en": "Intended Port of Disembarkation",
-				"es": "Intended Port of Disembarkation ES",
-				"pt": "Intended Port of Disembarkation PT"
-			},
-			"cell_type": "literal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"voyages__voyage_itinerary__int_first_port_dis__name"
-			],
-			"colID": "voyages__voyage_itinerary__int_first_port_dis__name",
-			"col_width_px": 100,
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyages__voyage_itinerary__int_first_port_dis__name",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
 				"en": "Captive Fate",
 				"es": "Captive Fate ES",
 				"pt": "Captive Fate PT"
@@ -351,8 +305,8 @@
 			"order_by": [
 				"captive_fate__name"
 			],
+			"col_width_px": 190,
 			"colID": "captive_fate__name",
-			"col_width_px": 180,
 			"cell_val": {
 				"fields": [
 					{
@@ -374,35 +328,12 @@
 			"order_by": [
 				"post_disembark_location__name"
 			],
+			"col_width_px": 100,
 			"colID": "post_disembark_location__name",
-			"col_width_px": 160,
 			"cell_val": {
 				"fields": [
 					{
 						"var_name": "post_disembark_location__name",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Vessel Fate",
-				"es": "Vessel Fate ES",
-				"pt": "Vessel Fate PT"
-			},
-			"cell_type": "literal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"voyages__voyage_outcome__particular_outcome__name"
-			],
-			"colID": "particular_outcome",
-			"col_width_px": 100,
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyages__voyage_outcome__particular_outcome__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -420,20 +351,16 @@
 			"order_by": [
 				"enslaved_source_connections__source__title"
 			],
-			"col_width_px": 350,
+			"col_width_px": 120,
 			"colID": "enslaved_sources",
 			"cell_val": {
 				"fields": [
 					{
 						"var_name": "sources__short_ref__name",
 						"cell_fn": "literal"
-					},
-					{
-						"var_name": "sources__title",
-						"cell_fn": "literal"
 					}
 				],
-				"join":": "
+				"join": ": "
 			}
 		}
 	],
@@ -449,8 +376,8 @@
 			},
 			"children": [
 				{
-					"colID": "documented_name",
 					"col_width_px": 100,
+					"colID": "documented_name",
 					"label": {
 						"en": "Documented Name",
 						"es": "Documented Name ES",
@@ -458,6 +385,7 @@
 					}
 				},
 				{
+					"col_width_px": 100,
 					"colID": "modern_name",
 					"label": {
 						"en": "Modern Name",
@@ -475,8 +403,8 @@
 			},
 			"children": [
 				{
-					"colID": "age",
 					"col_width_px": 100,
+					"colID": "age",
 					"label": {
 						"en": "Age",
 						"es": "Age ES",
@@ -484,8 +412,8 @@
 					}
 				},
 				{
-					"colID": "gender",
 					"col_width_px": 100,
+					"colID": "gender",
 					"label": {
 						"en": "Gender",
 						"es": "Gender ES",
@@ -493,8 +421,8 @@
 					}
 				},
 				{
-					"colID": "height",
 					"col_width_px": 100,
+					"colID": "height",
 					"label": {
 						"en": "Height",
 						"es": "Height ES",
@@ -511,8 +439,8 @@
 			},
 			"children": [
 				{
-					"colID": "voyages__voyage_id",
 					"col_width_px": 100,
+					"colID": "voyages__voyage_id",
 					"label": {
 						"en": "Voyage ID",
 						"es": "Voyage ID ES",
@@ -520,57 +448,30 @@
 					}
 				},
 				{
-					"colID": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 					"col_width_px": 100,
+					"colID": "voyages__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
 					"label": {
-						"en": "Embarkation Port",
-						"es": "Embarkation Port ES",
-						"pt": "Embarkation Port PT"
+						"en": "Embarkation Region",
+						"es": "Embarkation Region ES",
+						"pt": "Embarkation Region PT"
 					}
 				},
 				{
-					"colID": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
 					"col_width_px": 100,
+					"colID": "voyages__voyage_itinerary__imp_principal_region_slave_dis__name",
 					"label": {
-						"en": "Disembarkation Port",
-						"es": "Disembarkation Port ES",
-						"pt": "Disembarkation Port PT"
+						"en": "Disembarkation Region",
+						"es": "Disembarkation Region ES",
+						"pt": "Disembarkation Region PT"
 					}
 				},
 				{
+					"col_width_px": 100,
 					"colID": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
-					"col_width_px": 100,
 					"label": {
 						"en": "Arrival Date",
 						"es": "Arrival Date ES",
 						"pt": "Arrival Date PT"
-					}
-				},
-				{
-					"colID": "voyages__voyage_itinerary__int_first_port_dis__name",
-					"col_width_px": 100,
-					"label": {
-						"en": "Intended Disembarkation Port",
-						"es": "Intended Disembarkation Port ES",
-						"pt": "Intended Disembarkation Port PT"
-					}
-				}
-			]
-		},
-		{
-			"label": {
-				"en": "Cultural Association",
-				"es": "Cultural Association ES",
-				"pt": "Cultural Association PT"
-			},
-			"children": [
-				{
-					"colID": "language_group__name",
-					"col_width_px": 100,
-					"label": {
-						"en": "Language Group",
-						"es": "Language Group ES",
-						"pt": "Language Group PT"
 					}
 				}
 			]
@@ -583,8 +484,8 @@
 			},
 			"children": [
 				{
-					"colID": "captive_fate__name",
 					"col_width_px": 100,
+					"colID": "captive_fate__name",
 					"label": {
 						"en": "Captive Outcome",
 						"es": "Captive Outcome ES",
@@ -592,12 +493,30 @@
 					}
 				},
 				{
+					"col_width_px": 100,
 					"colID": "post_disembark_location__name",
-					"col_width_px": 160,
 					"label": {
 						"en": "Post-Disembark Location",
 						"es": "Post-Disembark Location ES",
 						"pt": "Post-Disembark Location PT"
+					}
+				}
+			]
+		},
+		{
+			"label": {
+				"en": "Enslavers",
+				"es": "Enslavers ES",
+				"pt": "Enslavers PT"
+			},
+			"children": [
+				{
+					"col_width_px": 300,
+					"colID": "enslavers",
+					"label": {
+						"en": "Enslavers",
+						"es": "Enslavers ES",
+						"pt": "Enslavers PT"
 					}
 				}
 			]
@@ -610,8 +529,8 @@
 			},
 			"children": [
 				{
+					"col_width_px": 350,
 					"colID": "enslaved_sources",
-					"col_width_px": 100,
 					"label": {
 						"en": "Sources",
 						"es": "Sources ES",
@@ -628,8 +547,8 @@
 			},
 			"children": [
 				{
+					"col_width_px": 130,
 					"colID": "connections",
-					"col_width_px": 120,
 					"label": {
 						"en": "Connections",
 						"es": "Connections ES",

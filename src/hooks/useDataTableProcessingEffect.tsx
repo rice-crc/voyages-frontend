@@ -18,7 +18,6 @@ function useDataTableProcessingEffect(
 ) {
     const dispatch: AppDispatch = useDispatch();
     const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-
     const { styleName: styleNameRoute } = usePageRouter();
     useEffect(() => {
         const tableFileName = checkRouteForVoyages(styleNameRoute!)
@@ -53,6 +52,7 @@ function useDataTableProcessingEffect(
         tableFlatfileEnslavers,
         tablesCell
     ]);
+    // console.log({ visibleColumnCells })
 }
 
 export default useDataTableProcessingEffect;

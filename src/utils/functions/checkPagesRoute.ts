@@ -47,6 +47,7 @@ export const checkPagesRouteForEnslaved = (pathStyleRoute: string) => {
     }
 };
 
+
 export const checkPagesRouteForEnslavers = (pathStyleRoute: string) => {
 
     switch (pathStyleRoute) {

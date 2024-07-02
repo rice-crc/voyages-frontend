@@ -5,6 +5,7 @@ export const generateRowsData = (
     dataRow: Record<string, any>[],
     file?: string,
 ): Record<string, any>[] => {
+
     const finalRowArr: Record<string, any>[] = [];
     const columns = TableAndCardCollectionsOptions(file);
     const varNames = columns.var_name;

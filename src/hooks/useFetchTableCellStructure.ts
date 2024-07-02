@@ -18,12 +18,12 @@ export const useFetchTableCellStructure = async (styleNameRoute?: string) => {
         cellStructure = Intraamerican_TABLE_FLAT.cell_structure;
     } else if (checkPagesRouteForVoyages(styleNameRoute!)) {
         cellStructure = AllVoyages_TABLE_FLAT.cell_structure;
-    } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
-        cellStructure = ENSLAVED_TABLE.cell_structure;
     } else if (styleNameRoute === TYPESOFDATASETPEOPLE.africanOrigins) {
         cellStructure = AFRICANORIGINS_TABLE.cell_structure;
     } else if (styleNameRoute === TYPESOFDATASETPEOPLE.texas) {
         cellStructure = TEXAS_TABLE.cell_structure;
+    } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
+        cellStructure = ENSLAVED_TABLE.cell_structure;
     } else if (styleNameRoute === ENSALVERSTYLE) {
         cellStructure = ENSLAVERS_TABLE.cell_structure;
     } else if (styleNameRoute === INTRAAMERICANTRADS) {
