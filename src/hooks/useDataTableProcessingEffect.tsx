@@ -1,7 +1,7 @@
 import { setColumnDefs, setRowData } from '@/redux/getTableSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { TableCellStructure } from '@/share/InterfaceTypesTable';
-import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { generateRowsData } from '@/utils/functions/generateRowsData';
 import { useEffect } from 'react';
@@ -20,7 +20,7 @@ function useDataTableProcessingEffect(
     const { languageValue } = useSelector((state: RootState) => state.getLanguages);
     const { styleName: styleNameRoute } = usePageRouter();
     useEffect(() => {
-        const tableFileName = checkRouteForVoyages(styleNameRoute!)
+        const tableFileName = checkPagesRouteForVoyages(styleNameRoute!)
             ? tableFlatfileVoyages
             : checkPagesRouteForEnslaved(styleNameRoute!)
                 ? tableFlatfileEnslaved

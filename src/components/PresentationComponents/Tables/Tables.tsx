@@ -32,7 +32,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import {
     checkPagesRouteForEnslaved,
     checkPagesRouteForEnslavers,
-    checkRouteForVoyages,
+    checkPagesRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
 import { CustomTablePagination } from '@/styleMUI';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
@@ -159,7 +159,7 @@ const Tables: React.FC = () => {
                 dataSend['order_by'] = sortColumn
             }
             try {
-                if (checkRouteForVoyages(styleNameRoute!)) {
+                if (checkPagesRouteForVoyages(styleNameRoute!)) {
                     response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
                 } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
                     response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();

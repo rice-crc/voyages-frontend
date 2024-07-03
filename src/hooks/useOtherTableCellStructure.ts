@@ -1,4 +1,4 @@
-import { checkPagesRouteForVoyages } from "@/utils/functions/checkPagesRoute";
+import { checkRouteForVoyages } from "@/utils/functions/checkPagesRoute";
 import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_all_table_menu.json';
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/enslaved/enslaved_african_origins_table.json';
 import TEXAS_TABLE from '@/utils/flatfiles/enslaved/enslaved_texas_table_cell_structure.json';
@@ -17,7 +17,7 @@ export const useOtherTableCellStructure = (styleNameRoute?: string) => {
         otherCellStructure = Transatlantic_TABLE_FLAT.other_properties;
     } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {
         otherCellStructure = Intraamerican_TABLE_FLAT.other_properties;
-    } else if (checkPagesRouteForVoyages(styleNameRoute!)) {
+    } else if (checkRouteForVoyages(styleNameRoute!)) {
         otherCellStructure = AllVoyages_TABLE_FLAT.other_properties;
     } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
         otherCellStructure = ENSLAVED_TABLE.other_properties;

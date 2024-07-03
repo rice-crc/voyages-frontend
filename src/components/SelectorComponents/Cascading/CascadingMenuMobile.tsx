@@ -43,7 +43,7 @@ import { setFilterObject, setIsFilter, setType } from '@/redux/getFilterSlice';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { allEnslavers, ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
 import { DropdownCascading } from './DropdownCascading';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
@@ -90,7 +90,7 @@ const CascadingMenuMobile = () => {
           setFilterMenu(valueTransaslantic);
         } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {
           setFilterMenu(valueIntraamerican);
-        } else if (checkPagesRouteForVoyages(styleNameRoute!)) {
+        } else if (checkRouteForVoyages(styleNameRoute!)) {
           setFilterMenu(valueAllVoyages);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
           setFilterMenu(valueEnslaved);
