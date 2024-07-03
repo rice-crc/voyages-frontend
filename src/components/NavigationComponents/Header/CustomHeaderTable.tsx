@@ -1,4 +1,4 @@
-import { setData } from '@/redux/getTableSlice';
+import { setData, setPage } from '@/redux/getTableSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { TableListPropsRequest } from '@/share/InterfaceTypes';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import { StateRowData } from '@/share/InterfaceTypesTable';
 
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
@@ -29,9 +30,7 @@ interface Props {
   menuIcon: string;
   enableSorting: boolean;
   displayName: string;
-  page: number
   pageSize: number
-  setPage: React.Dispatch<React.SetStateAction<number>>
   setSortColumn: React.Dispatch<React.SetStateAction<string[]>>
 }
 
@@ -39,8 +38,8 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
   const {
     column,
     setSort,
-    enableSorting, setPage,
-    displayName, page, pageSize, setSortColumn
+    enableSorting,
+    displayName, pageSize, setSortColumn
   } = props;
 
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
@@ -51,13 +50,14 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
+  const { page } = useSelector((state: RootState) => state.getTableData as StateRowData);
   const { clusterNodeKeyVariable, clusterNodeValue } =
     useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
   const onSortChanged = () => {
     setAscSort(column.isSortAscending() ? 'active' : 'inactive');
     setDescSort(column.isSortDescending() ? 'active' : 'inactive')
-    setPage(page)
+    dispatch(setPage(page))
   };
 
   const onSortRequested = (

@@ -8,7 +8,8 @@ const initialState: StateRowData = {
     columnDefs: [],
     tableOptions: {},
     loading: false,
-    error: null
+    error: null,
+    page: 0
 };
 export const getTableSlice = createSlice({
     name: 'getTableData',
@@ -28,8 +29,12 @@ export const getTableSlice = createSlice({
             (state, action: PayloadAction<ColumnObjectProps>) => {
                 state.tableOptions = action.payload;
             },
+        setPage: (state, action: PayloadAction<number>) => {
+            state.page = action.payload;
+        },
+        resetSliceTable: (state) => initialState,
     }
 });
 
-export const { setData, setRowData, setColumnDefs, setTableOptions } = getTableSlice.actions;
+export const { setData, setPage, resetSliceTable, setRowData, setColumnDefs, setTableOptions } = getTableSlice.actions;
 export default getTableSlice.reducer;

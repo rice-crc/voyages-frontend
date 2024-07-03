@@ -9,7 +9,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeaderTable from '../../NavigationComponents/Header/CustomHeaderTable';
-import { setData } from '@/redux/getTableSlice';
+import { setData, setPage } from '@/redux/getTableSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { Pagination } from '@mui/material';
@@ -33,7 +33,6 @@ import {
     checkPagesRouteForEnslaved,
     checkPagesRouteForEnslavers,
     checkPagesRouteForVoyages,
-    checkRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
 import { CustomTablePagination } from '@/styleMUI';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
@@ -59,7 +58,7 @@ const Tables: React.FC = () => {
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
     );
 
-    const { columnDefs, data, rowData } = useSelector(
+    const { columnDefs, data, rowData, page } = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
 
@@ -92,10 +91,11 @@ const Tables: React.FC = () => {
     const { tableFlatfileEnslavers } = useSelector(
         (state: RootState) => state.getEnslaverDataSetCollections
     );
-    const [page, setPage] = useState<number>(0);
+    // const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState(
         getRowsPerPage(window.innerWidth, window.innerHeight)
     );
+
     const otherTableCellStrructure = useOtherTableCellStructure(styleNameRoute!)
     const [sortColumn, setSortColumn] = useState<string[]>(otherTableCellStrructure?.default_order_by ? [otherTableCellStrructure?.default_order_by] : [])
     const {
@@ -159,7 +159,7 @@ const Tables: React.FC = () => {
                 dataSend['order_by'] = sortColumn
             }
             try {
-                if (checkRouteForVoyages(styleNameRoute!)) {
+                if (checkPagesRouteForVoyages(styleNameRoute!)) {
                     response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
                 } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
                     response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
@@ -217,9 +217,7 @@ const Tables: React.FC = () => {
             agColumnHeader: (props: any) => {
                 return (
                     <CustomHeaderTable
-                        page={page}
                         pageSize={rowsPerPage}
-                        setPage={setPage}
                         setSortColumn={setSortColumn}
                         {...props}
                     />
@@ -267,7 +265,7 @@ const Tables: React.FC = () => {
     );
 
     const handleChangePage = (event: any, newPage: number) => {
-        setPage(newPage);
+        dispatch(setPage(newPage));
     }
 
     const handleChangeRowsPerPage = useCallback(
@@ -279,7 +277,7 @@ const Tables: React.FC = () => {
 
     const handleChangePagePagination =
         (event: any, newPage: number) => {
-            setPage(newPage - 1);
+            dispatch(setPage(newPage - 1));
         }
 
     const pageCount = Math.ceil(

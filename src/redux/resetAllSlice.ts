@@ -18,6 +18,7 @@ import { resetAllStateSlice as resetAllStateSliceDataEnslaved } from './getPeopl
 import { resetAllStateSlice as resetAllStateSliceDataEnslavers } from './getPeopleEnslaversDataSetCollectionSlice'
 import { resetSliceSaveSearch } from './getSaveSearchSlice'
 import { resetSliceShowHideFilter } from './getShowFilterObjectSlice'
+import { resetSliceTable } from './getTableSlice';
 
 export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetOptionsData());
@@ -35,7 +36,7 @@ export const resetAll = () => (dispatch: Dispatch) => {
     dispatch(resetEstimateAssesment())
     dispatch(resetSliceSaveSearch())
     dispatch(resetSliceShowHideFilter())
-
+    dispatch(resetSliceTable())
 };
 
 

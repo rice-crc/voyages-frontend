@@ -46,7 +46,7 @@ import {
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { resetAll } from '@/redux/resetAllSlice';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
 import FilterTextBox from '@/components/FilterComponents/Autocomplete/FilterTextBox';
 import {
@@ -107,7 +107,7 @@ export const MenuListsDropdown = () => {
           setFilterMenu(valueTransaslantic);
         } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {
           setFilterMenu(valueIntraamerican);
-        } else if (checkPagesRouteForVoyages(styleNameRoute!)) {
+        } else if (checkRouteForVoyages(styleNameRoute!)) {
           setFilterMenu(valueAllVoyages);
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
           setFilterMenu(valueEnslaved);
@@ -296,6 +296,7 @@ export const MenuListsDropdown = () => {
   let displayComponent;
 
   if (varName) {
+
     switch (typeData) {
       case TYPES.GeoTreeSelect:
       case TYPES.LanguageTreeSelect:
