@@ -21,7 +21,7 @@ import AllVoyages_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_all_table.j
 import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers/enslavers_table.json';
 import { LabelFilterMeneList, TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from '@/share/CONST_DATA';
 import { DropdownCascading } from '../Cascading/DropdownCascading';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
@@ -67,7 +67,7 @@ const ButtonDropdownColumnSelector = () => {
           setMenuValueCells(transatlanticColumnSelector)
         } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {
           setMenuValueCells(intraamericanColumnSelector)
-        } else if (checkPagesRouteForVoyages(styleNameRoute!)) {
+        } else if (checkRouteForVoyages(styleNameRoute!)) {
           setMenuValueCells(allVoyageColumnSelector)
         } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {
           setMenuValueCells(enslavedColumnSelector);

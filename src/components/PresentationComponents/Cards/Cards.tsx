@@ -1,6 +1,7 @@
 import { Card, Collapse } from '@mui/material';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import {
   setCardDataArray,
   setCardFileName,
@@ -58,7 +59,7 @@ function isDocumentReference(s?: string | DocumentReference): s is DocumentRefer
 }
 
 const getSourceBib = (value: any) => {
-  const bib: string | undefined = value.sources__bib
+  const bib: string | undefined = value?.sources__bib
   return bib
 }
 
@@ -219,7 +220,7 @@ const VoyageCard = () => {
               expandedHeaders.includes(element.header) || globalExpand;
 
             return (
-              <div key={`${element.label}-${index}`}>
+              <div key={`${element.label}-${uuidv4()}`}>
                 <CardHeaderCustom
                   style={{ border: '1px solid rgba(0,0,0,.1)' }}
                   onClick={() => toggleExpand(element.header)}
@@ -246,7 +247,7 @@ const VoyageCard = () => {
                             const extraElements: JSX.Element[] = []
                             if (isDocumentReference(value)) {
                               valueToRender += ' '
-                              extraElements.push(<i key={index} className="fa fa-file-text" aria-hidden="true"></i>);
+                              extraElements.push(<i key={`${index}-${uuidv4()}`} className="fa fa-file-text" aria-hidden="true"></i>);
                               additionalStyles.borderColor = 'blue';
                               additionalStyles.borderWidth = 1;
                               additionalStyles.borderStyle = 'solid';
@@ -263,11 +264,11 @@ const VoyageCard = () => {
                             }
                             let component = valueToRender ? (
                               <div
-                                key={`${index}-${value}`}
+                                key={`${index}-${value}-${uuidv4()}`}
                                 style={{ padding: '2px 0' }}
                               >
                                 <span
-                                  key={`${index}-${value}`}
+                                  key={`${index}-${value}-${uuidv4()}`}
                                   {...additionalProps}
                                   style={{ ...styleCard, ...additionalStyles }}
                                 >{`${valueToRender}`}
@@ -278,7 +279,7 @@ const VoyageCard = () => {
                             ) : null
                             const bib = getSourceBib(value)
                             if (component && bib) {
-                              component = <PopoverWrapper padding={4} popoverContents={<div dangerouslySetInnerHTML={{ __html: bib }} />}>
+                              component = <PopoverWrapper key={uuidv4()} padding={4} popoverContents={<div dangerouslySetInnerHTML={{ __html: bib }} />}>
                                 {component}
                               </PopoverWrapper>
                             }
@@ -288,11 +289,12 @@ const VoyageCard = () => {
                         return (
                           <div
                             className="grid-container-card-body"
-                            key={`${child.label}-${index}`}
+                            key={`${child.label}-${index}-${uuidv4()}`}
                           >
-                            <div className="grid-item-card">{child.label}</div>
+                            <div className="grid-item-card" key={`${child.label}-${index}-${uuidv4()}`}>{child.label}</div>
                             <div
                               className="grid-itenewCardDatam-card"
+                              key={`${child.label}-${index}-${uuidv4()}`}
                               style={{ maxWidth: '100%', overflowX: 'auto' }}
                             >
                               {renderedValues}
@@ -310,7 +312,7 @@ const VoyageCard = () => {
                         return values && (
                           <div
                             className="grid-container-card-body"
-                            key={`${child.label}-${index}`}
+                            key={`${child.label}-${index}-${uuidv4()}`}
                           >
                             <div className="grid-item-card">{child.label}</div>
                             <div

@@ -10,9 +10,9 @@
 	},
 	{
 		"label": {
-			"en": "Investor, Captain, &c.",
-			"es": "Investor, Captain, &c. :ES",
-			"pt": "Investor, Captain, &c. :PT"
+			"en": "Ship, nation, enslavers",
+			"es": "Ship, nation, enslavers :ES",
+			"pt": "Ship, nation, enslavers :PT"
 		},
 		"children": [
 			{
@@ -61,8 +61,8 @@
 						],
 						"label": {
 							"en": "Investor, Captain, &c.",
-							"es": "Investor, Captain, &c. ES",
-							"pt": "Investor, Captain, &c. PT"
+							"es": "Investor, Captain, &c. :ES",
+							"pt": "Investor, Captain, &c. :PT"
 						}
 					},
 					{

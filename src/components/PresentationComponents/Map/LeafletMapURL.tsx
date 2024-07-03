@@ -148,9 +148,6 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         } else if (checkPagesRouteForEnslaved(styleNamePage!)) {
             response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
         }
-        // else if (checkPagesRouteMapURLForEnslaved(styleNamePage!)) {
-        //     response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
-        // }
 
         if (response) {
 

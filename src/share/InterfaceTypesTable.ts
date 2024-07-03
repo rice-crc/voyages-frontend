@@ -844,6 +844,7 @@ export interface StateRowData {
     tableOptions: {}
     loading: boolean
     error: null | any;
+    page: number
 }
 export interface TableCellStructure {
     header_label: LabelFilterMeneList | string | any

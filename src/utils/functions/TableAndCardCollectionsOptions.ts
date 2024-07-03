@@ -42,17 +42,17 @@ export const TableAndCardCollectionsOptions = (file?: string): Record<string, an
         });
     };
 
-    if (file === TRANSATLANTICTABLEFILE) { // voyages_transatlantic_table.json
+    if (file === TRANSATLANTICTABLEFILE) {
         TRANSATLANTIC_TABLE_FLAT.cell_structure.forEach((value) => {
             const fieldsData = value.cell_val.fields;
             processFieldsData(fieldsData);
         });
-    } else if (file === INTRAAMERICANTABLEFILE) { //voyages_intraamerican_table.json
+    } else if (file === INTRAAMERICANTABLEFILE) {
         INTRAAMERICAN_TABLE_FLAT.cell_structure.forEach((value) => {
             const fieldsData = value.cell_val.fields;
             processFieldsData(fieldsData);
         });
-    } else if (file === ALLVOYAGESTABLEFILE) { //voyages_all_table.json
+    } else if (file === ALLVOYAGESTABLEFILE) {
         ALLVOYAGES_TABLE_FLAT.cell_structure.forEach((value) => {
             const fieldsData = value.cell_val.fields;
             processFieldsData(fieldsData);

@@ -10,7 +10,7 @@ import {
 } from '@/share/CONST_DATA';
 import { TYPESOFDATASET } from '@/share/InterfaceTypes';
 
-export const checkPagesRouteForVoyages = (pathStyleRoute: string) => {
+export const checkRouteForVoyages = (pathStyleRoute: string) => {
     switch (pathStyleRoute) {
         case TYPESOFDATASET.allVoyages:
         case TYPESOFDATASET.voyages:
@@ -21,7 +21,7 @@ export const checkPagesRouteForVoyages = (pathStyleRoute: string) => {
     }
 };
 
-export const checkRouteForVoyages = (pathStyleRoute: string) => {
+export const checkPagesRouteForVoyages = (pathStyleRoute: string) => {
     switch (pathStyleRoute) {
         case TYPESOFDATASET.allVoyages:
         case TYPESOFDATASET.voyages:
@@ -47,8 +47,8 @@ export const checkPagesRouteForEnslaved = (pathStyleRoute: string) => {
     }
 };
 
-export const checkPagesRouteForEnslavers = (pathStyleRoute: string) => {
 
+export const checkPagesRouteForEnslavers = (pathStyleRoute: string) => {
     switch (pathStyleRoute) {
         case ENSALVERSTYLE:
         case INTRAAMERICANTRADS:
