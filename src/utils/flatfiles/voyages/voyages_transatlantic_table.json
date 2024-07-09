@@ -58,7 +58,7 @@
 			"order_by": [
 				"voyage_ship__ship_name"
 			],
-			"col_width_px": 100,
+			"col_width_px": 186,
 			"colID": "voyage_ship__ship_name",
 			"cell_val": {
 				"fields": [
