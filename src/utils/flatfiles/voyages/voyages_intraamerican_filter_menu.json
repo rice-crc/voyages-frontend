@@ -17,9 +17,9 @@
 		"children": [
 			{
 				"label": {
-					"en": "Voyages, Enslavers, and Vessels",
-					"es": "Voyages, Enslavers, and Vessels ES",
-					"pt": "Voyages, Enslavers, and Vessels PT"
+					"en": "Voyages, enslavers, and vessels",
+					"es": "Voyages, enslavers, and vessels ES",
+					"pt": "Voyages, enslavers, and vessels PT"
 				},
 				"children": [
 					{
@@ -60,9 +60,9 @@
 							}
 						],
 						"label": {
-							"en": "Investor, Captain, &c.",
-							"es": "Investor, Captain, &c. :ES",
-							"pt": "Investor, Captain, &c. :PT"
+							"en": "Investor, captain, &c.",
+							"es": "Investor, captain, &c. :ES",
+							"pt": "Investor, captain, &c. :PT"
 						}
 					},
 					{
@@ -126,9 +126,9 @@
 			},
 			{
 				"label": {
-					"en": "Flag of Vessel",
-					"es": "Flag of Vessel ES",
-					"pt": "Flag of Vessel PT"
+					"en": "Flag of vessel",
+					"es": "Flag of vessel ES",
+					"pt": "Flag of vessel PT"
 				},
 				"children": [
 					{
@@ -189,9 +189,9 @@
 						"var_name": "voyage_ship__tonnage_mod",
 						"type": "DecimalField",
 						"label": {
-							"en": "Standardized Tonnage (IMP)",
-							"es": "Standardized Tonnage (IMP) ES",
-							"pt": "Standardized Tonnage (IMP) PT"
+							"en": "Standardized tonnage (IMP)",
+							"es": "Standardized tonnage (IMP) ES",
+							"pt": "Standardized tonnage (IMP) PT"
 						}
 					},
 					{
