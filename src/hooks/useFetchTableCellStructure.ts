@@ -12,6 +12,7 @@ import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from "@/share/C
 export const useFetchTableCellStructure = async (styleNameRoute?: string) => {
     let cellStructure = null;
 
+
     if (styleNameRoute === TYPESOFDATASET.transatlantic) {
         cellStructure = Transatlantic_TABLE_FLAT.cell_structure;
     } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {

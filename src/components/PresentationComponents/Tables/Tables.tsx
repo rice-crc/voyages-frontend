@@ -108,11 +108,7 @@ const Tables: React.FC = () => {
         if (!isLoading && !isError && tableCellStructure) {
             setTableCell(tableCellStructure as TableCellStructure[]);
         }
-        const storedValueVisibleColumns = localStorage.getItem('visibleColumns');
-        if (storedValueVisibleColumns) {
-            const parsedValue = JSON.parse(storedValueVisibleColumns);
-            dispatch(setVisibleColumn(parsedValue));
-        } else if (tablesCell.length > 0 && !storedValueVisibleColumns) {
+        if (tablesCell.length > 0) {
             const visibleColumns = tablesCell
                 .filter((cell: any) => cell.visible)
                 .map((cell: any) => cell.colID);
@@ -121,12 +117,22 @@ const Tables: React.FC = () => {
             localStorage.setItem('visibleColumns', visibleColumnsString);
         }
 
-        const headerColor = getHeaderColomnColor(styleNameRoute!);
+    }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!, data]);
 
+    useEffect(() => {
+
+        const storedValueVisibleColumns = localStorage.getItem('visibleColumns');
+        if (storedValueVisibleColumns) {
+            const parsedValue = JSON.parse(storedValueVisibleColumns);
+            dispatch(setVisibleColumn(parsedValue));
+        }
+
+        const headerColor = getHeaderColomnColor(styleNameRoute!);
         document.documentElement.style.setProperty(
             '--pagination-table--',
             headerColor
         );
+
         const handleResize = () => {
             setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
         };
@@ -135,7 +141,7 @@ const Tables: React.FC = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [dispatch, isLoading, isError, tablesCell, tableCellStructure, styleNameRoute!, data]);
+    }, [dispatch]);
 
     const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
 
