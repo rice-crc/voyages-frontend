@@ -3,8 +3,8 @@
 		{
 			"header_label": {
 				"en": "Year arrived with captives",
-				"es": "Year arrived with captives ES",
-				"pt": "Year arrived with captives PT"
+				"es": "Año llegó con cautivos",
+				"pt": "O ano chegou com cativos"
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -26,8 +26,8 @@
 		{
 			"header_label": {
 				"en": "Voyage ID",
-				"es": "Voyage ID ES",
-				"pt": "Voyage ID PT"
+				"es": "Viaje ID",
+				"pt": "Viagem ID"
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -49,8 +49,8 @@
 		{
 			"header_label": {
 				"en": "Vessel name",
-				"es": "Vessel name ES",
-				"pt": "Vessel name PT"
+				"es": "Nombre del buque",
+				"pt": "Nome do navio"
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -72,8 +72,8 @@
 		{
 			"header_label": {
 				"en": "Place where vessel's voyage began (*imp)",
-				"es": "Place where vessel's voyage began (*imp) ES",
-				"pt": "Place where vessel's voyage began (*imp) PT"
+				"es": "Lugar donde comenzó el viaje del buque (*imp)",
+				"pt": "Local onde se iniciou a viagem do navio (*imp)"
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -95,8 +95,8 @@
 		{
 			"header_label": {
 				"en": "Principal place where captives were purchased",
-				"es": "Principal place where captives were purchased ES",
-				"pt": "Principal place where captives were purchased PT"
+				"es": "Principal lugar de compra de cautivos",
+				"pt": "Principal local de compra de cativos"
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -117,8 +117,8 @@
 		{
 			"header_label": {
 				"en": "Principal place where captives were landed (*imp)",
-				"es": "Principal place where captives were landed (*imp) ES",
-				"pt": "Principal place where captives were landed (*imp) PT"
+				"es": "Principal lugar de desembarco de cautivos (*imp)",
+				"pt": "Principal local de desembarque de cativos (*imp)"
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -140,8 +140,8 @@
 		{
 			"header_label": {
 				"en": "Connections",
-				"es": "Connections ES",
-				"pt": "Connections PT"
+				"es": "Conexiones",
+				"pt": "Ligações"
 			},
 			"cell_type": "network_modal",
 			"visible": true,
@@ -162,8 +162,8 @@
 		{
 			"header_label": {
 				"en": "Captives landed at 1st port",
-				"es": "Captives landed at 1st port ES",
-				"pt": "Captives landed at 1st port PT"
+				"es": "Cautivos desembarcados en el primer puerto",
+				"pt": "Cativos desembarcados no primeiro porto"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -185,8 +185,8 @@
 		{
 			"header_label": {
 				"en": "Enslavers",
-				"es": "Enslavers ES",
-				"pt": "Enslavers PT"
+				"es": "Esclavizadores",
+				"pt": "Escravizadores"
 			},
 			"cell_type": "literal-concat",
 			"visible": true,
@@ -213,8 +213,8 @@
 		{
 			"header_label": {
 				"en": "Crew died during complete voyage",
-				"es": "Crew died during complete voyage ES",
-				"pt": "Crew died during complete voyage PT"
+				"es": "La tripulación murió durante todo el viaje",
+				"pt": "A tripulação morreu durante toda a viagem"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -236,8 +236,8 @@
 		{
 			"header_label": {
 				"en": "Source",
-				"es": "Source ES",
-				"pt": "Source PT"
+				"es": "Fuente",
+				"pt": "Fonte"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -284,8 +284,8 @@
 		{
 			"header_label": {
 				"en": "Date vessel's voyage began (DATEDEPB,A,C)",
-				"es": "Date vessel's voyage began (DATEDEPB,A,C) ES",
-				"pt": "Date vessel's voyage began (DATEDEPB,A,C) PT"
+				"es": "Fecha de inicio del viaje del buque (DATEDEPB,A,C)",
+				"pt": "Data de início da viagem do navio (DATEDEPB,A,C)"
 			},
 			"cell_type": "literal-concat",
 			"visible": false,
@@ -318,8 +318,8 @@
 		{
 			"header_label": {
 				"en": "Date captive embarkation began (D1SLATRB,A,C)",
-				"es": "Date captive embarkation began (D1SLATRB,A,C) ES",
-				"pt": "Date captive embarkation began (D1SLATRB,A,C) PT"
+				"es": "Fecha de inicio del embarque de cautivos (D1SLATRB,A,C)",
+				"pt": "Data de início do embarque de cativos (D1SLATRB,A,C)"
 			},
 			"cell_type": "literal-concat",
 			"visible": false,
@@ -351,9 +351,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Year constructed",
-				"es": "Year constructed ES",
-				"pt": "Year constructed PT"
+				"en": "Year of construction",
+				"es": "Año de construcción",
+				"pt": "Ano de construção"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -374,9 +374,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Place constructed",
-				"es": "Place constructed ES",
-				"pt": "Place constructed PT"
+				"en": "Region of construction",
+				"es": "Región de construcción",
+				"pt": "Região de construção"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -398,8 +398,8 @@
 		{
 			"header_label": {
 				"en": "Year registered",
-				"es": "Year registered ES",
-				"pt": "Year registered PT"
+				"es": "Año de registro",
+				"pt": "Ano de registo"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -421,8 +421,8 @@
 		{
 			"header_label": {
 				"en": "Place registered",
-				"es": "Place registered ES",
-				"pt": "Place registered PT"
+				"es": "Lugar de registro",
+				"pt": "Local registado"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -443,9 +443,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Flag of vessel",
-				"es": "Flag of vessel ES",
-				"pt": "Flag of vessel PT"
+				"en": "Flag of Vessel",
+				"es": "Pabellón del buque",
+				"pt": "Pavilhão do navio"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -467,8 +467,8 @@
 		{
 			"header_label": {
 				"en": "Flag of vessel (imp*)",
-				"es": "Flag of vessel (imp*) ES",
-				"pt": "Flag of vessel (imp*) PT"
+				"es": "Pabellón del buque (imp*)",
+				"pt": "Pavilhão do navio (imp*)"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -489,9 +489,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Rig or type of vessel",
-				"es": "Rig or type of vessel ES",
-				"pt": "Rig or type of vessel PT"
+				"en": "Rig of Vessel",
+				"es": "Aparejo del buque",
+				"pt": "Equipamento do navio"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -513,8 +513,8 @@
 		{
 			"header_label": {
 				"en": "Tonnage",
-				"es": "Tonnage ES",
-				"pt": "Tonnage PT"
+				"es": "Tonelaje",
+				"pt": "Tonelagem"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -535,9 +535,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Standardized tonnage (imp*)",
-				"es": "Standardized tonnage (imp*) ES",
-				"pt": "Standardized tonnage (imp*) PT"
+				"en": "Standardized Tonnage (IMP)",
+				"es": "Arqueo normalizado (IMP)",
+				"pt": "Tonelagem normalizada (IMP)"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -559,8 +559,8 @@
 		{
 			"header_label": {
 				"en": "Guns mounted",
-				"es": "Guns mounted ES",
-				"pt": "Guns mounted PT"
+				"es": "Cañones montados",
+				"pt": "Armas montadas"
 			},
 			"cell_type": "literal",
 			"number_format": null,
@@ -582,8 +582,8 @@
 		{
 			"header_label": {
 				"en": "Crew at voyage outset",
-				"es": "Crew at voyage outset ES",
-				"pt": "Crew at voyage outset PT"
+				"es": "Tripulación al inicio del viaje",
+				"pt": "A tripulação no início da viagem"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -605,8 +605,8 @@
 		{
 			"header_label": {
 				"en": "Crew at first landing of captives",
-				"es": "Crew at first landing of captives ES",
-				"pt": "Crew at first landing of captives PT"
+				"es": "Tripulación en el primer desembarco de cautivos",
+				"pt": "A tripulação no primeiro desembarque de cativos"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -627,9 +627,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Crew deaths during complete voyage",
-				"es": "Crew deaths during complete voyage ES",
-				"pt": "Crew deaths during complete voyage PT"
+				"en": "Crew deaths during voyage",
+				"es": "Muertes de la tripulación durante el viaje",
+				"pt": "Mortes de tripulantes durante a viagem"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -651,8 +651,8 @@
 		{
 			"header_label": {
 				"en": "First place where captives were purchased",
-				"es": "First place where captives were purchased ES",
-				"pt": "First place where captives were purchased PT"
+				"es": "Primer lugar donde se compraron cautivos",
+				"pt": "Primeiro local onde os cativos foram comprados"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -674,8 +674,8 @@
 		{
 			"header_label": {
 				"en": "Second place where captives were purchased",
-				"es": "Second place where captives were purchased ES",
-				"pt": "Second place where captives were purchased PT"
+				"es": "Segundo lugar donde se compraron cautivos",
+				"pt": "Segundo local de compra de cativos"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -697,8 +697,8 @@
 		{
 			"header_label": {
 				"en": "Third place where captives were purchased",
-				"es": "Third place where captives were purchased ES",
-				"pt": "Third place where captives were purchased PT"
+				"es": "Tercer lugar donde se compraron cautivos",
+				"pt": "Terceiro local de compra de cativos"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -719,9 +719,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Places of call before Atlantic crossing",
-				"es": "Places of call before Atlantic crossing ES",
-				"pt": "Places of call before Atlantic crossing PT"
+				"en": "Places of call before oceanic crossing",
+				"es": "Lugares de escala antes de la travesía oceánica",
+				"pt": "Locais de escala antes da travessia oceânica"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -743,8 +743,8 @@
 		{
 			"header_label": {
 				"en": "First place where captives were landed",
-				"es": "First place where captives were landed ES",
-				"pt": "First place where captives were landed PT"
+				"es": "Primer lugar de desembarco de cautivos",
+				"pt": "Primeiro local de desembarque de cativos"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -766,8 +766,8 @@
 		{
 			"header_label": {
 				"en": "Second place where captives were landed",
-				"es": "Second place where captives were landed ES",
-				"pt": "Second place where captives were landed PT"
+				"es": "Segundo lugar de desembarco de cautivos",
+				"pt": "Segundo local de desembarque de cativos"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -789,8 +789,8 @@
 		{
 			"header_label": {
 				"en": "Third place where captives were landed",
-				"es": "Third place where captives were landed ES",
-				"pt": "Third place where captives were landed PT"
+				"es": "Tercer place where captives were landed",
+				"pt": "Terceiro local de desembarque de cativos"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -812,8 +812,8 @@
 		{
 			"header_label": {
 				"en": "Place where vessel's voyage ended",
-				"es": "Place where vessel's voyage ended ES",
-				"pt": "Place where vessel's voyage ended PT"
+				"es": "Lugar donde terminó el viaje del buque",
+				"pt": "Local onde terminou a viagem do navio"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -834,9 +834,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Total embarked (*imp)",
-				"es": "Total embarked (*imp) ES",
-				"pt": "Total embarked (*imp) PT"
+				"en": "Total embarked (IMP)",
+				"es": "Total embarcados (IMP)",
+				"pt": "Total embarcado (IMP)"
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -857,9 +857,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Total embarked",
-				"es": "Total embarked ES",
-				"pt": "Total embarked PT"
+				"en": "Total enslaved purchased (IMP)",
+				"es": "Total de esclavos comprados (IMP)",
+				"pt": "Total de escravos comprados (IMP)"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -880,9 +880,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Total disembarked (*imp)",
-				"es": "Total disembarked (*imp) ES",
-				"pt": "Total disembarked (*imp) PT"
+				"en": "Total disembarked (IMP)",
+				"es": "Total desembarcados (IMP)",
+				"pt": "Total desembarcado (IMP)"
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -903,9 +903,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Total disembarked",
-				"es": "Total disembarked ES",
-				"pt": "Total disembarked PT"
+				"en": "Captives embarked at first port",
+				"es": "Cautivos embarcados en el primer puerto",
+				"pt": "Cativos embarcados no primeiro porto"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -926,9 +926,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Captives intended to be purchased at 1st place",
-				"es": "Captives intended to be purchased at 1st place ES",
-				"pt": "Captives intended to be purchased at 1st place PT"
+				"en": "Captives intended to be purchased at first port",
+				"es": "Cautivos destinados a ser comprados en el primer puerto",
+				"pt": "Cativos destinados a ser comprados no primeiro porto"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -949,9 +949,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Captives carried from 1st port",
-				"es": "Captives carried from 1st port ES",
-				"pt": "Captives carried from 1st port PT"
+				"en": "Captives carried from first port",
+				"es": "Cautivos transportados desde el primer puerto",
+				"pt": "Cativos transportados do primeiro porto"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -972,9 +972,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Captives carried from 2nd port",
-				"es": "Captives carried from 2nd port ES",
-				"pt": "Captives carried from 2nd port PT"
+				"en": "Captives carried from second port",
+				"es": "Cautivos transportados desde el segundo puerto",
+				"pt": "Cativos transportados do segundo porto"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -995,9 +995,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Captives carried from 3rd port",
-				"es": "Captives carried from 3rd port ES",
-				"pt": "Captives carried from 3rd port PT"
+				"en": "Captives carried from third port",
+				"es": "Cautivos transportados desde el tercer puerto",
+				"pt": "Cativos transportados do terceiro porto"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1018,9 +1018,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Captives landed at 2nd port",
-				"es": "Captives landed at 2nd port ES",
-				"pt": "Captives landed at 2nd port PT"
+				"en": "Captives landed at second port",
+				"es": "Cautivos desembarcados en el segundo puerto",
+				"pt": "Cativos desembarcados no segundo porto"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1041,9 +1041,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Captives landed at 3rd port",
-				"es": "Captives landed at 3rd port ES",
-				"pt": "Captives landed at 3rd port PT"
+				"en": "Captives landed at third port",
+				"es": "Cautivos desembarcados en el tercer puerto",
+				"pt": "Cativos desembarcados no terceiro porto"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1065,8 +1065,8 @@
 		{
 			"header_label": {
 				"en": "Percent men",
-				"es": "Percent men ES",
-				"pt": "Percent men PT"
+				"es": "Porcentaje de hombres",
+				"pt": "Percentagem de homens"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1088,8 +1088,8 @@
 		{
 			"header_label": {
 				"en": "Percent women",
-				"es": "Percent women ES",
-				"pt": "Percent women PT"
+				"es": "Porcentaje de mujeres",
+				"pt": "Percentagem de mulheres"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1111,8 +1111,8 @@
 		{
 			"header_label": {
 				"en": "Percent boys",
-				"es": "Percent boys ES",
-				"pt": "Percent boys PT"
+				"es": "Porcentaje de chicos",
+				"pt": "Percentagem de rapazes"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1134,8 +1134,8 @@
 		{
 			"header_label": {
 				"en": "Percent girls",
-				"es": "Percent girls ES",
-				"pt": "Percent girls PT"
+				"es": "Porcentaje de niñas",
+				"pt": "Percentagem de raparigas"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1156,9 +1156,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Percent males",
-				"es": "Percent males ES",
-				"pt": "Percent males PT"
+				"en": "Percent male",
+				"es": "Porcentaje de masculinos",
+				"pt": "Percentagem de masculinos"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1179,9 +1179,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Percent children",
-				"es": "Percent children ES",
-				"pt": "Percent children PT"
+				"en": "Percentage children",
+				"es": "Porcentaje de niños",
+				"pt": "Percentagem de crianças"
 			},
 			"cell_type": "literal",
 			"visible": false,
