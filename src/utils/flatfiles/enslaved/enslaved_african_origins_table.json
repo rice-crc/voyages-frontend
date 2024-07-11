@@ -50,6 +50,29 @@
 		},
 		{
 			"header_label": {
+				"en": "Cultural Association",
+				"es": "Cultural Association ES",
+				"pt": "Cultural Association PT"
+			},
+			"cell_type": "literal",
+			"visible": true,
+			"number_format": null,
+			"order_by": [
+				"language_group__name"
+			],
+			"col_width_px": 151,
+			"colID": "language_group__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "language_group__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
 				"en": "Age",
 				"es": "Age ES",
 				"pt": "Age PT"
@@ -368,6 +391,15 @@
 		"default_order_by": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
 	},
 	"column_selector_tree": [
+		{
+			"label": {
+				"en": "Cultural Association",
+				"es": "Cultural Association ES",
+				"pt": "Cultural Association PT"
+			},
+			"col_width_px": 151,
+			"colID": "language_group__name"
+		},
 		{
 			"label": {
 				"en": "Names",
