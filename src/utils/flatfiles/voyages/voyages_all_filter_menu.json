@@ -597,9 +597,9 @@
 						"var_name": "voyage_slaves_numbers__imp_mortality_ratio",
 						"type": "FloatField",
 						"label": {
-							"en": "Percentage of captives who died during crossing",
-							"es": "Porcentaje de cautivos que murieron durante la travesía",
-							"pt": "PPercentagem de prisioneiros que morreram durante a travessia"
+							"en": "Percentage of captives who died during crossing (IMP)",
+							"es": "Porcentaje de cautivos que murieron durante la travesía (IMP)",
+							"pt": "Percentagem de prisioneiros que morreram durante a travessia (IMP)"
 						}
 					}
 				]
