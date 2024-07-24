@@ -26,30 +26,6 @@
         },
         {
             "header_label": {
-                "en": "Modern Name",
-                "es": "Modern Name ES",
-                "pt": "Modern Name PT"
-            },
-            "cell_type": "literal-concat",
-            "visible": true,
-            "number_format": null,
-            "order_by": [
-                "modern_name"
-            ],
-            "col_width_px": 100,
-            "colID": "modern_name",
-            "cell_val": {
-                "fields": [
-                    {
-                        "var_name": "modern_name",
-                        "cell_fn": "literal"
-                    }
-                ],
-                "join": " / "
-            }
-        },
-        {
-            "header_label": {
                 "en": "Age",
                 "es": "Age ES",
                 "pt": "Age PT"
@@ -382,15 +358,6 @@
                         "en": "Documented Name",
                         "es": "Documented Name ES",
                         "pt": "Documented Name PT"
-                    }
-                },
-                {
-                    "col_width_px": 100,
-                    "colID": "modern_name",
-                    "label": {
-                        "en": "Modern Name",
-                        "es": "Modern Name ES",
-                        "pt": "Modern Name PT"
                     }
                 }
             ]
