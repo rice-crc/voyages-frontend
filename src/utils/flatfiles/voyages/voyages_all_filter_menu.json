@@ -2,8 +2,8 @@
 	{
 		"label": {
 			"en": "Year Range",
-			"es": "Year Range ES",
-			"pt": "Year Range PT"
+			"es": "Año Rango",
+			"pt": "Intervalo de anos"
 		},
 		"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 		"type": "IntegerField"
@@ -11,15 +11,15 @@
 	{
 		"label": {
 			"en": "Ship, nation, enslavers",
-			"es": "Ship, nation, enslavers :ES",
-			"pt": "Ship, nation, enslavers :PT"
+			"es": "Barco, nación, esclavistas",
+			"pt": "Navio, nação, escravizadores"
 		},
 		"children": [
 			{
 				"label": {
-					"en": "Voyages, enslavers, and vessels",
-					"es": "Voyages, enslavers, and vessels ES",
-					"pt": "Voyages, enslavers, and vessels PT"
+					"en": "Voyages, Enslavers, and Vessels",
+					"es": "Viajes, esclavitudes y buques",
+					"pt": "Viagens, alforrias e navios"
 				},
 				"children": [
 					{
@@ -31,8 +31,8 @@
 						],
 						"label": {
 							"en": "Voyage ID",
-							"es": "Voyage ID ES",
-							"pt": "Voyage ID PT"
+							"es": "Viaje ID",
+							"pt": "Viagem ID"
 						}
 					},
 					{
@@ -60,9 +60,9 @@
 							}
 						],
 						"label": {
-							"en": "Investor, captain, &c.",
-							"es": "Investor, captain, &c. :ES",
-							"pt": "Investor, captain, &c. :PT"
+							"en": "Investor, Captain, &c.",
+							"es": "Inversor, Capitán, &c.",
+							"pt": "Investidor, Capitão, &c."
 						}
 					},
 					{
@@ -73,8 +73,8 @@
 						],
 						"label": {
 							"en": "Name of vessel",
-							"es": "Name of vessel ES",
-							"pt": "Name of vessel PT"
+							"es": "Nombre del buque",
+							"pt": "Nome do navio"
 						}
 					}
 				]
@@ -82,26 +82,26 @@
 			{
 				"label": {
 					"en": "Construction and registration",
-					"es": "Construction and registration ES",
-					"pt": "Construction and registration PT"
+					"es": "Construcción y registro",
+					"pt": "Construção e registo"
 				},
 				"children": [
 					{
 						"var_name": "voyage_ship__year_of_construction",
 						"type": "IntegerField",
 						"label": {
-							"en": "Year of constructed",
-							"es": "Year of constructed ES",
-							"pt": "Year of constructed PT"
+							"en": "Year of construction",
+							"es": "Año de construcción",
+							"pt": "Ano de construção"
 						}
 					},
 					{
 						"var_name": "voyage_ship__vessel_construction_place__value",
 						"type": "GeoTreeSelect",
 						"label": {
-							"en": "Region constructed",
-							"es": "Region constructed ES",
-							"pt": "Region constructed PT"
+							"en": "Region of construction",
+							"es": "Región de construcción",
+							"pt": "Região de construção"
 						}
 					},
 					{
@@ -109,8 +109,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Year registered",
-							"es": "Year registered ES",
-							"pt": "Year registered PT"
+							"es": "Año de registro",
+							"pt": "Ano de registo"
 						}
 					},
 					{
@@ -118,17 +118,17 @@
 						"type": "GeoTreeSelect",
 						"label": {
 							"en": "Place registered",
-							"es": "Place registered ES",
-							"pt": "Place registered PT"
+							"es": "Lugar de registro",
+							"pt": "Local registado"
 						}
 					}
 				]
 			},
 			{
 				"label": {
-					"en": "Flag of vessel",
-					"es": "Flag of vessel ES",
-					"pt": "Flag of vessel PT"
+					"en": "Flag of Vessel",
+					"es": "Pabellón del buque",
+					"pt": "Pavilhão do navio"
 				},
 				"children": [
 					{
@@ -139,8 +139,8 @@
 						],
 						"label": {
 							"en": "Flag of vessel",
-							"es": "Flag of vessel ES",
-							"pt": "Flag of vessel PT"
+							"es": "Pabellón del buque",
+							"pt": "Pavilhão do navio"
 						}
 					},
 					{
@@ -151,8 +151,8 @@
 						],
 						"label": {
 							"en": "Flag of vessel (IMP)",
-							"es": "Flag of vessel (IMP) ES",
-							"pt": "Flag of vessel (IMP) PT"
+							"es": "Pabellón del buque (IMP)",
+							"pt": "Pavilhão do navio (IMP)"
 						}
 					}
 				]
@@ -160,8 +160,8 @@
 			{
 				"label": {
 					"en": "Rig, tonnage, and guns mounted",
-					"es": "Rig, tonnage, and guns mounted ES",
-					"pt": "Rig, tonnage, and guns mounted PT"
+					"es": "Aparejo, tonelaje y cañones montados",
+					"pt": "Equipamento, tonelagem e armas montadas"
 				},
 				"children": [
 					{
@@ -172,8 +172,8 @@
 						],
 						"label": {
 							"en": "Rig of Vessel",
-							"es": "Rig of Vessel ES",
-							"pt": "Rig of Vessel PT"
+							"es": "Aparejo del buque",
+							"pt": "Equipamento do navio"
 						}
 					},
 					{
@@ -181,17 +181,17 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Tonnage",
-							"es": "Tonnage ES",
-							"pt": "Tonnage PT"
+							"es": "Tonelaje",
+							"pt": "Tonelagem"
 						}
 					},
 					{
 						"var_name": "voyage_ship__tonnage_mod",
 						"type": "DecimalField",
 						"label": {
-							"en": "Standardized tonnage (IMP)",
-							"es": "Standardized tonnage (IMP) ES",
-							"pt": "Standardized tonnage (IMP) PT"
+							"en": "Standardized Tonnage (IMP)",
+							"es": "Arqueo normalizado (IMP)",
+							"pt": "Tonelagem normalizada (IMP)"
 						}
 					},
 					{
@@ -199,8 +199,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Guns mounted",
-							"es": "Guns mounted ES",
-							"pt": "Guns mounted PT"
+							"es": "Cañones montados",
+							"pt": "Armas montadas"
 						}
 					},
 					{
@@ -208,8 +208,8 @@
 						"type": "MultiselectList",
 						"label": {
 							"en": "Ton Type",
-							"es": "Ton Type ES",
-							"pt": "Ton Type PT"
+							"es": "Tipo de tonelada",
+							"pt": "Tipo de tonelada"
 						}
 					}
 				]
@@ -222,8 +222,8 @@
 				],
 				"label": {
 					"en": "Cargo",
-					"es": "Cargo ES",
-					"pt": "Cargo PT"
+					"es": "Carga",
+					"pt": "Carga"
 				}
 			}
 		]
@@ -231,8 +231,8 @@
 	{
 		"label": {
 			"en": "Itinerary",
-			"es": "Itinerary ES",
-			"pt": "Itinerary PT"
+			"es": "Itinerario",
+			"pt": "Itinerário"
 		},
 		"children": [
 			{
@@ -240,15 +240,15 @@
 				"type": "GeoTreeSelect",
 				"label": {
 					"en": "Place of vessel’s departure",
-					"es": "Place of vessel’s departure ES",
-					"pt": "Place of vessel’s departure PT"
+					"es": "Lugar de salida del buque",
+					"pt": "Local de partida do navio"
 				}
 			},
 			{
 				"label": {
 					"en": "Place where captives were purchased",
-					"es": "Place where captives were purchased ES",
-					"pt": "Place where captives were purchased PT"
+					"es": "Lugar de compra de los cautivos",
+					"pt": "Local de compra dos cativos"
 				},
 				"children": [
 					{
@@ -256,8 +256,8 @@
 						"type": "GeoTreeSelect",
 						"label": {
 							"en": "Principal place where captives were purchased (IMP)",
-							"es": "Principal place where captives were purchased (IMP) ES",
-							"pt": "Principal place where captives were purchased (IMP) PT"
+							"es": "Principal lugar de compra de cautivos (IMP)",
+							"pt": "Principal local de compra de cativos (IMP)"
 						}
 					},
 					{
@@ -265,8 +265,8 @@
 						"type": "GeoTreeSelect",
 						"label": {
 							"en": "First place where captives were purchased",
-							"es": "First place where captives were purchased ES",
-							"pt": "First place where captives were purchased PT"
+							"es": "Primer lugar donde se compraron cautivos",
+							"pt": "Primeiro local onde os cativos foram comprados"
 						}
 					},
 					{
@@ -274,8 +274,8 @@
 						"type": "GeoTreeSelect",
 						"label": {
 							"en": "Second place where captives were purchased",
-							"es": "Second place where captives were purchased ES",
-							"pt": "Second place where captives were purchased PT"
+							"es": "Segundo lugar donde se compraron cautivos",
+							"pt": "Segundo local de compra de cativos"
 						}
 					},
 					{
@@ -283,8 +283,8 @@
 						"type": "GeoTreeSelect",
 						"label": {
 							"en": "Third place where captives were purchased",
-							"es": "Third place where captives were purchased ES",
-							"pt": "Third place where captives were purchased PT"
+							"es": "Tercer lugar donde se compraron cautivos",
+							"pt": "Terceiro local de compra de cativos"
 						}
 					}
 				]
@@ -294,15 +294,15 @@
 				"type": "GeoTreeSelect",
 				"label": {
 					"en": "Places of call before oceanic crossing",
-					"es": "Places of call before oceanic crossing ES",
-					"pt": "Places of call before oceanic crossing PT"
+					"es": "Lugares de escala antes de la travesía oceánica",
+					"pt": "Locais de escala antes da travessia oceânica"
 				}
 			},
 			{
 				"label": {
 					"en": "Place where captives were landed",
-					"es": "Place where captives were landed ES",
-					"pt": "Place where captives were landed PT"
+					"es": "Lugar de desembarco de los cautivos",
+					"pt": "Local de desembarque de cativos"
 				},
 				"children": [
 					{
@@ -310,8 +310,8 @@
 						"type": "GeoTreeSelect",
 						"label": {
 							"en": "Principal place where captives were landed (IMP)",
-							"es": "Principal place where captives were landed (IMP) ES",
-							"pt": "Principal place where captives were landed (IMP) PT"
+							"es": "Principal lugar de desembarco de cautivos (IMP)",
+							"pt": "Principal local de desembarque de cativos (IMP)"
 						}
 					},
 					{
@@ -319,8 +319,8 @@
 						"type": "GeoTreeSelect",
 						"label": {
 							"en": "First place where captives were landed",
-							"es": "First place where captives were landed ES",
-							"pt": "First place where captives were landed PT"
+							"es": "Primer lugar de desembarco de cautivos",
+							"pt": "Primeiro local de desembarque de cativos"
 						}
 					},
 					{
@@ -328,8 +328,8 @@
 						"type": "GeoTreeSelect",
 						"label": {
 							"en": "Second place where captives were landed",
-							"es": "Second place where captives were landed ES",
-							"pt": "Second place where captives were landed PT"
+							"es": "Segundo lugar de desembarco de cautivos",
+							"pt": "Segundo local de desembarque de cativos"
 						}
 					},
 					{
@@ -337,8 +337,8 @@
 						"type": "GeoTreeSelect",
 						"label": {
 							"en": "Third place where captives were landed",
-							"es": "Third place where captives were landed ES",
-							"pt": "Third place where captives were landed PT"
+							"es": "Tercer place where captives were landed",
+							"pt": "Terceiro local de desembarque de cativos"
 						}
 					}
 				]
@@ -348,8 +348,8 @@
 				"type": "GeoTreeSelect",
 				"label": {
 					"en": "Place where vessel's voyage ended",
-					"es": "Place where vessel's voyage ended ES",
-					"pt": "Place where vessel's voyage ended PT"
+					"es": "Lugar donde terminó el viaje del buque",
+					"pt": "Local onde terminou a viagem do navio"
 				}
 			}
 		]
@@ -357,42 +357,42 @@
 	{
 		"label": {
 			"en": "Enslaved",
-			"es": "Enslaved ES",
-			"pt": "Enslaved PT"
+			"es": "Esclavizados",
+			"pt": "Escravizados"
 		},
 		"children": [
 			{
 				"label": {
 					"en": "Overall numbers",
-					"es": "Overall numbers ES",
-					"pt": "Overall numbers PT"
+					"es": "Cifras globales",
+					"pt": "Números globais"
 				},
 				"children": [
 					{
 						"var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
 						"type": "IntegerField",
 						"label": {
-							"en": "Total disembarked (IMP)",
-							"es": "Total disembarked (IMP) ES",
-							"pt": "Total disembarked (IMP) PT"
+							"en": "Total embarked (IMP)",
+							"es": "Total embarcados (IMP)",
+							"pt": "Total embarcado (IMP)"
 						}
 					},
 					{
 						"var_name": "voyage_slaves_numbers__total_num_slaves_purchased",
 						"type": "IntegerField",
 						"label": {
-							"en": "Total embarked (IMP)",
-							"es": "Total embarked (IMP) ES",
-							"pt": "Total embarked (IMP) PT"
+							"en": "Total enslaved purchased (IMP)",
+							"es": "Total de esclavos comprados (IMP)",
+							"pt": "Total de escravos comprados (IMP)"
 						}
 					},
 					{
 						"var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
 						"type": "IntegerField",
 						"label": {
-							"en": "Total embarked (IMP)",
-							"es": "Total embarked (IMP) ES",
-							"pt": "Total embarked (IMP) PT"
+							"en": "Total disembarked (IMP)",
+							"es": "Total desembarcados (IMP)",
+							"pt": "Total desembarcado (IMP)"
 						}
 					}
 				]
@@ -400,8 +400,8 @@
 			{
 				"label": {
 					"en": "Purchase numbers",
-					"es": "Purchase numbers ES",
-					"pt": "Purchase numbers PT"
+					"es": "Números de compra",
+					"pt": "Números de compras"
 				},
 				"children": [
 					{
@@ -409,8 +409,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Captives intended to be purchased at first port",
-							"es": "Captives intended to be purchased at first port ES",
-							"pt": "Captives intended to be purchased at first port PT"
+							"es": "Cautivos destinados a ser comprados en el primer puerto",
+							"pt": "Cativos destinados a ser comprados no primeiro porto"
 						}
 					},
 					{
@@ -418,8 +418,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Captives carried from first port",
-							"es": "Captives carried from first port ES",
-							"pt": "Captives carried from first port PT"
+							"es": "Cautivos transportados desde el primer puerto",
+							"pt": "Cativos transportados do primeiro porto"
 						}
 					},
 					{
@@ -427,8 +427,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Captives carried from second port",
-							"es": "Captives carried from second port ES",
-							"pt": "Captives carried from second port PT"
+							"es": "Cautivos transportados desde el segundo puerto",
+							"pt": "Cativos transportados do segundo porto"
 						}
 					},
 					{
@@ -436,8 +436,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Captives carried from third port",
-							"es": "Captives carried from third port ES",
-							"pt": "Captives carried from third port PT"
+							"es": "Cautivos transportados desde el tercer puerto",
+							"pt": "Cativos transportados do terceiro porto"
 						}
 					}
 				]
@@ -445,17 +445,17 @@
 			{
 				"label": {
 					"en": "Landing numbers",
-					"es": "Landing numbers ES",
-					"pt": "Landing numbers PT"
+					"es": "Números de aterrizaje",
+					"pt": "Números de aterragem"
 				},
 				"children": [
 					{
 						"var_name": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
 						"type": "IntegerField",
 						"label": {
-							"en": "Captives arrived at first port",
-							"es": "Captives arrived at first port ES",
-							"pt": "Captives arrived at first port PT"
+							"en": "Captives embarked at first port",
+							"es": "Cautivos embarcados en el primer puerto",
+							"pt": "Cativos embarcados no primeiro porto"
 						}
 					},
 					{
@@ -463,8 +463,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Captives landed at first port",
-							"es": "Captives landed at first port ES",
-							"pt": "Captives landed at first port PT"
+							"es": "Cautivos desembarcados en el primer puerto",
+							"pt": "Cativos desembarcados no primeiro porto"
 						}
 					},
 					{
@@ -472,8 +472,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Captives landed at second port",
-							"es": "Captives landed at second port ES",
-							"pt": "Captives landed at second port PT"
+							"es": "Cautivos desembarcados en el segundo puerto",
+							"pt": "Cativos desembarcados no segundo porto"
 						}
 					},
 					{
@@ -481,8 +481,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Captives landed at third port",
-							"es": "Captives landed at third port ES",
-							"pt": "Captives landed at third port PT"
+							"es": "Cautivos desembarcados en el tercer puerto",
+							"pt": "Cativos desembarcados no terceiro porto"
 						}
 					}
 				]
@@ -490,8 +490,8 @@
 			{
 				"label": {
 					"en": "Percentage by sex and age",
-					"es": "Percentage by sex and age ES",
-					"pt": "Percentage by sex and age PT"
+					"es": "Porcentaje por sexo y edad",
+					"pt": "Percentagem por sexo e idade"
 				},
 				"children": [
 					{
@@ -499,8 +499,8 @@
 						"type": "FloatField",
 						"label": {
 							"en": "Percent men",
-							"es": "Percent men ES",
-							"pt": "Percent men PT"
+							"es": "Porcentaje de hombres",
+							"pt": "Percentagem de homens"
 						}
 					},
 					{
@@ -508,8 +508,8 @@
 						"type": "FloatField",
 						"label": {
 							"en": "Percent women",
-							"es": "Percent women ES",
-							"pt": "Percent women PT"
+							"es": "Porcentaje de mujeres",
+							"pt": "Percentagem de mulheres"
 						}
 					},
 					{
@@ -517,8 +517,8 @@
 						"type": "FloatField",
 						"label": {
 							"en": "Percent boys",
-							"es": "Percent boys ES",
-							"pt": "Percent boys PT"
+							"es": "Porcentaje de chicos",
+							"pt": "Percentagem de rapazes"
 						}
 					},
 					{
@@ -526,8 +526,8 @@
 						"type": "FloatField",
 						"label": {
 							"en": "Percent girls",
-							"es": "Percent girls ES",
-							"pt": "Percent girls PT"
+							"es": "Porcentaje de niñas",
+							"pt": "Percentagem de raparigas"
 						}
 					},
 					{
@@ -535,8 +535,8 @@
 						"type": "FloatField",
 						"label": {
 							"en": "Percent male",
-							"es": "Percent male ES",
-							"pt": "Percent male PT"
+							"es": "Porcentaje de masculinos",
+							"pt": "Percentagem de masculinos"
 						}
 					},
 					{
@@ -544,8 +544,8 @@
 						"type": "FloatField",
 						"label": {
 							"en": "Percent female",
-							"es": "Percent female ES",
-							"pt": "Percent female PT"
+							"es": "Porcentaje de féminas",
+							"pt": "Percentagem de fêmeas"
 						}
 					},
 					{
@@ -553,8 +553,8 @@
 						"type": "FloatField",
 						"label": {
 							"en": "Percentage children",
-							"es": "Percentage children ES",
-							"pt": "Percentage children PT"
+							"es": "Porcentaje de niños",
+							"pt": "Percentagem de crianças"
 						}
 					},
 					{
@@ -562,8 +562,8 @@
 						"type": "FloatField",
 						"label": {
 							"en": "Percentage adult",
-							"es": "Percentage adult ES",
-							"pt": "Percentage adult PT"
+							"es": "Porcentaje de adultos",
+							"pt": "Percentagem de adultos"
 						}
 					}
 				]
@@ -571,8 +571,8 @@
 			{
 				"label": {
 					"en": "Other characteristics",
-					"es": "Other characteristics ES",
-					"pt": "Other characteristics PT"
+					"es": "Otras características",
+					"pt": "Outras características"
 				},
 				"children": [
 					{
@@ -580,8 +580,8 @@
 						"type": "DecimalField",
 						"label": {
 							"en": "Sterling cash price in Jamaica (IMP)",
-							"es": "Sterling cash price in Jamaica (IMP) ES",
-							"pt": "Sterling cash price in Jamaica (IMP) PT"
+							"es": "Precio al contado de la libra esterlina en Jamaica (IMP)",
+							"pt": "Preço à vista da libra esterlina na Jamaica (IMP)"
 						}
 					},
 					{
@@ -589,17 +589,17 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Captive deaths during crossing (IMP)",
-							"es": "Captive deaths during crossing (IMP) ES",
-							"pt": "Captive deaths during crossing (IMP) PT"
+							"es": "Muertes de cautivos durante la travesía (IMP)",
+							"pt": "Mortes de cativos durante a travessia (IMP)"
 						}
 					},
 					{
 						"var_name": "voyage_slaves_numbers__imp_mortality_ratio",
 						"type": "FloatField",
 						"label": {
-							"en": "Percentage of captives who died during crossing",
-							"es": "Percentage of captives who died during crossing ES",
-							"pt": "Percentage of captives who died during crossing PT"
+							"en": "Percentage of captives who died during crossing (IMP)",
+							"es": "Porcentaje de cautivos que murieron durante la travesía (IMP)",
+							"pt": "Percentagem de prisioneiros que morreram durante a travessia (IMP)"
 						}
 					}
 				]
@@ -612,8 +612,8 @@
 				],
 				"label": {
 					"en": "Captive background",
-					"es": "Captive background ES",
-					"pt": "Captive background PT"
+					"es": "Información sobre los cautivos",
+					"pt": "Informações sobre os cativos"
 				}
 			}
 		]
@@ -621,15 +621,15 @@
 	{
 		"label": {
 			"en": "Dates",
-			"es": "Dates ES",
-			"pt": "Dates PT"
+			"es": "Fechas",
+			"pt": "Datas"
 		},
 		"children": [
 			{
 				"label": {
 					"en": "Voyage duration",
-					"es": "Voyage duration ES",
-					"pt": "Voyage duration PT"
+					"es": "Duración del viaje",
+					"pt": "Duração da viagem"
 				},
 				"children": [
 					{
@@ -637,8 +637,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Duration of captives' crossing (in days)",
-							"es": "Duration of captives' crossing (in days) ES",
-							"pt": "Duration of captives' crossing (in days) PT"
+							"es": "Duración de la travesía de los cautivos (en días)",
+							"pt": "Duração da travessia dos cativos (em dias)"
 						}
 					},
 					{
@@ -646,8 +646,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Voyage duration, homeport to disembarkation (in days)",
-							"es": "Voyage duration, homeport to disembarkation (in days) ES",
-							"pt": "Voyage duration, homeport to disembarkation (in days) PT"
+							"es": "Duración del viaje, desde el puerto base hasta el desembarque (en días)",
+							"pt": "Duração da viagem, do porto de origem ao desembarque (em dias)"
 						}
 					}
 				]
@@ -655,8 +655,8 @@
 			{
 				"label": {
 					"en": "Dates during voyage",
-					"es": "Dates during voyage ES",
-					"pt": "Dates during voyage PT"
+					"es": "Fechas durante el viaje",
+					"pt": "Datas durante a viagem"
 				},
 				"children": [
 					{
@@ -664,8 +664,8 @@
 						"type": "IntegerField",
 						"label": {
 							"en": "Year captives were landed (imputed)",
-							"es": "Year captives were landed (imputed) ES",
-							"pt": "Year captives were landed (imputed) PT"
+							"es": "Año de desembarco de los cautivos (imputado)",
+							"pt": "Ano em que os cativos foram desembarcados (imputado)"
 						}
 					}
 				]
@@ -675,8 +675,8 @@
 	{
 		"label": {
 			"en": "Crew",
-			"es": "Crew ES",
-			"pt": "Crew PT"
+			"es": "Tripulación",
+			"pt": "Tripulação"
 		},
 		"children": [
 			{
@@ -684,8 +684,8 @@
 				"type": "IntegerField",
 				"label": {
 					"en": "Crew at voyage outset",
-					"es": "Crew at voyage outset ES",
-					"pt": "Crew at voyage outset PT"
+					"es": "Tripulación al inicio del viaje",
+					"pt": "A tripulação no início da viagem"
 				}
 			},
 			{
@@ -693,8 +693,8 @@
 				"type": "IntegerField",
 				"label": {
 					"en": "Crew at first landing of captives",
-					"es": "Crew at first landing of captives ES",
-					"pt": "Crew at first landing of captives PT"
+					"es": "Tripulación en el primer desembarco de cautivos",
+					"pt": "A tripulação no primeiro desembarque de cativos"
 				}
 			},
 			{
@@ -702,8 +702,8 @@
 				"type": "IntegerField",
 				"label": {
 					"en": "Crew deaths during voyage",
-					"es": "Crew deaths during voyage ES",
-					"pt": "Crew deaths during voyage PT"
+					"es": "Muertes de la tripulación durante el viaje",
+					"pt": "Mortes de tripulantes durante a viagem"
 				}
 			}
 		]
@@ -711,8 +711,8 @@
 	{
 		"label": {
 			"en": "Outcomes",
-			"es": "Outcomes ES",
-			"pt": "Outcomes PT"
+			"es": "Resultados",
+			"pt": "Resultados"
 		},
 		"children": [
 			{
@@ -723,8 +723,8 @@
 				],
 				"label": {
 					"en": "Particular Outcome",
-					"es": "Particular Outcome ES",
-					"pt": "Particular Outcome PT"
+					"es": "Resultado particular",
+					"pt": "Resultado específico"
 				}
 			},
 			{
@@ -735,8 +735,8 @@
 				],
 				"label": {
 					"en": "Outcome of voyage for captives",
-					"es": "Outcome of voyage for captives ES",
-					"pt": "Outcome of voyage for captives PT"
+					"es": "Resultado del viaje para los cautivos",
+					"pt": "Resultado da viagem para os cativos"
 				}
 			},
 			{
@@ -747,8 +747,8 @@
 				],
 				"label": {
 					"en": "Outcome of voyage if ship captured",
-					"es": "Outcome of voyage if ship captured ES",
-					"pt": "Outcome of voyage if ship captured PT"
+					"es": "Resultado del viaje si el barco fue capturado",
+					"pt": "Resultado da viagem se o navio foi capturado"
 				}
 			},
 			{
@@ -759,8 +759,8 @@
 				],
 				"label": {
 					"en": "Outcome of voyage for owner",
-					"es": "Outcome of voyage for owner ES",
-					"pt": "Outcome of voyage for owner PT"
+					"es": "Resultado del viaje para el propietario",
+					"pt": "Resultado da viagem para o armador"
 				}
 			},
 			{
@@ -771,8 +771,8 @@
 				],
 				"label": {
 					"en": "Resistance",
-					"es": "Resistance ES",
-					"pt": "Resistance PT"
+					"es": "Resistencia",
+					"pt": "Resistência"
 				}
 			}
 		]
@@ -780,8 +780,8 @@
 	{
 		"label": {
 			"en": "Sources",
-			"es": "Sources ES",
-			"pt": "Sources PT"
+			"es": "Fuentes",
+			"pt": "Fontes"
 		},
 		"var_name": "voyage_source_connections__source__title",
 		"type": "CharField",
