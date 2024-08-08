@@ -3,8 +3,9 @@
 		{
 			"header_label": {
 				"en": "Year arrived with captives",
-				"es": "Año llegó con cautivos",
-				"pt": "O ano chegou com cativos"
+				"es": "Año en que llegó con cautivos",
+				"pt": "Ano em que chegou com cativos"
+
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -26,8 +27,9 @@
 		{
 			"header_label": {
 				"en": "Voyage ID",
-				"es": "Viaje ID",
-				"pt": "Viagem ID"
+				"es": "ID de viaje",
+				"pt": "ID da viagem"
+
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -142,7 +144,8 @@
 			"header_label": {
 				"en": "Connections",
 				"es": "Conexiones",
-				"pt": "Ligações"
+				"pt": "Conexões"
+
 			},
 			"cell_type": "network_modal",
 			"visible": true,
@@ -186,8 +189,9 @@
 		{
 			"header_label": {
 				"en": "Enslavers",
-				"es": "Esclavizadores",
-				"pt": "Escravizadores"
+				"es": "Esclavistas",
+				"pt": "Escravistas"
+
 			},
 			"cell_type": "literal-concat",
 			"visible": true,
@@ -400,7 +404,8 @@
 			"header_label": {
 				"en": "Year registered",
 				"es": "Año de registro",
-				"pt": "Ano de registo"
+				"pt": "Ano de registro"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -423,7 +428,8 @@
 			"header_label": {
 				"en": "Place registered",
 				"es": "Lugar de registro",
-				"pt": "Local registado"
+				"pt": "Local de registro"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -445,8 +451,9 @@
 		{
 			"header_label": {
 				"en": "Flag of Vessel",
-				"es": "Pabellón del buque",
-				"pt": "Pavilhão do navio"
+				"es": "Bandera del buque",
+				"pt": "Bandeira do navio"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -467,9 +474,10 @@
 		},
 		{
 			"header_label": {
-				"en": "Flag of vessel (imp*)",
-				"es": "Pabellón del buque (imp*)",
-				"pt": "Pavilhão do navio (imp*)"
+				"en": "Flag of vessel (IMP)",
+				"es": "Bandera del buque (IMP)",
+				"pt": "Bandeira do navio (IMP)"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -491,8 +499,9 @@
 		{
 			"header_label": {
 				"en": "Rig of Vessel",
-				"es": "Aparejo del buque",
-				"pt": "Equipamento do navio"
+				"es": "Tipo del buque",
+				"pt": "Tipo do navio"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -537,8 +546,9 @@
 		{
 			"header_label": {
 				"en": "Standardized Tonnage (IMP)",
-				"es": "Arqueo normalizado (IMP)",
-				"pt": "Tonelagem normalizada (IMP)"
+				"es": "Tonelaje estandarizado (IMP)",
+				"pt": "Tonelagem padronizada (IMP)"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -653,7 +663,8 @@
 			"header_label": {
 				"en": "First place where captives were purchased",
 				"es": "Primer lugar donde se compraron cautivos",
-				"pt": "Primeiro local onde os cativos foram comprados"
+				"pt": "Primeiro local de compra de cativos"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -836,8 +847,9 @@
 		{
 			"header_label": {
 				"en": "Total embarked (IMP)",
-				"es": "Total embarcados (IMP)",
+				"es": "Total embarcado (IMP)",
 				"pt": "Total embarcado (IMP)"
+
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -882,8 +894,9 @@
 		{
 			"header_label": {
 				"en": "Total disembarked (IMP)",
-				"es": "Total desembarcados (IMP)",
-				"pt": "Total desembarcado (IMP)"
+				"es": "Total desembarcado (IMP)",
+				"pt": "Total desembarcando (IMP)"
+
 			},
 			"cell_type": "literal",
 			"visible": true,
@@ -928,8 +941,9 @@
 		{
 			"header_label": {
 				"en": "Captives intended to be purchased at first port",
-				"es": "Cautivos destinados a ser comprados en el primer puerto",
-				"pt": "Cativos destinados a ser comprados no primeiro porto"
+				"es": "Cautivos a ser comprados en el primer puerto",
+				"pt": "Cativos a ser comprados no primeiro porto"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1158,8 +1172,9 @@
 		{
 			"header_label": {
 				"en": "Percent male",
-				"es": "Porcentaje de masculinos",
-				"pt": "Percentagem de masculinos"
+				"es": "Porcentaje de sexo masculino",
+				"pt": "Percentagem de sexo masculino"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1181,8 +1196,9 @@
 		{
 			"header_label": {
 				"en": "Percentage children",
-				"es": "Porcentaje de niños",
+				"es": "Porcentaje de niños y niñas",
 				"pt": "Percentagem de crianças"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1205,7 +1221,8 @@
 			"header_label": {
 				"en": "Sterling cash price in Jamaica (IMP)",
 				"es": "Precio al contado de la libra esterlina en Jamaica (IMP)",
-				"pt": "Preço à vista da libra esterlina na Jamaica (IMP)"
+				"pt": "Preço à vista em libra esterlina na Jamaica (IMP)"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1251,7 +1268,8 @@
 			"header_label": {
 				"en": "Percentage of captives who died during crossing (IMP)",
 				"es": "Porcentaje de cautivos que murieron durante la travesía (IMP)",
-				"pt": "Percentagem de prisioneiros que morreram durante a travessia (IMP)"
+				"pt": "Percentagem de cativos que morreram durante a travessia (IMP)"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1387,7 +1405,7 @@
 		},
 		{
 			"header_label": {
-				"en": "Particular Outcome",
+				"en": "Particular outcome",
 				"es": "Resultado particular",
 				"pt": "Resultado específico"
 			},
@@ -1456,9 +1474,10 @@
 		},
 		{
 			"header_label": {
-				"en": "Outcome of voyage for owner",
-				"es": "Resultado del viaje para el propietario",
-				"pt": "Resultado da viagem para o armador"
+				"en": "Outcome of voyage for investors",
+				"es": "Resultado del viaje para inversores",
+				"pt": "Resultado da viagem para os investidores"
+
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1508,7 +1527,7 @@
 		{
 			"label": {
 				"en": "Ship, nation",
-				"es": "Barco, nación",
+				"es": "Buque, nación",
 				"pt": "Navio, nação"
 			},
 			"children": [
@@ -1517,8 +1536,9 @@
 					"colID": "voyage_id",
 					"label": {
 						"en": "Voyage ID",
-						"es": "Viaje ID",
-						"pt": "Viagem ID"
+						"es": "ID de viaje",
+						"pt": "ID da viagem"
+
 					}
 				},
 				{
@@ -1554,7 +1574,8 @@
 					"label": {
 						"en": "Year registered",
 						"es": "Año de registro",
-						"pt": "Ano de registo"
+						"pt": "Ano de registro"
+
 					}
 				},
 				{
@@ -1563,7 +1584,8 @@
 					"label": {
 						"en": "Place registered",
 						"es": "Lugar de registro",
-						"pt": "Local registado"
+						"pt": "Local de registro"
+
 					}
 				},
 				{
@@ -1571,17 +1593,19 @@
 					"colID": "voyage_ship__nationality_ship__name",
 					"label": {
 						"en": "Flag of Vessel",
-						"es": "Pabellón del buque",
-						"pt": "Pavilhão do navio"
+						"es": "Bandera del buque",
+						"pt": "Bandeira do navio"
+
 					}
 				},
 				{
 					"col_width_px": 100,
 					"colID": "voyage_ship__imputed_nationality__name",
 					"label": {
-						"en": "Flag of vessel (IMP)",
-						"es": "Pabellón del buque (IMP)",
-						"pt": "Pavilhão do navio (IMP)"
+						"en": "Flag of Vessel (IMP)",
+						"es": "Bandera del buque (IMP)",
+						"pt": "Bandeira do navio (IMP)"
+
 					}
 				},
 				{
@@ -1589,8 +1613,9 @@
 					"colID": "voyage_ship__rig_of_vessel__name",
 					"label": {
 						"en": "Rig of Vessel",
-						"es": "Aparejo del buque",
-						"pt": "Equipamento do navio"
+						"es": "Tipo del buque",
+						"pt": "Tipo do navio"
+
 					}
 				},
 				{
@@ -1626,7 +1651,7 @@
 			"label": {
 				"en": "Enslavers",
 				"es": "Esclavistas",
-				"pt": "Escravizadores"
+				"pt": "Escravistas"
 			},
 			"children": [
 				{
@@ -1635,7 +1660,7 @@
 					"label": {
 						"en": "Name(s) of Enslaver(s)",
 						"es": "Nombre(s) del (de los) esclavista(s)",
-						"pt": "Nome(s) do(s) escravizador(es)"
+						"pt": "Nome(s) do(s) escravista(s)"
 					}
 				},
 				{
@@ -1904,8 +1929,9 @@
 					"colID": "voyage_slaves_numbers__percentage_boys_among_embarked_slaves",
 					"label": {
 						"en": "Percent boys",
-						"es": "Porcentaje de chicos",
-						"pt": "Percentagem de rapazes"
+						"es": "Porcentaje de niños",
+						"pt": "Percentagem de meninos"
+
 					}
 				},
 				{
@@ -1914,16 +1940,17 @@
 					"label": {
 						"en": "Percent girls",
 						"es": "Porcentaje de niñas",
-						"pt": "Percentagem de raparigas"
+						"pt": "Percentagem de meninas"
+
 					}
 				},
 				{
 					"col_width_px": 100,
 					"colID": "voyage_slaves_numbers__male_ratio_among_embarked_slaves",
 					"label": {
-						"en": "Percent males",
-						"es": "Porcentaje de masculinos",
-						"pt": "Percentagem de masculinos"
+						"en": "Percent male",
+						"es": "Porcentaje de sexo masculino",
+						"pt": "Percentagem de sexo masculino"
 					}
 				},
 				{
@@ -1931,8 +1958,9 @@
 					"colID": "voyage_slaves_numbers__child_ratio_among_embarked_slaves",
 					"label": {
 						"en": "Percentage children",
-						"es": "Porcentaje de niños",
+						"es": "Porcentaje de niños y niñas",
 						"pt": "Percentagem de crianças"
+
 					}
 				},
 				{
@@ -1941,7 +1969,8 @@
 					"label": {
 						"en": "Sterling cash price in Jamaica (IMP)",
 						"es": "Precio al contado de la libra esterlina en Jamaica (IMP)",
-						"pt": "Preço à vista da libra esterlina na Jamaica (IMP)"
+						"pt": "Preço à vista em libra esterlina na Jamaica (IMP)"
+
 					}
 				},
 				{
@@ -1959,7 +1988,8 @@
 					"label": {
 						"en": "Percentage of captives who died during crossing (IMP)",
 						"es": "Porcentaje de cautivos que murieron durante la travesía (IMP)",
-						"pt": "Percentagem de prisioneiros que morreram durante a travessia (IMP)"
+						"pt": "Percentagem de cativos que morreram durante a travessia (IMP)"
+
 					}
 				}
 			]
@@ -2056,7 +2086,7 @@
 					"col_width_px": 100,
 					"colID": "voyage_outcome__particular_outcome__name",
 					"label": {
-						"en": "Particular Outcome",
+						"en": "Particular outcome",
 						"es": "Resultado particular",
 						"pt": "Resultado específico"
 					}
@@ -2083,9 +2113,10 @@
 					"col_width_px": 100,
 					"colID": "voyage_outcome__outcome_owner__name",
 					"label": {
-						"en": "Outcome of voyage for owner",
-						"es": "Resultado del viaje para el propietario",
-						"pt": "Resultado da viagem para o armador"
+						"en": "Outcome of voyage for investors",
+						"es": "Resultado del viaje para inversores",
+						"pt": "Resultado da viagem para os investidores"
+
 					}
 				},
 				{
@@ -2101,7 +2132,7 @@
 		},
 		{
 			"label": {
-				"en": "Documentary Sources",
+				"en": "Documentary sources",
 				"es": "Fuentes documentales",
 				"pt": "Fontes documentais"
 			},
