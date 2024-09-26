@@ -1,19 +1,19 @@
-import { AFRICANORIGINSPAGE, BLOGPAGE, ENSALVEDPAGE, ENSALVERSPAGE, PASTHOMEPAGEPATH, TRANSATLANTICENSLAVERS, TRANSATLANTICTIMELAPSEPATH, VOYAGEPATHDROPDOWN } from "@/share/CONST_DATA"
-import { LabelFilterMeneList } from "@/share/InterfaceTypes"
+import {AFRICANORIGINSPAGE, BLOGPAGE, ENSALVEDPAGE, ENSALVERSPAGE, PASTHOMEPAGEPATH, TRANSATLANTICENSLAVERS, TRANSATLANTICTIMELAPSEPATH, VOYAGEPATHDROPDOWN} from "@/share/CONST_DATA";
+import {LabelFilterMeneList} from "@/share/InterfaceTypes";
 
 export const LanguageOptions = [
-    { language: "English", value: "en", lable: 'English' },
-    { language: "Español", value: "es", lable: 'Español' },
-    { language: "Português", value: "pt", lable: 'Português' }
-]
+    {language: "English", value: "en", lable: 'English'},
+    {language: "Español", value: "es", lable: 'Español'},
+    {language: "Português", value: "pt", lable: 'Português'}
+];
 
 export interface PagesOptionsProps {
-    page: PagesProps
+    page: PagesProps;
 }
 interface PagesProps {
-    name: string
-    pathUrl: string
-    label: LabelFilterMeneList
+    name: string;
+    pathUrl: string;
+    label: LabelFilterMeneList;
 }
 export const PagesOptions: PagesOptionsProps[] = [
     {
@@ -21,7 +21,7 @@ export const PagesOptions: PagesOptionsProps[] = [
             name: 'Voyages',
             pathUrl: `${VOYAGEPATHDROPDOWN}`,
             label: {
-                "en": 'Voyages Database',
+                "en": 'Voyages',
                 "es": "Base de Datos de Viajes",
                 "pt": "Base de Dados de Viagens"
             }
