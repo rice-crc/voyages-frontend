@@ -1,34 +1,34 @@
-import { Toolbar, Hidden } from '@mui/material';
-import { CascadingMenuProps, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
-import { MenuListsDropdown } from './MenuListsDropdown';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import { ResetAllButton } from '../ButtonComponents/ResetAllButton';
-import { ViewAllButton } from '../ButtonComponents/ViewAllButton';
-import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { useEffect, useState } from 'react';
-import { setPeopleEnslavedBlocksMenuList } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import {Toolbar, Hidden} from '@mui/material';
+import {CascadingMenuProps, TYPESOFDATASETPEOPLE} from '@/share/InterfaceTypes';
+import {MenuListsDropdown} from './MenuListsDropdown';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '@/redux/store';
+import {ResetAllButton} from '../ButtonComponents/ResetAllButton';
+import {ViewAllButton} from '../ButtonComponents/ViewAllButton';
+import {resetAllStateToInitailState} from '@/redux/resetAllSlice';
+import {usePageRouter} from '@/hooks/usePageRouter';
+import {useEffect, useState} from 'react';
+import {setPeopleEnslavedBlocksMenuList} from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/people_collections.json';
 import SaveSearchComponent from '@/components/FilterComponents/SaveSearchComponent/SaveSearchComponent';
-import '@/style/Nav.scss'
-import { VOYAGE } from '@/share/CONST_DATA';
+import '@/style/Nav.scss';
+import {VOYAGE} from '@/share/CONST_DATA';
 import ShowFilterObject from '../ShowFilterObject/ShowFilterObject';
-import { setViewAll } from '@/redux/getShowFilterObjectSlice';
+import {setViewAll} from '@/redux/getShowFilterObjectSlice';
 
 export default function CascadingMenu(props: CascadingMenuProps) {
   const dispatch: AppDispatch = useDispatch();
-  const { varName } = useSelector(
+  const {varName} = useSelector(
     (state: RootState) => state.rangeSlider
   );
-  const { currentBlockName } = usePageRouter();
-  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+  const {currentBlockName} = usePageRouter();
+  const {clusterNodeKeyVariable, clusterNodeValue} = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
-  const { styleNamePeople } = useSelector(
+  const {styleNamePeople} = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
-  const { viewAll } = useSelector((state: RootState) => state.getShowFilterObject)
+  const {viewAll} = useSelector((state: RootState) => state.getShowFilterObject);
 
   useEffect(() => {
 
@@ -39,7 +39,7 @@ export default function CascadingMenu(props: CascadingMenuProps) {
   }, [styleNamePeople, currentBlockName]);
 
   const handleResetAll = () => {
-    dispatch(resetAllStateToInitailState())
+    dispatch(resetAllStateToInitailState());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       if (key === 'filterObject') {
@@ -48,12 +48,13 @@ export default function CascadingMenu(props: CascadingMenuProps) {
     });
     localStorage.removeItem('saveSearchID');
     localStorage.removeItem('visibleColumns');
-    window.location.reload()
+    window.location.reload();
   };
 
   const handleViewAll = () => {
     dispatch(setViewAll(!viewAll));
   };
+
 
   return (
     <>
