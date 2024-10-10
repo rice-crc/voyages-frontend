@@ -143,6 +143,7 @@ const Tables: React.FC = () => {
         const {label, title, ...filteredFilter} = filter;
         return filteredFilter;
     });
+
     const dataSend: TableListPropsRequest = {
         filter: newFilters || [],
         page: Number(page + 1),
@@ -188,7 +189,7 @@ const Tables: React.FC = () => {
         currentPage,
         currentEnslavedPage,
         inputSearchValue,
-        currentBlockName, textFilterValue
+        currentBlockName, textFilterValue, styleNameRoute
     ]);
 
     // Call the custom hook to Process Table Data
@@ -201,7 +202,6 @@ const Tables: React.FC = () => {
         tablesCell,
     );
 
-    console.log({visibleColumnCells});
     const defaultColDef = useMemo(
         () => ({
             sortable: true,

@@ -1,13 +1,13 @@
-import { Card, Collapse } from '@mui/material';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
+import {Card, Collapse} from '@mui/material';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {v4 as uuidv4} from 'uuid';
 import {
   setCardDataArray,
   setCardFileName,
   setIsModalCard,
 } from '@/redux/getCardFlatObjectSlice';
-import { processCardData } from '@/utils/functions/processCardData';
+import {processCardData} from '@/utils/functions/processCardData';
 // Voyages Card
 import CARDS_TRANSATLANTIC_COLLECTION from '@/utils/flatfiles/voyages/voyages_transatlantic_card.json';
 import CARDS_INTRAAMERICAN_COLLECTION from '@/utils/flatfiles/voyages/voyages_intraamerican_card.json';
@@ -33,47 +33,48 @@ import {
   VOYAGESNODECLASS,
 } from '@/share/CONST_DATA';
 import '@/style/cards.scss';
-import { TransatlanticCardProps } from '@/share/InterfaceTypes';
-import { AppDispatch, RootState } from '@/redux/store';
-import { CardHeaderCustom } from '@/styleMUI';
-import { styleCard } from '@/styleMUI/customStyle';
-import { fetchVoyageCard } from '@/fetch/voyagesFetch/fetchVoyageCard';
-import { fetchPastEnslaversCard } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversCard';
-import { fetchPastEnslavedCard } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedCard';
-import { DocumentItemInfo, DocumentViewerContext, createDocKey } from '@/utils/functions/documentWorkspace';
-import { numberWithCommas } from '@/utils/functions/numberWithCommas';
+import {TransatlanticCardProps} from '@/share/InterfaceTypes';
+import {AppDispatch, RootState} from '@/redux/store';
+import {CardHeaderCustom} from '@/styleMUI';
+import {styleCard} from '@/styleMUI/customStyle';
+import {fetchVoyageCard} from '@/fetch/voyagesFetch/fetchVoyageCard';
+import {fetchPastEnslaversCard} from '@/fetch/pastEnslaversFetch/fetchPastEnslaversCard';
+import {fetchPastEnslavedCard} from '@/fetch/pastEnslavedFetch/fetchPastEnslavedCard';
+import {DocumentItemInfo, DocumentViewerContext, createDocKey} from '@/utils/functions/documentWorkspace';
+import {numberWithCommas} from '@/utils/functions/numberWithCommas';
 import PopoverWrapper from './PopoverWrapper';
 
 type DocumentReference = String & {
-  sources__has_published_manifest: boolean
-  sources__zotero_group_id: string
-  sources__zotero_item_id: string
-  sources__thumbnail?: string | null
-}
+  sources__has_published_manifest: boolean;
+  sources__zotero_group_id: string;
+  sources__zotero_item_id: string;
+  sources__thumbnail?: string | null;
+};
 
 function isDocumentReference(s?: string | DocumentReference): s is DocumentReference {
-  const cast = s as DocumentReference
+  const cast = s as DocumentReference;
   return cast?.sources__has_published_manifest &&
     !!cast.sources__zotero_group_id &&
-    !!cast.sources__zotero_item_id
+    !!cast.sources__zotero_item_id;
 }
 
 const getSourceBib = (value: any) => {
-  const bib: string | undefined = value?.sources__bib
-  return bib
-}
+  const bib: string | undefined = value?.sources__bib;
+  return bib;
+};
 
 const VoyageCard = () => {
   const dispatch: AppDispatch = useDispatch();
   const [globalExpand, setGlobalExpand] = useState(true);
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
-  const [cardData, setCardData] = useState<Record<string, any>[]>([])
-  const { setDoc } = useContext(DocumentViewerContext)
+  const [cardData, setCardData] = useState<Record<string, any>[]>([]);
+  const {setDoc} = useContext(DocumentViewerContext);
 
-  const { cardRowID, cardFileName, cardDataArray, nodeTypeClass } =
+  const {cardRowID, cardFileName, cardDataArray, nodeTypeClass} =
     useSelector((state: RootState) => state.getCardFlatObjectData);
 
-  const { networkID } = useSelector(
+
+  const {networkID} = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
   const effectOnce = useRef(false);
@@ -122,6 +123,7 @@ const VoyageCard = () => {
 
   const fetchData = async () => {
     const ID = networkID || cardRowID;
+    // console.log({ID, ENSLAVEDNODE});
     try {
       let response = null;
 
@@ -146,6 +148,7 @@ const VoyageCard = () => {
 
 
       if (response) {
+
         setCardData(response.data);
       }
     } catch (error) {
@@ -158,7 +161,7 @@ const VoyageCard = () => {
       fetchData();
     }
     return () => {
-      setCardData([])
+      setCardData([]);
     };
   }, [dispatch, nodeTypeClass, cardRowID]);
 
@@ -212,7 +215,7 @@ const VoyageCard = () => {
         </a>{' '}
         to see/hide all.
       </p>
-      <Card style={{ border: '1px solid rgba(0,0,0,.1)' }}>
+      <Card style={{border: '1px solid rgba(0,0,0,.1)'}}>
         {newCardData.length > 0 &&
           newCardData.map((element, index) => {
             const childValue = element.childValue;
@@ -222,10 +225,10 @@ const VoyageCard = () => {
             return (
               <div key={`${element.label}-${uuidv4()}`}>
                 <CardHeaderCustom
-                  style={{ border: '1px solid rgba(0,0,0,.1)' }}
+                  style={{border: '1px solid rgba(0,0,0,.1)'}}
                   onClick={() => toggleExpand(element.header)}
                   subheader={
-                    <div style={{ fontSize: 14 }}>{element.header}</div>
+                    <div style={{fontSize: 14}}>{element.header}</div>
                   }
                 />
 
@@ -233,8 +236,9 @@ const VoyageCard = () => {
                   <div className="container-card-body">
                     {childValue.map((child: any) => {
                       const values = child.value;
-                      const numberFormat = child.number_format
+                      const numberFormat = child.number_format;
                       if (Array.isArray(values)) {
+
                         const renderedValues = values.map(
                           (value: string | DocumentReference, index: number) => {
                             let valueToRender = value?.replace(
@@ -242,11 +246,13 @@ const VoyageCard = () => {
                               ' '
                             );
 
-                            const additionalProps: any = {}
+                            const additionalProps: any = {};
                             const additionalStyles: React.CSSProperties = {};
-                            const extraElements: JSX.Element[] = []
+                            const extraElements: JSX.Element[] = [];
+
                             if (isDocumentReference(value)) {
-                              valueToRender += ' '
+
+                              valueToRender += ' ';
                               extraElements.push(<i key={`${index}-${uuidv4()}`} className="fa fa-file-text" aria-hidden="true"></i>);
                               additionalStyles.borderColor = 'blue';
                               additionalStyles.borderWidth = 1;
@@ -260,28 +266,28 @@ const VoyageCard = () => {
                               additionalProps.onClick = () => {
                                 setDoc(doc);
                                 dispatch(setIsModalCard(false));
-                              }
+                              };
                             }
                             let component = valueToRender ? (
                               <div
                                 key={`${index}-${value}-${uuidv4()}`}
-                                style={{ padding: '2px 0' }}
+                                style={{padding: '2px 0'}}
                               >
                                 <span
                                   key={`${index}-${value}-${uuidv4()}`}
                                   {...additionalProps}
-                                  style={{ ...styleCard, ...additionalStyles }}
+                                  style={{...styleCard, ...additionalStyles}}
                                 >{`${valueToRender}`}
                                   {extraElements}
                                 </span>
                                 <br />
                               </div>
-                            ) : null
-                            const bib = getSourceBib(value)
+                            ) : null;
+                            const bib = getSourceBib(value);
                             if (component && bib) {
-                              component = <PopoverWrapper key={uuidv4()} padding={4} popoverContents={<div dangerouslySetInnerHTML={{ __html: bib }} />}>
+                              component = <PopoverWrapper key={uuidv4()} padding={4} popoverContents={<div dangerouslySetInnerHTML={{__html: bib}} />}>
                                 {component}
-                              </PopoverWrapper>
+                              </PopoverWrapper>;
                             }
                             return component ?? '-';
                           }
@@ -295,7 +301,7 @@ const VoyageCard = () => {
                             <div
                               className="grid-itenewCardDatam-card"
                               key={`${child.label}-${index}-${uuidv4()}`}
-                              style={{ maxWidth: '100%', overflowX: 'auto' }}
+                              style={{maxWidth: '100%', overflowX: 'auto'}}
                             >
                               {renderedValues}
                             </div>
@@ -304,10 +310,10 @@ const VoyageCard = () => {
                       } else {
                         let valueFormat = values;
                         if (numberFormat === 'comma') {
-                          valueFormat = numberWithCommas(values)
+                          valueFormat = numberWithCommas(values);
                         } else if (numberFormat === 'percent') {
-                          const percent = values * 100
-                          valueFormat = values === '--' ? '0.0%' : `${percent.toFixed(1)}%`
+                          const percent = values * 100;
+                          valueFormat = values === '--' ? '0.0%' : `${percent.toFixed(1)}%`;
                         }
                         return values && (
                           <div
@@ -317,7 +323,7 @@ const VoyageCard = () => {
                             <div className="grid-item-card">{child.label}</div>
                             <div
                               className="grid-itenewCardDatam-card"
-                              style={{ display: 'block' }}
+                              style={{display: 'block'}}
                             >
                               {valueFormat}
                             </div>

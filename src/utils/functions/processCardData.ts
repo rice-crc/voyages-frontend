@@ -1,6 +1,6 @@
-import { generateRowsData } from "./generateRowsData";
-import { generateCardsData } from "./generateCardsData";
-import { TransatlanticCardProps } from "@/share/InterfaceTypes";
+import {generateRowsData} from "./generateRowsData";
+import {generateCardsData} from "./generateCardsData";
+import {TransatlanticCardProps} from "@/share/InterfaceTypes";
 
 export const processCardData = (data: Record<string, any>[], cardDataArray: TransatlanticCardProps[], fileCardName: string) => {
     if (data.length > 0) {
@@ -13,7 +13,7 @@ export const processCardData = (data: Record<string, any>[], cardDataArray: Tran
                         label: child.label,
                         value: generateCardsData(finalData[0], child),
                         number_format: child.number_format
-                    })
+                    });
                 }),
             };
             return cardGroup;
