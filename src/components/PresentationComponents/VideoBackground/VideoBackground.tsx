@@ -1,12 +1,14 @@
 import BackGroundVideo from '@/assets/wavesBG.mp4';
-import { RootState } from '@/redux/store';
+import {RootState} from '@/redux/store';
 import '@/style/page.scss';
-import { translationHomepage } from '@/utils/functions/translationLanguages';
-import { useSelector } from 'react-redux';
+import {translationHomepage} from '@/utils/functions/translationLanguages';
+import {useSelector} from 'react-redux';
+//X
+import XICON from '@/assets/pages/X_icon.svg';
 
 const VideoBackground = () => {
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-  const translatedHomepage = translationHomepage(languageValue)
+  const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+  const translatedHomepage = translationHomepage(languageValue);
 
   return (
     <div className="video-background">
@@ -42,10 +44,10 @@ const VideoBackground = () => {
                 rel="noopener"
               >
                 <img
-                  data-src="https://www.slavevoyages.org/static/images/site/social-media/twitter.svg"
-                  className="social-icon lazy initial loaded"
+                  data-src="https://www.slavevoyages.org/static/images/site/social-media/X_icon.svg"
+                  className="social-icon-x lazy initial loaded"
                   alt="Twitter Logo"
-                  src="https://www.slavevoyages.org/static/images/site/social-media/twitter.svg"
+                  src={XICON}
                   data-was-processed="true"
                 />
               </a>
