@@ -76,6 +76,19 @@
 		},
 		"children": [
 			{
+				"var_name": "enslaved_relations__relation__voyage__voyage_id",
+				"type": "IdMatch",
+				"ops": [
+					"exact",
+					"btw"
+				],
+				"label": {
+					"en": "Voyage ID",
+					"es": "ID da Viagem ",
+					"pt": "ID da Viagem"
+				}
+			},
+			{
 				"var_name": "enslaved_relations__relation__voyage__voyage_ship__ship_name",
 				"type": "CharField",
 				"ops": [

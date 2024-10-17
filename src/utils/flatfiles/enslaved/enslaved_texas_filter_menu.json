@@ -7,7 +7,9 @@
 		},
 		"var_name": "documented_name",
 		"type": "CharField",
-		"ops":["icontains"]
+		"ops": [
+			"icontains"
+		]
 	},
 	{
 		"label": {
@@ -46,7 +48,9 @@
 			{
 				"var_name": "enslaved_relations__relation__relation_enslavers__enslaver_alias__alias",
 				"type": "CharField",
-				"ops":["icontains"],
+				"ops": [
+					"icontains"
+				],
 				"label": {
 					"en": "Individual Enslavers",
 					"es": "Esclavizadores Individuales ",
@@ -63,9 +67,24 @@
 		},
 		"children": [
 			{
+				"var_name": "enslaved_relations__relation__voyage__voyage_id",
+				"type": "IdMatch",
+				"ops": [
+					"exact",
+					"btw"
+				],
+				"label": {
+					"en": "Voyage ID",
+					"es": "ID da Viagem",
+					"pt": "ID da Viagem"
+				}
+			},
+			{
 				"var_name": "enslaved_relations__relation__voyage__voyage_ship__ship_name",
 				"type": "CharField",
-				"ops":["icontains"],
+				"ops": [
+					"icontains"
+				],
 				"label": {
 					"en": "Ship Name",
 					"es": "Nombre del Barco",
@@ -111,7 +130,9 @@
 			{
 				"var_name": "captive_fate__name",
 				"type": "CharField",
-				"ops":["icontains"],
+				"ops": [
+					"icontains"
+				],
 				"label": {
 					"en": "Captive Fate",
 					"es": "Destino del Cautivo",
@@ -121,7 +142,9 @@
 			{
 				"var_name": "post_disembark_location__name",
 				"type": "CharField",
-				"ops":["icontains"],
+				"ops": [
+					"icontains"
+				],
 				"label": {
 					"en": "Post-Disembark Location",
 					"es": "Ubicación Posterior al Desembarco",
@@ -131,7 +154,9 @@
 			{
 				"var_name": "enslaved_relations__relation__voyage__voyage_outcome__particular_outcome__name",
 				"type": "CharField",
-				"ops":["icontains"],
+				"ops": [
+					"icontains"
+				],
 				"label": {
 					"en": "Vessel Fate",
 					"es": "Destino de la Embarcación ",
@@ -150,7 +175,9 @@
 			{
 				"var_name": "enslaved_source_connections__source__title",
 				"type": "CharField",
-				"ops":["icontains"],
+				"ops": [
+					"icontains"
+				],
 				"label": {
 					"en": "Documentary Sources",
 					"es": "Fuentes Documentales",

@@ -1,7 +1,8 @@
-import { ICellRendererParams } from 'ag-grid-community';
-import React, { CSSProperties, useContext } from 'react';
+import {ICellRendererParams} from 'ag-grid-community';
+import React, {CSSProperties, useContext} from 'react';
 import NETWORKICON from '@/assets/networksIcon.png';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {v4 as uuidv4} from 'uuid';
 import {
   setNetWorksID,
   setNetWorksKEY,
@@ -18,11 +19,11 @@ import {
   ENSLAVERSNODE,
   VOYAGESNODECLASS,
 } from '@/share/CONST_DATA';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { cleanUpTextDisplay } from '@/utils/functions/cleanUpTextDisplay';
-import { numberWithCommas } from '@/utils/functions/numberWithCommas';
-import { DocumentViewerContext, createDocKey } from '@/utils/functions/documentWorkspace';
+import {usePageRouter} from '@/hooks/usePageRouter';
+import {checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages} from '@/utils/functions/checkPagesRoute';
+import {cleanUpTextDisplay} from '@/utils/functions/cleanUpTextDisplay';
+import {numberWithCommas} from '@/utils/functions/numberWithCommas';
+import {DocumentViewerContext, createDocKey} from '@/utils/functions/documentWorkspace';
 import PopoverWrapper from '../Cards/PopoverWrapper';
 
 export const GenerateCellTableRenderer = (
@@ -32,11 +33,12 @@ export const GenerateCellTableRenderer = (
   numberFormat?: string | null,
   nodeClass?: string
 ) => {
+
   const values = params.value;
   const ID = params.data.id;
   const dispatch = useDispatch();
-  const { styleName } = usePageRouter()
-  const { setDoc } = useContext(DocumentViewerContext)
+  const {styleName} = usePageRouter();
+  const {setDoc} = useContext(DocumentViewerContext);
 
   let nodeType: string = '';
 
@@ -76,9 +78,9 @@ export const GenerateCellTableRenderer = (
     if (values.length <= 0) {
       return (
         <span >
-          <div style={{ textAlign: 'left' }}>--</div>
+          <div style={{textAlign: 'left'}}>--</div>
         </span>
-      )
+      );
     } else {
       const renderedValues = values.map((value: string, index: number) => {
         const additionalProps: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> = {
@@ -88,17 +90,19 @@ export const GenerateCellTableRenderer = (
             dispatch(setIsModalCard(true));
             dispatch(setNodeClass(nodeType));
           },
-          dangerouslySetInnerHTML: { __html: value ?? null }
+          dangerouslySetInnerHTML: {__html: value ?? null}
         };
-        let extraElements: React.ReactNode = null
-        // Detect if source type with linked Document.
-        if (colID === 'voyage_sources' && params.data.sources__zotero_group_id &&
-          params.data.sources__title &&
-          params.data.sources__zotero_item_id &&
-          params.data.sources__has_published_manifest &&
-          params.data.sources__has_published_manifest[index]
+        let extraElements: React.ReactNode = null;
+        if ((colID === 'voyage_sources' || colID === 'enslaved_sources')
+          &&
+          (params.data.sources__zotero_group_id &&
+            params.data.sources__title &&
+            params.data.sources__zotero_item_id &&
+            params.data.sources__has_published_manifest &&
+            params.data.sources__has_published_manifest[index])
         ) {
-          additionalProps.style = { ...style, borderColor: 'blue', borderWidth: 1, borderStyle: 'solid' };
+
+          additionalProps.style = {...style, borderColor: 'blue', borderWidth: 1, borderStyle: 'solid'};
           additionalProps.dangerouslySetInnerHTML = undefined;
           extraElements = <><span>{value} </span>
             <i className="fa fa-file-text" aria-hidden="true"></i>
@@ -111,18 +115,18 @@ export const GenerateCellTableRenderer = (
           });
         }
         let cellComponent = (<span key={`${index}-${value}`}>
-          <div {...additionalProps}>
+          <div {...additionalProps} key={`${index}-${value}`}>
             {extraElements}
           </div>
-        </span>)
-        if (colID === 'voyage_sources' && params.data.sources__bib) {
+        </span >);
+        if ((colID === 'voyage_sources' || colID === 'enslaved_sources') && params.data.sources__bib) {
           // Wrap the component so that we can display a tooltip.
-          cellComponent = <PopoverWrapper padding={4}
-            popoverContents={<div dangerouslySetInnerHTML={{ __html: params.data.sources__bib[index] }} />}>
+          cellComponent = <PopoverWrapper padding={4} key={`${index}-${value}`}
+            popoverContents={<div dangerouslySetInnerHTML={{__html: params.data.sources__bib[index]}} key={`${index}-${value}`} />}>
             {cellComponent}
-          </PopoverWrapper>
+          </PopoverWrapper>;
         }
-        return cellComponent
+        return cellComponent;
       });
       const ellipsisStyle: CSSProperties = {
         ...style,
@@ -132,9 +136,9 @@ export const GenerateCellTableRenderer = (
       };
 
       const remainingRows = values.slice(maxRowsToShow);
-      const renderRows = renderedValues.slice(0, maxRowsToShow)
+      const renderRows = renderedValues.slice(0, maxRowsToShow);
       return (
-        <div style={{ maxHeight: calculatedHeight, overflowY: 'auto' }}>
+        <div style={{maxHeight: calculatedHeight, overflowY: 'auto'}} key={`${uuidv4()}`}>
           {renderRows}
           {remainingRows.length > 0 && (
             remainingRows.map((value, index) => (
@@ -158,17 +162,17 @@ export const GenerateCellTableRenderer = (
 
     let valueFormat = values;
     if (numberFormat === 'comma') {
-      valueFormat = numberWithCommas(values)
+      valueFormat = numberWithCommas(values);
     } else if (numberFormat === 'percent') {
-      const percent = values * 100
-      valueFormat = values === '--' ? '0.0%' : `${percent.toFixed(1)}%`
+      const percent = values * 100;
+      valueFormat = values === '--' ? '0.0%' : `${percent.toFixed(1)}%`;
     }
 
     return (
       <div className="div-value" >
         <div
           className="value-cell"
-          style={{ justifyContent: justifyContent }}
+          style={{justifyContent: justifyContent}}
           onClick={() => {
             dispatch(setCardRowID(ID));
             dispatch(setIsModalCard(true));

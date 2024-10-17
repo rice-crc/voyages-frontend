@@ -1,13 +1,13 @@
-import { checkRouteForVoyages } from "@/utils/functions/checkPagesRoute";
+import {checkRouteForVoyages} from "@/utils/functions/checkPagesRoute";
 import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_all_table_menu.json';
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/enslaved/enslaved_african_origins_table.json';
-import TEXAS_TABLE from '@/utils/flatfiles/enslaved/enslaved_texas_table_cell_structure.json'
+import TEXAS_TABLE from '@/utils/flatfiles/enslaved/enslaved_texas_table_cell_structure.json';
 import Transatlantic_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_transatlantic_table.json';
 import Intraamerican_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_intraamerican_table.json';
 import AllVoyages_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_all_table.json';
 import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers/enslavers_table.json';
-import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from "@/share/InterfaceTypes";
-import { ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS } from "@/share/CONST_DATA";
+import {TYPESOFDATASET, TYPESOFDATASETPEOPLE} from "@/share/InterfaceTypes";
+import {ENSALVERSTYLE, INTRAAMERICANTRADS, TRANSATLANTICTRADS} from "@/share/CONST_DATA";
 
 export const useFetchTableCellStructure = async (styleNameRoute?: string) => {
     let cellStructure = null;
@@ -31,5 +31,5 @@ export const useFetchTableCellStructure = async (styleNameRoute?: string) => {
     } else if (styleNameRoute === TRANSATLANTICTRADS) {
         cellStructure = ENSLAVERS_TABLE.cell_structure;
     }
-    return cellStructure
+    return cellStructure;
 };
