@@ -1,4 +1,4 @@
-import { TranslateType } from "@/share/InterfaceTypes";
+import {TranslateType} from "@/share/InterfaceTypes";
 
 export const homePageTranslated: TranslateType = {
     header:
@@ -335,7 +335,7 @@ export const homePageTranslated: TranslateType = {
     },
     voyagesPage: {
         label: {
-            "en": 'Voyages Database',
+            "en": 'Voyages',
             "es": "Base de Datos de Viajes",
             "pt": "Base de Dados de Viagens"
         }
@@ -376,4 +376,4 @@ export const homePageTranslated: TranslateType = {
         }
     },
 
-}
+};

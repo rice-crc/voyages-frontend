@@ -1,15 +1,15 @@
-import { MouseEventHandler, useEffect, useState } from 'react';
-import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
+import {MouseEventHandler, useEffect, useState} from 'react';
+import {AppBar, Box, IconButton, Hidden, Divider} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import Toolbar from '@mui/material/Toolbar';
-import { MenuListDropdownStyle } from '@/styleMUI';
-import { Menu, Typography } from '@mui/material';
-import { AppDispatch, RootState } from '@/redux/store';
-import { Filter, HeaderNavBarMenuProps, LabelFilterMeneList } from '@/share/InterfaceTypes';
+import {MenuListDropdownStyle} from '@/styleMUI';
+import {Menu, Typography} from '@mui/material';
+import {AppDispatch, RootState} from '@/redux/store';
+import {Filter, HeaderNavBarMenuProps, LabelFilterMeneList} from '@/share/InterfaceTypes';
 import CascadingMenu from '../../SelectorComponents/Cascading/CascadingMenu';
-import { useDispatch, useSelector } from 'react-redux';
-import { CurrentPageInitialState } from '@/share/InterfaceTypes';
+import {useDispatch, useSelector} from 'react-redux';
+import {CurrentPageInitialState} from '@/share/InterfaceTypes';
 import {
   setBaseFilterDataSetValue,
   setBlocksMenuList,
@@ -25,8 +25,8 @@ import {
   getColorBoxShadow,
   getColorBTNVoyageDatasetBackground,
 } from '@/utils/functions/getColorStyle';
-import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
-import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
+import {HeaderTitle} from '@/components/NavigationComponents/Header/HeaderTitle';
+import {DatasetButton} from '@/components/NavigationComponents/Header/DatasetButton';
 import {
   BaseFilter,
   BlockCollectionProps,
@@ -44,50 +44,50 @@ import {
   TransAtlanticTitle,
 } from '@/share/CONST_DATA';
 import '@/style/Nav.scss';
-import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
+import {resetAll, resetAllStateToInitailState} from '@/redux/resetAllSlice';
 import GlobalSearchButton from '../../PresentationComponents/GlobalSearch/GlobalSearchButton';
-import { DrawerMenuBar } from './DrawerMenuBar';
+import {DrawerMenuBar} from './DrawerMenuBar';
 import HeaderLogo from './HeaderLogo';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { usePageRouter } from '@/hooks/usePageRouter';
+import {setFilterObject} from '@/redux/getFilterSlice';
+import {usePageRouter} from '@/hooks/usePageRouter';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import { voyagesHeader } from '@/utils/languages/title_pages';
+import {voyagesHeader} from '@/utils/languages/title_pages';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
-  const { styleName: styleNameRoute } = usePageRouter()
+  const {styleName: styleNameRoute} = usePageRouter();
   const navigate = useNavigate();
-  const { inputSearchValue } = useSelector(
+  const {inputSearchValue} = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const {languageValue} = useSelector((state: RootState) => state.getLanguages);
 
-  const { currentVoyageBlockName } = useSelector(
+  const {currentVoyageBlockName} = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
 
-  const { value, textHeader } = useSelector(
+  const {value, textHeader} = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
 
   useEffect(() => {
     if (styleNameRoute === TRANSATLANTIC) {
-      dispatch(setDataSetHeader(TransAtlanticTitle))
+      dispatch(setDataSetHeader(TransAtlanticTitle));
     } else if (styleNameRoute === INTRAAMERICAN) {
-      dispatch(setDataSetHeader(IntraAmericanTitle))
+      dispatch(setDataSetHeader(IntraAmericanTitle));
     } else if (styleNameRoute === ALLVOYAGES) {
-      dispatch(setDataSetHeader(AllVoyagesTitle))
+      dispatch(setDataSetHeader(AllVoyagesTitle));
     }
-  }, [])
+  }, []);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
 
-  const styleNameToPathMap: { [key: string]: string } = {
+  const styleNameToPathMap: {[key: string]: string;} = {
     [ALLVOYAGES]: `${ALLVOYAGESPAGE}#${currentVoyageBlockName}`,
     [INTRAAMERICAN]: `${INTRAAMERICANPAGE}#${currentVoyageBlockName}`,
     [TRANSATLANTIC]: `${TRANSATLANTICPAGE}#${currentVoyageBlockName}`,
@@ -113,7 +113,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           varName: base.var_name,
           searchTerm: base.value,
           op: "in"
-        })
+        });
         dispatch(setFilterObject(filters));
       }
       if (filters) {
@@ -129,8 +129,8 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       dispatch(setTextIntro(textIntro));
       dispatch(setStyleName(styleName));
       dispatch(setBlocksMenuList(blocks));
-      dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile!))
-      dispatch(setTableVoyagesFlatfile(tableFlatfile!))
+      dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile!));
+      dispatch(setTableVoyagesFlatfile(tableFlatfile!));
       if (styleNameToPathMap[styleName]) {
         navigate(styleNameToPathMap[styleName]);
       }
@@ -156,7 +156,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     setAnchorEl(event.currentTarget);
   };
   const onClickReset = () => {
-    dispatch(resetAllStateToInitailState())
+    dispatch(resetAllStateToInitailState());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -164,7 +164,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   };
 
 
-  let VOYAGETILE = ''
+  let VOYAGETILE = '';
   for (const header of voyagesHeader.header) {
     VOYAGETILE = (header.label as LabelFilterMeneList)[languageValue];
   }
@@ -183,14 +183,14 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           zIndex: 5
         }}
       >
-        <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
+        <Toolbar sx={{display: 'flex', alignItems: 'center'}}>
           <Hidden mdUp>
             <IconButton
               edge="start"
               color="default"
               aria-label="menu"
               onClick={handleMenuOpen}
-              sx={{ mr: 2, display: { md: 'none' } }}
+              sx={{mr: 2, display: {md: 'none'}}}
             >
               <MenuIcon />
             </IconButton>
@@ -199,8 +199,8 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
             component="div"
             sx={{
               flexGrow: 1,
-              width: { xs: 200, sm: 220 },
-              fontWeight: { sm: 600, md: 500 },
+              width: {xs: 200, sm: 220},
+              fontWeight: {sm: 600, md: 500},
             }}
           >
             <span className='header-logo-icon'>

@@ -140,6 +140,27 @@
 		},
 		{
 			"header_label": {
+				"en": "Linked voyages",
+				"es": "Viajes Vinculadoss",
+				"pt": "Viagens Vinculadas"
+			},
+			"cell_type": "literal",
+			"visible": true,
+			"number_format": null,
+			"order_by": [],
+			"col_width_px": 120,
+			"colID": "linked_voyage_ids",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "linked_voyage_ids",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
 				"en": "Connections",
 				"es": "Conexiones",
 				"pt": "Ligações"
@@ -2131,6 +2152,24 @@
 						"en": "Connections",
 						"es": "Conexiones",
 						"pt": "Conexões"
+					}
+				}
+			]
+		},
+		{
+			"label": {
+				"en": "Linked voyages",
+				"es": "Viajes Vinculadoss",
+				"pt": "Viagens Vinculadas"
+			},
+			"children": [
+				{
+					"col_width_px": 100,
+					"colID": "linked_voyage_ids",
+					"label": {
+						"en": "Linked voyages",
+						"es": "Viajes Vinculadoss",
+						"pt": "Viagens Vinculadas"
 					}
 				}
 			]

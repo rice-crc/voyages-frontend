@@ -2,13 +2,13 @@ export const voyagesHeader = {
     "header": [
         {
             "label": {
-                "en": "Voyages Database",
+                "en": "Voyages",
                 "es": "Base de Datos de Viajes",
                 "pt": "Escravizados"
             }
         }
     ]
-}
+};
 
 export const enslavedHeader = {
     "header": [
@@ -20,7 +20,7 @@ export const enslavedHeader = {
             }
         }
     ]
-}
+};
 export const enslaversHeader = {
     "header": [
         {
@@ -31,7 +31,7 @@ export const enslaversHeader = {
             }
         }
     ]
-}
+};
 export const downLoadText = {
     'title': [
         {
@@ -42,7 +42,7 @@ export const downLoadText = {
             }
         }
     ]
-}
+};
 export const downLoadTable = {
     'title': [
         {
@@ -53,4 +53,4 @@ export const downLoadTable = {
             }
         }
     ]
-}
+};
