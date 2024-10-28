@@ -180,22 +180,21 @@ function PieGraph() {
                 mode: 'lines+markers',
                 textinfo: 'label+percent',
                 insidetextorientation: 'radial',
+                outsidetextfont: {size: 14, color: '#333', family: 'Arial, sans-serif'},
                 hole: 0.1,
                 textposition: 'inside',
-                showlegend: maxWidth < 420 ? false : true,
+                showlegend: maxWidth >= 768,
               },
             ]}
             layout={{
-              width: getMobileMaxWidth(maxWidth - 5),
-              height: getMobileMaxHeight(height),
-              title: `The ${aggregation} of ${xAxes || ''
-                } vs <br> ${yAxes || ''
-                } Pie Chart`,
+              width: maxWidth - 40,
+              height: height * 0.6,
+              title: `The ${aggregation} of ${xAxes || ''} vs <br> ${yAxes || ''} Pie Chart`,
               font: {
                 family: 'Arial, sans-serif',
-                size: maxWidth < 500 ? 8 : 12,
+                size: maxWidth < 500 ? 10 : 14,
                 color: '#333333',
-              }
+              },
             }}
             config={{responsive: true}}
           />
