@@ -64,7 +64,7 @@ export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGh
 
 export const mappingSpecialists = `https://api.mapbox.com/styles/v1/jcm10/clbmdqh2q000114o328k5yjpf/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
 export const mappingSpecialistsRivers = `https://api.mapbox.com/styles/v1/jcm10/cl98xvv9r001z14mm17w970no/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
-export const mappingSpecialistsCountries = `https://api.mapbox.com/styles/v1/jcm10/cl98yryw d3003t14o66r6fx4m9/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
+export const mappingSpecialistsCountries = `https://api.mapbox.com/styles/v1/jcm10/cl98yryw3003t14o66r6fx4m9/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
 
 
 export const MAP_CENTER: [number, number] = [5.486678, -35.59375];
