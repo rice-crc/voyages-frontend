@@ -1,13 +1,13 @@
-import { useState, useEffect, ChangeEvent, useCallback } from 'react';
+import {useState, useEffect, ChangeEvent, useCallback} from 'react';
 import Plot from 'react-plotly.js';
-import { Data } from 'plotly.js';
+import {Data} from 'plotly.js';
 import VOYAGE_SCATTER_OPTIONS from '@/utils/flatfiles/voyages/voyages_scatter_options.json';
-import { Grid, SelectChangeEvent } from '@mui/material';
+import {Grid, SelectChangeEvent} from '@mui/material';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
-import { useWindowSize } from '@react-hook/window-size';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
-import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
+import {useWindowSize} from '@react-hook/window-size';
+import {RootState} from '@/redux/store';
+import {useSelector} from 'react-redux';
+import {useGetOptionsQuery} from '@/fetch/voyagesFetch/fetchApiService';
 import {
   PlotXYVar,
   VoyagesOptionProps,
@@ -16,17 +16,18 @@ import {
   IRootFilterObjectScatterRequest,
 } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
-import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
-import { RadioSelected } from '../../SelectorComponents/RadioSelected/RadioSelected';
+import {SelectDropdown} from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
+import {RadioSelected} from '../../SelectorComponents/RadioSelected/RadioSelected';
 import {
   getMobileMaxHeight,
   getMobileMaxWidth,
   maxWidthSize
 } from '@/utils/functions/maxWidthSize';
-import { useGroupBy } from '@/hooks/useGroupBy';
-import { formatYAxes } from '@/utils/functions/formatYAxesLine';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import { usePageRouter } from '@/hooks/usePageRouter';
+import {useGroupBy} from '@/hooks/useGroupBy';
+import {formatYAxes} from '@/utils/functions/formatYAxesLine';
+import {filtersDataSend} from '@/utils/functions/filtersDataSend';
+import {usePageRouter} from '@/hooks/usePageRouter';
+import NoDataState from '@/components/NoResultComponents/NoDataState';
 
 function Scatter() {
   const datas = useSelector((state: RootState | any) => state.getOptions?.value
@@ -36,24 +37,24 @@ function Scatter() {
     isSuccess,
     isLoading,
   } = useGetOptionsQuery(datas);
-  const { varName } = useSelector(
+  const {varName} = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState
   );
-  const [error, setError] = useState(false)
-  const { currentPage } = useSelector(
+  const [error, setError] = useState(false);
+  const {currentPage} = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { styleName } = useSelector(
+  const {filtersObj} = useSelector((state: RootState) => state.getFilter);
+  const {styleName} = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-  const { inputSearchValue } = useSelector(
+  const {inputSearchValue} = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { clusterNodeKeyVariable, clusterNodeValue } =
+  const {clusterNodeKeyVariable, clusterNodeValue} =
     useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
 
-  const { styleName: styleNameRoute } = usePageRouter();
+  const {styleName: styleNameRoute} = usePageRouter();
   const [width, height] = useWindowSize();
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [scatterSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
@@ -84,9 +85,9 @@ function Scatter() {
     );
   }, []);
 
-  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
+  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue);
   const newFilters = filters !== undefined && filters!.map(filter => {
-    const { label, title, ...filteredFilter } = filter;
+    const {label, title, ...filteredFilter} = filter;
     return filteredFilter;
   });
   const dataSend: IRootFilterObjectScatterRequest = {
@@ -97,9 +98,9 @@ function Scatter() {
     filter: newFilters || [],
   };
   if (inputSearchValue) {
-    dataSend['global_search'] = inputSearchValue
+    dataSend['global_search'] = inputSearchValue;
   }
-  const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
+  const {data: response, isLoading: loading, isError} = useGroupBy(dataSend);
 
   useEffect(() => {
     VoyageScatterOptions();
@@ -113,7 +114,7 @@ function Scatter() {
             y: value as number[],
             type: 'scatter',
             mode: 'lines',
-            line: { shape: 'spline' },
+            line: {shape: 'spline'},
             name: `${VOYAGE_SCATTER_OPTIONS.y_vars[index].label}`,
           });
         }
@@ -164,9 +165,9 @@ function Scatter() {
     (event: SelectChangeEvent<string[]>, name: string) => {
       const value = event.target.value;
       if (value.length === 0) {
-        setError(true)
+        setError(true);
       } else {
-        setError(false)
+        setError(false);
       }
       setChips(typeof value === 'string' ? value.split(',') : value);
       setScatterOptions((prevOptions) => ({
@@ -200,38 +201,43 @@ function Scatter() {
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-      {isLoading || yAxes.length === 0 ? (<div className="loading-logo-graph">
+      {isLoading ? (<div className="loading-logo-graph">
         <img src={LOADINGLOGO} />
-      </div>) : (<Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
-        <Plot
-          data={scatterData}
-          layout={{
-            width: getMobileMaxWidth(maxWidth - 5),
-            height: getMobileMaxHeight(height),
-            title: 'Line Graph',
-            font: {
-              family: 'Arial, sans-serif',
-              size: maxWidth < 400 ? 7 : 10,
-              color: '#333333',
-            },
-            xaxis: {
-              title: {
-                text: xAxes || scatterSelectedX[0]?.label
+      </div>) : yAxes.length > 0 ?
+        (<Grid style={{maxWidth: maxWidth, border: '1px solid #ccc'}}>
+          <Plot
+            data={scatterData}
+            layout={{
+              width: getMobileMaxWidth(maxWidth - 5),
+              height: getMobileMaxHeight(height),
+              title: 'Line Graph',
+              font: {
+                family: 'Arial, sans-serif',
+                size: maxWidth < 400 ? 7 : 10,
+                color: '#333333',
               },
-              fixedrange: true,
-            },
-            yaxis: {
-              title: {
-                text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes
+              xaxis: {
+                title: {
+                  text: xAxes || scatterSelectedX[0]?.label
+                },
+                fixedrange: true,
               },
-              fixedrange: true,
-            },
-          }}
-          config={{ responsive: true }}
-        />
-      </Grid>)}
+              yaxis: {
+                title: {
+                  text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes
+                },
+                fixedrange: true,
+              },
+            }}
+            config={{responsive: true}}
+          />
+        </Grid>) : (
+          <div className="no-data-icon">
+            <NoDataState text='' />
+          </div>
+        )}
     </div>
-  )
+  );
 
 }
 

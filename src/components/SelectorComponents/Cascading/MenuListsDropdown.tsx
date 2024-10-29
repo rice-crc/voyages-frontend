@@ -6,10 +6,10 @@ import {
   DialogContent,
   DialogTitle,
 } from '@mui/material';
-import { Tooltip } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { DropdownCascading } from './DropdownCascading';
-import { AppDispatch, RootState } from '@/redux/store';
+import {Tooltip} from 'antd';
+import {useDispatch, useSelector} from 'react-redux';
+import {DropdownCascading} from './DropdownCascading';
+import {AppDispatch, RootState} from '@/redux/store';
 import {
   ChildrenFilter,
   FilterObjectsState,
@@ -25,28 +25,28 @@ import {
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 import '@/style/homepage.scss';
-import { setType } from '@/redux/getFilterSlice';
+import {setType} from '@/redux/getFilterSlice';
 import {
   DialogModalStyle,
   DropdownMenuItem,
   DropdownNestedMenuItemChildren,
   StyleDialog,
 } from '@/styleMUI';
-import { useState, MouseEvent, useEffect } from 'react';
-import { PaperDraggable } from './PaperDraggable';
-import { setEnslaversNameAndRole, setIsChange, setKeyValueName, setListEnslavers, setOpsRole } from '@/redux/getRangeSliderSlice';
-import { setIsChangeAuto, setTextFilterValue } from '@/redux/getAutoCompleteSlice';
-import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
-import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
+import {useState, MouseEvent, useEffect} from 'react';
+import {PaperDraggable} from './PaperDraggable';
+import {setEnslaversNameAndRole, setIsChange, setKeyValueName, setListEnslavers, setOpsRole} from '@/redux/getRangeSliderSlice';
+import {setIsChangeAuto, setTextFilterValue} from '@/redux/getAutoCompleteSlice';
+import {setIsOpenDialog} from '@/redux/getScrollPageSlice';
+import {ArrowDropDown, ArrowRight} from '@mui/icons-material';
 import {
   ENSALVERSTYLE,
   INTRAAMERICANTRADS,
   TRANSATLANTICTRADS,
 } from '@/share/CONST_DATA';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
-import { resetAll } from '@/redux/resetAllSlice';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import {resetAll} from '@/redux/resetAllSlice';
+import {usePageRouter} from '@/hooks/usePageRouter';
+import {checkRouteForVoyages} from '@/utils/functions/checkPagesRoute';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
 import FilterTextBox from '@/components/FilterComponents/Autocomplete/FilterTextBox';
 import {
@@ -55,16 +55,16 @@ import {
   getColorBoxShadow,
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
-import { setFilterObject } from '@/redux/getFilterSlice';
+import {setFilterObject} from '@/redux/getFilterSlice';
 import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
-import { setLabelVarName, setTextFilter } from '@/redux/getShowFilterObjectSlice';
-import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
-import { SelectSearchDropdownEnslaversNameRole } from '../SelectDrowdown/SelectSearchDropdownEnslaversNameRole';
-import { RadioSelected } from '../RadioSelected/RadioSelected';
+import {setLabelVarName, setTextFilter} from '@/redux/getShowFilterObjectSlice';
+import {setIsChangeGeoTree} from '@/redux/getGeoTreeDataSlice';
+import {SelectSearchDropdownEnslaversNameRole} from '../SelectDrowdown/SelectSearchDropdownEnslaversNameRole';
+import {RadioSelected} from '../RadioSelected/RadioSelected';
 import FilterTextNameEnslaversBox from '@/components/FilterComponents/Autocomplete/FilterTextNameEnslaversBox';
-import { updatedEnslaversRoleAndNameToLocalStorage } from '@/utils/functions/updatedEnslaversRoleAndNameToLocalStorage';
-import { SelectSearchDropdownList } from '../SelectDrowdown/SelectSearchDropdownList';
-import { updateFilterTextDialog } from '@/utils/functions/updateFilterTextDialog';
+import {updatedEnslaversRoleAndNameToLocalStorage} from '@/utils/functions/updatedEnslaversRoleAndNameToLocalStorage';
+import {SelectSearchDropdownList} from '../SelectDrowdown/SelectSearchDropdownList';
+import {updateFilterTextDialog} from '@/utils/functions/updateFilterTextDialog';
 
 export const MenuListsDropdown = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -77,27 +77,27 @@ export const MenuListsDropdown = () => {
     valueEnslavers,
   } = useSelector((state: RootState) => state.getFilterMenuList.filterValueList
   );
-  const { type: typeData } = useSelector((state: RootState) => state.getFilter);
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-  const { styleName: styleNameRoute } = usePageRouter();
-  const { currentPage } = useSelector(
+  const {type: typeData} = useSelector((state: RootState) => state.getFilter);
+  const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+  const {styleName: styleNameRoute} = usePageRouter();
+  const {currentPage} = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
 
-  const { isOpenDialog } = useSelector(
+  const {isOpenDialog} = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { labelVarName, textFilter } = useSelector(
+  const {labelVarName, textFilter} = useSelector(
     (state: RootState) => state.getShowFilterObject
   );
 
-  const { listEnslavers, varName, enslaverName, opsRoles } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
+  const {listEnslavers, varName, enslaverName, opsRoles} = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
 
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [ops, setOps] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
-  const [textError, setTextError] = useState<string>('')
-  const [textRoleListError, setTextRoleListError] = useState<string>('')
+  const [textError, setTextError] = useState<string>('');
+  const [textRoleListError, setTextRoleListError] = useState<string>('');
   const isButtonDisabled = enslaverName === '' && typeData === TYPES.EnslaverNameAndRole;
 
   useEffect(() => {
@@ -140,22 +140,22 @@ export const MenuListsDropdown = () => {
       filter.find((filterItem) => filterItem.varName === varName);
 
     if (!filterByVarName) {
-      dispatch(setTextFilter(''))
+      dispatch(setTextFilter(''));
       return;
     }
 
     const autoValueList: string[] = filterByVarName.searchTerm as string[];
-    let newTextValue = ''
+    let newTextValue = '';
 
     if (Array.isArray(autoValueList)) {
       const values = autoValueList.map<AutoCompleteOption>((item: string) => ({
         value: item,
       }));
       for (const value of values) {
-        newTextValue = value.value
+        newTextValue = value.value;
       }
     } else {
-      newTextValue = autoValueList
+      newTextValue = autoValueList;
     }
     setTextFilter(newTextValue);
     dispatch(setFilterObject(filter));
@@ -166,10 +166,10 @@ export const MenuListsDropdown = () => {
     ops: string[],
     roles?: RolesProps[]
   ) => {
-    const { value, type, label } = event.currentTarget.dataset;
+    const {value, type, label} = event.currentTarget.dataset;
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
-    let opsValue = ''
+    let opsValue = '';
     if (value && type && label) {
       if (type === 'EnslaverNameAndRole') {
         dispatch(setKeyValueName(type));
@@ -181,22 +181,22 @@ export const MenuListsDropdown = () => {
       if (ops) {
         for (const ele of ops) {
           if (ele === 'icontains') {
-            opsValue = 'icontains'
+            opsValue = 'icontains';
           } else if (ele === 'in') {
-            opsValue = 'in'
+            opsValue = 'in';
           } else if (ele === 'exact') {
-            opsValue = 'exact'
-            dispatch(setOpsRole('exact'))
+            opsValue = 'exact';
+            dispatch(setOpsRole('exact'));
           }
         }
-        setOps(opsValue)
+        setOps(opsValue);
       } else if (ops === undefined && TYPES.IntegerField || TYPES.DecimalField) {
-        dispatch(setOpsRole('btw'))
+        dispatch(setOpsRole('btw'));
       }
       dispatch(setLabelVarName(label));
       dispatch(setIsOpenDialog(true));
       if (roles) {
-        dispatch(setEnslaversNameAndRole(roles))
+        dispatch(setEnslaversNameAndRole(roles));
         dispatch(setListEnslavers(roles));
       }
     }
@@ -204,7 +204,7 @@ export const MenuListsDropdown = () => {
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
     setTextError('');
-    setTextRoleListError('')
+    setTextRoleListError('');
     dispatch(setIsChange(false));
     dispatch(setIsChangeAuto(false));
     dispatch(setIsChangeGeoTree(false));
@@ -220,9 +220,9 @@ export const MenuListsDropdown = () => {
 
   const handleResetDataDialog = (event: any) => {
     event.stopPropagation();
-    setTextFilter('')
+    setTextFilter('');
     setTextError('');
-    setTextRoleListError('')
+    setTextRoleListError('');
     const value = event.cancelable;
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialog(false));
@@ -240,19 +240,19 @@ export const MenuListsDropdown = () => {
 
   const handleApplyEnslaversDialog = (roles: RolesProps[], name: string, ops: string) => {
     if (roles.length === 0) {
-      setTextRoleListError('*Please select the role(s) for this enslaver')
+      setTextRoleListError('*Please select the role(s) for this enslaver');
     }
     if (name === '') {
-      setTextError(`*Please enter the enslaver's name`)
+      setTextError(`*Please enter the enslaver's name`);
     }
     const newRoles: string[] = roles.map((ele) => ele.value);
-    updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, newRoles as string[], name, varName, ops!)
-  }
+    updatedEnslaversRoleAndNameToLocalStorage(dispatch, styleNameRoute!, newRoles as string[], name, varName, ops!);
+  };
 
   const handleApplyTextFilterDataDialog = (value: string) => {
     dispatch(setTextFilterValue(value));
-    updateFilterTextDialog(dispatch, value, styleNameRoute!, varName, ops, opsRoles!, labelVarName)
-  }
+    updateFilterTextDialog(dispatch, value, styleNameRoute!, varName, ops, opsRoles!, labelVarName);
+  };
 
 
   const renderDropdownMenu = (
@@ -260,7 +260,7 @@ export const MenuListsDropdown = () => {
   ): React.ReactElement<any>[] | undefined => {
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
-        const { children, var_name, type, label: nodeLabel, ops, roles } = node;
+        const {children, var_name, type, label: nodeLabel, ops, roles} = node;
         const hasChildren = children && children.length >= 1;
         const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
         if (hasChildren) {
@@ -269,7 +269,7 @@ export const MenuListsDropdown = () => {
               onClickMenu={(event) => handleClickMenu(event, ops!, roles!)}
               key={`${menuLabel} - ${index}`}
               label={`${menuLabel}`}
-              rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
+              rightIcon={<ArrowRight style={{fontSize: 15}} />}
               data-value={var_name}
               data-type={type}
               data-label={menuLabel}
@@ -341,11 +341,12 @@ export const MenuListsDropdown = () => {
 
       case TYPES.IntegerField:
       case TYPES.DecimalField:
+      case TYPES.FloatField:
         displayComponent = <RangeSliderComponent />;
         break;
 
       case TYPES.MultiselectList:
-        displayComponent = <SelectSearchDropdownList />
+        displayComponent = <SelectSearchDropdownList />;
         break;
 
       default:
@@ -358,7 +359,7 @@ export const MenuListsDropdown = () => {
       <Box className="filter-menu-bar">
         {filterMenu.map((item: FilterMenuList, index: number) => {
 
-          const { var_name, label, type, ops } = item;
+          const {var_name, label, type, ops} = item;
           const itemLabel = (label as LabelFilterMeneList)[languageValue];
           return var_name ? (
             <Button
@@ -441,13 +442,13 @@ export const MenuListsDropdown = () => {
         PaperComponent={PaperDraggable}
         aria-labelledby="draggable-dialog-title"
       >
-        <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
-          <div style={{ fontSize: 16, fontWeight: 500 }}>{typeData === TYPES.EnslaverNameAndRole ? `Search for ${labelVarName}: ` : labelVarName}</div>
+        <DialogTitle sx={{cursor: 'move'}} id="draggable-dialog-title">
+          <div style={{fontSize: 16, fontWeight: 500}}>{typeData === TYPES.EnslaverNameAndRole ? `Search for ${labelVarName}: ` : labelVarName}</div>
         </DialogTitle>
-        <DialogContent style={{ textAlign: 'center' }}>
+        <DialogContent style={{textAlign: 'center'}}>
           {displayComponent}
         </DialogContent>
-        <DialogActions style={{ paddingRight: '2rem', marginTop: typeData === TYPES.EnslaverNameAndRole ? '10rem' : 0 }}>
+        <DialogActions style={{paddingRight: '2rem', marginTop: typeData === TYPES.EnslaverNameAndRole ? '10rem' : 0}}>
           {varName && opsRoles !== 'btw' && ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.IdMatch && opsRoles === 'exact') || (typeData === TYPES.EnslaverNameAndRole) || (typeData === TYPES.MultiselectList))
             && <Button
               autoFocus
@@ -455,9 +456,9 @@ export const MenuListsDropdown = () => {
               type='submit'
               onClickCapture={() => {
                 if (typeData === TYPES.EnslaverNameAndRole) {
-                  handleApplyEnslaversDialog(listEnslavers, enslaverName, opsRoles!)
+                  handleApplyEnslaversDialog(listEnslavers, enslaverName, opsRoles!);
                 } else {
-                  handleApplyTextFilterDataDialog(textFilter)
+                  handleApplyTextFilterDataDialog(textFilter);
                 }
               }}
               sx={{
