@@ -1,32 +1,32 @@
-import { BASEURL } from '@/share/AUTH_BASEURL';
+import {BASEURL} from '@/share/AUTH_BASEURL';
 import defaultImage from '@/assets/voyage-blog.png';
 import '@/style/landing.scss';
-import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import {InitialStateBlogProps} from '@/share/InterfaceTypesBlog';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/redux/store';
 import Carousel from "react-multi-carousel";
-import { Link } from 'react-router-dom';
-import { BLOGPAGE } from '@/share/CONST_DATA';
-import { formatTextURL } from '@/utils/functions/formatText';
+import {Link} from 'react-router-dom';
+import {BLOGPAGE} from '@/share/CONST_DATA';
+import {formatTextURL} from '@/utils/functions/formatText';
 
 const responsive = {
     desktopM: {
-        breakpoint: { max: 3000, min: 1440 },
+        breakpoint: {max: 3000, min: 1440},
         items: 5,
         slidesToSlide: 5 // optional, default to 1.
     },
     desktopS: {
-        breakpoint: { max: 1440, min: 1024 },
+        breakpoint: {max: 1440, min: 1024},
         items: 4,
         slidesToSlide: 4 // optional, default to 1.
     },
     tablet: {
-        breakpoint: { max: 1024, min: 768 },
+        breakpoint: {max: 1024, min: 768},
         items: 3,
         slidesToSlide: 3 // optional, default to 1.
     },
     mobile: {
-        breakpoint: { max: 767, min: 464 },
+        breakpoint: {max: 767, min: 464},
         items: 2,
         slidesToSlide: 1 // optional, default to 1.
     }
@@ -35,13 +35,13 @@ const responsive = {
 
 
 export const CardNewsBlogs = () => {
-    const { data: carouselItems } = useSelector(
+    const {data: carouselItems} = useSelector(
         (state: RootState) => state.getBlogData as InitialStateBlogProps
     );
     return <div className="parent-carousel">
         <Carousel
             responsive={responsive}
-            autoPlay={true}
+            // autoPlay={true}
             swipeable={true}
             draggable={true}
             showDots={true}
@@ -49,8 +49,8 @@ export const CardNewsBlogs = () => {
             partialVisible={false}
             dotListClass="custom-dot-list-style"
         >
-            {carouselItems.length > 0 && carouselItems.map((t, index) => {
-                const { thumbnail, title, id } = t;
+            {carouselItems.length > 0 && carouselItems.map((t) => {
+                const {thumbnail, title, id} = t;
                 const imageUrl = thumbnail ? `${BASEURL}${thumbnail}` : defaultImage;
                 return (
 
@@ -61,10 +61,10 @@ export const CardNewsBlogs = () => {
                         </Link>
                     </div>
 
-                )
+                );
 
             })}
         </Carousel>
-    </div>
+    </div>;
 
 };

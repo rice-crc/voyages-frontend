@@ -1,14 +1,15 @@
-import { BLOGPAGE } from '@/share/CONST_DATA';
+import {BLOGPAGE} from '@/share/CONST_DATA';
 import '@/style/homepage.scss';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { translationHomepage } from '@/utils/functions/translationLanguages';
+import {Link} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/redux/store';
+import UniversityOfGlasgow from '@/assets/UoG_white.png';
+import {translationHomepage} from '@/utils/functions/translationLanguages';
 
 export const FooterComponent = () => {
 
-    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-    const translatedHomepage = translationHomepage(languageValue)
+    const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+    const translatedHomepage = translationHomepage(languageValue);
 
     return (
         <div className="footer-container">
@@ -42,7 +43,7 @@ export const FooterComponent = () => {
                             rel="noopener"
                             aria-label="Emory University"
                         >
-                            <div className="logo-grid-item fade-in" style={{ width: 250 }}>
+                            <div className="logo-grid-item fade-in" style={{width: 250}}>
                                 <img
                                     className="card-img sponsor-card-img block lazy loaded"
                                     data-src="https://www.slavevoyages.org/static/images/site/logos/emory_white_500_130.png"
@@ -93,7 +94,7 @@ export const FooterComponent = () => {
                             rel="noopener"
                             aria-label="Omohundro Institute"
                         >
-                            <div className="logo-grid-item fade-in" style={{ width: 150 }}>
+                            <div className="logo-grid-item fade-in" style={{width: 150}}>
                                 <img
                                     className="card-img sponsor-card-img block lazy loaded"
                                     data-src="https://www.slavevoyages.org/static/images/site/logos/oi_white_686_528.svg"
@@ -108,7 +109,7 @@ export const FooterComponent = () => {
 
                 <div className="logo-grid-container">
                     <div className="logo-grid">
-                        <div className="logo-grid-item fade-in" style={{ width: 100 }}>
+                        <div className="logo-grid-item fade-in" style={{width: 100}}>
                             <img
                                 className="card-img sponsor-card-img block lazy loaded"
                                 data-src="https://www.slavevoyages.org/static/images/site/logos/ucshield_white_250_250.svg"
@@ -146,6 +147,23 @@ export const FooterComponent = () => {
                                     data-src="https://www.slavevoyages.org/static/images/site/logos/ucsc_noshield_white_691_164.svg"
                                     aria-label="University of California, Santa Cruz"
                                     src="https://www.slavevoyages.org/static/images/site/logos/ucsc_noshield_white_691_164.svg"
+                                    data-was-processed="true"
+                                />
+                            </div>
+                        </Link>
+
+                        <Link
+                            to="https://www.gla.ac.uk/"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="University Of Glasgow"
+                        >
+                            <div className="logo-grid-item fade-in">
+                                <img
+                                    className="card-img sponsor-card-img block lazy loaded"
+                                    data-src=""
+                                    aria-label="University Of Glasgow"
+                                    src={UniversityOfGlasgow}
                                     data-was-processed="true"
                                 />
                             </div>
@@ -240,7 +258,7 @@ export const FooterComponent = () => {
                         <img
                             aria-label="Powered by Oracle for Research"
                             src="https://www.slavevoyages.org/static/images/site/logos/oci_white_206_63.svg"
-                            style={{ height: 35 }}
+                            style={{height: 35}}
                         />
                     </Link>
                 </div>
