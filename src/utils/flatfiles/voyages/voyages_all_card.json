@@ -1,6 +1,10 @@
 [
 	{
-		"label": "Ship and Nation",
+		"label": {
+			"en": "Ship and Nation",
+			"es": "ES: Ship and Nation",
+			"pt": "PT: Ship and Nation"
+		},
 		"children": [
 			{
 				"cell_type": "literal",
@@ -13,7 +17,11 @@
 						}
 					]
 				},
-				"label": "Voyage ID"
+				"label": {
+					"en": "Voyage ID",
+					"es": "Voyage ID",
+					"pt": "Voyage ID"
+				}
 			},
 			{
 				"cell_type": "literal",

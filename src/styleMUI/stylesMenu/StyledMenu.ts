@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { useState } from "react"; // Import useState hook
+import {useState} from "react"; // Import useState hook
 
 interface StyledMenuProps {
   open: boolean;
   underlineWidth: number;
+  children?: React.ReactNode;
 }
 
 export const StyledMenu = styled.nav<StyledMenuProps>`
@@ -11,7 +12,7 @@ export const StyledMenu = styled.nav<StyledMenuProps>`
   flex-direction: column;
   justify-content: center;
   background: #ffffff;
-  transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
+  transform: ${({open}) => (open ? "translateX(0)" : "translateX(-100%)")};
   text-align: left;
   padding: 3rem 2rem 1rem 2rem;
   position: absolute;
