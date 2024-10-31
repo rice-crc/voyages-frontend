@@ -46,7 +46,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({open}) => {
         style={{padding: '10px 0 5px 0'}}
       >
         {menuLists.map((item) => {
-          console.log({item});
           return (
             <div key={item.name} style={{padding: 0}}>
               <ListItemButton onClick={item.submenu ? () => handleClick(item.name) : undefined} style={{padding: '0 0 0 10px', marginTop: 0, marginBottom: 0, cursor: 'pointer'}}>
