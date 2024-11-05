@@ -1,9 +1,9 @@
 import EstimatesNavBar from "./EstimatesNavBar";
 import EstimatesTabs from "./EstimatesTabs";
-import { Grid } from '@mui/material';
+import {Grid} from '@mui/material';
 import EstimateCollapse from "./EstimateCollapse";
 import ShowAllSelected from "./ShowAllSelected";
-import { useState } from "react";
+import {useState} from "react";
 
 const Estimates = () => {
     const [viewAll, setViewAll] = useState(false);
@@ -28,6 +28,6 @@ const Estimates = () => {
             </Grid>
         </>
     );
-}
+};
 
 export default Estimates;

@@ -1,34 +1,36 @@
 import * as XLSX from 'xlsx';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import * as d3 from 'd3';
-import { select } from 'd3-selection';
-import { Button, } from "antd";
-import { fetchEstimateTimeLines } from '@/fetch/estimateFetch/fetchEstimateTimeLines';
-import { DataTimeLinesItem, ElementTimeLine, EventsTimeLinesType, Filter, FilterObjectsState, TimeLineGraphRequest } from '@/share/InterfaceTypes';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import {select} from 'd3-selection';
+import {Button, } from "antd";
+import {fetchEstimateTimeLines} from '@/fetch/estimateFetch/fetchEstimateTimeLines';
+import {DataTimeLinesItem, ElementTimeLine, EventsTimeLinesType, Filter, FilterObjectsState, TimeLineGraphRequest} from '@/share/InterfaceTypes';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '@/redux/store';
 import '@/style/estimates.scss';
-import { Disembarked, Embarked } from '@/share/CONST_DATA';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import {Disembarked, Embarked} from '@/share/CONST_DATA';
+import {usePageRouter} from '@/hooks/usePageRouter';
+import {filtersDataSend} from '@/utils/functions/filtersDataSend';
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 
-const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> = () => {
+const TimelineChart: React.FC<{timeline?: Record<string, [number, number]>;}> = () => {
     const dispatch: AppDispatch = useDispatch();
-    const [dataSort, setDataSort] = useState<DataTimeLinesItem[]>([])
-    const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-    const { currentBlockName, styleName } = usePageRouter();
+    const [dataSort, setDataSort] = useState<DataTimeLinesItem[]>([]);
+    const [loading, setLoading] = useState(false);
+    const {filtersObj} = useSelector((state: RootState) => state.getFilter);
+    const {currentBlockName, styleName} = usePageRouter();
     const graphContainerRef = useRef<HTMLDivElement | null>(null);
     const mouseOverInfoRef = useRef<HTMLDivElement | null>(null);
     const historicalEventsContainerRef = useRef<HTMLDivElement | null>(null);
-    const filters = filtersDataSend(filtersObj, styleName!)
+    const filters = filtersDataSend(filtersObj, styleName!);
     const newFilters = filters !== undefined && filters!.map(filter => {
-        const { label, title, ...filteredFilter } = filter;
+        const {label, title, ...filteredFilter} = filter;
         return filteredFilter;
     });
     const dataSend: TimeLineGraphRequest = {
         filter: newFilters || []
     };
-    const { varName } = useSelector(
+    const {varName} = useSelector(
         (state: RootState) => state.rangeSlider as FilterObjectsState
     );
     const {
@@ -40,32 +42,34 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             try {
                 const response = await dispatch(fetchEstimateTimeLines(dataSend)).unwrap();
                 if (response) {
-                    const { data } = response;
+                    const {data} = response;
                     setDataSort(data.sort((a: any, b: any) => a.x - b.x));
                 }
             } catch (error) {
                 console.log('error', error);
+            } finally {
+                setLoading(false);
             }
         };
+
         if (currentBlockName === 'timeline') {
             fetchData();
         }
-    }, [dispatch, varName,
-        currentSliderValue,
-        changeFlag,
-        checkedListEmbarkation,
-        checkedListDisEmbarkation,]);
+    }, [dispatch, varName, currentSliderValue, changeFlag, checkedListEmbarkation, checkedListDisEmbarkation]);
+
 
     useEffect(() => {
         const graphContainer = graphContainerRef.current;
 
         if (graphContainer && dataSort.length > 0) {
+
             graphContainer.innerHTML = ''; // Clear existing content in graphContainer
 
-            const indexByYear: { [key: number]: number } = {};
+            const indexByYear: {[key: number]: number;} = {};
             for (var i = 0; i < dataSort.length; ++i) {
                 indexByYear[dataSort[i].x] = i;
             }
@@ -82,12 +86,12 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                     };
                 });
             });
-
-            const yStackMax = d3.max(layers, function (layer) { return d3.max(layer, function (d) { return d.embarked; }); });
+            // setLoading(false);
+            const yStackMax = d3.max(layers, function (layer) {return d3.max(layer, function (d) {return d.embarked;});});
 
             layers = [layers[1], layers[0]];
 
-            const margin = { top: 20, right: 10, bottom: 40, left: 40 }
+            const margin = {top: 20, right: 10, bottom: 40, left: 40};
             const width = 960 - margin.left - margin.right;
             const height = 400 - margin.top - margin.bottom;
 
@@ -171,21 +175,21 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
             }
 
             const rect = layer.selectAll("rect")
-                .data(function (d) { return d; })
+                .data(function (d) {return d;})
                 .enter()
                 .append("rect")
-                .attr("x", function (d) { return Number(scaleX(d.x)) })
+                .attr("x", function (d) {return Number(scaleX(d.x));})
                 .attr("y", height)
                 .attr("width", scaleX.bandwidth())
                 .attr("height", 0)
                 .transition()
-                .attr("y", function (d) { return yScale(d.y); })
-                .attr("height", function (d) { return yScale(0) - yScale(d.y); });
+                .attr("y", function (d) {return yScale(d.y);})
+                .attr("height", function (d) {return yScale(0) - yScale(d.y);});
             rect.remove();
 
             rect.transition()
-                .attr("y", function (d) { return yScale(d.y); })
-                .attr("height", function (d) { return yScale(0) - yScale(d.y); });
+                .attr("y", function (d) {return yScale(d.y);})
+                .attr("height", function (d) {return yScale(0) - yScale(d.y);});
 
             svg.append("g")
                 .attr("class", "x axis")
@@ -196,7 +200,7 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                 .attr("class", "y axis")
                 .call(yAxis);
 
-            svg.exit().remove()
+            svg.exit().remove();
 
             const vertical = svg
                 .append("g")
@@ -229,8 +233,8 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                 .attr("width", 14)
                 .attr("height", 14)
                 .attr('y', margin.top + height + 5)
-                .attr('x', function (d, i) { return i * legendWidth; })
-                .style('fill', function (d, i) { return color[i]; })
+                .attr('x', function (d, i) {return i * legendWidth;})
+                .style('fill', function (d, i) {return color[i];})
                 .style('stroke', 'black');
 
             legend.selectAll('text')
@@ -238,11 +242,11 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                 .enter()
                 .append('text')
                 .attr('y', margin.top + height + 16)
-                .attr('x', function (d, i) { return 20 + i * legendWidth; })
+                .attr('x', function (d, i) {return 20 + i * legendWidth;})
                 .style('stroke', 'black')
                 .style('stroke-width', '0.3')
-                .text(function (d, i) { return i != 0 ? Disembarked : Embarked })
-                .classed('svg-timeline-text', true)
+                .text(function (d, i) {return i != 0 ? Disembarked : Embarked;})
+                .classed('svg-timeline-text', true);
 
 
             if (graphContainer) {
@@ -299,7 +303,7 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                 '1830': "Anglo-Brazilian anti-slave trade treaty",
                 '1850': "Brazil suppresses slave trade",
                 '1866': "Last reported transatlantic slave voyage arrives in Americas"
-            }
+            };
             firstOrdinal = scaleX.domain()[0];
             lastOrdinal = scaleX.domain()[scaleX.domain().length - 1];
 
@@ -324,7 +328,7 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                     'year': year,
                     'label': text,
                     'index': data_index
-                }
+                };
                 allEvents.push(element);
                 if (included) {
                     filteredEvents.push(element);
@@ -336,10 +340,10 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
 
             const historicalMarkers = svg.append("g")
                 .attr("class", "event");
-            const historicalMarkersGroup = historicalMarkers.selectAll<SVGGElement, { year: number }>('g')
+            const historicalMarkersGroup = historicalMarkers.selectAll<SVGGElement, {year: number;}>('g')
                 .data(filteredEvents)
                 .enter()
-                .append('g')
+                .append('g');
             historicalMarkersGroup.append('rect')
                 .attr('width', boxSize)
                 .attr('height', boxSize)
@@ -372,7 +376,7 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                         changeHoveredBar(d.index);
                     } else {
                         vertical.style("opacity", 0.0);
-                        mouseover({ 'x': d.year, 'y1': 0, 'y0': 0 });
+                        mouseover({'x': d.year, 'y1': 0, 'y0': 0});
                     }
                     event.stopPropagation();
                 })
@@ -384,7 +388,7 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
             function colorHistoricalEvent(d: ElementTimeLine, color: string): void {
                 const ev = historicalEvents
                     .selectAll<SVGGElement, ElementTimeLine>('g')
-                    .filter(function (d2: ElementTimeLine, i: number) { return d2.year == d.year; });
+                    .filter(function (d2: ElementTimeLine, i: number) {return d2.year == d.year;});
 
                 ev.selectAll('rect').style('fill', color);
             }
@@ -402,10 +406,10 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                 .enter()
                 .append('g');
             const columnLength: number = Math.ceil(allEvents.length / 2);
-            const xCoord = (d: { counter: number }) => Math.floor((d.counter - 1) / columnLength) * 390;
-            const yCoord = (d: { counter: number }) => margin.top / 3 + ((d.counter - 1) % columnLength) * 25;
+            const xCoord = (d: {counter: number;}) => Math.floor((d.counter - 1) / columnLength) * 390;
+            const yCoord = (d: {counter: number;}) => margin.top / 3 + ((d.counter - 1) % columnLength) * 25;
 
-            historicalEvents.selectAll<SVGGElement, { counter: number }>('g')
+            historicalEvents.selectAll<SVGGElement, {counter: number;}>('g')
                 .append('rect')
                 .attr("width", boxSize)
                 .attr("height", boxSize)
@@ -413,7 +417,7 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                 .attr('x', xCoord)
                 .style('fill', color[2])
                 .style('stroke', 'black');
-            historicalEvents.selectAll<SVGGElement, { counter: number; year: number; label: string }>('g')
+            historicalEvents.selectAll<SVGGElement, {counter: number; year: number; label: string;}>('g')
                 .append('text')
                 .attr("width", boxSize)
                 .attr("text-anchor", "middle")
@@ -425,7 +429,7 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                 .style('font-size', '10pt')
                 .style('fill', 'white');
 
-            historicalEvents.selectAll<SVGGElement, { counter: number; year: number; label: string }>('g')
+            historicalEvents.selectAll<SVGGElement, {counter: number; year: number; label: string;}>('g')
                 .append('text')
                 .attr("width", boxSize)
                 .attr("text-anchor", "middle")
@@ -438,7 +442,7 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
                 .style('font-weight', 'bold')
                 .style('fill', 'black');
 
-            historicalEvents.selectAll<SVGGElement, { counter: number; year: number; label: string }>('g')
+            historicalEvents.selectAll<SVGGElement, {counter: number; year: number; label: string;}>('g')
                 .append('text')
                 .attr("width", boxSize)
                 .attr('y', (d) => yCoord(d) + 1 + boxSize / 2)
@@ -468,17 +472,26 @@ const TimelineChart: React.FC<{ timeline?: Record<string, [number, number]> }> =
     };
 
     return (
-        <div className="results-panel">
-            <div className="tab-title-timeline" style={{ marginBottom: '1rem' }}>
-                Timeline: Number of Captives Embarked and Disembarked per Year
+        <>
+            <div className="results-panel">
+                {loading ? <div className="loading-logo-graph">
+                    <img src={LOADINGLOGO} />
+                </div> :
+                    <>
+                        <div className="tab-title-timeline" style={{marginBottom: '1rem'}}>
+                            Timeline: Number of Captives Embarked and Disembarked per Year
+                        </div>
+                        <div ref={graphContainerRef} id="graphContainer"></div>
+                        <div ref={mouseOverInfoRef} id="mouseOverInfo" style={{fontSize: '11pt', margin: '20px'}}></div>
+                        <div ref={historicalEventsContainerRef} id="historicalEventsContainer"></div>
+                        <div className="reset-btn-estimate">
+                            <Button className="deselec-btn" name="download" onClick={exportToExcel} value="Download timeline data"> Download Timeline Data</Button>
+                        </div>
+                    </>
+                }
             </div>
-            <div ref={graphContainerRef} id="graphContainer"></div>
-            <div ref={mouseOverInfoRef} id="mouseOverInfo" style={{ fontSize: '11pt', margin: '20px' }}></div>
-            <div ref={historicalEventsContainerRef} id="historicalEventsContainer"></div>
-            <div className="reset-btn-estimate">
-                <Button className="deselec-btn" name="download" onClick={exportToExcel} value="Download timeline data"> Download Timeline Data</Button>
-            </div>
-        </div>
+        </>
+
     );
 };
 
