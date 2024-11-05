@@ -6,15 +6,15 @@ import {
   ChangeEvent,
   useRef,
 } from 'react';
-import { AgGridReact } from 'ag-grid-react';
-import { Button, Pagination, SelectChangeEvent } from '@mui/material';
+import {AgGridReact} from 'ag-grid-react';
+import {Button, Pagination, SelectChangeEvent} from '@mui/material';
 import VOYAGE_PIVOT_OPTIONS from '@/utils/flatfiles/voyages/voyages_pivot_options.json';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { useWindowSize } from '@react-hook/window-size';
-import { getMobileMaxHeightPivotTable, getMobileMaxWidth, maxWidthSize } from '@/utils/functions/maxWidthSize';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import {useWindowSize} from '@react-hook/window-size';
+import {getMobileMaxHeightPivotTable, getMobileMaxWidth, maxWidthSize} from '@/utils/functions/maxWidthSize';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '@/redux/store';
 import {
   setRowPivotTableData,
   setPivotTablColumnDefs,
@@ -34,22 +34,22 @@ import {
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
 import CustomHeaderPivotTable from '../../NavigationComponents/Header/CustomHeaderPivotTable';
-import { RadioSelected } from '@/components/SelectorComponents/RadioSelected/RadioSelected';
+import {RadioSelected} from '@/components/SelectorComponents/RadioSelected/RadioSelected';
 import {
   PivotRowVar,
   PivotColumnVar,
   PivotCellVar,
 } from '@/share/InterfaceTypes';
-import { SelectDropdownPivotable } from '../../SelectorComponents/SelectDrowdown/SelectDropdownPivotable';
-import { getRowHeightPivotTable } from '@/utils/functions/getRowHeightTable';
-import { CustomTablePagination } from '@/styleMUI';
-import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground, getHeaderColomnColor } from '@/utils/functions/getColorStyle';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
-import { downLoadText } from '@/utils/languages/title_pages';
-import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
-import { customValueFormatter } from '@/utils/functions/customValueFormatter';
+import {SelectDropdownPivotable} from '../../SelectorComponents/SelectDrowdown/SelectDropdownPivotable';
+import {getRowHeightPivotTable} from '@/utils/functions/getRowHeightTable';
+import {CustomTablePagination} from '@/styleMUI';
+import {getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground, getHeaderColomnColor} from '@/utils/functions/getColorStyle';
+import {usePageRouter} from '@/hooks/usePageRouter';
+import {filtersDataSend} from '@/utils/functions/filtersDataSend';
+import {fetchPivotCrosstabsTables} from '@/fetch/voyagesFetch/fetchPivotCrosstabsTables';
+import {downLoadText} from '@/utils/languages/title_pages';
+import {getRowsPerPage} from '@/utils/functions/getRowsPerPage';
+import {customValueFormatter} from '@/utils/functions/customValueFormatter';
 
 
 const PivotTables = () => {
@@ -57,33 +57,32 @@ const PivotTables = () => {
   const effectOnce = useRef(false);
   const gridRef = useRef<AgGridReact>(null);
 
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const {languageValue} = useSelector((state: RootState) => state.getLanguages);
 
-  const { autoLabelName } = useSelector(
+  const {autoLabelName} = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
   );
   const {
     rangeSliderMinMax: rang,
     varName,
-    isChange,
   } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
-  const { currentPage } = useSelector(
+  const {currentPage} = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-  const { styleName } = useSelector(
+  const {styleName} = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
-  const { geoTreeValue } = useSelector(
+  const {geoTreeValue} = useSelector(
     (state: RootState) => state.getGeoTreeData
   );
-  const { inputSearchValue } = useSelector(
+  const {inputSearchValue} = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { styleName: styleNameRoute } = usePageRouter();
-  const { clusterNodeKeyVariable, clusterNodeValue } =
+  const {styleName: styleNameRoute} = usePageRouter();
+  const {clusterNodeKeyVariable, clusterNodeValue} =
     useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
-  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { columnDefs, rowData, totalResultsCount, offset, pivotValueOptions, aggregation, rowsPerPage } = useSelector(
+  const {filtersObj} = useSelector((state: RootState) => state.getFilter);
+  const {columnDefs, rowData, totalResultsCount, offset, pivotValueOptions, aggregation, rowsPerPage} = useSelector(
     (state: RootState) => state.getPivotTablesData
   );
 
@@ -106,7 +105,7 @@ const PivotTables = () => {
         return <div className='pivot-table-header'>
           <CustomHeaderPivotTable
             {...props} />
-        </div>
+        </div>;
 
       }
     }),
@@ -168,9 +167,9 @@ const PivotTables = () => {
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
 
-  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
+  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue);
   const newFilters = filters !== undefined && filters!.map(filter => {
-    const { label, title, ...filteredFilter } = filter;
+    const {label, title, ...filteredFilter} = filter;
     return filteredFilter;
   });
 
@@ -184,11 +183,11 @@ const PivotTables = () => {
     offset: offset,
     limit: rowsPerPage,
     filter: newFilters || [],
-  }
+  };
 
 
   if (inputSearchValue) {
-    dataSend['global_search'] = inputSearchValue
+    dataSend['global_search'] = inputSearchValue;
   }
 
 
@@ -199,29 +198,29 @@ const PivotTables = () => {
       ).unwrap();
 
       if (response) {
-        const { tablestructure, data, metadata } = response.data as PivotTableResponse
+        const {tablestructure, data, metadata} = response.data as PivotTableResponse;
         tablestructure.forEach(structure => {
           if (structure.children) {
             structure.children.forEach(child => {
               if (child.field === 'Year range') { // DO WE NEED TO Handle the condition here?
-                child.type = 'leftAligned'
-                child.cellClass = 'ag-left-aligned-cell'
+                child.type = 'leftAligned';
+                child.cellClass = 'ag-left-aligned-cell';
               } else if (child.field === 'All') { // DO WE NEED TO Handle the condition here? 
-                child.type = 'rightAligned'
-                child.cellClass = 'ag-right-aligned-cell'
-                child.valueFormatter = (params: any) => customValueFormatter(params)
+                child.type = 'rightAligned';
+                child.cellClass = 'ag-right-aligned-cell';
+                child.valueFormatter = (params: any) => customValueFormatter(params);
               }
             });
           } else {
-            structure.type = 'rightAligned'
-            structure.cellClass = 'ag-right-aligned-cell'
+            structure.type = 'rightAligned';
+            structure.cellClass = 'ag-right-aligned-cell';
             // We will need to check if the valueFromatter will be comma or percent
-            structure.valueFormatter = (params: any) => customValueFormatter(params)
+            structure.valueFormatter = (params: any) => customValueFormatter(params);
           }
         });
         dispatch(setPivotTablColumnDefs(tablestructure));
         dispatch(setRowPivotTableData(data));
-        dispatch(setTotalResultsCount(metadata.total_results_count))
+        dispatch(setTotalResultsCount(metadata.total_results_count));
       }
     } catch (error) {
       console.log('error', error);
@@ -261,7 +260,6 @@ const PivotTables = () => {
     currentPage,
     autoLabelName,
     geoTreeValue,
-    isChange,
     inputSearchValue,
     rowsPerPage,
     page,
@@ -273,7 +271,7 @@ const PivotTables = () => {
       headerHeight: 35,
       suppressHorizontalScroll: false,
       onGridReady: (params: any) => {
-        const { columnApi } = params;
+        const {columnApi} = params;
         columnApi.autoSizeColumns();
 
       },
@@ -343,17 +341,17 @@ const PivotTables = () => {
     (event: any, newPage: number) => {
       setPage(newPage);
       const newOffset = newPage > page ? offset + rowsPerPage : offset - rowsPerPage;
-      dispatch(setOffset(newOffset >= 0 ? newOffset : 0))
+      dispatch(setOffset(newOffset >= 0 ? newOffset : 0));
     },
     [page, rowsPerPage, offset]
   );
 
   const handleChangeRowsPerPage =
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { value } = event.target;
+      const {value} = event.target;
       const newRowsPerPage = parseInt(value);
       dispatch(setRowsPerPage(newRowsPerPage));
-    }
+    };
 
   const pageCount = Math.ceil(
     totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
@@ -372,14 +370,14 @@ const PivotTables = () => {
     [page, rowsPerPage, offset]
   );
 
-  let DownloadCSVExport = ''
+  let DownloadCSVExport = '';
   for (const header of downLoadText.title) {
     DownloadCSVExport = (header.label as LabelFilterMeneList)[languageValue];
   }
 
 
-  const newRowsData = rowData.slice(0, -1)
-  const totalItemData = rowData.slice(-1)
+  const newRowsData = rowData.slice(0, -1);
+  const totalItemData = rowData.slice(-1);
 
   return (
     <div className="mobile-responsive">

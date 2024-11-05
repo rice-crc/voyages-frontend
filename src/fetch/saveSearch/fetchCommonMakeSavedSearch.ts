@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { SaveSearchRequest } from '@/share/InterfaceTypes';
+import {AUTHTOKEN, BASEURL} from '@/share/AUTH_BASEURL';
+import {createAsyncThunk} from '@reduxjs/toolkit';
+import {SaveSearchRequest} from '@/share/InterfaceTypes';
 
 export const fetchCommonMakeSavedSearch = createAsyncThunk(
     'commonMakeSavedSearch/fetchCommonMakeSavedSearch',

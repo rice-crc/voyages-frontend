@@ -1,12 +1,12 @@
-import { setColumnDefs, setRowData } from '@/redux/getTableSlice';
-import { AppDispatch, RootState } from '@/redux/store';
-import { TableCellStructure } from '@/share/InterfaceTypesTable';
-import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import { generateColumnDef } from '@/utils/functions/generateColumnDef';
-import { generateRowsData } from '@/utils/functions/generateRowsData';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { usePageRouter } from './usePageRouter';
+import {setColumnDefs, setRowData} from '@/redux/getTableSlice';
+import {AppDispatch, RootState} from '@/redux/store';
+import {TableCellStructure} from '@/share/InterfaceTypesTable';
+import {checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages} from '@/utils/functions/checkPagesRoute';
+import {generateColumnDef} from '@/utils/functions/generateColumnDef';
+import {generateRowsData} from '@/utils/functions/generateRowsData';
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {usePageRouter} from './usePageRouter';
 
 function useDataTableProcessingEffect(
     data: Record<string, any>[],
@@ -17,8 +17,8 @@ function useDataTableProcessingEffect(
     tablesCell: TableCellStructure[],
 ) {
     const dispatch: AppDispatch = useDispatch();
-    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-    const { styleName: styleNameRoute } = usePageRouter();
+    const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+    const {styleName: styleNameRoute} = usePageRouter();
     useEffect(() => {
         const tableFileName = checkPagesRouteForVoyages(styleNameRoute!)
             ? tableFlatfileVoyages
@@ -30,7 +30,6 @@ function useDataTableProcessingEffect(
 
         if (data.length > 0) {
             const finalRowData = generateRowsData(data, tableFileName!);
-
             const newColumnDefs = tablesCell.map(
                 (value) =>
                     generateColumnDef(value, languageValue, visibleColumnCells,)
@@ -52,7 +51,6 @@ function useDataTableProcessingEffect(
         tableFlatfileEnslavers,
         tablesCell
     ]);
-    // console.log({ visibleColumnCells })
 }
 
 export default useDataTableProcessingEffect;

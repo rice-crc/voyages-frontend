@@ -1,89 +1,106 @@
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { SaveSearchRequest } from '@/share/InterfaceTypes';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import { fetchCommonMakeSavedSearch } from '@/fetch/saveSearch/fetchCommonMakeSavedSearch';
-import { BASE_URL_FRONTEND } from '@/share/AUTH_BASEURL';
-import { setListSaveSearchURL, setRouteSaveSearch, setSaveSearchUrlID } from '@/redux/getSaveSearchSlice';
-import { useEffect } from 'react';
-import { ASSESSMENT, ENSALVEDROUTE, ENSALVEDTYPE, ENSALVERSROUTE, ESTIMATES, VOYAGE, VOYAGEPATHENPOINT, allEnslavers } from '@/share/CONST_DATA';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import { translationLanguagesSaveSearch } from '@/utils/functions/translationLanguages';
-import { resetAll } from '@/redux/resetAllSlice';
+import {usePageRouter} from '@/hooks/usePageRouter';
+import {SaveSearchRequest} from '@/share/InterfaceTypes';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '@/redux/store';
+import {fetchCommonMakeSavedSearch} from '@/fetch/saveSearch/fetchCommonMakeSavedSearch';
+import {BASE_URL_FRONTEND} from '@/share/AUTH_BASEURL';
+import {setListSaveSearchURL, setReloadTable, setRouteSaveSearch, setSaveSearchUrlID} from '@/redux/getSaveSearchSlice';
+import {useEffect} from 'react';
+import {ASSESSMENT, ENSALVEDROUTE, ENSALVEDTYPE, ENSALVERSROUTE, ESTIMATES, VOYAGE, VOYAGEPATHENPOINT, allEnslavers} from '@/share/CONST_DATA';
+import {filtersDataSend} from '@/utils/functions/filtersDataSend';
+import {translationLanguagesSaveSearch} from '@/utils/functions/translationLanguages';
+import {resetAll} from '@/redux/resetAllSlice';
+
 
 const DropDownSaveSearch = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { endpointPath, styleName, endpointPeopleDirect } = usePageRouter();
-    const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-    const { saveSearchUrlID, listSaveSearchURL, routeSaveSearch } = useSelector((state: RootState) => state.getSaveSearch);
+    const {endpointPath, styleName, endpointPeopleDirect} = usePageRouter();
+    const {filtersObj} = useSelector((state: RootState) => state.getFilter);
 
-    let saveSearhURL: string = ''
-    let endpointSaveSearch: string = ''
+    const {saveSearchUrlID, listSaveSearchURL, routeSaveSearch} = useSelector((state: RootState) => state.getSaveSearch);
+
+    let saveSearhURL: string = '';
+    let endpointSaveSearch: string = '';
     if (endpointPeopleDirect === ENSALVEDROUTE) {
-        endpointSaveSearch = endpointPeopleDirect
-        saveSearhURL = ENSALVEDTYPE
+        endpointSaveSearch = endpointPeopleDirect;
+        saveSearhURL = ENSALVEDTYPE;
     } else if (endpointPeopleDirect === ENSALVERSROUTE) {
-        endpointSaveSearch = endpointPeopleDirect
-        saveSearhURL = allEnslavers
+        endpointSaveSearch = endpointPeopleDirect;
+        saveSearhURL = allEnslavers;
     } else if (endpointPath === VOYAGEPATHENPOINT) {
-        endpointSaveSearch = endpointPath
-        saveSearhURL = VOYAGE
+        endpointSaveSearch = endpointPath;
+        saveSearhURL = VOYAGE;
     } else if (endpointPath === ASSESSMENT) {
-        endpointSaveSearch = endpointPath
-        saveSearhURL = ESTIMATES
+        endpointSaveSearch = endpointPath;
+        saveSearhURL = ESTIMATES;
     }
+
 
     useEffect(() => {
         if (endpointPeopleDirect === ENSALVEDROUTE) {
-            dispatch(setRouteSaveSearch(`${endpointPeopleDirect}/${styleName}`))
+            dispatch(setRouteSaveSearch(`${endpointPeopleDirect}/${styleName}`));
         } else if (endpointPeopleDirect === ENSALVERSROUTE) {
-            dispatch(setRouteSaveSearch(`${endpointPeopleDirect}/${styleName}`))
+            dispatch(setRouteSaveSearch(`${endpointPeopleDirect}/${styleName}`));
         } else if (endpointPath === VOYAGEPATHENPOINT) {
-            dispatch(setRouteSaveSearch(`${endpointPath}/${styleName}`))
+            dispatch(setRouteSaveSearch(`${endpointPath}/${styleName}`));
         } else if (endpointPath === ASSESSMENT) {
-            dispatch(setRouteSaveSearch(`${endpointPath}/${ESTIMATES}/`))
+            dispatch(setRouteSaveSearch(`${endpointPath}/${ESTIMATES}/`));
         }
-    }, [routeSaveSearch])
+    }, [routeSaveSearch]);
 
-    const filters = filtersDataSend(filtersObj, styleName!)
+    const filters = filtersDataSend(filtersObj, styleName!);
     const newFilters = filters !== undefined && filters!.map(filter => {
-        const { label, title, ...filteredFilter } = filter;
+        const {label, title, ...filteredFilter} = filter;
         return filteredFilter;
     });
+
     const dataSend: SaveSearchRequest = {
         endpoint: endpointSaveSearch,
         front_end_path: routeSaveSearch,
         query: newFilters || [],
     };
-    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${saveSearhURL}/${saveSearchUrlID}`
+    const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${saveSearhURL}/`;
     const handleSaveSearch = () => {
         fetchData();
     };
 
-    const handleCopySaveSearch = () => {
-        if (saveSearchUrlID) {
-            navigator.clipboard.writeText(`${URLSAVESEARCH}`)
-            alert(`Your URL ${URLSAVESEARCH} is copied`);
+    const handleCopySaveSearch = (id: string) => {
+        if (id) {
+            navigator.clipboard.writeText(`${URLSAVESEARCH}${id}`);
+            alert(`Your URL ${URLSAVESEARCH}${id} is copied`);
+            dispatch(setReloadTable(false));
         }
     };
 
-    const handleLoadSaveSearch = () => {
+    const saveSearchToLocalStorage = (searchID: string) => {
+        const saveID = {[searchID]: searchID};
+        localStorage.setItem('saveSearchID', JSON.stringify(saveID));
+    };
+
+    const handleLoadSaveSearch = (id: string) => {
+
         if (styleName) {
-            window.location.href = `${BASE_URL_FRONTEND}/${endpointSaveSearch}/${styleName}`;
-            dispatch(resetAll())
+            dispatch(setSaveSearchUrlID(id));
+            // Trigger table reload
+            dispatch(setReloadTable(true));
+            setTimeout(() => {
+                dispatch(setReloadTable(false));
+            }, 200);
+
+            saveSearchToLocalStorage(id);
         } else if (endpointSaveSearch === 'assessment') {
             window.location.href = `${BASE_URL_FRONTEND}/${endpointSaveSearch}/estimates`;
-            dispatch(resetAll())
+
+            // Reset state and ensure table is not reloaded
+            dispatch(resetAll());
+            dispatch(setReloadTable(false));
         }
-        const keysToRemove = Object.keys(localStorage);
-        keysToRemove.forEach((key) => {
-            localStorage.removeItem(key);
-        });
     };
 
     const handleClearSaveSearch = () => {
         dispatch(setSaveSearchUrlID(''));
         dispatch(setListSaveSearchURL([]));
+        dispatch(setReloadTable(false));
         localStorage.removeItem('saveSearchID');
     };
 
@@ -93,17 +110,23 @@ const DropDownSaveSearch = () => {
                 fetchCommonMakeSavedSearch(dataSend)
             ).unwrap();
             if (response) {
-                const { id } = response;
+                const {id} = response;
                 dispatch(setSaveSearchUrlID(id));
-                dispatch(setListSaveSearchURL([...listSaveSearchURL, id]));
-                localStorage.setItem('saveSearchID', id);
+                const listSaveSearhID = listSaveSearchURL.filter(searchID => searchID !== id);
+                // const storedValue = localStorage.getItem('saveSearchID');
+                dispatch(setListSaveSearchURL([...listSaveSearhID, id]));
+                const saveID = {
+                    [id]: id
+                };
+                const saveSearchID = JSON.stringify(saveID);
+                localStorage.setItem('saveSearchID', saveSearchID);
             }
         } catch (error) {
             console.log('error', error);
         }
     };
-    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-    const translatedSaveSearch = translationLanguagesSaveSearch(languageValue)
+    const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+    const translatedSaveSearch = translationLanguagesSaveSearch(languageValue);
 
 
     return (
@@ -156,28 +179,33 @@ const DropDownSaveSearch = () => {
                                 <div className="flex-between v-saved-searches-header">
                                     <div className="v-title">URL</div>
                                 </div>{' '}
-                                <div className="flex-between v-saved-searches-item">
-                                    <div id="SzPhOxXs" className='url-searches-item'>
-                                        {saveSearchUrlID &&
-                                            `${URLSAVESEARCH}`}
-                                    </div>{' '}
-                                    <div>
-                                        <button
-                                            onClick={handleLoadSaveSearch}
-                                            type="button"
-                                            className="btn btn-outline-secondary btn-sm"
-                                        >
-                                            {translatedSaveSearch.loadBtn}
-                                        </button>{' '}
-                                        <button
-                                            type="button"
-                                            className="btn btn-info btn-sm"
-                                            onClick={handleCopySaveSearch}
-                                        >
-                                            Copy
-                                        </button>
+                                {listSaveSearchURL.map((id) => (
+                                    <div className="flex-between v-saved-searches-item" key={id}>
+
+                                        <div id="SzPhOxXs" className='url-searches-item'>
+                                            {saveSearchUrlID &&
+                                                `${URLSAVESEARCH}${id}`}
+                                        </div>{' '}
+                                        <div id="SzPhOxXs" className='url-searches-item'>
+                                        </div>
+                                        <div>
+                                            <button
+                                                onClick={() => handleLoadSaveSearch(id)}
+                                                type="button"
+                                                className="btn btn-outline-secondary btn-sm"
+                                            >
+                                                {translatedSaveSearch.loadBtn}
+                                            </button>{' '}
+                                            <button
+                                                type="button"
+                                                className="btn btn-info btn-sm"
+                                                onClick={() => handleCopySaveSearch(id)}
+                                            >
+                                                Copy
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                ))}
                             </>
                         )}
                     </div>
@@ -187,4 +215,5 @@ const DropDownSaveSearch = () => {
     );
 };
 
-export default DropDownSaveSearch;
+export default DropDownSaveSearch;;
+
