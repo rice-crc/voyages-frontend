@@ -52,12 +52,12 @@ const Tables: React.FC = () => {
     const {textFilter} = useSelector((state: RootState) => state.getShowFilterObject);
 
     const {textFilterValue} = useSelector((state: RootState) => state.autoCompleteList);
+    const {reloadTable} = useSelector((state: RootState) => state.getSaveSearch);
 
     const {viewAll} = useSelector((state: RootState) => state.getShowFilterObject);
     const {visibleColumnCells} = useSelector(
         (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
     );
-
     const {columnDefs, data, rowData, page} = useSelector(
         (state: RootState) => state.getTableData as StateRowData
     );
@@ -183,7 +183,7 @@ const Tables: React.FC = () => {
             }
         };
     }, [
-        dispatch, filtersObj,
+        dispatch, filtersObj, reloadTable,
         rowsPerPage,
         page,
         currentPage,

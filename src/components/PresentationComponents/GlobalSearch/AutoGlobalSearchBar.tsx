@@ -1,19 +1,20 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { IconButton, List, ListItem, ListItemText, Stack } from '@mui/material';
-import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material';
-import { TextFieldSearch } from '@/styleMUI';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchSearchGlobal } from '@/fetch/homeFetch/fetchSearchGlobal';
+import React, {useEffect, useRef, useState} from 'react';
+import {IconButton, List, ListItem, ListItemText, Stack} from '@mui/material';
+import {Search as SearchIcon, Clear as ClearIcon} from '@mui/icons-material';
+import {TextFieldSearch} from '@/styleMUI';
+import {AppDispatch, RootState} from '@/redux/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchSearchGlobal} from '@/fetch/homeFetch/fetchSearchGlobal';
+import {translationHomepage} from '@/utils/functions/translationLanguages';
 import {
   setInputSearchValue,
   setRequestId,
   setSearchGlobalData,
   setTypePage,
 } from '@/redux/getCommonGlobalSearchResultSlice';
-import { GlobalSearchProp } from '@/share/InterfaceTypesGlobalSearch';
+import {GlobalSearchProp} from '@/share/InterfaceTypesGlobalSearch';
 import '@/style/homepage.scss';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {
   ALLENSLAVEDPAGE,
   ALLVOYAGESPAGE,
@@ -26,9 +27,9 @@ import {
   GlobalSearchVoyagesType,
   TRANSATLANTICENSLAVERS,
 } from '@/share/CONST_DATA';
-import { setCurrentPage } from '@/redux/getScrollPageSlice';
-import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
-import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
+import {setCurrentPage} from '@/redux/getScrollPageSlice';
+import {setCurrentEnslaversPage} from '@/redux/getScrollEnslaversPageSlice';
+import {setCurrentBlockName, setCurrentEnslavedPage} from '@/redux/getScrollEnslavedPageSlice';
 import {
   getOptionLabelSearchGlobal,
   shouldDisable,
@@ -37,13 +38,16 @@ import {
 const AutoGlobalSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { data, inputSearchValue, requestId } = useSelector(
+  const {data, inputSearchValue, requestId} = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
   const [showClearButton, setShowClearButton] = useState<boolean>(false);
   const [calledIds, setCalledIds] = useState<Set<number>>(new Set());
   const [isFetching, setIsFetching] = useState(false);
   const signalRef = useRef<AbortController | null>(null);
+  const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+  const translatedSearch = translationHomepage(languageValue);
+
 
   useEffect(() => {
     // Clean up the signal when the component unmounts
@@ -58,7 +62,7 @@ const AutoGlobalSearchBar = () => {
   useEffect(() => {
     const fetchSearchGlobalData = async (currentRequestId: number) => {
       if (inputSearchValue) {
-        const dataSend: { [key: string]: string } = {
+        const dataSend: {[key: string]: string;} = {
           search_string: inputSearchValue,
         };
         const signal = signalRef.current;
@@ -104,11 +108,11 @@ const AutoGlobalSearchBar = () => {
       // Create a new signal for the fetch request
       const newSignal = new AbortController();
       signalRef.current = newSignal;
-    }
+    };
 
   const handleSelect = (option: GlobalSearchProp | null) => {
     if (option) {
-      const { type } = option;
+      const {type} = option;
       dispatch(setTypePage(type));
 
       if (type === GlobalSearchVoyagesType) {
@@ -143,7 +147,7 @@ const AutoGlobalSearchBar = () => {
         id="search"
         value={inputSearchValue}
         fullWidth
-        placeholder="Search for voyages, people, documents, and essays"
+        placeholder={translatedSearch.searchInput}
         onChange={handleInputChange}
         InputProps={{
           className: 'input-global-search',

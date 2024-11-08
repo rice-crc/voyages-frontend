@@ -128,6 +128,7 @@ export const MenuListsDropdown = () => {
     };
     loadFilterCellStructure();
   }, [styleNameRoute, languageValue, isOpenDialog]);
+
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
     if (!storedValue) return;
@@ -145,19 +146,17 @@ export const MenuListsDropdown = () => {
     }
 
     const autoValueList: string[] = filterByVarName.searchTerm as string[];
-    let newTextValue = '';
-
+    let newTextValue: string = '';
     if (Array.isArray(autoValueList)) {
       const values = autoValueList.map<AutoCompleteOption>((item: string) => ({
         value: item,
       }));
-      for (const value of values) {
-        newTextValue = value.value;
-      }
+      newTextValue = values.map(value => value.value).join(', ');
+
     } else {
       newTextValue = autoValueList;
     }
-    setTextFilter(newTextValue);
+    dispatch(setTextFilter(newTextValue));
     dispatch(setFilterObject(filter));
   }, [varName]);
 
@@ -196,8 +195,12 @@ export const MenuListsDropdown = () => {
       dispatch(setLabelVarName(label));
       dispatch(setIsOpenDialog(true));
       if (roles) {
-        dispatch(setEnslaversNameAndRole(roles));
-        dispatch(setListEnslavers(roles));
+        if (listEnslavers.length > 0) {
+          dispatch(setListEnslavers(listEnslavers));
+        } else {
+          dispatch(setEnslaversNameAndRole(roles));
+          dispatch(setListEnslavers(roles));
+        }
       }
     }
   };
@@ -220,7 +223,6 @@ export const MenuListsDropdown = () => {
 
   const handleResetDataDialog = (event: any) => {
     event.stopPropagation();
-    setTextFilter('');
     setTextError('');
     setTextRoleListError('');
     const value = event.cancelable;
@@ -449,7 +451,7 @@ export const MenuListsDropdown = () => {
           {displayComponent}
         </DialogContent>
         <DialogActions style={{paddingRight: '2rem', marginTop: typeData === TYPES.EnslaverNameAndRole ? '10rem' : 0}}>
-          {varName && opsRoles !== 'btw' && ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.IdMatch && opsRoles === 'exact') || (typeData === TYPES.EnslaverNameAndRole) || (typeData === TYPES.MultiselectList))
+          {varName && ((typeData === TYPES.CharField && ops === 'icontains') || (typeData === TYPES.IdMatch && opsRoles === 'exact') || (typeData === TYPES.EnslaverNameAndRole) || (typeData === TYPES.MultiselectList))
             && <Button
               autoFocus
               disabled={isButtonDisabled}

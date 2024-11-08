@@ -459,8 +459,8 @@
     vertical-align: middle;
     user-select: none;
     border: 1px solid #6c757d;
-    padding: 0.3rem 0.6rem;
-    font-size: 0.90rem;
+    padding: 0.1rem 0.55rem;
+    font-size: 0.85rem;
     line-height: 1.5;
     border-radius: 0.25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
@@ -488,15 +488,14 @@
 }
 
 .v-saved-searches-item {
-    margin-bottom: 1rem;
+    margin-bottom: 0.35rem;
     font-size: .85rem;
     color: #666666;
     word-break: break-all;
     font-weight: 500;
-
-    .url-searches-item {
-        width: 70%;
-    }
+    // .url-searches-item {
+    //     width: 70%;
+    // }
 }
 
 .btn-outline-secondary:hover {

@@ -9,6 +9,14 @@ export const homePageTranslated: TranslateType = {
             "pt": "Explore as viagens que realocaram mais de 12 milhões de africanos escravizados pelo mundo"
         }
     },
+    searchInput:
+    {
+        label: {
+            "en": "Search for voyages, people, documents, and essays",
+            "es": "Buscar viajes, personas, documentos y ensayos",
+            "pt": "Buscar viagens, pessoas, documentos e ensaios"
+        }
+    },
     navigatorTitleVoyages:
     {
         label: {

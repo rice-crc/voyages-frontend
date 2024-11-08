@@ -18,6 +18,7 @@ import CARDS_ALLENSLAVED from '@/utils/flatfiles/enslaved/enslaved_all_card_menu
 import CARDS_TEXAS_ENSLAVED from '@/utils/flatfiles/enslaved/enslaved_texas_card.json';
 // Enslavers Card
 import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers/enslavers_card.json';
+import {translationCard} from '@/utils/functions/translationLanguages';
 
 import {
   ALLVOYAGESFILECARD,
@@ -72,8 +73,8 @@ const VoyageCard = () => {
 
   const {cardRowID, cardFileName, cardDataArray, nodeTypeClass} =
     useSelector((state: RootState) => state.getCardFlatObjectData);
-
-
+  const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+  const translatedCard = translationCard(languageValue);
   const {networkID} = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
@@ -86,33 +87,33 @@ const VoyageCard = () => {
       case VOYAGESNODECLASS:
       case VOYAGESNODE:
         newCardFileName = TRANSATLANTICFILECARD;
-        newCardDataArray.push(...CARDS_TRANSATLANTIC_COLLECTION);
+        newCardDataArray.push(...CARDS_TRANSATLANTIC_COLLECTION as any);
         break;
       case VOYAGESNODECLASS:
       case VOYAGESNODE:
         newCardFileName = INTRAAMERICANFILECARD;
-        newCardDataArray.push(...CARDS_INTRAAMERICAN_COLLECTION);
+        newCardDataArray.push(...CARDS_INTRAAMERICAN_COLLECTION as any);
         break;
       case VOYAGESNODECLASS:
       case VOYAGESNODE:
         newCardFileName = ALLVOYAGESFILECARD;
-        newCardDataArray.push(...CARDS_ALLVOYAGES_COLLECTION);
+        newCardDataArray.push(...CARDS_ALLVOYAGES_COLLECTION as any);
         break;
       case ENSLAVEDNODE:
         newCardFileName = ENSLAVED_african_origins_CARDFILE;
-        newCardDataArray.push(...CARDS_ENSLAVED_african_origins);
+        newCardDataArray.push(...CARDS_ENSLAVED_african_origins as any);
         break;
       case ENSLAVEDNODE:
         newCardFileName = ENSLAVED_TEXAS_CARDFILE;
-        newCardDataArray.push(...CARDS_TEXAS_ENSLAVED);
+        newCardDataArray.push(...CARDS_TEXAS_ENSLAVED as any);
         break;
       case ENSLAVEDNODE:
         newCardFileName = ENSLAVED_ALL_CARDFILE;
-        newCardDataArray.push(...CARDS_ALLENSLAVED);
+        newCardDataArray.push(...CARDS_ALLENSLAVED as any);
         break;
       case ENSLAVERSNODE:
         newCardFileName = ENSLAVERSCARDFILE;
-        newCardDataArray.push(...CARDS_ENSLAVERS_COLLECTION);
+        newCardDataArray.push(...CARDS_ENSLAVERS_COLLECTION as any);
         break;
       default:
         newCardFileName = '';
@@ -209,11 +210,11 @@ const VoyageCard = () => {
   return (
     <div>
       <p className="body-text">
-        Here are the currently available details for this voyage.{' '}
+        {translatedCard.title}{' '}
         <a href="#" onClick={toggleExpandAll}>
-          {!globalExpand ? 'Expand All' : 'Collapse All'}
+          {!globalExpand ? translatedCard.expand : translatedCard.collapse}
         </a>{' '}
-        to see/hide all.
+        {translatedCard.seeHide}
       </p>
       <Card style={{border: '1px solid rgba(0,0,0,.1)'}}>
         {newCardData.length > 0 &&
