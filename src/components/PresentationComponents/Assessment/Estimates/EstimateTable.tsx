@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { SelectChangeEvent } from '@mui/material';
+import {useState, useEffect, useCallback, useRef} from 'react';
+import {SelectChangeEvent} from '@mui/material';
 import ESTIMATE_OPTIONS from '@/utils/flatfiles/estimates/estimates.json';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '@/redux/store';
 import '@/style/estimates.scss';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import {
@@ -18,16 +18,16 @@ import {
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
 
-import { fetchEstimateCrosstabsTables } from '@/fetch/estimateFetch/fetchEstimateCrosstabsTables';
-import { SelectDropdownEstimateTable } from '@/components/SelectorComponents/SelectDrowdown/SelectDropdownEstimateTable';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { ESTIMATES } from '@/share/CONST_DATA';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import {fetchEstimateCrosstabsTables} from '@/fetch/estimateFetch/fetchEstimateCrosstabsTables';
+import {SelectDropdownEstimateTable} from '@/components/SelectorComponents/SelectDrowdown/SelectDropdownEstimateTable';
+import {setFilterObject} from '@/redux/getFilterSlice';
+import {usePageRouter} from '@/hooks/usePageRouter';
+import {ESTIMATES} from '@/share/CONST_DATA';
+import {filtersDataSend} from '@/utils/functions/filtersDataSend';
 
 const EstimateTable = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { currentBlockName, endpointPathEstimate, styleName } = usePageRouter();
+    const {currentBlockName, endpointPathEstimate, styleName} = usePageRouter();
     const aggregation = 'sum';
     const {
         currentSliderValue,
@@ -36,12 +36,12 @@ const EstimateTable = () => {
         checkedListDisEmbarkation,
     } = useSelector((state: RootState) => state.getEstimateAssessment);
 
-    const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-    const { varName } = useSelector(
+    const {filtersObj} = useSelector((state: RootState) => state.getFilter);
+    const {varName} = useSelector(
         (state: RootState) => state.rangeSlider as FilterObjectsState
     );
-    const [loading, setLoading] = useState(false)
-    const [data, setData] = useState<string | null>(null)
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState<string | null>(null);
     const [rowVars, setSelectRowValues] = useState<EstimateRowVar[]>([]);
     const [columnVars, setSelectColumnValue] = useState<EstimateColumnVar[]>([]);
     const [cellVars, setSelectCellValue] = useState<EstimateCellVar[]>([]);
@@ -69,7 +69,7 @@ const EstimateTable = () => {
                                 rows_label: item.rows_label,
                                 label: item.label
                             }
-                        )
+                        );
                     }
                 );
                 setSelectRowValues(pivotRowVars);
@@ -94,24 +94,16 @@ const EstimateTable = () => {
         });
     }, []);
 
-    const { rows, binsize, column_vars, cell_vars } = estimateValueOptions;
+    const {rows, binsize, column_vars, cell_vars} = estimateValueOptions;
 
     const onlyYearRows = rows.filter(
         (row) => row.startsWith('year_') && row.length > 5
     );
     const updatedRowsValue = rows.join('').replace(/_(\d+)$/, '');
-    // let filters: Filter[] = []
 
-    // if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
-    //     filters = filtersObj;
-    // } else {
-    //     filters = filtersObj;
-    // }
-
-
-    const filters = filtersDataSend(filtersObj, styleName!)
+    const filters = filtersDataSend(filtersObj, styleName!);
     const newFilters = filters !== undefined && filters!.map(filter => {
-        const { label, title, ...filteredFilter } = filter;
+        const {label, title, ...filteredFilter} = filter;
         return filteredFilter;
     });
     const dataSend: EstimateTablesPropsRequest = {
@@ -126,7 +118,7 @@ const EstimateTable = () => {
 
 
     const fetchData = async () => {
-        setLoading(true)
+        setLoading(true);
         try {
             const response = await dispatch(
                 fetchEstimateCrosstabsTables(dataSend)
@@ -134,7 +126,7 @@ const EstimateTable = () => {
 
             if (response) {
                 setData(response.data.data);
-                setLoading(false)
+                setLoading(false);
             }
         } catch (error) {
             console.log('error', error);
@@ -200,7 +192,7 @@ const EstimateTable = () => {
         link.download = filename;
         link.target = '_blank';
         link.click();
-        setMode('html')
+        setMode('html');
     }, [mode, data]);
 
 
@@ -235,25 +227,27 @@ const EstimateTable = () => {
     );
 
     return (
-        <div className="estimate-table-card">
-            <SelectDropdownEstimateTable
-                selectedEstimateTablesOptions={estimateValueOptions}
-                selectRowValue={rowVars}
-                selectColumnValue={columnVars}
-                selectCellValue={cellVars}
-                handleChangeOptions={handleChangeOptions}
-                handleButtonExportCSV={handleButtonExportCSV}
-            />
-            {loading && data ? <div className="loading-logo-graph">
-                <img src={LOADINGLOGO} />
-            </div> :
-                <div className="estimate-table-container">
-                    <div className="estimate-table" >
-                        <div dangerouslySetInnerHTML={{ __html: data !== null ? data : '' }} />
+        <>
+            {!loading && !data ?
+                <div className="loading-logo-graph">
+                    <img src={LOADINGLOGO} />
+                </div> :
+                <div className="estimate-table-card">
+                    <SelectDropdownEstimateTable
+                        selectedEstimateTablesOptions={estimateValueOptions}
+                        selectRowValue={rowVars}
+                        selectColumnValue={columnVars}
+                        selectCellValue={cellVars}
+                        handleChangeOptions={handleChangeOptions}
+                        handleButtonExportCSV={handleButtonExportCSV}
+                    />
+                    <div className="estimate-table-container">
+                        <div className="estimate-table" >
+                            <div dangerouslySetInnerHTML={{__html: data !== null ? data : ''}} />
+                        </div>
                     </div>
                 </div>}
-
-        </div>
+        </>
     );
 };
 

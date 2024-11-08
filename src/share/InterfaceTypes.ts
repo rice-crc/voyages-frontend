@@ -526,9 +526,15 @@ export interface InitialStateTransatlanticCard {
     variable: string;
 }
 export interface TransatlanticCardProps {
-    label: string;
+    label: HeaderLabel;
     children: ChildrenCard[];
 }
+export interface HeaderLabel {
+    en: string;
+    es: string;
+    pt: string;
+}
+
 
 export interface ChildrenCard {
     cell_type: string;

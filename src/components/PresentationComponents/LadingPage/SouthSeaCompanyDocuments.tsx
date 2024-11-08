@@ -2,13 +2,14 @@ import React from 'react';
 import '@/style/landing.scss';
 import REGISTERSOUTH from '@/assets/registerOfAfricans.png';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
-import { DOCUMENTPAGE } from '@/share/CONST_DATA';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { translationHomepage } from '@/utils/functions/translationLanguages';
+import {DOCUMENTPAGE} from '@/share/CONST_DATA';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/redux/store';
+import {translationHomepage} from '@/utils/functions/translationLanguages';
+import {Link} from 'react-router-dom';
 const SouthSeaCompanyDocuments: React.FC = () => {
-    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-    const translatedHomepage = translationHomepage(languageValue)
+    const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+    const translatedHomepage = translationHomepage(languageValue);
 
     return (
         <div className="container-shouth-sea">
@@ -19,9 +20,10 @@ const SouthSeaCompanyDocuments: React.FC = () => {
                     <ButtonLearnMore path={DOCUMENTPAGE} />
                 </div>
                 <div className="shouth-sea-content-bg">
-                    <img src={REGISTERSOUTH} alt="South Sea Company Documents" className="register-img" />
+                    <Link to={`/document`}>
+                        <img src={REGISTERSOUTH} alt="South Sea Company Documents" className="register-img" />
+                    </Link>
                 </div>
-
             </div>
         </div>
     );

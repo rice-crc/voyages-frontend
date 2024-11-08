@@ -1,44 +1,49 @@
+import {RootState} from '@/redux/store';
 import '@/style/networks.scss';
-import { Divider } from '@mui/material';
+import {translatedConnection} from '@/utils/functions/translationLanguages';
+import {Divider} from '@mui/material';
+import {useSelector} from 'react-redux';
 const ShowsAcoloredNodeKey = () => {
+  const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+  const translated = translatedConnection(languageValue);
   return (
     <div className="colored-box">
       <div className="div-box">
         <div className="circle voyages"></div>
-        <p>Voyages</p>
+        <p>{translated.voyages}</p>
       </div>
       <div className="div-box">
         <div className="circle enslavers"></div>
-        <p>Enslavers</p>
+        <p>{translated.enslavers}</p>
       </div>
       <div className="div-box">
         <div className="circle enslaved"></div>
-        <p>Enslaved People</p>
+        <p>{translated.enslavedPeople}</p>
       </div>
       <div className="div-box">
         <div className="circle connection"></div>
-        <p>Connections</p>
+        <p>{translated.connection}</p>
       </div>
-      <Divider style={{ margin: 10 }} />
+      <Divider style={{margin: 10}} />
       <div className="div-box-line">
         <div className="line-edges captain"></div>
-        <p>Captain</p>
+        <p>{translated.captain}</p>
       </div>
       <div className="div-box-line">
         <div className="line-edges owner"></div>
-        <p>Owner</p>
+        <p>{translated.owner}</p>
       </div>
       <div className="div-box-line">
         < div className="line-edges shipper" ></div >
-        <p>Shipper</p>
+        <p>{translated.shipper}</p>
       </div >
       <div className=" div-box-line">
         < div className="line-edges consignor" ></div >
-        <p>Consignor</p>
+        <p>{translated.consignor}</p>
       </div >
       <div className=" div-box-line">
         < div className="line-edges shipper-consignor" ></div >
-        <p>Consignor, Shipper</p>
+        <p>{translated.consignor}</p>
       </div >
     </div >
   );

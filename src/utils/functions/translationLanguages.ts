@@ -1,7 +1,9 @@
-import { LabelFilterMeneList } from "@/share/InterfaceTypes";
-import { EstimateTranslate } from "../languages/estimate_text";
-import { saveSearchTranslated } from "../languages/save_search";
-import { homePageTranslated } from "../languages/home_page_text";
+import {LabelFilterMeneList} from "@/share/InterfaceTypes";
+import {EstimateTranslate} from "../languages/estimate_text";
+import {saveSearchTranslated} from "../languages/save_search";
+import {homePageTranslated} from "../languages/home_page_text";
+import {cardTranslated} from "../languages/card";
+import {connectionTranslated} from "../languages/connection_text";
 
 export const translationLanguagesEstimatePage = (languageValue: string) => {
     const translatedEstimates: Record<string, string> = {};
@@ -11,8 +13,8 @@ export const translationLanguagesEstimatePage = (languageValue: string) => {
             translatedEstimates[key] = (label as LabelFilterMeneList)[languageValue];
         }
     }
-    return translatedEstimates
-}
+    return translatedEstimates;
+};
 
 export const translationLanguagesSaveSearch = (languageValue: string) => {
     const translatedSaveSearch: Record<string, string> = {};
@@ -22,8 +24,8 @@ export const translationLanguagesSaveSearch = (languageValue: string) => {
             translatedSaveSearch[key] = (label as LabelFilterMeneList)[languageValue];
         }
     }
-    return translatedSaveSearch
-}
+    return translatedSaveSearch;
+};
 
 export const translationHomepage = (languageValue: string) => {
     const translatedHomepage: Record<string, string> = {};
@@ -33,8 +35,8 @@ export const translationHomepage = (languageValue: string) => {
             translatedHomepage[key] = (label as LabelFilterMeneList)[languageValue];
         }
     }
-    return translatedHomepage
-}
+    return translatedHomepage;
+};
 
 export const translationDataBasePage = (languageValue: string) => {
     const translatedPage: Record<string, string> = {};
@@ -44,5 +46,28 @@ export const translationDataBasePage = (languageValue: string) => {
             translatedPage[key] = (label as LabelFilterMeneList)[languageValue];
         }
     }
-    return translatedPage
-}
+    return translatedPage;
+};
+
+export const translationCard = (languageValue: string) => {
+    const translatedCard: Record<string, string> = {};
+    for (const key in cardTranslated) {
+        if (Object.prototype.hasOwnProperty.call(cardTranslated, key)) {
+            const label = cardTranslated[key].label;
+            translatedCard[key] = (label as LabelFilterMeneList)[languageValue];
+        }
+    }
+    return translatedCard;
+};
+
+export const translatedConnection = (languageValue: string) => {
+
+    const tanslateConnection: Record<string, string> = {};
+    for (const key in connectionTranslated) {
+        if (Object.prototype.hasOwnProperty.call(connectionTranslated, key)) {
+            const label = connectionTranslated[key].label;
+            tanslateConnection[key] = (label as LabelFilterMeneList)[languageValue];
+        }
+    }
+    return tanslateConnection;
+};
