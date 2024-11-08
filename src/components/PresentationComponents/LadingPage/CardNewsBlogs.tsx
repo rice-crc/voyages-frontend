@@ -41,7 +41,7 @@ export const CardNewsBlogs = () => {
     return <div className="parent-carousel">
         <Carousel
             responsive={responsive}
-            // autoPlay={true}
+            autoPlay={true}
             swipeable={true}
             draggable={true}
             showDots={true}
