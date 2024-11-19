@@ -751,6 +751,7 @@
 		"label": "Sources",
 		"children": [
 			{
+				"label": "Data Sources",
 				"cell_type": "literal-concat",
 				"number_format": null,
 				"cell_val": {
@@ -781,8 +782,7 @@
 						}
 					],
 					"join": ": "
-				},
-				"label": "Data Sources"
+				}
 			}
 		]
 	}
