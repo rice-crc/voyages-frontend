@@ -4,6 +4,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import {PaperDraggableTimeLapse} from '@/components/SelectorComponents/Cascading/PaperDraggable';
 import {PaperDraggableTimeLapseStyle, StyleDialog} from '@/styleMUI';
 import '@/style/timelapse.scss';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/redux/store';
+import {translationLanguagesTimelapse} from '@/utils/functions/translationLanguages';
 
 interface TimelapseHelpDialogProps {
     open: boolean;
@@ -11,6 +14,10 @@ interface TimelapseHelpDialogProps {
 }
 
 const TimelapseHelpDialog = ({open, onClose}: TimelapseHelpDialogProps): React.ReactElement => {
+   
+    const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+    const translatedTimelapse = translationLanguagesTimelapse(languageValue);
+
     return (
         <div>
             <Dialog open={open} onClose={onClose}
@@ -23,7 +30,7 @@ const TimelapseHelpDialog = ({open, onClose}: TimelapseHelpDialogProps): React.R
                 PaperComponent={PaperDraggableTimeLapse}
                 aria-labelledby="draggable-dialog-title-timelapse"
             >
-                <DialogTitle sx={{cursor: 'move'}} ><h2 className='header-timelapse'>About this Timelapse</h2>
+                <DialogTitle sx={{cursor: 'move'}} ><h2 className='header-timelapse'>{translatedTimelapse.header}</h2>
                     <IconButton
                         edge="end"
                         color="inherit"
@@ -39,23 +46,16 @@ const TimelapseHelpDialog = ({open, onClose}: TimelapseHelpDialogProps): React.R
                 <DialogContent>
                     < div >
                         <p className='detail-timelapse'>
-                            This timelapse offers an overall preview as well as demonstration of how the slave movement happened.
-                            The results of any user query will display in this timelapse feature. Also, please note the following:
+                        {translatedTimelapse.details}
                         </p>
-                        <h3 className='title-voyages'>Voyage Size</h3>
-                        <p className='detail-timelapse'>
-                            Each circle on this timelapse represents a single voyage and is both sized, according to the number of
-                            captives on board, and colored, according to the three icons at the bottom left of the graph.
+                        <h3 className='title-voyages'> {translatedTimelapse.voyageSize}</h3>
+                        <p className='detail-timelapse'>{translatedTimelapse.voyageSizeDetail}
                         </p>
-                        <h3 className='title-voyages'>Voyage Nationality</h3>
-                        <p className='detail-timelapse'>
-                            Each circle is color coded and the color code represents the nationality of the slave vessel, but users
-                            can instead choose Region of Embarkation, or Region of Disembarkation by clicking on the icons to the
-                            left of the graph.
+                        <h3 className='title-voyages'>{translatedTimelapse.voyageNationality}</h3>
+                        <p className='detail-timelapse'>{translatedTimelapse.voyageNationalityDetail}
                         </p>
-                        <h3 className='title-voyages'>Voyage Details</h3>
-                        <p className='detail-timelapse'>
-                            To inspect details of an individual voyage, pause and click on a circle.
+                        <h3 className='title-voyages'>{translatedTimelapse.voyageDetailsHeadeer}</h3>
+                        <p className='detail-timelapse'>{translatedTimelapse.voyageDetails}
                         </p>
                     </div >
                 </DialogContent>

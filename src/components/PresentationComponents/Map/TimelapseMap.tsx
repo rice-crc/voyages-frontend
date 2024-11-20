@@ -34,6 +34,8 @@ import {usePageRouter} from "@/hooks/usePageRouter";
 import {checkPagesRouteForVoyages} from "@/utils/functions/checkPagesRoute";
 import {getMapBackgroundColor} from "@/utils/functions/getMapBackgroundColor";
 import TimelapseHelpDialog from "./TimelapseHelpDialog";
+import {translationLanguagesTimelapse} from "@/utils/functions/translationLanguages";
+import {KeyTranslations, LabelTranslations, TranslateType} from "@/share/InterfaceTypes";
 
 // TODO
 // - move out the basic geometry/calculation stuff to a separate file.
@@ -814,6 +816,7 @@ interface TimelapseUIProps {
     onPause: () => void;
     onShowDetails: (selected: VoyageRoute) => void;
     onSpeedChange: (speed: number) => void;
+    tanslateTimelapse:Record<string, string>
 }
 
 const FlagNames: Record<number, string> = {
@@ -836,7 +839,7 @@ const FlagNames: Record<number, string> = {
     19: "Mexico"
 };
 
-const TimelapseUI = ({collection, selected, years, paused, speed, onClearSelection, onPlay, onPause, onShowDetails, onSpeedChange}: TimelapseUIProps): React.ReactElement | any => {
+const TimelapseUI = ({collection, selected, years, paused, speed, onClearSelection, onPlay, onPause, onShowDetails, onSpeedChange,tanslateTimelapse}: TimelapseUIProps): React.ReactElement | any => {
     const [fullscreen, setFullscreen] = useState(false);
     const {size} = useMapPosition();
     const map = useMap();
@@ -937,7 +940,7 @@ const TimelapseUI = ({collection, selected, years, paused, speed, onClearSelecti
             {years && <h1>{(years[1] - years[0] <= 1) ? years[0] : `${years[0]}-${years[1]}`}</h1>}
         </div>
         <div className="timelapseInfoBox" style={{width: 'fit-content'}}>
-            View the movement of {collection.voyageRoutes.length} Slave Ships
+            {tanslateTimelapse.viewMovementLang} {collection.voyageRoutes.length} {tanslateTimelapse.slaveShips}
         </div>
         {selected && <div className="timelapseInfoBox" style={{width: '350px', pointerEvents: 'auto'}}>
             <h1>{selected.shipName}<span onClick={onClearSelection} className="timelapseInfoBoxClose fa fa-close" style={{float: 'right'}}></span></h1>
@@ -965,6 +968,7 @@ interface TimelapseAggregateChartProps {
     renderStyles: VoyageRouteRenderStyles;
     aggregatedField?: 'embarked' | 'disembarked';
     onYearChange: (year: number) => void;
+    tanslateTimelapse:Record<string, string>
 }
 
 interface AggregateValue {
@@ -975,7 +979,8 @@ interface AggregateValue {
 
 type TimelapseAggregateChartTable = Record<string, number>[];
 
-const TimelapseAggregateChart = ({collection, renderStyles, years, aggregatedField = 'embarked', onYearChange}: TimelapseAggregateChartProps): React.ReactElement | any => {
+const TimelapseAggregateChart = ({collection, renderStyles, years, aggregatedField = 'embarked', onYearChange,tanslateTimelapse}: TimelapseAggregateChartProps): React.ReactElement | any => {
+
     const svg = useRef<SVGSVGElement>(null);
     const [sortedKeys, setSortedKeys] = useState<string[]>([]);
     const {size} = useMapPosition();
@@ -1026,6 +1031,7 @@ const TimelapseAggregateChart = ({collection, renderStyles, years, aggregatedFie
         return {table, x};
     }, [collection, renderStyles]);
     const getStyle = (key: string) => renderStyles.styles.find(s => s.label === key)?.style ?? '';
+ 
     useEffect(() => {
         if (table.length > 0 && renderStyles.styles.length > 0 && svg.current && x) {
             // Now we use D3.js to produce a stacked area chart. The areas correspond to
@@ -1102,7 +1108,7 @@ const TimelapseAggregateChart = ({collection, renderStyles, years, aggregatedFie
                     `translate(${LeftMargin},${VerticalMargin})`)
                 .attr("dy", "1em")
                 .attr("class", "timelapse-timelapse-title-label")
-                .text(`Accumulated captives (${aggregatedField})`);
+                .text(`${tanslateTimelapse.accumulated} (${aggregatedField})`);
             // Create mouse-over line that allows jumping to any given year in the chart.
             const hoverLine = g.append("g")
                 .classed("timelapse_slider_x_axis_hover", true)
@@ -1337,11 +1343,15 @@ export interface TimelapseMapProps {
     renderStyles: VoyageRouteRenderStyles;
     collection: VoyageRouteCollection;
     initialSpeed: number;
+    tanslateTimelapse: Record<string, string>
 }
 
 export const VoyagesTimelapseMap = () => {
     const collection = useFilteredVoyageRoutes();
     const [renderStyles, setStyles] = useState<VoyageRouteRenderStyles | null>(null);
+    const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+    const tanslateTimelapse = translationLanguagesTimelapse(languageValue);
+
     useEffect(() => {
         const unknownLabel = 'Unknown';
         const color = d3
@@ -1362,14 +1372,15 @@ export const VoyagesTimelapseMap = () => {
             );
         styles[-1] = {label: unknownLabel, style: color(unknownLabel), isLeftoverGroup: true};
         setStyles(createRenderStyles(collection, 200, v => v.flag?.code ?? -1, styles));
-    }, [collection]);
+    }, [collection,languageValue]);
     return collection && renderStyles && <TimelapseMap
         collection={collection}
         initialSpeed={1}
-        renderStyles={renderStyles} />;
+        renderStyles={renderStyles}
+        tanslateTimelapse={tanslateTimelapse} />;
 };
 
-export const TimelapseMap = ({collection, initialSpeed, renderStyles}: TimelapseMapProps) => {
+export const TimelapseMap = ({collection, initialSpeed, renderStyles, tanslateTimelapse}: TimelapseMapProps) => {
     const [zoomLevel, setZoomLevel] = useState<number>(3);
     const [pauseWin, setPauseWin] = useState<VoyageRouteCollectionWindow | null>(null);
     const [selected, setSelected] = useState<InterpolatedVoyageRoute | undefined>(undefined);
@@ -1377,6 +1388,8 @@ export const TimelapseMap = ({collection, initialSpeed, renderStyles}: Timelapse
     const [years, setYears] = useState<[number, number] | undefined>();
     const [userStartYear, setUserStartYear] = useState<number | null>(null);
     const window = useRef<VoyageRouteCollectionWindow | undefined>();
+    
+ 
     const dispatch = useDispatch();
     useEffect(() => {
         if (!pauseWin) {
@@ -1453,6 +1466,7 @@ export const TimelapseMap = ({collection, initialSpeed, renderStyles}: Timelapse
                     collection={collection}
                     selected={pauseWin !== null ? selected : undefined}
                     years={years}
+                    tanslateTimelapse={tanslateTimelapse}
                     paused={pauseWin !== null}
                     speed={speed}
                     onClearSelection={() => setSelected(undefined)}
@@ -1470,7 +1484,9 @@ export const TimelapseMap = ({collection, initialSpeed, renderStyles}: Timelapse
                 collection={collection}
                 renderStyles={renderStyles}
                 years={years}
-                onYearChange={setUserStartYear} />
+                onYearChange={setUserStartYear} 
+                tanslateTimelapse={tanslateTimelapse}
+                />
             <CardModal />
         </MapContainer>
     );
