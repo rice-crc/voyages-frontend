@@ -114,7 +114,7 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
         tablestructure.forEach(structure => {
           if (structure.children) {
             structure.children.forEach(child => {
-              if (child.field === 'Year range') {
+              if (child.field === 'Year range' || child.field === 'Año Rango'  || child.field === 'Intervalo de anos') {
                 child.type = 'leftAligned'
                 child.cellClass = 'ag-left-aligned-cell'
               } else if (child.field === 'All') {

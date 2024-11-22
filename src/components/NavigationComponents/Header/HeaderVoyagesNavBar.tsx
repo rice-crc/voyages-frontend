@@ -1,4 +1,4 @@
-import {MouseEventHandler, useEffect, useState} from 'react';
+import {MouseEventHandler, useCallback, useEffect, useState} from 'react';
 import {AppBar, Box, IconButton, Hidden, Divider} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import {useNavigate} from 'react-router-dom';
@@ -93,7 +93,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     [TRANSATLANTIC]: `${TRANSATLANTICPAGE}#${currentVoyageBlockName}`,
   };
 
-  const handleSelectDataset = (
+  const handleSelectDataset = useCallback((
     base_filter: BaseFilter[],
     textHeder: string,
     textIntro: string,
@@ -102,47 +102,52 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
+
+    // Clear Redux and LocalStorage first
     dispatch(resetAll());
     const filters: Filter[] = [];
-    if (styleName === ALLVOYAGES && currentVoyageBlockName === 'timelapse') {
-      navigate(`${ALLVOYAGESPAGE}#voyages`);
-    } else {
-      dispatch(setBaseFilterDataSetValue(base_filter));
-      for (const base of base_filter) {
-        filters.push({
-          varName: base.var_name,
-          searchTerm: base.value,
-          op: "in"
-        });
-        dispatch(setFilterObject(filters));
-      }
-      if (filters) {
-        localStorage.setItem('filterObject', JSON.stringify({
-          filter: filters
-        }));
-      } else {
-        localStorage.setItem('filterObject', JSON.stringify({
-          filter: filters
-        }));
-      }
-      dispatch(setDataSetHeader(textHeder));
-      dispatch(setTextIntro(textIntro));
-      dispatch(setStyleName(styleName));
-      dispatch(setBlocksMenuList(blocks));
-      dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile!));
-      dispatch(setTableVoyagesFlatfile(tableFlatfile!));
-      if (styleNameToPathMap[styleName]) {
-        navigate(styleNameToPathMap[styleName]);
-      }
+
+    // Prepare filters
+    for (const base of base_filter) {
+      filters.push({
+        varName: base.var_name,
+        searchTerm: base.value,
+        op: "in"
+      });
     }
 
+    // Update Redux Store
+    dispatch(setBaseFilterDataSetValue(base_filter));
+    dispatch(setFilterObject(filters));
+    dispatch(setDataSetHeader(textHeder));
+    dispatch(setTextIntro(textIntro));
+    dispatch(setStyleName(styleName));
+    dispatch(setBlocksMenuList(blocks));
+    if (filterMenuFlatfile) {
+      dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile));
+    }
+    if (tableFlatfile) {
+      dispatch(setTableVoyagesFlatfile(tableFlatfile));
+    }
+
+    // Save to LocalStorage
+    localStorage.setItem('filterObject', JSON.stringify({filter: filters}));
+
+    // Navigate after state updates
+    if (styleName === ALLVOYAGES && currentVoyageBlockName === 'timelapse') {
+      navigate(`${ALLVOYAGESPAGE}#voyages`);
+    } else if (styleNameToPathMap[styleName]) {
+      navigate(styleNameToPathMap[styleName]);
+    }
+
+    // Cleanup LocalStorage (only remove specific keys if needed)
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
+      if (key !== 'filterObject') { // Prevent removing just-set items
+        localStorage.removeItem(key);
+      }
     });
-
-  };
-
+  }, [value, currentVoyageBlockName, navigate, dispatch]); // Updated dependencies
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);

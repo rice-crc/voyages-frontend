@@ -4,6 +4,8 @@ import {saveSearchTranslated} from "../languages/save_search";
 import {homePageTranslated} from "../languages/home_page_text";
 import {cardTranslated} from "../languages/card";
 import {connectionTranslated} from "../languages/connection_text";
+import {timelapseTranslated} from '../languages/timelapse_text';
+import {ContributeTranslate} from "../languages/contribute_text";
 
 export const translationLanguagesEstimatePage = (languageValue: string) => {
     const translatedEstimates: Record<string, string> = {};
@@ -70,4 +72,25 @@ export const translatedConnection = (languageValue: string) => {
         }
     }
     return tanslateConnection;
+};
+export const translationLanguagesTimelapse = (languageValue: string) => {
+    const tanslateTimelapse: Record<string, string> = {};
+    for (const key in timelapseTranslated) {
+        if (Object.prototype.hasOwnProperty.call(timelapseTranslated, key)) {
+            const label = timelapseTranslated[key].label;
+            tanslateTimelapse[key] = (label as LabelFilterMeneList)[languageValue];
+        }
+    }
+    return tanslateTimelapse;
+};
+
+export const translationLanguagesContribute = (languageValue: string) => {
+    const contributeTranslate: Record<string, string> = {};
+    for (const key in ContributeTranslate) {
+        if (Object.prototype.hasOwnProperty.call(ContributeTranslate, key)) {
+            const label = ContributeTranslate[key].label;
+            contributeTranslate[key] = (label as LabelFilterMeneList)[languageValue];
+        }
+    }
+    return contributeTranslate;
 };

@@ -2,8 +2,8 @@
 	{
 		"label": {
 			"en": "Year Range",
-			"es": "Year Range ES",
-			"pt": "Year Range PT"
+			"es": "Año Rango",
+			"pt": "Intervalo de anos"
 		},
 		"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 		"type": "IntegerField"
