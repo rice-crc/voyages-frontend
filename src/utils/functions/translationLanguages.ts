@@ -1,10 +1,11 @@
-import {KeyTranslations, LabelFilterMeneList} from "@/share/InterfaceTypes";
+import {LabelFilterMeneList} from "@/share/InterfaceTypes";
 import {EstimateTranslate} from "../languages/estimate_text";
 import {saveSearchTranslated} from "../languages/save_search";
 import {homePageTranslated} from "../languages/home_page_text";
 import {cardTranslated} from "../languages/card";
 import {connectionTranslated} from "../languages/connection_text";
 import {timelapseTranslated} from '../languages/timelapse_text';
+import {ContributeTranslate} from "../languages/contribute_text";
 
 export const translationLanguagesEstimatePage = (languageValue: string) => {
     const translatedEstimates: Record<string, string> = {};
@@ -81,4 +82,15 @@ export const translationLanguagesTimelapse = (languageValue: string) => {
         }
     }
     return tanslateTimelapse;
+};
+
+export const translationLanguagesContribute = (languageValue: string) => {
+    const contributeTranslate: Record<string, string> = {};
+    for (const key in ContributeTranslate) {
+        if (Object.prototype.hasOwnProperty.call(ContributeTranslate, key)) {
+            const label = ContributeTranslate[key].label;
+            contributeTranslate[key] = (label as LabelFilterMeneList)[languageValue];
+        }
+    }
+    return contributeTranslate;
 };

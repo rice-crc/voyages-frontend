@@ -1,0 +1,77 @@
+.contribuite-main-content {
+     margin: 1rem 3rem;
+    .contribute-sidebar {
+        width: 20%;
+        padding: 15px;
+        position: fixed;
+    }
+
+    .contribute-sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .contribute-sidebar li a {
+        text-decoration: none;
+        color: rgb(25, 118, 210);
+        display: block;
+        margin: 10px 0;
+    }
+
+    /* ContributeContent.css */
+    .contribute-content {
+        margin-left: 22%;
+        padding: 20px;
+
+        .page-title-1 {
+            font-weight: bold;
+            font-size: 2rem;
+            margin-bottom: .5rem;
+            color: #333;
+
+        }
+
+        p {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+
+            a {
+                color: rgb(25, 118, 210);
+                text-decoration: none;
+            }
+        }
+
+    }
+
+    /* SignInForm.css */
+    .contribute-sign-in-form {
+        .form-inorder{
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+      
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+    }
+}
