@@ -1,0 +1,86 @@
+.contribuite-main-content {
+     margin: 0 2rem;
+     display: flex;
+    .contribute-sidebar {
+        width: 25%;
+        padding:15px 15px 0 15px;
+    }
+
+    .contribute-sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .contribute-sidebar li a {
+        text-decoration: none;
+        color: rgb(25, 118, 210);
+        display: block;
+        margin: 10px 0;
+    }
+
+    /* ContributeContent.css */
+    .contribute-content {
+        width: 70%;
+        padding: 15px 15px 0 15px;
+
+        .page-title-1 {
+            font-weight: bold;
+            font-size: 2rem;
+            margin-bottom: .5rem;
+            color: #333;
+
+        }
+
+        p {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+
+            a {
+                color: rgb(25, 118, 210);
+                text-decoration: none;
+            }
+        }
+
+    }
+
+    /* SignInForm.css */
+    .contribute-sign-in-form {
+        .form-inorder{
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .sign-in-form-submit {
+            padding: 1rem;
+            background-color: #FFF8CE;
+            border-top: 1px solid #DDCA9D;
+            border-bottom: 1px solid #DDCA9D;
+        }
+     
+      
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input {
+            padding: 6px;
+            margin-top: 5px;
+            margin-left: 8px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 6px 0;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+    }
+}

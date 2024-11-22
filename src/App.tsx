@@ -38,7 +38,7 @@ import AuthorPage from '@/pages/AuthorPage';
 import InstitutionAuthorsPage from '@/pages/InstitutionAuthorsPage';
 import BlogDetailsPost from '@/components/BlogPageComponents/Blogcomponents/BlogDetailsPost';
 import Estimates from '@/components/PresentationComponents/Assessment/Estimates/Estimates';
-import Contribute from '@/components/PresentationComponents/Assessment/Contribute/Contribute';
+
 import LessonPlans from '@/components/PresentationComponents/Assessment/LessonPlans/LessonPlans';
 import IntroductoryMaps from '@/components/PresentationComponents/Assessment/IntroductoryMaps/IntroductoryMaps';
 import { setCardRowID, setNodeClass, setValueVariable } from '@/redux/getCardFlatObjectSlice';
@@ -51,6 +51,7 @@ import DownloadPage from '@/pages/DownloadPage';
 import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
 import { checkEntityType } from './utils/functions/checkEntityType';
 import { DocumentViewerProvider } from './pages/DocumentViewerContext';
+import ContributePage from './pages/Contribute';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -167,7 +168,7 @@ const App: React.FC = () => {
 
             <Route
               path={`${CONTRIBUTE}`}
-              element={<Contribute />}
+              element={<ContributePage />}
             />
             <Route
               path={`${LESSONPLANS}/`}

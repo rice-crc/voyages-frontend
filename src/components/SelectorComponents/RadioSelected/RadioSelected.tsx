@@ -9,7 +9,7 @@ import {
   RadioGroup,
   Typography,
 } from '@mui/material';
-import {ChangeEvent, FunctionComponent, useCallback, useState} from 'react';
+import {ChangeEvent, FunctionComponent, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 interface RadioSelectedProps {
@@ -22,7 +22,14 @@ export const RadioSelected: FunctionComponent<
 > = (props) => {
   const dispatch: AppDispatch = useDispatch();
   const {aggregation, handleChange, type} = props;
-  const {opsRoles} = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
+  const {opsRoles, varName} = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
+
+  useEffect(() => {
+    if (varName === 'EnslaverNameAndRole') {
+      dispatch(setOpsRole('in'));
+    }
+  }, [opsRoles]);
+
   const handleChangeEqualToOrOthers = (event: ChangeEvent<HTMLInputElement>) => {
     const newOpsRoles = event.target.value;
     dispatch(setOpsRole(newOpsRoles));
@@ -74,7 +81,7 @@ export const RadioSelected: FunctionComponent<
             value={opsRoles}
             onChange={handleChangeEqualToOrOthers}
           >
-            {radioOptionsVoyageID.map((option, index) => (
+            {radioOptionsVoyageID.map((option) => (
               <FormControlLabel
                 key={option.value}
                 value={option.value}

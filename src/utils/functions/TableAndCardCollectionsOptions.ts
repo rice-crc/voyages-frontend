@@ -82,21 +82,21 @@ export const TableAndCardCollectionsOptions = (file?: string): Record<string, an
             value.children.forEach((element) => {
                 const fieldsData = element.cell_val?.fields;
                 processFieldsData(fieldsData);
-            })
+            });
         });
     } else if (file === INTRAAMERICANFILECARD) {
         CARDS_INTRAAMERICAN_COLLECTION.forEach((value) => {
             value.children.forEach((element) => {
                 const fieldsData = element.cell_val?.fields;
                 processFieldsData(fieldsData);
-            })
+            });
         });
     } else if (file === ALLVOYAGESFILECARD) {
         CARDS_ALLVOYAGES_COLLECTION.forEach((value) => {
             value.children.forEach((element) => {
                 const fieldsData = element.cell_val?.fields;
                 processFieldsData(fieldsData);
-            })
+            });
         });
     }
     else if (file === ENSLAVED_african_origins_CARDFILE) {
@@ -104,7 +104,7 @@ export const TableAndCardCollectionsOptions = (file?: string): Record<string, an
             value.children.forEach((element) => {
                 const fieldsData = element.cell_val?.fields;
                 processFieldsData(fieldsData);
-            })
+            });
         });
     }
     else if (file === ENSLAVED_ALL_CARDFILE) {
@@ -112,7 +112,7 @@ export const TableAndCardCollectionsOptions = (file?: string): Record<string, an
             value.children.forEach((element) => {
                 const fieldsData = element.cell_val?.fields;
                 processFieldsData(fieldsData);
-            })
+            });
         });
     }
     else if (file === ENSLAVERSCARDFILE) {
@@ -120,7 +120,7 @@ export const TableAndCardCollectionsOptions = (file?: string): Record<string, an
             value.children.forEach((element) => {
                 const fieldsData = element.cell_val?.fields;
                 processFieldsData(fieldsData);
-            })
+            });
         });
     }
     return columnObject;

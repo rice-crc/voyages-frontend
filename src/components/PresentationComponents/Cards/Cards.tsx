@@ -124,7 +124,7 @@ const VoyageCard = () => {
 
   const fetchData = async () => {
     const ID = networkID || cardRowID;
-    // console.log({ID, ENSLAVEDNODE});
+
     try {
       let response = null;
 
@@ -149,7 +149,6 @@ const VoyageCard = () => {
 
 
       if (response) {
-
         setCardData(response.data);
       }
     } catch (error) {

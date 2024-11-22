@@ -20,7 +20,7 @@ export default function LanguagesDropdown() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { languageValueLabel } = useSelector((state: RootState) => state.getLanguages);
-  const { styleName: styleNameRoute, endpointPathEstimate } = usePageRouter()
+  const { styleName: styleNameRoute, endpointPathEstimate, endpointPath } = usePageRouter()
   const post = useSelector(
     (state: RootState) => state.getBlogData.post as BlogDataProps
   );
@@ -47,20 +47,13 @@ export default function LanguagesDropdown() {
   };
 
   let colorText = '#ffffff'
-  if (endpointPathEstimate === 'estimates') {
+  if (endpointPathEstimate === 'estimates' || endpointPath === 'contribute') {
     colorText = '#ffffff'
   } else if (styleNameRoute === '' || styleNameRoute === 'PastHomePage') {
     colorText = 'rgba(0, 0, 0, 0.85)'
   }
+  const fontSize = '0.8rem'
 
-  let fontSize = '0.80rem'
-  if (styleNameRoute === 'PastHomePage') {
-    fontSize = '1rem'
-  } else if (!styleNameRoute) {
-    fontSize = '1rem'
-  } else if (styleNameRoute === 'estimates') {
-    fontSize = '1rem'
-  }
   return (
     <div className="select-languages">
       <Button
