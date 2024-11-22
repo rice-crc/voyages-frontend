@@ -1,9 +1,9 @@
 .contribuite-main-content {
-     margin: 1rem 3rem;
+     margin: 0 2rem;
+     display: flex;
     .contribute-sidebar {
-        width: 20%;
-        padding: 15px;
-        position: fixed;
+        width: 25%;
+        padding:15px 15px 0 15px;
     }
 
     .contribute-sidebar ul {
@@ -20,8 +20,8 @@
 
     /* ContributeContent.css */
     .contribute-content {
-        margin-left: 22%;
-        padding: 20px;
+        width: 70%;
+        padding: 15px 15px 0 15px;
 
         .page-title-1 {
             font-weight: bold;
@@ -49,6 +49,13 @@
             margin-top: 0;
             margin-bottom: 1rem;
         }
+        .sign-in-form-submit {
+            padding: 1rem;
+            background-color: #FFF8CE;
+            border-top: 1px solid #DDCA9D;
+            border-bottom: 1px solid #DDCA9D;
+        }
+     
       
         label {
             display: block;
@@ -56,9 +63,9 @@
         }
 
         input {
-            width: 100%;
-            padding: 8px;
+            padding: 6px;
             margin-top: 5px;
+            margin-left: 8px;
         }
 
         button {
@@ -67,6 +74,8 @@
             color: white;
             border: none;
             cursor: pointer;
+            border-radius: 4px;
+            margin: 6px 0;
         }
 
         button:hover {
