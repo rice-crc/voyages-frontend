@@ -11,6 +11,7 @@ import { theme } from '@/styleMUI/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   ABOUTPAGE,
+  ACCOUNTS,
   AFRICANORIGINSPAGE,
   ALLENSLAVEDPAGE,
   ALLVOYAGESPAGE,
@@ -146,9 +147,6 @@ const App: React.FC = () => {
               path={`${ASSESSMENT}/${ESTIMATES}/`}
               element={<Estimates />}
             />
-
-
-            {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}
             <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
             <Route path={`${BLOGPAGE}/`} element={<BlogPage />} />
             <Route path={`${BLOGPAGE}/tag/${blogURL}`} element={<BlogPage />} />
@@ -165,9 +163,16 @@ const App: React.FC = () => {
               path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
               element={<InstitutionAuthorsPage />}
             />
-
+             <Route
+              path={`${ACCOUNTS}signin`}
+              element={<ContributePage />}
+            />
+             <Route
+              path={`${ACCOUNTS}signup`}
+              element={<ContributePage />}
+            />
             <Route
-              path={`${CONTRIBUTE}`}
+              path={`${CONTRIBUTE}guidelines`}
               element={<ContributePage />}
             />
             <Route

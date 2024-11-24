@@ -5,6 +5,10 @@
         width: 25%;
         padding:15px 15px 0 15px;
     }
+    .sidebar-button{
+        color: rgb(25, 118, 210);
+        cursor: pointer;
+    }
 
     .contribute-sidebar ul {
         list-style: none;
@@ -17,6 +21,14 @@
         display: block;
         margin: 10px 0;
     }
+    .contribute-sidebar li span {
+        text-decoration: none;
+        color: rgb(25, 118, 210);
+        display: block;
+        margin: 10px 0;
+        cursor: pointer;
+    }
+
 
     /* ContributeContent.css */
     .contribute-content {
@@ -56,10 +68,15 @@
             border-bottom: 1px solid #DDCA9D;
         }
      
-      
         label {
             display: block;
             margin: 10px 0;
+        }
+        .label-signup{
+            margin-right: 1.5rem;
+            color: #000;
+            font-size: 0.95rem;
+            font-weight: 600;
         }
 
         input {
@@ -76,11 +93,23 @@
             cursor: pointer;
             border-radius: 4px;
             margin: 6px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img{
+                border-radius: 50%;
+                margin-right: 4px;
+            }
         }
 
         button:hover {
             background-color: #0056b3;
         }
 
+        .create-account{
+            color: rgb(25, 118, 210);
+            cursor: pointer;
+        }
     }
+    
 }

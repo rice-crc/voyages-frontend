@@ -1,13 +1,20 @@
 // Sidebar.tsx
 import React from 'react';
 import '@/style/contributeContent.scss';
+import {Link} from 'react-router-dom';
+import {ACCOUNTS, CONTRIBUTE} from '@/share/CONST_DATA';
+interface SidebarContributeProps{
+  handleClickGuidelines: ()=>void
+  handleSignInClick: () => void
+}
 
-const SidebarContribute: React.FC = () => {
+const SidebarContribute: React.FC<SidebarContributeProps> = ({handleClickGuidelines,handleSignInClick}) => {
+
   return (
     <div className="contribute-sidebar">
       <ul>
-        <li><a href="#guidelines">Guidelines for Contributors</a></li>
-        <li><a href="#sign-in">Sign In</a></li>
+      <li><span onClick={handleClickGuidelines}>Guidelines for Contributors</span></li> 
+      <li><span onClick={handleSignInClick}>Sign In</span></li> 
       </ul>
     </div>
   );

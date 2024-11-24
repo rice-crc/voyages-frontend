@@ -5,9 +5,10 @@ import '@/style/contributeContent.scss';
 
 // Define types for form values
 interface SignInFormProps {
-    nextPath?: string; // Optional prop for "next" hidden field
+    nextPath?: string; 
+    handleSignUpClick: () => void
   }
-  const SignInForm: React.FC<SignInFormProps> = ({ nextPath = '/contribute/legal' }) => {
+  const SignInForm: React.FC<SignInFormProps> = ({ nextPath = '/contribute/legal',handleSignUpClick }) => {
     const [formValues, setFormValues] = useState({
         email: '',
         password: '',
@@ -28,7 +29,6 @@ interface SignInFormProps {
     e.preventDefault();
     // Simulate form submission
     console.log('Form submitted:', formValues);
-    // Perform the actual POST request to /accounts/login/ if required
   };
 
   const handleGoogleSignIn = () => {
@@ -111,24 +111,22 @@ interface SignInFormProps {
           </tr>
         </tbody>
       </table>
-
-      {/* Next Path */}
       <input type="hidden" name="next" value={nextPath} />
 
-      {/* Submit Button */}
       <button type="submit" className="local_account_login_btn">
         Sign in
       </button>
     </form>
-      <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+      <button onClick={handleGoogleSignIn}>
+      <img src="https://www.slavevoyages.org/static/images/site/google_logo.png" width="16px" height="16px"/>
+        Sign in with Google</button>
       <p>
-        If you don't have an account, <a href="#create-account">Create an Account</a>.
+        If you don't have an account, <span className="create-account" onClick={handleSignUpClick}>Create an Account</span>.
       </p>
       <p>
         Forgot your password? <a href="#retrieve-password">Retrieve Password</a>.
       </p>
       </div>
-      
     </div>
   );
 };

@@ -3,8 +3,8 @@ import { resetAll } from '@/redux/resetAllSlice';
 import { AppDispatch } from '@/redux/store';
 import '@/style/landing.scss';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { Interface } from 'readline';
+import {  useNavigate } from 'react-router-dom';
+
 interface ListBtnItem {
     name: string
     url: string
