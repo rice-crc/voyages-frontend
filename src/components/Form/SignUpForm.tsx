@@ -111,7 +111,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
       <h1 className="page-title-1"> Sign-up</h1>
       <Typography sx={{ mb: 3 }}>
         Already have an account? Then please{' '}
-        <Link href="/sign-in" underline="hover">
+        <Link href="/accounts/signin" underline="hover">
           sign in
         </Link>
       </Typography>
@@ -120,7 +120,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           <Typography
             className="label-signup"
             sx={{ width: 150 }}
-          
+
             component="label"
             htmlFor="email"
           >
@@ -137,11 +137,11 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
             helperText={errors.email}
           />
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center'}}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             className="label-signup"
             sx={{ width: 150 }}
-          
+
             component="label"
             htmlFor="email"
           >
@@ -161,7 +161,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             sx={{ width: 150 }}
-          
+
             component="label"
             htmlFor="email"
             className="label-signup"
@@ -182,7 +182,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             sx={{ width: 150 }}
-          
+
             component="label"
             htmlFor="email"
             className="label-signup"
@@ -204,7 +204,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             sx={{ width: 150 }}
-          
+
             component="label"
             htmlFor="email"
             className="label-signup"
@@ -228,7 +228,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             sx={{ width: 150 }}
-          
+
             component="label"
             htmlFor="email"
             className="label-signup"
@@ -237,7 +237,8 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           </Typography>
 
           <img
-            src="/api/placeholder/100/40"
+            // src will need backend generate code
+            src="https://www.slavevoyages.org/captcha/image/e0b62a73d783d2c899785d6115778d872cbd5d52/"
             alt="Captcha"
             style={{
               backgroundColor: '#f0f0f0',
@@ -281,7 +282,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
             </Typography>
           </Paper>
           <FormControlLabel
-            
+
             control={
               <Checkbox
                 name="agreeToTerms"
@@ -300,7 +301,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             sx={{ width: 150 }}
-          
+
             component="label"
             htmlFor="email"
             className="label-signup"
@@ -324,7 +325,6 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             sx={{ width: 150 }}
-            //
             component="label"
             htmlFor="email"
             className="label-signup"
@@ -346,8 +346,8 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           />
         </Box>
         <button type="submit" >
-        Sign-up
-      </button>
+          Sign-up
+        </button>
       </Box>
     </div>
   );

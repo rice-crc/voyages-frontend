@@ -25,12 +25,15 @@ const AuthorInfo: React.FC = () => {
 
   const fetchDataBlog = async () => {
     const filters: BlogFilter[] = [];
-    if ([parseInt(ID!)]) {
-      filters.push({
-        varName: "id",
-        searchTerm: [parseInt(ID!)],
-        "op": "in"
-      })
+    if (ID) {
+      const parsedID = parseInt(ID);
+      if (!isNaN(parsedID)) {
+        filters.push({
+          varName: "id",
+          searchTerm: [parsedID],
+          op: "in"
+        });
+      }
     }
     const dataSend: BlogDataPropsRequest = {
       filter: filters || [],

@@ -163,16 +163,32 @@ const App: React.FC = () => {
               path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
               element={<InstitutionAuthorsPage />}
             />
-             <Route
+            <Route
+              path={`${CONTRIBUTE}`}
+              element={<ContributePage />}
+            />
+            <Route
               path={`${ACCOUNTS}signin`}
               element={<ContributePage />}
             />
-             <Route
+            <Route
               path={`${ACCOUNTS}signup`}
               element={<ContributePage />}
             />
             <Route
+              path={`${ACCOUNTS}password/reset`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${ACCOUNTS}logout`}
+              element={<ContributePage />}
+            />
+            <Route
               path={`${CONTRIBUTE}guidelines`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${CONTRIBUTE}legal`}
               element={<ContributePage />}
             />
             <Route
