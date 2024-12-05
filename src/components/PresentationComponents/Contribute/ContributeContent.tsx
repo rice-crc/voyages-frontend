@@ -6,9 +6,14 @@ import PasswordReset from "@/components/Form/PasswordRestForm";
 import { Link } from "react-router-dom";
 import { useNavigation } from "@/hooks/useNavigation";
 import { usePageRouter } from "@/hooks/usePageRouter";
-import TermsAndConditions from "./TermsAndConditions";
-import SignOut from "./SignOut";
+import TermsAndConditions from "../../Form/TermsAndConditions";
+import SignOut from "../../Form/SignOut";
 import ContributeHomeWelcome from "./ContributeHomeWelcome";
+import PasswordChangeForm from "@/components/Form/PasswordChangeForm";
+import EditExistingVoyage from "@/components/Form/EditExistingVoyage";
+import MergeVoyages from "@/components/Form/MergeVoyages";
+import RecommendVoyageDeletion from "@/components/Form/RecommendVoyageDeletion";
+import NewVoyage from "@/components/Form/NewVoyage";
 
 const ContributeContent: React.FC = () => {
   const {
@@ -16,7 +21,7 @@ const ContributeContent: React.FC = () => {
     handleResetPasswordClick,
   } = useNavigation();
   const { contributePath, endpointPath } = usePageRouter()
-  console.log({ endpointPath })
+  console.log({ contributePath })
 
   let displayContent;
 
@@ -52,10 +57,19 @@ const ContributeContent: React.FC = () => {
     displayContent = <TermsAndConditions />
   } else if (contributePath === 'logout') {
     displayContent = <SignOut />
+  } else if (contributePath === 'password_change') {
+    displayContent = <PasswordChangeForm />
+  } else if (contributePath === 'interim') {
+    displayContent = <NewVoyage />
+  } else if (contributePath === 'edit_voyage') {
+    displayContent = <EditExistingVoyage />
+  } else if (contributePath === 'merge_voyages') {
+    displayContent = <MergeVoyages />
+  } else if (contributePath === 'delete_voyage') {
+    displayContent = <RecommendVoyageDeletion />
   } else if (endpointPath === 'contribute') {
     displayContent = <ContributeHomeWelcome />
   }
-
   return displayContent
 
 };

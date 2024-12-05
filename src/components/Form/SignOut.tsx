@@ -3,8 +3,7 @@ import '@/style/contributeContent.scss';
 import { Button } from '@mui/material';
 
 const SignOut: React.FC = () => {
-    const { handleConfirmSignOut
-    } = useNavigation();
+    const { handleConfirmSignOut } = useNavigation();
     return (
         <div className="contribute-content">
             <h1 className="page-title-1">Sign Out</h1>

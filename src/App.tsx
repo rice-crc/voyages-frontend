@@ -168,6 +168,10 @@ const App: React.FC = () => {
               element={<ContributePage />}
             />
             <Route
+              path={`${CONTRIBUTE}guidelines`}
+              element={<ContributePage />}
+            />
+            <Route
               path={`${ACCOUNTS}signin`}
               element={<ContributePage />}
             />
@@ -184,11 +188,27 @@ const App: React.FC = () => {
               element={<ContributePage />}
             />
             <Route
-              path={`${CONTRIBUTE}guidelines`}
+              path={`${ACCOUNTS}password_change`}
               element={<ContributePage />}
             />
             <Route
               path={`${CONTRIBUTE}legal`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${CONTRIBUTE}interim/new/`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${CONTRIBUTE}edit_voyage`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${CONTRIBUTE}merge_voyages`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${CONTRIBUTE}delete_voyage`}
               element={<ContributePage />}
             />
             <Route

@@ -3,6 +3,7 @@ import { ACCOUNTS, CONTRIBUTE } from '@/share/CONST_DATA';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '@/redux/getAuthUserSlice';
 import { RootState } from '@/redux/store';
+import { usePageRouter } from './usePageRouter';
 
 interface UseNavigationReturn {
     handleClickGuidelines: () => void;
@@ -12,6 +13,7 @@ interface UseNavigationReturn {
     handleLogout: () => void;
     handleConfirmSignOut: () => void
     handleAcceptTeams: () => void
+    handleClickSideBar: (path: string) => void
 }
 
 export const useNavigation = (): UseNavigationReturn => {
@@ -26,6 +28,14 @@ export const useNavigation = (): UseNavigationReturn => {
     const handleSignUpClick = () => handleNavigate(`/${ACCOUNTS}signup`);
     const handleResetPasswordClick = () => handleNavigate(`/${ACCOUNTS}password/reset`);
     const handleAcceptTeams = () => handleNavigate(`/${CONTRIBUTE}`);
+    const handleClickSideBar = (path: string) => {
+        if (!path) {
+            handleNavigate(`/${CONTRIBUTE}`);
+        } else {
+            handleNavigate(`${path}`);
+        }
+
+    }
 
     const handleLogout = () => {
         handleNavigate(`/${ACCOUNTS}logout`);
@@ -40,6 +50,6 @@ export const useNavigation = (): UseNavigationReturn => {
         handleSignInClick,
         handleSignUpClick,
         handleResetPasswordClick,
-        handleLogout, handleConfirmSignOut, handleAcceptTeams
+        handleLogout, handleConfirmSignOut, handleAcceptTeams, handleClickSideBar
     };
 };

@@ -25,7 +25,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ nextPath = '/contribute/legal' 
   });
   const mockUser = {
     email: 'meow@test.com',
-    userName: 'Merry',
+    userName: 'Thasanee',
     token: '$12345',
   };
 

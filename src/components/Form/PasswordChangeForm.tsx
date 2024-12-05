@@ -1,32 +1,29 @@
 import React, { useState } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
 
-interface PasswordResetProp {
-    handleResetPassword: () => void
-}
 
-const PasswordReset: React.FC<PasswordResetProp> = ({ handleResetPassword }) => {
-    const [email, setEmail] = useState<string>("");
 
+const PasswordChangeForm = () => {
+    const [password, setPassword] = useState<string>("");
+    const [passwordAgain, setPasswordAgain] = useState<string>("");
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        console.log("Password reset email sent to:", email);
+        if (password === passwordAgain) {
+            alert(`Sucessfully password change`)
+        } else {
+            alert(`Password is not match, try again`)
+        }
     };
 
     return (
         <Box
             sx={{
-                margin: "0 auto",
                 padding: "2rem",
                 textAlign: "left",
             }}
         >
             <Typography variant="h4" gutterBottom>
-                Password Reset
-            </Typography>
-            <Typography variant="body1" sx={{ mb: 2 }}>
-                Forgotten your password? Enter your e-mail address below, and we'll send
-                you an e-mail allowing you to reset it.
+                Set Password
             </Typography>
             <form onSubmit={handleSubmit}>
                 <Box sx={{ mb: 3 }}>
@@ -38,11 +35,28 @@ const PasswordReset: React.FC<PasswordResetProp> = ({ handleResetPassword }) => 
                                 padding: "0 8px",
                             },
                         }}
-                        label="E-mail address"
+                        label="Password"
                         variant="outlined"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </Box>
+                <Box sx={{ mb: 3 }}>
+                    <TextField
+                        sx={{ width: 300 }}
+                        InputProps={{
+                            sx: {
+                                height: 42,
+                                padding: "0 8px",
+                            },
+                        }}
+                        label="Password (again)"
+                        variant="outlined"
+                        type="password"
+                        value={passwordAgain}
+                        onChange={(e) => setPasswordAgain(e.target.value)}
                         required
                     />
                 </Box>
@@ -53,6 +67,7 @@ const PasswordReset: React.FC<PasswordResetProp> = ({ handleResetPassword }) => 
                     sx={{
                         backgroundColor: "rgb(25, 118, 210 ,10)",
                         color: "#fff",
+
                         height: 32,
                         fontSize: '0.85rem',
                         textTransform: 'none',
@@ -61,14 +76,11 @@ const PasswordReset: React.FC<PasswordResetProp> = ({ handleResetPassword }) => 
                         },
                     }}
                 >
-                    Reset My Password
+                    Reset Password
                 </Button>
             </form>
-            <Typography variant="body1" sx={{ mt: 2 }}>
-                Please contact us if you have any trouble resetting your password.
-            </Typography>
         </Box>
     );
 };
 
-export default PasswordReset;
+export default PasswordChangeForm;
