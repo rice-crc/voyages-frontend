@@ -11,7 +11,7 @@ const AuthorPostList: React.FC = () => {
   const { authorPost } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
-  const { language: Lang } = useSelector(
+  const { languageValue: Lang } = useSelector(
     (state: RootState) => state.getLanguages
   );
 
