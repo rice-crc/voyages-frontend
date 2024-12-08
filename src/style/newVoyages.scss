@@ -1,0 +1,44 @@
+.form_help_text {
+    color: gray;
+}
+
+.form-contribute {
+    margin-bottom: 14px;
+
+
+}
+
+.form-contribute-label {
+    color: #212529;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.collapse-container {
+    padding: 1rem 0 1rem 0;
+}
+
+.collapse-title {
+    color: rgb(25, 118, 210) !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+}
+
+.custom-collapse {
+    .ant-collapse-item {
+        .ant-collapse-header {
+            padding: 0;
+            color: rgb(25, 118, 210);
+            font-size: 1.25rem !important;
+            font-weight: 700 !important;
+        }
+
+        .ant-collapse-content {
+            .ant-collapse-content-box {
+                border: 1px solid #d5d0d0;
+                border-radius: 3px;
+            }
+        }
+    }
+
+}

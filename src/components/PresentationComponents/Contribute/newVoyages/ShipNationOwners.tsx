@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
-import { Box, TextField, MenuItem, Button } from '@mui/material';
-import { Input, TreeSelect } from 'antd';
+import React, { useState } from "react";
+import { Modal, Button, Form, Input, Typography, Select, TreeSelect, Table } from "antd";
+import { Box, IconButton } from "@mui/material";
+import CommentIcon from "@mui/icons-material/Comment";
+import TextArea from "antd/es/input/TextArea";
+import "@/style/newVoyages.scss";
+import CommentBox from "../CommentBox";
+import { convertToSlug } from "@/utils/functions/convertToSlug";
 
 interface ShipData {
     name: string;
@@ -9,44 +14,74 @@ interface ShipData {
     constructionYear: string;
     registrationYear: string;
     nationalCarrier: string;
-    vesselSize: string;
+    rigOfVessel: string;
+    tonOfVessel: string;
     tonDefinition: string;
     gunsMounted: string;
     firstOwner: string;
     secondOwner: string;
     otherOwners: string;
-    cargo: { type: string; unit: string; amount: string }[];
+    cargo: Cargo[];
 }
 
+interface Cargo {
+    type: string;
+    unit: string;
+    amount: string;
+}
 
 const ShipNationOwners: React.FC = () => {
     const [shipData, setShipData] = useState<ShipData>({
-        name: '',
-        constructionPlace: '',
-        registrationPlace: '',
-        constructionYear: '',
-        registrationYear: '',
-        nationalCarrier: '',
-        vesselSize: '',
-        tonDefinition: '',
-        gunsMounted: '',
-        firstOwner: '',
-        secondOwner: '',
-        otherOwners: '',
-        cargo: [{ type: '', unit: '', amount: '' }],
+        name: "",
+        constructionPlace: "",
+        registrationPlace: "",
+        constructionYear: "",
+        registrationYear: "",
+        nationalCarrier: "",
+        rigOfVessel: "",
+        tonOfVessel: "",
+        tonDefinition: "",
+        gunsMounted: "",
+        firstOwner: "",
+        secondOwner: "",
+        otherOwners: "",
+        cargo: [{ type: "", unit: "", amount: "" }],
     });
 
-    const handleChange = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [newCargo, setNewCargo] = useState<Cargo>({ type: "", unit: "", amount: "" });
+    const [visibleCommentField, setVisibleCommentField] = useState<string | null>(null);
+    const [comments, setComments] = useState<{ [key: string]: string }>({});
+    console.log({ visibleCommentField })
+
+    const treeData = [
+        {
+            title: "Africa",
+            value: "Africa",
+            children: [
+                {
+                    title: "Senegalambia and offshore Atlantic",
+                    value: "Africa > Senegalambia and offshore Atlantic",
+                    children: [
+                        {
+                            title: "Albreda",
+                            value: "Africa > Senegalambia and offshore Atlantic > Albreda",
+                        },
+                    ],
+                },
+            ],
+        },
+    ];
+
+    const handleInputChange = (field: keyof ShipData, value: string) => {
         setShipData({
             ...shipData,
-            [event.target.name]: event.target.value,
+            [field]: value,
         });
     };
 
     const handleTreeSelect = (
-        field: 'constructionPlace' | 'registrationPlace',
+        field: "constructionPlace" | "registrationPlace",
         value: string
     ) => {
         setShipData({
@@ -55,158 +90,461 @@ const ShipNationOwners: React.FC = () => {
         });
     };
 
-    const handleCargoChange = (
-        index: number,
-        field: 'type' | 'unit' | 'amount',
-        value: string
-    ) => {
-        setShipData({
-            ...shipData,
-            cargo: shipData.cargo.map((item, i) =>
-                i === index ? { ...item, [field]: value } : item
-            ),
+    const handleNewCargoChange = (field: keyof Cargo, value: string) => {
+        setNewCargo({
+            ...newCargo,
+            [field]: value,
         });
     };
 
     const handleAddCargo = () => {
         setShipData({
             ...shipData,
-            cargo: [...shipData.cargo, { type: '', unit: '', amount: '' }],
+            cargo: [...shipData.cargo, newCargo],
         });
+        setNewCargo({ type: "", unit: "", amount: "" }); // Reset the form
+        setIsModalOpen(false);
     };
 
     const handleDeleteCargo = (index: number) => {
-        setShipData({
-            ...shipData,
-            cargo: shipData.cargo.filter((_, i) => i !== index),
+        const updatedCargo = shipData.cargo.filter((_, i) => i !== index);
+        setShipData({ ...shipData, cargo: updatedCargo });
+    };
+
+    const toggleCommentBox = (field: string) => {
+        setVisibleCommentField(visibleCommentField === field ? null : field);
+    };
+
+    const handleCommentChange = (field: string, value: string) => {
+        setComments({
+            ...comments,
+            [field]: value,
         });
     };
 
-    const treeData = [
+    const cargoColumns = [
         {
-            title: 'Africa',
-            value: 'Africa',
-            children: [
-                {
-                    title: 'Senegalambia and offshore Atlantic',
-                    value: 'Africa > Senegalambia and offshore Atlantic',
-                    children: [
-                        {
-                            title: 'Albreda',
-                            value: 'Africa > Senegalambia and offshore Atlantic > Albreda',
-                        },
-                    ],
-                },
-            ],
+            title: "Cargo Type",
+            dataIndex: "type",
+            key: "type",
+        },
+        {
+            title: "Unit",
+            dataIndex: "unit",
+            key: "unit",
+        },
+        {
+            title: "Amount",
+            dataIndex: "amount",
+            key: "amount",
+        },
+        {
+            title: "Actions",
+            key: "actions",
+            render: (_: any, record: Cargo, index: number) => (
+                <Button danger onClick={() => handleDeleteCargo(index)}>
+                    Delete
+                </Button>
+            ),
         },
     ];
 
 
     return (
-        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Box sx={{ m: '10px 0' }}>
-                <label htmlFor="name" style={{ fontWeight: 'bold' }}>Name of vessel:</label>
-                <Input id="name" name="name" value={shipData.name} onChange={handleChange} />
-            </Box>
-            <label htmlFor="constructionPlace" style={{ fontWeight: 'bold' }}>Place where ship constructed:</label>
-            <TreeSelect
-                placeholder="Select place where ship constructed"
-                value={shipData.constructionPlace}
-                onChange={(value) => handleTreeSelect('constructionPlace', value)}
-                treeData={treeData}
-                treeDefaultExpandAll
-            />
-            <label htmlFor="registrationPlace" style={{ fontWeight: 'bold' }}>Place where ship registered:</label>
-            <TreeSelect
-                placeholder="Select place where ship registered"
-                value={shipData.registrationPlace}
-                onChange={(value) => handleTreeSelect('registrationPlace', value)}
-                treeData={treeData}
-                treeDefaultExpandAll
-            />
-            <Box sx={{ m: '10px 0' }}>
-                <label htmlFor="name" style={{ fontWeight: 'bold' }}>Year of ship construction:</label>
-                <Input id="constructionYear" name="constructionYear" value={shipData.constructionYear} onChange={handleChange} />
-            </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%", margin: "auto" }}>
+            <Form layout="vertical">
+                <Form.Item label={<span className="form-contribute-label">Name of vessel:</span>} className="form-contribute">
+                    <Box sx={{ display: "flex", alignItems: "center", position: "relative" }}>
+                        <Input
+                            type="text"
+                            value={shipData.name}
+                            onChange={(e) => handleInputChange("name", e.target.value)}
+                            style={{ width: 'calc(100% - 20px)' }}
+                        />
+                        <IconButton
+                            onClick={() => toggleCommentBox("name")}
+                            sx={{
+                                position: "absolute",
+                                right: "-15px",
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                            }}
+                            aria-label="add comment"
+                        >
+                            <CommentIcon />
+                        </IconButton>
+                    </Box>
+                    <CommentBox
+                        isVisible={visibleCommentField === "name"}
+                        value={comments["vesselType"] || ""}
+                        onChange={(value) => handleCommentChange("vesselType", value)}
+                    />
+                </Form.Item>
 
-            <Box sx={{ m: '10px 0' }}>
-                <label htmlFor="name" style={{ fontWeight: 'bold' }}>Year of ship registrationn:</label>
-                <Input id="registrationYear" name="registrationYear" value={shipData.registrationYear} onChange={handleChange} />
-            </Box>
+                <Form.Item label={<span className="form-contribute-label">Place where ship constructed:</span>} className="form-contribute">
+                    <TreeSelect
+                        placeholder="Select place where ship constructed"
+                        value={shipData.constructionPlace}
+                        onChange={(value) => handleTreeSelect("constructionPlace", value)}
+                        treeData={treeData}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        treeDefaultExpandAll
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("constructionPlace")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "constructionPlace"}
+                        value={comments["constructionPlace"] || ""}
+                        onChange={(value) => handleCommentChange("constructionPlace", value)}
+                    />
+                </Form.Item>
+                <Form.Item label={<span className="form-contribute-label">Place where ship registered:</span>} className="form-contribute">
+                    <TreeSelect
+                        placeholder="Select place where ship registered"
+                        value={shipData.registrationPlace}
+                        onChange={(value) => handleTreeSelect("registrationPlace", value)}
+                        treeData={treeData}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        treeDefaultExpandAll
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("registrationPlace")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "registrationPlace"}
+                        value={comments["registrationPlace"] || ""}
+                        onChange={(value) => handleCommentChange("registrationPlace", value)}
+                    />
+                </Form.Item>
+                <Form.Item label={<span className="form-contribute-label">Year of ship construction:</span>} className="form-contribute">
+                    <Input
+                        type="number"
+                        value={shipData.constructionYear}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        onChange={(e) => handleInputChange("constructionYear", e.target.value)}
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("constructionYear")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "constructionYear"}
+                        value={comments["constructionYear"] || ""}
+                        onChange={(value) => handleCommentChange("constructionYear", value)}
+                    />
+                </Form.Item>
+                <Form.Item label={<span className="form-contribute-label">Year of ship registration:</span>} className="form-contribute">
+                    <Input
+                        type="number"
+                        value={shipData.registrationYear}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        onChange={(e) => handleInputChange("registrationYear", e.target.value)}
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("registrationYear")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "registrationYear"}
+                        value={comments["registrationYear"] || ""}
+                        onChange={(value) => handleCommentChange("registrationYear", value)}
+                    />
+                </Form.Item>
+                <Form.Item label={<span className="form-contribute-label">National carrier:</span>} className="form-contribute">
+                    <Select
+                        placeholder="Select national carrier"
+                        value={shipData.nationalCarrier}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        onChange={(value) => setShipData({ ...shipData, nationalCarrier: value })}
+                        options={[
+                            { value: "Denmark", label: "Denmark" },
+                            { value: "Argentina", label: "Argentina" },
+                        ]}
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("nationalCarrier")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "nationalCarrier"}
+                        value={comments["nationalCarrier"] || ""}
+                        onChange={(value) => handleCommentChange("nationalCarrier", value)}
+                    />
+                    <p className="form_help_text">
+                        If not country of registration, use the comments box to explain coding.
+                    </p>
+                </Form.Item>
+                <Form.Item label={<span className="form-contribute-label">Rig of vessel:</span>} className="form-contribute">
+                    <Select
+                        placeholder="Select rig of vessel"
+                        value={shipData.rigOfVessel}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        onChange={(value) => setShipData({ ...shipData, rigOfVessel: value })}
+                        options={[
+                            { value: "Balandra", label: "Balandra" },
+                            { value: "Barca", label: "Barca" },
+                        ]}
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("rigOfVessel")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "rigOfVessel"}
+                        value={comments["rigOfVessel"] || ""}
+                        onChange={(value) => handleCommentChange("rigOfVessel", value)}
+                    />
+                </Form.Item>
+                <Form.Item label={<span className="form-contribute-label">Tonnage of vessel:</span>} className="form-contribute">
+                    <Input
+                        type="number"
+                        value={shipData.tonOfVessel}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        onChange={(e) => handleInputChange("tonOfVessel", e.target.value)}
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("tonOfVessel")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "tonOfVessel"}
+                        value={comments["tonOfVessel"] || ""}
+                        onChange={(value) => handleCommentChange("tonOfVessel", value)}
+                    />
+                </Form.Item>
+                <Form.Item label={<span className="form-contribute-label">Definition of ton:</span>} className="form-contribute">
+                    <Select
+                        placeholder="Select definition of ton"
+                        value={shipData.tonDefinition}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        onChange={(value) => setShipData({ ...shipData, tonDefinition: value })}
+                        options={[
+                            { value: "Argentinian", label: "Argentinian" },
+                            { value: "Brazilian", label: "Brazilian" },
+                        ]}
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("tonDefinition")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "tonDefinition"}
+                        value={comments["tonDefinition"] || ""}
+                        onChange={(value) => handleCommentChange("tonDefinition", value)}
+                    />
 
-            <TextField
-                label="National carrier"
-                name="nationalCarrier"
-                value={shipData.nationalCarrier}
-                onChange={handleChange}
-                select
+                </Form.Item>
+                <Form.Item label={<span className="form-contribute-label">Guns mounted:</span>} className="form-contribute">
+                    <Input
+                        type="number"
+                        value={shipData.gunsMounted}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        onChange={(e) => handleInputChange("gunsMounted", e.target.value)}
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("gunsMounted")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "gunsMounted"}
+                        value={comments["gunsMounted"] || ""}
+                        onChange={(value) => handleCommentChange("gunsMounted", value)}
+                    />
+                </Form.Item>
+                <Form.Item label={<span className="form-contribute-label">First or managing owner of venture:</span>} className="form-contribute">
+                    <Input
+                        type="text"
+                        value={shipData.firstOwner}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        onChange={(e) => handleInputChange("firstOwner", e.target.value)}
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("firstOwner")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "firstOwner"}
+                        value={comments["firstOwner"] || ""}
+                        onChange={(value) => handleCommentChange("firstOwner", value)}
+                    />
+                    <p className="form_help_text">Enter last name , first name.</p>
+                </Form.Item>
+                <Form.Item label={<span className="form-contribute-label">Second owner of venture:</span>} className="form-contribute">
+                    <Input
+                        type="text"
+                        value={shipData.secondOwner}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        onChange={(e) => handleInputChange("secondOwner", e.target.value)}
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("secondOwner")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "secondOwner"}
+                        value={comments["secondOwner"] || ""}
+                        onChange={(value) => handleCommentChange("secondOwner", value)}
+                    />
+                    <p className="form_help_text">Enter last name , first name.</p>
+                </Form.Item>
+                <Form.Item label={<span className="form-contribute-label">Other owners:</span>} className="form-contribute">
+                    <TextArea
+                        rows={2}
+                        value={shipData.otherOwners}
+                        style={{ width: 'calc(100% - 20px)' }}
+                        onChange={(e) => handleInputChange("otherOwners", e.target.value)}
+                    />
+                    <IconButton
+                        onClick={() => toggleCommentBox("otherOwners")}
+                        sx={{
+                            position: "absolute",
+                            right: "-15px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                        aria-label="add comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    <CommentBox
+                        isVisible={visibleCommentField === "otherOwners"}
+                        value={comments["otherOwners"] || ""}
+                        onChange={(value) => handleCommentChange("otherOwners", value)}
+                    />
+                </Form.Item>
+            </Form>
+
+            <Typography.Title level={5}>Cargo:</Typography.Title>
+            <Button type="primary" onClick={() => setIsModalOpen(true)} style={{ width: 120 }}>
+                Add Cargo
+            </Button>
+            <Table
+                columns={cargoColumns}
+                dataSource={shipData.cargo.map((cargo, index) => ({ ...cargo, key: index }))}
+                pagination={false}
+            />
+
+            <Modal
+                title="Add Cargo to Voyage"
+                open={isModalOpen}
+                onCancel={() => setIsModalOpen(false)}
+                onOk={handleAddCargo}
+                okText="Confirm"
+                cancelText="Cancel"
             >
-                <MenuItem value="Denmark">Denmark</MenuItem>
-            </TextField>
-            <TextField
-                label="Rig of vessel"
-                name="vesselSize"
-                value={shipData.vesselSize}
-                onChange={handleChange}
-            />
-            <TextField
-                label="Tonnage of vessel"
-                name="tonDefinition"
-                value={shipData.tonDefinition}
-                onChange={handleChange}
-            />
-            <TextField
-                label="Guns mounted"
-                name="gunsMounted"
-                value={shipData.gunsMounted}
-                onChange={handleChange}
-            />
-            <TextField
-                label="First or managing owner of venture"
-                name="firstOwner"
-                value={shipData.firstOwner}
-                onChange={handleChange}
-            />
-            <TextField
-                label="Second owner of venture"
-                name="secondOwner"
-                value={shipData.secondOwner}
-                onChange={handleChange}
-            />
-            <TextField
-                label="Other owners"
-                name="otherOwners"
-                value={shipData.otherOwners}
-                onChange={handleChange}
-            />
-            <Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    {shipData.cargo.map((item, index) => (
-                        <Box key={index} sx={{ display: 'flex', gap: 2 }}>
-                            <TextField
-                                label="Cargo Type"
-                                name={`cargo[${index}].type`}
-                                value={item.type}
-                                onChange={(e) => handleCargoChange(index, 'type', e.target.value)}
-                            />
-                            <TextField
-                                label="Unit"
-                                name={`cargo[${index}].unit`}
-                                value={item.unit}
-                                onChange={(e) => handleCargoChange(index, 'unit', e.target.value)}
-                            />
-                            <TextField
-                                label="Amount"
-                                name={`cargo[${index}].amount`}
-                                value={item.amount}
-                                onChange={(e) => handleCargoChange(index, 'amount', e.target.value)}
-                            />
-                            <Button onClick={() => handleDeleteCargo(index)}>Delete</Button>
-                        </Box>
-                    ))}
-                </Box>
-                <Button onClick={handleAddCargo}>Add Cargo</Button>
-            </Box>
+                <Form layout="vertical">
+                    <Form.Item label="Cargo Type">
+                        <Input
+                            value={newCargo.type}
+                            onChange={(e) => handleNewCargoChange("type", e.target.value)}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Unit">
+                        <Input
+                            value={newCargo.unit}
+                            onChange={(e) => handleNewCargoChange("unit", e.target.value)}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Amount">
+                        <Input
+                            type="number"
+                            value={newCargo.amount}
+                            onChange={(e) => handleNewCargoChange("amount", e.target.value)}
+                        />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </Box>
     );
 };

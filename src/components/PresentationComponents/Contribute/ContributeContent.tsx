@@ -21,7 +21,6 @@ const ContributeContent: React.FC = () => {
     handleResetPasswordClick,
   } = useNavigation();
   const { contributePath, endpointPath } = usePageRouter()
-  console.log({ contributePath })
 
   let displayContent;
 

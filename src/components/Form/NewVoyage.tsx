@@ -1,8 +1,10 @@
 
 import '@/style/contributeContent.scss';
-import { Box, Button, Input, TextField, Typography } from '@mui/material';
-import { Divider } from 'antd';
+import "@/style/newVoyages.scss";
+import { Box, Button, Input, TextField } from '@mui/material';
+import { Collapse, Divider, Typography } from 'antd';
 import { useState } from 'react';
+import type { CollapseProps } from 'antd';
 import ShipNationOwners from '../PresentationComponents/Contribute/newVoyages/ShipNationOwners';
 
 const NewVoyage: React.FC = () => {
@@ -16,6 +18,48 @@ const NewVoyage: React.FC = () => {
         }
     };
 
+    const items: CollapseProps['items'] = [
+        {
+            key: '1',
+            label: <Typography.Title level={4} className='collapse-title'>Ship, Nation, Owners</Typography.Title>,
+            children: <ShipNationOwners />
+        },
+        {
+            key: '2',
+            label: <Typography.Title level={4} className='collapse-title'>Voyage Outcome</Typography.Title>,
+            children: "This is panel header 2",
+        },
+        {
+            key: '3',
+            label: <Typography.Title level={4} className='collapse-title'>Voyage Itinerary</Typography.Title>,
+            children: 'This is panel header 3',
+        },
+        {
+            key: '4',
+            label: <Typography.Title level={4} className='collapse-title'>Voyage Dates</Typography.Title>,
+            children: 'This is panel header 3',
+        },
+        {
+            key: '5',
+            label: <Typography.Title level={4} className='collapse-title'>Captain and Crew</Typography.Title>,
+            children: 'This is panel header 3',
+        },
+        {
+            key: '6',
+            label: <Typography.Title level={4} className='collapse-title'>Slaves (numbers)</Typography.Title>,
+            children: 'This is panel header 3',
+        },
+        {
+            key: '7',
+            label: <Typography.Title level={4} className='collapse-title'> Slaves (characteristics)</Typography.Title>,
+            children: 'This is panel header 3',
+        },
+        {
+            key: '8',
+            label: <Typography.Title level={4} className='collapse-title'> Sources</Typography.Title>,
+            children: 'This is panel header 3',
+        },
+    ];
 
     return (
         <div className="contribute-content">
@@ -31,9 +75,10 @@ const NewVoyage: React.FC = () => {
                     fullWidth
                 />
                 <small className='comment-small'> The comments above are meant for information related to the voyage which does not fit any of the existing fields. For comments meant to the reviewer/editor, please use the contributor's comments at the end of this form or any of the specific field comment boxes.</small>
-                <div>
-                    <ShipNationOwners />
+                <div className='collapse-container'>
+                    <Collapse items={items} bordered={false} ghost className='custom-collapse' />
                 </div>
+
                 <Divider />
                 <TextField
                     label={<small>Contributor’s Comments on This Entry:</small>}
