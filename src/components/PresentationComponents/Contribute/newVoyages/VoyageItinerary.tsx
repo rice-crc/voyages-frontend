@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Modal, Button, Form, Input, Typography, Select, TreeSelect, Table } from "antd";
+import { Form, Input, Select, TreeSelect } from "antd";
 import { Box, IconButton } from "@mui/material";
 import CommentIcon from "@mui/icons-material/Comment";
 import TextArea from "antd/es/input/TextArea";
 import "@/style/newVoyages.scss";
 import CommentBox from "../CommentBox";
-
 
 interface ShipData {
     name: string;
@@ -30,7 +29,7 @@ interface Cargo {
     amount: string;
 }
 
-const ShipNationOwners: React.FC = () => {
+const VoyageItinerary: React.FC = () => {
     const [shipData, setShipData] = useState<ShipData>({
         name: "",
         constructionPlace: "",
@@ -48,8 +47,6 @@ const ShipNationOwners: React.FC = () => {
         cargo: [{ type: "", unit: "", amount: "" }],
     });
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [newCargo, setNewCargo] = useState<Cargo>({ type: "", unit: "", amount: "" });
     const [visibleCommentField, setVisibleCommentField] = useState<string | null>(null);
     const [comments, setComments] = useState<{ [key: string]: string }>({});
 
@@ -89,26 +86,6 @@ const ShipNationOwners: React.FC = () => {
         });
     };
 
-    const handleNewCargoChange = (field: keyof Cargo, value: string) => {
-        setNewCargo({
-            ...newCargo,
-            [field]: value,
-        });
-    };
-
-    const handleAddCargo = () => {
-        setShipData({
-            ...shipData,
-            cargo: [...shipData.cargo, newCargo],
-        });
-        setNewCargo({ type: "", unit: "", amount: "" }); // Reset the form
-        setIsModalOpen(false);
-    };
-
-    const handleDeleteCargo = (index: number) => {
-        const updatedCargo = shipData.cargo.filter((_, i) => i !== index);
-        setShipData({ ...shipData, cargo: updatedCargo });
-    };
 
     const toggleCommentBox = (field: string) => {
         setVisibleCommentField(visibleCommentField === field ? null : field);
@@ -120,34 +97,6 @@ const ShipNationOwners: React.FC = () => {
             [field]: value,
         });
     };
-
-    const cargoColumns = [
-        {
-            title: "Cargo Type",
-            dataIndex: "type",
-            key: "type",
-        },
-        {
-            title: "Unit",
-            dataIndex: "unit",
-            key: "unit",
-        },
-        {
-            title: "Amount",
-            dataIndex: "amount",
-            key: "amount",
-        },
-        {
-            title: "Actions",
-            key: "actions",
-            render: (_: any, record: Cargo, index: number) => (
-                <Button danger onClick={() => handleDeleteCargo(index)}>
-                    Delete
-                </Button>
-            ),
-        },
-    ];
-
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%", margin: "auto" }}>
@@ -504,48 +453,8 @@ const ShipNationOwners: React.FC = () => {
                 </Form.Item>
             </Form>
 
-            <Typography.Title level={5}>Cargo:</Typography.Title>
-            <Button type="primary" onClick={() => setIsModalOpen(true)} style={{ width: 120 }}>
-                Add Cargo
-            </Button>
-            <Table
-                columns={cargoColumns}
-                dataSource={shipData.cargo.map((cargo, index) => ({ ...cargo, key: index }))}
-                pagination={false}
-            />
-
-            <Modal
-                title="Add Cargo to Voyage"
-                open={isModalOpen}
-                onCancel={() => setIsModalOpen(false)}
-                onOk={handleAddCargo}
-                okText="Confirm"
-                cancelText="Cancel"
-            >
-                <Form layout="vertical">
-                    <Form.Item label="Cargo Type">
-                        <Input
-                            value={newCargo.type}
-                            onChange={(e) => handleNewCargoChange("type", e.target.value)}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Unit">
-                        <Input
-                            value={newCargo.unit}
-                            onChange={(e) => handleNewCargoChange("unit", e.target.value)}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Amount">
-                        <Input
-                            type="number"
-                            value={newCargo.amount}
-                            onChange={(e) => handleNewCargoChange("amount", e.target.value)}
-                        />
-                    </Form.Item>
-                </Form>
-            </Modal>
         </Box>
     );
 };
 
-export default ShipNationOwners;
+export default VoyageItinerary;
