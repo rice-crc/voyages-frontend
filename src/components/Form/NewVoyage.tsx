@@ -7,6 +7,7 @@ import { useState } from 'react';
 import type { CollapseProps } from 'antd';
 import ShipNationOwners from '../PresentationComponents/Contribute/newVoyages/ShipNationOwners';
 import VoyageOutcome from '../PresentationComponents/Contribute/newVoyages/VoyageOutcome';
+import VoyageItinerary from '../PresentationComponents/Contribute/newVoyages/VoyageItinerary';
 
 const NewVoyage: React.FC = () => {
     const [voyageId, setVoyageId] = useState<string>("");
@@ -33,7 +34,7 @@ const NewVoyage: React.FC = () => {
         {
             key: '3',
             label: <Typography.Title level={4} className='collapse-title'>Voyage Itinerary</Typography.Title>,
-            children: 'This is panel header 3',
+            children: <VoyageItinerary />,
         },
         {
             key: '4',

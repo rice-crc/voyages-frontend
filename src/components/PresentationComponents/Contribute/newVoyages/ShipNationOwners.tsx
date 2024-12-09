@@ -5,6 +5,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import TextArea from "antd/es/input/TextArea";
 import "@/style/newVoyages.scss";
 import CommentBox from "../CommentBox";
+import { TreeItemProps } from "@mui/lab";
 
 
 interface ShipData {
@@ -53,39 +54,58 @@ const ShipNationOwners: React.FC = () => {
     const [visibleCommentField, setVisibleCommentField] = useState<string | null>(null);
     const [comments, setComments] = useState<{ [key: string]: string }>({});
 
+    const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
+        return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
+    };
+
     const treeData = [
         {
-            title: "Africa",
-            value: "Africa",
+            title: 'Brazil',
+            value: 'brazil',
             children: [
                 {
-                    title: "Senegalambia and offshore Atlantic",
-                    value: "Africa > Senegalambia and offshore Atlantic",
+                    title: 'Amazonia',
+                    value: 'amazonia',
                     children: [
                         {
-                            title: "Albreda",
-                            value: "Africa > Senegalambia and offshore Atlantic > Albreda",
+                            title: 'Portos do Norte',
+                            value: 'portos-do-norte',
                         },
+                    ],
+                },
+            ],
+        },
+        {
+            title: 'Africa',
+            value: 'africa',
+            children: [
+                {
+                    title: 'Senegambia and offshore Atlantic',
+                    value: 'senegambia',
+                    children: [
+                        { title: 'Albreda', value: 'albreda' },
+                        { title: 'Arguim', value: 'arguim' },
+                        { title: 'Bissagos', value: 'bissagos' },
+                        { title: 'Bissau', value: 'bissau' },
+                        { title: 'Cacheu', value: 'cacheu' },
                     ],
                 },
             ],
         },
     ];
 
-    const handleInputChange = (field: keyof ShipData, value: string) => {
-        setShipData({
-            ...shipData,
-            [field]: value,
-        });
-    };
+    const handleInputChange = (field: keyof ShipData, value: string, extra?: any) => {
+        let newValue = value;
 
-    const handleTreeSelect = (
-        field: "constructionPlace" | "registrationPlace",
-        value: string
-    ) => {
+        // If extra is provided (i.e., for TreeSelect), use the full path or value
+        if (extra) {
+            const path = extra?.triggerNode?.path || value;
+            newValue = path;
+        }
+
         setShipData({
             ...shipData,
-            [field]: value,
+            [field]: newValue,
         });
     };
 
@@ -156,6 +176,7 @@ const ShipNationOwners: React.FC = () => {
                     <Box sx={{ display: "flex", alignItems: "center", position: "relative" }}>
                         <Input
                             type="text"
+                            placeholder="Please type name of vessel"
                             value={shipData.name}
                             onChange={(e) => handleInputChange("name", e.target.value)}
                             style={{ width: 'calc(100% - 20px)' }}
@@ -183,11 +204,22 @@ const ShipNationOwners: React.FC = () => {
                 <Form.Item label={<span className="form-contribute-label">Place where ship constructed:</span>} className="form-contribute">
                     <TreeSelect
                         placeholder="Select place where ship constructed"
-                        value={shipData.constructionPlace}
-                        onChange={(value) => handleTreeSelect("constructionPlace", value)}
+                        value={shipData.constructionPlace || undefined}
+                        onChange={(value, label, extra) => handleInputChange("constructionPlace", value, extra)}
                         treeData={treeData}
                         style={{ width: 'calc(100% - 20px)' }}
-                        treeDefaultExpandAll
+                        dropdownStyle={{ overflow: 'auto', zIndex: 1301 }}
+                        loading
+                        showSearch
+                        treeCheckable={true}
+                        allowClear
+                        multiple
+                        treeDefaultExpandAll={false}
+                        maxTagCount={8}
+                        filterTreeNode={filterTreeNode}
+                        maxTagPlaceholder={(selectedValue) =>
+                            `+ ${selectedValue.length} locations ...`
+                        }
                     />
                     <IconButton
                         onClick={() => toggleCommentBox("constructionPlace")}
@@ -210,11 +242,22 @@ const ShipNationOwners: React.FC = () => {
                 <Form.Item label={<span className="form-contribute-label">Place where ship registered:</span>} className="form-contribute">
                     <TreeSelect
                         placeholder="Select place where ship registered"
-                        value={shipData.registrationPlace}
-                        onChange={(value) => handleTreeSelect("registrationPlace", value)}
+                        value={shipData.registrationPlace || undefined}
+                        onChange={(value) => handleInputChange("registrationPlace", value)}
                         treeData={treeData}
                         style={{ width: 'calc(100% - 20px)' }}
-                        treeDefaultExpandAll
+                        dropdownStyle={{ overflow: 'auto', zIndex: 1301 }}
+                        loading
+                        showSearch
+                        treeCheckable={true}
+                        allowClear
+                        multiple
+                        treeDefaultExpandAll={false}
+                        maxTagCount={8}
+                        filterTreeNode={filterTreeNode}
+                        maxTagPlaceholder={(selectedValue) =>
+                            `+ ${selectedValue.length} locations ...`
+                        }
                     />
                     <IconButton
                         onClick={() => toggleCommentBox("registrationPlace")}
@@ -237,6 +280,7 @@ const ShipNationOwners: React.FC = () => {
                 <Form.Item label={<span className="form-contribute-label">Year of ship construction:</span>} className="form-contribute">
                     <Input
                         type="number"
+                        placeholder="Please type year of ship construction"
                         value={shipData.constructionYear}
                         style={{ width: 'calc(100% - 20px)' }}
                         onChange={(e) => handleInputChange("constructionYear", e.target.value)}
@@ -262,6 +306,7 @@ const ShipNationOwners: React.FC = () => {
                 <Form.Item label={<span className="form-contribute-label">Year of ship registration:</span>} className="form-contribute">
                     <Input
                         type="number"
+                        placeholder="Please type year of ship registration"
                         value={shipData.registrationYear}
                         style={{ width: 'calc(100% - 20px)' }}
                         onChange={(e) => handleInputChange("registrationYear", e.target.value)}
@@ -287,7 +332,7 @@ const ShipNationOwners: React.FC = () => {
                 <Form.Item label={<span className="form-contribute-label">National carrier:</span>} className="form-contribute">
                     <Select
                         placeholder="Select national carrier"
-                        value={shipData.nationalCarrier}
+                        value={shipData.nationalCarrier || undefined}
                         style={{ width: 'calc(100% - 20px)' }}
                         onChange={(value) => setShipData({ ...shipData, nationalCarrier: value })}
                         options={[
@@ -312,14 +357,15 @@ const ShipNationOwners: React.FC = () => {
                         value={comments["nationalCarrier"] || ""}
                         onChange={(value) => handleCommentChange("nationalCarrier", value)}
                     />
-                    <p className="form_help_text">
-                        If not country of registration, use the comments box to explain coding.
-                    </p>
+
                 </Form.Item>
+                <div className="form_help_text">
+                    If not country of registration, use the comments box to explain coding.
+                </div>
                 <Form.Item label={<span className="form-contribute-label">Rig of vessel:</span>} className="form-contribute">
                     <Select
                         placeholder="Select rig of vessel"
-                        value={shipData.rigOfVessel}
+                        value={shipData.rigOfVessel || undefined}
                         style={{ width: 'calc(100% - 20px)' }}
                         onChange={(value) => setShipData({ ...shipData, rigOfVessel: value })}
                         options={[
@@ -348,6 +394,7 @@ const ShipNationOwners: React.FC = () => {
                 <Form.Item label={<span className="form-contribute-label">Tonnage of vessel:</span>} className="form-contribute">
                     <Input
                         type="number"
+                        placeholder="Please type tonnage of vessel"
                         value={shipData.tonOfVessel}
                         style={{ width: 'calc(100% - 20px)' }}
                         onChange={(e) => handleInputChange("tonOfVessel", e.target.value)}
@@ -373,7 +420,7 @@ const ShipNationOwners: React.FC = () => {
                 <Form.Item label={<span className="form-contribute-label">Definition of ton:</span>} className="form-contribute">
                     <Select
                         placeholder="Select definition of ton"
-                        value={shipData.tonDefinition}
+                        value={shipData.tonDefinition || undefined}
                         style={{ width: 'calc(100% - 20px)' }}
                         onChange={(value) => setShipData({ ...shipData, tonDefinition: value })}
                         options={[
@@ -403,6 +450,7 @@ const ShipNationOwners: React.FC = () => {
                 <Form.Item label={<span className="form-contribute-label">Guns mounted:</span>} className="form-contribute">
                     <Input
                         type="number"
+                        placeholder="Please type guns mounted"
                         value={shipData.gunsMounted}
                         style={{ width: 'calc(100% - 20px)' }}
                         onChange={(e) => handleInputChange("gunsMounted", e.target.value)}
@@ -428,6 +476,7 @@ const ShipNationOwners: React.FC = () => {
                 <Form.Item label={<span className="form-contribute-label">First or managing owner of venture:</span>} className="form-contribute">
                     <Input
                         type="text"
+                        placeholder="Please type first or managing owner of venture"
                         value={shipData.firstOwner}
                         style={{ width: 'calc(100% - 20px)' }}
                         onChange={(e) => handleInputChange("firstOwner", e.target.value)}
@@ -449,11 +498,13 @@ const ShipNationOwners: React.FC = () => {
                         value={comments["firstOwner"] || ""}
                         onChange={(value) => handleCommentChange("firstOwner", value)}
                     />
-                    <p className="form_help_text">Enter last name , first name.</p>
+
                 </Form.Item>
+                <div className="form_help_text">Enter last name , first name.</div>
                 <Form.Item label={<span className="form-contribute-label">Second owner of venture:</span>} className="form-contribute">
                     <Input
                         type="text"
+                        placeholder="Please type second owner of venture"
                         value={shipData.secondOwner}
                         style={{ width: 'calc(100% - 20px)' }}
                         onChange={(e) => handleInputChange("secondOwner", e.target.value)}
@@ -475,11 +526,13 @@ const ShipNationOwners: React.FC = () => {
                         value={comments["secondOwner"] || ""}
                         onChange={(value) => handleCommentChange("secondOwner", value)}
                     />
-                    <p className="form_help_text">Enter last name , first name.</p>
+
                 </Form.Item>
+                <div className="form_help_text">Enter last name , first name.</div>
                 <Form.Item label={<span className="form-contribute-label">Other owners:</span>} className="form-contribute">
                     <TextArea
                         rows={2}
+                        placeholder="Please type other owners"
                         value={shipData.otherOwners}
                         style={{ width: 'calc(100% - 20px)' }}
                         onChange={(e) => handleInputChange("otherOwners", e.target.value)}
