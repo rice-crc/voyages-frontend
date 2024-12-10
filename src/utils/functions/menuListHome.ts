@@ -1,4 +1,4 @@
-import {ASSESSMENT, BLOGPAGE, CONTRIBUTE, DOCUMENTPAGE, ESTIMATES, INTRAAMERICANPAGE, TRANSATLANTICTIMELAPSE} from "@/share/CONST_DATA";
+import {ACCOUNTS, ASSESSMENT, BLOGPAGE, CONTRIBUTE, DOCUMENTPAGE, ESTIMATES, INTRAAMERICANPAGE, TRANSATLANTICTIMELAPSE} from "@/share/CONST_DATA";
 
 export const menuLists = [
     {name: 'About', url: `${BLOGPAGE}/tag/about`},
@@ -25,5 +25,5 @@ export const menuLists = [
     {name: 'Methodology', url: `${BLOGPAGE}/tag/methodology`},
     {name: 'Resources', url: `${BLOGPAGE}/tag/resources`},
     {name: 'Downloads', url: `${BLOGPAGE}/tag/downloads`},
-    {name: 'Contribute', url: `${CONTRIBUTE}`},
+    {name: 'Contribute', url: `${ACCOUNTS}signin/`},
 ];

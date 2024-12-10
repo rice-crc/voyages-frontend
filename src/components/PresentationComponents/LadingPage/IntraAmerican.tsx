@@ -3,7 +3,7 @@ import '@/style/intra-american.scss';
 import INTRAMERCAN from '@/assets/Intra-American.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
-import {CONTRIBUTE, INTRAAMERICANPAGE, ABOUTPAGE, DOWNLOADS, BLOGPAGE} from '@/share/CONST_DATA';
+import { INTRAAMERICANPAGE, BLOGPAGE, ACCOUNTS} from '@/share/CONST_DATA';
 import {useSelector} from 'react-redux';
 import {translationHomepage} from '@/utils/functions/translationLanguages';
 import {RootState} from '@/redux/store';
@@ -17,7 +17,7 @@ const IntraAmerican: React.FC = () => {
         {name: `${translatedHomepage.btnAbout}`, url: `${BLOGPAGE}/tag/about`},
         {name: `${translatedHomepage.btnDatabase}`, url: `${INTRAAMERICANPAGE}#voyages`},
         {name: `${translatedHomepage.btnDownloads}`, url: `${BLOGPAGE}/tag/downloads`},
-        {name: `${translatedHomepage.btnContribute}`, url: `${CONTRIBUTE}`},
+        {name: `${translatedHomepage.btnContribute}`, url: `${ACCOUNTS}signin`},
     ];
 
     return (

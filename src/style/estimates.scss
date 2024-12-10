@@ -100,7 +100,22 @@
     font-weight: 500;
     font-size: 0.85rem;
     color: #fff;
-    padding: 0 0 0.65rem 1.5rem;
+    padding: 0 0 0.5rem 1.5rem;
+
+    @include breakpoint-standard(1) {
+        padding: 0.25rem 1.75rem 0 0.25rem
+    }
+
+    @include breakpoint-standard(0) {
+        padding: 0.25rem 1.75rem 0 0.25rem
+    }
+}
+
+.navbar-subtitle-contribuite {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: #fff;
+    padding: 0 0 0.25rem 1.5rem;
 
     @include breakpoint-standard(1) {
         padding: 0.25rem 1.75rem 0 0.25rem
@@ -114,6 +129,18 @@
 .navbar-subitem {
     margin-right: 0.8rem;
     text-decoration: none;
+    color: rgba(255, 255, 255, 0.85);
+
+    .navbar-subitem-link {
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.75);
+        font-weight: bold;
+        padding: 0 6px;
+    }
+
+    .navbar-subitem-link:hover {
+        color: #fff;
+    }
 }
 
 .navbar-subitem>a {
