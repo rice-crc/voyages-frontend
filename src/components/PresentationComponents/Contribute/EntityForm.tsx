@@ -10,9 +10,12 @@ import { TreeItemProps } from "@mui/lab";
 
 export interface EntityFormProps {
     schema: EntitySchema
+    visibleCommentField: string | null
+    toggleCommentBox: (field: string) => void
+    handleCommentChange: (field: string, value: string) => void
 }
 
-export const EntityForm = ({ schema }: EntityFormProps) => {
+export const EntityForm = ({ schema, toggleCommentBox, handleCommentChange, visibleCommentField }: EntityFormProps) => {
     // Mock Tree Select
     const treeData = [
         {
@@ -65,7 +68,7 @@ export const EntityForm = ({ schema }: EntityFormProps) => {
                             style={{ width: 'calc(100% - 20px)' }}
                         />
                         <IconButton
-                            // onClick={() => toggleCommentBox("nationalCarrier")}
+                            onClick={() => toggleCommentBox('nameOfVessel')}
                             sx={{
                                 position: "absolute",
                                 right: "-15px",
@@ -76,7 +79,11 @@ export const EntityForm = ({ schema }: EntityFormProps) => {
                         >
                             <CommentIcon />
                         </IconButton>
-                        <CommentBox />
+                        <CommentBox
+                            isVisible={visibleCommentField === "name"}
+                            // value={comments["vesselType"] || ""}
+                            onChange={(value) => handleCommentChange("vesselType", value)}
+                        />
                     </Box>
                 </Form.Item>
             )

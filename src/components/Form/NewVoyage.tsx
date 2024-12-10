@@ -8,7 +8,7 @@ import VoyageOutcome from "../PresentationComponents/Contribute/newVoyages/Voyag
 import React from "react";
 import { EntityForm } from "../PresentationComponents/Contribute/EntityForm";
 import { VoyageShipEntitySchema, VoyageSlaveNumbersSchema, VoyageItinerarySchema, VoyageDatesSchema } from "@/models/entities";
-import { EntitySchema, Location } from "@/models/entities"
+import { EntitySchema } from "@/models/entities"
 
 export interface EntityFormProps {
     schema: EntitySchema
@@ -61,7 +61,7 @@ const NewVoyage: React.FC = () => {
         {
             key: VoyageShipEntitySchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Ship, Nation, Owners</Typography.Title>,
-            children: <EntityForm schema={VoyageShipEntitySchema} />
+            children: <EntityForm schema={VoyageShipEntitySchema} toggleCommentBox={toggleCommentBox} handleCommentChange={handleCommentChange} visibleCommentField={visibleCommentField} />
         },
         { // Need to change to EntitySchema later
             key: "2",
@@ -71,12 +71,12 @@ const NewVoyage: React.FC = () => {
         {
             key: VoyageItinerarySchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Voyage Itinerary</Typography.Title>,
-            children: <EntityForm schema={VoyageItinerarySchema} />
+            children: <EntityForm schema={VoyageItinerarySchema} toggleCommentBox={toggleCommentBox} handleCommentChange={handleCommentChange} visibleCommentField={visibleCommentField} />
         },
         {
             key: VoyageDatesSchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Voyage Dates</Typography.Title>,
-            children: <EntityForm schema={VoyageDatesSchema} />
+            children: <EntityForm schema={VoyageDatesSchema} toggleCommentBox={toggleCommentBox} handleCommentChange={handleCommentChange} visibleCommentField={visibleCommentField} />
         },
         { // Need to change to EntitySchema later
             key: "5",
@@ -86,7 +86,7 @@ const NewVoyage: React.FC = () => {
         {
             key: VoyageSlaveNumbersSchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Slaves (numbers)</Typography.Title>,
-            children: <EntityForm schema={VoyageSlaveNumbersSchema} />
+            children: <EntityForm schema={VoyageSlaveNumbersSchema} toggleCommentBox={toggleCommentBox} handleCommentChange={handleCommentChange} visibleCommentField={visibleCommentField} />
         },
         {// Need to change to EntitySchema later
             key: "7",
