@@ -3,9 +3,9 @@ import { Box } from "@mui/material";
 import TextArea from "antd/es/input/TextArea";
 
 interface CommentBoxProps {
-    isVisible: boolean;
-    value: string;
-    onChange: (value: string) => void;
+    isVisible?: boolean;
+    value?: string;
+    onChange?: (value: string) => void;
 }
 
 const CommentBox: React.FC<CommentBoxProps> = ({ isVisible, value, onChange }) => {
@@ -30,7 +30,7 @@ const CommentBox: React.FC<CommentBoxProps> = ({ isVisible, value, onChange }) =
                 rows={3}
                 placeholder="Please type your comments here:"
                 value={value}
-                onChange={(e) => onChange(e.target.value)}
+                // onChange={(e) => onChange(e.target.value)}
                 style={{ width: "100%" }}
             />
         </Box>

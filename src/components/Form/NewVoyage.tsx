@@ -4,13 +4,30 @@ import { Box, Button } from "@mui/material";
 import { Collapse, Divider, Form, Input, Typography, message } from "antd";
 import { useState } from "react";
 import type { CollapseProps } from "antd";
-import ShipNationOwners from "../PresentationComponents/Contribute/newVoyages/ShipNationOwners";
 import VoyageOutcome from "../PresentationComponents/Contribute/newVoyages/VoyageOutcome";
-import VoyageItinerary from "../PresentationComponents/Contribute/newVoyages/VoyageItinerary";
-import VoyageDate from "../PresentationComponents/Contribute/newVoyages/VoyageDate";
+import React from "react";
+import { EntityForm } from "../PresentationComponents/Contribute/EntityForm";
+import { VoyageShipEntitySchema, VoyageSlaveNumbersSchema, VoyageItinerarySchema, VoyageDatesSchema } from "@/models/entities";
+import { EntitySchema, Location } from "@/models/entities"
 
+export interface EntityFormProps {
+    schema: EntitySchema
+}
 const NewVoyage: React.FC = () => {
     const [form] = Form.useForm();
+    const [visibleCommentField, setVisibleCommentField] = useState<string | null>(null);
+    const [comments, setComments] = useState<{ [key: string]: string }>({});
+    const toggleCommentBox = (field: string) => {
+        setVisibleCommentField(visibleCommentField === field ? null : field);
+    };
+
+    const handleCommentChange = (field: string, value: string) => {
+        setComments({
+            ...comments,
+            [field]: value,
+        });
+    };
+
 
     // Handlers for the form submission
     const handleSave = () => {
@@ -36,47 +53,47 @@ const NewVoyage: React.FC = () => {
     };
 
     const handleCancel = () => {
-        form.resetFields(); // Clear form fields
+        form.resetFields();
         message.warning("Contribution canceled.");
     };
 
     const items: CollapseProps["items"] = [
         {
-            key: "1",
+            key: VoyageShipEntitySchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Ship, Nation, Owners</Typography.Title>,
-            children: <ShipNationOwners />,
+            children: <EntityForm schema={VoyageShipEntitySchema} />
         },
-        {
+        { // Need to change to EntitySchema later
             key: "2",
             label: <Typography.Title level={4} className="collapse-title">Voyage Outcome</Typography.Title>,
             children: <VoyageOutcome />,
         },
         {
-            key: "3",
+            key: VoyageItinerarySchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Voyage Itinerary</Typography.Title>,
-            children: <VoyageItinerary />,
+            children: <EntityForm schema={VoyageItinerarySchema} />
         },
         {
-            key: "4",
+            key: VoyageDatesSchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Voyage Dates</Typography.Title>,
-            children: <VoyageDate />,
+            children: <EntityForm schema={VoyageDatesSchema} />
         },
-        {
+        { // Need to change to EntitySchema later
             key: "5",
             label: <Typography.Title level={4} className="collapse-title">Captain and Crew</Typography.Title>,
             children: "Captain and Crew",
         },
         {
-            key: "6",
+            key: VoyageSlaveNumbersSchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Slaves (numbers)</Typography.Title>,
-            children: "Slaves (numbers)",
+            children: <EntityForm schema={VoyageSlaveNumbersSchema} />
         },
-        {
+        {// Need to change to EntitySchema later
             key: "7",
             label: <Typography.Title level={4} className="collapse-title">Slaves (characteristics)</Typography.Title>,
             children: "Slaves (characteristics)",
         },
-        {
+        {// Need to change to EntitySchema later
             key: "8",
             label: <Typography.Title level={4} className="collapse-title">Sources</Typography.Title>,
             children: "Sources",
@@ -85,6 +102,7 @@ const NewVoyage: React.FC = () => {
 
     return (
         <div className="contribute-content">
+
             <h1 className="page-title-1">New Voyage</h1>
             <p>
                 Variables are organized into eight categories. Complete as many boxes

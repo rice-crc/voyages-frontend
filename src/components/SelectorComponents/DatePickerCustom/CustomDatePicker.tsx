@@ -5,22 +5,22 @@ import { CookieSharp } from "@mui/icons-material";
 const { Option } = Select;
 
 interface CustomDatePickerProps {
-    year: number | undefined;
-    setYear: React.Dispatch<React.SetStateAction<number | undefined>>;
-    month: string | undefined;
-    setMonth: React.Dispatch<React.SetStateAction<string | undefined>>;
-    day: number | undefined;
-    setDay: React.Dispatch<React.SetStateAction<number | undefined>>;
+    // year: number | undefined;
+    // setYear: React.Dispatch<React.SetStateAction<number | undefined>>;
+    // month: string | undefined;
+    // setMonth: React.Dispatch<React.SetStateAction<string | undefined>>;
+    // day: number | undefined;
+    // setDay: React.Dispatch<React.SetStateAction<number | undefined>>;
     onDateChange: (formattedDate: string) => void;
 }
 
 const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
-    year,
-    setYear,
-    month,
-    setMonth,
-    day,
-    setDay,
+    // year,
+    // setYear,
+    // month,
+    // setMonth,
+    // day,
+    // setDay,
     onDateChange,
 }) => {
     const months = [
@@ -39,14 +39,14 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
     ];
 
     const handleDateChange = () => {
-        console.log({ year, month, day })
-        if (year && month && day) {
+        // console.log({ year, month, day })
+        // if (year && month && day) {
 
-            const formattedDate = `${year}-${month}-${String(day).padStart(2, "0")}`;
-            onDateChange(formattedDate);
-        } else {
-            onDateChange("");
-        }
+        //     const formattedDate = `${year}-${month}-${String(day).padStart(2, "0")}`;
+        //     onDateChange(formattedDate);
+        // } else {
+        //     onDateChange("");
+        // }
     };
 
     return (
@@ -54,11 +54,11 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
             <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
                 <Select
                     placeholder="Year"
-                    value={year}
-                    onChange={(value) => {
-                        setYear(value);
-                        handleDateChange();
-                    }}
+                    // value={year}
+                    // onChange={(value) => {
+                    //     setYear(value);
+                    //     handleDateChange();
+                    // }}
                     style={{ width: "120px" }}
                     allowClear
                 >
@@ -71,11 +71,11 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
 
                 <Select
                     placeholder="Month"
-                    value={month}
-                    onChange={(value) => {
-                        setMonth(value); // Directly setting the value
-                        handleDateChange(); // Call handleDateChange to update formatted date
-                    }}
+                    // value={month}
+                    // onChange={(value) => {
+                    //     setMonth(value);
+                    //     handleDateChange();
+                    // }}
                     style={{ width: "140px" }}
                     allowClear
                 >
@@ -88,11 +88,11 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
 
                 <Select
                     placeholder="Day"
-                    value={day}
-                    onChange={(value) => {
-                        setDay(value); // Directly setting the value
-                        handleDateChange(); // Call handleDateChange to update formatted date
-                    }}
+                    // value={day}
+                    // onChange={(value) => {
+                    //     setDay(value); // Directly setting the value
+                    //     handleDateChange(); // Call handleDateChange to update formatted date
+                    // }}
                     style={{ width: "100px" }}
                     allowClear
                 >
