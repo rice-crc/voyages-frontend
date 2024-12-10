@@ -20,7 +20,6 @@ import {
 } from '@/redux/getPastNetworksGraphDataSlice';
 import { fetchPastNetworksGraphApi } from '@/fetch/pastEnslavedFetch/fetchPastNetworksGraph';
 import { setIsModalCard, setNodeClass } from '@/redux/getCardFlatObjectSlice';
-import { isVoyagesClass } from '@/utils/functions/checkNodeClass';
 import '@/style/networks.scss'
 
 type NetworkDiagramProps = {
