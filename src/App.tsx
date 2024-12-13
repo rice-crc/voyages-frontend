@@ -11,6 +11,7 @@ import { theme } from '@/styleMUI/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   ABOUTPAGE,
+  ACCOUNTS,
   AFRICANORIGINSPAGE,
   ALLENSLAVEDPAGE,
   ALLVOYAGESPAGE,
@@ -146,9 +147,6 @@ const App: React.FC = () => {
               path={`${ASSESSMENT}/${ESTIMATES}/`}
               element={<Estimates />}
             />
-
-
-            {/* <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} /> */}
             <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
             <Route path={`${BLOGPAGE}/`} element={<BlogPage />} />
             <Route path={`${BLOGPAGE}/tag/${blogURL}`} element={<BlogPage />} />
@@ -165,9 +163,52 @@ const App: React.FC = () => {
               path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
               element={<InstitutionAuthorsPage />}
             />
-
             <Route
               path={`${CONTRIBUTE}`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${CONTRIBUTE}guidelines`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${ACCOUNTS}signin`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${ACCOUNTS}signup`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${ACCOUNTS}password/reset`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${ACCOUNTS}logout`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${ACCOUNTS}password_change`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${CONTRIBUTE}legal`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${CONTRIBUTE}interim/new/`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${CONTRIBUTE}edit_voyage`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${CONTRIBUTE}merge_voyages`}
+              element={<ContributePage />}
+            />
+            <Route
+              path={`${CONTRIBUTE}delete_voyage`}
               element={<ContributePage />}
             />
             <Route

@@ -118,6 +118,7 @@ export const GlobalSearchBlogType = 'blog';
 export const ASSESSMENT = 'assessment';
 export const ESTIMATES = 'estimates';
 export const CONTRIBUTE = 'contribute/';
+export const ACCOUNTS = 'accounts/';
 export const TIMELAPSE = 'timelapse';
 export const TRANSATLANTICTIMELAPSEPATH = '/voyage/trans-atlantic#timelapse';
 export const LESSONPLANS = 'lessonplans';

@@ -3,7 +3,7 @@ import '@/style/landing.scss';
 import TRANSATLANTICIMG from '@/assets/transAtlantic.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
-import {TRANSATLANTICPAGE, TRANSATLANTIC, CONTRIBUTE, ASSESSMENT, ESTIMATES, BLOGPAGE} from '@/share/CONST_DATA';
+import {TRANSATLANTICPAGE, TRANSATLANTIC, ASSESSMENT, ESTIMATES, BLOGPAGE, ACCOUNTS} from '@/share/CONST_DATA';
 import {translationHomepage} from '@/utils/functions/translationLanguages';
 import {RootState} from '@/redux/store';
 import {useSelector} from 'react-redux';
@@ -18,7 +18,7 @@ const TransAtlantic: React.FC = () => {
         {name: `${translatedHomepage.btnEstimates}`, url: `/${ASSESSMENT}/${ESTIMATES}`},
         {name: `${translatedHomepage.btnEssays}`, url: `${BLOGPAGE}/tag/essays`},
         {name: `${translatedHomepage.btnDownloads}`, url: `${BLOGPAGE}/tag/downloads`},
-        {name: `${translatedHomepage.btnContribute}`, url: `${CONTRIBUTE}`},
+        {name: `${translatedHomepage.btnContribute}`, url: `${ACCOUNTS}signin`},
     ];
 
     return (

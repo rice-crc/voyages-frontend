@@ -3,7 +3,6 @@ import {RootState} from '@/redux/store';
 import '@/style/page.scss';
 import {translationHomepage} from '@/utils/functions/translationLanguages';
 import {useSelector} from 'react-redux';
-//X
 import XICON from '@/assets/pages/X_icon.svg';
 
 const VideoBackground = () => {

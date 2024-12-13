@@ -32,9 +32,12 @@ import getEstimateAssesmentSlice from './getEstimateAssessmentSlice';
 import getSaveSearchSlice from './getSaveSearchSlice';
 import getQuerySaveSearchSlice from './getQuerySaveSearchSlice'
 import getShowFilterObjectSlice from './getShowFilterObjectSlice'
+import getAuthUserSlice from './getAuthUserSlice'
+
 
 
 // Define types for slices
+type GetAuthUserSlice = ReturnType<typeof getAuthUserSlice>
 type GetOptionsDataSlice = ReturnType<typeof getOptionsDataSlice>;
 type RangeSliderSlice = ReturnType<typeof rangeSliderSlice>;
 type AutoCompleteListSlice = ReturnType<typeof getAutoCompleteList>;
@@ -66,6 +69,7 @@ type ShowFilterObjectSlice = ReturnType<typeof getShowFilterObjectSlice>;
 
 // Define RootState
 export type RootState = {
+        getAuthUserSlice: GetAuthUserSlice;
         getOptions: GetOptionsDataSlice;
         rangeSlider: RangeSliderSlice;
         autoCompleteList: AutoCompleteListSlice;
@@ -99,6 +103,7 @@ export type RootState = {
 
 const store = configureStore({
         reducer: {
+                getAuthUserSlice: getAuthUserSlice,
                 getOptions: getOptionsDataSlice,
                 rangeSlider: rangeSliderSlice,
                 autoCompleteList: getAutoCompleteList,
