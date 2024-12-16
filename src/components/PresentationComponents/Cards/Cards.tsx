@@ -1,13 +1,13 @@
-import {Card, Collapse} from '@mui/material';
-import React, {useContext, useEffect, useRef, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {v4 as uuidv4} from 'uuid';
+import { Card, Collapse } from '@mui/material';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import {
   setCardDataArray,
   setCardFileName,
   setIsModalCard,
 } from '@/redux/getCardFlatObjectSlice';
-import {processCardData} from '@/utils/functions/processCardData';
+import { processCardData } from '@/utils/functions/processCardData';
 // Voyages Card
 import CARDS_TRANSATLANTIC_COLLECTION from '@/utils/flatfiles/voyages/voyages_transatlantic_card.json';
 import CARDS_INTRAAMERICAN_COLLECTION from '@/utils/flatfiles/voyages/voyages_intraamerican_card.json';
@@ -18,7 +18,7 @@ import CARDS_ALLENSLAVED from '@/utils/flatfiles/enslaved/enslaved_all_card_menu
 import CARDS_TEXAS_ENSLAVED from '@/utils/flatfiles/enslaved/enslaved_texas_card.json';
 // Enslavers Card
 import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers/enslavers_card.json';
-import {translationCard} from '@/utils/functions/translationLanguages';
+import { translationCard } from '@/utils/functions/translationLanguages';
 
 import {
   ALLVOYAGESFILECARD,
@@ -34,15 +34,15 @@ import {
   VOYAGESNODECLASS,
 } from '@/share/CONST_DATA';
 import '@/style/cards.scss';
-import {TransatlanticCardProps} from '@/share/InterfaceTypes';
-import {AppDispatch, RootState} from '@/redux/store';
-import {CardHeaderCustom} from '@/styleMUI';
-import {styleCard} from '@/styleMUI/customStyle';
-import {fetchVoyageCard} from '@/fetch/voyagesFetch/fetchVoyageCard';
-import {fetchPastEnslaversCard} from '@/fetch/pastEnslaversFetch/fetchPastEnslaversCard';
-import {fetchPastEnslavedCard} from '@/fetch/pastEnslavedFetch/fetchPastEnslavedCard';
-import {DocumentItemInfo, DocumentViewerContext, createDocKey} from '@/utils/functions/documentWorkspace';
-import {numberWithCommas} from '@/utils/functions/numberWithCommas';
+import { TransatlanticCardProps } from '@/share/InterfaceTypes';
+import { AppDispatch, RootState } from '@/redux/store';
+import { CardHeaderCustom } from '@/styleMUI';
+import { styleCard } from '@/styleMUI/customStyle';
+import { fetchVoyageCard } from '@/fetch/voyagesFetch/fetchVoyageCard';
+import { fetchPastEnslaversCard } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversCard';
+import { fetchPastEnslavedCard } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedCard';
+import { DocumentItemInfo, DocumentViewerContext, createDocKey } from '@/utils/functions/documentWorkspace';
+import { numberWithCommas } from '@/utils/functions/numberWithCommas';
 import PopoverWrapper from './PopoverWrapper';
 
 type DocumentReference = String & {
@@ -69,13 +69,13 @@ const VoyageCard = () => {
   const [globalExpand, setGlobalExpand] = useState(true);
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
   const [cardData, setCardData] = useState<Record<string, any>[]>([]);
-  const {setDoc} = useContext(DocumentViewerContext);
+  const { setDoc } = useContext(DocumentViewerContext);
 
-  const {cardRowID, cardFileName, cardDataArray, nodeTypeClass} =
+  const { cardRowID, cardFileName, cardDataArray, nodeTypeClass } =
     useSelector((state: RootState) => state.getCardFlatObjectData);
-  const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
   const translatedCard = translationCard(languageValue);
-  const {networkID} = useSelector(
+  const { networkID } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
   const effectOnce = useRef(false);
@@ -213,9 +213,8 @@ const VoyageCard = () => {
         <a href="#" onClick={toggleExpandAll}>
           {!globalExpand ? translatedCard.expand : translatedCard.collapse}
         </a>{' '}
-        {translatedCard.seeHide}
       </p>
-      <Card style={{border: '1px solid rgba(0,0,0,.1)'}}>
+      <Card style={{ border: '1px solid rgba(0,0,0,.1)' }}>
         {newCardData.length > 0 &&
           newCardData.map((element, index) => {
             const childValue = element.childValue;
@@ -225,10 +224,10 @@ const VoyageCard = () => {
             return (
               <div key={`${element.label}-${uuidv4()}`}>
                 <CardHeaderCustom
-                  style={{border: '1px solid rgba(0,0,0,.1)'}}
+                  style={{ border: '1px solid rgba(0,0,0,.1)' }}
                   onClick={() => toggleExpand(element.header)}
                   subheader={
-                    <div style={{fontSize: 14}}>{element.header}</div>
+                    <div style={{ fontSize: 14 }}>{element.header}</div>
                   }
                 />
 
@@ -271,12 +270,12 @@ const VoyageCard = () => {
                             let component = valueToRender ? (
                               <div
                                 key={`${index}-${value}-${uuidv4()}`}
-                                style={{padding: '2px 0'}}
+                                style={{ padding: '2px 0' }}
                               >
                                 <span
                                   key={`${index}-${value}-${uuidv4()}`}
                                   {...additionalProps}
-                                  style={{...styleCard, ...additionalStyles}}
+                                  style={{ ...styleCard, ...additionalStyles }}
                                 >{`${valueToRender}`}
                                   {extraElements}
                                 </span>
@@ -285,7 +284,7 @@ const VoyageCard = () => {
                             ) : null;
                             const bib = getSourceBib(value);
                             if (component && bib) {
-                              component = <PopoverWrapper key={uuidv4()} padding={4} popoverContents={<div dangerouslySetInnerHTML={{__html: bib}} />}>
+                              component = <PopoverWrapper key={uuidv4()} padding={4} popoverContents={<div dangerouslySetInnerHTML={{ __html: bib }} />}>
                                 {component}
                               </PopoverWrapper>;
                             }
@@ -301,7 +300,7 @@ const VoyageCard = () => {
                             <div
                               className="grid-itenewCardDatam-card"
                               key={`${child.label}-${index}-${uuidv4()}`}
-                              style={{maxWidth: '100%', overflowX: 'auto'}}
+                              style={{ maxWidth: '100%', overflowX: 'auto' }}
                             >
                               {renderedValues}
                             </div>
@@ -323,7 +322,7 @@ const VoyageCard = () => {
                             <div className="grid-item-card">{child.label}</div>
                             <div
                               className="grid-itenewCardDatam-card"
-                              style={{display: 'block'}}
+                              style={{ display: 'block' }}
                             >
                               {valueFormat}
                             </div>

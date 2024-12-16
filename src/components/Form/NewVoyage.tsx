@@ -9,6 +9,9 @@ import React from "react";
 import { EntityForm } from "../PresentationComponents/Contribute/EntityForm";
 import { VoyageShipEntitySchema, VoyageSlaveNumbersSchema, VoyageItinerarySchema, VoyageDatesSchema } from "@/models/entities";
 import { EntitySchema } from "@/models/entities"
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { translationLanguagesContribute } from "@/utils/functions/translationLanguages";
 
 export interface EntityFormProps {
     schema: EntitySchema
@@ -17,6 +20,11 @@ const NewVoyage: React.FC = () => {
     const [form] = Form.useForm();
     const [visibleCommentField, setVisibleCommentField] = useState<string | null>(null);
     const [comments, setComments] = useState<{ [key: string]: string }>({});
+    const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+    const translatedcontribute = translationLanguagesContribute(languageValue)
+
+
+
     const toggleCommentBox = (field: string) => {
         setVisibleCommentField(visibleCommentField === field ? null : field);
     };
@@ -99,7 +107,17 @@ const NewVoyage: React.FC = () => {
             children: "Sources",
         },
     ];
+    const [globalExpand, setGlobalExpand] = useState(false);
+    const [expandedMenu, setExpandedMenu] = useState<string[]>([]);
 
+    const toggleExpandAll = () => {
+        if (globalExpand) {
+            setExpandedMenu([]);
+        } else {
+            setExpandedMenu(items.map((item) => item.key as string));
+        }
+        setGlobalExpand(!globalExpand);
+    };
     return (
         <div className="contribute-content">
 
@@ -129,10 +147,22 @@ const NewVoyage: React.FC = () => {
                     the reviewer/editor, please use the contributor's comments at the end
                     of this form or any of the specific field comment boxes.
                 </small>
-                <div className="collapse-container">
-                    <Collapse items={items} bordered={false} ghost className="custom-collapse" />
+                <div className="expand-collapse">
+                    {translatedcontribute.titleCollaps}{' '}
+                    <a href="#" onClick={toggleExpandAll}>
+                        {globalExpand ? translatedcontribute.expand : translatedcontribute.collapse}
+                    </a>{' '}
                 </div>
-
+                <div className="collapse-container">
+                    <Collapse
+                        activeKey={expandedMenu}
+                        items={items}
+                        onChange={(keys) => setExpandedMenu(keys as string[])}
+                        bordered={false}
+                        ghost
+                        className="custom-collapse"
+                    />
+                </div>
                 <Divider />
                 <Form.Item
                     name="contributorsComments"
@@ -146,13 +176,13 @@ const NewVoyage: React.FC = () => {
                         color="primary"
                         onClick={handleSave}
                         sx={{
-                            backgroundColor: "rgb(25, 118, 210 ,10)",
+                            backgroundColor: "rgb(55, 148, 141)",
                             color: "#fff",
                             height: 35,
                             fontSize: "0.85rem",
                             textTransform: "none",
                             "&:hover": {
-                                backgroundColor: "rgb(10 131 253)",
+                                backgroundColor: "rgba(6, 186, 171, 0.83)",
                             },
                         }}
                     >
@@ -164,16 +194,16 @@ const NewVoyage: React.FC = () => {
                         onClick={handleReview}
                         sx={{
                             backgroundColor: "transparent",
-                            border: "1px solid rgb(25, 118, 210)",
-                            color: "rgb(25, 118, 210)",
+                            border: '1px solid rgb(55, 148, 141)',
+                            color: "rgb(55, 148, 141)",
                             height: 35,
-                            fontSize: "0.85rem",
-                            textTransform: "none",
+                            fontSize: '0.85rem',
+                            textTransform: 'none',
                             boxShadow: "transparent",
-                            marginLeft: "10px",
+                            marginLeft: '10px',
                             "&:hover": {
-                                backgroundColor: "rgb(25, 118, 210 ,10)",
-                                color: "#fff",
+                                backgroundColor: "rgb(55, 148, 141)",
+                                color: '#fff'
                             },
                         }}
                     >

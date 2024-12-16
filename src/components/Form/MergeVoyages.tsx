@@ -43,8 +43,8 @@ const MergeVoyages: React.FC = () => {
                         color="primary"
                         sx={{
                             backgroundColor: "transparent",
-                            border: '1px solid rgb(25, 118, 210)',
-                            color: "rgb(25, 118, 210)",
+                            border: '1px solid rgb(55, 148, 141)',
+                            color: "rgb(55, 148, 141)",
                             height: 38,
                             mb: 3,
                             fontSize: '0.85rem',
@@ -52,8 +52,8 @@ const MergeVoyages: React.FC = () => {
                             boxShadow: "transparent",
                             marginLeft: '10px',
                             "&:hover": {
-                                backgroundColor: "rgb(25, 118, 210 ,10)",
-                                color: "#fff",
+                                backgroundColor: "rgb(55, 148, 141)",
+                                color: '#fff'
                             },
                         }}
                     >
@@ -65,13 +65,14 @@ const MergeVoyages: React.FC = () => {
                     variant="contained"
                     color="primary"
                     sx={{
-                        backgroundColor: "rgb(25, 118, 210 ,10)",
+                        backgroundColor: "rgb(55, 148, 141)",
                         color: "#fff",
-                        height: 35,
+                        marginRight: '0.5rem',
+                        height: 32,
                         fontSize: '0.85rem',
                         textTransform: 'none',
                         "&:hover": {
-                            backgroundColor: "rgb(10 131 253)",
+                            backgroundColor: "rgba(6, 186, 171, 0.83)",
                         },
                     }}
                 >

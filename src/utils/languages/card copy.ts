@@ -17,14 +17,6 @@ export const cardTranslated: TranslateType = {
             "pt": "Explore as viagens que realocaram mais de 12 milhões de africanos escravizados pelo mundo"
         }
     },
-    titleHeader:
-    {
-        label: {
-            "en": "Expand All to see/hide all.",
-            "es": "ES: Expand All to see/hide all.",
-            "pt": "PT: Expand All to see/hide all."
-        }
-    },
     expand: {
         label: {
             "en": 'Expand All',

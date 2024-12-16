@@ -1,4 +1,4 @@
-import '@/style/estimates.scss';
+import '@/style/contributeContent.scss';
 import '@/style/Nav.scss';
 import { RootState, } from '@/redux/store';
 import { useSelector, } from 'react-redux';
@@ -16,7 +16,7 @@ const ContributeNavBar = () => {
 
 
     return (
-        <div className="nav-header">
+        <div className="nav-header-contribute">
             <span className='header-logo-icon-estimate'>
                 <div className='logo-header-estimate'>
                     <HeaderLogoContribute />

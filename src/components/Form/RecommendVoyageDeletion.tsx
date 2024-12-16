@@ -16,14 +16,8 @@ const RecommendVoyageDeletion: React.FC = () => {
 
     return (
         <div className="contribute-content">
-            <h1 className="page-title-1">Merge Existing Records of Voyages</h1>
-            <p> Please select two or more existing voyage records for merging.</p>
-            <Typography variant="h4" gutterBottom>
-                Edit an Existing Record of a Voyage
-            </Typography>
-            <Typography variant="body1" sx={{ mb: 2 }}>
-                Please select the voyage you wish to edit.
-            </Typography>
+            <h1 className="page-title-1">Recommend the Deletion of an Existing Voyage</h1>
+            <p>Please use the box for notes to tell us why the selected voyage(s) should be removed from the database.</p>
             <form onSubmit={handleSubmit}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Box sx={{ mb: 3 }}>
@@ -49,8 +43,8 @@ const RecommendVoyageDeletion: React.FC = () => {
                         color="primary"
                         sx={{
                             backgroundColor: "transparent",
-                            border: '1px solid rgb(25, 118, 210)',
-                            color: "rgb(25, 118, 210)",
+                            border: '1px solid rgb(55, 148, 141)',
+                            color: "rgb(55, 148, 141)",
                             height: 38,
                             mb: 3,
                             fontSize: '0.85rem',
@@ -58,8 +52,8 @@ const RecommendVoyageDeletion: React.FC = () => {
                             boxShadow: "transparent",
                             marginLeft: '10px',
                             "&:hover": {
-                                backgroundColor: "rgb(25, 118, 210 ,10)",
-                                color: "#fff",
+                                backgroundColor: "rgb(55, 148, 141)",
+                                color: '#fff'
                             },
                         }}
                     >
@@ -78,18 +72,19 @@ const RecommendVoyageDeletion: React.FC = () => {
                     variant="contained"
                     color="primary"
                     sx={{
-                        backgroundColor: "rgb(25, 118, 210 ,10)",
+                        backgroundColor: "rgb(55, 148, 141)",
                         color: "#fff",
-                        height: 35,
-                        mt: 3,
+                        marginRight: '0.5rem',
+                        marginTop: '1rem',
+                        height: 32,
                         fontSize: '0.85rem',
                         textTransform: 'none',
                         "&:hover": {
-                            backgroundColor: "rgb(10 131 253)",
+                            backgroundColor: "rgba(6, 186, 171, 0.83)",
                         },
                     }}
                 >
-                    Begin
+                    Submit
                 </Button>
             </form>
         </div>

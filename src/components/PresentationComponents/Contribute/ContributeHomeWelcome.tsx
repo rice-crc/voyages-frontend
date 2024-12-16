@@ -19,14 +19,14 @@ const ContributeHomeWelcome: React.FC = () => {
                         color="primary"
 
                         sx={{
-                            backgroundColor: "rgb(25, 118, 210 ,10)",
+                            backgroundColor: "rgb(55, 148, 141)",
                             color: "#fff",
                             marginRight: '0.5rem',
                             height: 32,
                             fontSize: '0.85rem',
                             textTransform: 'none',
                             "&:hover": {
-                                backgroundColor: "rgb(10 131 253)",
+                                backgroundColor: "rgba(6, 186, 171, 0.83)",
                             },
                         }}
                     >  {btn.nameBtn}
