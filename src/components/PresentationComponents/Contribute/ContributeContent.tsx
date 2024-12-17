@@ -1,19 +1,19 @@
-import SignInForm from "@/components/Form/SingInForm";
-import SignUpForm from "@/components/Form/SignUpForm";
+import SignInForm from "@/components/PresentationComponents/Contribute/Form/SingInForm";
+import SignUpForm from "@/components/PresentationComponents/Contribute/Form/SignUpForm";
 import "@/style/contributeContent.scss";
 import Guidelines from "./Guidelines";
-import PasswordReset from "@/components/Form/PasswordRestForm";
+import PasswordReset from "@/components/PresentationComponents/Contribute/Form/PasswordRestForm";
 import { Link } from "react-router-dom";
 import { useNavigation } from "@/hooks/useNavigation";
 import { usePageRouter } from "@/hooks/usePageRouter";
-import TermsAndConditions from "../../Form/TermsAndConditions";
-import SignOut from "../../Form/SignOut";
+import TermsAndConditions from "./Form/TermsAndConditions";
+import SignOut from "./Form/SignOut";
 import ContributeHomeWelcome from "./ContributeHomeWelcome";
-import PasswordChangeForm from "@/components/Form/PasswordChangeForm";
-import EditExistingVoyage from "@/components/Form/EditExistingVoyage";
-import MergeVoyages from "@/components/Form/MergeVoyages";
-import RecommendVoyageDeletion from "@/components/Form/RecommendVoyageDeletion";
-import NewVoyage from "@/components/Form/NewVoyage";
+import PasswordChangeForm from "@/components/PresentationComponents/Contribute/Form/PasswordChangeForm";
+import EditExistingVoyage from "@/components/PresentationComponents/Contribute/Form/EditExistingVoyage";
+import MergeVoyages from "@/components/PresentationComponents/Contribute/Form/MergeVoyages";
+import RecommendVoyageDeletion from "@/components/PresentationComponents/Contribute/Form/RecommendVoyageDeletion";
+import NewVoyage from "@/components/PresentationComponents/Contribute/Form/NewVoyage";
 
 const ContributeContent: React.FC = () => {
   const {

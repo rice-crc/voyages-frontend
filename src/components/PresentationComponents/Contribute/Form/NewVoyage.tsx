@@ -4,9 +4,9 @@ import { Box, Button } from "@mui/material";
 import { Collapse, Divider, Form, Input, Typography, message } from "antd";
 import { useState } from "react";
 import type { CollapseProps } from "antd";
-import VoyageOutcome from "../PresentationComponents/Contribute/newVoyages/VoyageOutcome";
+import VoyageOutcome from "../newVoyages/VoyageOutcome";
 import React from "react";
-import { EntityForm } from "../PresentationComponents/Contribute/EntityForm";
+import { EntityForm } from "../EntityForm";
 import { VoyageShipEntitySchema, VoyageSlaveNumbersSchema, VoyageItinerarySchema, VoyageDatesSchema } from "@/models/entities";
 import { EntitySchema } from "@/models/entities"
 import { useSelector } from "react-redux";
