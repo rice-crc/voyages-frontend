@@ -38,15 +38,41 @@ const NewVoyage: React.FC = () => {
 
 
     // Handlers for the form submission
-    const handleSave = () => {
-        form.validateFields()
-            .then((values) => {
-                console.log("Save values:", values);
-                message.success("Voyage saved successfully!");
-            })
-            .catch((error) => {
-                message.error("Please correct the errors before saving.");
-            });
+    const handleSave = async () => {
+        try {
+            const values = await form.validateFields();
+
+            // Combine form data with comments
+            const submissionData = {
+                ...values,
+                comments, // Include comments collected from the form
+            };
+
+            console.log("Save submission data:", submissionData);
+
+            // Simulate an API call or state update
+            // Replace with your actual API integration
+            const response = await saveVoyageData(submissionData);
+            console.log({ response })
+
+            // if (response.success) {
+            //     message.success("Voyage saved successfully!");
+            // } else {
+            //     throw new Error(response.error || "An error occurred during save.");
+            // }
+        } catch (error) {
+            console.error("Save error:", error);
+            message.error("Please correct the errors before saving.");
+        }
+    };
+
+    // Mock API call function
+    const saveVoyageData = async (data: any) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({ success: true });
+            }, 1000);
+        });
     };
 
     const handleReview = () => {
@@ -136,8 +162,8 @@ const NewVoyage: React.FC = () => {
             <Form layout="vertical" form={form}>
                 <Form.Item
                     name="voyageComments"
-                    label={<small>Voyage comments:</small>}
-                    rules={[{ required: true, message: "Voyage comments are required" }]}
+                    label={<span className="lable-title">Voyage comments:</span >}
+                // rules={[{ required: true, message: "Voyage comments are required" }]}
                 >
                     <Input.TextArea rows={2} />
                 </Form.Item>
@@ -166,11 +192,11 @@ const NewVoyage: React.FC = () => {
                 <Divider />
                 <Form.Item
                     name="contributorsComments"
-                    label={<small>Contributor’s Comments on This Entry:</small>}
+                    label={<span className="lable-title">Contributor’s Comments on This Entry:</span>}
                 >
                     <Input.TextArea rows={2} />
                 </Form.Item>
-                <Box sx={{ mt: 3 }}>
+                <Box sx={{ mt: 3, mb: 3 }}>
                     <Button
                         variant="contained"
                         color="primary"
@@ -230,8 +256,8 @@ const NewVoyage: React.FC = () => {
                         Cancel contribution
                     </Button>
                 </Box>
-            </Form>
-        </div>
+            </Form >
+        </div >
     );
 };
 

@@ -2,9 +2,9 @@ import { RootState } from '@/redux/store';
 import '@/style/estimates.scss'
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 import { Button } from 'antd';
-import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+type CheckboxValueType = string | number | boolean;
 interface ShowAllSelectedProps {
     setViewAll: React.Dispatch<React.SetStateAction<boolean>>
     ariaExpanded: boolean;
