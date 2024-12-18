@@ -6,19 +6,16 @@ import '@/style/newVoyages.scss';
 import { Form, Input, Select, TreeSelect } from 'antd';
 import CommentBox from './CommentBox';
 import { TreeItemProps } from '@mui/lab';
+import { useState } from 'react';
 
 export interface EntityFormProps {
     schema: EntitySchema;
-    visibleCommentField: string | null;
-    toggleCommentBox: (field: string) => void;
     handleCommentChange: (field: string, value: string) => void;
 }
 
 export const EntityForm = ({
     schema,
-    toggleCommentBox,
     handleCommentChange,
-    visibleCommentField,
 }: EntityFormProps) => {
     // Mock Tree Select
     const treeData = [
@@ -56,74 +53,97 @@ export const EntityForm = ({
             ],
         },
     ];
+    const [visibleCommentField, setVisibleCommentField] = useState<string | null>(
+        null,
+    );
+    const [localComments, setLocalComments] = useState('');
+
+    const toggleCommentBox = (field: string) => {
+        setVisibleCommentField(visibleCommentField === field ? null : field);
+    };
+    // console.log({ localComments })
 
     const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
         return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
+    };
+
+    const handleLocalChange = (value: string) => {
+        setLocalComments(value);
+        handleCommentChange(schema.backingModel, value);
     };
 
     return schema.properties.map((p) => {
         const backingField = 'backingField' in p ? p.backingField : undefined;
 
         return (
-            <Form.Item
-                key={p.uid}
-                label={<span className="form-contribute-label">{p.label}:</span>}
-                name={backingField}
-            >
-                <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
-                    {p.kind === 'text' || p.kind === 'number' ? (
-                        <Input
-                            type={p.kind}
-                            placeholder={`Please type ${p.label}`}
-                            style={{ width: 'calc(100% - 20px)' }}
-                        />
-                    ) : p.kind === 'entityValue' ? (
-                        p.linkedEntitySchema === Location.name ? (
-                            <TreeSelect
-                                placeholder={`Please select ${p.label}`}
-                                treeData={treeData} // will need to change to be the correct one
-                                style={{ width: 'calc(100% - 20px)' }}
-                                dropdownStyle={{ overflow: 'auto', zIndex: 1301 }}
-                                showSearch
-                                treeCheckable
-                                allowClear
-                                multiple
-                                treeDefaultExpandAll={false}
-                                maxTagCount={8}
-                                filterTreeNode={filterTreeNode}
-                            />
-                        ) : (
-                            <Select
-                                placeholder={`Please select ${p.label}`}
-                                style={{ width: 'calc(100% - 20px)' }}
-                                options={[ // This is mock data
-                                    { label: 'Argentina', value: 'Argentina' },
-                                    { label: 'Denmark', value: 'Denmark' },
-                                    { label: 'U.S.A.', value: 'usa' },
-                                ]}
-                            />
-                        )
-                    ) : null}
-                    <IconButton
-                        onClick={() => toggleCommentBox(backingField!)}
-                        sx={{
-                            position: 'absolute',
-                            right: '-15px',
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                        }}
-                        aria-label="add comment"
+            <Box key={p.uid} sx={{ marginBottom: 2 }}>
+                {/* Main Input Field */}
+                <Form.Item
+                    label={<span className="form-contribute-label">{p.label}:</span>}
+                    name={backingField}
+                    style={{ marginBottom: 0 }}
+                >
+                    <Box
+                        sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}
                     >
-                        <CommentIcon />
-                    </IconButton>
+                        {p.kind === 'text' || p.kind === 'number' ? (
+                            <Input
+                                type={p.kind}
+                                placeholder={`Please type ${p.label}`}
+                                style={{ width: 'calc(100% - 20px)' }}
+                            />
+                        ) : p.kind === 'entityValue' ? (
+                            p.linkedEntitySchema === Location.name ? (
+                                <TreeSelect
+                                    placeholder={`Please select ${p.label}`}
+                                    treeData={treeData} // Change to correct data
+                                    style={{ width: 'calc(100% - 20px)' }}
+                                    dropdownStyle={{ overflow: 'auto', zIndex: 1301 }}
+                                    showSearch
+                                    treeCheckable
+                                    allowClear
+                                    multiple
+                                    treeDefaultExpandAll={false}
+                                    maxTagCount={8}
+                                    filterTreeNode={filterTreeNode}
+                                />
+                            ) : (
+                                <Select
+                                    placeholder={`Please select ${p.label}`}
+                                    style={{ width: 'calc(100% - 20px)' }}
+                                    options={[
+                                        // Mock data
+                                        { label: 'Argentina', value: 'Argentina' },
+                                        { label: 'Denmark', value: 'Denmark' },
+                                        { label: 'U.S.A.', value: 'usa' },
+                                    ]}
+                                />
+                            )
+                        ) : null}
+                        <IconButton
+                            onClick={() => toggleCommentBox(backingField!)}
+                            sx={{
+                                position: 'absolute',
+                                right: '-15px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                            }}
+                            aria-label="add comment"
+                        >
+                            <CommentIcon />
+                        </IconButton>
+                    </Box>
+                </Form.Item>
 
+                {/* CommentBox Field */}
+                <Form.Item name={'comments'} style={{ marginTop: -50 }}>
                     <CommentBox
-                        value={`comment-${backingField}`}
                         isVisible={visibleCommentField === backingField}
-                        onChange={(value) => handleCommentChange(backingField!, value)}
+                        value={localComments}
+                        onChange={handleLocalChange}
                     />
-                </Box>
-            </Form.Item>
+                </Form.Item>
+            </Box>
         );
     });
 };

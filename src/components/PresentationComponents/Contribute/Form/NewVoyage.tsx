@@ -2,9 +2,8 @@ import "@/style/contributeContent.scss";
 import "@/style/newVoyages.scss";
 import { Box, Button } from "@mui/material";
 import { Collapse, Divider, Form, Input, Typography, message } from "antd";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { CollapseProps } from "antd";
-import VoyageOutcome from "../newVoyages/VoyageOutcome";
 import React from "react";
 import { EntityForm } from "../EntityForm";
 import { VoyageShipEntitySchema, VoyageSlaveNumbersSchema, VoyageItinerarySchema, VoyageDatesSchema } from "@/models/entities";
@@ -18,16 +17,9 @@ export interface EntityFormProps {
 }
 const NewVoyage: React.FC = () => {
     const [form] = Form.useForm();
-    const [visibleCommentField, setVisibleCommentField] = useState<string | null>(null);
     const [comments, setComments] = useState<{ [key: string]: string }>({});
     const { languageValue } = useSelector((state: RootState) => state.getLanguages);
     const translatedcontribute = translationLanguagesContribute(languageValue)
-
-
-
-    const toggleCommentBox = (field: string) => {
-        setVisibleCommentField(visibleCommentField === field ? null : field);
-    };
 
     const handleCommentChange = (field: string, value: string) => {
         setComments({
@@ -55,11 +47,6 @@ const NewVoyage: React.FC = () => {
             const response = await saveVoyageData(submissionData);
             console.log({ response })
 
-            // if (response.success) {
-            //     message.success("Voyage saved successfully!");
-            // } else {
-            //     throw new Error(response.error || "An error occurred during save.");
-            // }
         } catch (error) {
             console.error("Save error:", error);
             message.error("Please correct the errors before saving.");
@@ -91,26 +78,26 @@ const NewVoyage: React.FC = () => {
         message.warning("Contribution canceled.");
     };
 
-    const items: CollapseProps["items"] = [
+    const items: CollapseProps["items"] = useMemo(() => [
         {
             key: VoyageShipEntitySchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Ship, Nation, Owners</Typography.Title>,
-            children: <EntityForm schema={VoyageShipEntitySchema} toggleCommentBox={toggleCommentBox} handleCommentChange={handleCommentChange} visibleCommentField={visibleCommentField} />
+            children: <EntityForm schema={VoyageShipEntitySchema} handleCommentChange={handleCommentChange} />
         },
         { // Need to change to EntitySchema later
             key: "2",
             label: <Typography.Title level={4} className="collapse-title">Voyage Outcome</Typography.Title>,
-            children: <VoyageOutcome />,
+            children: "VoyageOutcome",
         },
         {
             key: VoyageItinerarySchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Voyage Itinerary</Typography.Title>,
-            children: <EntityForm schema={VoyageItinerarySchema} toggleCommentBox={toggleCommentBox} handleCommentChange={handleCommentChange} visibleCommentField={visibleCommentField} />
+            children: <EntityForm schema={VoyageItinerarySchema} handleCommentChange={handleCommentChange} />
         },
         {
             key: VoyageDatesSchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Voyage Dates</Typography.Title>,
-            children: <EntityForm schema={VoyageDatesSchema} toggleCommentBox={toggleCommentBox} handleCommentChange={handleCommentChange} visibleCommentField={visibleCommentField} />
+            children: <EntityForm schema={VoyageDatesSchema} handleCommentChange={handleCommentChange} />
         },
         { // Need to change to EntitySchema later
             key: "5",
@@ -120,7 +107,7 @@ const NewVoyage: React.FC = () => {
         {
             key: VoyageSlaveNumbersSchema.backingModel,
             label: <Typography.Title level={4} className="collapse-title">Slaves (numbers)</Typography.Title>,
-            children: <EntityForm schema={VoyageSlaveNumbersSchema} toggleCommentBox={toggleCommentBox} handleCommentChange={handleCommentChange} visibleCommentField={visibleCommentField} />
+            children: <EntityForm schema={VoyageSlaveNumbersSchema} handleCommentChange={handleCommentChange} />
         },
         {// Need to change to EntitySchema later
             key: "7",
@@ -132,7 +119,8 @@ const NewVoyage: React.FC = () => {
             label: <Typography.Title level={4} className="collapse-title">Sources</Typography.Title>,
             children: "Sources",
         },
-    ];
+    ], [handleCommentChange])
+
     const [globalExpand, setGlobalExpand] = useState(false);
     const [expandedMenu, setExpandedMenu] = useState<string[]>([]);
 
