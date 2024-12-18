@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OptionsDataState } from '@/share/InterfaceTypes'
+import { OptionsDataState } from '@/share/InterfaceTypes';
 
 const initialState: OptionsDataState = {
-    value: {},
+  value: {},
 };
 
 export const getOptionsDataSlice = createSlice({
-    name: 'optionsData',
-    initialState,
-    reducers: {
-        getOptions: (state, action: PayloadAction<Record<string, never>>) => {
-            state.value = action.payload;
-        },
-        resetSlice: (state) => initialState,
+  name: 'optionsData',
+  initialState,
+  reducers: {
+    getOptions: (state, action: PayloadAction<Record<string, never>>) => {
+      state.value = action.payload;
     },
+    resetSlice: (state) => initialState,
+  },
 });
 
 export const { getOptions, resetSlice } = getOptionsDataSlice.actions;

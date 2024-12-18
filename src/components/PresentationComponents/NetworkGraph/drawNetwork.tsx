@@ -12,9 +12,8 @@ export const drawNetwork = (
   height: number,
   nodes: Nodes[],
   edges: Edges[],
-  newNode: Edges | Nodes | null,
+  newNode: Edges | Nodes | null
 ) => {
-
   const clearCanvas = () => {
     context.clearRect(0, 0, width, height);
   };
@@ -22,11 +21,14 @@ export const drawNetwork = (
   clearCanvas();
   drawEdges(context, nodes, newNode, edges);
   drawNodes(context, nodes);
-
 };
 
-const drawEdges = (context: CanvasRenderingContext2D, nodes: Nodes[], newNode: Edges | Nodes | null,
-  edges: Edges[]) => {
+const drawEdges = (
+  context: CanvasRenderingContext2D,
+  nodes: Nodes[],
+  newNode: Edges | Nodes | null,
+  edges: Edges[]
+) => {
   context.globalAlpha = 8;
   context.lineWidth = 3;
 
@@ -78,7 +80,6 @@ const drawEdges = (context: CanvasRenderingContext2D, nodes: Nodes[], newNode: E
 };
 
 const drawNodes = (context: CanvasRenderingContext2D, nodes: Nodes[]) => {
-
   nodes.forEach((node) => {
     if (!node.x || !node.y) return;
     const nodeX = node.x ?? 0;
@@ -174,4 +175,3 @@ const drawNodes = (context: CanvasRenderingContext2D, nodes: Nodes[]) => {
     //    }*/
   });
 };
-

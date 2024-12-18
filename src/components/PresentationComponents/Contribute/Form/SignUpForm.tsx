@@ -120,7 +120,6 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           <Typography
             className="label-signup"
             sx={{ width: 150 }}
-
             component="label"
             htmlFor="email"
           >
@@ -141,7 +140,6 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           <Typography
             className="label-signup"
             sx={{ width: 150 }}
-
             component="label"
             htmlFor="email"
           >
@@ -161,7 +159,6 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             sx={{ width: 150 }}
-
             component="label"
             htmlFor="email"
             className="label-signup"
@@ -182,7 +179,6 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             sx={{ width: 150 }}
-
             component="label"
             htmlFor="email"
             className="label-signup"
@@ -204,7 +200,6 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             sx={{ width: 150 }}
-
             component="label"
             htmlFor="email"
             className="label-signup"
@@ -228,7 +223,6 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             sx={{ width: 150 }}
-
             component="label"
             htmlFor="email"
             className="label-signup"
@@ -259,7 +253,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         </Box>
 
         <Box sx={{ mt: 2, mb: 1, bgcolor: '#f5f5f5', p: 2, borderRadius: 1 }}>
-          <Typography gutterBottom className='label-signup'>
+          <Typography gutterBottom className="label-signup">
             Terms and Conditions:
           </Typography>
           <Paper
@@ -282,7 +276,6 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
             </Typography>
           </Paper>
           <FormControlLabel
-
             control={
               <Checkbox
                 name="agreeToTerms"
@@ -290,7 +283,11 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
                 onChange={handleInputChange}
               />
             }
-            label={<span className='label-signup'>Agree to the terms and conditions above</span>}
+            label={
+              <span className="label-signup">
+                Agree to the terms and conditions above
+              </span>
+            }
           />
           {errors.agreeToTerms && (
             <Alert severity="error" sx={{ mt: 1 }}>
@@ -301,7 +298,6 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             sx={{ width: 150 }}
-
             component="label"
             htmlFor="email"
             className="label-signup"
@@ -345,9 +341,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
             helperText={errors.passwordConfirm}
           />
         </Box>
-        <button type="submit" >
-          Sign-up
-        </button>
+        <button type="submit">Sign-up</button>
       </Box>
     </div>
   );

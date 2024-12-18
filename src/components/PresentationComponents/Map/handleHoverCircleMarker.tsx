@@ -84,7 +84,6 @@ export function handleHoverCircleMarker(
   event.target.bindPopup(popupContainer).openPopup();
    **/
 
-
   for (const [, edgeData] of aggregatedEdges) {
     const { sourceLatlng, targetLatlng, controls, type, weight } = edgeData;
 
@@ -108,11 +107,16 @@ export function handleHoverCircleMarker(
       hiddenEdgesLayer.addLayer(curveLine.addTo(map).bringToBack());
       hiddenEdgesLayer.addLayer(curveAnimated);
 
-      const tooltipContent = createTooltipClusterEdges(weight, node, type, nodesData!);
+      const tooltipContent = createTooltipClusterEdges(
+        weight,
+        node,
+        type,
+        nodesData!
+      );
       const tooltip = L.tooltip({
         direction: 'top',
         permanent: false,
-        opacity: 0.90,
+        opacity: 0.9,
         sticky: false,
       }).setContent(tooltipContent);
 

@@ -1,11 +1,11 @@
-import { LabelFilterMeneList } from "./InterfaceTypes"
+import { LabelFilterMeneList } from './InterfaceTypes';
 
 export interface LanguagesProps {
-    languageValue: string
-    languageValueLabel: string
+  languageValue: string;
+  languageValueLabel: string;
 }
 
 export interface DatabasePageProps {
-    databasePageValue: string
-    databasePageValueLabel: LabelFilterMeneList
+  databasePageValue: string;
+  databasePageValueLabel: LabelFilterMeneList;
 }

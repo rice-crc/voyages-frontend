@@ -1,26 +1,25 @@
 .g_main {
-    cursor: pointer;
-    pointer-events: all;
+  cursor: pointer;
+  pointer-events: all;
 }
 
-
 .svg-timeline-text {
-    fill: gray;
+  fill: gray;
 }
 
 .axis path,
 .axis line {
-    fill: none;
-    stroke: gray;
-    stroke-width: 0.35px;
+  fill: none;
+  stroke: gray;
+  stroke-width: 0.35px;
 }
 
 .x path {
-    stroke: transparent;
+  stroke: transparent;
 }
 
 .vertical_line {
-    stroke: darkgreen;
-    stroke-width: 1px;
-    stroke-dasharray: 1 1;
+  stroke: darkgreen;
+  stroke-width: 1px;
+  stroke-dasharray: 1 1;
 }

@@ -1,4 +1,4 @@
-import { Box, CssBaseline, Typography, } from '@mui/material';
+import { Box, CssBaseline, Typography } from '@mui/material';
 import LOGOVoyagesPeople from '@/assets/sv-logo_v2.svg';
 import LOGOVoyages from '@/assets/sv-logo.png';
 import { Link } from 'react-router-dom';
@@ -30,10 +30,10 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 
 export default function HeaderLogo() {
   const dispatch: AppDispatch = useDispatch();
-  const { styleName } = usePageRouter()
+  const { styleName } = usePageRouter();
   const onChangePath = () => {
     dispatch(resetAllStateToInitailState());
-    dispatch(resetBlockNameAndPageName())
+    dispatch(resetBlockNameAndPageName());
     dispatch(setCurrentEnslavedPage(1));
     dispatch(setCurrentPage(1));
     dispatch(setInputSearchValue(''));
@@ -42,7 +42,9 @@ export default function HeaderLogo() {
     dispatch(setStyleName(jsonDataVoyageCollection[0].style_name));
     dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
     dispatch(
-      setDataSetPeopleEnslavedHeader(jsonDataPEOPLECOLLECTIONS[0].headers.label.en)
+      setDataSetPeopleEnslavedHeader(
+        jsonDataPEOPLECOLLECTIONS[0].headers.label.en
+      )
     );
     dispatch(
       setPeopleEnslavedTextIntro(
@@ -80,7 +82,7 @@ export default function HeaderLogo() {
           onClick={onChangePath}
         >
           <img
-            className='logo-voyage'
+            className="logo-voyage"
             src={styleName === 'PastHomePage' ? LOGOVoyagesPeople : LOGOVoyages}
             alt="voyage logo"
           />

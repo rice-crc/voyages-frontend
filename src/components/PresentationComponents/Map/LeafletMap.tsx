@@ -66,7 +66,11 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   );
 
   const effectOnce = useRef(false);
-  const { styleName: styleNamePage, nodeTypeURL, currentBlockName } = usePageRouter();
+  const {
+    styleName: styleNamePage,
+    nodeTypeURL,
+    currentBlockName,
+  } = usePageRouter();
   const zoomlevelValue = styleNamePage !== ESTIMATES ? REGION : broadRegion;
   const [regionPlace, setRegionPlace] = useState<string>(zoomlevelValue);
   const [loading, setLoading] = useState<boolean>(false);
@@ -98,7 +102,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     const filter: Filter[] = parsedValue.filter;
     if (!filter) return;
     dispatch(setFilterObject(filter));
-  }, [])
+  }, []);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout | undefined;
@@ -115,29 +119,52 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         clearTimeout(timeout);
       }
     };
-  }, [hasFetchedRegion])
+  }, [hasFetchedRegion]);
 
   useEffect(() => {
     const savedNodesDataRegion = localStorage.getItem('nodesDataregion');
     const saveEdgesDataRegion = localStorage.getItem('edgesDataregion');
-    const savedNodesDataBroadRegion = localStorage.getItem('nodesDatabroad_region');
-    const saveEdgesDataBroadRegion = localStorage.getItem('edgesDatabroad_region');
+    const savedNodesDataBroadRegion = localStorage.getItem(
+      'nodesDatabroad_region'
+    );
+    const saveEdgesDataBroadRegion = localStorage.getItem(
+      'edgesDatabroad_region'
+    );
     const savedNodesDataPlace = localStorage.getItem('nodesDataplace');
     const saveEdgesDataPlace = localStorage.getItem('edgesDataplace');
     /** ToSetZoom:  Voyages, Enslaved , Enslaver Map  with broad_region and region form localStorage */
-    if (saveEdgesDataPlace && savedNodesDataPlace && savedNodesDataRegion && saveEdgesDataRegion) {
-
-      if (zoomLevel >= ZOOM_LEVEL_THRESHOLD && !varName && !clusterNodeValue && !clusterNodeKeyVariable && styleNamePage !== ESTIMATES) {
+    if (
+      saveEdgesDataPlace &&
+      savedNodesDataPlace &&
+      savedNodesDataRegion &&
+      saveEdgesDataRegion
+    ) {
+      if (
+        zoomLevel >= ZOOM_LEVEL_THRESHOLD &&
+        !varName &&
+        !clusterNodeValue &&
+        !clusterNodeKeyVariable &&
+        styleNamePage !== ESTIMATES
+      ) {
         dispatch(setNodesDataPlace(JSON.parse(savedNodesDataPlace!)));
         dispatch(setEdgesDataPlace(JSON.parse(saveEdgesDataPlace!)));
         setLoading(false);
-      } else if (zoomLevel < ZOOM_LEVEL_THRESHOLD && !varName && !clusterNodeValue && !clusterNodeKeyVariable && styleNamePage !== ESTIMATES
+      } else if (
+        zoomLevel < ZOOM_LEVEL_THRESHOLD &&
+        !varName &&
+        !clusterNodeValue &&
+        !clusterNodeKeyVariable &&
+        styleNamePage !== ESTIMATES
       ) {
         dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion!)));
         dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion!)));
         setLoading(false);
       }
-    } else if (savedNodesDataBroadRegion && saveEdgesDataBroadRegion && styleNamePage === ESTIMATES) {
+    } else if (
+      savedNodesDataBroadRegion &&
+      saveEdgesDataBroadRegion &&
+      styleNamePage === ESTIMATES
+    ) {
       if (zoomLevel >= ZOOM_LEVEL_THRESHOLD) {
         if (savedNodesDataRegion && saveEdgesDataRegion) {
           dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion!)));
@@ -154,12 +181,18 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     }
   }, [zoomLevel, styleNamePage]);
 
-
-  const filters = filtersDataSend(filtersObj, styleNamePage!, clusterNodeKeyVariable, clusterNodeValue)
-  const newFilters = filters !== undefined && filters!.map(filter => {
-    const { label, title, ...filteredFilter } = filter;
-    return filteredFilter;
-  });
+  const filters = filtersDataSend(
+    filtersObj,
+    styleNamePage!,
+    clusterNodeKeyVariable,
+    clusterNodeValue
+  );
+  const newFilters =
+    filters !== undefined &&
+    filters!.map((filter) => {
+      const { label, title, ...filteredFilter } = filter;
+      return filteredFilter;
+    });
   const dataSend: MapPropsRequest = {
     filter: newFilters || [],
   };
@@ -187,13 +220,16 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   };
 
   useEffect(() => {
-
     if (currentBlockName !== 'tables' && currentBlockName !== 'timeline') {
-      if (!effectOnce.current || hasFetchedRegion || (clusterNodeKeyVariable !== '' && clusterNodeValue !== '') || varName) {
+      if (
+        !effectOnce.current ||
+        hasFetchedRegion ||
+        (clusterNodeKeyVariable !== '' && clusterNodeValue !== '') ||
+        varName
+      ) {
         fetchData(regionPlace);
       }
     }
-
   }, [
     nodeTypeURL,
     rang,
@@ -255,7 +291,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
       dispatch(setPathsData(paths));
     }
   };
-
 
   const map = useMap();
 

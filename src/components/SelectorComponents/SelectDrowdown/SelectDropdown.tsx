@@ -9,10 +9,7 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { FunctionComponent, ReactNode } from 'react';
-import {
-  PlotXYVar,
-  VoyagesOptionProps,
-} from '@/share/InterfaceTypes';
+import { PlotXYVar, VoyagesOptionProps } from '@/share/InterfaceTypes';
 import { getBoderColor } from '@/utils/functions/getColorStyle';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -27,28 +24,33 @@ interface SelectDropdownProps {
     event: SelectChangeEvent<string[]>,
     name: string
   ) => void;
-  aggregation: string
+  aggregation: string;
   maxWidth?: number;
   XFieldText?: string;
   YFieldText?: string;
   graphType?: string;
-  setXAxes?: React.Dispatch<React.SetStateAction<string>>
-  setYAxes?: React.Dispatch<React.SetStateAction<string[]>>
-  setYAxesPie?: React.Dispatch<React.SetStateAction<string>>
-  error?: boolean
+  setXAxes?: React.Dispatch<React.SetStateAction<string>>;
+  setYAxes?: React.Dispatch<React.SetStateAction<string[]>>;
+  setYAxesPie?: React.Dispatch<React.SetStateAction<string>>;
+  error?: boolean;
 }
 
 export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   selectedX,
   selectedY,
   graphType,
-  chips, error,
+  chips,
+  error,
   selectedOptions,
   handleChange,
   handleChangeMultipleYSelected,
   maxWidth,
-  XFieldText, aggregation,
-  YFieldText, setXAxes, setYAxes, setYAxesPie
+  XFieldText,
+  aggregation,
+  YFieldText,
+  setXAxes,
+  setYAxes,
+  setYAxesPie,
 }) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -75,14 +77,16 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
 
   return (
     <>
-      <Box sx={{ maxWidth, my: 4 }} >
+      <Box sx={{ maxWidth, my: 4 }}>
         <FormControl fullWidth>
-          <InputLabel id="x-field-label" style={{ color: '#000' }}>{XFieldText}</InputLabel>
+          <InputLabel id="x-field-label" style={{ color: '#000' }}>
+            {XFieldText}
+          </InputLabel>
           <Select
             sx={{
               height: 36,
               fontSize: '0.95rem',
-              color: '#000'
+              color: '#000',
             }}
             MenuProps={{
               disableScrollLock: true,
@@ -101,7 +105,9 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
             label={<span style={{ fontSize: '0.85rem' }}>{XFieldText}</span>}
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, 'x_vars');
-              const selectedOption = selectedX.find(option => option.var_name === event.target.value);
+              const selectedOption = selectedX.find(
+                (option) => option.var_name === event.target.value
+              );
               setXAxes && setXAxes(selectedOption ? selectedOption.label : '');
             }}
             name="x_vars"
@@ -124,7 +130,14 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
       {graphType !== 'PIE' ? (
         <Box sx={{ maxWidth, my: 2 }}>
           <FormControl fullWidth>
-            <InputLabel id="demo-multiple-chip-label" style={{ color: chips?.length === 0 && error ? "red" : '#000' }}>{chips?.length === 0 && error ? "Value can't be empty" : YFieldText}</InputLabel>
+            <InputLabel
+              id="demo-multiple-chip-label"
+              style={{ color: chips?.length === 0 && error ? 'red' : '#000' }}
+            >
+              {chips?.length === 0 && error
+                ? "Value can't be empty"
+                : YFieldText}
+            </InputLabel>
             <Select
               MenuProps={MenuProps}
               labelId="demo-multiple-chip-label"
@@ -137,8 +150,10 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                 if (handleChangeMultipleYSelected) {
                   handleChangeMultipleYSelected(event, 'y_vars');
                   const selectedYOptions = selectedY
-                    .filter(option => event.target.value.includes(option.var_name))
-                    .map(option => option.label);
+                    .filter((option) =>
+                      event.target.value.includes(option.var_name)
+                    )
+                    .map((option) => option.label);
                   setYAxes && setYAxes(selectedYOptions);
                 }
               }}
@@ -146,9 +161,18 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                 <OutlinedInput id="select-multiple-chip" label={YFieldText} />
               }
               renderValue={(value): ReactNode => (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', color: 'red', fontSize: '0.75rem' }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    color: 'red',
+                    fontSize: '0.75rem',
+                  }}
+                >
                   {value.map((option: string, index: number) => {
-                    const selectedOption = selectedY.find((item) => item.var_name === option);
+                    const selectedOption = selectedY.find(
+                      (item) => item.var_name === option
+                    );
                     return (
                       <Chip
                         style={{
@@ -165,27 +189,36 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               )}
             >
               {selectedY.map((option: PlotXYVar, index: number) => {
-                const label = displayYLabel(aggregation!, option.agg_fns!, option.label)
-                return label !== null &&
-                  <MenuItem
-                    key={`${option.label}-${index}`}
-                    value={option.var_name}
-                    disabled={isDisabledY(option)}
-                  >
-                    {label}
-                  </MenuItem>
+                const label = displayYLabel(
+                  aggregation!,
+                  option.agg_fns!,
+                  option.label
+                );
+                return (
+                  label !== null && (
+                    <MenuItem
+                      key={`${option.label}-${index}`}
+                      value={option.var_name}
+                      disabled={isDisabledY(option)}
+                    >
+                      {label}
+                    </MenuItem>
+                  )
+                );
               })}
             </Select>
           </FormControl>
         </Box>
       ) : (
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label" style={{ color: '#000' }}>{YFieldText}</InputLabel>
+          <InputLabel id="demo-simple-select-label" style={{ color: '#000' }}>
+            {YFieldText}
+          </InputLabel>
           <Select
             sx={{
               height: 36,
               fontSize: '0.95rem',
-              color: '#000'
+              color: '#000',
             }}
             MenuProps={{
               PaperProps: {
@@ -203,8 +236,11 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
             label={XFieldText}
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, 'y_vars');
-              const selectYoption = selectedY.find(option => option.var_name === event.target.value);
-              setYAxesPie && setYAxesPie(selectYoption ? selectYoption.label : '');
+              const selectYoption = selectedY.find(
+                (option) => option.var_name === event.target.value
+              );
+              setYAxesPie &&
+                setYAxesPie(selectYoption ? selectYoption.label : '');
             }}
             name="y_vars"
           >
@@ -218,9 +254,11 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               </MenuItem>
             ))}
           </Select>
-          {chips?.length === 0 && error && <Box sx={{ maxWidth, my: 2, color: 'red', fontSize: '0.75rem' }}>
-            Value can't be empty
-          </Box>}
+          {chips?.length === 0 && error && (
+            <Box sx={{ maxWidth, my: 2, color: 'red', fontSize: '0.75rem' }}>
+              Value can't be empty
+            </Box>
+          )}
         </FormControl>
       )}
     </>
@@ -228,14 +266,22 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
 };
 
 // Create label Y depending on sum or mean to display
-const displayYLabel = (aggregation: string, agg_fns: string[], label: string) => {
+const displayYLabel = (
+  aggregation: string,
+  agg_fns: string[],
+  label: string
+) => {
   let yLabel = null;
-  if (aggregation === 'sum' && agg_fns!.includes('sum') && agg_fns!.includes('mean')) {
-    yLabel = label
+  if (
+    aggregation === 'sum' &&
+    agg_fns!.includes('sum') &&
+    agg_fns!.includes('mean')
+  ) {
+    yLabel = label;
   } else if (aggregation === 'sum' && agg_fns!.includes('sum')) {
-    yLabel = label
+    yLabel = label;
   } else if (aggregation === 'mean' && agg_fns!.includes('mean')) {
-    yLabel = label
+    yLabel = label;
   }
-  return yLabel
-}
+  return yLabel;
+};

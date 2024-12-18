@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties } from 'react';
 import { styled } from '@mui/material/styles';
 
 const grey = {
@@ -33,7 +33,7 @@ export const styleCard: CSSProperties = {
   lineHeight: '25px',
   fontSize: '.8rem',
   cursor: 'pointer',
-  wordWrap: 'break-word'
+  wordWrap: 'break-word',
 };
 export const contentStyle: React.CSSProperties = {
   height: '200px',
@@ -42,9 +42,8 @@ export const contentStyle: React.CSSProperties = {
   textAlign: 'center',
   background: '#364d79',
   width: '30%',
-  margin: '2%'
+  margin: '2%',
 };
-
 
 export const PopupSaveSearchBody = styled('div')(
   ({ theme }) => `
@@ -54,13 +53,14 @@ export const PopupSaveSearchBody = styled('div')(
   border-radius: 8px;
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
   background-color: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  box-shadow: ${theme.palette.mode === 'dark'
+  box-shadow: ${
+    theme.palette.mode === 'dark'
       ? `0px 4px 8px rgb(0 0 0 / 0.7)`
       : `0px 4px 8px rgb(0 0 0 / 0.1)`
-    };
+  };
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 500;
   font-size: 0.875rem;
   z-index: 1;
-`,
+`
 );

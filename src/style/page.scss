@@ -3,51 +3,35 @@
     @media only screen and (max-width: 374px) {
       @content;
     }
-  }
-
-  @else if $size==1 {
+  } @else if $size==1 {
     @media only screen and (min-width: 375px) and (max-width: 424px) {
       @content;
     }
-  }
-
-  @else if $size==1.1 {
+  } @else if $size==1.1 {
     @media only screen and (min-width: 425px) and (max-width: 479px) {
       @content;
     }
-  }
-
-  @else if $size==2 {
+  } @else if $size==2 {
     @media only screen and (min-width: 480px) and (max-width: 575px) {
       @content;
     }
-  }
-
-  @else if $size==3 {
+  } @else if $size==3 {
     @media only screen and (min-width: 576px) and (max-width: 767px) {
       @content;
     }
-  }
-
-  @else if $size==4 {
+  } @else if $size==4 {
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       @content;
     }
-  }
-
-  @else if $size==5 {
+  } @else if $size==5 {
     @media only screen and (min-width: 992px) and (max-width: 1024px) {
       @content;
     }
-  }
-
-  @else if $size==6 {
+  } @else if $size==6 {
     @media only screen and (min-width: 1025px) and (max-width: 1366px) {
       @content;
     }
-  }
-
-  @else if $size==7 {
+  } @else if $size==7 {
     @media only screen and (max-width: 1440px) {
       @content;
     }
@@ -372,8 +356,10 @@
 #main-voyagepage {
   height: 110vh;
   background-repeat: no-repeat;
-  background: linear-gradient(rgba(147, 208, 203, 0.5),
-      rgba(147, 208, 203, 0.4)),
+  background: linear-gradient(
+      rgba(147, 208, 203, 0.5),
+      rgba(147, 208, 203, 0.4)
+    ),
     url('../assets/bgsueArt.svg') center / cover;
 }
 
@@ -387,10 +373,11 @@
 #main-voyagepage-intra-american {
   height: 110vh;
   background-repeat: no-repeat;
-  background: linear-gradient(rgba(127, 118, 191, 0.8),
-      rgba(127, 118, 191, 0.8)),
+  background: linear-gradient(
+      rgba(127, 118, 191, 0.8),
+      rgba(127, 118, 191, 0.8)
+    ),
     url('../assets/intra-american.jpeg') center / cover;
-
 }
 
 #main-voyagepage-texas {
@@ -610,13 +597,11 @@
         left: 3rem;
       }
 
-
       @include breakpoint-standard(0) {
         position: relative;
         left: 2rem;
       }
     }
-
   }
 
   .separator {
@@ -659,7 +644,6 @@
   }
 }
 
-
 .loading-logo-graph {
   display: flex;
   justify-content: center;
@@ -667,7 +651,7 @@
   margin: auto;
   height: 50vh;
 
-  >img {
+  > img {
     width: 15%;
 
     @include breakpoint-standard(5) {

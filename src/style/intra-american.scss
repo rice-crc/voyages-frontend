@@ -1,358 +1,329 @@
 @mixin breakpoint-standard($size) {
-    @if $size==0 {
-        @media only screen and (max-width: 374px) {
-            @content;
-        }
+  @if $size==0 {
+    @media only screen and (max-width: 374px) {
+      @content;
     }
-
-    @else if $size==1 {
-        @media only screen and (min-width: 375px) and (max-width: 479px) {
-            @content;
-        }
+  } @else if $size==1 {
+    @media only screen and (min-width: 375px) and (max-width: 479px) {
+      @content;
     }
-
-    @else if $size==2 {
-        @media only screen and (min-width: 480px) and (max-width: 575px) {
-            @content;
-        }
+  } @else if $size==2 {
+    @media only screen and (min-width: 480px) and (max-width: 575px) {
+      @content;
     }
-
-    @else if $size==3 {
-        @media only screen and (min-width: 576px) and (max-width: 767px) {
-            @content;
-        }
+  } @else if $size==3 {
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+      @content;
     }
-
-    @else if $size==4 {
-        @media only screen and (min-width: 768px) and (max-width: 991px) {
-            @content;
-        }
+  } @else if $size==4 {
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+      @content;
     }
-
-    @else if $size==5 {
-        @media only screen and (min-width: 992px) and (max-width: 1024px) {
-            @content;
-        }
+  } @else if $size==5 {
+    @media only screen and (min-width: 992px) and (max-width: 1024px) {
+      @content;
     }
-
-    @else if $size==6 {
-        @media only screen and (min-width: 1025px) and (max-width: 1366px) {
-            @content;
-        }
+  } @else if $size==6 {
+    @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+      @content;
     }
-
-    @else if $size==7 {
-        @media only screen and (max-width: 1440px) {
-            @content;
-        }
+  } @else if $size==7 {
+    @media only screen and (max-width: 1440px) {
+      @content;
     }
+  }
 }
 
 :root {
-    --up: 5;
-    --card-margin: 12px;
-    --card-shadow: rgba(46, 49, 52, .4);
-    --color-white: #fff;
-    --color-lightgrey: #ccc;
-    --color-ui: #999;
-    --color-bg: rgb(125, 120, 190, 0.59);
-    --button-text-color: #000000;
-    --color-ui-hover: #666;
-    --cardWidth: calc(115vw/var(--up));
-    --carouselWidth: calc(var(--cardWidth) * var(--num));
-    --carouselLeftMargin: calc(3.5vw - var(--cardWidth));
+  --up: 5;
+  --card-margin: 12px;
+  --card-shadow: rgba(46, 49, 52, 0.4);
+  --color-white: #fff;
+  --color-lightgrey: #ccc;
+  --color-ui: #999;
+  --color-bg: rgb(125, 120, 190, 0.59);
+  --button-text-color: #000000;
+  --color-ui-hover: #666;
+  --cardWidth: calc(115vw / var(--up));
+  --carouselWidth: calc(var(--cardWidth) * var(--num));
+  --carouselLeftMargin: calc(3.5vw - var(--cardWidth));
 
-
-    @media screen and (max-width: 900px) {
-        /*basically mobile*/
-        --up: 1;
-    }
+  @media screen and (max-width: 900px) {
+    /*basically mobile*/
+    --up: 1;
+  }
 }
 
-
-
 .container-intra-american {
+  width: 100%;
+  background-color: var(--color-white);
+  padding: 3rem 0;
+
+  .intra-american {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    background-color: var(--color-white);
-    padding: 3rem 0;
-
-    .intra-american {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        flex-direction: row-reverse;
-
-        @include breakpoint-standard(5) {
-            flex-direction: column;
-        }
-
-        @include breakpoint-standard(4) {
-            flex-direction: column;
-        }
-
-        @include breakpoint-standard(3) {
-            flex-direction: column;
-        }
-
-        @include breakpoint-standard(2) {
-            flex-direction: column;
-        }
-
-        @include breakpoint-standard(1) {
-            flex-direction: column;
-        }
-
-        @include breakpoint-standard(0) {
-            flex-direction: column-reverse;
-        }
-
-        .intra-american-bg {
-            background-color: var(--color-bg);
-            text-align: center;
-            padding: 4rem 4rem 4rem 0;
-
-            @include breakpoint-standard(5) {
-                width: 100%;
-                padding: 3rem 0;
-                ;
-            }
-
-            @include breakpoint-standard(4) {
-                width: 100%;
-                padding: 3rem 0;
-                ;
-            }
-
-            @include breakpoint-standard(3) {
-                width: 100%;
-                padding: 3rem 0;
-                ;
-            }
-
-            @include breakpoint-standard(2) {
-                width: 100%;
-                padding: 3rem 0;
-                ;
-            }
-
-            @include breakpoint-standard(1) {
-                width: 100%;
-                padding: 3rem 0;
-                ;
-            }
-
-            @include breakpoint-standard(0) {
-                width: 100%;
-                padding: 3rem 0;
-                ;
-            }
-        }
-
-
-        .intra-american-detail {
-            color: rgba(0, 0, 0, 0.95);
-            text-align: center;
-            position: relative;
-            width: 45%;
-
-            @include breakpoint-standard(5) {
-                width: 70%;
-                padding: 1.5rem;
-                position: static;
-                right: 0;
-
-            }
-
-            @include breakpoint-standard(4) {
-                width: 70%;
-                padding: 1.5rem;
-                position: static;
-                right: 0;
-            }
-
-            @include breakpoint-standard(3) {
-                width: 90%;
-                position: static;
-                right: 0;
-            }
-
-            @include breakpoint-standard(2) {
-                width: 100%;
-                position: static;
-                right: 0;
-            }
-
-            @include breakpoint-standard(1) {
-                width: 100%;
-                position: static;
-                right: 0;
-            }
-
-            @include breakpoint-standard(0) {
-                width: 100%;
-                position: static;
-                right: 0;
-            }
-
-            h1 {
-                font-weight: 700;
-                font-size: 3rem;
-                opacity: 0.7;
-                line-height: 60px;
-
-                @include breakpoint-standard(2) {
-                    font-size: 40px;
-                }
-
-                @include breakpoint-standard(1) {
-                    font-size: 40px;
-                }
-
-                @include breakpoint-standard(0) {
-                    font-size: 40px;
-                }
-            }
-
-            p {
-                padding: 2rem 5rem;
-                font-size: 1.12rem;
-                font-weight: 400;
-
-
-            }
-
-        }
-
-    }
+    flex-direction: row-reverse;
 
     @include breakpoint-standard(5) {
-        padding: 2rem 0;
+      flex-direction: column;
     }
 
     @include breakpoint-standard(4) {
-        padding: 2rem 0;
+      flex-direction: column;
     }
 
     @include breakpoint-standard(3) {
-        padding: 2rem 0;
+      flex-direction: column;
     }
 
     @include breakpoint-standard(2) {
-        padding: 0;
+      flex-direction: column;
     }
 
     @include breakpoint-standard(1) {
-        padding: 0;
+      flex-direction: column;
     }
 
     @include breakpoint-standard(0) {
-        padding: 0;
+      flex-direction: column-reverse;
     }
+
+    .intra-american-bg {
+      background-color: var(--color-bg);
+      text-align: center;
+      padding: 4rem 4rem 4rem 0;
+
+      @include breakpoint-standard(5) {
+        width: 100%;
+        padding: 3rem 0;
+      }
+
+      @include breakpoint-standard(4) {
+        width: 100%;
+        padding: 3rem 0;
+      }
+
+      @include breakpoint-standard(3) {
+        width: 100%;
+        padding: 3rem 0;
+      }
+
+      @include breakpoint-standard(2) {
+        width: 100%;
+        padding: 3rem 0;
+      }
+
+      @include breakpoint-standard(1) {
+        width: 100%;
+        padding: 3rem 0;
+      }
+
+      @include breakpoint-standard(0) {
+        width: 100%;
+        padding: 3rem 0;
+      }
+    }
+
+    .intra-american-detail {
+      color: rgba(0, 0, 0, 0.95);
+      text-align: center;
+      position: relative;
+      width: 45%;
+
+      @include breakpoint-standard(5) {
+        width: 70%;
+        padding: 1.5rem;
+        position: static;
+        right: 0;
+      }
+
+      @include breakpoint-standard(4) {
+        width: 70%;
+        padding: 1.5rem;
+        position: static;
+        right: 0;
+      }
+
+      @include breakpoint-standard(3) {
+        width: 90%;
+        position: static;
+        right: 0;
+      }
+
+      @include breakpoint-standard(2) {
+        width: 100%;
+        position: static;
+        right: 0;
+      }
+
+      @include breakpoint-standard(1) {
+        width: 100%;
+        position: static;
+        right: 0;
+      }
+
+      @include breakpoint-standard(0) {
+        width: 100%;
+        position: static;
+        right: 0;
+      }
+
+      h1 {
+        font-weight: 700;
+        font-size: 3rem;
+        opacity: 0.7;
+        line-height: 60px;
+
+        @include breakpoint-standard(2) {
+          font-size: 40px;
+        }
+
+        @include breakpoint-standard(1) {
+          font-size: 40px;
+        }
+
+        @include breakpoint-standard(0) {
+          font-size: 40px;
+        }
+      }
+
+      p {
+        padding: 2rem 5rem;
+        font-size: 1.12rem;
+        font-weight: 400;
+      }
+    }
+  }
+
+  @include breakpoint-standard(5) {
+    padding: 2rem 0;
+  }
+
+  @include breakpoint-standard(4) {
+    padding: 2rem 0;
+  }
+
+  @include breakpoint-standard(3) {
+    padding: 2rem 0;
+  }
+
+  @include breakpoint-standard(2) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(1) {
+    padding: 0;
+  }
+
+  @include breakpoint-standard(0) {
+    padding: 0;
+  }
 }
 
 .intra-american-img {
+  width: 100%;
+
+  @include breakpoint-standard(5) {
     width: 100%;
+  }
 
-    @include breakpoint-standard(5) {
-        width: 100%;
-    }
+  @include breakpoint-standard(4) {
+    width: 100%;
+  }
 
-    @include breakpoint-standard(4) {
-        width: 100%;
-    }
+  @include breakpoint-standard(3) {
+    width: 100%;
+  }
 
-    @include breakpoint-standard(3) {
-        width: 100%;
-    }
+  @include breakpoint-standard(2) {
+    width: 100%;
+  }
 
-    @include breakpoint-standard(2) {
-        width: 100%;
-    }
+  @include breakpoint-standard(1) {
+    width: 100%;
+  }
 
-    @include breakpoint-standard(1) {
-        width: 100%;
-    }
-
-    @include breakpoint-standard(0) {
-        width: 100%;
-    }
+  @include breakpoint-standard(0) {
+    width: 100%;
+  }
 }
 
 .list-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+
+  @include breakpoint-standard(2) {
+    padding: 1.5rem 0;
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+
+  @include breakpoint-standard(1) {
+    padding: 1.5rem 0;
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+
+  @include breakpoint-standard(0) {
+    padding: 1.5rem 0;
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+
+  .btn-list-name {
+    margin: 0 10px;
+    color: #000;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: bold;
+    width: 100px;
+    border: 1px solid #565656;
+    border-radius: 8px;
+    line-height: 1.7rem;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px black;
+    padding: 0 5px;
+
+    @include breakpoint-standard(8) {
+      width: 100px;
+    }
+
+    @include breakpoint-standard(7) {
+      width: 100px;
+    }
+
+    @include breakpoint-standard(6) {
+      width: 100px;
+    }
+
+    @include breakpoint-standard(5) {
+      width: 100px;
+    }
+
+    @include breakpoint-standard(4) {
+      width: 80px;
+    }
 
     @include breakpoint-standard(2) {
-        padding: 1.5rem 0;
-        display: grid;
-        grid-template-columns: auto auto;
+      font-size: 0.75rem;
+      width: 75px;
+      margin: 5px;
     }
 
     @include breakpoint-standard(1) {
-        padding: 1.5rem 0;
-        display: grid;
-        grid-template-columns: auto auto;
+      font-size: 0.75rem;
+      width: 75px;
+      margin: 5px;
     }
 
     @include breakpoint-standard(0) {
-        padding: 1.5rem 0;
-        display: grid;
-        grid-template-columns: auto auto;
+      font-size: 0.75rem;
+      width: 75px;
+      margin: 5px;
     }
-
-    .btn-list-name {
-        margin: 0 10px;
-        color: #000;
-        text-align: center;
-        font-size: 0.85rem;
-        font-weight: bold;
-        width: 100px;
-        border: 1px solid #565656;
-        border-radius: 8px;
-        line-height: 1.7rem;
-        cursor: pointer;
-        box-shadow: 1px 1px 1px black;
-        padding: 0 5px;
-
-        @include breakpoint-standard(8) {
-            width: 100px;
-        }
-
-        @include breakpoint-standard(7) {
-            width: 100px;
-        }
-
-        @include breakpoint-standard(6) {
-            width: 100px;
-        }
-
-        @include breakpoint-standard(5) {
-            width: 100px;
-        }
-
-        @include breakpoint-standard(4) {
-            width: 80px;
-        }
-
-        @include breakpoint-standard(2) {
-            font-size: 0.75rem;
-            width: 75px;
-            margin: 5px;
-        }
-
-        @include breakpoint-standard(1) {
-            font-size: 0.75rem;
-            width: 75px;
-            margin: 5px;
-        }
-
-        @include breakpoint-standard(0) {
-            font-size: 0.75rem;
-            width: 75px;
-            margin: 5px;
-        }
-    }
+  }
 }

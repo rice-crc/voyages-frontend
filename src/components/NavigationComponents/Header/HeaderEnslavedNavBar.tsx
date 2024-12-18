@@ -2,7 +2,15 @@ import { MouseEventHandler, useEffect, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
-import { Menu, Typography, AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
+import {
+  Menu,
+  Typography,
+  AppBar,
+  Box,
+  IconButton,
+  Hidden,
+  Divider,
+} from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -57,15 +65,13 @@ import LanguagesDropdown from '@/components/SelectorComponents/DropDown/Language
 import { enslavedHeader } from '@/utils/languages/title_pages';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
 
-
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { styleName: styleNameRoute } = usePageRouter()
+  const { styleName: styleNameRoute } = usePageRouter();
   const { currentPageBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslavedPage
   );
-
 
   const { value, textHeader } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
@@ -79,7 +85,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
 
-
   const styleNameToPathMap: { [key: string]: string } = {
     [ALLENSLAVED]: `${ENSALVEDPAGE}${ALLENSLAVEDPAGE}#${currentPageBlockName}`,
     [AFRICANORIGINS]: `${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#${currentPageBlockName}`,
@@ -88,13 +93,13 @@ const HeaderEnslavedNavBar: React.FC = () => {
 
   useEffect(() => {
     if (styleNameRoute === ALLENSLAVED) {
-      dispatch(setDataSetPeopleEnslavedHeader(AllEnslavedPeople))
+      dispatch(setDataSetPeopleEnslavedHeader(AllEnslavedPeople));
     } else if (styleNameRoute === AFRICANORIGINS) {
-      dispatch(setDataSetPeopleEnslavedHeader(AfricanOriginsTransAtlantic))
+      dispatch(setDataSetPeopleEnslavedHeader(AfricanOriginsTransAtlantic));
     } else if (styleNameRoute === ENSLAVEDTEXAS) {
-      dispatch(setDataSetPeopleEnslavedHeader(TEXBOUND))
+      dispatch(setDataSetPeopleEnslavedHeader(TEXBOUND));
     }
-  }, [styleNameRoute])
+  }, [styleNameRoute]);
 
   const handleSelectEnslavedDataset = (
     baseFilter: BaseFilter[],
@@ -105,7 +110,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
-
     dispatch(resetAll());
     const filters: Filter[] = [];
     if (styleName === ALLENSLAVED && currentPageBlockName === 'people') {
@@ -117,24 +121,33 @@ const HeaderEnslavedNavBar: React.FC = () => {
         filters.push({
           varName: base.var_name,
           searchTerm: base.value,
-          op: "in"
-        })
+          op: 'in',
+        });
         dispatch(setFilterObject(filters));
       }
       if (filters) {
-        localStorage.setItem('filterObject', JSON.stringify({
-          filter: filters
-        }));
+        localStorage.setItem(
+          'filterObject',
+          JSON.stringify({
+            filter: filters,
+          })
+        );
       } else {
-        localStorage.setItem('filterObject', JSON.stringify({
-          filter: filters
-        }));
+        localStorage.setItem(
+          'filterObject',
+          JSON.stringify({
+            filter: filters,
+          })
+        );
       }
       dispatch(setDataSetPeopleEnslavedHeader(textHeder));
       dispatch(setPeopleEnslavedTextIntro(textIntro));
       dispatch(setPeopleEnslavedStyleName(styleName));
       dispatch(setPeopleEnslavedBlocksMenuList(blocks));
-      dispatch(setPeopleEnslavedFilterMenuFlatfile(filterMenuFlatfile ? filterMenuFlatfile : '')
+      dispatch(
+        setPeopleEnslavedFilterMenuFlatfile(
+          filterMenuFlatfile ? filterMenuFlatfile : ''
+        )
       );
       dispatch(
         setPeopleTableEnslavedFlatfile(tableFlatfile ? tableFlatfile : '')
@@ -155,7 +168,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
     setAnchorFilterMobileEl(null);
   };
 
-
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -166,15 +178,17 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const onClickResetOnHeader = () => {
     dispatch(resetAll());
     dispatch(resetBlockNameAndPageName());
-    dispatch(resetAllStateToInitailState())
+    dispatch(resetAllStateToInitailState());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
   };
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
 
-  let EnslavedTitle = ''
+  let EnslavedTitle = '';
   for (const header of enslavedHeader.header) {
     EnslavedTitle = (header.label as LabelFilterMeneList)[languageValue];
   }
@@ -189,7 +203,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
         style={{
           backgroundColor: getColorNavbarEnslavedBackground(styleNameRoute!),
           paddingTop: 5,
-          zIndex: 5
+          zIndex: 5,
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -212,14 +226,10 @@ const HeaderEnslavedNavBar: React.FC = () => {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <span className='header-logo-icon'>
+            <span className="header-logo-icon">
               <HeaderLogo />
-              <DatabaseDropdown
-                onClickReset={onClickResetOnHeader}
-              />
-              <HeaderTitle
-                textHeader={textHeader}
-              />
+              <DatabaseDropdown onClickReset={onClickResetOnHeader} />
+              <HeaderTitle textHeader={textHeader} />
             </span>
             <Typography
               component="div"
@@ -238,7 +248,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
               }}
             >
               {inputSearchValue && <GlobalSearchButton />}
-
             </Typography>
           </Typography>
           {!inputSearchValue && <CascadingMenuMobile />}
@@ -278,10 +287,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
             borderClor: 'rgb(0 0 0 / 50%)',
           }}
         />
-        <Hidden mdDown>
-          {!inputSearchValue &&
-            <CascadingMenu />}
-        </Hidden>
+        <Hidden mdDown>{!inputSearchValue && <CascadingMenu />}</Hidden>
         <Box component="nav">
           <Menu
             anchorEl={anchorEl}

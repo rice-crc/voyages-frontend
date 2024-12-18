@@ -4,7 +4,7 @@ import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSea
 
 const AuthorPage: React.FC = () => {
   return (
-    <div className='blog-container'>
+    <div className="blog-container">
       <HeaderLogoSearch />
       <HeaderNavBarBlog />
       <AuthorPost />

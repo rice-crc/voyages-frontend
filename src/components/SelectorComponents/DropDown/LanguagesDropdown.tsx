@@ -19,8 +19,14 @@ import { setDataSetEnslaversHeader } from '@/redux/getPeopleEnslaversDataSetColl
 export default function LanguagesDropdown() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { languageValueLabel } = useSelector((state: RootState) => state.getLanguages);
-  const { styleName: styleNameRoute, endpointPathEstimate, endpointPath } = usePageRouter()
+  const { languageValueLabel } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
+  const {
+    styleName: styleNameRoute,
+    endpointPathEstimate,
+    endpointPath,
+  } = usePageRouter();
   const post = useSelector(
     (state: RootState) => state.getBlogData.post as BlogDataProps
   );
@@ -39,20 +45,24 @@ export default function LanguagesDropdown() {
     dispatch(setLanguages(value));
     dispatch(setLanguagesLabel(label));
     dispatch(setBlogPost(post as BlogDataProps));
-    const hederTitleName = checkHeaderTitleLanguages(value, styleNameRoute!)
-    dispatch(setDataSetHeader(hederTitleName))
-    dispatch(setDataSetPeopleEnslavedHeader(hederTitleName))
-    dispatch(setDataSetEnslaversHeader(hederTitleName))
+    const hederTitleName = checkHeaderTitleLanguages(value, styleNameRoute!);
+    dispatch(setDataSetHeader(hederTitleName));
+    dispatch(setDataSetPeopleEnslavedHeader(hederTitleName));
+    dispatch(setDataSetEnslaversHeader(hederTitleName));
     localStorage.setItem('languages', value);
   };
 
-  let colorText = '#ffffff'
-  if (endpointPathEstimate === 'estimates' || endpointPath === 'accounts' || endpointPath === 'contribute') {
-    colorText = '#ffffff'
+  let colorText = '#ffffff';
+  if (
+    endpointPathEstimate === 'estimates' ||
+    endpointPath === 'accounts' ||
+    endpointPath === 'contribute'
+  ) {
+    colorText = '#ffffff';
   } else if (styleNameRoute === '' || styleNameRoute === 'PastHomePage') {
-    colorText = 'rgba(0, 0, 0, 0.85)'
+    colorText = 'rgba(0, 0, 0, 0.85)';
   }
-  const fontSize = '0.8rem'
+  const fontSize = '0.8rem';
 
   return (
     <div className="select-languages">

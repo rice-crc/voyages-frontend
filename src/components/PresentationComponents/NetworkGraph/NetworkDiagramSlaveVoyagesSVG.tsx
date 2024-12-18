@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPastNetworksGraphApi } from '@/fetch/pastEnslavedFetch/fetchPastNetworksGraph';
-import { setPastNetworksData, } from '@/redux/getPastNetworksGraphDataSlice';
+import { setPastNetworksData } from '@/redux/getPastNetworksGraphDataSlice';
 import { netWorkDataProps } from '@/share/InterfaceTypePastNetworks';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { useDimensions } from '@/hooks/useDimensions';
@@ -29,7 +29,6 @@ export const NetworkDiagramSlaveVoyagesSVG = ({
   const width = (modalWidth * widthPercentage) / 100;
   const height = (modalHeight * heigthPercentage) / 100;
 
-
   useEffect(() => {
     let subscribed = true;
     const dataSend: { [key: string]: number[] } = {
@@ -39,12 +38,13 @@ export const NetworkDiagramSlaveVoyagesSVG = ({
     const fetchPastNetworksGraph = async () => {
       setIsLoading(true);
       try {
-        const response = await dispatch(fetchPastNetworksGraphApi(dataSend)).unwrap();
+        const response = await dispatch(
+          fetchPastNetworksGraphApi(dataSend)
+        ).unwrap();
 
         if (response && subscribed) {
           setIsLoading(false);
           dispatch(setPastNetworksData(response as netWorkDataProps));
-
         }
       } catch (error) {
         setIsLoading(false);
@@ -60,18 +60,16 @@ export const NetworkDiagramSlaveVoyagesSVG = ({
   if (width === 0 || !netWorkData) {
     return null;
   }
-  return (
-    isLoading ? (
-      <div className="loading-logo">
-        <img src={LOADINGLOGO} />
-      </div>
-    ) : (
-      <div style={{ width: `${width}px`, height: `${height}px` }} ref={graphRef} >
-        <NetworkDiagramDrawSVG
-          width={graphSize.width}
-          height={graphSize.height}
-        />
-      </div>
-    )
+  return isLoading ? (
+    <div className="loading-logo">
+      <img src={LOADINGLOGO} />
+    </div>
+  ) : (
+    <div style={{ width: `${width}px`, height: `${height}px` }} ref={graphRef}>
+      <NetworkDiagramDrawSVG
+        width={graphSize.width}
+        height={graphSize.height}
+      />
+    </div>
   );
 };

@@ -1,11 +1,10 @@
-import {
-  Chip,
-  Typography,
-  TextField,
-  Autocomplete,
-} from '@mui/material';
+import { Chip, Typography, TextField, Autocomplete } from '@mui/material';
 import { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
-import { Filter, FilterObjectsState, MultiselectListProps } from '@/share/InterfaceTypes';
+import {
+  Filter,
+  FilterObjectsState,
+  MultiselectListProps,
+} from '@/share/InterfaceTypes';
 import { getBoderColor } from '@/utils/functions/getColorStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -14,7 +13,18 @@ import { updateNationalityObject } from '@/utils/functions/updateNationalityObje
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { fetchResistanceList } from '@/fetch/voyagesFetch/fetchResistanceList';
-import { varNameOfFlagOfVessel, varNameOfFlagOfVesselIMP, varNameOfResistance, varNameParticularCoutComeList, varNameRigOfVesselList, varNameOwnerOutcomeList, varNameTonTypList, varNameSlavesOutcomeList, varNameVesselCapturedOutcomeList, varNameEnslaverRoleList } from '@/share/CONST_DATA';
+import {
+  varNameOfFlagOfVessel,
+  varNameOfFlagOfVesselIMP,
+  varNameOfResistance,
+  varNameParticularCoutComeList,
+  varNameRigOfVesselList,
+  varNameOwnerOutcomeList,
+  varNameTonTypList,
+  varNameSlavesOutcomeList,
+  varNameVesselCapturedOutcomeList,
+  varNameEnslaverRoleList,
+} from '@/share/CONST_DATA';
 import { fetchParticularOutcomeList } from '@/fetch/voyagesFetch/fetchParticularOutcomeList';
 import { fetchRigOfVesselList } from '@/fetch/voyagesFetch/fetchRigOfVesselList';
 import { fetchOwnerOutcomeList } from '@/fetch/voyagesFetch/fetchOwnerOutcomeList';
@@ -23,10 +33,11 @@ import { fetchTonTypeList } from '@/fetch/voyagesFetch/fetchTonTypeList';
 import { fetchVesselCapturedOutcomeList } from '@/fetch/voyagesFetch/fetchVesselCapturedOutcomeList';
 import { fetchEnslaverRoleList } from '@/fetch/voyagesFetch/fetchEnslaverRoleList';
 
-interface SelectSearchDropdownListProps {
-}
+interface SelectSearchDropdownListProps {}
 
-export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownListProps> = () => {
+export const SelectSearchDropdownList: FunctionComponent<
+  SelectSearchDropdownListProps
+> = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
@@ -39,7 +50,9 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
   );
   const { styleName: styleNameRoute } = usePageRouter();
   const [multipleList, setMultipleList] = useState<MultiselectListProps[]>([]);
-  const [multipleOptionsList, setMultipleOptionsList] = useState<MultiselectListProps[]>([]);
+  const [multipleOptionsList, setMultipleOptionsList] = useState<
+    MultiselectListProps[]
+  >([]);
 
   const fetchFunctionMapping: Record<string, () => Promise<any>> = {
     [varNameOfFlagOfVessel]: fetchNationalityList,
@@ -70,7 +83,7 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
   };
 
   useEffect(() => {
-    fetchNationalityData()
+    fetchNationalityData();
     const storedValue = localStorage.getItem('filterObject');
     if (!storedValue) return;
     const parsedValue = JSON.parse(storedValue);
@@ -83,10 +96,9 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
     const values = multipleList.map<MultiselectListProps>((name: string) => ({
       name: name,
     }));
-    setMultipleList(values)
+    setMultipleList(values);
     dispatch(setFilterObject(filter));
   }, [varName, styleName]);
-
 
   const handleSelected = (
     event: SyntheticEvent<Element, Event>,
@@ -95,9 +107,14 @@ export const SelectSearchDropdownList: FunctionComponent<SelectSearchDropdownLis
     if (!newValue) return;
     setMultipleList(newValue);
     const valueSelect: string[] = newValue.map((ele) => ele.name);
-    updateNationalityObject(dispatch, valueSelect, varName, labelVarName, styleNameRoute!)
+    updateNationalityObject(
+      dispatch,
+      valueSelect,
+      varName,
+      labelVarName,
+      styleNameRoute!
+    );
   };
-
 
   return (
     <Autocomplete

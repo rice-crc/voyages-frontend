@@ -7,7 +7,7 @@ import HeaderNavBarBlog from '@/components/NavigationComponents/Header/HeaderNav
 
 const BlogDetailsPost: React.FC = () => {
   return (
-    <div className='blog-container'>
+    <div className="blog-container">
       <HeaderLogoSearch />
       <HeaderNavBarBlog />
       <div className="container-new">

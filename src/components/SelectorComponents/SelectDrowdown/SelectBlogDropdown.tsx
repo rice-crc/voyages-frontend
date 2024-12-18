@@ -48,7 +48,7 @@ export default function SelectBlogDropdown({
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        className='blog-select-tag'
+        className="blog-select-tag"
         endIcon={
           <span>
             <ArrowDropDown

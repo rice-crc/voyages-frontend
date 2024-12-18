@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import '@/style/homepage.scss';
@@ -7,22 +7,24 @@ import MenuButtonHomePage from '@/components/SelectorComponents/ButtonComponents
 import SlaveVoyageLogo from '@/components/NavigationComponents/LogoComponent/SlaveVoyageLogo';
 import AutoGlobalSearchBar from '@/components/PresentationComponents/GlobalSearch/AutoGlobalSearchBar';
 import GlobalHomeNavigations from '@/components/PresentationComponents/GlobalSearch/GlobalHomeNavigations';
-import {Link} from 'react-router-dom';
-import {BLOGPAGE} from '@/share/CONST_DATA';
+import { Link } from 'react-router-dom';
+import { BLOGPAGE } from '@/share/CONST_DATA';
 import NewsBlog from '@/components/PresentationComponents/LadingPage/NewsBlog';
 import SouthSeaCompanyDocuments from '@/components/PresentationComponents/LadingPage/SouthSeaCompanyDocuments';
 import EnslaversBlogs from '@/components/PresentationComponents/LadingPage/EnslaversBlogs';
 import AfricanOrigins from '@/components/PresentationComponents/LadingPage/AfricanOrigins';
 import IntraAmerican from '@/components/PresentationComponents/LadingPage/IntraAmerican';
 import TransAtlantic from '@/components/PresentationComponents/LadingPage/TransAtlantic';
-import {FooterComponent} from '@/components/SelectorComponents/ButtonComponents/FooterComponents';
+import { FooterComponent } from '@/components/SelectorComponents/ButtonComponents/FooterComponents';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/redux/store';
-import {translationHomepage} from '@/utils/functions/translationLanguages';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 const HomePage: React.FC = () => {
-  const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
   const translatedHomepage = translationHomepage(languageValue);
   const handleBackToTop = () => {
     window.scrollTo({
@@ -51,14 +53,17 @@ const HomePage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    AOS.init({duration: 1800});
+    AOS.init({ duration: 1800 });
   }, []);
   return (
     <div id="home-voyagepage-container">
       <div className="centered-content">
         <VideoBackground />
         <MenuButtonHomePage />
-        <div className='languages-homepage'> <LanguagesDropdown /></div>
+        <div className="languages-homepage">
+          {' '}
+          <LanguagesDropdown />
+        </div>
         <div className="home-voyagepage-content">
           <div data-aos="flip-up">
             <SlaveVoyageLogo />
@@ -75,7 +80,9 @@ const HomePage: React.FC = () => {
           <div className="document-resources-container">
             <div className="about-project">
               <Link to={`/${BLOGPAGE}/slavevoyages-introduction/50`}>
-                <div className="about-project-btn">{translatedHomepage.aboutProject}</div>
+                <div className="about-project-btn">
+                  {translatedHomepage.aboutProject}
+                </div>
               </Link>
             </div>
           </div>

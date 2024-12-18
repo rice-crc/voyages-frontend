@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 
 const HeaderNavBarBlog: React.FC = () => {
-
   const { post } = useSelector(
     (state: RootState) => state.getBlogData as InitialStateBlogProps
   );
@@ -15,7 +14,6 @@ const HeaderNavBarBlog: React.FC = () => {
   const handleReloadPage = () => {
     window.location.href = `/${BLOGPAGE}`;
   };
-
 
   return (
     <>
@@ -26,8 +24,9 @@ const HeaderNavBarBlog: React.FC = () => {
             style={{ textDecoration: 'none', color: '#ffffff' }}
             onClick={handleReloadPage}
           >
-            <div>{`Echoes: The SlaveVoyages Blog ${'-' && title ? title : ''
-              }`}</div>
+            <div>{`Echoes: The SlaveVoyages Blog ${
+              '-' && title ? title : ''
+            }`}</div>
           </Link>
         </div>
       </div>
@@ -35,4 +34,4 @@ const HeaderNavBarBlog: React.FC = () => {
   );
 };
 export default HeaderNavBarBlog;
-// 
+//

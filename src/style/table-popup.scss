@@ -1,27 +1,26 @@
 .tablePopup {
-    table {
-        font-size: 12px;
-        border-collapse: collapse;
-        font-weight: 500;
-    }
+  table {
+    font-size: 12px;
+    border-collapse: collapse;
+    font-weight: 500;
+  }
 
+  .lgmaptable td {
+    padding: 2px 4px;
+    border: 1px solid black;
+    text-align: center;
+  }
 
-    .lgmaptable td {
-        padding: 2px 4px;
-        border: 1px solid black;
-        text-align: center;
-    }
-
-    .leaflet-popup-content {
-        line-height: 1.3;
-    }
+  .leaflet-popup-content {
+    line-height: 1.3;
+  }
 }
 
 .leaflet-container a {
-    color: #0078A8;
-    text-decoration: none;
+  color: #0078a8;
+  text-decoration: none;
 }
 
 .embarkations-type {
-    text-align: left;
+  text-align: left;
 }

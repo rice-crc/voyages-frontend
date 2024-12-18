@@ -7,13 +7,12 @@ const renderEdgesLinesOnMap = (
   controls: number[][],
   type: string
 ): L.Curve | undefined => {
-
   const typeColor =
     type === 'transportation'
       ? 'rgb(215, 153, 250)'
       : type === 'disposition'
-        ? 'rgb(246,193,60)'
-        : 'rgb(96, 192, 171)';
+      ? 'rgb(246,193,60)'
+      : 'rgb(96, 192, 171)';
 
   if (startLatLng && endLatLng && weight && controls) {
     const startControlLatLng: number[] = controls[0];

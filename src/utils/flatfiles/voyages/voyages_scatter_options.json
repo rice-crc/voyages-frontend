@@ -1,110 +1,89 @@
 {
-	"x_vars": [
-		{
-			"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-			"type": "Integer",
-			"label": "Year of arrival at port of disembarkation (YEARAM)"
-		},
-		{
-			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
-			"type": "Integer",
-			"label": "Total slaves disembarked imputed * (SLAMIMP)"
-		},
-		{
-			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
-			"type": "Integer",
-			"label": "Total slaves embarked imputed * (slaximp)"
-		},
-		{
-			"var_name": "voyage_crew__crew_first_landing",
-			"type": "Integer",
-			"label": "Crew at first landing of slaves"
-		},
-		{
-			"var_name": "voyage_crew__crew_voyage_outset",
-			"type": "Integer",
-			"label": "Crew at voyage outset"
-		},
-		{
-			"var_name": "voyage_dates__length_middle_passage_days",
-			"type": "Integer",
-			"label": "Length of Middle Passage in (days) (VOYAGE)"
-		},
-		{
-			"var_name": "voyage_dates__imp_length_home_to_disembark",
-			"type": "Integer",
-			"label": "Voyage length from home port to disembarkation (days) (VOY1IMP)"
-		}
-	],
-	"y_vars": [
-		{
-			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
-			"type": "Integer",
-			"label": "Total slaves disembarked imputed * (SLAMIMP)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
-			"type": "Integer",
-			"label": "Total slaves embarked imputed * (slaximp)",
-			"agg_fns": [
-				"sum"
-			]
-		},
-		{
-			"var_name": "voyage_crew__crew_first_landing",
-			"type": "Integer",
-			"label": "Crew at first landing of slaves",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_crew__crew_voyage_outset",
-			"type": "Integer",
-			"label": "Crew at voyage outset",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_ship__tonnage_mod",
-			"type": "DecimalField",
-			"label": "Tonnage standardized on British measured tons 1773-1870",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__imp_jamaican_cash_price",
-			"type": "DecimalField",
-			"label": "Sterling cash price in Jamaica* (imputed)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__imp_mortality_ratio",
-			"type": "FloatField",
-			"label": "Imputed mortality ratio (VYMRTRAT)",
-			"agg_fns": [
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__percentage_women_among_embarked_slaves",
-			"type": "FloatField",
-			"label": "Percentage of women among embarked slaves (WOMRAT1)",
-			"agg_fns": [
-				"mean"
-			]
-		}
-	]
+  "x_vars": [
+    {
+      "var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+      "type": "Integer",
+      "label": "Year of arrival at port of disembarkation (YEARAM)"
+    },
+    {
+      "var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+      "type": "Integer",
+      "label": "Total slaves disembarked imputed * (SLAMIMP)"
+    },
+    {
+      "var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+      "type": "Integer",
+      "label": "Total slaves embarked imputed * (slaximp)"
+    },
+    {
+      "var_name": "voyage_crew__crew_first_landing",
+      "type": "Integer",
+      "label": "Crew at first landing of slaves"
+    },
+    {
+      "var_name": "voyage_crew__crew_voyage_outset",
+      "type": "Integer",
+      "label": "Crew at voyage outset"
+    },
+    {
+      "var_name": "voyage_dates__length_middle_passage_days",
+      "type": "Integer",
+      "label": "Length of Middle Passage in (days) (VOYAGE)"
+    },
+    {
+      "var_name": "voyage_dates__imp_length_home_to_disembark",
+      "type": "Integer",
+      "label": "Voyage length from home port to disembarkation (days) (VOY1IMP)"
+    }
+  ],
+  "y_vars": [
+    {
+      "var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+      "type": "Integer",
+      "label": "Total slaves disembarked imputed * (SLAMIMP)",
+      "agg_fns": ["sum", "mean"]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+      "type": "Integer",
+      "label": "Total slaves embarked imputed * (slaximp)",
+      "agg_fns": ["sum"]
+    },
+    {
+      "var_name": "voyage_crew__crew_first_landing",
+      "type": "Integer",
+      "label": "Crew at first landing of slaves",
+      "agg_fns": ["sum", "mean"]
+    },
+    {
+      "var_name": "voyage_crew__crew_voyage_outset",
+      "type": "Integer",
+      "label": "Crew at voyage outset",
+      "agg_fns": ["sum", "mean"]
+    },
+    {
+      "var_name": "voyage_ship__tonnage_mod",
+      "type": "DecimalField",
+      "label": "Tonnage standardized on British measured tons 1773-1870",
+      "agg_fns": ["sum", "mean"]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__imp_jamaican_cash_price",
+      "type": "DecimalField",
+      "label": "Sterling cash price in Jamaica* (imputed)",
+      "agg_fns": ["sum", "mean"]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__imp_mortality_ratio",
+      "type": "FloatField",
+      "label": "Imputed mortality ratio (VYMRTRAT)",
+      "agg_fns": ["mean"]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__percentage_women_among_embarked_slaves",
+      "type": "FloatField",
+      "label": "Percentage of women among embarked slaves (WOMRAT1)",
+      "agg_fns": ["mean"]
+    }
+  ]
 }

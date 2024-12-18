@@ -1,12 +1,17 @@
 import { AppDispatch, RootState } from '@/redux/store';
-import { BlogDataPropsRequest, BlogFilter, InitialStateBlogProps, InstitutionAuthor } from '@/share/InterfaceTypesBlog';
+import {
+  BlogDataPropsRequest,
+  BlogFilter,
+  InitialStateBlogProps,
+  InstitutionAuthor,
+} from '@/share/InterfaceTypesBlog';
 import { useDispatch, useSelector } from 'react-redux';
 import { BASEURL } from '@/share/AUTH_BASEURL';
 import '@/style/blogs.scss';
 import { Divider } from '@mui/material';
 import HeaderLogoSearch from '@/components/NavigationComponents/Header/HeaderSearchLogo';
 import HeaderNavBarBlog from '../../NavigationComponents/Header/HeaderNavBarBlog';
-import { useParams, } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import {
   setInstitutionAuthorsData,
@@ -27,15 +32,15 @@ const InstitutionAuthors: React.FC = () => {
   const filters: BlogFilter[] = [];
   if ([parseInt(ID!)]) {
     filters.push({
-      varName: "id",
+      varName: 'id',
       searchTerm: [parseInt(ID!)],
-      op: "in"
-    })
+      op: 'in',
+    });
   }
   const dataSend: BlogDataPropsRequest = {
     filter: filters || [],
     page: 0,
-    page_size: 12
+    page_size: 12,
   };
   const { data, isLoading, isError } = useInstitutionAuthor(dataSend);
 
@@ -43,8 +48,10 @@ const InstitutionAuthors: React.FC = () => {
     if (!isLoading && !isError && data) {
       const { results } = data;
       dispatch(setInstitutionAuthorsData(results?.[0]));
-      const institutionList = results[0]?.institution_authors.map((value: InstitutionAuthor) => value);
-      dispatch(setInstitutionAuthorsList((institutionList)));
+      const institutionList = results[0]?.institution_authors.map(
+        (value: InstitutionAuthor) => value
+      );
+      dispatch(setInstitutionAuthorsList(institutionList));
     }
     return () => {
       setInstitutionAuthorsList([]);
@@ -52,7 +59,7 @@ const InstitutionAuthors: React.FC = () => {
   }, [data, isLoading, isError, dispatch, ID]);
 
   return (
-    <div className='blog-container'>
+    <div className="blog-container">
       <HeaderLogoSearch />
       <HeaderNavBarBlog />
       <div className="container-new-institution">

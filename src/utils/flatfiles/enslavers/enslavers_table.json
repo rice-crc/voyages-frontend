@@ -1,348 +1,338 @@
 {
-	"cell_structure": [
-		{
-			"header_label": {
-				"en": "Names",
-				"es": "Names ES",
-				"pt": "Names PT"
-			},
-			"cell_type": "literal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"principal_alias"
-			],
-			"col_width_px": 200,
-			"colID": "aliases",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "principal_alias",
-						"cell_fn": "enslavers"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Enumeration of Enslaved People",
-				"es": "Enumeración de personas esclavizadas",
-				"pt": "Enumeração de pessoas escravizadas"
-			},
-			"cell_type": "literal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"number_enslaved_people"
-			],
-			"col_width_px": 175,
-			"colID": "number_enslaved_people",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "number_enslaved_people"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Birth",
-				"es": "Birth ES",
-				"pt": "Birth PT"
-			},
-			"cell_type": "literal-concat",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"birth_year"
-			],
-			"col_width_px": 100,
-			"colID": "birth",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "birth_place__name",
-						"cell_fn": "enslavers"
-					},
-					{
-						"var_name": "birth_year",
-						"cell_fn": "enslavers"
-					}
-				],
-				"join": " : "
-			}
-		},
-		{
-			"header_label": {
-				"en": "Death",
-				"es": "Death ES",
-				"pt": "Death PT"
-			},
-			"cell_type": "literal-concat",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"death_year"
-			],
-			"col_width_px": 120,
-			"colID": "death",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "death_place__name",
-						"cell_fn": "enslavers"
-					},
-					{
-						"var_name": "death_year",
-						"cell_fn": "enslavers"
-					}
-				],
-				"join": " : "
-			}
-		},
-		{
-			"header_label": {
-				"en": "Voyages",
-				"es": "Voyages ES",
-				"pt": "Voyages PT"
-			},
-			"cell_type": "literal-concat",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-				"aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
-				"aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
-				"aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__name"
-			],
-			"col_width_px": 350,
-			"colID": "voyages",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyages__voyage_id",
-						"cell_fn": "enslavers"
-					},
-					{
-						"var_name": "voyages__voyage_ship__ship_name",
-						"cell_fn": "enslavers"
-					},
-					{
-						"var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-						"cell_fn": "enslavers"
-					},
-					{
-						"var_name": "voyages__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
-						"cell_fn": "enslavers"
-					},
-					{
-						"var_name": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
-						"cell_fn": "enslavers"
-					}
-				],
-				"join": " : "
-			}
-		},
-		{
-			"header_label": {
-				"en": "Enslaved Peoples' Names",
-				"es": "Enslaved Peoples' Names ES",
-				"pt": "Enslaved Peoples' Names PT"
-			},
-			"cell_type": "literal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name"
-			],
-			"col_width_px": 180,
-			"colID": "enslavement_relations",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "named_enslaved_people__enslaved__documented_name",
-						"cell_fn": "enslavers"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Documentary Sources",
-				"es": "Documentary Sources ES",
-				"pt": "Documentary Sources PT"
-			},
-			"cell_type": "literal-concat",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"enslaved_source_connections__source__title"
-			],
-			"col_width_px": 130,
-			"colID": "documentary_sources",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "sources__short_ref__name",
-						"cell_fn": "literal"
-					}
-				],
-				"join": ": "
-			}
-		},
-		{
-			"header_label": {
-				"en": "Connections",
-				"es": "Connections ES",
-				"pt": "Connections PT"
-			},
-			"cell_type": "network_modal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [],
-			"col_width_px": 120,
-			"colID": "connections",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "id",
-						"cell_fn": "networks",
-						"node_class": "enslavers"
-					}
-				]
-			}
-		}
-	],
-	"other_properties": {
-		"default_order_by": "birth_year"
-	},
-	"column_selector_tree": [
-		{
-			"label": {
-				"en": "Names",
-				"es": "Names ES",
-				"pt": "Names PT"
-			},
-			"children": [
-				{
-					"col_width_px": 100,
-					"colID": "aliases",
-					"label": {
-						"en": "Names",
-						"es": "Names ES",
-						"pt": "Names PT"
-					}
-				}
-			]
-		},
-		{
-			"label": {
-				"en": "Personal Data",
-				"es": "Personal Data ES",
-				"pt": "Personal Data PT"
-			},
-			"children": [
-				{
-					"col_width_px": 100,
-					"colID": "birth",
-					"label": {
-						"en": "Birth",
-						"es": "Birth ES",
-						"pt": "Birth PT"
-					}
-				},
-				{
-					"col_width_px": 100,
-					"colID": "death",
-					"label": {
-						"en": "Death",
-						"es": "Death ES",
-						"pt": "Death PT"
-					}
-				}
-			]
-		},
-		{
-			"label": {
-				"en": "Voyages",
-				"es": "Voyages ES",
-				"pt": "Voyages PT"
-			},
-			"children": [
-				{
-					"col_width_px": 100,
-					"colID": "voyages",
-					"label": {
-						"en": "Voyages",
-						"es": "Voyages ES",
-						"pt": "Voyages PT"
-					}
-				},
-				{
-					"label": {
-						"en": "Enumeration of Enslaved People",
-						"es": "Enumeración de personas esclavizadas",
-						"pt": "Enumeração de pessoas escravizadas"
-					},
-					"colID": "number_enslaved_people",
-					"col_width_px": 100
-				}
-			]
-		},
-		{
-			"label": {
-				"en": "Enslavement Relations",
-				"es": "Enslavement Relations ES",
-				"pt": "Enslavement Relations PT"
-			},
-			"children": [
-				{
-					"col_width_px": 100,
-					"colID": "enslavement_relations",
-					"label": {
-						"en": "Enslavement Relations",
-						"es": "Enslavement Relations ES",
-						"pt": "Enslavement Relations PT"
-					}
-				}
-			]
-		},
-		{
-			"label": {
-				"en": "Documentary Sources",
-				"es": "Documentary Sources ES",
-				"pt": "Documentary Sources PT"
-			},
-			"children": [
-				{
-					"col_width_px": 100,
-					"colID": "documentary_sources",
-					"label": {
-						"en": "Documentary Sources",
-						"es": "Documentary Sources ES",
-						"pt": "Documentary Sources PT"
-					}
-				}
-			]
-		},
-		{
-			"label": {
-				"en": "Connections",
-				"es": "Connections ES",
-				"pt": "Connections PT"
-			},
-			"children": [
-				{
-					"col_width_px": 130,
-					"colID": "connections",
-					"label": {
-						"en": "Connections",
-						"es": "Connections ES",
-						"pt": "Connections PT"
-					}
-				}
-			]
-		}
-	]
+  "cell_structure": [
+    {
+      "header_label": {
+        "en": "Names",
+        "es": "Names ES",
+        "pt": "Names PT"
+      },
+      "cell_type": "literal",
+      "visible": true,
+      "number_format": null,
+      "order_by": ["principal_alias"],
+      "col_width_px": 200,
+      "colID": "aliases",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "principal_alias",
+            "cell_fn": "enslavers"
+          }
+        ]
+      }
+    },
+    {
+      "header_label": {
+        "en": "Enumeration of Enslaved People",
+        "es": "Enumeración de personas esclavizadas",
+        "pt": "Enumeração de pessoas escravizadas"
+      },
+      "cell_type": "literal",
+      "visible": true,
+      "number_format": null,
+      "order_by": ["number_enslaved_people"],
+      "col_width_px": 175,
+      "colID": "number_enslaved_people",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "number_enslaved_people"
+          }
+        ]
+      }
+    },
+    {
+      "header_label": {
+        "en": "Birth",
+        "es": "Birth ES",
+        "pt": "Birth PT"
+      },
+      "cell_type": "literal-concat",
+      "visible": true,
+      "number_format": null,
+      "order_by": ["birth_year"],
+      "col_width_px": 100,
+      "colID": "birth",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "birth_place__name",
+            "cell_fn": "enslavers"
+          },
+          {
+            "var_name": "birth_year",
+            "cell_fn": "enslavers"
+          }
+        ],
+        "join": " : "
+      }
+    },
+    {
+      "header_label": {
+        "en": "Death",
+        "es": "Death ES",
+        "pt": "Death PT"
+      },
+      "cell_type": "literal-concat",
+      "visible": true,
+      "number_format": null,
+      "order_by": ["death_year"],
+      "col_width_px": 120,
+      "colID": "death",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "death_place__name",
+            "cell_fn": "enslavers"
+          },
+          {
+            "var_name": "death_year",
+            "cell_fn": "enslavers"
+          }
+        ],
+        "join": " : "
+      }
+    },
+    {
+      "header_label": {
+        "en": "Voyages",
+        "es": "Voyages ES",
+        "pt": "Voyages PT"
+      },
+      "cell_type": "literal-concat",
+      "visible": true,
+      "number_format": null,
+      "order_by": [
+        "aliases__enslaver_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+        "aliases__enslaver_relations__relation__voyage__voyage_ship__ship_name",
+        "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
+        "aliases__enslaver_relations__relation__voyage__voyage_itinerary__imp_principal_port_slave_dis__name"
+      ],
+      "col_width_px": 350,
+      "colID": "voyages",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "voyages__voyage_id",
+            "cell_fn": "enslavers"
+          },
+          {
+            "var_name": "voyages__voyage_ship__ship_name",
+            "cell_fn": "enslavers"
+          },
+          {
+            "var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+            "cell_fn": "enslavers"
+          },
+          {
+            "var_name": "voyages__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
+            "cell_fn": "enslavers"
+          },
+          {
+            "var_name": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
+            "cell_fn": "enslavers"
+          }
+        ],
+        "join": " : "
+      }
+    },
+    {
+      "header_label": {
+        "en": "Enslaved Peoples' Names",
+        "es": "Enslaved Peoples' Names ES",
+        "pt": "Enslaved Peoples' Names PT"
+      },
+      "cell_type": "literal",
+      "visible": true,
+      "number_format": null,
+      "order_by": [
+        "aliases__enslaver_relations__relation__enslaved_in_relation__enslaved__documented_name"
+      ],
+      "col_width_px": 180,
+      "colID": "enslavement_relations",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "named_enslaved_people__enslaved__documented_name",
+            "cell_fn": "enslavers"
+          }
+        ]
+      }
+    },
+    {
+      "header_label": {
+        "en": "Documentary Sources",
+        "es": "Documentary Sources ES",
+        "pt": "Documentary Sources PT"
+      },
+      "cell_type": "literal-concat",
+      "visible": true,
+      "number_format": null,
+      "order_by": ["enslaved_source_connections__source__title"],
+      "col_width_px": 130,
+      "colID": "documentary_sources",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "sources__short_ref__name",
+            "cell_fn": "literal"
+          }
+        ],
+        "join": ": "
+      }
+    },
+    {
+      "header_label": {
+        "en": "Connections",
+        "es": "Connections ES",
+        "pt": "Connections PT"
+      },
+      "cell_type": "network_modal",
+      "visible": true,
+      "number_format": null,
+      "order_by": [],
+      "col_width_px": 120,
+      "colID": "connections",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "id",
+            "cell_fn": "networks",
+            "node_class": "enslavers"
+          }
+        ]
+      }
+    }
+  ],
+  "other_properties": {
+    "default_order_by": "birth_year"
+  },
+  "column_selector_tree": [
+    {
+      "label": {
+        "en": "Names",
+        "es": "Names ES",
+        "pt": "Names PT"
+      },
+      "children": [
+        {
+          "col_width_px": 100,
+          "colID": "aliases",
+          "label": {
+            "en": "Names",
+            "es": "Names ES",
+            "pt": "Names PT"
+          }
+        }
+      ]
+    },
+    {
+      "label": {
+        "en": "Personal Data",
+        "es": "Personal Data ES",
+        "pt": "Personal Data PT"
+      },
+      "children": [
+        {
+          "col_width_px": 100,
+          "colID": "birth",
+          "label": {
+            "en": "Birth",
+            "es": "Birth ES",
+            "pt": "Birth PT"
+          }
+        },
+        {
+          "col_width_px": 100,
+          "colID": "death",
+          "label": {
+            "en": "Death",
+            "es": "Death ES",
+            "pt": "Death PT"
+          }
+        }
+      ]
+    },
+    {
+      "label": {
+        "en": "Voyages",
+        "es": "Voyages ES",
+        "pt": "Voyages PT"
+      },
+      "children": [
+        {
+          "col_width_px": 100,
+          "colID": "voyages",
+          "label": {
+            "en": "Voyages",
+            "es": "Voyages ES",
+            "pt": "Voyages PT"
+          }
+        },
+        {
+          "label": {
+            "en": "Enumeration of Enslaved People",
+            "es": "Enumeración de personas esclavizadas",
+            "pt": "Enumeração de pessoas escravizadas"
+          },
+          "colID": "number_enslaved_people",
+          "col_width_px": 100
+        }
+      ]
+    },
+    {
+      "label": {
+        "en": "Enslavement Relations",
+        "es": "Enslavement Relations ES",
+        "pt": "Enslavement Relations PT"
+      },
+      "children": [
+        {
+          "col_width_px": 100,
+          "colID": "enslavement_relations",
+          "label": {
+            "en": "Enslavement Relations",
+            "es": "Enslavement Relations ES",
+            "pt": "Enslavement Relations PT"
+          }
+        }
+      ]
+    },
+    {
+      "label": {
+        "en": "Documentary Sources",
+        "es": "Documentary Sources ES",
+        "pt": "Documentary Sources PT"
+      },
+      "children": [
+        {
+          "col_width_px": 100,
+          "colID": "documentary_sources",
+          "label": {
+            "en": "Documentary Sources",
+            "es": "Documentary Sources ES",
+            "pt": "Documentary Sources PT"
+          }
+        }
+      ]
+    },
+    {
+      "label": {
+        "en": "Connections",
+        "es": "Connections ES",
+        "pt": "Connections PT"
+      },
+      "children": [
+        {
+          "col_width_px": 130,
+          "colID": "connections",
+          "label": {
+            "en": "Connections",
+            "es": "Connections ES",
+            "pt": "Connections PT"
+          }
+        }
+      ]
+    }
+  ]
 }
