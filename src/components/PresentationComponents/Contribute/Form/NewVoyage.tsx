@@ -2,7 +2,7 @@ import '@/style/contributeContent.scss';
 import '@/style/newVoyages.scss';
 import { Box, Button } from '@mui/material';
 import { Collapse, Divider, Form, Input, Typography, message } from 'antd';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { CollapseProps } from 'antd';
 import React from 'react';
 import { EntityForm } from '../EntityForm';
@@ -36,7 +36,7 @@ const NewVoyage: React.FC = () => {
   };
 
   // Handlers for the form submission
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     try {
       const values = await form.validateFields();
 
@@ -56,7 +56,7 @@ const NewVoyage: React.FC = () => {
       console.error('Save error:', error);
       message.error('Please correct the errors before saving.');
     }
-  };
+  }, [form, comments]);
 
   // Mock API call function
   const saveVoyageData = async (data: any) => {

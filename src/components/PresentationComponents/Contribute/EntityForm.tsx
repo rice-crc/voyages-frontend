@@ -91,8 +91,6 @@ export const EntityForm = ({
     handleCommentChange(field!, value);
   };
 
-  // console.log({ localComments, visibleCommentField })
-
   return schema.properties.map((p) => {
     const backingField = 'backingField' in p ? p.backingField : undefined;
 
@@ -117,7 +115,7 @@ export const EntityForm = ({
               p.linkedEntitySchema === Location.name ? (
                 <TreeSelect
                   placeholder={`Please select ${p.label}`}
-                  treeData={treeData} // Change to correct data
+                  treeData={treeData}
                   style={{ width: 'calc(100% - 20px)' }}
                   dropdownStyle={{ overflow: 'auto', zIndex: 1301 }}
                   showSearch
