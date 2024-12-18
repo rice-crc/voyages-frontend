@@ -43,7 +43,7 @@ const NewVoyage: React.FC = () => {
       // Combine form data with comments
       const submissionData = {
         ...values,
-        comments, // Include comments collected from the form
+        comments,
       };
 
       console.log('Save submission data:', submissionData);
@@ -215,7 +215,7 @@ const NewVoyage: React.FC = () => {
         <Form.Item
           name="voyageComments"
           label={<span className="lable-title">Voyage comments:</span>}
-          // rules={[{ required: true, message: "Voyage comments are required" }]}
+        // rules={[{ required: true, message: "Voyage comments are required" }]}
         >
           <Input.TextArea rows={2} />
         </Form.Item>

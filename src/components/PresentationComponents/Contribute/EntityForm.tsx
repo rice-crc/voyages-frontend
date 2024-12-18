@@ -6,7 +6,7 @@ import '@/style/newVoyages.scss';
 import { Form, Input, Select, TreeSelect } from 'antd';
 import CommentBox from './CommentBox';
 import { TreeItemProps } from '@mui/lab';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export interface EntityFormProps {
   schema: EntitySchema;
@@ -56,21 +56,42 @@ export const EntityForm = ({
   const [visibleCommentField, setVisibleCommentField] = useState<string | null>(
     null
   );
-  const [localComments, setLocalComments] = useState('');
 
+  const [localComments, setLocalComments] = useState<{ [key: string]: string }>({});
   const toggleCommentBox = (field: string) => {
     setVisibleCommentField(visibleCommentField === field ? null : field);
   };
-  // console.log({ localComments })
+
+  const commentBoxRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (commentBoxRef.current && !commentBoxRef.current.contains(event.target as Node)) {
+        setVisibleCommentField(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Clean up event listener on unmount
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
     return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
   };
 
-  const handleLocalChange = (value: string) => {
-    setLocalComments(value);
-    handleCommentChange(schema.backingModel, value);
+  const handleLocalChange = (field: string, value: string) => {
+    setLocalComments((prevComments) => ({
+      ...prevComments,
+      [field!]: value
+    }));
+    handleCommentChange(field!, value);
   };
+
+  // console.log({ localComments, visibleCommentField })
 
   return schema.properties.map((p) => {
     const backingField = 'backingField' in p ? p.backingField : undefined;
@@ -137,8 +158,10 @@ export const EntityForm = ({
         <Form.Item name={'comments'} style={{ marginTop: -50 }}>
           <CommentBox
             isVisible={visibleCommentField === backingField}
-            value={localComments}
-            onChange={handleLocalChange}
+            fieldKey={backingField!}
+            comments={localComments}
+            onChange={(value) => handleLocalChange(backingField!, value)}
+            ref={commentBoxRef}
           />
         </Form.Item>
       </Box>
