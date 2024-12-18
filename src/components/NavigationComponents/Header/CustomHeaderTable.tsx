@@ -6,7 +6,11 @@ import '@/style/table.scss';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { checkPagesRouteForEnslaved, checkPagesRouteForEnslavers, checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import {
+  checkPagesRouteForEnslaved,
+  checkPagesRouteForEnslavers,
+  checkPagesRouteForVoyages,
+} from '@/utils/functions/checkPagesRoute';
 import { TableListPropsRequest } from '@/share/InterfaceTypes';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
@@ -23,15 +27,14 @@ interface Props {
     isSortDescending: () => boolean;
     addEventListener: (event: string, callback: () => void) => void;
     removeEventListener: (event: string, callback: () => void) => void;
-
   };
   setSort: (order: string, shiftKey: boolean) => void;
   enableMenu: boolean;
   menuIcon: string;
   enableSorting: boolean;
   displayName: string;
-  pageSize: number
-  setSortColumn: React.Dispatch<React.SetStateAction<string[]>>
+  pageSize: number;
+  setSortColumn: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const CustomHeaderTable: React.FC<Props> = (props) => {
@@ -39,25 +42,30 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     column,
     setSort,
     enableSorting,
-    displayName, pageSize, setSortColumn
+    displayName,
+    pageSize,
+    setSortColumn,
   } = props;
 
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const dispatch: AppDispatch = useDispatch();
   const [ascSort, setAscSort] = useState<string>('inactive');
   const [descSort, setDescSort] = useState<string>('inactive');
-  const { styleName } = usePageRouter()
+  const { styleName } = usePageRouter();
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { page } = useSelector((state: RootState) => state.getTableData as StateRowData);
-  const { clusterNodeKeyVariable, clusterNodeValue } =
-    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
+  const { page } = useSelector(
+    (state: RootState) => state.getTableData as StateRowData
+  );
+  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
 
   const onSortChanged = () => {
     setAscSort(column.isSortAscending() ? 'active' : 'inactive');
-    setDescSort(column.isSortDescending() ? 'active' : 'inactive')
-    dispatch(setPage(page))
+    setDescSort(column.isSortDescending() ? 'active' : 'inactive');
+    dispatch(setPage(page));
   };
 
   const onSortRequested = (
@@ -75,43 +83,44 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     onSortChanged();
     return () => {
       props.column.removeEventListener('sortChanged', onSortChanged);
-    }
+    };
   }, []);
 
-  const filters = filtersDataSend(filtersObj, styleName!, clusterNodeKeyVariable, clusterNodeValue)
-  const newFilters = filters !== undefined && filters!.map(filter => {
-    const { label, title, ...filteredFilter } = filter;
-    return filteredFilter;
-  });
+  const filters = filtersDataSend(
+    filtersObj,
+    styleName!,
+    clusterNodeKeyVariable,
+    clusterNodeValue
+  );
+  const newFilters =
+    filters !== undefined &&
+    filters!.map((filter) => {
+      const { label, title, ...filteredFilter } = filter;
+      return filteredFilter;
+    });
   const dataSend: TableListPropsRequest = {
     filter: newFilters || [],
     page: Number(page + 1),
     page_size: Number(pageSize),
   };
 
-
-
   const fetchData = async (sortOrder: string, sortingOrder: string[]) => {
-
     if (inputSearchValue) {
       dataSend['global_search'] = inputSearchValue;
     }
     if (sortOrder === 'asc') {
       if (sortingOrder?.length > 0) {
-
         sortingOrder.forEach((sort: string) => {
-          setSortColumn([sort])
-          return dataSend['order_by'] = [sort]
+          setSortColumn([sort]);
+          return (dataSend['order_by'] = [sort]);
         });
       }
     } else if (sortOrder === 'desc') {
       if (sortingOrder?.length > 0) {
-        sortingOrder.forEach(
-          (sort: string) => {
-            setSortColumn([`-${sort}`])
-            return dataSend['order_by'] = [`-${sort}`]
-          }
-        );
+        sortingOrder.forEach((sort: string) => {
+          setSortColumn([`-${sort}`]);
+          return (dataSend['order_by'] = [`-${sort}`]);
+        });
       }
     }
 
@@ -120,7 +129,7 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
       if (checkPagesRouteForVoyages(styleName!)) {
         response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
       } else if (checkPagesRouteForEnslaved(styleName!)) {
-        response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap()
+        response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
       } else if (checkPagesRouteForEnslavers(styleName!)) {
         response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
       }
@@ -142,8 +151,8 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
         }}
       >
         <div
-          onClick={(event) => onSortRequested("asc", event)}
-          onTouchEnd={(event) => onSortRequested("asc", event)}
+          onClick={(event) => onSortRequested('asc', event)}
+          onTouchEnd={(event) => onSortRequested('asc', event)}
           className={`customSortDownLabel ${ascSort}`}
         >
           <i className="fa fa-long-arrow-alt-down"></i>
@@ -161,7 +170,12 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
 
   return (
     <div className="customHeaderLabel-box">
-      <div className="customHeaderLabel" style={{ color: getHeaderColomnColor(styleName!) }}>{displayName}</div>
+      <div
+        className="customHeaderLabel"
+        style={{ color: getHeaderColomnColor(styleName!) }}
+      >
+        {displayName}
+      </div>
       {sort}
     </div>
   );

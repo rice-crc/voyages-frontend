@@ -1,12 +1,24 @@
 import { MouseEventHandler, useEffect, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Box, Hidden, Divider, IconButton, } from '@mui/material';
+import { AppBar, Box, Hidden, Divider, IconButton } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { ALLENSLAVERS, ENSALVERSTYLE, EnslaversAllTrades, INTRAAMERICANENSLAVERS, INTRAAMERICANTRADS, IntraAmericanTitle, PASTHOMEPAGE, TRANSATLANTICENSLAVERS, TRANSATLANTICTRADS, TransAtlanticTitle, allEnslavers } from '@/share/CONST_DATA';
+import {
+  ALLENSLAVERS,
+  ENSALVERSTYLE,
+  EnslaversAllTrades,
+  INTRAAMERICANENSLAVERS,
+  INTRAAMERICANTRADS,
+  IntraAmericanTitle,
+  PASTHOMEPAGE,
+  TRANSATLANTICENSLAVERS,
+  TRANSATLANTICTRADS,
+  TransAtlanticTitle,
+  allEnslavers,
+} from '@/share/CONST_DATA';
 import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import '@/style/Nav.scss';
@@ -15,13 +27,29 @@ import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import HeaderLogo from './HeaderLogo';
-import { BaseFilter, BlockCollectionProps, DataSetCollectionProps } from '@/share/InterfactTypesDatasetCollection';
+import {
+  BaseFilter,
+  BlockCollectionProps,
+  DataSetCollectionProps,
+} from '@/share/InterfactTypesDatasetCollection';
 import { DatasetButton } from './DatasetButton';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { Filter, LabelFilterMeneList } from '@/share/InterfaceTypes';
-import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground, getColorNavbarBackground } from '@/utils/functions/getColorStyle';
+import {
+  getColorBTNVoyageDatasetBackground,
+  getColorBoxShadow,
+  getColorHoverBackground,
+  getColorNavbarBackground,
+} from '@/utils/functions/getColorStyle';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
-import { setBaseFilterEnslaversDataSetValue, setDataSetEnslaversHeader, setEnslaversBlocksMenuList, setEnslaversFilterMenuFlatfile, setEnslaversStyleName, setPeopleTableEnslavedFlatfile } from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
+import {
+  setBaseFilterEnslaversDataSetValue,
+  setDataSetEnslaversHeader,
+  setEnslaversBlocksMenuList,
+  setEnslaversFilterMenuFlatfile,
+  setEnslaversStyleName,
+  setPeopleTableEnslavedFlatfile,
+} from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
 import { useNavigate } from 'react-router-dom';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { DrawerMenuBar } from './DrawerMenuBar';
@@ -40,7 +68,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
   const { currentBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
-  const { styleName: styleNameRoute } = usePageRouter()
+  const { styleName: styleNameRoute } = usePageRouter();
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
@@ -51,13 +79,13 @@ const HeaderEnslaversNavBar: React.FC = () => {
 
   useEffect(() => {
     if (styleNameRoute === TRANSATLANTICTRADS) {
-      dispatch(setDataSetEnslaversHeader(TransAtlanticTitle))
+      dispatch(setDataSetEnslaversHeader(TransAtlanticTitle));
     } else if (styleNameRoute === INTRAAMERICANTRADS) {
-      dispatch(setDataSetEnslaversHeader(IntraAmericanTitle))
+      dispatch(setDataSetEnslaversHeader(IntraAmericanTitle));
     } else if (styleNameRoute === ENSALVERSTYLE) {
-      dispatch(setDataSetEnslaversHeader(EnslaversAllTrades))
+      dispatch(setDataSetEnslaversHeader(EnslaversAllTrades));
     }
-  }, [])
+  }, []);
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -69,12 +97,10 @@ const HeaderEnslaversNavBar: React.FC = () => {
     [TRANSATLANTICTRADS]: `${ALLENSLAVERS}${TRANSATLANTICENSLAVERS}#${currentBlockName}`,
   };
 
-
   const onClickResetOnHeader = () => {
-
     dispatch(resetAll());
     dispatch(resetBlockNameAndPageName());
-    dispatch(resetAllStateToInitailState())
+    dispatch(resetAllStateToInitailState());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
@@ -90,7 +116,6 @@ const HeaderEnslaversNavBar: React.FC = () => {
     filterMenuFlatfile?: string,
     tableFlatfile?: string
   ) => {
-
     dispatch(resetAll());
     const filters: Filter[] = [];
 
@@ -101,29 +126,37 @@ const HeaderEnslaversNavBar: React.FC = () => {
       filters.push({
         varName: base.var_name,
         searchTerm: base.value,
-        op: "exact"
-      })
+        op: 'exact',
+      });
 
       dispatch(setFilterObject(filters));
     }
     if (filters) {
-      localStorage.setItem('filterObject', JSON.stringify({
-        filter: filters
-      }));
+      localStorage.setItem(
+        'filterObject',
+        JSON.stringify({
+          filter: filters,
+        })
+      );
     } else {
-      localStorage.setItem('filterObject', JSON.stringify({
-        filter: filters
-      }));
+      localStorage.setItem(
+        'filterObject',
+        JSON.stringify({
+          filter: filters,
+        })
+      );
     }
     dispatch(setDataSetEnslaversHeader(textHeder));
     dispatch(setEnslaversStyleName(styleName));
     dispatch(setEnslaversBlocksMenuList(blocks));
-    dispatch(setEnslaversFilterMenuFlatfile(filterMenuFlatfile ? filterMenuFlatfile : '')
+    dispatch(
+      setEnslaversFilterMenuFlatfile(
+        filterMenuFlatfile ? filterMenuFlatfile : ''
+      )
     );
     dispatch(
       setPeopleTableEnslavedFlatfile(tableFlatfile ? tableFlatfile : '')
     );
-
 
     if (styleNameToPathMap[styleName]) {
       navigate(styleNameToPathMap[styleName]);
@@ -144,9 +177,11 @@ const HeaderEnslaversNavBar: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
 
-  let EnslaversTitle = ''
+  let EnslaversTitle = '';
   for (const header of enslaversHeader.header) {
     EnslaversTitle = (header.label as LabelFilterMeneList)[languageValue];
   }
@@ -159,11 +194,11 @@ const HeaderEnslaversNavBar: React.FC = () => {
     >
       <AppBar
         component="nav"
-        className='nav-enslavers'
+        className="nav-enslavers"
         style={{
           backgroundColor: getColorNavbarBackground(styleNameRoute!),
           paddingTop: 5,
-          zIndex: 5
+          zIndex: 5,
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -186,14 +221,10 @@ const HeaderEnslaversNavBar: React.FC = () => {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <span className='header-logo-icon'>
+            <span className="header-logo-icon">
               <HeaderLogo />
-              <DatabaseDropdown
-                onClickReset={onClickResetOnHeader}
-              />
-              <HeaderTitle
-                textHeader={textHeader}
-              />
+              <DatabaseDropdown onClickReset={onClickResetOnHeader} />
+              <HeaderTitle textHeader={textHeader} />
             </span>
             <Typography
               component="div"
@@ -215,8 +246,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
               {inputSearchValue && <GlobalSearchButton />}
             </Typography>
           </Typography>
-          {!inputSearchValue &&
-            <CascadingMenuMobile />}
+          {!inputSearchValue && <CascadingMenuMobile />}
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -253,8 +283,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
               borderClor: 'rgb(0 0 0 / 50%)',
             }}
           />
-          {!inputSearchValue &&
-            <CascadingMenu />}
+          {!inputSearchValue && <CascadingMenu />}
         </Hidden>
         <Box component="nav">
           <Menu
@@ -285,4 +314,3 @@ const HeaderEnslaversNavBar: React.FC = () => {
 };
 
 export default HeaderEnslaversNavBar;
-

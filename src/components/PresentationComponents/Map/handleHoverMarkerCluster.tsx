@@ -1,12 +1,12 @@
-import {EdgesAggroutes, NodeAggroutes} from '@/share/InterfaceTypesMap';
-import {getEdgesSize} from '@/utils/functions/getNodeSize';
+import { EdgesAggroutes, NodeAggroutes } from '@/share/InterfaceTypesMap';
+import { getEdgesSize } from '@/utils/functions/getNodeSize';
 import L from 'leaflet';
-import {createLogNodeValueScale} from '@/utils/functions/createLogNodeValueScale';
-import {nodeTypeOrigin, nodeTypePostDisembarkation} from '@/share/CONST_DATA';
-import {renderEdgeClusterNodeOnMap} from './renderEdgeClusterNodeOnMap';
-import {TooltipHoverTableOnNode} from './TooltipHoverTableOnNode';
-import {createRoot} from 'react-dom/client';
-import {getCoordinatesLatLngMap} from '@/utils/functions/getCoordinatesLatLngMap';
+import { createLogNodeValueScale } from '@/utils/functions/createLogNodeValueScale';
+import { nodeTypeOrigin, nodeTypePostDisembarkation } from '@/share/CONST_DATA';
+import { renderEdgeClusterNodeOnMap } from './renderEdgeClusterNodeOnMap';
+import { TooltipHoverTableOnNode } from './TooltipHoverTableOnNode';
+import { createRoot } from 'react-dom/client';
+import { getCoordinatesLatLngMap } from '@/utils/functions/getCoordinatesLatLngMap';
 
 export function handleHoverMarkerCluster(
   event: L.LeafletEvent,
@@ -66,16 +66,31 @@ export function handleHoverMarkerCluster(
   popupContainer.style.width = '300px';
   const popupRoot = createRoot(popupContainer);
   for (const [, [node, edge]] of targetNodeMap) {
-
-    const {lat: clusterLat, lng: clusterLng} = clusterLatLon;
-    const {lat: nodeLat, lon: nodeLng} = node.data;
+    const { lat: clusterLat, lng: clusterLng } = clusterLatLon;
+    const { lat: nodeLat, lon: nodeLng } = node.data;
     const size = getEdgesSize(edge);
     const weightEdges = size !== null ? nodeLogValueScale(size) / 1.4 : 0;
 
-    const [coordinatesStart, coordinatesEnd] = getCoordinatesLatLngMap(nodeType, clusterLat, clusterLng, nodeLat!, nodeLng!);
+    const [coordinatesStart, coordinatesEnd] = getCoordinatesLatLngMap(
+      nodeType,
+      clusterLat,
+      clusterLng,
+      nodeLat!,
+      nodeLng!
+    );
 
-    renderEdgeClusterNodeOnMap(hiddenEdgesLayer, edge, node, coordinatesStart, coordinatesEnd, weightEdges, nodeType, map, event, childNodesData,);
-
+    renderEdgeClusterNodeOnMap(
+      hiddenEdgesLayer,
+      edge,
+      node,
+      coordinatesStart,
+      coordinatesEnd,
+      weightEdges,
+      nodeType,
+      map,
+      event,
+      childNodesData
+    );
   }
 
   popupRoot.render(
@@ -87,5 +102,4 @@ export function handleHoverMarkerCluster(
   );
 
   event.layer.bindPopup(popupContainer).openPopup();
-
 }

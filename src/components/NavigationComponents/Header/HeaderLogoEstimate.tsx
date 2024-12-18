@@ -24,12 +24,11 @@ import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 
-
 export default function HeaderLogoEstimate() {
   const dispatch: AppDispatch = useDispatch();
   const onChangePath = () => {
     dispatch(resetAllStateToInitailState());
-    dispatch(resetBlockNameAndPageName())
+    dispatch(resetBlockNameAndPageName());
     dispatch(setCurrentEnslavedPage(1));
     dispatch(setCurrentPage(1));
     dispatch(setInputSearchValue(''));
@@ -38,7 +37,9 @@ export default function HeaderLogoEstimate() {
     dispatch(setStyleName(jsonDataVoyageCollection[0].style_name));
     dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
     dispatch(
-      setDataSetPeopleEnslavedHeader(jsonDataPEOPLECOLLECTIONS[0].headers.label.en)
+      setDataSetPeopleEnslavedHeader(
+        jsonDataPEOPLECOLLECTIONS[0].headers.label.en
+      )
     );
     dispatch(
       setPeopleEnslavedTextIntro(
@@ -67,19 +68,12 @@ export default function HeaderLogoEstimate() {
     });
   };
   return (
-
-
     <Link
       to={'/'}
       style={{ textDecoration: 'none', cursor: 'pointer' }}
       onClick={onChangePath}
     >
-      <img
-        width={150}
-        src={LOGOVoyages}
-        alt="voyage logo"
-      />
+      <img width={150} src={LOGOVoyages} alt="voyage logo" />
     </Link>
-
   );
 }

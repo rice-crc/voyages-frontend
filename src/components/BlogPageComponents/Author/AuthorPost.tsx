@@ -18,10 +18,10 @@ const AuthorPost: React.FC = () => {
     const filters: BlogFilter[] = [];
     if ([parseInt(ID!)]) {
       filters.push({
-        varName: "id",
+        varName: 'id',
         searchTerm: [parseInt(ID!)],
-        "op": "in"
-      })
+        op: 'in',
+      });
     }
     const dataSend: BlogDataPropsRequest = {
       filter: filters || [],

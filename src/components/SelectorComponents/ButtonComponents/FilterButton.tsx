@@ -11,13 +11,9 @@ export const FilterButton = () => {
   };
 
   return (
-    <span
-      style={{ cursor: 'pointer', display: 'flex' }}
-      onClick={handleClick}
-    >
+    <span style={{ cursor: 'pointer', display: 'flex' }} onClick={handleClick}>
       <FilterAltIcon style={{ color: '#fff' }} />
       <div className="menu-nav-bar"> Filter Search</div>
     </span>
-
   );
 };

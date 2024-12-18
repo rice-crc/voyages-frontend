@@ -1,246 +1,221 @@
 @mixin breakpoint-standard($size) {
-    @if $size==0 {
-        @media only screen and (max-width: 374px) {
-            @content;
-        }
+  @if $size==0 {
+    @media only screen and (max-width: 374px) {
+      @content;
     }
-
-    @else if $size==1 {
-        @media only screen and (min-width: 375px) and (max-width: 425px) {
-            @content;
-        }
+  } @else if $size==1 {
+    @media only screen and (min-width: 375px) and (max-width: 425px) {
+      @content;
     }
-
-    @else if $size==1.1 {
-        @media only screen and (min-width: 425px) and (max-width: 479px) {
-            @content;
-        }
+  } @else if $size==1.1 {
+    @media only screen and (min-width: 425px) and (max-width: 479px) {
+      @content;
     }
-
-    @else if $size==2 {
-        @media only screen and (min-width: 480px) and (max-width: 575px) {
-            @content;
-        }
+  } @else if $size==2 {
+    @media only screen and (min-width: 480px) and (max-width: 575px) {
+      @content;
     }
-
-    @else if $size==3 {
-        @media only screen and (min-width: 576px) and (max-width: 767px) {
-            @content;
-        }
+  } @else if $size==3 {
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+      @content;
     }
-
-    @else if $size==4 {
-        @media only screen and (min-width: 768px) and (max-width: 991px) {
-            @content;
-        }
+  } @else if $size==4 {
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+      @content;
     }
-
-    @else if $size==5 {
-        @media only screen and (min-width: 992px) and (max-width: 1024px) {
-            @content;
-        }
+  } @else if $size==5 {
+    @media only screen and (min-width: 992px) and (max-width: 1024px) {
+      @content;
     }
-
-    @else if $size==6 {
-        @media only screen and (min-width: 1025px) and (max-width: 1366px) {
-            @content;
-        }
+  } @else if $size==6 {
+    @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+      @content;
     }
-
-    @else if $size==7 {
-        @media only screen and (max-width: 1440px) {
-            @content;
-        }
+  } @else if $size==7 {
+    @media only screen and (max-width: 1440px) {
+      @content;
     }
+  }
 }
-
-
 
 .nav-header-contribute {
-    z-index: 1;
-    width: 100%;
-    color: white;
-    background-color: rgb(55, 148, 141);
-    font-size: 1.4rem;
-    font-weight: bold;
+  z-index: 1;
+  width: 100%;
+  color: white;
+  background-color: rgb(55, 148, 141);
+  font-size: 1.4rem;
+  font-weight: bold;
 
-    @include breakpoint-standard(2) {
-        padding: 10px;
-    }
+  @include breakpoint-standard(2) {
+    padding: 10px;
+  }
 
-    @include breakpoint-standard(1.1) {
-        padding: 10px 1.5rem;
-    }
+  @include breakpoint-standard(1.1) {
+    padding: 10px 1.5rem;
+  }
 
-    @include breakpoint-standard(1) {
-        padding: 10px 1.5rem;
-    }
+  @include breakpoint-standard(1) {
+    padding: 10px 1.5rem;
+  }
 
-    @include breakpoint-standard(0) {
-        padding: 10px;
-    }
+  @include breakpoint-standard(0) {
+    padding: 10px;
+  }
 }
 
-
 .contribuite-main-content {
-    margin: 0 2rem;
-    display: flex;
+  margin: 0 2rem;
+  display: flex;
 
-    .contribute-sidebar {
-        width: 25%;
-        padding: 15px 15px 0 15px;
+  .contribute-sidebar {
+    width: 25%;
+    padding: 15px 15px 0 15px;
 
-        .contribute-sub-sidebar {
-            padding-left: 2rem;
-        }
+    .contribute-sub-sidebar {
+      padding-left: 2rem;
+    }
+  }
+
+  .sidebar-button {
+    color: rgb(55, 148, 141);
+    cursor: pointer;
+  }
+
+  .contribute-sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .contribute-sidebar li a {
+    text-decoration: none;
+    color: rgb(0, 114, 105);
+    display: block;
+    margin: 10px 0;
+  }
+
+  .contribute-sidebar li span {
+    text-decoration: none;
+    color: rgb(0, 114, 105);
+    display: block;
+    margin: 6px 0;
+    cursor: pointer;
+  }
+
+  /* ContributeContent.css */
+  .contribute-content {
+    width: 70%;
+    padding: 15px 15px 0 15px;
+
+    .page-title-1 {
+      font-weight: bold;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #333;
     }
 
-    .sidebar-button {
+    p {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+
+      a {
+        color: rgb(0, 114, 105);
+        text-decoration: none;
+      }
+    }
+
+    .expand-collapse {
+      margin-top: 0.5rem;
+
+      a {
         color: rgb(55, 148, 141);
-        cursor: pointer;
+        font-weight: 600;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .lable-title {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+  }
+
+  /* SignInForm.css */
+  .contribute-sign-in-form {
+    .form-inorder {
+      margin-top: 0;
+      margin-bottom: 1rem;
     }
 
-    .contribute-sidebar ul {
-        list-style: none;
-        padding: 0;
+    .sign-in-form-submit {
+      padding: 1rem;
+      background-color: #fff8ce;
+      border-top: 1px solid #ddca9d;
+      border-bottom: 1px solid #ddca9d;
     }
 
-    .contribute-sidebar li a {
-        text-decoration: none;
-        color: rgb(0, 114, 105);
-        display: block;
-        margin: 10px 0;
+    label {
+      display: block;
+      margin: 10px 0;
     }
 
-    .contribute-sidebar li span {
-        text-decoration: none;
-        color: rgb(0, 114, 105);
-        display: block;
-        margin: 6px 0;
-        cursor: pointer;
+    .label-signup {
+      margin-right: 1.5rem;
+      color: #000;
+      font-size: 0.95rem;
+      font-weight: 600;
     }
 
-
-    /* ContributeContent.css */
-    .contribute-content {
-        width: 70%;
-        padding: 15px 15px 0 15px;
-
-        .page-title-1 {
-            font-weight: bold;
-            font-size: 2rem;
-            margin-bottom: .5rem;
-            color: #333;
-
-        }
-
-        p {
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-
-            a {
-                color: rgb(0, 114, 105);
-                text-decoration: none;
-            }
-        }
-
-        .expand-collapse {
-            margin-top: 0.5rem;
-
-            a {
-                color: rgb(55, 148, 141);
-                font-weight: 600;
-                text-decoration: underline;
-            }
-        }
-
-
+    input {
+      padding: 6px;
+      margin-top: 5px;
+      margin-left: 8px;
+      height: 18px;
     }
 
-    .lable-title {
-        font-size: 1rem;
-        font-weight: 500;
-        line-height: 1.5;
-        color: #212529;
-        text-align: left;
+    button {
+      padding: 10px 15px;
+      background-color: rgb(55, 148, 141);
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      margin: 6px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        border-radius: 50%;
+        margin-right: 4px;
+      }
     }
 
-    /* SignInForm.css */
-    .contribute-sign-in-form {
-        .form-inorder {
-            margin-top: 0;
-            margin-bottom: 1rem;
-        }
-
-        .sign-in-form-submit {
-            padding: 1rem;
-            background-color: #FFF8CE;
-            border-top: 1px solid #DDCA9D;
-            border-bottom: 1px solid #DDCA9D;
-        }
-
-        label {
-            display: block;
-            margin: 10px 0;
-        }
-
-        .label-signup {
-            margin-right: 1.5rem;
-            color: #000;
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-
-        input {
-            padding: 6px;
-            margin-top: 5px;
-            margin-left: 8px;
-            height: 18px;
-        }
-
-        button {
-            padding: 10px 15px;
-            background-color: rgb(55, 148, 141);
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            margin: 6px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            img {
-                border-radius: 50%;
-                margin-right: 4px;
-            }
-        }
-
-        button:hover {
-            background-color: rgba(6, 186, 171, 0.83);
-        }
-
-        .create-account {
-            color: rgb(55, 148, 141);
-            cursor: pointer;
-        }
+    button:hover {
+      background-color: rgba(6, 186, 171, 0.83);
     }
 
-    .guide-pdf {
-        margin-bottom: 1rem;
-        margin-left: 2rem;
-
-        a {
-            color: rgb(55, 148, 141);
-            text-decoration: none;
-            margin-top: 0;
-        }
+    .create-account {
+      color: rgb(55, 148, 141);
+      cursor: pointer;
     }
+  }
 
-    .comment-small {
-        font-size: 80%;
-        font-weight: 500;
+  .guide-pdf {
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+
+    a {
+      color: rgb(55, 148, 141);
+      text-decoration: none;
+      margin-top: 0;
     }
+  }
 
-
+  .comment-small {
+    font-size: 80%;
+    font-weight: 500;
+  }
 }

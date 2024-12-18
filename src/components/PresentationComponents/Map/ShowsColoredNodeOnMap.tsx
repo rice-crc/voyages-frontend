@@ -3,14 +3,14 @@ import { ESTIMATES } from '@/share/CONST_DATA';
 import '@/style/map.scss';
 
 const ShowsColoredNodeOnMap = () => {
-  const { styleName } = usePageRouter()
+  const { styleName } = usePageRouter();
 
   return (
     <div className="leaflet-bottom leaflet-left __web-inspector-hide-shortcut__">
       <div className="legend leaflet-control">
         <table className="legendtable">
           <tbody>
-            {styleName !== ESTIMATES &&
+            {styleName !== ESTIMATES && (
               <tr>
                 <td>
                   <div className="circle origins"></div>
@@ -28,7 +28,8 @@ const ShowsColoredNodeOnMap = () => {
                     IMP
                   </span>
                 </td>
-              </tr>}
+              </tr>
+            )}
             <tr>
               <td>
                 <div className="circle embarkations"></div>
@@ -36,14 +37,15 @@ const ShowsColoredNodeOnMap = () => {
               <td> </td>
               <td>Embarkations</td>
             </tr>
-            {styleName !== ESTIMATES &&
+            {styleName !== ESTIMATES && (
               <tr>
                 <td>
                   <div className="circle embark-disembark"></div>
                 </td>
                 <td> </td>
                 <td>Embark &amp; Disembark</td>
-              </tr>}
+              </tr>
+            )}
             <tr>
               <td>
                 <div className="circle disembarkations"></div>
@@ -51,14 +53,15 @@ const ShowsColoredNodeOnMap = () => {
               <td> </td>
               <td>Disembarkations</td>
             </tr>
-            {styleName !== ESTIMATES &&
+            {styleName !== ESTIMATES && (
               <tr>
                 <td>
                   <div className="circle  post-disembark-location"></div>
                 </td>
                 <td> </td>
                 <td>Post-Disembark Locations</td>
-              </tr>}
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

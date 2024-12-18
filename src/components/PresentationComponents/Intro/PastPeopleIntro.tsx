@@ -20,37 +20,47 @@ const PastPeopleIntro = () => {
   const isLanguageKey = (key: any): key is LanguageKeys => {
     return ['en', 'es', 'pt'].includes(key);
   };
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
   if (!isLanguageKey(languageValue)) {
     throw new Error(`Invalid language value: ${languageValue}`);
   }
   return (
     <Grid container id="main-page-past-home">
       <Grid item sm={6} md={4} lg={4} className="grid-people-image">
-        <Link to="https://www.loc.gov/pictures/item/2017659626/" target="_blank" rel="noopener noreferrer">
-          <img
-            className="flipped-image"
-            src={PersonImage}
-            alt="PersonImage"
-          />
+        <Link
+          to="https://www.loc.gov/pictures/item/2017659626/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img className="flipped-image" src={PersonImage} alt="PersonImage" />
         </Link>
       </Grid>
       <Grid item sm={6} md={8} lg={8} className="grid-people-introduction">
         {PEOPLE.map((item, index) => {
-          const { text_description, text_introuduce, header, credit } = item
-          const textDescription = (text_description as LabelFilterMeneList)[languageValue];
-          const textIntrouduce = (text_introuduce as LabelFilterMeneList)[languageValue];
-          const creDitLable = (credit.label as LabelFilterMeneList)[languageValue];
+          const { text_description, text_introuduce, header, credit } = item;
+          const textDescription = (text_description as LabelFilterMeneList)[
+            languageValue
+          ];
+          const textIntrouduce = (text_introuduce as LabelFilterMeneList)[
+            languageValue
+          ];
+          const creDitLable = (credit.label as LabelFilterMeneList)[
+            languageValue
+          ];
           return (
-            <div key={`${textIntrouduce}-${index}`} className='text-intro-box'>
-              <div className='text-intro'>
+            <div key={`${textIntrouduce}-${index}`} className="text-intro-box">
+              <div className="text-intro">
                 {textIntrouduce}
                 <div style={{ marginTop: 15 }}>{textDescription}</div>
               </div>
               <div className="btn-Enslaved-enslavers">
                 {header.map((title) => {
-                  const textHeader = (title.label as LabelFilterMeneList)[languageValue];
-                  const URL = checkPathPeople(textHeader)
+                  const textHeader = (title.label as LabelFilterMeneList)[
+                    languageValue
+                  ];
+                  const URL = checkPathPeople(textHeader);
                   return (
                     <Link
                       to={URL}
@@ -67,17 +77,21 @@ const PastPeopleIntro = () => {
                       }}
                     >
                       <div className="enslaved-btn">{textHeader}</div>
-                    </Link>)
+                    </Link>
+                  );
                 })}
               </div>
-            </div>)
+            </div>
+          );
         })}
         <Link
           to={PEOPLE[0].credit.hyperlink}
           style={{ textDecoration: 'none', color: '#000', fontSize: '0.95rem' }}
           className="credit-bottom-right"
         >
-          {`${PEOPLE[0].credit.label[languageValue as LanguageKeys]}: ${PEOPLE[0].credit.artist_name}`}
+          {`${PEOPLE[0].credit.label[languageValue as LanguageKeys]}: ${
+            PEOPLE[0].credit.artist_name
+          }`}
           {/* ${currentYear} */}
         </Link>
       </Grid>
