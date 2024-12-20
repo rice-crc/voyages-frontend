@@ -11,20 +11,26 @@ import {
   VoyageSlaveNumbersSchema,
   VoyageItinerarySchema,
   VoyageDatesSchema,
+  VoyageSchema,
 } from '@/models/entities';
 import { EntitySchema } from '@/models/entities';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
+import { ContributionForm } from '../EntityFormV2';
+import { materializeNew } from '@/models/materialization';
 
 export interface EntityFormProps {
   schema: EntitySchema;
 }
+
+const tempNewVoyage = materializeNew(VoyageSchema, '9999999');
+
 const NewVoyage: React.FC = () => {
   const [form] = Form.useForm();
   const [comments, setComments] = useState<{ [key: string]: string }>({});
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedcontribute = translationLanguagesContribute(languageValue);
 
@@ -183,7 +189,7 @@ const NewVoyage: React.FC = () => {
         children: 'Sources',
       },
     ],
-    [handleCommentChange]
+    [handleCommentChange],
   );
 
   const [globalExpand, setGlobalExpand] = useState(false);
@@ -215,7 +221,7 @@ const NewVoyage: React.FC = () => {
         <Form.Item
           name="voyageComments"
           label={<span className="lable-title">Voyage comments:</span>}
-        // rules={[{ required: true, message: "Voyage comments are required" }]}
+          // rules={[{ required: true, message: "Voyage comments are required" }]}
         >
           <Input.TextArea rows={2} />
         </Form.Item>
@@ -314,6 +320,7 @@ const NewVoyage: React.FC = () => {
             Cancel contribution
           </Button>
         </Box>
+        <ContributionForm entity={tempNewVoyage} />
       </Form>
     </div>
   );
