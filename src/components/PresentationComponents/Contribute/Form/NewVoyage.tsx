@@ -1,19 +1,21 @@
 import '@/style/contributeContent.scss';
 import '@/style/newVoyages.scss';
+import React, { useCallback, useMemo, useState } from 'react';
+
 import { Box, Button } from '@mui/material';
 import { Collapse, Divider, Form, Input, Typography, message } from 'antd';
-import { useCallback, useMemo, useState } from 'react';
 import type { CollapseProps } from 'antd';
-import React from 'react';
+import { useSelector } from 'react-redux';
+
 import { EntityForm } from '../EntityForm';
+
 import {
   VoyageShipEntitySchema,
   VoyageSlaveNumbersSchema,
   VoyageItinerarySchema,
   VoyageDatesSchema,
+  EntitySchema,
 } from '@/models/entities';
-import { EntitySchema } from '@/models/entities';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
 
