@@ -111,7 +111,7 @@ export const EntityForm = ({
                 placeholder={`Please type ${p.label}`}
                 style={{ width: 'calc(100% - 20px)' }}
               />
-            ) : p.kind === 'entityValue' ? (
+            ) : p.kind === 'linkedEntity' ? (
               p.linkedEntitySchema === Location.name ? (
                 <TreeSelect
                   placeholder={`Please select ${p.label}`}

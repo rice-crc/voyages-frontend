@@ -14,21 +14,21 @@ import {
   VoyageSlaveNumbersSchema,
   VoyageItinerarySchema,
   VoyageDatesSchema,
+  VoyageSchema,
   EntitySchema,
 } from '@/models/entities';
-import { RootState } from '@/redux/store';
-import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
+import { ContributionForm } from '../EntityFormV2';
+import { materializeNew } from '@/models/materialization';
 
 export interface EntityFormProps {
   schema: EntitySchema;
 }
+
+const tempNewVoyage = materializeNew(VoyageSchema, '9999999');
+
 const NewVoyage: React.FC = () => {
   const [form] = Form.useForm();
   const [comments, setComments] = useState<{ [key: string]: string }>({});
-  const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
-  );
-  const translatedcontribute = translationLanguagesContribute(languageValue);
 
   const handleCommentChange = (field: string, value: string) => {
     setComments({
@@ -53,7 +53,6 @@ const NewVoyage: React.FC = () => {
       // Simulate an API call or state update
       // Replace with your actual API integration
       const response = await saveVoyageData(submissionData);
-      console.log({ response });
     } catch (error) {
       console.error('Save error:', error);
       message.error('Please correct the errors before saving.');
@@ -86,119 +85,6 @@ const NewVoyage: React.FC = () => {
     message.warning('Contribution canceled.');
   };
 
-  const items: CollapseProps['items'] = useMemo(
-    () => [
-      {
-        key: VoyageShipEntitySchema.backingModel,
-        label: (
-          <Typography.Title level={4} className="collapse-title">
-            Ship, Nation, Owners
-          </Typography.Title>
-        ),
-        children: (
-          <EntityForm
-            schema={VoyageShipEntitySchema}
-            handleCommentChange={handleCommentChange}
-          />
-        ),
-      },
-      {
-        // Need to change to EntitySchema later
-        key: '2',
-        label: (
-          <Typography.Title level={4} className="collapse-title">
-            Voyage Outcome
-          </Typography.Title>
-        ),
-        children: 'VoyageOutcome',
-      },
-      {
-        key: VoyageItinerarySchema.backingModel,
-        label: (
-          <Typography.Title level={4} className="collapse-title">
-            Voyage Itinerary
-          </Typography.Title>
-        ),
-        children: (
-          <EntityForm
-            schema={VoyageItinerarySchema}
-            handleCommentChange={handleCommentChange}
-          />
-        ),
-      },
-      {
-        key: VoyageDatesSchema.backingModel,
-        label: (
-          <Typography.Title level={4} className="collapse-title">
-            Voyage Dates
-          </Typography.Title>
-        ),
-        children: (
-          <EntityForm
-            schema={VoyageDatesSchema}
-            handleCommentChange={handleCommentChange}
-          />
-        ),
-      },
-      {
-        // Need to change to EntitySchema later
-        key: '5',
-        label: (
-          <Typography.Title level={4} className="collapse-title">
-            Captain and Crew
-          </Typography.Title>
-        ),
-        children: 'Captain and Crew',
-      },
-      {
-        key: VoyageSlaveNumbersSchema.backingModel,
-        label: (
-          <Typography.Title level={4} className="collapse-title">
-            Slaves (numbers)
-          </Typography.Title>
-        ),
-        children: (
-          <EntityForm
-            schema={VoyageSlaveNumbersSchema}
-            handleCommentChange={handleCommentChange}
-          />
-        ),
-      },
-      {
-        // Need to change to EntitySchema later
-        key: '7',
-        label: (
-          <Typography.Title level={4} className="collapse-title">
-            Slaves (characteristics)
-          </Typography.Title>
-        ),
-        children: 'Slaves (characteristics)',
-      },
-      {
-        // Need to change to EntitySchema later
-        key: '8',
-        label: (
-          <Typography.Title level={4} className="collapse-title">
-            Sources
-          </Typography.Title>
-        ),
-        children: 'Sources',
-      },
-    ],
-    [handleCommentChange]
-  );
-
-  const [globalExpand, setGlobalExpand] = useState(false);
-  const [expandedMenu, setExpandedMenu] = useState<string[]>([]);
-
-  const toggleExpandAll = () => {
-    if (globalExpand) {
-      setExpandedMenu([]);
-    } else {
-      setExpandedMenu(items.map((item) => item.key as string));
-    }
-    setGlobalExpand(!globalExpand);
-  };
   return (
     <div className="contribute-content">
       <h1 className="page-title-1">New Voyage</h1>
@@ -227,24 +113,7 @@ const NewVoyage: React.FC = () => {
           the reviewer/editor, please use the contributor's comments at the end
           of this form or any of the specific field comment boxes.
         </small>
-        <div className="expand-collapse">
-          {translatedcontribute.titleCollaps}{' '}
-          <a href="#" onClick={toggleExpandAll}>
-            {globalExpand
-              ? translatedcontribute.expand
-              : translatedcontribute.collapse}
-          </a>{' '}
-        </div>
-        <div className="collapse-container">
-          <Collapse
-            activeKey={expandedMenu}
-            items={items}
-            onChange={(keys) => setExpandedMenu(keys as string[])}
-            bordered={false}
-            ghost
-            className="custom-collapse"
-          />
-        </div>
+        <ContributionForm entity={tempNewVoyage} />
         <Divider />
         <Form.Item
           name="contributorsComments"
