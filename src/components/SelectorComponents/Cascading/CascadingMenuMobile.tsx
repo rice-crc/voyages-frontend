@@ -422,6 +422,7 @@ const CascadingMenuMobile = () => {
         menu={renderDropdownMenu(filterMenu)}
       />
       <Dialog
+        onClick={(e) => e.stopPropagation()}
         BackdropProps={{
           style: DialogModalStyle,
         }}
@@ -431,6 +432,11 @@ const CascadingMenuMobile = () => {
         onClose={handleCloseDialog}
         PaperComponent={PaperDraggable}
         aria-labelledby="draggable-dialog-title"
+        slotProps={{
+          backdrop: {
+            onClick: (e) => e.stopPropagation()
+          }
+        }}
       >
         <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
           <div style={{ fontSize: 16, fontWeight: 500 }}>
@@ -479,14 +485,14 @@ const CascadingMenuMobile = () => {
                   height: 30,
                   cursor:
                     listEnslavers.length === 0 &&
-                    enslaverName === '' &&
-                    typeData === TYPES.EnslaverNameAndRole
+                      enslaverName === '' &&
+                      typeData === TYPES.EnslaverNameAndRole
                       ? 'not-allowed'
                       : 'pointer',
                   backgroundColor:
                     listEnslavers.length === 0 &&
-                    enslaverName === '' &&
-                    typeData === TYPES.EnslaverNameAndRole
+                      enslaverName === '' &&
+                      typeData === TYPES.EnslaverNameAndRole
                       ? getColorHoverBackgroundCollection(styleNameRoute!)
                       : getColorBackground(styleNameRoute!),
                   fontSize: '0.80rem',

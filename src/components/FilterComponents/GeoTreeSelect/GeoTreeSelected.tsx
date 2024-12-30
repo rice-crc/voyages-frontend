@@ -41,6 +41,7 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
   const [geoTreeValueList, setGeoTreeValueList] = useState<GeoTreeSelectItem[]>(
     []
   );
+  const [dataForTreeSelect, setDataForTreeSelect] = useState<any[]>([]);
   const { styleName } = usePageRouter();
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState
@@ -81,18 +82,26 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
         const geoList: GeoTreeSelectItem[] = response.map(
           (value: GeoTreeSelectItem) => value
         );
-        setGeoTreeValueList((prevGeoList: GeoTreeSelectItem[]) => [
-          ...prevGeoList,
-          ...geoList,
-        ]);
+        setGeoTreeValueList(geoList);
       }
     } catch (error) {
-      console.log(`Error fetch data tree select ${error}`);
+      console.error(`Error fetching data for tree select: ${error}`);
     }
   };
+
   useEffect(() => {
-    fetchDataList(type);
-  }, [type]);
+    fetchDataList(type)
+  }, []);
+
+
+  useEffect(() => {
+    if (type === TYPES.GeoTreeSelect) {
+      setDataForTreeSelect(convertDataToGeoTreeSelectFormat(geoTreeValueList));
+    } else if (type === TYPES.LanguageTreeSelect) {
+      setDataForTreeSelect(convertDataToLanguagesTreeSelectFormat(geoTreeValueList));
+    }
+  }, [type, geoTreeValueList]);
+
 
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
@@ -114,13 +123,6 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     dispatch(setFilterObject(filter));
   }, [varName, styleName, geoTreeValueList]);
 
-  let dataForTreeSelect: any;
-  if (type === TYPES.GeoTreeSelect) {
-    dataForTreeSelect = convertDataToGeoTreeSelectFormat(geoTreeValueList);
-  } else if (type === TYPES.LanguageTreeSelect) {
-    dataForTreeSelect =
-      convertDataToLanguagesTreeSelectFormat(geoTreeValueList);
-  }
 
   const findSelectedItems = (
     data: GeoTreeSelectItem[],
@@ -227,19 +229,28 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
   };
 
+
+  const handleContainerClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const selector = ref.current?.querySelector('.ant-select-selector') as HTMLElement;
+    if (selector) {
+      selector.click();
+    }
+  };
+
   return (
-    <div ref={ref}>
+    <div ref={ref} onClick={handleContainerClick}>
       {dataForTreeSelect && dataForTreeSelect.length > 0 && (
         <TreeSelect
           loading
           showSearch
           style={{ width: 450 }}
           value={selectedValue}
-          dropdownStyle={{ overflow: 'auto', zIndex: 1301 }}
+          dropdownStyle={{ maxHeight: 400, overflow: 'auto', zIndex: 9999, }}
           placeholder="Please select"
           allowClear
           multiple
-          treeCheckable={true}
+          treeCheckable
           onChange={handleTreeOnChange}
           treeDefaultExpandAll={false}
           treeDefaultExpandedKeys={['select-all']}
@@ -256,3 +267,4 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
 };
 
 export default GeoTreeSelected;
+

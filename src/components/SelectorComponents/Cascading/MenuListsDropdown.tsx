@@ -485,6 +485,12 @@ export const MenuListsDropdown = () => {
         })}
       </Box>
       <Dialog
+        onClick={(e) => e.stopPropagation()}
+        slotProps={{
+          backdrop: {
+            onClick: (e) => e.stopPropagation()
+          }
+        }}
         BackdropProps={{
           style: DialogModalStyle,
         }}

@@ -25,6 +25,12 @@ const TimelapseHelpDialog = ({
   return (
     <div>
       <Dialog
+        onClick={(e) => e.stopPropagation()}
+        slotProps={{
+          backdrop: {
+            onClick: (e) => e.stopPropagation()
+          }
+        }}
         open={open}
         onClose={onClose}
         BackdropProps={{
