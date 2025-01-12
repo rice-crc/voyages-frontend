@@ -531,6 +531,12 @@ export interface HeaderLabel {
   pt: string;
 }
 
+export interface MenuListsProps {
+  name: LabelFilterMeneList;
+  url: string
+  submenu?: MenuListsProps[];
+}
+
 export interface ChildrenCard {
   cell_type: string;
   cell_val?: CellValCard;

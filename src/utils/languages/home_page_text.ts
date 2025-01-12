@@ -291,15 +291,15 @@ export const homePageTranslated: TranslateType = {
   userFeedback: {
     label: {
       en: 'user feedback',
-      es: 'user feedback',
-      pt: 'user feedback',
+      es: 'comentarios del usuario',
+      pt: 'feedback do usuário',
     },
   },
   reportIssue: {
     label: {
       en: 'report issues',
-      es: 'report issues',
-      pt: 'report issues',
+      es: 'reportar problemas',
+      pt: 'reportar problemas',
     },
   },
   scrollMore: {
