@@ -75,11 +75,11 @@ export interface IRootFilterTableObject {
 export interface Filter {
   varName: string;
   searchTerm:
-    | number[]
-    | string[]
-    | CheckboxValueType[]
-    | RolesFilterProps[]
-    | CheckboxValueType;
+  | number[]
+  | string[]
+  | CheckboxValueType[]
+  | RolesFilterProps[]
+  | CheckboxValueType;
   op: string;
   label?: string;
   title?: string[];
@@ -522,7 +522,7 @@ export interface InitialStateTransatlanticCard {
   variable: string;
 }
 export interface TransatlanticCardProps {
-  label: HeaderLabel;
+  label: LabelFilterMeneList;
   children: ChildrenCard[];
 }
 export interface HeaderLabel {
@@ -534,7 +534,7 @@ export interface HeaderLabel {
 export interface ChildrenCard {
   cell_type: string;
   cell_val?: CellValCard;
-  label: string;
+  label: LabelFilterMeneList;
   var_names?: string;
   number_format?: string | number | null;
 }
@@ -729,8 +729,8 @@ export interface CheckboxGroupItem {
   label: string;
   plainOptions: string[];
   setCheckedList:
-    | React.Dispatch<React.SetStateAction<CheckboxValueType[]>>
-    | ((list: CheckboxValueType[]) => void);
+  | React.Dispatch<React.SetStateAction<CheckboxValueType[]>>
+  | ((list: CheckboxValueType[]) => void);
   checkedList: CheckboxValueType[];
   show: boolean;
   varName: string;

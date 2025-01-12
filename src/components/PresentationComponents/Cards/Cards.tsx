@@ -34,7 +34,7 @@ import {
   VOYAGESNODECLASS,
 } from '@/share/CONST_DATA';
 import '@/style/cards.scss';
-import { TransatlanticCardProps } from '@/share/InterfaceTypes';
+import { LabelFilterMeneList, TransatlanticCardProps } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
 import { CardHeaderCustom } from '@/styleMUI';
 import { styleCard } from '@/styleMUI/customStyle';
@@ -171,7 +171,7 @@ const VoyageCard = () => {
     };
   }, [dispatch, nodeTypeClass, cardRowID]);
 
-  const newCardData = processCardData([cardData], cardDataArray, cardFileName);
+  const newCardData = processCardData([cardData], cardDataArray, cardFileName, languageValue);
 
   const toggleExpand = (header: string) => {
     if (!globalExpand) {

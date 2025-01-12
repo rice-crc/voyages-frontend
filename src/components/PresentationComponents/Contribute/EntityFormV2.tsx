@@ -585,6 +585,7 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
       <ul>
         {/* TODO: A list view of the changes in a nice format */}
         {changeSet.changes.map((ec, idxEC) => {
+          console.log({ ec });
           const details =
             ec.type === 'update' ? (
               <ul>

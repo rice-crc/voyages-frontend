@@ -1,6 +1,10 @@
 [
   {
-    "label": "Ship and Nation",
+    "label": {
+      "en": "Ship and Nation",
+      "es": "ES: Ship and Nation",
+      "pt": "PT: Ship and Nation"
+    },
     "children": [
       {
         "cell_type": "literal",
@@ -13,7 +17,11 @@
             }
           ]
         },
-        "label": "Voyage ID"
+        "label": {
+          "en": "Voyage ID",
+          "es": "ES: Voyage ID",
+          "pt": "PT: Voyage ID"
+        }
       },
       {
         "cell_type": "literal",
@@ -26,7 +34,11 @@
             }
           ]
         },
-        "label": "Name of vessel"
+        "label": {
+          "en": "Name of vessel",
+          "es": "ES: Name of vessel",
+          "pt": "PT: Name of vessel"
+        }
       },
       {
         "cell_type": "literal-concat",
@@ -44,7 +56,11 @@
           ],
           "join": ": "
         },
-        "label": "Enslavers"
+        "label": {
+          "en": "Enslavers",
+          "es": "ES: Enslavers",
+          "pt": "PT: Enslavers"
+        }
       },
       {
         "cell_type": "network_modal",
@@ -57,7 +73,11 @@
             }
           ]
         },
-        "label": "Enslaver Connections"
+        "label": {
+          "en": "Enslaver Connections",
+          "es": "ES: Enslaver Connections",
+          "pt": "PT: Enslaver Connections"
+        }
       },
       {
         "cell_type": "literal",
@@ -70,7 +90,11 @@
             }
           ]
         },
-        "label": "Place where vessel registered"
+        "label": {
+          "en": "Place where vessel registered",
+          "es": "ES: Place where vessel registered",
+          "pt": "PT: Place where vessel registered"
+        }
       },
       {
         "cell_type": "literal",
@@ -83,7 +107,11 @@
             }
           ]
         },
-        "label": "Year of vessel's registration"
+        "label": {
+          "en": "Year of vessel's registration",
+          "es": "ES: Year of vessel's registration",
+          "pt": "PT: Year of vessel's registration"
+        }
       },
       {
         "cell_type": "literal",
@@ -96,7 +124,11 @@
             }
           ]
         },
-        "label": "Year of vessel's construction"
+        "label": {
+          "en": "Year of vessel's construction",
+          "es": "ES: Year of vessel's construction",
+          "pt": "PT: Year of vessel's construction"
+        }
       },
       {
         "cell_type": "literal",
@@ -109,7 +141,11 @@
             }
           ]
         },
-        "label": "Imputed Ship Nationality"
+        "label": {
+          "en": "Imputed Ship Nationality",
+          "es": "ES: Imputed Ship Nationality",
+          "pt": "PT: Imputed Ship Nationality"
+        }
       },
       {
         "cell_type": "literal",
@@ -122,7 +158,11 @@
             }
           ]
         },
-        "label": "Rig of Vessel"
+        "label": {
+          "en": "Rig of Vessel",
+          "es": "ES: Rig of Vessel",
+          "pt": "PT: Rig of Vessel"
+        }
       },
       {
         "cell_type": "literal",
@@ -135,7 +175,11 @@
             }
           ]
         },
-        "label": "Tonnage standardized on British measured tons 1773-1870"
+        "label": {
+          "en": "Tonnage standardized on British measured tons 1773-1870",
+          "es": "ES: Tonnage standardized on British measured tons 1773-1870",
+          "pt": "PT: Tonnage standardized on British measured tons 1773-1870"
+        }
       },
       {
         "cell_type": "literal",
@@ -148,7 +192,11 @@
             }
           ]
         },
-        "label": "Tonnage of vessel"
+        "label": {
+          "en": "Tonnage of vessel",
+          "es": "ES: Tonnage of vessel",
+          "pt": "PT: Tonnage of vessel"
+        }
       },
       {
         "cell_type": "literal",
@@ -161,12 +209,20 @@
             }
           ]
         },
-        "label": "Guns mounted"
+        "label": {
+          "en": "Guns mounted",
+          "es": "ES: Guns mounted",
+          "pt": "PT: Guns mounted"
+        }
       }
     ]
   },
   {
-    "label": "Crew",
+    "label": {
+      "en": "Crew",
+      "es": "ES: Crew",
+      "pt": "PT: Crew"
+    },
     "children": [
       {
         "cell_type": "literal",
@@ -179,7 +235,11 @@
             }
           ]
         },
-        "label": "Crew died during complete voyage"
+        "label": {
+          "en": "Crew died during complete voyage",
+          "es": "ES: Crew died during complete voyage",
+          "pt": "PT: Crew died during complete voyage"
+        }
       },
       {
         "cell_type": "literal",
@@ -192,7 +252,11 @@
             }
           ]
         },
-        "label": "Crew at first landing of slaves"
+        "label": {
+          "en": "Crew at first landing of slaves",
+          "es": "ES: Crew at first landing of slaves",
+          "pt": "PT: Crew at first landing of slaves"
+        }
       },
       {
         "cell_type": "literal",
@@ -205,12 +269,20 @@
             }
           ]
         },
-        "label": "Crew at voyage outset"
+        "label": {
+          "en": "Crew at voyage outset",
+          "es": "ES: Crew at voyage outset",
+          "pt": "PT: Crew at voyage outset"
+        }
       }
     ]
   },
   {
-    "label": "Itinerary",
+    "label": {
+      "en": "Itinerary",
+      "es": "ES: Itinerary",
+      "pt": "PT: Itinerary"
+    },
     "children": [
       {
         "cell_type": "literal",
@@ -223,7 +295,11 @@
             }
           ]
         },
-        "label": "Port of departure (PORTDEP)"
+        "label": {
+          "en": "Port of departure (PORTDEP)",
+          "es": "ES: Port of departure (PORTDEP)",
+          "pt": "PT: Port of departure (PORTDEP)"
+        }
       },
       {
         "cell_type": "literal",
@@ -236,7 +312,11 @@
             }
           ]
         },
-        "label": "Third place of slave purchase (PLAC3TRA)"
+        "label": {
+          "en": "Third place of slave purchase (PLAC3TRA)",
+          "es": "ES: Third place of slave purchase (PLAC3TRA)",
+          "pt": "PT: Third place of slave purchase (PLAC3TRA)"
+        }
       },
       {
         "cell_type": "literal",
@@ -249,7 +329,11 @@
             }
           ]
         },
-        "label": "Location name"
+        "label": {
+          "en": "Location name",
+          "es": "ES: Location name",
+          "pt": "PT: Location name"
+        }
       },
       {
         "cell_type": "literal",
@@ -262,7 +346,11 @@
             }
           ]
         },
-        "label": "First place of slave purchase (PLAC1TRA)"
+        "label": {
+          "en": "First place of slave purchase (PLAC1TRA)",
+          "es": "ES: First place of slave purchase (PLAC1TRA)",
+          "pt": "PT: First place of slave purchase (PLAC1TRA)"
+        }
       },
       {
         "cell_type": "literal",
@@ -275,7 +363,11 @@
             }
           ]
         },
-        "label": "Imputed principal place of slave purchase (MJBYPTIMP)"
+        "label": {
+          "en": "Imputed principal place of slave purchase (MJBYPTIMP)",
+          "es": "ES: Imputed principal place of slave purchase (MJBYPTIMP)",
+          "pt": "PT: Imputed principal place of slave purchase (MJBYPTIMP)"
+        }
       },
       {
         "cell_type": "literal",
@@ -288,7 +380,11 @@
             }
           ]
         },
-        "label": "Port of call before Atlantic crossing (NPAFTTRA)"
+        "label": {
+          "en": "Port of call before Atlantic crossing (NPAFTTRA)",
+          "es": "ES: Port of call before Atlantic crossing (NPAFTTRA)",
+          "pt": "PT: Port of call before Atlantic crossing (NPAFTTRA)"
+        }
       },
       {
         "cell_type": "literal",
@@ -301,7 +397,11 @@
             }
           ]
         },
-        "label": "Third place of slave landing (ADPSALE2)"
+        "label": {
+          "en": "Third place of slave landing (ADPSALE2)",
+          "es": "ES: Third place of slave landing (ADPSALE2)",
+          "pt": "PT: Third place of slave landing (ADPSALE2)"
+        }
       },
       {
         "cell_type": "literal",
@@ -314,7 +414,11 @@
             }
           ]
         },
-        "label": "Second place of slave landing (ADPSALE1)"
+        "label": {
+          "en": "Second place of slave landing (ADPSALE1)",
+          "es": "ES: Second place of slave landing (ADPSALE1)",
+          "pt": "PT: Second place of slave landing (ADPSALE1)"
+        }
       },
       {
         "cell_type": "literal",
@@ -327,7 +431,11 @@
             }
           ]
         },
-        "label": "First place of slave landing (SLA1PORT)"
+        "label": {
+          "en": "First place of slave landing (SLA1PORT)",
+          "es": "ES: First place of slave landing (SLA1PORT)",
+          "pt": "PT: First place of slave landing (SLA1PORT)"
+        }
       },
       {
         "cell_type": "literal",
@@ -340,7 +448,11 @@
             }
           ]
         },
-        "label": "Imputed principal port of slave disembarkation (MJSLPTIMP)"
+        "label": {
+          "en": "Imputed principal port of slave disembarkation (MJSLPTIMP)",
+          "es": "ES: Imputed principal port of slave disembarkation (MJSLPTIMP)",
+          "pt": "PT: Imputed principal port of slave disembarkation (MJSLPTIMP)"
+        }
       },
       {
         "cell_type": "literal",
@@ -352,12 +464,20 @@
             }
           ]
         },
-        "label": "Place at which voyage ended (PORTRET)"
+        "label": {
+          "en": "Place at which voyage ended (PORTRET)",
+          "es": "ES: Place at which voyage ended (PORTRET)",
+          "pt": "PT:Place at which voyage ended (PORTRET)"
+        }
       }
     ]
   },
   {
-    "label": "Dates",
+    "label": {
+      "en": "Dates",
+      "es": "ES: Dates",
+      "pt": "PT: Dates"
+    },
     "children": [
       {
         "cell_type": "literal",
@@ -370,7 +490,11 @@
             }
           ]
         },
-        "label": "Year captives were landed"
+        "label": {
+          "en": "Year captives were landed",
+          "es": "ES: Year captives were landed",
+          "pt": "PT: Year captives were landed"
+        }
       },
       {
         "cell_type": "literal",
@@ -383,7 +507,11 @@
             }
           ]
         },
-        "label": "Voyage length from home port to disembarkation (days) (VOY1IMP)"
+        "label": {
+          "en": "Voyage length from home port to disembarkation (days) (VOY1IMP)",
+          "es": "ES: Voyage length from home port to disembarkation (days) (VOY1IMP)",
+          "pt": "PT: Voyage length from home port to disembarkation (days) (VOY1IMP)"
+        }
       },
       {
         "cell_type": "literal",
@@ -396,7 +524,11 @@
             }
           ]
         },
-        "label": "Length of Middle Passage in (days) (VOYAGE)"
+        "label": {
+          "en": "Length of Middle Passage in (days) (VOYAGE)",
+          "es": "ES: Length of Middle Passage in (days) (VOYAGE)",
+          "pt": "PT: Length of Middle Passage in (days) (VOYAGE)"
+        }
       },
       {
         "cell_type": "literal",
@@ -409,12 +541,20 @@
             }
           ]
         },
-        "label": "Year of arrival at port of disembarkation (YEARAM)"
+        "label": {
+          "en": "Year of arrival at port of disembarkation (YEARAM)",
+          "es": "ES: Year of arrival at port of disembarkation (YEARAM)",
+          "pt": "PT: Year of arrival at port of disembarkation (YEARAM)"
+        }
       }
     ]
   },
   {
-    "label": "Enslaved People",
+    "label": {
+      "en": "Enslaved People",
+      "es": "ES: Enslaved People",
+      "pt": "PT: Enslaved People"
+    },
     "children": [
       {
         "cell_type": "literal",
@@ -427,7 +567,11 @@
             }
           ]
         },
-        "label": "Names of Enslaved People"
+        "label": {
+          "en": "Names of Enslaved People",
+          "es": "ES: Names of Enslaved People",
+          "pt": "PT: Names of Enslaved People"
+        }
       },
       {
         "cell_type": "literal",
@@ -440,7 +584,11 @@
             }
           ]
         },
-        "label": "Total slaves disembarked imputed * (SLAMIMP)"
+        "label": {
+          "en": "Total slaves disembarked imputed * (SLAMIMP)",
+          "es": "ES: Total slaves disembarked imputed * (SLAMIMP)",
+          "pt": "PT: Total slaves disembarked imputed * (SLAMIMP)"
+        }
       },
       {
         "cell_type": "literal",
@@ -453,7 +601,11 @@
             }
           ]
         },
-        "label": "Total slaves embarked imputed * (slaximp)"
+        "label": {
+          "en": "Total slaves embarked imputed * (slaximp)",
+          "es": "ES: Total slaves embarked imputed * (slaximp)",
+          "pt": "PT: Total slaves embarked imputed * (slaximp)"
+        }
       },
       {
         "cell_type": "literal",
@@ -466,7 +618,11 @@
             }
           ]
         },
-        "label": "Number of slaves carried from third port of purchase (NCAR17)"
+        "label": {
+          "en": "Number of slaves carried from third port of purchase (NCAR17)",
+          "es": "ES: Number of slaves carried from third port of purchase (NCAR17)",
+          "pt": "PT: Number of slaves carried from third port of purchase (NCAR17)"
+        }
       },
       {
         "cell_type": "literal",
@@ -479,7 +635,11 @@
             }
           ]
         },
-        "label": "Number of slaves carried from second port of purchase (NCAR15)"
+        "label": {
+          "en": "Number of slaves carried from second port of purchase (NCAR15)",
+          "es": "ES: Number of slaves carried from second port of purchase (NCAR15)",
+          "pt": "PT: Number of slaves carried from second port of purchase (NCAR15)"
+        }
       },
       {
         "cell_type": "literal",
@@ -492,7 +652,11 @@
             }
           ]
         },
-        "label": "Number of slaves carried from first port of purchase (NCAR13)"
+        "label": {
+          "en": "Number of slaves carried from first port of purchase (NCAR13)",
+          "es": "ES: Number of slaves carried from first port of purchase (NCAR13)",
+          "pt": "PT: Number of slaves carried from first port of purchase (NCAR13)"
+        }
       },
       {
         "cell_type": "literal",
@@ -505,7 +669,11 @@
             }
           ]
         },
-        "label": "Number of slaves intended from first port of purchase (SLINTEND)"
+        "label": {
+          "en": "Number of slaves intended from first port of purchase (SLINTEND)",
+          "es": "ES: Number of slaves intended from first port of purchase (SLINTEND)",
+          "pt": "PT: Number of slaves intended from first port of purchase (SLINTEND)"
+        }
       },
       {
         "cell_type": "literal",
@@ -518,7 +686,11 @@
             }
           ]
         },
-        "label": "Number of slaves disembarked at third place (SLAS39)"
+        "label": {
+          "en": "Number of slaves disembarked at third place (SLAS39)",
+          "es": "ES: Number of slaves disembarked at third place (SLAS39)",
+          "pt": "PT: Number of slaves disembarked at third place (SLAS39)"
+        }
       },
       {
         "cell_type": "literal",
@@ -531,7 +703,11 @@
             }
           ]
         },
-        "label": "Number of slaves disembarked at second place (SLAS36)"
+        "label": {
+          "en": "Number of slaves disembarked at second place (SLAS36)",
+          "es": "ES: Number of slaves disembarked at second place (SLAS36)",
+          "pt": "PT: Number of slaves disembarked at second place (SLAS36)"
+        }
       },
       {
         "cell_type": "literal",
@@ -544,7 +720,11 @@
             }
           ]
         },
-        "label": "Number of slaves disembarked at first place (SLAS32)"
+        "label": {
+          "en": "",
+          "es": "ES: Number of slaves disembarked at first place (SLAS32)",
+          "pt": "PT: Number of slaves disembarked at first place (SLAS32)"
+        }
       },
       {
         "cell_type": "literal",
@@ -557,7 +737,11 @@
             }
           ]
         },
-        "label": "Total slaves arrived at first port of disembarkation (SLAARRIV)"
+        "label": {
+          "en": "",
+          "es": "ES: Total slaves arrived at first port of disembarkation (SLAARRIV)",
+          "pt": "PT: Total slaves arrived at first port of disembarkation (SLAARRIV)"
+        }
       },
       {
         "cell_type": "literal",
@@ -570,7 +754,11 @@
             }
           ]
         },
-        "label": "Percentage children on voyage (CHILRAT7)"
+        "label": {
+          "en": "Percentage children on voyage (CHILRAT7)",
+          "es": "ES: Percentage children on voyage (CHILRAT7)",
+          "pt": "PT: Percentage children on voyage (CHILRAT7)"
+        }
       },
       {
         "cell_type": "literal",
@@ -583,7 +771,11 @@
             }
           ]
         },
-        "label": "Percentage male on voyage (MALRAT7)"
+        "label": {
+          "en": "Percentage male on voyage (MALRAT7)",
+          "es": "ES: Percentage male on voyage (MALRAT7)",
+          "pt": "PT: Percentage male on voyage (MALRAT7)"
+        }
       },
       {
         "cell_type": "literal",
@@ -596,7 +788,11 @@
             }
           ]
         },
-        "label": "Percentage girl on voyage (GIRLRAT7)"
+        "label": {
+          "en": "Percentage girl on voyage (GIRLRAT7)",
+          "es": "ES: Percentage girl on voyage (GIRLRAT7)",
+          "pt": "PT: Percentage girl on voyage (GIRLRAT7)"
+        }
       },
       {
         "cell_type": "literal",
@@ -609,7 +805,11 @@
             }
           ]
         },
-        "label": "Percentage boy on voyage (BOYRAT7)"
+        "label": {
+          "en": "Percentage boy on voyage (BOYRAT7)",
+          "es": "ES: Percentage boy on voyage (BOYRAT7)",
+          "pt": "PT: Percentage boy on voyage (BOYRAT7)"
+        }
       },
       {
         "cell_type": "literal",
@@ -622,7 +822,11 @@
             }
           ]
         },
-        "label": "Percentage women on voyage (WOMRAT7)"
+        "label": {
+          "en": "Percentage women on voyage (WOMRAT7)",
+          "es": "ES: Percentage women on voyage (WOMRAT7)",
+          "pt": "PT: Percentage women on voyage (WOMRAT7)"
+        }
       },
       {
         "cell_type": "literal",
@@ -635,7 +839,11 @@
             }
           ]
         },
-        "label": "Percentage men on voyage (MENRAT7)"
+        "label": {
+          "en": "Percentage men on voyage (MENRAT7)",
+          "es": "ES: Percentage men on voyage (MENRAT7)",
+          "pt": "PT: Percentage men on voyage (MENRAT7)"
+        }
       },
       {
         "cell_type": "literal",
@@ -648,7 +856,11 @@
             }
           ]
         },
-        "label": "Imputed mortality ratio (VYMRTRAT)"
+        "label": {
+          "en": "Imputed mortality ratio (VYMRTRAT)",
+          "es": "ES: Imputed mortality ratio (VYMRTRAT)",
+          "pt": "PT: Imputed mortality ratio (VYMRTRAT)"
+        }
       },
       {
         "cell_type": "literal",
@@ -661,7 +873,11 @@
             }
           ]
         },
-        "label": "Imputed number of slave deaths during Middle Passage (VYMRTIMP)"
+        "label": {
+          "en": "Imputed number of slave deaths during Middle Passage (VYMRTIMP)",
+          "es": "ES: Imputed number of slave deaths during Middle Passage (VYMRTIMP)",
+          "pt": "PT: Imputed number of slave deaths during Middle Passage (VYMRTIMP)"
+        }
       },
       {
         "cell_type": "literal",
@@ -674,12 +890,20 @@
             }
           ]
         },
-        "label": "Sterling cash price in Jamaica* (imputed)"
+        "label": {
+          "en": "Sterling cash price in Jamaica* (imputed)",
+          "es": "ES: Sterling cash price in Jamaica* (imputed)",
+          "pt": "PT: Sterling cash price in Jamaica* (imputed)"
+        }
       }
     ]
   },
   {
-    "label": "Outcomes",
+    "label": {
+      "en": "Outcomes",
+      "es": "ES: Outcomes",
+      "pt": "PT: Outcomes"
+    },
     "children": [
       {
         "cell_type": "literal",
@@ -692,7 +916,11 @@
             }
           ]
         },
-        "label": "Vessel Captured Outcome"
+        "label": {
+          "en": "Vessel Captured Outcome",
+          "es": "ES: Vessel Captured Outcome",
+          "pt": "PT: Vessel Captured Outcome"
+        }
       },
       {
         "cell_type": "literal",
@@ -705,7 +933,11 @@
             }
           ]
         },
-        "label": "Resistance"
+        "label": {
+          "en": "Resistance",
+          "es": "ES: Resistance",
+          "pt": "PT: Resistance"
+        }
       },
       {
         "cell_type": "literal",
@@ -717,7 +949,11 @@
             }
           ]
         },
-        "label": "Owner Outcome"
+        "label": {
+          "en": "Owner Outcome",
+          "es": "ES: Owner Outcome",
+          "pt": "PT: Owner Outcome"
+        }
       },
       {
         "cell_type": "literal",
@@ -730,7 +966,11 @@
             }
           ]
         },
-        "label": "Slaves Outcome"
+        "label": {
+          "en": "Slaves Outcome",
+          "es": "ES: Slaves Outcome",
+          "pt": "PT: Slaves Outcome"
+        }
       },
       {
         "cell_type": "literal",
@@ -743,12 +983,20 @@
             }
           ]
         },
-        "label": "Particular Outcome"
+        "label": {
+          "en": "Particular Outcome",
+          "es": "ES: Particular Outcome",
+          "pt": "PT: Particular Outcome"
+        }
       }
     ]
   },
   {
-    "label": "Sources",
+    "label": {
+      "en": "Sources",
+      "es": "ES: Sources",
+      "pt": "PT: Sources"
+    },
     "children": [
       {
         "cell_type": "literal-concat",
@@ -782,7 +1030,11 @@
           ],
           "join": ": "
         },
-        "label": "Data Sources"
+        "label": {
+          "en": "Data Sources",
+          "es": "ES: Data Sources",
+          "pt": "PT: Data Sources"
+        }
       }
     ]
   }
