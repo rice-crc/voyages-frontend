@@ -1,9 +1,17 @@
 [
   {
-    "label": "Voyages",
+    "label": {
+      "en": "Voyages",
+      "es": "ES: Voyages",
+      "pt": "PT: Voyages"
+    },
     "children": [
       {
-        "label": "Voyage ID, Ship Name, and Year",
+        "label": {
+          "en": "Voyage ID, Ship Name, and Year",
+          "es": "ES: Voyage ID, Ship Name, and Year",
+          "pt": "PT: Voyage ID, Ship Name, and Year"
+        },
         "cell_type": "literal-concat",
         "number_format": null,
         "cell_val": {
@@ -25,7 +33,11 @@
         }
       },
       {
-        "label": "Enumeration of Enslaved People",
+        "label": {
+          "en": "Enumeration of Enslaved People",
+          "es": "ES: Enumeration of Enslaved People",
+          "pt": "PT: Enumeration of Enslaved People"
+        },
         "cell_type": "literal",
         "number_format": null,
         "cell_val": {
@@ -40,10 +52,18 @@
     ]
   },
   {
-    "label": "Personal Data",
+    "label": {
+      "en": "Personal Data",
+      "es": "ES: Personal Data",
+      "pt": "PT: Personal Data"
+    },
     "children": [
       {
-        "label": "Name",
+        "label": {
+          "en": "Name",
+          "es": "ES: Name",
+          "pt": "PT: Name"
+        },
         "cell_type": "literal",
         "number_format": null,
         "cell_val": {
@@ -56,7 +76,11 @@
         }
       },
       {
-        "label": "Birth Place",
+        "label": {
+          "en": "Birth Place",
+          "es": "ES: Birth Place",
+          "pt": "PT: Birth Place"
+        },
         "cell_type": "literal",
         "number_format": null,
         "cell_val": {
@@ -69,7 +93,11 @@
         }
       },
       {
-        "label": "Birth Year",
+        "label": {
+          "en": "Birth Year",
+          "es": "ES: Birth Year",
+          "pt": "PT: Birth Year"
+        },
         "cell_type": "literal",
         "number_format": null,
         "cell_val": {
@@ -82,7 +110,11 @@
         }
       },
       {
-        "label": "Death Place",
+        "label": {
+          "en": "Death Place",
+          "es": "ES: Death Place",
+          "pt": "PT: Death Place"
+        },
         "cell_type": "literal",
         "number_format": null,
         "cell_val": {
@@ -95,7 +127,11 @@
         }
       },
       {
-        "label": "Death Year",
+        "label": {
+          "en": "Death Year",
+          "es": "ES: Death Year",
+          "pt": "PT: Death Year"
+        },
         "cell_type": "literal",
         "number_format": null,
         "cell_val": {
@@ -110,10 +146,18 @@
     ]
   },
   {
-    "label": "Enslavement Relations",
+    "label": {
+      "en": "Enslavement Relations",
+      "es": "ES: Enslavement Relations",
+      "pt": "PT: Enslavement Relations"
+    },
     "children": [
       {
-        "label": "Enslaved People",
+        "label": {
+          "en": "Enslaved People",
+          "es": "ES: Enslaved People",
+          "pt": "PT: Enslaved People"
+        },
         "cell_type": "literal",
         "number_format": null,
         "cell_val": {
@@ -128,10 +172,18 @@
     ]
   },
   {
-    "label": "Sources",
+    "label": {
+      "en": "Sources",
+      "es": "ES: Sources",
+      "pt": "PT: Sources"
+    },
     "children": [
       {
-        "label": "Documentary Sources",
+        "label": {
+          "en": "Documentary Sources",
+          "es": "ES: Documentary Sources",
+          "pt": "PT: Documentary Sources"
+        },
         "cell_type": "literal-concat",
         "number_format": null,
         "cell_val": {
