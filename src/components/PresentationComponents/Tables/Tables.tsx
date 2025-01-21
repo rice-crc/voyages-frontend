@@ -125,11 +125,24 @@ const Tables: React.FC = () => {
     if (!isLoading && !isError && tableCellStructure) {
       setTableCell(tableCellStructure as TableCellStructure[]);
     }
+
     const storedValueVisibleColumns = localStorage.getItem('visibleColumns');
+
+    let parsedValue;
     if (storedValueVisibleColumns) {
-      const parsedValue = JSON.parse(storedValueVisibleColumns);
+      try {
+        parsedValue = storedValueVisibleColumns
+          ? JSON.parse(storedValueVisibleColumns)
+          : null;
+      } catch (error) {
+        console.error('Invalid JSON in visibleColumns:', error);
+        parsedValue = null;
+      }
+    }
+
+    if (parsedValue) {
       dispatch(setVisibleColumn(parsedValue));
-    } else if (tablesCell.length > 0 && !storedValueVisibleColumns) {
+    } else if (tablesCell.length > 0) {
       const visibleColumns = tablesCell
         .filter((cell: any) => cell.visible)
         .map((cell: any) => cell.colID);
@@ -139,11 +152,8 @@ const Tables: React.FC = () => {
     }
 
     const headerColor = getHeaderColomnColor(styleNameRoute!);
+    document.documentElement.style.setProperty('--pagination-table--', headerColor);
 
-    document.documentElement.style.setProperty(
-      '--pagination-table--',
-      headerColor
-    );
     const handleResize = () => {
       setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
     };
@@ -282,8 +292,7 @@ const Tables: React.FC = () => {
     (params: any) => {
       const { columnApi } = params;
       const allColumns = columnApi?.getAllColumns();
-      const visibleColumns = allColumns
-        .filter((column: any) => column.isVisible())
+      const visibleColumns = allColumns && allColumns.filter((column: any) => column.isVisible())
         .map((column: any) => column.getColId());
       dispatch(setVisibleColumn(visibleColumns));
       const visibleColumnsString = JSON.stringify(visibleColumns);

@@ -134,7 +134,7 @@ const ButtonDropdownColumnSelector = () => {
             rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
             onClickMenu={handleColumnVisibilityChange}
             menu={renderMenuItems(children)}
-            disabled={visibleColumnCells.includes(colID)}
+            disabled={visibleColumnCells?.includes(colID)}
           />
         );
       }
@@ -146,7 +146,7 @@ const ButtonDropdownColumnSelector = () => {
           data-value={var_name}
           data-label={menuLabel}
           dense
-          disabled={visibleColumnCells.includes(colID)}
+          disabled={visibleColumnCells?.includes(colID)}
         >
           {menuLabel}
         </DropdownMenuItem>
