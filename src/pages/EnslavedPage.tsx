@@ -68,23 +68,37 @@ const EnslavedPage: React.FC = () => {
       )}
     </motion.div>
   );
-
+  const headerHeight = 80
   return (
-    <div id="enslaved-home-page">
+    <div className="flex flex-col h-screen">
       <HeaderEnslavedNavBar />
-      <div
-        className={
-          currentPageBlockName === 'people' ? 'table-presentation' : ''
-        }
-        style={{
-          position: 'relative',
-          padding: inputSearchValue ? '0 20px' : '',
-          top: inputSearchValue ? 30 : 0,
-        }}
-        id="content-container"
-      >
-        <CollectionTabEnslaved />
-        <Grid id="content-container">{displayPage}</Grid>
+      <div className="flex-1 relative">
+        <div
+          className="sticky top-0 bg-white z-10 border-b shadow-sm"
+          style={{
+            top: headerHeight,
+          }}
+        >
+          <CollectionTabEnslaved />
+        </div>
+        <div
+          className="overflow-auto"
+          style={{
+            height: `calc(100vh - ${headerHeight}px - 200px)`,
+            paddingTop: inputSearchValue ? '0.5rem' : '0'
+          }}
+        >
+          <Grid id="content-container">
+            <motion.div
+              initial="initial"
+              animate="animate"
+              variants={currentEnslavedPage - 1 > -1 ? pageVariantsFromTop : pageVariantsFromBottom}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+            >
+              {displayPage}
+            </motion.div>
+          </Grid>
+        </div>
       </div>
     </div>
   );

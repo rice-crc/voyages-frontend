@@ -168,6 +168,7 @@ const ButtonDropdownColumnSelector = () => {
               fontWeight: 600,
               color: '#ffffff',
               width: { xs: 180, sm: 180 },
+              height: 28,
               '&:hover': {
                 backgroundColor: getColorHoverBackground(styleNameRoute!),
               },

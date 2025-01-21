@@ -1725,7 +1725,7 @@ export const TimelapseMap = ({
       zoomControl={true}
       style={{
         position: 'absolute',
-        top: '120px',
+        top: '140px',
         marginLeft: '30px',
         width: 'calc(-150px + 100vw)',
         height: 'calc(-150px + 100vh)',
@@ -1733,7 +1733,7 @@ export const TimelapseMap = ({
     >
       <HandleZoomEvent
         setZoomLevel={setZoomLevel}
-        setRegionPlace={() => {}}
+        setRegionPlace={() => { }}
         zoomLevel={zoomLevel}
       />
       <TileLayer url={mappingSpecialists} />

@@ -44,6 +44,10 @@ import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEns
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import useDataTableProcessingEffect from '@/hooks/useDataTableProcessingEffect';
 import { useOtherTableCellStructure } from '@/hooks/useOtherTableCellStructure';
+import TableDownloadButtons from '@/components/SelectorComponents/ButtonComponents/TableDownloadButtons';
+import { AllCommunityModule, ModuleRegistry, provideGlobalGridOptions } from 'ag-grid-community';
+ModuleRegistry.registerModules([AllCommunityModule]);
+provideGlobalGridOptions({ theme: "legacy" });
 
 const Tables: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -244,7 +248,7 @@ const Tables: React.FC = () => {
       resizable: true,
       filter: true,
       wrapHeaderText: true,
-      autoHeaderHeight: true,
+      autoHeaderHeight: true
     }),
     []
   );
@@ -277,7 +281,7 @@ const Tables: React.FC = () => {
   const handleColumnVisibleChange = useCallback(
     (params: any) => {
       const { columnApi } = params;
-      const allColumns = columnApi.getAllColumns();
+      const allColumns = columnApi?.getAllColumns();
       const visibleColumns = allColumns
         .filter((column: any) => column.isVisible())
         .map((column: any) => column.getColId());
@@ -292,10 +296,9 @@ const Tables: React.FC = () => {
     () => ({
       headerHeight: 35,
       suppressHorizontalScroll: true,
-      autoSizeStrategy: 'alignedGrid',
       onGridReady: (params: any) => {
         const { columnApi } = params;
-        columnApi.autoSizeColumns();
+        columnApi?.autoSizeColumns();
       },
     }),
     []
@@ -322,51 +325,57 @@ const Tables: React.FC = () => {
 
   return (
     <>
-      {' '}
       <div
         className={!viewAll ? 'mobile-responsive' : 'mobile-responsive-view'}
       >
-        <div className="ag-theme-alpine grid-container">
+        <div className="ag-theme-alpine grid-container ag-theme-balham" style={{
+          height: 650, width: '100%', display: 'flex', flexDirection: 'column',
+        }}>
           <span className="tableContainer">
             <ButtonDropdownColumnSelector />
-            <CustomTablePagination
-              component="div"
-              count={totalResultsCount}
-              page={page}
-              onPageChange={handleChangePage}
-              rowsPerPageOptions={[5, 8, 10, 12, 15, 20, 25, 30, 45, 50, 100]}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </span>
-          <>
-            <AgGridReact
-              domLayout={'autoHeight'}
-              ref={gridRef}
-              rowData={rowData}
-              columnDefs={columnDefs}
-              suppressMenuHide={true}
-              animateRows={true}
-              onColumnVisible={handleColumnVisibleChange}
-              gridOptions={gridOptions}
-              getRowHeight={getRowHeightTable}
-              paginationPageSize={rowsPerPage}
-              defaultColDef={defaultColDef}
-              components={components}
-              getRowStyle={getRowRowStyle}
-              enableBrowserTooltips={true}
-              tooltipShowDelay={0}
-              tooltipHideDelay={1000}
-            />
-            <div className="pagination-div">
-              <Pagination
-                color="primary"
-                count={pageCount}
-                page={page + 1}
-                onChange={handleChangePagePagination}
+            <div className="tableContainer">
+              <CustomTablePagination
+                component="div"
+                count={totalResultsCount}
+                page={page}
+                onPageChange={handleChangePage}
+                rowsPerPageOptions={[5, 8, 10, 12, 15, 20, 25, 30, 45, 50, 100]}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+              <TableDownloadButtons
+                data={rowData}
+                columnDefs={columnDefs}
+                filename={`${styleNameRoute}-table-data`}
               />
             </div>
-          </>
+          </span>
+          <AgGridReact
+            ref={gridRef}
+            rowData={rowData}
+            columnDefs={columnDefs}
+            suppressMenuHide={true}
+            animateRows={true}
+            onColumnVisible={handleColumnVisibleChange}
+            gridOptions={gridOptions}
+            getRowHeight={getRowHeightTable}
+            paginationPageSize={rowsPerPage}
+            defaultColDef={defaultColDef}
+            components={components}
+            getRowStyle={getRowRowStyle}
+            enableBrowserTooltips={true}
+            tooltipShowDelay={0}
+            tooltipHideDelay={1000}
+            rowModelType="clientSide"
+          />
+          <div className="pagination-div">
+            <Pagination
+              color="primary"
+              count={pageCount}
+              page={page + 1}
+              onChange={handleChangePagePagination}
+            />
+          </div>
         </div>
       </div>
       <ModalNetworksGraph />

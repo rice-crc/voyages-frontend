@@ -17,9 +17,10 @@ const EnslaversHomePage: React.FC = () => {
   const { currentEnslaversPage } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const { currentBlockName, endpointPeopleDirect } = usePageRouter();
-  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     if (currentBlockName === 'people') {
@@ -45,20 +46,29 @@ const EnslaversHomePage: React.FC = () => {
         endpointPeopleDirect === 'past/enslaver') && <Tables />}
     </motion.div>
   );
-
+  const headerHeight = 80
   return (
-    <div
-      id="enslavers-home-page"
-      style={{ height: filtersObj?.length > 0 ? '100vh' : `${windowHeight}%` }}
-    >
+    <div className="flex flex-col h-screen">
       <HeaderEnslaversNavBar />
-      <div
-        style={{
-          padding: '25px 20px',
-        }}
-        id="content-container"
-      >
-        <Grid id="content-container">{displayPage}</Grid>
+      <div className="flex-1 relative">
+        <div
+          className="overflow-auto"
+          style={{
+            height: `calc(100vh - ${headerHeight}px - 200px)`,
+            paddingTop: inputSearchValue ? '0.5rem' : '0'
+          }}
+        >
+          <Grid id="content-container">
+            <motion.div
+              initial="initial"
+              animate="animate"
+              variants={currentEnslaversPage - 1 > -1 ? pageVariantsFromTop : pageVariantsFromBottom}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+            >
+              {displayPage}
+            </motion.div>
+          </Grid>
+        </div>
       </div>
     </div>
   );

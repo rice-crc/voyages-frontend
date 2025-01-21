@@ -372,4 +372,39 @@ export const homePageTranslated: TranslateType = {
       pt: 'Leitura',
     },
   },
+  downloanBTN: {
+    label: {
+      en: 'Download',
+      es: 'Descargar',
+      pt: 'Baixar',
+    },
+  },
+  selectingOption: {
+    label: {
+      en: 'Select Download Option',
+      es: 'Seleccionar opción de descarga',
+      pt: 'Selecionar opção de download',
+    },
+  },
+  downloadAll: {
+    label: {
+      en: 'All results with visible columns',
+      es: 'Todos los resultados con columnas visibles',
+      pt: 'Todos os resultados com colunas visíveis',
+    },
+  },
+  downloadFilter: {
+    label: {
+      en: 'Filtered results with visible columns',
+      es: 'Resultados filtrados con columnas visibles',
+      pt: 'Resultados filtrados com colunas visíveis',
+    },
+  },
+  downloadCancel: {
+    label: {
+      en: 'Cancel',
+      es: 'Cancelar',
+      pt: 'Cancelar',
+    }
+  }
 };

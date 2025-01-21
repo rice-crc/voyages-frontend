@@ -6,7 +6,7 @@ export const HeaderTitle = (props: HeaderTitleProps) => {
 
   return (
     <div className="enslaved-header-subtitle">
-      {textHeader && <span className="enslaved-title">:</span>}
+      {textHeader && <span className="enslaved-title"></span>}
       <div>{textHeader}</div>
     </div>
   );

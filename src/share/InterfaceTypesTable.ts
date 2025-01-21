@@ -829,6 +829,7 @@ export interface ColumnDef {
   sortable: boolean;
   filter: boolean;
   tooltipField: string;
+  hide: boolean;
 }
 export interface ColumnPivotDef {
   field: string;

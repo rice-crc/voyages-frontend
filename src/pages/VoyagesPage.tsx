@@ -170,3 +170,4 @@ const VoyagesPage = () => {
 };
 
 export default VoyagesPage;
+

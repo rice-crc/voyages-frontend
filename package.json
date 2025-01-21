@@ -17,6 +17,7 @@
     "clean": "rm -rf node_modules"
   },
   "dependencies": {
+    "@ag-grid-community/client-side-row-model": "^32.3.3",
     "@ant-design/icons": "^5.3.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -57,6 +58,7 @@
     "leaflet.geodesic": "^2.7.1",
     "leaflet.markercluster": "^1.5.3",
     "lodash.debounce": "^4.0.8",
+    "lucide-react": "^0.473.0",
     "mirador": "^4.0.0-alpha.2",
     "multi-nested-select": "^1.2.1",
     "plotly.js": "^2.23.2",
@@ -84,7 +86,9 @@
     "xlsx": "^0.18.5"
   },
   "resolutions": {
-    "react-virtualized": "patch:react-virtualized@9.22.3#./path/to/react-virtualized-9.22.3.patch"
+    "react-virtualized": "patch:react-virtualized@9.22.3#./path/to/react-virtualized-9.22.3.patch",
+    "eslint": "^8.0.0",
+    "eslint-plugin-react-hooks": "^4.6.2"
   },
   "browserslist": {
     "production": [
@@ -107,6 +111,7 @@
     "@types/d3": "^7.4.3",
     "@types/dompurify": "^3.0.5",
     "@types/dotenv": "^8.2.0",
+    "@types/file-saver": "^2.0.7",
     "@types/leaflet": "^1.9.6",
     "@types/leaflet.markercluster": "^1.5.2",
     "@types/lodash.debounce": "^4.0.7",
@@ -129,7 +134,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "@vitejs/plugin-react-refresh": "^1.3.6",
     "dotenv": "^16.4.7",
-    "eslint": "^9.17.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-typescript": "^3.7.0",
