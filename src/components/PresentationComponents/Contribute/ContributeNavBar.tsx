@@ -33,18 +33,18 @@ const ContributeNavBar = () => {
               <div className="navbar-subitem">
                 Welcome, {user.userName}.
                 <Link className="navbar-subitem-link" to="/contribute/">
-                  Contribute Home
+                  {translatedcontribute.contributeContributeHome}
                 </Link>{' '}
                 |
                 <Link
                   className="navbar-subitem-link"
                   to="/accounts/password_change/"
                 >
-                  Change Password
+                  {translatedcontribute.contributeChangePassword}
                 </Link>{' '}
                 |
                 <Link className="navbar-subitem-link" to="/accounts/logout/">
-                  Log Out
+                  {translatedcontribute.contributeLogOut}
                 </Link>
               </div>
             </div>

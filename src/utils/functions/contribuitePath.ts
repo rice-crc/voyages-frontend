@@ -1,20 +1,20 @@
 //https://www.slavevoyages.org/contribute/interim/new/2976
 const generateId = '';
-export const displayButton = [
+export const getDisplayButtons = (translatedContribute: any) => [
   {
-    nameBtn: 'New Voyages',
+    nameBtn: translatedContribute.contributeNewVoyage,
     path: `/contribute/interim/new/${generateId}`,
   },
   {
-    nameBtn: 'Edit Existing Voyage',
+    nameBtn: translatedContribute.contributeEditExistingVoyage,
     path: `/contribute/edit_voyage`,
   },
   {
-    nameBtn: 'Merge Voyages',
+    nameBtn: translatedContribute.contributeMergeVoyages,
     path: `/contribute/merge_voyages`,
   },
   {
-    nameBtn: 'Recommend Voyage Deletion',
+    nameBtn: translatedContribute.contributeDeleteVoyage,
     path: `/contribute/delete_voyage`,
   },
 ];

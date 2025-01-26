@@ -14,50 +14,34 @@ import EditExistingVoyage from '@/components/PresentationComponents/Contribute/F
 import MergeVoyages from '@/components/PresentationComponents/Contribute/Form/MergeVoyages';
 import RecommendVoyageDeletion from '@/components/PresentationComponents/Contribute/Form/RecommendVoyageDeletion';
 import NewVoyage from '@/components/PresentationComponents/Contribute/Form/NewVoyage';
+import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const ContributeContent: React.FC = () => {
   const { handleClickGuidelines, handleResetPasswordClick } = useNavigation();
   const { contributePath, endpointPath } = usePageRouter();
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
+  const translatedContribute = translationLanguagesContribute(languageValue);
 
   let displayContent;
 
   if (contributePath === 'signin') {
     displayContent = (
       <div className="contribute-content">
-        <h1 className="page-title-1">Contribute</h1>
+        <h1 className="page-title-1">{translatedContribute.contribute}</h1>
+        <p>{translatedContribute.contributeText1}</p>
+        <p>{translatedContribute.contributeText2}</p>
         <p>
-          The Contribute section allows users of the Voyages website to supply
-          and/or revise existing information in the Voyages Database. A team of
-          slave trade scholars will review each contribution as part of the
-          peer-review process. New and/or revised information will be
-          incorporated in the subsequent updates to the Voyages Database.
-        </p>
-        <p>
-          The Contribute feature facilitates collaborative research and
-          information sharing among the global network of scholars working to
-          continuously improve the store of knowledge about the slave trade.
-          These scholars are increasingly working across diverse forms of media,
-          from written documents to collections of machine-readable data. The
-          Voyages Database is itself the product of extensive revisions since
-          the publication of the CD-ROM version in 1999. The Contribute section
-          allows the database to continue evolving in a way that respects the
-          high standards of scholarship governing the construction of the
-          original database.
-        </p>
-        <p>
-          Step-by-step instructions on how to use the Contribute forms are
-          provided in the Voyages Guide, a PDF file accessible in{' '}
-          <Link to="#">"Understanding the Database"</Link>. For further advice
-          on contributing new data, we ask you to read our{' '}
+          {translatedContribute.contributeText3}{' '}
+          <Link to="#">{translatedContribute.contributeText3Link1}</Link>{' '}{translatedContribute.contributeText4}{' '}
           <a onClick={handleClickGuidelines} style={{ cursor: 'pointer' }}>
-            "Guidelines for Contributors."
+            {translatedContribute.contributeText3Link2}
           </a>
         </p>
-        <p>
-          For purposes of managing contributions to the website, contributors
-          are asked to register for an account and provide an email address for
-          communication.
-        </p>
+        <p>{translatedContribute.contributeText5}</p>
         <SignInForm />
       </div>
     );

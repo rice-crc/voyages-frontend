@@ -848,13 +848,14 @@ export interface StateRowData {
   page: number;
 }
 export interface TableCellStructure {
-  header_label: LabelFilterMeneList | string | any;
+  colID: string;
+  header_label: LabelFilterMeneList;
+  col_width_px: number;
   cell_type: string;
   visible: boolean;
   number_format?: string | null;
   order_by: string[];
-  col_width_px: number;
-  colID: string;
+  width: number;
   cell_val: CellVal;
 }
 
@@ -887,7 +888,7 @@ export interface HeaderLabel {
 }
 
 export interface ChildrenColumnSelector {
-  col_width_px: number;
+  width: number;
   colID: string;
   label: HeaderLabel;
 }

@@ -1,16 +1,27 @@
 import '@/style/contributeContent.scss';
 import { Button } from '@mui/material';
-import { displayButton } from '@/utils/functions/contribuitePath';
+import { getDisplayButtons } from '@/utils/functions/contribuitePath';
 import { useNavigation } from '@/hooks/useNavigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
 
 const ContributeHomeWelcome: React.FC = () => {
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const translatedContribute = translationLanguagesContribute(languageValue);
+
   const { handleClickSideBar } = useNavigation();
+
+  const buttons = getDisplayButtons(translatedContribute);
+
   return (
     <div className="contribute-content">
-      <h1 className="page-title-1">Welcome to the Contribute Section</h1>
+      <h1 className="page-title-1">
+        {translatedContribute.contributeContributeHomeWelcome}
+      </h1>
       <span></span>
       <div>
-        {displayButton.map((btn) => (
+        {buttons.map((btn) => (
           <Button
             onClick={() => handleClickSideBar(btn.path)}
             key={btn.nameBtn}
@@ -29,7 +40,6 @@ const ContributeHomeWelcome: React.FC = () => {
               },
             }}
           >
-            {' '}
             {btn.nameBtn}
           </Button>
         ))}

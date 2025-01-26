@@ -25,8 +25,7 @@ export const generateColumnDef = (
     autoHeight: true,
     wrapText: true,
     resizable: true,
-    sortingOrder: value.order_by,
-    col_width_px: value.col_width_px,
+    sortingOrder: ['asc', 'desc', null],
     headerTooltip: columnHeader,
     tooltipField: value.colID,
     hide: !visibleColumnCells!.includes(value.colID),
@@ -34,5 +33,8 @@ export const generateColumnDef = (
     cellRenderer: (params: ICellRendererParams) =>
       GenerateCellTableRenderer(params, CELLFN, colID, numberFormat, nodeClass),
     valueGetter: (params: ICellRendererParams) => hasValueGetter(params, value),
+    context: {
+      fieldToSort: value.order_by
+    }
   };
 };

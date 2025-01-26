@@ -1,6 +1,6 @@
 import { setData, setPage } from '@/redux/getTableSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '@/style/table.scss';
 import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
@@ -46,6 +46,14 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     pageSize,
     setSortColumn,
   } = props;
+  // Add state to track pageSize
+  const [currentPageSize, setCurrentPageSize] = useState(pageSize);
+
+  // Update currentPageSize when prop changes
+  useEffect(() => {
+    setCurrentPageSize(pageSize);
+  }, [pageSize]);
+
 
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const dispatch: AppDispatch = useDispatch();
@@ -75,7 +83,7 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     setSort(order, event.shiftKey);
     const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
 
-    fetchData(sortOrder, column.colDef.sortingOrder);
+    fetchData(sortOrder, column.colDef?.context?.fieldToSort);
   };
 
   useEffect(() => {
@@ -98,40 +106,41 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
       const { label, title, ...filteredFilter } = filter;
       return filteredFilter;
     });
-  const dataSend: TableListPropsRequest = {
+
+  const dataSend: TableListPropsRequest = useMemo(() => ({
     filter: newFilters || [],
     page: Number(page + 1),
-    page_size: Number(pageSize),
-  };
+    page_size: Number(currentPageSize), // Use currentPageSize instead of pageSize
+  }), [newFilters, page, currentPageSize]);
 
   const fetchData = async (sortOrder: string, sortingOrder: string[]) => {
+    const requestData = { ...dataSend };
     if (inputSearchValue) {
-      dataSend['global_search'] = inputSearchValue;
+      requestData.global_search = inputSearchValue;
     }
+
     if (sortOrder === 'asc') {
       if (sortingOrder?.length > 0) {
-        sortingOrder.forEach((sort: string) => {
-          setSortColumn([sort]);
-          return (dataSend['order_by'] = [sort]);
-        });
+        const sort = sortingOrder[0];
+        setSortColumn([sort]);
+        requestData.order_by = [sort];
       }
     } else if (sortOrder === 'desc') {
       if (sortingOrder?.length > 0) {
-        sortingOrder.forEach((sort: string) => {
-          setSortColumn([`-${sort}`]);
-          return (dataSend['order_by'] = [`-${sort}`]);
-        });
+        const sort = `-${sortingOrder[0]}`;
+        setSortColumn([sort]);
+        requestData.order_by = [sort];
       }
     }
-
+    console.log('requestData', requestData)
     try {
       let response;
       if (checkPagesRouteForVoyages(styleName!)) {
-        response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+        response = await dispatch(fetchVoyageOptionsAPI(requestData)).unwrap();
       } else if (checkPagesRouteForEnslaved(styleName!)) {
-        response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
+        response = await dispatch(fetchEnslavedOptionsList(requestData)).unwrap();
       } else if (checkPagesRouteForEnslavers(styleName!)) {
-        response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
+        response = await dispatch(fetchEnslaversOptionsList(requestData)).unwrap();
       }
       if (response) {
         const { results } = response.data;
