@@ -24,6 +24,8 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import {
   setBlocksMenuList,
   setStyleName,
+  setTableVoyagesFlatfile,
+  setVoyagesFilterMenuFlatfile,
 } from '@/redux/getDataSetCollectionSlice';
 import {
   setCurrentPage,
@@ -33,6 +35,7 @@ import { ALLVOYAGES, INTRAAMERICAN, TRANSATLANTIC } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
 import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
 import { VoyagesTimelapseMap } from '@/components/PresentationComponents/Map/TimelapseMap';
+import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -56,10 +59,19 @@ const VoyagesPage = () => {
 
     if (styleVoyagesName === TRANSATLANTIC) {
       dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
+      dispatch(setCardFileName(jsonDataVoyageCollection[0].card_flatfile));
+      dispatch(setTableVoyagesFlatfile(jsonDataVoyageCollection[0].table_flatfile));
+      dispatch(setVoyagesFilterMenuFlatfile(jsonDataVoyageCollection[0].filter_menu_flatfile));
     } else if (styleVoyagesName === INTRAAMERICAN) {
       dispatch(setBlocksMenuList(jsonDataVoyageCollection[1].blocks));
+      dispatch(setCardFileName(jsonDataVoyageCollection[1].card_flatfile));
+      dispatch(setTableVoyagesFlatfile(jsonDataVoyageCollection[1].table_flatfile));
+      dispatch(setVoyagesFilterMenuFlatfile(jsonDataVoyageCollection[1].filter_menu_flatfile));
     } else if (styleVoyagesName === ALLVOYAGES) {
       dispatch(setBlocksMenuList(jsonDataVoyageCollection[2].blocks));
+      dispatch(setCardFileName(jsonDataVoyageCollection[2].card_flatfile));
+      dispatch(setTableVoyagesFlatfile(jsonDataVoyageCollection[2].table_flatfile));
+      dispatch(setVoyagesFilterMenuFlatfile(jsonDataVoyageCollection[2].filter_menu_flatfile));
     }
 
     if (currentBlockName === 'voyages') {

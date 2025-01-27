@@ -11,11 +11,15 @@
     "base_filter": [
       {
         "var_name": "dataset",
-        "value": [0, 0]
+        "value": [
+          0,
+          0
+        ]
       }
     ],
     "filter_menu_flatfile": "enslaved_african_origins_filter_menu.json",
     "table_flatfile": "enslaved_african_origins_table.json",
+    "card_flatfile": "enslaved_african_origins_card.json",
     "style_name": "african-origins",
     "blocks": [
       {
@@ -46,11 +50,14 @@
     "base_filter": [
       {
         "var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_region_slave_dis__name",
-        "value": ["Texas"]
+        "value": [
+          "Texas"
+        ]
       }
     ],
     "filter_menu_flatfile": "enslaved_texas_filter_menu.json",
     "table_flatfile": "enslaved_texas_table_cell_structure.json",
+    "card_flatfile": "enslaved_texas_card.json",
     "style_name": "texasEnslaved",
     "blocks": [
       {
@@ -81,6 +88,7 @@
     "base_filter": [],
     "filter_menu_flatfile": "enslaved_all_filter_menu.json",
     "table_flatfile": "enslaved_all_table_menu.json",
+    "card_flatfile": "enslaved_all_card.json",
     "style_name": "all-enslaved",
     "blocks": [
       {

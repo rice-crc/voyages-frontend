@@ -29,8 +29,6 @@ const EnslaversHomePage: React.FC = () => {
     }
   }, [currentBlockName]);
 
-  const getWindowHeight = () => window.innerHeight;
-  const windowHeight = getWindowHeight();
   const displayPage = (
     <motion.div
       initial={'initial'}

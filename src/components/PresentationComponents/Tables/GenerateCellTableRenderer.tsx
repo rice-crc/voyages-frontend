@@ -1,7 +1,7 @@
 import { ICellRendererParams } from 'ag-grid-community';
 import React, { CSSProperties, useContext } from 'react';
 import NETWORKICON from '@/assets/networksIcon.png';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import {
   setNetWorksID,
@@ -9,6 +9,7 @@ import {
   setsetOpenModalNetworks,
 } from '@/redux/getPastNetworksGraphDataSlice';
 import {
+  setCardFileName,
   setCardRowID,
   setIsModalCard,
   setNodeClass,
@@ -32,6 +33,7 @@ import {
   createDocKey,
 } from '@/utils/functions/documentWorkspace';
 import PopoverWrapper from '../Cards/PopoverWrapper';
+import { RootState } from '@/redux/store';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
@@ -45,6 +47,9 @@ export const GenerateCellTableRenderer = (
   const dispatch = useDispatch();
   const { styleName } = usePageRouter();
   const { setDoc } = useContext(DocumentViewerContext);
+  const { cardFileName } = useSelector(
+    (state: RootState) => state.getCardFlatObjectData
+  );
 
   let nodeType: string = '';
 
@@ -97,6 +102,7 @@ export const GenerateCellTableRenderer = (
             dispatch(setCardRowID(ID));
             dispatch(setIsModalCard(true));
             dispatch(setNodeClass(nodeType));
+            dispatch(setCardFileName(cardFileName));
           },
           dangerouslySetInnerHTML: { __html: value ?? null },
         };

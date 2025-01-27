@@ -17,6 +17,7 @@ import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import {
   setBaseFilterDataSetValue,
   setBlocksMenuList,
+  setCardVoyagesFlatfile,
   setDataSetHeader,
   setStyleName,
   setTableVoyagesFlatfile,
@@ -59,6 +60,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import { voyagesHeader } from '@/utils/languages/title_pages';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
+import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
@@ -107,7 +109,8 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       styleName: string,
       blocks: BlockCollectionProps[],
       filterMenuFlatfile?: string,
-      tableFlatfile?: string
+      tableFlatfile?: string,
+      card_flatfile?: string
     ) => {
       // Clear Redux and LocalStorage first
       dispatch(resetAll());
@@ -129,11 +132,15 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       dispatch(setTextIntro(textIntro));
       dispatch(setStyleName(styleName));
       dispatch(setBlocksMenuList(blocks));
+
       if (filterMenuFlatfile) {
         dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile));
       }
       if (tableFlatfile) {
         dispatch(setTableVoyagesFlatfile(tableFlatfile));
+      }
+      if (card_flatfile) {
+        dispatch(setCardFileName(card_flatfile));
       }
 
       // Save to LocalStorage
@@ -156,7 +163,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       });
     },
     [value, currentVoyageBlockName, navigate, dispatch]
-  ); // Updated dependencies
+  );
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);

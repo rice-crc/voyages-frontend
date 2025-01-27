@@ -179,7 +179,11 @@
     },
     "children": [
       {
-        "label": "Captive Fate",
+        "label": {
+          "en": "Captive Fate",
+          "es": "ES: Captive Fate",
+          "pt": "PT: Captive Fate"
+        },
         "cell_type": "literal",
         "cell_val": {
           "fields": [

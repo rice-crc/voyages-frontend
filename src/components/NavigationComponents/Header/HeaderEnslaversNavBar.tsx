@@ -56,6 +56,7 @@ import { DrawerMenuBar } from './DrawerMenuBar';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import { enslaversHeader } from '@/utils/languages/title_pages';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
+import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -114,7 +115,8 @@ const HeaderEnslaversNavBar: React.FC = () => {
     styleName: string,
     blocks: BlockCollectionProps[],
     filterMenuFlatfile?: string,
-    tableFlatfile?: string
+    tableFlatfile?: string,
+    cardFlatfile?: string
   ) => {
     dispatch(resetAll());
     const filters: Filter[] = [];
@@ -149,14 +151,9 @@ const HeaderEnslaversNavBar: React.FC = () => {
     dispatch(setDataSetEnslaversHeader(textHeder));
     dispatch(setEnslaversStyleName(styleName));
     dispatch(setEnslaversBlocksMenuList(blocks));
-    dispatch(
-      setEnslaversFilterMenuFlatfile(
-        filterMenuFlatfile ? filterMenuFlatfile : ''
-      )
-    );
-    dispatch(
-      setPeopleTableEnslavedFlatfile(tableFlatfile ? tableFlatfile : '')
-    );
+    dispatch(setEnslaversFilterMenuFlatfile(filterMenuFlatfile || ''));
+    dispatch(setPeopleTableEnslavedFlatfile(tableFlatfile || ''));
+    dispatch(setCardFileName(cardFlatfile || ''));
 
     if (styleNameToPathMap[styleName]) {
       navigate(styleNameToPathMap[styleName]);

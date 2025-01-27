@@ -1,7 +1,14 @@
 export function generateCardsData(data: any, value: any) {
+  // Early return if required data is missing
+  // console.log({ data, value })
+  if (!data || !value?.cell_val?.fields?.length) {
+    return '--';
+  }
+
+
   const finalData: (string | String)[] = [];
   const fields = value.cell_val.fields;
-  const firstData = data[fields[0]?.var_name];
+  const firstData = data[fields[0].var_name];
 
   const joinDelimiter: string | undefined = value.cell_val.join;
   if (value.cell_type === 'literal') {
@@ -24,9 +31,6 @@ export function generateCardsData(data: any, value: any) {
           dataResult.push(String('-'));
         }
       }
-      // This is a trick that uses the String object to inject metadata
-      // into the card data without breaking compatibility with the rest
-      // of the code that expects a string.
       let item: string | String = dataResult.join(joinDelimiter);
       if (Object.keys(metadata).length > 0) {
         item = new String(item);
@@ -47,4 +51,5 @@ export function generateCardsData(data: any, value: any) {
     const result = dataValue.substring(0, dataValue.length - 1);
     return result;
   }
+  return '--';
 }

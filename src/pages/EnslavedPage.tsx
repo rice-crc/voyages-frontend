@@ -14,14 +14,17 @@ import EnslavedMap from '@/components/PresentationComponents/Map/MAPS';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import {
   setPeopleEnslavedBlocksMenuList,
-  setPeopleEnslavedStyleName,
+  setPeopleEnslavedFilterMenuFlatfile,
+  setPeopleEnslavedStyleName, setPeopleTableEnslavedFlatfile
 } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import {
   setCurrentBlockName,
-  setCurrentEnslavedPage,
+  setCurrentEnslavedPage
 } from '@/redux/getScrollEnslavedPageSlice';
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/people_collections.json';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
+import { AFRICANORIGINS, ALLENSLAVED, ENSLAVEDTEXAS } from '@/share/CONST_DATA';
+import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 
 const EnslavedPage: React.FC = () => {
   const { styleName, currentBlockName } = usePageRouter();
@@ -36,6 +39,22 @@ const EnslavedPage: React.FC = () => {
   useEffect(() => {
     if (styleName) {
       dispatch(setPeopleEnslavedStyleName(styleName));
+    }
+    if (styleName === AFRICANORIGINS) {
+      dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[0].blocks));
+      dispatch(setCardFileName(jsonDataPEOPLECOLLECTIONS[0].card_flatfile));
+      dispatch(setPeopleEnslavedFilterMenuFlatfile(jsonDataPEOPLECOLLECTIONS[0].filter_menu_flatfile));
+      dispatch(setPeopleTableEnslavedFlatfile(jsonDataPEOPLECOLLECTIONS[0].table_flatfile));
+    } else if (styleName === ENSLAVEDTEXAS) {
+      dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
+      dispatch(setCardFileName(jsonDataPEOPLECOLLECTIONS[1].card_flatfile));
+      dispatch(setPeopleEnslavedFilterMenuFlatfile(jsonDataPEOPLECOLLECTIONS[1].filter_menu_flatfile));
+      dispatch(setPeopleTableEnslavedFlatfile(jsonDataPEOPLECOLLECTIONS[1].table_flatfile));
+    } else if (styleName === ALLENSLAVED) {
+      dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[2].blocks));
+      dispatch(setCardFileName(jsonDataPEOPLECOLLECTIONS[2].card_flatfile));
+      dispatch(setPeopleEnslavedFilterMenuFlatfile(jsonDataPEOPLECOLLECTIONS[2].filter_menu_flatfile));
+      dispatch(setPeopleTableEnslavedFlatfile(jsonDataPEOPLECOLLECTIONS[2].table_flatfile));
     }
     if (currentBlockName === 'people') {
       dispatch(setCurrentEnslavedPage(1));

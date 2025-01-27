@@ -9,7 +9,7 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { FunctionComponent, ReactNode } from 'react';
-import { PlotXYVar, VoyagesOptionProps } from '@/share/InterfaceTypes';
+import { PlotXYVar, VoyagesOptionProps, LanguageKey } from '@/share/InterfaceTypes';
 import { getBoderColor } from '@/utils/functions/getColorStyle';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -66,6 +66,8 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const lang = languageValue as LanguageKey;
 
   const isDisabledX = (option: PlotXYVar) => {
     return option.var_name === selectedOptions.y_vars;
@@ -108,19 +110,19 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               const selectedOption = selectedX.find(
                 (option) => option.var_name === event.target.value
               );
-              setXAxes && setXAxes(selectedOption ? selectedOption.label : '');
+              setXAxes && setXAxes(selectedOption ? selectedOption.label[lang] : '');
             }}
             name="x_vars"
           >
             {selectedX.map((option: PlotXYVar, index: number) => {
               return (
                 <MenuItem
-                  key={`${option.label}-${index}`}
+                  key={`${option.label[lang]}-${index}`}
                   value={option.var_name}
-                  title={option.label}
+                  title={option.label[lang]}
                   disabled={isDisabledX(option)}
                 >
-                  {option.label}
+                  {option.label[lang]}
                 </MenuItem>
               );
             })}
@@ -150,10 +152,8 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                 if (handleChangeMultipleYSelected) {
                   handleChangeMultipleYSelected(event, 'y_vars');
                   const selectedYOptions = selectedY
-                    .filter((option) =>
-                      event.target.value.includes(option.var_name)
-                    )
-                    .map((option) => option.label);
+                    .filter((option) => event.target.value.includes(option.var_name))
+                    .map((option) => option.label[lang]);
                   setYAxes && setYAxes(selectedYOptions);
                 }
               }}
@@ -181,7 +181,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                           color: '#000',
                         }}
                         key={`${option}-${index}`}
-                        label={selectedOption ? selectedOption.label : ''}
+                        label={selectedOption ? selectedOption.label[lang] : ''}
                       />
                     );
                   })}
@@ -192,12 +192,12 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                 const label = displayYLabel(
                   aggregation!,
                   option.agg_fns!,
-                  option.label
+                  option.label[lang]
                 );
                 return (
                   label !== null && (
                     <MenuItem
-                      key={`${option.label}-${index}`}
+                      key={`${option.label[lang]}-${index}`}
                       value={option.var_name}
                       disabled={isDisabledY(option)}
                     >
@@ -240,17 +240,17 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                 (option) => option.var_name === event.target.value
               );
               setYAxesPie &&
-                setYAxesPie(selectYoption ? selectYoption.label : '');
+                setYAxesPie(selectYoption ? selectYoption.label[lang] : '');
             }}
             name="y_vars"
           >
             {selectedY.map((option: PlotXYVar, index: number) => (
               <MenuItem
-                key={`${option.label}-${index}`}
+                key={`${option.label[lang]}-${index}`}
                 value={option.var_name}
                 disabled={isDisabledY(option)}
               >
-                {option.label}
+                {option.label[lang]}
               </MenuItem>
             ))}
           </Select>
@@ -270,7 +270,7 @@ const displayYLabel = (
   aggregation: string,
   agg_fns: string[],
   label: string
-) => {
+): string | null => {
   let yLabel = null;
   if (
     aggregation === 'sum' &&

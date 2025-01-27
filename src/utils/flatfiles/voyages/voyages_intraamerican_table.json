@@ -71,9 +71,9 @@
     },
     {
       "header_label": {
-        "en": "Place where vessel's voyage began IMP",
-        "es": "Lugar donde comenzó el viaje del buque IMP",
-        "pt": "Local onde se iniciou a viagem do navio IMP"
+        "en": "Place where vessel's voyage began (IMP)",
+        "es": "Lugar donde comenzó el viaje del buque (IMP)",
+        "pt": "Local onde se iniciou a viagem do navio (IMP)"
       },
       "cell_type": "literal",
       "visible": true,

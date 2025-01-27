@@ -10,67 +10,35 @@
   },
   {
     "label": {
-      "en": "Ship, nation, enslavers",
-      "es": "Barco, nación, esclavistas",
-      "pt": "Navio, nação, escravizadores"
+      "en": "Vessel",
+      "es": "Navío",
+      "pt": "Navio"
     },
     "children": [
       {
+        "var_name": "voyage_id",
+        "type": "IdMatch",
+        "ops": [
+          "exact",
+          "btw"
+        ],
         "label": {
-          "en": "Voyages, Enslavers, and Vessels",
-          "es": "Viajes, esclavitudes y buques",
-          "pt": "Viagens, alforrias e navios"
-        },
-        "children": [
-          {
-            "var_name": "voyage_id",
-            "type": "IdMatch",
-            "ops": ["exact", "btw"],
-            "label": {
-              "en": "Voyage ID",
-              "es": "Viaje ID",
-              "pt": "Viagem ID"
-            }
-          },
-          {
-            "var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__alias",
-            "type": "EnslaverNameAndRole",
-            "ops": ["icontains"],
-            "roles": [
-              {
-                "label": "Investor (in the voyage)",
-                "value": "Investor"
-              },
-              {
-                "label": "Captain",
-                "value": "Captain"
-              },
-              {
-                "label": "Shipper",
-                "value": "Shipper"
-              },
-              {
-                "label": "SlaveOwner",
-                "value": "Owner"
-              }
-            ],
-            "label": {
-              "en": "Investor, Captain, &c.",
-              "es": "Inversor, Capitán, &c.",
-              "pt": "Investidor, Capitão, &c."
-            }
-          },
-          {
-            "var_name": "voyage_ship__ship_name",
-            "type": "CharField",
-            "ops": ["icontains"],
-            "label": {
-              "en": "Name of vessel",
-              "es": "Nombre del buque",
-              "pt": "Nome do navio"
-            }
-          }
-        ]
+          "en": "Voyage ID",
+          "es": "Viaje ID",
+          "pt": "Viagem ID"
+        }
+      },
+      {
+        "var_name": "voyage_ship__ship_name",
+        "type": "CharField",
+        "ops": [
+          "icontains"
+        ],
+        "label": {
+          "en": "Name of vessel",
+          "es": "Nombre del buque",
+          "pt": "Nome do navio"
+        }
       },
       {
         "label": {
@@ -119,7 +87,7 @@
       },
       {
         "label": {
-          "en": "Flag of Vessel",
+          "en": "Flag of vessel",
           "es": "Pabellón del buque",
           "pt": "Pavilhão do navio"
         },
@@ -127,7 +95,9 @@
           {
             "var_name": "voyage_ship__nationality_ship__name",
             "type": "MultiselectList",
-            "ops": ["icontains"],
+            "ops": [
+              "icontains"
+            ],
             "label": {
               "en": "Flag of vessel",
               "es": "Pabellón del buque",
@@ -137,7 +107,9 @@
           {
             "var_name": "voyage_ship__imputed_nationality__name",
             "type": "MultiselectList",
-            "ops": ["icontains"],
+            "ops": [
+              "icontains"
+            ],
             "label": {
               "en": "Flag of vessel (IMP)",
               "es": "Pabellón del buque (IMP)",
@@ -156,9 +128,11 @@
           {
             "var_name": "voyage_ship__rig_of_vessel__name",
             "type": "MultiselectList",
-            "ops": ["icontains"],
+            "ops": [
+              "icontains"
+            ],
             "label": {
-              "en": "Rig of Vessel",
+              "en": "Rig of vessel",
               "es": "Aparejo del buque",
               "pt": "Equipamento do navio"
             }
@@ -194,22 +168,12 @@
             "var_name": "voyage_ship__ton_type__name",
             "type": "MultiselectList",
             "label": {
-              "en": "Ton Type",
+              "en": "Ton type",
               "es": "Tipo de tonelada",
               "pt": "Tipo de tonelada"
             }
           }
         ]
-      },
-      {
-        "var_name": "cargo__cargo__name",
-        "type": "CharField",
-        "ops": ["icontains"],
-        "label": {
-          "en": "Cargo",
-          "es": "Carga",
-          "pt": "Carga"
-        }
       }
     ]
   },
@@ -592,7 +556,9 @@
       {
         "var_name": "african_info__name",
         "type": "CharField",
-        "ops": ["icontains"],
+        "ops": [
+          "icontains"
+        ],
         "label": {
           "en": "Captive background",
           "es": "Información sobre los cautivos",
@@ -657,37 +623,92 @@
   },
   {
     "label": {
-      "en": "Crew",
-      "es": "Tripulación",
-      "pt": "Tripulação"
+      "en": "Enslavers",
+      "es": "Esclavizadores",
+      "pt": "Escravizadores"
     },
     "children": [
       {
-        "var_name": "voyage_crew__crew_voyage_outset",
-        "type": "IntegerField",
         "label": {
-          "en": "Crew at voyage outset",
-          "es": "Tripulación al inicio del viaje",
-          "pt": "A tripulação no início da viagem"
-        }
+          "en": "Captain and investors",
+          "es": "Capitán y inversores",
+          "pt": "Capitão e investidores"
+        },
+        "var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__alias",
+        "type": "EnslaverNameAndRole",
+        "ops": [
+          "icontains"
+        ],
+        "roles": [
+          {
+            "label": {
+              "en": "Investor (in the voyage)",
+              "es": "ES: Inversor (en el viaje)",
+              "pt": "PT: Investidor (na viagem)"
+            },
+            "value": "Investor"
+          },
+          {
+            "label": {
+              "en": "Captain",
+              "es": "Capitán",
+              "pt": "Capitão"
+            },
+            "value": "Captain"
+          },
+          {
+            "label": {
+              "en": "Shipper",
+              "es": "Armador",
+              "pt": "Armador"
+            },
+            "value": "Shipper"
+          },
+          {
+            "label": {
+              "en": "SlaveOwner",
+              "es": "Propietario",
+              "pt": "Proprietário"
+            },
+            "value": "Owner"
+          }
+        ]
       },
       {
-        "var_name": "voyage_crew__crew_first_landing",
-        "type": "IntegerField",
         "label": {
-          "en": "Crew at first landing of captives",
-          "es": "Tripulación en el primer desembarco de cautivos",
-          "pt": "A tripulação no primeiro desembarque de cativos"
-        }
-      },
-      {
-        "var_name": "voyage_crew__crew_died_complete_voyage",
-        "type": "IntegerField",
-        "label": {
-          "en": "Crew deaths during voyage",
-          "es": "Muertes de la tripulación durante el viaje",
-          "pt": "Mortes de tripulantes durante a viagem"
-        }
+          "en": "Crew in numbers",
+          "es": "Tripulación en números",
+          "pt": "Tripulação em números"
+        },
+        "children": [
+          {
+            "var_name": "voyage_crew__crew_voyage_outset",
+            "type": "IntegerField",
+            "label": {
+              "en": "Crew at voyage outset",
+              "es": "Tripulación al inicio del viaje",
+              "pt": "A tripulação no início da viagem"
+            }
+          },
+          {
+            "var_name": "voyage_crew__crew_first_landing",
+            "type": "IntegerField",
+            "label": {
+              "en": "Crew at first landing of captives",
+              "es": "Tripulación en el primer desembarco de cautivos",
+              "pt": "A tripulação no primeiro desembarque de cativos"
+            }
+          },
+          {
+            "var_name": "voyage_crew__crew_died_complete_voyage",
+            "type": "IntegerField",
+            "label": {
+              "en": "Crew deaths during voyage",
+              "es": "Muertes de la tripulación durante el viaje",
+              "pt": "Mortes de tripulantes durante a viagem"
+            }
+          }
+        ]
       }
     ]
   },
@@ -701,7 +722,9 @@
       {
         "var_name": "voyage_outcome__particular_outcome__name",
         "type": "MultiselectList",
-        "ops": ["icontains"],
+        "ops": [
+          "icontains"
+        ],
         "label": {
           "en": "Particular Outcome",
           "es": "Resultado particular",
@@ -711,7 +734,9 @@
       {
         "var_name": "voyage_outcome__outcome_slaves__name",
         "type": "MultiselectList",
-        "ops": ["icontains"],
+        "ops": [
+          "icontains"
+        ],
         "label": {
           "en": "Outcome of voyage for captives",
           "es": "Resultado del viaje para los cautivos",
@@ -721,7 +746,9 @@
       {
         "var_name": "voyage_outcome__vessel_captured_outcome__name",
         "type": "MultiselectList",
-        "ops": ["icontains"],
+        "ops": [
+          "icontains"
+        ],
         "label": {
           "en": "Outcome of voyage if ship captured",
           "es": "Resultado del viaje si el barco fue capturado",
@@ -731,7 +758,9 @@
       {
         "var_name": "voyage_outcome__outcome_owner__name",
         "type": "MultiselectList",
-        "ops": ["icontains"],
+        "ops": [
+          "icontains"
+        ],
         "label": {
           "en": "Outcome of voyage for owner",
           "es": "Resultado del viaje para el propietario",
@@ -741,7 +770,9 @@
       {
         "var_name": "voyage_outcome__resistance__name",
         "type": "MultiselectList",
-        "ops": ["icontains"],
+        "ops": [
+          "icontains"
+        ],
         "label": {
           "en": "Resistance",
           "es": "Resistencia",
@@ -758,6 +789,8 @@
     },
     "var_name": "voyage_source_connections__source__title",
     "type": "CharField",
-    "ops": ["icontains"]
+    "ops": [
+      "icontains"
+    ]
   }
 ]

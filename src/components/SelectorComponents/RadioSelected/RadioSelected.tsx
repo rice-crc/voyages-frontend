@@ -24,11 +24,12 @@ export const RadioSelected: FunctionComponent<RadioSelectedProps> = (props) => {
     (state: RootState) => state.rangeSlider as FilterObjectsState
   );
 
+
   useEffect(() => {
     if (varName === 'EnslaverNameAndRole') {
       dispatch(setOpsRole('in'));
     }
-  }, [opsRoles]);
+  }, []);
 
   const handleChangeEqualToOrOthers = (
     event: ChangeEvent<HTMLInputElement>

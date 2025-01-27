@@ -8,10 +8,11 @@ export const generateRowsData = (
   const finalRowArr: Record<string, any>[] = [];
   const columns = TableAndCardCollectionsOptions(file);
   const varNames = columns.var_name;
-
+  // console.log({ varNames, columns })
   if (varNames) {
     dataRow.forEach((data) => {
       const finalRowObj: Record<string, any> = {};
+
       varNames.forEach((varName: string) => {
         const varArray = varName.split('__');
         const output = traverseData(data, varArray);
@@ -21,6 +22,7 @@ export const generateRowsData = (
       finalRowArr.push(finalRowObj);
     });
   }
+
   return finalRowArr;
 };
 

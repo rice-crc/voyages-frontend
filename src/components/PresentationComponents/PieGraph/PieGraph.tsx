@@ -9,7 +9,7 @@ import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 import { RadioSelected } from '../../SelectorComponents/RadioSelected/RadioSelected';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
-import NODATA from '@/assets/noData.png';
+
 import {
   VoyagesOptionProps,
   Options,
@@ -18,11 +18,11 @@ import {
   PlotPIEX,
   PlotPIEY,
   IRootFilterObjectScatterRequest,
+  LanguageKey,
 } from '@/share/InterfaceTypes';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import {
-  getMobileMaxHeight,
-  getMobileMaxWidth,
+
   maxWidthSize,
 } from '@/utils/functions/maxWidthSize';
 import '@/style/homepage.scss';
@@ -57,13 +57,19 @@ function PieGraph() {
   const [pieGraphSelectedY, setSelectedY] = useState<PlotPIEY[]>([]);
   const [plotX, setPlotX] = useState<any[]>([]);
   const [plotY, setPlotY] = useState<any[]>([]);
-  const [xAxes, setXAxes] = useState<string>(PIECHART_OPTIONS.x_vars[0].label);
-  const [yAxes, setYAxes] = useState<string>(PIECHART_OPTIONS.y_vars[0].label);
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const lang = languageValue as LanguageKey;
+  const [xAxes, setXAxes] = useState<string>(
+    PIECHART_OPTIONS.x_vars[0].label[lang]
+  );
+  const [yAxes, setYAxes] = useState<string>(
+    PIECHART_OPTIONS.y_vars[0].label[lang]
+  );
   const maxWidth = maxWidthSize(width);
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const [pieGraphOptions, setPieOptions] = useState<VoyagesOptionProps>({
-    x_vars: PIECHART_OPTIONS.x_vars[0].var_name,
-    y_vars: PIECHART_OPTIONS.y_vars[0].var_name,
+    x_vars: PIECHART_OPTIONS.x_vars[0].var_name || '',
+    y_vars: PIECHART_OPTIONS.y_vars[0].var_name || '',
   });
   const [aggregation, setAggregation] = useState<string>('sum');
   const VoyagepieGraphOptions = () => {
@@ -133,7 +139,17 @@ function PieGraph() {
     isSuccess,
     styleName,
     fetchOptionsFlat,
+    lang,
   ]);
+
+  useEffect(() => {
+    if (pieGraphSelectedX.length > 0 && pieGraphSelectedY.length > 0) {
+      setPieOptions({
+        x_vars: PIECHART_OPTIONS.x_vars[0].var_name,
+        y_vars: PIECHART_OPTIONS.y_vars[0].var_name,
+      });
+    }
+  }, [pieGraphSelectedX, pieGraphSelectedY]);
 
   const handleChangeAggregation = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -202,9 +218,8 @@ function PieGraph() {
             layout={{
               width: maxWidth - 40,
               height: height * 0.6,
-              title: `The ${aggregation} of ${xAxes || ''} vs <br> ${
-                yAxes || ''
-              } Pie Chart`,
+              title: `The ${aggregation} of ${xAxes || ''} vs <br> ${yAxes || ''
+                } Pie Chart`,
               font: {
                 family: 'Arial, sans-serif',
                 size: maxWidth < 500 ? 10 : 14,

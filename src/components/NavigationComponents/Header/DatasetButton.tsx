@@ -18,7 +18,8 @@ interface DatasetButtonProps {
     styleName: string,
     blocks: BlockCollectionProps[],
     filterMenuFlatfile?: string,
-    tableFlatfile?: string
+    tableFlatfile?: string,
+    cardFlatfile?: string
   ) => void;
 
   getColorBoxShadow: (item: string) => string;
@@ -46,7 +47,9 @@ export const DatasetButton = (props: DatasetButtonProps) => {
     blocks,
     table_flatfile,
     filter_menu_flatfile,
+    card_flatfile,
   } = item;
+
   const { label: labelDataset } = headers;
   const { styleName } = usePageRouter();
   const menuLabel = (labelDataset as LabelFilterMeneList)[languageValue];
@@ -62,7 +65,8 @@ export const DatasetButton = (props: DatasetButtonProps) => {
           style_name,
           blocks,
           filter_menu_flatfile,
-          table_flatfile
+          table_flatfile,
+          card_flatfile
         )
       }
       sx={{

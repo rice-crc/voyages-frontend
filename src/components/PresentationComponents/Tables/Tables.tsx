@@ -84,7 +84,6 @@ const Tables: React.FC = () => {
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
-
   // Voyages States
   const { tableFlatfileVoyages } = useSelector(
     (state: RootState) => state.getDataSetCollection
@@ -126,17 +125,21 @@ const Tables: React.FC = () => {
       setTableCell(tableCellStructure as TableCellStructure[]);
     }
 
+    // Get stored visible columns with safe parsing
     const storedValueVisibleColumns = localStorage.getItem('visibleColumns');
+    let parsedValue = null;
 
-    let parsedValue;
     if (storedValueVisibleColumns) {
       try {
-        parsedValue = storedValueVisibleColumns
-          ? JSON.parse(storedValueVisibleColumns)
-          : null;
+        parsedValue = JSON.parse(storedValueVisibleColumns);
+        // Validate that parsed value is an array
+        if (!Array.isArray(parsedValue)) {
+          parsedValue = null;
+        }
       } catch (error) {
         console.error('Invalid JSON in visibleColumns:', error);
-        parsedValue = null;
+        // Remove invalid data from localStorage
+        localStorage.removeItem('visibleColumns');
       }
     }
 
@@ -168,7 +171,7 @@ const Tables: React.FC = () => {
     isError,
     tablesCell,
     tableCellStructure,
-    styleNameRoute!,
+    styleNameRoute,
     data,
   ]);
 

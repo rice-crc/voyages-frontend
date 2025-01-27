@@ -1,9 +1,9 @@
 [
   {
     "label": {
-      "en": "Ship and Nation",
-      "es": "ES: Ship and Nation",
-      "pt": "PT: Ship and Nation"
+      "en": "Vessel",
+      "es": "Navío",
+      "pt": "Navio"
     },
     "children": [
       {
@@ -721,7 +721,7 @@
           ]
         },
         "label": {
-          "en": "",
+          "en": "Number of slaves disembarked at first place (SLAS32)",
           "es": "ES: Number of slaves disembarked at first place (SLAS32)",
           "pt": "PT: Number of slaves disembarked at first place (SLAS32)"
         }
@@ -738,7 +738,7 @@
           ]
         },
         "label": {
-          "en": "",
+          "en": "Total slaves arrived at first port of disembarkation (SLAARRIV)",
           "es": "ES: Total slaves arrived at first port of disembarkation (SLAARRIV)",
           "pt": "PT: Total slaves arrived at first port of disembarkation (SLAARRIV)"
         }

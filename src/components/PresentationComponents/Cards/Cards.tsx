@@ -34,7 +34,7 @@ import {
   VOYAGESNODECLASS,
 } from '@/share/CONST_DATA';
 import '@/style/cards.scss';
-import { LabelFilterMeneList, TransatlanticCardProps } from '@/share/InterfaceTypes';
+import { TransatlanticCardProps } from '@/share/InterfaceTypes';
 import { AppDispatch, RootState } from '@/redux/store';
 import { CardHeaderCustom } from '@/styleMUI';
 import { styleCard } from '@/styleMUI/customStyle';
@@ -78,10 +78,11 @@ const VoyageCard = () => {
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
   const [cardData, setCardData] = useState<Record<string, any>[]>([]);
   const { setDoc } = useContext(DocumentViewerContext);
-
+  // console.log({ cardData })
   const { cardRowID, cardFileName, cardDataArray, nodeTypeClass } = useSelector(
     (state: RootState) => state.getCardFlatObjectData
   );
+
   const { languageValue } = useSelector(
     (state: RootState) => state.getLanguages
   );
@@ -94,44 +95,51 @@ const VoyageCard = () => {
   useEffect(() => {
     let newCardFileName: string = '';
     const newCardDataArray: TransatlanticCardProps[] = [];
+
     switch (nodeTypeClass) {
       case VOYAGESNODECLASS:
       case VOYAGESNODE:
-        newCardFileName = TRANSATLANTICFILECARD;
-        newCardDataArray.push(...(CARDS_TRANSATLANTIC_COLLECTION as any));
+        // Check cardFileName to determine which voyages data to load
+        if (cardFileName === TRANSATLANTICFILECARD) {
+          newCardFileName = TRANSATLANTICFILECARD;
+          newCardDataArray.push(...(CARDS_TRANSATLANTIC_COLLECTION as any));
+        } else if (cardFileName === INTRAAMERICANFILECARD) {
+          newCardFileName = INTRAAMERICANFILECARD;
+          newCardDataArray.push(...(CARDS_INTRAAMERICAN_COLLECTION as any));
+        } else {
+          newCardFileName = ALLVOYAGESFILECARD;
+          newCardDataArray.push(...(CARDS_ALLVOYAGES_COLLECTION as any));
+        }
         break;
-      case VOYAGESNODECLASS:
-      case VOYAGESNODE:
-        newCardFileName = INTRAAMERICANFILECARD;
-        newCardDataArray.push(...(CARDS_INTRAAMERICAN_COLLECTION as any));
-        break;
-      case VOYAGESNODECLASS:
-      case VOYAGESNODE:
-        newCardFileName = ALLVOYAGESFILECARD;
-        newCardDataArray.push(...(CARDS_ALLVOYAGES_COLLECTION as any));
-        break;
+
       case ENSLAVEDNODE:
-        newCardFileName = ENSLAVED_african_origins_CARDFILE;
-        newCardDataArray.push(...(CARDS_ENSLAVED_african_origins as any));
+        // Check cardFileName to determine which enslaved data to load
+        if (cardFileName === ENSLAVED_african_origins_CARDFILE) {
+          newCardFileName = ENSLAVED_african_origins_CARDFILE;
+          newCardDataArray.push(...(CARDS_ENSLAVED_african_origins as any));
+        } else if (cardFileName === ENSLAVED_TEXAS_CARDFILE) {
+          newCardFileName = ENSLAVED_TEXAS_CARDFILE;
+          newCardDataArray.push(...(CARDS_TEXAS_ENSLAVED as any));
+        } else {
+          newCardFileName = ENSLAVED_ALL_CARDFILE;
+          newCardDataArray.push(...(CARDS_ALLENSLAVED as any));
+        }
         break;
-      case ENSLAVEDNODE:
-        newCardFileName = ENSLAVED_TEXAS_CARDFILE;
-        newCardDataArray.push(...(CARDS_TEXAS_ENSLAVED as any));
-        break;
-      case ENSLAVEDNODE:
-        newCardFileName = ENSLAVED_ALL_CARDFILE;
-        newCardDataArray.push(...(CARDS_ALLENSLAVED as any));
-        break;
+
       case ENSLAVERSNODE:
         newCardFileName = ENSLAVERSCARDFILE;
         newCardDataArray.push(...(CARDS_ENSLAVERS_COLLECTION as any));
         break;
+
       default:
         newCardFileName = '';
     }
+
+
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
-  }, [nodeTypeClass]);
+  }, [nodeTypeClass, cardRowID, dispatch, cardFileName]);
+  console.log({ cardFileName });
 
   const fetchData = async () => {
     const ID = networkID || cardRowID;

@@ -265,7 +265,7 @@ export interface FilterMenu {
   children?: ChildrenFilter[];
 }
 export interface RolesProps {
-  label: string;
+  label: LabelFilterMeneList;
   value: string;
 }
 
@@ -307,10 +307,12 @@ export interface plotXYProps {
   y_vars: PlotXYVar[];
 }
 
+export type LanguageKey = 'en' | 'es' | 'pt';
+
 export interface PlotXYVar {
   var_name: string;
   type?: string;
-  label: string;
+  label: Record<LanguageKey, string>;
   agg_fns?: string[];
 }
 export interface PlotPieProps {
@@ -320,24 +322,24 @@ export interface PlotPieProps {
 
 export interface PlotPIEX {
   var_name: string;
-  label: string;
+  label: Record<LanguageKey, string>;
 }
 
 export interface PlotPIEY {
   var_name: string;
-  label: string;
+  label: Record<LanguageKey, string>;
 }
 export interface BargraphXYVar {
   var_name: string;
   type: string;
-  label: string;
+  label: Record<LanguageKey, string>;
   agg_fns?: string[];
 }
 
 export interface PiegraphXYVar {
   var_name: string;
   type: string;
-  label: string;
+  label: LabelFilterMeneList;
 }
 
 export interface ScatterOptionsXYResponse {
@@ -409,7 +411,7 @@ export interface ValuePeopleFilter {
 }
 export type FilterPeopleMenuProps = FilterPeopleMenu[];
 export interface FilterPeopleMenu {
-  label: string;
+  label: LabelFilterMeneList;
   var_name?: string;
   type?: string;
   children?: ChildrenPeopleMenu[];
@@ -418,7 +420,7 @@ export interface FilterPeopleMenu {
 export interface ChildrenPeopleMenu {
   var_name: string;
   type: string;
-  label: string;
+  label: LabelFilterMeneList;
   flatlabel?: string;
 }
 

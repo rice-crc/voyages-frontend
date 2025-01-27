@@ -14,6 +14,7 @@ import {
   FilterObjectsState,
   CurrentPageInitialState,
   IRootFilterObjectScatterRequest,
+  LanguageKey,
 } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
@@ -55,16 +56,18 @@ function Scatter() {
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const lang = languageValue as LanguageKey;
 
   const { styleName: styleNameRoute } = usePageRouter();
   const [width, height] = useWindowSize();
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [scatterSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
   const [xAxes, setXAxes] = useState<string>(
-    VOYAGE_SCATTER_OPTIONS.x_vars[0].label
+    VOYAGE_SCATTER_OPTIONS.x_vars[0].label[lang]
   );
   const [yAxes, setYAxes] = useState<string[]>([
-    VOYAGE_SCATTER_OPTIONS.y_vars[0].label,
+    VOYAGE_SCATTER_OPTIONS.y_vars[0].label[lang],
   ]);
   const [scatterData, setScatterData] = useState<Data[]>([]);
   const [chips, setChips] = useState<string[]>([
@@ -128,7 +131,7 @@ function Scatter() {
             type: 'scatter',
             mode: 'lines',
             line: { shape: 'spline' },
-            name: `${VOYAGE_SCATTER_OPTIONS.y_vars[index].label}`,
+            name: `${VOYAGE_SCATTER_OPTIONS.y_vars[index].label[lang]}`,
           });
         }
       }
@@ -152,6 +155,7 @@ function Scatter() {
     styleName,
     VoyageScatterOptions,
     styleNameRoute,
+    lang,
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -169,7 +173,7 @@ function Scatter() {
         [name]: value,
       }));
       for (const title of scatterSelectedX) {
-        setXAxes(title.label);
+        setXAxes(title.label[lang]);
       }
     },
     []
@@ -188,7 +192,7 @@ function Scatter() {
         ...prevOptions,
         [name]: value,
       }));
-      const newYAxesTitles = scatterSelectedY.map((title) => title.label);
+      const newYAxesTitles = scatterSelectedY.map((title) => title.label[lang]);
       setYAxes(newYAxesTitles);
     },
     []
@@ -234,7 +238,7 @@ function Scatter() {
               },
               xaxis: {
                 title: {
-                  text: xAxes || scatterSelectedX[0]?.label,
+                  text: xAxes || scatterSelectedX[0]?.label[lang],
                 },
                 fixedrange: true,
               },

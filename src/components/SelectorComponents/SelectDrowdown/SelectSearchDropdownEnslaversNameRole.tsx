@@ -18,6 +18,7 @@ export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
 
   const { enslaversNameAndRole, listEnslavers } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState
@@ -41,8 +42,9 @@ export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<
       disableCloseOnSelect
       options={enslaversNameAndRole as RolesProps[]}
       multiple
-      value={listEnslavers} // .length > 0 ? listEnslavers : enslaversNameAndRole
+      value={listEnslavers}
       onChange={handleSelectedRoleAndName}
+      getOptionLabel={(option: RolesProps) => option.label[languageValue]}
       renderInput={(params) => (
         <div style={{ color: 'red', fontSize: '0.875rem', textAlign: 'left' }}>
           <TextField
@@ -62,15 +64,17 @@ export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<
       )}
       renderTags={(value: readonly RolesProps[], getTagProps) =>
         value.map((option: RolesProps, index: number) => {
+          const { key, ...tagProps } = getTagProps({ index });
           return (
             <Chip
-              label={option.label}
+              key={key}
+              label={option.label[languageValue]}
               style={{
                 margin: 2,
                 border: getBoderColor(styleName),
                 color: '#000',
               }}
-              {...getTagProps({ index })}
+              {...tagProps}
             />
           );
         })

@@ -11,11 +11,14 @@
     "base_filter": [
       {
         "var_name": "dataset",
-        "value": [0]
+        "value": [
+          0
+        ]
       }
     ],
     "filter_menu_flatfile": "voyages_transatlantic_table.json",
     "table_flatfile": "voyages_transatlantic_table.json",
+    "card_flatfile": "voyages_transatlantic_card.json",
     "style_name": "trans-atlantic",
     "blocks": [
       {
@@ -88,11 +91,14 @@
     "base_filter": [
       {
         "var_name": "dataset",
-        "value": [1]
+        "value": [
+          1
+        ]
       }
     ],
     "filter_menu_flatfile": "voyages_intraamerican_table.json",
     "table_flatfile": "voyages_intraamerican_table.json",
+    "card_flatfile": "voyages_intraamerican_card.json",
     "style_name": "intra-american",
     "blocks": [
       {
@@ -165,6 +171,7 @@
     "base_filter": [],
     "filter_menu_flatfile": "voyages_all_table.json",
     "table_flatfile": "voyages_all_table.json",
+    "card_flatfile": "voyages_all_card.json",
     "style_name": "all-voyages",
     "blocks": [
       {

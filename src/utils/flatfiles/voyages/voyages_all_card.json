@@ -1,9 +1,9 @@
 [
   {
     "label": {
-      "en": "Ship and Nation",
-      "es": "ES: Ship and Nation",
-      "pt": "PT: Ship and Nation"
+      "en": "Vessel",
+      "es": "Navío",
+      "pt": "Navio"
     },
     "children": [
       {
@@ -19,8 +19,8 @@
         },
         "label": {
           "en": "Voyage ID",
-          "es": "ES: Voyage ID",
-          "pt": "PT: Voyage ID"
+          "es": "Viaje ID",
+          "pt": "Viagem ID"
         }
       },
       {
@@ -35,9 +35,9 @@
           ]
         },
         "label": {
-          "en": "Ship Name",
-          "es": "ES: Ship Name",
-          "pt": "PT: Ship Name"
+          "en": "Name of vessel",
+          "es": "Nombre del buque",
+          "pt": "Nome do navio"
         }
       },
       {

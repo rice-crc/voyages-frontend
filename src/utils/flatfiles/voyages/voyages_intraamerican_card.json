@@ -1,9 +1,9 @@
 [
   {
     "label": {
-      "en": "Ship and Nation",
-      "es": "ES: Ship and Nation",
-      "pt": "PT: Ship and Nation"
+      "en": "Vessel",
+      "es": "Navío",
+      "pt": "Navio"
     },
     "children": [
       {
@@ -219,9 +219,9 @@
   },
   {
     "label": {
-      "en": "Crew",
-      "es": "ES: Crew",
-      "pt": "PT: Crew"
+      "en": "Enslavers",
+      "es": "Esclavizadores",
+      "pt": "Escravizadores"
     },
     "children": [
       {

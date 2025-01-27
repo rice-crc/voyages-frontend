@@ -29,10 +29,10 @@ function useDataTableProcessingEffect(
     const tableFileName = checkPagesRouteForVoyages(styleNameRoute!)
       ? tableFlatfileVoyages
       : checkPagesRouteForEnslaved(styleNameRoute!)
-      ? tableFlatfileEnslaved
-      : checkPagesRouteForEnslavers(styleNameRoute!)
-      ? tableFlatfileEnslavers
-      : null;
+        ? tableFlatfileEnslaved
+        : checkPagesRouteForEnslavers(styleNameRoute!)
+          ? tableFlatfileEnslavers
+          : null;
 
     if (data.length > 0) {
       const finalRowData = generateRowsData(data, tableFileName!);
@@ -54,7 +54,7 @@ function useDataTableProcessingEffect(
     tableFlatfileVoyages,
     tableFlatfileEnslaved,
     tableFlatfileEnslavers,
-    tablesCell,
+    tablesCell
   ]);
 }
 

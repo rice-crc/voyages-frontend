@@ -10,7 +10,9 @@ export const processCardData = (
 ) => {
 
   if (data.length > 0) {
+
     const finalData = generateRowsData(data, fileCardName);
+    // console.log({ finalData, fileCardName })
     const newCardData: Record<string, any>[] = cardDataArray.map((value) => {
       const cardGroup = {
         header: value.label[languageValue],

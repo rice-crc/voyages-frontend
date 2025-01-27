@@ -360,12 +360,6 @@ const PivotTables = () => {
     }
     return number;
   };
-  // const formatNumber = (value: string | number): string => {
-  //   if (typeof value === 'number') {
-  //     return value.toLocaleString('en-US');
-  //   }
-  //   return value;
-  // };
 
   const handleButtonExportCSV = useCallback(() => {
     (gridRef.current as AgGridReact<any>).api.exportDataAsCsv();

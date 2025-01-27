@@ -11,6 +11,7 @@ import CARDS_ALLVOYAGES_COLLECTION from '@/utils/flatfiles/voyages/voyages_all_c
 import CARDS_ENSLAVED_african_origins from '@/utils/flatfiles/enslaved/enslaved_african_origins_card.json';
 import CARDS_ALLENSLAVED from '@/utils/flatfiles/enslaved/enslaved_all_card_menu.json';
 import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers/enslavers_card.json';
+import CARDS_ENSLAVED_TEXAS from '@/utils/flatfiles/enslaved/enslaved_texas_card.json';
 import {
   AFRICANORIGINS_TABLE_FILE,
   ENSLAVED_african_origins_CARDFILE,
@@ -25,12 +26,14 @@ import {
   TRANSATLANTICTABLEFILE,
   INTRAAMERICANTABLEFILE,
   ALLVOYAGESTABLEFILE,
+  ENSLAVED_TEXAS_CARDFILE,
 } from '@/share/CONST_DATA';
 
 export const TableAndCardCollectionsOptions = (
   file?: string
 ): Record<string, any> => {
   const columnObject: Record<string, any> = {};
+  console.log('file', file);
   const processFieldsData = (fieldsData: any[] | undefined): void => {
     fieldsData?.forEach((field) => {
       Object.entries(field).forEach(([key, value]) => {
@@ -119,6 +122,13 @@ export const TableAndCardCollectionsOptions = (
     });
   } else if (file === ENSLAVERSCARDFILE) {
     CARDS_ENSLAVERS_COLLECTION.forEach((value) => {
+      value.children.forEach((element) => {
+        const fieldsData = element.cell_val?.fields;
+        processFieldsData(fieldsData);
+      });
+    });
+  } else if (file === ENSLAVED_TEXAS_CARDFILE) {
+    CARDS_ENSLAVED_TEXAS.forEach((value) => {
       value.children.forEach((element) => {
         const fieldsData = element.cell_val?.fields;
         processFieldsData(fieldsData);

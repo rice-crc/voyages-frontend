@@ -3,11 +3,12 @@ import {
   InitialStateTransatlanticCard,
   TransatlanticCardProps,
 } from '@/share/InterfaceTypes';
+import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/voyages_collections.json';
 const initialState: InitialStateTransatlanticCard = {
   cardData: [],
   isModalCard: false,
   cardRowID: 0,
-  cardFileName: '',
+  cardFileName: jsonDataVoyageCollection[0].card_flatfile,
   cardDataArray: [],
   nodeTypeClass: '',
   variable: '',

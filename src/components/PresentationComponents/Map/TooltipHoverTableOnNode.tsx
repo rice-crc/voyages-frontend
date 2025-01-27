@@ -47,7 +47,7 @@ export const TooltipHoverTableOnNode = ({
           title=""
           data-original-title="Origins are derived from user contributions."
         >
-          IMP{' '}
+          (IMP){' '}
         </span>
       </td>
       <td>Number of Liberated Africans with Identified Languages</td>
@@ -72,7 +72,7 @@ export const TooltipHoverTableOnNode = ({
           title=""
           data-original-title="Origins are derived from user contributions."
         >
-          IMP{' '}
+          (IMP){' '}
         </span>
       </td>
       <td>Number of Liberated Africans with Identified Languages</td>
@@ -104,8 +104,8 @@ export const TooltipHoverTableOnNode = ({
           {nodeType === nodeTypeOrigin
             ? hederTableOrigin
             : nodeType === nodeTypePostDisembarkation
-            ? hederTablePostDisembarkation
-            : hederOtherType}
+              ? hederTablePostDisembarkation
+              : hederOtherType}
           {displayedNodes.map((node, index) => (
             <tr key={`${node.id}-${index}`}>
               <td>
@@ -131,13 +131,12 @@ export const TooltipHoverTableOnNode = ({
             <tr>
               <td>
                 {remainingNodes.length}{' '}
-                {` ${
-                  nodeType === nodeTypeOrigin
+                {` ${nodeType === nodeTypeOrigin
                     ? totalTextOrigin
                     : nodeType === nodeTypePostDisembarkation
-                    ? totalTextPostDisembarkation
-                    : hederOtherType
-                } `}
+                      ? totalTextPostDisembarkation
+                      : hederOtherType
+                  } `}
               </td>
               <td>
                 {remainingNodes.reduce(

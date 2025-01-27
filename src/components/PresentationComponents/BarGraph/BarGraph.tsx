@@ -27,6 +27,7 @@ import { useGroupBy } from '@/hooks/useGroupBy';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import { LanguageKey } from '@/share/InterfaceTypes';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -52,6 +53,8 @@ function BarGraph() {
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const lang = languageValue as LanguageKey;
 
   const [error, setError] = useState(false);
   const [width, height] = useWindowSize();
@@ -59,10 +62,10 @@ function BarGraph() {
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
   const [barData, setBarData] = useState<Data[]>([]);
   const [xAxes, setXAxes] = useState<string>(
-    VOYAGE_BARGRAPH_OPTIONS.x_vars[0].label
+    VOYAGE_BARGRAPH_OPTIONS.x_vars[0].label[lang]
   );
   const [yAxes, setYAxes] = useState<string[]>([
-    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label,
+    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label[lang]
   ]);
   const [chips, setChips] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
@@ -124,7 +127,7 @@ function BarGraph() {
             type: 'bar',
             mode: 'lines',
             line: { shape: 'spline' },
-            name: `${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
+            name: `${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label[lang]}`,
           });
         }
       }
@@ -147,6 +150,7 @@ function BarGraph() {
     isSuccess,
     styleName,
     VoyageBargraphOptions,
+    lang,
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -232,13 +236,13 @@ function BarGraph() {
               },
               xaxis: {
                 title: {
-                  text: xAxes || barGraphSelectedX[0]?.label,
+                  text: xAxes || barGraphSelectedX[0]?.label[lang],
                 },
                 fixedrange: true,
               },
               yaxis: {
                 title: {
-                  text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes,
+                  text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes[lang],
                 },
                 fixedrange: true,
               },

@@ -25,7 +25,7 @@ const ShowsColoredNodeOnMap = () => {
                     title=""
                     data-original-title="Origins are derived from user contributions."
                   >
-                    IMP
+                    (IMP)
                   </span>
                 </td>
               </tr>
