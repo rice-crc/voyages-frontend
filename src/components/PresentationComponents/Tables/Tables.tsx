@@ -336,14 +336,18 @@ const Tables: React.FC = () => {
   const pageCount = Math.ceil(
     totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
   );
-
+  // sx={{
+  //   width: '100%',
+  //   overflowY: 'auto',
+  //   maxHeight: 'calc(100vh - 220px)',
+  // }}
   return (
     <>
       <div
         className={!viewAll ? 'mobile-responsive' : 'mobile-responsive-view'}
       >
         <div className="ag-theme-alpine grid-container ag-theme-balham" style={{
-          height: 650, width: '100%', display: 'flex', flexDirection: 'column',
+          height: 'calc(90vh - 220px)', width: '100%', display: 'flex', flexDirection: 'column', overflowY: 'auto',
         }}>
           <span className="tableContainer">
             <ButtonDropdownColumnSelector />
@@ -383,14 +387,14 @@ const Tables: React.FC = () => {
             tooltipHideDelay={1000}
             rowModelType="clientSide"
           />
-          <div className="pagination-div">
-            <Pagination
-              color="primary"
-              count={pageCount}
-              page={page + 1}
-              onChange={handleChangePagePagination}
-            />
-          </div>
+        </div>
+        <div className="pagination-div">
+          <Pagination
+            color="primary"
+            count={pageCount}
+            page={page + 1}
+            onChange={handleChangePagePagination}
+          />
         </div>
       </div>
       <ModalNetworksGraph />
