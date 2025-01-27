@@ -1,107 +1,110 @@
 [
-	{
-		"headers": {
-			"label": {
-				"en": "African Origins/Trans-Atlantic",
-				"es": "Orígenes Africanos/Transatlántico",
-				"pt": "Origens africanas/Transatlântico"
-			},
-			"text_introduce": "The African Origins Database provides personal details of 93,605 Africans taken from captured slave ships or from African trading sites. It displays the African name, age, gender, and places of embarkation and disembarkation of each individual. The database invites users to make contributions to the site to identify the likely ethnolinguistic origins of the names from the historical records."
-		},
-		"base_filter": [
-			{
-				"var_name": "dataset",
-				"value": [
-					0,
-					0
-				]
-			}
-		],
-		"filter_menu_flatfile": "enslaved_african_origins_filter_menu.json",
-		"table_flatfile": "enslaved_african_origins_table.json",
-		"style_name": "african-origins",
-		"blocks": [
-			{
-				"label": {
-					"en": "People",
-					"es": "Personas",
-					"pt": "Pessoas"
-				}
-			},
-			{
-				"label": {
-					"en": "Map",
-					"es": "Mapa",
-					"pt": "Mapa"
-				}
-			}
-		]
-	},
-	{
-		"headers": {
-			"label": {
-				"en": "Texas Bound",
-				"es": "Rumbo a Texas",
-				"pt": "Rumo ao Texas"
-			},
-			"text_introduce": "This dataset was launched for Black History Month in 2023."
-		},
-		"base_filter": [
-			{
-				"var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_region_slave_dis__name",
-				"value": [
-					"Texas"
-				]
-			}
-		],
-		"filter_menu_flatfile": "enslaved_texas_filter_menu.json",
-		"table_flatfile": "enslaved_texas_table_cell_structure.json",
-		"style_name": "texasEnslaved",
-		"blocks": [
-			{
-				"label": {
-					"en": "People",
-					"es": "Personas",
-					"pt": "Pessoas"
-				}
-			},
-			{
-				"label": {
-					"en": "Map",
-					"es": "Mapa",
-					"pt": "Mapa"
-				}
-			}
-		]
-	},
-	{
-		"headers": {
-			"label": {
-				"en": "All Enslaved People",
-				"es": "Todas las personas esclavizadas",
-				"pt": "Todas as pessoas escravizadas"
-			},
-			"text_introduce": "The Trans-Atlantic and Intra-American slave trade databases are the culmination of several decades of independent and collaborative research by scholars drawing upon data in libraries and archives around the Atlantic world. The new Slave Voyages website itself is the product of three years of development by a multi-disciplinary team of historians, librarians, curriculum specialists, cartographers, computer programmers, and web designers, in consultation with scholars of the slave trade from universities in Europe, Africa, South America, and North America. The National Endowment for the Humanities was the principal sponsor of this work carried out originally at Emory Center for Digital Scholarship, the University of California at Irvine, and the University of California at Santa Cruz. The Hutchins Center of Harvard University has also provided support. The website is currently hosted at Rice University."
-		},
-		"base_filter": [],
-		"filter_menu_flatfile": "enslaved_all_filter_menu.json",
-		"table_flatfile": "enslaved_all_table_menu.json",
-		"style_name": "all-enslaved",
-		"blocks": [
-			{
-				"label": {
-					"en": "People",
-					"es": "Personas",
-					"pt": "Pessoas"
-				}
-			},
-			{
-				"label": {
-					"en": "Map",
-					"es": "Mapa",
-					"pt": "Mapa"
-				}
-			}
-		]
-	}
+  {
+    "headers": {
+      "label": {
+        "en": "African Origins/Trans-Atlantic",
+        "es": "Orígenes Africanos/Transatlántico",
+        "pt": "Origens africanas/Transatlântico"
+      },
+      "text_introduce": "The African Origins Database provides personal details of 93,605 Africans taken from captured slave ships or from African trading sites. It displays the African name, age, gender, and places of embarkation and disembarkation of each individual. The database invites users to make contributions to the site to identify the likely ethnolinguistic origins of the names from the historical records."
+    },
+    "base_filter": [
+      {
+        "var_name": "dataset",
+        "value": [
+          0,
+          0
+        ]
+      }
+    ],
+    "filter_menu_flatfile": "enslaved_african_origins_filter_menu.json",
+    "table_flatfile": "enslaved_african_origins_table.json",
+    "card_flatfile": "enslaved_african_origins_card.json",
+    "style_name": "african-origins",
+    "blocks": [
+      {
+        "label": {
+          "en": "People",
+          "es": "Personas",
+          "pt": "Pessoas"
+        }
+      },
+      {
+        "label": {
+          "en": "Map",
+          "es": "Mapa",
+          "pt": "Mapa"
+        }
+      }
+    ]
+  },
+  {
+    "headers": {
+      "label": {
+        "en": "Texas Bound",
+        "es": "Rumbo a Texas",
+        "pt": "Rumo ao Texas"
+      },
+      "text_introduce": "This dataset was launched for Black History Month in 2023."
+    },
+    "base_filter": [
+      {
+        "var_name": "enslaved_relations__relation__voyage__voyage_itinerary__imp_principal_region_slave_dis__name",
+        "value": [
+          "Texas"
+        ]
+      }
+    ],
+    "filter_menu_flatfile": "enslaved_texas_filter_menu.json",
+    "table_flatfile": "enslaved_texas_table_cell_structure.json",
+    "card_flatfile": "enslaved_texas_card.json",
+    "style_name": "texasEnslaved",
+    "blocks": [
+      {
+        "label": {
+          "en": "People",
+          "es": "Personas",
+          "pt": "Pessoas"
+        }
+      },
+      {
+        "label": {
+          "en": "Map",
+          "es": "Mapa",
+          "pt": "Mapa"
+        }
+      }
+    ]
+  },
+  {
+    "headers": {
+      "label": {
+        "en": "All Enslaved People",
+        "es": "Todas las personas esclavizadas",
+        "pt": "Todas as pessoas escravizadas"
+      },
+      "text_introduce": "The Trans-Atlantic and Intra-American slave trade databases are the culmination of several decades of independent and collaborative research by scholars drawing upon data in libraries and archives around the Atlantic world. The new Slave Voyages website itself is the product of three years of development by a multi-disciplinary team of historians, librarians, curriculum specialists, cartographers, computer programmers, and web designers, in consultation with scholars of the slave trade from universities in Europe, Africa, South America, and North America. The National Endowment for the Humanities was the principal sponsor of this work carried out originally at Emory Center for Digital Scholarship, the University of California at Irvine, and the University of California at Santa Cruz. The Hutchins Center of Harvard University has also provided support. The website is currently hosted at Rice University."
+    },
+    "base_filter": [],
+    "filter_menu_flatfile": "enslaved_all_filter_menu.json",
+    "table_flatfile": "enslaved_all_table_menu.json",
+    "card_flatfile": "enslaved_all_card.json",
+    "style_name": "all-enslaved",
+    "blocks": [
+      {
+        "label": {
+          "en": "People",
+          "es": "Personas",
+          "pt": "Pessoas"
+        }
+      },
+      {
+        "label": {
+          "en": "Map",
+          "es": "Mapa",
+          "pt": "Mapa"
+        }
+      }
+    ]
+  }
 ]

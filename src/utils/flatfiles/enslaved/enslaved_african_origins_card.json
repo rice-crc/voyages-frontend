@@ -1,189 +1,245 @@
 [
-	{
-		"label": "Bio Data",
-		"children": [
-			{
-				"cell_type": "literal-concat",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "documented_name",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "modern_name",
-							"cell_fn": "literal"
-						}
-					],
-					"join": " / "
-				},
-				"label": "Names"
-			},
-			{
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "age",
-							"cell_fn": "literal"
-						}
-					]
-				},
-				"label": "Age"
-			},
-			{
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "gender",
-							"cell_fn": "literal"
-						}
-					]
-				},
-				"label": "Gender"
-			},
-			{
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "height",
-							"cell_fn": "literal"
-						}
-					]
-				},
-				"label": "Height"
-			}
-		]
-	},
-	{
-		"label": "Itinerary",
-		"children": [
-			{
-				"label": "Ship Name",
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "voyages__voyage_ship__ship_name",
-							"cell_fn": "literal"
-						}
-					]
-				}
-			},
-			{
-				"label": "Embarkation Port",
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
-							"cell_fn": "literal"
-						}
-					]
-				}
-			},
-			{
-				"label": "Disembarkation Port",
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
-							"cell_fn": "literal"
-						}
-					]
-				}
-			},
-			{
-				"label": "Date of Arrival",
-				"cell_type": "literal-concat",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
-							"cell_fn": "literal"
-						}
-					],
-					"join": ","
-				}
-			},
-			{
-				"label": "Post-Disembarkation Location",
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "post_disembark_location__name",
-							"cell_fn": "literal"
-						}
-					]
-				}
-			}
-		]
-	},
-	{
-		"label": "Fate",
-		"children": [
-			{
-				"label": "Captive Fate",
-				"cell_type": "literal",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "captive_fate__name",
-							"cell_fn": "literal"
-						}
-					]
-				}
-			}
-		]
-	},
-	{
-		"label": "Sources",
-		"children": [
-			{
-				"label": "Documentary Sources",
-				"cell_type": "literal-concat",
-				"cell_val": {
-					"fields": [
-						{
-							"var_name": "sources__title",
-							"cell_fn": "literal"
-						},
-						{
-							"var_name": "sources__bib",
-							"cell_fn": "metadata"
-						},
-						{
-							"var_name": "sources__has_published_manifest",
-							"cell_fn": "metadata"
-						},
-						{
-							"var_name": "sources__zotero_group_id",
-							"cell_fn": "metadata"
-						},
-						{
-							"var_name": "sources__zotero_item_id",
-							"cell_fn": "metadata"
-						},
-						{
-							"var_name": "sources__thumbnail",
-							"cell_fn": "metadata"
-						}
-					],
-					"join": ": "
-				}
-			}
-		]
-	}
+  {
+    "label": {
+      "en": "Bio Data",
+      "es": "ES: Bio Data",
+      "pt": "PT: Bio Data"
+    },
+    "children": [
+      {
+        "cell_type": "literal-concat",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "documented_name",
+              "cell_fn": "literal"
+            },
+            {
+              "var_name": "modern_name",
+              "cell_fn": "literal"
+            }
+          ],
+          "join": " / "
+        },
+        "label": {
+          "en": "Names",
+          "es": "ES: Names",
+          "pt": "PT: Names"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "age",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Age",
+          "es": "ES: Age",
+          "pt": "PT: Age"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "gender",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Gender",
+          "es": "ES: Gender",
+          "pt": "PT: Gender"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "height",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Height",
+          "es": "ES: Height",
+          "pt": "PT: Height"
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Itinerary",
+      "es": "ES: Itinerary",
+      "pt": "PT: Itinerary"
+    },
+    "children": [
+      {
+        "label": "Ship Name",
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyages__voyage_ship__ship_name",
+              "cell_fn": "literal"
+            }
+          ]
+        }
+      },
+      {
+        "label": {
+          "en": "Embarkation Port",
+          "es": "ES: Embarkation Port",
+          "pt": "PT: Embarkation Port"
+        },
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyages__voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+              "cell_fn": "literal"
+            }
+          ]
+        }
+      },
+      {
+        "label": {
+          "en": "Disembarkation Port",
+          "es": "ES: Disembarkation Port",
+          "pt": "PT: Disembarkation Port"
+        },
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
+              "cell_fn": "literal"
+            }
+          ]
+        }
+      },
+      {
+        "label": {
+          "en": "Date of Arrival",
+          "es": "ES: Date of Arrival",
+          "pt": "PT: Date of Arrival"
+        },
+        "cell_type": "literal-concat",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+              "cell_fn": "literal"
+            },
+            {
+              "var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
+              "cell_fn": "literal"
+            },
+            {
+              "var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
+              "cell_fn": "literal"
+            }
+          ],
+          "join": ","
+        }
+      },
+      {
+        "label": {
+          "en": "Post-Disembarkation Location",
+          "es": "ES: Post-Disembarkation Location",
+          "pt": "PT: Post-Disembarkation Location"
+        },
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "post_disembark_location__name",
+              "cell_fn": "literal"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Fate",
+      "es": "ES: Fate",
+      "pt": "PT: Fate"
+    },
+    "children": [
+      {
+        "label": {
+          "en": "Captive Fate",
+          "es": "ES: Captive Fate",
+          "pt": "PT: Captive Fate"
+        },
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "captive_fate__name",
+              "cell_fn": "literal"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Sources",
+      "es": "ES: Sources",
+      "pt": "PT: Sources"
+    },
+    "children": [
+      {
+        "label": {
+          "en": "Documentary Sources",
+          "es": "ES: Documentary Sources",
+          "pt": "PT: Documentary Sources"
+        },
+        "cell_type": "literal-concat",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "sources__title",
+              "cell_fn": "literal"
+            },
+            {
+              "var_name": "sources__bib",
+              "cell_fn": "metadata"
+            },
+            {
+              "var_name": "sources__has_published_manifest",
+              "cell_fn": "metadata"
+            },
+            {
+              "var_name": "sources__zotero_group_id",
+              "cell_fn": "metadata"
+            },
+            {
+              "var_name": "sources__zotero_item_id",
+              "cell_fn": "metadata"
+            },
+            {
+              "var_name": "sources__thumbnail",
+              "cell_fn": "metadata"
+            }
+          ],
+          "join": ": "
+        }
+      }
+    ]
+  }
 ]

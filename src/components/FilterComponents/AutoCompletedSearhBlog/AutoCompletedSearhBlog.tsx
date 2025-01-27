@@ -38,13 +38,12 @@ const AutoCompletedSearhBlog = () => {
     querystr: searchAutoValue,
     offset: offset,
     limit: limit,
-    filter: filters
+    filter: filters,
   };
-  const { data, isLoading, isError } = useAutoBlogList(dataSend)
+  const { data, isLoading, isError } = useAutoBlogList(dataSend);
   useEffect(() => {
-
     if (!isLoading && !isError && data) {
-      const { suggested_values } = data
+      const { suggested_values } = data;
       dispatch(setBlogAutoLists(suggested_values));
       if (isFetchHashLoad) {
         setListData(suggested_values);
@@ -57,7 +56,9 @@ const AutoCompletedSearhBlog = () => {
 
   useEffect(() => {
     if (isInitialLoad) {
-      const tagLabel = blogAutoLists.find((item: any) => item.id === Number(tagID));
+      const tagLabel = blogAutoLists.find(
+        (item: any) => item.id === Number(tagID)
+      );
       if (tagLabel) {
         setInputValue(tagLabel);
       }
@@ -67,11 +68,9 @@ const AutoCompletedSearhBlog = () => {
 
   useEffect(() => {
     if (isFetchHashLoad && currentBlockName && listData.length > 0) {
-      const tagLabel = listData.find(
-        (item) => {
-          return formatTextURL(item.value) === currentBlockName
-        }
-      );
+      const tagLabel = listData.find((item) => {
+        return formatTextURL(item.value) === currentBlockName;
+      });
 
       if (tagLabel) {
         setInputValue(tagLabel);
@@ -101,7 +100,6 @@ const AutoCompletedSearhBlog = () => {
       } else {
         navigate(`/${BLOGPAGE}/tag/${formatTextURL(newValue.value)}`);
       }
-
     }
   };
 

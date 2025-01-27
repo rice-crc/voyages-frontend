@@ -54,6 +54,7 @@
   }
 }
 
+
 .grid-container {
   width: 100%;
   height: 50%;
@@ -125,7 +126,6 @@
       margin-bottom: 20px;
     }
   }
-
 }
 
 .pivot-table-pagination {
@@ -148,14 +148,12 @@
 }
 
 .ag-header-cell-label {
-
   text-align: center;
 }
 
 .ag-header-group-text {
   color: var(--header-color--, #007269) !important;
 }
-
 
 .ag-header-cell-label,
 .ag-header-group-cell-label {
@@ -196,7 +194,7 @@
 .summary-table>div>table>tbody>tr>td {
   line-height: 24px;
   padding-left: 12px;
-  font-size: .8rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: rgb(0, 0, 0);
 }
@@ -204,7 +202,7 @@
 .customHeaderLabel {
   float: left;
   text-align: center;
-  font-size: .75rem
+  font-size: 0.75rem;
 }
 
 .customHeaderLabel-box {
@@ -604,8 +602,7 @@ div .customHeaderLabelSummaryTable {
 
 .mobile-responsive {
   position: relative;
-  padding: 40px 120px 0 30px;
-  margin-top: 90px;
+  padding: 130px 120px 0 30px;
 
   @include breakpoint-standard(0) {
     top: 45px;
@@ -616,13 +613,13 @@ div .customHeaderLabelSummaryTable {
   @include breakpoint-standard(1) {
     top: 75px;
     padding: 30px 20px 0 10px;
-    margin-top: 3rem
+    margin-top: 3rem;
   }
 
   @include breakpoint-standard(1.1) {
     top: 75px;
     padding: 30px 20px 0 10px;
-    margin-top: 3rem
+    margin-top: 3rem;
   }
 
   @include breakpoint-standard(2) {
@@ -658,13 +655,13 @@ div .customHeaderLabelSummaryTable {
   @include breakpoint-standard(1) {
     top: 40px;
     padding: 30px 20px 0 10px;
-    margin-top: 3rem
+    margin-top: 3rem;
   }
 
   @include breakpoint-standard(1.1) {
     top: 40px;
     padding: 30px 20px 0 10px;
-    margin-top: 3rem
+    margin-top: 3rem;
   }
 
   @include breakpoint-standard(2) {
@@ -697,7 +694,7 @@ div .customHeaderLabelSummaryTable {
   }
 
   @include breakpoint-standard(4) {
-    padding: 135px 0px 0px 20px !important
+    padding: 135px 0px 0px 20px !important;
   }
 
   @include breakpoint-standard(3) {

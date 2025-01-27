@@ -1,7 +1,6 @@
-import DownloadComponent from "@/components/PresentationComponents/Download.tsx/DownloadComponent";
-
+import DownloadComponent from '@/components/PresentationComponents/Download.tsx/DownloadComponent';
 
 const DownloadPage: React.FC = () => {
-    return <DownloadComponent />
+  return <DownloadComponent />;
 };
 export default DownloadPage;

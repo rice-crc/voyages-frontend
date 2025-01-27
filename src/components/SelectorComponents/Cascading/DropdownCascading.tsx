@@ -79,11 +79,17 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
         };
       }
 
-      const allowedComponents = ['li', 'yourCustomComponentType', 'otherCustomComponentType'];
+      const allowedComponents = [
+        'li',
+        'yourCustomComponentType',
+        'otherCustomComponentType',
+      ];
 
       const filteredProps = {
         ...props,
-        ...(allowedComponents.includes(String(menuItem.type)) ? extraProps : {}),
+        ...(allowedComponents.includes(String(menuItem.type))
+          ? extraProps
+          : {}),
       };
 
       return createElement(menuItem.type, {
@@ -94,9 +100,6 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
           : props.children,
       });
     };
-
-
-
 
     return (
       <div ref={ref}>

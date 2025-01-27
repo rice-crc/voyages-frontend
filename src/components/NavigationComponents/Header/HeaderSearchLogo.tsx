@@ -31,12 +31,16 @@ import { LabelFilterMeneList } from '@/share/InterfaceTypes';
 export default function HeaderLogoSearch() {
   const dispatch: AppDispatch = useDispatch();
   const { blogTitle, institutionName } = useParams();
-  const { inputSearchValue } = useSelector((state: RootState) => state.getCommonGlobalSearch);
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
 
   const onChangePath = () => {
     dispatch(resetAllStateToInitailState());
-    dispatch(resetBlockNameAndPageName())
+    dispatch(resetBlockNameAndPageName());
     dispatch(setCurrentEnslavedPage(1));
     dispatch(setCurrentPage(1));
     dispatch(setInputSearchValue(''));
@@ -45,7 +49,9 @@ export default function HeaderLogoSearch() {
     dispatch(setStyleName(jsonDataVoyageCollection[0].style_name));
     dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
     dispatch(
-      setDataSetPeopleEnslavedHeader(jsonDataPEOPLECOLLECTIONS[0].headers.label.en)
+      setDataSetPeopleEnslavedHeader(
+        jsonDataPEOPLECOLLECTIONS[0].headers.label.en
+      )
     );
     dispatch(
       setPeopleEnslavedTextIntro(
@@ -82,21 +88,21 @@ export default function HeaderLogoSearch() {
           style={{ textDecoration: 'none' }}
           onClick={onChangePath}
         >
-          <img
-            src={voyageLogo}
-            alt={'voyages logo'}
-            className='logo-blog'
-          />
+          <img src={voyageLogo} alt={'voyages logo'} className="logo-blog" />
         </Link>
         <div>
           {!blogTitle && !institutionName && <LanguagesDropdown />}
           <div className="search-autocomplete-blog">
             {inputSearchValue ? (
               <GlobalSearchButton />
-            ) : !blogTitle ? <AutoCompletedSearhBlog /> : ''}
+            ) : !blogTitle ? (
+              <AutoCompletedSearhBlog />
+            ) : (
+              ''
+            )}
           </div>
         </div>
       </div>
-    </ >
+    </>
   );
 }

@@ -1,792 +1,796 @@
 [
-	{
-		"label": {
-			"en": "Year Range",
-			"es": "Año Rango",
-			"pt": "Intervalo de anos"
-		},
-		"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-		"type": "IntegerField"
-	},
-	{
-		"label": {
-			"en": "Ship, nation, enslavers",
-			"es": "Barco, nación, esclavistas",
-			"pt": "Navio, nação, escravizadores"
-		},
-		"children": [
-			{
-				"label": {
-					"en": "Voyages, Enslavers, and Vessels",
-					"es": "Viajes, esclavitudes y buques",
-					"pt": "Viagens, alforrias e navios"
-				},
-				"children": [
-					{
-						"var_name": "voyage_id",
-						"type": "IdMatch",
-						"ops": [
-							"exact",
-							"btw"
-						],
-						"label": {
-							"en": "Voyage ID",
-							"es": "Viaje ID",
-							"pt": "Viagem ID"
-						}
-					},
-					{
-						"var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__alias",
-						"type": "EnslaverNameAndRole",
-						"ops": [
-							"icontains"
-						],
-						"roles": [
-							{
-								"label": "Investor (in the voyage)",
-								"value": "Investor"
-							},
-							{
-								"label": "Captain",
-								"value": "Captain"
-							},
-							{
-								"label": "Shipper",
-								"value": "Shipper"
-							},
-							{
-								"label": "SlaveOwner",
-								"value": "Owner"
-							}
-						],
-						"label": {
-							"en": "Investor, Captain, &c.",
-							"es": "Inversor, Capitán, &c.",
-							"pt": "Investidor, Capitão, &c."
-						}
-					},
-					{
-						"var_name": "voyage_ship__ship_name",
-						"type": "CharField",
-						"ops": [
-							"icontains"
-						],
-						"label": {
-							"en": "Name of vessel",
-							"es": "Nombre del buque",
-							"pt": "Nome do navio"
-						}
-					}
-				]
-			},
-			{
-				"label": {
-					"en": "Construction and registration",
-					"es": "Construcción y registro",
-					"pt": "Construção e registo"
-				},
-				"children": [
-					{
-						"var_name": "voyage_ship__year_of_construction",
-						"type": "IntegerField",
-						"label": {
-							"en": "Year of construction",
-							"es": "Año de construcción",
-							"pt": "Ano de construção"
-						}
-					},
-					{
-						"var_name": "voyage_ship__vessel_construction_place__value",
-						"type": "GeoTreeSelect",
-						"label": {
-							"en": "Region of construction",
-							"es": "Región de construcción",
-							"pt": "Região de construção"
-						}
-					},
-					{
-						"var_name": "voyage_ship__registered_year",
-						"type": "IntegerField",
-						"label": {
-							"en": "Year registered",
-							"es": "Año de registro",
-							"pt": "Ano de registo"
-						}
-					},
-					{
-						"var_name": "voyage_ship__registered_place__value",
-						"type": "GeoTreeSelect",
-						"label": {
-							"en": "Place registered",
-							"es": "Lugar de registro",
-							"pt": "Local registado"
-						}
-					}
-				]
-			},
-			{
-				"label": {
-					"en": "Flag of Vessel",
-					"es": "Pabellón del buque",
-					"pt": "Pavilhão do navio"
-				},
-				"children": [
-					{
-						"var_name": "voyage_ship__nationality_ship__name",
-						"type": "MultiselectList",
-						"ops": [
-							"icontains"
-						],
-						"label": {
-							"en": "Flag of vessel",
-							"es": "Pabellón del buque",
-							"pt": "Pavilhão do navio"
-						}
-					},
-					{
-						"var_name": "voyage_ship__imputed_nationality__name",
-						"type": "MultiselectList",
-						"ops": [
-							"icontains"
-						],
-						"label": {
-							"en": "Flag of vessel (IMP)",
-							"es": "Pabellón del buque (IMP)",
-							"pt": "Pavilhão do navio (IMP)"
-						}
-					}
-				]
-			},
-			{
-				"label": {
-					"en": "Rig, tonnage, and guns mounted",
-					"es": "Aparejo, tonelaje y cañones montados",
-					"pt": "Equipamento, tonelagem e armas montadas"
-				},
-				"children": [
-					{
-						"var_name": "voyage_ship__rig_of_vessel__name",
-						"type": "MultiselectList",
-						"ops": [
-							"icontains"
-						],
-						"label": {
-							"en": "Rig of Vessel",
-							"es": "Aparejo del buque",
-							"pt": "Equipamento do navio"
-						}
-					},
-					{
-						"var_name": "voyage_ship__tonnage",
-						"type": "IntegerField",
-						"label": {
-							"en": "Tonnage",
-							"es": "Tonelaje",
-							"pt": "Tonelagem"
-						}
-					},
-					{
-						"var_name": "voyage_ship__tonnage_mod",
-						"type": "DecimalField",
-						"label": {
-							"en": "Standardized Tonnage (IMP)",
-							"es": "Arqueo normalizado (IMP)",
-							"pt": "Tonelagem normalizada (IMP)"
-						}
-					},
-					{
-						"var_name": "voyage_ship__guns_mounted",
-						"type": "IntegerField",
-						"label": {
-							"en": "Guns mounted",
-							"es": "Cañones montados",
-							"pt": "Armas montadas"
-						}
-					},
-					{
-						"var_name": "voyage_ship__ton_type__name",
-						"type": "MultiselectList",
-						"label": {
-							"en": "Ton Type",
-							"es": "Tipo de tonelada",
-							"pt": "Tipo de tonelada"
-						}
-					}
-				]
-			},
-			{
-				"var_name": "cargo__cargo__name",
-				"type": "CharField",
-				"ops": [
-					"icontains"
-				],
-				"label": {
-					"en": "Cargo",
-					"es": "Carga",
-					"pt": "Carga"
-				}
-			}
-		]
-	},
-	{
-		"label": {
-			"en": "Itinerary",
-			"es": "Itinerario",
-			"pt": "Itinerário"
-		},
-		"children": [
-			{
-				"var_name": "voyage_itinerary__port_of_departure__value",
-				"type": "GeoTreeSelect",
-				"label": {
-					"en": "Place of vessel’s departure",
-					"es": "Lugar de salida del buque",
-					"pt": "Local de partida do navio"
-				}
-			},
-			{
-				"label": {
-					"en": "Place where captives were purchased",
-					"es": "Lugar de compra de los cautivos",
-					"pt": "Local de compra dos cativos"
-				},
-				"children": [
-					{
-						"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__value",
-						"type": "GeoTreeSelect",
-						"label": {
-							"en": "Principal place where captives were purchased (IMP)",
-							"es": "Principal lugar de compra de cautivos (IMP)",
-							"pt": "Principal local de compra de cativos (IMP)"
-						}
-					},
-					{
-						"var_name": "voyage_itinerary__first_place_slave_purchase__value",
-						"type": "GeoTreeSelect",
-						"label": {
-							"en": "First place where captives were purchased",
-							"es": "Primer lugar donde se compraron cautivos",
-							"pt": "Primeiro local onde os cativos foram comprados"
-						}
-					},
-					{
-						"var_name": "voyage_itinerary__second_place_slave_purchase__value",
-						"type": "GeoTreeSelect",
-						"label": {
-							"en": "Second place where captives were purchased",
-							"es": "Segundo lugar donde se compraron cautivos",
-							"pt": "Segundo local de compra de cativos"
-						}
-					},
-					{
-						"var_name": "voyage_itinerary__third_place_slave_purchase__value",
-						"type": "GeoTreeSelect",
-						"label": {
-							"en": "Third place where captives were purchased",
-							"es": "Tercer lugar donde se compraron cautivos",
-							"pt": "Terceiro local de compra de cativos"
-						}
-					}
-				]
-			},
-			{
-				"var_name": "voyage_itinerary__port_of_call_before_atl_crossing__value",
-				"type": "GeoTreeSelect",
-				"label": {
-					"en": "Places of call before oceanic crossing",
-					"es": "Lugares de escala antes de la travesía oceánica",
-					"pt": "Locais de escala antes da travessia oceânica"
-				}
-			},
-			{
-				"label": {
-					"en": "Place where captives were landed",
-					"es": "Lugar de desembarco de los cautivos",
-					"pt": "Local de desembarque de cativos"
-				},
-				"children": [
-					{
-						"var_name": "voyage_itinerary__imp_principal_port_slave_dis__value",
-						"type": "GeoTreeSelect",
-						"label": {
-							"en": "Principal place where captives were landed (IMP)",
-							"es": "Principal lugar de desembarco de cautivos (IMP)",
-							"pt": "Principal local de desembarque de cativos (IMP)"
-						}
-					},
-					{
-						"var_name": "voyage_itinerary__third_landing_place__value",
-						"type": "GeoTreeSelect",
-						"label": {
-							"en": "First place where captives were landed",
-							"es": "Primer lugar de desembarco de cautivos",
-							"pt": "Primeiro local de desembarque de cativos"
-						}
-					},
-					{
-						"var_name": "voyage_itinerary__second_landing_place__value",
-						"type": "GeoTreeSelect",
-						"label": {
-							"en": "Second place where captives were landed",
-							"es": "Segundo lugar de desembarco de cautivos",
-							"pt": "Segundo local de desembarque de cativos"
-						}
-					},
-					{
-						"var_name": "voyage_itinerary__first_landing_place__value",
-						"type": "GeoTreeSelect",
-						"label": {
-							"en": "Third place where captives were landed",
-							"es": "Tercer place where captives were landed",
-							"pt": "Terceiro local de desembarque de cativos"
-						}
-					}
-				]
-			},
-			{
-				"var_name": "voyage_itinerary__place_voyage_ended__value",
-				"type": "GeoTreeSelect",
-				"label": {
-					"en": "Place where vessel's voyage ended",
-					"es": "Lugar donde terminó el viaje del buque",
-					"pt": "Local onde terminou a viagem do navio"
-				}
-			}
-		]
-	},
-	{
-		"label": {
-			"en": "Enslaved",
-			"es": "Esclavizados",
-			"pt": "Escravizados"
-		},
-		"children": [
-			{
-				"label": {
-					"en": "Overall numbers",
-					"es": "Cifras globales",
-					"pt": "Números globais"
-				},
-				"children": [
-					{
-						"var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
-						"type": "IntegerField",
-						"label": {
-							"en": "Total embarked (IMP)",
-							"es": "Total embarcados (IMP)",
-							"pt": "Total embarcado (IMP)"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__total_num_slaves_purchased",
-						"type": "IntegerField",
-						"label": {
-							"en": "Total enslaved purchased (IMP)",
-							"es": "Total de esclavos comprados (IMP)",
-							"pt": "Total de escravos comprados (IMP)"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
-						"type": "IntegerField",
-						"label": {
-							"en": "Total disembarked (IMP)",
-							"es": "Total desembarcados (IMP)",
-							"pt": "Total desembarcado (IMP)"
-						}
-					}
-				]
-			},
-			{
-				"label": {
-					"en": "Purchase numbers",
-					"es": "Números de compra",
-					"pt": "Números de compras"
-				},
-				"children": [
-					{
-						"var_name": "voyage_slaves_numbers__num_slaves_intended_first_port",
-						"type": "IntegerField",
-						"label": {
-							"en": "Captives intended to be purchased at first port",
-							"es": "Cautivos destinados a ser comprados en el primer puerto",
-							"pt": "Cativos destinados a ser comprados no primeiro porto"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__num_slaves_carried_first_port",
-						"type": "IntegerField",
-						"label": {
-							"en": "Captives carried from first port",
-							"es": "Cautivos transportados desde el primer puerto",
-							"pt": "Cativos transportados do primeiro porto"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__num_slaves_carried_second_port",
-						"type": "IntegerField",
-						"label": {
-							"en": "Captives carried from second port",
-							"es": "Cautivos transportados desde el segundo puerto",
-							"pt": "Cativos transportados do segundo porto"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__num_slaves_carried_third_port",
-						"type": "IntegerField",
-						"label": {
-							"en": "Captives carried from third port",
-							"es": "Cautivos transportados desde el tercer puerto",
-							"pt": "Cativos transportados do terceiro porto"
-						}
-					}
-				]
-			},
-			{
-				"label": {
-					"en": "Landing numbers",
-					"es": "Números de aterrizaje",
-					"pt": "Números de aterragem"
-				},
-				"children": [
-					{
-						"var_name": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
-						"type": "IntegerField",
-						"label": {
-							"en": "Captives embarked at first port",
-							"es": "Cautivos embarcados en el primer puerto",
-							"pt": "Cativos embarcados no primeiro porto"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__num_slaves_disembark_first_place",
-						"type": "IntegerField",
-						"label": {
-							"en": "Captives landed at first port",
-							"es": "Cautivos desembarcados en el primer puerto",
-							"pt": "Cativos desembarcados no primeiro porto"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__num_slaves_disembark_second_place",
-						"type": "IntegerField",
-						"label": {
-							"en": "Captives landed at second port",
-							"es": "Cautivos desembarcados en el segundo puerto",
-							"pt": "Cativos desembarcados no segundo porto"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__num_slaves_disembark_third_place",
-						"type": "IntegerField",
-						"label": {
-							"en": "Captives landed at third port",
-							"es": "Cautivos desembarcados en el tercer puerto",
-							"pt": "Cativos desembarcados no terceiro porto"
-						}
-					}
-				]
-			},
-			{
-				"label": {
-					"en": "Percentage by sex and age",
-					"es": "Porcentaje por sexo y edad",
-					"pt": "Percentagem por sexo e idade"
-				},
-				"children": [
-					{
-						"var_name": "voyage_slaves_numbers__percentage_men",
-						"type": "FloatField",
-						"label": {
-							"en": "Percent men",
-							"es": "Porcentaje de hombres",
-							"pt": "Percentagem de homens"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__percentage_women",
-						"type": "FloatField",
-						"label": {
-							"en": "Percent women",
-							"es": "Porcentaje de mujeres",
-							"pt": "Percentagem de mulheres"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__percentage_boy",
-						"type": "FloatField",
-						"label": {
-							"en": "Percent boys",
-							"es": "Porcentaje de chicos",
-							"pt": "Percentagem de rapazes"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__percentage_girl",
-						"type": "FloatField",
-						"label": {
-							"en": "Percent girls",
-							"es": "Porcentaje de niñas",
-							"pt": "Percentagem de raparigas"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__percentage_male",
-						"type": "FloatField",
-						"label": {
-							"en": "Percent male",
-							"es": "Porcentaje de masculinos",
-							"pt": "Percentagem de masculinos"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__percentage_female",
-						"type": "FloatField",
-						"label": {
-							"en": "Percent female",
-							"es": "Porcentaje de féminas",
-							"pt": "Percentagem de fêmeas"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__percentage_child",
-						"type": "FloatField",
-						"label": {
-							"en": "Percentage children",
-							"es": "Porcentaje de niños",
-							"pt": "Percentagem de crianças"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__percentage_adult",
-						"type": "FloatField",
-						"label": {
-							"en": "Percentage adult",
-							"es": "Porcentaje de adultos",
-							"pt": "Percentagem de adultos"
-						}
-					}
-				]
-			},
-			{
-				"label": {
-					"en": "Other characteristics",
-					"es": "Otras características",
-					"pt": "Outras características"
-				},
-				"children": [
-					{
-						"var_name": "voyage_slaves_numbers__imp_jamaican_cash_price",
-						"type": "DecimalField",
-						"label": {
-							"en": "Sterling cash price in Jamaica (IMP)",
-							"es": "Precio al contado de la libra esterlina en Jamaica (IMP)",
-							"pt": "Preço à vista da libra esterlina na Jamaica (IMP)"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__imp_mortality_during_voyage",
-						"type": "IntegerField",
-						"label": {
-							"en": "Captive deaths during crossing (IMP)",
-							"es": "Muertes de cautivos durante la travesía (IMP)",
-							"pt": "Mortes de cativos durante a travessia (IMP)"
-						}
-					},
-					{
-						"var_name": "voyage_slaves_numbers__imp_mortality_ratio",
-						"type": "FloatField",
-						"label": {
-							"en": "Percentage of captives who died during crossing (IMP)",
-							"es": "Porcentaje de cautivos que murieron durante la travesía (IMP)",
-							"pt": "Percentagem de prisioneiros que morreram durante a travessia (IMP)"
-						}
-					}
-				]
-			},
-			{
-				"var_name": "african_info__name",
-				"type": "CharField",
-				"ops": [
-					"icontains"
-				],
-				"label": {
-					"en": "Captive background",
-					"es": "Información sobre los cautivos",
-					"pt": "Informações sobre os cativos"
-				}
-			}
-		]
-	},
-	{
-		"label": {
-			"en": "Dates",
-			"es": "Fechas",
-			"pt": "Datas"
-		},
-		"children": [
-			{
-				"label": {
-					"en": "Voyage duration",
-					"es": "Duración del viaje",
-					"pt": "Duração da viagem"
-				},
-				"children": [
-					{
-						"var_name": "voyage_dates__length_middle_passage_days",
-						"type": "IntegerField",
-						"label": {
-							"en": "Duration of captives' crossing (in days)",
-							"es": "Duración de la travesía de los cautivos (en días)",
-							"pt": "Duração da travessia dos cativos (em dias)"
-						}
-					},
-					{
-						"var_name": "voyage_dates__imp_length_home_to_disembark",
-						"type": "IntegerField",
-						"label": {
-							"en": "Voyage duration, homeport to disembarkation (in days)",
-							"es": "Duración del viaje, desde el puerto base hasta el desembarque (en días)",
-							"pt": "Duração da viagem, do porto de origem ao desembarque (em dias)"
-						}
-					}
-				]
-			},
-			{
-				"label": {
-					"en": "Dates during voyage",
-					"es": "Fechas durante el viaje",
-					"pt": "Datas durante a viagem"
-				},
-				"children": [
-					{
-						"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-						"type": "IntegerField",
-						"label": {
-							"en": "Year captives were landed (imputed)",
-							"es": "Año de desembarco de los cautivos (imputado)",
-							"pt": "Ano em que os cativos foram desembarcados (imputado)"
-						}
-					}
-				]
-			}
-		]
-	},
-	{
-		"label": {
-			"en": "Crew",
-			"es": "Tripulación",
-			"pt": "Tripulação"
-		},
-		"children": [
-			{
-				"var_name": "voyage_crew__crew_voyage_outset",
-				"type": "IntegerField",
-				"label": {
-					"en": "Crew at voyage outset",
-					"es": "Tripulación al inicio del viaje",
-					"pt": "A tripulação no início da viagem"
-				}
-			},
-			{
-				"var_name": "voyage_crew__crew_first_landing",
-				"type": "IntegerField",
-				"label": {
-					"en": "Crew at first landing of captives",
-					"es": "Tripulación en el primer desembarco de cautivos",
-					"pt": "A tripulação no primeiro desembarque de cativos"
-				}
-			},
-			{
-				"var_name": "voyage_crew__crew_died_complete_voyage",
-				"type": "IntegerField",
-				"label": {
-					"en": "Crew deaths during voyage",
-					"es": "Muertes de la tripulación durante el viaje",
-					"pt": "Mortes de tripulantes durante a viagem"
-				}
-			}
-		]
-	},
-	{
-		"label": {
-			"en": "Outcomes",
-			"es": "Resultados",
-			"pt": "Resultados"
-		},
-		"children": [
-			{
-				"var_name": "voyage_outcome__particular_outcome__name",
-				"type": "MultiselectList",
-				"ops": [
-					"icontains"
-				],
-				"label": {
-					"en": "Particular Outcome",
-					"es": "Resultado particular",
-					"pt": "Resultado específico"
-				}
-			},
-			{
-				"var_name": "voyage_outcome__outcome_slaves__name",
-				"type": "MultiselectList",
-				"ops": [
-					"icontains"
-				],
-				"label": {
-					"en": "Outcome of voyage for captives",
-					"es": "Resultado del viaje para los cautivos",
-					"pt": "Resultado da viagem para os cativos"
-				}
-			},
-			{
-				"var_name": "voyage_outcome__vessel_captured_outcome__name",
-				"type": "MultiselectList",
-				"ops": [
-					"icontains"
-				],
-				"label": {
-					"en": "Outcome of voyage if ship captured",
-					"es": "Resultado del viaje si el barco fue capturado",
-					"pt": "Resultado da viagem se o navio foi capturado"
-				}
-			},
-			{
-				"var_name": "voyage_outcome__outcome_owner__name",
-				"type": "MultiselectList",
-				"ops": [
-					"icontains"
-				],
-				"label": {
-					"en": "Outcome of voyage for owner",
-					"es": "Resultado del viaje para el propietario",
-					"pt": "Resultado da viagem para o armador"
-				}
-			},
-			{
-				"var_name": "voyage_outcome__resistance__name",
-				"type": "MultiselectList",
-				"ops": [
-					"icontains"
-				],
-				"label": {
-					"en": "Resistance",
-					"es": "Resistencia",
-					"pt": "Resistência"
-				}
-			}
-		]
-	},
-	{
-		"label": {
-			"en": "Sources",
-			"es": "Fuentes",
-			"pt": "Fontes"
-		},
-		"var_name": "voyage_source_connections__source__title",
-		"type": "CharField",
-		"ops": [
-			"icontains"
-		]
-	}
+  {
+    "label": {
+      "en": "Year Range",
+      "es": "Año Rango",
+      "pt": "Intervalo de anos"
+    },
+    "var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+    "type": "IntegerField"
+  },
+  {
+    "label": {
+      "en": "Vessel",
+      "es": "Navío",
+      "pt": "Navio"
+    },
+    "children": [
+      {
+        "var_name": "voyage_id",
+        "type": "IdMatch",
+        "ops": [
+          "exact",
+          "btw"
+        ],
+        "label": {
+          "en": "Voyage ID",
+          "es": "Viaje ID",
+          "pt": "Viagem ID"
+        }
+      },
+      {
+        "var_name": "voyage_ship__ship_name",
+        "type": "CharField",
+        "ops": [
+          "icontains"
+        ],
+        "label": {
+          "en": "Name of vessel",
+          "es": "Nombre del buque",
+          "pt": "Nome do navio"
+        }
+      },
+      {
+        "label": {
+          "en": "Construction and registration",
+          "es": "Construcción y registro",
+          "pt": "Construção e registo"
+        },
+        "children": [
+          {
+            "var_name": "voyage_ship__year_of_construction",
+            "type": "IntegerField",
+            "label": {
+              "en": "Year of construction",
+              "es": "Año de construcción",
+              "pt": "Ano de construção"
+            }
+          },
+          {
+            "var_name": "voyage_ship__vessel_construction_place__value",
+            "type": "GeoTreeSelect",
+            "label": {
+              "en": "Region of construction",
+              "es": "Región de construcción",
+              "pt": "Região de construção"
+            }
+          },
+          {
+            "var_name": "voyage_ship__registered_year",
+            "type": "IntegerField",
+            "label": {
+              "en": "Year registered",
+              "es": "Año de registro",
+              "pt": "Ano de registo"
+            }
+          },
+          {
+            "var_name": "voyage_ship__registered_place__value",
+            "type": "GeoTreeSelect",
+            "label": {
+              "en": "Place registered",
+              "es": "Lugar de registro",
+              "pt": "Local registado"
+            }
+          }
+        ]
+      },
+      {
+        "label": {
+          "en": "Flag of vessel",
+          "es": "Pabellón del buque",
+          "pt": "Pavilhão do navio"
+        },
+        "children": [
+          {
+            "var_name": "voyage_ship__nationality_ship__name",
+            "type": "MultiselectList",
+            "ops": [
+              "icontains"
+            ],
+            "label": {
+              "en": "Flag of vessel",
+              "es": "Pabellón del buque",
+              "pt": "Pavilhão do navio"
+            }
+          },
+          {
+            "var_name": "voyage_ship__imputed_nationality__name",
+            "type": "MultiselectList",
+            "ops": [
+              "icontains"
+            ],
+            "label": {
+              "en": "Flag of vessel (IMP)",
+              "es": "Pabellón del buque (IMP)",
+              "pt": "Pavilhão do navio (IMP)"
+            }
+          }
+        ]
+      },
+      {
+        "label": {
+          "en": "Rig, tonnage, and guns mounted",
+          "es": "Aparejo, tonelaje y cañones montados",
+          "pt": "Equipamento, tonelagem e armas montadas"
+        },
+        "children": [
+          {
+            "var_name": "voyage_ship__rig_of_vessel__name",
+            "type": "MultiselectList",
+            "ops": [
+              "icontains"
+            ],
+            "label": {
+              "en": "Rig of vessel",
+              "es": "Aparejo del buque",
+              "pt": "Equipamento do navio"
+            }
+          },
+          {
+            "var_name": "voyage_ship__tonnage",
+            "type": "IntegerField",
+            "label": {
+              "en": "Tonnage",
+              "es": "Tonelaje",
+              "pt": "Tonelagem"
+            }
+          },
+          {
+            "var_name": "voyage_ship__tonnage_mod",
+            "type": "DecimalField",
+            "label": {
+              "en": "Standardized Tonnage (IMP)",
+              "es": "Arqueo normalizado (IMP)",
+              "pt": "Tonelagem normalizada (IMP)"
+            }
+          },
+          {
+            "var_name": "voyage_ship__guns_mounted",
+            "type": "IntegerField",
+            "label": {
+              "en": "Guns mounted",
+              "es": "Cañones montados",
+              "pt": "Armas montadas"
+            }
+          },
+          {
+            "var_name": "voyage_ship__ton_type__name",
+            "type": "MultiselectList",
+            "label": {
+              "en": "Ton type",
+              "es": "Tipo de tonelada",
+              "pt": "Tipo de tonelada"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Itinerary",
+      "es": "Itinerario",
+      "pt": "Itinerário"
+    },
+    "children": [
+      {
+        "var_name": "voyage_itinerary__port_of_departure__value",
+        "type": "GeoTreeSelect",
+        "label": {
+          "en": "Place of vessel’s departure",
+          "es": "Lugar de salida del buque",
+          "pt": "Local de partida do navio"
+        }
+      },
+      {
+        "label": {
+          "en": "Place where captives were purchased",
+          "es": "Lugar de compra de los cautivos",
+          "pt": "Local de compra dos cativos"
+        },
+        "children": [
+          {
+            "var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__value",
+            "type": "GeoTreeSelect",
+            "label": {
+              "en": "Principal place where captives were purchased (IMP)",
+              "es": "Principal lugar de compra de cautivos (IMP)",
+              "pt": "Principal local de compra de cativos (IMP)"
+            }
+          },
+          {
+            "var_name": "voyage_itinerary__first_place_slave_purchase__value",
+            "type": "GeoTreeSelect",
+            "label": {
+              "en": "First place where captives were purchased",
+              "es": "Primer lugar donde se compraron cautivos",
+              "pt": "Primeiro local onde os cativos foram comprados"
+            }
+          },
+          {
+            "var_name": "voyage_itinerary__second_place_slave_purchase__value",
+            "type": "GeoTreeSelect",
+            "label": {
+              "en": "Second place where captives were purchased",
+              "es": "Segundo lugar donde se compraron cautivos",
+              "pt": "Segundo local de compra de cativos"
+            }
+          },
+          {
+            "var_name": "voyage_itinerary__third_place_slave_purchase__value",
+            "type": "GeoTreeSelect",
+            "label": {
+              "en": "Third place where captives were purchased",
+              "es": "Tercer lugar donde se compraron cautivos",
+              "pt": "Terceiro local de compra de cativos"
+            }
+          }
+        ]
+      },
+      {
+        "var_name": "voyage_itinerary__port_of_call_before_atl_crossing__value",
+        "type": "GeoTreeSelect",
+        "label": {
+          "en": "Places of call before oceanic crossing",
+          "es": "Lugares de escala antes de la travesía oceánica",
+          "pt": "Locais de escala antes da travessia oceânica"
+        }
+      },
+      {
+        "label": {
+          "en": "Place where captives were landed",
+          "es": "Lugar de desembarco de los cautivos",
+          "pt": "Local de desembarque de cativos"
+        },
+        "children": [
+          {
+            "var_name": "voyage_itinerary__imp_principal_port_slave_dis__value",
+            "type": "GeoTreeSelect",
+            "label": {
+              "en": "Principal place where captives were landed (IMP)",
+              "es": "Principal lugar de desembarco de cautivos (IMP)",
+              "pt": "Principal local de desembarque de cativos (IMP)"
+            }
+          },
+          {
+            "var_name": "voyage_itinerary__third_landing_place__value",
+            "type": "GeoTreeSelect",
+            "label": {
+              "en": "First place where captives were landed",
+              "es": "Primer lugar de desembarco de cautivos",
+              "pt": "Primeiro local de desembarque de cativos"
+            }
+          },
+          {
+            "var_name": "voyage_itinerary__second_landing_place__value",
+            "type": "GeoTreeSelect",
+            "label": {
+              "en": "Second place where captives were landed",
+              "es": "Segundo lugar de desembarco de cautivos",
+              "pt": "Segundo local de desembarque de cativos"
+            }
+          },
+          {
+            "var_name": "voyage_itinerary__first_landing_place__value",
+            "type": "GeoTreeSelect",
+            "label": {
+              "en": "Third place where captives were landed",
+              "es": "Tercer place where captives were landed",
+              "pt": "Terceiro local de desembarque de cativos"
+            }
+          }
+        ]
+      },
+      {
+        "var_name": "voyage_itinerary__place_voyage_ended__value",
+        "type": "GeoTreeSelect",
+        "label": {
+          "en": "Place where vessel's voyage ended",
+          "es": "Lugar donde terminó el viaje del buque",
+          "pt": "Local onde terminou a viagem do navio"
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Enslaved",
+      "es": "Esclavizados",
+      "pt": "Escravizados"
+    },
+    "children": [
+      {
+        "label": {
+          "en": "Overall numbers",
+          "es": "Cifras globales",
+          "pt": "Números globais"
+        },
+        "children": [
+          {
+            "var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+            "type": "IntegerField",
+            "label": {
+              "en": "Total embarked (IMP)",
+              "es": "Total embarcados (IMP)",
+              "pt": "Total embarcado (IMP)"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__total_num_slaves_purchased",
+            "type": "IntegerField",
+            "label": {
+              "en": "Total enslaved purchased (IMP)",
+              "es": "Total de esclavos comprados (IMP)",
+              "pt": "Total de escravos comprados (IMP)"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+            "type": "IntegerField",
+            "label": {
+              "en": "Total disembarked (IMP)",
+              "es": "Total desembarcados (IMP)",
+              "pt": "Total desembarcado (IMP)"
+            }
+          }
+        ]
+      },
+      {
+        "label": {
+          "en": "Purchase numbers",
+          "es": "Números de compra",
+          "pt": "Números de compras"
+        },
+        "children": [
+          {
+            "var_name": "voyage_slaves_numbers__num_slaves_intended_first_port",
+            "type": "IntegerField",
+            "label": {
+              "en": "Captives intended to be purchased at first port",
+              "es": "Cautivos destinados a ser comprados en el primer puerto",
+              "pt": "Cativos destinados a ser comprados no primeiro porto"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__num_slaves_carried_first_port",
+            "type": "IntegerField",
+            "label": {
+              "en": "Captives carried from first port",
+              "es": "Cautivos transportados desde el primer puerto",
+              "pt": "Cativos transportados do primeiro porto"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__num_slaves_carried_second_port",
+            "type": "IntegerField",
+            "label": {
+              "en": "Captives carried from second port",
+              "es": "Cautivos transportados desde el segundo puerto",
+              "pt": "Cativos transportados do segundo porto"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__num_slaves_carried_third_port",
+            "type": "IntegerField",
+            "label": {
+              "en": "Captives carried from third port",
+              "es": "Cautivos transportados desde el tercer puerto",
+              "pt": "Cativos transportados do terceiro porto"
+            }
+          }
+        ]
+      },
+      {
+        "label": {
+          "en": "Landing numbers",
+          "es": "Números de aterrizaje",
+          "pt": "Números de aterragem"
+        },
+        "children": [
+          {
+            "var_name": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
+            "type": "IntegerField",
+            "label": {
+              "en": "Captives embarked at first port",
+              "es": "Cautivos embarcados en el primer puerto",
+              "pt": "Cativos embarcados no primeiro porto"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__num_slaves_disembark_first_place",
+            "type": "IntegerField",
+            "label": {
+              "en": "Captives landed at first port",
+              "es": "Cautivos desembarcados en el primer puerto",
+              "pt": "Cativos desembarcados no primeiro porto"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__num_slaves_disembark_second_place",
+            "type": "IntegerField",
+            "label": {
+              "en": "Captives landed at second port",
+              "es": "Cautivos desembarcados en el segundo puerto",
+              "pt": "Cativos desembarcados no segundo porto"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__num_slaves_disembark_third_place",
+            "type": "IntegerField",
+            "label": {
+              "en": "Captives landed at third port",
+              "es": "Cautivos desembarcados en el tercer puerto",
+              "pt": "Cativos desembarcados no terceiro porto"
+            }
+          }
+        ]
+      },
+      {
+        "label": {
+          "en": "Percentage by sex and age",
+          "es": "Porcentaje por sexo y edad",
+          "pt": "Percentagem por sexo e idade"
+        },
+        "children": [
+          {
+            "var_name": "voyage_slaves_numbers__percentage_men",
+            "type": "FloatField",
+            "label": {
+              "en": "Percent men",
+              "es": "Porcentaje de hombres",
+              "pt": "Percentagem de homens"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__percentage_women",
+            "type": "FloatField",
+            "label": {
+              "en": "Percent women",
+              "es": "Porcentaje de mujeres",
+              "pt": "Percentagem de mulheres"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__percentage_boy",
+            "type": "FloatField",
+            "label": {
+              "en": "Percent boys",
+              "es": "Porcentaje de chicos",
+              "pt": "Percentagem de rapazes"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__percentage_girl",
+            "type": "FloatField",
+            "label": {
+              "en": "Percent girls",
+              "es": "Porcentaje de niñas",
+              "pt": "Percentagem de raparigas"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__percentage_male",
+            "type": "FloatField",
+            "label": {
+              "en": "Percent male",
+              "es": "Porcentaje de masculinos",
+              "pt": "Percentagem de masculinos"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__percentage_female",
+            "type": "FloatField",
+            "label": {
+              "en": "Percent female",
+              "es": "Porcentaje de féminas",
+              "pt": "Percentagem de fêmeas"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__percentage_child",
+            "type": "FloatField",
+            "label": {
+              "en": "Percentage children",
+              "es": "Porcentaje de niños",
+              "pt": "Percentagem de crianças"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__percentage_adult",
+            "type": "FloatField",
+            "label": {
+              "en": "Percentage adult",
+              "es": "Porcentaje de adultos",
+              "pt": "Percentagem de adultos"
+            }
+          }
+        ]
+      },
+      {
+        "label": {
+          "en": "Other characteristics",
+          "es": "Otras características",
+          "pt": "Outras características"
+        },
+        "children": [
+          {
+            "var_name": "voyage_slaves_numbers__imp_jamaican_cash_price",
+            "type": "DecimalField",
+            "label": {
+              "en": "Sterling cash price in Jamaica (IMP)",
+              "es": "Precio al contado de la libra esterlina en Jamaica (IMP)",
+              "pt": "Preço à vista da libra esterlina na Jamaica (IMP)"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__imp_mortality_during_voyage",
+            "type": "IntegerField",
+            "label": {
+              "en": "Captive deaths during crossing (IMP)",
+              "es": "Muertes de cautivos durante la travesía (IMP)",
+              "pt": "Mortes de cativos durante a travessia (IMP)"
+            }
+          },
+          {
+            "var_name": "voyage_slaves_numbers__imp_mortality_ratio",
+            "type": "FloatField",
+            "label": {
+              "en": "Percentage of captives who died during crossing (IMP)",
+              "es": "Porcentaje de cautivos que murieron durante la travesía (IMP)",
+              "pt": "Percentagem de prisioneiros que morreram durante a travessia (IMP)"
+            }
+          }
+        ]
+      },
+      {
+        "var_name": "african_info__name",
+        "type": "CharField",
+        "ops": [
+          "icontains"
+        ],
+        "label": {
+          "en": "Captive background",
+          "es": "Información sobre los cautivos",
+          "pt": "Informações sobre os cativos"
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Dates",
+      "es": "Fechas",
+      "pt": "Datas"
+    },
+    "children": [
+      {
+        "label": {
+          "en": "Voyage duration",
+          "es": "Duración del viaje",
+          "pt": "Duração da viagem"
+        },
+        "children": [
+          {
+            "var_name": "voyage_dates__length_middle_passage_days",
+            "type": "IntegerField",
+            "label": {
+              "en": "Duration of captives' crossing (in days)",
+              "es": "Duración de la travesía de los cautivos (en días)",
+              "pt": "Duração da travessia dos cativos (em dias)"
+            }
+          },
+          {
+            "var_name": "voyage_dates__imp_length_home_to_disembark",
+            "type": "IntegerField",
+            "label": {
+              "en": "Voyage duration, homeport to disembarkation (in days)",
+              "es": "Duración del viaje, desde el puerto base hasta el desembarque (en días)",
+              "pt": "Duração da viagem, do porto de origem ao desembarque (em dias)"
+            }
+          }
+        ]
+      },
+      {
+        "label": {
+          "en": "Dates during voyage",
+          "es": "Fechas durante el viaje",
+          "pt": "Datas durante a viagem"
+        },
+        "children": [
+          {
+            "var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+            "type": "IntegerField",
+            "label": {
+              "en": "Year captives were landed (imputed)",
+              "es": "Año de desembarco de los cautivos (imputado)",
+              "pt": "Ano em que os cativos foram desembarcados (imputado)"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Enslavers",
+      "es": "Esclavizadores",
+      "pt": "Escravizadores"
+    },
+    "children": [
+      {
+        "label": {
+          "en": "Captain and investors",
+          "es": "Capitán y inversores",
+          "pt": "Capitão e investidores"
+        },
+        "var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__alias",
+        "type": "EnslaverNameAndRole",
+        "ops": [
+          "icontains"
+        ],
+        "roles": [
+          {
+            "label": {
+              "en": "Investor (in the voyage)",
+              "es": "ES: Inversor (en el viaje)",
+              "pt": "PT: Investidor (na viagem)"
+            },
+            "value": "Investor"
+          },
+          {
+            "label": {
+              "en": "Captain",
+              "es": "Capitán",
+              "pt": "Capitão"
+            },
+            "value": "Captain"
+          },
+          {
+            "label": {
+              "en": "Shipper",
+              "es": "Armador",
+              "pt": "Armador"
+            },
+            "value": "Shipper"
+          },
+          {
+            "label": {
+              "en": "SlaveOwner",
+              "es": "Propietario",
+              "pt": "Proprietário"
+            },
+            "value": "Owner"
+          }
+        ]
+      },
+      {
+        "label": {
+          "en": "Crew in numbers",
+          "es": "Tripulación en números",
+          "pt": "Tripulação em números"
+        },
+        "children": [
+          {
+            "var_name": "voyage_crew__crew_voyage_outset",
+            "type": "IntegerField",
+            "label": {
+              "en": "Crew at voyage outset",
+              "es": "Tripulación al inicio del viaje",
+              "pt": "A tripulação no início da viagem"
+            }
+          },
+          {
+            "var_name": "voyage_crew__crew_first_landing",
+            "type": "IntegerField",
+            "label": {
+              "en": "Crew at first landing of captives",
+              "es": "Tripulación en el primer desembarco de cautivos",
+              "pt": "A tripulação no primeiro desembarque de cativos"
+            }
+          },
+          {
+            "var_name": "voyage_crew__crew_died_complete_voyage",
+            "type": "IntegerField",
+            "label": {
+              "en": "Crew deaths during voyage",
+              "es": "Muertes de la tripulación durante el viaje",
+              "pt": "Mortes de tripulantes durante a viagem"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Outcomes",
+      "es": "Resultados",
+      "pt": "Resultados"
+    },
+    "children": [
+      {
+        "var_name": "voyage_outcome__particular_outcome__name",
+        "type": "MultiselectList",
+        "ops": [
+          "icontains"
+        ],
+        "label": {
+          "en": "Particular Outcome",
+          "es": "Resultado particular",
+          "pt": "Resultado específico"
+        }
+      },
+      {
+        "var_name": "voyage_outcome__outcome_slaves__name",
+        "type": "MultiselectList",
+        "ops": [
+          "icontains"
+        ],
+        "label": {
+          "en": "Outcome of voyage for captives",
+          "es": "Resultado del viaje para los cautivos",
+          "pt": "Resultado da viagem para os cativos"
+        }
+      },
+      {
+        "var_name": "voyage_outcome__vessel_captured_outcome__name",
+        "type": "MultiselectList",
+        "ops": [
+          "icontains"
+        ],
+        "label": {
+          "en": "Outcome of voyage if ship captured",
+          "es": "Resultado del viaje si el barco fue capturado",
+          "pt": "Resultado da viagem se o navio foi capturado"
+        }
+      },
+      {
+        "var_name": "voyage_outcome__outcome_owner__name",
+        "type": "MultiselectList",
+        "ops": [
+          "icontains"
+        ],
+        "label": {
+          "en": "Outcome of voyage for owner",
+          "es": "Resultado del viaje para el propietario",
+          "pt": "Resultado da viagem para o armador"
+        }
+      },
+      {
+        "var_name": "voyage_outcome__resistance__name",
+        "type": "MultiselectList",
+        "ops": [
+          "icontains"
+        ],
+        "label": {
+          "en": "Resistance",
+          "es": "Resistencia",
+          "pt": "Resistência"
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Sources",
+      "es": "Fuentes",
+      "pt": "Fontes"
+    },
+    "var_name": "voyage_source_connections__source__title",
+    "type": "CharField",
+    "ops": [
+      "icontains"
+    ]
+  }
 ]

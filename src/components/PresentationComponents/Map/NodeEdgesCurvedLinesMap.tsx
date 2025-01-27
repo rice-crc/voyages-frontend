@@ -15,8 +15,18 @@ import '@/style/map.scss';
 import { createLogNodeValueScale } from '@/utils/functions/createLogNodeValueScale';
 import { handleHoverCircleMarker } from './handleHoverCircleMarker';
 import { handleHoverMarkerCluster } from './handleHoverMarkerCluster';
-import { DISPOSTIONNODE, ORIGINATIONNODE, ORIGINLanguageGroupKEY, nodeTypeOrigin, nodeTypePostDisembarkation, postDisembarkLocationKEY } from '@/share/CONST_DATA';
-import { setClusterNodeKeyVariable, setClusterNodeValue } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
+import {
+  DISPOSTIONNODE,
+  ORIGINATIONNODE,
+  ORIGINLanguageGroupKEY,
+  nodeTypeOrigin,
+  nodeTypePostDisembarkation,
+  postDisembarkLocationKEY,
+} from '@/share/CONST_DATA';
+import {
+  setClusterNodeKeyVariable,
+  setClusterNodeValue,
+} from '@/redux/getNodeEdgesAggroutesMapDataSlice';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { handerRenderEdges } from './handerRenderEdges';
@@ -24,27 +34,22 @@ import { createTooltipEmbarkDiseEmbarkEdges } from '@/utils/functions/createTool
 import { Filter } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
 
-
 const NodeEdgesCurvedLinesMap = () => {
   const map = useMap();
   const dispatch: AppDispatch = useDispatch();
-  const {
-    styleName: styleNamePage,
-  } = usePageRouter();
+  const { styleName: styleNamePage } = usePageRouter();
 
-  const { nodesData, edgesData, } = useSelector(
+  const { nodesData, edgesData } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
 
   const handleSetClusterKeyValue = (value: string, nodeType: string) => {
-
     if (nodeType === nodeTypeOrigin) {
-      dispatch(setClusterNodeKeyVariable(ORIGINLanguageGroupKEY))
-      dispatch(setClusterNodeValue(value))
-
+      dispatch(setClusterNodeKeyVariable(ORIGINLanguageGroupKEY));
+      dispatch(setClusterNodeValue(value));
     } else if (nodeType === nodeTypePostDisembarkation) {
-      dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY))
-      dispatch(setClusterNodeValue(value))
+      dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY));
+      dispatch(setClusterNodeValue(value));
     }
     const existingFilterObjectString = localStorage.getItem('filterObject');
     let existingFilterObject: any = {};
@@ -53,30 +58,32 @@ const NodeEdgesCurvedLinesMap = () => {
       existingFilterObject = JSON.parse(existingFilterObjectString);
     }
     const existingFilters: Filter[] = existingFilterObject.filter || [];
-    const existingFilterIndex = existingFilters.findIndex(filter => filter.varName === ORIGINLanguageGroupKEY);
+    const existingFilterIndex = existingFilters.findIndex(
+      (filter) => filter.varName === ORIGINLanguageGroupKEY
+    );
     if (existingFilterIndex !== -1) {
-      existingFilters[existingFilterIndex].searchTerm = [value]
+      existingFilters[existingFilterIndex].searchTerm = [value];
     } else {
       const newFilter: Filter = {
         varName: ORIGINLanguageGroupKEY,
         searchTerm: [value!],
-        op: 'in'
+        op: 'in',
       };
       existingFilters.push(newFilter);
     }
 
     if (nodeType) {
       const filterObjectUpdate = {
-        filter: existingFilters
+        filter: existingFilters,
       };
 
       const filterObjectString = JSON.stringify(filterObjectUpdate);
       localStorage.setItem('filterObject', filterObjectString);
     }
-  }
+  };
 
   const updateEdgesAndNodes = () => {
-    const hiddenEdgesLayer = L.layerGroup().addTo(map)
+    const hiddenEdgesLayer = L.layerGroup().addTo(map);
 
     map.eachLayer((layer) => {
       if (
@@ -91,15 +98,17 @@ const NodeEdgesCurvedLinesMap = () => {
     const nodeLogValueScale = createLogNodeValueScale(nodesData);
 
     const hiddenEdges = (edgesData ?? []).filter(
-      (edge: EdgesAggroutes) => edge.type === ORIGINATIONNODE || edge.type === DISPOSTIONNODE
+      (edge: EdgesAggroutes) =>
+        edge.type === ORIGINATIONNODE || edge.type === DISPOSTIONNODE
     );
 
     const edgesToRender = edgesData?.filter(
-      (edge: EdgesAggroutes) => edge.type !== ORIGINATIONNODE && edge.type !== DISPOSTIONNODE
+      (edge: EdgesAggroutes) =>
+        edge.type !== ORIGINATIONNODE && edge.type !== DISPOSTIONNODE
     );
 
     // Render edges when page rendering
-    handerRenderEdges(edgesToRender, nodesData, map)
+    handerRenderEdges(edgesToRender, nodesData, map);
 
     //  Render originMarkerCluster
     const originMarkerCluster = L.markerClusterGroup({
@@ -140,7 +149,7 @@ const NodeEdgesCurvedLinesMap = () => {
         nodesData,
         nodeTypeOrigin,
         handleSetClusterKeyValue,
-        map,
+        map
       );
     });
 
@@ -184,7 +193,7 @@ const NodeEdgesCurvedLinesMap = () => {
         nodesData,
         nodeTypePostDisembarkation,
         handleSetClusterKeyValue,
-        map,
+        map
       );
     });
 
@@ -192,12 +201,8 @@ const NodeEdgesCurvedLinesMap = () => {
     nodesData.forEach((node) => {
       const { data, weights, id: nodeID } = node;
       const { lat, lon, name } = data;
-      const {
-        origin,
-        post_disembarkation,
-        disembarkation,
-        embarkation,
-      } = weights;
+      const { origin, post_disembarkation, disembarkation, embarkation } =
+        weights;
 
       const size = getNodeSize(node);
       const nodeColor = getNodeColorMapVoyagesStyle(node);
@@ -215,7 +220,7 @@ const NodeEdgesCurvedLinesMap = () => {
           nodeID
         );
 
-        const popupContent = createTooltipEmbarkDiseEmbarkEdges(node)
+        const popupContent = createTooltipEmbarkDiseEmbarkEdges(node);
 
         circleMarker.bindPopup(popupContent).bringToFront();
 
@@ -231,9 +236,9 @@ const NodeEdgesCurvedLinesMap = () => {
             originNodeMarkersMap,
             originMarkerCluster,
             handleSetClusterKeyValue, // WAIT To Change if want to show table,
-            map,
+            map
           );
-        })
+        });
 
         if (disembarkation !== 0 || embarkation !== 0) {
           circleMarker.addTo(map).bringToFront();
@@ -242,10 +247,14 @@ const NodeEdgesCurvedLinesMap = () => {
           originMarkerCluster.addLayer(circleMarker).bringToFront();
           originMarkerCluster.addLayer(originMarker).bringToFront();
         } else if (
-          (Number(post_disembarkation) && Number(post_disembarkation) > 0) &&
-          (disembarkation === 0 && embarkation === 0)
+          Number(post_disembarkation) &&
+          Number(post_disembarkation) > 0 &&
+          disembarkation === 0 &&
+          embarkation === 0
         ) {
-          postDisembarkationsMarkerCluster.addLayer(circleMarker).bringToFront();
+          postDisembarkationsMarkerCluster
+            .addLayer(circleMarker)
+            .bringToFront();
         }
       }
     });
@@ -255,7 +264,6 @@ const NodeEdgesCurvedLinesMap = () => {
       map.addLayer(originMarkerCluster);
       map.addLayer(postDisembarkationsMarkerCluster);
     }
-
   };
 
   useEffect(() => {
@@ -268,4 +276,3 @@ const NodeEdgesCurvedLinesMap = () => {
 };
 
 export default NodeEdgesCurvedLinesMap;
-

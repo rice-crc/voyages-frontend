@@ -1,6 +1,9 @@
 import { Button, Hidden } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
+import {
+  setCurrentBlockName,
+  setCurrentEnslavedPage,
+} from '@/redux/getScrollEnslavedPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   getColorBTNBackgroundEnslaved,
@@ -11,14 +14,18 @@ import {
 } from '@/utils/functions/getColorStyle';
 import '@/style/page.scss';
 import { setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
-import { ALLENSLAVED, } from '@/share/CONST_DATA';
+import { ALLENSLAVED } from '@/share/CONST_DATA';
 import { setFilterObject, setIsFilter } from '@/redux/getFilterSlice';
 import { useNavigate } from 'react-router-dom';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { useEffect } from 'react';
-import { setPeopleEnslavedBlocksMenuList, } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import { setPeopleEnslavedBlocksMenuList } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/people_collections.json';
-import { LabelFilterMeneList, TYPESOFBLOCKENSLAVED, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
+import {
+  LabelFilterMeneList,
+  TYPESOFBLOCKENSLAVED,
+  TYPESOFDATASETPEOPLE,
+} from '@/share/InterfaceTypes';
 import { BlockCollectionProps } from '@/share/InterfactTypesDatasetCollection';
 import { checkBlockCollectionNameForEnslaved } from '@/utils/functions/checkBlockCollectionName';
 
@@ -33,30 +40,40 @@ const CollectionTabEnslaved = () => {
     (state: RootState) => state.getScrollEnslavedPage
   );
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
 
   useEffect(() => {
-    if (currentBlockName === 'table' && styleName === TYPESOFDATASETPEOPLE.africanOrigins) {
-      dispatch(setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks));
+    if (
+      currentBlockName === 'table' &&
+      styleName === TYPESOFDATASETPEOPLE.africanOrigins
+    ) {
+      dispatch(
+        setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[1].blocks)
+      );
     }
-
-  }, [styleName, currentBlockName,]);
-
+  }, [styleName, currentBlockName]);
 
   const handlePageNavigation = (page: number, blockName: string) => {
-
     if (page === 1) {
       dispatch(setIsFilter(false));
     }
     dispatch(setCurrentEnslavedPage(page));
-    dispatch(setCurrentBlockName(blockName))
+    dispatch(setCurrentBlockName(blockName));
     if (page === 2) {
       dispatch(setPathNameEnslaved(ALLENSLAVED));
     }
-    if (checkBlockCollectionNameForEnslaved(blockName) === TYPESOFBLOCKENSLAVED.enslavedEN) {
-      navigate(`#${TYPESOFBLOCKENSLAVED.enslavedEN.toLowerCase()}`)
-    } else if (checkBlockCollectionNameForEnslaved(blockName) === TYPESOFBLOCKENSLAVED.mapEN) {
-      navigate(`#${TYPESOFBLOCKENSLAVED.mapEN.toLowerCase()}`)
+    if (
+      checkBlockCollectionNameForEnslaved(blockName) ===
+      TYPESOFBLOCKENSLAVED.enslavedEN
+    ) {
+      navigate(`#${TYPESOFBLOCKENSLAVED.enslavedEN.toLowerCase()}`);
+    } else if (
+      checkBlockCollectionNameForEnslaved(blockName) ===
+      TYPESOFBLOCKENSLAVED.mapEN
+    ) {
+      navigate(`#${TYPESOFBLOCKENSLAVED.mapEN.toLowerCase()}`);
     }
     dispatch(setFilterObject(filtersObj));
   };
@@ -81,13 +98,33 @@ const CollectionTabEnslaved = () => {
                   cursor: 'pointer',
                   textTransform: 'unset',
                   backgroundColor: getColorBTNBackgroundEnslaved(styleName!),
-                  boxShadow: currentPageBlockName === checkBlockCollectionNameForEnslaved(newBlockName.toLocaleLowerCase()) ? getColorBoxShadowEnslaved(styleName!) : '',
-                  color: currentPageBlockName === checkBlockCollectionNameForEnslaved(newBlockName.toLocaleLowerCase()) ? 'white' : getColorTextCollection(styleName!),
-                  fontWeight: currentPageBlockName === checkBlockCollectionNameForEnslaved(newBlockName.toLocaleLowerCase()) ? 'bold' : 600,
+                  boxShadow:
+                    currentPageBlockName ===
+                    checkBlockCollectionNameForEnslaved(
+                      newBlockName.toLocaleLowerCase()
+                    )
+                      ? getColorBoxShadowEnslaved(styleName!)
+                      : '',
+                  color:
+                    currentPageBlockName ===
+                    checkBlockCollectionNameForEnslaved(
+                      newBlockName.toLocaleLowerCase()
+                    )
+                      ? 'white'
+                      : getColorTextCollection(styleName!),
+                  fontWeight:
+                    currentPageBlockName ===
+                    checkBlockCollectionNameForEnslaved(
+                      newBlockName.toLocaleLowerCase()
+                    )
+                      ? 'bold'
+                      : 600,
                   fontSize: '0.80rem',
                   '&:hover': {
-                    backgroundColor: getColorHoverBackgroundCollection(styleName!!),
-                    color: getColorBTNVoyageDatasetBackground(styleName!)
+                    backgroundColor: getColorHoverBackgroundCollection(
+                      styleName!!
+                    ),
+                    color: getColorBTNVoyageDatasetBackground(styleName!),
                   },
                   '&:disabled': {
                     color: '#fff',
@@ -95,7 +132,9 @@ const CollectionTabEnslaved = () => {
                     cursor: 'not-allowed',
                   },
                 }}
-                variant={currentEnslavedPage === buttonIndex ? 'contained' : 'outlined'}
+                variant={
+                  currentEnslavedPage === buttonIndex ? 'contained' : 'outlined'
+                }
               >
                 {blockName}
               </Button>
@@ -103,7 +142,7 @@ const CollectionTabEnslaved = () => {
           })}
         </nav>
       </div>
-    </Hidden >
+    </Hidden>
   );
 };
 

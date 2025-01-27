@@ -18,19 +18,23 @@ import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
-import { setPathEnslavers, setPathNameEnslaved } from '@/redux/getDataPathNameSlice';
+import {
+  setPathEnslavers,
+  setPathNameEnslaved,
+} from '@/redux/getDataPathNameSlice';
 import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import HeaderLogo from './HeaderLogo';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import { LabelFilterMeneList } from '@/share/InterfaceTypes';
 import { HeaderDrawerMenuPeopleBar } from './HeaderDrawerMenuPeopleBar';
 
-
 export default function HeaderPeopleNavBar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const dispatch: AppDispatch = useDispatch();
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -40,16 +44,24 @@ export default function HeaderPeopleNavBar() {
   };
 
   const handleSelectMenuItems = (item: string) => {
-    dispatch(resetAllStateToInitailState())
+    dispatch(resetAllStateToInitailState());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
-    if (item === "Enslaved" || item === "Esclavizados" || item === "Escravizados") {
+    if (
+      item === 'Enslaved' ||
+      item === 'Esclavizados' ||
+      item === 'Escravizados'
+    ) {
       navigate(`${ENSALVEDPAGE}${AFRICANORIGINSPAGE}#people`);
       dispatch(setCurrentEnslavedPage(1));
       dispatch(setPathNameEnslaved(AFRICANORIGINS));
-    } else if (item === "Enslavers" || item === "Esclavistas" || item === "Escravizadores") {
+    } else if (
+      item === 'Enslavers' ||
+      item === 'Esclavistas' ||
+      item === 'Escravizadores'
+    ) {
       navigate(`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}#people`);
       dispatch(setCurrentEnslaversPage(1));
       dispatch(setPathEnslavers(ALLENSLAVERS));
@@ -88,20 +100,24 @@ export default function HeaderPeopleNavBar() {
               width: { xs: 200, sm: 220 },
               fontWeight: { sm: 600, md: 500 },
             }}
-
           >
-            <span className='header-logo-icon-people'>
+            <span className="header-logo-icon-people">
               <HeaderLogo />
               {PEOPLE.map((item, index) => {
-                const { title } = item
-                const textHeaderTitle = (title.label as LabelFilterMeneList)[languageValue];
+                const { title } = item;
+                const textHeaderTitle = (title.label as LabelFilterMeneList)[
+                  languageValue
+                ];
                 return (
-                  <div className="people-header" key={`${index}-${textHeaderTitle}`}>{textHeaderTitle}</div>
-                )
+                  <div
+                    className="people-header"
+                    key={`${index}-${textHeaderTitle}`}
+                  >
+                    {textHeaderTitle}
+                  </div>
+                );
               })}
-
             </span>
-
           </Typography>
           <Box
             className="menu-nav-bar-select-box"
@@ -119,10 +135,12 @@ export default function HeaderPeopleNavBar() {
               },
             }}
           >
-            {PEOPLE.map((items) => (
+            {PEOPLE.map((items) =>
               items.header.map((title, index) => {
-                const { label: textLabel } = title
-                const textTitle = (textLabel as LabelFilterMeneList)[languageValue];
+                const { label: textLabel } = title;
+                const textTitle = (textLabel as LabelFilterMeneList)[
+                  languageValue
+                ];
                 return (
                   <Button
                     onClick={() => handleSelectMenuItems(textTitle)}
@@ -137,9 +155,9 @@ export default function HeaderPeopleNavBar() {
                   >
                     <div>{textTitle}</div>
                   </Button>
-                )
+                );
               })
-            ))}
+            )}
             <LanguagesDropdown />
           </Box>
         </Toolbar>

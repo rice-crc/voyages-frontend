@@ -1,10 +1,12 @@
-import {RootState} from '@/redux/store';
+import { RootState } from '@/redux/store';
 import '@/style/networks.scss';
-import {translatedConnection} from '@/utils/functions/translationLanguages';
-import {Divider} from '@mui/material';
-import {useSelector} from 'react-redux';
+import { translatedConnection } from '@/utils/functions/translationLanguages';
+import { Divider } from '@mui/material';
+import { useSelector } from 'react-redux';
 const ShowsAcoloredNodeKey = () => {
-  const {languageValue} = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
   const translated = translatedConnection(languageValue);
   return (
     <div className="colored-box">
@@ -24,7 +26,7 @@ const ShowsAcoloredNodeKey = () => {
         <div className="circle connection"></div>
         <p>{translated.connection}</p>
       </div>
-      <Divider style={{margin: 10}} />
+      <Divider style={{ margin: 10 }} />
       <div className="div-box-line">
         <div className="line-edges captain"></div>
         <p>{translated.captain}</p>
@@ -34,18 +36,18 @@ const ShowsAcoloredNodeKey = () => {
         <p>{translated.owner}</p>
       </div>
       <div className="div-box-line">
-        < div className="line-edges shipper" ></div >
+        <div className="line-edges shipper"></div>
         <p>{translated.shipper}</p>
-      </div >
+      </div>
       <div className=" div-box-line">
-        < div className="line-edges consignor" ></div >
+        <div className="line-edges consignor"></div>
         <p>{translated.consignor}</p>
-      </div >
+      </div>
       <div className=" div-box-line">
-        < div className="line-edges shipper-consignor" ></div >
+        <div className="line-edges shipper-consignor"></div>
         <p>{translated.consignor}</p>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
 export default ShowsAcoloredNodeKey;

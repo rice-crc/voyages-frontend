@@ -8,7 +8,8 @@ export const ALLVOYAGESTABLEFILE = 'voyages_all_table.json';
 export const TRANSATLANTICFILECARD = 'voyages_transatlantic_card.json';
 export const INTRAAMERICANFILECARD = 'voyages_intraamerican_card.json';
 export const ALLVOYAGESFILECARD = 'voyages_all_card.json';
-export const ENSLAVED_african_origins_CARDFILE = 'enslaved_african_origins_card.json';
+export const ENSLAVED_african_origins_CARDFILE =
+  'enslaved_african_origins_card.json';
 export const ENSLAVED_ALL_CARDFILE = 'enslaved_all_card_menu.json';
 export const ENSLAVED_TEXAS_CARDFILE = 'enslaved_texas_card.json';
 export const ENSLAVERSCARDFILE = 'enslavers_card.json';
@@ -59,13 +60,11 @@ export const allEnslavers = 'enslaver';
 export const INTRAAMERICANTRADS = 'intra-american-trades';
 export const TRANSATLANTICTRADS = 'trans-atlantic-trades';
 
-
 export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGhqMXZ5YmxjZCJ9.eP7ZuC68Q5iBZQa8I13AGw`;
 
 export const mappingSpecialists = `https://api.mapbox.com/styles/v1/jcm10/clbmdqh2q000114o328k5yjpf/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
 export const mappingSpecialistsRivers = `https://api.mapbox.com/styles/v1/jcm10/cl98xvv9r001z14mm17w970no/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
 export const mappingSpecialistsCountries = `https://api.mapbox.com/styles/v1/jcm10/cl98yryw3003t14o66r6fx4m9/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
-
 
 export const MAP_CENTER: [number, number] = [5.486678, -35.59375];
 export const MAXIMUM_NATIVE_ZOOM = 10;
@@ -101,10 +100,10 @@ export const VOYAGESNODE = 'voyage';
 export const VOYAGESNODECLASS = 'voyages';
 export const ENSLAVEMENTNODE = 'enslavement_relations';
 export const classToColor = {
-    enslaved: '#906866',
-    enslavers: '#46A88C',
-    enslavement_relations: '#ab47bc',
-    voyages: '#F2EE0A',
+  enslaved: '#906866',
+  enslavers: '#46A88C',
+  enslavement_relations: '#ab47bc',
+  voyages: '#F2EE0A',
 };
 export const RADIUSNODE = 17;
 export const cachenamePivot = `voyage_pivot_tables`;
@@ -113,7 +112,6 @@ export const GlobalSearchVoyagesType = 'voyages';
 export const GlobalSearchEnslavedType = 'enslaved';
 export const GlobalSearchEnslaversType = 'enslavers';
 export const GlobalSearchBlogType = 'blog';
-
 
 export const ASSESSMENT = 'assessment';
 export const ESTIMATES = 'estimates';
@@ -135,10 +133,8 @@ export const FrenchCaribbeanValue = 'French Caribbean';
 export const MainlandNorthAmericaValue = 'Mainland North America';
 export const SpanishAmericasValue = 'Spanish Americas';
 
-
-
 export const Disembarked = 'Disembarked ';
-export const Embarked = "Embarked";
+export const Embarked = 'Embarked';
 export const ABOUTPAGE = 'about';
 export const DOWNLOADS = '/voyage/downloads';
 
@@ -150,14 +146,17 @@ export const AfricanOriginsTransAtlantic = 'African Origins/Trans-Atlantic';
 export const TEXBOUND = 'Texas Bound';
 export const EnslaversAllTrades = 'All Trades';
 
-
 export const varNameOfFlagOfVessel = 'voyage_ship__nationality_ship__name';
-export const varNameOfFlagOfVesselIMP = 'voyage_ship__imputed_nationality__name';
+export const varNameOfFlagOfVesselIMP =
+  'voyage_ship__imputed_nationality__name';
 export const varNameOfResistance = 'voyage_outcome__resistance__name';
-export const varNameParticularCoutComeList = 'voyage_outcome__particular_outcome__name';
+export const varNameParticularCoutComeList =
+  'voyage_outcome__particular_outcome__name';
 export const varNameRigOfVesselList = 'voyage_ship__rig_of_vessel__name';
 export const varNameOwnerOutcomeList = 'voyage_outcome__outcome_owner__name';
 export const varNameTonTypList = 'voyage_ship__ton_type__name';
 export const varNameSlavesOutcomeList = 'voyage_outcome__outcome_slaves__name';
-export const varNameVesselCapturedOutcomeList = 'voyage_outcome__vessel_captured_outcome__name';
-export const varNameEnslaverRoleList = 'aliases__enslaver_relations__roles__name';
+export const varNameVesselCapturedOutcomeList =
+  'voyage_outcome__vessel_captured_outcome__name';
+export const varNameEnslaverRoleList =
+  'aliases__enslaver_relations__roles__name';
