@@ -139,7 +139,6 @@ const VoyageCard = () => {
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
   }, [nodeTypeClass, cardRowID, dispatch, cardFileName]);
-  console.log({ cardFileName });
 
   const fetchData = async () => {
     const ID = networkID || cardRowID;
