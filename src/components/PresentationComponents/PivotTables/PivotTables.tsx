@@ -411,42 +411,45 @@ const PivotTables = () => {
 
   return (
     <div className="mobile-responsive">
-      <div className="ag-theme-alpine grid-container">
-        <div>
-          <SelectDropdownPivotable
-            selectedPivottablesOptions={pivotValueOptions}
-            selectRowValue={rowVars}
-            selectColumnValue={columnVars}
-            selectCellValue={cellVars}
-            handleChangeOptions={handleChangeOptions}
+      <div style={{
+        width: '100%', display: 'flex', flexDirection: 'column'
+      }}>
+        <SelectDropdownPivotable
+          selectedPivottablesOptions={pivotValueOptions}
+          selectRowValue={rowVars}
+          selectColumnValue={columnVars}
+          selectCellValue={cellVars}
+          handleChangeOptions={handleChangeOptions}
+          aggregation={aggregation}
+        />
+        <span className="tableContainer">
+          <RadioSelected
+            handleChange={handleChangeAggregation}
             aggregation={aggregation}
           />
-          <span className="tableContainer">
-            <RadioSelected
-              handleChange={handleChangeAggregation}
-              aggregation={aggregation}
-            />
-            <div className="button-export-csv">
-              <Button
-                onClick={handleButtonExportCSV}
-                style={{
-                  boxShadow: getColorBoxShadow(styleName!),
-                }}
-                sx={{
-                  backgroundColor: getColorBTNVoyageDatasetBackground(
-                    styleName!
-                  ),
-                  boxShadow: getColorBoxShadow(styleName!),
-                  '&:hover': {
-                    backgroundColor: getColorHoverBackground(styleName!),
-                  },
-                }}
-              >
-                {DownloadCSVExport}
-              </Button>
-            </div>
-          </span>
-
+          <div className="button-export-csv">
+            <Button
+              onClick={handleButtonExportCSV}
+              style={{
+                boxShadow: getColorBoxShadow(styleName!),
+              }}
+              sx={{
+                backgroundColor: getColorBTNVoyageDatasetBackground(
+                  styleName!
+                ),
+                boxShadow: getColorBoxShadow(styleName!),
+                '&:hover': {
+                  backgroundColor: getColorHoverBackground(styleName!),
+                },
+              }}
+            >
+              {DownloadCSVExport}
+            </Button>
+          </div>
+        </span>
+        <div className="ag-theme-alpine grid-container ag-theme-balham" style={{
+          height: 'calc(70vh - 220px)', width: '100%', display: 'flex', flexDirection: 'column', overflowY: 'auto',
+        }}>
           <CustomTablePagination
             disablescrolllock={true.toString()}
             component="span"
@@ -477,14 +480,15 @@ const PivotTables = () => {
             tooltipHideDelay={1000}
             groupDefaultExpanded={-1}
           />
-          <div className="pagination-div">
-            <Pagination
-              color="primary"
-              count={pageCount}
-              page={page + 1}
-              onChange={handleChangePagePagination}
-            />
-          </div>
+
+        </div>
+        <div className="pagination-div">
+          <Pagination
+            color="primary"
+            count={pageCount}
+            page={page + 1}
+            onChange={handleChangePagePagination}
+          />
         </div>
       </div>
     </div>
