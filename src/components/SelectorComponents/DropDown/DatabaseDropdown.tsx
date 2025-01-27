@@ -11,7 +11,11 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { translationDataBasePage } from '@/utils/functions/translationLanguages';
 import { LabelFilterMeneList } from '@/share/InterfaceTypes';
 import { Link } from 'react-router-dom';
-import { ENSALVEDROUTE, ENSALVERSROUTE, VOYAGEPATHENPOINT } from '@/share/CONST_DATA';
+import {
+  ENSALVEDROUTE,
+  ENSALVERSROUTE,
+  VOYAGEPATHENPOINT,
+} from '@/share/CONST_DATA';
 
 interface DatabaseDropdownProps {
   onClickReset: () => void;
@@ -20,12 +24,18 @@ interface DatabaseDropdownProps {
 export default function DatabaseDropdown(props: DatabaseDropdownProps) {
   const { onClickReset } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [headerTitle, setHeadTitle] = useState('')
+  const [headerTitle, setHeadTitle] = useState('');
   const open = Boolean(anchorEl);
-  const { styleName: styleNameRoute, endpointPath, endpointPeopleDirect } = usePageRouter();
+  const {
+    styleName: styleNameRoute,
+    endpointPath,
+    endpointPeopleDirect,
+  } = usePageRouter();
 
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-  const translatedPageValue = translationDataBasePage(languageValue)
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
+  const translatedPageValue = translationDataBasePage(languageValue);
 
   useEffect(() => {
     if (endpointPath === VOYAGEPATHENPOINT) {
@@ -35,7 +45,7 @@ export default function DatabaseDropdown(props: DatabaseDropdownProps) {
     } else if (endpointPeopleDirect === ENSALVERSROUTE) {
       setHeadTitle(translatedPageValue.enslaversPage);
     }
-  }, [headerTitle, languageValue])
+  }, [headerTitle, languageValue]);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -51,7 +61,7 @@ export default function DatabaseDropdown(props: DatabaseDropdownProps) {
         sx={{
           textTransform: 'none',
         }}
-        className='button-header'
+        className="button-header"
         // style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 700 }}
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
@@ -85,23 +95,22 @@ export default function DatabaseDropdown(props: DatabaseDropdownProps) {
         PaperProps={{ sx: { width: styleNameRoute ? null : '150px' } }}
       >
         {PagesOptions.map((value) => {
-          const { name, label, pathUrl } = value.page
+          const { name, label, pathUrl } = value.page;
           const labelPage = (label! as LabelFilterMeneList)[languageValue];
-          return labelPage !== headerTitle ? <MenuItem
-            style={{ fontSize: '1rem' }}
-            key={name}
-          >
-            <Link
-              to={pathUrl}
-              onClick={onClickReset}
-              style={{
-                textDecoration: 'none',
-                color: '#000',
-              }}
-            >
-              {labelPage!}
-            </Link>
-          </MenuItem> : null
+          return labelPage !== headerTitle ? (
+            <MenuItem style={{ fontSize: '1rem' }} key={name}>
+              <Link
+                to={pathUrl}
+                onClick={onClickReset}
+                style={{
+                  textDecoration: 'none',
+                  color: '#000',
+                }}
+              >
+                {labelPage!}
+              </Link>
+            </MenuItem>
+          ) : null;
         })}
       </Menu>
     </div>

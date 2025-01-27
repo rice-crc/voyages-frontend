@@ -11,7 +11,7 @@ const ModalNetworksGraph = () => {
   const { isOpenDialog } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
-
+  const { type: typeData } = useSelector((state: RootState) => state.getFilter);
   const handleClose = () => {
     dispatch(setsetOpenModalNetworks(false));
   };
@@ -26,7 +26,7 @@ const ModalNetworksGraph = () => {
       sx={{ styleModalNetworks }}
     >
       <Box sx={styleModalNetworks}>
-        <GeoTreeSelected />
+        <GeoTreeSelected type={typeData} />
       </Box>
     </Modal>
   );

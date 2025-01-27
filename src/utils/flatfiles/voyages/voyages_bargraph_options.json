@@ -1,238 +1,382 @@
 {
-	"x_vars": [
-		{
-			"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Year of arrival at port of disembarkation (YEARAM)"
-		},
-		{
-			"var_name": "voyage_dates__voyage_completed_sparsedate__month",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Month on which slave voyage completed (DATARR44,43,45)"
-		},
-		{
-			"var_name": "voyage_dates__departure_last_place_of_landing_sparsedate__month",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Month of departure from last place of landing (DDEPAMB,*,C)"
-		},
-		{
-			"var_name": "voyage_dates__date_departed_africa_sparsedate__month",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Month vessel departed Africa (DATELEFTAFR)"
-		},
-		{
-			"var_name": "voyage_dates__first_dis_of_slaves_sparsedate__month",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Month of first disembarkation of slaves (DATARR33,32,34)"
-		},
-		{
-			"var_name": "voyage_dates__slave_purchase_began_sparsedate__month",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Month that slave purchase began (D1SLATRB,A,C)"
-		},
-		{
-			"var_name": "voyage_dates__voyage_began_sparsedate__month",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Month that voyage began (DATEDEPB,A,C)"
-		},
-		{
-			"var_name": "voyage_itinerary__region_of_return__name",
-			"type": "table",
-			"label": "Region of return (RETRNREG)"
-		},
-		{
-			"var_name": "voyage_itinerary__place_voyage_ended__name",
-			"type": "table",
-			"label": "Place at which voyage ended (PORTRET)"
-		},
-		{
-			"var_name": "voyage_itinerary__imp_broad_region_slave_dis__name",
-			"type": "table",
-			"label": "Imputed broad region of slave disembarkation (MJSELIMP1)"
-		},
-		{
-			"var_name": "voyage_itinerary__imp_principal_region_slave_dis__name",
-			"type": "table",
-			"label": "Imputed principal region of slave disembarkation (MJSELIMP)"
-		},
-		{
-			"var_name": "voyage_itinerary__imp_principal_port_slave_dis__name",
-			"type": "table",
-			"label": "Imputed principal port of slave disembarkation (MJSLPTIMP)"
-		},
-		{
-			"var_name": "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
-			"type": "table",
-			"label": "Imputed principal region of slave purchase (MAJBYIMP)"
-		},
-		{
-			"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
-			"type": "table",
-			"label": "Imputed principal place of slave purchase (MJBYPTIMP)"
-		},
-		{
-			"var_name": "voyage_itinerary__imp_region_voyage_begin__name",
-			"type": "table",
-			"label": "Imputed region where voyage began (DEPTREGIMP)"
-		},
-		{
-			"var_name": "voyage_itinerary__imp_port_voyage_begin__name",
-			"type": "table",
-			"label": "Imputed port where voyage began (PTDEPIMP)"
-		},
-		{
-			"var_name": "voyage_outcome__vessel_captured_outcome__name",
-			"type": "<class 'rest_framework.fields.CharField'>",
-			"label": "Vessel Captured Outcome"
-		},
-		{
-			"var_name": "voyage_outcome__resistance__name",
-			"type": "<class 'rest_framework.fields.CharField'>",
-			"label": "Resistance"
-		},
-		{
-			"var_name": "voyage_outcome__outcome_slaves__name",
-			"type": "<class 'rest_framework.fields.CharField'>",
-			"label": "Slaves Outcome"
-		},
-		{
-			"var_name": "voyage_outcome__outcome_owner__name",
-			"type": "<class 'rest_framework.fields.CharField'>",
-			"label": "Owner Outcome"
-		},
-		{
-			"var_name": "voyage_outcome__particular_outcome__name",
-			"type": "<class 'rest_framework.fields.CharField'>",
-			"label": "Particular Outcome"
-		},
-		{
-			"var_name": "voyage_ship__rig_of_vessel__name",
-			"type": "<class 'rest_framework.fields.CharField'>",
-			"label": "Rig of Vessel"
-		},
-		{
-			"var_name": "voyage_ship__imputed_nationality__name",
-			"type": "<class 'rest_framework.fields.CharField'>",
-			"label": "Imputed Ship Nationality"
-		}
-	],
-	"y_vars": [
-		{
-			"var_name": "voyage_ship__tonnage_mod",
-			"type": "<class 'rest_framework.fields.DecimalField'>",
-			"label": "Tonnage standardized on British measured tons 1773-1870",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_dates__imp_length_home_to_disembark",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Voyage length from home port to disembarkation (days) (VOY1IMP)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_dates__length_middle_passage_days",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Length of Middle Passage in (days) (VOYAGE)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_crew__crew_first_landing",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Crew at first landing of slaves",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_crew__crew_voyage_outset",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Crew at voyage outset",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__percentage_male",
-			"type": "<class 'rest_framework.fields.FloatField'>",
-			"label": "Percentage male on voyage (MALRAT7)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__percentage_child",
-			"type": "<class 'rest_framework.fields.FloatField'>",
-			"label": "Percentage children on voyage (CHILRAT7)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__percentage_girl",
-			"type": "<class 'rest_framework.fields.FloatField'>",
-			"label": "Percentage girl on voyage (GIRLRAT7)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__percentage_boy",
-			"type": "<class 'rest_framework.fields.FloatField'>",
-			"label": "Percentage boy on voyage (BOYRAT7)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__percentage_women",
-			"type": "<class 'rest_framework.fields.FloatField'>",
-			"label": "Percentage women on voyage (WOMRAT7)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__percentage_men",
-			"type": "<class 'rest_framework.fields.FloatField'>",
-			"label": "Percentage men on voyage (MENRAT7)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Total slaves disembarked imputed * (SLAMIMP)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		},
-		{
-			"var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
-			"type": "<class 'rest_framework.fields.IntegerField'>",
-			"label": "Total slaves embarked imputed * (slaximp)",
-			"agg_fns": [
-				"sum",
-				"mean"
-			]
-		}
-	]
+  "x_vars": [
+    {
+      "var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Year of arrival at port of disembarkation (YEARAM)",
+        "es": "ES: Año de llegada al puerto de desembarque (YEARAM)",
+        "pt": "PT: Ano de chegada ao porto de desembarque (YEARAM)"
+      }
+    },
+    {
+      "var_name": "voyage_dates__voyage_completed_sparsedate__month",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Month on which slave voyage completed (DATARR44,43,45)",
+        "es": "ES: Mes en que la travesía de esclavos se completó (DATARR44,43,45)",
+        "pt": "PT: Mes em que a travessia de escravos foi completada (DATARR44,43,45)"
+      }
+    },
+    {
+      "var_name": "voyage_dates__departure_last_place_of_landing_sparsedate__month",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Month of departure from last place of landing (DDEPAMB,*,C)",
+        "es": "ES: Mes de salida del último lugar de desembarque (DDEPAMB,*,C)",
+        "pt": "PT: Mes de saída do último lugar de desembarque (DDEPAMB,*,C)"
+      }
+    },
+    {
+      "var_name": "voyage_dates__date_departed_africa_sparsedate__month",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Month vessel departed Africa (DATELEFTAFR)",
+        "es": "ES: Mes en que el barco salió de África (DATELEFTAFR)",
+        "pt": "PT: Mes em que o barco saiu de África (DATELEFTAFR)"
+      }
+    },
+    {
+      "var_name": "voyage_dates__first_dis_of_slaves_sparsedate__month",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Month of first disembarkation of slaves (DATARR33,32,34)",
+        "es": "ES: Mes del primer desembarque de esclavos (DATARR33,32,34)",
+        "pt": "PT: Mes do primeiro desembarque de escravos (DATARR33,32,34)"
+      }
+    },
+    {
+      "var_name": "voyage_dates__slave_purchase_began_sparsedate__month",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Month that slave purchase began (D1SLATRB,A,C)",
+        "es": "ES: Mes en que la compra de esclavos comenzó (D1SLATRB,A,C)",
+        "pt": "PT: Mes em que a compra de escravos começou (D1SLATRB,A,C)"
+      }
+    },
+    {
+      "var_name": "voyage_dates__voyage_began_sparsedate__month",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Month that voyage began (DATEDEPB,A,C)",
+        "es": "ES: Mes en que la travesía comenzó (DATEDEPB,A,C)",
+        "pt": "PT: Mes em que a travessia começou (DATEDEPB,A,C)"
+      }
+    },
+    {
+      "var_name": "voyage_itinerary__region_of_return__name",
+      "type": "table",
+      "label": {
+        "en": "Region of return (RETRNREG)",
+        "es": "ES: Región de regreso (RETRNREG)",
+        "pt": "PT: Região de retorno (RETRNREG)"
+      }
+    },
+    {
+      "var_name": "voyage_itinerary__place_voyage_ended__name",
+      "type": "table",
+      "label": {
+        "en": "Place at which voyage ended (PORTRET)",
+        "es": "ES: Lugar en que la travesía terminó (PORTRET)",
+        "pt": "PT: Lugar em que a travessia terminou (PORTRET)"
+      }
+    },
+    {
+      "var_name": "voyage_itinerary__imp_broad_region_slave_dis__name",
+      "type": "table",
+      "label": {
+        "en": "Imputed broad region of slave disembarkation (MJSELIMP1)",
+        "es": "ES: Región de esclavos desembarcados imputada (MJSELIMP1)",
+        "pt": "PT: Região de escravos desembarcados imputada (MJSELIMP1)"
+      }
+    },
+    {
+      "var_name": "voyage_itinerary__imp_principal_region_slave_dis__name",
+      "type": "table",
+      "label": {
+        "en": "Imputed principal region of slave disembarkation (MJSELIMP)",
+        "es": "ES: Región de esclavos desembarcados imputada (MJSELIMP)",
+        "pt": "PT: Região de escravos desembarcados imputada (MJSELIMP)"
+      }
+    },
+    {
+      "var_name": "voyage_itinerary__imp_principal_port_slave_dis__name",
+      "type": "table",
+      "label": {
+        "en": "Imputed principal port of slave disembarkation (MJSLPTIMP)",
+        "es": "ES: Puerto de esclavos desembarcados imputado (MJSLPTIMP)",
+        "pt": "PT: Porto de escravos desembarcados imputado (MJSLPTIMP)"
+      }
+    },
+    {
+      "var_name": "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
+      "type": "table",
+      "label": {
+        "en": "Imputed principal region of slave purchase (MAJBYIMP)",
+        "es": "ES: Región de compra de esclavos imputada (MAJBYIMP)",
+        "pt": "PT: Região de compra de escravos imputada (MAJBYIMP)"
+      }
+    },
+    {
+      "var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+      "type": "table",
+      "label": {
+        "en": "Imputed principal place of slave purchase (MJBYPTIMP)",
+        "es": "ES: Lugar de compra de esclavos imputado (MJBYPTIMP)",
+        "pt": "PT: Lugar de compra de escravos imputado (MJBYPTIMP)"
+      }
+    },
+    {
+      "var_name": "voyage_itinerary__imp_region_voyage_begin__name",
+      "type": "table",
+      "label": {
+        "en": "Imputed region where voyage began (DEPTREGIMP)",
+        "es": "ES: Región donde la travesía comenzó (DEPTREGIMP)",
+        "pt": "PT: Região onde a travessia começou (DEPTREGIMP)"
+      }
+    },
+    {
+      "var_name": "voyage_itinerary__imp_port_voyage_begin__name",
+      "type": "table",
+      "label": {
+        "en": "Imputed port where voyage began (PTDEPIMP)",
+        "es": "ES: Puerto donde la travesía comenzó (PTDEPIMP)",
+        "pt": "PT: Porto onde a travessia começou (PTDEPIMP)"
+      }
+    },
+    {
+      "var_name": "voyage_outcome__vessel_captured_outcome__name",
+      "type": "<class 'rest_framework.fields.CharField'>",
+      "label": {
+        "en": "Vessel Captured Outcome",
+        "es": "ES: Resultado de la captura del barco",
+        "pt": "PT: Resultado da captura do barco"
+      }
+    },
+    {
+      "var_name": "voyage_outcome__resistance__name",
+      "type": "<class 'rest_framework.fields.CharField'>",
+      "label": {
+        "en": "Resistance",
+        "es": "ES: Resistencia",
+        "pt": "PT: Resistência"
+      }
+    },
+    {
+      "var_name": "voyage_outcome__outcome_slaves__name",
+      "type": "<class 'rest_framework.fields.CharField'>",
+      "label": {
+        "en": "Slaves Outcome",
+        "es": "ES: Resultado de los esclavos",
+        "pt": "PT: Resultado dos escravos"
+      }
+    },
+    {
+      "var_name": "voyage_outcome__outcome_owner__name",
+      "type": "<class 'rest_framework.fields.CharField'>",
+      "label": {
+        "en": "Owner Outcome",
+        "es": "ES: Resultado del propietario",
+        "pt": "PT: Resultado do proprietário"
+      }
+    },
+    {
+      "var_name": "voyage_outcome__particular_outcome__name",
+      "type": "<class 'rest_framework.fields.CharField'>",
+      "label": {
+        "en": "Particular Outcome",
+        "es": "ES: Resultado particular",
+        "pt": "PT: Resultado particular"
+      }
+    },
+    {
+      "var_name": "voyage_ship__rig_of_vessel__name",
+      "type": "<class 'rest_framework.fields.CharField'>",
+      "label": {
+        "en": "Rig of Vessel",
+        "es": "ES: Rig del barco",
+        "pt": "PT: Rig do barco"
+      }
+    },
+    {
+      "var_name": "voyage_ship__imputed_nationality__name",
+      "type": "<class 'rest_framework.fields.CharField'>",
+      "label": {
+        "en": "Imputed Ship Nationality",
+        "es": "ES: Nacionalidad del barco imputada",
+        "pt": "PT: Nacionalidade do barco imputada"
+      }
+    }
+  ],
+  "y_vars": [
+    {
+      "var_name": "voyage_ship__tonnage_mod",
+      "type": "<class 'rest_framework.fields.DecimalField'>",
+      "label": {
+        "en": "Tonnage standardized on British measured tons 1773-1870",
+        "es": "ES: Toneladas estandarizadas en toneladas británicas medidas 1773-1870",
+        "pt": "PT: Toneladas padronizadas em toneladas britânicas medidas 1773-1870"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_dates__imp_length_home_to_disembark",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Voyage length from home port to disembarkation (days) (VOY1IMP)",
+        "es": "ES: Longitud de la travesía desde el puerto de origen hasta el desembarque (días) (VOY1IMP)",
+        "pt": "PT: Comprimento da travessia desde o porto de origem até o desembarque (dias) (VOY1IMP)"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_dates__length_middle_passage_days",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Length of Middle Passage in (days) (VOYAGE)",
+        "es": "ES: Longitud de la travesía en el medio (días) (VOYAGE)",
+        "pt": "PT: Comprimento da travessia no meio (dias) (VOYAGE)"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_crew__crew_first_landing",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Crew at first landing of slaves",
+        "es": "ES: Crew at first landing of slaves",
+        "pt": "PT: Crew at first landing of slaves"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_crew__crew_voyage_outset",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Crew at voyage outset",
+        "es": "ES: Crew at voyage outset",
+        "pt": "PT: Crew at voyage outset"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__percentage_male",
+      "type": "<class 'rest_framework.fields.FloatField'>",
+      "label": {
+        "en": "Percentage male on voyage (MALRAT7)",
+        "es": "ES: Porcentaje de hombres en la travesía (MALRAT7)",
+        "pt": "PT: Percentagem de homens na travessia (MALRAT7)"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__percentage_child",
+      "type": "<class 'rest_framework.fields.FloatField'>",
+      "label": {
+        "en": "Percentage children on voyage (CHILRAT7)",
+        "es": "ES: Porcentaje de niños en la travesía (CHILRAT7)",
+        "pt": "PT: Percentagem de crianças na travessia (CHILRAT7)"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__percentage_girl",
+      "type": "<class 'rest_framework.fields.FloatField'>",
+      "label": {
+        "en": "Percentage girl on voyage (GIRLRAT7)",
+        "es": "ES: Porcentaje de niñas en la travesía (GIRLRAT7)",
+        "pt": "PT: Percentagem de meninas na travessia (GIRLRAT7)"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__percentage_boy",
+      "type": "<class 'rest_framework.fields.FloatField'>",
+      "label": {
+        "en": "Percentage boy on voyage (BOYRAT7)",
+        "es": "ES: Porcentaje de niños en la travesía (BOYRAT7)",
+        "pt": "PT: Percentagem de meninos na travessia (BOYRAT7)"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__percentage_women",
+      "type": "<class 'rest_framework.fields.FloatField'>",
+      "label": {
+        "en": "Percentage women on voyage (WOMRAT7)",
+        "es": "ES: Porcentaje de mujeres en la travesía (WOMRAT7)",
+        "pt": "PT: Percentagem de mulheres na travessia (WOMRAT7)"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__percentage_men",
+      "type": "<class 'rest_framework.fields.FloatField'>",
+      "label": {
+        "en": "Percentage men on voyage (MENRAT7)",
+        "es": "ES: Porcentaje de hombres en la travesía (MENRAT7)",
+        "pt": "PT: Percentagem de homens na travessia (MENRAT7)"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Total slaves disembarked imputed * (SLAMIMP)",
+        "es": "ES: Total esclavos desembarcados imputados * (SLAMIMP)",
+        "pt": "PT: Total de escravos desembarcados imputados * (SLAMIMP)"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    },
+    {
+      "var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+      "type": "<class 'rest_framework.fields.IntegerField'>",
+      "label": {
+        "en": "Total slaves embarked imputed * (slaximp)",
+        "es": "ES: Total esclavos embarcados imputados * (slaximp)",
+        "pt": "PT: Total de escravos embarcados imputados * (slaximp)"
+      },
+      "agg_fns": [
+        "sum",
+        "mean"
+      ]
+    }
+  ]
 }

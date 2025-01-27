@@ -1,10 +1,5 @@
-
 const IntroductoryMaps = () => {
-    return (
-        <div>
-            IntroductoryMaps
-        </div>
-    )
-}
+  return <div>IntroductoryMaps</div>;
+};
 
 export default IntroductoryMaps;

@@ -28,6 +28,12 @@ export interface NumberProperty extends BaseProperty {
   notNull?: boolean
 }
 
+export interface BoolProperty extends BaseProperty {
+  readonly kind: "bool"
+  nullable?: boolean
+  defaultValue: boolean
+}
+
 export interface PartialDate {
   year: number
   month?: number
@@ -41,20 +47,37 @@ export interface DateProperty extends BaseProperty {
   readonly kind: "date"
 }
 
+export interface OneToManyEntityRelation {
+  readonly relationKind: "oneToMany"
+  childBackingProp: string
+}
+
+export interface ManyToManyEntityRelation {
+  readonly relationKind: "manyToMany"
+  connectionEntity: string
+  leftSideBackingField: string
+  rightSideBackingField: string
+}
+
 export interface EntityLinkBaseProperty extends BaseProperty {
   /**
-   * The type of the linked entity.
+   * The schema of the linked entity.
    */
   linkedEntitySchema: string
 }
 
-export interface EntityValueProperty extends EntityLinkBaseProperty {
-  readonly kind: "entityValue"
-  /**
-   * When this field is not null, the FK that links the value to the parent
-   * entity is at the child entity.
-   */
-  oneToOneBackingField?: string
+export interface LinkedEntityProperty extends EntityLinkBaseProperty {
+  readonly kind: "linkedEntity"
+  notNull?: boolean
+}
+
+/**
+ * This property consists of an entity that is owned through a one-to-one
+ * relationship.
+ */
+export interface EntityOwnedProperty extends EntityLinkBaseProperty {
+  readonly kind: "entityOwned"
+  oneToOneBackingField: string
   notNull?: boolean
 }
 
@@ -66,16 +89,18 @@ export enum ListEditMode {
   All = 7
 }
 
-export interface EntityListProperty extends EntityLinkBaseProperty {
-  readonly kind: "entityList"
-  /**
-   * The entity that backs this many-to-many relationship.
-   */
-  manyToManyEntity: string
-  rithSideEntity: string
-  leftSideBackingField: string
-  rightSideBackingField: string
+export interface EntityListBaseProperty extends EntityLinkBaseProperty {
   editModes: ListEditMode
+}
+
+export interface OwnedEntityListProperty extends EntityListBaseProperty {
+  readonly kind: "ownedEntityList"
+  connection: OneToManyEntityRelation
+}
+
+export interface ManyToManyEntityListProperty extends EntityListBaseProperty {
+  readonly kind: "m2mEntityList"
+  connection: ManyToManyEntityRelation
 }
 
 export interface TableProperty extends Omit<BaseProperty, "backingField"> {
@@ -91,6 +116,9 @@ export interface TableProperty extends Omit<BaseProperty, "backingField"> {
 export type Property =
   | TextProperty
   | NumberProperty
-  | EntityValueProperty
-  | EntityListProperty
+  | BoolProperty
+  | LinkedEntityProperty
+  | EntityOwnedProperty
+  | OwnedEntityListProperty
+  | ManyToManyEntityListProperty
   | TableProperty

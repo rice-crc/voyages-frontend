@@ -7,7 +7,8 @@
     "dev": "vite --host --port 3000",
     "build": "vite build",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --quiet",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "preview": "vite preview",
     "coverage": "vitest run --coverage",
     "test": "vitest",
@@ -16,6 +17,7 @@
     "clean": "rm -rf node_modules"
   },
   "dependencies": {
+    "@ag-grid-community/client-side-row-model": "^32.3.3",
     "@ant-design/icons": "^5.3.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -39,8 +41,8 @@
     "@types/react-virtualized": "^9.21.29",
     "@types/react-window": "^1.8.8",
     "@types/react-window-infinite-loader": "^1.0.9",
-    "ag-grid-community": "^30.0.0",
-    "ag-grid-react": "^30.0.0",
+    "ag-grid-community": "^33.0.3",
+    "ag-grid-react": "^33.0.3",
     "antd": "^5.21.1",
     "aos": "^2.3.4",
     "axios": "^1.4.0",
@@ -56,6 +58,7 @@
     "leaflet.geodesic": "^2.7.1",
     "leaflet.markercluster": "^1.5.3",
     "lodash.debounce": "^4.0.8",
+    "lucide-react": "^0.473.0",
     "mirador": "^4.0.0-alpha.2",
     "multi-nested-select": "^1.2.1",
     "plotly.js": "^2.23.2",
@@ -83,7 +86,9 @@
     "xlsx": "^0.18.5"
   },
   "resolutions": {
-    "react-virtualized": "patch:react-virtualized@9.22.3#./path/to/react-virtualized-9.22.3.patch"
+    "react-virtualized": "patch:react-virtualized@9.22.3#./path/to/react-virtualized-9.22.3.patch",
+    "eslint": "^8.0.0",
+    "eslint-plugin-react-hooks": "^4.6.2"
   },
   "browserslist": {
     "production": [
@@ -98,11 +103,15 @@
     ]
   },
   "devDependencies": {
+    "@eslint/compat": "^1.2.4",
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.17.0",
     "@types/aos": "^3.0.6",
     "@types/axios": "^0.14.0",
     "@types/d3": "^7.4.3",
     "@types/dompurify": "^3.0.5",
     "@types/dotenv": "^8.2.0",
+    "@types/file-saver": "^2.0.7",
     "@types/leaflet": "^1.9.6",
     "@types/leaflet.markercluster": "^1.5.2",
     "@types/lodash.debounce": "^4.0.7",
@@ -120,20 +129,30 @@
     "@types/testing-library__react": "^10.2.0",
     "@types/uuid": "^9.0.8",
     "@types/webpack-env": "^1.18.1",
-    "@vitejs/plugin-react": "^4.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
+    "@vitejs/plugin-react": "^4.3.4",
     "@vitejs/plugin-react-refresh": "^1.3.6",
-    "dotenv": "^16.3.1",
-    "eslint": "^8.38.0",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.4",
-    "happy-dom": "^9.20.3",
+    "dotenv": "^16.4.7",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^3.7.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "globals": "^15.14.0",
+    "happy-dom": "^16.5.3",
+    "prettier": "^3.4.2",
     "process": "^0.11.10",
-    "sass": "^1.62.1",
-    "typescript": "^5.2.2",
-    "vite": "^4.3.9",
-    "vitest-fetch-mock": "^0.2.2",
-    "webpack": "^5.88.2"
+    "sass": "^1.83.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.4",
+    "vitest-fetch-mock": "^0.4.2",
+    "webpack": "^5.97.1"
   },
   "overrides": {
     "react-error-overlay": "6.0.9"

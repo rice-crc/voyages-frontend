@@ -1,15 +1,21 @@
 import {
   areMatch,
+  DirectPropertyChange,
   EntityChange,
   EntityRef,
   isEntityRef,
   PropertyChange
 } from "./changeSets"
-import { AllProperties, EntitySchema, getSchema } from "./entities"
+import {
+  AllProperties,
+  EntitySchema,
+  getSchema
+} from "./entities"
 
 export type NonNullFieldValue =
   | string
   | number
+  | boolean
   | MaterializedEntity
   | MaterializedEntity[]
 
@@ -32,6 +38,10 @@ export const isMaterializedEntityArray = (
   f: FieldValue
 ): f is MaterializedEntity[] => Array.isArray(f)
 
+const failedUnknown = (what: string, c: object) => {
+  throw new Error(`Unknown ${what} type: ${JSON.stringify(c)}`)
+}
+
 export const materializeNew = (
   schema: EntitySchema,
   id: string | number
@@ -45,11 +55,13 @@ export const materializeNew = (
       data[p.label] = id
     } else if (p.kind === "number") {
       data[p.label] = p.notNull ? 0 : null
+    } else if (p.kind === "bool") {
+      data[p.label] = p.nullable ? null : p.defaultValue
     } else if (p.kind === "text") {
       data[p.label] = p.nullable ? null : ""
-    } else if (p.kind === "entityList") {
+    } else if (p.kind === "ownedEntityList" || p.kind === "m2mEntityList") {
       data[p.label] = []
-    } else if (p.kind === "entityValue") {
+    } else if (p.kind === "entityOwned") {
       data[p.label] = p.notNull
         ? materializeNew(getSchema(p.linkedEntitySchema), `${id}_${p.label}`)
         : null
@@ -59,6 +71,10 @@ export const materializeNew = (
           data[p.cellField(j, i)] = null
         }
       }
+    } else if (p.kind === "linkedEntity") {
+      data[p.label] = null
+    } else {
+      failedUnknown("property", p)
     }
   }
   return {
@@ -178,7 +194,7 @@ const applyUpdate = (
         ? getEntity(data, c.changed)
         : c.changed
     } else if (c.kind === "linked") {
-      target.data[prop.label] = c.next === null ? null : getEntity(data, c.next)
+      target.data[prop.label] = c.changed === null ? null : getEntity(data, c.changed)
     } else if (c.kind === "owned") {
       const owned = getEntity(data, c.ownedEntityId)
       const prev = target.data[prop.label]
@@ -201,7 +217,7 @@ const applyUpdate = (
         }
       }
       target.data[prop.label] = applyUpdate(owned, data, c.changes)
-    } else if (c.kind === "list") {
+    } else if (c.kind === "m2mList" || c.kind === "ownedList") {
       const list = target.data[prop.label]
       if (!isMaterializedEntityArray(list)) {
         throw new Error(
@@ -215,28 +231,65 @@ const applyUpdate = (
         }
         list.splice(idx, 1)
       }
-      for (const mod of c.modified) {
-        const idx = listFind(list, mod.idConn)
-        if (idx < 0 !== (mod.idConn.type === "new")) {
-          throw new Error("Invalid m2m list update")
+      if (c.kind === "m2mList") {
+        for (const mod of c.modified) {
+          const idx = listFind(list, mod.idConn)
+          if (idx < 0 !== (mod.idConn.type === "new")) {
+            throw new Error("Invalid m2m list update")
+          }
+          const connEntity = getEntity(data, mod.idConn)
+          applyUpdate(connEntity, data, mod.connection)
+          if (idx < 0) {
+            list.push(connEntity)
+          } else {
+            list[idx] = connEntity
+          }
+          const ownedEntity = Object.values(connEntity.data)
+            .filter(isMaterializedEntity)
+            .find((e) => areMatch(e.entityRef, mod.ownedChanges.ownedEntityId))
+          if (ownedEntity === undefined) {
+            throw new Error("Right side of m2m connection was not matched")
+          }
+          applyUpdate(ownedEntity, data, mod.ownedChanges.changes)
         }
-        const connEntity = getEntity(data, mod.idConn)
-        applyUpdate(connEntity, data, mod.connection)
-        if (idx < 0) {
-          list.push(connEntity)
-        } else {
-          list[idx] = connEntity
+      } else {
+        const ownerSchema = getSchema(target.entityRef.schema)
+        for (const mod of c.modified) {
+          const os = getSchema(mod.ownedEntityId.schema)
+          const ownedEntity = getEntity(data, mod.ownedEntityId)
+          const listProp = ownerSchema.properties.find(p => p.uid === c.property)
+          if (listProp?.kind !== "ownedEntityList") {
+            throw new Error(
+              `Unexpected target property ${ownerSchema.name}:${c.property} for owned list change`
+            )
+          }
+          const childProp = os.properties.find(
+            (p) => p.label === listProp.connection.childBackingProp
+          )
+          if (childProp === undefined) {
+            throw new Error(
+              `Child property "${listProp.connection.childBackingProp}" not found`
+            )
+          }
+          const pkChange: DirectPropertyChange = {
+            kind: "direct",
+            property: childProp.uid,
+            changed: target.entityRef.id
+          }
+          applyUpdate(ownedEntity, data, [...mod.changes, pkChange])
+          const idx = listFind(list, mod.ownedEntityId)
+          if (idx < 0 !== (mod.ownedEntityId.type === "new")) {
+            throw new Error("Invalid owned list update")
+          }
+          if (idx < 0) {
+            list.push(ownedEntity)
+          } else {
+            list[idx] = ownedEntity
+          }
         }
-        const ownedEntity = Object.values(connEntity.data)
-          .filter(isMaterializedEntity)
-          .find((e) => areMatch(e.entityRef, mod.ownedChanges.ownedEntityId))
-        if (ownedEntity === undefined) {
-          throw new Error("Right side of m2m connection was not matched")
-        }
-        applyUpdate(ownedEntity, data, mod.ownedChanges.changes)
       }
     } else {
-      throw new Error(`Unknown property change type: ${c}`)
+      failedUnknown("property change", c)
     }
   }
   return target
@@ -264,7 +317,7 @@ export const applyChanges = (
     } else if (change.type === "update") {
       applyUpdate(match, data, change.changes)
     } else {
-      throw new Error(`Unknown entity change type: ${change}`)
+      failedUnknown("entity change", change)
     }
   }
 }
@@ -276,17 +329,27 @@ export const getChangeRefs = (change: EntityChange): EntityRef[] => {
   const result: EntityRef[] = []
   const recurse = (changes: PropertyChange[]) => {
     for (const c of changes) {
-      if (c.kind === "linked" && c.next !== null) {
-        result.push(c.next)
+      if (c.kind === "direct") {
+        continue
+      }
+      if (c.kind === "linked") {
+        c.changed !== null && result.push(c.changed)
       } else if (c.kind === "owned") {
         result.push(c.ownedEntityId)
         recurse(c.changes)
-      } else if (c.kind === "list") {
+      } else if (c.kind === "m2mList") {
         result.push(...c.removed)
         for (const mod of c.modified) {
           result.push(mod.idConn)
           result.push(mod.ownedChanges.ownedEntityId)
         }
+      } else if (c.kind === "ownedList") {
+        result.push(...c.removed)
+        for (const mod of c.modified) {
+          result.push(mod.ownedEntityId)
+        }
+      } else {
+        failedUnknown("entity change", c)
       }
     }
   }

@@ -1,5 +1,10 @@
 import { AllProperties } from "./entities"
-import { EntityListProperty, EntityValueProperty, Property } from "./properties"
+import {
+  EntityOwnedProperty,
+  LinkedEntityProperty,
+  ManyToManyEntityListProperty, OwnedEntityListProperty,
+  Property
+} from "./properties"
 
 export interface PropertyChangeBase {
   property: string
@@ -8,7 +13,7 @@ export interface PropertyChangeBase {
 
 export interface DirectPropertyChange extends PropertyChangeBase {
   readonly kind: "direct"
-  changed: string | number | EntityRef | null
+  changed: string | number | boolean | EntityRef | null
 }
 
 export const isDirectChange = (
@@ -22,7 +27,10 @@ export interface EntityRef {
 }
 
 export const isEntityRef = (maybeRef: EntityRef | any): maybeRef is EntityRef =>
-  maybeRef !== null && typeof maybeRef === "object" && !!(maybeRef as EntityRef).schema && !!(maybeRef as EntityRef).id
+  maybeRef !== null &&
+  typeof maybeRef === "object" &&
+  !!(maybeRef as EntityRef).schema &&
+  !!(maybeRef as EntityRef).id
 
 export const areMatch = (a: EntityRef, b: EntityRef) =>
   a === b || (a.type === b.type && a.schema === b.schema && a.id === b.id)
@@ -32,12 +40,15 @@ export interface LinkedEntitySelectionChange extends PropertyChangeBase {
   /**
    * The id of the selected entity in the change.
    */
-  next: EntityRef | null
+  changed: EntityRef | null
 }
 
 export interface OwnedEntityChange extends PropertyChangeBase {
   readonly kind: "owned"
   ownedEntityId: EntityRef
+  /**
+   * The changes made to the owned entity.
+   */
   changes: PropertyChange[]
 }
 
@@ -45,7 +56,8 @@ export const isOwnedEntityChange = (
   change: PropertyChange
 ): change is OwnedEntityChange => (change as OwnedEntityChange).kind === "owned"
 
-export interface ManyToManyUpdate {
+export interface ManyToManyChange extends PropertyChangeBase {
+  readonly kind: "connection"
   /**
    * The reference to the connection entity.
    */
@@ -61,23 +73,35 @@ export interface ManyToManyUpdate {
   ownedChanges: OwnedEntityChange
 }
 
-export interface EntityListChange extends PropertyChangeBase {
-  readonly kind: "list"
+export interface ListChangeBase extends PropertyChangeBase {
   /**
-   * A list of refs to the connection (M2M) entity that should be deleted.
+   * A list of refs to list elements that should be removed.
    */
   removed: EntityRef[]
+}
+
+export interface OwnedEntityListChange extends ListChangeBase {
+  readonly kind: "ownedList"
   /**
    * Modified or new entities in the list.
    */
-  modified: ManyToManyUpdate[]
+  modified: OwnedEntityChange[]
+}
+
+export interface ManyToManyEntityListChange extends ListChangeBase {
+  readonly kind: "m2mList"
+  /**
+   * Modified or new entities in the list.
+   */
+  modified: ManyToManyChange[]
 }
 
 export type PropertyChange =
   | DirectPropertyChange
   | LinkedEntitySelectionChange
   | OwnedEntityChange
-  | EntityListChange
+  | OwnedEntityListChange
+  | ManyToManyEntityListChange
 
 /**
  * An entity update or insert.
@@ -100,33 +124,39 @@ export interface EntityUndelete {
 
 export type EntityChange = EntityUpdate | EntityDelete | EntityUndelete
 
+export const isUpdateEntityChange = (ec: EntityChange): ec is EntityUpdate => ec.type === "update"
+
 type Ordered<T> = T & { order: number }
 
 // This conditional type associates a PropertyChange type to the source Property
 // type. This is useful later when we need to process a change and need the
 // matching type.
-type MatchingPropertyChangeType<T> = T extends
-  | OwnedEntityChange
-  | LinkedEntitySelectionChange
-  ? EntityValueProperty
-  : T extends EntityListChange
-  ? EntityListProperty
+type MatchingPropertyChangeType<T> = T extends OwnedEntityChange
+  ? EntityOwnedProperty
+  : T extends LinkedEntitySelectionChange
+  ? LinkedEntityProperty
+  : T extends OwnedEntityListChange
+  ? OwnedEntityListProperty
+  : T extends ManyToManyEntityListChange
+  ? ManyToManyEntityListProperty
   : Property
 
 const isMatchingPropertyChangeType = <T extends PropertyChange>(
   prop: Property,
   change: T
 ): prop is MatchingPropertyChangeType<T> => {
-  if (change.kind === "owned" || change.kind === "linked") {
+  if (change.kind === "owned") {
+    return prop.kind === "entityOwned"
+  } else if (change.kind === "linked") {
     // A LinkedEntitySelectionChange requires that the FK be stored on the
     // parent entity, so we also validate this.
-    return (
-      prop.kind === "entityValue" &&
-      (change.kind !== "linked" || !prop.oneToOneBackingField)
-    )
+    return prop.kind === "linkedEntity"
   }
-  if (change.kind === "list") {
-    return prop.kind === "entityList"
+  if (change.kind === "m2mList") {
+    return prop.kind === "m2mEntityList"
+  }
+  if (change.kind === "ownedList") {
+    return prop.kind === "ownedEntityList"
   }
   return true
 }
@@ -146,7 +176,8 @@ const validateAndGetProperty = <T extends PropertyChange>(
   }
   if (isOwnedEntityChange(change)) {
     const isValid =
-      (prop as EntityValueProperty).linkedEntitySchema === change.ownedEntityId.schema
+      (prop as LinkedEntityProperty).linkedEntitySchema ===
+      change.ownedEntityId.schema
     if (isValid) {
       throw new Error(
         `Owned entity is different than its corresponding property`
@@ -159,6 +190,16 @@ const validateAndGetProperty = <T extends PropertyChange>(
 export interface CombinedChangeSet {
   deletions: EntityDelete[]
   updates: EntityUpdate<DirectPropertyChange>[]
+}
+
+const processRemoved = (deletedEntries: Ordered<EntityDelete>[], uc: ListChangeBase, order: number) => {
+  for (const r of uc.removed) {
+    deletedEntries.push({
+      type: "delete",
+      entityRef: r,
+      order
+    })
+  }
 }
 
 /**
@@ -233,15 +274,9 @@ export const combineChanges = (
           order
         })
         u.changes.splice(i, 1)
-      } else if (uc.kind === "list") {
+      } else if (uc.kind === "m2mList") {
+        processRemoved(deletedEntries, uc, order)
         const prop = validateAndGetProperty(uc)
-        for (const r of uc.removed) {
-          deletedEntries.push({
-            type: "delete",
-            entityRef: r,
-            order
-          })
-        }
         for (const m of uc.modified) {
           // Process changes to the right side of the M2M
           // relationship.
@@ -261,13 +296,13 @@ export const combineChanges = (
               ...m.connection,
               {
                 kind: "direct" as const,
-                property: prop.leftSideBackingField,
+                property: prop.connection.leftSideBackingField,
                 changed: u.entityRef,
                 comments: ""
               },
               {
                 kind: "direct" as const,
-                property: prop.rightSideBackingField,
+                property: prop.connection.rightSideBackingField,
                 changed: m.ownedChanges.ownedEntityId,
                 comments: ""
               }
@@ -277,6 +312,17 @@ export const combineChanges = (
           })
         }
         u.changes.splice(i, 1)
+      } else if (uc.kind === "ownedList") {
+        processRemoved(deletedEntries, uc, order)
+        validateAndGetProperty(uc)
+        for (const m of uc.modified) {
+          updatedEntries.push({
+            type: "update" as const,
+            changes: m.changes,
+            entityRef: m.ownedEntityId,
+            order
+          })
+        }
       } else if (uc.kind === "linked") {
         const prop = validateAndGetProperty(uc)
         // This is a direct update on a FK value of the entity.
@@ -286,7 +332,7 @@ export const combineChanges = (
             {
               kind: "direct" as const,
               property: prop.backingField,
-              changed: uc.next,
+              changed: uc.changed,
               comments: uc.comments
             }
           ],

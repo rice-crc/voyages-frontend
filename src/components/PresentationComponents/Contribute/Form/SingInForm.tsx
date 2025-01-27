@@ -1,21 +1,25 @@
 // SignInForm.tsx
 import React, { useState } from 'react';
 import '@/style/contributeContent.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '@/redux/getAuthUserSlice';
 import { useNavigate } from 'react-router-dom';
 import { useNavigation } from '@/hooks/useNavigation';
+import { RootState } from '@/redux/store';
+import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
 
 // Define types for form values
 interface SignInFormProps {
   nextPath?: string;
 }
-const SignInForm: React.FC<SignInFormProps> = ({ nextPath = '/contribute/legal' }) => {
-
-  const {
-    handleSignUpClick,
-    handleResetPasswordClick,
-  } = useNavigation();
+const SignInForm: React.FC<SignInFormProps> = ({
+  nextPath = '/contribute/legal',
+}) => {
+  const { handleSignUpClick, handleResetPasswordClick } = useNavigation();
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
+  const translatedContribute = translationLanguagesContribute(languageValue);
 
   const [formValues, setFormValues] = useState({
     email: 'meow@test.com',
@@ -29,13 +33,9 @@ const SignInForm: React.FC<SignInFormProps> = ({ nextPath = '/contribute/legal' 
     token: '$12345',
   };
 
-
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value, type, checked } = e.target;
     setFormValues((prev) => ({
       ...prev,
@@ -45,10 +45,20 @@ const SignInForm: React.FC<SignInFormProps> = ({ nextPath = '/contribute/legal' 
 
   const handleFormSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
+    console.log(formValues);
 
-    if (formValues.email === mockUser.email && formValues.password === mockUser.token) {
-      dispatch(login({ email: mockUser.email, userName: mockUser.userName, token: mockUser.token }));
-      navigate(nextPath)
+    if (
+      formValues.email === mockUser.email &&
+      formValues.password === mockUser.token
+    ) {
+      dispatch(
+        login({
+          email: mockUser.email,
+          userName: mockUser.userName,
+          token: mockUser.token,
+        })
+      );
+      navigate(nextPath);
     } else {
       alert('Invalid email or password');
     }
@@ -61,9 +71,11 @@ const SignInForm: React.FC<SignInFormProps> = ({ nextPath = '/contribute/legal' 
 
   return (
     <div className="contribute-sign-in-form" id="sign-in">
-      <h2>Sign in</h2>
-      <div className='form-inorder'>In order to access the Contribute section, please sign in.</div>
-      <div className='sign-in-form-submit'>
+      <h2>{translatedContribute.contributeSignInButton}</h2>
+      <div className="form-inorder">
+        {translatedContribute.contributeInOrderToAccess}
+      </div>
+      <div className="sign-in-form-submit">
         <form
           method="post"
           action="/accounts/login/"
@@ -82,7 +94,9 @@ const SignInForm: React.FC<SignInFormProps> = ({ nextPath = '/contribute/legal' 
               {/* Email Field */}
               <tr>
                 <th>
-                  <label htmlFor="id_email">E-mail:</label>
+                  <label htmlFor="id_email">
+                    {translatedContribute.contributeEmail}
+                  </label>
                 </th>
                 <td>
                   <input
@@ -101,7 +115,9 @@ const SignInForm: React.FC<SignInFormProps> = ({ nextPath = '/contribute/legal' 
               {/* Password Field */}
               <tr>
                 <th>
-                  <label htmlFor="id_password">Password:</label>
+                  <label htmlFor="id_password">
+                    {translatedContribute.contributePassword}
+                  </label>
                 </th>
                 <td>
                   <input
@@ -119,11 +135,13 @@ const SignInForm: React.FC<SignInFormProps> = ({ nextPath = '/contribute/legal' 
               {/* Remember Me Checkbox */}
               <tr>
                 <th>
-                  <label htmlFor="id_remember">Remember Me:</label>
+                  <label htmlFor="id_remember">
+                    {translatedContribute.contributeRememberMe}
+                  </label>
                 </th>
                 <td>
                   <input
-                    className='checkbox'
+                    className="checkbox"
                     type="checkbox"
                     name="remember"
                     id="id_remember"
@@ -137,21 +155,31 @@ const SignInForm: React.FC<SignInFormProps> = ({ nextPath = '/contribute/legal' 
           <input type="hidden" name="next" value={nextPath} />
 
           <button type="submit" className="local_account_login_btn">
-            Sign in
+            {translatedContribute.contributeSignInButton}
           </button>
         </form>
         <button onClick={handleGoogleSignIn}>
-          <img src="https://www.slavevoyages.org/static/images/site/google_logo.png" width="16px" height="16px" />
-          Sign in with Google</button>
+          <img
+            src="https://www.slavevoyages.org/static/images/site/google_logo.png"
+            width="16px"
+            height="16px"
+          />
+          {translatedContribute.contributeSignInWithGoogle}
+        </button>
         <span>
           <span>
-            If you don't have an account, <span className="create-account" onClick={handleSignUpClick}>Create an Account</span>.
-          </span>
+            {translatedContribute.contributeCreateAnAccountText}{' '}
+            <span className="create-account" onClick={handleSignUpClick}>
+              {translatedContribute.contributeCreateAnAccount}
+            </span>
+          </span>{' '}
           <span>
-            If you have forgotten your password, <span className="create-account" onClick={handleResetPasswordClick}>Retrieve Password</span>.
+            {translatedContribute.contributeIfYouHaveForgottenYourPassword}{' '}
+            <span className="create-account" onClick={handleResetPasswordClick}>
+              {translatedContribute.contributeRetrievePassword}
+            </span>
           </span>
         </span>
-
       </div>
     </div>
   );
