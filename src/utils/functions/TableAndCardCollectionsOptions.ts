@@ -33,7 +33,6 @@ export const TableAndCardCollectionsOptions = (
   file?: string
 ): Record<string, any> => {
   const columnObject: Record<string, any> = {};
-  console.log('file', file);
   const processFieldsData = (fieldsData: any[] | undefined): void => {
     fieldsData?.forEach((field) => {
       Object.entries(field).forEach(([key, value]) => {
