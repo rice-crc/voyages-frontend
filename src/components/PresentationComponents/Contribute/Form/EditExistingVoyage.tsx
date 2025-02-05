@@ -1,6 +1,9 @@
 import '@/style/contributeContent.scss';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
+import { ContributionForm } from '../EntityFormV2';
+import sampleVoyage from "../sample_11586.json"
+import { MaterializedEntity } from '@/models/materialization';
 
 const EditExistingVoyage: React.FC = () => {
   const [voyageId, setVoyageId] = useState<string>('');
@@ -78,6 +81,7 @@ const EditExistingVoyage: React.FC = () => {
           Begin
         </Button>
       </form>
+      <ContributionForm entity={sampleVoyage as MaterializedEntity} />
     </div>
   );
 };

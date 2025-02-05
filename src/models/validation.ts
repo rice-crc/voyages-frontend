@@ -135,3 +135,6 @@ export const dateValidation =
           }
         ]
   }
+
+export const failedUnknown = (what: string, c: object) =>
+  new Error(`Unknown ${what} type: ${JSON.stringify(c)}`)
