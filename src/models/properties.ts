@@ -1,5 +1,12 @@
 import { PropertyValidation } from "./validation"
 
+export enum PropertyAccessLevel {
+  BegginerContributor = 0,
+  IntermediateContributor = 1,
+  AdvancedContributor = 2,
+  Editor = 100
+}
+
 export interface BaseProperty {
   uid: string
   kind: string
@@ -12,6 +19,7 @@ export interface BaseProperty {
    */
   section?: string
   validation?: PropertyValidation
+  accessLevel?: PropertyAccessLevel 
 }
 
 export interface TextProperty extends BaseProperty {
@@ -66,9 +74,16 @@ export interface EntityLinkBaseProperty extends BaseProperty {
   linkedEntitySchema: string
 }
 
+export enum EntityLinkEditMode {
+  Select = 0,
+  Own = 1,
+  View = 2
+} 
+
 export interface LinkedEntityProperty extends EntityLinkBaseProperty {
   readonly kind: "linkedEntity"
   notNull?: boolean
+  mode: EntityLinkEditMode
 }
 
 /**
@@ -108,9 +123,10 @@ export interface TableProperty extends Omit<BaseProperty, "backingField"> {
   columns: string[]
   rows: string[]
   /**
-   * Determines the backing field for this table cell.
+   * Determines the backing field for this table cell. If a cell does not have
+   * a corresponding variable, the function should return undefined.
    */
-  cellField: (col: number, row: number) => string
+  cellField: (col: number, row: number) => string | undefined
 }
 
 export type Property =

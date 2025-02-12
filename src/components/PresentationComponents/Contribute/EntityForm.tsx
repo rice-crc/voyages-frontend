@@ -1,168 +1,349 @@
-import { EntitySchema, Location } from '@/models/entities';
-import { IconButton } from '@mui/material';
-import CommentIcon from '@mui/icons-material/Comment';
-import { Box } from '@mui/system';
-import '@/style/newVoyages.scss';
-import { Form, Input, Select, TreeSelect } from 'antd';
-import CommentBox from './CommentBox';
-import { TreeItemProps } from '@mui/lab';
-import { useEffect, useRef, useState } from 'react';
+import {
+  addToChangeSet,
+  deleteChange,
+  dropOrphans,
+  EntityChange,
+  PropertyChange,
+} from '@/models/changeSets';
+import { ChangeSet } from '@/models/contribution';
+import { EntitySchema, getSchema } from '@/models/entities';
+import { MaterializedEntity } from '@/models/materialization';
+import { PropertyAccessLevel } from '@/models/properties';
+import { RootState } from '@/redux/store';
+import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
+import { Delete } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import { Collapse, CollapseProps, Form, Select, Typography } from 'antd';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { EntityPropertyComponent } from './EntityPropertyComponent';
+
+export interface ContributionFormProps {
+  entity: MaterializedEntity;
+  // onUpdate: (contribution: Contribution) => void;
+}
 
 export interface EntityFormProps {
   schema: EntitySchema;
-  handleCommentChange: (field: string, value: string) => void;
+  entity: MaterializedEntity;
+  changes: EntityChange[];
+  onChange: (change: EntityChange) => void;
+  /*
+    entity: MaterializedEntity
+    changeSet: ChangeSet
+    onUpdate: (changeSet: ChangeSet) => void
+    */
+  expandedMenu: string[];
+  setExpandedMenu: React.Dispatch<React.SetStateAction<string[]>>;
+  accessLevel: PropertyAccessLevel;
 }
+
+const addLabel = (item: ReactNode, label: string) => {
+  return (
+    <Form.Item
+      label={<span className="form-contribute-label">{label}</span>}
+      name={label}
+      style={{ marginBottom: 0 }}
+    >
+      {item}
+    </Form.Item>
+  );
+};
 
 export const EntityForm = ({
   schema,
-  handleCommentChange,
+  entity,
+  changes,
+  onChange,
+  expandedMenu,
+  setExpandedMenu,
+  accessLevel,
 }: EntityFormProps) => {
-  // Mock Tree Select
-  const treeData = [
-    {
-      title: 'Brazil',
-      value: 'brazil',
-      children: [
-        {
-          title: 'Amazonia',
-          value: 'amazonia',
-          children: [
-            {
-              title: 'Portos do Norte',
-              value: 'portos-do-norte',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      title: 'Africa',
-      value: 'africa',
-      children: [
-        {
-          title: 'Senegambia and offshore Atlantic',
-          value: 'senegambia',
-          children: [
-            { title: 'Albreda', value: 'albreda' },
-            { title: 'Arguim', value: 'arguim' },
-            { title: 'Bissagos', value: 'bissagos' },
-            { title: 'Bissau', value: 'bissau' },
-            { title: 'Cacheu', value: 'cacheu' },
-          ],
-        },
-      ],
-    },
-  ];
-  const [visibleCommentField, setVisibleCommentField] = useState<string | null>(
-    null
+  const properties = useMemo(
+    () =>
+      schema.properties.filter(
+        (p) => p.accessLevel === undefined || p.accessLevel <= accessLevel,
+      ),
+    [schema, accessLevel],
+  );
+  const children = useMemo(
+    () =>
+      properties.map((p) => {
+        const component = (
+          <>
+            <EntityPropertyComponent
+              key={p.uid}
+              schema={schema}
+              expandedMenu={expandedMenu}
+              setExpandedMenu={setExpandedMenu}
+              entity={entity}
+              property={p}
+              changes={changes}
+              onChange={onChange}
+              accessLevel={accessLevel}
+            />
+          </>
+        );
+
+        return p.kind === 'bool' ||
+          p.kind === 'text' ||
+          p.kind === 'number' ||
+          p.kind === 'linkedEntity'
+          ? addLabel(component, p.label)
+          : component;
+      }),
+    [
+      properties,
+      accessLevel,
+      schema,
+      expandedMenu,
+      setExpandedMenu,
+      entity,
+      changes,
+      onChange,
+    ],
   );
 
-  const [localComments, setLocalComments] = useState<{ [key: string]: string }>({});
-  const toggleCommentBox = (field: string) => {
-    setVisibleCommentField(visibleCommentField === field ? null : field);
-  };
-
-  const commentBoxRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (commentBoxRef.current && !commentBoxRef.current.contains(event.target as Node)) {
-        setVisibleCommentField(null);
+  // Group by sections (if any).
+  const [ungrouped, sections] = useMemo(() => {
+    const map: Record<string, ReactNode[]> = {};
+    for (let i = 0; i < properties.length; ++i) {
+      (map[properties[i].section ?? ''] ??= []).push(children[i]!);
+    }
+    const collapsible: CollapseProps['items'] = [];
+    for (const [section, items] of Object.entries(map)) {
+      if (section !== '') {
+        collapsible.push({
+          key: `${items.map((item) => {
+            if (React.isValidElement(item)) {
+              return item.props.children.key;
+            } else {
+              return item?.toString();
+            }
+          })}`,
+          label: (
+            <Typography.Title level={4} className="collapse-title">
+              {section}
+            </Typography.Title>
+          ),
+          children: (
+            <div>
+              {items.map((item, index) => (
+                <div key={`${section}-${index}`}>{item}</div>
+              ))}
+            </div>
+          ),
+        });
       }
-    };
+    }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    return [map[''] || [], collapsible];
+  }, [properties, children]);
 
-    // Clean up event listener on unmount
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  return (
+    <div>
+      {ungrouped.length > 0 &&
+        ungrouped.map((item, index) => (
+          <div key={`ungrouped-${index}`}>{item}</div>
+        ))}
 
-  const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
-    return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
-  };
-
-  const handleLocalChange = (field: string, value: string) => {
-    setLocalComments((prevComments) => ({
-      ...prevComments,
-      [field!]: value
-    }));
-    handleCommentChange(field!, value);
-  };
-
-  return schema.properties.map((p) => {
-    const backingField = 'backingField' in p ? p.backingField : undefined;
-
-    return (
-      <Box key={p.uid} sx={{ marginBottom: 2 }}>
-        {/* Main Input Field */}
-        <Form.Item
-          label={<span className="form-contribute-label">{p.label}:</span>}
-          name={backingField}
-          style={{ marginBottom: 0 }}
-        >
-          <Box
-            sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}
-          >
-            {p.kind === 'text' || p.kind === 'number' ? (
-              <Input
-                type={p.kind}
-                placeholder={`Please type ${p.label}`}
-                style={{ width: 'calc(100% - 20px)' }}
-              />
-            ) : p.kind === 'linkedEntity' ? (
-              p.linkedEntitySchema === Location.name ? (
-                <TreeSelect
-                  placeholder={`Please select ${p.label}`}
-                  treeData={treeData}
-                  style={{ width: 'calc(100% - 20px)' }}
-                  dropdownStyle={{ overflow: 'auto', zIndex: 1301 }}
-                  showSearch
-                  treeCheckable
-                  allowClear
-                  multiple
-                  treeDefaultExpandAll={false}
-                  maxTagCount={8}
-                  filterTreeNode={filterTreeNode}
-                />
-              ) : (
-                <Select
-                  placeholder={`Please select ${p.label}`}
-                  style={{ width: 'calc(100% - 20px)' }}
-                  options={[
-                    // Mock data
-                    { label: 'Argentina', value: 'Argentina' },
-                    { label: 'Denmark', value: 'Denmark' },
-                    { label: 'U.S.A.', value: 'usa' },
-                  ]}
-                />
-              )
-            ) : null}
-            <IconButton
-              onClick={() => toggleCommentBox(backingField!)}
-              sx={{
-                position: 'absolute',
-                right: '-15px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-              }}
-              aria-label="add comment"
-            >
-              <CommentIcon />
-            </IconButton>
-          </Box>
-        </Form.Item>
-        <Form.Item name={'comments'} style={{ marginTop: -50 }}>
-          <CommentBox
-            isVisible={visibleCommentField === backingField}
-            fieldKey={backingField!}
-            comments={localComments}
-            onChange={(value) => handleLocalChange(backingField!, value)}
-            ref={commentBoxRef}
+      {sections.length > 0 && (
+        <div className="collapse-container">
+          <Collapse
+            activeKey={expandedMenu}
+            onChange={(keys) => {
+              setExpandedMenu(keys as string[]);
+            }}
+            bordered={false}
+            items={sections}
+            ghost
+            className="custom-collapse"
           />
-        </Form.Item>
-      </Box>
+        </div>
+      )}
+    </div>
+  );
+};
+
+interface PropertyChangeCardProps {
+  change: PropertyChange;
+  onDelete: (change: PropertyChange) => void;
+}
+
+const PropertyChangeCard = ({ change, onDelete }: PropertyChangeCardProps) => {
+  const { property } = change;
+  let display: ReactNode = undefined;
+  if (change.kind === 'direct') {
+    display = <b>{change.changed + ''}</b>;
+  } else if (change.kind === 'linked') {
+    const { changed } = change;
+    display = (
+      <b>
+        {changed
+          ? `${changed.entityRef.schema} ${changed.entityRef.id}`
+          : '<null>'}
+      </b>
     );
+  }
+  if (change.kind === 'owned') {
+    display = (
+      <div style={{ paddingLeft: '20px' }}>
+        <PropertyChangesList changes={change.changes} onDelete={onDelete} />
+      </div>
+    );
+  }
+  // TODO: other kinds
+  return (
+    <>
+      <IconButton onClick={() => onDelete(change)}>
+        <Delete />
+      </IconButton>
+      <span>
+        {property}
+        {' => '}
+      </span>
+      {display}
+      &nbsp;
+      <small>{change.comments}</small>
+    </>
+  );
+};
+
+const accessLevelOptions = Object.entries(PropertyAccessLevel)
+  .filter(([key]) => isNaN(Number(key))) // Filter out reverse mapping
+  .map(([label, value]) => ({
+    label: label.replace(/([A-Z])/g, ' $1').trim(), // Add spaces between camel case
+    value: value,
+  }));
+
+interface PropertyChangesListProps {
+  changes: PropertyChange[];
+  onDelete: (change: PropertyChange) => void;
+}
+
+const PropertyChangesList = ({
+  changes,
+  onDelete,
+}: PropertyChangesListProps) => {
+  return (
+    <ul>
+      {changes.map((pc, idxPC) => (
+        <li key={idxPC}>
+          <PropertyChangeCard change={pc} onDelete={onDelete} />
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export const ContributionForm = ({ entity }: ContributionFormProps) => {
+  const [accessLevel, setAccessLevel] = useState<PropertyAccessLevel>(
+    PropertyAccessLevel.AdvancedContributor,
+  );
+  const schema = getSchema(entity.entityRef.schema);
+  const [changeSet, setChangeSet] = useState<ChangeSet>({
+    id: -1,
+    author: 'Mocked',
+    title: '<Title of contribution>',
+    changes: [],
+    comments: '',
+    timestamp: new Date().getDate(),
   });
+  // TODO: debounce changeSet and update the Contribution
+  const onChangesUpdate = useCallback(
+    (c: EntityChange) =>
+      setChangeSet((current) => {
+        // Merge the change with our change set.
+        const next = addToChangeSet(current.changes, c);
+        // TODO: keep the change set clear of orphans
+        const orphans = dropOrphans(entity, next);
+        console.dir(orphans, { depth: null });
+        return { ...current, changes: next };
+      }),
+    [entity, setChangeSet],
+  );
+  const handleChangeDelete = useCallback(
+    (change: PropertyChange) =>
+      setChangeSet((current) => {
+        const next = [...current.changes];
+        for (let i = 0; i < next.length; ++i) {
+          const c = next[i];
+          if (c.type !== 'update') {
+            continue;
+          }
+          const copy = [...c.changes];
+          const delCount = deleteChange(copy, change);
+          if (delCount) {
+            next[i] = { ...c, changes: copy };
+            break;
+          }
+        }
+        return { ...current, changes: next };
+      }),
+    [setChangeSet],
+  );
+
+  const [globalExpand, setGlobalExpand] = useState(false);
+  const [expandedMenu, setExpandedMenu] = useState<string[]>([]);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages,
+  );
+  const translatedcontribute = translationLanguagesContribute(languageValue);
+
+  const toggleExpandAll = () => {
+    if (globalExpand) {
+      setExpandedMenu([]);
+    } else {
+      setExpandedMenu(schema.properties.map((item) => item.uid as string));
+    }
+    setGlobalExpand((prevState) => !prevState);
+  };
+
+  return (
+    <>
+      <ul>
+        {/* TODO: A list view of the changes in a nice format */}
+        {changeSet.changes.map((ec, idxEC) => {
+          const details =
+            ec.type === 'update' ? (
+              <PropertyChangesList
+                changes={ec.changes}
+                onDelete={handleChangeDelete}
+              />
+            ) : null;
+          return (
+            <li key={idxEC}>
+              {ec.type} @ {ec.entityRef.schema}#{ec.entityRef.id}
+              {details}
+            </li>
+          );
+        })}
+      </ul>
+      {/* TODO: for now it is ok to allow the choice of "Editor" here, but this
+      will have to be blocked for non-editors using authz */}
+      <Select
+        value={accessLevel}
+        onChange={(value: PropertyAccessLevel) => setAccessLevel(value)}
+        options={accessLevelOptions}
+        style={{ width: 200 }}
+      />
+      <div className="expand-collapse">
+        {translatedcontribute.titleCollaps}{' '}
+        <a href="#" onClick={toggleExpandAll}>
+          {!globalExpand
+            ? translatedcontribute.expand
+            : translatedcontribute.collapse}
+        </a>{' '}
+      </div>
+      <EntityForm
+        schema={schema}
+        entity={entity}
+        changes={changeSet.changes}
+        onChange={onChangesUpdate}
+        setExpandedMenu={setExpandedMenu}
+        expandedMenu={expandedMenu}
+        accessLevel={accessLevel}
+      />
+    </>
+  );
 };
