@@ -6,11 +6,8 @@ import {
   isEntityRef,
   PropertyChange
 } from "./changeSets"
-import {
-  AllProperties,
-  EntitySchema,
-  getSchema
-} from "./entities"
+import { AllProperties, EntitySchema, getSchema } from "./entities"
+import { failedUnknown } from "./validation"
 
 export type NonNullFieldValue =
   | string
@@ -26,7 +23,18 @@ export type EntityData = Record<string, FieldValue>
 export interface MaterializedEntity {
   entityRef: EntityRef
   data: EntityData
-  state: "original" | "new" | "modified" | "deleted"
+  /**
+   * original: unchanged from the database
+   * 
+   * new: a new entity record in the changeSet
+   * 
+   * modified: an existing entity that has been modified in the changeSet
+   * 
+   * deleted: an existing entity that has been deleted in the changeSet
+   * 
+   * lazy: an existing entity whose data has not been materialized yet
+   */
+  state: "original" | "new" | "modified" | "deleted" | "lazy"
 }
 
 export const isMaterializedEntity = (f: FieldValue): f is MaterializedEntity =>
@@ -37,10 +45,6 @@ export const isMaterializedEntity = (f: FieldValue): f is MaterializedEntity =>
 export const isMaterializedEntityArray = (
   f: FieldValue
 ): f is MaterializedEntity[] => Array.isArray(f)
-
-const failedUnknown = (what: string, c: object) => {
-  throw new Error(`Unknown ${what} type: ${JSON.stringify(c)}`)
-}
 
 export const materializeNew = (
   schema: EntitySchema,
@@ -68,13 +72,16 @@ export const materializeNew = (
     } else if (p.kind === "table") {
       for (let i = 0; i < p.rows.length; ++i) {
         for (let j = 0; j < p.columns.length; ++j) {
-          data[p.cellField(j, i)] = null
+          const cellBackingField = p.cellField(j, i)
+          if (cellBackingField !== undefined) {
+            data[cellBackingField] = null
+          }
         }
       }
     } else if (p.kind === "linkedEntity") {
       data[p.label] = null
     } else {
-      failedUnknown("property", p)
+      throw failedUnknown("property", p)
     }
   }
   return {
@@ -116,8 +123,8 @@ export const cloneEntity = (entity: MaterializedEntity) => {
         [key]: isMaterializedEntity(value)
           ? cloneEntity(value)
           : isMaterializedEntityArray(value)
-          ? value.map(cloneEntity)
-          : value
+            ? value.map(cloneEntity)
+            : value
       }),
       {}
     )
@@ -194,7 +201,8 @@ const applyUpdate = (
         ? getEntity(data, c.changed)
         : c.changed
     } else if (c.kind === "linked") {
-      target.data[prop.label] = c.changed === null ? null : getEntity(data, c.changed)
+      target.data[prop.label] =
+        c.changed === null ? null : getEntity(data, c.changed.entityRef)
     } else if (c.kind === "owned") {
       const owned = getEntity(data, c.ownedEntityId)
       const prev = target.data[prop.label]
@@ -257,7 +265,9 @@ const applyUpdate = (
         for (const mod of c.modified) {
           const os = getSchema(mod.ownedEntityId.schema)
           const ownedEntity = getEntity(data, mod.ownedEntityId)
-          const listProp = ownerSchema.properties.find(p => p.uid === c.property)
+          const listProp = ownerSchema.properties.find(
+            (p) => p.uid === c.property
+          )
           if (listProp?.kind !== "ownedEntityList") {
             throw new Error(
               `Unexpected target property ${ownerSchema.name}:${c.property} for owned list change`
@@ -268,7 +278,8 @@ const applyUpdate = (
           )
           if (childProp === undefined) {
             throw new Error(
-              `Child property "${listProp.connection.childBackingProp}" not found`
+              `Child property "${listProp.connection.childBackingProp}" not found
+              on schema ${mod.ownedEntityId.schema}`
             )
           }
           const pkChange: DirectPropertyChange = {
@@ -289,7 +300,7 @@ const applyUpdate = (
         }
       }
     } else {
-      failedUnknown("property change", c)
+      throw failedUnknown("property change", c)
     }
   }
   return target
@@ -317,66 +328,7 @@ export const applyChanges = (
     } else if (change.type === "update") {
       applyUpdate(match, data, change.changes)
     } else {
-      failedUnknown("entity change", change)
+      throw failedUnknown("entity change", change)
     }
   }
-}
-
-export const getChangeRefs = (change: EntityChange): EntityRef[] => {
-  if (change.type === "delete" || change.type === "undelete") {
-    return [change.entityRef]
-  }
-  const result: EntityRef[] = []
-  const recurse = (changes: PropertyChange[]) => {
-    for (const c of changes) {
-      if (c.kind === "direct") {
-        continue
-      }
-      if (c.kind === "linked") {
-        c.changed !== null && result.push(c.changed)
-      } else if (c.kind === "owned") {
-        result.push(c.ownedEntityId)
-        recurse(c.changes)
-      } else if (c.kind === "m2mList") {
-        result.push(...c.removed)
-        for (const mod of c.modified) {
-          result.push(mod.idConn)
-          result.push(mod.ownedChanges.ownedEntityId)
-        }
-      } else if (c.kind === "ownedList") {
-        result.push(...c.removed)
-        for (const mod of c.modified) {
-          result.push(mod.ownedEntityId)
-        }
-      } else {
-        failedUnknown("entity change", c)
-      }
-    }
-  }
-  if (change.type === "update") {
-    result.push(change.entityRef)
-    // Changes may reference more entities.
-    recurse(change.changes)
-  }
-  return result
-}
-
-/**
- * Retrieves all unique entity references that are required by the given
- * sequence of changes.
- */
-export const getChangeSetRefs = (changes: EntityChange[]) => {
-  const all = changes.flatMap(getChangeRefs)
-  // Eliminate duplicate entries.
-  const keys = new Set<string>()
-  for (let i = all.length - 1; i >= 0; --i) {
-    const e = all[i]
-    const key = `${e.schema}_${e.id}`
-    if (keys.has(key)) {
-      all.splice(i, 1)
-    } else {
-      keys.add(key)
-    }
-  }
-  return all
 }

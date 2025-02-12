@@ -119,4 +119,7 @@ export class EntitySchemaBuilder {
     this.built.push(schema)
     return schema
   }
+
+  clone = (name: string) =>
+    new EntitySchemaBuilder({ ...this.info, name }, this.built, [...this.props.map(p => ({...p, uid: `${p.uid}_${name}`}))])
 }

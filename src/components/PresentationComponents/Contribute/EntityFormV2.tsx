@@ -1,12 +1,14 @@
 import {
+  addToChangeSet,
   areMatch,
+  deleteChange,
   DirectPropertyChange,
+  dropOrphans,
   EntityChange,
-  EntityRef,
   EntityUpdate,
-  isEntityRef,
   isUpdateEntityChange,
   LinkedEntitySelectionChange,
+  mergePropertyChange,
   PropertyChange,
 } from '@/models/changeSets';
 import { ChangeSet } from '@/models/contribution';
@@ -14,30 +16,44 @@ import { EntitySchema, getSchema } from '@/models/entities';
 import {
   isMaterializedEntity,
   MaterializedEntity,
+  materializeNew,
 } from '@/models/materialization';
 import {
   BoolProperty,
+  EntityLinkEditMode,
   LinkedEntityProperty,
   NumberProperty,
   Property,
+  PropertyAccessLevel,
   TextProperty,
 } from '@/models/properties';
-import { Collapse, CollapseProps, Form, Input, Select, Typography } from 'antd';
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
-import CommentIcon from '@mui/icons-material/Comment';
-import IconButton from '@mui/material/IconButton';
-import { Popover } from '@mui/material';
-import TextArea from 'antd/es/input/TextArea';
-import { Delete } from '@mui/icons-material';
-import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
 import { RootState } from '@/redux/store';
+import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
+import { Delete } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import {
+  Button,
+  Collapse,
+  CollapseProps,
+  Form,
+  Input,
+  Select,
+  Typography,
+} from 'antd';
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
-import React from 'react';
+import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
+import NumbersTableComponent from './NumbersTableComponent';
 
 export interface ContributionFormProps {
   entity: MaterializedEntity;
   // onUpdate: (contribution: Contribution) => void;
-
 }
 
 export interface EntityFormV2Props {
@@ -50,8 +66,9 @@ export interface EntityFormV2Props {
     changeSet: ChangeSet
     onUpdate: (changeSet: ChangeSet) => void
     */
-  expandedMenu: string[]
-  setExpandedMenu: React.Dispatch<React.SetStateAction<string[]>>
+  expandedMenu: string[];
+  setExpandedMenu: React.Dispatch<React.SetStateAction<string[]>>;
+  accessLevel: PropertyAccessLevel;
 }
 
 interface EntityPropertyComponentProps extends EntityFormV2Props {
@@ -68,62 +85,6 @@ const addLabel = (item: ReactNode, label: string) => {
     >
       {item}
     </Form.Item>
-  );
-};
-
-interface EntityPropertyChangeCommentBoxProps {
-  property: Property;
-  current?: string;
-  onComment: (comment: string) => void;
-}
-
-const EntityPropertyChangeCommentBox = ({
-  property,
-  current,
-  onComment,
-}: EntityPropertyChangeCommentBoxProps) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      setAnchorEl(event.currentTarget);
-    },
-    [],
-  );
-  const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
-  return (
-    <>
-      <IconButton
-        onClick={handleClick}
-        sx={{
-          position: 'absolute',
-          right: '-15px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-        }}
-        aria-label="add comment"
-      >
-        <CommentIcon />
-      </IconButton>
-      <Popover
-        open={anchorEl !== null}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-      >
-        <TextArea
-          rows={3}
-          value={current ?? ''}
-          placeholder={`Please type your comments for ${property.label} here`}
-          onChange={(e) => onComment(e.target.value)}
-          style={{ width: '100%' }}
-        />
-      </Popover>
-    </>
   );
 };
 
@@ -205,19 +166,92 @@ interface LinkedEntityPropertyComponentProps {
   onChange: EntityFormV2Props['onChange'];
 }
 
-const LinkedEntityPropertyComponent = ({
+const LinkedEntityOwnedPropertyComponent = ({
   property,
   entity,
   lastChange,
   onChange,
-}: LinkedEntityPropertyComponentProps) => {
-  const [comments, setComments] = useState<string | undefined>();
+  ...other
+}: LinkedEntityPropertyComponentProps & EntityFormV2Props) => {
   const { label } = property;
   const value = lastChange
     ? lastChange.changed
-    : (entity.data[label] as EntityRef | null);
-  if (value && !isEntityRef(value)) {
+    : (entity.data[label] as MaterializedEntity | null);
+  const schema = getSchema(property.linkedEntitySchema);
+  const handleClear = useCallback(() => {
+    if (value === null) {
+      return;
+    }
+    onChange({
+      type: 'update',
+      entityRef: entity.entityRef,
+      changes: [
+        {
+          kind: 'linked',
+          property: property.uid,
+          changed: null,
+        },
+      ],
+    });
+    onChange({
+      type: 'delete',
+      entityRef: value.entityRef,
+    });
+  }, [value, entity, property]);
+  const handleSet = useCallback(() => {
+    // Materialize a new entity
+    const owned = materializeNew(schema, crypto.randomUUID());
+    onChange({
+      type: 'update',
+      entityRef: entity.entityRef,
+      changes: [
+        {
+          kind: 'linked',
+          property: property.uid,
+          //comments,
+          changed: owned,
+        },
+      ],
+    });
+  }, [schema, entity, property, onChange]);
+  return (
+    <>
+      {value ? (
+        <Button onClick={handleClear}>Clear</Button>
+      ) : (
+        <Button onClick={handleSet}>Set</Button>
+      )}
+      {value && (
+        <div style={{ marginLeft: '24px' }}>
+          <EntityFormV2
+            {...other}
+            schema={schema}
+            entity={value}
+            onChange={onChange}
+          />
+        </div>
+      )}
+    </>
+  );
+};
+
+const LinkedEntityPropertyComponent = (
+  props: LinkedEntityPropertyComponentProps & EntityFormV2Props,
+) => {
+  const { property, entity, lastChange, onChange } = props;
+  const [comments, setComments] = useState<string | undefined>();
+  const { mode, label } = property;
+  const value = lastChange
+    ? lastChange.changed
+    : (entity.data[label] as MaterializedEntity | null);
+  if (value && !isMaterializedEntity(value)) {
     return <span>BUG: Expected an entity reference value!</span>;
+  }
+  if (mode === EntityLinkEditMode.View) {
+    return <span>{value?.entityRef.id ?? 'null'}</span>;
+  }
+  if (mode === EntityLinkEditMode.Own) {
+    return <LinkedEntityOwnedPropertyComponent {...props} />;
   }
   const mockOptions = [1, 2, 3, 4, 5, 6].map((_, i) => ({
     label: `Mocked ${property.linkedEntitySchema} with id ${i}`,
@@ -242,7 +276,7 @@ const LinkedEntityPropertyComponent = ({
   const handleChange = useCallback(
     (item: string | number | null) => {
       if (
-        item === ((lastChange?.changed ?? value)?.id ?? null) &&
+        item === ((lastChange?.changed ?? value)?.entityRef.id ?? null) &&
         comments === lastChange?.comments
       ) {
         return;
@@ -257,10 +291,15 @@ const LinkedEntityPropertyComponent = ({
             comments,
             changed: item
               ? {
-                id: item,
-                schema: property.linkedEntitySchema,
-                type: 'existing',
-              } : null,
+                  entityRef: {
+                    id: item,
+                    schema: property.linkedEntitySchema,
+                    type: 'existing',
+                  },
+                  data: {},
+                  state: 'lazy',
+                }
+              : null,
           },
         ],
       });
@@ -268,14 +307,14 @@ const LinkedEntityPropertyComponent = ({
     [onChange, entity, property, comments, lastChange, value],
   );
   useEffect(
-    () => handleChange(value?.id ?? null),
+    () => handleChange(value?.entityRef.id ?? null),
     [handleChange, value, comments],
   );
   return (
     <>
       <Select
         className={lastChange ? 'changedEntityProperty' : undefined}
-        value={value?.id}
+        value={value?.entityRef.id}
         placeholder={`Please select ${label}`}
         style={{ width: 'calc(100% - 20px)' }}
         options={mockOptions}
@@ -296,17 +335,49 @@ const EntityPropertyComponent = ({
   ...other
 }: EntityPropertyComponentProps) => {
   const { uid, kind } = property;
+  const localChanges = other.changes.find(
+    (ec) =>
+      isUpdateEntityChange(ec) && areMatch(ec.entityRef, entity.entityRef),
+  ) as EntityUpdate | undefined;
+  const lastChange = localChanges?.changes.find((c) => c.property === uid);
   if (kind === 'entityOwned') {
     const value = entity.data[property.label];
+    if (lastChange && lastChange.kind !== 'owned') {
+      return <span>BUG: unexpected change type for Owned entity.</span>;
+    }
     if (
       isMaterializedEntity(value) &&
       value.entityRef.schema === property.linkedEntitySchema
     ) {
-
       return (
-
         <EntityFormV2
           {...other}
+          changes={
+            lastChange
+              ? [
+                  {
+                    entityRef: lastChange.ownedEntityId,
+                    type: 'update',
+                    changes: lastChange.changes,
+                  },
+                ]
+              : []
+          }
+          onChange={(c) =>
+            c.type === 'update' &&
+            other.onChange({
+              type: 'update',
+              entityRef: entity.entityRef,
+              changes: [
+                {
+                  property: property.uid,
+                  kind: 'owned',
+                  ownedEntityId: value.entityRef,
+                  changes: c.changes,
+                },
+              ],
+            })
+          }
           schema={getSchema(property.linkedEntitySchema)}
           entity={value}
         />
@@ -319,11 +390,6 @@ const EntityPropertyComponent = ({
       );
     }
   }
-  const localChanges = other.changes.find(
-    (ec) =>
-      isUpdateEntityChange(ec) && areMatch(ec.entityRef, entity.entityRef),
-  ) as EntityUpdate | undefined;
-  const lastChange = localChanges?.changes.find((c) => c.property === uid);
   if (kind === 'text' || kind === 'number' || kind === 'bool') {
     if (lastChange && lastChange.kind !== 'direct') {
       return (
@@ -357,6 +423,25 @@ const EntityPropertyComponent = ({
       />
     );
   }
+  if (kind === 'table') {
+    if (lastChange && lastChange.kind !== 'table') {
+      return (
+        <span>
+          BUG: only Table changes are supported for this type of property!
+        </span>
+      );
+    }
+    return (
+      <NumbersTableComponent
+        property={property}
+        entity={entity}
+        lastChange={lastChange}
+        {...other}
+      />
+    );
+  }
+  if (kind === 'ownedEntityList') {
+  }
   return null;
 };
 
@@ -364,17 +449,23 @@ export const EntityFormV2 = ({
   schema,
   entity,
   changes,
-  onChange, expandedMenu, setExpandedMenu
+  onChange,
+  expandedMenu,
+  setExpandedMenu,
+  accessLevel,
 }: EntityFormV2Props) => {
-  const { properties } = schema;
-
+  const properties = useMemo(
+    () =>
+      schema.properties.filter(
+        (p) => p.accessLevel === undefined || p.accessLevel <= accessLevel,
+      ),
+    [schema, accessLevel],
+  );
   const children = useMemo(
     () =>
       properties.map((p) => {
-
         const component = (
           <>
-
             <EntityPropertyComponent
               key={p.uid}
               schema={schema}
@@ -384,6 +475,7 @@ export const EntityFormV2 = ({
               property={p}
               changes={changes}
               onChange={onChange}
+              accessLevel={accessLevel}
             />
           </>
         );
@@ -395,7 +487,16 @@ export const EntityFormV2 = ({
           ? addLabel(component, p.label)
           : component;
       }),
-    [schema, properties, entity, changes, onChange],
+    [
+      properties,
+      accessLevel,
+      schema,
+      expandedMenu,
+      setExpandedMenu,
+      entity,
+      changes,
+      onChange,
+    ],
   );
 
   // Group by sections (if any).
@@ -408,9 +509,9 @@ export const EntityFormV2 = ({
     for (const [section, items] of Object.entries(map)) {
       if (section !== '') {
         collapsible.push({
-          key: `${items.map(item => {
+          key: `${items.map((item) => {
             if (React.isValidElement(item)) {
-              return item.props.children.key
+              return item.props.children.key;
             } else {
               return item?.toString();
             }
@@ -434,19 +535,19 @@ export const EntityFormV2 = ({
     return [map[''] || [], collapsible];
   }, [properties, children]);
 
-
   return (
     <div>
-      {ungrouped.length > 0 && ungrouped.map((item, index) => (
-        <div key={`ungrouped-${index}`}>{item}</div>
-      ))}
+      {ungrouped.length > 0 &&
+        ungrouped.map((item, index) => (
+          <div key={`ungrouped-${index}`}>{item}</div>
+        ))}
 
       {sections.length > 0 && (
-        <div className="collapse-container" >
+        <div className="collapse-container">
           <Collapse
             activeKey={expandedMenu}
             onChange={(keys) => {
-              setExpandedMenu(keys as string[])
+              setExpandedMenu(keys as string[]);
             }}
             bordered={false}
             items={sections}
@@ -455,7 +556,7 @@ export const EntityFormV2 = ({
           />
         </div>
       )}
-    </div >
+    </div>
   );
 };
 
@@ -471,7 +572,20 @@ const PropertyChangeCard = ({ change, onDelete }: PropertyChangeCardProps) => {
     display = <b>{change.changed + ''}</b>;
   } else if (change.kind === 'linked') {
     const { changed } = change;
-    display = <b>{changed ? `${changed.schema} ${changed.id}` : '<null>'}</b>;
+    display = (
+      <b>
+        {changed
+          ? `${changed.entityRef.schema} ${changed.entityRef.id}`
+          : '<null>'}
+      </b>
+    );
+  }
+  if (change.kind === 'owned') {
+    display = (
+      <div style={{ paddingLeft: '20px' }}>
+        <PropertyChangesList changes={change.changes} onDelete={onDelete} />
+      </div>
+    );
   }
   // TODO: other kinds
   return (
@@ -490,7 +604,37 @@ const PropertyChangeCard = ({ change, onDelete }: PropertyChangeCardProps) => {
   );
 };
 
+const accessLevelOptions = Object.entries(PropertyAccessLevel)
+  .filter(([key]) => isNaN(Number(key))) // Filter out reverse mapping
+  .map(([label, value]) => ({
+    label: label.replace(/([A-Z])/g, ' $1').trim(), // Add spaces between camel case
+    value: value,
+  }));
+
+interface PropertyChangesListProps {
+  changes: PropertyChange[];
+  onDelete: (change: PropertyChange) => void;
+}
+
+const PropertyChangesList = ({
+  changes,
+  onDelete,
+}: PropertyChangesListProps) => {
+  return (
+    <ul>
+      {changes.map((pc, idxPC) => (
+        <li key={idxPC}>
+          <PropertyChangeCard change={pc} onDelete={onDelete} />
+        </li>
+      ))}
+    </ul>
+  );
+};
+
 export const ContributionForm = ({ entity }: ContributionFormProps) => {
+  const [accessLevel, setAccessLevel] = useState<PropertyAccessLevel>(
+    PropertyAccessLevel.AdvancedContributor,
+  );
   const schema = getSchema(entity.entityRef.schema);
   const [changeSet, setChangeSet] = useState<ChangeSet>({
     id: -1,
@@ -502,66 +646,36 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
   });
   // TODO: debounce changeSet and update the Contribution
   const onChangesUpdate = useCallback(
-    (c: EntityChange) => {
-      // Merge the change with our change set.
-      const next = [...changeSet.changes];
-      if (c.type === 'update') {
-        const idx = next.findIndex(
-          (ec) => ec.type === 'update' && areMatch(ec.entityRef, c.entityRef),
-        );
-        if (idx < 0 || next[idx].type !== 'update') {
-          next.push(c);
-        } else {
-          let changes = next[idx].changes;
-          // If the same property is being changed repeatedly, just update the
-          // last change instead of creating a large sequence of changes to the
-          // same property.
-          if (
-            c.changes.length === 1 &&
-            changes.length > 0 &&
-            changes[0].property === c.changes[0].property
-          ) {
-            changes = [...changes];
-            changes[0] = c.changes[0];
-          } else {
-            changes = [...c.changes, ...next[idx].changes];
-          }
-          next[idx] = {
-            ...next[idx],
-            changes,
-          };
-        }
-      } else {
-        next.push(c);
-      }
-      setChangeSet({ ...changeSet, changes: next });
-    },
-    [changeSet],
+    (c: EntityChange) =>
+      setChangeSet((current) => {
+        // Merge the change with our change set.
+        const next = addToChangeSet(current.changes, c);
+        // TODO: keep the change set clear of orphans
+        const orphans = dropOrphans(entity, next);
+        console.dir(orphans, { depth: null });
+        return { ...current, changes: next };
+      }),
+    [entity, setChangeSet],
   );
   const handleChangeDelete = useCallback(
-    (change: PropertyChange) => {
-      const location = changeSet.changes
-        .filter((ec) => ec.type === 'update')
-        .map((ec, idxEC) => {
-          const match = ec.changes.indexOf(change);
-          return match >= 0 ? ([idxEC, match] as [number, number]) : undefined;
-        })
-        .find((m) => !!m);
-      if (location) {
-        const [idxEC, idxPC] = location;
-        const changes = [...changeSet.changes];
-        const modified = changes[idxEC] as EntityUpdate;
-        const propChanges = [...modified.changes];
-        propChanges.splice(idxPC, 1);
-        if (propChanges.length > 0) {
-          changes[idxEC] = { ...modified, changes: propChanges };
-        } else {
-          changes.splice(idxEC);
+    (change: PropertyChange) =>
+      setChangeSet((current) => {
+        const next = [...current.changes];
+        for (let i = 0; i < next.length; ++i) {
+          const c = next[i];
+          if (c.type !== 'update') {
+            continue;
+          }
+          const copy = [...c.changes];
+          const delCount = deleteChange(copy, change);
+          if (delCount) {
+            next[i] = { ...c, changes: copy };
+            break;
+          }
         }
-        setChangeSet({ ...changeSet, changes });
-      }
-    },
-    [changeSet],
+        return { ...current, changes: next };
+      }),
+    [setChangeSet],
   );
 
   const [globalExpand, setGlobalExpand] = useState(false);
@@ -575,9 +689,9 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
     if (globalExpand) {
       setExpandedMenu([]);
     } else {
-      setExpandedMenu(schema.properties.map(item => item.uid as string));
+      setExpandedMenu(schema.properties.map((item) => item.uid as string));
     }
-    setGlobalExpand(prevState => !prevState);
+    setGlobalExpand((prevState) => !prevState);
   };
 
   return (
@@ -585,19 +699,12 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
       <ul>
         {/* TODO: A list view of the changes in a nice format */}
         {changeSet.changes.map((ec, idxEC) => {
-          console.log({ ec });
           const details =
             ec.type === 'update' ? (
-              <ul>
-                {ec.changes.map((pc, idxPC) => (
-                  <li key={idxPC}>
-                    <PropertyChangeCard
-                      change={pc}
-                      onDelete={handleChangeDelete}
-                    />
-                  </li>
-                ))}
-              </ul>
+              <PropertyChangesList
+                changes={ec.changes}
+                onDelete={handleChangeDelete}
+              />
             ) : null;
           return (
             <li key={idxEC}>
@@ -607,6 +714,14 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
           );
         })}
       </ul>
+      {/* TODO: for now it is ok to allow the choice of "Editor" here, but this
+      will have to be blocked for non-editors using authz */}
+      <Select
+        value={accessLevel}
+        onChange={(value: PropertyAccessLevel) => setAccessLevel(value)}
+        options={accessLevelOptions}
+        style={{ width: 200 }}
+      />
       <div className="expand-collapse">
         {translatedcontribute.titleCollaps}{' '}
         <a href="#" onClick={toggleExpandAll}>
@@ -622,6 +737,7 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
         onChange={onChangesUpdate}
         setExpandedMenu={setExpandedMenu}
         expandedMenu={expandedMenu}
+        accessLevel={accessLevel}
       />
     </>
   );
