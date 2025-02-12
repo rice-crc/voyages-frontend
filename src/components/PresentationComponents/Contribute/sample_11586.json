@@ -2,6 +2,30 @@
   "data": {
     "Voyage ID": 11586,
     "Dataset": 0,
+    "Crew": {
+      "data": {
+        "Crew at voyage outset": null,
+        "Crew at departure from last port of slave purchase": null,
+        "Crew at first landing of slaves": null,
+        "Crew when return voyage begin": null,
+        "Crew at end of voyage": null,
+        "Number of crew unspecified": null,
+        "Crew died before first place of trade in Africa": null,
+        "Crew died while ship was on African coast": null,
+        "Crew died during Middle Passage": null,
+        "Crew died in the Americas": null,
+        "Crew died on return voyage": null,
+        "Crew died during complete voyage": null,
+        "Total number of crew deserted": null,
+        "id": 7968
+      },
+      "state": "original",
+      "entityRef": {
+        "type": "existing",
+        "schema": "VoyageCrew",
+        "id": 7968
+      }
+    },
     "Slave Numbers": {
       "data": {
         "SlavesIntendedFirstPortPurchase": null,
@@ -124,6 +148,70 @@
         "id": 7968
       }
     },
+    "Outcome": {
+      "data": {
+        "Particular Outcome": {
+          "data": {
+            "Name": "Voyage completed as intended",
+            "Value": 1,
+            "id": 2
+          },
+          "state": "original",
+          "entityRef": {
+            "type": "existing",
+            "schema": "ParticularOutcome",
+            "id": 2
+          }
+        },
+        "Resistance": null,
+        "Enslaved Outcome": {
+          "data": {
+            "Name": "Slaves disembarked in Americas",
+            "Value": 1,
+            "id": 1
+          },
+          "state": "original",
+          "entityRef": {
+            "type": "existing",
+            "schema": "SlavesOutcome",
+            "id": 1
+          }
+        },
+        "Vessel Outcome": {
+          "data": {
+            "Name": "Not captured",
+            "Value": 14,
+            "id": 1
+          },
+          "state": "original",
+          "entityRef": {
+            "type": "existing",
+            "schema": "VesselOutcomeSchema",
+            "id": 1
+          }
+        },
+        "Owner Outcome": {
+          "data": {
+            "Name": "Delivered slaves for original owners",
+            "Value": 1,
+            "id": 1
+          },
+          "state": "original",
+          "entityRef": {
+            "type": "existing",
+            "schema": "OwnerOutcome",
+            "id": 1
+          }
+        },
+        "id": 7968
+      },
+      "state": "original",
+      "entityRef": {
+        "type": "existing",
+        "schema": "VoyageOutcome",
+        "id": 7968
+      }
+    },
     "Itinerary": {
       "data": {
         "Port of departure": {
@@ -139,7 +227,7 @@
             "id": 435
           }
         },
-        "First intended port of embarkation (EMBPORT)": {
+        "First intended port of embarkation": {
           "data": {
             "Name": "São Tomé",
             "Code": 60673,
@@ -152,8 +240,8 @@
             "id": 1774
           }
         },
-        "Second intended port of embarkation (EMBPORT2)": null,
-        "First intended port of disembarkation (ARRPORT)": {
+        "Second intended port of embarkation": null,
+        "First intended port of disembarkation": {
           "data": {
             "Name": "Cadiz",
             "Code": 10104,
@@ -166,11 +254,11 @@
             "id": 120
           }
         },
-        "Second intended port of disembarkation (ARRPORT2)": null,
-        "Third intended port of disembarkation (ARRPORT3)": null,
-        "Fourth intended port of disembarkation (ARRPORT4)": null,
-        "Number of ports of call prior to buying slaves (NPPRETRA)": null,
-        "First place of slave purchase (PLAC1TRA)": {
+        "Second intended port of disembarkation": null,
+        "Third intended port of disembarkation": null,
+        "Fourth intended port of disembarkation": null,
+        "Number of ports of call prior to buying slaves": null,
+        "First place of slave purchase": {
           "data": {
             "Name": "New Calabar",
             "Code": 60622,
@@ -183,11 +271,11 @@
             "id": 1749
           }
         },
-        "Second place of slave purchase (PLAC2TRA)": null,
-        "Third place of slave purchase (PLAC3TRA)": null,
-        "Port of call before Atlantic crossing (NPAFTTRA)": null,
+        "Second place of slave purchase": null,
+        "Third place of slave purchase": null,
+        "Port of call before Atlantic crossing": null,
         "Number of ports of call in Americas prior to sale of slaves": null,
-        "First place of slave landing (SLA1PORT)": {
+        "First place of slave landing": {
           "data": {
             "Name": "Cadiz",
             "Code": 10104,
@@ -200,9 +288,9 @@
             "id": 120
           }
         },
-        "Second place of slave landing (ADPSALE1)": null,
-        "Third place of slave landing (ADPSALE2)": null,
-        "Place at which voyage ended (PORTRET)": {
+        "Second place of slave landing": null,
+        "Third place of slave landing": null,
+        "Place at which voyage ended": {
           "data": {
             "Name": "Texel",
             "Code": 10829,
@@ -215,7 +303,7 @@
             "id": 434
           }
         },
-        "Imputed port where voyage began (PTDEPIMP)": {
+        "Imputed port where voyage began": {
           "data": {
             "Name": "Rotterdam",
             "Code": 10830,
@@ -228,7 +316,7 @@
             "id": 435
           }
         },
-        "Principal place of slave purchase (MAJBUYPT)": {
+        "Principal place of slave purchase": {
           "data": {
             "Name": "New Calabar",
             "Code": 60622,
@@ -241,7 +329,7 @@
             "id": 1749
           }
         },
-        "Imputed principal place of slave purchase (MJBYPTIMP)": {
+        "Imputed principal place of slave purchase": {
           "data": {
             "Name": "New Calabar",
             "Code": 60622,
@@ -254,7 +342,7 @@
             "id": 1749
           }
         },
-        "Principal port of slave disembarkation (MAJSELPT)": {
+        "Principal port of slave disembarkation": {
           "data": {
             "Name": "Cadiz",
             "Code": 10104,
@@ -267,7 +355,7 @@
             "id": 120
           }
         },
-        "Imputed principal port of slave disembarkation (MJSLPTIMP)": {
+        "Imputed principal port of slave disembarkation": {
           "data": {
             "Name": "Cadiz",
             "Code": 10104,
@@ -291,10 +379,10 @@
     },
     "Dates": {
       "data": {
-        "Length of Middle Passage in (days) (VOYAGE)": null,
-        "Voyage length from home port to disembarkation (days) (VOY1IMP)": null,
-        "Voyage length from last slave embarkation to first disembarkation (days) (VOY2IMP)": null,
-        "Date that voyage began (DATEDEPB,A,C)": {
+        "Length of Middle Passage in (days)": null,
+        "Voyage length from home port to disembarkation (days)": null,
+        "Voyage length from last slave embarkation to first disembarkation (days)": null,
+        "Date that voyage began": {
           "data": {
             "Year": 1669,
             "Month": 11,
@@ -308,7 +396,7 @@
             "id": 44998
           }
         },
-        "Date that slave purchase began (D1SLATRB,A,C)": {
+        "Date that slave purchase began": {
           "data": {
             "Year": 1670,
             "Month": 1,
@@ -322,7 +410,7 @@
             "id": 44999
           }
         },
-        "Date that vessel left last slaving port (DLSLATRB,A,C)": {
+        "Date that vessel left last slaving port": {
           "data": {
             "Year": 1670,
             "Month": null,
@@ -336,7 +424,7 @@
             "id": 45000
           }
         },
-        "Date of first disembarkation of slaves (DATARR33,32,34)": {
+        "Date of first disembarkation of slaves": {
           "data": {
             "Year": 1670,
             "Month": 10,
@@ -350,10 +438,10 @@
             "id": 45001
           }
         },
-        "Date vessel departed Africa (DATELEFTAFR)": null,
-        "Date of arrival at second place of landing (DATARR37,36,38)": null,
-        "Date of third disembarkation of slaves (DATARR40,39,41)": null,
-        "Date of departure from last place of landing (DDEPAMB,*,C)": {
+        "Date vessel departed Africa": null,
+        "Date of arrival at second place of landing": null,
+        "Date of third disembarkation of slaves": null,
+        "Date of departure from last place of landing": {
           "data": {
             "Year": 1670,
             "Month": null,
@@ -367,7 +455,7 @@
             "id": 45002
           }
         },
-        "Date on which slave voyage completed (DATARR44,43,45)": {
+        "Date on which slave voyage completed": {
           "data": {
             "Year": 1670,
             "Month": 12,
@@ -409,7 +497,7 @@
             "id": 45005
           }
         },
-        "Year of arrival at port of disembarkation (YEARAM)": {
+        "Year of arrival at port of disembarkation": {
           "data": {
             "Year": 1670,
             "Month": null,
@@ -432,6 +520,296 @@
         "id": 7968
       }
     },
+    "Sources": [
+      {
+        "data": {
+          "Page range": "BDB118",
+          "source_id": {
+            "data": {
+              "Title": "Dataset of 17th century Dutch slave trading voyages",
+              "id": 998
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 998
+            }
+          },
+          "id": 26704
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 26704
+        }
+      },
+      {
+        "data": {
+          "Page range": "Binder:ARA,SG,5768,17/12/1670",
+          "source_id": {
+            "data": {
+              "Title": "Archival and library notes on the 17th century slave trade; notes from the Nationaal Archief",
+              "id": 1038
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1038
+            }
+          },
+          "id": 27782
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 27782
+        }
+      },
+      {
+        "data": {
+          "Page range": "GAA,NA,2956:897,25April1672",
+          "source_id": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
+          "id": 68092
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 68092
+        }
+      },
+      {
+        "data": {
+          "Page range": "GAA,NA,2231:2Nov1669",
+          "source_id": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
+          "id": 68093
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 68093
+        }
+      },
+      {
+        "data": {
+          "Page range": "GAA,NA,3205:398,17/12/1670",
+          "source_id": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
+          "id": 68094
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 68094
+        }
+      },
+      {
+        "data": {
+          "Page range": "GAA,NA,3206:336,28/3/1671",
+          "source_id": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
+          "id": 68095
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 68095
+        }
+      },
+      {
+        "data": {
+          "Page range": null,
+          "source_id": {
+            "data": {
+              "Title": "Dataset of 17th century Dutch slave trading voyages",
+              "id": 998
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 998
+            }
+          },
+          "id": 173625
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 173625
+        }
+      },
+      {
+        "data": {
+          "Page range": null,
+          "source_id": {
+            "data": {
+              "Title": "Archival and library notes on the 17th century slave trade; notes from the Nationaal Archief",
+              "id": 1038
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1038
+            }
+          },
+          "id": 174703
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 174703
+        }
+      },
+      {
+        "data": {
+          "Page range": null,
+          "source_id": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
+          "id": 215014
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 215014
+        }
+      },
+      {
+        "data": {
+          "Page range": null,
+          "source_id": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
+          "id": 215015
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 215015
+        }
+      },
+      {
+        "data": {
+          "Page range": null,
+          "source_id": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
+          "id": 215016
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 215016
+        }
+      },
+      {
+        "data": {
+          "Page range": null,
+          "source_id": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
+          "id": 215017
+        },
+        "state": "original",
+        "entityRef": {
+          "type": "existing",
+          "schema": "Voyage Source Connection",
+          "id": 215017
+        }
+      }
+    ],
     "Enslavement relations": [
       {
         "data": {
@@ -451,6 +829,7 @@
           "Date": null,
           "Amount": null,
           "id": 8293,
+          "Enslaved in relation": [],
           "Enslavers in relation": [
             {
               "data": {
