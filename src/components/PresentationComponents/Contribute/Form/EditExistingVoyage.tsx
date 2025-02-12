@@ -1,7 +1,7 @@
 import '@/style/contributeContent.scss';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
-import { ContributionForm } from '../EntityFormV2';
+import { ContributionForm } from '../EntityForm';
 import sampleVoyage from "../sample_11586.json"
 import { MaterializedEntity } from '@/models/materialization';
 
