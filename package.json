@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host --port 3003",
+    "dev": "vite --host --port 3000",
     "build": "vite build",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "eslint src",
