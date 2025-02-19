@@ -293,8 +293,7 @@ const Tables: React.FC = () => {
 
   const handleColumnVisibleChange = useCallback(
     (params: any) => {
-      const { columnApi } = params;
-      const allColumns = columnApi?.getAllColumns();
+      const allColumns = params.api.getColumns(); //* getAllColumns - removed, use api.getColumns instead. https://www.ag-grid.com/react-data-grid/upgrading-to-ag-grid-31/
       const visibleColumns = allColumns && allColumns.filter((column: any) => column.isVisible())
         .map((column: any) => column.getColId());
       dispatch(setVisibleColumn(visibleColumns));
