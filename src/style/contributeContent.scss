@@ -39,7 +39,8 @@
 }
 
 .nav-header-contribute {
-  z-index: 1;
+  position: relative;
+  z-index: 100 !important;
   width: 100%;
   color: white;
   background-color: rgb(55, 148, 141);
@@ -65,45 +66,10 @@
 
 .contribuite-main-content {
   margin: 0 2rem;
-  display: flex;
-
-  .contribute-sidebar {
-    width: 25%;
-    padding: 15px 15px 0 15px;
-
-    .contribute-sub-sidebar {
-      padding-left: 2rem;
-    }
-  }
-
-  .sidebar-button {
-    color: rgb(55, 148, 141);
-    cursor: pointer;
-  }
-
-  .contribute-sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .contribute-sidebar li a {
-    text-decoration: none;
-    color: rgb(0, 114, 105);
-    display: block;
-    margin: 10px 0;
-  }
-
-  .contribute-sidebar li span {
-    text-decoration: none;
-    color: rgb(0, 114, 105);
-    display: block;
-    margin: 6px 0;
-    cursor: pointer;
-  }
+  display: inline-flex;
 
   /* ContributeContent.css */
   .contribute-content {
-    width: 70%;
     padding: 15px 15px 0 15px;
 
     .page-title-1 {
@@ -219,3 +185,71 @@
     font-weight: 500;
   }
 }
+/* Sidebar Styles */
+// .contribute-sidebar {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 250px;
+//   height: 100%;
+//   background-color: #333;
+//   color: white;
+//   overflow: hidden;
+//   transition: transform 0.3s ease-in-out;
+// }
+
+// .contribute-sidebar.closed {
+//   transform: translateX(-100%); /* Hide sidebar when closed */
+// }
+
+// .contribute-sidebar.open {
+//   transform: translateX(0); /* Show sidebar when open */
+// }
+
+// .contribute-sidebar ul {
+//   padding: 20px;
+//   list-style: none;
+// }
+
+// .contribute-sidebar li {
+//   padding: 10px;
+//   cursor: pointer;
+// }
+
+// .contribute-sidebar button {
+//   position: absolute;
+//   top: 20px;
+//   right: -50px;
+//   background-color: #f4f4f4;
+//   border: none;
+//   padding: 10px;
+//   cursor: pointer;
+// }
+
+// .contribute-sidebar button:hover {
+//   background-color: #ddd;
+// }
+
+// /* Add some space when sidebar is closed */
+// .contribute-content {
+//   margin-left: 0;
+//   transition: margin-left 0.3s ease-in-out;
+// }
+
+// .contribute-sidebar.open + .contribute-content {
+//   margin-left: 250px; /* Adjust content when sidebar is open */
+// }
+
+// .contribute-wrapper {
+//   display: flex;
+// }
+
+// .contribute-content {
+//   flex: 1;
+//   padding: 20px;
+//   transition: margin-left 0.3s ease-in-out;
+// }
+
+// .contribute-sidebar.open + .contribute-content {
+//   margin-left: 250px; /* Adjust content when sidebar is open */
+// }

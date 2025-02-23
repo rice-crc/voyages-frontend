@@ -10,7 +10,7 @@ import {
   ENSLAVERSNODE,
   ESTIMATES,
   VOYAGESNODECLASS,
-  VOYAGESTYPE,
+  VOYAGESTYPE,ENSALVERSTYLE
 } from '@/share/CONST_DATA';
 import { LeafletMapURL } from './LeafletMapURL';
 
@@ -21,7 +21,6 @@ function MAPComponents() {
   const {
     styleName: styleNameRoute,
     voyageURLID: ID,
-    typeOfPathURL,
     nodeTypeURL,
   } = usePageRouter();
 
@@ -44,14 +43,15 @@ function MAPComponents() {
       dispatch(setVariableNameIdURL('voyage_id'));
     } else if (nodeTypeURL === ENSLAVEDNODE && isUrLMap) {
       dispatch(setVariableNameIdURL('enslaved_id'));
-    } else if (nodeTypeURL === ENSLAVERSNODE && isUrLMap) {
+    } else if (nodeTypeURL === ENSLAVERSNODE || nodeTypeURL === ENSALVERSTYLE && isUrLMap) {
       dispatch(
         setVariableNameIdURL(
           'voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id'
         )
       );
     }
-  }, [nameIdURL]);
+  }, [nameIdURL, ID, nodeTypeURL, dispatch]);
+
 
   const calassNameMap =
     nameIdURL || styleNameRoute === ESTIMATES

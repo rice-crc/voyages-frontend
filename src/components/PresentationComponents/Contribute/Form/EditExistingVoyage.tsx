@@ -24,6 +24,7 @@ const EditExistingVoyage: React.FC = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ mb: 3 }}>
             <TextField
+              size="small"
               sx={{ width: 300 }}
               InputProps={{
                 sx: {

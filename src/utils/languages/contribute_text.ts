@@ -315,6 +315,13 @@ export const contributeTranslate: TranslateType = {
       es: `Bienvenido, {user.userName}.`,
       pt: `Bem-vindo, {user.userName}.`,
     }
+  }, 
+  contributeChangePassword: {
+    label: {
+      en: `Change Password`,
+      es: `Cambiar contraseña`,
+      pt: `Alterar senha`,
+    }
   }
 };
 
