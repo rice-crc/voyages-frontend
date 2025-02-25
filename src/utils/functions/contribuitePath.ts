@@ -1,17 +1,17 @@
 //https://www.slavevoyages.org/contribute/interim/new/2976
 import React from 'react';
-import { Create, EditAttributes, Merge, Delete } from '@mui/icons-material';
+import { Add, Edit, Merge, Delete } from '@mui/icons-material';
 const generateId = '';
 export const getDisplayButtons = (translatedContribute: any) => [
   {
     nameBtn: translatedContribute.contributeNewVoyage,
     path: `/contribute/interim/new/${generateId}`,
-    icon: React.createElement(Create)
+    icon: React.createElement(Add)
   },
   {
     nameBtn: translatedContribute.contributeEditExistingVoyage,
     path: `/contribute/edit_voyage`,
-    icon: React.createElement(EditAttributes)
+    icon: React.createElement(Edit)
   },
   {
     nameBtn: translatedContribute.contributeMergeVoyages,

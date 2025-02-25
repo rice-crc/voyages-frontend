@@ -1,19 +1,9 @@
 import '@/style/contributeContent.scss';
 import '@/style/newVoyages.scss';
-import React, { useCallback, useMemo, useState } from 'react';
-
+import React, { useCallback, useState } from 'react';
 import { Box, Button } from '@mui/material';
-import { Collapse, Divider, Form, Input, Typography, message } from 'antd';
-import type { CollapseProps } from 'antd';
-import { useSelector } from 'react-redux';
-
-import { EntityForm } from '../EntityForm';
-
+import { Divider, Form, Input, message } from 'antd';
 import {
-  VoyageShipEntitySchema,
-  VoyageSlaveNumbersSchema,
-  VoyageItinerarySchema,
-  VoyageDatesSchema,
   VoyageSchema,
   EntitySchema,
 } from '@/models/entities';
@@ -113,6 +103,7 @@ const NewVoyage: React.FC = () => {
           the reviewer/editor, please use the contributor's comments at the end
           of this form or any of the specific field comment boxes.
         </small>
+        <Divider />
         <ContributionForm entity={tempNewVoyage} />
         <Divider />
         <Form.Item

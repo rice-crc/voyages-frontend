@@ -18,8 +18,8 @@ export const contributeTranslate: TranslateType = {
   titleCollaps: {
     label: {
       en: 'Expand All to see/hide all.',
-      es: 'ES: Expand All to see/hide all.',
-      pt: 'PT: Expand All to see/hide all.',
+      es: 'Expandir todo para ver/ocultar todo.',
+      pt: 'Expandir tudo para ver/ocultar tudo.',
     },
   },
   expand: {

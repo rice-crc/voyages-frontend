@@ -1,5 +1,5 @@
 import { Property } from '@/models/properties';
-import CommentIcon from '@mui/icons-material/Comment';
+import { Comment } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import TextArea from 'antd/es/input/TextArea';
@@ -39,7 +39,7 @@ export const EntityPropertyChangeCommentBox = ({
         }}
         aria-label="add comment"
       >
-        <CommentIcon />
+        <Comment />
       </IconButton>
       <Popover
         open={anchorEl !== null}

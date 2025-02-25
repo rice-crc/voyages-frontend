@@ -1,89 +1,80 @@
 import '@/style/contributeContent.scss';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import '@/style/newVoyages.scss';
+import { Form, Input, Button, Divider } from 'antd';
 import { useState } from 'react';
 import { ContributionForm } from '../EntityForm';
-import sampleVoyage from "../sample_11586.json"
+import sampleVoyage from "../sample_11586.json";
 import { MaterializedEntity } from '@/models/materialization';
 
 const EditExistingVoyage: React.FC = () => {
+  const [form] = Form.useForm();
   const [voyageId, setVoyageId] = useState<string>('');
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
+
+  const handleSubmit = (values: any): void => {
     if (voyageId) {
-      alert(`Sucessfully password change`);
+      alert(`Successfully found voyage`);
     } else {
-      alert(`Password is not match, try again`);
+      alert(`Please enter a voyage ID`);
     }
   };
 
   return (
-    <div className="contribute-content">
-      <h1 className="page-title-1">Edit an Existing Record of a Voyage</h1>
-      <p>Please select the voyage you wish to edit.</p>
-      <form onSubmit={handleSubmit}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ mb: 3 }}>
-            <TextField
-              size="small"
-              sx={{ width: 300 }}
-              InputProps={{
-                sx: {
-                  height: 40,
-                  padding: '0 8px',
-                },
+    <div className="contribute-content new-voyages-container">
+      <div className="content-inner-wrapper">
+        <h1 className="page-title-1">Edit an Existing Record of a Voyage</h1>
+        <p className="description-text">Please select the voyage you wish to edit.</p>
+        
+        <Form form={form} onFinish={handleSubmit}>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20 }}>
+            <Form.Item 
+              style={{ flex: 1, marginBottom: 0 }}
+              name="voyageId"
+              rules={[{ required: true, message: 'Please input Voyage ID!' }]}
+            >
+              <Input
+                placeholder="Enter Voyage ID"
+                type="number"
+                value={voyageId}
+                onChange={(e) => setVoyageId(e.target.value)}
+                style={{ height: 40 }}
+              />
+            </Form.Item>
+            
+            <Button
+              type="primary"
+              ghost
+              style={{
+                marginLeft: 10,
+                height: 40,
+                borderColor: 'rgb(55, 148, 141)',
+                color: 'rgb(55, 148, 141)',
               }}
-              label={<small>Voyage ID:</small>}
-              variant="outlined"
-              type="number"
-              value={voyageId}
-              onChange={(e) => setVoyageId(e.target.value)}
-              required
-            />
-          </Box>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            sx={{
-              backgroundColor: 'transparent',
-              border: '1px solid rgb(55, 148, 141)',
-              color: 'rgb(55, 148, 141)',
-              height: 38,
-              mb: 3,
-              fontSize: '0.85rem',
-              textTransform: 'none',
-              boxShadow: 'transparent',
-              marginLeft: '10px',
-              '&:hover': {
+              onClick={() => form.submit()}
+            >
+              Search
+            </Button>
+          </div>
+       
+          
+          <Form.Item style={{ marginTop: 20 }}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{
                 backgroundColor: 'rgb(55, 148, 141)',
-                color: '#fff',
-              },
-            }}
-          >
-            Search
-          </Button>
-        </Box>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{
-            backgroundColor: 'rgb(55, 148, 141)',
-            color: '#fff',
-            marginRight: '0.5rem',
-            height: 32,
-            fontSize: '0.85rem',
-            textTransform: 'none',
-            '&:hover': {
-              backgroundColor: 'rgba(6, 186, 171, 0.83)',
-            },
-          }}
-        >
-          Begin
-        </Button>
-      </form>
-      <ContributionForm entity={sampleVoyage as MaterializedEntity} />
+                height: 35,
+              }}
+            >
+              Begin
+            </Button>
+          </Form.Item>
+          <Divider />
+          <ContributionForm entity={sampleVoyage as MaterializedEntity} />
+          <Divider />
+        </Form>
+      </div>
     </div>
   );
 };
+
 export default EditExistingVoyage;

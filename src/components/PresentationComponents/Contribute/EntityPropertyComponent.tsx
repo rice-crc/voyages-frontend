@@ -116,6 +116,7 @@ export const EntityPropertyComponent = ({
     );
   }
   if (kind === 'table') {
+    console.log('EntityPropertyComponent', property, entity);
     if (lastChange && lastChange.kind !== 'table') {
       return (
         <span>

@@ -6,7 +6,7 @@ import { translationLanguagesContribute } from '@/utils/functions/translationLan
 import { getDisplayButtons } from '@/utils/functions/contribuitePath';
 import StyledDrawer from '@/styleMUI/StyledDrawer';
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { Settings as SettingsIcon, ExitToApp, AccountCircleRounded, Home, Diversity3 } from '@mui/icons-material';
+import {  ExitToApp, AccountCircleRounded, Home, Diversity3 } from '@mui/icons-material';
 import { useNavigation } from '@/hooks/useNavigation';
 import { useTheme } from '@mui/material/styles';
 
