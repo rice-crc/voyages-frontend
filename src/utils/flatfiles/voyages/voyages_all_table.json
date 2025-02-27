@@ -516,7 +516,6 @@
         "pt": "Equipamento do navio"
       },
       "cell_type": "literal",
-      "visible": false,
       "number_format": null,
       "order_by": [
         "voyage_ship__rig_of_vessel__name"
@@ -527,6 +526,29 @@
         "fields": [
           {
             "var_name": "voyage_ship__rig_of_vessel__name",
+            "cell_fn": "literal"
+          }
+        ]
+      }
+    },
+    {
+      "header_label": {
+        "en": "Ton type",
+        "es": "Tipo de tonelada",
+        "pt": "Tipo de tonelada"
+      },
+      "cell_type": "literal",
+      "visible": false,
+      "number_format": null,
+      "order_by": [
+        "voyage_ship__ton_type__name"
+      ],
+      "col_width_px": 100,
+      "colID": "voyage_ship__ton_type__name",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "voyage_ship__ton_type__name",
             "cell_fn": "literal"
           }
         ]
@@ -1612,6 +1634,15 @@
             "en": "Rig of Vessel",
             "es": "Aparejo del buque",
             "pt": "Equipamento do navio"
+          }
+        },
+        {
+          "col_width_px": 100,
+          "colID": "voyage_ship__ton_type__name",
+          "label": {
+            "en": "Ton type",
+            "es": "Tipo de tonelada",
+            "pt": "Tipo de tonelada"
           }
         },
         {

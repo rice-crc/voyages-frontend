@@ -41,191 +41,25 @@
         }
       },
       {
-        "cell_type": "literal",
+        "cell_type": "literal-concat",
         "number_format": null,
         "cell_val": {
           "fields": [
             {
-              "var_name": "voyage_ship__imputed_nationality__name",
+              "var_name": "enslavers__enslaver__principal_alias",
               "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Flag of vessel (IMP)",
-          "es": "Pabellón del buque (IMP)",
-          "pt": "Pavilhão do navio (IMP)"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
+            },
             {
-              "var_name": "voyage_ship__nationality_ship__name",
+              "var_name": "enslavers__roles",
               "cell_fn": "literal"
             }
-          ]
+          ],
+          "join": ": "
         },
         "label": {
-          "en": "Flag of vessel",
-          "es": "Pabellón del buque",
-          "pt": "Pavilhão do navio"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_ship__registered_place__name",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Place registered",
-          "es": "Lugar de registro",
-          "pt": "Local registado"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_ship__registered_year",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Year registered",
-          "es": "Año de registro",
-          "pt": "Ano de registo"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_ship__year_of_construction",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Year of construction",
-          "es": "Año de construcción",
-          "pt": "Ano de construção"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_ship__vessel_construction_place__name",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Region of construction",
-          "es": "Región de construcción",
-          "pt": "Região de construção"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_ship__rig_of_vessel__name",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Rig of vessel",
-          "es": "Aparejo del buque",
-          "pt": "Equipamento do navio"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_ship__ton_type__name",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Ton type",
-          "es": "Tipo de tonelada",
-          "pt": "Tipo de tonelada"
-        }
-      },
-
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_ship__tonnage",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Tonnage",
-          "es": "Tonelaje",
-          "pt": "Tonelagem"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_ship__tonnage_mod",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Standardized Tonnage (IMP)",
-          "es": "Arqueo normalizado (IMP)",
-          "pt": "Tonelagem normalizada (IMP)"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_ship__guns_mounted",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Guns mounted",
-          "es": "Cañones montados",
-          "pt": "Armas montadas"
+          "en": "Principal Enslaver",
+          "es": "ES: Principal Enslaver",
+          "pt": "PT: Principal Enslaver"
         }
       },
       {
@@ -244,36 +78,184 @@
           "es": "ES: Enslaver Connections",
           "pt": "PT: Enslaver Connections"
         }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__registered_place__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Place where vessel registered",
+          "es": "ES: Place where vessel registered",
+          "pt": "PT: Place where vessel registered"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__registered_year",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Year of vessel's registration",
+          "es": "ES: Year of vessel's registration",
+          "pt": "PT: Year of vessel's registration"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__year_of_construction",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Year of vessel's construction",
+          "es": "ES: Year of vessel's construction",
+          "pt": "PT: Year of vessel's construction"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__imputed_nationality__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Imputed Ship Nationality",
+          "es": "ES: Imputed Ship Nationality",
+          "pt": "PT: Imputed Ship Nationality"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__rig_of_vessel__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Rig of vessel",
+          "es": "ES: Rig of vessel",
+          "pt": "PT: Rig of vessel"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__tonnage_mod",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Tonnage standardized on British measured tons 1773-1870",
+          "es": "ES: Tonnage standardized on British measured tons 1773-1870",
+          "pt": "PT: Tonnage standardized on British measured tons 1773-1870"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__tonnage",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Tonnage of vessel",
+          "es": "ES: Tonnage of vessel",
+          "pt": "PT: Tonnage of vessel"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__guns_mounted",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Guns mounted",
+          "es": "ES: Guns mounted",
+          "pt": "PT: Guns mounted"
+        }
       }
     ]
   },
   {
     "label": {
-      "en": "Enslavers",
-      "es": "Esclavizadores",
-      "pt": "Escravizadores"
+      "en": "Crew",
+      "es": "ES: Crew",
+      "pt": "PT: Crew"
     },
     "children": [
       {
-        "cell_type": "literal-concat",
+        "cell_type": "literal",
         "number_format": null,
         "cell_val": {
           "fields": [
             {
-            "var_name": "enslavers__enslaver__principal_alias",
-              "cell_fn": "literal"
-            },
-            {
-              "var_name": "enslavers__roles",
+              "var_name": "voyage_crew__crew_died_complete_voyage",
               "cell_fn": "literal"
             }
-          ],
-          "join": ": "
+          ]
         },
         "label": {
-          "en": "Captain and investors",
-          "es": "Capitán y inversores",
-          "pt": "Capitão e investidores"
+          "en": "Crew died during complete voyage",
+          "es": "ES: Crew died during complete voyage",
+          "pt": "PT: Crew died during complete voyage"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_crew__crew_first_landing",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Crew at first landing of slaves",
+          "es": "ES: Crew at first landing of slaves",
+          "pt": "PT: Crew at first landing of slaves"
         }
       },
       {
@@ -289,41 +271,8 @@
         },
         "label": {
           "en": "Crew at voyage outset",
-          "es": "Tripulación al inicio del viaje",
-          "pt": "A tripulação no início da viagem"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_crew__crew_first_landing",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Crew at first landing of captives",
-              "es": "Tripulación en el primer desembarco de cautivos",
-              "pt": "A tripulação no primeiro desembarque de cativos"
-        }
-      }, {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_crew__crew_died_complete_voyage",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Crew deaths during voyage",
-          "es": "Muertes de la tripulación durante el viaje",
-          "pt": "Mortes de tripulantes durante a viagem"
+          "es": "ES: Crew at voyage outset",
+          "pt": "PT: Crew at voyage outset"
         }
       }
     ]
@@ -331,8 +280,8 @@
   {
     "label": {
       "en": "Itinerary",
-        "es": "Itinerario",
-      "pt": "Itinerário"
+      "es": "ES: Itinerary",
+      "pt": "PT: Itinerary"
     },
     "children": [
       {
