@@ -255,6 +255,7 @@ const Tables: React.FC = () => {
     tablesCell
   );
 
+
   const defaultColDef = useMemo(
     () => ({
       sortable: true,

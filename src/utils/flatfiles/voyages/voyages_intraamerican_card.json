@@ -214,6 +214,23 @@
           "es": "Cañones montados",
           "pt": "Canhões montados"
         }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "cargo__cargo__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Cargo",
+          "es": "Carga",
+          "pt": "Carga"
+        }
       }
     ]
   },

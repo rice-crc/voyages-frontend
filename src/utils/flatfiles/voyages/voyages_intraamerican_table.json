@@ -626,6 +626,29 @@
     },
     {
       "header_label": {
+        "en": "Cargo",
+        "es": "Carga",
+        "pt": "Carga"
+      },
+      "cell_type": "literal",
+      "number_format": null,
+      "visible": false,
+      "order_by": [
+        "cargo__cargo__name"
+      ],
+      "col_width_px": 100,
+      "colID": "cargo__cargo__name",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "cargo__cargo__name",
+            "cell_fn": "literal"
+          }
+        ]
+      }
+    },
+    {
+      "header_label": {
         "en": "Crew at voyage outset",
         "es": "Tripulación al inicio del viaje",
         "pt": "A tripulação no início da viagem"
@@ -1671,6 +1694,15 @@
             "en": "Guns mounted",
             "es": "Cañones montados",
             "pt": "Armas montadas"
+          }
+        },
+        {
+          "col_width_px": 100,
+          "colID": "cargo__cargo__name",
+          "label": {
+            "en": "Cargo",
+            "es": "Carga",
+            "pt": "Carga"
           }
         }
       ]

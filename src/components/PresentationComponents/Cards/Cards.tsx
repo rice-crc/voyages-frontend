@@ -137,6 +137,7 @@ const VoyageCard = () => {
       default:
         newCardFileName = '';
     }
+    console.log({ newCardFileName, newCardDataArray })
 
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));

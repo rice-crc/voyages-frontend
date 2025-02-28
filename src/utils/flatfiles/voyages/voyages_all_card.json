@@ -63,23 +63,6 @@
         "cell_val": {
           "fields": [
             {
-              "var_name": "voyage_ship__nationality_ship__name",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Flag of vessel",
-          "es": "Pabellón del buque",
-          "pt": "Pavilhão do navio"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
               "var_name": "voyage_ship__registered_place__name",
               "cell_fn": "literal"
             }
@@ -108,23 +91,7 @@
           "pt": "Ano de registo"
         }
       },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_ship__year_of_construction",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Year of construction",
-          "es": "Año de construcción",
-          "pt": "Ano de construção"
-        }
-      },
+     
       {
         "cell_type": "literal",
         "number_format": null,
@@ -140,6 +107,23 @@
           "en": "Region of construction",
           "es": "Región de construcción",
           "pt": "Região de construção"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__year_of_construction",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Year of construction",
+          "es": "Año de construcción",
+          "pt": "Ano de construção"
         }
       },
       {
@@ -200,23 +184,6 @@
         "cell_val": {
           "fields": [
             {
-              "var_name": "voyage_ship__tonnage_mod",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Standardized Tonnage (IMP)",
-          "es": "Arqueo normalizado (IMP)",
-          "pt": "Tonelagem normalizada (IMP)"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
               "var_name": "voyage_ship__guns_mounted",
               "cell_fn": "literal"
             }
@@ -226,23 +193,6 @@
           "en": "Guns mounted",
           "es": "Cañones montados",
           "pt": "Armas montadas"
-        }
-      },
-      {
-        "cell_type": "network_modal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_enslavement_relations__relation_enslavers__enslaver_alias__identity__id",
-              "cell_fn": "enslavers"
-            }
-          ]
-        },
-        "label": {
-          "en": "Enslaver Connections",
-          "es": "ES: Enslaver Connections",
-          "pt": "PT: Enslaver Connections"
         }
       }
     ]
@@ -936,10 +886,60 @@
   {
     "label": {
       "en": "Outcomes",
-      "es": "ES: Outcomes",
-      "pt": "PT: Outcomes"
+      "es": "Resultados",
+      "pt": "Resultados"
     },
     "children": [
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_outcome__particular_outcome__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Particular outcome of voyage",
+          "es": "Resultado particular del viaje",
+          "pt": "Resultado específico do viaje"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_outcome__outcome_slaves__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Outcome of voyage for captives",
+          "es": "Resultado del viaje para los cautivos",
+          "pt": "Resultado da viagem para os cativos"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_outcome__outcome_owner__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Outcome of voyage for owner",
+          "es": "Resultado del viaje para el propietario",
+          "pt": "Resultado da viagem para o armador"
+        }
+      },
       {
         "cell_type": "literal",
         "number_format": null,
@@ -952,9 +952,9 @@
           ]
         },
         "label": {
-          "en": "Vessel Captured Outcome",
-          "es": "ES: Vessel Captured Outcome",
-          "pt": "PT: Vessel Captured Outcome"
+          "en": "Outcome of voyage if ship captured",
+          "es": "Resultado del viaje si el barco fue capturado",
+          "pt": "Resultado da viagem se o navio for capturado"
         }
       },
       {
@@ -970,60 +970,11 @@
         },
         "label": {
           "en": "Resistance",
-          "es": "ES: Resistance",
-          "pt": "PT: Resistance"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_outcome__outcome_owner__name",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Owner Outcome",
-          "es": "ES: Owner Outcome",
-          "pt": "PT: Owner Outcome"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_outcome__outcome_slaves__name",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Slaves Outcome",
-          "es": "ES: Slaves Outcome",
-          "pt": "PT: Slaves Outcome"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "voyage_outcome__particular_outcome__name",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Particular Outcome",
-          "es": "ES: Particular Outcome",
-          "pt": "PT: Particular Outcome"
+          "es": "Resistencia",
+          "pt": "Resistência"
         }
       }
+   
     ]
   },
   {
