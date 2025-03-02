@@ -137,8 +137,6 @@ const VoyageCard = () => {
       default:
         newCardFileName = '';
     }
-    console.log({ newCardFileName, newCardDataArray })
-
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
   }, [nodeTypeClass, cardRowID, dispatch, cardFileName]);
@@ -251,8 +249,10 @@ const VoyageCard = () => {
                   <div className="container-card-body">
                     {childValue.map((child: any) => {
                       const values = child.value;
+                      // console.log({ values })
                       const numberFormat = child.number_format;
                       if (Array.isArray(values)) {
+                     
                         const renderedValues = values.map(
                           (
                             value: string | DocumentReference,

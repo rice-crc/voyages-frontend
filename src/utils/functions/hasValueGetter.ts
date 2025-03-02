@@ -41,7 +41,7 @@ export function hasValueGetter(
       const fieldName = fields[i].var_name;
       const fieldValue = data[fieldName];
       if (fieldValue !== null) {
-        dataValue += fieldValue + '  ';
+        dataValue += fieldValue + joinDelimiter;
       } else {
         dataValue += '';
       }
