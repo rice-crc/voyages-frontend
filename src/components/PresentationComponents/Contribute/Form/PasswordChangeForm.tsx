@@ -63,14 +63,13 @@ const PasswordChangeForm = () => {
           variant="contained"
           color="primary"
           sx={{
-            backgroundColor: 'rgb(25, 118, 210 ,10)',
+            backgroundColor: 'rgb(55, 148, 141)',
             color: '#fff',
-
             height: 32,
             fontSize: '0.85rem',
             textTransform: 'none',
             '&:hover': {
-              backgroundColor: 'rgb(10 131 253)',
+              backgroundColor: 'rgba(6, 186, 171, 0.83)',
             },
           }}
         >

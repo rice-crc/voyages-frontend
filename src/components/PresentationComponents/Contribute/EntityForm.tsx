@@ -14,7 +14,7 @@ import { translationLanguagesContribute } from '@/utils/functions/translationLan
 import { Delete } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import { Collapse, CollapseProps, Form, Select, Typography } from 'antd';
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { EntityPropertyComponent } from './EntityPropertyComponent';
 
@@ -36,6 +36,7 @@ export interface EntityFormProps {
   expandedMenu: string[];
   setExpandedMenu: React.Dispatch<React.SetStateAction<string[]>>;
   accessLevel: PropertyAccessLevel;
+  onSectionsChange?: (sections: CollapseProps['items']) => void;
 }
 
 const addLabel = (item: ReactNode, label: string) => {
@@ -58,6 +59,7 @@ export const EntityForm = ({
   expandedMenu,
   setExpandedMenu,
   accessLevel,
+  onSectionsChange,
 }: EntityFormProps) => {
   const properties = useMemo(
     () =>
@@ -66,6 +68,7 @@ export const EntityForm = ({
       ),
     [schema, accessLevel],
   );
+
   const children = useMemo(
     () =>
       properties.map((p) => {
@@ -136,9 +139,13 @@ export const EntityForm = ({
         });
       }
     }
-
-    return [map[''] || [], collapsible];
+    
+    return [map[''] ?? [], collapsible];
   }, [properties, children]);
+
+  useEffect(() => {
+    onSectionsChange?.(sections);
+  }, [sections, onSectionsChange]);
 
   return (
     <div>
@@ -146,9 +153,8 @@ export const EntityForm = ({
         ungrouped.map((item, index) => (
           <div key={`ungrouped-${index}`}>{item}</div>
         ))}
-
       {sections.length > 0 && (
-        <div className="collapse-container">
+        <div >
           <Collapse
             activeKey={expandedMenu}
             onChange={(keys) => {
@@ -237,6 +243,7 @@ const PropertyChangesList = ({
 };
 
 export const ContributionForm = ({ entity }: ContributionFormProps) => {
+  console.log('ContributionForm', entity);
   const [accessLevel, setAccessLevel] = useState<PropertyAccessLevel>(
     PropertyAccessLevel.AdvancedContributor,
   );
@@ -289,12 +296,14 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
     (state: RootState) => state.getLanguages,
   );
   const translatedcontribute = translationLanguagesContribute(languageValue);
+  const [sections, setSections] = useState<CollapseProps['items']>([]);
 
   const toggleExpandAll = () => {
     if (globalExpand) {
       setExpandedMenu([]);
     } else {
-      setExpandedMenu(schema.properties.map((item) => item.uid as string));
+      const allSectionKeys = sections?.map(section => section.key as string) ?? [];
+      setExpandedMenu(allSectionKeys);
     }
     setGlobalExpand((prevState) => !prevState);
   };
@@ -325,7 +334,7 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
         value={accessLevel}
         onChange={(value: PropertyAccessLevel) => setAccessLevel(value)}
         options={accessLevelOptions}
-        style={{ width: 200 }}
+        style={{ width: 200, margin: '10px 0' }}
       />
       <div className="expand-collapse">
         {translatedcontribute.titleCollaps}{' '}
@@ -343,6 +352,7 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
         setExpandedMenu={setExpandedMenu}
         expandedMenu={expandedMenu}
         accessLevel={accessLevel}
+        onSectionsChange={setSections}
       />
     </>
   );

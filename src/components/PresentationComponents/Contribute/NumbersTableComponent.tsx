@@ -23,6 +23,7 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
   lastChange,
   onChange,
 }) => {
+  console.log('NumbersTableComponent', property, entity);
   const [activeCell, setActiveCell] = useState<ActiveCell | null>(null);
   const entityData = entity.data;
   const handleCellChange = useCallback(

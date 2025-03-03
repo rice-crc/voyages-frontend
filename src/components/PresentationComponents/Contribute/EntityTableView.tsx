@@ -13,16 +13,12 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
+  TableRow,Typography
 } from '@mui/material';
-import { Collapse, Row, Typography } from 'antd';
 import React from 'react';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import AddIcon from '@mui/icons-material/Add';
+import { KeyboardArrowDown, KeyboardArrowUp, Add, Delete } from '@mui/icons-material';
 import { EntitySchema, getSchema } from '@/models/entities';
 import { EntityForm, EntityFormProps } from './EntityForm';
-import { DeleteIcon } from 'lucide-react';
 
 export interface EntityTableViewProps {
   property: OwnedEntityListProperty;
@@ -51,7 +47,7 @@ const EntityTableRow = ({
               size="small"
               onClick={() => setOpen(!open)}
             >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+              {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
             </IconButton>
           )}
         </TableCell>
@@ -60,7 +56,7 @@ const EntityTableRow = ({
         </TableCell>
         <TableCell align="right">
           <IconButton size="small" color="error" onClick={() => alert("Not implemented yet")}>
-            <DeleteIcon />
+            <Delete />
           </IconButton>
         </TableCell>
       </TableRow>
@@ -102,11 +98,11 @@ export const EntityTableView = ({
             <TableRow>
               <TableCell />
               <TableCell>
-                <Typography.Title level={5}>{property.label}</Typography.Title>
+                <Typography variant="h6">{property.label}</Typography>
               </TableCell>
               <TableCell align="right">
                 <IconButton size="small" color="success"  onClick={() => alert("Not implemented yet")}>
-                  <AddIcon />
+                  <Add />
                 </IconButton>
               </TableCell>
             </TableRow>

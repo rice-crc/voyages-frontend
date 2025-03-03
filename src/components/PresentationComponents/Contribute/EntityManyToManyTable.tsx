@@ -20,12 +20,9 @@ import {
 } from '@mui/material';
 import { Select, Typography } from 'antd';
 import React from 'react';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import AddIcon from '@mui/icons-material/Add';
+import { Add, Delete } from '@mui/icons-material';
 import { EntitySchema, getSchema } from '@/models/entities';
 import { EntityForm, EntityFormProps } from './EntityForm';
-import { DeleteIcon } from 'lucide-react';
 import { EntityPropertyComponent } from './EntityPropertyComponent';
 
 export interface EntityManyToManyTableProps {
@@ -87,7 +84,7 @@ const EntityManyToManyTableRow = ({
             color="error"
             onClick={() => alert('Not implemented yet')}
           >
-            <DeleteIcon />
+            <Delete />
           </IconButton>
         </TableCell>
       </TableRow>
@@ -122,7 +119,7 @@ export const EntityManyToManyTable = ({
                 <Typography.Title level={5}>{property.label}</Typography.Title>
               </TableCell>
               {connSchema.properties.map((p) => (
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" key={p.uid}>
                   {p.label}
                 </TableCell>
               ))}
@@ -132,7 +129,7 @@ export const EntityManyToManyTable = ({
                   color="success"
                   onClick={() => alert('Not implemented yet')}
                 >
-                  <AddIcon />
+                  <Add />
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -140,7 +137,7 @@ export const EntityManyToManyTable = ({
           <TableBody>
             {children.map((c, i) => (
               <EntityManyToManyTableRow
-                key={i}
+                key={`row-${i}`}
                 {...other}
                 entity={c}
                 schema={connSchema}

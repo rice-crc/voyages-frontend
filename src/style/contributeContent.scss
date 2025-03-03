@@ -39,7 +39,9 @@
 }
 
 .nav-header-contribute {
-  z-index: 1;
+  position: fixed;
+  top: 0;
+  z-index: 100 !important;
   width: 100%;
   color: white;
   background-color: rgb(55, 148, 141);
@@ -65,45 +67,11 @@
 
 .contribuite-main-content {
   margin: 0 2rem;
-  display: flex;
-
-  .contribute-sidebar {
-    width: 25%;
-    padding: 15px 15px 0 15px;
-
-    .contribute-sub-sidebar {
-      padding-left: 2rem;
-    }
-  }
-
-  .sidebar-button {
-    color: rgb(55, 148, 141);
-    cursor: pointer;
-  }
-
-  .contribute-sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .contribute-sidebar li a {
-    text-decoration: none;
-    color: rgb(0, 114, 105);
-    display: block;
-    margin: 10px 0;
-  }
-
-  .contribute-sidebar li span {
-    text-decoration: none;
-    color: rgb(0, 114, 105);
-    display: block;
-    margin: 6px 0;
-    cursor: pointer;
-  }
+  margin-top: 100px;
+  display: inline-flex;
 
   /* ContributeContent.css */
   .contribute-content {
-    width: 70%;
     padding: 15px 15px 0 15px;
 
     .page-title-1 {
