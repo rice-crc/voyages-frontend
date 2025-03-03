@@ -1,11 +1,20 @@
-import { LinkedEntitySelectionChange } from "@/models/changeSets";
-import { isMaterializedEntity, MaterializedEntity, materializeNew } from "@/models/materialization";
-import { EntityLinkEditMode, LinkedEntityProperty } from "@/models/properties";
-import { Button, Select } from "antd";
-import { useCallback, useEffect, useState } from "react";
-import { EntityForm, EntityFormProps } from "./EntityForm";
-import { EntityPropertyChangeCommentBox } from "./EntityPropertyChangeCommentBox";
-import { getSchema } from "@/models/entities";
+import {
+  areMatch,
+  DirectPropertyChange,
+  EntityChange,
+  LinkedEntitySelectionChange,
+} from '@/models/changeSets';
+import {
+  isMaterializedEntity,
+  MaterializedEntity,
+  materializeNew,
+} from '@/models/materialization';
+import { EntityLinkEditMode, LinkedEntityProperty } from '@/models/properties';
+import { Button, Select } from 'antd';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { EntityForm, EntityFormProps } from './EntityForm';
+import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
+import { getSchema, getSchemaProp } from '@/models/entities';
 
 export interface LinkedEntityPropertyComponentProps {
   property: LinkedEntityProperty;
@@ -18,6 +27,7 @@ export const LinkedEntityOwnedPropertyComponent = ({
   property,
   entity,
   lastChange,
+  changes,
   onChange,
   ...other
 }: LinkedEntityPropertyComponentProps & EntityFormProps) => {
@@ -26,6 +36,19 @@ export const LinkedEntityOwnedPropertyComponent = ({
     ? lastChange.changed
     : (entity.data[label] as MaterializedEntity | null);
   const schema = getSchema(property.linkedEntitySchema);
+  const localChanges: EntityChange[] = useMemo(
+    () =>
+      value && lastChange?.linkedChanges
+        ? [
+            {
+              type: 'update' as const,
+              entityRef: value.entityRef,
+              changes: lastChange.linkedChanges,
+            },
+          ]
+        : [],
+    [changes, value, entity],
+  );
   const handleClear = useCallback(() => {
     if (value === null) {
       return;
@@ -62,6 +85,28 @@ export const LinkedEntityOwnedPropertyComponent = ({
       ],
     });
   }, [schema, entity, property, onChange]);
+  const handleChanges = useCallback(
+    (ec: EntityChange) => {
+      if (ec.type !== 'update') {
+        throw new Error('Unexpected ec type');
+      }
+      onChange({
+        type: 'update',
+        entityRef: entity.entityRef,
+        changes: [
+          {
+            kind: 'linked',
+            property: property.uid,
+            changed: value,
+            linkedChanges: ec.changes.filter(
+              (c) => c.kind === 'direct',
+            ) as DirectPropertyChange[],
+          },
+        ],
+      });
+    },
+    [entity, property, value, onChange],
+  );
   return (
     <>
       {value ? (
@@ -72,10 +117,12 @@ export const LinkedEntityOwnedPropertyComponent = ({
       {value && (
         <div style={{ marginLeft: '24px' }}>
           <EntityForm
+            key={value.entityRef.id}
             {...other}
+            changes={localChanges}
             schema={schema}
             entity={value}
-            onChange={onChange}
+            onChange={handleChanges}
           />
         </div>
       )}
@@ -88,7 +135,7 @@ export const LinkedEntityPropertyComponent = (
 ) => {
   const { property, entity, lastChange, onChange } = props;
   const [comments, setComments] = useState<string | undefined>();
-  const { mode, label } = property;
+  const { uid, mode, label, linkedEntitySchema } = property;
   const value = lastChange
     ? lastChange.changed
     : (entity.data[label] as MaterializedEntity | null);
@@ -101,10 +148,34 @@ export const LinkedEntityPropertyComponent = (
   if (mode === EntityLinkEditMode.Own) {
     return <LinkedEntityOwnedPropertyComponent {...props} />;
   }
-  const mockOptions = [1, 2, 3, 4, 5, 6].map((_, i) => ({
-    label: `Mocked ${property.linkedEntitySchema} with id ${i}`,
-    value: i,
-  }));
+  const linkedSchema = getSchema(linkedEntitySchema);
+  // TODO: replace mock options by real choices coming from a Voyages API.
+  // Clean up the code with the dummies....
+  const dummyRecord = (fields: string[]) =>
+    fields.reduce(
+      (rec, f) => ({ ...rec, [f]: `dummy_${f}_${crypto.randomUUID()}` }),
+      {} as Record<string, string>,
+    );
+  const fillEntityWithDummies = (entity: MaterializedEntity) => {
+    const schema = getSchema(entity.entityRef.schema);
+    const fields = Object.keys(entity.data).filter((label) => {
+      const prop = getSchemaProp(schema, label);
+      return (
+        prop !== undefined && (prop.kind === 'number' || prop.kind === 'text')
+      );
+    });
+    Object.assign(entity.data, dummyRecord(fields));
+    return entity;
+  };
+  const mockOptions = useMemo(
+    () =>
+      [1, 2, 3, 4, 5, 6].map((i, _) => ({
+        label: `Mocked ${property.linkedEntitySchema} with id ${i}`,
+        value: i,
+        entity: fillEntityWithDummies(materializeNew(linkedSchema, i)),
+      })),
+    [linkedSchema],
+  );
   // TODO: Specialize component for locations.
   /*return property.linkedEntitySchema === Location.name ? (
         <TreeSelect
@@ -135,16 +206,18 @@ export const LinkedEntityPropertyComponent = (
         changes: [
           {
             kind: 'linked',
-            property: property.uid,
+            property: uid,
             comments,
             changed: item
               ? {
                   entityRef: {
                     id: item,
-                    schema: property.linkedEntitySchema,
+                    schema: linkedEntitySchema,
                     type: 'existing',
                   },
-                  data: {},
+                  data:
+                    mockOptions.find((x) => x.value === item)?.entity.data ??
+                    {},
                   state: 'lazy',
                 }
               : null,
@@ -156,7 +229,7 @@ export const LinkedEntityPropertyComponent = (
   );
   useEffect(
     () => handleChange(value?.entityRef.id ?? null),
-    [handleChange, value, comments],
+    [handleChange, value],
   );
   return (
     <>

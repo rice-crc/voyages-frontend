@@ -1,5 +1,6 @@
 import {
   addToChangeSet,
+  combineChanges,
   deleteChange,
   dropOrphans,
   EntityChange,
@@ -13,7 +14,14 @@ import { RootState } from '@/redux/store';
 import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
 import { Delete } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
-import { Collapse, CollapseProps, Form, Select, Typography } from 'antd';
+import {
+  Button,
+  Collapse,
+  CollapseProps,
+  Form,
+  Select,
+  Typography,
+} from 'antd';
 import React, { ReactNode, useCallback, useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { EntityPropertyComponent } from './EntityPropertyComponent';
@@ -173,10 +181,9 @@ export const EntityForm = ({
 
 interface PropertyChangeCardProps {
   change: PropertyChange;
-  onDelete: (change: PropertyChange) => void;
 }
 
-const PropertyChangeCard = ({ change, onDelete }: PropertyChangeCardProps) => {
+const PropertyChangeCard = ({ change }: PropertyChangeCardProps) => {
   const { property } = change;
   let display: ReactNode = undefined;
   if (change.kind === 'direct') {
@@ -185,29 +192,51 @@ const PropertyChangeCard = ({ change, onDelete }: PropertyChangeCardProps) => {
     const { changed } = change;
     display = (
       <b>
-        {changed
-          ? `${changed.entityRef.schema} ${changed.entityRef.id}`
-          : '<null>'}
+        {changed ? (
+          <>
+            <span>
+              {changed.entityRef.schema}#{changed.entityRef.id}
+            </span>
+            {change.linkedChanges && (
+              <PropertyChangesList changes={change.linkedChanges} />
+            )}
+          </>
+        ) : (
+          '<null>'
+        )}
       </b>
     );
   }
   if (change.kind === 'owned') {
     display = (
       <div style={{ paddingLeft: '20px' }}>
-        <PropertyChangesList changes={change.changes} onDelete={onDelete} />
+        <PropertyChangesList changes={change.changes} />
+      </div>
+    );
+  }
+  if (change.kind === 'ownedList') {
+    display = (
+      <div style={{ paddingLeft: '20px' }}>
+        {change.modified && <PropertyChangesList changes={change.modified} />}
+        <ul>
+          {change.removed.map((r, i) => (
+            <li key={i}>Removed item with id {r.id}</li>
+          ))}
+        </ul>
       </div>
     );
   }
   // TODO: other kinds
   return (
     <>
-      <IconButton onClick={() => onDelete(change)}>
-        <Delete />
-      </IconButton>
-      <span>
-        {property}
-        {' => '}
-      </span>
+      {change.kind !== 'ownedList' && (
+        <>
+          <span>
+            {property}
+            {' => '}
+          </span>
+        </>
+      )}
       {display}
       &nbsp;
       <small>{change.comments}</small>
@@ -224,18 +253,14 @@ const accessLevelOptions = Object.entries(PropertyAccessLevel)
 
 interface PropertyChangesListProps {
   changes: PropertyChange[];
-  onDelete: (change: PropertyChange) => void;
 }
 
-const PropertyChangesList = ({
-  changes,
-  onDelete,
-}: PropertyChangesListProps) => {
+const PropertyChangesList = ({ changes }: PropertyChangesListProps) => {
   return (
     <ul>
       {changes.map((pc, idxPC) => (
         <li key={idxPC}>
-          <PropertyChangeCard change={pc} onDelete={onDelete} />
+          <PropertyChangeCard change={pc} />
         </li>
       ))}
     </ul>
@@ -243,7 +268,6 @@ const PropertyChangesList = ({
 };
 
 export const ContributionForm = ({ entity }: ContributionFormProps) => {
-  console.log('ContributionForm', entity);
   const [accessLevel, setAccessLevel] = useState<PropertyAccessLevel>(
     PropertyAccessLevel.AdvancedContributor,
   );
@@ -262,34 +286,11 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
       setChangeSet((current) => {
         // Merge the change with our change set.
         const next = addToChangeSet(current.changes, c);
-        // TODO: keep the change set clear of orphans
-        const orphans = dropOrphans(entity, next);
-        console.dir(orphans, { depth: null });
-        return { ...current, changes: next };
-      }),
-    [entity, setChangeSet],
-  );
-  const handleChangeDelete = useCallback(
-    (change: PropertyChange) =>
-      setChangeSet((current) => {
-        const next = [...current.changes];
-        for (let i = 0; i < next.length; ++i) {
-          const c = next[i];
-          if (c.type !== 'update') {
-            continue;
-          }
-          const copy = [...c.changes];
-          const delCount = deleteChange(copy, change);
-          if (delCount) {
-            next[i] = { ...c, changes: copy };
-            break;
-          }
-        }
+        dropOrphans(next);
         return { ...current, changes: next };
       }),
     [setChangeSet],
   );
-
   const [globalExpand, setGlobalExpand] = useState(false);
   const [expandedMenu, setExpandedMenu] = useState<string[]>([]);
   const { languageValue } = useSelector(
@@ -308,17 +309,21 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
     setGlobalExpand((prevState) => !prevState);
   };
 
+  const handleJohnButton = useCallback(() => {
+    const combined = combineChanges(changeSet.changes);
+    alert('Check the console for the combined changes');
+    console.dir(combined);
+  }, [changeSet]);
+
   return (
     <>
+      <Button onClick={handleJohnButton}>The John Button</Button>
       <ul>
         {/* TODO: A list view of the changes in a nice format */}
         {changeSet.changes.map((ec, idxEC) => {
           const details =
             ec.type === 'update' ? (
-              <PropertyChangesList
-                changes={ec.changes}
-                onDelete={handleChangeDelete}
-              />
+              <PropertyChangesList changes={ec.changes} />
             ) : null;
           return (
             <li key={idxEC}>
@@ -345,6 +350,7 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
         </a>{' '}
       </div>
       <EntityForm
+        key={entity.entityRef.id}
         schema={schema}
         entity={entity}
         changes={changeSet.changes}

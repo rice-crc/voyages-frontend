@@ -4,7 +4,8 @@ export enum PropertyAccessLevel {
   BegginerContributor = 0,
   IntermediateContributor = 1,
   AdvancedContributor = 2,
-  Editor = 100
+  Editor = 100,
+  Hidden = 999
 }
 
 export interface BaseProperty {
@@ -55,18 +56,6 @@ export interface DateProperty extends BaseProperty {
   readonly kind: "date"
 }
 
-export interface OneToManyEntityRelation {
-  readonly relationKind: "oneToMany"
-  childBackingProp: string
-}
-
-export interface ManyToManyEntityRelation {
-  readonly relationKind: "manyToMany"
-  connectionEntity: string
-  leftSideBackingField: string
-  rightSideBackingField: string
-}
-
 export interface EntityLinkBaseProperty extends BaseProperty {
   /**
    * The schema of the linked entity.
@@ -110,12 +99,7 @@ export interface EntityListBaseProperty extends EntityLinkBaseProperty {
 
 export interface OwnedEntityListProperty extends EntityListBaseProperty {
   readonly kind: "ownedEntityList"
-  connection: OneToManyEntityRelation
-}
-
-export interface ManyToManyEntityListProperty extends EntityListBaseProperty {
-  readonly kind: "m2mEntityList"
-  connection: ManyToManyEntityRelation
+  childBackingProp: string
 }
 
 export interface TableProperty extends Omit<BaseProperty, "backingField"> {
@@ -136,5 +120,4 @@ export type Property =
   | LinkedEntityProperty
   | EntityOwnedProperty
   | OwnedEntityListProperty
-  | ManyToManyEntityListProperty
   | TableProperty

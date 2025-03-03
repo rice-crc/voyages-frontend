@@ -6,12 +6,14 @@ import {
   MaterializedEntity
 } from "./materialization"
 import {
+  BoolProperty,
   EntityOwnedProperty,
   LinkedEntityProperty,
-  ManyToManyEntityListProperty,
+  NumberProperty,
   OwnedEntityListProperty,
   Property,
-  TableProperty
+  TableProperty,
+  TextProperty
 } from "./properties"
 import { failedUnknown } from "./validation"
 
@@ -50,6 +52,10 @@ export interface LinkedEntitySelectionChange extends PropertyChangeBase {
    * The id of the selected entity in the change.
    */
   changed: MaterializedEntity | null
+  /**
+   * In case updates have been made to the linked entity.
+   */
+  linkedChanges?: DirectPropertyChange[]
 }
 
 export interface OwnedEntityChange extends PropertyChangeBase {
@@ -70,23 +76,6 @@ export const isOwnedEntityChange = (
   change: PropertyChange
 ): change is OwnedEntityChange => (change as OwnedEntityChange).kind === "owned"
 
-export interface ManyToManyChange extends PropertyChangeBase {
-  readonly kind: "connection"
-  /**
-   * The reference to the connection entity.
-   */
-  idConn: EntityRef
-  /**
-   * The changes applied to the connection entity.
-   */
-  connection: PropertyChange[]
-  /**
-   * The changes applied to the owned-side of the connection. There may be no
-   * changes at all, but the owned reference should be explicit.
-   */
-  ownedChanges: OwnedEntityChange
-}
-
 export interface ListChangeBase extends PropertyChangeBase {
   /**
    * A list of refs to list elements that should be removed.
@@ -102,21 +91,12 @@ export interface OwnedEntityListChange extends ListChangeBase {
   modified: OwnedEntityChange[]
 }
 
-export interface ManyToManyEntityListChange extends ListChangeBase {
-  readonly kind: "m2mList"
-  /**
-   * Modified or new entities in the list.
-   */
-  modified: ManyToManyChange[]
-}
-
 export type PropertyChange =
   | DirectPropertyChange
   | TableChange
   | LinkedEntitySelectionChange
   | OwnedEntityChange
   | OwnedEntityListChange
-  | ManyToManyEntityListChange
 
 /**
  * An entity update or insert.
@@ -153,11 +133,9 @@ type MatchingPropertyChangeType<T> = T extends OwnedEntityChange
     ? LinkedEntityProperty
     : T extends OwnedEntityListChange
       ? OwnedEntityListProperty
-      : T extends ManyToManyEntityListChange
-        ? ManyToManyEntityListProperty
-        : T extends TableChange
-          ? TableProperty
-          : Property
+      : T extends TableChange
+        ? TableProperty
+        : TextProperty | NumberProperty | BoolProperty
 
 const isMatchingPropertyChangeType = <T extends PropertyChange>(
   prop: Property,
@@ -170,9 +148,6 @@ const isMatchingPropertyChangeType = <T extends PropertyChange>(
   }
   if (change.kind === "table") {
     return prop.kind === "table"
-  }
-  if (change.kind === "m2mList") {
-    return prop.kind === "m2mEntityList"
   }
   if (change.kind === "ownedList") {
     return prop.kind === "ownedEntityList"
@@ -241,12 +216,6 @@ export const getChangeRefs = (change: EntityChange): EntityRef[] => {
       } else if (c.kind === "owned") {
         result.push(c.ownedEntityId)
         recurse(c.changes)
-      } else if (c.kind === "m2mList") {
-        result.push(...c.removed)
-        for (const mod of c.modified) {
-          result.push(mod.idConn)
-          result.push(mod.ownedChanges.ownedEntityId)
-        }
       } else if (c.kind === "ownedList") {
         result.push(...c.removed)
         for (const mod of c.modified) {
@@ -286,19 +255,28 @@ export const getChangeSetRefs = (changes: EntityChange[]) => {
 }
 
 export const mergePropertyChange = <TChange extends PropertyChange>(
-  first: TChange,
+  first: TChange | undefined,
   second: TChange
 ): TChange => {
+  if (first === undefined) {
+    return second
+  }
   if (first.kind !== second.kind) {
     throw new Error("Cannot merge different kinds of property changes")
   }
   if (
-    first.kind === "direct" ||
-    first.kind === "table" ||
-    first.kind === "linked"
+    first.kind === "linked" &&
+    first.linkedChanges !== undefined &&
+    second.kind === "linked" &&
+    first.changed?.entityRef &&
+    second.changed?.entityRef &&
+    areMatch(first.changed.entityRef, second.changed?.entityRef)
   ) {
-    // The last update wins.
-    return second
+    const mergedLinkedChanges = mergeEntityChange(
+      first.linkedChanges,
+      second.linkedChanges ?? []
+    )
+    return { ...second, linkedChanges: mergedLinkedChanges }
   }
   if (first.kind === "owned") {
     const s = second as OwnedEntityChange
@@ -309,7 +287,8 @@ export const mergePropertyChange = <TChange extends PropertyChange>(
     const changes = mergeEntityChange(first.changes, s.changes)
     return { ...first, changes }
   }
-  throw new Error("Not yet supported")
+  // The last update wins.
+  return second
 }
 
 const mergeEntityChange = (
@@ -395,7 +374,7 @@ const cloneMaterializedEntity = (
   state: e.state
 })
 
-const clonePropChange = (c: PropertyChange): PropertyChange => {
+const clonePropChange = <TProp extends PropertyChange>(c: TProp): TProp => {
   if (c.kind === "direct") {
     return {
       ...c,
@@ -408,7 +387,8 @@ const clonePropChange = (c: PropertyChange): PropertyChange => {
   if (c.kind === "linked") {
     return {
       ...c,
-      changed: c.changed ? cloneMaterializedEntity(c.changed) : null
+      changed: c.changed ? cloneMaterializedEntity(c.changed) : null,
+      linkedChanges: c.linkedChanges?.map(clonePropChange)
     }
   }
   if (c.kind === "owned") {
@@ -429,21 +409,6 @@ const clonePropChange = (c: PropertyChange): PropertyChange => {
       }))
     }
   }
-  if (c.kind === "m2mList") {
-    return {
-      ...c,
-      removed: c.removed.map((r) => ({ ...r })),
-      modified: c.modified.map((m) => ({
-        ...m,
-        idConn: { ...m.idConn },
-        ownedChanges: {
-          ...m.ownedChanges,
-          ownedEntityId: { ...m.ownedChanges.ownedEntityId },
-          changes: m.ownedChanges.changes.map(clonePropChange)
-        }
-      }))
-    }
-  }
   throw failedUnknown("property change", c)
 }
 
@@ -461,6 +426,10 @@ const cloneEntityChange = <TChange extends EntityChange>(
     entityRef: change.entityRef,
     changes: change.changes.map(clonePropChange)
   } as TChange
+}
+
+type ExtPropertyChange = PropertyChange & {
+  combined?: boolean
 }
 
 /**
@@ -503,12 +472,13 @@ export const combineChanges = (
       if (uc.kind === "owned") {
         const prop = validateAndGetProperty(uc)
         // Move the changes to a linked entity update entry.
-        const ownedChanges: PropertyChange[] = [...uc.changes]
+        const ownedChanges: ExtPropertyChange[] = [...uc.changes]
         ownedChanges.push({
           kind: "direct",
           property: prop.oneToOneBackingField,
-          changed: u.entityRef,
-          comments: uc.comments
+          changed: u.entityRef.id,
+          comments: uc.comments,
+          combined: true
         })
         updatedEntries.push({
           type: "update" as const,
@@ -516,44 +486,6 @@ export const combineChanges = (
           entityRef: uc.ownedEntityId,
           order
         })
-        u.changes.splice(i, 1)
-      } else if (uc.kind === "m2mList") {
-        processRemoved(deletedEntries, uc, order)
-        const prop = validateAndGetProperty(uc)
-        for (const m of uc.modified) {
-          // Process changes to the right side of the M2M
-          // relationship.
-          if (m.ownedChanges.changes.length > 0) {
-            updatedEntries.push({
-              type: "update" as const,
-              changes: m.ownedChanges.changes,
-              entityRef: m.ownedChanges.ownedEntityId,
-              order
-            })
-          }
-          // Process changes made to the connection table of the M2M
-          // relation.
-          updatedEntries.push({
-            type: "update" as const,
-            changes: [
-              ...m.connection,
-              {
-                kind: "direct" as const,
-                property: prop.connection.leftSideBackingField,
-                changed: u.entityRef,
-                comments: ""
-              },
-              {
-                kind: "direct" as const,
-                property: prop.connection.rightSideBackingField,
-                changed: m.ownedChanges.ownedEntityId,
-                comments: ""
-              }
-            ],
-            entityRef: m.idConn,
-            order
-          })
-        }
         u.changes.splice(i, 1)
       } else if (uc.kind === "ownedList") {
         processRemoved(deletedEntries, uc, order)
@@ -566,6 +498,7 @@ export const combineChanges = (
             order
           })
         }
+        u.changes.splice(i, 1)
       } else if (uc.kind === "linked") {
         const prop = validateAndGetProperty(uc)
         // This is a direct update on a FK value of the entity.
@@ -575,13 +508,22 @@ export const combineChanges = (
             {
               kind: "direct" as const,
               property: prop.backingField,
-              changed: uc.changed?.entityRef ?? null,
-              comments: uc.comments
-            }
+              changed: uc.changed?.entityRef.id ?? null,
+              comments: uc.comments,
+              combined: true
+            } as ExtPropertyChange
           ],
           entityRef: u.entityRef,
           order
         })
+        if (uc.linkedChanges && uc.changed) {
+          updatedEntries.push({
+            type: "update" as const,
+            changes: uc.linkedChanges,
+            entityRef: uc.changed.entityRef,
+            order
+          })
+        }
         u.changes.splice(i, 1)
       } else if (uc.kind === "table") {
         for (const [field, value] of Object.entries(uc.changes)) {
@@ -592,15 +534,25 @@ export const combineChanges = (
                 kind: "direct" as const,
                 property: field,
                 changed: value,
-                comments: uc.comments
-              }
+                comments: uc.comments,
+                combined: true
+              } as ExtPropertyChange
             ],
             entityRef: u.entityRef,
             order
           })
         }
         u.changes.splice(i, 1)
-      } else if (uc.kind !== "direct") {
+      } else if (uc.kind === "direct") {
+        if ((uc as ExtPropertyChange).combined === undefined) {
+          // Remap to property from UID to label.
+          const p = validateAndGetProperty(uc)
+          u.changes[i] = {
+            ...uc,
+            property: p.backingField
+          }
+        }
+      } else {
         throw new Error(
           `Unknown property change kind in: ${JSON.stringify(uc)}`
         )
@@ -683,47 +635,143 @@ export const combineChanges = (
   }
 }
 
+const matchAnyRef = (ref: EntityRef, all: EntityRef[]) =>
+  all.find((m) => areMatch(m, ref)) !== undefined
+
+/**
+ * Recursively drop all changes that relate to
+ * any of the references passed as argument.
+ */
+const dropRefsFromChange = (
+  p: PropertyChange,
+  refs: EntityRef[]
+): PropertyChange | undefined => {
+  if (
+    p.kind === "linked" &&
+    p.changed &&
+    matchAnyRef(p.changed.entityRef, refs)
+  ) {
+    return undefined
+  }
+  if (p.kind === "owned") {
+    if (matchAnyRef(p.ownedEntityId, refs)) {
+      return undefined
+    }
+    if (p.changes.find((ch) => ch !== dropRefsFromChange(ch, refs))) {
+      const next = {
+        ...p,
+        changes: p.changes
+          .map((ch) => dropRefsFromChange(ch, refs))
+          .filter((ch) => ch !== undefined)
+      }
+      return next.changes.length === 0 ? undefined : next
+    }
+  }
+  if (p.kind === "ownedList") {
+    if (
+      p.removed.find((r) => matchAnyRef(r, refs)) ||
+      p.modified.find((m) => matchAnyRef(m.ownedEntityId, refs))
+    ) {
+      const next = {
+        ...p,
+        modified: p.modified.filter((m) => !matchAnyRef(m.ownedEntityId, refs)),
+        removed: p.removed.filter((r) => !matchAnyRef(r, refs))
+      }
+      return next.modified.length === 0 && next.removed.length === 0
+        ? undefined
+        : next
+    }
+  }
+  return p
+}
+
+const removeRefs = (changes: EntityChange[], refs: EntityRef[]) => {
+  for (let i = changes.length - 1; i >= 0; --i) {
+    const c = changes[i]
+    if (matchAnyRef(c.entityRef, refs)) {
+      changes.splice(i, 1)
+    } else if (
+      c.type === "update" &&
+      c.changes.find((change) => change !== dropRefsFromChange(change, refs))
+    ) {
+      const next = c.changes
+        .map((change) => dropRefsFromChange(change, refs))
+        .filter((change) => change !== undefined)
+      if (next.length > 0) {
+        changes[i] = {
+          ...c,
+          changes: next
+        }
+      } else {
+        changes.splice(i, 1)
+      }
+    }
+  }
+}
+
+const removeNoOpsPropChanges = (
+  changes: PropertyChange[]
+): PropertyChange[] => {
+  let result = changes
+  for (let i = result.length - 1; i >= 0; --i) {
+    const c = changes[i]
+    if (
+      (c.kind === "owned" && c.changes.length === 0) ||
+      (c.kind === "ownedList" &&
+        c.modified.length === 0 &&
+        c.removed.length === 0) ||
+      (c.kind === "table" && c.changes.length === 0)
+    ) {
+      if (result === changes) {
+        // make a copy before deletion
+        result = [...changes]
+      }
+      result.splice(i, 1)
+    }
+  }
+  return result
+}
+
+const removeNoOpsFromEC = (change: EntityChange): EntityChange | undefined => {
+  if (change.type === "update") {
+    const changes = removeNoOpsPropChanges(change.changes)
+    if (changes.length === 0) {
+      return undefined
+    } else if (changes !== change.changes) {
+      return { ...cloneEntityChange(change), changes }
+    }
+  }
+  return change
+}
+
+const removeNoOps = (changes: EntityChange[]) => {
+  for (let i = changes.length - 1; i >= 0; --i) {
+    const c = removeNoOpsFromEC(changes[i])
+    if (c === undefined) {
+      changes.splice(i, 1)
+    } else {
+      changes[i] = c
+    }
+  }
+}
+
 /**
  * Drop any new entity and its update if no existing (or root) entity
  * references it.
  */
-export const dropOrphans = (
-  root: MaterializedEntity,
-  changes: EntityChange[]
-) => {
+export const dropOrphans = (changes: EntityChange[]) => {
   // This is a simple algorithm: after combining all the changes, we gather all
-  // new entity refs and also all new refs that are used as direct updates. The
-  // set difference yields the orphans.
-  const combined = combineChanges(changes)
-  const newRefs = combined.updates
+  // new entity refs that are also marked for deletion. These are considered
+  // orphans and we update the changes to eliminate any property with these refs.
+  const combined = combineChanges(changes.map(cloneEntityChange))
+  const orphanRefs = combined.deletions
     .filter((u) => u.entityRef.type === "new")
     .map((u) => u.entityRef)
-  const usedRefs = combined.updates
-    .flatMap((u) => u.changes)
-    .filter((c) => isEntityRef(c.changed) && c.changed.type === "new")
-    .map((c) => c.changed as EntityRef)
-  if (root.entityRef.type === "new") {
-    usedRefs.push(root.entityRef)
+  if (orphanRefs.length > 0) {
+    removeRefs(changes, orphanRefs)
   }
-  const orphanRefs = newRefs.filter(
-    (ref) => !usedRefs.some((used) => areMatch(ref, used))
-  )
-  /*
-  const selected: EntityChange[] = []
-  const addValidChanges = (ec: EntityChange) => {
-    if (ec.entityRef.type === "new" && orphanRefs.some(ref => areMatch(ref, ec.entityRef))) {
-      return
-    }
-    selected.push(ec)
-    if (ec.type === "update") {
-      for (const c of ec.changes) {
-        if (c.kind === "m2mList") {
-          c.modified
-        }
-      }
-    }
-  }
-  return selected
-  */
+  // Also eliminate any changes that are empty (possibly produced after
+  // mutually cancelling changes).
+  removeNoOps(changes)
   return orphanRefs
 }

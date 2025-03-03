@@ -79,12 +79,14 @@ export const SparseDateSchema = mkBuilder({
   })
   .build()
 
+const coalesce = (a: string | number | null | undefined, b?: string) => a ? `${a}${b ?? ""}` : ""
+
 export const NationalitySchema = mkBuilder({
   name: "Nationality",
   backingTable: "voyage_nationality",
   pkField: "id",
   contributionMode: "ReadOnly",
-  getLabel: (data) => data["Nation name"]?.toString() ?? ""
+  getLabel: (data) => coalesce(data["Nation name"])
 })
   .addText({
     label: "Nation name",
@@ -103,7 +105,7 @@ export const TonTypeSchema = mkBuilder({
   backingTable: "voyage_tontype",
   pkField: "id",
   contributionMode: "ReadOnly",
-  getLabel: (data) => data["Ton type label"]?.toString() ?? ""
+  getLabel: (data) => coalesce(data["Ton type label"])
 })
   .addText({
     label: "Ton type label",
@@ -122,7 +124,7 @@ export const RigOfVesselSchema = mkBuilder({
   backingTable: "voyage_rigofvessel",
   pkField: "id",
   contributionMode: "ReadOnly",
-  getLabel: (data) => data["Rig of vessel"]?.toString() ?? ""
+  getLabel: (data) => coalesce(data["Rig of vessel"])
 })
   .addText({
     label: "Rig of vessel",
@@ -141,7 +143,7 @@ export const Location = mkBuilder({
   backingTable: "geo_location",
   pkField: "id",
   contributionMode: "ReadOnly",
-  getLabel: (data) => data.Name?.toString() ?? ""
+  getLabel: (data) => coalesce(data.Name)
 })
   .addText({
     label: "Name",
@@ -159,7 +161,7 @@ export const VoyageShipEntitySchema = mkBuilder({
   backingTable: "voyage_voyageship",
   pkField: "id",
   contributionMode: "Owned",
-  getLabel: (data) => data["Name of vessel"].toString() ?? ""
+  getLabel: (data) => coalesce(data["Name of vessel"])
 })
   .addText({
     label: "Name of vessel",
@@ -231,8 +233,8 @@ export const VoyageItinerarySchema = mkBuilder({
   pkField: "id",
   contributionMode: "Owned",
   getLabel: (data) =>
-    `Itinerary from ${data["First intended port of embarkation"]?.data.Name} to ` +
-    (data["First intended port of disembarkation"]?.data.Name ?? "")
+    `Itinerary from ${data["First intended port of embarkation"]?.data.Name ?? "unknown"} to ` +
+    (data["First intended port of disembarkation"]?.data.Name ?? "unknown")
 })
   .addLinkedEntity({
     linkedEntitySchema: Location,
@@ -620,8 +622,8 @@ export const VoyageCargoConnectionSchema = mkBuilder({
   contributionMode: "Owned",
   pkField: "id",
   getLabel: (d) =>
-    `Cargo for voyage ${d.voyage_id}: ${d["The amount of cargo according to the unit"]}` +
-    `${d["Cargo unit"]?.data.Name} of ${d["Cargo type"]?.data.Name}`
+    `Cargo for voyage ${d.voyage_id}: ${coalesce(d["The amount of cargo according to the unit"], " ")}` +
+    `${coalesce(d["Cargo unit"]?.data.Name, " of ")}${coalesce(d["Cargo type"]?.data.Name)}`
 })
   .addOwnerProp("voyage_id")
   .addLinkedEntity({
@@ -824,10 +826,7 @@ export const EnslaverSchema = mkBuilder({
   getLabel: (d) => `Enslaver ${d["Principal alias"]}`
 })
   .addOwnedEntityList({
-    connection: {
-      relationKind: "oneToMany",
-      childBackingProp: "identity_id"
-    },
+    childBackingProp: "identity_id",
     editModes: ListEditMode.All,
     label: "Aliases",
     linkedEntitySchema: EnslaverAliasSchema
@@ -968,7 +967,15 @@ export const EnslaverRelationRoleConnectionSchema = mkBuilder({
   contributionMode: "Owned",
   pkField: "id",
   getLabel: (_) => "Enslaver relation role connection"
-}).build()
+})
+  .addOwnerProp("enslaverinrelation_id")
+  .addLinkedEntity({
+    backingField: "enslaverrole_id",
+    linkedEntitySchema: EnslaverRoleSchema,
+    label: "Role",
+    mode: EntityLinkEditMode.Select
+  })
+  .build()
 
 export const EnslaverInRelationSchema = mkBuilder({
   name: "EnslaverInRelation",
@@ -977,22 +984,18 @@ export const EnslaverInRelationSchema = mkBuilder({
   pkField: "id",
   getLabel: (d) => `Enslaver '${d["Enslaver alias"]?.data.Alias}'`
 })
+  .addOwnerProp("relation_id")
   .addLinkedEntity({
     backingField: "enslaver_alias_id",
     linkedEntitySchema: EnslaverAliasWithIdentitySchema,
     label: "Enslaver alias",
     mode: EntityLinkEditMode.Select
   })
-  .addM2MEntityList({
-    connection: {
-      relationKind: "manyToMany",
-      connectionEntity: EnslaverRelationRoleConnectionSchema.name,
-      leftSideBackingField: "enslaverinrelation_id",
-      rightSideBackingField: "enslaverrole_id"
-    },
+  .addOwnedEntityList({
+    childBackingProp: "enslaverinrelation_id",
+    editModes: ListEditMode.All,
     label: "Roles",
-    linkedEntitySchema: EnslaverRoleSchema,
-    editModes: ListEditMode.Add | ListEditMode.Remove
+    linkedEntitySchema: EnslaverRelationRoleConnectionSchema
   })
   .build()
 
@@ -1022,8 +1025,9 @@ export const EnslavedInRelationSchema = mkBuilder({
   backingTable: "past_enslavedinrelation",
   contributionMode: "Owned",
   pkField: "id",
-  getLabel: (d) => `Enslaver '${d["Enslaved"]?.data["Documented name"]}'`
+  getLabel: (d) => `Enslaved '${d["Enslaved"]?.data["Documented name"]}'`
 })
+  .addOwnerProp("relation_id")
   .addLinkedEntity({
     label: "Enslaved",
     backingField: "enslaved_id",
@@ -1040,6 +1044,7 @@ export const EnslavementRelationSchema = mkBuilder({
   getLabel: (d) =>
     `${d["Relation type"]?.data["Relation type"]} relation (id ${d.id})`
 })
+  .addOwnerProp("voyage_id")
   .addLinkedEntity({
     label: "Relation type",
     backingField: "relation_type_id",
@@ -1063,19 +1068,13 @@ export const EnslavementRelationSchema = mkBuilder({
     label: "Amount"
   })
   .addOwnedEntityList({
-    connection: {
-      relationKind: "oneToMany",
-      childBackingProp: "relation_id"
-    },
+    childBackingProp: "relation_id",
     editModes: ListEditMode.All,
     label: "Enslavers in relation",
     linkedEntitySchema: EnslaverInRelationSchema
   })
   .addOwnedEntityList({
-    connection: {
-      relationKind: "oneToMany",
-      childBackingProp: "relation_id"
-    },
+    childBackingProp: "relation_id",
     editModes: ListEditMode.All,
     label: "Enslaved in relation",
     linkedEntitySchema: EnslavedInRelationSchema
@@ -1102,6 +1101,13 @@ export const VoyageSourceConnectionSchema = mkBuilder({
   pkField: "id",
   getLabel: (_) => "Voyage source conn"
 })
+  .addOwnerProp("voyage_id")
+  .addLinkedEntity({
+    label: "Source",
+    backingField: "source_id",
+    linkedEntitySchema: VoyageSourceSchema,
+    mode: EntityLinkEditMode.Select
+  })
   .addText({
     label: "Page range",
     backingField: "page_range"
@@ -1121,7 +1127,8 @@ export const VoyageSchema = mkBuilder({
     label: "Voyage ID",
     backingField: "voyage_id",
     description: "The unique ID of the voyage",
-    validation: rangeValidation(1, 99999999999)
+    validation: rangeValidation(1, 99999999999),
+    accessLevel: PropertyAccessLevel.Editor
   })
   .addNumber({
     label: "Dataset",
@@ -1143,7 +1150,7 @@ export const VoyageSchema = mkBuilder({
     linkedEntitySchema: VoyageOutcomeSchema,
     label: "Outcome",
     description: "Outcome of the voyage",
-    section: "Voyage outcome"
+    section: "Voyage Outcome"
   })
   .addEntityOwned({
     oneToOneBackingField: "voyage_id",
@@ -1177,32 +1184,21 @@ export const VoyageSchema = mkBuilder({
     label: "Cargo",
     linkedEntitySchema: VoyageCargoConnectionSchema,
     editModes: ListEditMode.All,
-    connection: {
-      relationKind: "oneToMany",
-      childBackingProp: "voyage_id"
-    },
+    childBackingProp: "voyage_id",
     section: SectionShipNations
   })
   .addOwnedEntityList({
     label: "Enslavement relations",
     linkedEntitySchema: EnslavementRelationSchema,
     editModes: ListEditMode.All,
-    connection: {
-      relationKind: "oneToMany",
-      childBackingProp: "voyage_id"
-    },
+    childBackingProp: "voyage_id",
     section: "Enslavement Relations"
   })
-  .addM2MEntityList({
-    connection: {
-      relationKind: "manyToMany",
-      connectionEntity: VoyageSourceConnectionSchema.name,
-      leftSideBackingField: "voyage_id",
-      rightSideBackingField: "source_id"
-    },
+  .addOwnedEntityList({
     label: "Sources",
+    childBackingProp: "voyage_id",
     editModes: ListEditMode.All,
-    linkedEntitySchema: VoyageSourceSchema,
+    linkedEntitySchema: VoyageSourceConnectionSchema,
     section: "Sources"
   })
   .build()

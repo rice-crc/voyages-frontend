@@ -523,19 +523,20 @@
     "Sources": [
       {
         "data": {
+          "voyage_id": 11586,
+          "Source": {
+            "data": {
+              "Title": "Dataset of 17th century Dutch slave trading voyages",
+              "id": 998
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 998
+            }
+          },
           "Page range": "BDB118",
-          "source_id": {
-            "data": {
-              "Title": "Dataset of 17th century Dutch slave trading voyages",
-              "id": 998
-            },
-            "state": "original",
-            "entityRef": {
-              "type": "existing",
-              "schema": "Voyage Source",
-              "id": 998
-            }
-          },
           "id": 26704
         },
         "state": "original",
@@ -547,19 +548,20 @@
       },
       {
         "data": {
+          "voyage_id": 11586,
+          "Source": {
+            "data": {
+              "Title": "Archival and library notes on the 17th century slave trade; notes from the Nationaal Archief",
+              "id": 1038
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1038
+            }
+          },
           "Page range": "Binder:ARA,SG,5768,17/12/1670",
-          "source_id": {
-            "data": {
-              "Title": "Archival and library notes on the 17th century slave trade; notes from the Nationaal Archief",
-              "id": 1038
-            },
-            "state": "original",
-            "entityRef": {
-              "type": "existing",
-              "schema": "Voyage Source",
-              "id": 1038
-            }
-          },
           "id": 27782
         },
         "state": "original",
@@ -571,19 +573,20 @@
       },
       {
         "data": {
+          "voyage_id": 11586,
+          "Source": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
           "Page range": "GAA,NA,2956:897,25April1672",
-          "source_id": {
-            "data": {
-              "Title": "N",
-              "id": 1391
-            },
-            "state": "original",
-            "entityRef": {
-              "type": "existing",
-              "schema": "Voyage Source",
-              "id": 1391
-            }
-          },
           "id": 68092
         },
         "state": "original",
@@ -595,19 +598,20 @@
       },
       {
         "data": {
+          "voyage_id": 11586,
+          "Source": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
           "Page range": "GAA,NA,2231:2Nov1669",
-          "source_id": {
-            "data": {
-              "Title": "N",
-              "id": 1391
-            },
-            "state": "original",
-            "entityRef": {
-              "type": "existing",
-              "schema": "Voyage Source",
-              "id": 1391
-            }
-          },
           "id": 68093
         },
         "state": "original",
@@ -619,19 +623,20 @@
       },
       {
         "data": {
+          "voyage_id": 11586,
+          "Source": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
           "Page range": "GAA,NA,3205:398,17/12/1670",
-          "source_id": {
-            "data": {
-              "Title": "N",
-              "id": 1391
-            },
-            "state": "original",
-            "entityRef": {
-              "type": "existing",
-              "schema": "Voyage Source",
-              "id": 1391
-            }
-          },
           "id": 68094
         },
         "state": "original",
@@ -643,19 +648,20 @@
       },
       {
         "data": {
+          "voyage_id": 11586,
+          "Source": {
+            "data": {
+              "Title": "N",
+              "id": 1391
+            },
+            "state": "original",
+            "entityRef": {
+              "type": "existing",
+              "schema": "Voyage Source",
+              "id": 1391
+            }
+          },
           "Page range": "GAA,NA,3206:336,28/3/1671",
-          "source_id": {
-            "data": {
-              "Title": "N",
-              "id": 1391
-            },
-            "state": "original",
-            "entityRef": {
-              "type": "existing",
-              "schema": "Voyage Source",
-              "id": 1391
-            }
-          },
           "id": 68095
         },
         "state": "original",
@@ -667,8 +673,8 @@
       },
       {
         "data": {
-          "Page range": null,
-          "source_id": {
+          "voyage_id": 11586,
+          "Source": {
             "data": {
               "Title": "Dataset of 17th century Dutch slave trading voyages",
               "id": 998
@@ -680,6 +686,7 @@
               "id": 998
             }
           },
+          "Page range": null,
           "id": 173625
         },
         "state": "original",
@@ -691,8 +698,8 @@
       },
       {
         "data": {
-          "Page range": null,
-          "source_id": {
+          "voyage_id": 11586,
+          "Source": {
             "data": {
               "Title": "Archival and library notes on the 17th century slave trade; notes from the Nationaal Archief",
               "id": 1038
@@ -704,6 +711,7 @@
               "id": 1038
             }
           },
+          "Page range": null,
           "id": 174703
         },
         "state": "original",
@@ -715,8 +723,8 @@
       },
       {
         "data": {
-          "Page range": null,
-          "source_id": {
+          "voyage_id": 11586,
+          "Source": {
             "data": {
               "Title": "N",
               "id": 1391
@@ -728,6 +736,7 @@
               "id": 1391
             }
           },
+          "Page range": null,
           "id": 215014
         },
         "state": "original",
@@ -739,8 +748,8 @@
       },
       {
         "data": {
-          "Page range": null,
-          "source_id": {
+          "voyage_id": 11586,
+          "Source": {
             "data": {
               "Title": "N",
               "id": 1391
@@ -752,6 +761,7 @@
               "id": 1391
             }
           },
+          "Page range": null,
           "id": 215015
         },
         "state": "original",
@@ -763,8 +773,8 @@
       },
       {
         "data": {
-          "Page range": null,
-          "source_id": {
+          "voyage_id": 11586,
+          "Source": {
             "data": {
               "Title": "N",
               "id": 1391
@@ -776,6 +786,7 @@
               "id": 1391
             }
           },
+          "Page range": null,
           "id": 215016
         },
         "state": "original",
@@ -787,8 +798,8 @@
       },
       {
         "data": {
-          "Page range": null,
-          "source_id": {
+          "voyage_id": 11586,
+          "Source": {
             "data": {
               "Title": "N",
               "id": 1391
@@ -800,6 +811,7 @@
               "id": 1391
             }
           },
+          "Page range": null,
           "id": 215017
         },
         "state": "original",
@@ -833,6 +845,7 @@
           "Enslavers in relation": [
             {
               "data": {
+                "relation_id": 8293,
                 "Enslaver alias": {
                   "data": {
                     "Alias": "Bessels, Gerard",
@@ -916,7 +929,8 @@
                 "Roles": [
                   {
                     "data": {
-                      "enslaverrole_id": {
+                      "enslaverinrelation_id": 11326,
+                      "Role": {
                         "data": {
                           "Enslaver role": "Investor",
                           "id": 2
@@ -948,6 +962,7 @@
             },
             {
               "data": {
+                "relation_id": 8293,
                 "Enslaver alias": {
                   "data": {
                     "Alias": "Vieger, Jacobus de",
@@ -1007,7 +1022,8 @@
                 "Roles": [
                   {
                     "data": {
-                      "enslaverrole_id": {
+                      "enslaverinrelation_id": 11327,
+                      "Role": {
                         "data": {
                           "Enslaver role": "Investor",
                           "id": 2
@@ -1039,6 +1055,7 @@
             },
             {
               "data": {
+                "relation_id": 8293,
                 "Enslaver alias": {
                   "data": {
                     "Alias": "Raket, David",
@@ -1158,7 +1175,8 @@
                 "Roles": [
                   {
                     "data": {
-                      "enslaverrole_id": {
+                      "enslaverinrelation_id": 11328,
+                      "Role": {
                         "data": {
                           "Enslaver role": "Investor",
                           "id": 2
@@ -1190,6 +1208,7 @@
             },
             {
               "data": {
+                "relation_id": 8293,
                 "Enslaver alias": {
                   "data": {
                     "Alias": "Croesen, Hendrik",
@@ -1273,7 +1292,8 @@
                 "Roles": [
                   {
                     "data": {
-                      "enslaverrole_id": {
+                      "enslaverinrelation_id": 11329,
+                      "Role": {
                         "data": {
                           "Enslaver role": "Investor",
                           "id": 2
@@ -1305,6 +1325,7 @@
             },
             {
               "data": {
+                "relation_id": 8293,
                 "Enslaver alias": {
                   "data": {
                     "Alias": "Rosenberg, Paulus",
@@ -1412,7 +1433,8 @@
                 "Roles": [
                   {
                     "data": {
-                      "enslaverrole_id": {
+                      "enslaverinrelation_id": 11330,
+                      "Role": {
                         "data": {
                           "Enslaver role": "Investor",
                           "id": 2
@@ -1444,6 +1466,7 @@
             },
             {
               "data": {
+                "relation_id": 8293,
                 "Enslaver alias": {
                   "data": {
                     "Alias": "Hoogkamer, Markus",
@@ -1503,7 +1526,8 @@
                 "Roles": [
                   {
                     "data": {
-                      "enslaverrole_id": {
+                      "enslaverinrelation_id": 11331,
+                      "Role": {
                         "data": {
                           "Enslaver role": "Investor",
                           "id": 2
@@ -1535,6 +1559,7 @@
             },
             {
               "data": {
+                "relation_id": 8293,
                 "Enslaver alias": {
                   "data": {
                     "Alias": "Cleijn, Evert Mathijsz",
@@ -1606,7 +1631,8 @@
                 "Roles": [
                   {
                     "data": {
-                      "enslaverrole_id": {
+                      "enslaverinrelation_id": 11332,
+                      "Role": {
                         "data": {
                           "Enslaver role": "Captain",
                           "id": 1

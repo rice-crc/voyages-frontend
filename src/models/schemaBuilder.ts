@@ -7,8 +7,8 @@ import {
   LinkedEntityProperty,
   EntityOwnedProperty,
   OwnedEntityListProperty,
-  ManyToManyEntityListProperty,
-  BoolProperty
+  BoolProperty,
+  PropertyAccessLevel
 } from "./properties"
 
 /**
@@ -61,9 +61,10 @@ export class EntitySchemaBuilder {
   addOwnerProp = (backingField: string, fkType?: "number" | "text") =>
     this.add<NumberProperty | TextProperty>({
       kind: fkType ?? "number",
-      uid: `owner_${backingField}`,
+      uid: this._mkUid(`owner_${backingField}`),
       backingField,
-      label: backingField
+      label: backingField,
+      accessLevel: PropertyAccessLevel.Hidden
     })
 
   addTable = (prop: Omit<TableProperty, "kind" | "schema">) =>
@@ -95,17 +96,6 @@ export class EntitySchemaBuilder {
       ...prop,
       backingField: "",
       kind: "ownedEntityList",
-      linkedEntitySchema: prop.linkedEntitySchema.name,
-      uid: this._mkUid(prop.label)
-    })
-
-  addM2MEntityList = (
-    prop: Omit<BuilderEntityProp<ManyToManyEntityListProperty>, "backingField">
-  ) =>
-    this.add<ManyToManyEntityListProperty>({
-      ...prop,
-      backingField: "",
-      kind: "m2mEntityList",
       linkedEntitySchema: prop.linkedEntitySchema.name,
       uid: this._mkUid(prop.label)
     })

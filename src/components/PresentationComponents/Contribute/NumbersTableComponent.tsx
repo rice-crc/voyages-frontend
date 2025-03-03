@@ -23,7 +23,6 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
   lastChange,
   onChange,
 }) => {
-  console.log('NumbersTableComponent', property, entity);
   const [activeCell, setActiveCell] = useState<ActiveCell | null>(null);
   const entityData = entity.data;
   const handleCellChange = useCallback(
@@ -54,12 +53,13 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
     (col: number, row: number): string => {
       const field = property.cellField(col, row);
       if (!field) return '';
-      const value = entityData[field];
+      const changed = lastChange?.changes[field]
+      const value = changed === undefined ? entityData[field] : changed;
       // We're assuming all values are numbers as per the requirements
       if (typeof value !== 'number') return '';
       return value.toString();
     },
-    [property, entityData],
+    [property, lastChange, entityData],
   );
 
   const handleComment = useCallback(

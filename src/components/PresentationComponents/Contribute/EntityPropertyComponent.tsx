@@ -14,7 +14,6 @@ import { EntityTableView } from './EntityTableView';
 import NumbersTableComponent from './NumbersTableComponent';
 import { DirectEntityPropertyField } from './DirectEntityPropertyField';
 import { LinkedEntityPropertyComponent } from './LinkedEntityPropertyComponent';
-import { EntityManyToManyTable } from './EntityManyToManyTable';
 
 export interface EntityPropertyComponentProps extends EntityFormProps {
   property: Property;
@@ -43,6 +42,7 @@ export const EntityPropertyComponent = ({
     ) {
       return (
         <EntityForm
+          key={entity.entityRef.id}
           {...other}
           changes={
             lastChange
@@ -116,7 +116,6 @@ export const EntityPropertyComponent = ({
     );
   }
   if (kind === 'table') {
-    console.log('EntityPropertyComponent', property, entity);
     if (lastChange && lastChange.kind !== 'table') {
       return (
         <span>
@@ -143,23 +142,6 @@ export const EntityPropertyComponent = ({
     }
     return (
       <EntityTableView
-        lastChange={lastChange}
-        entity={entity}
-        property={property}
-        {...other}
-      />
-    );
-  }
-  if (kind === 'm2mEntityList') {
-    if (lastChange && lastChange.kind !== 'm2mList') {
-      return (
-        <span>
-          BUG: only Table changes are supported for this type of property!
-        </span>
-      );
-    }
-    return (
-      <EntityManyToManyTable
         lastChange={lastChange}
         entity={entity}
         property={property}
