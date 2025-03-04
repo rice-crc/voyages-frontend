@@ -26,11 +26,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import Pagination from '@mui/material/Pagination';
 // Icons
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import SearchIcon from '@mui/icons-material/Search';
-import GridViewIcon from '@mui/icons-material/GridView';
-import ViewListIcon from '@mui/icons-material/ViewList';
+import { AutoStories, Bookmarks, Search ,GridView, ViewList} from '@mui/icons-material';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { Link } from 'react-router-dom';
 import voyageLogo from '@/assets/sv-logo.png';
@@ -294,7 +290,7 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
             <IconButton
               onClick={(e) => menuItems && setAnchorEl(e.currentTarget)}
             >
-              <SearchIcon />
+              <Search />
             </IconButton>
           </Tooltip>
         )}
@@ -414,7 +410,7 @@ const DocumentGallery = ({
                         variant="contained"
                         aria-label={`Open ${item.label}`}
                         onClick={() => onDocumentOpen(item)}
-                        startIcon={<AutoStoriesIcon />}
+                        startIcon={<AutoStories />}
                       >
                         <Typography component="div">
                           &nbsp;View Document
@@ -463,7 +459,7 @@ const DocumentGallery = ({
                       aria-label={`Open ${item.label}`}
                       onClick={() => onDocumentOpen(item)}
                     >
-                      <AutoStoriesIcon />
+                      <AutoStories />
                     </Button>
                   }
                 />
@@ -542,7 +538,7 @@ const DocumentPage: React.FC = () => {
                   badgeContent={sources.Workspace.count + ''}
                   color="primary"
                 >
-                  <BookmarksIcon color="action" />
+                  <Bookmarks color="action" />
                 </Badge>
               </IconButton>
             </Tooltip>
@@ -557,7 +553,7 @@ const DocumentPage: React.FC = () => {
             <IconButton
               onClick={() => setViewMode(viewMode === 'list' ? 'grid' : 'list')}
             >
-              {viewMode === 'list' ? <GridViewIcon /> : <ViewListIcon />}
+              {viewMode === 'list' ? <GridView /> : <ViewList />}
             </IconButton>
           </Tooltip>
         </div>

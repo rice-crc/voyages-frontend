@@ -14,9 +14,8 @@ import {
   IRootFilterObject,
   FilterObjectsState,
 } from '@/share/InterfaceTypes';
-import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import {CheckBoxOutlineBlankOutlined,Check} from '@mui/icons-material';
 import { Autocomplete, Checkbox, Typography, TextField } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
 import { useAutoComplete } from '@/hooks/useAutoComplete';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { useDispatch, useSelector } from 'react-redux';
@@ -209,8 +208,8 @@ export default function AutoCompleteListBox() {
       <li {...props} key={`${option.value}`}>
         <Checkbox
           color="primary"
-          icon={<CheckBoxOutlineBlankOutlinedIcon fontSize="small" />}
-          checkedIcon={<CheckIcon fontSize="small" />}
+          icon={<CheckBoxOutlineBlankOutlined fontSize="small" />}
+          checkedIcon={<Check fontSize="small" />}
           checked={selected}
         />
         {getOptionLabel(option)}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import {Close} from '@mui/icons-material';
 import { PaperDraggableTimeLapse } from '@/components/SelectorComponents/Cascading/PaperDraggable';
 import { PaperDraggableTimeLapseStyle, StyleDialog } from '@/styleMUI';
 import '@/style/timelapse.scss';
@@ -54,7 +54,7 @@ const TimelapseHelpDialog = ({
               right: 8,
             }}
           >
-            <CloseIcon />
+            <Close />
           </IconButton>
         </DialogTitle>
         <DialogContent>

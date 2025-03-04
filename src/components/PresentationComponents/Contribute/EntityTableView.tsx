@@ -28,9 +28,7 @@ import {
 } from '@mui/material';
 import { Typography } from 'antd';
 import React, { useCallback, useMemo } from 'react';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import RestoreIcon from '@mui/icons-material/Restore';
+import {Add, Delete, Restore} from '@mui/icons-material';
 import { EntitySchema, getSchema } from '@/models/entities';
 import { EntityForm, EntityFormProps } from './EntityForm';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
@@ -192,7 +190,7 @@ const EntityTableRow = ({
         </TableCell>
         <TableCell align="right">
           <IconButton size="small" color="error" onClick={handleDelAction}>
-            {isDeleted ? <RestoreIcon /> : <DeleteIcon />}
+            {isDeleted ? <Restore /> : <Delete />}
           </IconButton>
         </TableCell>
       </TableRow>
@@ -316,7 +314,7 @@ export const EntityTableView = ({
               </TableCell>
               <TableCell align="right">
                 <IconButton size="small" color="success" onClick={handleAdd}>
-                  <AddIcon />
+                  <Add />
                 </IconButton>
               </TableCell>
             </TableRow>

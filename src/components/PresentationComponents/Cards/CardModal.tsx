@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import VoyageCard from './Cards';
 import { RootState } from '@/redux/store';
 import { setIsModalCard } from '@/redux/getCardFlatObjectSlice';
-import CloseIcon from '@mui/icons-material/Close';
+import {Close} from '@mui/icons-material';
 import '@/style/cards.scss';
 import { translationCard } from '@/utils/functions/translationLanguages';
 
@@ -45,7 +45,7 @@ const CardModal = () => {
               onClick={handleClose}
               aria-label="close"
             >
-              <CloseIcon />
+              <Close />
             </IconButton>
           </div>
           <Divider />
