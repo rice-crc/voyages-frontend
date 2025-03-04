@@ -12,7 +12,7 @@ const Contribute: React.FC = () => {
       <ContributeNavBar handleDrawerOpen={handleDrawerOpen} />
       <div className="contribuite-main-content">
         <SidebarContribute openSideBar={openSideBar}  />
-        <ContributeContent />
+        <ContributeContent openSideBar={openSideBar}/>
       </div>
     </>
   );
