@@ -9,10 +9,16 @@ import { MaterializedEntity } from '@/models/materialization';
 const EditExistingVoyage: React.FC = () => {
   const [form] = Form.useForm();
   const [voyageId, setVoyageId] = useState<string>('');
+  const [entity, setEntity] = useState<MaterializedEntity | undefined>(sampleVoyage as MaterializedEntity)
 
-  const handleSubmit = (values: any): void => {
+  const handleSubmit = async (values: any): Promise<void> => {
     if (voyageId) {
-      alert(`Successfully found voyage`);
+      const res = await fetch(`http://localhost:7127/materialize/Voyage/${voyageId}`)
+      if (res.status === 200) {
+        setEntity(await res.json())
+      } else {
+        alert(`Voyage not found/error on api`);
+      }
     } else {
       alert(`Please enter a voyage ID`);
     }
@@ -69,7 +75,7 @@ const EditExistingVoyage: React.FC = () => {
             </Button>
           </Form.Item>
           <Divider />
-          <ContributionForm entity={sampleVoyage as MaterializedEntity} />
+          {entity && <ContributionForm entity={entity} />}
           <Divider />
         </Form>
       </div>

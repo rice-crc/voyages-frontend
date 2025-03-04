@@ -31,7 +31,7 @@ export interface EntitySchema {
   pkField: string
   contributionMode: EntityContributionMode
   properties: Property[]
-  getLabel: (data: Record<string, any>) => string
+  getLabel: (data: Record<string, any>, short?: boolean) => string
 }
 
 export type BuilderEntityProp<T extends EntityLinkBaseProperty> = Omit<
@@ -79,7 +79,8 @@ export const SparseDateSchema = mkBuilder({
   })
   .build()
 
-const coalesce = (a: string | number | null | undefined, b?: string) => a ? `${a}${b ?? ""}` : ""
+const coalesce = (a: string | number | null | undefined, b?: string) =>
+  a ? `${a}${b ?? ""}` : ""
 
 export const NationalitySchema = mkBuilder({
   name: "Nationality",
@@ -585,8 +586,10 @@ export const AfricanInfoSchema = mkBuilder({
   backingTable: "voyage_africaninfo",
   contributionMode: "ReadOnly",
   pkField: "id",
-  getLabel: (d) =>
-    `African Info '${d.Name}'${d["Possibly offensive"] ? " (may be offensive)" : ""}`
+  getLabel: (d, short) =>
+    short
+      ? d.Name
+      : `African Info '${d.Name}'${d["Possibly offensive"] ? " (may be offensive)" : ""}`
 })
   .addText({ label: "Name", backingField: "name" })
   .addBool({
@@ -601,7 +604,7 @@ export const CargoUnitSchema = mkBuilder({
   backingTable: "voyage_cargounit",
   contributionMode: "ReadOnly",
   pkField: "id",
-  getLabel: (d) => `Cargo unit ${d.Name}`
+  getLabel: (d, short) => (short ? d.Name : `Cargo unit ${d.Name}`)
 })
   .addText({ label: "Name", backingField: "name" })
   .build()
@@ -611,7 +614,7 @@ export const CargoTypeSchema = mkBuilder({
   backingTable: "voyage_cargotype",
   contributionMode: "ReadOnly",
   pkField: "id",
-  getLabel: (d) => `Cargo type ${d.Name}`
+  getLabel: (d, short) => (short ? d.Name : `Cargo type ${d.Name}`)
 })
   .addText({ label: "Name", backingField: "name" })
   .build()
@@ -655,7 +658,7 @@ export const ParticularOutcomeSchema = mkBuilder({
   backingTable: "voyage_particularoutcome",
   contributionMode: "ReadOnly",
   pkField: "id",
-  getLabel: (d) => `Particular outcome ${d.Name}`
+  getLabel: (d, short) => (short ? d.Name : `Particular outcome ${d.Name}`)
 })
   .addText({ label: "Name", backingField: "name" })
   .addNumber({ label: "Value", backingField: "value" })
@@ -666,7 +669,7 @@ export const EnslavedOutcomeSchema = mkBuilder({
   backingTable: "voyage_slavesoutcome",
   contributionMode: "ReadOnly",
   pkField: "id",
-  getLabel: (d) => `Enslaved outcome ${d.Name}`
+  getLabel: (d, short) => (short ? d.Name : `Enslaved outcome ${d.Name}`)
 })
   .addText({ label: "Name", backingField: "name" })
   .addNumber({ label: "Value", backingField: "value" })
@@ -677,7 +680,7 @@ export const VesselOutcomeSchema = mkBuilder({
   backingTable: "voyage_vesselcapturedoutcome",
   contributionMode: "ReadOnly",
   pkField: "id",
-  getLabel: (d) => `Vessel outcome ${d.Name}`
+  getLabel: (d, short) => (short ? d.Name : `Vessel outcome ${d.Name}`)
 })
   .addText({ label: "Name", backingField: "name" })
   .addNumber({ label: "Value", backingField: "value" })
@@ -688,7 +691,7 @@ export const OwnerOutcomeSchema = mkBuilder({
   backingTable: "voyage_owneroutcome",
   contributionMode: "ReadOnly",
   pkField: "id",
-  getLabel: (d) => `Owner outcome ${d.Name}`
+  getLabel: (d, short) => (short ? d.Name : `Owner outcome ${d.Name}`)
 })
   .addText({ label: "Name", backingField: "name" })
   .addNumber({ label: "Value", backingField: "value" })
@@ -699,7 +702,7 @@ export const ResistanceSchema = mkBuilder({
   backingTable: "voyage_resistance",
   contributionMode: "ReadOnly",
   pkField: "id",
-  getLabel: (d) => `Resistance ${d.Name}`
+  getLabel: (d, short) => (short ? d.Name : `Resistance ${d.Name}`)
 })
   .addText({ label: "Name", backingField: "name" })
   .addNumber({ label: "Value", backingField: "value" })
@@ -810,7 +813,7 @@ export const EnslaverAliasBuilder = mkBuilder({
   backingTable: "past_enslaveralias",
   contributionMode: "Full",
   pkField: "id",
-  getLabel: (d) => `Alias ${d.Alias}`
+  getLabel: (d, short) => (short ? d.Alias : `Alias ${d.Alias}`)
 }).addText({
   backingField: "alias",
   label: "Alias"
@@ -823,7 +826,8 @@ export const EnslaverSchema = mkBuilder({
   backingTable: "past_enslaveridentity",
   contributionMode: "Full",
   pkField: "id",
-  getLabel: (d) => `Enslaver ${d["Principal alias"]}`
+  getLabel: (d, short) =>
+    short ? d["Principal alias"] : `Enslaver ${d["Principal alias"]}`
 })
   .addOwnedEntityList({
     childBackingProp: "identity_id",
@@ -937,7 +941,8 @@ export const EnslavementRelationTypeSchema = mkBuilder({
   backingTable: "past_enslavementrelationtype",
   contributionMode: "ReadOnly",
   pkField: "id",
-  getLabel: (d) => `Enslavement relation ${d["Relation type"]}`
+  getLabel: (d, short) =>
+    short ? d["Relation type"] : `Enslavement relation ${d["Relation type"]}`
 })
   .addText({
     label: "Relation type",
@@ -951,7 +956,8 @@ export const EnslaverRoleSchema = mkBuilder({
   backingTable: "past_enslaverrole",
   contributionMode: "ReadOnly",
   pkField: "id",
-  getLabel: (d) => `Enslaver role ${d["Enslaver role"]}`
+  getLabel: (d, short) =>
+    short ? d["Enslaver role"] : `Enslaver role ${d["Enslaver role"]}`
 })
   .addText({
     label: "Enslaver role",
@@ -982,7 +988,10 @@ export const EnslaverInRelationSchema = mkBuilder({
   backingTable: "past_enslaverinrelation",
   contributionMode: "Owned",
   pkField: "id",
-  getLabel: (d) => `Enslaver '${d["Enslaver alias"]?.data.Alias}'`
+  getLabel: (d, short) =>
+    short
+      ? (d["Enslaver alias"]?.data.Alias ?? "")
+      : `Enslaver '${d["Enslaver alias"]?.data.Alias}'`
 })
   .addOwnerProp("relation_id")
   .addLinkedEntity({
@@ -1004,7 +1013,8 @@ export const EnslavedSchema = mkBuilder({
   backingTable: "past_enslaved",
   contributionMode: "Full",
   pkField: "id",
-  getLabel: (d) => `Enslaved '${d["Documented name"]}'`
+  getLabel: (d, short) =>
+    short ? d["Documented name"] : `Enslaved '${d["Documented name"]}'`
 })
   .addText({
     label: "Documented name",
@@ -1025,7 +1035,10 @@ export const EnslavedInRelationSchema = mkBuilder({
   backingTable: "past_enslavedinrelation",
   contributionMode: "Owned",
   pkField: "id",
-  getLabel: (d) => `Enslaved '${d["Enslaved"]?.data["Documented name"]}'`
+  getLabel: (d, short) =>
+    short
+      ? (d["Enslaved"]?.data["Documented name"] ?? "")
+      : `Enslaved '${d["Enslaved"]?.data["Documented name"]}'`
 })
   .addOwnerProp("relation_id")
   .addLinkedEntity({
@@ -1041,8 +1054,10 @@ export const EnslavementRelationSchema = mkBuilder({
   backingTable: "past_enslavementrelation",
   contributionMode: "Owned",
   pkField: "id",
-  getLabel: (d) =>
-    `${d["Relation type"]?.data["Relation type"]} relation (id ${d.id})`
+  getLabel: (d, short) =>
+    short
+      ? (d["Relation type"]?.data["Relation type"] ?? "")
+      : `${d["Relation type"]?.data["Relation type"]} relation (id ${d.id})`
 })
   .addOwnerProp("voyage_id")
   .addLinkedEntity({
