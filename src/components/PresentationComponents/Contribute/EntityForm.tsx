@@ -346,7 +346,7 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
       <Button danger onClick={handleJohnButton}>
         John's Button
       </Button>
-      <Form.Item label="Contribution title">
+      <Form.Item label="Contribution title" style={{margin: '15px 0'}}>
         <Input
           value={changeSet.title}
           onChange={(e) =>
