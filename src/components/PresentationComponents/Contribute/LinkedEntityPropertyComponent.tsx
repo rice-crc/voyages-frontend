@@ -15,6 +15,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EntityForm, EntityFormProps } from './EntityForm';
 import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
 import { getSchema, getSchemaProp } from '@/models/entities';
+import { useEnumeration } from '@/hooks/useEnumeration';
 
 export interface LinkedEntityPropertyComponentProps {
   property: LinkedEntityProperty;
@@ -149,33 +150,36 @@ export const LinkedEntityPropertyComponent = (
     return <LinkedEntityOwnedPropertyComponent {...props} />;
   }
   const linkedSchema = getSchema(linkedEntitySchema);
-  // TODO: replace mock options by real choices coming from a Voyages API.
-  // Clean up the code with the dummies....
-  const dummyRecord = (fields: string[]) =>
-    fields.reduce(
-      (rec, f) => ({ ...rec, [f]: `dummy_${f}_${crypto.randomUUID()}` }),
-      {} as Record<string, string>,
-    );
-  const fillEntityWithDummies = (entity: MaterializedEntity) => {
-    const schema = getSchema(entity.entityRef.schema);
-    const fields = Object.keys(entity.data).filter((label) => {
-      const prop = getSchemaProp(schema, label);
-      return (
-        prop !== undefined && (prop.kind === 'number' || prop.kind === 'text')
+  const { items: optionItems } = useEnumeration(linkedEntitySchema);
+  let options = optionItems.map((entity) => ({
+    label: linkedSchema.getLabel(entity.data, true),
+    value: entity.entityRef.id,
+    entity,
+  }));
+  if (options.length === 0) {
+    // TODO: remove this after the Enumeration API is in place.
+    const dummyRecord = (fields: string[]) =>
+      fields.reduce(
+        (rec, f) => ({ ...rec, [f]: `dummy_${f}_${crypto.randomUUID()}` }),
+        {} as Record<string, string>,
       );
-    });
-    Object.assign(entity.data, dummyRecord(fields));
-    return entity;
-  };
-  const mockOptions = useMemo(
-    () =>
-      [1, 2, 3, 4, 5, 6].map((i, _) => ({
-        label: `Mocked ${property.linkedEntitySchema} with id ${i}`,
-        value: i,
-        entity: fillEntityWithDummies(materializeNew(linkedSchema, i)),
-      })),
-    [linkedSchema],
-  );
+    const fillEntityWithDummies = (entity: MaterializedEntity) => {
+      const schema = getSchema(entity.entityRef.schema);
+      const fields = Object.keys(entity.data).filter((label) => {
+        const prop = getSchemaProp(schema, label);
+        return (
+          prop !== undefined && (prop.kind === 'number' || prop.kind === 'text')
+        );
+      });
+      Object.assign(entity.data, dummyRecord(fields));
+      return entity;
+    };
+    options = [1, 2, 3, 4, 5, 6].map((i, _) => ({
+      label: `Mocked ${property.linkedEntitySchema} with id ${i}`,
+      value: i,
+      entity: fillEntityWithDummies(materializeNew(linkedSchema, i)),
+    }));
+  }
   // TODO: Specialize component for locations.
   /*return property.linkedEntitySchema === Location.name ? (
         <TreeSelect
@@ -216,7 +220,7 @@ export const LinkedEntityPropertyComponent = (
                     type: 'existing',
                   },
                   data:
-                    mockOptions.find((x) => x.value === item)?.entity.data ??
+                  options.find((x) => x.value === item)?.entity.data ??
                     {},
                   state: 'lazy',
                 }
@@ -238,7 +242,7 @@ export const LinkedEntityPropertyComponent = (
         value={value?.entityRef.id}
         placeholder={`Please select ${label}`}
         style={{ width: 'calc(100% - 20px)' }}
-        options={mockOptions}
+        options={options}
         onChange={handleChange}
       />
       <EntityPropertyChangeCommentBox

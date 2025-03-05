@@ -1,30 +1,40 @@
 import {
   addToChangeSet,
   combineChanges,
-  deleteChange,
   dropOrphans,
   EntityChange,
   PropertyChange,
 } from '@/models/changeSets';
 import { ChangeSet } from '@/models/contribution';
 import { EntitySchema, getSchema } from '@/models/entities';
-import { MaterializedEntity } from '@/models/materialization';
+import {
+  applyChanges,
+  cloneEntity,
+  expandMaterialized,
+  MaterializedEntity,
+} from '@/models/materialization';
 import { PropertyAccessLevel } from '@/models/properties';
 import { RootState } from '@/redux/store';
 import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
-import { Delete } from '@mui/icons-material';
-import IconButton from '@mui/material/IconButton';
 import {
   Button,
   Collapse,
   CollapseProps,
   Form,
+  Input,
   Select,
   Typography,
 } from 'antd';
-import React, { ReactNode, useCallback, useMemo, useState, useEffect } from 'react';
+import React, {
+  ReactNode,
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { EntityPropertyComponent } from './EntityPropertyComponent';
+import FormItemLabel from 'antd/es/form/FormItemLabel';
 
 export interface ContributionFormProps {
   entity: MaterializedEntity;
@@ -147,7 +157,7 @@ export const EntityForm = ({
         });
       }
     }
-    
+
     return [map[''] ?? [], collapsible];
   }, [properties, children]);
 
@@ -162,7 +172,7 @@ export const EntityForm = ({
           <div key={`ungrouped-${index}`}>{item}</div>
         ))}
       {sections.length > 0 && (
-        <div >
+        <div>
           <Collapse
             activeKey={expandedMenu}
             onChange={(keys) => {
@@ -245,7 +255,7 @@ const PropertyChangeCard = ({ change }: PropertyChangeCardProps) => {
 };
 
 const accessLevelOptions = Object.entries(PropertyAccessLevel)
-  .filter(([key]) => isNaN(Number(key))) // Filter out reverse mapping
+  .filter(([key]) => isNaN(Number(key)) && key !== 'Hidden') // Filter out reverse mapping
   .map(([label, value]) => ({
     label: label.replace(/([A-Z])/g, ' $1').trim(), // Add spaces between camel case
     value: value,
@@ -267,19 +277,30 @@ const PropertyChangesList = ({ changes }: PropertyChangesListProps) => {
   );
 };
 
+const tempCreateChangeSet = (
+  schema: EntitySchema,
+  entity: MaterializedEntity,
+) => ({
+  id: -1,
+  author: 'Mocked',
+  title: `Contribution for ${schema.getLabel(entity.data)}`,
+  changes: [],
+  comments: '',
+  timestamp: new Date().getDate(),
+});
+
 export const ContributionForm = ({ entity }: ContributionFormProps) => {
   const [accessLevel, setAccessLevel] = useState<PropertyAccessLevel>(
     PropertyAccessLevel.AdvancedContributor,
   );
   const schema = getSchema(entity.entityRef.schema);
-  const [changeSet, setChangeSet] = useState<ChangeSet>({
-    id: -1,
-    author: 'Mocked',
-    title: '<Title of contribution>',
-    changes: [],
-    comments: '',
-    timestamp: new Date().getDate(),
-  });
+  // TODO: Change props for the form to include the changeSet as well.
+  const [changeSet, setChangeSet] = useState<ChangeSet>(
+    tempCreateChangeSet(schema, entity),
+  );
+  useEffect(() => {
+    setChangeSet(tempCreateChangeSet(schema, entity));
+  }, [schema, entity]);
   // TODO: debounce changeSet and update the Contribution
   const onChangesUpdate = useCallback(
     (c: EntityChange) =>
@@ -303,7 +324,8 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
     if (globalExpand) {
       setExpandedMenu([]);
     } else {
-      const allSectionKeys = sections?.map(section => section.key as string) ?? [];
+      const allSectionKeys =
+        sections?.map((section) => section.key as string) ?? [];
       setExpandedMenu(allSectionKeys);
     }
     setGlobalExpand((prevState) => !prevState);
@@ -311,13 +333,36 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
 
   const handleJohnButton = useCallback(() => {
     const combined = combineChanges(changeSet.changes);
-    alert('Check the console for the combined changes');
+    console.log('Combined and flattened change set:');
     console.dir(combined);
+    const changed = cloneEntity(entity);
+    applyChanges(expandMaterialized(changed), changeSet.changes);
+    console.log('This is the version with applied changes:');
+    console.dir(changed);
   }, [changeSet]);
 
   return (
     <>
-      <Button onClick={handleJohnButton}>The John Button</Button>
+      <Button danger onClick={handleJohnButton}>
+        John's Button
+      </Button>
+      <Form.Item label="Contribution title">
+        <Input
+          value={changeSet.title}
+          onChange={(e) =>
+            setChangeSet({ ...changeSet, title: e.target.value })
+          }
+        />
+      </Form.Item>
+      <Form.Item label="Contribution message">
+        <Input.TextArea
+          rows={4}
+          value={changeSet.comments}
+          onChange={(e) =>
+            setChangeSet({ ...changeSet, title: e.target.value })
+          }
+        />
+      </Form.Item>
       <ul>
         {/* TODO: A list view of the changes in a nice format */}
         {changeSet.changes.map((ec, idxEC) => {
@@ -335,12 +380,14 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
       </ul>
       {/* TODO: for now it is ok to allow the choice of "Editor" here, but this
       will have to be blocked for non-editors using authz */}
-      <Select
-        value={accessLevel}
-        onChange={(value: PropertyAccessLevel) => setAccessLevel(value)}
-        options={accessLevelOptions}
-        style={{ width: 200, margin: '10px 0' }}
-      />
+      <Form.Item label="Contrib mode">
+        <Select
+          value={accessLevel}
+          onChange={(value: PropertyAccessLevel) => setAccessLevel(value)}
+          options={accessLevelOptions}
+          style={{ width: 200, margin: '10px 0' }}
+        />
+      </Form.Item>
       <div className="expand-collapse">
         {translatedcontribute.titleCollaps}{' '}
         <a href="#" onClick={toggleExpandAll}>
