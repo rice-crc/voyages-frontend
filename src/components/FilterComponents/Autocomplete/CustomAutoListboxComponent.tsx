@@ -7,7 +7,7 @@ import React, {
   HTMLAttributes,
 } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme, Theme } from '@mui/material/styles';
+import {  ThemeProvider ,createTheme} from '@mui/material/styles';
 import { VariableSizeList } from 'react-window';
 import { RenderRowProps } from '@/share/InterfaceTypes';
 import '@/style/Slider.scss';
@@ -56,7 +56,7 @@ const CustomAutoListboxComponent = forwardRef<
   const { children, ...other } = props;
   const dispatch: AppDispatch = useDispatch();
   const itemData = React.Children.toArray(children);
-  const theme = useTheme<Theme>();
+  const theme = createTheme();
   const smUp = useMediaQuery(theme.breakpoints.up('sm'), { noSsr: true });
   const itemCount = itemData.length;
   const itemSize = smUp ? 36 : 48;
@@ -77,6 +77,7 @@ const CustomAutoListboxComponent = forwardRef<
   };
 
   return (
+    <ThemeProvider theme={theme}>
     <div {...other} ref={ref} style={{ overflowY: 'hidden' }}>
       <OuterElementContext.Provider value={other}>
         <VariableSizeList
@@ -101,6 +102,7 @@ const CustomAutoListboxComponent = forwardRef<
         </VariableSizeList>
       </OuterElementContext.Provider>
     </div>
+    </ThemeProvider>
   );
 });
 

@@ -89,16 +89,6 @@
         text-decoration: none;
       }
     }
-
-    .expand-collapse {
-      margin-top: 0.5rem;
-
-      a {
-        color: rgb(55, 148, 141);
-        font-weight: 600;
-        text-decoration: underline;
-      }
-    }
   }
 
   .lable-title {
@@ -184,5 +174,15 @@
   .comment-small {
     font-size: 80%;
     font-weight: 500;
+  }
+}
+
+.expand-collapse {
+  margin-top: 0.5rem;
+
+  a {
+    color: rgb(55, 148, 141);
+    font-weight: 600;
+    text-decoration: underline;
   }
 }

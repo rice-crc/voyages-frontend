@@ -8,8 +8,6 @@ import StyledDrawer from '@/styleMUI/StyledDrawer';
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import {  ExitToApp, AccountCircleRounded, Home, Diversity3 } from '@mui/icons-material';
 import { useNavigation } from '@/hooks/useNavigation';
-import { useTheme } from '@mui/material/styles';
-
 interface SidebarContributeProps {
   openSideBar: boolean;
 }
@@ -26,16 +24,17 @@ const SidebarContribute: React.FC<SidebarContributeProps> = ({ openSideBar }) =>
   const { languageValue } = useSelector((state: RootState) => state.getLanguages);
   const translatedContribute = translationLanguagesContribute(languageValue);
   const buttons = getDisplayButtons(translatedContribute);
-  const theme = useTheme();
+
 
   useEffect(() => {
     dispatch(loadUserFromStorage());
   }, []);
 
   return (
-    <StyledDrawer theme={theme} variant="permanent" anchor="left" open={openSideBar} lang={languageValue}>
+
+    <StyledDrawer  variant="permanent" anchor="left" open={openSideBar} lang={languageValue}>
       <List>
-        <ListItem button onClick={handleClickGuidelines}>
+        <ListItem  onClick={handleClickGuidelines}>
           <ListItemIcon>
             <Home />
           </ListItemIcon>
@@ -43,14 +42,14 @@ const SidebarContribute: React.FC<SidebarContributeProps> = ({ openSideBar }) =>
         </ListItem>
         {user ? (
           <>
-            <ListItem button onClick={() => handleClickSideBar('')}>
+            <ListItem  onClick={() => handleClickSideBar('')}>
               <ListItemIcon>
                 <Diversity3 />
               </ListItemIcon>
               {openSideBar && <ListItemText primaryTypographyProps={{style: {fontSize: '0.90rem', fontWeight: '500'}}} primary={translatedContribute.contributeContributeHome} />}
             </ListItem>
             {buttons.map((btn) => (
-              <ListItem button key={btn.nameBtn} onClick={() => handleClickSideBar(btn.path)}>
+              <ListItem  key={btn.nameBtn} onClick={() => handleClickSideBar(btn.path)}>
                 <ListItemIcon>
                   {btn.icon}
                 </ListItemIcon>
@@ -58,7 +57,7 @@ const SidebarContribute: React.FC<SidebarContributeProps> = ({ openSideBar }) =>
               </ListItem>
             ))}
 
-            <ListItem button onClick={handleLogout}>
+            <ListItem  onClick={handleLogout}>
               <ListItemIcon>
                 <ExitToApp />
               </ListItemIcon>
@@ -66,7 +65,7 @@ const SidebarContribute: React.FC<SidebarContributeProps> = ({ openSideBar }) =>
             </ListItem>
           </>
         ) : (
-          <ListItem button onClick={handleSignInClick}>
+          <ListItem  onClick={handleSignInClick}>
             <ListItemIcon>
               <AccountCircleRounded />
             </ListItemIcon>

@@ -6,7 +6,7 @@ import {
   getColorHoverBackgroundCollection,
   getHeaderColomnColor,
 } from '@/utils/functions/getColorStyle';
-import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Box } from '@mui/material';
 import { Tooltip } from 'antd';
 import { StarOutlined } from '@mui/icons-material';

@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import '@/style/menu.scss';
 import { Link } from 'react-router-dom';
 import { List, ListItemText, ListItemButton, Collapse } from '@mui/material';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import {ExpandLess,ExpandMore} from '@mui/icons-material'
 import { menuLists } from '@/utils/functions/menuListHome';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
