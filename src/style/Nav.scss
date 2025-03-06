@@ -271,7 +271,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
   @include breakpoint-standard(1) {
     display: block;
     font-size: 16px;

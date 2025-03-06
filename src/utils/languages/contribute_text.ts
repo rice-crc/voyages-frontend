@@ -18,8 +18,8 @@ export const contributeTranslate: TranslateType = {
   titleCollaps: {
     label: {
       en: 'Expand All to see/hide all.',
-      es: 'ES: Expand All to see/hide all.',
-      pt: 'PT: Expand All to see/hide all.',
+      es: 'Expandir todo para ver/ocultar todo.',
+      pt: 'Expandir tudo para ver/ocultar tudo.',
     },
   },
   expand: {
@@ -314,6 +314,13 @@ export const contributeTranslate: TranslateType = {
       en: `Welcome, {user.userName}.`,
       es: `Bienvenido, {user.userName}.`,
       pt: `Bem-vindo, {user.userName}.`,
+    }
+  }, 
+  contributeChangePassword: {
+    label: {
+      en: `Change Password`,
+      es: `Cambiar contraseña`,
+      pt: `Alterar senha`,
     }
   }
 };

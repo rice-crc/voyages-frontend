@@ -1,7 +1,7 @@
 import { setsetOpenModalNetworks } from '@/redux/getPastNetworksGraphDataSlice';
 import { RootState } from '@/redux/store';
 import { Modal, Box } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import {Close } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { styleModalNetworks } from '@/styleMUI';
 import NETWORKICON from '@/assets/networksIcon.png';
@@ -46,7 +46,7 @@ const ModalNetworksGraph = () => {
             />
           </div>
           <div className="close-modal-icon-network ">
-            <CloseIcon fontSize="large" onClick={handleClose} />
+            <Close fontSize="large" onClick={handleClose} />
           </div>
         </div>
 

@@ -11,6 +11,7 @@
   color: #212529;
   font-weight: 600;
   font-size: 0.85rem;
+  margin-top: 5px;
 }
 
 .collapse-container {
@@ -24,6 +25,7 @@
 }
 
 .custom-collapse {
+  margin-top: 12px;
   .ant-collapse-item {
     .ant-collapse-header {
       padding: 0;
@@ -31,7 +33,6 @@
       font-size: 1.25rem !important;
       font-weight: 700 !important;
     }
-
     .ant-collapse-content {
       .ant-collapse-content-box {
         border: 1px solid #d5d0d0;

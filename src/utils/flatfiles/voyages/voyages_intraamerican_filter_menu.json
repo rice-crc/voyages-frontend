@@ -624,9 +624,9 @@
             "var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
             "type": "IntegerField",
             "label": {
-              "en": "Year captives were landed (imputed)",
-              "es": "Año de desembarco de los cautivos (imputado)",
-              "pt": "Ano em que os cativos foram desembarcados (imputado)"
+              "en": "Year captives were landed (IMP)",
+              "es": "Año de desembarco de los cautivos (IMP)",
+              "pt": "Ano em que os cativos foram desembarcados (IMP)"
             }
           }
         ]

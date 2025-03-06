@@ -18,7 +18,11 @@ import { translationLanguagesContribute } from '@/utils/functions/translationLan
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
-const ContributeContent: React.FC = () => {
+interface ContributeContent {
+  openSideBar: boolean;
+}
+
+const ContributeContent: React.FC<ContributeContent> = ({ openSideBar }) => {
   const { handleClickGuidelines, handleResetPasswordClick } = useNavigation();
   const { contributePath, endpointPath } = usePageRouter();
   const { languageValue } = useSelector(
@@ -66,7 +70,7 @@ const ContributeContent: React.FC = () => {
   } else if (contributePath === 'interim') {
     displayContent = <NewVoyage />;
   } else if (contributePath === 'edit_voyage') {
-    displayContent = <EditExistingVoyage />;
+    displayContent = <EditExistingVoyage openSideBar={openSideBar}/>;
   } else if (contributePath === 'merge_voyages') {
     displayContent = <MergeVoyages />;
   } else if (contributePath === 'delete_voyage') {

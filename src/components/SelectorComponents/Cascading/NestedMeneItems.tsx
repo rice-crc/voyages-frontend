@@ -1,7 +1,7 @@
 import React, { MouseEvent } from 'react';
 import { Menu, MenuItem } from '@mui/material';
 import { MenuItemProps } from '@mui/material/MenuItem';
-import ArrowRight from '@mui/icons-material/ArrowRight';
+import {ArrowRight} from '@mui/icons-material';
 import { useWindowSize } from '@react-hook/window-size';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 interface NestedMenuItemProps extends Omit<MenuItemProps, 'ref'> {

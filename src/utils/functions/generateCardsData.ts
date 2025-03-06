@@ -11,6 +11,7 @@ export function generateCardsData(data: any, value: any) {
   const firstData = data[fields[0].var_name];
 
   const joinDelimiter: string | undefined = value.cell_val.join;
+
   if (value.cell_type === 'literal') {
     const dataDisplay = data[fields[0].var_name];
     return dataDisplay ? dataDisplay : '--';
@@ -45,7 +46,7 @@ export function generateCardsData(data: any, value: any) {
       const fieldName = fields[i].var_name;
       const fieldValue = data[fieldName];
       if (fieldValue !== null) {
-        dataValue += fieldValue + '  ';
+        dataValue += fieldValue + joinDelimiter;
       }
     }
     const result = dataValue.substring(0, dataValue.length - 1);

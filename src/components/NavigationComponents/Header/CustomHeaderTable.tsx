@@ -132,7 +132,6 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
         requestData.order_by = [sort];
       }
     }
-    console.log('requestData', requestData)
     try {
       let response;
       if (checkPagesRouteForVoyages(styleName!)) {

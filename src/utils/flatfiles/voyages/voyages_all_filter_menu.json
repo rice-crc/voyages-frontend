@@ -242,9 +242,9 @@
         "var_name": "voyage_itinerary__port_of_call_before_atl_crossing__value",
         "type": "GeoTreeSelect",
         "label": {
-          "en": "Places of call before oceanic crossing",
-          "es": "Lugares de escala antes de la travesía oceánica",
-          "pt": "Locais de escala antes da travessia oceânica"
+          "en": "Places of call before Atlantic crossing",
+          "es": "Lugares de escala antes de la travesía Atlántico",
+          "pt": "Locais de escala antes da travessia Atlântico"
         }
       },
       {
@@ -267,9 +267,9 @@
             "var_name": "voyage_itinerary__third_landing_place__value",
             "type": "GeoTreeSelect",
             "label": {
-              "en": "First place where captives were landed",
-              "es": "Primer lugar de desembarco de cautivos",
-              "pt": "Primeiro local de desembarque de cativos"
+                "en": "Third place where captives were landed",
+                "es": "Tercer place where captives were landed",
+                "pt": "Terceiro local de desembarque de cativos"
             }
           },
           {
@@ -285,7 +285,7 @@
             "var_name": "voyage_itinerary__first_landing_place__value",
             "type": "GeoTreeSelect",
             "label": {
-              "en": "Third place where captives were landed",
+              "en": "First place where captives were landed",
               "es": "Tercer place where captives were landed",
               "pt": "Terceiro local de desembarque de cativos"
             }
@@ -612,9 +612,9 @@
             "var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
             "type": "IntegerField",
             "label": {
-              "en": "Year captives were landed (imputed)",
-              "es": "Año de desembarco de los cautivos (imputado)",
-              "pt": "Ano em que os cativos foram desembarcados (imputado)"
+              "en": "Year captives were landed (IMP)",
+              "es": "Año de desembarco de los cautivos (IMP)",
+              "pt": "Ano em que os cativos foram desembarcados (IMP)"
             }
           }
         ]
