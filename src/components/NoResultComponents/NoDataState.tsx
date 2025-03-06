@@ -1,7 +1,6 @@
 import { FC } from 'react';
-import { Box, Typography, Button, Paper } from '@mui/material';
+import { Box, Typography, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import NORESULT from '@/assets/no-results.png';
 
 // Styled components

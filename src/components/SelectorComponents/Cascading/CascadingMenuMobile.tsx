@@ -1,4 +1,4 @@
-import { ArrowLeft } from '@mui/icons-material';
+import { ArrowLeft, Filter as FilterAltIcon  } from '@mui/icons-material';
 import {
   Button,
   Dialog,
@@ -7,7 +7,6 @@ import {
   DialogTitle,
   IconButton,
 } from '@mui/material';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {
   DialogModalStyle,
   DropdownMenuItem,
