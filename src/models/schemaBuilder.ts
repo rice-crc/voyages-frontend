@@ -7,8 +7,8 @@ import {
   LinkedEntityProperty,
   EntityOwnedProperty,
   OwnedEntityListProperty,
-  ManyToManyEntityListProperty,
-  BoolProperty
+  BoolProperty,
+  PropertyAccessLevel
 } from "./properties"
 
 /**
@@ -61,9 +61,10 @@ export class EntitySchemaBuilder {
   addOwnerProp = (backingField: string, fkType?: "number" | "text") =>
     this.add<NumberProperty | TextProperty>({
       kind: fkType ?? "number",
-      uid: `owner_${backingField}`,
+      uid: this._mkUid(`owner_${backingField}`),
       backingField,
-      label: backingField
+      label: backingField,
+      accessLevel: PropertyAccessLevel.Hidden
     })
 
   addTable = (prop: Omit<TableProperty, "kind" | "schema">) =>
@@ -99,17 +100,6 @@ export class EntitySchemaBuilder {
       uid: this._mkUid(prop.label)
     })
 
-  addM2MEntityList = (
-    prop: Omit<BuilderEntityProp<ManyToManyEntityListProperty>, "backingField">
-  ) =>
-    this.add<ManyToManyEntityListProperty>({
-      ...prop,
-      backingField: "",
-      kind: "m2mEntityList",
-      linkedEntitySchema: prop.linkedEntitySchema.name,
-      uid: this._mkUid(prop.label)
-    })
-
   build = (): EntitySchema => {
     if (this.disposed) {
       throw new Error("disposed")
@@ -119,4 +109,7 @@ export class EntitySchemaBuilder {
     this.built.push(schema)
     return schema
   }
+
+  clone = (name: string) =>
+    new EntitySchemaBuilder({ ...this.info, name }, this.built, [...this.props.map(p => ({...p, uid: `${p.uid}_${name}`}))])
 }

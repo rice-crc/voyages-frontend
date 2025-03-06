@@ -11,15 +11,15 @@ export const cardTranslated: TranslateType = {
   title: {
     label: {
       en: 'Here are the currently available details for this voyage. Expand All to see/hide all.',
-      es: 'Explora los viajes que reubicaron a más de 12 millones de africanos esclavizados en todo el mundo',
-      pt: 'Explore as viagens que realocaram mais de 12 milhões de africanos escravizados pelo mundo',
+      es: 'Aquí están los detalles disponibles actualmente para este viaje. Expandir todo para ver/ocultar todo.',
+      pt: 'Aqui estão os detalhes atualmente disponíveis para esta viagem. Expandir tudo para ver/ocultar tudo.',
     },
   },
   titleHeader: {
     label: {
       en: 'Expand All to see/hide all.',
-      es: 'ES: Expand All to see/hide all.',
-      pt: 'PT: Expand All to see/hide all.',
+      es: 'Expandir todo para ver/ocultar todo.',
+      pt: 'Expandir tudo para ver/ocultar tudo.',
     },
   },
   expand: {

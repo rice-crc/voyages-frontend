@@ -19,8 +19,8 @@
         },
         "label": {
           "en": "Voyage ID",
-          "es": "ID da Viagem ",
-          "pt": "ID da Viagem"
+          "es": "Viaje ID",
+          "pt": "Viagem ID"
         }
       },
       {
@@ -35,9 +35,9 @@
           ]
         },
         "label": {
-          "en": "Vessel name",
-          "es": "Nombre de la embarcación",
-          "pt": "Nome da embarcação"
+          "en": "Name of vessel",
+          "es": "Nombre del buque",
+          "pt": "Nome do navio"
         }
       },
       {
@@ -57,9 +57,9 @@
           "join": ": "
         },
         "label": {
-          "en": "Enslavers",
-          "es": "Esclavizadores",
-          "pt": "Escravizadores"
+          "en": "Principal Enslaver",
+          "es": "ES: Principal Enslaver",
+          "pt": "PT: Principal Enslaver"
         }
       },
       {
@@ -75,8 +75,8 @@
         },
         "label": {
           "en": "Enslaver Connections",
-          "es": "Conexiones de Esclavizadores",
-          "pt": "Conexões de Escravizadores"
+          "es": "ES: Enslaver Connections",
+          "pt": "PT: Enslaver Connections"
         }
       },
       {
@@ -92,8 +92,8 @@
         },
         "label": {
           "en": "Place where vessel registered",
-          "es": "Lugar de registro del navío",
-          "pt": "Local de registro do navio"
+          "es": "ES: Place where vessel registered",
+          "pt": "PT: Place where vessel registered"
         }
       },
       {
@@ -109,8 +109,8 @@
         },
         "label": {
           "en": "Year of vessel's registration",
-          "es": "Año de registro del navío",
-          "pt": "Ano de registro do navio"
+          "es": "ES: Year of vessel's registration",
+          "pt": "PT: Year of vessel's registration"
         }
       },
       {
@@ -126,8 +126,8 @@
         },
         "label": {
           "en": "Year of vessel's construction",
-          "es": "Año de construcción del navío",
-          "pt": "Ano de construção do navio"
+          "es": "ES: Year of vessel's construction",
+          "pt": "PT: Year of vessel's construction"
         }
       },
       {
@@ -143,8 +143,8 @@
         },
         "label": {
           "en": "Imputed Ship Nationality",
-          "es": "Nacionalidad Imputada del Navío",
-          "pt": "Nacionalidade Imputada do Navio"
+          "es": "ES: Imputed Ship Nationality",
+          "pt": "PT: Imputed Ship Nationality"
         }
       },
       {
@@ -159,9 +159,9 @@
           ]
         },
         "label": {
-          "en": "Rig of Vessel",
-          "es": "Aparejo del Navío",
-          "pt": "Aparelho do Navio"
+          "en": "Rig of vessel",
+          "es": "ES: Rig of vessel",
+          "pt": "PT: Rig of vessel"
         }
       },
       {
@@ -177,8 +177,8 @@
         },
         "label": {
           "en": "Tonnage standardized on British measured tons 1773-1870",
-          "es": "Tonelaje estandarizado en toneladas británicas 1773-1870",
-          "pt": "Tonelagem padronizada em toneladas britânicas 1773-1870"
+          "es": "ES: Tonnage standardized on British measured tons 1773-1870",
+          "pt": "PT: Tonnage standardized on British measured tons 1773-1870"
         }
       },
       {
@@ -194,8 +194,8 @@
         },
         "label": {
           "en": "Tonnage of vessel",
-          "es": "Tonelaje del navío",
-          "pt": "Tonelagem do navio"
+          "es": "ES: Tonnage of vessel",
+          "pt": "PT: Tonnage of vessel"
         }
       },
       {
@@ -211,34 +211,17 @@
         },
         "label": {
           "en": "Guns mounted",
-          "es": "Cañones montados",
-          "pt": "Canhões montados"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "cargo__cargo__name",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Cargo",
-          "es": "Carga",
-          "pt": "Carga"
+          "es": "ES: Guns mounted",
+          "pt": "PT: Guns mounted"
         }
       }
     ]
   },
   {
     "label": {
-      "en": "Enslavers",
-      "es": "Esclavizadores",
-      "pt": "Escravizadores"
+      "en": "Crew",
+      "es": "ES: Crew",
+      "pt": "PT: Crew"
     },
     "children": [
       {
@@ -253,9 +236,9 @@
           ]
         },
         "label": {
-          "en": "Crew at first landing of slaves",
-          "es": "Tripulación fallecida durante el viaje completo",
-          "pt": "Tripulação falecida durante a viagem completa"
+          "en": "Crew died during complete voyage",
+          "es": "ES: Crew died during complete voyage",
+          "pt": "PT: Crew died during complete voyage"
         }
       },
       {
@@ -271,8 +254,8 @@
         },
         "label": {
           "en": "Crew at first landing of slaves",
-          "es": "Tripulación en el primer desembarco de esclavos",
-          "pt": "Tripulação no primeiro desembarque de escravos"
+          "es": "ES: Crew at first landing of slaves",
+          "pt": "PT: Crew at first landing of slaves"
         }
       },
       {
@@ -288,8 +271,8 @@
         },
         "label": {
           "en": "Crew at voyage outset",
-          "es": "Tripulación al inicio del viaje",
-          "pt": "Tripulação no início da viagem"
+          "es": "ES: Crew at voyage outset",
+          "pt": "PT: Crew at voyage outset"
         }
       }
     ]
@@ -297,8 +280,8 @@
   {
     "label": {
       "en": "Itinerary",
-      "es": "Itinerario",
-      "pt": "Itinerário"
+      "es": "ES: Itinerary",
+      "pt": "PT: Itinerary"
     },
     "children": [
       {
@@ -314,8 +297,8 @@
         },
         "label": {
           "en": "Port of departure (PORTDEP)",
-          "es": "Puerto de salida (PORTDEP)",
-          "pt": "Porto de saída (PORTDEP)"
+          "es": "ES: Port of departure (PORTDEP)",
+          "pt": "PT: Port of departure (PORTDEP)"
         }
       },
       {
@@ -331,8 +314,8 @@
         },
         "label": {
           "en": "Third place of slave purchase (PLAC3TRA)",
-          "es": "Tercer lugar de compra de esclavos (PLAC3TRA)",
-          "pt": "Terceiro lugar de compra de escravos (PLAC3TRA)"
+          "es": "ES: Third place of slave purchase (PLAC3TRA)",
+          "pt": "PT: Third place of slave purchase (PLAC3TRA)"
         }
       },
       {
@@ -348,8 +331,8 @@
         },
         "label": {
           "en": "Location name",
-          "es": "Lugar de compra de esclavos",
-          "pt": "Local de compra de escravos"
+          "es": "ES: Location name",
+          "pt": "PT: Location name"
         }
       },
       {
@@ -365,8 +348,8 @@
         },
         "label": {
           "en": "First place of slave purchase (PLAC1TRA)",
-          "es": "Primer lugar de compra de esclavos (PLAC1TRA)",
-          "pt": "Primeiro lugar de compra de escravos (PLAC1TRA)"
+          "es": "ES: First place of slave purchase (PLAC1TRA)",
+          "pt": "PT: First place of slave purchase (PLAC1TRA)"
         }
       },
       {
@@ -382,8 +365,8 @@
         },
         "label": {
           "en": "Imputed principal place of slave purchase (MJBYPTIMP)",
-          "es": "Lugar principal de compra de esclavos imputado (MJBYPTIMP)",
-          "pt": "Local principal de compra de escravos imputado (MJBYPTIMP)"
+          "es": "ES: Imputed principal place of slave purchase (MJBYPTIMP)",
+          "pt": "PT: Imputed principal place of slave purchase (MJBYPTIMP)"
         }
       },
       {
@@ -399,8 +382,8 @@
         },
         "label": {
           "en": "Port of call before Atlantic crossing (NPAFTTRA)",
-          "es": "Puerto de llamada antes de la cruce del Atlántico (NPAFTTRA)",
-          "pt": "Porto de chamada antes da travessia do Atlântico (NPAFTTRA)"
+          "es": "ES: Port of call before Atlantic crossing (NPAFTTRA)",
+          "pt": "PT: Port of call before Atlantic crossing (NPAFTTRA)"
         }
       },
       {
@@ -414,11 +397,7 @@
             }
           ]
         },
-        "label": {
-          "en": "Third place of slave landing (ADPSALE2)",
-          "es": "Tercer lugar de desembarco de esclavos (ADPSALE2)",
-          "pt": "Terceiro lugar de desembarque de escravos (ADPSALE2)"
-        }
+        "label": "Third place of slave landing (ADPSALE2)"
       },
       {
         "cell_type": "literal",
@@ -433,8 +412,8 @@
         },
         "label": {
           "en": "Second place of slave landing (ADPSALE1)",
-          "es": "Segundo lugar de desembarco de esclavos (ADPSALE1)",
-          "pt": "Segundo lugar de desembarque de escravos (ADPSALE1)"
+          "es": "ES: Second place of slave landing (ADPSALE1)",
+          "pt": "PT: Second place of slave landing (ADPSALE1)"
         }
       },
       {
@@ -448,11 +427,7 @@
             }
           ]
         },
-        "label": {
-          "en": "First place of slave landing (SLA1PORT)",
-          "es": "Primer lugar de desembarco de esclavos (SLA1PORT)",
-          "pt": "Primeiro lugar de desembarque de escravos (SLA1PORT)"
-        }
+        "label": "First place of slave landing (SLA1PORT)"
       },
       {
         "cell_type": "literal",
@@ -467,8 +442,8 @@
         },
         "label": {
           "en": "Imputed principal port of slave disembarkation (MJSLPTIMP)",
-          "es": "Lugar principal de desembarco de esclavos imputado (MJSLPTIMP)",
-          "pt": "Local principal de desembarque de escravos imputado (MJSLPTIMP)"
+          "es": "ES: Imputed principal port of slave disembarkation (MJSLPTIMP)",
+          "pt": "PT: Imputed principal port of slave disembarkation (MJSLPTIMP)"
         }
       },
       {
@@ -481,19 +456,15 @@
             }
           ]
         },
-        "label": {
-          "en": "Place at which voyage ended (PORTRET)",
-          "es": "Lugar en el que la viaje terminó (PORTRET)",
-          "pt": "Local onde a viagem terminou (PORTRET)"
-        }
+        "label": "Place at which voyage ended (PORTRET)"
       }
     ]
   },
   {
     "label": {
       "en": "Dates",
-      "es": "Fechas",
-      "pt": "Datas"
+      "es": "ES: Dates",
+      "pt": "PT: Dates"
     },
     "children": [
       {
@@ -509,8 +480,8 @@
         },
         "label": {
           "en": "Year captives were landed",
-          "es": "Año en que los cautivos fueron desembarcados",
-          "pt": "Ano em que os captivos foram desembarcados"
+          "es": "ES: Year captives were landed",
+          "pt": "PT: Year captives were landed"
         }
       },
       {
@@ -524,11 +495,7 @@
             }
           ]
         },
-        "label": {
-          "en": "Voyage length from home port to disembarkation (days) (VOY1IMP)",
-          "es": "Duración del viaje desde puerto de origen hasta desembarque (días) (VOY1IMP)",
-          "pt": "Duração da viagem do porto de origem até o desembarque (dias) (VOY1IMP)"
-        }
+        "label": "Voyage length from home port to disembarkation (days) (VOY1IMP)"
       },
       {
         "cell_type": "literal",
@@ -543,8 +510,8 @@
         },
         "label": {
           "en": "Length of Middle Passage in (days) (VOYAGE)",
-          "es": "Duración de la viaje en el medio camino (días) (VOYAGE)",
-          "pt": "Duração da viagem no meio caminho (dias) (VOYAGE)"
+          "es": "ES: Length of Middle Passage in (days) (VOYAGE)",
+          "pt": "PT: Length of Middle Passage in (days) (VOYAGE)"
         }
       },
       {
@@ -560,8 +527,8 @@
         },
         "label": {
           "en": "Year of arrival at port of disembarkation (YEARAM)",
-          "es": "Año de llegada al puerto de desembarque (YEARAM)",
-          "pt": "Ano de chegada ao porto de desembarque (YEARAM)"
+          "es": "ES: Year of arrival at port of disembarkation (YEARAM)",
+          "pt": "PT: Year of arrival at port of disembarkation (YEARAM)"
         }
       }
     ]
@@ -569,8 +536,8 @@
   {
     "label": {
       "en": "Enslaved People",
-      "es": "Esclavos",
-      "pt": "Esclavos"
+      "es": "ES: Enslaved People",
+      "pt": "PT: Enslaved People"
     },
     "children": [
       {
@@ -585,9 +552,9 @@
           ]
         },
         "label": {
-          "en": "Names of Enslaved People",
-          "es": "Nombres de esclavos",
-          "pt": "Nomes de escravos"
+          "en": "Names of Enslaved People)",
+          "es": "ES: Names of Enslaved People)",
+          "pt": "PT: Names of Enslaved People)"
         }
       },
       {
@@ -603,8 +570,8 @@
         },
         "label": {
           "en": "Total slaves disembarked imputed * (SLAMIMP)",
-          "es": "Total de esclavos desembarcados imputados * (SLAMIMP)",
-          "pt": "Total de escravos desembarcados imputados * (SLAMIMP)"
+          "es": "ES: Total slaves disembarked imputed * (SLAMIMP)",
+          "pt": "PT: Total slaves disembarked imputed * (SLAMIMP)"
         }
       },
       {
@@ -620,8 +587,8 @@
         },
         "label": {
           "en": "Total slaves embarked imputed * (slaximp)",
-          "es": "Total de esclavos embarcados imputados * (slaximp)",
-          "pt": "Total de escravos embarcados imputados * (slaximp)"
+          "es": "ES: Total slaves embarked imputed * (slaximp)",
+          "pt": "PT: Total slaves embarked imputed * (slaximp)"
         }
       },
       {
@@ -637,8 +604,8 @@
         },
         "label": {
           "en": "Number of slaves carried from third port of purchase (NCAR17)",
-          "es": "Número de esclavos llevados desde el tercer puerto de compra (NCAR17)",
-          "pt": "Número de escravos levados do terceiro porto de compra (NCAR17)"
+          "es": "ES: Number of slaves carried from third port of purchase (NCAR17)",
+          "pt": "PT: Number of slaves carried from third port of purchase (NCAR17)"
         }
       },
       {
@@ -654,8 +621,8 @@
         },
         "label": {
           "en": "Number of slaves carried from second port of purchase (NCAR15)",
-          "es": "Número de esclavos llevados desde el segundo puerto de compra (NCAR15)",
-          "pt": "Número de escravos levados do segundo porto de compra (NCAR15)"
+          "es": "ES: Number of slaves carried from second port of purchase (NCAR15)",
+          "pt": "PT: Number of slaves carried from second port of purchase (NCAR15)"
         }
       },
       {
@@ -671,8 +638,8 @@
         },
         "label": {
           "en": "Number of slaves carried from first port of purchase (NCAR13)",
-          "es": "Número de esclavos llevados desde el primer puerto de compra (NCAR13)",
-          "pt": "Número de escravos levados do primeiro porto de compra (NCAR13)"
+          "es": "ES: Number of slaves carried from first port of purchase (NCAR13)",
+          "pt": "PT: Number of slaves carried from first port of purchase (NCAR13)"
         }
       },
       {
@@ -688,8 +655,8 @@
         },
         "label": {
           "en": "Number of slaves intended from first port of purchase (SLINTEND)",
-          "es": "Número de esclavos destinados desde el primer puerto de compra (SLINTEND)",
-          "pt": "Número de escravos destinados do primeiro porto de compra (SLINTEND)"
+          "es": "ES: Number of slaves intended from first port of purchase (SLINTEND)",
+          "pt": "PT: Number of slaves intended from first port of purchase (SLINTEND)"
         }
       },
       {
@@ -705,8 +672,8 @@
         },
         "label": {
           "en": "Number of slaves disembarked at third place (SLAS39)",
-          "es": "Número de esclavos desembarcados en el tercer lugar (SLAS39)",
-          "pt": "Número de escravos desembarcados no terceiro lugar (SLAS39)"
+          "es": "ES: Number of slaves disembarked at third place (SLAS39)",
+          "pt": "PT: Number of slaves disembarked at third place (SLAS39)"
         }
       },
       {
@@ -722,8 +689,8 @@
         },
         "label": {
           "en": "Number of slaves disembarked at second place (SLAS36)",
-          "es": "Número de esclavos desembarcados en el segundo lugar (SLAS36)",
-          "pt": "Número de escravos desembarcados no segundo lugar (SLAS36)"
+          "es": "ES: Number of slaves disembarked at second place (SLAS36)",
+          "pt": "PT: Number of slaves disembarked at second place (SLAS36)"
         }
       },
       {
@@ -739,8 +706,8 @@
         },
         "label": {
           "en": "Number of slaves disembarked at first place (SLAS32)",
-          "es": "Número de esclavos desembarcados en el primer lugar (SLAS32)",
-          "pt": "Número de escravos desembarcados no primeiro lugar (SLAS32)"
+          "es": "ES: Number of slaves disembarked at first place (SLAS32)",
+          "pt": "PT: Number of slaves disembarked at first place (SLAS32)"
         }
       },
       {
@@ -756,8 +723,8 @@
         },
         "label": {
           "en": "Total slaves arrived at first port of disembarkation (SLAARRIV)",
-          "es": "Total de esclavos llegados al primer puerto de desembarque (SLAARRIV)",
-          "pt": "Total de escravos chegados ao primeiro porto de desembarque (SLAARRIV)"
+          "es": "ES: Total slaves arrived at first port of disembarkation (SLAARRIV)",
+          "pt": "PT: Total slaves arrived at first port of disembarkation (SLAARRIV)"
         }
       },
       {
@@ -773,8 +740,8 @@
         },
         "label": {
           "en": "Percentage children on voyage (CHILRAT7)",
-          "es": "Porcentaje de niños en la viaje (CHILRAT7)",
-          "pt": "Porcentagem de crianças na viagem (CHILRAT7)"
+          "es": "ES: Percentage children on voyage (CHILRAT7)",
+          "pt": "PT: Percentage children on voyage (CHILRAT7)"
         }
       },
       {
@@ -790,8 +757,8 @@
         },
         "label": {
           "en": "Percentage male on voyage (MALRAT7)",
-          "es": "Porcentaje de hombres en la viaje (MALRAT7)",
-          "pt": "Porcentagem de homens na viagem (MALRAT7)"
+          "es": "ES: Percentage male on voyage (MALRAT7)",
+          "pt": "PT: Percentage male on voyage (MALRAT7)"
         }
       },
       {
@@ -807,8 +774,8 @@
         },
         "label": {
           "en": "Percentage girl on voyage (GIRLRAT7)",
-          "es": "Porcentaje de niñas en la viaje (GIRLRAT7)",
-          "pt": "Porcentagem de meninas na viagem (GIRLRAT7)"
+          "es": "ES: Percentage girl on voyage (GIRLRAT7)",
+          "pt": "PT: Percentage girl on voyage (GIRLRAT7)"
         }
       },
       {
@@ -824,8 +791,8 @@
         },
         "label": {
           "en": "Percentage boy on voyage (BOYRAT7)",
-          "es": "Porcentaje de niños en la viaje (BOYRAT7)",
-          "pt": "Porcentagem de meninos na viagem (BOYRAT7)"
+          "es": "ES: Percentage boy on voyage (BOYRAT7)",
+          "pt": "PT: Percentage boy on voyage (BOYRAT7)"
         }
       },
       {
@@ -841,8 +808,8 @@
         },
         "label": {
           "en": "Percentage women on voyage (WOMRAT7)",
-          "es": "Porcentaje de mujeres en la viaje (WOMRAT7)",
-          "pt": "Porcentagem de mulheres na viagem (WOMRAT7)"
+          "es": "ES: Percentage women on voyage (WOMRAT7)",
+          "pt": "PT: Percentage women on voyage (WOMRAT7)"
         }
       },
       {
@@ -858,8 +825,8 @@
         },
         "label": {
           "en": "Percentage men on voyage (MENRAT7)",
-          "es": "Porcentaje de hombres en la viaje (MENRAT7)",
-          "pt": "Porcentagem de homens na viagem (MENRAT7)"
+          "es": "ES: Percentage men on voyage (MENRAT7)",
+          "pt": "PT: Percentage men on voyage (MENRAT7)"
         }
       },
       {
@@ -875,8 +842,8 @@
         },
         "label": {
           "en": "Imputed mortality ratio (VYMRTRAT)",
-          "es": "Tasa de mortalidad imputada (VYMRTRAT)",
-          "pt": "Taxa de mortalidade imputada (VYMRTRAT)"
+          "es": "ES: Imputed mortality ratio (VYMRTRAT)",
+          "pt": "PT: Imputed mortality ratio (VYMRTRAT)"
         }
       },
       {
@@ -892,8 +859,8 @@
         },
         "label": {
           "en": "Imputed number of slave deaths during Middle Passage (VYMRTIMP)",
-          "es": "Número de esclavos muertos durante la Middle Passage imputado (VYMRTIMP)",
-          "pt": "Número de escravos mortos durante a Middle Passage imputado (VYMRTIMP)"
+          "es": "ES: Imputed number of slave deaths during Middle Passage (VYMRTIMP)",
+          "pt": "PT: Imputed number of slave deaths during Middle Passage (VYMRTIMP)"
         }
       },
       {
@@ -909,8 +876,8 @@
         },
         "label": {
           "en": "Sterling cash price in Jamaica* (imputed)",
-          "es": "Precio en Jamaica* (imputado)",
-          "pt": "Preço em Jamaica* (imputado)"
+          "es": "ES: Sterling cash price in Jamaica* (imputed)",
+          "pt": "PT: Sterling cash price in Jamaica* (imputed)"
         }
       }
     ]
@@ -918,8 +885,8 @@
   {
     "label": {
       "en": "Outcomes",
-      "es": "Resultados",
-      "pt": "Resultados"
+      "es": "ES: Outcomes",
+      "pt": "PT: Outcomes"
     },
     "children": [
       {
@@ -935,8 +902,8 @@
         },
         "label": {
           "en": "Vessel Captured Outcome",
-          "es": "Resultado de la captura del barco",
-          "pt": "Resultado da captura do navio"
+          "es": "ES: Vessel Captured Outcome",
+          "pt": "PT: Vessel Captured Outcome"
         }
       },
       {
@@ -952,8 +919,8 @@
         },
         "label": {
           "en": "Resistance",
-          "es": "Resistencia",
-          "pt": "Resistência"
+          "es": "ES: Resistance",
+          "pt": "PT: Resistance"
         }
       },
       {
@@ -968,8 +935,8 @@
         },
         "label": {
           "en": "Owner Outcome",
-          "es": "Resultado del propietario",
-          "pt": "Resultado do proprietário"
+          "es": "ES: Owner Outcome",
+          "pt": "PT: Owner Outcome"
         }
       },
       {
@@ -985,8 +952,8 @@
         },
         "label": {
           "en": "Slaves Outcome",
-          "es": "Resultado de los esclavos",
-          "pt": "Resultado dos escravos"
+          "es": "ES: Slaves Outcome",
+          "pt": "PT: Slaves Outcome"
         }
       },
       {
@@ -1002,8 +969,8 @@
         },
         "label": {
           "en": "Particular Outcome",
-          "es": "Resultado particular",
-          "pt": "Resultado particular"
+          "es": "ES: Particular Outcome",
+          "pt": "PT: Particular Outcome"
         }
       }
     ]
@@ -1016,15 +983,14 @@
     },
     "children": [
       {
-        "label": {
-          "en": "Data Sources",
-          "es": "Fuentes de datos",
-          "pt": "Fontes de dados"
-        },
         "cell_type": "literal-concat",
         "number_format": null,
         "cell_val": {
           "fields": [
+            {
+              "var_name": "sources__short_ref__name",
+              "cell_fn": "literal"
+            },
             {
               "var_name": "sources__title",
               "cell_fn": "literal"
@@ -1051,6 +1017,11 @@
             }
           ],
           "join": ": "
+        },
+        "label": {
+          "en": "Data Sources",
+          "es": "ES: Data Sources",
+          "pt": "PT: Data Sources"
         }
       }
     ]
