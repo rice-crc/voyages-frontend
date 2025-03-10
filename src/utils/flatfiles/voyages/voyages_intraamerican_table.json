@@ -50,6 +50,29 @@
 		},
 		{
 			"header_label": {
+				"en": "Linked voyages",
+				"es": "Viajes conectados",
+				"pt": "Viagens conectadas"
+			},
+			"cell_type": "literal-concat",
+			"visible": true,
+			"number_format": null,
+			"order_by": [
+				"outgoing_to_other_voyages"
+			],
+			"col_width_px": 186,
+			"colID": "linked_voyages",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "linked_voyages__voyage_id",
+						"cell_fn": "literal-concat"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
 				"en": "Vessel name",
 				"es": "Nombre del buque",
 				"pt": "Nome do navio"
@@ -1548,6 +1571,16 @@
 						"en": "Name of vessel",
 						"es": "Nombre del buque",
 						"pt": "Nome do navio"
+					}
+				},
+				{
+					"col_width_px": 100,
+					"colID": "linked_voyages",
+					"label": {
+						"en": "Linked voyages",
+						"es": "Viajes conectados",
+						"pt": "Viagens conectadas"
+		
 					}
 				},
 				{
