@@ -14,7 +14,7 @@ import MuiInput from '@mui/material/Input';
 import { SxProps } from '@mui/material';
 import NestedMenuItems from '@/components/SelectorComponents/Cascading/NestedMeneItems';
 import { styled } from '@mui/material/styles';
-
+import IconButton from '@mui/material/IconButton';
 const blue500 = '#42a5f5';
 export const MAINBGGREEN = 'rgba(0, 128, 128, 0.5)';
 export const bgNavBar = 'rgba(0, 128, 128, 0.5)';
@@ -247,3 +247,15 @@ export const CustomTablePagination = styled(TablePagination)({
   '& .MuiTablePagination-selectIcon': {},
   '& .MuiTablePagination-actions': {},
 }) as React.ComponentType<any>;
+
+
+export const MenuButton = styled(IconButton)(({theme}) => ({
+   marginRight: theme.spacing(2),
+   backgroundColor: 'rgb(55, 148, 141)',
+   borderRadius: '4px',
+   height: '30px',
+   zIndex: 1300,
+   '&:hover': {
+    backgroundColor: '#54bfb6',
+   },
+}));

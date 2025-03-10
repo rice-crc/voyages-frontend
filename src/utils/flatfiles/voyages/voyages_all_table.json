@@ -2206,7 +2206,7 @@
       "header_label": {
         "en": "Year arrived with captives",
         "es": "Año llegó con cautivos",
-        "pt": "O ano chegou com cativos"
+        "pt": "Ano chegou com cativos"
       },
       "cell_type": "literal",
       "visible": true,
@@ -2273,9 +2273,9 @@
     },
     {
       "header_label": {
-        "en": "Place where vessel's voyage began IMP",
-        "es": "Lugar donde comenzó el viaje del buque IMP",
-        "pt": "Local onde se iniciou a viagem do navio IMP"
+        "en": "Place where vessel's voyage began (IMP)",
+        "es": "Lugar donde comenzó el viaje del buque (IMP)",
+        "pt": "Local onde se iniciou a viagem do navio (IMP)"
       },
       "cell_type": "literal",
       "visible": true,
@@ -2512,7 +2512,7 @@
         "pt": "Data de início da viagem do navio"
       },
       "cell_type": "literal-concat",
-      "visible": false,
+      "visible": true,
       "number_format": null,
       "order_by": [
         "voyage_dates__voyage_began_sparsedate__day",
@@ -2536,7 +2536,7 @@
             "cell_fn": "literal"
           }
         ],
-        "join": ","
+        "join": "/"
       }
     },
     {
@@ -2718,7 +2718,6 @@
         "pt": "Equipamento do navio"
       },
       "cell_type": "literal",
-      "visible": false,
       "number_format": null,
       "order_by": [
         "voyage_ship__rig_of_vessel__name"
@@ -2729,6 +2728,29 @@
         "fields": [
           {
             "var_name": "voyage_ship__rig_of_vessel__name",
+            "cell_fn": "literal"
+          }
+        ]
+      }
+    },
+    {
+      "header_label": {
+        "en": "Ton type",
+        "es": "Tipo de tonelada",
+        "pt": "Tipo de tonelada"
+      },
+      "cell_type": "literal",
+      "visible": false,
+      "number_format": null,
+      "order_by": [
+        "voyage_ship__ton_type__name"
+      ],
+      "col_width_px": 100,
+      "colID": "voyage_ship__ton_type__name",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "voyage_ship__ton_type__name",
             "cell_fn": "literal"
           }
         ]
@@ -2943,9 +2965,9 @@
     },
     {
       "header_label": {
-        "en": "Places of call before oceanic crossing",
-        "es": "Lugares de escala antes de la travesía oceánica",
-        "pt": "Locais de escala antes da travessia oceânica"
+        "en": "Places of call before Atlantic crossing (NPAFTTRA)",
+        "es": "Lugares de escala antes de la travesía Atlántico(NPAFTTRA)",
+        "pt": "Locais de escala antes da travessia Atlântico (NPAFTTRA)"
       },
       "cell_type": "literal",
       "visible": false,
@@ -3818,6 +3840,15 @@
         },
         {
           "col_width_px": 100,
+          "colID": "voyage_ship__ton_type__name",
+          "label": {
+            "en": "Ton type",
+            "es": "Tipo de tonelada",
+            "pt": "Tipo de tonelada"
+          }
+        },
+        {
+          "col_width_px": 100,
           "colID": "voyage_ship__tonnage",
           "label": {
             "en": "Tonnage",
@@ -3946,9 +3977,9 @@
           "col_width_px": 100,
           "colID": "voyage_itinerary__port_of_call_before_atl_crossing__name",
           "label": {
-            "en": "Places of call before oceanic crossing",
-            "es": "Lugares de escala antes de la travesía oceánica",
-            "pt": "Locais de escala antes da travessia oceânica"
+            "en": "Places of call before Atlantic crossing (NPAFTTRA)",
+            "es": "Lugares de escala antes de la travesía Atlántico(NPAFTTRA)",
+            "pt": "Locais de escala antes da travessia Atlântico (NPAFTTRA)"
           }
         },
         {
@@ -4198,9 +4229,9 @@
           "col_width_px": 100,
           "colID": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
           "label": {
-            "en": "Year captives were landed (imputed)",
-            "es": "Año de desembarco de los cautivos (imputado)",
-            "pt": "Ano em que os cativos foram desembarcados (imputado)"
+            "en": "Year captives were landed (IMP)",
+            "es": "Año de desembarco de los cautivos (IMP)",
+            "pt": "Ano em que os cativos foram desembarcados (IMP)"
           }
         },
         {

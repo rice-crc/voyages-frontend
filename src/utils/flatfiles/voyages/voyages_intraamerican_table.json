@@ -2736,6 +2736,29 @@
     },
     {
       "header_label": {
+        "en": "Ton type",
+        "es": "Tipo de tonelada",
+        "pt": "Tipo de tonelada"
+      },
+      "cell_type": "literal",
+      "visible": false,
+      "number_format": null,
+      "order_by": [
+        "voyage_ship__ton_type__name"
+      ],
+      "col_width_px": 100,
+      "colID": "voyage_ship__ton_type__name",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "voyage_ship__ton_type__name",
+            "cell_fn": "literal"
+          }
+        ]
+      }
+    },
+    {
+      "header_label": {
         "en": "Tonnage",
         "es": "Tonelaje",
         "pt": "Tonelagem"
@@ -2798,6 +2821,29 @@
         "fields": [
           {
             "var_name": "voyage_ship__guns_mounted",
+            "cell_fn": "literal"
+          }
+        ]
+      }
+    },
+    {
+      "header_label": {
+        "en": "Cargo",
+        "es": "Carga",
+        "pt": "Carga"
+      },
+      "cell_type": "literal",
+      "number_format": null,
+      "visible": false,
+      "order_by": [
+        "cargo__cargo__name"
+      ],
+      "col_width_px": 100,
+      "colID": "cargo__cargo__name",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "cargo__cargo__name",
             "cell_fn": "literal"
           }
         ]
@@ -3818,6 +3864,15 @@
         },
         {
           "col_width_px": 100,
+          "colID": "voyage_ship__ton_type__name",
+          "label": {
+            "en": "Ton type",
+            "es": "Tipo de tonelada",
+            "pt": "Tipo de tonelada"
+          }
+        },
+        {
+          "col_width_px": 100,
           "colID": "voyage_ship__tonnage",
           "label": {
             "en": "Tonnage",
@@ -3841,6 +3896,15 @@
             "en": "Guns mounted",
             "es": "Cañones montados",
             "pt": "Armas montadas"
+          }
+        },
+        {
+          "col_width_px": 100,
+          "colID": "cargo__cargo__name",
+          "label": {
+            "en": "Cargo",
+            "es": "Carga",
+            "pt": "Carga"
           }
         }
       ]

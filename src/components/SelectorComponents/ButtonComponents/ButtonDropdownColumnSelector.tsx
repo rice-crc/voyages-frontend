@@ -94,6 +94,7 @@ const ButtonDropdownColumnSelector = () => {
         if (styleNameRoute === TYPESOFDATASET.transatlantic) {
           setMenuValueCells(transatlanticColumnSelector);
         } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {
+          console.log({ intraamericanColumnSelector , styleNameRoute })
           setMenuValueCells(intraamericanColumnSelector);
         } else if (checkRouteForVoyages(styleNameRoute!)) {
           setMenuValueCells(allVoyageColumnSelector);
@@ -115,7 +116,7 @@ const ButtonDropdownColumnSelector = () => {
       }
     };
     loadMenuValueCellStructure();
-  }, []);
+  }, [styleNameRoute]);
 
   function renderMenuItems(nodes: any[]) {
     return nodes.map((node) => {

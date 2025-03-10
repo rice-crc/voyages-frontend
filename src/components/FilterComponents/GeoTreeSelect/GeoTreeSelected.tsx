@@ -16,7 +16,6 @@ import { getGeoValuesCheck } from '@/utils/functions/getGeoValuesCheck';
 import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
 import { convertDataToGeoTreeSelectFormat } from '@/utils/functions/convertDataToGeoTreeSelectFormat';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { TreeItemProps } from '@mui/lab';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { convertDataToLanguagesTreeSelectFormat } from '@/utils/functions/convertDataToLanguagesTreeSelectFormat';
@@ -31,6 +30,8 @@ import { fetchEnslaversGeoTreeSelect } from '@/fetch/geoFetch/fetchEnslaversGeoT
 import { fetchEnslavedLanguageTreeSelect } from '@/fetch/geoFetch/fetchEnslavedLanguageTreeSelect';
 import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 import { allEnslavers } from '@/share/CONST_DATA';
+import type { TreeSelectProps } from 'antd/es/tree-select';
+
 interface GeoTreeSelectedProps {
   type: string;
 }
@@ -225,8 +226,9 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     }
   };
 
-  const filterTreeNode = (inputValue: string, treeNode: TreeItemProps) => {
-    return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
+  const filterTreeNode: TreeSelectProps['filterTreeNode'] = (inputValue, treeNode) => {
+    const title = typeof treeNode.title === 'string' ? treeNode.title : '';
+    return title.toLowerCase().includes(inputValue.toLowerCase());
   };
 
 

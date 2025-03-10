@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ContributeNavBar from './ContributeNavBar';
 import ContributeContent from './ContributeContent';
-import Sidebar from '@/components/NavigationComponents/SideBar/Sidebar';
+import SidebarContribute from '@/components/NavigationComponents/SideBar/SidebarContribute';
 import '@/style/contributeContent.scss';
 
 const Contribute: React.FC = () => {
+  const [openSideBar, setOpenSideBar] = useState(false);
+  const handleDrawerOpen = () => setOpenSideBar(!openSideBar);
   return (
     <>
-      <ContributeNavBar />
+      <ContributeNavBar handleDrawerOpen={handleDrawerOpen} />
       <div className="contribuite-main-content">
-        <Sidebar />
-        <ContributeContent />
+        <SidebarContribute openSideBar={openSideBar}  />
+        <ContributeContent openSideBar={openSideBar}/>
       </div>
     </>
   );

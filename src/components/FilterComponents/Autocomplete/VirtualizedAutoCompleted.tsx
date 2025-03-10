@@ -22,8 +22,7 @@ import {
   Filter,
   FilterObjectsState,
 } from '@/share/InterfaceTypes';
-import CheckIcon from '@mui/icons-material/Check';
-import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import {Check,CheckBoxOutlineBlankOutlined} from '@mui/icons-material'
 import { setAutoLabel } from '@/redux/getAutoCompleteSlice';
 import '@/style/Slider.scss';
 import '@/style/table.scss';
@@ -263,8 +262,8 @@ export default function VirtualizedAutoCompleted() {
       <li {...props} key={`${option.value}`}>
         <Checkbox
           color="primary"
-          icon={<CheckBoxOutlineBlankOutlinedIcon fontSize="small" />}
-          checkedIcon={<CheckIcon fontSize="small" />}
+          icon={<CheckBoxOutlineBlankOutlined fontSize="small" />}
+          checkedIcon={<Check fontSize="small" />}
           checked={selected}
         />
         {getOptionLabel(option)}

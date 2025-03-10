@@ -22,6 +22,7 @@ import { translationCard } from '@/utils/functions/translationLanguages';
 
 import {
   ALLVOYAGESFILECARD,
+  ENSALVERSTYLE,
   ENSLAVED_african_origins_CARDFILE,
   ENSLAVED_ALL_CARDFILE,
   ENSLAVED_TEXAS_CARDFILE,
@@ -95,6 +96,7 @@ const VoyageCard = () => {
   useEffect(() => {
     let newCardFileName: string = '';
     const newCardDataArray: TransatlanticCardProps[] = [];
+ 
 
     switch (nodeTypeClass) {
       case VOYAGESNODECLASS:
@@ -127,6 +129,7 @@ const VoyageCard = () => {
         break;
 
       case ENSLAVERSNODE:
+      case ENSALVERSTYLE:
         newCardFileName = ENSLAVERSCARDFILE;
         newCardDataArray.push(...(CARDS_ENSLAVERS_COLLECTION as any));
         break;
@@ -134,11 +137,10 @@ const VoyageCard = () => {
       default:
         newCardFileName = '';
     }
-
-
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
   }, [nodeTypeClass, cardRowID, dispatch, cardFileName]);
+
 
   const fetchData = async () => {
     const ID = networkID || cardRowID;
@@ -155,6 +157,7 @@ const VoyageCard = () => {
           response = await dispatch(fetchPastEnslavedCard(ID)).unwrap();
           break;
         case ENSLAVERSNODE:
+        case ENSALVERSTYLE:
           response = await dispatch(fetchPastEnslaversCard(ID)).unwrap();
           break;
         default:
@@ -246,8 +249,10 @@ const VoyageCard = () => {
                   <div className="container-card-body">
                     {childValue.map((child: any) => {
                       const values = child.value;
+                      // console.log({ values })
                       const numberFormat = child.number_format;
                       if (Array.isArray(values)) {
+                     
                         const renderedValues = values.map(
                           (
                             value: string | DocumentReference,
