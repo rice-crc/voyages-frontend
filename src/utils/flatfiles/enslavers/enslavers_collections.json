@@ -1,81 +1,84 @@
 [
-    {
-        "headers": {
-            "label": {
-                "en": "Trans-Atlantic",
-                "es": "Trans-Atlántico",
-                "pt": "Trans-Atlântico"
-            },
-            "text_introduce": "Trans-Atlantic"
-        },
-        "base_filter": [
-            {
-                "var_name": "aliases__enslaver_relations__relation__voyage__dataset",
-                "value": 0
-            }
-        ],
-        "filter_menu_flatfile": "enslavers_filter_menu.json",
-        "table_flatfile": "enslavers_table.json",
-        "style_name": "trans-atlantic-trades",
-        "blocks": [
-            {
-                "label": {
-                    "en": "People",
-                    "es": "Personas",
-                    "pt": "Pessoas"
-                }
-            }
-        ]
+  {
+    "headers": {
+      "label": {
+        "en": "Trans-Atlantic",
+        "es": "Trans-Atlántico",
+        "pt": "Trans-Atlântico"
+      },
+      "text_introduce": "Trans-Atlantic"
     },
-    {
-        "headers": {
-            "label": {
-                "en": "Intra-American",
-                "es": "Intra-americano",
-                "pt": "Américas"
-            },
-            "text_introduce": "Intra-American"
-        },
-        "base_filter": [
-            {
-                "var_name": "aliases__enslaver_relations__relation__voyage__dataset",
-                "value": 1
-            }
-        ],
-        "filter_menu_flatfile": "enslavers_filter_menu.json",
-        "table_flatfile": "enslavers_table.json",
-        "style_name": "intra-american-trades",
-        "blocks": [
-            {
-                "label": {
-                    "en": "People",
-                    "es": "Personas",
-                    "pt": "Pessoas"
-                }
-            }
-        ]
+    "base_filter": [
+      {
+        "var_name": "aliases__enslaver_relations__relation__voyage__dataset",
+        "value": 0
+      }
+    ],
+    "filter_menu_flatfile": "enslavers_filter_menu.json",
+    "table_flatfile": "enslavers_table.json",
+    "card_flatfile": "enslavers_card.json",
+    "style_name": "trans-atlantic-trades",
+    "blocks": [
+      {
+        "label": {
+          "en": "People",
+          "es": "Personas",
+          "pt": "Pessoas"
+        }
+      }
+    ]
+  },
+  {
+    "headers": {
+      "label": {
+        "en": "Intra-American",
+        "es": "Intra-americano",
+        "pt": "Américas"
+      },
+      "text_introduce": "Intra-American"
     },
-    {
-        "headers": {
-            "label": {
-                "en": "All Trades",
-                "es": "Todos los Lntercambios",
-                "pt": "Todos os Negócios"
-            },
-            "text_introduce": "At the foundation of the African diaspora lay an enslaver (or an owner), the enslaved person, and the movement of the latter induced by the former (this could be one of the various slave trades, a runaway slave or a single transaction between buyer and seller). Any movement of property or changes in that property’s status generated documentation – in the case of both slaves and their owners, these were typically accounts, baptismal certificates, newspapers, or shipping records. Most existing databases in African diasporic studies ultimately draw on such records, but for obvious reasons, nearly all pay least attention to the owner of the enslaved or to the organizers of the slave trades. The Enslavers database aims to fill this gap by documenting anyone who was linked to either the organization of a slave voyage or the transactions that resulted in 12.75 million people embarking on such voyages. This dataset began life by incorporating almost 31,000 owners and captains of transatlantic slave ships from the transatlantic slave trade database. It has extended its range to include buyers and sellers of enslaved people wherever a link with a slave voyage is verifiable, as well as crew members. Therefore, we have included African sellers of slaves in ports of embarkation as well as plantation owners and others in the Americas. Our hope is that users will correct and edit the existing data, as well as augmenting. They can do this directly in the databases themselves. Unlike the voyages databases there is no separate Contribute platform. Users should note that the quality of the name in the historical record ranges from just initials, through to a complete surname and given names. Inevitably, spelling varies, and different individuals possessed the same name. Much of these data are already included in TSTD as part of the voyage record. Prior to making the data available to the public, the editors have carried out preliminary sorting, separating out, merging, and regrouping of the data into family and firms, each with a unique id. Users should note that these tasks inevitably require retrieving basic biographical information such as year and place of birth and death, occupation, probate values, and parents’ identity. What we have here is merely a beginning, but one with the enormous potential for increasing our understanding of why this traffic occurred. A subsidiary aim of both this and the Enslaved databases is to extend the primary function of Slavevoyages from a ship-based to a people-based record of the movement of people from Africa to and within the Americas. Users will be able to click on the name of a slave vessel or the name of an individual and see a broader context than was possible in the first decade of www.slavevoyages.org's existence."
-        },
-        "base_filter": [],
-        "filter_menu_flatfile": "enslavers_filter_menu.json",
-        "table_flatfile": "enslavers_table.json",
-        "style_name": "enslaver",
-        "blocks": [
-            {
-                "label": {
-                    "en": "People",
-                    "es": "Personas",
-                    "pt": "Pessoas"
-                }
-            }
-        ]
-    }
+    "base_filter": [
+      {
+        "var_name": "aliases__enslaver_relations__relation__voyage__dataset",
+        "value": 1
+      }
+    ],
+    "filter_menu_flatfile": "enslavers_filter_menu.json",
+    "table_flatfile": "enslavers_table.json",
+    "card_flatfile": "enslavers_card.json",
+    "style_name": "intra-american-trades",
+    "blocks": [
+      {
+        "label": {
+          "en": "People",
+          "es": "Personas",
+          "pt": "Pessoas"
+        }
+      }
+    ]
+  },
+  {
+    "headers": {
+      "label": {
+        "en": "All Trades",
+        "es": "Todos los Lntercambios",
+        "pt": "Todos os Negócios"
+      },
+      "text_introduce": "At the foundation of the African diaspora lay an enslaver (or an owner), the enslaved person, and the movement of the latter induced by the former (this could be one of the various slave trades, a runaway slave or a single transaction between buyer and seller). Any movement of property or changes in that property’s status generated documentation – in the case of both slaves and their owners, these were typically accounts, baptismal certificates, newspapers, or shipping records. Most existing databases in African diasporic studies ultimately draw on such records, but for obvious reasons, nearly all pay least attention to the owner of the enslaved or to the organizers of the slave trades. The Enslavers database aims to fill this gap by documenting anyone who was linked to either the organization of a slave voyage or the transactions that resulted in 12.75 million people embarking on such voyages. This dataset began life by incorporating almost 31,000 owners and captains of transatlantic slave ships from the transatlantic slave trade database. It has extended its range to include buyers and sellers of enslaved people wherever a link with a slave voyage is verifiable, as well as crew members. Therefore, we have included African sellers of slaves in ports of embarkation as well as plantation owners and others in the Americas. Our hope is that users will correct and edit the existing data, as well as augmenting. They can do this directly in the databases themselves. Unlike the voyages databases there is no separate Contribute platform. Users should note that the quality of the name in the historical record ranges from just initials, through to a complete surname and given names. Inevitably, spelling varies, and different individuals possessed the same name. Much of these data are already included in TSTD as part of the voyage record. Prior to making the data available to the public, the editors have carried out preliminary sorting, separating out, merging, and regrouping of the data into family and firms, each with a unique id. Users should note that these tasks inevitably require retrieving basic biographical information such as year and place of birth and death, occupation, probate values, and parents’ identity. What we have here is merely a beginning, but one with the enormous potential for increasing our understanding of why this traffic occurred. A subsidiary aim of both this and the Enslaved databases is to extend the primary function of Slavevoyages from a ship-based to a people-based record of the movement of people from Africa to and within the Americas. Users will be able to click on the name of a slave vessel or the name of an individual and see a broader context than was possible in the first decade of www.slavevoyages.org's existence."
+    },
+    "base_filter": [],
+    "filter_menu_flatfile": "enslavers_filter_menu.json",
+    "table_flatfile": "enslavers_table.json",
+    "card_flatfile": "enslavers_card.json",
+    "style_name": "enslaver",
+    "blocks": [
+      {
+        "label": {
+          "en": "People",
+          "es": "Personas",
+          "pt": "Pessoas"
+        }
+      }
+    ]
+  }
 ]

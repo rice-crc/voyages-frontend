@@ -1,15 +1,21 @@
-import { Link, useParams } from 'react-router-dom';
-import { AppDispatch } from '@/redux/store';
-import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
-import { fetchAuthorData } from '@/fetch/blogFetch/fetchAuthorData';
-import { RootState } from '@/redux/store';
-import { BlogDataPropsRequest, BlogFilter, InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
+
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { BASEURL } from '@/share/AUTH_BASEURL';
-import '@/style/blogs.scss';
+import { Link, useParams } from 'react-router-dom';
+
+import { fetchAuthorData } from '@/fetch/blogFetch/fetchAuthorData';
 import { setAuthorData, setAuthorPost } from '@/redux/getBlogDataSlice';
+import { AppDispatch } from '@/redux/store';
+import { RootState } from '@/redux/store';
+import { BASEURL } from '@/share/AUTH_BASEURL';
 import { BLOGPAGE } from '@/share/CONST_DATA';
+import {
+  BlogDataPropsRequest,
+  BlogFilter,
+  InitialStateBlogProps,
+} from '@/share/InterfaceTypesBlog';
+import '@/style/blogs.scss';
 import { convertToSlug } from '@/utils/functions/convertToSlug';
 
 const AuthorInfo: React.FC = () => {
@@ -25,12 +31,15 @@ const AuthorInfo: React.FC = () => {
 
   const fetchDataBlog = async () => {
     const filters: BlogFilter[] = [];
-    if ([parseInt(ID!)]) {
-      filters.push({
-        varName: "id",
-        searchTerm: [parseInt(ID!)],
-        "op": "in"
-      })
+    if (ID) {
+      const parsedID = parseInt(ID);
+      if (!isNaN(parsedID)) {
+        filters.push({
+          varName: 'id',
+          searchTerm: [parsedID],
+          op: 'in',
+        });
+      }
     }
     const dataSend: BlogDataPropsRequest = {
       filter: filters || [],
@@ -77,8 +86,9 @@ const AuthorInfo: React.FC = () => {
                   <p className="text-secondary-author">{role}</p>
                   <p className="author-universityname">
                     <Link
-                      to={`/${BLOGPAGE}/institution/${institutionName && convertToSlug(institutionName)
-                        }/${institutionID}`}
+                      to={`/${BLOGPAGE}/institution/${
+                        institutionName && convertToSlug(institutionName)
+                      }/${institutionID}`}
                     >
                       <span>{institutionName}</span>
                     </Link>

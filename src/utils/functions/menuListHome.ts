@@ -1,29 +1,145 @@
-import { ASSESSMENT, BLOGPAGE, CONTRIBUTE, DOCUMENTPAGE, ESTIMATES, INTRAAMERICANPAGE, TRANSATLANTICTIMELAPSE } from "@/share/CONST_DATA";
+import {
+  ACCOUNTS,
+  ASSESSMENT,
+  BLOGPAGE,
+  DOCUMENTPAGE,
+  ESTIMATES,
+  INTRAAMERICANPAGE,
+  TRANSATLANTICTIMELAPSE,
+} from '@/share/CONST_DATA';
+import { MenuListsProps } from '@/share/InterfaceTypes';
 
-export const menuLists = [
-    { name: 'About', url: `${BLOGPAGE}/tag/about` },
-    { name: 'Intro Maps', url: `${BLOGPAGE}/introductory-maps-to-the-transatlantic-slave-trade/148` },
-    {
-        name: 'Essays', url: `${BLOGPAGE}/tag/essays`,
-        submenu: [
-            { name: 'Trans-Atlantic', url: `${BLOGPAGE}/tag/essays-trans-atlantic` },
-            { name: 'Intra-American ', url: `${BLOGPAGE}/tag/essays-intra-american` },
-            { name: 'Texas Bound', url: `${BLOGPAGE}/tag/texas-bound` }
-        ],
+export const menuLists: MenuListsProps[] = [
+  {
+    name: {
+      en: 'About',
+      es: 'Acerca de',
+      pt: 'Sobre',
     },
-    { name: 'Estimates', url: `${ASSESSMENT}/${ESTIMATES}/` },
-    {
-        name: 'Timelapse', url: `${TRANSATLANTICTIMELAPSE}#timelapse`,
-        submenu: [
-            { name: 'Trans-Atlantic', url: `${TRANSATLANTICTIMELAPSE}#timelapse` },
-            { name: 'Intra-American', url: `${INTRAAMERICANPAGE}#timelapse` },
-        ],
+    url: `${BLOGPAGE}/tag/about`
+  },
+  {
+    name: {
+      en: 'Intro Maps',
+      es: 'Mapas Introductorios',
+      pt: 'Mapas Introdutórios',
     },
-    { name: '3D Videos', url: `${BLOGPAGE}/3d-videos-slaving-vessels` },
-    { name: 'Lesson Plans', url: `${BLOGPAGE}/tag/lesson-plan` },
-    { name: 'Documents', url: `${DOCUMENTPAGE}` },
-    { name: 'Methodology', url: `${BLOGPAGE}/tag/methodology` },
-    { name: 'Resources', url: `${BLOGPAGE}/tag/resources` },
-    { name: 'Downloads', url: `${BLOGPAGE}/tag/downloads` },
-    { name: 'Contribute', url: `${CONTRIBUTE}` },
-]
+    url: `${BLOGPAGE}/introductory-maps-to-the-transatlantic-slave-trade/148`,
+  },
+  {
+    name: {
+      en: 'Essays',
+      es: 'Ensayos',
+      pt: 'Ensaios',
+    },
+    url: `${BLOGPAGE}/tag/essays`,
+    submenu: [
+      {
+        name: {
+          en: 'Trans-Atlantic',
+          es: 'Transatlántico',
+          pt: 'Transatlântico',
+        }, url: `${BLOGPAGE}/tag/essays-trans-atlantic`
+      },
+      {
+        name: {
+          en: 'Intra-American',
+          es: 'Intraamericano',
+          pt: 'Intra-americano',
+        },
+        url: `${BLOGPAGE}/tag/essays-intra-american`
+      },
+      {
+        name: {
+          en: 'Texas Bound',
+          es: 'Rumbo a Texas',
+          pt: 'Destino Texas',
+        },
+        url: `${BLOGPAGE}/tag/texas-bound`
+      },
+    ],
+  },
+  {
+    name: {
+      en: 'Estimates',
+      es: 'Estimaciones',
+      pt: 'Estimativas',
+    },
+    url: `${ASSESSMENT}/${ESTIMATES}/`
+  },
+  {
+
+    name: {
+      en: 'Timelapse',
+      es: 'Línea de Tiempo',
+      pt: 'Linha do Tempo',
+    },
+    url: `${TRANSATLANTICTIMELAPSE}#timelapse`,
+    submenu: [
+      {
+        name: {
+          en: 'Trans-Atlantic',
+          es: 'Transatlántico',
+          pt: 'Transatlântico',
+        },
+        url: `${TRANSATLANTICTIMELAPSE}#timelapse`
+      },
+      {
+        name: {
+          en: 'Intra-American',
+          es: 'Intraamericano',
+          pt: 'Intra-americano',
+        }, url: `${INTRAAMERICANPAGE}#timelapse`
+      },
+    ],
+  },
+  {
+    name: {
+      en: '3D Videos',
+      es: 'Videos en 3D',
+      pt: 'Vídeos 3D',
+    }, url: `${BLOGPAGE}/tag/3d-videos-slaving-vessels`
+  },
+  {
+    name: {
+      en: 'Lesson Plans',
+      es: 'Planes de Lecciones',
+      pt: 'Planos de Aula',
+    }, url: `${BLOGPAGE}/tag/lesson-plan`
+  },
+  {
+    name: {
+      en: 'Documents',
+      es: 'Documentos',
+      pt: 'Documentos',
+    }, url: `${DOCUMENTPAGE}`
+  },
+  {
+    name: {
+      en: 'Methodology',
+      es: 'Metodología',
+      pt: 'Metodologia',
+    }, url: `${BLOGPAGE}/tag/methodology`
+  },
+  {
+    name: {
+      en: 'Resources',
+      es: 'Recursos',
+      pt: 'Recursos',
+    }, url: `${BLOGPAGE}/tag/resources`
+  },
+  {
+    name: {
+      en: 'Downloads',
+      es: 'Descargas',
+      pt: 'Downloads',
+    }, url: `${BLOGPAGE}/tag/downloads`
+  },
+  {
+    name: {
+      en: 'Contribute',
+      es: 'Contribuir',
+      pt: 'Contribuir',
+    }, url: `${ACCOUNTS}signin/`
+  },
+];

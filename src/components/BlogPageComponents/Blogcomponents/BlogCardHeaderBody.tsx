@@ -1,7 +1,11 @@
 import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
 import { setBlogPost } from '@/redux/getBlogDataSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { BlogDataPropsRequest, BlogFilter, InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
+import {
+  BlogDataPropsRequest,
+  BlogFilter,
+  InitialStateBlogProps,
+} from '@/share/InterfaceTypesBlog';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faWhatsapp,
@@ -31,10 +35,10 @@ const BlogCardHeaderBody = () => {
     const filters: BlogFilter[] = [];
     if ([parseInt(ID!)]) {
       filters.push({
-        varName: "id",
+        varName: 'id',
         searchTerm: [parseInt(ID!)],
-        "op": "in"
-      })
+        op: 'in',
+      });
     }
     const dataSend: BlogDataPropsRequest = {
       filter: filters || [],
@@ -51,11 +55,9 @@ const BlogCardHeaderBody = () => {
   };
 
   useEffect(() => {
-
     if (!effectOnce.current) {
       fetchDataBlog();
     }
-
   }, [dispatch, ID]);
 
   const dateObj = updated_on ? new Date(updated_on) : new Date(updated_on);
@@ -92,8 +94,9 @@ const BlogCardHeaderBody = () => {
                 key={`${index}-${author.photo || author.institution.image}`}
               >
                 <Link
-                  to={`/${BLOGPAGE}/author/${convertToSlug(author?.name)}/${author?.id
-                    }/`}
+                  to={`/${BLOGPAGE}/author/${convertToSlug(author?.name)}/${
+                    author?.id
+                  }/`}
                 >
                   {author.photo ? (
                     <img
@@ -113,8 +116,9 @@ const BlogCardHeaderBody = () => {
               <div className="media-body" key={`${index}-${author.name}`}>
                 <h4 className="media-heading">
                   <Link
-                    to={`/${BLOGPAGE}/author/${convertToSlug(author?.name)}/${author?.id
-                      }/`}
+                    to={`/${BLOGPAGE}/author/${convertToSlug(author?.name)}/${
+                      author?.id
+                    }/`}
                   >
                     {author.name}
                   </Link>

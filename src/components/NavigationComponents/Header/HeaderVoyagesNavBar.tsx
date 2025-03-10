@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
@@ -6,13 +6,18 @@ import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
 import { Menu, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '@/redux/store';
-import { Filter, HeaderNavBarMenuProps, LabelFilterMeneList } from '@/share/InterfaceTypes';
+import {
+  Filter,
+  HeaderNavBarMenuProps,
+  LabelFilterMeneList,
+} from '@/share/InterfaceTypes';
 import CascadingMenu from '../../SelectorComponents/Cascading/CascadingMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import {
   setBaseFilterDataSetValue,
   setBlocksMenuList,
+  setCardVoyagesFlatfile,
   setDataSetHeader,
   setStyleName,
   setTableVoyagesFlatfile,
@@ -55,15 +60,18 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import { voyagesHeader } from '@/utils/languages/title_pages';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
+import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
-  const { styleName: styleNameRoute } = usePageRouter()
+  const { styleName: styleNameRoute } = usePageRouter();
   const navigate = useNavigate();
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
 
   const { currentVoyageBlockName } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -75,13 +83,13 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
 
   useEffect(() => {
     if (styleNameRoute === TRANSATLANTIC) {
-      dispatch(setDataSetHeader(TransAtlanticTitle))
+      dispatch(setDataSetHeader(TransAtlanticTitle));
     } else if (styleNameRoute === INTRAAMERICAN) {
-      dispatch(setDataSetHeader(IntraAmericanTitle))
+      dispatch(setDataSetHeader(IntraAmericanTitle));
     } else if (styleNameRoute === ALLVOYAGES) {
-      dispatch(setDataSetHeader(AllVoyagesTitle))
+      dispatch(setDataSetHeader(AllVoyagesTitle));
     }
-  }, [])
+  }, []);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
@@ -93,56 +101,69 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     [TRANSATLANTIC]: `${TRANSATLANTICPAGE}#${currentVoyageBlockName}`,
   };
 
-  const handleSelectDataset = (
-    base_filter: BaseFilter[],
-    textHeder: string,
-    textIntro: string,
-    styleName: string,
-    blocks: BlockCollectionProps[],
-    filterMenuFlatfile?: string,
-    tableFlatfile?: string
-  ) => {
-    dispatch(resetAll());
-    const filters: Filter[] = [];
-    if (styleName === ALLVOYAGES && currentVoyageBlockName === 'timelapse') {
-      navigate(`${ALLVOYAGESPAGE}#voyages`);
-    } else {
-      dispatch(setBaseFilterDataSetValue(base_filter));
+  const handleSelectDataset = useCallback(
+    (
+      base_filter: BaseFilter[],
+      textHeder: string,
+      textIntro: string,
+      styleName: string,
+      blocks: BlockCollectionProps[],
+      filterMenuFlatfile?: string,
+      tableFlatfile?: string,
+      card_flatfile?: string
+    ) => {
+      // Clear Redux and LocalStorage first
+      dispatch(resetAll());
+      const filters: Filter[] = [];
+
+      // Prepare filters
       for (const base of base_filter) {
         filters.push({
           varName: base.var_name,
           searchTerm: base.value,
-          op: "in"
-        })
-        dispatch(setFilterObject(filters));
+          op: 'in',
+        });
       }
-      if (filters) {
-        localStorage.setItem('filterObject', JSON.stringify({
-          filter: filters
-        }));
-      } else {
-        localStorage.setItem('filterObject', JSON.stringify({
-          filter: filters
-        }));
-      }
+
+      // Update Redux Store
+      dispatch(setBaseFilterDataSetValue(base_filter));
+      dispatch(setFilterObject(filters));
       dispatch(setDataSetHeader(textHeder));
       dispatch(setTextIntro(textIntro));
       dispatch(setStyleName(styleName));
       dispatch(setBlocksMenuList(blocks));
-      dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile!))
-      dispatch(setTableVoyagesFlatfile(tableFlatfile!))
-      if (styleNameToPathMap[styleName]) {
+
+      if (filterMenuFlatfile) {
+        dispatch(setVoyagesFilterMenuFlatfile(filterMenuFlatfile));
+      }
+      if (tableFlatfile) {
+        dispatch(setTableVoyagesFlatfile(tableFlatfile));
+      }
+      if (card_flatfile) {
+        dispatch(setCardFileName(card_flatfile));
+      }
+
+      // Save to LocalStorage
+      localStorage.setItem('filterObject', JSON.stringify({ filter: filters }));
+
+      // Navigate after state updates
+      if (styleName === ALLVOYAGES && currentVoyageBlockName === 'timelapse') {
+        navigate(`${ALLVOYAGESPAGE}#voyages`);
+      } else if (styleNameToPathMap[styleName]) {
         navigate(styleNameToPathMap[styleName]);
       }
-    }
 
-    const keysToRemove = Object.keys(localStorage);
-    keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
-    });
-
-  };
-
+      // Cleanup LocalStorage (only remove specific keys if needed)
+      const keysToRemove = Object.keys(localStorage);
+      keysToRemove.forEach((key) => {
+        if (key !== 'filterObject') {
+          // Prevent removing just-set items
+          localStorage.removeItem(key);
+        }
+      });
+    },
+    [value, currentVoyageBlockName, navigate, dispatch]
+  );
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -156,15 +177,14 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     setAnchorEl(event.currentTarget);
   };
   const onClickReset = () => {
-    dispatch(resetAllStateToInitailState())
+    dispatch(resetAllStateToInitailState());
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       localStorage.removeItem(key);
     });
   };
 
-
-  let VOYAGETILE = ''
+  let VOYAGETILE = '';
   for (const header of voyagesHeader.header) {
     VOYAGETILE = (header.label as LabelFilterMeneList)[languageValue];
   }
@@ -180,7 +200,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
         style={{
           backgroundColor: getColorNavbarBackground(styleNameRoute!),
           paddingTop: 5,
-          zIndex: 5
+          zIndex: 5,
         }}
       >
         <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
@@ -203,14 +223,10 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               fontWeight: { sm: 600, md: 500 },
             }}
           >
-            <span className='header-logo-icon'>
+            <span className="header-logo-icon">
               <HeaderLogo />
-              <DatabaseDropdown
-                onClickReset={onClickReset}
-              />
-              <HeaderTitle
-                textHeader={textHeader}
-              />
+              <DatabaseDropdown onClickReset={onClickReset} />
+              <HeaderTitle textHeader={textHeader} />
             </span>
             <Typography
               component="div"
@@ -232,8 +248,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               {inputSearchValue && <GlobalSearchButton />}
             </Typography>
           </Typography>
-          {!inputSearchValue &&
-            <CascadingMenuMobile />}
+          {!inputSearchValue && <CascadingMenuMobile />}
           <Box
             className="menu-nav-bar-select-box"
             sx={{
@@ -271,10 +286,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
             borderClor: 'rgb(0 0 0 / 50%)',
           }}
         />
-        <Hidden mdDown>
-          {!inputSearchValue &&
-            <CascadingMenu />}
-        </Hidden>
+        <Hidden mdDown>{!inputSearchValue && <CascadingMenu />}</Hidden>
         <Box component="nav">
           <Menu
             anchorEl={anchorEl}

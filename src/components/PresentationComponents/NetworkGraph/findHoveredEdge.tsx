@@ -8,10 +8,8 @@ export function findHoveredEdge(
 ) {
   for (const edge of edges) {
     if (typeof edge.source !== 'string' && typeof edge.target !== 'string') {
-
-
-      const sourceUuid = ('uuid' in edge.source) ? edge.source.uuid : null;
-      const targetUuid = ('uuid' in edge.target) ? edge.target.uuid : null;
+      const sourceUuid = 'uuid' in edge.source ? edge.source.uuid : null;
+      const targetUuid = 'uuid' in edge.target ? edge.target.uuid : null;
 
       if (sourceUuid && targetUuid) {
         const sourceNode = nodes.find((node) => node.uuid === sourceUuid);

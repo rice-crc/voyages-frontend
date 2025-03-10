@@ -1,67 +1,71 @@
 .hamburger-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding-top: 20px;
-    padding-left: 15px;
-    width: 100%;
-    height: 43px;
-    cursor: pointer;
-    z-index: 9998;
-    background: #EBEBEB;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 20px;
+  padding-left: 15px;
+  width: 100%;
+  height: 43px;
+  cursor: pointer;
+  z-index: 9998;
+  background: #ebebeb;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
 .bar,
 .bar:after,
 .bar:before {
-    width: 30px;
-    height: 3px;
+  width: 30px;
+  height: 3px;
 }
 
 .bar {
-    position: relative;
-    transform: translateY(10px);
-    background: black;
-    transition: all 0ms 300ms;
+  position: relative;
+  transform: translateY(10px);
+  background: black;
+  transition: all 0ms 300ms;
 }
 
 .bar.animate {
-    background: rgba(255, 255, 255, 0);
+  background: rgba(255, 255, 255, 0);
 }
 
 .bar:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 10px;
-    background: black;
-    transition: bottom 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  background: black;
+  transition: bottom 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .menu_icon {
-    padding-left: 1rem;
+  padding-left: 1rem;
 }
 
 .bar:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 10px;
-    background: black;
-    transition: top 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  background: black;
+  transition: top 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .bar.animate:after {
-    top: 0;
-    transform: rotate(45deg);
-    transition: top 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  top: 0;
+  transform: rotate(45deg);
+  transition: top 300ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .bar.animate:before {
-    bottom: 0;
-    transform: rotate(-45deg);
-    transition: bottom 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  bottom: 0;
+  transform: rotate(-45deg);
+  transition: bottom 300ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /*---------------------
@@ -72,33 +76,33 @@
       ----------------------*/
 
 .mobile-menu ul {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .mobile-menu li {
-    font-size: 20px;
-    line-height: 30px;
-    margin: 0;
-    overflow: hidden;
-    padding: 5px;
-    position: relative;
-    text-align: left;
-    text-transform: uppercase;
-    padding-left: 15px;
+  font-size: 20px;
+  line-height: 30px;
+  margin: 0;
+  overflow: hidden;
+  padding: 5px;
+  position: relative;
+  text-align: left;
+  text-transform: uppercase;
+  padding-left: 15px;
 }
 
 .mobile-menu li:first-child {
-    margin-top: 70px;
+  margin-top: 70px;
 }
 
 .mobile-menu li:hover {
-    background: #CCCCCC;
+  background: #cccccc;
 }
 
 .mobile-menu li a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 /*---------------------
@@ -106,32 +110,32 @@
       ----------------------*/
 
 .mobile-menu {
-    top: 0;
-    max-width: 250px;
-    left: -100%;
-    width: 100%;
-    background: #EBEBEB;
-    color: black;
-    height: 100%;
-    position: fixed;
-    z-index: 9997;
-    overflow-y: auto;
-    -webkit-transform: translate3d(0, 0, 205px);
-    -moz-transform: translate3d(0, 0, 205px);
-    transform: translate3d(0, 0, 205px);
-    -webkit-transition: all 500ms ease-in-out;
-    -moz-transition: all 500ms ease-in-out;
-    transition: all 500ms ease-in-out;
+  top: 0;
+  max-width: 250px;
+  left: -100%;
+  width: 100%;
+  background: #ebebeb;
+  color: black;
+  height: 100%;
+  position: fixed;
+  z-index: 9997;
+  overflow-y: auto;
+  -webkit-transform: translate3d(0, 0, 205px);
+  -moz-transform: translate3d(0, 0, 205px);
+  transform: translate3d(0, 0, 205px);
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
 }
 
 .mobile-menu.active {
-    left: 0;
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    -webkit-transition: all 500ms ease-in-out;
-    -moz-transition: all 500ms ease-in-out;
-    transition: all 500ms ease-in-out;
+  left: 0;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
 }
 
 /*---------------------
@@ -139,41 +143,41 @@
       ----------------------*/
 
 .has-children:hover {
-    cursor: hand;
+  cursor: hand;
 }
 
 .children {
-    display: none;
+  display: none;
 }
 
 .mobile-menu .children li:first-child {
-    margin-top: 0px;
+  margin-top: 0px;
 }
 
 .icon-arrow {
-    position: absolute;
-    display: block;
-    font-size: 0.7em;
-    color: black;
-    top: 5px;
-    right: 10px;
-    transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    transition: .6s;
-    -webkit-transition: .6s;
-    -moz-transition: .6s;
+  position: absolute;
+  display: block;
+  font-size: 0.7em;
+  color: black;
+  top: 5px;
+  right: 10px;
+  transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transition: 0.6s;
+  -webkit-transition: 0.6s;
+  -moz-transition: 0.6s;
 }
 
 .icon-arrow:after {
-    content: "\25BC";
+  content: '\25BC';
 }
 
 .icon-arrow.open {
-    transform: rotate(-180deg);
-    -webkit-transform: rotate(-180deg);
-    -moz-transform: rotate(-180deg);
-    transition: .6s;
-    -webkit-transition: .6s;
-    -moz-transition: .6s;
+  transform: rotate(-180deg);
+  -webkit-transform: rotate(-180deg);
+  -moz-transform: rotate(-180deg);
+  transition: 0.6s;
+  -webkit-transition: 0.6s;
+  -moz-transition: 0.6s;
 }

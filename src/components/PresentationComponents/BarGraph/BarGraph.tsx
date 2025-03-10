@@ -27,6 +27,7 @@ import { useGroupBy } from '@/hooks/useGroupBy';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import { LanguageKey } from '@/share/InterfaceTypes';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -35,7 +36,9 @@ function BarGraph() {
     isSuccess,
     isLoading,
   } = useGetOptionsQuery(datas);
-  const { varName } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
+  const { varName } = useSelector(
+    (state: RootState) => state.rangeSlider as FilterObjectsState
+  );
   const { styleName: styleNameRoute } = usePageRouter();
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
@@ -47,16 +50,23 @@ function BarGraph() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { clusterNodeKeyVariable, clusterNodeValue } =
-    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
+  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const lang = languageValue as LanguageKey;
 
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
   const [width, height] = useWindowSize();
   const [barGraphSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
   const [barData, setBarData] = useState<Data[]>([]);
-  const [xAxes, setXAxes] = useState<string>(VOYAGE_BARGRAPH_OPTIONS.x_vars[0].label);
-  const [yAxes, setYAxes] = useState<string[]>([VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label]);
+  const [xAxes, setXAxes] = useState<string>(
+    VOYAGE_BARGRAPH_OPTIONS.x_vars[0].label[lang]
+  );
+  const [yAxes, setYAxes] = useState<string[]>([
+    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label[lang]
+  ]);
   const [chips, setChips] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   ]);
@@ -80,11 +90,18 @@ function BarGraph() {
       }
     );
   }, []);
-  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
-  const newFilters = filters !== undefined && filters!.map(filter => {
-    const { label, title, ...filteredFilter } = filter;
-    return filteredFilter;
-  });
+  const filters = filtersDataSend(
+    filtersObj,
+    styleNameRoute!,
+    clusterNodeKeyVariable,
+    clusterNodeValue
+  );
+  const newFilters =
+    filters !== undefined &&
+    filters!.map((filter) => {
+      const { label, title, ...filteredFilter } = filter;
+      return filteredFilter;
+    });
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: barGraphOptions.x_vars,
     groupby_cols: [...chips],
@@ -93,7 +110,7 @@ function BarGraph() {
     filter: newFilters || [],
   };
   if (inputSearchValue) {
-    dataSend['global_search'] = inputSearchValue
+    dataSend['global_search'] = inputSearchValue;
   }
 
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
@@ -110,7 +127,7 @@ function BarGraph() {
             type: 'bar',
             mode: 'lines',
             line: { shape: 'spline' },
-            name: `${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label}`,
+            name: `${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label[lang]}`,
           });
         }
       }
@@ -133,6 +150,7 @@ function BarGraph() {
     isSuccess,
     styleName,
     VoyageBargraphOptions,
+    lang,
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -157,9 +175,9 @@ function BarGraph() {
     (event: SelectChangeEvent<string[]>, name: string) => {
       const value = event.target.value;
       if (value.length === 0) {
-        setError(true)
+        setError(true);
       } else {
-        setError(false)
+        setError(false);
       }
       setChips(typeof value === 'string' ? value.split(',') : value);
       setBarOptions((prevVoyageOption) => ({
@@ -218,20 +236,21 @@ function BarGraph() {
               },
               xaxis: {
                 title: {
-                  text: xAxes || barGraphSelectedX[0]?.label
+                  text: xAxes || barGraphSelectedX[0]?.label[lang],
                 },
                 fixedrange: true,
               },
               yaxis: {
                 title: {
-                  text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes
+                  text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes[lang],
                 },
                 fixedrange: true,
               },
             }}
             config={{ responsive: true }}
           />
-        </Grid>)}
+        </Grid>
+      )}
     </div>
   );
 }

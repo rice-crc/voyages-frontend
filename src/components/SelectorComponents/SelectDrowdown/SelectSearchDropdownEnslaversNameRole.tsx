@@ -1,9 +1,4 @@
-import {
-  Chip,
-  Typography,
-  TextField,
-  Autocomplete,
-} from '@mui/material';
+import { Chip, Typography, TextField, Autocomplete } from '@mui/material';
 import { FunctionComponent, ReactNode, SyntheticEvent } from 'react';
 import { FilterObjectsState, RolesProps } from '@/share/InterfaceTypes';
 import { getBoderColor } from '@/utils/functions/getColorStyle';
@@ -16,37 +11,43 @@ interface SelectSearchDropdownEnslaversNameRoleProps {
   setTextRoleListError: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<SelectSearchDropdownEnslaversNameRoleProps> = ({ textRoleListError, setTextRoleListError }) => {
+export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<
+  SelectSearchDropdownEnslaversNameRoleProps
+> = ({ textRoleListError, setTextRoleListError }) => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName } = useSelector(
     (state: RootState) => state.getDataSetCollection
   );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
 
-  const { enslaversNameAndRole, listEnslavers, enslaverName } = useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
+  const { enslaversNameAndRole, listEnslavers } = useSelector(
+    (state: RootState) => state.rangeSlider as FilterObjectsState
+  );
 
-  const handleSelectedRoleAndName = (event: SyntheticEvent<Element, Event>,
-    newValue: RolesProps[]) => {
+  const handleSelectedRoleAndName = (
+    event: SyntheticEvent<Element, Event>,
+    newValue: RolesProps[]
+  ) => {
     if (!newValue) return;
     if (newValue.length === 0) {
-      setTextRoleListError('*Please select the role(s) for this enslaver')
+      setTextRoleListError('*Please select the role(s) for this enslaver');
     } else {
-      setTextRoleListError('')
+      setTextRoleListError('');
     }
     dispatch(setListEnslavers(newValue));
-  }
+  };
 
   return (
     <Autocomplete
       disableCloseOnSelect
-      // disabled={enslaverName === ''}
       options={enslaversNameAndRole as RolesProps[]}
       multiple
       value={listEnslavers}
       onChange={handleSelectedRoleAndName}
+      getOptionLabel={(option: RolesProps) => option.label[languageValue]}
       renderInput={(params) => (
         <div style={{ color: 'red', fontSize: '0.875rem', textAlign: 'left' }}>
           <TextField
-
             {...params}
             variant="outlined"
             label={
@@ -55,25 +56,27 @@ export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<SelectSear
               </Typography>
             }
             placeholder="SelectedOptions"
-          // style={{ backgroundColor: enslaverName === '' ? '#e2e2e2' : 'white', marginTop: 20 }}
           />
-          <span style={{ color: 'red', fontSize: '0.875rem', marginLeft: 14 }}>{textRoleListError}</span>
+          <span style={{ color: 'red', fontSize: '0.875rem', marginLeft: 14 }}>
+            {textRoleListError}
+          </span>
         </div>
-
       )}
       renderTags={(value: readonly RolesProps[], getTagProps) =>
         value.map((option: RolesProps, index: number) => {
+          const { key, ...tagProps } = getTagProps({ index });
           return (
             <Chip
-              label={option.label}
+              key={key}
+              label={option.label[languageValue]}
               style={{
                 margin: 2,
                 border: getBoderColor(styleName),
                 color: '#000',
               }}
-              {...getTagProps({ index })}
+              {...tagProps}
             />
-          )
+          );
         })
       }
     />

@@ -1,9 +1,10 @@
-import styled from "styled-components";
-import { useState } from "react"; // Import useState hook
+import styled from 'styled-components';
+import { useState } from 'react'; // Import useState hook
 
 interface StyledMenuProps {
   open: boolean;
   underlineWidth: number;
+  children?: React.ReactNode;
 }
 
 export const StyledMenu = styled.nav<StyledMenuProps>`
@@ -11,7 +12,7 @@ export const StyledMenu = styled.nav<StyledMenuProps>`
   flex-direction: column;
   justify-content: center;
   background: #ffffff;
-  transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
+  transform: ${({ open }) => (open ? 'translateX(0)' : 'translateX(-100%)')};
   text-align: left;
   padding: 3rem 2rem 1rem 2rem;
   position: absolute;
@@ -38,11 +39,11 @@ export const StyledMenu = styled.nav<StyledMenuProps>`
       color: #008ca8;
       font-size: 14px;
       border-bottom: 2.5px solid #008ca8;
-      width: fit-content; 
+      width: fit-content;
     }
 
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       height: px;
       background: #008ca8;
@@ -51,11 +52,11 @@ export const StyledMenu = styled.nav<StyledMenuProps>`
       transform: scaleX(0.5);
       transform-origin: bottom;
       transition: transform 0.3s ease-in-out;
-      width: ${(props) => props.underlineWidth + "px"};
+      width: ${(props) => props.underlineWidth + 'px'};
     }
 
     &:hover::before {
-      transform: scaleX(1); 
+      transform: scaleX(1);
     }
   }
   .submenu {
@@ -68,7 +69,7 @@ export const StyledMenu = styled.nav<StyledMenuProps>`
     border: 1px solid #ccc;
     z-index: 10;
   }
-  
+
   .submenu.active {
     display: block;
   }

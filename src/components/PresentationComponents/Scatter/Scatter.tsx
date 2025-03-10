@@ -14,6 +14,7 @@ import {
   FilterObjectsState,
   CurrentPageInitialState,
   IRootFilterObjectScatterRequest,
+  LanguageKey,
 } from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
@@ -21,15 +22,17 @@ import { RadioSelected } from '../../SelectorComponents/RadioSelected/RadioSelec
 import {
   getMobileMaxHeight,
   getMobileMaxWidth,
-  maxWidthSize
+  maxWidthSize,
 } from '@/utils/functions/maxWidthSize';
 import { useGroupBy } from '@/hooks/useGroupBy';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import NoDataState from '@/components/NoResultComponents/NoDataState';
 
 function Scatter() {
-  const datas = useSelector((state: RootState | any) => state.getOptions?.value
+  const datas = useSelector(
+    (state: RootState | any) => state.getOptions?.value
   );
   const {
     data: options_flat,
@@ -39,7 +42,7 @@ function Scatter() {
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState
   );
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
@@ -50,15 +53,22 @@ function Scatter() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { clusterNodeKeyVariable, clusterNodeValue } =
-    useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
+  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData
+  );
+  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const lang = languageValue as LanguageKey;
 
   const { styleName: styleNameRoute } = usePageRouter();
   const [width, height] = useWindowSize();
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [scatterSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
-  const [xAxes, setXAxes] = useState<string>(VOYAGE_SCATTER_OPTIONS.x_vars[0].label);
-  const [yAxes, setYAxes] = useState<string[]>([VOYAGE_SCATTER_OPTIONS.y_vars[0].label]);
+  const [xAxes, setXAxes] = useState<string>(
+    VOYAGE_SCATTER_OPTIONS.x_vars[0].label[lang]
+  );
+  const [yAxes, setYAxes] = useState<string[]>([
+    VOYAGE_SCATTER_OPTIONS.y_vars[0].label[lang],
+  ]);
   const [scatterData, setScatterData] = useState<Data[]>([]);
   const [chips, setChips] = useState<string[]>([
     VOYAGE_SCATTER_OPTIONS.y_vars[0].var_name,
@@ -84,11 +94,18 @@ function Scatter() {
     );
   }, []);
 
-  const filters = filtersDataSend(filtersObj, styleNameRoute!, clusterNodeKeyVariable, clusterNodeValue)
-  const newFilters = filters !== undefined && filters!.map(filter => {
-    const { label, title, ...filteredFilter } = filter;
-    return filteredFilter;
-  });
+  const filters = filtersDataSend(
+    filtersObj,
+    styleNameRoute!,
+    clusterNodeKeyVariable,
+    clusterNodeValue
+  );
+  const newFilters =
+    filters !== undefined &&
+    filters!.map((filter) => {
+      const { label, title, ...filteredFilter } = filter;
+      return filteredFilter;
+    });
   const dataSend: IRootFilterObjectScatterRequest = {
     groupby_by: scatterOptions.x_vars,
     groupby_cols: [...chips],
@@ -97,7 +114,7 @@ function Scatter() {
     filter: newFilters || [],
   };
   if (inputSearchValue) {
-    dataSend['global_search'] = inputSearchValue
+    dataSend['global_search'] = inputSearchValue;
   }
   const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
 
@@ -114,7 +131,7 @@ function Scatter() {
             type: 'scatter',
             mode: 'lines',
             line: { shape: 'spline' },
-            name: `${VOYAGE_SCATTER_OPTIONS.y_vars[index].label}`,
+            name: `${VOYAGE_SCATTER_OPTIONS.y_vars[index].label[lang]}`,
           });
         }
       }
@@ -136,7 +153,9 @@ function Scatter() {
     currentPage,
     isSuccess,
     styleName,
-    VoyageScatterOptions, styleNameRoute,
+    VoyageScatterOptions,
+    styleNameRoute,
+    lang,
   ]);
 
   const handleChangeAggregation = useCallback(
@@ -154,7 +173,7 @@ function Scatter() {
         [name]: value,
       }));
       for (const title of scatterSelectedX) {
-        setXAxes(title.label);
+        setXAxes(title.label[lang]);
       }
     },
     []
@@ -164,16 +183,16 @@ function Scatter() {
     (event: SelectChangeEvent<string[]>, name: string) => {
       const value = event.target.value;
       if (value.length === 0) {
-        setError(true)
+        setError(true);
       } else {
-        setError(false)
+        setError(false);
       }
       setChips(typeof value === 'string' ? value.split(',') : value);
       setScatterOptions((prevOptions) => ({
         ...prevOptions,
         [name]: value,
       }));
-      const newYAxesTitles = scatterSelectedY.map((title) => title.label);
+      const newYAxesTitles = scatterSelectedY.map((title) => title.label[lang]);
       setYAxes(newYAxesTitles);
     },
     []
@@ -200,39 +219,46 @@ function Scatter() {
         handleChange={handleChangeAggregation}
         aggregation={aggregation}
       />
-      {isLoading || yAxes.length === 0 ? (<div className="loading-logo-graph">
-        <img src={LOADINGLOGO} />
-      </div>) : (<Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
-        <Plot
-          data={scatterData}
-          layout={{
-            width: getMobileMaxWidth(maxWidth - 5),
-            height: getMobileMaxHeight(height),
-            title: 'Line Graph',
-            font: {
-              family: 'Arial, sans-serif',
-              size: maxWidth < 400 ? 7 : 10,
-              color: '#333333',
-            },
-            xaxis: {
-              title: {
-                text: xAxes || scatterSelectedX[0]?.label
+      {isLoading ? (
+        <div className="loading-logo-graph">
+          <img src={LOADINGLOGO} />
+        </div>
+      ) : yAxes.length > 0 ? (
+        <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
+          <Plot
+            data={scatterData}
+            layout={{
+              width: getMobileMaxWidth(maxWidth - 5),
+              height: getMobileMaxHeight(height),
+              title: 'Line Graph',
+              font: {
+                family: 'Arial, sans-serif',
+                size: maxWidth < 400 ? 7 : 10,
+                color: '#333333',
               },
-              fixedrange: true,
-            },
-            yaxis: {
-              title: {
-                text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes
+              xaxis: {
+                title: {
+                  text: xAxes || scatterSelectedX[0]?.label[lang],
+                },
+                fixedrange: true,
               },
-              fixedrange: true,
-            },
-          }}
-          config={{ responsive: true }}
-        />
-      </Grid>)}
+              yaxis: {
+                title: {
+                  text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes,
+                },
+                fixedrange: true,
+              },
+            }}
+            config={{ responsive: true }}
+          />
+        </Grid>
+      ) : (
+        <div className="no-data-icon">
+          <NoDataState text="" />
+        </div>
+      )}
     </div>
-  )
-
+  );
 }
 
 export default Scatter;

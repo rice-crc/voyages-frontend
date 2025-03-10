@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IconButton, List, ListItem, ListItemText, Stack } from '@mui/material';
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material';
 import { TextFieldSearch } from '@/styleMUI';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSearchGlobal } from '@/fetch/homeFetch/fetchSearchGlobal';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 import {
   setInputSearchValue,
   setRequestId,
@@ -28,7 +29,10 @@ import {
 } from '@/share/CONST_DATA';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
-import { setCurrentBlockName, setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
+import {
+  setCurrentBlockName,
+  setCurrentEnslavedPage,
+} from '@/redux/getScrollEnslavedPageSlice';
 import {
   getOptionLabelSearchGlobal,
   shouldDisable,
@@ -44,6 +48,10 @@ const AutoGlobalSearchBar = () => {
   const [calledIds, setCalledIds] = useState<Set<number>>(new Set());
   const [isFetching, setIsFetching] = useState(false);
   const signalRef = useRef<AbortController | null>(null);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
+  const translatedSearch = translationHomepage(languageValue);
 
   useEffect(() => {
     // Clean up the signal when the component unmounts
@@ -87,24 +95,23 @@ const AutoGlobalSearchBar = () => {
     };
   }, [dispatch, inputSearchValue, requestId, calledIds]);
 
-  const handleInputChange =
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value;
-      dispatch(setInputSearchValue(value));
-      setShowClearButton(value !== '');
-      const newRequestId = Date.now();
-      dispatch(setRequestId(newRequestId));
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    dispatch(setInputSearchValue(value));
+    setShowClearButton(value !== '');
+    const newRequestId = Date.now();
+    dispatch(setRequestId(newRequestId));
 
-      // Cancel any ongoing fetch request using the previous signal
-      if (signalRef.current) {
-        signalRef.current.abort();
-        signalRef.current = null;
-      }
-
-      // Create a new signal for the fetch request
-      const newSignal = new AbortController();
-      signalRef.current = newSignal;
+    // Cancel any ongoing fetch request using the previous signal
+    if (signalRef.current) {
+      signalRef.current.abort();
+      signalRef.current = null;
     }
+
+    // Create a new signal for the fetch request
+    const newSignal = new AbortController();
+    signalRef.current = newSignal;
+  };
 
   const handleSelect = (option: GlobalSearchProp | null) => {
     if (option) {
@@ -143,7 +150,7 @@ const AutoGlobalSearchBar = () => {
         id="search"
         value={inputSearchValue}
         fullWidth
-        placeholder="Search for voyages, people, documents, and essays"
+        placeholder={translatedSearch.searchInput}
         onChange={handleInputChange}
         InputProps={{
           className: 'input-global-search',

@@ -1,18 +1,25 @@
-
-
-import { TableRow, Paper, Slider, Divider, MenuItem, Grid, Button, TextField, CardHeader, TablePagination } from '@mui/material';
+import {
+  TableRow,
+  Paper,
+  Slider,
+  Divider,
+  MenuItem,
+  Grid,
+  Button,
+  TextField,
+  CardHeader,
+  TablePagination,
+} from '@mui/material';
 import MuiInput from '@mui/material/Input';
-import { SxProps, } from '@mui/material';
+import { SxProps } from '@mui/material';
 import NestedMenuItems from '@/components/SelectorComponents/Cascading/NestedMeneItems';
-import { styled, } from '@mui/material/styles';
-import { color } from 'framer-motion';
-import { minWidth } from '@mui/system';
+import { styled } from '@mui/material/styles';
 
 const blue500 = '#42a5f5';
-export const MAINBGGREEN = 'rgba(0, 128, 128, 0.5)'
-export const bgNavBar = 'rgba(0, 128, 128, 0.5)'
-export const WHITE = '#fff'
-export const BLACK = '#000'
+export const MAINBGGREEN = 'rgba(0, 128, 128, 0.5)';
+export const bgNavBar = 'rgba(0, 128, 128, 0.5)';
+export const WHITE = '#fff';
+export const BLACK = '#000';
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -38,19 +45,16 @@ export const Input = styled(MuiInput)`
   width: 80px;
 `;
 
-
 export const CustomSlider = styled(Slider)(() => ({
   color: blue500,
   width: '75%',
   height: '5px',
   '& .MuiSlider-thumb': {
     backgroundColor: blue500,
-
   },
   '& .MuiSlider-rail': {
     color: blue500,
-
-  }
+  },
 }));
 
 export const CustomSliderTimeFrame = styled(Slider)(() => ({
@@ -59,18 +63,16 @@ export const CustomSliderTimeFrame = styled(Slider)(() => ({
   height: '5px',
   '& .MuiSlider-thumb': {
     backgroundColor: blue500,
-
   },
   '& .MuiSlider-rail': {
     color: blue500,
-
-  }
+  },
 }));
 
 export const AppNavStyle = {
   backgroundColor: bgNavBar,
-  color: 'black'
-}
+  color: 'black',
+};
 
 export const StyleMenuItem = styled('div')(({ theme }) => ({
   '& .Mui-selected': {
@@ -81,36 +83,38 @@ export const StyleMenuItem = styled('div')(({ theme }) => ({
   },
 }));
 
-
-
-
-
 export const MenuListDropdownStyle = styled('div')`
   & > div {
     display: inline-grid;
     min-height: auto;
     & > button {
-        text-align: left;
+      text-align: left;
     }
   }
 `;
 
 export const GridStyleComponent = styled(Grid)(() => ({
   backgroundColor: WHITE,
-  padding: 15
+  padding: 15,
 }));
-
 
 export const StyleDialog: SxProps = {
   '& .MuiDialog-container': {
     position: 'relative',
     top: '15%',
     alignItems: 'flex-start',
-  }
-}
+  },
+  '& .MuiBackdrop-root': {
+    backgroundColor: 'transparent',
+  },
+  '& .MuiDialogContent-root': {
+    padding: '10px 15px',
+  },
+};
+
 export const StyleDiver = styled(Divider)`
-border-width: 0.25px;
-border-color: rgb(0 0 0 / 50%);
+  border-width: 0.25px;
+  border-color: rgb(0 0 0 / 50%);
 `;
 
 export const Tag = styled('div')(({ theme }) => ({
@@ -132,11 +136,10 @@ export const ButtonNav = styled(Button)`
     cursor: 'pointer';
     &:hover {
       background-color: #54bfb6;
-      color: white
+      color: white;
     }
   }
 `;
-
 
 export const CardHeaderCustom = styled(CardHeader)`
   && {
@@ -173,8 +176,13 @@ export const DialogModalStyle = {
 };
 export const PaperDraggableStyle = {
   maxWidth: 500,
-  minWidth: 500
-}
+  minWidth: 500,
+};
+export const PaperDraggableTimeLapseStyle = {
+  maxWidth: 420,
+  minWidth: 420,
+  overflow: 'hidden',
+};
 export const TextFieldSearch = styled(TextField)`
   & label.Mui-focused {
     color: white;
@@ -212,7 +220,6 @@ export const styleModalCard = {
   overflowY: 'auto',
   boxShadow: 24,
   p: '10px 20px',
-
 };
 
 export const styleCard = {
@@ -227,7 +234,6 @@ export const styleCardEstimate = {
   p: '10px 0',
 };
 
-
 export const CustomTablePagination = styled(TablePagination)({
   '& .MuiTablePagination-selectLabel': {
     fontSize: '0.975rem',
@@ -238,8 +244,6 @@ export const CustomTablePagination = styled(TablePagination)({
   '& .MuiTablePagination-displayedRows ': {
     fontSize: '0.975rem',
   },
-  '& .MuiTablePagination-selectIcon': {
-  },
-  '& .MuiTablePagination-actions': {
-  }
+  '& .MuiTablePagination-selectIcon': {},
+  '& .MuiTablePagination-actions': {},
 }) as React.ComponentType<any>;
