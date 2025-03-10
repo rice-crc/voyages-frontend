@@ -21,7 +21,9 @@ const AutoCompletedSearhBlog = () => {
   const navigate = useNavigate();
   const { searchTitle, searchAutoKey, searchAutoValue, blogAutoLists } =
     useSelector((state: RootState) => state.getBlogData);
-
+    const { languageValue} = useSelector(
+      (state: RootState) => state.getLanguages
+    );
   const { currentBlockName, blogURL } = usePageRouter();
   const [inputValue, setInputValue] = useState<
     ResultAutoList | undefined | null
@@ -32,7 +34,13 @@ const AutoCompletedSearhBlog = () => {
   const limit = 20;
   const offset = 0;
 
-  const filters: Filter[] = [];
+  const filters: Filter[] = [{
+      op:"exact",
+      varName:"language",
+      searchTerm: languageValue
+    }
+  ];
+ 
   const dataSend: IRootFilterObject = {
     varName: searchAutoKey,
     querystr: searchAutoValue,
@@ -40,6 +48,7 @@ const AutoCompletedSearhBlog = () => {
     limit: limit,
     filter: filters,
   };
+
   const { data, isLoading, isError } = useAutoBlogList(dataSend);
   useEffect(() => {
     if (!isLoading && !isError && data) {
