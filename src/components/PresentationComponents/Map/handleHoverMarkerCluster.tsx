@@ -62,20 +62,35 @@ export function handleHoverMarkerCluster(
   });
 
   const popupContainer = document.createElement('center');
-  popupContainer.className = 'tablePopup'
-  popupContainer.style.width = '300px'
+  popupContainer.className = 'tablePopup';
+  popupContainer.style.width = '300px';
   const popupRoot = createRoot(popupContainer);
   for (const [, [node, edge]] of targetNodeMap) {
-
     const { lat: clusterLat, lng: clusterLng } = clusterLatLon;
     const { lat: nodeLat, lon: nodeLng } = node.data;
     const size = getEdgesSize(edge);
     const weightEdges = size !== null ? nodeLogValueScale(size) / 1.4 : 0;
 
-    const [coordinatesStart, coordinatesEnd] = getCoordinatesLatLngMap(nodeType, clusterLat, clusterLng, nodeLat!, nodeLng!);
+    const [coordinatesStart, coordinatesEnd] = getCoordinatesLatLngMap(
+      nodeType,
+      clusterLat,
+      clusterLng,
+      nodeLat!,
+      nodeLng!
+    );
 
-    renderEdgeClusterNodeOnMap(hiddenEdgesLayer, edge, node, coordinatesStart, coordinatesEnd, weightEdges, nodeType, map, event, childNodesData,);
-
+    renderEdgeClusterNodeOnMap(
+      hiddenEdgesLayer,
+      edge,
+      node,
+      coordinatesStart,
+      coordinatesEnd,
+      weightEdges,
+      nodeType,
+      map,
+      event,
+      childNodesData
+    );
   }
 
   popupRoot.render(
@@ -87,5 +102,4 @@ export function handleHoverMarkerCluster(
   );
 
   event.layer.bindPopup(popupContainer).openPopup();
-
 }

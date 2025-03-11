@@ -4,24 +4,20 @@ import { TableListPropsRequest } from '@/share/InterfaceTypes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchEnslavedOptionsList = createAsyncThunk(
-    'enslavedOptions/fetchEnslavedOptionsList',
-    async (dataSend?: TableListPropsRequest) => {
-        try {
-            const response = await axios.post(
-                `${BASEURL}/past/enslaved/`,
-                dataSend,
-                {
-                    headers: {
-                        'Authorization': AUTHTOKEN,
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
-            return response;
-        } catch (error) {
-            throw new Error('Failed to fetchEnslavedOptionsList data');
-        }
+  'enslavedOptions/fetchEnslavedOptionsList',
+  async (dataSend?: TableListPropsRequest) => {
+    try {
+      const response = await axios.post(`${BASEURL}/past/enslaved/`, dataSend, {
+        headers: {
+          Authorization: AUTHTOKEN,
+          'Content-Type': 'application/json',
+        },
+      });
+      return response;
+    } catch (error) {
+      throw new Error('Failed to fetchEnslavedOptionsList data');
     }
+  }
 );
 
 // export const fetchEnslavedOptionsList = async (dataSend?: TableListPropsRequest) => {
@@ -34,4 +30,3 @@ export const fetchEnslavedOptionsList = createAsyncThunk(
 //     });
 //     return response.data;
 // };
-

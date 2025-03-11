@@ -22,6 +22,7 @@ import { BLOGPAGE } from '@/share/CONST_DATA';
 import BlogPageButton from '@/components/SelectorComponents/ButtonComponents/BlogPageButton';
 import defaultImage from '@/assets/voyage-blog.png';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import NoDataState from '@/components/NoResultComponents/NoDataState';
 
 const BlogResultsList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -37,7 +38,9 @@ const BlogResultsList: React.FC = () => {
   const [page, setPage] = useState<number>(1);
 
   const imagesPerPage = 12;
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
   const [loading, setLoading] = useState(false);
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
@@ -45,6 +48,7 @@ const BlogResultsList: React.FC = () => {
 
   const effectOnce = useRef(false);
   const fetchDataBlog = async () => {
+    setLoading(true);
     const filters: BlogFilter[] = [];
     if (languageValue) {
       filters.push({
@@ -77,13 +81,10 @@ const BlogResultsList: React.FC = () => {
 
       if (response) {
         const { results, count } = response;
+
         dispatch(setBlogData(results));
         setTotalResultsCount(() => Number(count));
-        if (response.length <= 0) {
-          setLoading(true);
-        } else {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     } catch (error) {
       setLoading(false);
@@ -107,53 +108,56 @@ const BlogResultsList: React.FC = () => {
     searchAutoValue,
   ]);
 
-  return loading ? (
-    <div className="loading-logo">
-      <img src={LOADINGLOGO} />
-    </div>
-  ) : (
+  if (loading) {
+    return (
+      <div className="loading-logo">
+        <img src={LOADINGLOGO} alt="loading" />
+      </div>
+    );
+  }
+
+  return (
     <>
       <div id="blog_intro" className="blog_intro">
         <h2>{reverseFormatTextURL(blogURL!)}</h2>
       </div>
-      {BlogData.length === 0 ? (
-        <div className="loading-logo">
-          <img src={LOADINGLOGO} />
-        </div>
-      ) : (
+      {BlogData.length > 0 ? (
         <div className={blogURL ? 'container-new-with-intro' : 'container-new'}>
           <div className="card-columns">
-            {BlogData.map((value) => (
-              <div className="card" key={`${value.id}${value.title}`}>
-                <Link
-                  to={`/${BLOGPAGE}/${formatTextURL(value.title)}/${value.id}`}
-                >
-                  {value.thumbnail ? (
-                    <img
-                      src={`${BASEURL}${value.thumbnail}`}
-                      alt={value.title}
-                      className="card-img img-fluid content-image "
-                    />
-                  ) : (
-                    <img
-                      src={defaultImage}
-                      alt={value.title}
-                      style={{ textAlign: 'center', width: '100%' }}
-                    />
-                  )}
-                  <div className="content-details fadeIn-bottom">
-                    <h3 className="content-title">{value.title}</h3>
-                    <h4 className="content-title">{value.subtitle}</h4>
-                    {value.authors.map((name, index) => (
-                      <p key={`${name.id}${name.name}`}>
-                        {index > 0 && ' | '}
-                        {name.name}
-                      </p>
-                    ))}
-                  </div>
-                </Link>
-              </div>
-            ))}
+            {BlogData.length > 0 &&
+              BlogData.map((value) => (
+                <div className="card" key={`${value.id}${value.title}`}>
+                  <Link
+                    to={`/${BLOGPAGE}/${formatTextURL(value.title)}/${
+                      value.id
+                    }`}
+                  >
+                    {value.thumbnail ? (
+                      <img
+                        src={`${BASEURL}${value.thumbnail}`}
+                        alt={value.title}
+                        className="card-img img-fluid content-image "
+                      />
+                    ) : (
+                      <img
+                        src={defaultImage}
+                        alt={value.title}
+                        style={{ textAlign: 'center', width: '100%' }}
+                      />
+                    )}
+                    <div className="content-details fadeIn-bottom">
+                      <h3 className="content-title">{value.title}</h3>
+                      <h4 className="content-title">{value.subtitle}</h4>
+                      {value.authors.map((name, index) => (
+                        <p key={`${name.id}${name.name}`}>
+                          {index > 0 && ' | '}
+                          {name.name}
+                        </p>
+                      ))}
+                    </div>
+                  </Link>
+                </div>
+              ))}
           </div>
           <BlogPageButton
             setCurrentBlogPage={setPage}
@@ -163,6 +167,8 @@ const BlogResultsList: React.FC = () => {
             count={totalResultsCount}
           />
         </div>
+      ) : (
+        <NoDataState text={reverseFormatTextURL(blogURL!)} />
       )}
     </>
   );

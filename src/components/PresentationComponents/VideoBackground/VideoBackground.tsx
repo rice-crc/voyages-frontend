@@ -3,10 +3,13 @@ import { RootState } from '@/redux/store';
 import '@/style/page.scss';
 import { translationHomepage } from '@/utils/functions/translationLanguages';
 import { useSelector } from 'react-redux';
+import XICON from '@/assets/pages/X_icon.svg';
 
 const VideoBackground = () => {
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-  const translatedHomepage = translationHomepage(languageValue)
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
+  const translatedHomepage = translationHomepage(languageValue);
 
   return (
     <div className="video-background">
@@ -23,29 +26,30 @@ const VideoBackground = () => {
       >
         <div className="social-flex-container">
           <div className="social-icon-container">
-            <span><a
-              href="https://www.facebook.com/Voyages-The-Trans-Atlantic-Slave-Trade-Database-125441173016/"
-              target="_blank"
-              rel="noopener"
-            >
-              <img
-                data-src="https://www.slavevoyages.org/static/images/site/social-media/fb.svg"
-                className="social-icon lazy initial loaded"
-                alt="Facebook Logo"
-                src="https://www.slavevoyages.org/static/images/site/social-media/fb.svg"
-                data-was-processed="true"
-              />
-            </a>
+            <span>
+              <a
+                href="https://www.facebook.com/Voyages-The-Trans-Atlantic-Slave-Trade-Database-125441173016/"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  data-src="https://www.slavevoyages.org/static/images/site/social-media/fb.svg"
+                  className="social-icon lazy initial loaded"
+                  alt="Facebook Logo"
+                  src="https://www.slavevoyages.org/static/images/site/social-media/fb.svg"
+                  data-was-processed="true"
+                />
+              </a>
               <a
                 href="https://twitter.com/slavevoyages"
                 target="_blank"
                 rel="noopener"
               >
                 <img
-                  data-src="https://www.slavevoyages.org/static/images/site/social-media/twitter.svg"
-                  className="social-icon lazy initial loaded"
+                  data-src="https://www.slavevoyages.org/static/images/site/social-media/X_icon.svg"
+                  className="social-icon-x lazy initial loaded"
                   alt="Twitter Logo"
-                  src="https://www.slavevoyages.org/static/images/site/social-media/twitter.svg"
+                  src={XICON}
                   data-was-processed="true"
                 />
               </a>
@@ -66,7 +70,9 @@ const VideoBackground = () => {
                   src="https://www.slavevoyages.org/static/images/site/feedback.svg"
                   alt="Feedback Button"
                 />
-                <span className="separator">{translatedHomepage.userFeedback}</span>
+                <span className="separator">
+                  {translatedHomepage.userFeedback}
+                </span>
               </a>
               <a
                 href="mailto:svopcom@googlegroups.com?subject=Report an Issue"
@@ -84,8 +90,11 @@ const VideoBackground = () => {
                   src="https://www.slavevoyages.org/static/images/site/bug.svg"
                   alt="Issue Button"
                 />
-                <span className="separator">{translatedHomepage.reportIssue}</span>
-              </a></span>
+                <span className="separator">
+                  {translatedHomepage.reportIssue}
+                </span>
+              </a>
+            </span>
             <div className="scroll">{translatedHomepage.scrollMore}</div>
           </div>
 
@@ -107,7 +116,7 @@ const VideoBackground = () => {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

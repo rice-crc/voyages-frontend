@@ -1,4 +1,7 @@
-import { BaseFilter, BlockCollectionProps } from '@/share/InterfactTypesDatasetCollection';
+import {
+  BaseFilter,
+  BlockCollectionProps,
+} from '@/share/InterfactTypesDatasetCollection';
 import { Button } from '@mui/material';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { getColorTextCollection } from '@/utils/functions/getColorStyle';
@@ -15,7 +18,8 @@ interface DatasetButtonProps {
     styleName: string,
     blocks: BlockCollectionProps[],
     filterMenuFlatfile?: string,
-    tableFlatfile?: string
+    tableFlatfile?: string,
+    cardFlatfile?: string
   ) => void;
 
   getColorBoxShadow: (item: string) => string;
@@ -32,7 +36,9 @@ export const DatasetButton = (props: DatasetButtonProps) => {
     getColorHover,
   } = props;
 
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
 
   const {
     base_filter,
@@ -41,11 +47,12 @@ export const DatasetButton = (props: DatasetButtonProps) => {
     blocks,
     table_flatfile,
     filter_menu_flatfile,
+    card_flatfile,
   } = item;
-  const { label: labelDataset } = headers
-  const { styleName, } = usePageRouter()
-  const menuLabel = (labelDataset as LabelFilterMeneList)[languageValue];
 
+  const { label: labelDataset } = headers;
+  const { styleName } = usePageRouter();
+  const menuLabel = (labelDataset as LabelFilterMeneList)[languageValue];
   return (
     <Button
       key={`${menuLabel}-${index}`}
@@ -58,7 +65,8 @@ export const DatasetButton = (props: DatasetButtonProps) => {
           style_name,
           blocks,
           filter_menu_flatfile,
-          table_flatfile
+          table_flatfile,
+          card_flatfile
         )
       }
       sx={{
@@ -71,7 +79,7 @@ export const DatasetButton = (props: DatasetButtonProps) => {
         backgroundColor: getColorBTNBackground(style_name),
         '&:hover': {
           backgroundColor: getColorHover(style_name),
-          color: getColorBTNBackground(style_name)
+          color: getColorBTNBackground(style_name),
         },
         '&:disabled': {
           backgroundColor: getColorBTNBackground(style_name),

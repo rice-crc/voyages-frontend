@@ -2,7 +2,10 @@ import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { CurrentPageInitialState, TYPESOFBLOCKVOYAGES } from '@/share/InterfaceTypes';
+import {
+  CurrentPageInitialState,
+  TYPESOFBLOCKVOYAGES,
+} from '@/share/InterfaceTypes';
 import '@/style/page.scss';
 import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/voyages_collections.json';
 import {
@@ -21,6 +24,8 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import {
   setBlocksMenuList,
   setStyleName,
+  setTableVoyagesFlatfile,
+  setVoyagesFilterMenuFlatfile,
 } from '@/redux/getDataSetCollectionSlice';
 import {
   setCurrentPage,
@@ -30,6 +35,7 @@ import { ALLVOYAGES, INTRAAMERICAN, TRANSATLANTIC } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
 import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
 import { VoyagesTimelapseMap } from '@/components/PresentationComponents/Map/TimelapseMap';
+import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -53,10 +59,19 @@ const VoyagesPage = () => {
 
     if (styleVoyagesName === TRANSATLANTIC) {
       dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
+      dispatch(setCardFileName(jsonDataVoyageCollection[0].card_flatfile));
+      dispatch(setTableVoyagesFlatfile(jsonDataVoyageCollection[0].table_flatfile));
+      dispatch(setVoyagesFilterMenuFlatfile(jsonDataVoyageCollection[0].filter_menu_flatfile));
     } else if (styleVoyagesName === INTRAAMERICAN) {
       dispatch(setBlocksMenuList(jsonDataVoyageCollection[1].blocks));
+      dispatch(setCardFileName(jsonDataVoyageCollection[1].card_flatfile));
+      dispatch(setTableVoyagesFlatfile(jsonDataVoyageCollection[1].table_flatfile));
+      dispatch(setVoyagesFilterMenuFlatfile(jsonDataVoyageCollection[1].filter_menu_flatfile));
     } else if (styleVoyagesName === ALLVOYAGES) {
       dispatch(setBlocksMenuList(jsonDataVoyageCollection[2].blocks));
+      dispatch(setCardFileName(jsonDataVoyageCollection[2].card_flatfile));
+      dispatch(setTableVoyagesFlatfile(jsonDataVoyageCollection[2].table_flatfile));
+      dispatch(setVoyagesFilterMenuFlatfile(jsonDataVoyageCollection[2].filter_menu_flatfile));
     }
 
     if (currentBlockName === 'voyages') {
@@ -80,13 +95,22 @@ const VoyagesPage = () => {
     } else if (currentBlockName === 'map') {
       dispatch(setCurrentPage(7));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if (styleVoyagesName === ALLVOYAGES && currentBlockName === 'timelapse') {
+    } else if (
+      styleVoyagesName === ALLVOYAGES &&
+      currentBlockName === 'timelapse'
+    ) {
       dispatch(setCurrentPage(1));
       dispatch(setCurrentVoyagesBlockName('voyages'));
-    } else if ((styleVoyagesName === TRANSATLANTIC) && currentBlockName === 'timelapse') {
+    } else if (
+      styleVoyagesName === TRANSATLANTIC &&
+      currentBlockName === 'timelapse'
+    ) {
       dispatch(setCurrentPage(8));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
-    } else if ((styleVoyagesName === INTRAAMERICAN) && currentBlockName === 'timelapse') {
+    } else if (
+      styleVoyagesName === INTRAAMERICAN &&
+      currentBlockName === 'timelapse'
+    ) {
       dispatch(setCurrentPage(8));
       dispatch(setCurrentVoyagesBlockName(currentBlockName));
     }
@@ -108,21 +132,38 @@ const VoyagesPage = () => {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {currentPage === 1 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.voyagesEN && <Tables />}
-      {currentPage === 2 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.summaryStatisticsEN && <SummaryStatisticsTable />}
-      {currentPage === 3 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.lineEN && <Scatter />}
-      {currentPage === 4 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.barEN && <BarGraph />}
-      {currentPage === 5 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.pieEN && <PieGraph />}
-      {currentPage === 6 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.tableEN && (
-        <PivotTables />
-      )}
-      {currentPage === 7 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.mapEN && <div style={{ padding: 30 }}> <VoyagesMaps /></div>}
-      {currentPage === 8 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.timeLapseEN && <VoyagesTimelapseMap />}
+      {currentPage === 1 &&
+        currentVoyageBlockName === TYPESOFBLOCKVOYAGES.voyagesEN && <Tables />}
+      {currentPage === 2 &&
+        currentVoyageBlockName === TYPESOFBLOCKVOYAGES.summaryStatisticsEN && (
+          <SummaryStatisticsTable />
+        )}
+      {currentPage === 3 &&
+        currentVoyageBlockName === TYPESOFBLOCKVOYAGES.lineEN && <Scatter />}
+      {currentPage === 4 &&
+        currentVoyageBlockName === TYPESOFBLOCKVOYAGES.barEN && <BarGraph />}
+      {currentPage === 5 &&
+        currentVoyageBlockName === TYPESOFBLOCKVOYAGES.pieEN && <PieGraph />}
+      {currentPage === 6 &&
+        currentVoyageBlockName === TYPESOFBLOCKVOYAGES.tableEN && (
+          <PivotTables />
+        )}
+      {currentPage === 7 &&
+        currentVoyageBlockName === TYPESOFBLOCKVOYAGES.mapEN && (
+          <div style={{ padding: 30 }}>
+            {' '}
+            <VoyagesMaps />
+          </div>
+        )}
+      {currentPage === 8 &&
+        currentVoyageBlockName === TYPESOFBLOCKVOYAGES.timeLapseEN && (
+          <VoyagesTimelapseMap />
+        )}
     </motion.div>
   );
 
   return (
-    <div >
+    <div>
       <HeaderVoyagesNavBar />
       <div
         className="voyages-home-page"
@@ -130,7 +171,7 @@ const VoyagesPage = () => {
         style={{
           position: 'relative',
           padding: inputSearchValue ? '0 20px' : '',
-          top: inputSearchValue ? 40 : 10
+          top: inputSearchValue ? 40 : 10,
         }}
       >
         <CollectionTabVoyages />
@@ -141,3 +182,4 @@ const VoyagesPage = () => {
 };
 
 export default VoyagesPage;
+

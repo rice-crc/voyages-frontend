@@ -1,15 +1,28 @@
 .timelapseInfoBox {
-    background-color: #ffffffb0;
-    border-radius: 5px;
-    padding: 4px 7px;
-    margin: 4px;
+  background-color: #ffffffb0;
+  border-radius: 5px;
+  padding: 4px 7px;
+  margin: 4px;
 }
 
 .timelapseInfoBoxClose:hover {
-    color: red;
-    cursor: pointer;
+  color: red;
+  cursor: pointer;
 }
 
 .timelapseSvgFrame:focus {
-    outline-width: 0;
+  outline-width: 0;
+}
+.leaflet-popup-timelapseHelpPopup {
+  cursor: pointer;
+  .title-voyages {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+  }
+  .header-timelapse {
+    font-size: 1.5rem;
+  }
+  .detail-timelapse {
+    font-size: 0.85rem;
+  }
 }

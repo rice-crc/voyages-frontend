@@ -3,51 +3,35 @@
     @media only screen and (max-width: 374px) {
       @content;
     }
-  }
-
-  @else if $size==1 {
+  } @else if $size==1 {
     @media only screen and (min-width: 375px) and (max-width: 425px) {
       @content;
     }
-  }
-
-  @else if $size==1.1 {
+  } @else if $size==1.1 {
     @media only screen and (min-width: 425px) and (max-width: 479px) {
       @content;
     }
-  }
-
-  @else if $size==2 {
+  } @else if $size==2 {
     @media only screen and (min-width: 480px) and (max-width: 575px) {
       @content;
     }
-  }
-
-  @else if $size==3 {
+  } @else if $size==3 {
     @media only screen and (min-width: 576px) and (max-width: 767px) {
       @content;
     }
-  }
-
-  @else if $size==4 {
+  } @else if $size==4 {
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       @content;
     }
-  }
-
-  @else if $size==5 {
+  } @else if $size==5 {
     @media only screen and (min-width: 992px) and (max-width: 1024px) {
       @content;
     }
-  }
-
-  @else if $size==6 {
+  } @else if $size==6 {
     @media only screen and (min-width: 1025px) and (max-width: 1366px) {
       @content;
     }
-  }
-
-  @else if $size==7 {
+  } @else if $size==7 {
     @media only screen and (max-width: 1440px) {
       @content;
     }
@@ -61,7 +45,6 @@
 //       @content;
 //     }
 //   }
-
 
 //   @else if $size==1 {
 //     @media only screen and (min-width: 321px) and (max-width: 480px) {
@@ -198,7 +181,7 @@
   }
 
   @include breakpoint-standard(4) {
-    padding: 10rem 5rem 1rem 5rem
+    padding: 10rem 5rem 1rem 5rem;
   }
 
   @include breakpoint-standard(3) {
@@ -278,7 +261,7 @@
   color: #ffffff;
   font-style: italic;
   font-weight: 400;
-  // margin-top: 5px;  
+  // margin-top: 5px;
   margin-bottom: 15px;
   font-size: 22px;
   text-shadow: 1px 1px 1px #000;
@@ -546,7 +529,6 @@
 
   @include breakpoint-standard(0) {
     font-size: 10px;
-
   }
 }
 
@@ -586,8 +568,6 @@
 
 .place-page-box {
   cursor: pointer;
-
-
 
   @include breakpoint-standard(4) {
     img {
@@ -651,7 +631,6 @@
       margin: 5px 0 5px 0;
     }
   }
-
 
   @include breakpoint-standard(1) {
     img {
@@ -730,7 +709,6 @@
 
   @include breakpoint-standard(0) {
     width: 140px;
-
   }
 }
 
@@ -738,8 +716,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-
 }
 
 .btn-navbar-reset-all {
@@ -810,7 +786,7 @@
     box-shadow: 1px 2px 8px var(--btn-global-shadow--, rgb(11 196 181));
     background-color: var(--btn-global-search--, rgb(0, 114, 105));
 
-    >svg {
+    > svg {
       font-size: 16px;
     }
   }
@@ -823,8 +799,6 @@
   align-items: center;
   height: 45vh;
 }
-
-
 
 .backToTopBtn {
   display: flex;
@@ -848,7 +822,7 @@
   display: flex;
   justify-content: center;
   padding: 2.5rem 0 0;
-  background-color: #BBC2CB;
+  background-color: #bbc2cb;
 }
 
 .logo-grid {
@@ -891,7 +865,6 @@
 
   @include breakpoint-standard(0) {
     width: 75%;
-
   }
 }
 
@@ -899,12 +872,9 @@
   padding: 2.5rem 0;
 }
 
-
-
 .footer-container {
   background-color: #5d7b8a;
 }
-
 
 .footer-flex-container {
   display: flex;
@@ -912,7 +882,6 @@
   flex-wrap: wrap;
   padding: 0 4rem;
   color: #efefef;
-
 }
 
 .footer-copyrights {
@@ -982,7 +951,7 @@
   height: 45vh;
   background: transparent;
 
-  >img {
+  > img {
     width: 10%;
 
     @include breakpoint-standard(5) {
@@ -1002,7 +971,7 @@
 .pie-plot-container {
   .pielayer {
     .slicetext {
-      >text {
+      > text {
         font-size: 0.85rem !important;
 
         @include breakpoint-standard(5) {

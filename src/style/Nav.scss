@@ -1,523 +1,504 @@
 @mixin breakpoint-standard($size) {
-    @if $size==0 {
-        @media only screen and (max-width: 374px) {
-            @content;
-        }
+  @if $size==0 {
+    @media only screen and (max-width: 374px) {
+      @content;
     }
-
-    @else if $size==1 {
-        @media only screen and (min-width: 375px) and (max-width: 479px) {
-            @content;
-        }
+  } @else if $size==1 {
+    @media only screen and (min-width: 375px) and (max-width: 479px) {
+      @content;
     }
-
-    @else if $size==2 {
-        @media only screen and (min-width: 480px) and (max-width: 575px) {
-            @content;
-        }
+  } @else if $size==2 {
+    @media only screen and (min-width: 480px) and (max-width: 575px) {
+      @content;
     }
-
-    @else if $size==3 {
-        @media only screen and (min-width: 576px) and (max-width: 767px) {
-            @content;
-        }
+  } @else if $size==3 {
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+      @content;
     }
-
-    @else if $size==4 {
-        @media only screen and (min-width: 768px) and (max-width: 991px) {
-            @content;
-        }
+  } @else if $size==4 {
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+      @content;
     }
-
-    @else if $size==5 {
-        @media only screen and (min-width: 992px) and (max-width: 1024px) {
-            @content;
-        }
+  } @else if $size==5 {
+    @media only screen and (min-width: 992px) and (max-width: 1024px) {
+      @content;
     }
-
-    @else if $size==6 {
-        @media only screen and (min-width: 1025px) and (max-width: 1366px) {
-            @content;
-        }
+  } @else if $size==6 {
+    @media only screen and (min-width: 1025px) and (max-width: 1366px) {
+      @content;
     }
-
-    @else if $size==7 {
-        @media only screen and (max-width: 1440px) {
-            @content;
-        }
+  } @else if $size==7 {
+    @media only screen and (max-width: 1440px) {
+      @content;
     }
+  }
 }
 
 .header-nav-bar {
-    height: 150px;
+  height: 150px;
 }
 
 .list-menu {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .voyages-header {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 40px;
+
+  @include breakpoint-standard(6) {
     font-size: 40px;
+  }
 
-    @include breakpoint-standard(6) {
-        font-size: 40px;
-    }
+  @include breakpoint-standard(5) {
+    font-size: 36px;
+  }
 
-    @include breakpoint-standard(5) {
-        font-size: 36px;
-    }
+  @include breakpoint-standard(4) {
+    font-size: 30px;
+  }
 
-    @include breakpoint-standard(4) {
-        font-size: 30px;
-    }
+  @include breakpoint-standard(3) {
+    font-size: 20px;
+    font-weight: 600;
+  }
 
-    @include breakpoint-standard(3) {
-        font-size: 20px;
-        font-weight: 600;
-    }
+  @include breakpoint-standard(2) {
+    font-size: 16px;
+    font-weight: 600;
+  }
 
-    @include breakpoint-standard(2) {
-        font-size: 16px;
-        font-weight: 600;
-    }
+  @include breakpoint-standard(1.1) {
+    font-size: 15px;
+    font-weight: 600;
+  }
 
-    @include breakpoint-standard(1.1) {
-        font-size: 15px;
-        font-weight: 600;
-    }
+  @include breakpoint-standard(1) {
+    font-size: 15px;
+    font-weight: 600;
+  }
 
-    @include breakpoint-standard(1) {
-        font-size: 15px;
-        font-weight: 600;
-    }
-
-    @include breakpoint-standard(0) {
-        font-size: 16px;
-        font-weight: 600;
-    }
+  @include breakpoint-standard(0) {
+    font-size: 16px;
+    font-weight: 600;
+  }
 }
 
 .voyages-header-subtitle {
-    display: flex;
-    font-size: 30px;
-    padding-left: 5px;
-    position: relative;
+  display: flex;
+  font-size: 30px;
+  padding-left: 5px;
+  position: relative;
+  font-weight: 600;
+  top: 8px;
+
+  @include breakpoint-standard(5) {
+    font-size: 26px;
+    top: 6px;
+  }
+
+  @include breakpoint-standard(5) {
+    font-size: 26px;
+    top: 2px;
+  }
+
+  @include breakpoint-standard(4) {
+    font-size: 20px;
+    top: 2px;
+  }
+
+  @include breakpoint-standard(3) {
+    font-size: 16px;
+    top: 2px;
+  }
+
+  @include breakpoint-standard(2) {
+    font-size: 14px;
+    top: 2px;
     font-weight: 600;
-    top: 8px;
+  }
 
-    @include breakpoint-standard(5) {
-        font-size: 26px;
-        top: 6px;
-    }
+  @include breakpoint-standard(1.1) {
+    font-size: 0.75rem;
+    top: 2px;
+  }
 
-    @include breakpoint-standard(5) {
-        font-size: 26px;
-        top: 2px;
-    }
+  @include breakpoint-standard(1) {
+    font-size: 0.75rem;
+    top: 2px;
+  }
 
-    @include breakpoint-standard(4) {
-        font-size: 20px;
-        top: 2px;
-    }
-
-    @include breakpoint-standard(3) {
-        font-size: 16px;
-        top: 2px;
-    }
-
-    @include breakpoint-standard(2) {
-        font-size: 14px;
-        top: 2px;
-        font-weight: 600;
-    }
-
-    @include breakpoint-standard(1.1) {
-        font-size: 0.75rem;
-        top: 2px;
-    }
-
-    @include breakpoint-standard(1) {
-        font-size: 0.75rem;
-        top: 2px;
-    }
-
-    @include breakpoint-standard(0) {
-        font-size: 0.72rem;
-        top: 2px;
-    }
-
+  @include breakpoint-standard(0) {
+    font-size: 0.72rem;
+    top: 2px;
+  }
 }
 
 .voyages-title {
-    padding: 0 5px;
+  padding: 0 5px;
 }
 
 .menu-nav-bar {
-    color: #fff;
+  color: #fff;
 
-    @include breakpoint-standard(1) {
-        font-size: 10px;
-    }
+  @include breakpoint-standard(1) {
+    font-size: 10px;
+  }
 
-    @include breakpoint-standard(0) {
-        font-size: 10px;
-    }
+  @include breakpoint-standard(0) {
+    font-size: 10px;
+  }
 }
 
 .menu-filter-search-enslavers {
-    color: #ffffff;
+  color: #ffffff;
 }
 
 .menu-nav-bar-select-box {
-    padding: 10px;
+  padding: 10px;
 
-    button {
-        margin: 0 6px;
-    }
+  button {
+    margin: 0 6px;
+  }
 
-    @include breakpoint-standard(5) {
-        position: relative;
-        left: 20px;
-        bottom: 6px;
-        font-size: 20px;
-    }
+  @include breakpoint-standard(5) {
+    position: relative;
+    left: 20px;
+    bottom: 6px;
+    font-size: 20px;
+  }
 
-    @include breakpoint-standard(4) {
-        display: none;
-    }
+  @include breakpoint-standard(4) {
+    display: none;
+  }
 
-    @include breakpoint-standard(3) {
-        display: none;
-    }
+  @include breakpoint-standard(3) {
+    display: none;
+  }
 
-    @include breakpoint-standard(2) {
-        display: none;
-    }
+  @include breakpoint-standard(2) {
+    display: none;
+  }
 
-    @include breakpoint-standard(1) {
-        display: none;
-    }
+  @include breakpoint-standard(1) {
+    display: none;
+  }
 
-    @include breakpoint-standard(0) {
-        display: none;
-    }
+  @include breakpoint-standard(0) {
+    display: none;
+  }
 }
 
 .menu-nav-bar-select {
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 18px;
-    margin-bottom: 0.5px;
-    font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 18px;
+  margin-bottom: 0.5px;
+  font-weight: bold;
 }
 
 .header-logo-icon-estimate {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.45rem 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.55rem 0;
 
-    @include breakpoint-standard(4) {
-        display: block;
-        font-size: 22px;
-    }
+  @include breakpoint-standard(4) {
+    display: block;
+    font-size: 22px;
+  }
 
-    @include breakpoint-standard(3) {
-        display: block;
-        font-size: 20px;
-    }
+  @include breakpoint-standard(3) {
+    display: block;
+    font-size: 20px;
+  }
 
-    @include breakpoint-standard(2) {
-        display: block;
-        font-size: 20px;
-        padding: 0.45rem;
-    }
+  @include breakpoint-standard(2) {
+    display: block;
+    font-size: 20px;
+    padding: 0.45rem;
+  }
 
-    @include breakpoint-standard(1) {
-        display: block;
-        font-size: 12px;
-        padding: 0.45rem;
-    }
+  @include breakpoint-standard(1) {
+    display: block;
+    font-size: 12px;
+    padding: 0.45rem;
+  }
 
-    @include breakpoint-standard(0) {
-        display: block;
-        font-size: 12px;
-        padding: 0.45rem;
-    }
+  @include breakpoint-standard(0) {
+    display: block;
+    font-size: 12px;
+    padding: 0.45rem;
+  }
 }
 
 .header-logo-icon {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    @include breakpoint-standard(4) {
-        >div {
-            width: 220px;
-        }
-
-        font-size: 22px;
+  @include breakpoint-standard(4) {
+    > div {
+      width: 220px;
     }
 
-    @include breakpoint-standard(3) {
-        >div {
-            width: 220px;
-        }
+    font-size: 22px;
+  }
 
-        font-size: 20px;
+  @include breakpoint-standard(3) {
+    > div {
+      width: 220px;
     }
 
-    @include breakpoint-standard(2) {
-        font-size: 20px;
-    }
+    font-size: 20px;
+  }
 
-    @include breakpoint-standard(1) {
-        font-size: 16px;
-    }
+  @include breakpoint-standard(2) {
+    font-size: 20px;
+  }
 
-    @include breakpoint-standard(0) {
-        font-size: 16px;
-    }
+  @include breakpoint-standard(1) {
+    font-size: 16px;
+  }
+
+  @include breakpoint-standard(0) {
+    font-size: 16px;
+  }
 }
 
 .logo-header-estimate {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include breakpoint-standard(1) {
+    display: block;
+    font-size: 16px;
+    font-size: 0.75rem;
+  }
 
-    @include breakpoint-standard(1) {
-        display: block;
-        font-size: 16px;
-        font-size: 0.75rem;
-    }
-
-    @include breakpoint-standard(0) {
-        display: block;
-        font-size: 16px;
-        font-size: 0.75rem;
-    }
+  @include breakpoint-standard(0) {
+    display: block;
+    font-size: 16px;
+    font-size: 0.75rem;
+  }
 }
 
 .logo-voyage {
-    margin-right: 10px;
-    position: relative;
-    width: 160px;
+  margin-right: 10px;
+  position: relative;
+  width: 160px;
 
-    @include breakpoint-standard(5) {
-        width: 80%;
-    }
+  @include breakpoint-standard(5) {
+    width: 80%;
+  }
 
-    @include breakpoint-standard(4) {
-        width: 80%;
-    }
+  @include breakpoint-standard(4) {
+    width: 80%;
+  }
 
-    @include breakpoint-standard(3) {
-        width: 80%;
-    }
+  @include breakpoint-standard(3) {
+    width: 80%;
+  }
 
-    @include breakpoint-standard(2) {
-        width: 90%;
-    }
+  @include breakpoint-standard(2) {
+    width: 90%;
+  }
 
-    @include breakpoint-standard(1) {
-        width: 90%;
-    }
+  @include breakpoint-standard(1) {
+    width: 90%;
+  }
 
-    @include breakpoint-standard(0) {
-        width: 90%;
-    }
+  @include breakpoint-standard(0) {
+    width: 90%;
+  }
 }
 
 .dataset-btn-selecter {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .list-filter-menu-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 16px 6px 16px;
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 6px 16px;
 }
 
 .list-filter-menu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    button {
-        color: rgba(255, 255, 255, 0.75);
-        font-weight: 600;
-    }
+  button {
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 600;
+  }
 
-    button:hover {
-        color: #ffffff;
-        font-weight: 600;
-    }
+  button:hover {
+    color: #ffffff;
+    font-weight: 600;
+  }
 }
 
 .save-sarch-content {
-    cursor: pointer;
-    color: rgba(255, 255, 255, 0.75);
-    font-weight: 900;
-    position: relative;
-    right: 2.5rem;
-    z-index: 6;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 900;
+  position: relative;
+  right: 2.5rem;
+  z-index: 6;
 
-    @include breakpoint-standard(2) {
-        right: -1rem;
-    }
+  @include breakpoint-standard(2) {
+    right: -1rem;
+  }
 
-    @include breakpoint-standard(1) {
-        right: -1rem;
-    }
+  @include breakpoint-standard(1) {
+    right: -1rem;
+  }
 
-    @include breakpoint-standard(0) {
-        right: -1rem;
-    }
+  @include breakpoint-standard(0) {
+    right: -1rem;
+  }
 
-    :hover {
-        color: #ffffff;
-    }
+  :hover {
+    color: #ffffff;
+  }
 
-    :active {
-        color: #ffffff;
-    }
+  :active {
+    color: #ffffff;
+  }
 
-    svg {
-        font-size: 1.25rem;
-    }
+  svg {
+    font-size: 1.25rem;
+  }
 }
 
 .v-panel-title-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .v-panel-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #666666;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #666666;
 }
 
 .v-panel-description {
-    color: #666666;
-    font-size: .85rem;
+  color: #666666;
+  font-size: 0.85rem;
 }
 
 .v-panel-description {
-    color: #666666;
-    font-size: .85rem;
+  color: #666666;
+  font-size: 0.85rem;
 }
 
 .v-form-group {
-    padding: 1.25rem 0 0;
+  padding: 1.25rem 0 0;
 }
 
 .flex-between {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .v-title {
-    font-weight: bold;
-    color: #666666;
-    font-size: .8rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  font-weight: bold;
+  color: #666666;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .btn:not(:disabled):not(.disabled) {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: .85rem;
-    line-height: 1.5;
-    border-radius: 0.2rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
 }
 
 .btn-outline-secondary {
-    color: #6c757d;
-    background-color: transparent;
-    background-image: none;
-    border-color: #6c757d;
+  color: #6c757d;
+  background-color: transparent;
+  background-image: none;
+  border-color: #6c757d;
 }
 
 .btn {
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    user-select: none;
-    border: 1px solid #6c757d;
-    padding: 0.3rem 0.6rem;
-    font-size: 0.90rem;
-    line-height: 1.5;
-    border-radius: 0.25rem;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid #6c757d;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .btn-info {
-    color: #fff;
-    background-color: var(--saveSearch--, rgb(25, 118, 210));
-    border-color: var(--saveSearch--, rgb(25, 118, 210));
-
-
+  color: #fff;
+  background-color: var(--saveSearch--, rgb(25, 118, 210));
+  border-color: var(--saveSearch--, rgb(25, 118, 210));
 }
 
 .btn-info:hover {
-    color: #fff !important;
-    background-color: var(--saveSearchHover--, #138496);
-    color: var(--saveSearchHover--, #117a8b);
+  color: #fff !important;
+  background-color: var(--saveSearchHover--, #138496);
+  color: var(--saveSearchHover--, #117a8b);
 }
 
 .btn-info .v-description {
-    color: #666666;
-    margin-bottom: 0.35rem;
-    font-size: .85rem;
-    font-weight: 500;
+  color: #666666;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .v-saved-searches-item {
-    margin-bottom: 1rem;
-    font-size: .85rem;
-    color: #666666;
-    word-break: break-all;
-    font-weight: 500;
-
-    .url-searches-item {
-        width: 70%;
-    }
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+  color: #666666;
+  word-break: break-all;
+  font-weight: 500;
+  // .url-searches-item {
+  //     width: 70%;
+  // }
 }
 
 .btn-outline-secondary:hover {
-    color: #fff;
-    background-color: #6c757d;
-    border-color: #6c757d;
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
 }
 
 .search-submenu {
-    padding: 0.75rem 0.95rem;
-    width: 560px;
+  padding: 0.75rem 0.95rem;
+  width: 560px;
 }
 
 .save-search-box {
-    position: absolute;
-    top: 120px;
-    right: 5px;
-    z-index: 2;
-    border: 1px solid rgba(0, 0, 0, .15);
-    padding: 1px;
-    background-color: #fff;
-    border-radius: 2px;
-    box-shadow: 14px 14px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 120px;
+  right: 5px;
+  z-index: 2;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 1px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 14px 14px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
 }

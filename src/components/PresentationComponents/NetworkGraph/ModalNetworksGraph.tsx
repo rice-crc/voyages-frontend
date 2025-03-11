@@ -1,12 +1,13 @@
 import { setsetOpenModalNetworks } from '@/redux/getPastNetworksGraphDataSlice';
 import { RootState } from '@/redux/store';
 import { Modal, Box } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import {Close } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { styleModalNetworks } from '@/styleMUI';
 import NETWORKICON from '@/assets/networksIcon.png';
 import { NetworkDiagramSlaveVoyagesSVG } from './NetworkDiagramSlaveVoyagesSVG';
-import "@/style/networks.scss"
+import '@/style/networks.scss';
+import { translatedConnection } from '@/utils/functions/translationLanguages';
 const ModalNetworksGraph = () => {
   const dispatch = useDispatch();
   const { openModal } = useSelector(
@@ -16,7 +17,10 @@ const ModalNetworksGraph = () => {
   const handleClose = () => {
     dispatch(setsetOpenModalNetworks(false));
   };
-
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
+  const translated = translatedConnection(languageValue);
   return (
     <Modal
       open={openModal}
@@ -27,22 +31,23 @@ const ModalNetworksGraph = () => {
       sx={{ styleModalNetworks }}
     >
       <Box sx={styleModalNetworks}>
-        <div className='network-header'>
-          <div className='network-header-text'>
+        <div className="network-header">
+          <div className="network-header-text">
             <img
               alt="network"
               src={NETWORKICON}
-              className='network-icon-right'
+              className="network-icon-right"
             />
-            Connections
+            {translated.connection}
             <img
               alt="network"
-              className='network-icon-left'
+              className="network-icon-left"
               src={NETWORKICON}
             />
-
           </div>
-          <div className='close-modal-icon-network '><CloseIcon fontSize='large' onClick={handleClose} /></div>
+          <div className="close-modal-icon-network ">
+            <Close fontSize="large" onClick={handleClose} />
+          </div>
         </div>
 
         <NetworkDiagramSlaveVoyagesSVG />

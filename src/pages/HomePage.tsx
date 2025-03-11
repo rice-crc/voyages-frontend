@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import { BLOGPAGE } from '@/share/CONST_DATA';
 import NewsBlog from '@/components/PresentationComponents/LadingPage/NewsBlog';
 import SouthSeaCompanyDocuments from '@/components/PresentationComponents/LadingPage/SouthSeaCompanyDocuments';
-import ArtInspiredBySlaveVoyages from '@/components/PresentationComponents/LadingPage/ArtInspiredBySlaveVoyages';
 import EnslaversBlogs from '@/components/PresentationComponents/LadingPage/EnslaversBlogs';
 import AfricanOrigins from '@/components/PresentationComponents/LadingPage/AfricanOrigins';
 import IntraAmerican from '@/components/PresentationComponents/LadingPage/IntraAmerican';
@@ -23,8 +22,10 @@ import { RootState } from '@/redux/store';
 import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 const HomePage: React.FC = () => {
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-  const translatedHomepage = translationHomepage(languageValue)
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
+  const translatedHomepage = translationHomepage(languageValue);
   const handleBackToTop = () => {
     window.scrollTo({
       top: 0,
@@ -59,7 +60,10 @@ const HomePage: React.FC = () => {
       <div className="centered-content">
         <VideoBackground />
         <MenuButtonHomePage />
-        <div className='languages-homepage'> <LanguagesDropdown /></div>
+        <div className="languages-homepage">
+          {' '}
+          <LanguagesDropdown />
+        </div>
         <div className="home-voyagepage-content">
           <div data-aos="flip-up">
             <SlaveVoyageLogo />
@@ -76,7 +80,9 @@ const HomePage: React.FC = () => {
           <div className="document-resources-container">
             <div className="about-project">
               <Link to={`/${BLOGPAGE}/slavevoyages-introduction/50`}>
-                <div className="about-project-btn">{translatedHomepage.aboutProject}</div>
+                <div className="about-project-btn">
+                  {translatedHomepage.aboutProject}
+                </div>
               </Link>
             </div>
           </div>
@@ -88,10 +94,6 @@ const HomePage: React.FC = () => {
       <div data-aos="fade-up">
         <SouthSeaCompanyDocuments />
       </div>
-      {/* <div data-aos="fade-up">
-      Task:TP-0225 Art Inspired by SlaveVoyages" section on the home page should be hidden
-        <ArtInspiredBySlaveVoyages />
-      </div> */}
       <div data-aos="fade-up">
         <EnslaversBlogs />
       </div>
@@ -104,7 +106,6 @@ const HomePage: React.FC = () => {
       <div data-aos="fade-up">
         <TransAtlantic />
       </div>
-
       <div className="backToTopBtn">
         <div
           className="btn"

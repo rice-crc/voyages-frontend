@@ -18,9 +18,11 @@ import CARDS_ALLENSLAVED from '@/utils/flatfiles/enslaved/enslaved_all_card_menu
 import CARDS_TEXAS_ENSLAVED from '@/utils/flatfiles/enslaved/enslaved_texas_card.json';
 // Enslavers Card
 import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers/enslavers_card.json';
+import { translationCard } from '@/utils/functions/translationLanguages';
 
 import {
   ALLVOYAGESFILECARD,
+  ENSALVERSTYLE,
   ENSLAVED_african_origins_CARDFILE,
   ENSLAVED_ALL_CARDFILE,
   ENSLAVED_TEXAS_CARDFILE,
@@ -40,39 +42,52 @@ import { styleCard } from '@/styleMUI/customStyle';
 import { fetchVoyageCard } from '@/fetch/voyagesFetch/fetchVoyageCard';
 import { fetchPastEnslaversCard } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversCard';
 import { fetchPastEnslavedCard } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedCard';
-import { DocumentItemInfo, DocumentViewerContext, createDocKey } from '@/utils/functions/documentWorkspace';
+import {
+  DocumentItemInfo,
+  DocumentViewerContext,
+  createDocKey,
+} from '@/utils/functions/documentWorkspace';
 import { numberWithCommas } from '@/utils/functions/numberWithCommas';
 import PopoverWrapper from './PopoverWrapper';
 
 type DocumentReference = String & {
-  sources__has_published_manifest: boolean
-  sources__zotero_group_id: string
-  sources__zotero_item_id: string
-  sources__thumbnail?: string | null
-}
+  sources__has_published_manifest: boolean;
+  sources__zotero_group_id: string;
+  sources__zotero_item_id: string;
+  sources__thumbnail?: string | null;
+};
 
-function isDocumentReference(s?: string | DocumentReference): s is DocumentReference {
-  const cast = s as DocumentReference
-  return cast?.sources__has_published_manifest &&
+function isDocumentReference(
+  s?: string | DocumentReference
+): s is DocumentReference {
+  const cast = s as DocumentReference;
+  return (
+    cast?.sources__has_published_manifest &&
     !!cast.sources__zotero_group_id &&
     !!cast.sources__zotero_item_id
+  );
 }
 
 const getSourceBib = (value: any) => {
-  const bib: string | undefined = value?.sources__bib
-  return bib
-}
+  const bib: string | undefined = value?.sources__bib;
+  return bib;
+};
 
 const VoyageCard = () => {
   const dispatch: AppDispatch = useDispatch();
   const [globalExpand, setGlobalExpand] = useState(true);
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
-  const [cardData, setCardData] = useState<Record<string, any>[]>([])
-  const { setDoc } = useContext(DocumentViewerContext)
+  const [cardData, setCardData] = useState<Record<string, any>[]>([]);
+  const { setDoc } = useContext(DocumentViewerContext);
+  // console.log({ cardData })
+  const { cardRowID, cardFileName, cardDataArray, nodeTypeClass } = useSelector(
+    (state: RootState) => state.getCardFlatObjectData
+  );
 
-  const { cardRowID, cardFileName, cardDataArray, nodeTypeClass } =
-    useSelector((state: RootState) => state.getCardFlatObjectData);
-
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
+  const translatedCard = translationCard(languageValue);
   const { networkID } = useSelector(
     (state: RootState) => state.getPastNetworksGraphData
   );
@@ -81,47 +96,55 @@ const VoyageCard = () => {
   useEffect(() => {
     let newCardFileName: string = '';
     const newCardDataArray: TransatlanticCardProps[] = [];
+ 
+
     switch (nodeTypeClass) {
       case VOYAGESNODECLASS:
       case VOYAGESNODE:
-        newCardFileName = TRANSATLANTICFILECARD;
-        newCardDataArray.push(...CARDS_TRANSATLANTIC_COLLECTION);
+        // Check cardFileName to determine which voyages data to load
+        if (cardFileName === TRANSATLANTICFILECARD) {
+          newCardFileName = TRANSATLANTICFILECARD;
+          newCardDataArray.push(...(CARDS_TRANSATLANTIC_COLLECTION as any));
+        } else if (cardFileName === INTRAAMERICANFILECARD) {
+          newCardFileName = INTRAAMERICANFILECARD;
+          newCardDataArray.push(...(CARDS_INTRAAMERICAN_COLLECTION as any));
+        } else {
+          newCardFileName = ALLVOYAGESFILECARD;
+          newCardDataArray.push(...(CARDS_ALLVOYAGES_COLLECTION as any));
+        }
         break;
-      case VOYAGESNODECLASS:
-      case VOYAGESNODE:
-        newCardFileName = INTRAAMERICANFILECARD;
-        newCardDataArray.push(...CARDS_INTRAAMERICAN_COLLECTION);
-        break;
-      case VOYAGESNODECLASS:
-      case VOYAGESNODE:
-        newCardFileName = ALLVOYAGESFILECARD;
-        newCardDataArray.push(...CARDS_ALLVOYAGES_COLLECTION);
-        break;
+
       case ENSLAVEDNODE:
-        newCardFileName = ENSLAVED_african_origins_CARDFILE;
-        newCardDataArray.push(...CARDS_ENSLAVED_african_origins);
+        // Check cardFileName to determine which enslaved data to load
+        if (cardFileName === ENSLAVED_african_origins_CARDFILE) {
+          newCardFileName = ENSLAVED_african_origins_CARDFILE;
+          newCardDataArray.push(...(CARDS_ENSLAVED_african_origins as any));
+        } else if (cardFileName === ENSLAVED_TEXAS_CARDFILE) {
+          newCardFileName = ENSLAVED_TEXAS_CARDFILE;
+          newCardDataArray.push(...(CARDS_TEXAS_ENSLAVED as any));
+        } else {
+          newCardFileName = ENSLAVED_ALL_CARDFILE;
+          newCardDataArray.push(...(CARDS_ALLENSLAVED as any));
+        }
         break;
-      case ENSLAVEDNODE:
-        newCardFileName = ENSLAVED_TEXAS_CARDFILE;
-        newCardDataArray.push(...CARDS_TEXAS_ENSLAVED);
-        break;
-      case ENSLAVEDNODE:
-        newCardFileName = ENSLAVED_ALL_CARDFILE;
-        newCardDataArray.push(...CARDS_ALLENSLAVED);
-        break;
+
       case ENSLAVERSNODE:
+      case ENSALVERSTYLE:
         newCardFileName = ENSLAVERSCARDFILE;
-        newCardDataArray.push(...CARDS_ENSLAVERS_COLLECTION);
+        newCardDataArray.push(...(CARDS_ENSLAVERS_COLLECTION as any));
         break;
+
       default:
         newCardFileName = '';
     }
     dispatch(setCardFileName(newCardFileName));
     dispatch(setCardDataArray(newCardDataArray));
-  }, [nodeTypeClass]);
+  }, [nodeTypeClass, cardRowID, dispatch, cardFileName]);
+
 
   const fetchData = async () => {
     const ID = networkID || cardRowID;
+
     try {
       let response = null;
 
@@ -131,19 +154,15 @@ const VoyageCard = () => {
           response = await dispatch(fetchVoyageCard(ID)).unwrap();
           break;
         case ENSLAVEDNODE:
-          response = await dispatch(
-            fetchPastEnslavedCard(ID)
-          ).unwrap();
+          response = await dispatch(fetchPastEnslavedCard(ID)).unwrap();
           break;
         case ENSLAVERSNODE:
-          response = await dispatch(
-            fetchPastEnslaversCard(ID)
-          ).unwrap();
+        case ENSALVERSTYLE:
+          response = await dispatch(fetchPastEnslaversCard(ID)).unwrap();
           break;
         default:
           response = null;
       }
-
 
       if (response) {
         setCardData(response.data);
@@ -158,13 +177,11 @@ const VoyageCard = () => {
       fetchData();
     }
     return () => {
-      setCardData([])
+      setCardData([]);
     };
   }, [dispatch, nodeTypeClass, cardRowID]);
 
-
-  const newCardData = processCardData([cardData], cardDataArray, cardFileName);
-
+  const newCardData = processCardData([cardData], cardDataArray, cardFileName, languageValue);
 
   const toggleExpand = (header: string) => {
     if (!globalExpand) {
@@ -206,11 +223,10 @@ const VoyageCard = () => {
   return (
     <div>
       <p className="body-text">
-        Here are the currently available details for this voyage.{' '}
+        {translatedCard.title}{' '}
         <a href="#" onClick={toggleExpandAll}>
-          {!globalExpand ? 'Expand All' : 'Collapse All'}
+          {!globalExpand ? translatedCard.expand : translatedCard.collapse}
         </a>{' '}
-        to see/hide all.
       </p>
       <Card style={{ border: '1px solid rgba(0,0,0,.1)' }}>
         {newCardData.length > 0 &&
@@ -233,34 +249,46 @@ const VoyageCard = () => {
                   <div className="container-card-body">
                     {childValue.map((child: any) => {
                       const values = child.value;
-                      const numberFormat = child.number_format
+                      // console.log({ values })
+                      const numberFormat = child.number_format;
                       if (Array.isArray(values)) {
+                     
                         const renderedValues = values.map(
-                          (value: string | DocumentReference, index: number) => {
-                            let valueToRender = value?.replace(
-                              /<[^>]*>/g,
-                              ' '
-                            );
+                          (
+                            value: string | DocumentReference,
+                            index: number
+                          ) => {
+                            let valueToRender = value?.replace(/<[^>]*>/g, ' ');
 
-                            const additionalProps: any = {}
+                            const additionalProps: any = {};
                             const additionalStyles: React.CSSProperties = {};
-                            const extraElements: JSX.Element[] = []
+                            const extraElements: JSX.Element[] = [];
+
                             if (isDocumentReference(value)) {
-                              valueToRender += ' '
-                              extraElements.push(<i key={`${index}-${uuidv4()}`} className="fa fa-file-text" aria-hidden="true"></i>);
+                              valueToRender += ' ';
+                              extraElements.push(
+                                <i
+                                  key={`${index}-${uuidv4()}`}
+                                  className="fa fa-file-text"
+                                  aria-hidden="true"
+                                ></i>
+                              );
                               additionalStyles.borderColor = 'blue';
                               additionalStyles.borderWidth = 1;
                               additionalStyles.borderStyle = 'solid';
                               const doc: DocumentItemInfo = {
                                 label: value + '',
-                                key: createDocKey(value.sources__zotero_group_id, value.sources__zotero_item_id),
+                                key: createDocKey(
+                                  value.sources__zotero_group_id,
+                                  value.sources__zotero_item_id
+                                ),
                                 revision_number: 1,
-                                thumb: value.sources__thumbnail ?? null
+                                thumb: value.sources__thumbnail ?? null,
                               };
                               additionalProps.onClick = () => {
                                 setDoc(doc);
                                 dispatch(setIsModalCard(false));
-                              }
+                              };
                             }
                             let component = valueToRender ? (
                               <div
@@ -271,17 +299,28 @@ const VoyageCard = () => {
                                   key={`${index}-${value}-${uuidv4()}`}
                                   {...additionalProps}
                                   style={{ ...styleCard, ...additionalStyles }}
-                                >{`${valueToRender}`}
+                                >
+                                  {`${valueToRender}`}
                                   {extraElements}
                                 </span>
                                 <br />
                               </div>
-                            ) : null
-                            const bib = getSourceBib(value)
+                            ) : null;
+                            const bib = getSourceBib(value);
                             if (component && bib) {
-                              component = <PopoverWrapper key={uuidv4()} padding={4} popoverContents={<div dangerouslySetInnerHTML={{ __html: bib }} />}>
-                                {component}
-                              </PopoverWrapper>
+                              component = (
+                                <PopoverWrapper
+                                  key={uuidv4()}
+                                  padding={4}
+                                  popoverContents={
+                                    <div
+                                      dangerouslySetInnerHTML={{ __html: bib }}
+                                    />
+                                  }
+                                >
+                                  {component}
+                                </PopoverWrapper>
+                              );
                             }
                             return component ?? '-';
                           }
@@ -291,7 +330,12 @@ const VoyageCard = () => {
                             className="grid-container-card-body"
                             key={`${child.label}-${index}-${uuidv4()}`}
                           >
-                            <div className="grid-item-card" key={`${child.label}-${index}-${uuidv4()}`}>{child.label}</div>
+                            <div
+                              className="grid-item-card"
+                              key={`${child.label}-${index}-${uuidv4()}`}
+                            >
+                              {child.label}
+                            </div>
                             <div
                               className="grid-itenewCardDatam-card"
                               key={`${child.label}-${index}-${uuidv4()}`}
@@ -304,24 +348,29 @@ const VoyageCard = () => {
                       } else {
                         let valueFormat = values;
                         if (numberFormat === 'comma') {
-                          valueFormat = numberWithCommas(values)
+                          valueFormat = numberWithCommas(values);
                         } else if (numberFormat === 'percent') {
-                          const percent = values * 100
-                          valueFormat = values === '--' ? '0.0%' : `${percent.toFixed(1)}%`
+                          const percent = values * 100;
+                          valueFormat =
+                            values === '--' ? '0.0%' : `${percent.toFixed(1)}%`;
                         }
-                        return values && (
-                          <div
-                            className="grid-container-card-body"
-                            key={`${child.label}-${index}-${uuidv4()}`}
-                          >
-                            <div className="grid-item-card">{child.label}</div>
+                        return (
+                          values && (
                             <div
-                              className="grid-itenewCardDatam-card"
-                              style={{ display: 'block' }}
+                              className="grid-container-card-body"
+                              key={`${child.label}-${index}-${uuidv4()}`}
                             >
-                              {valueFormat}
+                              <div className="grid-item-card">
+                                {child.label}
+                              </div>
+                              <div
+                                className="grid-itenewCardDatam-card"
+                                style={{ display: 'block' }}
+                              >
+                                {valueFormat}
+                              </div>
                             </div>
-                          </div>
+                          )
                         );
                       }
                     })}

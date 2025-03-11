@@ -14,18 +14,24 @@ const QueryLink = () => {
   const [link, setNewLink] = useState<string>('');
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
-  let filters: Filter[] = []
-  if (Array.isArray(filtersObj[0]?.searchTerm) && filtersObj[0]?.searchTerm.length > 0 || !Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact') {
+  let filters: Filter[] = [];
+  if (
+    (Array.isArray(filtersObj[0]?.searchTerm) &&
+      filtersObj[0]?.searchTerm.length > 0) ||
+    (!Array.isArray(filtersObj[0]?.op) && filtersObj[0]?.op === 'exact')
+  ) {
     filters = filtersObj;
   } else {
     filters = filtersObj;
   }
   const dataSend: CreateAQueryLinkRequest = {
-    filter: filters
+    filter: filters,
   };
   const fetchData = async () => {
     try {
-      const response = await dispatch(fetchQueryLinkSaveSearch(dataSend)).unwrap();
+      const response = await dispatch(
+        fetchQueryLinkSaveSearch(dataSend)
+      ).unwrap();
       if (response) {
         const { data } = response;
         const alphanumericPattern = link.split('/').pop();
@@ -36,15 +42,14 @@ const QueryLink = () => {
     }
   };
 
-  useEffect(() => {
+  useEffect(() => {}, [dispatch]);
 
-
-  }, [dispatch]);
-
-  const handleChangeLink = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleChangeLink = (
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     const { name, value } = event.target;
     setNewLink(value);
-  }
+  };
 
   const handleCreateLink = () => {
     // navigate(`/voyages/${link}`)
@@ -53,15 +58,27 @@ const QueryLink = () => {
 
   return (
     <div>
-      <div className='sidebar-label'>To reactivate the current query in the future, copy the following URL and then paste it into the address bar:</div>
-      <div className='text-query-link'>
-        <TextArea rows={2} maxLength={6} style={{ borderColor: '#1b1a1a' }} value={link} onChange={handleChangeLink} name="save-search-url" />
+      <div className="sidebar-label">
+        To reactivate the current query in the future, copy the following URL
+        and then paste it into the address bar:
+      </div>
+      <div className="text-query-link">
+        <TextArea
+          rows={2}
+          maxLength={6}
+          style={{ borderColor: '#1b1a1a' }}
+          value={link}
+          onChange={handleChangeLink}
+          name="save-search-url"
+        />
       </div>
       <div className="reset-btn-estimate">
-        <Button className='selected-all-btn' onClick={handleCreateLink}>Create Link</Button>
+        <Button className="selected-all-btn" onClick={handleCreateLink}>
+          Create Link
+        </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default QueryLink;
