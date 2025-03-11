@@ -80,6 +80,16 @@ const MiradorViewer = ({
   // NOTE: Spanish is still not supported by Mirador! And for Portuguese, only
   // the Brazilian variant is available.
   const miradorLanguage = languageValue === 'pt' ? 'pt-BR' : 'en';
+  if (mirador) {
+    console.error('Mirador is not loaded');
+    return;
+  }
+
+  useEffect(() => {
+   
+  }, [domId]);
+
+  
   useEffect(() => {
     if (!container.current) {
       return;
@@ -91,13 +101,14 @@ const MiradorViewer = ({
     const userSettings = JSON.parse(
       localStorage.getItem(MiradorUserSettingsKey) ?? '{}'
     );
-    setTarget(
-      mirador.viewer({
-        ...userSettings,
-        id: domId,
-        language: miradorLanguage,
-      })
-    );
+   
+    // setTarget(
+    //   mirador.viewer({
+    //     ...userSettings,
+    //     id: domId,
+    //     language: miradorLanguage,
+    //   })
+    // );
     return () => {
       div.remove();
     };
@@ -106,69 +117,69 @@ const MiradorViewer = ({
     if (!target) {
       return;
     }
-    const store = mirador.selectors.miradorSlice(target).store;
+    // const store = mirador.selectors.miradorSlice(target).store;
     const path = `${manifestUrlBase.replace(/\/$/, '')}/${manifestId}`;
-    const match = Object.values(store.getState().manifests).find(
-      (w: any) => w.id === path
-    );
-    if (!match) {
-      // Add the manifest.
-      const addRes = mirador.actions.addResource(path);
-      store.dispatch(addRes);
-    }
+    // const match = Object.values(store.getState().manifests).find(
+    //   (w: any) => w.id === path
+    // );
+    // if (!match) {
+    //   // Add the manifest.
+    //   const addRes = mirador.actions.addResource(path);
+    //   store.dispatch(addRes);
+    // }
     // - Close any other window in the viewer.
-    for (const winKey of Object.keys(store.getState().windows)) {
-      const rmw = mirador.actions.removeWindow(winKey);
-      store.dispatch(rmw);
-    }
+    // for (const winKey of Object.keys(store.getState().windows)) {
+    //   const rmw = mirador.actions.removeWindow(winKey);
+    //   store.dispatch(rmw);
+    // }
     // - Create a window with the manifest...
     let canvasLoaded = false;
-    const unsubscribe = store.subscribe(() => {
-      const state = store.getState();
-      const { selectedTheme } = state.config;
-      if (prevTheme.current && prevTheme.current !== selectedTheme) {
-        localStorage.setItem(
-          MiradorUserSettingsKey,
-          JSON.stringify({
-            selectedTheme: selectedTheme,
-          })
-        );
-      }
-      prevTheme.current = selectedTheme;
-      if (
-        activeDoc.current === manifestId &&
-        canvasLoaded &&
-        onClose &&
-        Object.keys(state.windows).length === 0
-      ) {
-        onClose();
-        activeDoc.current = null;
-        return;
-      }
-      if (canvasLoaded || (state.manifests[path]?.isFetching ?? true)) {
-        return;
-      }
-      canvasLoaded = true;
-      try {
-        const win = findWin(store, path);
-        const displayAction = mirador.actions.setCanvas(
-          win.id,
-          `${path}/canvas1`
-        );
-        store.dispatch(displayAction);
-      } catch (e) {
-        console.log(e);
-      }
-      setReady(true);
-      activeDoc.current = manifestId;
-    });
-    store.dispatch(mirador.actions.fetchManifest(path));
-    store.dispatch(mirador.actions.addWindow({ manifestId: path }));
-    // - Maximize the window.
-    for (const winKey of Object.keys(store.getState().windows)) {
-      const maxw = mirador.actions.maximizeWindow(winKey);
-      store.dispatch(maxw);
-    }
+    // const unsubscribe = store.subscribe(() => {
+    //   const state = store.getState();
+    //   const { selectedTheme } = state.config;
+    //   if (prevTheme.current && prevTheme.current !== selectedTheme) {
+    //     localStorage.setItem(
+    //       MiradorUserSettingsKey,
+    //       JSON.stringify({
+    //         selectedTheme: selectedTheme,
+    //       })
+    //     );
+    //   }
+    //   prevTheme.current = selectedTheme;
+    //   if (
+    //     activeDoc.current === manifestId &&
+    //     canvasLoaded &&
+    //     onClose &&
+    //     Object.keys(state.windows).length === 0
+    //   ) {
+    //     onClose();
+    //     activeDoc.current = null;
+    //     return;
+    //   }
+    //   if (canvasLoaded || (state.manifests[path]?.isFetching ?? true)) {
+    //     return;
+    //   }
+    //   canvasLoaded = true;
+    //   try {
+    //     const win = findWin(store, path);
+    //     const displayAction = mirador.actions.setCanvas(
+    //       win.id,
+    //       `${path}/canvas1`
+    //     );
+    //     store.dispatch(displayAction);
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    //   setReady(true);
+    //   activeDoc.current = manifestId;
+    // });
+    // store.dispatch(mirador.actions.fetchManifest(path));
+    // store.dispatch(mirador.actions.addWindow({ manifestId: path }));
+    // // - Maximize the window.
+    // for (const winKey of Object.keys(store.getState().windows)) {
+    //   const maxw = mirador.actions.maximizeWindow(winKey);
+    //   store.dispatch(maxw);
+    // }
     const uiUpdater = setInterval(() => {
       if (
         updateMiradorUI(workspaceAction, !!close, manifestId, onWorkspaceAction)
@@ -177,7 +188,7 @@ const MiradorViewer = ({
       }
     }, 100);
     return () => {
-      unsubscribe();
+      // unsubscribe();
       clearInterval(uiUpdater);
     };
   }, [target, manifestUrlBase, manifestId, ready]);

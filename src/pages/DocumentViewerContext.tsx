@@ -64,7 +64,7 @@ export const DocumentViewerProvider = ({
           {removeLabels[languageValue ?? 'en']}
         </Button>
       </div>
-      {doc && (
+      {/* {doc && (
         <MiradorViewer
           manifestUrlBase={ManifestURLBase}
           domId="__mirador"
@@ -75,7 +75,7 @@ export const DocumentViewerProvider = ({
             setWorkspace(performWorkspaceAction(doc, element));
           }}
         />
-      )}
+      )} */}
     </DocumentViewerContext.Provider>
   );
 };
