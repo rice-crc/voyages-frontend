@@ -242,7 +242,6 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
               changes={changeSet.changes} 
               resetAllChanges={resetAllChanges} 
               submitChanges={submitChanges} 
-              handleFieldChange={handleFieldChange}
               handleSaveChanges={handleSaveChanges}
             />
           </Col>
