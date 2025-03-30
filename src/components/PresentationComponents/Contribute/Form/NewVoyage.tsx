@@ -7,7 +7,7 @@ import {
   VoyageSchema,
   EntitySchema,
 } from '@/models/entities';
-import { ContributionForm } from '../EntityForm';
+import { ContributionForm } from '../ContributionForm';
 import { materializeNew } from '@/models/materialization';
 
 export interface EntityFormProps {
