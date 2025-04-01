@@ -18,21 +18,7 @@ export const PropertyChangesList = ({ changes, handleFieldChange }: PropertyChan
         console.log({pc: pc})
         return (
           <li key={idxPC}>
-            <PropertyChangeCard change={pc} />
-            <Button
-              type="text"
-              icon={<UndoOutlined />}
-              onClick={() => {
-                // console.log({change: change})
-                // change.type === 'update' ? (
-                //     change.changes?.forEach((fieldChange) =>{
-                //         console.log({fieldChange})
-                //         // handleFieldChange(change.entityRef.schema, fieldChange.field, fieldChange.oldValue)
-                //     })
-                // ) : null
-              }}
-              title="Undo changes"
-            />
+            <PropertyChangeCard change={pc} handleFieldChange={handleFieldChange}/>
           </li>
         )
       })}

@@ -14,45 +14,47 @@ import {
     useEffect,
   } from 'react';
 import { PropertyChangesList } from './PropertyChangesList';
+import '@/style/contributeContent.scss';
 interface PropertyChangeCardProps {
     change: PropertyChange;
+    handleFieldChange: (section: string, fieldName: string, previousValue: any) => void;
   }
   
- export const PropertyChangeCard = ({ change }: PropertyChangeCardProps) => {
+ export const PropertyChangeCard = ({ change,handleFieldChange }: PropertyChangeCardProps) => {
     const { property } = change;
     let display: ReactNode = undefined;
     if (change.kind === 'direct') {
-      display = <b>{change.changed + ''}</b>;
+      display = <span className='details-changes'>{change.changed + ''}</span>;
     } else if (change.kind === 'linked') {
       const { changed } = change;
       display = (
-        <b>
+        <>
           {changed ? (
             <>
-              <span>
+              <span className='details-changes'>
                 {changed.entityRef.schema}#{changed.entityRef.id}
               </span>
               {change.linkedChanges && (
-                <PropertyChangesList changes={change.linkedChanges} />
+                <PropertyChangesList changes={change.linkedChanges} handleFieldChange={handleFieldChange} />
               )}
             </>
           ) : (
             '<null>'
           )}
-        </b>
+        </>
       );
     }
     if (change.kind === 'owned') {
       display = (
-        <div style={{ paddingLeft: '20px' }}>
-          <PropertyChangesList changes={change.changes} />
+        <div style={{ paddingLeft: '20px' }} className='details-changes'>
+          <PropertyChangesList changes={change.changes} handleFieldChange={handleFieldChange} />
         </div>
       );
     }
     if (change.kind === 'ownedList') {
       display = (
-        <div style={{ paddingLeft: '20px' }}>
-          {change.modified && <PropertyChangesList changes={change.modified} />}
+        <div style={{ paddingLeft: '20px' }} className='details-changes' >
+          {change.modified && <PropertyChangesList changes={change.modified} handleFieldChange={handleFieldChange}/>}
           <ul>
             {change.removed.map((r, i) => (
               <li key={i}>Removed item with id {r.id}</li>
@@ -66,13 +68,13 @@ interface PropertyChangeCardProps {
       <>
         {change.kind !== 'ownedList' && (
           <>
-            <span>
+            <span className='property-change'>
               {property}
               {' => '}
             </span>
           </>
         )}
-        {display}
+       {display}
         &nbsp;
         <small>{change.comments}</small>
       </>

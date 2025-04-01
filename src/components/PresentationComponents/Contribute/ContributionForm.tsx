@@ -213,7 +213,7 @@ export const ContributionForm = ({ entity }: ContributionFormProps) => {
             style={{ width: 200, margin: '10px 0' }}
           />
         </Form.Item>
-        <Row gutter={32}>
+        <Row gutter={24} style={{ padding: '24px' }}>
           <Col span={12}>
             <Card style={{ position: 'sticky', top: '1rem' }}>
             <div className="expand-collapse">
