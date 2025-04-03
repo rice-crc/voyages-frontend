@@ -1,82 +1,46 @@
-import {
-    addToChangeSet,
-    combineChanges,
-    dropOrphans,
-    EntityChange,
-    PropertyChange,
-  } from '@/models/changeSets';
-
-  import React, {
-    ReactNode,
-    useCallback,
-    useMemo,
-    useState,
-    useEffect,
-  } from 'react';
-import { PropertyChangesList } from './PropertyChangesList';
+import { PropertyChange } from '@/models/changeSets';
+import { ReactNode } from 'react';
+import PropertyChangesTable from './PropertyChangesTable';
 import '@/style/contributeContent.scss';
+
 interface PropertyChangeCardProps {
-    change: PropertyChange;
-    handleFieldChange: (section: string, fieldName: string, previousValue: any) => void;
-  }
-  
- export const PropertyChangeCard = ({ change,handleFieldChange }: PropertyChangeCardProps) => {
-    const { property } = change;
-    let display: ReactNode = undefined;
-    if (change.kind === 'direct') {
-      display = <span className='details-changes'>{change.changed + ''}</span>;
-    } else if (change.kind === 'linked') {
-      const { changed } = change;
-      display = (
-        <>
-          {changed ? (
-            <>
-              <span className='details-changes'>
-                {changed.entityRef.schema}#{changed.entityRef.id}
-              </span>
-              {change.linkedChanges && (
-                <PropertyChangesList changes={change.linkedChanges} handleFieldChange={handleFieldChange} />
-              )}
-            </>
-          ) : (
-            '<null>'
-          )}
-        </>
-      );
-    }
-    if (change.kind === 'owned') {
-      display = (
-        <div style={{ paddingLeft: '20px' }} className='details-changes'>
-          <PropertyChangesList changes={change.changes} handleFieldChange={handleFieldChange} />
-        </div>
-      );
-    }
-    if (change.kind === 'ownedList') {
-      display = (
-        <div style={{ paddingLeft: '20px' }} className='details-changes' >
-          {change.modified && <PropertyChangesList changes={change.modified} handleFieldChange={handleFieldChange}/>}
-          <ul>
-            {change.removed.map((r, i) => (
-              <li key={i}>Removed item with id {r.id}</li>
-            ))}
-          </ul>
-        </div>
-      );
-    }
-    // TODO: other kinds
-    return (
-      <>
-        {change.kind !== 'ownedList' && (
-          <>
-            <span className='property-change'>
-              {property}
-              {' => '}
-            </span>
-          </>
-        )}
-       {display}
-        &nbsp;
-        <small>{change.comments}</small>
-      </>
+  change: PropertyChange;
+  property?: string
+}
+
+const PropertyChangeCard = ({ change,property }: PropertyChangeCardProps) => {
+  let display: ReactNode;
+
+  if (change.kind === 'direct') {
+    display = <span className="details-changes">{String(change.changed)}</span>;
+  } else if (change.kind === 'linked') {
+    const { changed } = change;
+    display = changed ? (
+      <span className="details-changes">
+        {changed.entityRef.schema}#{changed.entityRef.id}
+      </span>
+    ) : (
+      '<null>'
     );
-  };
+  } else if (change.kind === 'ownedList') {
+    display = (
+      <ul className="details-changes" style={{ paddingLeft: '1rem', margin: 0 }}>
+        {change.removed.map((r, i) => {
+            console.log({r: r})
+            return (
+                  <li key={i}>Removed item with id {r.id}</li>
+                )
+        }
+        )}
+      </ul>
+    );
+  } else if (change.kind === 'owned') {
+    display = <PropertyChangesTable change={change.changes} sectionName={property}/>;
+  } else {
+    display = <span>Unsupported change type</span>;
+  }
+
+  return <>{display} &nbsp;{change.comments && <small>{change.comments}</small>}</>;
+};
+
+export default PropertyChangeCard;

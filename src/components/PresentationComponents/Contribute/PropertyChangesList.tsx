@@ -1,27 +1,31 @@
 import { Button, List, Badge, Typography, Row, Card } from 'antd';
 import { ReloadOutlined, SaveOutlined, UndoOutlined } from '@ant-design/icons';
+import { ReactNode } from 'react';
 import {
   PropertyChange,
 } from '@/models/changeSets';
-
-import { PropertyChangeCard } from './PropertyChangeCard'
+import PropertyChangeCard from './PropertyChangeCard'
 
 interface PropertyChangesListProps {
   changes: PropertyChange[];
-  handleFieldChange: (section: string, fieldName: string, previousValue: any) => void;
+  property?:string
+  // handleFieldChange: (section: string, fieldName: string, previousValue: any) => void;
 }
 
-export const PropertyChangesList = ({ changes, handleFieldChange }: PropertyChangesListProps) => {
+const PropertyChangesList = ({ changes,property }: PropertyChangesListProps) => {
+ 
   return (
-    <ul>
+    <div>
       {changes.map((pc, idxPC) => {
-        console.log({pc: pc})
         return (
-          <li key={idxPC}>
-            <PropertyChangeCard change={pc} handleFieldChange={handleFieldChange}/>
-          </li>
+          <div key={idxPC} className='property-card'>
+            <PropertyChangeCard change={pc} property={pc.property}/>
+          </div>
         )
       })}
-    </ul>
+    </div>
   );
 };
+
+export default PropertyChangesList
+

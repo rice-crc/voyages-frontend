@@ -241,7 +241,7 @@ import {
       <>
         {change.kind !== 'ownedList' && (
           <>
-            <span>
+            <span className='property-change'>
               {property}
               {' => '}
             </span>

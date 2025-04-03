@@ -31,7 +31,7 @@ import {
   } from 'react';
   import { useSelector } from 'react-redux';
   import { EntityForm } from './EntityForm';
-  import {ChangesSummary} from './ChangesSummary'
+  import ChangesSummary from './ChangesSummary'
   
   export interface ContributionFormProps {
     entity: MaterializedEntity;

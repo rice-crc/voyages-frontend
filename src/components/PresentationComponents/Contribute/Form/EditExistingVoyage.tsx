@@ -40,7 +40,7 @@ const EditExistingVoyage: React.FC<EditExistingVoyageProps> = ({openSideBar}) =>
               >
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <Input
-                    placeholder="Ente<r Voyage ID"
+                    placeholder="Enter Voyage ID"
                     type="number"
                     value={voyageId}
                     onChange={(e) => setVoyageId(e.target.value)}
