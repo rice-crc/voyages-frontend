@@ -120,7 +120,7 @@ export type CurveOptions = {
 
 export interface HandleZoomEventProps {
   setZoomLevel: (zoomLevel: number) => void;
-  setRegionPlace: (value: string) => void;
   zoomLevel: number;
+  setRegionPlace?: (value: string) => void;
   styleRouteName?: string;
 }

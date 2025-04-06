@@ -161,17 +161,17 @@ const VoyagesPage = () => {
         )}
     </motion.div>
   );
-
+  const isTimelapsePage = currentPage === 8 && currentVoyageBlockName === TYPESOFBLOCKVOYAGES.timeLapseEN;
   return (
     <div>
       <HeaderVoyagesNavBar />
       <div
-        className="voyages-home-page"
+        className={isTimelapsePage ? "voyages-home-page-timelapse" : "voyages-home-page"}
         id="content-container"
         style={{
           position: 'relative',
           padding: inputSearchValue ? '0 20px' : '',
-          top: inputSearchValue ? 40 : 10,
+          top: inputSearchValue ? 40 : isTimelapsePage ? 22 : 10,
         }}
       >
         <CollectionTabVoyages />

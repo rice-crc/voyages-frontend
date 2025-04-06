@@ -180,7 +180,6 @@ const Tables: React.FC = () => {
     clusterNodeKeyVariable,
     clusterNodeValue
   );
-  // console.log({filters})
 
   const newFilters =
     filters !== undefined &&

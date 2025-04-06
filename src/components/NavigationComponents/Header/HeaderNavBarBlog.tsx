@@ -24,9 +24,7 @@ const HeaderNavBarBlog: React.FC = () => {
             style={{ textDecoration: 'none', color: '#ffffff' }}
             onClick={handleReloadPage}
           >
-            <div>{`Echoes: The SlaveVoyages Blog ${
-              '-' && title ? title : ''
-            }`}</div>
+            <div>{`Echoes: The SlaveVoyages Blog ${title ? `- ${title}` : ''}`}</div>
           </Link>
         </div>
       </div>

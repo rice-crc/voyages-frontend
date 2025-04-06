@@ -31,7 +31,7 @@ const AutoCompletedSearhBlog = () => {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [isFetchHashLoad, setFetchHashLoad] = useState(true);
   const [listData, setListData] = useState<ResultAutoList[]>([]);
-  const limit = 20;
+  const limit = 10;
   const offset = 0;
 
   const filters: Filter[] = [{

@@ -97,6 +97,41 @@
   }
 }
 
+.voyages-home-page-timelapse {
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  height: calc(100vh - 80px);
+
+  @include breakpoint-standard(6) {
+    height: 100%;
+  }
+
+  @include breakpoint-standard(4) {
+    top: -40px !important;
+  }
+
+  @include breakpoint-standard(3) {
+    top: -15px !important;
+  }
+
+  @include breakpoint-standard(2) {
+    top: -15px !important;
+  }
+
+  @include breakpoint-standard(1.1) {
+    top: -15px !important;
+  }
+
+  @include breakpoint-standard(1) {
+    top: -10px !important;
+  }
+
+  @include breakpoint-standard(0) {
+    top: -10px !important;
+  }
+}
+
 #content-container {
   position: relative;
   width: 100%;

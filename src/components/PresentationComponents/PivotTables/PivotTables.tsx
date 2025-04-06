@@ -447,9 +447,6 @@ const PivotTables = () => {
             </Button>
           </div>
         </span>
-        <div className="ag-theme-alpine grid-container ag-theme-balham" style={{
-          height: 'calc(70vh - 220px)', width: '100%', display: 'flex', flexDirection: 'column', overflowY: 'auto',
-        }}>
           <CustomTablePagination
             disablescrolllock={true.toString()}
             component="span"
@@ -461,6 +458,7 @@ const PivotTables = () => {
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
+         <div className="ag-theme-alpine grid-container ag-theme-balham" style={{ display: 'flex', flexDirection: 'column', overflowY: 'auto',}}>
           <AgGridReact
             domLayout={'autoHeight'}
             ref={gridRef}
