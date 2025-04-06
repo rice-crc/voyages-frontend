@@ -19,7 +19,7 @@ import CARDS_TEXAS_ENSLAVED from '@/utils/flatfiles/enslaved/enslaved_texas_card
 // Enslavers Card
 import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers/enslavers_card.json';
 import { translationCard } from '@/utils/functions/translationLanguages';
-
+import {  useNavigate } from 'react-router-dom';
 import {
   ALLVOYAGESFILECARD,
   ENSALVERSTYLE,
@@ -75,11 +75,11 @@ const getSourceBib = (value: any) => {
 
 const VoyageCard = () => {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const [globalExpand, setGlobalExpand] = useState(true);
   const [expandedHeaders, setExpandedHeaders] = useState<string[]>([]);
   const [cardData, setCardData] = useState<Record<string, any>[]>([]);
   const { setDoc } = useContext(DocumentViewerContext);
-  // console.log({ cardData })
   const { cardRowID, cardFileName, cardDataArray, nodeTypeClass } = useSelector(
     (state: RootState) => state.getCardFlatObjectData
   );
@@ -96,7 +96,7 @@ const VoyageCard = () => {
   useEffect(() => {
     let newCardFileName: string = '';
     const newCardDataArray: TransatlanticCardProps[] = [];
- 
+
 
     switch (nodeTypeClass) {
       case VOYAGESNODECLASS:
@@ -163,12 +163,15 @@ const VoyageCard = () => {
         default:
           response = null;
       }
-
+  
       if (response) {
         setCardData(response.data);
+      }else {
+        navigate('/404'); 
       }
     } catch (error) {
       console.log('error', error);
+      navigate('/404');
     }
   };
 

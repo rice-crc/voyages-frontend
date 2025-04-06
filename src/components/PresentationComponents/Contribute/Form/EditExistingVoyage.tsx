@@ -27,7 +27,7 @@ const EditExistingVoyage: React.FC<EditExistingVoyageProps> = ({openSideBar}) =>
   };
 
   return (
-    <div className="contribute-conten" style={{width: openSideBar ? '65vw': '90vw'}}>
+    <div className="contribute-conten" style={{width: openSideBar ? '75vw': '90vw'}}>
         <h1 className="page-title-1">Edit an Existing Record of a Voyage</h1>
       <div className="content-inner-wrapper">
         <p className="description-text">Please select the voyage you wish to edit.</p>

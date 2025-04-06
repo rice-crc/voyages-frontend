@@ -39,6 +39,7 @@ function useDataTableProcessingEffect(
       const newColumnDefs = tablesCell.map((value) =>
         generateColumnDef(value, languageValue, visibleColumnCells)
       );
+      // console.log({newColumnDefs})
       dispatch(setColumnDefs(newColumnDefs));
       dispatch(setRowData(finalRowData as Record<string, any>[]));
     } else {

@@ -52,6 +52,7 @@ provideGlobalGridOptions({ theme: "legacy" });
 const Tables: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
+
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { textFilter } = useSelector(
     (state: RootState) => state.getShowFilterObject
@@ -70,6 +71,7 @@ const Tables: React.FC = () => {
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
+
   const { columnDefs, data, rowData, page } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
@@ -124,43 +126,40 @@ const Tables: React.FC = () => {
     if (!isLoading && !isError && tableCellStructure) {
       setTableCell(tableCellStructure as TableCellStructure[]);
     }
-
-    // Get stored visible columns with safe parsing
-    const storedValueVisibleColumns = localStorage.getItem('visibleColumns');
-    let parsedValue = null;
-
-    if (storedValueVisibleColumns) {
+  
+    const stored = localStorage.getItem('visibleColumns');
+  
+    let parsedValue: string[] | null = null;
+  
+    if (stored) {
       try {
-        parsedValue = JSON.parse(storedValueVisibleColumns);
-        // Validate that parsed value is an array
-        if (!Array.isArray(parsedValue)) {
-          parsedValue = null;
-        }
-      } catch (error) {
-        console.error('Invalid JSON in visibleColumns:', error);
-        // Remove invalid data from localStorage
+        parsedValue = JSON.parse(stored);
+        if (!Array.isArray(parsedValue)) parsedValue = null;
+      } catch {
+        console.error('Failed to parse visible columns from localStorage');
         localStorage.removeItem('visibleColumns');
       }
     }
-
-    if (parsedValue) {
-      dispatch(setVisibleColumn(parsedValue));
-    } else if (tablesCell.length > 0) {
-      const visibleColumns = tablesCell
-        .filter((cell: any) => cell.visible)
-        .map((cell: any) => cell.colID);
-      dispatch(setVisibleColumn(visibleColumns));
-      const visibleColumnsString = JSON.stringify(visibleColumns);
-      localStorage.setItem('visibleColumns', visibleColumnsString);
+  
+    const fallbackFromStructure =
+      (tableCellStructure as TableCellStructure[])?.filter((cell) => cell.visible).map((cell) => cell.colID) || [];
+ 
+    const newVisibleColumns = parsedValue || fallbackFromStructure;
+  
+    const currentVisibleString = JSON.stringify(visibleColumnCells || []);
+    const newVisibleString = JSON.stringify(newVisibleColumns);
+    if (currentVisibleString !== newVisibleString) {
+      dispatch(setVisibleColumn(newVisibleColumns));
+      localStorage.setItem('visibleColumns', JSON.stringify(newVisibleColumns));
     }
-
+    // Header style update
     const headerColor = getHeaderColomnColor(styleNameRoute!);
     document.documentElement.style.setProperty('--pagination-table--', headerColor);
-
+  
     const handleResize = () => {
       setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
     };
-
+  
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -169,18 +168,19 @@ const Tables: React.FC = () => {
     dispatch,
     isLoading,
     isError,
-    tablesCell,
     tableCellStructure,
     styleNameRoute,
-    data,
+    visibleColumnCells 
   ]);
 
+  
   const filters = filtersDataSend(
     filtersObj,
     styleNameRoute!,
     clusterNodeKeyVariable,
     clusterNodeValue
   );
+  console.log({filters})
 
   const newFilters =
     filters !== undefined &&
@@ -242,7 +242,7 @@ const Tables: React.FC = () => {
     inputSearchValue,
     currentBlockName,
     textFilterValue,
-    styleNameRoute,
+    styleNameRoute
   ]);
 
   // Call the custom hook to Process Table Data
@@ -336,11 +336,7 @@ const Tables: React.FC = () => {
   const pageCount = Math.ceil(
     totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
   );
-  // sx={{
-  //   width: '100%',
-  //   overflowY: 'auto',
-  //   maxHeight: 'calc(100vh - 220px)',
-  // }}
+
   return (
     <>
       <div

@@ -2,10 +2,7 @@ import {
     Button,
     Typography,
     Row,
-    Card,
-    Timeline,
-    Badge,
-    Table,
+    Timeline
 } from 'antd';
 import {
     ReloadOutlined,
@@ -40,28 +37,8 @@ const ChangesSummary = ({
 }: ChangesSummaryProps) => {
 
     return (
-        <Card
-            style={{
-                position: 'sticky',
-                top: '1rem',
-                maxHeight: '95vh',
-                overflowY: 'auto',
-                padding: '0 16px 16px 16px',
-                border: '1px solid #f0f0f0',
-            }}
-        >
-            <Text
-                strong
-                style={{
-                    color: 'rgb(55, 148, 141)',
-                    fontSize: '1.25rem',
-                    fontWeight: 700,
-                    marginBottom: '16px',
-                }}
-            >
-                Changes Summary
-            </Text>
 
+        <div>
             <Row style={{ margin: '12px 0', gap: 8 }}>
                 <Button
                     className="button-reset-contribute"
@@ -87,38 +64,32 @@ const ChangesSummary = ({
                         No changes have been made yet
                     </Text>
                 ) : (
-                    <>
-                        <Badge
-                            count={changes.length}
-                            style={{ backgroundColor: '#52c41a', marginBottom: 16 }}
-                        />
-                         <Timeline mode="left">
-                                {changes.map((change, index) => {
-                                    return (
-                                        <Timeline.Item
-                                            key={index}
-                                            dot={iconMap[change.type]}
-                                            color="blue"
-                                        >
-                                            <Text strong style={{ color: 'rgb(55, 148, 141)'}}>
-                                                {change.type.toUpperCase()} @{' '}
-                                                <Text type="secondary">
-                                                    {change.entityRef.schema}#{change.entityRef.id}
-                                                </Text>
-                                            </Text>
-                                            <div style={{  marginTop: 10, marginBottom: 10}}>
-                                              {change.type === 'update' ?
-                                                <PropertyChangesList changes={change.changes} />
-                                                :
-                                                change.type === 'delete' ? <div>Delete</div> : <div>Un Delete</div>
-                                            }
-                                            </div>
-                                            
-                                        </Timeline.Item>
-                                    );
-                                })}
-                            </Timeline>
-                    </>
+                    <Timeline mode="left">
+                        {changes.map((change, index) => {
+                            return (
+                                <Timeline.Item
+                                    key={index}
+                                    dot={iconMap[change.type]}
+                                    color="blue"
+                                >
+                                    <Text strong style={{ color: 'rgb(55, 148, 141)' }}>
+                                        {change.type.toUpperCase()} @{' '}
+                                        <Text type="secondary">
+                                            {change.entityRef.schema}#{change.entityRef.id}
+                                        </Text>
+                                    </Text>
+                                    <div style={{ marginTop: 10, marginBottom: 10 }}>
+                                        {change.type === 'update' ?
+                                            <PropertyChangesList changes={change.changes} />
+                                            :
+                                            change.type === 'delete' ? <div>Delete</div> : <div>Un Delete</div>
+                                        }
+                                    </div>
+
+                                </Timeline.Item>
+                            );
+                        })}
+                    </Timeline>
                 )}
             </div>
 
@@ -126,7 +97,7 @@ const ChangesSummary = ({
                 <Row style={{ justifyContent: 'center', paddingTop: 12 }}>
                     <Button
                         icon={<SaveOutlined />}
-                        className="button-save-contribute"
+                        className="button-submit-contribute"
                         onClick={submitChanges}
                         disabled={changes.length === 0}
                     >
@@ -134,8 +105,9 @@ const ChangesSummary = ({
                     </Button>
                 </Row>
             )}
-        </Card>
+        </div>
     );
 };
 
 export default ChangesSummary;
+

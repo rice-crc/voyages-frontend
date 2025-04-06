@@ -59,4 +59,11 @@ export const resetAllStateToInitailState = () => (dispatch: Dispatch) => {
   dispatch(resetEstimateAssesment());
   dispatch(resetSliceSaveSearch());
   dispatch(resetSliceShowHideFilter());
+  dispatch(resetSliceTable());
+
+  // Clear all localStorage
+  const keysToRemove = Object.keys(localStorage);
+  keysToRemove.forEach((key) => {
+    localStorage.removeItem(key);
+  });
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes,useLocation } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import VoyagesPage from '@/pages/VoyagesPage';
 import HomePage from '@/pages/HomePage';
@@ -33,8 +33,8 @@ import {
   TRANSATLANTICPAGE,
   allEnslavers,
 } from '@/share/CONST_DATA';
+import PageNotFound404 from '@/pages/PageNotFound404';
 import BlogPage from '@/pages/BlogPage';
-
 import AuthorPage from '@/pages/AuthorPage';
 import InstitutionAuthorsPage from '@/pages/InstitutionAuthorsPage';
 import BlogDetailsPost from '@/components/BlogPageComponents/Blogcomponents/BlogDetailsPost';
@@ -69,6 +69,7 @@ const queryClient = new QueryClient({
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { cardRowID, nodeTypeClass, variable } = useSelector(
     (state: RootState) => state.getCardFlatObjectData
   );
@@ -79,8 +80,13 @@ const App: React.FC = () => {
   const [nodeClass, setNodeTypeClass] = useState(nodeTypeClass);
 
   useEffect(() => {
-    const url = window.location.pathname;
+    if (location.pathname === '/') {
+      localStorage.clear();
+    }
+  }, [location.pathname]);
 
+  useEffect(() => {
+    const url = window.location.pathname;
     const parts = url.split('/');
     const entityType = parts[1];
     const voyageID = parts[2];
@@ -208,6 +214,8 @@ const App: React.FC = () => {
             />
             <Route path={`${ABOUTPAGE}`} element={<AboutPage />} />
             <Route path={`${DOWNLOADS}`} element={<DownloadPage />} />
+            <Route path="/404" element={<PageNotFound404 />} />
+            <Route path="*" element={<PageNotFound404 />} />
           </Routes>
         </DocumentViewerProvider>
       </QueryClientProvider>

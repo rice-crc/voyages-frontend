@@ -62,7 +62,6 @@ export default function DatabaseDropdown(props: DatabaseDropdownProps) {
           textTransform: 'none',
         }}
         className="button-header"
-        // style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 700 }}
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}

@@ -17,7 +17,6 @@ import { CurrentPageInitialState } from '@/share/InterfaceTypes';
 import {
   setBaseFilterDataSetValue,
   setBlocksMenuList,
-  setCardVoyagesFlatfile,
   setDataSetHeader,
   setStyleName,
   setTableVoyagesFlatfile,
@@ -117,6 +116,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       const filters: Filter[] = [];
 
       // Prepare filters
+   
       for (const base of base_filter) {
         filters.push({
           varName: base.var_name,
@@ -124,7 +124,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           op: 'in',
         });
       }
-
       // Update Redux Store
       dispatch(setBaseFilterDataSetValue(base_filter));
       dispatch(setFilterObject(filters));
@@ -157,7 +156,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       const keysToRemove = Object.keys(localStorage);
       keysToRemove.forEach((key) => {
         if (key !== 'filterObject') {
-          // Prevent removing just-set items
           localStorage.removeItem(key);
         }
       });
