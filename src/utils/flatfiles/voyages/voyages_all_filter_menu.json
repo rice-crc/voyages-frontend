@@ -796,16 +796,16 @@
 			}
 		]
 	},
-	{
-		"label": {
-			"en": "Sources",
-			"es": "Fuentes",
-			"pt": "Fontes"
-		},
-		"var_name": "voyage_source_connections__source__title",
-		"type": "CharField",
-		"ops": [
-			"icontains"
-		]
-	}
+  {
+    "label": {
+      "en": "Sources",
+      "es": "Fuentes",
+      "pt": "Fontes"
+    },
+    "var_name": "voyage_source_connections__source__ALL",
+    "type": "CharField",
+    "ops": [
+      "icontains"
+    ]
+  }
 ]
