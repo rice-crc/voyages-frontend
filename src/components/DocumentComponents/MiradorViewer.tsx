@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-// @ts-ignore
-import mirador from 'mirador';
+import Mirador from 'mirador'; 
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
@@ -68,9 +67,9 @@ const MiradorViewer = ({
   workspaceAction,
   onWorkspaceAction,
   onClose,
-}: MiradorViewerProps) => {
+}: MiradorViewerProps = { manifestUrlBase: '', manifestId: '', domId: '', workspaceAction: 'None', onWorkspaceAction: () => {} }) => {
   const [ready, setReady] = useState(false);
-  const [target, setTarget] = useState(null);
+  const target = useRef(null);
   const { languageValue } = useSelector(
     (state: RootState) => state.getLanguages
   );
@@ -91,34 +90,34 @@ const MiradorViewer = ({
     const userSettings = JSON.parse(
       localStorage.getItem(MiradorUserSettingsKey) ?? '{}'
     );
-    setTarget(
-      mirador.viewer({
-        ...userSettings,
-        id: domId,
-        language: miradorLanguage,
-      })
-    );
+    target.current = Mirador.viewer({
+      ...userSettings,
+      id: domId,
+      language: miradorLanguage,
+    });
+
     return () => {
       div.remove();
     };
   }, [domId]);
+
   useEffect(() => {
-    if (!target) {
+    if (!target.current) {
       return;
     }
-    const store = mirador.selectors.miradorSlice(target).store;
+    const store = Mirador.selectors.miradorSlice(target.current).store;
     const path = `${manifestUrlBase.replace(/\/$/, '')}/${manifestId}`;
     const match = Object.values(store.getState().manifests).find(
       (w: any) => w.id === path
     );
     if (!match) {
       // Add the manifest.
-      const addRes = mirador.actions.addResource(path);
+      const addRes = Mirador.actions.addResource(path);
       store.dispatch(addRes);
     }
     // - Close any other window in the viewer.
     for (const winKey of Object.keys(store.getState().windows)) {
-      const rmw = mirador.actions.removeWindow(winKey);
+      const rmw = Mirador.actions.removeWindow(winKey);
       store.dispatch(rmw);
     }
     // - Create a window with the manifest...
@@ -129,9 +128,9 @@ const MiradorViewer = ({
       if (prevTheme.current && prevTheme.current !== selectedTheme) {
         localStorage.setItem(
           MiradorUserSettingsKey,
-          JSON.stringify({
-            selectedTheme: selectedTheme,
-          })
+          JSON.stringify({ 
+            selectedTheme: selectedTheme
+           })
         );
       }
       prevTheme.current = selectedTheme;
@@ -151,7 +150,7 @@ const MiradorViewer = ({
       canvasLoaded = true;
       try {
         const win = findWin(store, path);
-        const displayAction = mirador.actions.setCanvas(
+        const displayAction = Mirador.actions.setCanvas(
           win.id,
           `${path}/canvas1`
         );
@@ -162,11 +161,11 @@ const MiradorViewer = ({
       setReady(true);
       activeDoc.current = manifestId;
     });
-    store.dispatch(mirador.actions.fetchManifest(path));
-    store.dispatch(mirador.actions.addWindow({ manifestId: path }));
-    // - Maximize the window.
+    store.dispatch(Mirador.actions.fetchManifest(path));
+    store.dispatch(Mirador.actions.addWindow({ manifestId: path }));
+
     for (const winKey of Object.keys(store.getState().windows)) {
-      const maxw = mirador.actions.maximizeWindow(winKey);
+      const maxw = Mirador.actions.maximizeWindow(winKey);
       store.dispatch(maxw);
     }
     const uiUpdater = setInterval(() => {
@@ -180,7 +179,7 @@ const MiradorViewer = ({
       unsubscribe();
       clearInterval(uiUpdater);
     };
-  }, [target, manifestUrlBase, manifestId, ready]);
+  }, [target.current, manifestUrlBase, manifestId, ready]);
   // We use the ready flag to hide the Mirador UI while the manifest window is
   // loaded. This prevents the user from seeing the Mirador app without any
   // windows for a brief moment.
