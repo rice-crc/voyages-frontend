@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState,
+  useState
 } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -79,20 +79,17 @@ const Tables: React.FC = () => {
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
   const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
-
+  const [currentColumnState, setCurrentColumnState] = useState<any[]>([]);
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
+
   // Voyages States
   const { tableFlatfileVoyages } = useSelector(
     (state: RootState) => state.getDataSetCollection
-  );
-
-  const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
   // Enslaved States
   const { tableFlatfileEnslaved } = useSelector(
@@ -108,6 +105,10 @@ const Tables: React.FC = () => {
 
   const [rowsPerPage, setRowsPerPage] = useState(
     getRowsPerPage(window.innerWidth, window.innerHeight)
+  );
+  
+  const { currentPage } = useSelector(
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState
   );
 
   const otherTableCellStrructure = useOtherTableCellStructure(styleNameRoute!);
@@ -126,40 +127,22 @@ const Tables: React.FC = () => {
     if (!isLoading && !isError && tableCellStructure) {
       setTableCell(tableCellStructure as TableCellStructure[]);
     }
-  
-    const stored = localStorage.getItem('visibleColumns');
-  
-    let parsedValue: string[] | null = null;
-  
-    if (stored) {
-      try {
-        parsedValue = JSON.parse(stored);
-        if (!Array.isArray(parsedValue)) parsedValue = null;
-      } catch {
-        console.error('Failed to parse visible columns from localStorage');
-        localStorage.removeItem('visibleColumns');
-      }
+
+    if (tablesCell.length > 0) {
+      const visibleColumns = tablesCell
+        .filter((cell) => cell.visible)
+        .map((cell) => cell.colID);
+      dispatch(setVisibleColumn(visibleColumns));
+      localStorage.setItem('visibleColumns', JSON.stringify(visibleColumns));
     }
-  
-    const fallbackFromStructure =
-      (tableCellStructure as TableCellStructure[])?.filter((cell) => cell.visible).map((cell) => cell.colID) || [];
- 
-    const newVisibleColumns = parsedValue || fallbackFromStructure;
-  
-    const currentVisibleString = JSON.stringify(visibleColumnCells || []);
-    const newVisibleString = JSON.stringify(newVisibleColumns);
-    if (currentVisibleString !== newVisibleString) {
-      dispatch(setVisibleColumn(newVisibleColumns));
-      localStorage.setItem('visibleColumns', JSON.stringify(newVisibleColumns));
-    }
-    // Header style update
+
     const headerColor = getHeaderColomnColor(styleNameRoute!);
     document.documentElement.style.setProperty('--pagination-table--', headerColor);
-  
+
     const handleResize = () => {
       setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
     };
-  
+
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -169,11 +152,11 @@ const Tables: React.FC = () => {
     isLoading,
     isError,
     tableCellStructure,
+    tablesCell,
     styleNameRoute,
-    visibleColumnCells 
   ]);
 
-  
+
   const filters = filtersDataSend(
     filtersObj,
     styleNameRoute!,
@@ -254,7 +237,6 @@ const Tables: React.FC = () => {
     tablesCell
   );
 
-
   const defaultColDef = useMemo(
     () => ({
       sortable: true,
@@ -278,7 +260,7 @@ const Tables: React.FC = () => {
         );
       },
     }),
-    [rowsPerPage, setSortColumn] // Add dependencies here
+    [rowsPerPage, setSortColumn]
   );
 
   const getRowRowStyle = useCallback(
@@ -291,17 +273,186 @@ const Tables: React.FC = () => {
     []
   );
 
+  const handleChangeRowsPerPage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      // Save column state before changing rows per page
+      if (gridRef.current?.api) {
+        setCurrentColumnState(gridRef.current.api.getColumnState());
+      }
+
+      const newPageSize = parseInt(event.target.value);
+      setRowsPerPage(newPageSize);
+      dispatch(setPage(0));
+    },
+    [dispatch]
+  );
+
+  const handleChangePagePagination = (event: any, newPage: number) => {
+    // Save column state before pagination
+    if (gridRef.current?.api) {
+      setCurrentColumnState(gridRef.current.api.getColumnState());
+    }
+    dispatch(setPage(newPage - 1));
+  };
+
+  // Create a function to specifically save column order after dragging
+  const handleColumnDragStop = useCallback(() => {
+    if (gridRef.current?.api) {
+      const columnState = gridRef.current.api.getColumnState();
+      setCurrentColumnState(columnState);
+      localStorage.setItem('columnState', JSON.stringify(columnState));
+
+      // Extract visible columns for other parts of your app that need it
+      const visibleColumns = columnState
+        .filter((col: any) => !col.hide)
+        .map((col: any) => col.colId);
+
+      dispatch(setVisibleColumn(visibleColumns));
+      localStorage.setItem('visibleColumns', JSON.stringify(visibleColumns));
+    }
+  }, [dispatch]);
+
+  // This function applies the column state whenever needed
+  const applyColumnState = useCallback(() => {
+    if (!gridRef.current?.api) return;
+
+    // First try to use current state from component memory
+    if (currentColumnState.length > 0) {
+      gridRef.current.api.applyColumnState({
+        state: currentColumnState,
+        applyOrder: true
+      });
+      return;
+    }
+
+    // Fallback to localStorage if needed
+    const savedState = localStorage.getItem('columnState');
+    if (savedState) {
+      try {
+        const parsedState = JSON.parse(savedState);
+        gridRef.current.api.applyColumnState({
+          state: parsedState,
+          applyOrder: true
+        });
+        setCurrentColumnState(parsedState);
+      } catch (error) {
+        console.error('Error applying column state:', error);
+      }
+    }
+  }, [currentColumnState]);
+
+  // Use useEffect to reapply column state after the grid data updates or pagination
+  useEffect(() => {
+    // Short timeout to ensure grid is ready
+    const timeoutId = setTimeout(() => {
+      if (gridRef.current?.api && rowData.length > 0) {
+        applyColumnState();
+      }
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [rowData, applyColumnState, page]);
+
+  // Add this useEffect to handle column visibility changes
+  useEffect(() => {
+    if (!gridRef.current?.api || !visibleColumnCells.length) return;
+
+    // Get the current column state to preserve ordering
+    const currentState = gridRef.current.api.getColumnState();
+
+    // Create a map of visible/hidden status
+    const visibilityMap = visibleColumnCells.reduce((acc: Record<string, boolean>, colId: string) => {
+      acc[colId] = true;
+      return acc;
+    }, {});
+
+    // Apply new visibility while preserving order
+    const newState = currentState.map((col: any) => ({
+      ...col,
+      hide: !visibilityMap[col.colId]
+    }));
+
+    // Apply the updated state
+    gridRef.current.api.applyColumnState({
+      state: newState,
+      applyOrder: true
+    });
+
+    // Save the updated state
+    localStorage.setItem('columnState', JSON.stringify(newState));
+    setCurrentColumnState(newState);
+
+  }, [visibleColumnCells]);
+
+  // Modify your pagination handlers to ensure column state is preserved
+  const handleChangePage = (event: any, newPage: number) => {
+    // Save column state before changing page
+    if (gridRef.current?.api) {
+      setCurrentColumnState(gridRef.current.api.getColumnState());
+    }
+    dispatch(setPage(newPage));
+  };
+
   const handleColumnVisibleChange = useCallback(
     (params: any) => {
       const allColumns = params.api.getColumns(); //* getAllColumns - removed, use api.getColumns instead. https://www.ag-grid.com/react-data-grid/upgrading-to-ag-grid-31/
-      const visibleColumns = allColumns && allColumns.filter((column: any) => column.isVisible())
-        .map((column: any) => column.getColId());
+      const visibleColumns = allColumns && allColumns.filter((column: any) => column.isVisible()).map((column: any) => column.getColId());
       dispatch(setVisibleColumn(visibleColumns));
       const visibleColumnsString = JSON.stringify(visibleColumns);
       localStorage.setItem('visibleColumns', visibleColumnsString);
     },
     [dispatch]
   );
+  
+  const hanldeGridReady = (params:any) => {
+    const { api, columnApi } = params;
+    columnApi?.autoSizeColumns();
+
+    // First apply column visibility from visibleColumnCells
+    const columnState = columnDefs.map(col => ({
+      colId: col.field,
+      hide: !visibleColumnCells.includes(col.field)
+    }));
+
+    // Then try to apply saved column order
+    const savedState = localStorage.getItem('columnState');
+    if (savedState) {
+      try {
+        const parsedState = JSON.parse(savedState);
+        // Merge visibility with saved order
+        const mergedState = parsedState.map((saved: any) => {
+          const visibilityState = columnState.find(col => col.colId === saved.colId);
+          return {
+            ...saved,
+            hide: visibilityState ? visibilityState.hide : saved.hide
+          };
+        });
+
+        api.applyColumnState({
+          state: mergedState,
+          applyOrder: true
+        });
+        setCurrentColumnState(mergedState);
+      } catch (error) {
+        console.error('Failed to apply saved column state:', error);
+        api.applyColumnState({
+          state: columnState,
+          applyOrder: false
+        });
+      }
+    } else {
+      // Just apply visibility if no order is saved
+      api.applyColumnState({
+        state: columnState,
+        applyOrder: false
+      });
+    }
+  }
+
+  const pageCount = Math.ceil(
+    totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
+  );
+
 
   const gridOptions = useMemo(
     () => ({
@@ -315,26 +466,7 @@ const Tables: React.FC = () => {
     []
   );
 
-  const handleChangePage = (event: any, newPage: number) => {
-    dispatch(setPage(newPage));
-  };
 
-  const handleChangeRowsPerPage = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const newPageSize = parseInt(event.target.value);
-      setRowsPerPage(newPageSize);
-      dispatch(setPage(0));
-    },
-    [dispatch]
-  );
-
-  const handleChangePagePagination = (event: any, newPage: number) => {
-    dispatch(setPage(newPage - 1));
-  };
-
-  const pageCount = Math.ceil(
-    totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
-  );
 
   return (
     <>
@@ -364,13 +496,17 @@ const Tables: React.FC = () => {
             </div>
           </span>
           <AgGridReact
-            key={`grid-${rowsPerPage}`}
+            key={`grid-${styleNameRoute}`}
             ref={gridRef}
             rowData={rowData}
             columnDefs={columnDefs}
             suppressMenuHide={true}
+            onGridReady={hanldeGridReady}
             animateRows={true}
+            onDragStopped={handleColumnDragStop}
+            onColumnMoved={handleColumnDragStop}
             onColumnVisible={handleColumnVisibleChange}
+            onColumnPinned={handleColumnDragStop}
             gridOptions={gridOptions}
             getRowHeight={getRowHeightTable}
             paginationPageSize={rowsPerPage}

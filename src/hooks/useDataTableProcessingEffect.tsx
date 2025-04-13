@@ -37,7 +37,7 @@ function useDataTableProcessingEffect(
     if (data.length > 0) {
       const finalRowData = generateRowsData(data, tableFileName!);
       // Generate column definitions
-      let newColumnDefs = tablesCell.map((value) =>
+      const newColumnDefs = tablesCell.map((value) =>
         generateColumnDef(value, languageValue, visibleColumnCells)
       );
       
