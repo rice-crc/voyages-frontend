@@ -5,7 +5,6 @@ import React, {
   useRef,
   useState
 } from 'react';
-import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import CustomHeaderTable from '../../NavigationComponents/Header/CustomHeaderTable';
@@ -22,8 +21,6 @@ import {
   CurrentPageInitialState,
   TableListPropsRequest,
 } from '@/share/InterfaceTypes';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/style/table.scss';
 import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
 import CardModal from '@/components/PresentationComponents/Cards/CardModal';
@@ -45,9 +42,18 @@ import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastE
 import useDataTableProcessingEffect from '@/hooks/useDataTableProcessingEffect';
 import { useOtherTableCellStructure } from '@/hooks/useOtherTableCellStructure';
 import TableDownloadButtons from '@/components/SelectorComponents/ButtonComponents/TableDownloadButtons';
-import { AllCommunityModule, ModuleRegistry, provideGlobalGridOptions } from 'ag-grid-community';
-ModuleRegistry.registerModules([AllCommunityModule]);
-provideGlobalGridOptions({ theme: "legacy" });
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import {
+  ModuleRegistry,
+  AllCommunityModule, // or AllEnterpriseModule
+} from 'ag-grid-community';
+
+// Register the module
+ModuleRegistry.registerModules([
+  AllCommunityModule, // or AllEnterpriseModule
+]);
 
 const Tables: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -403,7 +409,7 @@ const Tables: React.FC = () => {
     },
     [dispatch]
   );
-  
+
   const hanldeGridReady = (params:any) => {
     const { api, columnApi } = params;
     columnApi?.autoSizeColumns();
@@ -496,6 +502,7 @@ const Tables: React.FC = () => {
             </div>
           </span>
           <AgGridReact
+            theme='legacy'
             key={`grid-${styleNameRoute}`}
             ref={gridRef}
             rowData={rowData}
