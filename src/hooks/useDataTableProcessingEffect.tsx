@@ -36,10 +36,38 @@ function useDataTableProcessingEffect(
 
     if (data.length > 0) {
       const finalRowData = generateRowsData(data, tableFileName!);
-      const newColumnDefs = tablesCell.map((value) =>
+      // Generate column definitions
+      let newColumnDefs = tablesCell.map((value) =>
         generateColumnDef(value, languageValue, visibleColumnCells)
       );
-      // console.log({newColumnDefs})
+      
+      // Try to preserve column order from localStorage if this is initial load
+      const savedColumnState = localStorage.getItem('columnState');
+      if (savedColumnState) {
+        try {
+          const parsedState = JSON.parse(savedColumnState);
+          
+          // Sort column definitions based on saved state if column IDs match
+          const colIds = parsedState.map((col: any) => col.colId);
+          if (colIds.length > 0) {
+            // Create a map of column positions
+            const colPositions = colIds.reduce((acc: any, id: string, index: number) => {
+              acc[id] = index;
+              return acc;
+            }, {});
+            
+            // Sort the column definitions based on the saved positions
+            newColumnDefs.sort((a, b) => {
+              const posA = colPositions[a.field] ?? Number.MAX_SAFE_INTEGER;
+              const posB = colPositions[b.field] ?? Number.MAX_SAFE_INTEGER;
+              return posA - posB;
+            });
+          }
+        } catch (error) {
+          console.error('Error parsing saved column state:', error);
+        }
+      }
+      
       dispatch(setColumnDefs(newColumnDefs));
       dispatch(setRowData(finalRowData as Record<string, any>[]));
     } else {
