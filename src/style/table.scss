@@ -714,6 +714,35 @@ div .customHeaderLabelSummaryTable {
   }
 }
 
+
+.mobile-responsive-voyages {
+  padding: 110px 0px 0px 10px !important;
+
+  @include breakpoint-standard(5) {
+    padding: 155px 50px 0px 20px !important;
+  }
+
+  @include breakpoint-standard(4) {
+    padding: 135px 0px 0px 20px !important;
+  }
+
+  @include breakpoint-standard(3) {
+    padding: 150px 2px !important;
+  }
+
+  @include breakpoint-standard(2) {
+    padding: 130px 2px !important;
+  }
+
+  @include breakpoint-standard(1) {
+    padding: 130px 2px !important;
+  }
+
+  @include breakpoint-standard(0) {
+    padding: 130px 2px !important;
+  }
+}
+
 .summary-box {
   margin-top: 8.5rem;
 
