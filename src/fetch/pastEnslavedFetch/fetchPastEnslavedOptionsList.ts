@@ -20,13 +20,3 @@ export const fetchEnslavedOptionsList = createAsyncThunk(
   }
 );
 
-// export const fetchEnslavedOptionsList = async (dataSend?: TableListPropsRequest) => {
-//     const response = await axios.post(`${BASEURL}/past/enslaved/`, dataSend, {
-//         headers: {
-//             'Authorization': AUTHTOKEN,
-//             "Content-Type": "application/json",
-
-//         }
-//     });
-//     return response.data;
-// };

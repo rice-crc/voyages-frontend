@@ -28,7 +28,7 @@ export const generateColumnDef = (
     sortingOrder: ['asc', 'desc', null],
     headerTooltip: columnHeader,
     tooltipField: value.colID,
-    hide: !visibleColumnCells?.includes(value.colID),
+    hide: visibleColumnCells ? !visibleColumnCells.includes(value.colID) : false,
     filter: true,
     cellRenderer: (params: ICellRendererParams) =>
       GenerateCellTableRenderer(params, CELLFN, colID, numberFormat, nodeClass),

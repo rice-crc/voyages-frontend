@@ -69,6 +69,11 @@ const HeaderEnslaversNavBar: React.FC = () => {
   const { currentBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
+
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
+  
   const { styleName: styleNameRoute } = usePageRouter();
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
@@ -119,35 +124,21 @@ const HeaderEnslaversNavBar: React.FC = () => {
     cardFlatfile?: string
   ) => {
     dispatch(resetAll());
-    const filters: Filter[] = [];
-
     setIsClick(!isClick);
-    dispatch(setBaseFilterEnslaversDataSetValue(baseFilter));
-
+    const filters: Filter[] = [];
     for (const base of baseFilter) {
       filters.push({
         varName: base.var_name,
         searchTerm: base.value,
-        op: 'exact',
+        op: 'in',
       });
+    }
+    const filteredFilters = filters.filter(
+      (filter) => !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
+    );
 
-      dispatch(setFilterObject(filters));
-    }
-    if (filters) {
-      localStorage.setItem(
-        'filterObject',
-        JSON.stringify({
-          filter: filters,
-        })
-      );
-    } else {
-      localStorage.setItem(
-        'filterObject',
-        JSON.stringify({
-          filter: filters,
-        })
-      );
-    }
+    dispatch(setBaseFilterEnslaversDataSetValue(baseFilter));
+    dispatch(setFilterObject(filteredFilters));
     dispatch(setDataSetEnslaversHeader(textHeder));
     dispatch(setEnslaversStyleName(styleName));
     dispatch(setEnslaversBlocksMenuList(blocks));
@@ -155,14 +146,16 @@ const HeaderEnslaversNavBar: React.FC = () => {
     dispatch(setPeopleTableEnslavedFlatfile(tableFlatfile || ''));
     dispatch(setCardFileName(cardFlatfile || ''));
 
+    localStorage.setItem('filterObject', JSON.stringify({ filter: filteredFilters }));
+
     if (styleNameToPathMap[styleName]) {
       navigate(styleNameToPathMap[styleName]);
     }
-
-    const keysToRemove = Object.keys(localStorage);
-
+ const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
+      if (key !== 'filterObject') {
+        localStorage.removeItem(key);
+      }
     });
   };
 
@@ -174,9 +167,6 @@ const HeaderEnslaversNavBar: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
-  );
 
   let EnslaversTitle = '';
   for (const header of enslaversHeader.header) {

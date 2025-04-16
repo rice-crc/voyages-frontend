@@ -18,7 +18,6 @@ export const filtersDataSend = (
   clusterNodeValue?: string
 ) => {
   let filters: Filter[] = [];
-
   if(styleNameRoute === ALLVOYAGES || styleNameRoute === ALLENSLAVED || styleNameRoute ===  ENSALVERSTYLE){
     filters = filtersObj;
    } else if (
@@ -91,15 +90,8 @@ export const filtersDataSend = (
   };
 
   // Update localStorages
-  if (filters.length === 0) {
-    const storedValue = localStorage.getItem('filterObject');
-    if (!storedValue) return;
-    const parsedValue = JSON.parse(storedValue);
-    uniqueFilters = parsedValue.filter;
-  } else {
-    const filterObjectString = JSON.stringify(filterObjectUpdate);
-    localStorage.setItem('filterObject', filterObjectString);
-  }
+  const filterObjectString = JSON.stringify(filterObjectUpdate);
+  localStorage.setItem('filterObject', filterObjectString);
 
-  return filtersObj.length === 0 ?  filters : uniqueFilters;
+  return filtersObj.length === 0 ? filters : uniqueFilters;
 };

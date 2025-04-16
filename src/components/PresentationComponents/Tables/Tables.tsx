@@ -60,9 +60,6 @@ const Tables: React.FC = () => {
   const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
 
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { textFilter } = useSelector(
-    (state: RootState) => state.getShowFilterObject
-  );
 
   const { textFilterValue } = useSelector(
     (state: RootState) => state.autoCompleteList
@@ -71,16 +68,18 @@ const Tables: React.FC = () => {
     (state: RootState) => state.getSaveSearch
   );
 
-  const { viewAll } = useSelector(
+  const { viewAll ,textFilter} = useSelector(
     (state: RootState) => state.getShowFilterObject
   );
   const { visibleColumnCells } = useSelector(
     (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
   );
+  const [dataTable, setDataTable] = useState<Record<string, any>[]>([])
 
-  const { columnDefs, data, rowData, page } = useSelector(
+  const { columnDefs, rowData, page } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
+
 
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
@@ -162,13 +161,15 @@ const Tables: React.FC = () => {
     styleNameRoute,
   ]);
 
+  const filters = useMemo(() => {
+    return filtersDataSend(
+      filtersObj,
+      styleNameRoute!,
+      clusterNodeKeyVariable,
+      clusterNodeValue
+    );
+  }, [filtersObj, styleNameRoute, clusterNodeKeyVariable, clusterNodeValue]);
 
-  const filters = filtersDataSend(
-    filtersObj,
-    styleNameRoute!,
-    clusterNodeKeyVariable,
-    clusterNodeValue
-  );
 
   const newFilters =
     filters !== undefined &&
@@ -177,43 +178,43 @@ const Tables: React.FC = () => {
       return filteredFilter;
     });
 
-  const dataSend: TableListPropsRequest = {
-    filter: newFilters || [],
-    page: Number(page + 1),
-    page_size: Number(rowsPerPage),
-  };
+  const dataSend = useMemo(() => {
+    const base: TableListPropsRequest = {
+      filter: newFilters || [],
+      page: Number(page + 1),
+      page_size: Number(rowsPerPage),
+    };
+    if (inputSearchValue) base.global_search = inputSearchValue;
+    if (sortColumn?.length) base.order_by = sortColumn;
+    return base;
+  }, [newFilters, page, rowsPerPage, inputSearchValue, sortColumn]);
+
+
 
   useEffect(() => {
     const fetchDataTable = async () => {
-      let response;
-      if (inputSearchValue) {
-        dataSend['global_search'] = inputSearchValue;
-      }
-      if (sortColumn) {
-        dataSend['order_by'] = sortColumn;
-      }
       try {
+        let response;
         if (checkPagesRouteForVoyages(styleNameRoute!)) {
           response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
         } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-          response = await dispatch(
-            fetchEnslavedOptionsList(dataSend)
-          ).unwrap();
+          response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
         } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-          response = await dispatch(
-            fetchEnslaversOptionsList(dataSend)
-          ).unwrap();
+          response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
         }
+  
         if (response) {
           const { count, results } = response.data;
-          setTotalResultsCount(() => Number(count));
-          dispatch(setData(results));
+          setTotalResultsCount(Number(count));
+          setDataTable(results)
         }
       } catch (error) {
         console.log('error', error);
       }
     };
+  
     fetchDataTable();
+  
     return () => {
       if (!textFilter) {
         dispatch(setData([]));
@@ -221,7 +222,6 @@ const Tables: React.FC = () => {
     };
   }, [
     dispatch,
-    filtersObj,
     reloadTable,
     rowsPerPage,
     page,
@@ -232,16 +232,17 @@ const Tables: React.FC = () => {
     textFilterValue,
     styleNameRoute
   ]);
-
-  // Call the custom hook to Process Table Data
+  
+  
   useDataTableProcessingEffect(
-    data,
+    dataTable,
     visibleColumnCells,
     tableFlatfileVoyages,
     tableFlatfileEnslaved,
     tableFlatfileEnslavers,
     tablesCell
   );
+
 
   const defaultColDef = useMemo(
     () => ({

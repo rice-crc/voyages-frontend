@@ -111,12 +111,9 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       tableFlatfile?: string,
       card_flatfile?: string
     ) => {
-      // Clear Redux and LocalStorage first
       dispatch(resetAll());
       const filters: Filter[] = [];
 
-      // Prepare filters
-   
       for (const base of base_filter) {
         filters.push({
           varName: base.var_name,
@@ -124,9 +121,11 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
           op: 'in',
         });
       }
-      // Update Redux Store
+      const filteredFilters = filters.filter(
+        (filter) => !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
+      );
       dispatch(setBaseFilterDataSetValue(base_filter));
-      dispatch(setFilterObject(filters));
+      dispatch(setFilterObject(filteredFilters));
       dispatch(setDataSetHeader(textHeder));
       dispatch(setTextIntro(textIntro));
       dispatch(setStyleName(styleName));
