@@ -47,11 +47,6 @@ import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { getMapBackgroundColor } from '@/utils/functions/getMapBackgroundColor';
 import TimelapseHelpDialog from './TimelapseHelpDialog';
 import { translationLanguagesTimelapse } from '@/utils/functions/translationLanguages';
-import {
-  KeyTranslations,
-  LabelTranslations,
-  TranslateType,
-} from '@/share/InterfaceTypes';
 
 // TODO
 // - move out the basic geometry/calculation stuff to a separate file.
@@ -1394,14 +1389,13 @@ const TimelapseAggregateChart = ({
             ?.style.setProperty('opacity', '0');
         }}
         style={{
-          opacity: 0.3,
-          paddingBottom: 0,
           position: 'absolute',
-          marginLeft: 160,
-          marginRight: 160,
-          bottom: 0,
-          left: 0,
+          bottom: 10,
+          left: '50%',
+          transform: 'translateX(-50%)',
           zIndex: 610,
+          opacity: 0.4,
+          paddingBottom: 0,
         }}
       >
         <div

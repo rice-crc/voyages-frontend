@@ -41,10 +41,25 @@
 .legendtable {
   padding: 4px;
 }
-
 .leaflet-container {
+  position: relative;
   font-family: sans-serif;
+
+  .leaflet-bottom-voyages,
+  .leaflet-bottom {
+    position: absolute; 
+    left: 0;
+  }
+
+  .leaflet-bottom-voyages {
+    bottom: 45px !important;
+  }
+
+  .leaflet-bottom {
+    bottom: -10px !important;
+  }
 }
+
 
 .map-url-container {
   width: 100%;

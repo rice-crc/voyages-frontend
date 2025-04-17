@@ -1,12 +1,22 @@
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { ESTIMATES } from '@/share/CONST_DATA';
+import { ESTIMATES, TRANSATLANTIC, INTRAAMERICAN, ALLVOYAGES } from '@/share/CONST_DATA';
 import '@/style/map.scss';
 
 const ShowsColoredNodeOnMap = () => {
   const { styleName } = usePageRouter();
 
+  let classNameMap = 'leaflet-bottom';
+  if (styleName === ESTIMATES) {
+    classNameMap = 'leaflet-bottom-voyages'
+  } else if (styleName === TRANSATLANTIC || styleName === INTRAAMERICAN || styleName === ALLVOYAGES) {
+    classNameMap = 'leaflet-bottom-voyages'
+  }else{
+    classNameMap = 'leaflet-bottom'
+  }
+  console.log({classNameMap})
+
   return (
-    <div className="leaflet-bottom leaflet-left __web-inspector-hide-shortcut__">
+    <div className={`${classNameMap} leaflet-left __web-inspector-hide-shortcut__`}>
       <div className="legend leaflet-control">
         <table className="legendtable">
           <tbody>

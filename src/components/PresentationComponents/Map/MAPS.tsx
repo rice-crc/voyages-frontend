@@ -10,7 +10,8 @@ import {
   ENSLAVERSNODE,
   ESTIMATES,
   VOYAGESNODECLASS,
-  VOYAGESTYPE,ENSALVERSTYLE
+  VOYAGESTYPE, ENSALVERSTYLE,
+  TRANSATLANTIC, INTRAAMERICAN, ALLVOYAGES
 } from '@/share/CONST_DATA';
 import { LeafletMapURL } from './LeafletMapURL';
 
@@ -52,19 +53,21 @@ function MAPComponents() {
     }
   }, [nameIdURL, ID, nodeTypeURL, dispatch]);
 
+  let classNameMap = 'mobile-responsive-map';
+  if (styleNameRoute === ESTIMATES) {
+    classNameMap = 'mobile-responsive-map-url'
+  } else if (styleNameRoute === TRANSATLANTIC || styleNameRoute === INTRAAMERICAN || styleNameRoute === ALLVOYAGES) {
+    classNameMap = 'mobile-responsive-voyages'
+  }
 
-  const calassNameMap =
-    nameIdURL || styleNameRoute === ESTIMATES
-      ? 'mobile-responsive-map-url'
-      : 'mobile-responsive-map';
   return (
-    <div className={calassNameMap}>
+    <div className={classNameMap}>
       <MapContainer
         style={{
           width:
             styleNameRoute === 'map' || styleNameRoute === ESTIMATES
               ? '100%'
-              : '94%',
+              : '94%'
         }}
         className="map-container"
         ref={mapRef}

@@ -17,15 +17,9 @@ import {
   Snackbar,
   TextField,
   Tooltip,
-  Typography,
+  Typography,Badge, Pagination,IconButton,ImageListItem,ImageList,ImageListItemBar
 } from '@mui/material';
-import Badge from '@mui/material/Badge';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import IconButton from '@mui/material/IconButton';
-import Pagination from '@mui/material/Pagination';
-// Icons
+
 import { AutoStories, Bookmarks, Search ,GridView, ViewList} from '@mui/icons-material';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { Link } from 'react-router-dom';

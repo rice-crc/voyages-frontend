@@ -6,11 +6,8 @@ import {
   ChangeEvent,
   useRef,
 } from 'react';
-import { AgGridReact } from 'ag-grid-react';
 import { Button, Pagination, SelectChangeEvent } from '@mui/material';
 import VOYAGE_PIVOT_OPTIONS from '@/utils/flatfiles/voyages/voyages_pivot_options.json';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useWindowSize } from '@react-hook/window-size';
 import {
   getMobileMaxHeightPivotTable,
@@ -59,6 +56,19 @@ import { fetchPivotCrosstabsTables } from '@/fetch/voyagesFetch/fetchPivotCrosst
 import { downLoadText } from '@/utils/languages/title_pages';
 import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
 import { customValueFormatter } from '@/utils/functions/customValueFormatter';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+// Import ModuleRegistry and the required module
+import {
+  ModuleRegistry,
+  AllCommunityModule, // or AllEnterpriseModule
+} from 'ag-grid-community';
+
+// Register the module
+ModuleRegistry.registerModules([
+  AllCommunityModule, // or AllEnterpriseModule
+]);
 
 const PivotTables = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -299,7 +309,7 @@ const PivotTables = () => {
       suppressHorizontalScroll: false,
       onGridReady: (params: any) => {
         const { columnApi } = params;
-        columnApi.autoSizeColumns();
+        columnApi?.autoSizeColumns();
       },
     }),
     []
@@ -447,9 +457,6 @@ const PivotTables = () => {
             </Button>
           </div>
         </span>
-        <div className="ag-theme-alpine grid-container ag-theme-balham" style={{
-          height: 'calc(70vh - 220px)', width: '100%', display: 'flex', flexDirection: 'column', overflowY: 'auto',
-        }}>
           <CustomTablePagination
             disablescrolllock={true.toString()}
             component="span"
@@ -457,11 +464,13 @@ const PivotTables = () => {
             count={totalResultsCount}
             page={page}
             onPageChange={handleChangePage}
-            rowsPerPageOptions={[8, 10, 15, 20, 25, 30, 45, 50, 100]}
+            rowsPerPageOptions={[5,10, 15, 20, 25, 30, 45, 50, 100]}
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
+         <div className="ag-theme-alpine grid-container ag-theme-balham" style={{ display: 'flex', flexDirection: 'column', overflowY: 'auto',}}>
           <AgGridReact
+            theme='legacy'
             domLayout={'autoHeight'}
             ref={gridRef}
             pinnedBottomRowData={totalItemData}

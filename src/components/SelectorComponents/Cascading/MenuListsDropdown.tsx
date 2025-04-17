@@ -432,7 +432,7 @@ export const MenuListsDropdown = () => {
                 title={`Filter by ${itemLabel}`}
                 color="rgba(0, 0, 0, 0.75)"
               >
-                {itemLabel}
+                {itemLabel}{' '}
               </Tooltip>
             </Button>
           ) : (

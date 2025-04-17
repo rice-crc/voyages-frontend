@@ -186,3 +186,66 @@
     text-decoration: underline;
   }
 }
+.property-changes-table .ant-table-thead > tr > th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.property-changes-table .ant-table-tbody > tr:nth-child(odd) {
+  background-color: #fcfcfc;
+}
+
+.property-changes-table .ant-table-tbody > tr > td {
+  padding: 8px 12px;
+}
+.ant-table-title {
+  background: rgb(55, 148, 141);
+  .section-title{
+    color: #fff;
+    font-size: 0.85rem;
+  }
+}
+.property-change{
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: 'rgb(55, 148, 141)'
+}
+
+.timeline-item-card {
+  background: #f6f8fa;
+  border-radius: 6px;
+  padding: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #e8f5ff;
+  }
+}
+
+.changes-summary-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.button-reset-contribute{
+  border-color: rgb(55, 148, 141) !important;
+  color: rgb(55, 148, 141) !important;
+  background-color: #fff !important;
+}
+
+.button-save-contribute{
+  background-color: rgb(55, 148, 141) !important;
+  border-color: rgb(55, 148, 141) !important;
+  color: #fff !important;
+}
+
+.button-submit-contribute{
+  background-color: #0958d9 !important;
+  border-color: #0958d9 !important;
+  color: #fff !important;
+}

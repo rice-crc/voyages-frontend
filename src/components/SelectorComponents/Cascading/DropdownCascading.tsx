@@ -34,22 +34,21 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
     const anchorRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-      const handleClose = (event: any) => {
-        event.stopPropagation();
-
+      const handleGlobalClick = (event: MouseEvent) => {
+        // Only close if clicking outside the dropdown
         if (
           anchorRef.current &&
-          anchorRef.current.contains(event.target as Node)
+          !anchorRef.current.contains(event.target as Node)
         ) {
-          return;
+          handleForceClose();
         }
-        handleForceClose();
       };
 
-      document.addEventListener('click', handleClose);
+      // Use capture phase to ensure this runs before other handlers
+      document.addEventListener('click', handleGlobalClick as any, true);
 
       return () => {
-        document.removeEventListener('click', handleClose);
+        document.removeEventListener('click', handleGlobalClick as any, true);
       };
     }, []);
 
@@ -70,14 +69,34 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
       onControlledOpen ? onControlledOpen(null) : setInternalOpen(null);
     };
 
+    // Function that menu items can call to close the dropdown
+    const closeMenu = () => {
+      setTimeout(() => handleForceClose(), 100); // Small delay to ensure click event completes
+    };
+
     const renderMenu = (menuItem: ReactElement, index: number): ReactNode => {
-      const { parentMenuOpen, ...props } = menuItem.props;
+      const { parentMenuOpen, onClick, ...props } = menuItem.props;
+      
+      // Prepare extra props for the menu item
       let extraProps = {};
       if (props.menu) {
         extraProps = {
           parentMenuOpen: isOpen,
         };
       }
+
+      // Handle click event by combining original handler with close function
+      const handleItemClick = (e: MouseEvent) => {
+        // Call the original onClick if it exists
+        if (onClick) {
+          onClick(e);
+        }
+        
+        // Don't close dropdown if this item has a submenu
+        if (!props.menu) {
+          closeMenu();
+        }
+      };
 
       const allowedComponents = [
         'li',
@@ -87,6 +106,7 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
 
       const filteredProps = {
         ...props,
+        onClick: handleItemClick, // Add our combined click handler
         ...(allowedComponents.includes(String(menuItem.type))
           ? extraProps
           : {}),
@@ -113,6 +133,11 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
           open={isOpen}
           onClose={handleClose}
           disableScrollLock={true}
+          // Adding these props to improve behavior
+          keepMounted
+          MenuListProps={{
+            onClick: (e) => e.stopPropagation() // Prevent clicks inside menu from closing immediately
+          }}
         >
           <List>{menu?.map(renderMenu)}</List>
         </Menu>
