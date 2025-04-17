@@ -1,5 +1,8 @@
 import {
   AFRICANORIGINS,
+  ALLENSLAVED,
+  ALLVOYAGES,
+  ENSALVERSTYLE,
   ENSLAVEDTEXAS,
   INTRAAMERICAN,
   INTRAAMERICANTRADS,
@@ -15,9 +18,10 @@ export const filtersDataSend = (
   clusterNodeValue?: string
 ) => {
   let filters: Filter[] = [];
-  if (
-    Array.isArray(filtersObj[0]?.searchTerm) &&
-    filtersObj[0]?.searchTerm.length > 0
+  if(styleNameRoute === ALLVOYAGES || styleNameRoute === ALLENSLAVED || styleNameRoute ===  ENSALVERSTYLE){
+    filters = filtersObj;
+   } else if (
+    Array.isArray(filtersObj[0]?.searchTerm) &&  filtersObj[0]?.searchTerm.length > 0 
   ) {
     filters = filtersObj;
   } else if (
@@ -71,6 +75,7 @@ export const filtersDataSend = (
     });
   }
 
+
   const uniqueFiltersSet = new Set<string>();
   let uniqueFilters: Filter[] = [];
   for (const filter of filters) {
@@ -85,15 +90,8 @@ export const filtersDataSend = (
   };
 
   // Update localStorages
-  if (filters.length === 0) {
-    const storedValue = localStorage.getItem('filterObject');
-    if (!storedValue) return;
-    const parsedValue = JSON.parse(storedValue);
-    uniqueFilters = parsedValue.filter;
-  } else {
-    const filterObjectString = JSON.stringify(filterObjectUpdate);
-    localStorage.setItem('filterObject', filterObjectString);
-  }
+  const filterObjectString = JSON.stringify(filterObjectUpdate);
+  localStorage.setItem('filterObject', filterObjectString);
 
-  return uniqueFilters;
+  return filtersObj.length === 0 ? filters : uniqueFilters;
 };

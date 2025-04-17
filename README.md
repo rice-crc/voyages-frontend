@@ -4,7 +4,7 @@ This repository contains a React application written principally by Thasanee Put
 
 It uses Vite and React, TypeScript, Redux-toolkit, and Material-UI.
 
-[![](https://img.shields.io/badge/npm-v8.12.2-brightgreen)](https://shields.io) [![](https://img.shields.io/badge/node-v16.15.1-orange)](https://shields.io)
+[![](https://img.shields.io/badge/npm-10.8.2-brightgreen)](https://shields.io) [![](https://img.shields.io/badge/node-v20.18.3-orange)](https://shields.io)
 
 The site is currently hosted in [OCI](https://voyages-staging.crc.rice.edu/).
 

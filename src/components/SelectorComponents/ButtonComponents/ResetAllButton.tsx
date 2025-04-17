@@ -27,8 +27,10 @@ export const ResetAllButton = (props: ResetAllButtonProps) => {
     (state: RootState) => state.getLanguages
   );
   const translatedHomepage = translationHomepage(languageValue);
+  const storedValue = localStorage.getItem('saveSearchID');
 
   useEffect(() => {
+   
     if (
       (styleNameRoute === TYPESOFDATASET.allVoyages ||
         styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved ||
@@ -43,7 +45,7 @@ export const ResetAllButton = (props: ResetAllButtonProps) => {
 
   return (
     <>
-      {isView || (clusterNodeKeyVariable && clusterNodeValue) ? (
+      {isView || (clusterNodeKeyVariable && clusterNodeValue) || storedValue ? (
         <div className="btn-navbar-reset-all" onClick={handleResetAll}>
           <i aria-hidden="true" className="fa fa-times"></i>
           <span>{translatedHomepage.resetAll}</span>

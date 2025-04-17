@@ -1,12 +1,22 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AgGridReact } from 'ag-grid-react';
 import { summaryStatisticsData } from './mockData/summaryStatistics';
 import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
 import { useWindowSize } from '@react-hook/window-size';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 import CustomSummaryHeader from '@/components/NavigationComponents/Header/CustomSummaryHeader';
+import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import {
+  ModuleRegistry,
+  AllCommunityModule, // or AllEnterpriseModule
+} from 'ag-grid-community';
+
+// Register the module
+ModuleRegistry.registerModules([
+  AllCommunityModule, // or AllEnterpriseModule
+]);
+
 const SummaryStatisticsTableEmpty = () => {
   const [rowData, setRowData] = useState<any[]>([]);
   const gridRef = useRef<any>(null);
@@ -48,7 +58,7 @@ const SummaryStatisticsTableEmpty = () => {
       suppressHorizontalScroll: true,
       onGridReady: (params: any) => {
         const { columnApi } = params;
-        columnApi.autoSizeColumns();
+        columnApi?.autoSizeColumns();
       },
     }),
     []
@@ -96,6 +106,7 @@ const SummaryStatisticsTableEmpty = () => {
     <>
       <div style={containerStyle} className="ag-theme-alpine">
         <AgGridReact
+          theme='legacy'
           ref={gridRef}
           rowData={rowData}
           gridOptions={gridOptions}

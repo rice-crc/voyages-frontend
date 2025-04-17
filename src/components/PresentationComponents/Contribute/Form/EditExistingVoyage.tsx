@@ -2,7 +2,7 @@ import '@/style/contributeContent.scss';
 import '@/style/newVoyages.scss';
 import { Form, Input, Button, Divider } from 'antd';
 import { useState } from 'react';
-import { ContributionForm } from '../EntityForm';
+import { ContributionForm } from '../ContributionForm';
 import sampleVoyage from "../sample_11586.json";
 import { MaterializedEntity } from '@/models/materialization';
 interface EditExistingVoyageProps {
@@ -27,7 +27,7 @@ const EditExistingVoyage: React.FC<EditExistingVoyageProps> = ({openSideBar}) =>
   };
 
   return (
-    <div className="contribute-conten" style={{width: openSideBar ? '70vw': '85vw'}}>
+    <div className="contribute-conten" style={{width: openSideBar ? '75vw': '90vw'}}>
         <h1 className="page-title-1">Edit an Existing Record of a Voyage</h1>
       <div className="content-inner-wrapper">
         <p className="description-text">Please select the voyage you wish to edit.</p>

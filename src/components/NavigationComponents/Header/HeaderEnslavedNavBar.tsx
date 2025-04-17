@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { MenuListDropdownStyle } from '@/styleMUI';
@@ -77,7 +77,9 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const { value, textHeader } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection
   );
-
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages
+  );
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
@@ -102,7 +104,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     }
   }, [styleNameRoute]);
 
-  const handleSelectEnslavedDataset = (
+  const handleSelectEnslavedDataset = useCallback((
     baseFilter: BaseFilter[],
     textHeder: string,
     textIntro: string,
@@ -114,53 +116,43 @@ const HeaderEnslavedNavBar: React.FC = () => {
   ) => {
     dispatch(resetAll());
     const filters: Filter[] = [];
+    for (const base of baseFilter) {
+      filters.push({
+        varName: base.var_name,
+        searchTerm: base.value,
+        op: 'in',
+      });
+    }
+    const filteredFilters = filters.filter(
+      (filter) => !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
+    );
+    dispatch(setBaseFilterPeopleEnslavedDataSetValue(baseFilter))
+    dispatch(setFilterObject(filteredFilters));
+    dispatch(setDataSetPeopleEnslavedHeader(textHeder));
+    dispatch(setPeopleEnslavedTextIntro(textIntro));
+    dispatch(setPeopleEnslavedStyleName(styleName));
+    dispatch(setPeopleEnslavedBlocksMenuList(blocks));
+    dispatch(setPeopleEnslavedFilterMenuFlatfile(filterMenuFlatfile || ''));
+    dispatch(setPeopleTableEnslavedFlatfile(tableFlatfile || ''));
+    dispatch(setCardFileName(cardFlatfile || ''));
+    
+    // Always update localStorage with current filters, even if empty
+    localStorage.setItem('filterObject', JSON.stringify({ filter: filteredFilters }));
+
     if (styleName === ALLENSLAVED && currentPageBlockName === 'people') {
       navigate(`/past/enslaved/all-enslaved#people`);
-      dispatch(setFilterObject([]));
-    } else {
-      dispatch(setBaseFilterPeopleEnslavedDataSetValue(baseFilter));
-      for (const base of baseFilter) {
-        filters.push({
-          varName: base.var_name,
-          searchTerm: base.value,
-          op: 'in',
-        });
-        dispatch(setFilterObject(filters));
-      }
-      if (filters) {
-        localStorage.setItem(
-          'filterObject',
-          JSON.stringify({
-            filter: filters,
-          })
-        );
-      } else {
-        localStorage.setItem(
-          'filterObject',
-          JSON.stringify({
-            filter: filters,
-          })
-        );
-      }
-      dispatch(setDataSetPeopleEnslavedHeader(textHeder));
-      dispatch(setPeopleEnslavedTextIntro(textIntro));
-      dispatch(setPeopleEnslavedStyleName(styleName));
-      dispatch(setPeopleEnslavedBlocksMenuList(blocks));
-      dispatch(setPeopleEnslavedFilterMenuFlatfile(filterMenuFlatfile || ''));
-      dispatch(setPeopleTableEnslavedFlatfile(tableFlatfile || ''));
-      dispatch(setCardFileName(cardFlatfile || ''));
-
-
-      if (styleNameToPathMap[styleName]) {
-        navigate(styleNameToPathMap[styleName]);
-      }
+    } else if (styleNameToPathMap[styleName]) {
+      navigate(styleNameToPathMap[styleName]);
     }
 
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
+      if (key !== 'filterObject') {
+        localStorage.removeItem(key);
+      }
     });
-  };
+  }, [value, currentPageBlockName, navigate, dispatch]);
+
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -182,9 +174,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
       localStorage.removeItem(key);
     });
   };
-  const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
-  );
+
 
   let EnslavedTitle = '';
   for (const header of enslavedHeader.header) {

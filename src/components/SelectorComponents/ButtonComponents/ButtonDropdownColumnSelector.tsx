@@ -58,11 +58,55 @@ const ButtonDropdownColumnSelector = () => {
   ) => {
     const target = event.currentTarget as HTMLLIElement | HTMLDivElement;
     const colID = target.dataset.colid;
+    
     if (colID) {
-      const updatedVisibleColumns = visibleColumnCells.includes(colID)
-        ? visibleColumnCells.filter((column: string) => column !== colID)
-        : [...visibleColumnCells, colID];
+      // Get current column state from localStorage if it exists
+      let currentOrder: string[] = [];
+      try {
+        const savedState = localStorage.getItem('columnState');
+        if (savedState) {
+          const parsedState = JSON.parse(savedState);
+          currentOrder = parsedState.map((col: any) => col.colId);
+        }
+      } catch (error) {
+        console.error('Error parsing column state:', error);
+      }
+      
+      // Update visible columns
+      let updatedVisibleColumns: string[];
+      
+      if (visibleColumnCells.includes(colID)) {
+        // Remove column
+        updatedVisibleColumns = visibleColumnCells.filter((column: string) => column !== colID);
+      } else {
+        // Add column - maintain the relative position if it was in the saved order
+        updatedVisibleColumns = [...visibleColumnCells, colID];
+        
+        // If we have a saved order and the column was previously in it,
+        // sort the visible columns according to that order
+        if (currentOrder.length > 0) {
+          updatedVisibleColumns.sort((a, b) => {
+            const indexA = currentOrder.indexOf(a);
+            const indexB = currentOrder.indexOf(b);
+            
+            // If neither is in the saved order, maintain current order
+            if (indexA === -1 && indexB === -1) return 0;
+            
+            // If only one is in the saved order, put it first
+            if (indexA === -1) return 1;
+            if (indexB === -1) return -1;
+            
+            // Otherwise, use the saved ordering
+            return indexA - indexB;
+          });
+        }
+      }
+      
+      // Dispatch the updated visible columns
       dispatch(setVisibleColumn(updatedVisibleColumns));
+      
+      // Save to localStorage
+      localStorage.setItem('visibleColumns', JSON.stringify(updatedVisibleColumns));
     }
   };
 
@@ -94,7 +138,6 @@ const ButtonDropdownColumnSelector = () => {
         if (styleNameRoute === TYPESOFDATASET.transatlantic) {
           setMenuValueCells(transatlanticColumnSelector);
         } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {
-          console.log({ intraamericanColumnSelector , styleNameRoute })
           setMenuValueCells(intraamericanColumnSelector);
         } else if (checkRouteForVoyages(styleNameRoute!)) {
           setMenuValueCells(allVoyageColumnSelector);
