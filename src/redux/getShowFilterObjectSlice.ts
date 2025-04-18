@@ -1,8 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const setSelectedLanguageToLocalStorage = (language: string) => {
-  localStorage.setItem('languages', language);
-};
 interface StateViewHideProps {
   viewAll: boolean;
   labelVarName: string;

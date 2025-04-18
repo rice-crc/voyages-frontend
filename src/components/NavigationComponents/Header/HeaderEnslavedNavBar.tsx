@@ -59,10 +59,9 @@ import HeaderLogo from './HeaderLogo';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import { Filter, LabelFilterMeneList } from '@/share/InterfaceTypes';
+import { Filter } from '@/share/InterfaceTypes';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import { enslavedHeader } from '@/utils/languages/title_pages';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
 import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 
@@ -175,11 +174,6 @@ const HeaderEnslavedNavBar: React.FC = () => {
     });
   };
 
-
-  let EnslavedTitle = '';
-  for (const header of enslavedHeader.header) {
-    EnslavedTitle = (header.label as LabelFilterMeneList)[languageValue];
-  }
   return (
     <Box
       sx={{

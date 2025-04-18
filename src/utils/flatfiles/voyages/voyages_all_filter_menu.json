@@ -44,19 +44,35 @@
 						],
 						"roles": [
 							{
-								"label": "Investor (in the voyage)",
+								"label": {
+									"en": "Investor (in the voyage)",
+									"es": "Inversor (en el viaje)",
+									"pt": "Investidor (na viagem)"
+								},
 								"value": "Investor"
 							},
 							{
-								"label": "Captain",
+								"label": {
+									"en": "Captain",
+									"es": "Capitán",
+									"pt": "Capitão"
+								},
 								"value": "Captain"
 							},
 							{
-								"label": "Shipper",
+								"label": {
+									"en": "Shipper",
+									"es": "Transportista",
+									"pt": "Transportador"
+								},
 								"value": "Shipper"
 							},
 							{
-								"label": "SlaveOwner",
+								"label": {
+									"en": "SlaveOwner",
+									"es": "Propietario de esclavos",
+									"pt": "Proprietário de escravos"
+								},
 								"value": "Owner"
 							}
 						],
@@ -246,7 +262,7 @@
 				"var_name": "voyage_itinerary__port_of_departure__value",
 				"type": "GeoTreeSelect",
 				"label": {
-					"en": "Place of vessel’s departure",
+					"en": "Place of vessel's departure",
 					"es": "Lugar de salida del buque",
 					"pt": "Local de partida do navio"
 				}

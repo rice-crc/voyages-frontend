@@ -42,6 +42,7 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
   const [geoTreeValueList, setGeoTreeValueList] = useState<GeoTreeSelectItem[]>(
     []
   );
+  const { isChangeGeoTree } = useSelector( (state: RootState) => state.getGeoTreeData);
   const [dataForTreeSelect, setDataForTreeSelect] = useState<any[]>([]);
   const { styleName } = usePageRouter();
   const { varName } = useSelector(
@@ -148,7 +149,7 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
       return;
     }
     const valueSelect: string[] = newValue.map((ele) => ele);
-    dispatch(setIsChangeGeoTree(true));
+    dispatch(setIsChangeGeoTree(!isChangeGeoTree));
     setSelectedValue(newValue);
     const selectedTitles: string[] = [];
     const selectedItemTitles: any[] = [];

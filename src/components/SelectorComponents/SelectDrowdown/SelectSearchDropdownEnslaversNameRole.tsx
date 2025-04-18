@@ -1,5 +1,5 @@
 import { Chip, Typography, TextField, Autocomplete } from '@mui/material';
-import { FunctionComponent, ReactNode, SyntheticEvent } from 'react';
+import { FunctionComponent, SyntheticEvent } from 'react';
 import { FilterObjectsState, RolesProps } from '@/share/InterfaceTypes';
 import { getBoderColor } from '@/utils/functions/getColorStyle';
 import { useDispatch, useSelector } from 'react-redux';
@@ -64,17 +64,18 @@ export const SelectSearchDropdownEnslaversNameRole: FunctionComponent<
       )}
       renderTags={(value: readonly RolesProps[], getTagProps) =>
         value.map((option: RolesProps, index: number) => {
-          const { key, ...tagProps } = getTagProps({ index });
+          const tagProps = getTagProps({ index });
+          const { key, ...rest } = tagProps;
           return (
             <Chip
-              key={key}
-              label={option.label[languageValue]}
-              style={{
+               key={key}
+               label={option.label[languageValue]}
+               style={{
                 margin: 2,
                 border: getBoderColor(styleName),
                 color: '#000',
               }}
-              {...tagProps}
+              {...rest}
             />
           );
         })

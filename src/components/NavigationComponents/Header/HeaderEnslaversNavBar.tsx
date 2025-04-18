@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { MouseEventHandler, useEffect, useState, useCallback } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Box, Hidden, Divider, IconButton } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,7 +13,6 @@ import {
   INTRAAMERICANENSLAVERS,
   INTRAAMERICANTRADS,
   IntraAmericanTitle,
-  PASTHOMEPAGE,
   TRANSATLANTICENSLAVERS,
   TRANSATLANTICTRADS,
   TransAtlanticTitle,
@@ -34,7 +33,7 @@ import {
 } from '@/share/InterfactTypesDatasetCollection';
 import { DatasetButton } from './DatasetButton';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import { Filter, LabelFilterMeneList } from '@/share/InterfaceTypes';
+import { Filter } from '@/share/InterfaceTypes';
 import {
   getColorBTNVoyageDatasetBackground,
   getColorBoxShadow,
@@ -54,7 +53,6 @@ import { useNavigate } from 'react-router-dom';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { DrawerMenuBar } from './DrawerMenuBar';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import { enslaversHeader } from '@/utils/languages/title_pages';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
 import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 
@@ -69,17 +67,12 @@ const HeaderEnslaversNavBar: React.FC = () => {
   const { currentBlockName } = useSelector(
     (state: RootState) => state.getScrollEnslaversPage
   );
-
-  const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
-  );
   
   const { styleName: styleNameRoute } = usePageRouter();
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
 
-  const [isClick, setIsClick] = useState(false);
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
     useState<null | HTMLElement>(null);
 
@@ -91,7 +84,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
     } else if (styleNameRoute === ENSALVERSTYLE) {
       dispatch(setDataSetEnslaversHeader(EnslaversAllTrades));
     }
-  }, []);
+  }, [styleNameRoute]);
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
@@ -113,7 +106,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
     });
   };
 
-  const handleSelectEnslaversDataset = (
+  const handleSelectEnslaversDataset = useCallback((
     baseFilter: BaseFilter[],
     textHeder: string,
     textIntro: string,
@@ -124,7 +117,6 @@ const HeaderEnslaversNavBar: React.FC = () => {
     cardFlatfile?: string
   ) => {
     dispatch(resetAll());
-    setIsClick(!isClick);
     const filters: Filter[] = [];
     for (const base of baseFilter) {
       filters.push({
@@ -151,13 +143,13 @@ const HeaderEnslaversNavBar: React.FC = () => {
     if (styleNameToPathMap[styleName]) {
       navigate(styleNameToPathMap[styleName]);
     }
- const keysToRemove = Object.keys(localStorage);
+    const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {
       if (key !== 'filterObject') {
         localStorage.removeItem(key);
       }
     });
-  };
+  },[value, currentBlockName, navigate, dispatch])
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -167,11 +159,6 @@ const HeaderEnslaversNavBar: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
-
-  let EnslaversTitle = '';
-  for (const header of enslaversHeader.header) {
-    EnslaversTitle = (header.label as LabelFilterMeneList)[languageValue];
-  }
 
   return (
     <Box
