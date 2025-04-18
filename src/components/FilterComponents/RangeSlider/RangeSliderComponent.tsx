@@ -35,7 +35,7 @@ const RangeSlider = () => {
   const { styleName: styleNameRoute } = usePageRouter();
   const { styleName } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { rangeValue, varName, rangeSliderMinMax, isChange, opsRoles } =
+  const { rangeValue, varName, rangeSliderMinMax, opsRoles } =
     useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
   const { labelVarName } = useSelector(
     (state: RootState) => state.getShowFilterObject
