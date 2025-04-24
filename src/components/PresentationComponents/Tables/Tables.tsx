@@ -19,6 +19,7 @@ import {
 } from '@/share/InterfaceTypesTable';
 import {
   CurrentPageInitialState,
+  FilterObjectsState,
   TableListPropsRequest,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
@@ -58,9 +59,10 @@ ModuleRegistry.registerModules([
 const Tables: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
-
+  
+  const { rangeSliderMinMax } =
+    useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-
   const { textFilterValue } = useSelector(
     (state: RootState) => state.autoCompleteList
   );
@@ -79,8 +81,7 @@ const Tables: React.FC = () => {
   const { columnDefs, rowData, page } = useSelector(
     (state: RootState) => state.getTableData as StateRowData
   );
-
-
+  const { isChangeGeoTree } = useSelector( (state: RootState) => state.getGeoTreeData);
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
   const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
@@ -91,7 +92,6 @@ const Tables: React.FC = () => {
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData
   );
-
   // Voyages States
   const { tableFlatfileVoyages } = useSelector(
     (state: RootState) => state.getDataSetCollection
@@ -190,6 +190,9 @@ const Tables: React.FC = () => {
   }, [newFilters, page, rowsPerPage, inputSearchValue, sortColumn]);
 
 
+  const shouldFetchData = useMemo(() => {
+    return checkPagesRouteForVoyages(styleNameRoute!) && filtersObj || isChangeGeoTree || rangeSliderMinMax|| textFilterValue
+  }, [styleNameRoute, filtersObj]);
 
   useEffect(() => {
     const fetchDataTable = async () => {
@@ -212,9 +215,8 @@ const Tables: React.FC = () => {
         console.log('error', error);
       }
     };
-  
+
     fetchDataTable();
-  
     return () => {
       if (!textFilter) {
         dispatch(setData([]));
@@ -229,8 +231,8 @@ const Tables: React.FC = () => {
     currentEnslavedPage,
     inputSearchValue,
     currentBlockName,
-    textFilterValue,
-    styleNameRoute
+    styleNameRoute,
+    shouldFetchData
   ]);
   
   
