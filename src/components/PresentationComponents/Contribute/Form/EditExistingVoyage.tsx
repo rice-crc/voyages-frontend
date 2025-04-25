@@ -76,7 +76,7 @@ const EditExistingVoyage: React.FC<EditExistingVoyageProps> = ({openSideBar}) =>
             </Button>
           </Form.Item>
           <Divider />
-          {entity && <ContributionForm entity={entity} />}
+          {entity && <ContributionForm entity={entity}  height={120}/>}
           <Divider />
         </Form>
       </div>

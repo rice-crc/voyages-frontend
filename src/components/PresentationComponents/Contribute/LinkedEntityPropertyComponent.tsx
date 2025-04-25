@@ -10,12 +10,13 @@ import {
   materializeNew,
 } from '@/models/materialization';
 import { EntityLinkEditMode, LinkedEntityProperty } from '@/models/properties';
-import { Button, Select } from 'antd';
+import { Button, Select, TreeSelect, TreeSelectProps } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EntityForm, EntityFormProps } from './EntityForm';
 import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
 import { getSchema, getSchemaProp } from '@/models/entities';
 import { useEnumeration } from '@/hooks/useEnumeration';
+import TreeSelectedEntity from './commonContribute/TreeSelectedEntity';
 
 export interface LinkedEntityPropertyComponentProps {
   property: LinkedEntityProperty;
@@ -41,12 +42,12 @@ export const LinkedEntityOwnedPropertyComponent = ({
     () =>
       value && lastChange?.linkedChanges
         ? [
-            {
-              type: 'update' as const,
-              entityRef: value.entityRef,
-              changes: lastChange.linkedChanges,
-            },
-          ]
+          {
+            type: 'update' as const,
+            entityRef: value.entityRef,
+            changes: lastChange.linkedChanges,
+          },
+        ]
         : [],
     [changes, value, entity],
   );
@@ -214,16 +215,16 @@ export const LinkedEntityPropertyComponent = (
             comments,
             changed: item
               ? {
-                  entityRef: {
-                    id: item,
-                    schema: linkedEntitySchema,
-                    type: 'existing',
-                  },
-                  data:
+                entityRef: {
+                  id: item,
+                  schema: linkedEntitySchema,
+                  type: 'existing',
+                },
+                data:
                   options.find((x) => x.value === item)?.entity.data ??
-                    {},
-                  state: 'lazy',
-                }
+                  {},
+                state: 'lazy',
+              }
               : null,
           },
         ],
@@ -235,16 +236,26 @@ export const LinkedEntityPropertyComponent = (
     () => handleChange(value?.entityRef.id ?? null),
     [handleChange, value],
   );
+
+  console.log({ property })
+  let displaySelected;
+  if (property.linkedEntitySchema === "Location") {
+    displaySelected = <TreeSelectedEntity handleChange={handleChange} value={value} label={label} options={options} lastChange={lastChange} />
+  } else {
+
+    displaySelected = <Select
+      className={lastChange ? 'changedEntityProperty' : undefined}
+      value={value?.entityRef.id}
+      placeholder={`Please select ${label}`}
+      style={{ width: 'calc(100% - 20px)' }}
+      options={options}
+      onChange={handleChange}
+    />
+  }
+
   return (
     <>
-      <Select
-        className={lastChange ? 'changedEntityProperty' : undefined}
-        value={value?.entityRef.id}
-        placeholder={`Please select ${label}`}
-        style={{ width: 'calc(100% - 20px)' }}
-        options={options}
-        onChange={handleChange}
-      />
+      {displaySelected}
       <EntityPropertyChangeCommentBox
         property={property}
         current={comments}

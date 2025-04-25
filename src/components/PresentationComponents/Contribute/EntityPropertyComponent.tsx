@@ -25,6 +25,7 @@ export const EntityPropertyComponent = ({
   entity,
   ...other
 }: EntityPropertyComponentProps) => {
+
   const { uid, kind } = property;
   const localChanges = other.changes.find(
     (ec) =>
