@@ -10,11 +10,12 @@ import {
   getSchema,
   getSchemaProp,
 } from '@dotproductdev/voyages-contribute';
-import { Button, Select } from 'antd';
+import { Button, Select, TreeSelect, TreeSelectProps } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EntityForm, EntityFormProps } from './EntityForm';
 import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
 import { useEnumeration } from '@/hooks/useEnumeration';
+import TreeSelectedEntity from './commonContribute/TreeSelectedEntity';
 
 export interface LinkedEntityPropertyComponentProps {
   property: LinkedEntityProperty;
@@ -233,8 +234,21 @@ export const LinkedEntityPropertyComponent = (
     () => handleChange(value?.entityRef.id ?? null),
     [handleChange, value],
   );
-  return (
-    <>
+
+  console.log({ property });
+  let displaySelected;
+  if (property.linkedEntitySchema === 'Location') {
+    displaySelected = (
+      <TreeSelectedEntity
+        handleChange={handleChange}
+        value={value}
+        label={label}
+        options={options}
+        lastChange={lastChange}
+      />
+    );
+  } else {
+    displaySelected = (
       <Select
         className={lastChange ? 'changedEntityProperty' : undefined}
         value={value?.entityRef.id}
@@ -243,6 +257,12 @@ export const LinkedEntityPropertyComponent = (
         options={options}
         onChange={handleChange}
       />
+    );
+  }
+
+  return (
+    <>
+      {displaySelected}
       <EntityPropertyChangeCommentBox
         property={property}
         current={comments}
