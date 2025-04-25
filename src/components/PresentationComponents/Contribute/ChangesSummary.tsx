@@ -12,7 +12,7 @@ import {
     DeleteOutlined,
 } from '@ant-design/icons';
 
-import { EntityChange } from '@/models/changeSets';
+import { EntityChange } from '@dotproductdev/voyages-contribute';
 import PropertyChangesList from './PropertyChangesList';
 const { Text } = Typography;
 

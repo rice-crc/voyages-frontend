@@ -1,6 +1,9 @@
-import { EntityChange, TableChange } from '@/models/changeSets';
-import { MaterializedEntity } from '@/models/materialization';
-import { TableProperty } from '@/models/properties';
+import {
+  EntityChange,
+  TableChange,
+  MaterializedEntity,
+  TableProperty,
+} from '@dotproductdev/voyages-contribute';
 import { Input } from '@/styleMUI';
 import React, { useCallback, useState } from 'react';
 import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
@@ -53,7 +56,7 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
     (col: number, row: number): string => {
       const field = property.cellField(col, row);
       if (!field) return '';
-      const changed = lastChange?.changes[field]
+      const changed = lastChange?.changes[field];
       const value = changed === undefined ? entityData[field] : changed;
       // We're assuming all values are numbers as per the requirements
       if (typeof value !== 'number') return '';

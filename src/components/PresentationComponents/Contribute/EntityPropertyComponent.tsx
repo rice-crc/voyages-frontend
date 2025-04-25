@@ -1,14 +1,12 @@
 import {
-  isUpdateEntityChange,
-  areMatch,
-  EntityUpdate,
-} from '@/models/changeSets';
-import { getSchema } from '@/models/entities';
-import {
   MaterializedEntity,
   isMaterializedEntity,
-} from '@/models/materialization';
-import { Property } from '@/models/properties';
+  getSchema,
+  isUpdateEntityChange,
+  areMatch,
+  Property,
+  EntityUpdate,
+} from '@dotproductdev/voyages-contribute';
 import { EntityFormProps, EntityForm } from './EntityForm';
 import { EntityTableView } from './EntityTableView';
 import NumbersTableComponent from './NumbersTableComponent';

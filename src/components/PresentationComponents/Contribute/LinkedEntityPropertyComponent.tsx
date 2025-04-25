@@ -1,20 +1,19 @@
 import {
-  areMatch,
   DirectPropertyChange,
   EntityChange,
   LinkedEntitySelectionChange,
-} from '@/models/changeSets';
-import {
   isMaterializedEntity,
   MaterializedEntity,
   materializeNew,
-} from '@/models/materialization';
-import { EntityLinkEditMode, LinkedEntityProperty } from '@/models/properties';
+  EntityLinkEditMode,
+  LinkedEntityProperty,
+  getSchema,
+  getSchemaProp,
+} from '@dotproductdev/voyages-contribute';
 import { Button, Select } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EntityForm, EntityFormProps } from './EntityForm';
 import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
-import { getSchema, getSchemaProp } from '@/models/entities';
 import { useEnumeration } from '@/hooks/useEnumeration';
 
 export interface LinkedEntityPropertyComponentProps {
@@ -220,8 +219,7 @@ export const LinkedEntityPropertyComponent = (
                     type: 'existing',
                   },
                   data:
-                  options.find((x) => x.value === item)?.entity.data ??
-                    {},
+                    options.find((x) => x.value === item)?.entity.data ?? {},
                   state: 'lazy',
                 }
               : null,

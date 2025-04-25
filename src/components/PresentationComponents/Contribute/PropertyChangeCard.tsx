@@ -1,4 +1,4 @@
-import { PropertyChange } from '@/models/changeSets';
+import { PropertyChange } from '@dotproductdev/voyages-contribute';
 import { ReactNode } from 'react';
 import PropertyChangesTable from './PropertyChangesTable';
 import '@/style/contributeContent.scss';

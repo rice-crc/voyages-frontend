@@ -1,4 +1,4 @@
-import { MaterializedEntity } from '@/models/materialization';
+import { MaterializedEntity } from '@dotproductdev/voyages-contribute';
 import { useEffect, useState } from 'react';
 
 const host = 'http://localhost:7127';

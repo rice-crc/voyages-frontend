@@ -19,6 +19,7 @@
   "dependencies": {
     "@ag-grid-community/client-side-row-model": "^32.3.3",
     "@ant-design/icons": "^5.3.1",
+    "@dotproductdev/voyages-contribute": "^0.1.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-free": "^6.4.0",
@@ -151,7 +152,8 @@
     "typescript": "^5.7.2",
     "vite": "^6.0.4",
     "vitest-fetch-mock": "^0.4.2",
-    "webpack": "^5.97.1"
+    "webpack": "^5.97.1",
+    "mirador": "^3.4.3"
   },
   "overrides": {
     "react-error-overlay": "6.0.9"

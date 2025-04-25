@@ -1,20 +1,20 @@
 import {
+  applyUpdate,
+  cloneEntity,
+  expandMaterialized,
+  isMaterializedEntityArray,
+  MaterializedEntity,
+  EntitySchema,
+  getSchema,
+  materializeNew,
   areMatch,
   EntityChange,
   EntityUpdate,
   mergePropertyChange,
   OwnedEntityListChange,
   PropertyChange,
-} from '@/models/changeSets';
-import {
-  applyUpdate,
-  cloneEntity,
-  expandMaterialized,
-  isMaterializedEntityArray,
-  MaterializedEntity,
-  materializeNew,
-} from '@/models/materialization';
-import { OwnedEntityListProperty } from '@/models/properties';
+  OwnedEntityListProperty,
+} from '@dotproductdev/voyages-contribute';
 import {
   Box,
   IconButton,
@@ -28,8 +28,7 @@ import {
 } from '@mui/material';
 import { Typography } from 'antd';
 import React, { useCallback, useMemo } from 'react';
-import {Add, Delete, Restore} from '@mui/icons-material';
-import { EntitySchema, getSchema } from '@/models/entities';
+import { Add, Delete, Restore } from '@mui/icons-material';
 import { EntityForm, EntityFormProps } from './EntityForm';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 

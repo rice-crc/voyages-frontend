@@ -10,31 +10,20 @@ import {
   Modal,
   Typography,
 } from 'antd';
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   addToChangeSet,
   combineChanges,
   dropOrphans,
   EntityChange,
-} from '@/models/changeSets';
-import {
-  ChangeSet
-} from '@/models/contribution';
-import {
-  EntitySchema,
-  getSchema
-} from '@/models/entities';
-import {
+  ChangeSet,
+  getSchema,
   applyChanges,
   cloneEntity,
   expandMaterialized,
   MaterializedEntity,
-} from '@/models/materialization';
-import { PropertyAccessLevel } from '@/models/properties';
+  PropertyAccessLevel,
+} from '@dotproductdev/voyages-contribute';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
@@ -43,7 +32,11 @@ import ChangesSummary from './ChangesSummary';
 
 const { Text } = Typography;
 
-export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => {
+export const ContributionForm = ({
+  entity,
+}: {
+  entity: MaterializedEntity;
+}) => {
   const schema = getSchema(entity.entityRef.schema);
   const [changeSet, setChangeSet] = useState<ChangeSet>({
     id: -1,
@@ -55,13 +48,13 @@ export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => 
   });
 
   const [accessLevel, setAccessLevel] = useState<PropertyAccessLevel>(
-    PropertyAccessLevel.AdvancedContributor
+    PropertyAccessLevel.AdvancedContributor,
   );
   const [globalExpand, setGlobalExpand] = useState(false);
   const [expandedMenu, setExpandedMenu] = useState<string[]>([]);
   const [sections, setSections] = useState<CollapseProps['items']>([]);
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedcontribute = translationLanguagesContribute(languageValue);
 
@@ -90,7 +83,7 @@ export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => 
         dropOrphans(next);
         return { ...current, changes: next };
       }),
-    []
+    [],
   );
 
   const toggleExpandAll = () => {
@@ -159,14 +152,13 @@ export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => 
                 style={{ width: '100%' }}
               />
             </Form.Item>
-            <Row style={{display:'flex', justifyContent:'center'}}>
-            <Form.Item label=" " colon={false} style={{width: 200}}>
-              <Button danger block onClick={handlePreviewChanges}>
-                Preview Changes
-              </Button>
-            </Form.Item>
+            <Row style={{ display: 'flex', justifyContent: 'center' }}>
+              <Form.Item label=" " colon={false} style={{ width: 200 }}>
+                <Button danger block onClick={handlePreviewChanges}>
+                  Preview Changes
+                </Button>
+              </Form.Item>
             </Row>
-         
           </Col>
         </Row>
       </Card>
@@ -178,16 +170,19 @@ export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => 
               <Text
                 style={{
                   fontSize: '1rem',
-                }}>
-                <span >{translatedcontribute.titleCollaps}</span>
-                <a onClick={toggleExpandAll} style={{
-                  color: 'rgb(55, 148, 141)',
-                  fontSize: '0.85rem',
-                  marginLeft: 12,
-                  fontWeight: 600,
-                  textDecoration:
-                    'underline'
-                }} >
+                }}
+              >
+                <span>{translatedcontribute.titleCollaps}</span>
+                <a
+                  onClick={toggleExpandAll}
+                  style={{
+                    color: 'rgb(55, 148, 141)',
+                    fontSize: '0.85rem',
+                    marginLeft: 12,
+                    fontWeight: 600,
+                    textDecoration: 'underline',
+                  }}
+                >
                   {globalExpand
                     ? translatedcontribute.collapse
                     : translatedcontribute.expand}
@@ -211,11 +206,17 @@ export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => 
         </Col>
         <Col span={12}>
           <Card
-            title={<Text style={{
-              fontSize: '1rem',
-              fontWeight: 600,
-              marginBottom: '16px'
-            }}>Changes Summary</Text>}
+            title={
+              <Text
+                style={{
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  marginBottom: '16px',
+                }}
+              >
+                Changes Summary
+              </Text>
+            }
             extra={
               <Text
                 type="secondary"
@@ -223,8 +224,8 @@ export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => 
                   fontSize: '0.85rem',
                   fontWeight: 600,
                   marginBottom: '16px',
-                }}>
-
+                }}
+              >
                 {changeSet.changes.length} change
                 {changeSet.changes.length !== 1 && 's'}
               </Text>
@@ -242,7 +243,6 @@ export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => 
     </>
   );
 };
-
 
 //     addToChangeSet,
 //     combineChanges,
@@ -299,15 +299,12 @@ export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => 
 //     onSectionsChange?: (sections: CollapseProps['items']) => void;
 //   }
 
-
-
 //   const accessLevelOptions = Object.entries(PropertyAccessLevel)
 //     .filter(([key]) => isNaN(Number(key)) && key !== 'Hidden') // Filter out reverse mapping
 //     .map(([label, value]) => ({
 //       label: label.replace(/([A-Z])/g, ' $1').trim(), // Add spaces between camel case
 //       value: value,
 //     }));
-
 
 //   const tempCreateChangeSet = (
 //     schema: EntitySchema,
@@ -320,7 +317,6 @@ export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => 
 //     comments: '',
 //     timestamp: new Date().getDate(),
 //   });
-
 
 // // Inside ContributionForm.tsx
 // export const ContributionForm = ({ entity }: ContributionFormProps) => {
@@ -400,7 +396,7 @@ export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => 
 //       alert('Changes submitted successfully!');
 //       resetAllChanges();
 //     };
-//     // Save Changes 
+//     // Save Changes
 //     const handleSaveChanges = () => {
 //       console.log('saveChanges changes:', {
 //         title: changeSet.title,
@@ -490,10 +486,10 @@ export const ContributionForm = ({ entity }: { entity: MaterializedEntity }) => 
 //             </Card>
 //           </Col>
 //           <Col span={12}>
-//             <ChangesSummary 
-//               changes={changeSet.changes} 
-//               resetAllChanges={resetAllChanges} 
-//               submitChanges={submitChanges} 
+//             <ChangesSummary
+//               changes={changeSet.changes}
+//               resetAllChanges={resetAllChanges}
+//               submitChanges={submitChanges}
 //               handleSaveChanges={handleSaveChanges}
 //             />
 //           </Col>

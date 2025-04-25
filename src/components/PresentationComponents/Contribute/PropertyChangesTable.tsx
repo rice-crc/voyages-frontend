@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { PropertyChange } from '@/models/changeSets';
+import { PropertyChange } from '@dotproductdev/voyages-contribute';
 import { ReactNode } from 'react';
 import PropertyChangeCard from './PropertyChangeCard';
 interface PropertyChangesTableProps {
