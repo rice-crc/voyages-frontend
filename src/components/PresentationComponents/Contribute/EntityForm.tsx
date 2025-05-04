@@ -1,18 +1,11 @@
-import {EntityChange,} from '@/models/changeSets';
-import { EntitySchema} from '@/models/entities';
-import {MaterializedEntity} from '@/models/materialization';
-import { PropertyAccessLevel } from '@/models/properties';
 import {
-  Collapse,
-  CollapseProps,
-  Form,
-  Typography
-} from 'antd';
-import React, {
-  ReactNode,
-  useMemo,
-  useEffect,
-} from 'react';
+  EntityChange,
+  EntitySchema,
+  MaterializedEntity,
+  PropertyAccessLevel,
+} from '@dotproductdev/voyages-contribute';
+import { Collapse, CollapseProps, Form, Typography } from 'antd';
+import React, { ReactNode, useMemo, useEffect } from 'react';
 import { EntityPropertyComponent } from './EntityPropertyComponent';
 
 export interface ContributionFormProps {
@@ -35,7 +28,6 @@ export interface EntityFormProps {
   accessLevel: PropertyAccessLevel;
   onSectionsChange?: (sections: CollapseProps['items']) => void;
 }
-
 
 export const EntityForm = ({
   schema,
@@ -134,7 +126,7 @@ export const EntityForm = ({
   }, [sections, onSectionsChange]);
 
   return (
-   <>
+    <>
       {ungrouped.length > 0 &&
         ungrouped.map((item, index) => (
           <div key={`ungrouped-${index}`}>{item}</div>

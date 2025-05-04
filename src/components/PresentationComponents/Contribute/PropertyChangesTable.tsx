@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { PropertyChange } from '@/models/changeSets';
+import { PropertyChange } from '@dotproductdev/voyages-contribute';
 import { ReactNode } from 'react';
 import PropertyChangeCard from './PropertyChangeCard';
 interface PropertyChangesTableProps {
@@ -13,12 +13,13 @@ const PropertyChangesTable = ({
   sectionName,
   showTitle = true,
 }: PropertyChangesTableProps) => {
+
   const columns = [
     {
       title: 'Field',
       dataIndex: 'property',
       key: 'property',
-      with: 300,
+      width: 300,
       flex: 1,
       render: (text: string) => <div>{text}</div>,
     },
@@ -29,10 +30,9 @@ const PropertyChangesTable = ({
       width: 250,
       flex: 1,
       render: (value: ReactNode) => {
-        console.log({value})
         return (
           <div>
-            {value} 
+            {value}
           {/* 
           // Todo: Undo here is going to be very complicated, what we can do "easily" is "pop" the last change out, if that is your undo, then you can implement it.
               <Button
@@ -54,28 +54,30 @@ const PropertyChangesTable = ({
     },
     },
   ];
-  
-  const dataSource = change.map((c, index) => ({
-    key: index,
-    property: c.property,
-    value: <PropertyChangeCard change={c} property={c.property} />
-  }));
+
+  const dataSource = change.map((c, index) => {
+    return ({
+      key: index,
+      property: c.property,
+      value: <PropertyChangeCard change={c} property={c.property} />,
+    })
+  });
   
   return (
     <Table
-      size="small"
-      className="property-changes-table"
-      pagination={false}
-      columns={columns}
-      dataSource={dataSource}
-      bordered
-      showHeader={false} 
-      title={
-        showTitle && sectionName
-          ? () => <strong className='section-title'>{sectionName.replace(/_/g, ' ')}</strong>
-          : undefined
-      }
-    />
+    size="small"
+    className="property-changes-table"
+    pagination={false}
+    columns={columns}
+    dataSource={dataSource}
+    bordered
+    showHeader={false}
+    title={
+      showTitle && sectionName
+        ? () => <strong className="section-title">{sectionName.replace(/_/g, ' ')}</strong>
+        : undefined
+    }
+  />
   );
 };
 

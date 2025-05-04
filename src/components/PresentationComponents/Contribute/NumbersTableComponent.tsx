@@ -1,9 +1,13 @@
-import { EntityChange, TableChange } from '@/models/changeSets';
-import { MaterializedEntity } from '@/models/materialization';
-import { TableProperty } from '@/models/properties';
+import {
+  EntityChange,
+  TableChange,
+  MaterializedEntity,
+  TableProperty,
+} from '@dotproductdev/voyages-contribute';
 import { Input } from '@/styleMUI';
 import React, { useCallback, useState } from 'react';
 import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
+import '@/style/numberTable.scss';
 
 interface EditableTableProps {
   property: TableProperty;
@@ -25,13 +29,15 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
 }) => {
   const [activeCell, setActiveCell] = useState<ActiveCell | null>(null);
   const entityData = entity.data;
+
   const handleCellChange = useCallback(
     (col: number, row: number, changed: string) => {
       const field = property.cellField(col, row);
-      if (!field) return; // Skip if no backing field exists
+      if (!field) return;
 
       const numValue = changed === '' ? null : parseFloat(changed);
       if (changed !== '' && isNaN(numValue as number)) return;
+
       const allChanges = { ...lastChange?.changes, [field]: numValue };
       onChange({
         type: 'update',
@@ -53,9 +59,8 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
     (col: number, row: number): string => {
       const field = property.cellField(col, row);
       if (!field) return '';
-      const changed = lastChange?.changes[field]
+      const changed = lastChange?.changes[field];
       const value = changed === undefined ? entityData[field] : changed;
-      // We're assuming all values are numbers as per the requirements
       if (typeof value !== 'number') return '';
       return value.toString();
     },
@@ -81,82 +86,88 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
   );
 
   return (
-    <>
-      <div className="w-full overflow-auto">
-        <div className="border rounded-lg">
-          <table className="w-full">
-            <thead className="bg-gray-100 sticky top-0 z-10">
-              <tr>
-                <th className="p-2 border-b border-r sticky left-0 bg-gray-100"></th>
-                {property.columns.map((header, index) => (
-                  <th
-                    key={header}
-                    className="p-2 border-b border-r min-w-[100px] text-left"
-                    style={
-                      activeCell?.colIndex === index ? { color: 'blue' } : {}
-                    }
-                  >
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {property.rows.map((rowHeader, rowIndex) => (
-                <tr key={rowHeader}>
-                  <th
-                    className="p-2 border-r sticky left-0 bg-white text-left"
-                    style={
-                      activeCell?.rowIndex === rowIndex ? { color: 'blue' } : {}
-                    }
-                  >
-                    {rowHeader}
-                  </th>
-                  {property.columns.map((_, colIndex) => {
-                    const field = property.cellField(colIndex, rowIndex);
-                    return (
-                      <td
-                        key={`${rowIndex}-${colIndex}`}
-                        className="p-2 border-r border-b"
-                      >
-                        {field ? (
-                          <Input
-                            type="text"
-                            value={getCellValue(colIndex, rowIndex)}
-                            onChange={(e) =>
-                              handleCellChange(
-                                colIndex,
-                                rowIndex,
-                                e.target.value,
-                              )
-                            }
-                            onBlur={() => setActiveCell(null)}
-                            onFocus={() =>
-                              setActiveCell({ rowIndex, colIndex })
-                            }
-                            className="w-full border-0 p-0 focus-visible:ring-0"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gray-50"></div>
-                        )}
-                      </td>
-                    );
-                  })}
+    <div className="table-wrapper">
+      <div className="flex-row">
+        <div className="table-section">
+          <div className="table-container">
+            <table className="numbers-table">
+              <thead>
+                <tr>
+                  <th className="row-header"></th>
+                  {property.columns.map((header, index) => (
+                    <th
+                      key={header}
+                      style={
+                        activeCell?.colIndex === index ? { color: 'blue' } : {}
+                      }
+                    >
+                      {header}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {property.rows.map((rowHeader, rowIndex) => (
+                  <tr key={rowHeader}>
+                    <th
+                      className="row-header"
+                      style={
+                        activeCell?.rowIndex === rowIndex
+                          ? { color: 'blue' }
+                          : {}
+                      }
+                    >
+                      {rowHeader}
+                    </th>
+                    {property.columns.map((_, colIndex) => {
+                      const field = property.cellField(colIndex, rowIndex);
+                      return (
+                        <td key={`${rowIndex}-${colIndex}`}>
+                          {field ? (
+                            <Input
+                              type="text"
+                              value={getCellValue(colIndex, rowIndex)}
+                              onChange={(e) =>
+                                handleCellChange(
+                                  colIndex,
+                                  rowIndex,
+                                  e.target.value
+                                )
+                              }
+                              onBlur={() => setActiveCell(null)}
+                              onFocus={() =>
+                                setActiveCell({ rowIndex, colIndex })
+                              }
+                              style={{
+                                width: '100%',
+                                border: 'none',
+                                padding: 0,
+                                outline: 'none',
+                                background: 'transparent',
+                              }}
+                            />
+                          ) : (
+                            <div style={{ backgroundColor: '#f9f9f9' }} />
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="comment-sidebar">
+          <EntityPropertyChangeCommentBox
+            property={property}
+            current={lastChange?.comments}
+            onComment={handleComment}
+          />
         </div>
       </div>
-      <div>
-        <span>TODO: Check why comment button is not showing...</span>
-        <EntityPropertyChangeCommentBox
-          property={property}
-          current={lastChange?.comments}
-          onComment={handleComment}
-        />
-      </div>
-    </>
+    </div>
   );
 };
 
