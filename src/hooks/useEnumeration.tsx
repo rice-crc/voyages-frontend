@@ -1,7 +1,6 @@
-import { MaterializedEntity } from '@/models/materialization';
 import { useEffect, useState } from 'react';
-
-const host = 'http://localhost:7127';
+import { MaterializedEntity } from '@dotproductdev/voyages-contribute';
+import { fetchEnumeration } from '@/fetch/contributeFetch/fetchEnumeration';
 
 interface CachedEnumeration {
   timestamp: number;
@@ -12,36 +11,60 @@ interface CachedEnumeration {
 // cached enumerations should not be shared across all components.
 const cache: Record<string, CachedEnumeration> = {};
 
-export const useEnumeration = (schema: string, expiration?: number) => {
+interface UseEnumerationOptions {
+  expirationSeconds?: number;
+  forceRefresh?: boolean;
+}
+
+export const useEnumeration = (schema: string, options?: UseEnumerationOptions) => {
   const [items, setItems] = useState<MaterializedEntity[]>([]);
   const [error, setError] = useState<Error | undefined>(undefined);
+
   useEffect(() => {
+    let expirationTimer: number;
+
     const load = async () => {
-      if (cache[schema]) {
-        setItems(cache[schema].items);
+      const now = new Date().getTime();
+      const cached = cache[schema];
+      const expired =
+        cached && options?.expirationSeconds
+          ? now - cached.timestamp > options.expirationSeconds * 1000
+          : false;
+
+      if (cached && !expired && !options?.forceRefresh) {
+        setItems(cached.items);
         return;
       }
-      const uri = `${host}/enumerate/${schema}`;
+
       try {
-        const res = await fetch(uri);
-        const items = await res.json();
+        const items = await fetchEnumeration(schema);
         cache[schema] = {
-          timestamp: new Date().getTime(),
+          timestamp: now,
           items,
         };
         setError(undefined);
         setItems(items);
+
+        // Set timer to clear cache automatically after expiration time
+        if (options?.expirationSeconds) {
+          expirationTimer = window.setTimeout(() => {
+            delete cache[schema];
+          }, options.expirationSeconds * 1000);
+        }
       } catch (err) {
         setItems([]);
         setError(err as Error);
       }
     };
+
     load();
-    const expirationTimer = window.setTimeout(() => {
-      delete cache[schema];
-      load();
-    }, (expiration ?? 3600) * 1000);
-    return () => window.clearTimeout(expirationTimer);
-  }, [expiration, schema]);
+
+    return () => {
+      if (expirationTimer) {
+        clearTimeout(expirationTimer);
+      }
+    };
+  }, [schema, options?.expirationSeconds, options?.forceRefresh]);
+
   return { error, items };
 };
