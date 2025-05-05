@@ -181,7 +181,7 @@ export const ContributionForm = ({
       style={{ display: 'flex', flexDirection: 'column', height: `${height}vh` }}
     >
       {/* Top Form - Contribution Details */}
-      <Card title="Contribution Details" style={{ flexShrink: 0 }}>
+      <Card title="Contribution Details" style={{ flexShrink: 0 }} styles={{body:{padding: '10px 16px'}}}>
         <Row gutter={6}>
           <Col span={12}>
             <Form.Item label="Contribution Title" name="title">
@@ -212,7 +212,7 @@ export const ContributionForm = ({
           <Card style={{ flex: 1, overflow: 'hidden' }}
             styles={{
               body: {
-                padding: 10,
+                padding: 8,
               },
             }}>
             <div style={{ position: 'sticky', top: 0, background: '#fff', padding: 10, borderBottom: '1px solid #f0f0f0', zIndex: 99 }}>

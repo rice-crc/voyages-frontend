@@ -4,9 +4,12 @@ import {
   MaterializedEntity,
   PropertyAccessLevel,
 } from '@dotproductdev/voyages-contribute';
-import { Collapse, CollapseProps, Form, Typography } from 'antd';
+import {  CollapseProps, Form, Typography } from 'antd';
 import React, { ReactNode, useMemo, useEffect } from 'react';
 import { EntityPropertyComponent } from './EntityPropertyComponent';
+import { StyledCollapse } from '@/styleMUI/stylesMenu/styleCollapse';
+
+
 
 export interface ContributionFormProps {
   entity: MaterializedEntity;
@@ -133,7 +136,7 @@ export const EntityForm = ({
         ))}
       {sections.length > 0 && (
         <div>
-          <Collapse
+          <StyledCollapse
             activeKey={expandedMenu}
             onChange={(keys) => {
               setExpandedMenu(keys as string[]);
