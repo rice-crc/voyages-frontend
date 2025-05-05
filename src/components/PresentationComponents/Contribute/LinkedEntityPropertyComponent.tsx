@@ -136,7 +136,7 @@ export const LinkedEntityPropertyComponent = (
   if (property.linkedEntitySchema === 'Location') {
     if (loading) {
       return (
-        <Spin spinning={true} tip="Loading...">
+        <Spin spinning={true} tip="Loading location tree...">
           <div style={{ minHeight: 60 }} />
         </Spin>
       );
@@ -178,7 +178,7 @@ export const LinkedEntityPropertyComponent = (
       {displaySelected}
       <EntityPropertyChangeCommentBox
         property={property}
-        current={comments}
+        current={lastChange?.comments}
         onComment={setComments}
       />
     </>
