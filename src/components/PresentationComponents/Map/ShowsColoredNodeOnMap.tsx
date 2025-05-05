@@ -14,7 +14,6 @@ const ShowsColoredNodeOnMap = () => {
     classNameMap = 'leaflet-bottom'
   }
 
-
   return (
     <div className={`${classNameMap} leaflet-left __web-inspector-hide-shortcut__`}>
       <div className="legend leaflet-control">

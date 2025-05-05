@@ -9,7 +9,6 @@ import {
 } from '@dotproductdev/voyages-contribute';
 import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
 import '@/style/numberTable.scss';
-import { relative } from 'path';
 
 interface EditableTableProps {
   property: TableProperty;

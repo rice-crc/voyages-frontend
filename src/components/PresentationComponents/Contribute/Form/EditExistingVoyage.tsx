@@ -3,7 +3,6 @@ import '@/style/newVoyages.scss';
 import { Form, Input, Button, Divider } from 'antd';
 import { useState } from 'react';
 import { ContributionForm } from '../ContributionForm';
-import sampleVoyage from '../sample_11586.json';
 import { MaterializedEntity } from '@dotproductdev/voyages-contribute';
 import { fetchSubmitEditVoaygesForm } from '@/fetch/contributeFetch/fetchSubmitEditVoaygesForm';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';

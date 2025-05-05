@@ -154,7 +154,8 @@
     "typescript": "^5.7.2",
     "vite": "^6.0.4",
     "vitest-fetch-mock": "^0.4.2",
-    "webpack": "^5.97.1"
+    "webpack": "^5.97.1",
+    "mirador": "^3.4.3"
   },
   "overrides": {
     "react-error-overlay": "6.0.9"
