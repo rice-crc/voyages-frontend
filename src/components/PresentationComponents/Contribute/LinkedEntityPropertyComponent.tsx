@@ -2,20 +2,26 @@ import {
   LinkedEntitySelectionChange,
   isMaterializedEntity,
   MaterializedEntity,
-  materializeNew,
   EntityLinkEditMode,
   LinkedEntityProperty,
   getSchema,
-  getSchemaProp,
+  materializeNew,
+  EntityChange,
+  applyUpdate,
+  cloneEntity,
 } from '@dotproductdev/voyages-contribute';
-import { Alert, Select, Spin } from 'antd';
+import { Alert, Button, Select, Spin } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { EntityFormProps } from './EntityForm';
+import { EntityForm, EntityFormProps } from './EntityForm';
 import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
 import { useEnumeration } from '@/hooks/useEnumeration';
 import TreeSelectedEntity from './commonContribute/TreeSelectedEntity';
 import { LinkedEntityOwnedPropertyComponent } from './LinkedEntityOwnedPropertyComponent';
 import { useTreeSelectedContributeLocation } from '@/hooks/useTreeSelectedContribute';
+import { Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
+import { StyleDialog } from '@/styleMUI';
+import { Close } from '@mui/icons-material';
+import { useDebounce } from '@/hooks/useDebounce';
 
 export interface LinkedEntityPropertyComponentProps {
   property: LinkedEntityProperty;
@@ -24,10 +30,116 @@ export interface LinkedEntityPropertyComponentProps {
   onChange: EntityFormProps['onChange'];
 }
 
+const LinkedEntityAddNewComponent = (
+  props: LinkedEntityPropertyComponentProps &
+    EntityFormProps & { comments?: string },
+) => {
+  const { property, entity, lastChange, comments, onChange, ...other } = props;
+  const { linkedEntitySchema, uid } = property;
+  const [open, setOpen] = useState(false);
+  const [addedEntity, setAddedEntity] = useState<
+    MaterializedEntity | undefined
+  >(undefined);
+  const [localChanges, setLocalChanges] = useState<EntityChange | undefined>();
+  const linkedSchema = getSchema(linkedEntitySchema);
+  const onClose = useCallback(() => setOpen(false), []);
+  useEffect(() => {
+    const selected = lastChange?.changed;
+    setAddedEntity(
+      selected && selected.entityRef.type === 'new' ? selected : undefined,
+    );
+  }, [addedEntity, lastChange?.changed]);
+  const editAdded = useCallback(
+    (e: MaterializedEntity | null) =>
+      onChange({
+        type: 'update',
+        entityRef: entity.entityRef,
+        changes: [
+          {
+            kind: 'linked',
+            property: uid,
+            comments,
+            changed: e,
+          },
+        ],
+      }),
+    [onChange, entity, uid, comments],
+  );
+  const handleAddOrModify = useCallback(() => {
+    if (addedEntity === undefined) {
+      const added = materializeNew(linkedSchema, crypto.randomUUID());
+      editAdded(added);
+      // setAddedEntity(added);
+    }
+    setOpen(true);
+  }, [addedEntity, editAdded]);
+  const debouncedChanges = useDebounce(localChanges, 1000);
+  useEffect(() => {
+    if (
+      !debouncedChanges ||
+      addedEntity?.entityRef.id !== debouncedChanges.entityRef.id ||
+      debouncedChanges.type !== 'update'
+    ) {
+      return;
+    }
+    const modified = cloneEntity(addedEntity);
+    editAdded(applyUpdate(modified, {}, debouncedChanges.changes));
+  }, [debouncedChanges, editAdded, addedEntity]);
+  const handleClear = useCallback(() => {
+    editAdded(null);
+  }, [editAdded]);
+  return (
+    <>
+      <Button onClick={handleAddOrModify}>
+        {addedEntity !== undefined ? 'Modify' : 'Add new'}
+      </Button>
+      {addedEntity && <Button onClick={handleClear}>Clear</Button>}
+      <Dialog
+        onClick={(e) => e.stopPropagation()}
+        slotProps={{
+          backdrop: {
+            onClick: (e) => e.stopPropagation(),
+          },
+        }}
+        open={open && addedEntity !== undefined}
+        onClose={onClose}
+        disableScrollLock={false}
+        sx={StyleDialog}
+      >
+        <DialogTitle sx={{ cursor: 'move' }}>
+          <h2 className="header-added-entity">{`Add new ${linkedEntitySchema} entity`}</h2>
+          <IconButton
+            edge="end"
+            color="inherit"
+            onClick={onClose}
+            sx={{
+              position: 'absolute',
+              top: 8,
+              right: 8,
+            }}
+          >
+            <Close />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          {open && addedEntity && (
+            <EntityForm
+              {...other}
+              changes={localChanges ? [localChanges] : []}
+              schema={linkedSchema}
+              entity={addedEntity}
+              onChange={setLocalChanges}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
 export const LinkedEntityPropertyComponent = (
   props: LinkedEntityPropertyComponentProps & EntityFormProps,
 ) => {
-
   const { property, entity, lastChange, onChange } = props;
   const [comments, setComments] = useState<string | undefined>();
   const { uid, mode, label, linkedEntitySchema } = property;
@@ -46,51 +158,28 @@ export const LinkedEntityPropertyComponent = (
   const linkedSchema = getSchema(linkedEntitySchema);
   const { items: optionItems } = useEnumeration(linkedEntitySchema);
 
+  const { locationsList, loading, error } = useTreeSelectedContributeLocation(
+    linkedEntitySchema,
+    {
+      expirationSeconds: 300,
+    },
+  );
 
-  // TODO: will change format when location api done
-  const {
-    locationsList,
-    loading,
-    error,
-  } = useTreeSelectedContributeLocation(linkedEntitySchema, {
-    expirationSeconds: 300,
-  });
-
-  let options = optionItems.map((entity) => ({
-    label: linkedSchema.getLabel(entity.data, true),
-    value: entity.entityRef.id,
-    entity,
-  }));
-
-  if (options.length === 0) {
-    // TODO: remove this after the Enumeration API is in place.
-    const dummyRecord = (fields: string[]) =>
-      fields.reduce(
-        (rec, f) => ({ ...rec, [f]: `dummy_${f}_${crypto.randomUUID()}` }),
-        {} as Record<string, string>,
-      );
-
-    const fillEntityWithDummies = (entity: MaterializedEntity) => {
-      const schema = getSchema(entity.entityRef.schema);
-      const fields = Object.keys(entity.data).filter((label) => {
-        const prop = getSchemaProp(schema, label);
-        return (
-          prop !== undefined && (prop.kind === 'number' || prop.kind === 'text')
-        );
-      });
-      Object.assign(entity.data, dummyRecord(fields));
-      return entity;
-    };
-
-    options = [1, 2, 3, 4, 5, 6].map((i, _) => ({
-      label: `Mocked ${property.linkedEntitySchema} with id ${i}`,
-      value: i,
-      entity: fillEntityWithDummies(materializeNew(linkedSchema, i)),
+  const options = useMemo(() => {
+    const res = optionItems.map((entity) => ({
+      label: linkedSchema.getLabel(entity.data, true),
+      value: entity.entityRef.id,
+      entity,
     }));
-  }
-
-
-
+    if (lastChange?.changed?.entityRef.type === 'new') {
+      res.push({
+        label: linkedSchema.getLabel(lastChange.changed.data, true),
+        value: lastChange.changed.entityRef.id,
+        entity: lastChange.changed,
+      });
+    }
+    return res;
+  }, [optionItems, lastChange?.changed]);
 
   const handleChange = useCallback(
     (item: string | number | null) => {
@@ -110,15 +199,15 @@ export const LinkedEntityPropertyComponent = (
             comments,
             changed: item
               ? {
-                entityRef: {
-                  id: item,
-                  schema: linkedEntitySchema,
-                  type: 'existing',
-                },
-                data:
-                  options.find((x) => x.value === item)?.entity.data ?? {},
-                state: 'lazy',
-              }
+                  entityRef: {
+                    id: item,
+                    schema: linkedEntitySchema,
+                    type: 'existing',
+                  },
+                  data:
+                    options.find((x) => x.value === item)?.entity.data ?? {},
+                  state: 'lazy',
+                }
               : null,
           },
         ],
@@ -176,6 +265,9 @@ export const LinkedEntityPropertyComponent = (
   return (
     <>
       {displaySelected}
+      {mode === EntityLinkEditMode.Create && (
+        <LinkedEntityAddNewComponent {...props} comments={comments} />
+      )}
       <EntityPropertyChangeCommentBox
         property={property}
         current={lastChange?.comments}

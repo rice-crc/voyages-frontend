@@ -44,7 +44,6 @@ export const EntityTableView = ({
   ...other
 }: EntityTableViewProps & EntityFormProps) => {
   const { label, linkedEntitySchema } = property;
-  console.log({property, entity, ...other})
   const fieldValue = entity.data[label];
   if (!isMaterializedEntityArray(fieldValue)) {
     return (
