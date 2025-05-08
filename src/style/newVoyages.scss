@@ -23,7 +23,9 @@
   font-size: 1rem !important;
   font-weight: 700 !important;
 }
-
+.description-text{
+  margin: 5px 0;
+}
 .custom-collapse {
   margin-top: 12px;
   .ant-collapse-item {
@@ -35,7 +37,6 @@
     }
     .ant-collapse-content {
       .ant-collapse-content-box {
-        border: 1px solid #d5d0d0;
         border-radius: 3px;
         margin-bottom: 10px;
       }

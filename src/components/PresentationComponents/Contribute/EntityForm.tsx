@@ -1,19 +1,15 @@
-import {EntityChange,} from '@/models/changeSets';
-import { EntitySchema} from '@/models/entities';
-import {MaterializedEntity} from '@/models/materialization';
-import { PropertyAccessLevel } from '@/models/properties';
 import {
-  Collapse,
-  CollapseProps,
-  Form,
-  Typography
-} from 'antd';
-import React, {
-  ReactNode,
-  useMemo,
-  useEffect,
-} from 'react';
+  EntityChange,
+  EntitySchema,
+  MaterializedEntity,
+  PropertyAccessLevel,
+} from '@dotproductdev/voyages-contribute';
+import {  CollapseProps, Form, Typography } from 'antd';
+import React, { ReactNode, useMemo, useEffect } from 'react';
 import { EntityPropertyComponent } from './EntityPropertyComponent';
+import { StyledCollapse } from '@/styleMUI/stylesMenu/styleCollapse';
+
+
 
 export interface ContributionFormProps {
   entity: MaterializedEntity;
@@ -35,7 +31,6 @@ export interface EntityFormProps {
   accessLevel: PropertyAccessLevel;
   onSectionsChange?: (sections: CollapseProps['items']) => void;
 }
-
 
 export const EntityForm = ({
   schema,
@@ -132,16 +127,14 @@ export const EntityForm = ({
   useEffect(() => {
     onSectionsChange?.(sections);
   }, [sections, onSectionsChange]);
-
   return (
-   <>
+    <>
       {ungrouped.length > 0 &&
         ungrouped.map((item, index) => (
           <div key={`ungrouped-${index}`}>{item}</div>
         ))}
       {sections.length > 0 && (
-        <div>
-          <Collapse
+          <StyledCollapse
             activeKey={expandedMenu}
             onChange={(keys) => {
               setExpandedMenu(keys as string[]);
@@ -151,7 +144,6 @@ export const EntityForm = ({
             ghost
             className="custom-collapse"
           />
-        </div>
       )}
     </>
   );

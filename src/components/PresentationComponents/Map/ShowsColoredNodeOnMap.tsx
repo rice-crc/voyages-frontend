@@ -13,7 +13,6 @@ const ShowsColoredNodeOnMap = () => {
   }else{
     classNameMap = 'leaflet-bottom'
   }
-  console.log({classNameMap})
 
   return (
     <div className={`${classNameMap} leaflet-left __web-inspector-hide-shortcut__`}>

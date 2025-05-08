@@ -6,9 +6,9 @@ import { Divider, Form, Input, message } from 'antd';
 import {
   VoyageSchema,
   EntitySchema,
-} from '@/models/entities';
+  materializeNew,
+} from '@dotproductdev/voyages-contribute';
 import { ContributionForm } from '../ContributionForm';
-import { materializeNew } from '@/models/materialization';
 
 export interface EntityFormProps {
   schema: EntitySchema;
@@ -93,7 +93,7 @@ const NewVoyage: React.FC = () => {
         <Form.Item
           name="voyageComments"
           label={<span className="lable-title">Voyage comments:</span>}
-        // rules={[{ required: true, message: "Voyage comments are required" }]}
+          // rules={[{ required: true, message: "Voyage comments are required" }]}
         >
           <Input.TextArea rows={2} />
         </Form.Item>
@@ -103,9 +103,9 @@ const NewVoyage: React.FC = () => {
           the reviewer/editor, please use the contributor's comments at the end
           of this form or any of the specific field comment boxes.
         </small>
-        <Divider />
-        <ContributionForm entity={tempNewVoyage} />
-        <Divider />
+        <Divider style={{margin: '12px 0'}}/>
+        <ContributionForm entity={tempNewVoyage} height={100}/>
+        <Divider style={{margin: '12px 0'}}/>
         <Form.Item
           name="contributorsComments"
           label={
