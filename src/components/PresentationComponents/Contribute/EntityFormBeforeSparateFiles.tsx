@@ -33,7 +33,6 @@ import React, {
 } from 'react';
 import { useSelector } from 'react-redux';
 import { EntityPropertyComponent } from './EntityPropertyComponent';
-import FormItemLabel from 'antd/es/form/FormItemLabel';
 
 export interface ContributionFormProps {
   entity: MaterializedEntity;
@@ -226,7 +225,7 @@ const PropertyChangeCard = ({ change }: PropertyChangeCardProps) => {
   if (change.kind === 'ownedList') {
     display = (
       <div style={{ paddingLeft: '20px' }}>
-        {change.modified && <PropertyChangesList changes={change.modified} />}
+        {change.modified && <PropertyChangesList changes={change.modified}  />}
         <ul>
           {change.removed.map((r, i) => (
             <li key={i}>Removed item with id {r.id}</li>

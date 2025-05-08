@@ -55,8 +55,8 @@ export const EntityPropertyComponent = ({
                 ]
               : []
           }
-          onChange={(c) =>
-            c.type === 'update' &&
+           onChange={(c) =>{
+            return c.type === 'update' &&
             other.onChange({
               type: 'update',
               entityRef: entity.entityRef,
@@ -69,6 +69,7 @@ export const EntityPropertyComponent = ({
                 },
               ],
             })
+          }
           }
           schema={getSchema(property.linkedEntitySchema)}
           entity={value}

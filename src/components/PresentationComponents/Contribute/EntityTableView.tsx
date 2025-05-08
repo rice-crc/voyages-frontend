@@ -125,15 +125,16 @@ export const EntityTableView = ({
       ],
     });
   }, [entity, lastChange, property, linkedEntitySchema, onChange]);
+
   return (
-    <div style={{ marginTop: '10px', marginBottom: '10px', background: 'red' }}>
+    <div style={{ marginTop: '10px', marginBottom: '10px'}}>
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
-            <TableRow>
+            <TableRow >
               <TableCell />
               <TableCell>
-                <Typography.Title level={5}>{property.label}</Typography.Title>
+                <Typography.Title level={5}  style={{ color: 'rgb(55, 148, 141)' }}>{property.label}</Typography.Title>
               </TableCell>
               <TableCell align="right">
                 <IconButton size="small" color="success" onClick={handleAdd}>

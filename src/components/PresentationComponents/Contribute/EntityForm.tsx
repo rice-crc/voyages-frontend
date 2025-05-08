@@ -127,7 +127,6 @@ export const EntityForm = ({
   useEffect(() => {
     onSectionsChange?.(sections);
   }, [sections, onSectionsChange]);
-
   return (
     <>
       {ungrouped.length > 0 &&
@@ -135,7 +134,6 @@ export const EntityForm = ({
           <div key={`ungrouped-${index}`}>{item}</div>
         ))}
       {sections.length > 0 && (
-        <div>
           <StyledCollapse
             activeKey={expandedMenu}
             onChange={(keys) => {
@@ -146,7 +144,6 @@ export const EntityForm = ({
             ghost
             className="custom-collapse"
           />
-        </div>
       )}
     </>
   );

@@ -103,9 +103,9 @@ const NewVoyage: React.FC = () => {
           the reviewer/editor, please use the contributor's comments at the end
           of this form or any of the specific field comment boxes.
         </small>
-        <Divider />
+        <Divider style={{margin: '12px 0'}}/>
         <ContributionForm entity={tempNewVoyage} height={100}/>
-        <Divider />
+        <Divider style={{margin: '12px 0'}}/>
         <Form.Item
           name="contributorsComments"
           label={

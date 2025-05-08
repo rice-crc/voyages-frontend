@@ -89,18 +89,6 @@ const EditExistingVoyage: React.FC<EditExistingVoyageProps> = ({
               Search
             </Button>
           </div>
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              style={{
-                backgroundColor: 'rgb(55, 148, 141)',
-                height: 32,
-              }}
-            >
-              Begin
-            </Button>
-          </Form.Item>
           </Form>
         <Divider />
         {entity && entity.entityRef.id !== 0 ? (

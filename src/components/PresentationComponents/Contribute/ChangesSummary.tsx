@@ -12,7 +12,7 @@ import {
     DeleteOutlined,
 } from '@ant-design/icons';
 
-import { EntityChange } from '@dotproductdev/voyages-contribute';
+import { EntityChange, MaterializedEntity } from '@dotproductdev/voyages-contribute';
 import PropertyChangesList from './PropertyChangesList';
 const { Text } = Typography;
 
@@ -24,13 +24,14 @@ const iconMap = {
 
 interface ChangesSummaryProps {
     changes: EntityChange[];
+    entity: MaterializedEntity;
     resetAllChanges: () => void;
     submitChanges: () => void;
     handleSaveChanges: () => void;
 }
 
 const ChangesSummary = ({
-    changes,
+    changes,entity,
     resetAllChanges,
     submitChanges,
     handleSaveChanges,
@@ -56,7 +57,7 @@ const ChangesSummary = ({
                 </Button>
             </Row>
 
-            <div style={{ flex: 1, overflowY: 'auto', padding: 8 }}>
+            <div style={{ flex: 1, overflowY: 'auto' }}>
                 {changes.length === 0 ? (
                     <Text type="secondary" italic>
                         No changes have been made yet
@@ -79,7 +80,7 @@ const ChangesSummary = ({
                                         </Text>
                                     </div>
                                     {change.type === 'update' ? (
-                                        <PropertyChangesList changes={change.changes} />
+                                        <PropertyChangesList changes={change.changes} entity={entity}/>
                                     ) : change.type === 'delete' ? (
                                         <div>Delete</div>
                                     ) : (

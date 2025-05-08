@@ -31,6 +31,7 @@ export const DirectEntityPropertyField = ({
 
   const handleChange = useCallback(
     (changed: DirectPropertyChange['changed']) => {
+     
       if (
         changed === (lastChange?.changed ?? value) &&
         comments === lastChange?.comments
@@ -68,12 +69,14 @@ export const DirectEntityPropertyField = ({
   return (
     <>
       <Input
-        className={lastChange ? 'changedEntityProperty' : undefined}
+        className={`truncate-input ${lastChange ? 'changedEntityProperty' : ''}`}
         type={kind}
         placeholder={`Please type ${label}`}
         style={{ width: 'calc(100% - 20px)' }}
         value={value + ''}
-        onChange={(e: any) => handleChange(e.target.value)}
+        onChange={(e: any) => {
+          handleChange(e.target.value)
+        }}
       />
       <EntityPropertyChangeCommentBox
         property={property}

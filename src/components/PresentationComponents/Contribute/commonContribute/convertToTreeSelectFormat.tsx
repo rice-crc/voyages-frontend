@@ -25,8 +25,8 @@ export function convertToTreeSelectFormat(data: LocationNode[]): TreeSelectNode[
 
     return {
       title: node.code ? `${node.name} (Code: ${node.code})` : node.name,
-      value: node.id,
-      key: node.id.toString(),
+      value: String(node.id),
+      key: String(node.id),
       selectable: isPlace,
       children:
         node.children && node.children.length > 0

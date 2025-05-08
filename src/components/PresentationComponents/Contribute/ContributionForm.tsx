@@ -30,6 +30,7 @@ import { RootState } from '@/redux/store';
 import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
 import { EntityForm } from './EntityForm';
 import ChangesSummary from './ChangesSummary';
+import { shadowValueToCss } from 'ag-grid-community/dist/types/src/theming/theme-types';
 
 const { Text } = Typography;
 
@@ -221,7 +222,7 @@ export const ContributionForm = ({
                 {globalExpand ? translatedcontribute.collapse : translatedcontribute.expand}
               </a>
             </div>
-            <div style={{ overflowY: 'auto', padding: 4, flex: 1, height: `80vh` }}>
+            <div style={{ overflowY: 'auto', padding: 4, flex: 1, maxHeight: '80vh'}}>
               <EntityForm
                 key={entity.entityRef.id}
                 schema={schema}
@@ -285,6 +286,7 @@ export const ContributionForm = ({
                 resetAllChanges={resetAllChanges}
                 submitChanges={submitChanges}
                 handleSaveChanges={submitChanges}
+                entity={entity}
               />
             </div>
 
