@@ -12,9 +12,10 @@
 
 ## Ready to Merge?
 
-When this PR is ready to be merged:
+When you are ready for the Pull Request to be merged, leave a comment on the PR with this exact text:
 
-1. Add the `ready-to-merge` label
-2. Assign @derekjkeller to the PR
+```
+@derekjkeller This PR is ready to merge.
+```
 
-PRs without both the label and assignment will not be considered for merging.
+PRs without this comment will not be considered for merging.
