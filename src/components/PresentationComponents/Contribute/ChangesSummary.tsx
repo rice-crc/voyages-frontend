@@ -11,7 +11,6 @@ import {
     PlusOutlined,
     DeleteOutlined,
 } from '@ant-design/icons';
-
 import { EntityChange, MaterializedEntity } from '@dotproductdev/voyages-contribute';
 import PropertyChangesList from './PropertyChangesList';
 const { Text } = Typography;
@@ -28,14 +27,17 @@ interface ChangesSummaryProps {
     resetAllChanges: () => void;
     submitChanges: () => void;
     handleSaveChanges: () => void;
+    handleDeleteChange: ( propertyToDelete: string) => void
 }
 
 const ChangesSummary = ({
-    changes,entity,
+    changes,
     resetAllChanges,
     submitChanges,
     handleSaveChanges,
+    handleDeleteChange
 }: ChangesSummaryProps) => {
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             <Row style={{ margin: '12px 0', gap: 8 }}>
@@ -80,7 +82,7 @@ const ChangesSummary = ({
                                         </Text>
                                     </div>
                                     {change.type === 'update' ? (
-                                        <PropertyChangesList changes={change.changes} entity={entity}/>
+                                        <PropertyChangesList changes={change.changes}  handleDeleteChange={handleDeleteChange}/>
                                     ) : change.type === 'delete' ? (
                                         <div>Delete</div>
                                     ) : (

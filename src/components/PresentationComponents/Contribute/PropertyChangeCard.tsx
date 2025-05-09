@@ -5,6 +5,7 @@ import '@/style/contributeContent.scss';
 
 interface PropertyChangeCardProps {
   change: PropertyChange;
+  handleDeleteChange: ( propertyToDelete: string) => void
   property?: string
 }
 export function getMonthName(month: number): string {
@@ -16,7 +17,7 @@ export function capitalizeFirstLetter(str: string): string {
 }
 
 
-const PropertyChangeCard = ({ change, property}: PropertyChangeCardProps) => {
+const PropertyChangeCard = ({ change, property ,handleDeleteChange}: PropertyChangeCardProps) => {
 
   let display: ReactNode;
 
@@ -41,30 +42,47 @@ const PropertyChangeCard = ({ change, property}: PropertyChangeCardProps) => {
     return "<unknown>";
   }
 
-
-
   if (change.kind === 'direct') {
     display = <span className="details-changes">{String(change.changed)}</span>;
+  } else if (change.kind === 'linked' && change.linkedChanges) {
+    display = (
+      <div className="linked-change-wrapper">
+      <div className="linked-change-table">
+        <PropertyChangesTable change={change.linkedChanges} sectionName="" handleDeleteChange={handleDeleteChange} />
+      </div>
+    </div>
+    
+    );
   } else if (change.kind === 'linked') {
-    console.log({ change })
     display = (
       <span className="details-changes">
         {getDisplayName(change.changed)}
       </span>
     );
   } else if (change.kind === 'ownedList') {
+    const combinedChanges = change.modified.flatMap((mod) => mod.changes);
+    const hasModified = combinedChanges.length > 0;
+    const hasRemoved = change.removed.length > 0;
+  
+    if (!hasModified && !hasRemoved) return null;
+  
     display = (
-      <ul className="details-changes" style={{ paddingLeft: '1rem', margin: 0 }}>
-        {change.removed.map((r, i) => {
-          return (
-            <li key={i}>Removed item with id {r.id}</li>
-          )
-        }
+      <>
+        {hasModified && (
+          <PropertyChangesTable change={combinedChanges} sectionName={property} handleDeleteChange={handleDeleteChange}/>
         )}
-      </ul>
+  
+        {hasRemoved && (
+          <ul className="details-changes" style={{ paddingLeft: '1rem', margin: 0 }}>
+            {change.removed.map((r, i) => (
+              <li key={i}>Removed item with id {r.id}</li>
+            ))}
+          </ul>
+        )}
+      </>
     );
   } else if (change.kind === 'owned') {
-    display = <PropertyChangesTable change={change.changes} sectionName={property} />;
+    display = <PropertyChangesTable change={change.changes} sectionName={property} handleDeleteChange={handleDeleteChange} />;
   } else {
     display = <span>Unsupported change type</span>;
   }

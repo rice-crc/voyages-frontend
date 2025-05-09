@@ -270,3 +270,22 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.linked-change-wrapper {
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border-left: 3px solid #00796b;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+
+  .linked-change-table .ant-table {
+    margin-inline: 0px -8px !important;
+    margin-block: -8px !important;
+  }
+}
+
+
+.linked-entity-label {
+  font-weight: 600;
+  color: #00796b;
+  margin-bottom: 0.5rem;
+}

@@ -12,7 +12,6 @@ import { EntityTableView } from './EntityTableView';
 import NumbersTableComponent from './NumbersTableComponent';
 import { DirectEntityPropertyField } from './DirectEntityPropertyField';
 import { LinkedEntityPropertyComponent } from './LinkedEntityPropertyComponent';
-import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
 
 export interface EntityPropertyComponentProps extends EntityFormProps {
   property: Property;

@@ -127,7 +127,7 @@ export const EntityTableView = ({
   }, [entity, lastChange, property, linkedEntitySchema, onChange]);
 
   return (
-    <div style={{ marginTop: '10px', marginBottom: '10px'}}>
+    <div style={{ marginBottom: '10px'}}>
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>

@@ -6,7 +6,7 @@ import {
   LinkedEntityProperty,
   getSchema,
 } from '@dotproductdev/voyages-contribute';
-import { Alert,  Select, Spin } from 'antd';
+import { Alert, Select, Spin, Tooltip } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EntityFormProps } from './EntityForm';
 import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
@@ -51,6 +51,7 @@ export const LinkedEntityPropertyComponent = (
       expirationSeconds: 300,
     },
   );
+
   const options = useMemo(() => {
     const res = optionItems.map((entity) => ({
       label: linkedSchema.getLabel(entity.data, true),
@@ -82,27 +83,9 @@ export const LinkedEntityPropertyComponent = (
         console.warn('No matching option found for item:', item);
         return;
       }
-      /*
-{
-    "item": 2,
-    "entity": {
-        "entityRef": {
-            "type": "existing",
-            "id": 2,
-            "schema": "CargoUnit"
-        },
-        "data": {
-            "Name": "pound",
-            "id": 2
-        },
-        "state": "lazy"
-    }
-}
-
-      */
 
       const { entity } = matchedOption;
-      console.log({item, entity})
+      console.log({entity:entity})
       onChange({
         type: 'update',
         entityRef: entity.entityRef,
@@ -126,17 +109,29 @@ export const LinkedEntityPropertyComponent = (
     },
     [onChange, entity, property, comments, lastChange, value, options, uid, linkedEntitySchema]
   );
+
   // useEffect only if external `value` updates should trigger a change
   useEffect(() => {
     handleChange(value?.entityRef.id ?? null);
   }, [handleChange, value]);
 
-
-  useEffect(() => {
-    if (value?.entityRef.id) {
-      handleChange(value.entityRef.id);
-    }
-  }, [handleChange, value]);
+  const styledOptions = options.map((opt) => ({
+    ...opt,
+    label: (
+      <Tooltip title={opt.label}>
+        <div
+          style={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: '400px', // adjust as needed
+          }}
+        >
+          {opt.label}
+        </div>
+      </Tooltip>
+    ),
+  }));
 
   let displaySelected;
 
@@ -170,11 +165,12 @@ export const LinkedEntityPropertyComponent = (
         value={value?.entityRef.id}
         placeholder={`Please select ${label}`}
         style={{ width: 'calc(100% - 20px)' }}
-        options={options}
+        options={styledOptions}
         onChange={handleChange}
         showSearch
+        optionLabelProp="label"
         filterOption={(input: string, option: any) =>
-          (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+          (option?.label?.props?.title ?? '').toLowerCase().includes(input.toLowerCase())
         }
       />
     );

@@ -20,7 +20,7 @@ import {
   Collapse,
 } from '@mui/material';
 import React, { useCallback, useMemo } from 'react';
-import { Add, Delete, Restore } from '@mui/icons-material';
+import {Delete, Restore } from '@mui/icons-material';
 import { EntityForm, EntityFormProps } from './EntityForm';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import { createEmptyChange } from './EntityTableView';

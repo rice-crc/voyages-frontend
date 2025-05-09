@@ -24,13 +24,13 @@ import {
   MaterializedEntity,
   PropertyAccessLevel,
   PropertyChange,
+  OwnedEntityChange,
 } from '@dotproductdev/voyages-contribute';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
 import { EntityForm } from './EntityForm';
 import ChangesSummary from './ChangesSummary';
-import { shadowValueToCss } from 'ag-grid-community/dist/types/src/theming/theme-types';
 
 const { Text } = Typography;
 
@@ -90,26 +90,6 @@ export const ContributionForm = ({
     return Object.values(seen);
   }
 
-  function combineEntityChanges(changes: EntityChange[]): EntityChange[] {
-    return changes.map(change => {
-      if (change.type === 'update') {
-        return {
-          ...change,
-          changes: change.changes.map(propertyChange => {
-            if (propertyChange.kind === 'owned') {
-              return {
-                ...propertyChange,
-                changes: combineOwnedChanges(propertyChange.changes),
-              };
-            }
-            return propertyChange;
-          }),
-        };
-      }
-      return change;
-    });
-  }
-
   const onChangesUpdate = useCallback(
     (newChange: EntityChange) =>
       setChangeSet((current) => {
@@ -120,6 +100,52 @@ export const ContributionForm = ({
       }),
     [],
   );
+
+  function dedupeOwnedChanges(modified: OwnedEntityChange[]): OwnedEntityChange[] {
+    const seenProps = new Set<string>();
+    const reversed = [...modified].reverse();
+
+    const deduped = reversed.filter(entry => {
+      const match = entry.changes.find(change => seenProps.has(change.property));
+      if (match) return false;
+
+      for (const change of entry.changes) {
+        seenProps.add(change.property);
+      }
+      return true;
+    });
+
+    return deduped.reverse();
+  }
+
+  function combineEntityChanges(changes: EntityChange[]): EntityChange[] {
+    return changes.map(change => {
+      if (change.type !== 'update') return change;
+
+      const updated = change.changes.map(prop => {
+        if (prop.kind === 'owned') {
+          return {
+            ...prop,
+            changes: combineOwnedChanges(prop.changes),
+          };
+        }
+
+        if (prop.kind === 'ownedList') {
+          return {
+            ...prop,
+            modified: dedupeOwnedChanges(prop.modified),
+          };
+        }
+
+        return prop;
+      });
+
+      return {
+        ...change,
+        changes: updated,
+      };
+    });
+  }
 
   const handlePreviewChanges = () => {
     const formValues = contributeForm.getFieldsValue();
@@ -174,6 +200,50 @@ export const ContributionForm = ({
     setGlobalExpand(!globalExpand);
   };
 
+  const handleDeletePropertyChange = (
+    propertyToDelete: string
+  ) => {
+    setChangeSet(prev => {
+      const updatedChanges: EntityChange[] = prev.changes
+        .map(entityChange => {
+          if ('changes' in entityChange && Array.isArray(entityChange.changes)) {
+            const updatedEntityChanges = entityChange.changes
+              .map(propChange => {
+                if ('changes' in propChange && Array.isArray(propChange.changes)) {
+                  const filteredFieldChanges = propChange.changes.filter(
+                    (fieldChange: any) => fieldChange?.property !== propertyToDelete
+                  );
+
+                  if (filteredFieldChanges.length === 0) return null;
+
+                  return {
+                    ...propChange,
+                    changes: filteredFieldChanges,
+                  };
+                }
+                return propChange;
+              })
+              .filter(Boolean);
+
+            if (updatedEntityChanges.length === 0) return null;
+
+            return {
+              ...entityChange,
+              changes: updatedEntityChanges,
+            };
+          }
+
+          return entityChange;
+        })
+        .filter(Boolean) as EntityChange[];
+
+      return {
+        ...prev,
+        changes: updatedChanges,
+      };
+    });
+  };
+
   return (
     <Form
       form={contributeForm}
@@ -182,7 +252,7 @@ export const ContributionForm = ({
       style={{ display: 'flex', flexDirection: 'column', height: `${height}vh` }}
     >
       {/* Top Form - Contribution Details */}
-      <Card title="Contribution Details" style={{ flexShrink: 0 }} styles={{body:{padding: '10px 16px'}}}>
+      <Card title="Contribution Details" style={{ flexShrink: 0 }} styles={{ body: { padding: '10px 16px' } }}>
         <Row gutter={6}>
           <Col span={12}>
             <Form.Item label="Contribution Title" name="title">
@@ -222,7 +292,7 @@ export const ContributionForm = ({
                 {globalExpand ? translatedcontribute.collapse : translatedcontribute.expand}
               </a>
             </div>
-            <div style={{ overflowY: 'auto', padding: 4, flex: 1, maxHeight: '80vh'}}>
+            <div style={{ overflowY: 'auto', padding: 4, flex: 1, maxHeight: '80vh' }}>
               <EntityForm
                 key={entity.entityRef.id}
                 schema={schema}
@@ -287,6 +357,7 @@ export const ContributionForm = ({
                 submitChanges={submitChanges}
                 handleSaveChanges={submitChanges}
                 entity={entity}
+                handleDeleteChange={handleDeletePropertyChange}
               />
             </div>
 

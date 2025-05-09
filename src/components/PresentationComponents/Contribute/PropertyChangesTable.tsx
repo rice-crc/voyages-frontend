@@ -1,16 +1,19 @@
 import { Table } from 'antd';
 import { PropertyChange } from '@dotproductdev/voyages-contribute';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import PropertyChangeCard from './PropertyChangeCard';
+import { IconButton } from '@mui/material';
+import { Delete, Restore } from '@mui/icons-material';
 interface PropertyChangesTableProps {
   change: PropertyChange[];
+  handleDeleteChange: (propertyToDelete: string) => void
   sectionName?: string;
   showTitle?: boolean;
 }
 
 const PropertyChangesTable = ({
   change,
-  sectionName,
+  sectionName, handleDeleteChange,
   showTitle = true,
 }: PropertyChangesTableProps) => {
 
@@ -21,7 +24,7 @@ const PropertyChangesTable = ({
       key: 'property',
       width: 300,
       flex: 1,
-      render: (text: string) => <div>{text}</div>,
+      render: (property: string) => <div>{property}</div>,
     },
     {
       title: 'Value',
@@ -33,51 +36,65 @@ const PropertyChangesTable = ({
         return (
           <div>
             {value}
-          {/* 
-          // Todo: Undo here is going to be very complicated, what we can do "easily" is "pop" the last change out, if that is your undo, then you can implement it.
-              <Button
-                 type="text"
-             icon={<UndoOutlined />}
-            //  onClick={() => {
-            //    console.log({change: change})
-            //    change.type === 'update' ? (
-            //        change.changes?.forEach((fieldChange) =>{
-            //            console.log({fieldChange})
-            //            // handleFieldChange(change.entityRef.schema, fieldChange.field, fieldChange.oldValue)
-            //        })
-            //    ) : null
-            //  }}
-             title="Undo changes"
-           />  */}
-        </div>
+          </div>
         )
-    },
-    },
+      }
+    }, 
+     // Todo: Undo here is going to be very complicated, what we can do "easily" is "pop" the last change out, if that is your undo, then you can implement it.
+    // {
+    //   title: 'Action',
+    //   dataIndex: 'undo',
+    //   key: 'undo',
+    //   width: 50,
+    //   flex: 1,
+    //   render: (_: any, record: any) => {
+    //     console.log({ record })
+    //     return (
+    //       <IconButton
+    //         size="small"
+    //         color={'error'}
+    //         onClick={() => handleDeleteChange(record.property)}
+    //         title={'Delete'}
+    //       >
+    //         <Delete />
+    //       </IconButton>
+    //     );
+    //   }
+    // }
   ];
 
-  const dataSource = change.map((c, index) => {
-    return ({
-      key: index,
-      property: c.property,
-      value: <PropertyChangeCard change={c} property={c.property} />,
-    })
+  const sortedChanges = [...change].sort((a, b) =>
+    a.property.localeCompare(b.property)
+  );
+
+  const seenProperties = new Set<string>();
+
+  const dataSource = sortedChanges.map((c, index) => {
+    const isFirstOccurrence = !seenProperties.has(c.property);
+    if (isFirstOccurrence) seenProperties.add(c.property);
+    const rowKey = `${c.property}-${index}`
+    return {
+      key: rowKey,
+      property: isFirstOccurrence ? c.property : '',
+      value: <PropertyChangeCard change={c} property={c.property} handleDeleteChange={handleDeleteChange} />,
+    };
   });
-  
+
   return (
     <Table
-    size="small"
-    className="property-changes-table"
-    pagination={false}
-    columns={columns}
-    dataSource={dataSource}
-    bordered
-    showHeader={false}
-    title={
-      showTitle && sectionName
-        ? () => <strong className="section-title">{sectionName.replace(/_/g, ' ')}</strong>
-        : undefined
-    }
-  />
+      size="small"
+      className="property-changes-table"
+      pagination={false}
+      columns={columns}
+      dataSource={dataSource}
+      bordered
+      showHeader={false}
+      title={
+        showTitle && sectionName
+          ? () => <strong className="section-title">{sectionName.replace(/_/g, ' ')}</strong>
+          : undefined
+      }
+    />
   );
 };
 
