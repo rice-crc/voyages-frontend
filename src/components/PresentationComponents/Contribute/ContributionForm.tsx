@@ -101,49 +101,23 @@ export const ContributionForm = ({
     [],
   );
 
-  function dedupeOwnedChanges(modified: OwnedEntityChange[]): OwnedEntityChange[] {
-    const seenProps = new Set<string>();
-    const reversed = [...modified].reverse();
-
-    const deduped = reversed.filter(entry => {
-      const match = entry.changes.find(change => seenProps.has(change.property));
-      if (match) return false;
-
-      for (const change of entry.changes) {
-        seenProps.add(change.property);
-      }
-      return true;
-    });
-
-    return deduped.reverse();
-  }
-
   function combineEntityChanges(changes: EntityChange[]): EntityChange[] {
     return changes.map(change => {
-      if (change.type !== 'update') return change;
-
-      const updated = change.changes.map(prop => {
-        if (prop.kind === 'owned') {
-          return {
-            ...prop,
-            changes: combineOwnedChanges(prop.changes),
-          };
-        }
-
-        if (prop.kind === 'ownedList') {
-          return {
-            ...prop,
-            modified: dedupeOwnedChanges(prop.modified),
-          };
-        }
-
-        return prop;
-      });
-
-      return {
-        ...change,
-        changes: updated,
-      };
+      if (change.type === 'update') {
+        return {
+          ...change,
+          changes: change.changes.map(propertyChange => {
+            if (propertyChange.kind === 'owned') {
+              return {
+                ...propertyChange,
+                changes: combineOwnedChanges(propertyChange.changes),
+              };
+            }
+            return propertyChange;
+          }),
+        };
+      }
+      return change;
     });
   }
 
