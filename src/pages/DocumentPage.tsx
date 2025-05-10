@@ -162,7 +162,7 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
   const search = (pageNum: number, pageSize: number) => {
     const model: DocumentSearchModel = {
       page: pageNum,
-      page_size: pageSize
+      page_size: pageSize,
     };
     if (inputSearchValue) {
       model.global_search = inputSearchValue;
@@ -179,6 +179,7 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
         Object.assign(model, { [field]: value });
       }
     }
+    console.log({model})
     setValidation(validated);
     return docSearch(model);
   };
