@@ -39,8 +39,8 @@ const PropertyChangesTable = ({
           </div>
         )
       }
-    }, 
-     // Todo: Undo here is going to be very complicated, what we can do "easily" is "pop" the last change out, if that is your undo, then you can implement it.
+    },
+    // Todo: Undo here is going to be very complicated, what we can do "easily" is "pop" the last change out, if that is your undo, then you can implement it.
     // {
     //   title: 'Action',
     //   dataIndex: 'undo',
@@ -69,16 +69,19 @@ const PropertyChangesTable = ({
 
   const seenProperties = new Set<string>();
 
-  const dataSource = sortedChanges.map((c, index) => {
-    const isFirstOccurrence = !seenProperties.has(c.property);
-    if (isFirstOccurrence) seenProperties.add(c.property);
-    const rowKey = `${c.property}-${index}`
-    return {
-      key: rowKey,
-      property: isFirstOccurrence ? c.property : '',
-      value: <PropertyChangeCard change={c} property={c.property} handleDeleteChange={handleDeleteChange} />,
-    };
-  });
+  const dataSource = sortedChanges
+    .filter((c): c is PropertyChange => !!c && typeof c.property === 'string')
+    .map((c, index) => {
+      const isFirstOccurrence = !seenProperties.has(c.property);
+      if (isFirstOccurrence) seenProperties.add(c.property);
+      const rowKey = `${c.property}-${index}`;
+      return {
+        key: rowKey,
+        property: c.property,
+        value: <PropertyChangeCard change={c} property={c.property} handleDeleteChange={handleDeleteChange} />,
+      };
+    });
+
 
   return (
     <Table

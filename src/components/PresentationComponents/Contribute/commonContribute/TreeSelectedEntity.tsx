@@ -131,7 +131,7 @@ const TreeSelectedEntity: React.FC<TheeSelectedEntityProps> = ({
   };
   
   return (
-    <TreeSelect<string | number, TreeSelectNode> {...treeSelectProps} treeDefaultExpandAll/>
+    <TreeSelect<string | number, TreeSelectNode> {...treeSelectProps} treeDefaultExpandAll   dropdownStyle={{overflow: 'auto', zIndex: 9999, }}/>
   );
 };
 

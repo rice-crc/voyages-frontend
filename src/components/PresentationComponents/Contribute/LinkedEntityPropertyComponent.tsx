@@ -168,6 +168,7 @@ export const LinkedEntityPropertyComponent = (
         options={styledOptions}
         onChange={handleChange}
         showSearch
+        dropdownStyle={{ maxHeight: 400, overflow: 'auto', zIndex: 9999, }}
         optionLabelProp="label"
         filterOption={(input: string, option: any) =>
           (option?.label?.props?.title ?? '').toLowerCase().includes(input.toLowerCase())

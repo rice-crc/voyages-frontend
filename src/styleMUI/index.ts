@@ -183,6 +183,12 @@ export const PaperDraggableTimeLapseStyle = {
   minWidth: 420,
   overflow: 'hidden',
 };
+
+export const PaperDraggableContributeStyle = {
+  maxWidth: 550,
+  minWidth: 550,
+  overflow: 'hidden',
+};
 export const TextFieldSearch = styled(TextField)`
   & label.Mui-focused {
     color: white;

@@ -24,7 +24,6 @@ import {
   MaterializedEntity,
   PropertyAccessLevel,
   PropertyChange,
-  OwnedEntityChange,
 } from '@dotproductdev/voyages-contribute';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
