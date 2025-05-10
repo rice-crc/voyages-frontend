@@ -17,10 +17,10 @@ import {
   Snackbar,
   TextField,
   Tooltip,
-  Typography,Badge, Pagination,IconButton,ImageListItem,ImageList,ImageListItemBar
+  Typography, Badge, Pagination, IconButton, ImageListItem, ImageList, ImageListItemBar
 } from '@mui/material';
-
-import { AutoStories, Bookmarks, Search ,GridView, ViewList} from '@mui/icons-material';
+import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
+import { AutoStories, Bookmarks, Search, GridView, ViewList } from '@mui/icons-material';
 import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { Link } from 'react-router-dom';
 import voyageLogo from '@/assets/sv-logo.png';
@@ -31,6 +31,8 @@ import {
   DocumentWorkspace,
   createDocKey,
 } from '@/utils/functions/documentWorkspace';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 function useDebounce<T>(value: T, wait: number = 500) {
   const [debounceValue, setDebounceValue] = useState<T>(value);
@@ -65,6 +67,7 @@ interface DocumentSearchModel {
   voyageIds?: number[];
   page: number;
   page_size: number;
+  global_search?: string
 }
 
 interface DocumentSearchApiResult {
@@ -153,11 +156,17 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
   const [editingField, setEditingField] = useState<string | null>(null);
   const [lastError, setLastError] = useState<string | undefined>();
   const debouncedSearch = useDebounce(searchData, 500);
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   const search = (pageNum: number, pageSize: number) => {
     const model: DocumentSearchModel = {
       page: pageNum,
-      page_size: pageSize,
+      page_size: pageSize
     };
+    if (inputSearchValue) {
+      model.global_search = inputSearchValue;
+    }
     const validated: Partial<Record<DocumentSearchFields, string>> = {};
     for (const field of DocumentSearchFieldNames) {
       const value = debouncedSearch[field];
@@ -237,8 +246,8 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
             validation[field]
               ? 'error'
               : searchData[field]
-              ? 'primary'
-              : 'secondary'
+                ? 'primary'
+                : 'secondary'
           }
           onFocus={onClick}
           onClick={() => setEditingField(field)}
@@ -496,10 +505,14 @@ const DocumentPage: React.FC = () => {
   });
   const [tab, setTab] = useState<DocumentPageTab>('Search');
   const [viewMode, setViewMode] = useState<DocumentGalleryViewMode>('list');
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch
+  );
   useEffect(() => {
     setSources({ ...sources, Workspace: getWorkspaceSource(workspace ?? []) });
   }, [workspace]);
   const tabSource = sources[tab];
+  console.log({ tabSource })
   // TODO: Change the header colors.
   return (
     <>
@@ -509,10 +522,19 @@ const DocumentPage: React.FC = () => {
         </Link>
         <div style={{ display: 'flex' }}>
           <div style={tab === 'Workspace' ? { opacity: 0.33 } : {}}>
-            <DocumentSearchBox
-              onClick={() => setTab('Search')}
-              onUpdate={(src) => setSources({ ...sources, Search: src })}
-            />
+            {inputSearchValue ? (
+              <div>
+                <GlobalSearchButton />
+                <span style={{ position: 'relative', bottom: 12 }}>  <DocumentSearchBox
+                  onClick={() => setTab('Search')}
+                  onUpdate={(src) => setSources({ ...sources, Search: src })}
+                /> </span>
+
+              </div>) :
+              <DocumentSearchBox
+                onClick={() => setTab('Search')}
+                onUpdate={(src) => setSources({ ...sources, Search: src })}
+              />}
           </div>
           {sources.Workspace && (
             <Tooltip
