@@ -526,7 +526,7 @@ const DocumentPage: React.FC = () => {
             {inputSearchValue ? (
               <div>
                 <GlobalSearchButton />
-                <span style={{ position: 'relative', bottom: 12 }}>  <DocumentSearchBox
+                <span style={{ position: 'relative', bottom: 12 , display:'none'}}>  <DocumentSearchBox
                   onClick={() => setTab('Search')}
                   onUpdate={(src) => setSources({ ...sources, Search: src })}
                 /> </span>
