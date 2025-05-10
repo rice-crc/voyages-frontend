@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, RadioGroup, FormControlLabel, Radio } from '@mui/material';
-import { Download } from 'lucide-react';
+import DownloadIcon from '@mui/icons-material/Download';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
 import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
@@ -139,7 +139,7 @@ const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, colum
       <span style={{ display: 'flex', alignItems: 'center' }}>
         <Button
           onClick={handleOpen}
-          endIcon={<Download size={14} />}
+          endIcon={<DownloadIcon fontSize="small" />}
           sx={{
             fontSize: '0.80rem',
             textTransform: 'unset',
@@ -188,7 +188,7 @@ const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, colum
           <div>
             <Button
               onClick={downloadCSV}
-              endIcon={<Download size={14} />}
+              endIcon={<DownloadIcon fontSize="small" />}
               style={{ marginRight: 4 }}
               sx={{
                 fontSize: '0.80rem',
@@ -208,7 +208,7 @@ const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, colum
             </Button>
             <Button
               onClick={downloadExcel}
-              endIcon={<Download size={14} />}
+              endIcon={<DownloadIcon fontSize="small" />}
               sx={{
                 fontSize: '0.80rem',
                 textTransform: 'unset',

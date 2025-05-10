@@ -112,6 +112,7 @@ export const GlobalSearchVoyagesType = 'voyages';
 export const GlobalSearchEnslavedType = 'enslaved';
 export const GlobalSearchEnslaversType = 'enslavers';
 export const GlobalSearchBlogType = 'blog';
+export const GlobalSearchSourcesType = 'sources';
 
 export const ASSESSMENT = 'assessment';
 export const ESTIMATES = 'estimates';

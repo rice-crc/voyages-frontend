@@ -19,11 +19,13 @@ import {
   ALLENSLAVEDPAGE,
   ALLVOYAGESPAGE,
   BLOGPAGE,
+  DOCUMENTPAGE,
   ENSALVEDPAGE,
   ENSALVERSPAGE,
   GlobalSearchBlogType,
   GlobalSearchEnslavedType,
   GlobalSearchEnslaversType,
+  GlobalSearchSourcesType,
   GlobalSearchVoyagesType,
   TRANSATLANTICENSLAVERS,
 } from '@/share/CONST_DATA';
@@ -132,6 +134,8 @@ const AutoGlobalSearchBar = () => {
         navigate(`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}#people`);
       } else if (type === GlobalSearchBlogType) {
         navigate(`${BLOGPAGE}`);
+      }else if (type === GlobalSearchSourcesType) {
+        navigate(`${DOCUMENTPAGE}`);
       }
       localStorage.setItem('global_search', inputSearchValue);
     }
@@ -178,9 +182,11 @@ const AutoGlobalSearchBar = () => {
               className="list-search-global"
             >
               <ListItem
-                button
-                onClick={() => handleSelect(option)}
-                disabled={shouldDisable(option)}
+                onClick={() => !shouldDisable(option) && handleSelect(option)}
+                sx={{ 
+                  opacity: shouldDisable(option) ? 0.5 : 1,
+                  cursor: shouldDisable(option) ? 'not-allowed' : 'pointer'
+                }}
               >
                 <ListItemText primary={getOptionLabelSearchGlobal(option)} />
               </ListItem>

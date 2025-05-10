@@ -1,9 +1,15 @@
-import { EntityChange, TableChange } from '@/models/changeSets';
-import { MaterializedEntity } from '@/models/materialization';
-import { TableProperty } from '@/models/properties';
-import { Input } from '@/styleMUI';
 import React, { useCallback, useState } from 'react';
+import { Table, Input } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import {
+  EntityChange,
+  TableChange,
+  MaterializedEntity,
+  TableProperty,
+} from '@dotproductdev/voyages-contribute';
 import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
+import '@/style/numberTable.scss';
+import { relative } from 'path';
 
 interface EditableTableProps {
   property: TableProperty;
@@ -24,14 +30,23 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
   onChange,
 }) => {
   const [activeCell, setActiveCell] = useState<ActiveCell | null>(null);
+  const [localChanges, setLocalChanges] = useState<Record<string, string>>({});
+
   const entityData = entity.data;
+
   const handleCellChange = useCallback(
     (col: number, row: number, changed: string) => {
       const field = property.cellField(col, row);
-      if (!field) return; // Skip if no backing field exists
+      if (!field) return;
 
       const numValue = changed === '' ? null : parseFloat(changed);
       if (changed !== '' && isNaN(numValue as number)) return;
+
+      setLocalChanges((prev) => ({
+        ...prev,
+        [field]: changed,
+      }));
+
       const allChanges = { ...lastChange?.changes, [field]: numValue };
       onChange({
         type: 'update',
@@ -45,21 +60,21 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
           },
         ],
       });
+
     },
-    [property, entity, entityData, lastChange, onChange],
+    [property, entity, lastChange, onChange]
   );
 
   const getCellValue = useCallback(
     (col: number, row: number): string => {
       const field = property.cellField(col, row);
       if (!field) return '';
-      const changed = lastChange?.changes[field]
+      const changed = lastChange?.changes[field];
       const value = changed === undefined ? entityData[field] : changed;
-      // We're assuming all values are numbers as per the requirements
       if (typeof value !== 'number') return '';
       return value.toString();
     },
-    [property, lastChange, entityData],
+    [property, lastChange, entityData]
   );
 
   const handleComment = useCallback(
@@ -77,87 +92,115 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
         ],
       });
     },
-    [entity, lastChange, property, onChange],
+    [entity, lastChange, property, onChange]
   );
 
+
+  // Construct dataSource for Antd Table
+  const dataSource = property.rows.map((rowHeader, rowIndex) => {
+    const row: any = {
+      key: rowIndex,
+      rowHeader,
+    };
+    property.columns.forEach((_, colIndex) => {
+      const field = property.cellField(colIndex, rowIndex);
+      row[`col-${colIndex}`] = {
+        field,
+        value: getCellValue(colIndex, rowIndex),
+        rowIndex,
+        colIndex,
+      };
+    });
+    return row;
+  });
+
+  // Construct columns for Antd Table
+  const columns: ColumnsType<any> = [
+    {
+      title: '',
+      dataIndex: 'rowHeader',
+      key: 'rowHeader',
+      fixed: 'left',
+      width: 200,
+      render: (text: string, _record, rowIndex) => (
+        <span
+          style={
+            activeCell?.rowIndex === rowIndex
+              ? { color: 'rgb(55, 148, 141)', fontSize: '0.85rem' }
+              : { fontSize: '0.85rem' }
+          }
+        >
+          {text}
+        </span>
+      ),
+    },
+    ...property.columns.map((colHeader, colIndex) => ({
+      title: (
+        <span
+          style={
+            activeCell?.colIndex === colIndex
+              ? { color: 'rgb(55, 148, 141)', fontSize: '0.85rem' }
+              : { fontSize: '0.85rem' }
+          }
+        >
+          {colHeader}
+        </span>
+      ),
+      dataIndex: `col-${colIndex}`,
+      key: `col-${colIndex}`,
+      width: 120,
+      render: (cell: any) =>
+        cell?.field ? (
+          <Input
+            placeholder='Number only'
+            value={localChanges[cell.field] ?? cell.value}
+            onChange={(e) =>
+              handleCellChange(cell.colIndex, cell.rowIndex, e.target.value)
+            }
+            onFocus={() =>
+              setActiveCell({
+                rowIndex: cell.rowIndex,
+                colIndex: cell.colIndex,
+              })
+            }
+            onBlur={() => setActiveCell(null)}
+            style={{
+              padding: 2,
+              border: 'none',
+              borderBottom: '1px solid #d9d9d9',
+              borderRadius: 0,
+              outline: 'none',
+              boxShadow: 'none',
+              background: 'transparent',
+            }}
+          />
+        ) : (
+          <div style={{ backgroundColor: '#f9f9f9' }} />
+        ),
+    })),
+  ];
+
   return (
-    <>
-      <div className="w-full overflow-auto">
-        <div className="border rounded-lg">
-          <table className="w-full">
-            <thead className="bg-gray-100 sticky top-0 z-10">
-              <tr>
-                <th className="p-2 border-b border-r sticky left-0 bg-gray-100"></th>
-                {property.columns.map((header, index) => (
-                  <th
-                    key={header}
-                    className="p-2 border-b border-r min-w-[100px] text-left"
-                    style={
-                      activeCell?.colIndex === index ? { color: 'blue' } : {}
-                    }
-                  >
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {property.rows.map((rowHeader, rowIndex) => (
-                <tr key={rowHeader}>
-                  <th
-                    className="p-2 border-r sticky left-0 bg-white text-left"
-                    style={
-                      activeCell?.rowIndex === rowIndex ? { color: 'blue' } : {}
-                    }
-                  >
-                    {rowHeader}
-                  </th>
-                  {property.columns.map((_, colIndex) => {
-                    const field = property.cellField(colIndex, rowIndex);
-                    return (
-                      <td
-                        key={`${rowIndex}-${colIndex}`}
-                        className="p-2 border-r border-b"
-                      >
-                        {field ? (
-                          <Input
-                            type="text"
-                            value={getCellValue(colIndex, rowIndex)}
-                            onChange={(e) =>
-                              handleCellChange(
-                                colIndex,
-                                rowIndex,
-                                e.target.value,
-                              )
-                            }
-                            onBlur={() => setActiveCell(null)}
-                            onFocus={() =>
-                              setActiveCell({ rowIndex, colIndex })
-                            }
-                            className="w-full border-0 p-0 focus-visible:ring-0"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gray-50"></div>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div>
-        <span>TODO: Check why comment button is not showing...</span>
-        <EntityPropertyChangeCommentBox
-          property={property}
-          current={lastChange?.comments}
-          onComment={handleComment}
-        />
-      </div>
-    </>
-  );
+    <div>
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        pagination={false}
+        bordered
+        scroll={{ x: 'max-content' }}
+        size="small"
+        footer={() => (
+          <div style={{ position: 'absolute', left: '100%',bottom:' 107%'}}>
+            <EntityPropertyChangeCommentBox
+              property={property}
+              current={lastChange?.comments}
+              onComment={handleComment}
+            />
+          </div>
+        )}
+      />
+    </div>
+  )
 };
 
 export default NumbersTableComponent;

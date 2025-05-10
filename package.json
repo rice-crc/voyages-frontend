@@ -19,6 +19,7 @@
   "dependencies": {
     "@ag-grid-community/client-side-row-model": "^32.3.3",
     "@ant-design/icons": "^5.3.1",
+    "@dotproductdev/voyages-contribute": "^0.1.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-free": "^6.4.0",
@@ -52,6 +53,7 @@
     "framer-motion": "^10.12.16",
     "html-react-parser": "4.2.0",
     "html-table-to-csv": "^1.0.3",
+    "inline-style-parser": "^0.2.4",
     "leaflet": "^1.9.4",
     "leaflet-curve": "^1.0.0",
     "leaflet-easybutton": "^2.4.0",
@@ -145,6 +147,7 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.14.0",
     "happy-dom": "^16.5.3",
+    "mirador": "^3.4.3",
     "prettier": "^3.4.2",
     "process": "^0.11.10",
     "sass": "^1.83.0",

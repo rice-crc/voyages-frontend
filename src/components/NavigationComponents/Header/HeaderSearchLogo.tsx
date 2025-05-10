@@ -26,7 +26,6 @@ import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
 import AutoCompletedSearhBlog from '@/components/FilterComponents/AutoCompletedSearhBlog/AutoCompletedSearhBlog';
-import { LabelFilterMeneList } from '@/share/InterfaceTypes';
 
 export default function HeaderLogoSearch() {
   const dispatch: AppDispatch = useDispatch();
@@ -34,10 +33,6 @@ export default function HeaderLogoSearch() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch
   );
-  const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
-  );
-
   const onChangePath = () => {
     dispatch(resetAllStateToInitailState());
     dispatch(resetBlockNameAndPageName());

@@ -1,10 +1,9 @@
-import { Property } from '@/models/properties';
+import { Property } from '@dotproductdev/voyages-contribute';
 import { Comment } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useCallback, useState } from 'react';
-
 
 export interface EntityPropertyChangeCommentBoxProps {
   property: Property;

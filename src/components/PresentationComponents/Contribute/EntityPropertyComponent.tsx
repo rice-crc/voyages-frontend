@@ -1,19 +1,18 @@
 import {
-  isUpdateEntityChange,
-  areMatch,
-  EntityUpdate,
-} from '@/models/changeSets';
-import { getSchema } from '@/models/entities';
-import {
   MaterializedEntity,
   isMaterializedEntity,
-} from '@/models/materialization';
-import { Property } from '@/models/properties';
+  getSchema,
+  isUpdateEntityChange,
+  areMatch,
+  Property,
+  EntityUpdate,
+} from '@dotproductdev/voyages-contribute';
 import { EntityFormProps, EntityForm } from './EntityForm';
 import { EntityTableView } from './EntityTableView';
 import NumbersTableComponent from './NumbersTableComponent';
 import { DirectEntityPropertyField } from './DirectEntityPropertyField';
 import { LinkedEntityPropertyComponent } from './LinkedEntityPropertyComponent';
+import { EntityPropertyChangeCommentBox } from './EntityPropertyChangeCommentBox';
 
 export interface EntityPropertyComponentProps extends EntityFormProps {
   property: Property;
@@ -25,6 +24,7 @@ export const EntityPropertyComponent = ({
   entity,
   ...other
 }: EntityPropertyComponentProps) => {
+
   const { uid, kind } = property;
   const localChanges = other.changes.find(
     (ec) =>
@@ -124,12 +124,14 @@ export const EntityPropertyComponent = ({
       );
     }
     return (
+      <>
       <NumbersTableComponent
         property={property}
         entity={entity}
         lastChange={lastChange}
         {...other}
       />
+    </>
     );
   }
   if (kind === 'ownedEntityList') {
