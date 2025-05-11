@@ -111,6 +111,12 @@ export const StyleDialog: SxProps = {
     padding: '10px 15px',
   },
 };
+export const footerStyle = {
+  p: 2,
+  borderTop: '1px solid #ddd',
+  textAlign: 'right',
+  bgcolor: '#f9f9f9',
+};
 
 export const StyleDiver = styled(Divider)`
   border-width: 0.25px;

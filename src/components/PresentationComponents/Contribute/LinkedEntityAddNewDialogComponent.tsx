@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogContent,
   IconButton,
+  Box,
 } from '@mui/material';
 import {
   Form,
@@ -26,6 +27,7 @@ import { Close } from '@mui/icons-material';
 import { useDebounce } from '@/hooks/useDebounce';
 import '@/style/contributeContent.scss';
 import { PaperDraggableLinkEntityAddComponent } from '@/components/SelectorComponents/Cascading/PaperDraggable';
+import FooterModal from '@/components/commonComponents/FooterModal';
 
 export interface LinkedEntityPropertyComponentProps {
   property: LinkedEntityProperty;
@@ -38,7 +40,7 @@ const LinkedEntityAddNewComponent = (
   props: LinkedEntityPropertyComponentProps &
     EntityFormProps & { comments?: string },
 ) => {
- 
+
   const { property, entity, lastChange, comments, onChange, ...other } = props;
   const { linkedEntitySchema, uid } = property;
 
@@ -137,7 +139,15 @@ const LinkedEntityAddNewComponent = (
         open={open && addedEntity !== undefined}
         onClose={onClose}
         disableScrollLock={false}
-        sx={StyleDialog}
+        sx={{
+          ...StyleDialog,
+          '& .MuiDialog-paper': {
+            display: 'flex',
+            flexDirection: 'column',
+            maxHeight: '80vh',
+          },
+        }}
+
         fullWidth
         maxWidth="sm"
         PaperComponent={PaperDraggableLinkEntityAddComponent}
@@ -154,7 +164,7 @@ const LinkedEntityAddNewComponent = (
             py: 2,
           }}
         >
-          <div style={{fontSize: '1rem'}}>
+          <div style={{ fontSize: '1rem' }}>
             Add new {linkedEntitySchema.replace(/([A-Z])/g, ' $1').trim()} entity
           </div>
           <IconButton
@@ -167,7 +177,11 @@ const LinkedEntityAddNewComponent = (
           </IconButton>
         </DialogTitle>
 
-        <DialogContent style={{ padding: 26 }}>
+        <DialogContent style={{
+          padding: 26,
+          overflowY: 'auto',
+          flex: 1,
+        }}>
           {open && addedEntity && (
             <Form layout="vertical">
               <EntityForm
@@ -181,6 +195,7 @@ const LinkedEntityAddNewComponent = (
 
           )}
         </DialogContent>
+     <FooterModal content=""/>
       </Dialog>
     </>
   );

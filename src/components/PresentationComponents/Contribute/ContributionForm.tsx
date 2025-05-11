@@ -30,6 +30,10 @@ import { RootState } from '@/redux/store';
 import { translationLanguagesContribute } from '@/utils/functions/translationLanguages';
 import { EntityForm } from './EntityForm';
 import ChangesSummary from './ChangesSummary';
+import { FooterComponent } from '@/components/SelectorComponents/ButtonComponents/FooterComponents';
+import FooterModal from '@/components/commonComponents/FooterModal';
+import { footerStyle } from '@/styleMUI';
+import { Box } from '@mui/material';
 
 const { Text } = Typography;
 
@@ -278,7 +282,9 @@ export const ContributionForm = ({
                 onSectionsChange={setSections}
               />
             </div>
+          
           </Card>
+          <FooterModal content='...' height={32}/>
         </Col>
 
         <Col
@@ -333,14 +339,9 @@ export const ContributionForm = ({
                 handleDeleteChange={handleDeletePropertyChange}
               />
             </div>
-
-            {/* Fixed footer */}
-            <div style={{
-              padding: 12,
-              borderTop: '1px solid #eee',
-              background: '#fff',
-            }}>
-              <Row justify="center">
+          </Card>
+          <Box sx={footerStyle}>
+              <Row justify="center" >
                 <Button
                   style={{ width: 150 }}
                   type="primary"
@@ -351,9 +352,9 @@ export const ContributionForm = ({
                   Submit Changes
                 </Button>
               </Row>
-            </div>
-          </Card>
+            </Box>
         </Col>
+      
       </Row>
     </Form>
   );
