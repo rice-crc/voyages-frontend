@@ -37,7 +37,6 @@ const ChangesSummary = ({
     handleSaveChanges,
     handleDeleteChange
 }: ChangesSummaryProps) => {
-
     return (
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             <Row style={{ margin: '12px 0', gap: 8 }}>

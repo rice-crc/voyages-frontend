@@ -27,6 +27,7 @@ export interface LinkedEntityPropertyComponentProps {
 export const LinkedEntityPropertyComponent = (
   props: LinkedEntityPropertyComponentProps & EntityFormProps,
 ) => {
+
   const { property, entity, lastChange, onChange } = props;
   const [comments, setComments] = useState<string | undefined>();
   const { uid, mode, label, linkedEntitySchema } = property;

@@ -20,6 +20,7 @@ export function capitalizeFirstLetter(str: string): string {
 const PropertyChangeCard = ({ change, property ,handleDeleteChange}: PropertyChangeCardProps) => {
 
   let display: ReactNode;
+ 
 
   function getDisplayName(
     changed?: MaterializedEntity | string | number | boolean | null,

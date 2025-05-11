@@ -19,11 +19,13 @@ import {
   ALLENSLAVEDPAGE,
   ALLVOYAGESPAGE,
   BLOGPAGE,
+  DOCUMENTPAGE,
   ENSALVEDPAGE,
   ENSALVERSPAGE,
   GlobalSearchBlogType,
   GlobalSearchEnslavedType,
   GlobalSearchEnslaversType,
+  GlobalSearchSourcesType,
   GlobalSearchVoyagesType,
   TRANSATLANTICENSLAVERS,
 } from '@/share/CONST_DATA';
@@ -132,6 +134,8 @@ const AutoGlobalSearchBar = () => {
         navigate(`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}#people`);
       } else if (type === GlobalSearchBlogType) {
         navigate(`${BLOGPAGE}`);
+      }else if (type === GlobalSearchSourcesType) {
+        navigate(`${DOCUMENTPAGE}`);
       }
       localStorage.setItem('global_search', inputSearchValue);
     }

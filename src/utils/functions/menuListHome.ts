@@ -24,7 +24,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Mapas Introductorios',
       pt: 'Mapas Introdutórios',
     },
-    url: `${BLOGPAGE}/introductory-maps-to-the-transatlantic-slave-trade/148`,
+    url: `${BLOGPAGE}/tag/all-intro-maps`,
   },
   {
     name: {
