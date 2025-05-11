@@ -191,7 +191,9 @@
   font-weight: 600;
   color: #4b5563;
 }
-
+.property-changes-table .ant-table-tbody > th {
+  background: rgb(55, 148, 141) !important;
+}
 .property-changes-table .ant-table-tbody > tr:nth-child(odd) {
   background-color: #fcfcfc;
 }
@@ -204,7 +206,20 @@
   .section-title{
     color: #fff;
     font-size: 0.85rem;
+    cursor: pointer;
   }
+}
+.section-header-title{
+  background: rgb(55, 148, 141);
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 8px 8px 8px 12px;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
 }
 .property-change{
   font-size: 0.85rem;

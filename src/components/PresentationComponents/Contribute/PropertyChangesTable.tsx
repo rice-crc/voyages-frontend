@@ -1,9 +1,8 @@
-import { Table } from 'antd';
+import { Button, Table } from 'antd';
 import { PropertyChange } from '@dotproductdev/voyages-contribute';
 import { ReactNode, useState } from 'react';
 import PropertyChangeCard from './PropertyChangeCard';
-import { IconButton } from '@mui/material';
-import { Delete, Restore } from '@mui/icons-material';
+import { CaretUpOutlined, CaretDownOutlined, DeleteOutlined } from '@ant-design/icons';
 import { convertTextProperty } from '@/utils/functions/convertTextProperty';
 interface PropertyChangesTableProps {
   change: PropertyChange[];
@@ -17,7 +16,7 @@ const PropertyChangesTable = ({
   sectionName, handleDeleteChange,
   showTitle = true,
 }: PropertyChangesTableProps) => {
-
+  const [expanded, setExpanded] = useState<boolean>(true);
   const columns = [
     {
       title: 'Field',
@@ -40,26 +39,24 @@ const PropertyChangesTable = ({
       }
     },
     // Todo: Undo here is going to be very complicated, what we can do "easily" is "pop" the last change out, if that is your undo, then you can implement it.
-    // {
-    //   title: 'Action',
-    //   dataIndex: 'undo',
-    //   key: 'undo',
-    //   width: 50,
-    //   flex: 1,
-    //   render: (_: any, record: any) => {
-    //     console.log({ record })
-    //     return (
-    //       <IconButton
-    //         size="small"
-    //         color={'error'}
-    //         onClick={() => handleDeleteChange(record.property)}
-    //         title={'Delete'}
-    //       >
-    //         <Delete />
-    //       </IconButton>
-    //     );
-    //   }
-    // }
+    {
+      title: 'Action',
+      dataIndex: 'undo',
+      key: 'undo',
+      width: 50,
+      flex: 1,
+      render: (_: any, record: any) => {
+        console.log({ record })
+        return (
+          <Button
+          type="text"
+          danger
+          icon={<DeleteOutlined />}
+          onClick={() => handleDeleteChange(record.property)}
+        />
+        );
+      }
+    }
   ];
 
   const sortedChanges = [...change].sort((a, b) =>
@@ -81,22 +78,29 @@ const PropertyChangesTable = ({
       };
     });
 
-
   return (
-    <Table
-      size="small"
-      className="property-changes-table"
-      pagination={false}
-      columns={columns}
-      dataSource={dataSource}
-      bordered
-      showHeader={false}
-      title={
-        showTitle && sectionName
-          ? () => <strong className="section-title">{sectionName.replace(/_/g, ' ')}</strong>
-          : undefined
-      }
-    />
+    <>
+      <div
+        className="section-header-title"
+        style={{ cursor: 'pointer', userSelect: 'none', display: 'flex', alignItems: 'center' }}
+        onClick={() => setExpanded((prev) => !prev)}
+      >
+        <strong>{convertTextProperty(sectionName!)}</strong>
+        {expanded ? <CaretUpOutlined style={{ marginLeft: 10, fontSize: 18 }} /> : <CaretDownOutlined style={{ marginLeft: 10, fontSize: 18 }} />}
+      </div>
+
+      {expanded && (
+        <Table
+          size="small"
+          className="property-changes-table"
+          pagination={false}
+          columns={columns}
+          dataSource={dataSource}
+          bordered
+          showHeader={false}
+        />
+      )}
+    </>
   );
 };
 
