@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IconButton, List, ListItem, ListItemText, Stack } from '@mui/material';
+import { IconButton, List, ListItem, ListItemButton, ListItemText, Stack } from '@mui/material';
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material';
 import { TextFieldSearch } from '@/styleMUI';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -177,13 +177,13 @@ const AutoGlobalSearchBar = () => {
               key={`${option.type}-${index}`}
               className="list-search-global"
             >
-              <ListItem
-                button
+
+              <ListItemButton
                 onClick={() => handleSelect(option)}
                 disabled={shouldDisable(option)}
               >
                 <ListItemText primary={getOptionLabelSearchGlobal(option)} />
-              </ListItem>
+              </ListItemButton>
             </List>
           ))}
         </Stack>

@@ -2,7 +2,7 @@ import { Paper } from '@mui/material';
 import { useRef } from 'react';
 import Draggable from 'react-draggable';
 import { PaperProps } from '@mui/material/Paper';
-import { PaperDraggableStyle, PaperDraggableTimeLapseStyle,PaperDraggableContributeStyle } from '@/styleMUI';
+import { PaperDraggableStyle, PaperDraggableTimeLapseStyle,PaperDraggableContributeStyle, PaperDraggableNumberTableStyle } from '@/styleMUI';
 
 export function PaperDraggable(props: PaperProps) {
   const paperRef = useRef<HTMLDivElement>(null);
@@ -49,6 +49,21 @@ export function PaperDraggableLinkEntityAddComponent(props: PaperProps) {
       nodeRef={paperRef}
     >
       <Paper {...props} ref={paperRef}   style={{ ...PaperDraggableContributeStyle }} />
+    </Draggable>
+  );
+}
+
+
+export function PaperDraggableNumbersTable(props: PaperProps) {
+  const paperRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <Draggable
+      handle="#draggable-dialog-title-contribute"
+      cancel={'[class*="MuiDialogContent-root"]'}
+      nodeRef={paperRef}
+    >
+      <Paper {...props} ref={paperRef}   style={{ ...PaperDraggableNumberTableStyle }} />
     </Draggable>
   );
 }

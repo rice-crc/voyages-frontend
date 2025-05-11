@@ -35,3 +35,4 @@ package-lock.json
 dist/*
 !dist/empty
 .npmrc
+.vscode/

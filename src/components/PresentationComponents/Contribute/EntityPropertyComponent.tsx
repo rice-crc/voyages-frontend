@@ -9,9 +9,11 @@ import {
 } from '@dotproductdev/voyages-contribute';
 import { EntityFormProps, EntityForm } from './EntityForm';
 import { EntityTableView } from './EntityTableView';
-import NumbersTableComponent from './NumbersTableComponent';
 import { DirectEntityPropertyField } from './DirectEntityPropertyField';
 import { LinkedEntityPropertyComponent } from './LinkedEntityPropertyComponent';
+import NumbersTableDialog from './NumbersTableDialog';
+import { useState } from 'react';
+import { Button } from '@mui/material';
 
 export interface EntityPropertyComponentProps extends EntityFormProps {
   property: Property;
@@ -30,6 +32,8 @@ export const EntityPropertyComponent = ({
       isUpdateEntityChange(ec) && areMatch(ec.entityRef, entity.entityRef),
   ) as EntityUpdate | undefined;
   const lastChange = localChanges?.changes.find((c) => c.property === uid);
+  const [isOpenNumbersTableDialog, setOpenNumbersTableDialog] = useState(false)
+  const handleOnCloseNumbersTableDialog = ()=> setOpenNumbersTableDialog(false)
   if (kind === 'entityOwned') {
     const value = entity.data[property.label];
     if (lastChange && lastChange.kind !== 'owned') {
@@ -125,12 +129,23 @@ export const EntityPropertyComponent = ({
     }
     return (
       <>
-      <NumbersTableComponent
+      <Button 
+      className="button-save-contribute"
+      sx={{
+        cursor: 'pointer',
+        textTransform: 'unset',
+        height: 32,
+        fontSize: '0.85rem',
+      }}
+      onClick={()=> setOpenNumbersTableDialog(true)}>Show Table</Button>
+      <NumbersTableDialog 
         property={property}
         entity={entity}
         lastChange={lastChange}
         {...other}
-      />
+        onClose={handleOnCloseNumbersTableDialog}
+        openDialog={isOpenNumbersTableDialog}
+        />
     </>
     );
   }

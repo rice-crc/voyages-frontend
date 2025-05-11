@@ -120,7 +120,7 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
       dataIndex: 'rowHeader',
       key: 'rowHeader',
       fixed: 'left',
-      width: 200,
+      width: 210,
       render: (text: string, _record, rowIndex) => (
         <span
           style={
@@ -142,16 +142,15 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
               : { fontSize: '0.85rem' }
           }
         >
-          {colHeader}
+          {colHeader.charAt(0).toUpperCase() + colHeader.slice(1).toLowerCase()}
         </span>
       ),
       dataIndex: `col-${colIndex}`,
       key: `col-${colIndex}`,
-      width: 120,
+      width: 70,
       render: (cell: any) =>
         cell?.field ? (
           <Input
-            placeholder='Number only'
             value={localChanges[cell.field] ?? cell.value}
             onChange={(e) =>
               handleCellChange(cell.colIndex, cell.rowIndex, e.target.value)
@@ -189,7 +188,7 @@ const NumbersTableComponent: React.FC<EditableTableProps> = ({
         scroll={{ x: 'max-content' }}
         size="small"
         footer={() => (
-          <div style={{ position: 'absolute', left: '100%',bottom:' 107%'}}>
+          <div className="comment-box-wrapper" >
             <EntityPropertyChangeCommentBox
               property={property}
               current={lastChange?.comments}

@@ -189,6 +189,14 @@ export const PaperDraggableContributeStyle = {
   minWidth: 550,
   overflow: 'hidden',
 };
+
+export const PaperDraggableNumberTableStyle = {
+  maxWidth: '75%',
+  minWidth: 600,
+  overflow: 'hidden',
+};
+
+
 export const TextFieldSearch = styled(TextField)`
   & label.Mui-focused {
     color: white;

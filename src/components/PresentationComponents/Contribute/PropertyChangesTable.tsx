@@ -4,6 +4,7 @@ import { ReactNode, useState } from 'react';
 import PropertyChangeCard from './PropertyChangeCard';
 import { IconButton } from '@mui/material';
 import { Delete, Restore } from '@mui/icons-material';
+import { convertTextProperty } from '@/utils/functions/convertTextProperty';
 interface PropertyChangesTableProps {
   change: PropertyChange[];
   handleDeleteChange: (propertyToDelete: string) => void
@@ -22,15 +23,13 @@ const PropertyChangesTable = ({
       title: 'Field',
       dataIndex: 'property',
       key: 'property',
-      width: 300,
       flex: 1,
-      render: (property: string) => <div>{property}</div>,
+      render: (property: string) => <div>{convertTextProperty(property)}</div>,
     },
     {
       title: 'Value',
       dataIndex: 'value',
       key: 'value',
-      width: 250,
       flex: 1,
       render: (value: ReactNode) => {
         return (

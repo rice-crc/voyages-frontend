@@ -42,6 +42,7 @@ const PropertyChangeCard = ({ change, property ,handleDeleteChange}: PropertyCha
     return "<unknown>";
   }
 
+
   if (change.kind === 'direct') {
     display = <span className="details-changes">{String(change.changed)}</span>;
   } else if (change.kind === 'linked' && change.linkedChanges) {
@@ -83,6 +84,25 @@ const PropertyChangeCard = ({ change, property ,handleDeleteChange}: PropertyCha
     );
   } else if (change.kind === 'owned') {
     display = <PropertyChangesTable change={change.changes} sectionName={property} handleDeleteChange={handleDeleteChange} />;
+  }else if (change.kind === 'table') {
+    const tableChanges = Object.entries(change.changes).map(([key, value]) => ({
+      kind: 'direct' as const,
+      changed: value,
+      property: key,
+    }));
+
+    return (
+      <div className="linked-change-wrapper">
+      <div className="linked-change-table">
+      <PropertyChangesTable
+        change={tableChanges}
+        sectionName={property}
+        handleDeleteChange={handleDeleteChange}
+        showTitle={false}
+      />
+          </div>
+          </div>
+    );
   } else {
     display = <span>Unsupported change type</span>;
   }

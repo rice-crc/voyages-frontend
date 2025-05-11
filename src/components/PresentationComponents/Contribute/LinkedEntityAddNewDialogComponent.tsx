@@ -10,7 +10,6 @@ import {
 } from '@dotproductdev/voyages-contribute';
 import {
   Button,
-  Typography,
   Stack,
   Dialog,
   DialogTitle,
