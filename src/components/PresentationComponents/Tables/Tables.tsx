@@ -42,7 +42,6 @@ import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEns
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import useDataTableProcessingEffect from '@/hooks/useDataTableProcessingEffect';
 import { useOtherTableCellStructure } from '@/hooks/useOtherTableCellStructure';
-import TableDownloadButtons from '@/components/SelectorComponents/ButtonComponents/TableDownloadButtons';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -50,6 +49,7 @@ import {
   ModuleRegistry,
   AllCommunityModule, // or AllEnterpriseModule
 } from 'ag-grid-community';
+import DownloadCSV from '@/components/SelectorComponents/ButtonComponents/DownloadCSV';
 
 // Register the module
 ModuleRegistry.registerModules([
@@ -178,16 +178,31 @@ const Tables: React.FC = () => {
       return filteredFilter;
     });
 
-  const dataSend = useMemo(() => {
+    const stableFilters = useMemo(() => {
+      return filters?.map(({ label, title, ...rest }) => rest) || [];
+    }, [filters]);
+    
+    const stableSortColumn = useMemo(() => {
+      return sortColumn;
+    }, [sortColumn]);
+
+    const dataSend = useMemo(() => {
+      const base: TableListPropsRequest = {
+        filter: stableFilters,
+        page: Number(page + 1),
+        page_size: Number(rowsPerPage),
+      };
+      if (inputSearchValue) base.global_search = inputSearchValue;
+      if (stableSortColumn?.length) base.order_by = stableSortColumn;
+      return base;
+    }, [stableFilters, page, rowsPerPage, inputSearchValue, stableSortColumn]);
+
+   const dataSendToDownloadCSV = useMemo(() => {
     const base: TableListPropsRequest = {
-      filter: newFilters || [],
-      page: Number(page + 1),
-      page_size: Number(rowsPerPage),
+      filter: stableFilters
     };
-    if (inputSearchValue) base.global_search = inputSearchValue;
-    if (sortColumn?.length) base.order_by = sortColumn;
     return base;
-  }, [newFilters, page, rowsPerPage, inputSearchValue, sortColumn]);
+  }, [stableFilters]);
 
 
   const shouldFetchData = useMemo(() => {
@@ -497,11 +512,7 @@ const Tables: React.FC = () => {
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
-              <TableDownloadButtons
-                data={rowData}
-                columnDefs={columnDefs}
-                filename={`${styleNameRoute}-table-data`}
-              />
+              <DownloadCSV dataSend={dataSendToDownloadCSV} styleNameRoute={styleNameRoute}/>
             </div>
           </span>
           <AgGridReact

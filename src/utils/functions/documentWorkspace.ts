@@ -6,6 +6,7 @@ export interface DocumentItemInfo {
   bib?: string;
   revision_number: number;
   thumb: string | null;
+  textSnippet:string
 }
 
 const UserWorkspaceLocalStorageKey = 'my-workspace';
