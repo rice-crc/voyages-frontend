@@ -39,24 +39,24 @@ const PropertyChangesTable = ({
       }
     },
     // Todo: Undo here is going to be very complicated, what we can do "easily" is "pop" the last change out, if that is your undo, then you can implement it.
-    {
-      title: 'Action',
-      dataIndex: 'undo',
-      key: 'undo',
-      width: 50,
-      flex: 1,
-      render: (_: any, record: any) => {
-        console.log({ record })
-        return (
-          <Button
-          type="text"
-          danger
-          icon={<DeleteOutlined />}
-          onClick={() => handleDeleteChange(record.property)}
-        />
-        );
-      }
-    }
+    // {
+    //   title: 'Action',
+    //   dataIndex: 'undo',
+    //   key: 'undo',
+    //   width: 50,
+    //   flex: 1,
+    //   render: (_: any, record: any) => {
+    //     console.log({ record })
+    //     return (
+    //       <Button
+    //       type="text"
+    //       danger
+    //       icon={<DeleteOutlined />}
+    //       onClick={() => handleDeleteChange(record.property)}
+    //     />
+    //     );
+    //   }
+    // }
   ];
 
   const sortedChanges = [...change].sort((a, b) =>
