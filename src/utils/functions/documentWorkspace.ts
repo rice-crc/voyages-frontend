@@ -12,7 +12,7 @@ export interface DocumentItemInfo {
 const UserWorkspaceLocalStorageKey = 'my-workspace';
 
 export const ManifestURLBase =
-  'https://voyages-api-staging.crc.rice.edu/static/iiif_manifests/';
+  'https://api-dev.slavevoyages.org/static/iiif_manifests/';
 
 export type DocumentWorkspace = DocumentItemInfo[];
 
