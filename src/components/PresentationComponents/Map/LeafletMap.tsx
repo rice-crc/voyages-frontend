@@ -244,6 +244,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     clusterNodeKeyVariable,
     clusterNodeValue,
     filtersObj,
+    currentBlockName
   ]);
 
   const handleDataResponse = (response: any, regionOrPlace: string) => {
