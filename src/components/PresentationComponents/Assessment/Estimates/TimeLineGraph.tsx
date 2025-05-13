@@ -79,6 +79,7 @@ const TimelineChart: React.FC<{
     changeFlag,
     checkedListEmbarkation,
     checkedListDisEmbarkation,
+    currentBlockName
   ]);
 
   useEffect(() => {

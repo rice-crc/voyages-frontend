@@ -6,12 +6,13 @@ export interface DocumentItemInfo {
   bib?: string;
   revision_number: number;
   thumb: string | null;
+  textSnippet:string
 }
 
 const UserWorkspaceLocalStorageKey = 'my-workspace';
 
-export const ManifestURLBase =
-  'https://voyages-api-staging.crc.rice.edu/static/iiif_manifests/';
+export const ManifestURLBase =import.meta.env.VITE_API_BASE_URL+
+  '/static/iiif_manifests/';
 
 export type DocumentWorkspace = DocumentItemInfo[];
 
