@@ -4,3 +4,9 @@ node_js:
 install:
     - npm ci && npm i --force mirador@"^3.3.0" --no-save && npm run build
 dist: focal
+jobs:
+  include:
+    - stage: build
+      resource_class: large
+      script:
+        - NODE_OPTIONS=--max_old_space_size=8192 npm run build
