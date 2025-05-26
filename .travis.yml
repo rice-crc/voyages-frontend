@@ -1,7 +1,7 @@
 language: node_js
 node_js:
     - "20.2.0"
-
+dist: focal
 jobs:
   include:
     - stage: install_dependencies
