@@ -3,3 +3,4 @@ node_js:
     - "20.2.0"
 install:
     - npm ci && npm i --force mirador@"^3.3.0" --no-save && npm run build
+dist: focal
