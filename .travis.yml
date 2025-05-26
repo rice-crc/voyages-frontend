@@ -1,12 +1,17 @@
 language: node_js
 node_js:
     - "20.2.0"
-install:
-    - npm ci && npm i --force mirador@"^3.3.0" --no-save && npm run build
-dist: focal
+
 jobs:
   include:
-    - stage: build
-      resource_class: large
+    - stage: install_dependencies
+      name: "Install Dependencies"
       script:
-        - NODE_OPTIONS=--max_old_space_size=8192 npm run build
+        - npm ci && npm i --force mirador@"^3.3.0" --no-save
+
+    - stage: build
+      name: "Build Gatsby Site"
+      resource_class: large 
+      script:
+        - export NODE_OPTIONS=--max_old_space_size=8192 
+        - npm run build
