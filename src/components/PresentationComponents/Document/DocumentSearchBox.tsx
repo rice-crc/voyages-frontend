@@ -23,6 +23,9 @@ export interface DocumentPaginationSource {
   count: number;
   currentPage?: number;
   getPage: (pageNum: number, pageSize: number) => Promise<DocumentItemInfo[]>;
+  count: number;
+  currentPage?: number;
+  getPage: (pageNum: number, pageSize: number) => Promise<DocumentItemInfo[]>;
 }
 
 interface DocumentSearchBoxProps {
@@ -59,9 +62,25 @@ function useDebounce<T>(value: T, wait: number = 500) {
     return () => clearTimeout(timer);
   }, [value, wait]);
   return debounceValue;
+  const [debounceValue, setDebounceValue] = useState<T>(value);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebounceValue(value);
+    }, wait);
+    return () => clearTimeout(timer);
+  }, [value, wait]);
+  return debounceValue;
 }
 
 export interface DocumentSearchModel {
+  title?: string;
+  fullText?: string;
+  bib?: string;
+  enslavers?: string[];
+  voyageIds?: number[];
+  page: number;
+  page_size: number;
+  global_search?: string;
   title?: string;
   fullText?: string;
   bib?: string;

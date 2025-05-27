@@ -1,10 +1,10 @@
 # CRC-Voyages-React-App
 
-This repository contains a React application written principally by Thasanee Puttamadilok that will stand as the new frontend for the SlaveVoyages project starting in 2024.
+This repository contains a React application written principally by Thasanee Puttamadilok that will stand as the new frontend for the SlaveVoyages project starting in 2025.
 
 It uses Vite and React, TypeScript, Redux-toolkit, and Material-UI.
 
-[![](https://img.shields.io/badge/npm-10.8.2-brightgreen)](https://shields.io) [![](https://img.shields.io/badge/node-v20.18.3-orange)](https://shields.io)
+[![](https://img.shields.io/badge/npm-9.6.6-brightgreen)](https://shields.io) [![](https://img.shields.io/badge/node-v20.2.0-orange)](https://shields.io)
 
 The site is currently hosted in [OCI](https://voyages-staging.crc.rice.edu/).
 
@@ -22,45 +22,11 @@ To run this application locally, you'll need to have Node.js installed on your m
 
 After cloning the repository, navigate to the project directory and install the dependencies.
 
-**As of Dec 1, 2023, these dependencies have to be installed in two steps**
+Install with npm ci, forcing mirador and not saving it to the (until they resolve a bug with their package)
 
-1. Clear out any existing packages with `rm -rf package-lock.json node_modules`
-1. Install all but one of the packages with `npm i`
-1. Then install our one problematic dependency, the Mirador Viewer, with `npm i --force mirador@"^3.3.0" --no-save`
-
-You _must_ ust the --no-save flag, or Mirador will be included in package.json, which will break the deployment.
-
-**Type of React-Route**
-
-    npm i -D @types/react@18.0.21 @types/react-dom@18.0.6
-
-**To set up Redux Toolkit in your React project**
-
-    import { configureStore } from '@reduxjs/toolkit';
-    import rootReducer from './reducers'; // Import your root reducer
-
-    const store = configureStore({
-      reducer: rootReducer,
-      // Add any middleware or enhancers as needed
-    });
-
-    export default store;
-
-**Axios**
-
-    npm install axios
-
-**Type Script**
-
-    npm i -D typescript
-
-**To generate typeScript**
-
-    npx tsc --init
-
-**dotenv**
-
-    npm i --save-dev @types/node
+	npm ci \                                 
+	&& npm i --force mirador@"^3.3.0" --no-save \
+	&& npm run build \
 
 **3. Authorization**
 
