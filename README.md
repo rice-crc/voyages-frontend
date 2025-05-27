@@ -1,10 +1,10 @@
 # CRC-Voyages-React-App
 
-This repository contains a React application written principally by Thasanee Puttamadilok that will stand as the new frontend for the SlaveVoyages project starting in 2024.
+This repository contains a React application written principally by Thasanee Puttamadilok that will stand as the new frontend for the SlaveVoyages project starting in 2025.
 
 It uses Vite and React, TypeScript, Redux-toolkit, and Material-UI.
 
-[![](https://img.shields.io/badge/npm-10.8.2-brightgreen)](https://shields.io) [![](https://img.shields.io/badge/node-v20.18.3-orange)](https://shields.io)
+[![](https://img.shields.io/badge/npm-9.6.6-brightgreen)](https://shields.io) [![](https://img.shields.io/badge/node-v20.2.0-orange)](https://shields.io)
 
 The site is currently hosted in [OCI](https://voyages-staging.crc.rice.edu/).
 
