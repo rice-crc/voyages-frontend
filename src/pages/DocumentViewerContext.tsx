@@ -1,3 +1,8 @@
+import { useState } from 'react';
+
+import Button from '@mui/material/Button';
+import { useSelector } from 'react-redux';
+
 import MiradorViewer from '@/components/DocumentComponents/MiradorViewer';
 import { RootState } from '@/redux/store';
 import {
@@ -8,9 +13,7 @@ import {
   getWorkspace,
   performWorkspaceAction,
 } from '@/utils/functions/documentWorkspace';
-import Button from '@mui/material/Button';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+
 import '@/style/mirador.scss';
 interface DocumentViewerProviderProps {
   children: React.ReactNode;
@@ -34,12 +37,14 @@ export const DocumentViewerProvider = ({
 }: DocumentViewerProviderProps) => {
   const [doc, setDoc] = useState<DocumentItemInfo | null>(null);
   const [workspace, setWorkspace] = useState<DocumentWorkspace>(getWorkspace());
+
   const handleMiradorClose = () => {
     setDoc(null);
     return true;
   };
+
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const addLabels: Record<string, string> = {
     en: 'Add to Workspace',
@@ -55,7 +60,15 @@ export const DocumentViewerProvider = ({
   // only thing visible in the UI.
   return (
     <DocumentViewerContext.Provider value={{ doc, setDoc, workspace }}>
-      <div style={{ display: doc ? 'none' : 'block' }}>{children}</div>
+      <div
+        style={{
+          visibility: doc ? 'hidden' : 'visible',
+          position: doc ? 'absolute' : 'relative',
+          height: doc ? 0 : 'auto',
+        }}
+      >
+        {children}
+      </div>
       <div style={{ display: 'none' }}>
         <Button color="primary" id="__miradorWorkspaceAddBtn">
           {addLabels[languageValue ?? 'en']}

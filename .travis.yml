@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+    - "20.2.0"
+dist: focal
+jobs:
+  include:
+    - stage: install_dependencies
+      name: "Install Dependencies"
+      script:
+        - npm ci
+
+    - stage: build
+      name: "Build Voyages Frontend"
+      resource_class: large 
+      script:
+        - export NODE_OPTIONS=--max_old_space_size=8192 
+        - npm i --force mirador@"^3.3.0" --no-save
+        - npm run build
+
+cache:
+  directories:
+    - node_modules
