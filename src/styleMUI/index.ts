@@ -9,12 +9,14 @@ import {
   TextField,
   CardHeader,
   TablePagination,
+  SxProps,
 } from '@mui/material';
-import MuiInput from '@mui/material/Input';
-import { SxProps } from '@mui/material';
-import NestedMenuItems from '@/components/SelectorComponents/Cascading/NestedMeneItems';
-import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
+import MuiInput from '@mui/material/Input';
+import { styled } from '@mui/material/styles';
+
+import NestedMenuItems from '@/components/SelectorComponents/Cascading/NestedMeneItems';
+
 const blue500 = '#42a5f5';
 export const MAINBGGREEN = 'rgba(0, 128, 128, 0.5)';
 export const bgNavBar = 'rgba(0, 128, 128, 0.5)';
@@ -74,7 +76,7 @@ export const AppNavStyle = {
   color: 'black',
 };
 
-export const StyleMenuItem = styled('div')(({ theme }) => ({
+export const StyleMenuItem = styled('div')(() => ({
   '& .Mui-selected': {
     backgroundColor: WHITE,
   },
@@ -195,7 +197,7 @@ export const TextFieldSearch = styled(TextField)`
 `;
 
 export const styleModalNetworks = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -208,7 +210,7 @@ export const styleModalNetworks = {
 };
 
 export const styleModalCard = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -248,14 +250,13 @@ export const CustomTablePagination = styled(TablePagination)({
   '& .MuiTablePagination-actions': {},
 }) as React.ComponentType<any>;
 
-
-export const MenuButton = styled(IconButton)(({theme}) => ({
-   marginRight: theme.spacing(2),
-   backgroundColor: 'rgb(55, 148, 141)',
-   borderRadius: '4px',
-   height: '30px',
-   zIndex: 1300,
-   '&:hover': {
+export const MenuButton = styled(IconButton)(({ theme }) => ({
+  marginRight: theme.spacing(2),
+  backgroundColor: 'rgb(55, 148, 141)',
+  borderRadius: '4px',
+  height: '30px',
+  zIndex: 1300,
+  '&:hover': {
     backgroundColor: '#54bfb6',
-   },
+  },
 }));

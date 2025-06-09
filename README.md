@@ -1,10 +1,10 @@
 # CRC-Voyages-React-App
 
-This repository contains a React application written principally by Thasanee Puttamadilok that will stand as the new frontend for the SlaveVoyages project starting in 2024.
+This repository contains a React application written principally by Thasanee Puttamadilok that will stand as the new frontend for the SlaveVoyages project starting in 2025.
 
 It uses Vite and React, TypeScript, Redux-toolkit, and Material-UI.
 
-[![](https://img.shields.io/badge/npm-10.8.2-brightgreen)](https://shields.io) [![](https://img.shields.io/badge/node-v20.18.3-orange)](https://shields.io)
+[![](https://img.shields.io/badge/npm-9.6.6-brightgreen)](https://shields.io) [![](https://img.shields.io/badge/node-v20.2.0-orange)](https://shields.io)
 
 The site is currently hosted in [OCI](https://voyages-staging.crc.rice.edu/).
 
@@ -16,51 +16,27 @@ Proposed changes to the repository are made on working branches off of _develop_
 
 To run this application locally, you'll need to have Node.js installed on your machine.
 
-1. use nvm (Node version management) tool make sure node -version is "correct <same version everybody>"
+1. use nvm (Node version management) tool make sure node -version is "correct"
    1. Check your local node version by `node -v` and npm version with `npm -v`
    1. Make sure the versions are same as top of this README
 
 After cloning the repository, navigate to the project directory and install the dependencies.
 
-**As of Dec 1, 2023, these dependencies have to be installed in two steps**
+To instantiate the project, use npm ci, which relies on the ```package-lock.json``` file. Then, force the installation of mirador using ```npm install```, but without saving it to package.json by using the ```--no-save``` flag. (mirador has an unresolved bug)
 
-1. Clear out any existing packages with `rm -rf package-lock.json node_modules`
-1. Install all but one of the packages with `npm i`
-1. Then install our one problematic dependency, the Mirador Viewer, with `npm i --force mirador@"^3.3.0" --no-save`
+	npm ci \                                 
+	&& npm i --force mirador@"^3.3.0" --no-save \
+	&& npm run build \
 
-You _must_ ust the --no-save flag, or Mirador will be included in package.json, which will break the deployment.
+However, if you change your version of node, or install a new package in the course of development, you will need to update your package files. In that case, you will need to remove:
 
-**Type of React-Route**
+	rm -rf node_modules \
+	npm i \
+	npm ci \                                 
+	&& npm i --force mirador@"^3.3.0" --no-save \
+	&& npm run build \
 
-    npm i -D @types/react@18.0.21 @types/react-dom@18.0.6
-
-**To set up Redux Toolkit in your React project**
-
-    import { configureStore } from '@reduxjs/toolkit';
-    import rootReducer from './reducers'; // Import your root reducer
-
-    const store = configureStore({
-      reducer: rootReducer,
-      // Add any middleware or enhancers as needed
-    });
-
-    export default store;
-
-**Axios**
-
-    npm install axios
-
-**Type Script**
-
-    npm i -D typescript
-
-**To generate typeScript**
-
-    npx tsc --init
-
-**dotenv**
-
-    npm i --save-dev @types/node
+Please only follow this procedure if absolutely necessary: if a package needs updating, node needs an upgrade, or a new package is required for your development work on the project.
 
 **3. Authorization**
 
