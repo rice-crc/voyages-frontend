@@ -6,8 +6,6 @@ It uses Vite and React, TypeScript, Redux-toolkit, and Material-UI.
 
 [![](https://img.shields.io/badge/npm-9.6.6-brightgreen)](https://shields.io) [![](https://img.shields.io/badge/node-v20.2.0-orange)](https://shields.io)
 
-The site is currently hosted in [OCI](https://voyages-staging.crc.rice.edu/).
-
 Proposed changes to the repository are made on working branches off of _develop_. Accepted changes are integrated into _main_ in order to be deployed.
 
 ---
@@ -46,6 +44,7 @@ Example:
 
     VITE_API_AUTHTOKEN = 'Token ABCDEF.... (replace it with your authentication token)'
     VITE_API_BASEURL = 'https://voyages.ilove.you.haha..... (replace it with your own url for api call)'
+    VITE_IIIF_MANIFESTS_BASEURL = 'https://location.ofstatic.manifests/withatrailingslashplease/'
 
 **4. Run Application**
 
