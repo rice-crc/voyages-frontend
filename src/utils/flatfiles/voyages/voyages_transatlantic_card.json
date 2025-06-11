@@ -41,20 +41,15 @@
         }
       },
       {
-        "cell_type": "literal-concat",
+        "cell_type": "literal",
         "number_format": null,
         "cell_val": {
           "fields": [
             {
-              "var_name": "enslavers__enslaver__principal_alias",
-              "cell_fn": "literal"
-            },
-            {
-              "var_name": "enslavers__roles",
+              "var_name": "enslavers",
               "cell_fn": "literal"
             }
-          ],
-          "join": ": "
+          ]
         },
         "label": {
           "en": "Enslavers",
