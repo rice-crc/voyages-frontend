@@ -214,7 +214,7 @@
               "cell_fn": "literal"
             },
             {
-              "var_name": "enslavers",
+              "var_name": "enslavers__name_and_role",
               "cell_fn": "literal"
             }
           ]
