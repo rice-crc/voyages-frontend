@@ -105,7 +105,7 @@
   			"cell_val":{
   				"fields":[
   					{
-  						"var_name":"enslavers",
+  						"var_name":"enslavers__name_and_role",
   						"cell_fn":"literal"
   					}
   				]

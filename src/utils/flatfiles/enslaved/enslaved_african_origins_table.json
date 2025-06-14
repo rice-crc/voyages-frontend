@@ -207,10 +207,6 @@
       "cell_val": {
         "fields": [
           {
-            "var_name": "enslavers__enslaver__principal_alias",
-            "cell_fn": "literal"
-          },
-          {
             "var_name": "enslavers__name_and_role",
             "cell_fn": "literal"
           }
