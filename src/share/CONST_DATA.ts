@@ -161,3 +161,4 @@ export const varNameVesselCapturedOutcomeList =
   'voyage_outcome__vessel_captured_outcome__name';
 export const varNameEnslaverRoleList =
   'aliases__enslaver_relations__roles__name';
+export const varNameGenderName = 'gender__name'

@@ -26,8 +26,8 @@
         }
       },
       {
-        "var_name": "gender",
-        "type": "IntegerField",
+        "var_name": "gender__name",
+        "type": "MultiselectList",
         "label": {
           "en": "Gender",
           "es": "Género",
