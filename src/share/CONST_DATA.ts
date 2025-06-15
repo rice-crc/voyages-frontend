@@ -15,9 +15,9 @@ export const ENSLAVED_TEXAS_CARDFILE = 'enslaved_texas_card.json';
 export const ENSLAVERSCARDFILE = 'enslavers_card.json';
 export const ENSLAVERS_TABLE_FILE = 'enslavers_table.json';
 export const pathFlatFile = '@/utils/flatfiles/';
-export const ENSLAVED_TABLE_FILE = 'enslaved_all_table_menu.json';
+export const ENSLAVED_TABLE_FILE = 'enslaved_all_table.json';
 export const AFRICANORIGINS_TABLE_FILE = 'enslaved_african_origins_table.json';
-export const TEXAS_TABLE_FILE = 'enslaved_texas_table_cell_structure.json';
+export const TEXAS_TABLE_FILE = 'enslaved_texas_table.json';
 
 export const VOYAGESPAGE = 'VoyagesPage';
 export const ALLVOYAGES = 'all-voyages';

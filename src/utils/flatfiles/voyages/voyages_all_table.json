@@ -216,7 +216,7 @@
 				"pt": "Escravistas"
 
 			},
-			"cell_type": "literal-concat",
+			"cell_type": "literal",
 			"visible": true,
 			"number_format": null,
 			"order_by": [
@@ -227,15 +227,10 @@
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "enslavers__enslaver__principal_alias",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "enslavers__roles",
+						"var_name": "enslavers__name_and_role",
 						"cell_fn": "literal"
 					}
-				],
-				"join": " : "
+				]
 			}
 		},
 		{

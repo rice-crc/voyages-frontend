@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import DOMPurify from 'dompurify';
+
+import { AutoStories } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -9,13 +10,16 @@ import {
   CardMedia,
   List,
   ListItem,
-  Typography, Pagination, ImageListItem, ImageList, ImageListItemBar
+  Typography,
+  Pagination,
+  ImageListItem,
+  ImageList,
+  ImageListItemBar,
 } from '@mui/material';
-import { AutoStories} from '@mui/icons-material';
+import DOMPurify from 'dompurify';
+
 import { useDimensions } from '@/hooks/useDimensions';
-import {
-  DocumentItemInfo,
-} from '@/utils/functions/documentWorkspace';
+import { DocumentItemInfo } from '@/utils/functions/documentWorkspace';
 
 interface DocumentPaginationSource {
   count: number;
@@ -51,8 +55,8 @@ const DocumentGallery = ({
       setContents(
         await source.getPage(
           Math.min(numPages, source.currentPage ?? 1),
-          pageSize
-        )
+          pageSize,
+        ),
       );
     };
     refresh();
@@ -140,6 +144,13 @@ const DocumentGallery = ({
                         aria-label={`Open ${item.label}`}
                         onClick={() => onDocumentOpen(item)}
                         startIcon={<AutoStories />}
+                        style={{
+                          padding: '6px 16px',
+                          backgroundColor: 'rgb(55, 148, 141)',
+                          color: '#fff',
+                          lineHeight: 1.75,
+                          borderRadius: 4,
+                        }}
                       >
                         <Typography component="div">
                           &nbsp;View Document
@@ -164,36 +175,39 @@ const DocumentGallery = ({
             cols={Math.floor((0.9 * width) / thumbSize)}
             rowHeight={thumbSize}
           >
-            {contents.map((item) => (
-              <ImageListItem
-                key={item.key}
-                style={{ width: thumbSize, height: thumbSize }}
-              >
-                {item.thumb && (
-                  <img
-                    width={thumbSize}
-                    height={thumbSize}
-                    style={{ maxWidth: thumbSize, maxHeight: thumbSize }}
-                    src={item.thumb}
-                    alt={item.label}
-                    loading="lazy"
+            {contents.map((item) => {
+              console.log({ item });
+              return (
+                <ImageListItem
+                  key={item.key}
+                  sx={{ width: thumbSize, height: thumbSize }}
+                >
+                  {item.thumb && (
+                    <img
+                      width={thumbSize}
+                      height={thumbSize}
+                      style={{ maxWidth: thumbSize, maxHeight: thumbSize }}
+                      src={item.thumb}
+                      alt={item.label}
+                      loading="lazy"
+                    />
+                  )}
+                  <ImageListItemBar
+                    title={item.label}
+                    actionIcon={
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        aria-label={`Open ${item.label}`}
+                        onClick={() => onDocumentOpen(item)}
+                      >
+                        <AutoStories />
+                      </Button>
+                    }
                   />
-                )}
-                <ImageListItemBar
-                  title={item.label}
-                  actionIcon={
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      aria-label={`Open ${item.label}`}
-                      onClick={() => onDocumentOpen(item)}
-                    >
-                      <AutoStories />
-                    </Button>
-                  }
-                />
-              </ImageListItem>
-            ))}
+                </ImageListItem>
+              );
+            })}
           </ImageList>
         </>
       )}

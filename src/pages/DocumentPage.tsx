@@ -1,19 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
-import {
-  Tooltip, Badge, IconButton,
-} from '@mui/material';
-import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
+
 import { Bookmarks, GridView, ViewList } from '@mui/icons-material';
+import { Tooltip, Badge, IconButton, Box } from '@mui/material';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+
 import voyageLogo from '@/assets/sv-logo.png';
+import DocumentGallery from '@/components/PresentationComponents/Document/DocumentGallery';
+import DocumentSearchBox, {
+  DocumentPaginationSource,
+} from '@/components/PresentationComponents/Document/DocumentSearchBox';
+import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
+import { RootState } from '@/redux/store';
 import {
   DocumentViewerContext,
   DocumentWorkspace,
 } from '@/utils/functions/documentWorkspace';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import DocumentGallery from '@/components/PresentationComponents/Document/DocumentGallery';
-import DocumentSearchBox, { DocumentPaginationSource } from '@/components/PresentationComponents/Document/DocumentSearchBox';
 
 type DocumentGalleryViewMode = 'grid' | 'list';
 
@@ -24,8 +26,8 @@ const getWorkspaceSource = (items: DocumentWorkspace) => {
       Promise.resolve(
         items.slice(
           (pageNum - 1) * pageSize,
-          Math.min(items.length, pageNum * pageSize)
-        )
+          Math.min(items.length, pageNum * pageSize),
+        ),
       ),
   };
   return paginationSource;
@@ -47,36 +49,65 @@ const DocumentPage: React.FC = () => {
   const [tab, setTab] = useState<DocumentPageTab>('Search');
   const [viewMode, setViewMode] = useState<DocumentGalleryViewMode>('list');
   const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
+
   useEffect(() => {
     setSources({ ...sources, Workspace: getWorkspaceSource(workspace ?? []) });
   }, [workspace]);
-  const tabSource = sources[tab];
 
+  const tabSource = sources[tab];
   // TODO: Change the header colors.
+
+  const documentGallery = useMemo(() => {
+    if (!tabSource) return null;
+
+    return (
+      <DocumentGallery
+        key={`${tab}-${viewMode}`}
+        title={tab}
+        source={tabSource}
+        pageSize={12}
+        thumbSize={320}
+        viewMode={viewMode}
+        onDocumentOpen={setDoc}
+        onPageChange={(pageNum) =>
+          setSources({
+            ...sources,
+            [tab]: { ...tabSource, currentPage: pageNum },
+          })
+        }
+      />
+    );
+  }, [tab, tabSource, viewMode, sources]);
+
   return (
     <>
-      <div className="nav-blog-header-logo nav-blog-header-sticky-logo ">
-        <Link to={'/'} style={{ textDecoration: 'none' }}>
+      <div className="nav-blog-header-logo nav-blog-header-sticky-logo">
+        <a href={'/'} style={{ textDecoration: 'none' }}>
           <img src={voyageLogo} alt={'voyages logo'} className="logo-blog" />
-        </Link>
-        <div style={{ display: 'flex' }}>
-          <div style={tab === 'Workspace' ? { opacity: 0.33 } : {}}>
+        </a>
+        <Box sx={{ display: 'flex' }}>
+          <Box sx={tab === 'Workspace' ? { opacity: 0.33 } : {}}>
             {inputSearchValue ? (
-              <div>
+              <Box>
                 <GlobalSearchButton />
-                <span style={{ position: 'relative', bottom: 12, display: 'none' }}>  <DocumentSearchBox
-                  onClick={() => setTab('Search')}
-                  onUpdate={(src) => setSources({ ...sources, Search: src })}
-                /> </span>
-
-              </div>) :
+                <span
+                  style={{ position: 'relative', bottom: 12, display: 'none' }}
+                >
+                  <DocumentSearchBox
+                    onClick={() => setTab('Search')}
+                    onUpdate={(src) => setSources({ ...sources, Search: src })}
+                  />
+                </span>
+              </Box>
+            ) : (
               <DocumentSearchBox
                 onClick={() => setTab('Search')}
                 onUpdate={(src) => setSources({ ...sources, Search: src })}
-              />}
-          </div>
+              />
+            )}
+          </Box>
           {sources.Workspace && (
             <Tooltip
               title={
@@ -113,34 +144,23 @@ const DocumentPage: React.FC = () => {
               {viewMode === 'list' ? <GridView /> : <ViewList />}
             </IconButton>
           </Tooltip>
-        </div>
+        </Box>
       </div>
-      <div
-        style={{
+
+      {/* Updated to keep DocumentGallery mounted */}
+      <Box
+        sx={{
           marginTop: '20px',
           marginLeft: '5vw',
           marginRight: '5vw',
           width: '90vw',
-          display: doc ? 'none' : 'block',
+          visibility: doc ? 'hidden' : 'visible',
+          position: doc ? 'absolute' : 'relative',
+          height: doc ? 0 : 'auto',
         }}
       >
-        {tabSource && (
-          <DocumentGallery
-            title={tab}
-            source={tabSource}
-            pageSize={12}
-            thumbSize={320}
-            viewMode={viewMode}
-            onDocumentOpen={setDoc}
-            onPageChange={(pageNum) =>
-              setSources({
-                ...sources,
-                [tab]: { ...tabSource, currentPage: pageNum },
-              })
-            }
-          />
-        )}
-      </div>
+        {documentGallery}
+      </Box>
     </>
   );
 };

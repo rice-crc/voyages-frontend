@@ -1,31 +1,38 @@
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import { RootState } from '@/redux/store';
 import '@/style/blogs.scss';
-import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
-import { Link } from 'react-router-dom';
 import { BLOGPAGE } from '@/share/CONST_DATA';
+import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 
 const HeaderNavBarBlog: React.FC = () => {
+  const navigate = useNavigate();
   const { post } = useSelector(
-    (state: RootState) => state.getBlogData as InitialStateBlogProps
+    (state: RootState) => state.getBlogData as InitialStateBlogProps,
   );
   const { title } = post;
 
   const handleReloadPage = () => {
-    window.location.href = `/${BLOGPAGE}`;
+    navigate(`/${BLOGPAGE}`);
   };
 
   return (
     <>
-      <div className="nav-blog-header nav-blog-header-sticky ">
+      <div className="nav-blog-header nav-blog-header-sticky">
         <div>
-          <Link
-            to={`/${BLOGPAGE}`}
-            style={{ textDecoration: 'none', color: '#ffffff' }}
+          <button
             onClick={handleReloadPage}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#ffffff',
+              cursor: 'pointer',
+              padding: 0,
+            }}
           >
             <div>{`Echoes: The SlaveVoyages Blog ${title ? `- ${title}` : ''}`}</div>
-          </Link>
+          </button>
         </div>
       </div>
     </>
