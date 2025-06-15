@@ -521,9 +521,9 @@
           "col_width_px": 100,
           "colID": "captive_fate__name",
           "label": {
-            "en": "Captive Outcome",
-            "es": "Captive Outcome ES",
-            "pt": "Captive Outcome PT"
+            "en": "Captive fate",
+            "es": "Destino del cautivo",
+            "pt": "Destino do cativo"
           }
         },
         {

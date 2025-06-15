@@ -50,6 +50,7 @@ import {
   AllCommunityModule, // or AllEnterpriseModule
 } from 'ag-grid-community';
 import DownloadCSV from '@/components/SelectorComponents/ButtonComponents/DownloadCSV';
+import { CustomLoadingOverlay } from '@/components/CommonComponts/CustomLoadingOverlay';
 
 // Register the module
 ModuleRegistry.registerModules([
@@ -171,13 +172,6 @@ const Tables: React.FC = () => {
   }, [filtersObj, styleNameRoute, clusterNodeKeyVariable, clusterNodeValue]);
 
 
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-
     const stableFilters = useMemo(() => {
       return filters?.map(({ label, title, ...rest }) => rest) || [];
     }, [filters]);
@@ -206,12 +200,18 @@ const Tables: React.FC = () => {
 
 
   const shouldFetchData = useMemo(() => {
-    return checkPagesRouteForVoyages(styleNameRoute!) && filtersObj || isChangeGeoTree || rangeSliderMinMax|| textFilterValue
-  }, [styleNameRoute, filtersObj]);
 
+    return (checkPagesRouteForVoyages(styleNameRoute!) && (filtersObj || textFilterValue)) || 
+           (checkPagesRouteForEnslaved(styleNameRoute!) && (filtersObj || textFilterValue)) ||
+           (checkPagesRouteForEnslavers(styleNameRoute!) && (filtersObj || textFilterValue)) ||
+           isChangeGeoTree || 
+           rangeSliderMinMax
+  }, [styleNameRoute, filtersObj, textFilterValue, isChangeGeoTree, rangeSliderMinMax]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchDataTable = async () => {
       try {
+        setLoading(true);
         let response;
         if (checkPagesRouteForVoyages(styleNameRoute!)) {
           response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
@@ -225,9 +225,12 @@ const Tables: React.FC = () => {
           const { count, results } = response.data;
           setTotalResultsCount(Number(count));
           setDataTable(results)
+          setLoading(false);
         }
       } catch (error) {
         console.log('error', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -515,30 +518,34 @@ const Tables: React.FC = () => {
               <DownloadCSV dataSend={dataSendToDownloadCSV} styleNameRoute={styleNameRoute}/>
             </div>
           </span>
-          <AgGridReact
-            theme='legacy'
-            key={`grid-${styleNameRoute}`}
-            ref={gridRef}
-            rowData={rowData}
-            columnDefs={columnDefs}
-            suppressMenuHide={true}
-            onGridReady={hanldeGridReady}
-            animateRows={true}
-            onDragStopped={handleColumnDragStop}
-            onColumnMoved={handleColumnDragStop}
-            onColumnVisible={handleColumnVisibleChange}
-            onColumnPinned={handleColumnDragStop}
-            gridOptions={gridOptions}
-            getRowHeight={getRowHeightTable}
-            paginationPageSize={rowsPerPage}
-            defaultColDef={defaultColDef}
-            components={components}
-            getRowStyle={getRowRowStyle}
-            enableBrowserTooltips={true}
-            tooltipShowDelay={0}
-            tooltipHideDelay={1000}
-            rowModelType="clientSide"
-          />
+          {loading && rowData.length === 0 ?<CustomLoadingOverlay/>
+           : (
+            <AgGridReact
+              theme='legacy'
+              key={`grid-${styleNameRoute}`}
+              ref={gridRef}
+              loading={loading}
+              rowData={rowData}
+              columnDefs={columnDefs}
+              suppressMenuHide={true}
+              onGridReady={hanldeGridReady}
+              animateRows={true}
+              onDragStopped={handleColumnDragStop}
+              onColumnMoved={handleColumnDragStop}
+              onColumnVisible={handleColumnVisibleChange}
+              onColumnPinned={handleColumnDragStop}
+              gridOptions={gridOptions}
+              getRowHeight={getRowHeightTable}
+              paginationPageSize={rowsPerPage}
+              defaultColDef={defaultColDef}
+              components={components}
+              getRowStyle={getRowRowStyle}
+              enableBrowserTooltips={true}
+              tooltipShowDelay={0}
+              tooltipHideDelay={1000}
+              rowModelType="clientSide"
+            />
+          )}
         </div>
         <div className="pagination-div">
           <Pagination

@@ -132,7 +132,7 @@ const SummaryStatisticsTable = () => {
       '--header-color-summary',
       headerColor
     );
-  }, [width, height, maxWidth]);
+  }, [width, height, maxWidth,styleNameRoute]);
 
   const handleButtonExportCSV = useCallback(() => {
     const filename = 'summary_table_data';

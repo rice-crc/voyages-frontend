@@ -140,17 +140,21 @@ export const SelectSearchDropdownList: FunctionComponent<
         </div>
       )}
       renderTags={(value: readonly MultiselectListProps[], getTagProps) =>
-        value.map((option: MultiselectListProps, index: number) => (
-          <Chip
-            label={option.name}
-            style={{
-              margin: 2,
-              border: getBoderColor(styleName),
-              color: '#000',
-            }}
-            {...getTagProps({ index })}
-          />
-        ))
+        value.map((option: MultiselectListProps, index: number) => {
+          const { key, ...tagProps } = getTagProps({ index });
+          return (
+            <Chip
+              key={key}
+              label={option.name}
+              style={{
+                margin: 2,
+                border: getBoderColor(styleName),
+                color: '#000',
+              }}
+              {...tagProps}
+            />
+          );
+        })
       }
     />
   );

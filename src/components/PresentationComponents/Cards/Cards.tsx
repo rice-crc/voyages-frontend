@@ -287,6 +287,7 @@ const VoyageCard = () => {
                                 ),
                                 revision_number: 1,
                                 thumb: value.sources__thumbnail ?? null,
+                                textSnippet: value + ''
                               };
                               additionalProps.onClick = () => {
                                 setDoc(doc);
@@ -314,7 +315,7 @@ const VoyageCard = () => {
                               component = (
                                 <PopoverWrapper
                                   key={uuidv4()}
-                                  padding={4}
+                                  padding={2}
                                   popoverContents={
                                     <div
                                       dangerouslySetInnerHTML={{ __html: bib }}
