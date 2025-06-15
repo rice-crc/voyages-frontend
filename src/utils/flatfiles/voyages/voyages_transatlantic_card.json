@@ -620,24 +620,15 @@
         }
       },
       {
-        "cell_type": "literal-concat",
+        "cell_type": "literal",
         "number_format": null,
         "cell_val": {
           "fields": [
 				{
-					"var_name": "voyage_dates__voyage_began_sparsedate__day",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__voyage_began_sparsedate__month",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__voyage_began_sparsedate__year",
+					"var_name": "voyage_dates__voyage_began_sparsedate__date_str",
 					"cell_fn": "literal"
 				}
-			],
-			"join": ","
+			]
         },
         "label": {
           "en": "Date vessel's voyage began",
@@ -646,24 +637,15 @@
         }
       },
       {
-        "cell_type": "literal-concat",
+        "cell_type": "literal",
         "number_format": null,
         "cell_val": {
           "fields": [
 				{
-					"var_name": "voyage_dates__slave_purchase_began_sparsedate__day",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__slave_purchase_began_sparsedate__month",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__slave_purchase_began_sparsedate__year",
+					"var_name": "voyage_dates__slave_purchase_began_sparsedate__date_str",
 					"cell_fn": "literal"
 				}
-			],
-			"join": ","
+			]
         },
         "label": {
           "en": "Date captive embarkation began",
@@ -672,24 +654,15 @@
         }
       },
       {
-        "cell_type": "literal-concat",
+        "cell_type": "literal",
         "number_format": null,
         "cell_val": {
           "fields": [
 				{
-					"var_name": "voyage_dates__date_departed_africa_sparsedate__day",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__date_departed_africa_sparsedate__month",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__date_departed_africa_sparsedate__year",
+					"var_name": "voyage_dates__date_departed_africa_sparsedate__date_str",
 					"cell_fn": "literal"
 				}
-			],
-			"join": ","
+			]
         },
         "label": {
           "en": "Date vessel departed with captives",
@@ -698,24 +671,15 @@
         }
       },
       {
-        "cell_type": "literal-concat",
+        "cell_type": "literal",
         "number_format": null,
         "cell_val": {
           "fields": [
 				{
-					"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+					"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__date_str",
 					"cell_fn": "literal"
 				}
-			],
-			"join": ","
+			]
         },
         "label": {
           "en": "Date vessel arrived with captives (IMP)",
@@ -724,24 +688,15 @@
         }
       },
       {
-        "cell_type": "literal-concat",
+        "cell_type": "literal",
         "number_format": null,
         "cell_val": {
           "fields": [
 				{
-					"var_name": "voyage_dates__departure_last_place_of_landing_sparsedate__day",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__departure_last_place_of_landing_sparsedate__month",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__departure_last_place_of_landing_sparsedate__year",
+					"var_name": "voyage_dates__departure_last_place_of_landing_sparsedate__date_str",
 					"cell_fn": "literal"
 				}
-			],
-			"join": "/"
+			]
         },
         "label": {
           "en": "Date vessel departed for homeport",
@@ -750,24 +705,15 @@
         }
       },
       {
-        "cell_type": "literal-concat",
+        "cell_type": "literal",
         "number_format": null,
         "cell_val": {
           "fields": [
 				{
-					"var_name": "voyage_dates__voyage_completed_sparsedate_sparsedate__day",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__voyage_completed_sparsedate_sparsedate__month",
-					"cell_fn": "literal"
-				},
-				{
-					"var_name": "voyage_dates__voyage_completed_sparsedate_sparsedate__year",
+					"var_name": "voyage_dates__voyage_completed_sparsedate__date_str",
 					"cell_fn": "literal"
 				}
-			],
-			"join": ","
+			]
         },
         "label": {
           "en": "Date vessel arrived at homeport",
@@ -775,6 +721,7 @@
           "pt": "Date vessel arrived at homeport"
         }
       }
+      
     ]
   },
   {

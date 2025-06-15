@@ -1126,7 +1126,7 @@
 				"es": "Fecha de inicio del viaje del buque",
 				"pt": "Data de início da viagem do navio"
 			},
-			"cell_type": "literal-concat",
+			"cell_type": "literal",
 			"visible": false,
 			"number_format": null,
 			"order_by": [
@@ -1139,19 +1139,10 @@
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__voyage_began_sparsedate__day",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__voyage_began_sparsedate__month",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__voyage_began_sparsedate__year",
+						"var_name": "voyage_dates__voyage_began_sparsedate__date_str",
 						"cell_fn": "literal"
 					}
-				],
-				"join": ","
+				]
 			}
 		},
 		{
@@ -1160,7 +1151,7 @@
 				"es": "Fecha de inicio del embarque de cautivos",
 				"pt": "Data de início do embarque de cativos"
 			},
-			"cell_type": "literal-concat",
+			"cell_type": "literal",
 			"visible": false,
 			"number_format": null,
 			"order_by": [
@@ -1173,19 +1164,10 @@
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__slave_purchase_began_sparsedate__day",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__slave_purchase_began_sparsedate__month",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__slave_purchase_began_sparsedate__year",
+						"var_name": "voyage_dates__slave_purchase_began_sparsedate__date_str",
 						"cell_fn": "literal"
 					}
-				],
-				"join": ","
+				]
 			}
 		},
 		{
@@ -1198,22 +1180,16 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__date_departed_africa_sparsedate"
+				"voyage_dates__date_departed_africa_sparsedate__day",
+				"voyage_dates__date_departed_africa_sparsedate__month",
+				"voyage_dates__date_departed_africa_sparsedate__year"
 			],
 			"col_width_px": 120,
 			"colID": "voyage_dates__date_departed_africa_sparsedate",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__date_departed_africa_sparsedate__day",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__date_departed_africa_sparsedate__month",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__date_departed_africa_sparsedate__year",
+						"var_name": "voyage_dates__date_departed_africa_sparsedate__date_str",
 						"cell_fn": "literal"
 					}
 				]
@@ -1229,22 +1205,16 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__imp_arrival_at_port_of_dis"
+				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
+				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
+				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
 			],
 			"col_width_px": 120,
 			"colID": "voyage_dates__imp_arrival_at_port_of_dis",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__imp_arrival_at_port_of_dis__day",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__imp_arrival_at_port_of_dis__month",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__imp_arrival_at_port_of_dis__year",
+						"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__date_str",
 						"cell_fn": "literal"
 					}
 				]
@@ -1260,22 +1230,16 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__departure_last_place_of_landing"
+				"voyage_dates__departure_last_place_of_landing_sparsedate__day",
+				"voyage_dates__departure_last_place_of_landing_sparsedate__month",
+				"voyage_dates__departure_last_place_of_landing_sparsedate__year"
 			],
 			"col_width_px": 120,
 			"colID": "voyage_dates__departure_last_place_of_landing",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__departure_last_place_of_landing__day",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__departure_last_place_of_landing__month",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__departure_last_place_of_landing__year",
+						"var_name": "voyage_dates__departure_last_place_of_landing_sparsedate__date_str",
 						"cell_fn": "literal"
 					}
 				]
@@ -1291,22 +1255,16 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__voyage_completed"
+				"voyage_dates__voyage_completed_sparsedate__day",
+				"voyage_dates__voyage_completed_sparsedate__month",
+				"voyage_dates__voyage_completed_sparsedate__year"
 			],
 			"col_width_px": 100,
 			"colID": "voyage_dates__voyage_completed",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__voyage_completed__day",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__voyage_completed__month",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__voyage_completed__year",
+						"var_name": "voyage_dates__voyage_completed_sparsedate__date_str",
 						"cell_fn": "literal"
 					}
 				]
