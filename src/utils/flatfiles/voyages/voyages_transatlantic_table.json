@@ -73,307 +73,6 @@
 		},
 		{
 			"header_label": {
-				"en": "Linked voyages",
-				"es": "Viajes conectados",
-				"pt": "Viagens conectadas"
-			},
-			"cell_type": "literal-concat",
-			"visible": false,
-			"number_format": null,
-			"order_by": [
-				"outgoing_to_other_voyages"
-			],
-			"col_width_px": 186,
-			"colID": "linked_voyages",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "linked_voyages__voyage_id",
-						"cell_fn": "literal-concat"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Place where vessel's voyage began (*imp)",
-				"es": "Lugar donde comenzó el viaje del buque (*imp)",
-				"pt": "Local onde se iniciou a viagem do navio (*imp)"
-			},
-			"cell_type": "literal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"voyage_itinerary__imp_port_voyage_begin__name"
-			],
-			"col_width_px": 136,
-			"colID": "voyage_itinerary__imp_port_voyage_begin__name",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage_itinerary__imp_port_voyage_begin__name",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Principal place where captives were purchased",
-				"es": "Principal lugar de compra de cautivos",
-				"pt": "Principal local de compra de cativos"
-			},
-			"cell_type": "literal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
-			],
-			"col_width_px": 145,
-			"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Principal place where captives were landed (*imp)",
-				"es": "Principal lugar de desembarco de cautivos (*imp)",
-				"pt": "Principal local de desembarque de cativos (*imp)"
-			},
-			"cell_type": "literal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"voyage_itinerary__imp_principal_port_slave_dis__name"
-			],
-			"col_width_px": 213,
-			"colID": "voyage_itinerary__imp_principal_port_slave_dis__name",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage_itinerary__imp_principal_port_slave_dis__name",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Connections",
-				"es": "Conexiones",
-				"pt": "Conexões"
-
-			},
-			"cell_type": "network_modal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [],
-			"col_width_px": 120,
-			"colID": "connections",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "id",
-						"cell_fn": "networks",
-						"node_class": "voyages"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Captives landed at 1st port",
-				"es": "Cautivos desembarcados en el primer puerto",
-				"pt": "Cativos desembarcados no primeiro porto"
-			},
-			"cell_type": "literal",
-			"visible": false,
-			"number_format": null,
-			"order_by": [
-				"voyage_slaves_numbers__num_slaves_disembark_first_place"
-			],
-			"col_width_px": 100,
-			"colID": "voyage_slaves_numbers__num_slaves_disembark_first_place",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage_slaves_numbers__num_slaves_disembark_first_place",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Enslavers",
-				"es": "Esclavistas",
-				"pt": "Escravistas"
-
-			},
-			"cell_type": "literal",
-			"visible": true,
-			"number_format": null,
-			"order_by": [
-				"voyage_enslaver_connection__enslaver_alias__alias"
-			],
-			"col_width_px": 280,
-			"colID": "voyage_enslavers",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "enslavers",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Crew died during complete voyage",
-				"es": "La tripulación murió durante todo el viaje",
-				"pt": "A tripulação morreu durante toda a viagem"
-			},
-			"cell_type": "literal",
-			"visible": false,
-			"number_format": null,
-			"order_by": [
-				"voyage_crew__crew_died_complete_voyage"
-			],
-			"col_width_px": 100,
-			"colID": "voyage_crew__crew_died_complete_voyage",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage_crew__crew_died_complete_voyage",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Sources",
-				"es": "Fuentes",
-				"pt": "Fontes"
-			},
-			"cell_type": "literal",
-			"visible": false,
-			"number_format": null,
-			"order_by": [
-				"voyage_source_connections__source__title"
-			],
-			"col_width_px": 200,
-			"colID": "voyage_sources",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "sources__short_ref__name",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "sources__title",
-						"cell_fn": "metadata"
-					},
-					{
-						"var_name": "sources__bib",
-						"cell_fn": "metadata"
-					},
-					{
-						"var_name": "sources__has_published_manifest",
-						"cell_fn": "metadata"
-					},
-					{
-						"var_name": "sources__zotero_group_id",
-						"cell_fn": "metadata"
-					},
-					{
-						"var_name": "sources__zotero_item_id",
-						"cell_fn": "metadata"
-					},
-					{
-						"var_name": "sources__thumbnail",
-						"cell_fn": "metadata"
-					}
-				],
-				"join": ": "
-			}
-		},
-		{
-			"header_label": {
-				"en": "Date vessel's voyage began",
-				"es": "Fecha de inicio del viaje del buque",
-				"pt": "Data de início da viagem do navio"
-			},
-			"cell_type": "literal-concat",
-			"visible": false,
-			"number_format": null,
-			"order_by": [
-				"voyage_dates__voyage_began_sparsedate__day",
-				"voyage_dates__voyage_began_sparsedate__month",
-				"voyage_dates__voyage_began_sparsedate__year"
-			],
-			"col_width_px": 92,
-			"colID": "voyage_dates__voyage_began",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage_dates__voyage_began_sparsedate__day",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__voyage_began_sparsedate__month",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__voyage_began_sparsedate__year",
-						"cell_fn": "literal"
-					}
-				],
-				"join": ","
-			}
-		},
-		{
-			"header_label": {
-				"en": "Date captive embarkation began",
-				"es": "Fecha de inicio del embarque de cautivos",
-				"pt": "Data de início do embarque de cativos"
-			},
-			"cell_type": "literal-concat",
-			"visible": false,
-			"number_format": null,
-			"order_by": [
-				"voyage_dates__slave_purchase_began_sparsedate__day",
-				"voyage_dates__slave_purchase_began_sparsedate__month",
-				"voyage_dates__slave_purchase_began_sparsedate__year"
-			],
-			"col_width_px": 125,
-			"colID": "voyage_dates__slave_purchase_began",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage_dates__slave_purchase_began_sparsedate__day",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__slave_purchase_began_sparsedate__month",
-						"cell_fn": "literal"
-					},
-					{
-						"var_name": "voyage_dates__slave_purchase_began_sparsedate__year",
-						"cell_fn": "literal"
-					}
-				],
-				"join": ","
-			}
-		},
-		{
-			"header_label": {
 				"en": "Year of construction",
 				"es": "Año de construcción",
 				"pt": "Ano de construção"
@@ -607,48 +306,25 @@
 					}
 				]
 			}
-		},
+		},		
 		{
 			"header_label": {
-				"en": "Crew at voyage outset",
-				"es": "Tripulación al inicio del viaje",
-				"pt": "A tripulação no início da viagem"
+				"en": "Place where vessel's voyage began (*imp)",
+				"es": "Lugar donde comenzó el viaje del buque (*imp)",
+				"pt": "Local onde se iniciou a viagem do navio (*imp)"
 			},
 			"cell_type": "literal",
-			"visible": false,
-			"number_format": "comma",
-			"order_by": [
-				"voyage_crew__crew_voyage_outset"
-			],
-			"col_width_px": 100,
-			"colID": "voyage_crew__crew_voyage_outset",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage_crew__crew_voyage_outset",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Crew at first landing of captives",
-				"es": "Tripulación en el primer desembarco de cautivos",
-				"pt": "A tripulação no primeiro desembarque de cativos"
-			},
-			"cell_type": "literal",
-			"visible": false,
+			"visible": true,
 			"number_format": null,
 			"order_by": [
-				"voyage_crew__crew_first_landing"
+				"voyage_itinerary__imp_port_voyage_begin__name"
 			],
-			"col_width_px": 100,
-			"colID": "voyage_crew__crew_first_landing",
+			"col_width_px": 136,
+			"colID": "voyage_itinerary__imp_port_voyage_begin__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_crew__crew_first_landing",
+						"var_name": "voyage_itinerary__imp_port_voyage_begin__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -656,22 +332,22 @@
 		},
 		{
 			"header_label": {
-				"en": "Crew deaths during voyage",
-				"es": "Muertes de la tripulación durante el viaje",
-				"pt": "Mortes de tripulantes durante a viagem"
+				"en": "Principal place where captives were purchased",
+				"es": "Principal lugar de compra de cautivos",
+				"pt": "Principal local de compra de cativos"
 			},
 			"cell_type": "literal",
-			"visible": false,
-			"number_format": "comma",
+			"visible": true,
+			"number_format": null,
 			"order_by": [
-				"voyage_crew__crew_died_complete_voyage"
+				"voyage_itinerary__imp_principal_place_of_slave_purchase__name"
 			],
-			"col_width_px": 90,
-			"colID": "voyage_crew__crew_died_complete_voyage",
+			"col_width_px": 145,
+			"colID": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_crew__crew_died_complete_voyage",
+						"var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -749,7 +425,7 @@
 		},
 		{
 			"header_label": {
-				"en": "Places of call before oceanic crossing",
+				"en": "Places of call before Atlantic crossing",
 				"es": "Lugares de escala antes de la travesía oceánica",
 				"pt": "Locais de escala antes da travessia oceânica"
 			},
@@ -765,6 +441,29 @@
 				"fields": [
 					{
 						"var_name": "voyage_itinerary__port_of_call_before_atl_crossing__name",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Principal place where captives were landed (IMP)",
+				"es": "Principal lugar de desembarco de cautivos (IMP)",
+				"pt": "Principal local de desembarque de cativos (IMP)"
+			},
+			"cell_type": "literal",
+			"visible": true,
+			"number_format": null,
+			"order_by": [
+				"voyage_itinerary__imp_principal_port_slave_dis__name"
+			],
+			"col_width_px": 213,
+			"colID": "voyage_itinerary__imp_principal_port_slave_dis__name",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_itinerary__imp_principal_port_slave_dis__name",
 						"cell_fn": "literal"
 					}
 				]
@@ -864,6 +563,52 @@
 		},
 		{
 			"header_label": {
+				"en": "Linked voyages",
+				"es": "Viajes conectados",
+				"pt": "Viagens conectadas"
+			},
+			"cell_type": "literal-concat",
+			"visible": false,
+			"number_format": null,
+			"order_by": [
+				"outgoing_to_other_voyages"
+			],
+			"col_width_px": 186,
+			"colID": "linked_voyages",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "linked_voyages__voyage_id",
+						"cell_fn": "literal-concat"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Connections",
+				"es": "Conexiones",
+				"pt": "Conexões"
+
+			},
+			"cell_type": "network_modal",
+			"visible": true,
+			"number_format": null,
+			"order_by": [],
+			"col_width_px": 120,
+			"colID": "connections",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "id",
+						"cell_fn": "networks",
+						"node_class": "voyages"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
 				"en": "Total embarked (IMP)",
 				"es": "Total embarcado (IMP)",
 				"pt": "Total embarcado (IMP)"
@@ -888,9 +633,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Total enslaved purchased (IMP)",
-				"es": "Total de esclavos comprados (IMP)",
-				"pt": "Total de escravos comprados (IMP)"
+				"en": "Total embarked",
+				"es": "Total embarked",
+				"pt": "Total embarked"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -935,30 +680,7 @@
 		},
 		{
 			"header_label": {
-				"en": "Captives embarked at first port",
-				"es": "Cautivos embarcados en el primer puerto",
-				"pt": "Cativos embarcados no primeiro porto"
-			},
-			"cell_type": "literal",
-			"visible": false,
-			"number_format": "comma",
-			"order_by": [
-				"voyage_slaves_numbers__total_num_slaves_arr_first_port_embark"
-			],
-			"col_width_px": 105,
-			"colID": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
-				"en": "Captives intended to be purchased at first port",
+				"en": "Captives intended to be purchased at first place",
 				"es": "Cautivos a ser comprados en el primer puerto",
 				"pt": "Cativos a ser comprados no primeiro porto"
 
@@ -1044,6 +766,52 @@
 				"fields": [
 					{
 						"var_name": "voyage_slaves_numbers__num_slaves_carried_third_port",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Captives arrived at first port",
+				"es": "Captives arrived at first port",
+				"pt": "Captives arrived at first port"
+			},
+			"cell_type": "literal",
+			"visible": false,
+			"number_format": "comma",
+			"order_by": [
+				"voyage_slaves_numbers__total_num_slaves_arr_first_port_embark"
+			],
+			"col_width_px": 105,
+			"colID": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Captives landed at 1st port",
+				"es": "Cautivos desembarcados en el primer puerto",
+				"pt": "Cativos desembarcados no primeiro porto"
+			},
+			"cell_type": "literal",
+			"visible": false,
+			"number_format": null,
+			"order_by": [
+				"voyage_slaves_numbers__num_slaves_disembark_first_place"
+			],
+			"col_width_px": 100,
+			"colID": "voyage_slaves_numbers__num_slaves_disembark_first_place",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_slaves_numbers__num_slaves_disembark_first_place",
 						"cell_fn": "literal"
 					}
 				]
@@ -1352,24 +1120,26 @@
 				]
 			}
 		},
-		{
+				{
 			"header_label": {
-				"en": "Date vessel arrived with captives",
-				"es": "Fecha de llegada del buque con los cautivos",
-				"pt": "Data de chegada do navio com os cativos"
+				"en": "Date vessel's voyage began",
+				"es": "Fecha de inicio del viaje del buque",
+				"pt": "Data de início da viagem do navio"
 			},
 			"cell_type": "literal",
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__imp_arrival_at_port_of_dis"
+				"voyage_dates__voyage_began_sparsedate__day",
+				"voyage_dates__voyage_began_sparsedate__month",
+				"voyage_dates__voyage_began_sparsedate__year"
 			],
-			"col_width_px": 120,
-			"colID": "voyage_dates__imp_arrival_at_port_of_dis",
+			"col_width_px": 92,
+			"colID": "voyage_dates__voyage_began",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__imp_arrival_at_port_of_dis",
+						"var_name": "voyage_dates__voyage_began_sparsedate__date_str",
 						"cell_fn": "literal"
 					}
 				]
@@ -1377,7 +1147,82 @@
 		},
 		{
 			"header_label": {
-				"en": "Date departed for homeport",
+				"en": "Date captive embarkation began",
+				"es": "Fecha de inicio del embarque de cautivos",
+				"pt": "Data de início do embarque de cativos"
+			},
+			"cell_type": "literal",
+			"visible": false,
+			"number_format": null,
+			"order_by": [
+				"voyage_dates__slave_purchase_began_sparsedate__day",
+				"voyage_dates__slave_purchase_began_sparsedate__month",
+				"voyage_dates__slave_purchase_began_sparsedate__year"
+			],
+			"col_width_px": 125,
+			"colID": "voyage_dates__slave_purchase_began",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_dates__slave_purchase_began_sparsedate__date_str",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Date vessel departed with captives (IMP)",
+				"es": "Date vessel departed with captives (IMP)",
+				"pt": "Date vessel departed with captives (IMP)"
+			},
+			"cell_type": "literal",
+			"visible": false,
+			"number_format": null,
+			"order_by": [
+				"voyage_dates__date_departed_africa_sparsedate__day",
+				"voyage_dates__date_departed_africa_sparsedate__month",
+				"voyage_dates__date_departed_africa_sparsedate__year"
+			],
+			"col_width_px": 120,
+			"colID": "voyage_dates__date_departed_africa_sparsedate",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_dates__date_departed_africa_sparsedate__date_str",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Date vessel arrived with captives (IMP)",
+				"es": "Fecha de llegada del buque con los cautivos",
+				"pt": "Data de chegada do navio com os cativos"
+			},
+			"cell_type": "literal",
+			"visible": false,
+			"number_format": null,
+			"order_by": [
+				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
+				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
+				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
+			],
+			"col_width_px": 120,
+			"colID": "voyage_dates__imp_arrival_at_port_of_dis",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__date_str",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Date vessel departed for homeport",
 				"es": "Fecha de salida hacia el puerto de origen",
 				"pt": "Data de partida para o porto de origem"
 			},
@@ -1385,14 +1230,16 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__departure_last_place_of_landing"
+				"voyage_dates__departure_last_place_of_landing_sparsedate__day",
+				"voyage_dates__departure_last_place_of_landing_sparsedate__month",
+				"voyage_dates__departure_last_place_of_landing_sparsedate__year"
 			],
 			"col_width_px": 120,
 			"colID": "voyage_dates__departure_last_place_of_landing",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__departure_last_place_of_landing",
+						"var_name": "voyage_dates__departure_last_place_of_landing_sparsedate__date_str",
 						"cell_fn": "literal"
 					}
 				]
@@ -1408,14 +1255,109 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__voyage_completed"
+				"voyage_dates__voyage_completed_sparsedate__day",
+				"voyage_dates__voyage_completed_sparsedate__month",
+				"voyage_dates__voyage_completed_sparsedate__year"
 			],
 			"col_width_px": 100,
 			"colID": "voyage_dates__voyage_completed",
 			"cell_val": {
 				"fields": [
 					{
-						"var_name": "voyage_dates__voyage_completed",
+						"var_name": "voyage_dates__voyage_completed_sparsedate__date_str",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Enslavers",
+				"es": "Esclavistas",
+				"pt": "Escravistas"
+
+			},
+			"cell_type": "literal",
+			"visible": true,
+			"number_format": null,
+			"order_by": [
+				"voyage_enslaver_connection__enslaver_alias__alias"
+			],
+			"col_width_px": 280,
+			"colID": "voyage_enslavers",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "enslavers__name_and_role",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Crew at voyage outset",
+				"es": "Tripulación al inicio del viaje",
+				"pt": "A tripulação no início da viagem"
+			},
+			"cell_type": "literal",
+			"visible": false,
+			"number_format": "comma",
+			"order_by": [
+				"voyage_crew__crew_voyage_outset"
+			],
+			"col_width_px": 100,
+			"colID": "voyage_crew__crew_voyage_outset",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_crew__crew_voyage_outset",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Crew at first landing of captives",
+				"es": "Tripulación en el primer desembarco de cautivos",
+				"pt": "A tripulação no primeiro desembarque de cativos"
+			},
+			"cell_type": "literal",
+			"visible": false,
+			"number_format": null,
+			"order_by": [
+				"voyage_crew__crew_first_landing"
+			],
+			"col_width_px": 100,
+			"colID": "voyage_crew__crew_first_landing",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_crew__crew_first_landing",
+						"cell_fn": "literal"
+					}
+				]
+			}
+		},
+		{
+			"header_label": {
+				"en": "Crew deaths during voyage",
+				"es": "Muertes de la tripulación durante el viaje",
+				"pt": "Mortes de tripulantes durante a viagem"
+			},
+			"cell_type": "literal",
+			"visible": false,
+			"number_format": "comma",
+			"order_by": [
+				"voyage_crew__crew_died_complete_voyage"
+			],
+			"col_width_px": 90,
+			"colID": "voyage_crew__crew_died_complete_voyage",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "voyage_crew__crew_died_complete_voyage",
 						"cell_fn": "literal"
 					}
 				]
@@ -1536,12 +1478,78 @@
 					}
 				]
 			}
-		}
+		},
+		{
+			"header_label": {
+				"en": "Sources",
+				"es": "Fuentes",
+				"pt": "Fontes"
+			},
+			"cell_type": "literal",
+			"visible": false,
+			"number_format": null,
+			"order_by": [
+				"voyage_source_connections__source__title"
+			],
+			"col_width_px": 200,
+			"colID": "voyage_sources",
+			"cell_val": {
+				"fields": [
+					{
+						"var_name": "sources__short_ref__name",
+						"cell_fn": "literal"
+					},
+					{
+						"var_name": "sources__title",
+						"cell_fn": "metadata"
+					},
+					{
+						"var_name": "sources__bib",
+						"cell_fn": "metadata"
+					},
+					{
+						"var_name": "sources__has_published_manifest",
+						"cell_fn": "metadata"
+					},
+					{
+						"var_name": "sources__zotero_group_id",
+						"cell_fn": "metadata"
+					},
+					{
+						"var_name": "sources__zotero_item_id",
+						"cell_fn": "metadata"
+					},
+					{
+						"var_name": "sources__thumbnail",
+						"cell_fn": "metadata"
+					}
+				],
+				"join": ": "
+			}
+		}		
 	],
 	"other_properties": {
 		"default_order_by": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
 	},
 	"column_selector_tree": [
+		{
+			"label": {
+				"en": "Year range",
+				"es": "Year range",
+				"pt": "Year range"
+			},
+			"children": [
+				{
+					"col_width_px": 100,
+					"colID": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+					"label": {
+						"en": "Year arrived with slaves (IMP)",
+						"es": "Year arrived with slaves (IMP)",
+						"pt": "Year arrived with slaves (IMP)"
+					}
+				}
+			]
+		},
 		{
 			"label": {
 				"en": "Ship, nation",
@@ -1561,40 +1569,29 @@
 				},
 				{
 					"col_width_px": 100,
-					"colID": "linked_voyages",
-					"label": {
-						"en": "Linked voyages",
-						"es": "Viajes conectados",
-						"pt": "Viagens conectadas"
-
-					}
-				},
-				{
-					"col_width_px": 100,
 					"colID": "voyage_ship__ship_name",
 					"label": {
-						"en": "Name of vessel",
+						"en": "Vessel name",
 						"es": "Nombre del buque",
 						"pt": "Nome do navio"
 					}
 				},
-				
 				{
 					"col_width_px": 100,
 					"colID": "voyage_ship__year_of_construction",
 					"label": {
-						"en": "Year of construction",
-						"es": "Año de construcción",
-						"pt": "Ano de construção"
+						"en": "Year constructed",
+						"es": "Year constructed",
+						"pt": "Year constructed"
 					}
 				},
 				{
 					"col_width_px": 100,
 					"colID": "voyage_ship__vessel_construction_place__name",
 					"label": {
-						"en": "Region of construction",
-						"es": "Región de construcción",
-						"pt": "Região de construção"
+						"en": "Region constructed",
+						"es": "Region constructed",
+						"pt": "Region constructed"
 					}
 				},
 				{
@@ -1641,9 +1638,9 @@
 					"col_width_px": 100,
 					"colID": "voyage_ship__rig_of_vessel__name",
 					"label": {
-						"en": "Rig of Vessel",
-						"es": "Tipo del buque",
-						"pt": "Tipo do navio"
+						"en": "Rig or type of Vessel",
+						"es": "Rig or type of Vessel",
+						"pt": "Rig or type of Vessel"
 
 					}
 				},
@@ -1826,6 +1823,16 @@
 						"es": "Lugar donde terminó el viaje del buque",
 						"pt": "Local onde terminou a viagem do navio"
 					}
+				},
+				{
+					"col_width_px": 100,
+					"colID": "linked_voyages",
+					"label": {
+						"en": "Linked voyages",
+						"es": "Viajes conectados",
+						"pt": "Viagens conectadas"
+
+					}
 				}
 			]
 		},
@@ -1849,9 +1856,9 @@
 					"col_width_px": 100,
 					"colID": "voyage_slaves_numbers__total_num_slaves_purchased",
 					"label": {
-						"en": "Total enslaved purchased (IMP)",
-						"es": "Total de esclavos comprados (IMP)",
-						"pt": "Total de escravos comprados (IMP)"
+						"en": "Total embarked",
+						"es": "Total embarcados",
+						"pt": "Total embarcado"
 					}
 				},
 				{
@@ -1861,15 +1868,6 @@
 						"en": "Total disembarked (IMP)",
 						"es": "Total desembarcados (IMP)",
 						"pt": "Total desembarcado (IMP)"
-					}
-				},
-				{
-					"col_width_px": 100,
-					"colID": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
-					"label": {
-						"en": "Captives embarked at first port",
-						"es": "Cautivos embarcados en el primer puerto",
-						"pt": "Cativos embarcados no primeiro porto"
 					}
 				},
 				{
@@ -1910,9 +1908,18 @@
 				},
 				{
 					"col_width_px": 100,
+					"colID": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
+					"label": {
+						"en": "Captives arrived at 1st port",
+						"es": "Captives arrived at 1st port",
+						"pt": "Captives arrived at 1st port"
+					}
+				},
+				{
+					"col_width_px": 100,
 					"colID": "voyage_slaves_numbers__num_slaves_disembark_first_place",
 					"label": {
-						"en": "Captives landed at first port",
+						"en": "Captives landed at 1st port",
 						"es": "Cautivos desembarcados en el primer puerto",
 						"pt": "Cativos desembarcados no primeiro porto"
 					}
@@ -1921,7 +1928,7 @@
 					"col_width_px": 100,
 					"colID": "voyage_slaves_numbers__num_slaves_disembark_second_place",
 					"label": {
-						"en": "Captives landed at second port",
+						"en": "Captives landed at 2nd port",
 						"es": "Cautivos desembarcados en el segundo puerto",
 						"pt": "Cativos desembarcados no segundo porto"
 					}
@@ -1930,7 +1937,7 @@
 					"col_width_px": 100,
 					"colID": "voyage_slaves_numbers__num_slaves_disembark_third_place",
 					"label": {
-						"en": "Captives landed at third port",
+						"en": "Captives landed at 3rd port",
 						"es": "Cautivos desembarcados en el tercer puerto",
 						"pt": "Cativos desembarcados no terceiro porto"
 					}
@@ -2032,15 +2039,6 @@
 			"children": [
 				{
 					"col_width_px": 100,
-					"colID": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-					"label": {
-						"en": "Year captives were landed (imputed)",
-						"es": "Año de desembarco de los cautivos (imputado)",
-						"pt": "Ano em que os cativos foram desembarcados (imputado)"
-					}
-				},
-				{
-					"col_width_px": 100,
 					"colID": "voyage_dates__length_middle_passage_days",
 					"label": {
 						"en": "Duration of captives' crossing (in days)",
@@ -2077,6 +2075,15 @@
 				},
 				{
 					"col_width_px": 100,
+					"colID": "voyage_dates__date_departed_africa_sparsedate",
+					"label": {
+						"en": "Date vessel departed with captives (in days)",
+						"es": "Date vessel departed with captives (in days)",
+						"pt": "Date vessel departed with captives (in days)"
+					}
+				},
+				{
+					"col_width_px": 100,
 					"colID": "voyage_dates__imp_arrival_at_port_of_dis",
 					"label": {
 						"en": "Date vessel arrived with captives",
@@ -2106,18 +2113,18 @@
 		},
 		{
 			"label": {
-				"en": "Outcomes",
-				"es": "Resultados",
-				"pt": "Resultados"
+				"en": "Outcome",
+				"es": "Resultado",
+				"pt": "Resultado"
 			},
 			"children": [
 				{
 					"col_width_px": 100,
 					"colID": "voyage_outcome__particular_outcome__name",
 					"label": {
-						"en": "Particular outcome",
-						"es": "Resultado particular",
-						"pt": "Resultado específico"
+						"en": "Particular outcome of voyage",
+						"es": "Particular outcome of voyage",
+						"pt": "Particular outcome of voyage"
 					}
 				},
 				{

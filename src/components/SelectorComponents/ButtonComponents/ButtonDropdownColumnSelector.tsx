@@ -25,8 +25,8 @@ import {
 } from '@/share/InterfaceTypesTable';
 import { DropdownMenuItem, DropdownNestedMenuItemChildren } from '@/styleMUI';
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/enslaved/enslaved_african_origins_table.json';
-import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_all_table_menu.json';
-import TEXAS_TABLE from '@/utils/flatfiles/enslaved/enslaved_texas_table_cell_structure.json';
+import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_all_table.json';
+import TEXAS_TABLE from '@/utils/flatfiles/enslaved/enslaved_texas_table.json';
 import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers/enslavers_table.json';
 import AllVoyages_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_all_table.json';
 import Intraamerican_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_intraamerican_table.json';
