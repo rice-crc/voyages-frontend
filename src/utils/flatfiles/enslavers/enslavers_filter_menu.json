@@ -92,6 +92,15 @@
         }
       },
       {
+        "var_name": "birth_place__value",
+        "type": "GeoTreeSelect",
+        "label": {
+          "en": "Birth place",
+          "es": "Birth place",
+          "pt": "Birth place"
+        }
+      },
+      {
         "var_name": "birth_year",
         "type": "IntegerField",
         "label": {

@@ -51,7 +51,7 @@
       "visible": true,
       "number_format": null,
       "order_by": ["birth_year"],
-      "col_width_px": 100,
+      "col_width_px": 200,
       "colID": "birth",
       "cell_val": {
         "fields": [
@@ -72,7 +72,7 @@
       "visible": true,
       "number_format": null,
       "order_by": ["death_year"],
-      "col_width_px": 120,
+      "col_width_px": 200,
       "colID": "death",
       "cell_val": {
         "fields": [
@@ -207,7 +207,7 @@
       },
       "children": [
         {
-          "col_width_px": 100,
+          "col_width_px": 200,
           "colID": "birth",
           "label": {
             "en": "Birth",
@@ -216,7 +216,7 @@
           }
         },
         {
-          "col_width_px": 100,
+          "col_width_px": 200,
           "colID": "death",
           "label": {
             "en": "Death",
