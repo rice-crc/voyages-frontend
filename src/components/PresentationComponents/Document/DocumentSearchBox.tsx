@@ -11,6 +11,8 @@ import {
   TextField,
   Tooltip,
   IconButton,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
 
@@ -83,6 +85,8 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
   >({ title: '' });
   const [editingField, setEditingField] = useState<string | null>(null);
   const [lastError, setLastError] = useState<string | undefined>();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const debouncedSearch = useDebounce(searchData, 500);
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch,
@@ -103,7 +107,7 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
         continue;
       }
       if (field === 'enslaver' || field === 'voyageIds') {
-        Object.assign(model, { [field]: value.split(/[/;\|]/) });
+        Object.assign(model, { [field]: value.split(/[/;|]/) });
       } else {
         Object.assign(model, { [field]: value });
       }
@@ -169,7 +173,7 @@ const DocumentSearchBox = ({ onClick, onUpdate }: DocumentSearchBoxProps) => {
         p: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        minWidth: 400,
+        minWidth: isMobile ? '100%' : 400,
       }}
     >
       {DocumentSearchFieldNames.filter(

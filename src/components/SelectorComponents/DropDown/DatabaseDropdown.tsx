@@ -1,21 +1,23 @@
 import { useState, MouseEvent, useEffect } from 'react';
+
+import { ArrowDropDown } from '@mui/icons-material';
 import Button from '@mui/material/Button';
+import Fade from '@mui/material/Fade';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Fade from '@mui/material/Fade';
-import { ArrowDropDown } from '@mui/icons-material';
-import { PagesOptions } from '@/utils/functions/languages';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { useNavigate } from 'react-router-dom';
+
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { translationDataBasePage } from '@/utils/functions/translationLanguages';
-import { LabelFilterMeneList } from '@/share/InterfaceTypes';
-import { Link } from 'react-router-dom';
+import { RootState } from '@/redux/store';
 import {
   ENSALVEDROUTE,
   ENSALVERSROUTE,
   VOYAGEPATHENPOINT,
 } from '@/share/CONST_DATA';
+import { LabelFilterMeneList } from '@/share/InterfaceTypes';
+import { PagesOptions } from '@/utils/functions/languages';
+import { translationDataBasePage } from '@/utils/functions/translationLanguages';
 
 interface DatabaseDropdownProps {
   onClickReset: () => void;
@@ -26,6 +28,7 @@ export default function DatabaseDropdown(props: DatabaseDropdownProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [headerTitle, setHeadTitle] = useState('');
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
   const {
     styleName: styleNameRoute,
     endpointPath,
@@ -33,7 +36,7 @@ export default function DatabaseDropdown(props: DatabaseDropdownProps) {
   } = usePageRouter();
 
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedPageValue = translationDataBasePage(languageValue);
 
@@ -97,16 +100,27 @@ export default function DatabaseDropdown(props: DatabaseDropdownProps) {
           const labelPage = (label! as LabelFilterMeneList)[languageValue];
           return labelPage !== headerTitle ? (
             <MenuItem style={{ fontSize: '1rem' }} key={name}>
-              <Link
-                to={pathUrl}
-                onClick={onClickReset}
+              <button
+                onClick={() => {
+                  onClickReset();
+                  navigate(pathUrl);
+                  handleClose();
+                }}
                 style={{
                   textDecoration: 'none',
                   color: '#000',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: 'inherit',
+                  fontFamily: 'inherit',
+                  padding: 0,
+                  width: '100%',
+                  textAlign: 'left',
                 }}
               >
                 {labelPage!}
-              </Link>
+              </button>
             </MenuItem>
           ) : null;
         })}

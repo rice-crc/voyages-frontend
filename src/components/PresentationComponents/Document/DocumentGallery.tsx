@@ -15,6 +15,8 @@ import {
   ImageListItem,
   ImageList,
   ImageListItemBar,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import DOMPurify from 'dompurify';
 
@@ -49,7 +51,12 @@ const DocumentGallery = ({
   onPageChange,
 }: DocumentGalleryProps) => {
   const [contents, setContents] = useState<DocumentItemInfo[]>([]);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+
   const numPages = Math.ceil(source.count / pageSize);
+
   useEffect(() => {
     const refresh = async () => {
       setContents(
@@ -62,157 +69,307 @@ const DocumentGallery = ({
     refresh();
   }, [source]);
 
-  const paginator = (
-    <Pagination
-      style={{ paddingTop: '4px', paddingBottom: '4px' }}
-      count={numPages}
-      page={source.currentPage ?? 1}
-      onChange={(_, p) => onPageChange(p)}
-    />
-  );
   const galleryDivRef = useRef<HTMLDivElement>(null);
   const { width } = useDimensions(galleryDivRef);
 
+  // Calculate responsive grid columns
+  const getGridCols = () => {
+    if (isMobile) return 1;
+    if (isTablet) return 2;
+    return Math.max(1, Math.floor((0.9 * width) / thumbSize));
+  };
+
+  // Calculate responsive thumb size
+  const getResponsiveThumbSize = () => {
+    if (isMobile) return Math.min(thumbSize, width * 0.8);
+    if (isTablet) return Math.min(thumbSize, width * 0.4);
+    return thumbSize;
+  };
+
+  const responsiveThumbSize = getResponsiveThumbSize();
+  const gridCols = getGridCols();
+
+  const paginator = (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        py: { xs: 2, sm: 3 },
+        px: { xs: 2, sm: 3 },
+      }}
+    >
+      <Pagination
+        count={numPages}
+        page={source.currentPage ?? 1}
+        onChange={(_, p) => onPageChange(p)}
+        size={isMobile ? 'small' : 'medium'}
+        siblingCount={isMobile ? 0 : 1}
+        boundaryCount={isMobile ? 1 : 2}
+      />
+    </Box>
+  );
+
   return (
-    <div ref={galleryDivRef}>
-      <h2>
-        {title} <small>(Item count: {source.count})</small>
-      </h2>
+    <Box
+      ref={galleryDivRef}
+      sx={{
+        width: '100%',
+        px: { xs: 2, sm: 3 },
+        py: { xs: 2, sm: 3 },
+      }}
+    >
+      <Typography
+        variant={isMobile ? 'h6' : 'h4'}
+        component="h2"
+        sx={{
+          mb: 2,
+          fontSize: { xs: '1.1rem', sm: '1.5rem', md: '2rem' },
+          fontWeight: 'bold',
+        }}
+      >
+        {title}
+        <Typography
+          component="span"
+          variant="body2"
+          sx={{
+            ml: 1,
+            fontSize: { xs: '0.8rem', sm: '0.9rem' },
+            color: 'text.secondary',
+          }}
+        >
+          (Item count: {source.count})
+        </Typography>
+      </Typography>
+
       {viewMode === 'list' && (
-        <>
-          <List
-            sx={{
-              width: '100%',
-              overflowY: 'auto',
-              maxHeight: 'calc(100vh - 220px)',
-            }}
-          >
-            {contents.map((item) => (
-              <ListItem key={item.key}>
-                <Card
+        <List
+          sx={{
+            width: '100%',
+            overflowY: 'auto',
+            maxHeight: {
+              xs: 'calc(100vh - 180px)',
+              sm: 'calc(100vh - 220px)',
+            },
+            p: 0,
+          }}
+        >
+          {contents.map((item) => (
+            <ListItem
+              key={item.key}
+              sx={{
+                px: { xs: 0, sm: 2 },
+                py: { xs: 2, sm: 2 },
+              }}
+            >
+              <Card
+                sx={{
+                  display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  width: '100%',
+                  boxShadow: 1,
+                  '&:hover': {
+                    boxShadow: 3,
+                  },
+                }}
+              >
+                {item.thumb && (
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      width: { xs: '100%', sm: responsiveThumbSize },
+                      height: { xs: 200, sm: responsiveThumbSize },
+                      objectFit: 'cover',
+                    }}
+                    image={item.thumb}
+                    alt={item.label}
+                  />
+                )}
+                <Box
                   sx={{
                     display: 'flex',
-                    ...(viewMode === 'list' ? { width: '100%' } : {}),
+                    flexDirection: 'column',
+                    flex: 1,
+                    minWidth: 0,
                   }}
                 >
-                  {item.thumb && (
-                    <CardMedia
-                      component="img"
-                      sx={{ width: thumbSize }}
-                      image={item.thumb}
-                      alt={item.label}
-                    />
-                  )}
-                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <CardContent sx={{ flex: '1 0 auto' }}>
-                      {
-                        // If there is a formatted bibliography, use that, but ensure
-                        // that the HTML is sanitized to avoid XSS attacks.
-                      }
-                      {item.bib && (
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(item.bib),
-                          }}
-                        />
-                      )}
-                      {!item.bib && (
-                        <Typography component="div" variant="h5">
-                          {item.label}
-                        </Typography>
-                      )}
-                      {item.textSnippet && (
-                        <div
-                          style={{
-                            padding: 12,
-                            fontSize: 13,
-                            color: '#555',
-                            lineHeight: 1.5,
-                            whiteSpace: 'normal',
-                            wordBreak: 'break-word',
-                          }}
-                          dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(item.textSnippet),
-                          }}
-                        />
-                      )}
-                    </CardContent>
-                    <CardActions>
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        aria-label={`Open ${item.label}`}
-                        onClick={() => onDocumentOpen(item)}
-                        startIcon={<AutoStories />}
-                        style={{
-                          padding: '6px 16px',
-                          backgroundColor: 'rgb(55, 148, 141)',
-                          color: '#fff',
-                          lineHeight: 1.75,
-                          borderRadius: 4,
+                  <CardContent
+                    sx={{
+                      flex: '1 0 auto',
+                      px: { xs: 2, sm: 3 },
+                      py: { xs: 2, sm: 3 },
+                    }}
+                  >
+                    {item.bib && (
+                      <Box
+                        sx={{
+                          '& *': {
+                            fontSize: { xs: '0.9rem', sm: '1rem' },
+                            lineHeight: 1.4,
+                          },
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(item.bib),
+                        }}
+                      />
+                    )}
+                    {!item.bib && (
+                      <Typography
+                        component="div"
+                        variant={isMobile ? 'h6' : 'h5'}
+                        sx={{
+                          fontSize: { xs: '1.1rem', sm: '1.25rem' },
+                          fontWeight: 'medium',
+                          mb: 1,
                         }}
                       >
-                        <Typography component="div">
-                          &nbsp;View Document
-                        </Typography>
-                      </Button>
-                    </CardActions>
-                  </Box>
-                </Card>
-              </ListItem>
-            ))}
-          </List>
-        </>
+                        {item.label}
+                      </Typography>
+                    )}
+                    {item.textSnippet && (
+                      <Box
+                        sx={{
+                          p: { xs: 2, sm: 2 },
+                          fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                          color: 'text.secondary',
+                          lineHeight: 1.5,
+                          whiteSpace: 'normal',
+                          wordBreak: 'break-word',
+                          bgcolor: 'grey.50',
+                          borderRadius: 1,
+                          mt: 1,
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(item.textSnippet),
+                        }}
+                      />
+                    )}
+                  </CardContent>
+                  <CardActions
+                    sx={{
+                      px: { xs: 2, sm: 3 },
+                      pb: { xs: 2, sm: 3 },
+                      pt: 0,
+                    }}
+                  >
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      aria-label={`Open ${item.label}`}
+                      onClick={() => onDocumentOpen(item)}
+                      startIcon={<AutoStories />}
+                      size={isMobile ? 'small' : 'medium'}
+                      sx={{
+                        backgroundColor: 'rgb(55, 148, 141)',
+                        color: '#fff',
+                        borderRadius: 1,
+                        px: { xs: 2, sm: 3 },
+                        py: { xs: 2, sm: 2 },
+                        fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                        '&:hover': {
+                          backgroundColor: 'rgb(45, 128, 121)',
+                        },
+                      }}
+                    >
+                      View Document
+                    </Button>
+                  </CardActions>
+                </Box>
+              </Card>
+            </ListItem>
+          ))}
+        </List>
       )}
+
       {viewMode !== 'list' && (
-        <>
-          <ImageList
-            sx={{
-              width: '100%',
-              overflowY: 'auto',
-              maxHeight: 'calc(100vh - 220px)',
-            }}
-            cols={Math.floor((0.9 * width) / thumbSize)}
-            rowHeight={thumbSize}
-          >
-            {contents.map((item) => {
-              console.log({ item });
-              return (
-                <ImageListItem
-                  key={item.key}
-                  sx={{ width: thumbSize, height: thumbSize }}
-                >
-                  {item.thumb && (
-                    <img
-                      width={thumbSize}
-                      height={thumbSize}
-                      style={{ maxWidth: thumbSize, maxHeight: thumbSize }}
-                      src={item.thumb}
-                      alt={item.label}
-                      loading="lazy"
-                    />
-                  )}
-                  <ImageListItemBar
-                    title={item.label}
-                    actionIcon={
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        aria-label={`Open ${item.label}`}
-                        onClick={() => onDocumentOpen(item)}
-                      >
-                        <AutoStories />
-                      </Button>
-                    }
-                  />
-                </ImageListItem>
-              );
-            })}
-          </ImageList>
-        </>
+        <ImageList
+          sx={{
+            width: '100%',
+            overflowY: 'auto',
+            maxHeight: {
+              xs: 'calc(100vh - 180px)',
+              sm: 'calc(100vh - 220px)',
+            },
+            gap: { xs: 1, sm: 2 }, // Responsive gap between items
+          }}
+          cols={gridCols}
+          rowHeight={responsiveThumbSize}
+        >
+          {contents.map((item) => (
+            <ImageListItem
+              key={item.key}
+              sx={{
+                width: responsiveThumbSize,
+                height: responsiveThumbSize,
+                borderRadius: 2,
+                overflow: 'hidden',
+                boxShadow: 1,
+                '&:hover': {
+                  boxShadow: 3,
+                  transform: 'scale(1.02)',
+                  transition: 'all 0.2s ease-in-out',
+                },
+              }}
+            >
+              {item.thumb && (
+                <img
+                  width={responsiveThumbSize}
+                  height={responsiveThumbSize}
+                  style={{
+                    maxWidth: responsiveThumbSize,
+                    maxHeight: responsiveThumbSize,
+                    objectFit: 'cover',
+                  }}
+                  src={item.thumb}
+                  alt={item.label}
+                  loading="lazy"
+                />
+              )}
+              <ImageListItemBar
+                title={
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                      fontWeight: 'medium',
+                    }}
+                  >
+                    {item.label}
+                  </Typography>
+                }
+                actionIcon={
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    aria-label={`Open ${item.label}`}
+                    onClick={() => onDocumentOpen(item)}
+                    size={isMobile ? 'small' : 'medium'}
+                    sx={{
+                      minWidth: 'auto',
+                      p: { xs: 2, sm: 2 },
+                      mr: 1,
+                      backgroundColor: 'rgb(55, 148, 141)',
+                      '&:hover': {
+                        backgroundColor: 'rgb(45, 128, 121)',
+                      },
+                    }}
+                  >
+                    <AutoStories fontSize={isMobile ? 'small' : 'medium'} />
+                  </Button>
+                }
+                sx={{
+                  background:
+                    'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                  '& .MuiImageListItemBar-title': {
+                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                  },
+                }}
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
       )}
       {paginator}
-    </div>
+    </Box>
   );
 };
 
