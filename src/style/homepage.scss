@@ -735,13 +735,14 @@
 .btn-navbar-hide {
   margin-left: 15px;
   cursor: pointer;
-  border: 1px white solid;
   border-radius: 3px;
   color: white;
   text-align: center;
-  padding: 0 0.5rem 0 0.35rem;
+  padding: 3px;
   font-size: 0.85rem;
-  width: 80px;
+  width: 70px;
+  background: transparent;
+  border: 1px white solid;
 
   span {
     margin-left: 4px;

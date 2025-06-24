@@ -1,9 +1,13 @@
+import { ChangeEvent, FunctionComponent } from 'react';
+
+import { TextField, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { setEnslaversName } from '@/redux/getRangeSliderSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { FilterObjectsState } from '@/share/InterfaceTypes';
-import { TextField, Typography } from '@mui/material';
-import { ChangeEvent, FunctionComponent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import '@/style/styles.scss';
+
 interface FilterTextNameEnslaversProps {
   textError: string;
   setTextError: React.Dispatch<React.SetStateAction<string>>;
@@ -13,7 +17,7 @@ const FilterTextNameEnslaversBox: FunctionComponent<
 > = ({ textError, setTextError }) => {
   const dispatch: AppDispatch = useDispatch();
   const { enslaverName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const handleTextInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -41,32 +45,35 @@ const FilterTextNameEnslaversBox: FunctionComponent<
   };
 
   return (
-    <TextField
-      variant="outlined"
-      fullWidth
-      value={enslaverName}
-      onChange={handleTextInputChange}
-      onFocus={handleFocus}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          handleKeyDownTextFilter(enslaverName);
+    <div className="filter-text-box">
+      <TextField
+        variant="outlined"
+        fullWidth
+        size="small"
+        value={enslaverName}
+        onChange={handleTextInputChange}
+        onFocus={handleFocus}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleKeyDownTextFilter(enslaverName);
+          }
+        }}
+        label={
+          <Typography variant="body1" style={{ fontSize: 14 }} height={50}>
+            Name
+          </Typography>
         }
-      }}
-      label={
-        <Typography variant="body1" style={{ fontSize: 14 }} height={50}>
-          Name
-        </Typography>
-      }
-      placeholder="Last Name, First Name"
-      style={{ marginTop: 20, width: 450 }}
-      helperText={textError}
-      FormHelperTextProps={{
-        style: {
-          color: 'red',
-          fontSize: '0.875rem',
-        },
-      }}
-    />
+        placeholder="Last Name, First Name"
+        style={{ marginTop: 20, width: 450 }}
+        helperText={textError}
+        FormHelperTextProps={{
+          style: {
+            color: 'red',
+            fontSize: '0.875rem',
+          },
+        }}
+      />
+    </div>
   );
 };
 

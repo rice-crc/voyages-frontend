@@ -1,3 +1,7 @@
+import { FunctionComponent, useEffect, useState } from 'react';
+
+import { useSelector } from 'react-redux';
+
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
 import {
@@ -9,8 +13,7 @@ import {
 import '@/style/estimates.scss';
 import { getColorBackgroundHeader } from '@/utils/functions/getColorStyle';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
-import { FunctionComponent, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+
 interface ShowAllSelectedProps {
   handleViewAll: () => void;
   ariaExpanded?: boolean;
@@ -19,12 +22,12 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({
   handleViewAll,
 }) => {
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const { styleName: styleNameRoute } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const [filterData, setFilterData] = useState<
     {
@@ -61,8 +64,8 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({
           const searchTermToUse = Array.isArray(item.title)
             ? item.title.join(', ')
             : Array.isArray(item.searchTerm)
-            ? item.searchTerm.join(' - ')
-            : item.searchTerm;
+              ? item.searchTerm.join(' - ')
+              : item.searchTerm;
           combinedData.push({
             label: item.label!,
             searchTerm: searchTermToUse,
@@ -117,23 +120,22 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({
     <div
       id="panelCollapse"
       className="panel-list-view-all-show-filter"
-      v-if="hasCurrentQuery"
       style={{ backgroundColor: getColorBackgroundHeader(styleNameRoute!) }}
     >
-      <div className="panel-list-item-wrapper" style={{ display: 'flex' }}>
+      <div className="panel-list-item-wrapper">
         {filterData.length > 0 &&
           filterData.map((item, index) => {
             const { label, searchTerm } = item;
             return (
-              <span className="view-show-row" key={`${label}-${index}`}>
-                <h4>{label} : </h4>
-                <div className="value-list">{searchTerm as string}</div>
-              </span>
+              <div className="panel-list-row" key={`${label}-${index}`}>
+                <h4 className="panel-list-label">{label}:</h4>
+                <div className="panel-list-value">{searchTerm as string}</div>
+              </div>
             );
           })}
       </div>
-      <div>
-        <div className="btn-navbar-hide" onClick={handleViewAll}>
+      <div className="panel-list-item-wrapper">
+        <button className="btn-navbar-hide" onClick={handleViewAll}>
           <i
             className="fa fa-times-circle"
             style={{ paddingRight: 5 }}
@@ -141,7 +143,7 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({
           ></i>
           {translated.hideText}
           <div></div>
-        </div>
+        </button>
       </div>
     </div>
   );

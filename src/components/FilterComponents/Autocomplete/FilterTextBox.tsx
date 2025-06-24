@@ -1,10 +1,14 @@
+import { ChangeEvent, FunctionComponent } from 'react';
+
+import { TextField } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { setIsChangeAuto } from '@/redux/getAutoCompleteSlice';
 import { setTextFilter } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { TYPES } from '@/share/InterfaceTypes';
-import { TextField, Typography } from '@mui/material';
-import { ChangeEvent, FunctionComponent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import '@/style/styles.scss';
+
 interface FilterTextProps {
   handleKeyDownTextFilter: (value: string) => void;
   type?: string;
@@ -15,7 +19,7 @@ const FilterTextBox: FunctionComponent<FilterTextProps> = ({
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const { textFilter } = useSelector(
-    (state: RootState) => state.getShowFilterObject
+    (state: RootState) => state.getShowFilterObject,
   );
 
   const handleTextInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,26 +33,34 @@ const FilterTextBox: FunctionComponent<FilterTextProps> = ({
   };
 
   return (
-    <TextField
-      variant="outlined"
-      fullWidth
-      value={textFilter}
-      onChange={handleTextInputChange}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          handleKeyDownTextFilter(textFilter);
+    <div className="filter-text-box">
+      <TextField
+        variant="outlined"
+        fullWidth
+        size="small"
+        value={textFilter}
+        onChange={handleTextInputChange}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleKeyDownTextFilter(textFilter);
+          }
+        }}
+        label="Field"
+        placeholder={
+          type === TYPES.IdMatch ? 'Filter by Voyage ID' : 'Filter by Text'
         }
-      }}
-      label={
-        <Typography variant="body1" style={{ fontSize: 14 }} height={50}>
-          field
-        </Typography>
-      }
-      placeholder={
-        type === TYPES.IdMatch ? 'Filter by Voyage ID' : 'Filter by Text'
-      }
-      style={{ marginTop: 20, width: 450 }}
-    />
+        style={{ marginTop: 20, width: 450 }}
+        InputLabelProps={{
+          sx: {
+            fontSize: 14,
+            color: 'primary.main',
+            '&.Mui-focused': {
+              color: 'primary.main',
+            },
+          },
+        }}
+      />
+    </div>
   );
 };
 

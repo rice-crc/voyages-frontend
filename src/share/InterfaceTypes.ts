@@ -75,11 +75,11 @@ export interface IRootFilterTableObject {
 export interface Filter {
   varName: string;
   searchTerm:
-  | number[]
-  | string[]
-  | CheckboxValueType[]
-  | RolesFilterProps[]
-  | CheckboxValueType;
+    | number[]
+    | string[]
+    | CheckboxValueType[]
+    | RolesFilterProps[]
+    | CheckboxValueType;
   op: string;
   label?: string;
   title?: string[];
@@ -535,7 +535,7 @@ export interface HeaderLabel {
 
 export interface MenuListsProps {
   name: LabelFilterMeneList;
-  url: string
+  url: string;
   submenu?: MenuListsProps[];
 }
 
@@ -737,8 +737,8 @@ export interface CheckboxGroupItem {
   label: string;
   plainOptions: string[];
   setCheckedList:
-  | React.Dispatch<React.SetStateAction<CheckboxValueType[]>>
-  | ((list: CheckboxValueType[]) => void);
+    | React.Dispatch<React.SetStateAction<CheckboxValueType[]>>
+    | ((list: CheckboxValueType[]) => void);
   checkedList: CheckboxValueType[];
   show: boolean;
   varName: string;
