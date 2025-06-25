@@ -1,3 +1,7 @@
+import { useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+
 import { setColumnDefs, setRowData } from '@/redux/getTableSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { TableCellStructure } from '@/share/InterfaceTypesTable';
@@ -8,8 +12,7 @@ import {
 } from '@/utils/functions/checkPagesRoute';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { generateRowsData } from '@/utils/functions/generateRowsData';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { usePageRouter } from './usePageRouter';
 
 function useDataTableProcessingEffect(
@@ -18,11 +21,11 @@ function useDataTableProcessingEffect(
   tableFlatfileVoyages: string,
   tableFlatfileEnslaved: string,
   tableFlatfileEnslavers: string,
-  tablesCell: TableCellStructure[]
+  tablesCell: TableCellStructure[],
 ) {
   const dispatch: AppDispatch = useDispatch();
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const { styleName: styleNameRoute } = usePageRouter();
   useEffect(() => {
@@ -38,24 +41,27 @@ function useDataTableProcessingEffect(
       const finalRowData = generateRowsData(data, tableFileName!);
       // Generate column definitions
       const newColumnDefs = tablesCell.map((value) =>
-        generateColumnDef(value, languageValue, visibleColumnCells)
+        generateColumnDef(value, languageValue, visibleColumnCells),
       );
-      
+
       // Try to preserve column order from localStorage if this is initial load
       const savedColumnState = localStorage.getItem('columnState');
       if (savedColumnState) {
         try {
           const parsedState = JSON.parse(savedColumnState);
-          
+
           // Sort column definitions based on saved state if column IDs match
           const colIds = parsedState.map((col: any) => col.colId);
           if (colIds.length > 0) {
             // Create a map of column positions
-            const colPositions = colIds.reduce((acc: any, id: string, index: number) => {
-              acc[id] = index;
-              return acc;
-            }, {});
-            
+            const colPositions = colIds.reduce(
+              (acc: any, id: string, index: number) => {
+                acc[id] = index;
+                return acc;
+              },
+              {},
+            );
+
             // Sort the column definitions based on the saved positions
             newColumnDefs.sort((a, b) => {
               const posA = colPositions[a.field] ?? Number.MAX_SAFE_INTEGER;
@@ -67,7 +73,7 @@ function useDataTableProcessingEffect(
           console.error('Error parsing saved column state:', error);
         }
       }
-      
+
       dispatch(setColumnDefs(newColumnDefs));
       dispatch(setRowData(finalRowData as Record<string, any>[]));
     } else {
@@ -83,7 +89,8 @@ function useDataTableProcessingEffect(
     tableFlatfileVoyages,
     tableFlatfileEnslaved,
     tableFlatfileEnslavers,
-    tablesCell
+    tablesCell,
+    styleNameRoute,
   ]);
 }
 

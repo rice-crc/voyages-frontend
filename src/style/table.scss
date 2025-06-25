@@ -246,6 +246,8 @@ div .customHeaderLabelSummaryTable {
   cursor: pointer;
   font-size: 10px;
   color: #979595;
+  border: none;
+  background: transparent;
 }
 
 .customSortUpLabel {
@@ -254,6 +256,9 @@ div .customHeaderLabelSummaryTable {
   cursor: pointer;
   font-size: 10px;
   color: #979595;
+  border: none;
+  background: transparent;
+  padding: 1px;
 }
 
 .customSortRemoveLabel {

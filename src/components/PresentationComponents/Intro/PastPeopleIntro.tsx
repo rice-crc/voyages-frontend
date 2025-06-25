@@ -1,27 +1,26 @@
-import { Grid } from '@mui/material';
-import PersonImage from '@/assets/peoplepage.png';
-import PEOPLE from '@/utils/flatfiles/people/people_page_data.json';
 import '@/style/page-past.scss';
-import { Link } from 'react-router-dom';
+import { Grid, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import { Link } from 'react-router-dom';
+
+import PersonImage from '@/assets/peoplepage.png';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
 import { resetAll } from '@/redux/resetAllSlice';
+import { AppDispatch, RootState } from '@/redux/store';
 import { LabelFilterMeneList } from '@/share/InterfaceTypes';
+import PEOPLE from '@/utils/flatfiles/people/people_page_data.json';
 import { checkPathPeople } from '@/utils/functions/checkPathPeople';
 
 type LanguageKeys = 'en' | 'es' | 'pt';
 
 const PastPeopleIntro = () => {
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
   const dispatch: AppDispatch = useDispatch();
   const isLanguageKey = (key: any): key is LanguageKeys => {
     return ['en', 'es', 'pt'].includes(key);
   };
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   if (!isLanguageKey(languageValue)) {
     throw new Error(`Invalid language value: ${languageValue}`);
@@ -39,16 +38,14 @@ const PastPeopleIntro = () => {
       </Grid>
       <Grid item sm={6} md={8} lg={8} className="grid-people-introduction">
         {PEOPLE.map((item, index) => {
-          const { text_description, text_introuduce, header, credit } = item;
+          const { text_description, text_introuduce, header } = item;
           const textDescription = (text_description as LabelFilterMeneList)[
             languageValue
           ];
           const textIntrouduce = (text_introuduce as LabelFilterMeneList)[
             languageValue
           ];
-          const creDitLable = (credit.label as LabelFilterMeneList)[
-            languageValue
-          ];
+
           return (
             <div key={`${textIntrouduce}-${index}`} className="text-intro-box">
               <div className="text-intro">
@@ -62,10 +59,22 @@ const PastPeopleIntro = () => {
                   ];
                   const URL = checkPathPeople(textHeader);
                   return (
-                    <Link
-                      to={URL}
+                    <Button
                       key={textHeader}
-                      style={{ textDecoration: 'none' }}
+                      className="enslaved-btn"
+                      sx={{
+                        backgroundColor: '#fff',
+                        color: '#000',
+                        marginRight: '20px',
+                        padding: '8px',
+                        fontSize: '1.15rem',
+                        lineHeight: '28px',
+                        width: '150px',
+                        borderRadius: '12px',
+                        cursor: 'pointer',
+                        textTransform: 'none',
+                        fontWeight: 700,
+                      }}
                       onClick={() => {
                         dispatch(setCurrentEnslavedPage(1));
                         dispatch(setCurrentEnslaversPage(1));
@@ -74,10 +83,11 @@ const PastPeopleIntro = () => {
                         keysToRemove.forEach((key) => {
                           localStorage.removeItem(key);
                         });
+                        window.location.href = URL;
                       }}
                     >
-                      <div className="enslaved-btn">{textHeader}</div>
-                    </Link>
+                      {textHeader}
+                    </Button>
                   );
                 })}
               </div>
@@ -92,7 +102,6 @@ const PastPeopleIntro = () => {
           {`${PEOPLE[0].credit.label[languageValue as LanguageKeys]}: ${
             PEOPLE[0].credit.artist_name
           }`}
-          {/* ${currentYear} */}
         </Link>
       </Grid>
     </Grid>
