@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import Button from '@mui/material/Button';
 import { useSelector } from 'react-redux';
@@ -13,8 +13,8 @@ import {
   getWorkspace,
   performWorkspaceAction,
 } from '@/utils/functions/documentWorkspace';
-
 import '@/style/mirador.scss';
+import { forceStyleRecalculation } from '@/utils/functions/forceStyleRecalculation';
 interface DocumentViewerProviderProps {
   children: React.ReactNode;
 }
@@ -37,20 +37,45 @@ export const DocumentViewerProvider = ({
 }: DocumentViewerProviderProps) => {
   const [doc, setDoc] = useState<DocumentItemInfo | null>(null);
   const [workspace, setWorkspace] = useState<DocumentWorkspace>(getWorkspace());
+  const [forceRender, setForceRender] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleMiradorClose = () => {
+  const handleMiradorClose = (
+    event?: React.MouseEvent | React.KeyboardEvent,
+  ) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     setDoc(null);
+
+    // Multiple approaches to force style recalculation
+    setTimeout(() => {
+      forceStyleRecalculation();
+      setForceRender((prev) => prev + 1);
+    }, 50);
+
+    // Additional cleanup
+    setTimeout(() => {
+      if (containerRef.current) {
+        const computedStyle = window.getComputedStyle(containerRef.current);
+        containerRef.current.style.visibility = computedStyle.visibility;
+      }
+    }, 100);
+
     return true;
   };
 
   const { languageValue } = useSelector(
     (state: RootState) => state.getLanguages,
   );
+
   const addLabels: Record<string, string> = {
     en: 'Add to Workspace',
     pt: 'Adicionar a área de trabalho',
     es: 'Agregar al área de trabajo',
   };
+
   const removeLabels: Record<string, string> = {
     en: 'Remove',
     pt: 'Remover',
@@ -61,6 +86,8 @@ export const DocumentViewerProvider = ({
   return (
     <DocumentViewerContext.Provider value={{ doc, setDoc, workspace }}>
       <div
+        key={`container-${forceRender}`}
+        ref={containerRef}
         style={{
           visibility: doc ? 'hidden' : 'visible',
           position: doc ? 'absolute' : 'relative',
@@ -69,11 +96,20 @@ export const DocumentViewerProvider = ({
       >
         {children}
       </div>
+
       <div style={{ display: 'none' }}>
-        <Button color="primary" id="__miradorWorkspaceAddBtn">
+        <Button
+          key={`add-${forceRender}`}
+          color="primary"
+          id="__miradorWorkspaceAddBtn"
+        >
           {addLabels[languageValue ?? 'en']}
         </Button>
-        <Button color="error" id="__miradorWorkspaceRemoveBtn">
+        <Button
+          key={`remove-${forceRender}`}
+          color="error"
+          id="__miradorWorkspaceRemoveBtn"
+        >
           {removeLabels[languageValue ?? 'en']}
         </Button>
       </div>

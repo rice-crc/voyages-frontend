@@ -16,10 +16,10 @@ export const getTableSlice = createSlice({
   name: 'getTableData',
   initialState,
   reducers: {
-    setData: (state, action: PayloadAction<Record<string, any>[]>) => {
+    setData: (state, action: PayloadAction<Record<string, never>[]>) => {
       state.data = action.payload;
     },
-    setRowData: (state, action: PayloadAction<Record<string, any>[]>) => {
+    setRowData: (state, action: PayloadAction<Record<string, never>[]>) => {
       state.rowData = action.payload;
     },
     setColumnDefs: (state, action: PayloadAction<ColumnDef[]>) => {

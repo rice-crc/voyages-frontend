@@ -239,7 +239,7 @@
 			},
 			{
 				"var_name": "cargo__cargo__name",
-				"type": "CharField",
+				"type": "MultiselectList",
 				"ops": [
 					"icontains"
 				],
@@ -637,7 +637,7 @@
 			},
 			{
 				"var_name": "african_info__name",
-				"type": "CharField",
+				"type": "MultiselectList",
 				"ops": [
 					"icontains"
 				],

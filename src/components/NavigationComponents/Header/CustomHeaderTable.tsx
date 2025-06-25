@@ -72,8 +72,6 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
   );
 
   const onSortChanged = useCallback(() => {
-    console.log('sort: ', column.isSortAscending());
-    console.log({ ascSort, descSort });
     setAscSort(column.isSortAscending() ? 'active' : 'inactive');
     setDescSort(column.isSortDescending() ? 'active' : 'inactive');
     dispatch(setPage(page));
