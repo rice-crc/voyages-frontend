@@ -42,7 +42,7 @@ export const ResetAllButton = (props: ResetAllButtonProps) => {
     } else if (filtersObj.length > 1) {
       dispatch(setIsViewButtonViewAllResetAll(true));
     }
-  }, [dispatch, filtersObj.length, styleNameRoute]);
+  }, []);
 
   return (
     <>

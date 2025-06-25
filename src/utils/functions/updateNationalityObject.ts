@@ -1,10 +1,10 @@
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch } from '@/redux/store';
-import { allEnslavers } from '@/share/CONST_DATA';
 import {
   Filter,
   TYPESOFDATASET,
+  TYPESOFDATASETENSLAVERS,
   TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
 
@@ -13,7 +13,7 @@ export const updateNationalityObject = (
   valueSelect: string[],
   varName: string,
   labelVarName: string,
-  styleNameRoute: string
+  styleNameRoute: string,
 ) => {
   const existingFilterObjectString = localStorage.getItem('filterObject');
   let existingFilters: Filter[] = [];
@@ -22,7 +22,7 @@ export const updateNationalityObject = (
     existingFilters = JSON.parse(existingFilterObjectString).filter || [];
   }
   const existingFilterIndex = existingFilters.findIndex(
-    (filter) => filter.varName === varName
+    (filter) => filter.varName === varName,
   );
   // Type guard to check if autuLabels is an array before accessing its length property
   if (Array.isArray(valueSelect) && valueSelect.length > 0) {
@@ -34,7 +34,6 @@ export const updateNationalityObject = (
         searchTerm: valueSelect,
         op: 'in',
         label: labelVarName,
-        // title: selectedTitles
       });
     }
   } else if (
@@ -46,7 +45,8 @@ export const updateNationalityObject = (
   }
 
   const filteredFilters = existingFilters.filter(
-    (filter) => Array.isArray(filter.searchTerm) && filter.searchTerm.length > 0
+    (filter) =>
+      Array.isArray(filter.searchTerm) && filter.searchTerm.length > 0,
   );
 
   dispatch(setFilterObject(filteredFilters));
@@ -60,7 +60,9 @@ export const updateNationalityObject = (
   if (
     (styleNameRoute === TYPESOFDATASET.allVoyages ||
       styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved ||
-      styleNameRoute === allEnslavers) &&
+      styleNameRoute === TYPESOFDATASETENSLAVERS.transAtlanticTrades ||
+      styleNameRoute === TYPESOFDATASETENSLAVERS.intraAmericanTrades ||
+      styleNameRoute === TYPESOFDATASETENSLAVERS.enslaver) &&
     filteredFilters.length > 0
   ) {
     dispatch(setIsViewButtonViewAllResetAll(true));

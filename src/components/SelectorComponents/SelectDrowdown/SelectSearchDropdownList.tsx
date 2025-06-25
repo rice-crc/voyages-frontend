@@ -43,9 +43,7 @@ import { updateNationalityObject } from '@/utils/functions/updateNationalityObje
 
 export const SelectSearchDropdownList = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection,
-  );
+
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
@@ -105,7 +103,7 @@ export const SelectSearchDropdownList = () => {
     }));
     setMultipleList(values);
     dispatch(setFilterObject(filter));
-  }, [dispatch, varName, styleName, fetchSelectSearchDrowListData]);
+  }, [dispatch, varName, styleNameRoute, fetchSelectSearchDrowListData]);
 
   const handleSelected = (
     event: SyntheticEvent<Element, Event>,
@@ -155,7 +153,7 @@ export const SelectSearchDropdownList = () => {
               label={option.name}
               style={{
                 margin: 2,
-                border: getBoderColor(styleName),
+                border: getBoderColor(styleNameRoute!),
                 color: '#000',
               }}
               {...tagProps}

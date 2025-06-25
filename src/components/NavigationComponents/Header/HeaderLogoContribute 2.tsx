@@ -1,17 +1,14 @@
-import LOGOVoyages from '@/assets/sv-logo-estimate.png';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
+import { Link } from 'react-router-dom';
+
+import LOGOVoyages from '@/assets/sv-logo-estimate.png';
+import { setInputSearchValue } from '@/redux/getCommonGlobalSearchResultSlice';
 import {
   setBlocksMenuList,
   setDataSetHeader,
   setStyleName,
   setTextIntro,
 } from '@/redux/getDataSetCollectionSlice';
-import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/voyages_collections.json';
-import { setInputSearchValue } from '@/redux/getCommonGlobalSearchResultSlice';
-import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/people_collections.json';
 import {
   setDataSetPeopleEnslavedHeader,
   setPeopleEnslavedBlocksMenuList,
@@ -22,7 +19,11 @@ import {
 } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import { setCurrentEnslavedPage } from '@/redux/getScrollEnslavedPageSlice';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
+import { resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
+import { AppDispatch } from '@/redux/store';
+import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/people_collections.json';
+import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/voyages_collections.json';
 
 export default function HeaderLogoContribute() {
   const dispatch: AppDispatch = useDispatch();
@@ -38,29 +39,29 @@ export default function HeaderLogoContribute() {
     dispatch(setBlocksMenuList(jsonDataVoyageCollection[0].blocks));
     dispatch(
       setDataSetPeopleEnslavedHeader(
-        jsonDataPEOPLECOLLECTIONS[0].headers.label.en
-      )
+        jsonDataPEOPLECOLLECTIONS[0].headers.label.en,
+      ),
     );
     dispatch(
       setPeopleEnslavedTextIntro(
-        jsonDataPEOPLECOLLECTIONS[0].headers.text_introduce
-      )
+        jsonDataPEOPLECOLLECTIONS[0].headers.text_introduce,
+      ),
     );
     dispatch(
-      setPeopleEnslavedStyleName(jsonDataPEOPLECOLLECTIONS[0].style_name)
+      setPeopleEnslavedStyleName(jsonDataPEOPLECOLLECTIONS[0].style_name),
     );
     dispatch(
-      setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[0].blocks)
+      setPeopleEnslavedBlocksMenuList(jsonDataPEOPLECOLLECTIONS[0].blocks),
     );
     dispatch(
       setPeopleEnslavedFilterMenuFlatfile(
-        jsonDataPEOPLECOLLECTIONS[0].filter_menu_flatfile
-      )
+        jsonDataPEOPLECOLLECTIONS[0].filter_menu_flatfile,
+      ),
     );
     dispatch(
       setPeopleTableEnslavedFlatfile(
-        jsonDataPEOPLECOLLECTIONS[0].table_flatfile
-      )
+        jsonDataPEOPLECOLLECTIONS[0].table_flatfile,
+      ),
     );
     const keysToRemove = Object.keys(localStorage);
     keysToRemove.forEach((key) => {

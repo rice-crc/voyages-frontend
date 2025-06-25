@@ -15,12 +15,7 @@ import '@/style/estimates.scss';
 import { getColorBackgroundHeader } from '@/utils/functions/getColorStyle';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
-interface ShowAllSelectedProps {
-  handleViewAll: () => void;
-  ariaExpanded?: boolean;
-}
-
-interface FilterDataItem {
+export interface FilterDataItem {
   label: string;
   searchTerm:
     | number[]
@@ -31,9 +26,17 @@ interface FilterDataItem {
   varName: string; // Add varName to identify the filter
   originalFilter: Filter; // Keep reference to original filter for removal
 }
+interface ShowAllSelectedProps {
+  handleViewAll: () => void;
+  filterData: FilterDataItem[];
+  setFilterData: React.Dispatch<React.SetStateAction<FilterDataItem[]>>;
+  ariaExpanded?: boolean;
+}
 
 const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({
   handleViewAll,
+  filterData,
+  setFilterData,
 }) => {
   const dispatch = useDispatch();
   const { languageValue } = useSelector(
@@ -44,7 +47,6 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
-  const [filterData, setFilterData] = useState<FilterDataItem[]>([]);
   const translated = translationLanguagesEstimatePage(languageValue);
 
   const handleCloseFilter = (filterToRemove: FilterDataItem) => {
@@ -69,7 +71,6 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({
       filter: updatedFilters,
     };
 
-    console.log({ updatedFilters, updatedFilterObject });
     localStorage.setItem('filterObject', JSON.stringify(updatedFilterObject));
 
     // Update local state to reflect the change
@@ -180,17 +181,19 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({
             );
           })}
       </div>
-      <div className="panel-list-item-hide">
-        <button className="btn-navbar-hide" onClick={handleViewAll}>
-          <i
-            className="fa fa-times-circle"
-            style={{ paddingRight: 5 }}
-            aria-hidden="true"
-          ></i>
-          {translated.hideText}
-          <div></div>
-        </button>
-      </div>
+      {filterData.length > 0 ? (
+        <div className="panel-list-item-hide">
+          <button className="btn-navbar-hide" onClick={handleViewAll}>
+            <i
+              className="fa fa-times-circle"
+              style={{ paddingRight: 5 }}
+              aria-hidden="true"
+            ></i>
+            {translated.hideText}
+            <div></div>
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };
