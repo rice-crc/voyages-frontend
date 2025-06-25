@@ -7,7 +7,7 @@ import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 
 export const getColorVoyagePageBackground = (
   item: string,
-  currentPage: number,
+  currentPage: number
 ) => {
   let background = 'rgb(55 148 141)';
   if (item === TYPESOFDATASET.allVoyages) {
@@ -372,27 +372,14 @@ export const getIntroBackgroundEnslavedColor = (styleName: string) => {
 
 export const getBoderColor = (item: string) => {
   let borderColor = '1px solid #54bfb6';
-
   if (item === TYPESOFDATASET.allVoyages) {
     borderColor = '1px solid #54bfb6';
   } else if (item === TYPESOFDATASET.transatlantic) {
-    borderColor = '1px solid rgb(2 83 204)';
+    borderColor = '1px solid rgb(56, 116, 203)';
   } else if (item === TYPESOFDATASET.intraAmerican) {
     borderColor = '1px solid #ab47bc';
   } else if (item === TYPESOFDATASET.texas) {
     borderColor = '1px solid rgb(167 70 0)';
-  } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
-    borderColor = '1px solid rgb(144, 104, 102)';
-  } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
-    borderColor = '1px solid rgb(2 83 204)';
-  } else if (item === TYPESOFDATASETPEOPLE.texas) {
-    borderColor = '1px solid rgb(167 70 0)';
-  } else if (item === allEnslavers) {
-    borderColor = '1px solid #46a88c';
-  } else if (item === INTRAAMERICANTRADS) {
-    borderColor = '1px solid #ab47bc';
-  } else if (item === TRANSATLANTICTRADS) {
-    borderColor = '1px solid rgb(2 83 204)';
   }
   return borderColor;
 };

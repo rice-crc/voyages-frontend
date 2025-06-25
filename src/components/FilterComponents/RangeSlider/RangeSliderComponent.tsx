@@ -1,47 +1,44 @@
 import { useEffect, useState, ChangeEvent } from 'react';
-
-import { Grid } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { fetchPastEnslavedRangeSliderData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedRangeSliderData';
-import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
-import { fetchRangeVoyageSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { setFilterObject } from '@/redux/getFilterSlice';
 import {
   setRangeValue,
   setKeyValueName,
   setRangeSliderValue,
 } from '@/redux/getRangeSliderSlice';
-import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
+import { Grid } from '@mui/material';
+import { CustomSlider, Input } from '@/styleMUI';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   Filter,
   FilterObjectsState,
   RangeSliderStateProps,
   TYPESOFDATASET,
-  TYPESOFDATASETENSLAVERS,
   TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
-import { CustomSlider, Input } from '@/styleMUI';
 import '@/style/Slider.scss';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForEnslavers,
   checkPagesRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import { fetchRangeVoyageSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
+import { fetchPastEnslavedRangeSliderData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedRangeSliderData';
+import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
+import { allEnslavers } from '@/share/CONST_DATA';
+import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 
 const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName: styleNameRoute } = usePageRouter();
   const { styleName } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { rangeValue, varName, rangeSliderMinMax, opsRoles } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState,
-  );
+  const { rangeValue, varName, rangeSliderMinMax, opsRoles } =
+    useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
   const { labelVarName } = useSelector(
-    (state: RootState) => state.getShowFilterObject,
+    (state: RootState) => state.getShowFilterObject
   );
 
   const rangeMinMax = rangeSliderMinMax?.[varName] ||
@@ -56,7 +53,7 @@ const RangeSlider = () => {
   const newFilters =
     filters !== undefined &&
     filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
+      const { label, title, ...filteredFilter } = filter;
       return filteredFilter;
     });
   const dataSend: RangeSliderStateProps = {
@@ -83,13 +80,13 @@ const RangeSlider = () => {
           setRangeValue({
             ...rangeSliderMinMax,
             [varName]: initialValue as number[],
-          }),
+          })
         );
         dispatch(
           setRangeValue({
             ...rangeValue,
             [varName]: initialValue as number[],
-          }),
+          })
         );
       }
     } catch (error) {
@@ -125,13 +122,13 @@ const RangeSlider = () => {
       setRangeSliderValue({
         ...rangeSliderMinMax,
         [varName]: currentSliderValue as number[],
-      }),
+      })
     );
     updatedSliderToLocalStrage(currentSliderValue as number[]);
   };
 
   const handleInputChange = (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const { name, value } = event.target;
 
@@ -142,7 +139,7 @@ const RangeSlider = () => {
         setRangeSliderValue({
           ...rangeSliderMinMax,
           [varName]: updatedSliderValue,
-        }),
+        })
       );
       updatedSliderToLocalStrage(updatedSliderValue);
     } else {
@@ -150,7 +147,7 @@ const RangeSlider = () => {
         setRangeSliderValue({
           ...rangeSliderMinMax,
           [varName]: [],
-        }),
+        })
       );
     }
   };
@@ -165,7 +162,7 @@ const RangeSlider = () => {
     }
     const existingFilters: Filter[] = existingFilterObject.filter || [];
     const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === varName,
+      (filter) => filter.varName === varName
     );
     if (existingFilterIndex !== -1) {
       existingFilters[existingFilterIndex].searchTerm = updateValue as number[];
@@ -188,9 +185,7 @@ const RangeSlider = () => {
     if (
       (styleNameRoute === TYPESOFDATASET.allVoyages ||
         styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved ||
-        styleNameRoute === TYPESOFDATASETENSLAVERS.transAtlanticTrades ||
-        styleNameRoute === TYPESOFDATASETENSLAVERS.intraAmericanTrades ||
-        styleNameRoute === TYPESOFDATASETENSLAVERS.enslaver) &&
+        styleNameRoute === allEnslavers) &&
       existingFilters.length > 0
     ) {
       dispatch(setIsViewButtonViewAllResetAll(true));

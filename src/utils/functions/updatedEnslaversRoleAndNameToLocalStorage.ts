@@ -1,10 +1,10 @@
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch } from '@/redux/store';
+import { allEnslavers } from '@/share/CONST_DATA';
 import {
   Filter,
   TYPESOFDATASET,
-  TYPESOFDATASETENSLAVERS,
   TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
 
@@ -14,7 +14,7 @@ export function updatedEnslaversRoleAndNameToLocalStorage(
   listEnslavers: string[],
   enslaverName: string,
   varName: string,
-  opsRoles: string,
+  opsRoles: string
 ) {
   const existingFilterObjectString = localStorage.getItem('filterObject');
   let existingFilters: Filter[] = [];
@@ -24,7 +24,7 @@ export function updatedEnslaversRoleAndNameToLocalStorage(
   }
 
   const existingFilterIndex = existingFilters.findIndex(
-    (filter) => filter.varName === varName,
+    (filter) => filter.varName === varName
   );
 
   if (listEnslavers.length > 0) {
@@ -46,7 +46,7 @@ export function updatedEnslaversRoleAndNameToLocalStorage(
 
   const filteredFilters = existingFilters.filter(
     (filter) =>
-      !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0,
+      !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
   );
   const filterObjectUpdate = {
     filter: filteredFilters,
@@ -58,9 +58,7 @@ export function updatedEnslaversRoleAndNameToLocalStorage(
   if (
     (styleNameRoute === TYPESOFDATASET.allVoyages ||
       styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved ||
-      styleNameRoute === TYPESOFDATASETENSLAVERS.transAtlanticTrades ||
-      styleNameRoute === TYPESOFDATASETENSLAVERS.intraAmericanTrades ||
-      styleNameRoute === TYPESOFDATASETENSLAVERS.enslaver) &&
+      styleNameRoute === allEnslavers) &&
     filteredFilters.length > 0
   ) {
     dispatch(setIsViewButtonViewAllResetAll(true));

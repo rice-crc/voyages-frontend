@@ -33,6 +33,7 @@ export const ViewAllButton = (props: ViewAllButtonProps) => {
     (state: RootState) => state.getLanguages,
   );
   const translatedHomepage = translationHomepage(languageValue);
+
   useEffect(() => {
     if (storedValue) {
       dispatch(setIsViewButtonViewAllResetAll(false));
@@ -46,7 +47,7 @@ export const ViewAllButton = (props: ViewAllButtonProps) => {
     } else if (filtersObj.length > 1) {
       dispatch(setIsViewButtonViewAllResetAll(true));
     }
-  }, [isView]);
+  }, [dispatch, filtersObj.length, isView, storedValue, styleNameRoute]);
 
   return (
     <>

@@ -1,11 +1,10 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-
 import {
   BaseFilter,
   BlockCollectionProps,
   InitialStateDataSetCollection,
 } from '@/share/InterfactTypesDatasetCollection';
 import jsonDataVoyageCollection from '@/utils/flatfiles/voyages/voyages_collections.json';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 export const initialState: InitialStateDataSetCollection = {
   value: jsonDataVoyageCollection,
   textHeader: jsonDataVoyageCollection[0].headers.label.en,
@@ -35,7 +34,7 @@ export const getDataSetCollectionSlice = createSlice({
     },
     setBlocksMenuList: (
       state,
-      action: PayloadAction<BlockCollectionProps[]>,
+      action: PayloadAction<BlockCollectionProps[]>
     ) => {
       state.blocks = action.payload;
     },
