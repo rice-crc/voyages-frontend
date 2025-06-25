@@ -4,7 +4,7 @@ import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 export const fetchEnslaverRoleList = async () => {
   try {
     const response = await axios.get(
-      `${BASEURL}/past/enlaver/EnslaverRoleList/`,
+      `${BASEURL}/past/enslaver/EnslaverRoleList/`,
       {
         headers: { Authorization: AUTHTOKEN },
       }
