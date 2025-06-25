@@ -1,15 +1,17 @@
+import { useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import '@/style/homepage.scss';
-import { translationHomepage } from '@/utils/functions/translationLanguages';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   TYPESOFDATASET,
   TYPESOFDATASETENSLAVERS,
   TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 interface ViewAllButtonProps {
   varName: string;
@@ -24,11 +26,11 @@ export const ViewAllButton = (props: ViewAllButtonProps) => {
   const { clusterNodeKeyVariable, clusterNodeValue, handleViewAll } = props;
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { isView } = useSelector(
-    (state: RootState) => state.getShowFilterObject
+    (state: RootState) => state.getShowFilterObject,
   );
   const storedValue = localStorage.getItem('saveSearchID');
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedHomepage = translationHomepage(languageValue);
 
@@ -45,15 +47,15 @@ export const ViewAllButton = (props: ViewAllButtonProps) => {
     } else if (filtersObj.length > 1) {
       dispatch(setIsViewButtonViewAllResetAll(true));
     }
-  }, [isView]);
+  }, [dispatch, filtersObj.length, isView, storedValue, styleNameRoute]);
 
   return (
     <>
       {isView || (clusterNodeKeyVariable && clusterNodeValue) ? (
-        <div className="btn-navbar-reset-all" onClick={handleViewAll}>
+        <button className="btn-navbar-reset-all" onClick={handleViewAll}>
           <i aria-hidden="true" className="fa fa-filter"></i>
           <span>{translatedHomepage.viewAll}</span>
-        </div>
+        </button>
       ) : null}
     </>
   );

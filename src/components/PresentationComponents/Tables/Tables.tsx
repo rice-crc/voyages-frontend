@@ -7,10 +7,7 @@ import React, {
 } from 'react';
 
 import { Pagination } from '@mui/material';
-import {
-  ModuleRegistry,
-  AllCommunityModule, // or AllEnterpriseModule
-} from 'ag-grid-community';
+import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 import { AgGridReact } from 'ag-grid-react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -184,7 +181,7 @@ const Tables: React.FC = () => {
   }, [filtersObj, styleNameRoute, clusterNodeKeyVariable, clusterNodeValue]);
 
   const stableFilters = useMemo(() => {
-    return filters?.map(({ label, title, ...rest }) => rest) || [];
+    return filters?.map(({ ...rest }) => rest) || [];
   }, [filters]);
 
   const stableSortColumn = useMemo(() => {
@@ -264,6 +261,7 @@ const Tables: React.FC = () => {
         dispatch(setData([]));
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dispatch,
     reloadTable,
@@ -275,8 +273,6 @@ const Tables: React.FC = () => {
     currentBlockName,
     styleNameRoute,
     shouldFetchData,
-    dataSend,
-    textFilter,
   ]);
 
   useDataTableProcessingEffect(

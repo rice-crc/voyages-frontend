@@ -723,9 +723,10 @@
   cursor: pointer;
   border: 1px white solid;
   border-radius: 3px;
-  color: white;
-  padding: 0 0.5rem 0 0.35rem;
+  color: white !important;
+  padding: 0.25rem;
   font-size: 0.85rem;
+  background: transparent;
 
   span {
     margin-left: 4px;
@@ -748,7 +749,14 @@
     margin-left: 4px;
   }
 }
-
+.btn-close-filter{
+  margin-left: 15px;
+  cursor: pointer;
+  border: none;
+  color: white !important;
+  font-size: 0.90rem;
+  background: transparent;
+}
 .reset-filter {
   display: flex;
   align-items: center;

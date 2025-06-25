@@ -281,8 +281,13 @@
   display: flex;
   justify-content: space-between;
 }
-
 .panel-list-item-wrapper {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 8px;
+  padding: 4px;
+}
+.panel-list-item-hide {
   display: flex;
   flex-direction: column;
   gap: 8px;
