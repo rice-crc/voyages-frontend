@@ -97,7 +97,7 @@ export const RadioSelected: FunctionComponent<RadioSelectedProps> = (props) => {
           ))}
         </RadioGroup>
       ) : (
-        <span className="enlavers-role-radio">
+        <span className="enslavers-role-radio">
           <FormLabel
             id="demo-controlled-radio-buttons-group"
             style={{ color: '#000', paddingRight: 15 }}
