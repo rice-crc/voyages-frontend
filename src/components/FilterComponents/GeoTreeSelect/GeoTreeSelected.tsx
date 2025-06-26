@@ -272,8 +272,16 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
           loading
           showSearch
           style={{ width: 450 }}
+          styles={{
+            popup: {
+              root: {
+                maxHeight: 400,
+                overflow: 'auto',
+                zIndex: 9999,
+              },
+            },
+          }}
           value={selectedValue}
-          dropdownStyle={{ maxHeight: 400, overflow: 'auto', zIndex: 9999 }}
           placeholder="Please select"
           allowClear
           multiple
