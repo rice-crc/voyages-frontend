@@ -13,7 +13,7 @@ export const updateNationalityObject = (
   valueSelect: string[],
   varName: string,
   labelVarName: string,
-  styleNameRoute: string
+  styleNameRoute: string,
 ) => {
   const existingFilterObjectString = localStorage.getItem('filterObject');
   let existingFilters: Filter[] = [];
@@ -22,7 +22,7 @@ export const updateNationalityObject = (
     existingFilters = JSON.parse(existingFilterObjectString).filter || [];
   }
   const existingFilterIndex = existingFilters.findIndex(
-    (filter) => filter.varName === varName
+    (filter) => filter.varName === varName,
   );
   // Type guard to check if autuLabels is an array before accessing its length property
   if (Array.isArray(valueSelect) && valueSelect.length > 0) {
@@ -34,20 +34,21 @@ export const updateNationalityObject = (
         searchTerm: valueSelect,
         op: 'in',
         label: labelVarName,
-        // title: selectedTitles
       });
     }
   } else if (
     existingFilterIndex !== -1 &&
-    Array.isArray(existingFilters[existingFilterIndex].searchTerm) &&
-    existingFilters[existingFilterIndex].searchTerm
+    Array.isArray(existingFilters[existingFilterIndex].searchTerm)
   ) {
     existingFilters[existingFilterIndex].searchTerm = [];
   }
 
-  const filteredFilters = existingFilters.filter(
-    (filter) => Array.isArray(filter.searchTerm) && filter.searchTerm.length > 0
-  );
+  const filteredFilters = existingFilters.filter((filter) => {
+    if (filter.varName === varName) {
+      return Array.isArray(filter.searchTerm) && filter.searchTerm.length > 0;
+    }
+    return true;
+  });
 
   dispatch(setFilterObject(filteredFilters));
 

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Toolbar, Hidden } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +17,9 @@ import { MenuListsDropdown } from './MenuListsDropdown';
 import { ResetAllButton } from '../ButtonComponents/ResetAllButton';
 import { ViewAllButton } from '../ButtonComponents/ViewAllButton';
 import '@/style/Nav.scss';
-import ShowFilterObject from '../ShowFilterObject/ShowFilterObject';
+import ShowFilterObject, {
+  FilterDataItem,
+} from '../ShowFilterObject/ShowFilterObject';
 
 export default function CascadingMenu() {
   const dispatch: AppDispatch = useDispatch();
@@ -60,6 +62,7 @@ export default function CascadingMenu() {
   const handleViewAll = () => {
     dispatch(setViewAll(!viewAll));
   };
+  const [filterData, setFilterData] = useState<FilterDataItem[]>([]);
 
   return (
     <>
@@ -74,18 +77,22 @@ export default function CascadingMenu() {
           <Hidden smDown>
             <div className="list-filter-menu">
               <MenuListsDropdown />
-              <ViewAllButton
-                varName={varName}
-                clusterNodeKeyVariable={clusterNodeKeyVariable}
-                clusterNodeValue={clusterNodeValue}
-                handleViewAll={handleViewAll}
-              />
-              <ResetAllButton
-                varName={varName}
-                clusterNodeKeyVariable={clusterNodeKeyVariable}
-                clusterNodeValue={clusterNodeValue}
-                handleResetAll={handleResetAll}
-              />
+              {filterData.length > 0 ? (
+                <>
+                  <ViewAllButton
+                    varName={varName}
+                    clusterNodeKeyVariable={clusterNodeKeyVariable}
+                    clusterNodeValue={clusterNodeValue}
+                    handleViewAll={handleViewAll}
+                  />
+                  <ResetAllButton
+                    varName={varName}
+                    clusterNodeKeyVariable={clusterNodeKeyVariable}
+                    clusterNodeValue={clusterNodeValue}
+                    handleResetAll={handleResetAll}
+                  />
+                </>
+              ) : null}
             </div>
           </Hidden>
         </Toolbar>
@@ -94,7 +101,12 @@ export default function CascadingMenu() {
           currentBlockName === 'people') && <SaveSearchComponent />}
       </div>
       <div className={`panel-list-unshow${viewAll ? '-show' : ''}`}>
-        <ShowFilterObject ariaExpanded={false} handleViewAll={handleViewAll} />
+        <ShowFilterObject
+          ariaExpanded={false}
+          handleViewAll={handleViewAll}
+          setFilterData={setFilterData}
+          filterData={filterData}
+        />
       </div>
     </>
   );

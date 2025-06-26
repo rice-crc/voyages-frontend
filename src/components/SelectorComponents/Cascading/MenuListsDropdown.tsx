@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable indent */
 import { useState, MouseEvent, useEffect } from 'react';
 
@@ -113,7 +114,7 @@ export const MenuListsDropdown = () => {
   const { listEnslavers, varName, enslaverName, opsRoles } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
-
+  const [inputValue, setInputValue] = useState(textFilter);
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [ops, setOps] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
@@ -198,6 +199,7 @@ export const MenuListsDropdown = () => {
     roles?: RolesProps[],
   ) => {
     const { value, type, label } = event.currentTarget.dataset;
+
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
     let opsValue = '';
@@ -363,6 +365,8 @@ export const MenuListsDropdown = () => {
           displayComponent = (
             <FilterTextBox
               handleKeyDownTextFilter={handleApplyTextFilterDataDialog}
+              inputValue={inputValue}
+              setInputValue={setInputValue}
               type={typeData}
             />
           );
@@ -378,6 +382,8 @@ export const MenuListsDropdown = () => {
               <RadioSelected type={typeData} />
               <FilterTextBox
                 handleKeyDownTextFilter={handleApplyTextFilterDataDialog}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
                 type={typeData}
               />
             </>
@@ -548,7 +554,7 @@ export const MenuListsDropdown = () => {
                       opsRoles!,
                     );
                   } else {
-                    handleApplyTextFilterDataDialog(textFilter);
+                    handleApplyTextFilterDataDialog(inputValue);
                   }
                 }}
                 sx={{

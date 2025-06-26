@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   useCallback,
   useEffect,
@@ -261,7 +262,6 @@ const Tables: React.FC = () => {
         dispatch(setData([]));
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dispatch,
     reloadTable,
@@ -273,6 +273,8 @@ const Tables: React.FC = () => {
     currentBlockName,
     styleNameRoute,
     shouldFetchData,
+    dataSend,
+    textFilter,
   ]);
 
   useDataTableProcessingEffect(
@@ -298,9 +300,14 @@ const Tables: React.FC = () => {
   const components = useMemo(
     () => ({
       agColumnHeader: (props: any) => {
+        const { column } = props;
+        const ascSort = column.isSortAscending() ? 'active' : 'inactive';
+        const descSort = column.isSortDescending() ? 'active' : 'inactive';
         return (
           <CustomHeaderTable
             pageSize={rowsPerPage}
+            ascSort={ascSort}
+            descSort={descSort}
             setSortColumn={setSortColumn}
             {...props}
           />

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -19,6 +19,7 @@ import {
 } from '@/utils/functions/checkPagesRoute';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
   column: {
@@ -37,6 +38,8 @@ interface Props {
   displayName: string;
   pageSize: number;
   setSortColumn: React.Dispatch<React.SetStateAction<string[]>>;
+  ascSort: string;
+  descSort: string;
 }
 
 const CustomHeaderTable: React.FC<Props> = (props) => {
@@ -47,6 +50,8 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     displayName,
     pageSize,
     setSortColumn,
+    ascSort,
+    descSort,
   } = props;
   // Add state to track pageSize
   const [currentPageSize, setCurrentPageSize] = useState(pageSize);
@@ -58,8 +63,6 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
 
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const dispatch: AppDispatch = useDispatch();
-  const [ascSort, setAscSort] = useState<string>('inactive');
-  const [descSort, setDescSort] = useState<string>('inactive');
   const { styleName } = usePageRouter();
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch,
@@ -71,18 +74,11 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     (state: RootState) => state.getNodeEdgesAggroutesMapData,
   );
 
-  const onSortChanged = useCallback(() => {
-    setAscSort(column.isSortAscending() ? 'active' : 'inactive');
-    setDescSort(column.isSortDescending() ? 'active' : 'inactive');
-    dispatch(setPage(page));
-  }, [column, dispatch, page]);
-
   const onSortRequested = (
     order: string,
     event:
       | React.MouseEvent<HTMLButtonElement>
-      | React.TouchEvent<HTMLButtonElement>
-      | React.KeyboardEvent<HTMLButtonElement>,
+      | React.TouchEvent<HTMLButtonElement>,
   ) => {
     setSort(order, event.shiftKey);
     const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
@@ -91,12 +87,16 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    props.column.addEventListener('sortChanged', onSortChanged);
-    onSortChanged();
+    props.column.addEventListener('sortChanged', () => {
+      dispatch(setPage(page));
+    });
     return () => {
-      props.column.removeEventListener('sortChanged', onSortChanged);
+      props.column.removeEventListener('sortChanged', () => {
+        dispatch(setPage(page));
+      });
     };
-  }, [onSortChanged, props.column]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const filters = filtersDataSend(
     filtersObj,
@@ -173,39 +173,19 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
           type="button"
           onClick={(event) => onSortRequested('asc', event)}
           onTouchEnd={(event) => onSortRequested('asc', event)}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              onSortRequested('asc', event);
-            }
-          }}
           className={`customSortDownLabel ${ascSort}`}
           aria-label="Sort ascending"
         >
           <i className="fa fa-long-arrow-alt-down"></i>
         </button>
         <button
-          type="button"
           onClick={(event) => onSortRequested('desc', event)}
           onTouchEnd={(event) => onSortRequested('desc', event)}
           className={`customSortUpLabel ${descSort}`}
+          aria-label="Sort descending"
         >
           <i className="fa fa-long-arrow-alt-up"></i>
         </button>
-        {/* <div
-          onClick={(event) => onSortRequested('asc', event)}
-          onTouchEnd={(event) => onSortRequested('asc', event)}
-          className={`customSortDownLabel ${ascSort}`}
-        >
-          <i className="fa fa-long-arrow-alt-down"></i>
-        </div>
-        <div
-          onClick={(event) => onSortRequested('desc', event)}
-          onTouchEnd={(event) => onSortRequested('desc', event)}
-          className={`customSortUpLabel ${descSort}`}
-        >
-          <i className="fa fa-long-arrow-alt-up"></i>
-        </div> */}
       </div>
     );
   }
