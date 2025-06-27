@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 
 export const fetchParticularOutcomeList = async () => {
@@ -7,10 +8,10 @@ export const fetchParticularOutcomeList = async () => {
       `${BASEURL}/voyage/ParticularOutcomeList/`,
       {
         headers: { Authorization: AUTHTOKEN },
-      }
+      },
     );
     return response;
-  } catch (error) {
+  } catch {
     throw new Error('Failed to fetchParticularOutcomeList data');
   }
 };

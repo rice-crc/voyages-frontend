@@ -15,7 +15,7 @@ export const updateFilterTextDialog = (
   varName: string,
   ops: string,
   opsRoles: string,
-  labelVarName: string
+  labelVarName: string,
 ) => {
   const existingFilterObjectString = localStorage.getItem('filterObject');
   let existingFilters: Filter[] = [];
@@ -25,7 +25,7 @@ export const updateFilterTextDialog = (
   }
 
   const existingFilterIndex = existingFilters.findIndex(
-    (filter) => filter.varName === varName
+    (filter) => filter.varName === varName,
   );
 
   if (newValue.length > 0) {
@@ -56,7 +56,7 @@ export const updateFilterTextDialog = (
 
   const filteredFilters = existingFilters.filter(
     (filter) =>
-      !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
+      !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0,
   );
 
   const filterObjectUpdate = {

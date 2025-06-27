@@ -154,27 +154,8 @@
       "es": "Fuentes",
       "pt": "Fontes"
     },
-    "children": [
-      {
-        "var_name": "enslaver_source_connections__source__title",
-        "type": "CharField",
-        "ops": ["icontains"],
-        "label": {
-          "en": "Biographical Sources",
-          "es": "Fuentes Biográficas ",
-          "pt": "Fontes Biográficas"
-        }
-      },
-      {
-        "var_name": "aliases__enslaver_relations__relation__voyage__voyage_source_connections__source__title",
-        "type": "CharField",
-        "ops": ["icontains"],
-        "label": {
-          "en": "Documentary (Voyage) Sources",
-          "es": "Fuentes Documentales (viaje)",
-          "pt": "Fontes Documentais (viagem)"
-        }
-      }
-    ]
+    "var_name": "enslaver__source__ALL",
+    "type": "CharField",
+    "ops": ["icontains"]
   }
 ]

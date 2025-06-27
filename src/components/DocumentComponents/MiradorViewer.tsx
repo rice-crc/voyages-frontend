@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import Mirador from 'mirador'; 
+
+import Mirador from 'mirador';
 import { useSelector } from 'react-redux';
+
 import { RootState } from '@/redux/store';
 
 type WorkspaceAction = 'Add' | 'Remove' | 'None';
@@ -16,14 +18,14 @@ interface MiradorViewerProps {
 
 const findWin = (store: any, manifestId: string): any =>
   Object.values(store.getState().windows).find(
-    (w: any) => w.manifestId === manifestId
+    (w: any) => w.manifestId === manifestId,
   );
 
 const updateMiradorUI = (
   workspaceAction: string,
   enableClose: boolean,
   manifestId: string,
-  onWorkspaceAction: any
+  onWorkspaceAction: any,
 ) => {
   const topBar = document.getElementsByClassName('mirador-window-top-bar');
   if (!topBar || !topBar[0]) {
@@ -46,7 +48,7 @@ const updateMiradorUI = (
   removeButton('workspaceBtn');
   if (workspaceAction !== 'None') {
     const template = document.getElementById(
-      `__miradorWorkspace${workspaceAction}Btn`
+      `__miradorWorkspace${workspaceAction}Btn`,
     );
     const workspaceBtn = template?.cloneNode(true) as HTMLButtonElement;
     if (workspaceBtn) {
@@ -60,18 +62,26 @@ const updateMiradorUI = (
 
 const MiradorUserSettingsKey = '__miradorSettings';
 
-const MiradorViewer = ({
-  manifestUrlBase,
-  manifestId,
-  domId,
-  workspaceAction,
-  onWorkspaceAction,
-  onClose,
-}: MiradorViewerProps = { manifestUrlBase: '', manifestId: '', domId: '', workspaceAction: 'None', onWorkspaceAction: () => {} }) => {
+const MiradorViewer = (
+  {
+    manifestUrlBase,
+    manifestId,
+    domId,
+    workspaceAction,
+    onWorkspaceAction,
+    onClose,
+  }: MiradorViewerProps = {
+    manifestUrlBase: '',
+    manifestId: '',
+    domId: '',
+    workspaceAction: 'None',
+    onWorkspaceAction: () => {},
+  },
+) => {
   const [ready, setReady] = useState(false);
   const target = useRef(null);
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const container = useRef<HTMLDivElement>(null!);
   const activeDoc = useRef<string | null>(null);
@@ -88,7 +98,7 @@ const MiradorViewer = ({
     div.id = domId;
     container.current.appendChild(div);
     const userSettings = JSON.parse(
-      localStorage.getItem(MiradorUserSettingsKey) ?? '{}'
+      localStorage.getItem(MiradorUserSettingsKey) ?? '{}',
     );
     target.current = Mirador.viewer({
       ...userSettings,
@@ -108,7 +118,7 @@ const MiradorViewer = ({
     const store = Mirador.selectors.miradorSlice(target.current).store;
     const path = `${manifestUrlBase.replace(/\/$/, '')}/${manifestId}`;
     const match = Object.values(store.getState().manifests).find(
-      (w: any) => w.id === path
+      (w: any) => w.id === path,
     );
     if (!match) {
       // Add the manifest.
@@ -128,9 +138,9 @@ const MiradorViewer = ({
       if (prevTheme.current && prevTheme.current !== selectedTheme) {
         localStorage.setItem(
           MiradorUserSettingsKey,
-          JSON.stringify({ 
-            selectedTheme: selectedTheme
-           })
+          JSON.stringify({
+            selectedTheme: selectedTheme,
+          }),
         );
       }
       prevTheme.current = selectedTheme;
@@ -152,7 +162,7 @@ const MiradorViewer = ({
         const win = findWin(store, path);
         const displayAction = Mirador.actions.setCanvas(
           win.id,
-          `${path}/canvas1`
+          `${path}/canvas1`,
         );
         store.dispatch(displayAction);
       } catch (e) {
@@ -179,7 +189,15 @@ const MiradorViewer = ({
       unsubscribe();
       clearInterval(uiUpdater);
     };
-  }, [target.current, manifestUrlBase, manifestId, ready]);
+  }, [
+    // target.current,
+    manifestUrlBase,
+    manifestId,
+    ready,
+    onClose,
+    onWorkspaceAction,
+    workspaceAction,
+  ]);
   // We use the ready flag to hide the Mirador UI while the manifest window is
   // loaded. This prevents the user from seeing the Mirador app without any
   // windows for a brief moment.

@@ -236,7 +236,7 @@
 			},
 			{
 				"var_name": "cargo__cargo__name",
-				"type": "CharField",
+				"type": "MultiselectList",
 				"ops": [
 					"icontains"
 				],
@@ -634,7 +634,7 @@
 			},
 			{
 				"var_name": "african_info__name",
-				"type": "CharField",
+				"type": "MultiselectList",
 				"ops": [
 					"icontains"
 				],
@@ -800,7 +800,7 @@
 		  "es": "Fuentes",
 		  "pt": "Fontes"
 		},
-		"var_name": "voyage_source_connections__source__ALL",
+		"var_name": "voyage__source__ALL",
 		"type": "CharField",
 		"ops": [
 		  "icontains"

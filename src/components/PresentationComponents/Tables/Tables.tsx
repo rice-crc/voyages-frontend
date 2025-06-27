@@ -1,56 +1,59 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   useCallback,
   useEffect,
   useMemo,
   useRef,
-  useState
+  useState,
 } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import CustomHeaderTable from '../../NavigationComponents/Header/CustomHeaderTable';
-import { setData, setPage } from '@/redux/getTableSlice';
-import { setVisibleColumn } from '@/redux/getColumnSlice';
-import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
+
 import { Pagination } from '@mui/material';
-import {
-  StateRowData,
-  TableCellStructureInitialStateProp,
-  TableCellStructure,
-} from '@/share/InterfaceTypesTable';
+import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+import { AgGridReact } from 'ag-grid-react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { CustomLoadingOverlay } from '@/components/CommonComponts/CustomLoadingOverlay';
+import CardModal from '@/components/PresentationComponents/Cards/CardModal';
+import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
+import DownloadCSV from '@/components/SelectorComponents/ButtonComponents/DownloadCSV';
+import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
+import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
+import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
+import useDataTableProcessingEffect from '@/hooks/useDataTableProcessingEffect';
+import { useOtherTableCellStructure } from '@/hooks/useOtherTableCellStructure';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { useTableCellStructure } from '@/hooks/useTableCellStructure';
+import { setVisibleColumn } from '@/redux/getColumnSlice';
+import { setData, setPage } from '@/redux/getTableSlice';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   CurrentPageInitialState,
   FilterObjectsState,
   TableListPropsRequest,
 } from '@/share/InterfaceTypes';
-import '@/style/table.scss';
-import ModalNetworksGraph from '@/components/PresentationComponents/NetworkGraph/ModalNetworksGraph';
-import CardModal from '@/components/PresentationComponents/Cards/CardModal';
-import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
-import { usePageRouter } from '@/hooks/usePageRouter';
+import {
+  StateRowData,
+  TableCellStructureInitialStateProp,
+  TableCellStructure,
+} from '@/share/InterfaceTypesTable';
+import { CustomTablePagination } from '@/styleMUI';
 import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForEnslavers,
   checkPagesRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
-import { CustomTablePagination } from '@/styleMUI';
-import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
-import { useTableCellStructure } from '@/hooks/useTableCellStructure';
-import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
-import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
-import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-import useDataTableProcessingEffect from '@/hooks/useDataTableProcessingEffect';
-import { useOtherTableCellStructure } from '@/hooks/useOtherTableCellStructure';
-import { AgGridReact } from 'ag-grid-react';
+import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+import { getRowHeightTable } from '@/utils/functions/getRowHeightTable';
+import { getRowsPerPage } from '@/utils/functions/getRowsPerPage';
+
+import CustomHeaderTable from '../../NavigationComponents/Header/CustomHeaderTable';
+
+import '@/style/table.scss';
+
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import {
-  ModuleRegistry,
-  AllCommunityModule, // or AllEnterpriseModule
-} from 'ag-grid-community';
-import DownloadCSV from '@/components/SelectorComponents/ButtonComponents/DownloadCSV';
-import { CustomLoadingOverlay } from '@/components/CommonComponts/CustomLoadingOverlay';
 
 // Register the module
 ModuleRegistry.registerModules([
@@ -60,68 +63,72 @@ ModuleRegistry.registerModules([
 const Tables: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
-  
-  const { rangeSliderMinMax } =
-    useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
+
+  const { rangeSliderMinMax } = useSelector(
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
+  );
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { textFilterValue } = useSelector(
-    (state: RootState) => state.autoCompleteList
+    (state: RootState) => state.autoCompleteList,
   );
   const { reloadTable } = useSelector(
-    (state: RootState) => state.getSaveSearch
+    (state: RootState) => state.getSaveSearch,
   );
 
-  const { viewAll ,textFilter} = useSelector(
-    (state: RootState) => state.getShowFilterObject
+  const { viewAll, textFilter } = useSelector(
+    (state: RootState) => state.getShowFilterObject,
   );
   const { visibleColumnCells } = useSelector(
-    (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
+    (state: RootState) =>
+      state.getColumns as TableCellStructureInitialStateProp,
   );
-  const [dataTable, setDataTable] = useState<Record<string, any>[]>([])
+  const [dataTable, setDataTable] = useState<Record<string, any>[]>([]);
 
   const { columnDefs, rowData, page } = useSelector(
-    (state: RootState) => state.getTableData as StateRowData
+    (state: RootState) => state.getTableData as StateRowData,
   );
-  const { isChangeGeoTree } = useSelector( (state: RootState) => state.getGeoTreeData);
+  const { isChangeGeoTree } = useSelector(
+    (state: RootState) => state.getGeoTreeData,
+  );
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const gridRef = useRef<any>(null);
   const [tablesCell, setTableCell] = useState<TableCellStructure[]>([]);
   const [currentColumnState, setCurrentColumnState] = useState<any[]>([]);
   const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
+    (state: RootState) => state.getNodeEdgesAggroutesMapData,
   );
   // Voyages States
   const { tableFlatfileVoyages } = useSelector(
-    (state: RootState) => state.getDataSetCollection
+    (state: RootState) => state.getDataSetCollection,
   );
   // Enslaved States
   const { tableFlatfileEnslaved } = useSelector(
-    (state: RootState) => state.getPeopleEnlavedDataSetCollection
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection,
   );
   const { currentEnslavedPage } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
+    (state: RootState) => state.getScrollEnslavedPage,
   );
   // Enslavers States
   const { tableFlatfileEnslavers } = useSelector(
-    (state: RootState) => state.getEnslaverDataSetCollections
+    (state: RootState) => state.getEnslaverDataSetCollections,
   );
 
   const [rowsPerPage, setRowsPerPage] = useState(
-    getRowsPerPage(window.innerWidth, window.innerHeight)
+    getRowsPerPage(window.innerWidth, window.innerHeight),
   );
-  
+
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
 
   const otherTableCellStrructure = useOtherTableCellStructure(styleNameRoute!);
   const [sortColumn, setSortColumn] = useState<string[]>(
     otherTableCellStrructure?.default_order_by
       ? [otherTableCellStrructure?.default_order_by]
-      : []
+      : [],
   );
   const {
     data: tableCellStructure,
@@ -143,7 +150,10 @@ const Tables: React.FC = () => {
     }
 
     const headerColor = getHeaderColomnColor(styleNameRoute!);
-    document.documentElement.style.setProperty('--pagination-table--', headerColor);
+    document.documentElement.style.setProperty(
+      '--pagination-table--',
+      headerColor,
+    );
 
     const handleResize = () => {
       setRowsPerPage(getRowsPerPage(window.innerWidth, window.innerHeight));
@@ -167,46 +177,54 @@ const Tables: React.FC = () => {
       filtersObj,
       styleNameRoute!,
       clusterNodeKeyVariable,
-      clusterNodeValue
+      clusterNodeValue,
     );
   }, [filtersObj, styleNameRoute, clusterNodeKeyVariable, clusterNodeValue]);
 
+  const stableFilters = useMemo(() => {
+    return filters?.map(({ ...rest }) => rest) || [];
+  }, [filters]);
 
-    const stableFilters = useMemo(() => {
-      return filters?.map(({ label, title, ...rest }) => rest) || [];
-    }, [filters]);
-    
-    const stableSortColumn = useMemo(() => {
-      return sortColumn;
-    }, [sortColumn]);
+  const stableSortColumn = useMemo(() => {
+    return sortColumn;
+  }, [sortColumn]);
 
-    const dataSend = useMemo(() => {
-      const base: TableListPropsRequest = {
-        filter: stableFilters,
-        page: Number(page + 1),
-        page_size: Number(rowsPerPage),
-      };
-      if (inputSearchValue) base.global_search = inputSearchValue;
-      if (stableSortColumn?.length) base.order_by = stableSortColumn;
-      return base;
-    }, [stableFilters, page, rowsPerPage, inputSearchValue, stableSortColumn]);
-
-   const dataSendToDownloadCSV = useMemo(() => {
+  const dataSend = useMemo(() => {
     const base: TableListPropsRequest = {
-      filter: stableFilters
+      filter: stableFilters,
+      page: Number(page + 1),
+      page_size: Number(rowsPerPage),
+    };
+    if (inputSearchValue) base.global_search = inputSearchValue;
+    if (stableSortColumn?.length) base.order_by = stableSortColumn;
+    return base;
+  }, [stableFilters, page, rowsPerPage, inputSearchValue, stableSortColumn]);
+
+  const dataSendToDownloadCSV = useMemo(() => {
+    const base: TableListPropsRequest = {
+      filter: stableFilters,
     };
     return base;
   }, [stableFilters]);
 
-
   const shouldFetchData = useMemo(() => {
-
-    return (checkPagesRouteForVoyages(styleNameRoute!) && (filtersObj || textFilterValue)) || 
-           (checkPagesRouteForEnslaved(styleNameRoute!) && (filtersObj || textFilterValue)) ||
-           (checkPagesRouteForEnslavers(styleNameRoute!) && (filtersObj || textFilterValue)) ||
-           isChangeGeoTree || 
-           rangeSliderMinMax
-  }, [styleNameRoute, filtersObj, textFilterValue, isChangeGeoTree, rangeSliderMinMax]);
+    return (
+      (checkPagesRouteForVoyages(styleNameRoute!) &&
+        (filtersObj || textFilterValue)) ||
+      (checkPagesRouteForEnslaved(styleNameRoute!) &&
+        (filtersObj || textFilterValue)) ||
+      (checkPagesRouteForEnslavers(styleNameRoute!) &&
+        (filtersObj || textFilterValue)) ||
+      isChangeGeoTree ||
+      rangeSliderMinMax
+    );
+  }, [
+    styleNameRoute,
+    filtersObj,
+    textFilterValue,
+    isChangeGeoTree,
+    rangeSliderMinMax,
+  ]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchDataTable = async () => {
@@ -216,15 +234,19 @@ const Tables: React.FC = () => {
         if (checkPagesRouteForVoyages(styleNameRoute!)) {
           response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
         } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-          response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
+          response = await dispatch(
+            fetchEnslavedOptionsList(dataSend),
+          ).unwrap();
         } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-          response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
+          response = await dispatch(
+            fetchEnslaversOptionsList(dataSend),
+          ).unwrap();
         }
-  
+
         if (response) {
           const { count, results } = response.data;
           setTotalResultsCount(Number(count));
-          setDataTable(results)
+          setDataTable(results);
           setLoading(false);
         }
       } catch (error) {
@@ -250,19 +272,19 @@ const Tables: React.FC = () => {
     inputSearchValue,
     currentBlockName,
     styleNameRoute,
-    shouldFetchData
+    shouldFetchData,
+    dataSend,
+    textFilter,
   ]);
-  
-  
+
   useDataTableProcessingEffect(
     dataTable,
     visibleColumnCells,
     tableFlatfileVoyages,
     tableFlatfileEnslaved,
     tableFlatfileEnslavers,
-    tablesCell
+    tablesCell,
   );
-
 
   const defaultColDef = useMemo(
     () => ({
@@ -270,24 +292,29 @@ const Tables: React.FC = () => {
       resizable: true,
       filter: true,
       wrapHeaderText: true,
-      autoHeaderHeight: true
+      autoHeaderHeight: true,
     }),
-    []
+    [],
   );
 
   const components = useMemo(
     () => ({
       agColumnHeader: (props: any) => {
+        const { column } = props;
+        const ascSort = column.isSortAscending() ? 'active' : 'inactive';
+        const descSort = column.isSortDescending() ? 'active' : 'inactive';
         return (
           <CustomHeaderTable
             pageSize={rowsPerPage}
+            ascSort={ascSort}
+            descSort={descSort}
             setSortColumn={setSortColumn}
             {...props}
           />
         );
       },
     }),
-    [rowsPerPage, setSortColumn]
+    [rowsPerPage, setSortColumn],
   );
 
   const getRowRowStyle = useCallback(
@@ -297,7 +324,7 @@ const Tables: React.FC = () => {
       color: '#000',
       fontFamily: 'sans-serif',
     }),
-    []
+    [],
   );
 
   const handleChangeRowsPerPage = useCallback(
@@ -311,7 +338,7 @@ const Tables: React.FC = () => {
       setRowsPerPage(newPageSize);
       dispatch(setPage(0));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleChangePagePagination = (event: any, newPage: number) => {
@@ -347,7 +374,7 @@ const Tables: React.FC = () => {
     if (currentColumnState.length > 0) {
       gridRef.current.api.applyColumnState({
         state: currentColumnState,
-        applyOrder: true
+        applyOrder: true,
       });
       return;
     }
@@ -359,7 +386,7 @@ const Tables: React.FC = () => {
         const parsedState = JSON.parse(savedState);
         gridRef.current.api.applyColumnState({
           state: parsedState,
-          applyOrder: true
+          applyOrder: true,
         });
         setCurrentColumnState(parsedState);
       } catch (error) {
@@ -388,27 +415,29 @@ const Tables: React.FC = () => {
     const currentState = gridRef.current.api.getColumnState();
 
     // Create a map of visible/hidden status
-    const visibilityMap = visibleColumnCells.reduce((acc: Record<string, boolean>, colId: string) => {
-      acc[colId] = true;
-      return acc;
-    }, {});
+    const visibilityMap = visibleColumnCells.reduce(
+      (acc: Record<string, boolean>, colId: string) => {
+        acc[colId] = true;
+        return acc;
+      },
+      {},
+    );
 
     // Apply new visibility while preserving order
     const newState = currentState.map((col: any) => ({
       ...col,
-      hide: !visibilityMap[col.colId]
+      hide: !visibilityMap[col.colId],
     }));
 
     // Apply the updated state
     gridRef.current.api.applyColumnState({
       state: newState,
-      applyOrder: true
+      applyOrder: true,
     });
 
     // Save the updated state
     localStorage.setItem('columnState', JSON.stringify(newState));
     setCurrentColumnState(newState);
-
   }, [visibleColumnCells]);
 
   // Modify your pagination handlers to ensure column state is preserved
@@ -423,22 +452,26 @@ const Tables: React.FC = () => {
   const handleColumnVisibleChange = useCallback(
     (params: any) => {
       const allColumns = params.api.getColumns(); //* getAllColumns - removed, use api.getColumns instead. https://www.ag-grid.com/react-data-grid/upgrading-to-ag-grid-31/
-      const visibleColumns = allColumns && allColumns.filter((column: any) => column.isVisible()).map((column: any) => column.getColId());
+      const visibleColumns =
+        allColumns &&
+        allColumns
+          .filter((column: any) => column.isVisible())
+          .map((column: any) => column.getColId());
       dispatch(setVisibleColumn(visibleColumns));
       const visibleColumnsString = JSON.stringify(visibleColumns);
       localStorage.setItem('visibleColumns', visibleColumnsString);
     },
-    [dispatch]
+    [dispatch],
   );
 
-  const hanldeGridReady = (params:any) => {
+  const hanldeGridReady = (params: any) => {
     const { api, columnApi } = params;
     columnApi?.autoSizeColumns();
 
     // First apply column visibility from visibleColumnCells
-    const columnState = columnDefs.map(col => ({
+    const columnState = columnDefs.map((col) => ({
       colId: col.field,
-      hide: !visibleColumnCells.includes(col.field)
+      hide: !visibleColumnCells.includes(col.field),
     }));
 
     // Then try to apply saved column order
@@ -448,38 +481,39 @@ const Tables: React.FC = () => {
         const parsedState = JSON.parse(savedState);
         // Merge visibility with saved order
         const mergedState = parsedState.map((saved: any) => {
-          const visibilityState = columnState.find(col => col.colId === saved.colId);
+          const visibilityState = columnState.find(
+            (col) => col.colId === saved.colId,
+          );
           return {
             ...saved,
-            hide: visibilityState ? visibilityState.hide : saved.hide
+            hide: visibilityState ? visibilityState.hide : saved.hide,
           };
         });
 
         api.applyColumnState({
           state: mergedState,
-          applyOrder: true
+          applyOrder: true,
         });
         setCurrentColumnState(mergedState);
       } catch (error) {
         console.error('Failed to apply saved column state:', error);
         api.applyColumnState({
           state: columnState,
-          applyOrder: false
+          applyOrder: false,
         });
       }
     } else {
       // Just apply visibility if no order is saved
       api.applyColumnState({
         state: columnState,
-        applyOrder: false
+        applyOrder: false,
       });
     }
-  }
+  };
 
   const pageCount = Math.ceil(
-    totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1
+    totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1,
   );
-
 
   const gridOptions = useMemo(
     () => ({
@@ -490,19 +524,24 @@ const Tables: React.FC = () => {
         columnApi?.autoSizeColumns();
       },
     }),
-    []
+    [],
   );
-
-
 
   return (
     <>
       <div
         className={!viewAll ? 'mobile-responsive' : 'mobile-responsive-view'}
       >
-        <div className="ag-theme-alpine grid-container ag-theme-balham" style={{
-          height: 'calc(90vh - 220px)', width: '100%', display: 'flex', flexDirection: 'column', overflowY: 'auto',
-        }}>
+        <div
+          className="ag-theme-alpine grid-container ag-theme-balham"
+          style={{
+            height: 'calc(90vh - 220px)',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            overflowY: 'auto',
+          }}
+        >
           <span className="tableContainer">
             <ButtonDropdownColumnSelector />
             <div className="tableContainer">
@@ -515,13 +554,17 @@ const Tables: React.FC = () => {
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
-              <DownloadCSV dataSend={dataSendToDownloadCSV} styleNameRoute={styleNameRoute}/>
+              <DownloadCSV
+                dataSend={dataSendToDownloadCSV}
+                styleNameRoute={styleNameRoute}
+              />
             </div>
           </span>
-          {loading && rowData.length === 0 ?<CustomLoadingOverlay/>
-           : (
+          {loading && rowData.length === 0 ? (
+            <CustomLoadingOverlay />
+          ) : (
             <AgGridReact
-              theme='legacy'
+              theme="legacy"
               key={`grid-${styleNameRoute}`}
               ref={gridRef}
               loading={loading}

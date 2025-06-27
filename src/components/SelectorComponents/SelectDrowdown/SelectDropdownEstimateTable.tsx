@@ -1,3 +1,5 @@
+import { FunctionComponent } from 'react';
+
 import {
   FormControl,
   InputLabel,
@@ -5,7 +7,9 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { useSelector } from 'react-redux';
+
+import { RootState } from '@/redux/store';
 import {
   EstimateRowVar,
   EstimateColumnVar,
@@ -14,8 +18,7 @@ import {
   LabelFilterMeneList,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
 interface SelectDropdownEstimateTableProps {
@@ -26,7 +29,7 @@ interface SelectDropdownEstimateTableProps {
   handleChangeOptions: (
     event: SelectChangeEvent<string[]>,
     name: string,
-    selectRowValue?: EstimateRowVar[]
+    selectRowValue?: EstimateRowVar[],
   ) => void;
   handleButtonExportCSV: () => void;
 }
@@ -44,7 +47,7 @@ export const SelectDropdownEstimateTable: FunctionComponent<
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const MenuProps = {
     disableScrollLock: true,
@@ -62,35 +65,35 @@ export const SelectDropdownEstimateTable: FunctionComponent<
     <div className="pivot-table-flex-container">
       <div className="estimate-table-flex-item">
         <FormControl fullWidth>
-          <InputLabel id="rows-field-label">
+          <InputLabel id="rows-field-label" shrink sx={{ color: 'gray' }}>
             {translatedEstimates.rowDropDownTitle}
           </InputLabel>
           <Select
-            sx={{
-              height: 26,
-              fontSize: '0.85rem',
-            }}
-            MenuProps={MenuProps}
             labelId="rows-field-label"
             id="rows-field-select"
             value={selectedEstimateTablesOptions?.rows || []}
-            label={translatedEstimates.rowDropDownTitle}
             onChange={(event: SelectChangeEvent<string[]>) => {
               handleChangeOptions(event, 'row_vars', selectRowValue);
             }}
             name="row_vars"
+            label={translatedEstimates.rowDropDownTitle}
+            sx={{
+              height: 32,
+              fontSize: '0.85rem',
+            }}
+            MenuProps={MenuProps}
           >
             {selectRowValue.map((option: EstimateRowVar, index: number) => {
               const rowLabel = (option.label as LabelFilterMeneList)[
                 languageValue
               ];
+              const rowValue = option.rows?.[0];
+
               return (
                 <MenuItem
                   key={`${rowLabel}-${index}`}
-                  value={option.rows as string[]}
-                  sx={{
-                    fontSize: '0.85rem',
-                  }}
+                  value={rowValue}
+                  sx={{ fontSize: '0.85rem' }}
                 >
                   {rowLabel}
                 </MenuItem>
@@ -106,7 +109,7 @@ export const SelectDropdownEstimateTable: FunctionComponent<
           </InputLabel>
           <Select
             sx={{
-              height: 26,
+              height: 32,
               fontSize: '0.85rem',
             }}
             MenuProps={MenuProps}
@@ -145,7 +148,7 @@ export const SelectDropdownEstimateTable: FunctionComponent<
           </InputLabel>
           <Select
             sx={{
-              height: 26,
+              height: 32,
               fontSize: '0.85rem',
             }}
             MenuProps={MenuProps}

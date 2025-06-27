@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ColumnDef, StateRowData } from '@/share/InterfaceTypesTable';
+
 import { ColumnObjectProps } from '@/share/InterfaceTypes';
+import { ColumnDef, StateRowData } from '@/share/InterfaceTypesTable';
 
 const initialState: StateRowData = {
   data: [],
@@ -15,10 +16,10 @@ export const getTableSlice = createSlice({
   name: 'getTableData',
   initialState,
   reducers: {
-    setData: (state, action: PayloadAction<Record<string, any>[]>) => {
+    setData: (state, action: PayloadAction<Record<string, never>[]>) => {
       state.data = action.payload;
     },
-    setRowData: (state, action: PayloadAction<Record<string, any>[]>) => {
+    setRowData: (state, action: PayloadAction<Record<string, never>[]>) => {
       state.rowData = action.payload;
     },
     setColumnDefs: (state, action: PayloadAction<ColumnDef[]>) => {
@@ -30,7 +31,7 @@ export const getTableSlice = createSlice({
     setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
     },
-    resetSliceTable: (state) => initialState,
+    resetSliceTable: () => initialState,
   },
 });
 

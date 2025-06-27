@@ -302,7 +302,7 @@
       "visible": true,
       "number_format": null,
       "order_by": ["enslaved_source_connections__source__title"],
-      "col_width_px": 120,
+      "col_width_px": 140,
       "colID": "enslaved_sources",
       "cell_val": {
         "fields": [

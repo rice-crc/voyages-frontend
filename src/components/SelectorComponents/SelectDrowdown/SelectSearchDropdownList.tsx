@@ -1,18 +1,23 @@
+import { SyntheticEvent, useEffect, useState, useCallback } from 'react';
+
 import { Chip, Typography, TextField, Autocomplete } from '@mui/material';
-import { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
-import {
-  Filter,
-  FilterObjectsState,
-  MultiselectListProps,
-} from '@/share/InterfaceTypes';
-import { getBoderColor } from '@/utils/functions/getColorStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+
+import { fetchEnslavedGenderList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedGenderList';
+import { fetchAfricanInfoList } from '@/fetch/voyagesFetch/fetchAfricanInfoList';
+import { fetchCargoTypeListList } from '@/fetch/voyagesFetch/fetchCargoTypeList';
+import { fetchEnslaverRoleList } from '@/fetch/voyagesFetch/fetchEnslaverRoleList';
 import { fetchNationalityList } from '@/fetch/voyagesFetch/fetchNationalityList';
-import { updateNationalityObject } from '@/utils/functions/updateNationalityObject';
+import { fetchOwnerOutcomeList } from '@/fetch/voyagesFetch/fetchOwnerOutcomeList';
+import { fetchParticularOutcomeList } from '@/fetch/voyagesFetch/fetchParticularOutcomeList';
+import { fetchResistanceList } from '@/fetch/voyagesFetch/fetchResistanceList';
+import { fetchRigOfVesselList } from '@/fetch/voyagesFetch/fetchRigOfVesselList';
+import { fetchSlavesOutcomeList } from '@/fetch/voyagesFetch/fetchSlavesOutcomeList';
+import { fetchTonTypeList } from '@/fetch/voyagesFetch/fetchTonTypeList';
+import { fetchVesselCapturedOutcomeList } from '@/fetch/voyagesFetch/fetchVesselCapturedOutcomeList';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import { fetchResistanceList } from '@/fetch/voyagesFetch/fetchResistanceList';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   varNameOfFlagOfVessel,
   varNameOfFlagOfVesselIMP,
@@ -25,30 +30,27 @@ import {
   varNameVesselCapturedOutcomeList,
   varNameEnslaverRoleList,
   varNameGenderName,
+  varNameCargoTypeList,
+  varNameAfricanInfoList,
 } from '@/share/CONST_DATA';
-import { fetchParticularOutcomeList } from '@/fetch/voyagesFetch/fetchParticularOutcomeList';
-import { fetchRigOfVesselList } from '@/fetch/voyagesFetch/fetchRigOfVesselList';
-import { fetchOwnerOutcomeList } from '@/fetch/voyagesFetch/fetchOwnerOutcomeList';
-import { fetchSlavesOutcomeList } from '@/fetch/voyagesFetch/fetchSlavesOutcomeList';
-import { fetchTonTypeList } from '@/fetch/voyagesFetch/fetchTonTypeList';
-import { fetchVesselCapturedOutcomeList } from '@/fetch/voyagesFetch/fetchVesselCapturedOutcomeList';
-import { fetchEnslaverRoleList } from '@/fetch/voyagesFetch/fetchEnslaverRoleList';
-import { fetchEnslavedGenderList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedGenderList';
+import {
+  Filter,
+  FilterObjectsState,
+  MultiselectListProps,
+} from '@/share/InterfaceTypes';
+import { getBoderColor } from '@/utils/functions/getColorStyle';
+import { updateNationalityObject } from '@/utils/functions/updateNationalityObject';
 
-interface SelectSearchDropdownListProps {}
-
-export const SelectSearchDropdownList: FunctionComponent<
-  SelectSearchDropdownListProps
-> = () => {
+export const SelectSearchDropdownList = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
+    (state: RootState) => state.getDataSetCollection,
   );
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const { labelVarName } = useSelector(
-    (state: RootState) => state.getShowFilterObject
+    (state: RootState) => state.getShowFilterObject,
   );
   const { styleName: styleNameRoute } = usePageRouter();
   const [multipleList, setMultipleList] = useState<MultiselectListProps[]>([]);
@@ -56,7 +58,7 @@ export const SelectSearchDropdownList: FunctionComponent<
     MultiselectListProps[]
   >([]);
 
-  const fetchFunctionMapping: Record<string, () => Promise<any>> = {
+  const fetchFunctionMapping: Record<string, () => Promise<unknown>> = {
     [varNameOfFlagOfVessel]: fetchNationalityList,
     [varNameOfFlagOfVesselIMP]: fetchNationalityList,
     [varNameOwnerOutcomeList]: fetchOwnerOutcomeList,
@@ -67,15 +69,17 @@ export const SelectSearchDropdownList: FunctionComponent<
     [varNameTonTypList]: fetchTonTypeList,
     [varNameVesselCapturedOutcomeList]: fetchVesselCapturedOutcomeList,
     [varNameEnslaverRoleList]: fetchEnslaverRoleList,
-    [varNameGenderName] : fetchEnslavedGenderList
+    [varNameGenderName]: fetchEnslavedGenderList,
+    [varNameCargoTypeList]: fetchCargoTypeListList,
+    [varNameAfricanInfoList]: fetchAfricanInfoList,
   };
 
-  const fetchSelectSearchDrowListData = async () => {
+  const fetchSelectSearchDrowListData = useCallback(async () => {
     const fetchFunction = fetchFunctionMapping[varName];
     if (!fetchFunction) return;
 
     try {
-      const response = await fetchFunction();
+      const response: any = await fetchFunction();
       if (response) {
         const { data } = response;
         setMultipleOptionsList(data);
@@ -83,7 +87,7 @@ export const SelectSearchDropdownList: FunctionComponent<
     } catch (error) {
       console.log(`Error fetching data`, error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchSelectSearchDrowListData();
@@ -101,11 +105,11 @@ export const SelectSearchDropdownList: FunctionComponent<
     }));
     setMultipleList(values);
     dispatch(setFilterObject(filter));
-  }, [varName, styleName]);
+  }, [dispatch, varName, styleName, fetchSelectSearchDrowListData]);
 
   const handleSelected = (
     event: SyntheticEvent<Element, Event>,
-    newValue: MultiselectListProps[]
+    newValue: MultiselectListProps[],
   ) => {
     if (!newValue) return;
     setMultipleList(newValue);
@@ -115,7 +119,7 @@ export const SelectSearchDropdownList: FunctionComponent<
       valueSelect,
       varName,
       labelVarName,
-      styleNameRoute!
+      styleNameRoute!,
     );
   };
 
@@ -128,16 +132,16 @@ export const SelectSearchDropdownList: FunctionComponent<
       onChange={handleSelected}
       getOptionLabel={(option) => option.name}
       renderInput={(params) => (
-        <div style={{ color: 'red', fontSize: '0.875rem', textAlign: 'left' }}>
+        <div className="filter-select-box">
           <TextField
             {...params}
+            size="small"
             variant="outlined"
             label={
               <Typography variant="body1" style={{ fontSize: 14 }} height={50}>
                 Selected {labelVarName}
               </Typography>
             }
-            placeholder={`Selected ${labelVarName}`}
             style={{ marginTop: 20 }}
           />
         </div>
