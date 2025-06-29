@@ -181,8 +181,8 @@ export const PaperDraggableStyle = {
   minWidth: 500,
 };
 export const PaperDraggableTimeLapseStyle = {
-  maxWidth: 420,
-  minWidth: 420,
+  maxWidth: 550,
+  minWidth: 550,
   overflow: 'hidden',
 };
 export const TextFieldSearch = styled(TextField)`

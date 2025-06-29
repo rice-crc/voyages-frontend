@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   useEffect,
   useLayoutEffect,
@@ -5,7 +8,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
+import { Button } from '@mui/material';
+import * as d3 from 'd3';
+import { LatLngBounds } from 'leaflet';
+import * as L from 'leaflet';
+import { GeodesicLine } from 'leaflet.geodesic';
 import {
   MapContainer,
   TileLayer,
@@ -13,9 +21,20 @@ import {
   useMap,
   SVGOverlay,
 } from 'react-leaflet';
-import { LatLngBounds } from 'leaflet';
+import { useDispatch, useSelector } from 'react-redux';
+
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
-import { AUTHTOKEN, BASEURL } from '../../../share/AUTH_BASEURL';
+import CardModal from '@/components/PresentationComponents/Cards/CardModal';
+import 'leaflet-easybutton';
+import 'leaflet-easybutton/src/easy-button.css';
+import '@/style/timelapse.scss';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import {
+  setCardRowID,
+  setIsModalCard,
+  setNodeClass,
+} from '@/redux/getCardFlatObjectSlice';
+import { RootState } from '@/redux/store';
 import {
   AFRICANORIGINS,
   MAP_CENTER,
@@ -26,27 +45,14 @@ import {
   mappingSpecialistsCountries,
   mappingSpecialistsRivers,
 } from '@/share/CONST_DATA';
-import { HandleZoomEvent } from './HandleZoomEvent';
-import { Button } from '@mui/material';
-import CardModal from '@/components/PresentationComponents/Cards/CardModal';
-import {
-  setCardRowID,
-  setIsModalCard,
-  setNodeClass,
-} from '@/redux/getCardFlatObjectSlice';
-import * as d3 from 'd3';
-import * as L from 'leaflet';
-import { GeodesicLine } from 'leaflet.geodesic';
-import 'leaflet-easybutton';
-import 'leaflet-easybutton/src/easy-button.css';
-import '@/style/timelapse.scss';
-import { RootState } from '@/redux/store';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import { usePageRouter } from '@/hooks/usePageRouter';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { getMapBackgroundColor } from '@/utils/functions/getMapBackgroundColor';
-import TimelapseHelpDialog from './TimelapseHelpDialog';
 import { translationLanguagesTimelapse } from '@/utils/functions/translationLanguages';
+
+import { HandleZoomEvent } from './HandleZoomEvent';
+import TimelapseHelpDialog from './TimelapseHelpDialog';
+import { AUTHTOKEN, BASEURL } from '../../../share/AUTH_BASEURL';
 
 // TODO
 // - move out the basic geometry/calculation stuff to a separate file.
@@ -82,7 +88,7 @@ export interface GreatCircle {
  */
 export const arcInterpolate = (
   arc: GreatCircle,
-  t: number
+  t: number,
 ): LatLngPathPointRad => {
   const {
     start: [slat, slng],
@@ -107,14 +113,14 @@ export const arcInterpolate = (
  */
 export const greatCircle = (
   start: LatLngPathPointDeg,
-  end: LatLngPathPointDeg
+  end: LatLngPathPointDeg,
 ): GreatCircle | null => {
   const [sx, sy] = convertToRadians(start);
   const [ex, ey] = convertToRadians(end);
   const w = sx - ex;
   const h = sy - ey;
   // https://en.wikipedia.org/wiki/Haversine_formula
-  var z =
+  const z =
     Math.pow(Math.sin(h / 2.0), 2) +
     Math.cos(sy) * Math.cos(ey) * Math.pow(Math.sin(w / 2.0), 2);
   const centralAngle = 2.0 * Math.asin(Math.sqrt(z));
@@ -143,7 +149,7 @@ class AngleInfo {
   constructor(
     public readonly center: Point2D,
     public readonly pt1: Point2D,
-    public readonly pt2: Point2D
+    public readonly pt2: Point2D,
   ) {
     const [cx, cy] = center;
     const [pt1x, pt1y] = pt1;
@@ -224,7 +230,7 @@ const reduceSharpCorner = ({
     const v2 = sum(
       angleInfo.center,
       angleInfo.delta2,
-      scalar * endTangentScalar
+      scalar * endTangentScalar,
     );
     const d = sum(v1, v2, -1); // d = v1 - v2
     // Using a quadratic scaling: pt = v2 + s^2 * (v1 - v2)
@@ -245,7 +251,7 @@ class MapRoute {
   constructor(
     points: LatLngPathPointDeg[],
     public readonly source: string,
-    public readonly destination: string
+    public readonly destination: string,
   ) {
     const arcs = [];
     let totalAngle = 0.0;
@@ -277,7 +283,7 @@ class MapRoute {
    */
   createInterpolation = (
     perturbLat: number,
-    perturbLng: number
+    perturbLng: number,
   ): InterpolatedPath => {
     if (this._arcs.length === 0) {
       return (_) => [0, 0];
@@ -311,7 +317,7 @@ class MapRoute {
       const arc = this._arcs[capture.idxArc];
       const [lat, lng] = arcInterpolate(
         arc,
-        (targetAngle - capture.accAngle) / arc.centralAngle
+        (targetAngle - capture.accAngle) / arc.centralAngle,
       );
       // Apply a perturbation to the path that is smaller at the beginning
       // and at the end of the path and maximum at the middle.
@@ -342,7 +348,7 @@ class MapRouteBuilder {
 
   constructor(
     readonly ports: PortCollectionData,
-    readonly regionSegments: RegionSegments
+    readonly regionSegments: RegionSegments,
   ) {
     const names: Record<number, string> = {};
     for (const [key, port] of [
@@ -392,7 +398,7 @@ class MapRouteBuilder {
     return (this.cache[key] = new MapRoute(
       path,
       this.portNames[source],
-      this.portNames[destination]
+      this.portNames[destination],
     ));
   };
 }
@@ -428,7 +434,7 @@ class VoyageRouteCollection {
     voyageRoutes: VoyageRoute[],
     maxLatPerturb: number,
     maxLngPerturb: number,
-    public readonly nations: Record<number, Nation>
+    public readonly nations: Record<number, Nation>,
   ) {
     // Enforce sorting by startTime, immutability, and generate randomly
     // perturbed interpolated paths for each voyage.
@@ -437,7 +443,7 @@ class VoyageRouteCollection {
       .map((v) => {
         const interpolatedPath = v.route.createInterpolation(
           maxLatPerturb * (Math.random() - 0.5),
-          maxLngPerturb * (Math.random() - 0.5)
+          maxLngPerturb * (Math.random() - 0.5),
         );
         let geo: GeodesicLine | null = null;
         const geodesic = () => {
@@ -481,7 +487,7 @@ class VoyageRouteCollectionWindow {
     voyageRoutes: ReadonlyArray<InterpolatedVoyageRoute>,
     private readonly speed: number,
     time?: number,
-    idxSearch?: number
+    idxSearch?: number,
   ) {
     this.vs = voyageRoutes;
     this.time = time ?? (this.vs.length === 0 ? 0 : this.vs[0].startTime);
@@ -490,7 +496,7 @@ class VoyageRouteCollectionWindow {
 
   private static createStyleIterable = function* (
     blockStart: number,
-    count: number
+    count: number,
   ): Iterable<VoyageRoutePoint> {
     const blockEnd = blockStart + count;
     const myVersion = VoyageRouteCollectionWindow._version;
@@ -508,7 +514,7 @@ class VoyageRouteCollectionWindow {
       this.vs,
       this.speed,
       this.time + delta,
-      this.idxSearch
+      this.idxSearch,
     );
 
   hasFinished = () => this.idxSearch >= this.vs.length;
@@ -525,7 +531,7 @@ class VoyageRouteCollectionWindow {
         max = y;
       }
     }
-    let winYear = timeToYear(this.time);
+    const winYear = timeToYear(this.time);
     return [min ?? winYear, max ?? winYear];
   };
 
@@ -537,7 +543,7 @@ class VoyageRouteCollectionWindow {
    */
   groupByStyle = (
     renderStyles: VoyageRouteRenderStyles,
-    bounds: LatLngBounds
+    bounds: LatLngBounds,
   ): Iterable<VoyageRoutesCluster> => {
     const generator = function* (self: VoyageRouteCollectionWindow) {
       const buffer = VoyageRouteCollectionWindow._buffer;
@@ -586,6 +592,7 @@ class VoyageRouteCollectionWindow {
   restart = () => new VoyageRouteCollectionWindow(this.vs, this.speed);
 
   window = (): Iterable<InterpolatedVoyageRoute> => {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     const generator = function* () {
       const { vs, time, speed } = self;
@@ -640,7 +647,7 @@ const createRenderStyles = (
   collection: VoyageRouteCollection,
   embarkationBaseLine: number,
   grouping: (voyage: VoyageRoute) => number,
-  styling: Record<number, VoyageGroupStyle>
+  styling: Record<number, VoyageGroupStyle>,
 ): VoyageRouteRenderStyles => {
   let count = 0;
   const map: Record<number, number> = {};
@@ -712,11 +719,11 @@ const CanvasAnimation = ({
       windowRef.current = new VoyageRouteCollectionWindow(
         collection.voyageRoutes,
         speed,
-        userStartYear * 360
+        userStartYear * 360,
       );
       onWindowChange(windowRef.current);
     }
-  }, [userStartYear]);
+  }, [collection.voyageRoutes, onWindowChange, speed, userStartYear]);
   useEffect(() => {
     const routes = collection.voyageRoutes;
     if (routes.length === 0) {
@@ -725,7 +732,7 @@ const CanvasAnimation = ({
     }
     // Pick a good start year considering the volume of ships.
     const fullYearRange = [routes[0], routes.at(-1)!].map((r) =>
-      timeToYear(r.startTime)
+      timeToYear(r.startTime),
     );
     let defaultYearStart = 1660;
     if (
@@ -738,7 +745,7 @@ const CanvasAnimation = ({
       collection.voyageRoutes,
       speed,
       // TODO: replace constant year
-      windowRef.current?.time ?? defaultYearStart * 360
+      windowRef.current?.time ?? defaultYearStart * 360,
     );
   }, [collection, speed]);
   const render = (elapsed: number) => {
@@ -802,6 +809,7 @@ const CanvasAnimation = ({
     };
     fRef.current = requestAnimationFrame(frame);
     return () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       fRef.current && cancelAnimationFrame(fRef.current);
     };
   }, [collection, renderStyles, speed, paused, map]);
@@ -922,6 +930,7 @@ const InteractiveVoyageRoutesFrame = ({
       map.addLayer(current);
     }
     return () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       current && map.removeLayer(current);
     };
   }, [selected]);
@@ -1060,21 +1069,18 @@ const TimelapseUI = ({
 
     const helpBtn = L.easyButton(
       'fa-question-circle',
-      (_, map) => {
-        const bounds = map.getBounds();
-        const { lng } = bounds.getCenter();
-        const lat = bounds.getSouth() + 10;
+      () => {
         onPause();
         handleDialogOpen();
       },
-      'Help'
+      'Help',
     );
     map.addControl(helpBtn);
 
     const fullscreenBtn = L.easyButton(
       'fa-arrows-alt',
       toggleFullscreen,
-      'Toggle full-screen'
+      'Toggle full-screen',
     );
     map.addControl(fullscreenBtn);
     return () => {
@@ -1130,6 +1136,7 @@ const TimelapseUI = ({
                     src={`/flags/${flag}.png`}
                     height="24px"
                     style={{ float: 'right' }}
+                    alt="timelapse"
                   />
                 )}
               </h2>
@@ -1229,8 +1236,8 @@ const TimelapseAggregateChart = ({
           year: x.year,
           [renderStyles.styles[x.group].label]: x.aggregate,
         }),
-        {}
-      )
+        {},
+      ),
     );
     const x = d3
       .scaleLinear()
@@ -1307,7 +1314,7 @@ const TimelapseAggregateChart = ({
         .attr('class', 't_axis')
         .attr(
           'transform',
-          `translate(${LeftMargin},${NormalHeight - XAxisLineOffset})`
+          `translate(${LeftMargin},${NormalHeight - XAxisLineOffset})`,
         )
         .attr('color', 'black')
         .call(xAxis);
@@ -1450,7 +1457,7 @@ const rndInteger = (max: number) => Math.round(Math.random() * max);
 const OBSOLETE_legacyToVoyageRoute = (
   routeBuilder: MapRouteBuilder,
   nations: Record<number, Nation>,
-  entry: OBSOLETE_APIVoyageEntry
+  entry: OBSOLETE_APIVoyageEntry,
 ): VoyageRoute => {
   // The start time is expressed in "days" elapsed, however since we not
   // always have a month available on record, we use a random value to better
@@ -1484,7 +1491,7 @@ const builders: Record<string, MapRouteBuilder> = {};
 
 const useMapRouteBuilder = (network: string) => {
   const [routeBuilder, setRouteBuilder] = useState<MapRouteBuilder | null>(
-    null
+    null,
   );
   useEffect(() => {
     // Fetch and keep cached the data that does not change with the filter.
@@ -1493,7 +1500,7 @@ const useMapRouteBuilder = (network: string) => {
         `${BASEURL}/timelapse/get-compiled-routes/?networkName=${networkName}`,
         {
           headers: { Authorization: AUTHTOKEN },
-        }
+        },
       );
       const { ports, routes: regionSeg } = await res.json();
       const b = (builders[networkName] = new MapRouteBuilder(ports, regionSeg));
@@ -1538,7 +1545,7 @@ const useFilteredVoyageRoutes = () => {
       setNations(
         (Object.values(nationsSource) as Nation[]).reduce<
           Record<string, Nation>
-        >((prev, item) => ({ ...prev, [item.code]: item }), {})
+        >((prev, item) => ({ ...prev, [item.code]: item }), {}),
       );
     };
     fetchNations();
@@ -1548,7 +1555,7 @@ const useFilteredVoyageRoutes = () => {
   const filter =
     filters !== undefined &&
     filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
+      const { ...filteredFilter } = filter;
       return filteredFilter;
     });
 
@@ -1586,7 +1593,7 @@ const useFilteredVoyageRoutes = () => {
       const data: OBSOLETE_APIVoyageEntry[] = await voyagesRes.json();
       if (queryRef.current === body) {
         const voyages = (data as OBSOLETE_APIVoyageEntry[]).map((v) =>
-          OBSOLETE_legacyToVoyageRoute(routeBuilder, nations, v)
+          OBSOLETE_legacyToVoyageRoute(routeBuilder, nations, v),
         );
         // TODO: replace hardcoded args.
         setCollection(new VoyageRouteCollection(voyages, 0.3, 0.2, nations));
@@ -1607,10 +1614,10 @@ export interface TimelapseMapProps {
 export const VoyagesTimelapseMap = () => {
   const collection = useFilteredVoyageRoutes();
   const [renderStyles, setStyles] = useState<VoyageRouteRenderStyles | null>(
-    null
+    null,
   );
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const tanslateTimelapse = translationLanguagesTimelapse(languageValue);
 
@@ -1631,7 +1638,7 @@ export const VoyagesTimelapseMap = () => {
           isLeftoverGroup: nat.name === 'Other',
         },
       }),
-      {}
+      {},
     );
     styles[-1] = {
       label: unknownLabel,
@@ -1639,7 +1646,7 @@ export const VoyagesTimelapseMap = () => {
       isLeftoverGroup: true,
     };
     setStyles(
-      createRenderStyles(collection, 200, (v) => v.flag?.code ?? -1, styles)
+      createRenderStyles(collection, 200, (v) => v.flag?.code ?? -1, styles),
     );
   }, [collection, languageValue]);
   return (
@@ -1663,10 +1670,10 @@ export const TimelapseMap = ({
 }: TimelapseMapProps) => {
   const [zoomLevel, setZoomLevel] = useState<number>(3);
   const [pauseWin, setPauseWin] = useState<VoyageRouteCollectionWindow | null>(
-    null
+    null,
   );
   const [selected, setSelected] = useState<InterpolatedVoyageRoute | undefined>(
-    undefined
+    undefined,
   );
   const [speed, setSpeed] = useState(initialSpeed);
   const [years, setYears] = useState<[number, number] | undefined>();
@@ -1681,10 +1688,10 @@ export const TimelapseMap = ({
     }
   }, [pauseWin]);
   const { styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
+    (state: RootState) => state.getDataSetCollection,
   );
   const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleEnlavedDataSetCollection
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection,
   );
   let backgroundColor = styleNamePeople;
   if (checkPagesRouteForVoyages(styleName)) {
@@ -1705,7 +1712,7 @@ export const TimelapseMap = ({
         height: 'calc(-150px + 100vh)',
       }}
     >
-      <img src={LOADINGLOGO} />
+      <img src={LOADINGLOGO} alt="loading" />
     </div>
   ) : (
     <MapContainer
@@ -1727,7 +1734,7 @@ export const TimelapseMap = ({
     >
       <HandleZoomEvent
         setZoomLevel={setZoomLevel}
-        setRegionPlace={() => { }}
+        setRegionPlace={() => {}}
         zoomLevel={zoomLevel}
       />
       <TileLayer url={mappingSpecialists} />

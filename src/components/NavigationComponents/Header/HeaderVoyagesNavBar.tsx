@@ -1,52 +1,21 @@
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
-import { AppBar, Box, IconButton, Hidden, Divider } from '@mui/material';
+
 import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
+import {
+  AppBar,
+  Box,
+  IconButton,
+  Hidden,
+  Divider,
+  Menu,
+  Typography,
+} from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
-import { MenuListDropdownStyle } from '@/styleMUI';
-import { Menu, Typography } from '@mui/material';
-import { AppDispatch, RootState } from '@/redux/store';
-import {
-  Filter,
-  HeaderNavBarMenuProps,
-  LabelFilterMeneList,
-} from '@/share/InterfaceTypes';
-import CascadingMenu from '../../SelectorComponents/Cascading/CascadingMenu';
 import { useDispatch, useSelector } from 'react-redux';
-import { CurrentPageInitialState } from '@/share/InterfaceTypes';
-import {
-  setBaseFilterDataSetValue,
-  setBlocksMenuList,
-  setDataSetHeader,
-  setStyleName,
-  setTableVoyagesFlatfile,
-  setTextIntro,
-  setVoyagesFilterMenuFlatfile,
-} from '@/redux/getDataSetCollectionSlice';
-import {
-  getColorHoverBackground,
-  getColorNavbarBackground,
-  getColorBoxShadow,
-  getColorBTNVoyageDatasetBackground,
-} from '@/utils/functions/getColorStyle';
-import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
+import { useNavigate } from 'react-router-dom';
+
 import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
-import {
-  BaseFilter,
-  BlockCollectionProps,
-  DataSetCollectionProps,
-} from '@/share/InterfactTypesDatasetCollection';
-import {
-  ALLVOYAGES,
-  ALLVOYAGESPAGE,
-  AllVoyagesTitle,
-  INTRAAMERICAN,
-  INTRAAMERICANPAGE,
-  IntraAmericanTitle,
-  TRANSATLANTIC,
-  TRANSATLANTICPAGE,
-  TransAtlanticTitle,
-} from '@/share/CONST_DATA';
+import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import '@/style/Nav.scss';
 import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '../../PresentationComponents/GlobalSearch/GlobalSearchButton';
@@ -60,24 +29,65 @@ import LanguagesDropdown from '@/components/SelectorComponents/DropDown/Language
 import { voyagesHeader } from '@/utils/languages/title_pages';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
 import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
+import {
+  setBaseFilterDataSetValue,
+  setBlocksMenuList,
+  setDataSetHeader,
+  setStyleName,
+  setTableVoyagesFlatfile,
+  setTextIntro,
+  setVoyagesFilterMenuFlatfile,
+} from '@/redux/getDataSetCollectionSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import {
+  ALLVOYAGES,
+  ALLVOYAGESPAGE,
+  AllVoyagesTitle,
+  INTRAAMERICAN,
+  INTRAAMERICANPAGE,
+  IntraAmericanTitle,
+  TRANSATLANTIC,
+  TRANSATLANTICPAGE,
+  TransAtlanticTitle,
+} from '@/share/CONST_DATA';
+import {
+  CurrentPageInitialState,
+  Filter,
+  HeaderNavBarMenuProps,
+  LabelFilterMeneList,
+} from '@/share/InterfaceTypes';
+import {
+  BaseFilter,
+  BlockCollectionProps,
+  DataSetCollectionProps,
+} from '@/share/InterfactTypesDatasetCollection';
+import { MenuListDropdownStyle } from '@/styleMUI';
+import {
+  getColorHoverBackground,
+  getColorNavbarBackground,
+  getColorBoxShadow,
+  getColorBTNVoyageDatasetBackground,
+} from '@/utils/functions/getColorStyle';
+
+import CascadingMenu from '../../SelectorComponents/Cascading/CascadingMenu';
 
 export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
   const dispatch: AppDispatch = useDispatch();
   const { styleName: styleNameRoute } = usePageRouter();
   const navigate = useNavigate();
   const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
 
   const { currentVoyageBlockName } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
 
   const { value, textHeader } = useSelector(
-    (state: RootState) => state.getDataSetCollection
+    (state: RootState) => state.getDataSetCollection,
   );
 
   useEffect(() => {
@@ -109,7 +119,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       blocks: BlockCollectionProps[],
       filterMenuFlatfile?: string,
       tableFlatfile?: string,
-      card_flatfile?: string
+      card_flatfile?: string,
     ) => {
       dispatch(resetAll());
       const filters: Filter[] = [];
@@ -122,7 +132,8 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
         });
       }
       const filteredFilters = filters.filter(
-        (filter) => !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
+        (filter) =>
+          !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0,
       );
       dispatch(setBaseFilterDataSetValue(base_filter));
       dispatch(setFilterObject(filteredFilters));
@@ -159,7 +170,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
         }
       });
     },
-    [value, currentVoyageBlockName, navigate, dispatch]
+    [value, currentVoyageBlockName, navigate, dispatch],
   );
 
   const handleMenuFilterMobileClose = () => {
