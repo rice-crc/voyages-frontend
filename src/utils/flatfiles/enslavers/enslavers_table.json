@@ -255,24 +255,6 @@
     },
     {
       "label": {
-        "en": "Enslavement Relations",
-        "es": "Enslavement Relations ES",
-        "pt": "Enslavement Relations PT"
-      },
-      "children": [
-        {
-          "col_width_px": 100,
-          "colID": "enslavement_relations",
-          "label": {
-            "en": "Enslavement Relations",
-            "es": "Enslavement Relations ES",
-            "pt": "Enslavement Relations PT"
-          }
-        }
-      ]
-    },
-    {
-      "label": {
         "en": "Documentary Sources",
         "es": "Documentary Sources ES",
         "pt": "Documentary Sources PT"
@@ -290,22 +272,13 @@
       ]
     },
     {
-      "label": {
-        "en": "Connections",
-        "es": "Connections ES",
-        "pt": "Connections PT"
-      },
-      "children": [
-        {
-          "col_width_px": 130,
+              "col_width_px": 130,
           "colID": "connections",
           "label": {
             "en": "Connections",
             "es": "Connections ES",
             "pt": "Connections PT"
           }
-        }
-      ]
     }
   ]
 }

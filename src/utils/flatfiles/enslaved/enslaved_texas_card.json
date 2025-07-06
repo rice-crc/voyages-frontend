@@ -1,9 +1,9 @@
 [
   {
     "label": {
-      "en": "Bio Data",
-      "es": "ES: Bio Data",
-      "pt": "PT: Bio Data"
+      "en": "Bio data",
+      "es": "ES: Bio data",
+      "pt": "PT: Bio data"
     },
     "children": [
       {
@@ -17,9 +17,25 @@
           ]
         },
         "label": {
-          "en": "Names",
-          "es": "ES: Names",
-          "pt": "PT: Names"
+          "en": "Documented name",
+          "es": "ES: Documented name",
+          "pt": "PT: Documented name"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "modern_name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Modern name",
+          "es": "ES: Modern name",
+          "pt": "PT: Modern name"
         }
       },
       {
@@ -105,11 +121,7 @@
     },
     "children": [
       {
-        "label": {
-          "en": "Ship Name",
-          "es": "ES: Ship Name",
-          "pt": "PT: Ship Name"
-        },
+        "label": "Ship name",
         "cell_type": "literal",
         "cell_val": {
           "fields": [
@@ -122,9 +134,9 @@
       },
       {
         "label": {
-          "en": "Embarkation Port",
-          "es": "ES: Embarkation Port",
-          "pt": "PT: Embarkation Port"
+          "en": "Embarkation port",
+          "es": "ES: Embarkation port",
+          "pt": "PT: Embarkation port"
         },
         "cell_type": "literal",
         "cell_val": {
@@ -138,9 +150,9 @@
       },
       {
         "label": {
-          "en": "Disembarkation Port",
-          "es": "ES: Disembarkation Port",
-          "pt": "PT: Disembarkation Port"
+          "en": "Disembarkation port",
+          "es": "ES: Disembarkation port",
+          "pt": "PT: Disembarkation port"
         },
         "cell_type": "literal",
         "cell_val": {
@@ -154,9 +166,9 @@
       },
       {
         "label": {
-          "en": "Date of Arrival",
-          "es": "ES: Date of Arrival",
-          "pt": "PT: Date of Arrival"
+          "en": "Date of arrival",
+          "es": "ES: Date of arrival",
+          "pt": "PT: Date of arrival"
         },
         "cell_type": "literal-concat",
         "cell_val": {
@@ -179,9 +191,9 @@
       },
       {
         "label": {
-          "en": "Post-Disembarkation Location",
-          "es": "ES: Post-Disembarkation Location",
-          "pt": "PT: Post-Disembarkation Location"
+          "en": "Post-disembarkation location",
+          "es": "ES: Post-disembarkation location",
+          "pt": "PT: Post-disembarkation location"
         },
         "cell_type": "literal",
         "cell_val": {
@@ -198,15 +210,15 @@
   {
     "label": {
       "en": "Fate",
-      "es": "ES: Fate",
-      "pt": "PT: Fate"
+      "es": "ES: fate",
+      "pt": "PT: fate"
     },
     "children": [
       {
         "label": {
-          "en": "Captive Fate",
-          "es": "ES: Captive Fate",
-          "pt": "PT: Captive Fate"
+          "en": "Captive fate",
+          "es": "ES: Captive fate",
+          "pt": "PT: Captive fate"
         },
         "cell_type": "literal",
         "cell_val": {
@@ -223,18 +235,17 @@
   {
     "label": {
       "en": "Sources",
-      "es": "ES: Sources",
-      "pt": "PT: Sources"
+      "es": "ES: sources",
+      "pt": "PT: sources"
     },
     "children": [
       {
         "label": {
-          "en": "Documentary Sources",
-          "es": "ES: Documentary Sources",
-          "pt": "PT: Documentary Sources"
+          "en": "Documentary sources",
+          "es": "ES: Documentary sources",
+          "pt": "PT: Documentary sources"
         },
         "cell_type": "literal-concat",
-        "number_format": null,
         "cell_val": {
           "fields": [
             {

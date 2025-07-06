@@ -57,9 +57,9 @@
         "type": "CharField",
         "ops": ["icontains"],
         "label": {
-          "en": "Individual Enslavers",
-          "es": "Esclavizadores Individuales ",
-          "pt": "Escravizadores Individuais"
+          "en": "Individual enslavers",
+          "es": "Esclavizadores individuales ",
+          "pt": "Escravizadores individuais"
         }
       }
     ]
@@ -77,8 +77,8 @@
         "ops": ["exact", "btw"],
         "label": {
           "en": "Voyage ID",
-          "es": "ID da Viagem ",
-          "pt": "ID da Viagem"
+          "es": "ID da viagem",
+          "pt": "ID da viagem"
         }
       },
       {
@@ -86,9 +86,9 @@
         "type": "CharField",
         "ops": ["icontains"],
         "label": {
-          "en": "Ship Name",
-          "es": "Nombre del Barco",
-          "pt": "Nome do Navio"
+          "en": "Ship name",
+          "es": "Nombre del barco",
+          "pt": "Nome do navio"
         }
       },
       {
@@ -113,21 +113,12 @@
         "var_name": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
         "type": "IntegerField",
         "label": {
-          "en": "Year of Arrival",
-          "es": "Año de Llegada ",
-          "pt": "Ano de Chegada"
+          "en": "Year of arrival",
+          "es": "Año de llegada ",
+          "pt": "Ano de chegada"
         }
       }
     ]
-  },
-  {
-    "label": {
-      "en": "Cultural Association",
-      "es": "Associação Cultural",
-      "pt": "Associação Cultural"
-    },
-    "var_name": "language_group__name",
-    "type": "LanguageTreeSelect"
   },
   {
     "label": {
@@ -141,9 +132,9 @@
         "type": "CharField",
         "ops": ["icontains"],
         "label": {
-          "en": "Captive Fate",
-          "es": "Destino del Cautivo",
-          "pt": "Destino do Cativo"
+          "en": "Captive fate",
+          "es": "Destino del cautivo",
+          "pt": "Destino do cautivo"
         }
       },
       {
@@ -151,9 +142,9 @@
         "type": "CharField",
         "ops": ["icontains"],
         "label": {
-          "en": "Post-Disembark Location",
-          "es": "Ubicación Posterior al Desembarco",
-          "pt": "Localização Pós-desembarque"
+          "en": "Post-disembark location",
+          "es": "Ubicación posterior al desembarco",
+          "pt": "Localização pós-desembarque"
         }
       },
       {
@@ -161,9 +152,9 @@
         "type": "CharField",
         "ops": ["icontains"],
         "label": {
-          "en": "Vessel Fate",
-          "es": "Destino de la Embarcación ",
-          "pt": "Destino da Embarcação"
+          "en": "Vessel fate",
+          "es": "Destino de la embarcación ",
+          "pt": "Destino da embarcação"
         }
       }
     ]
@@ -176,13 +167,13 @@
     },
     "children": [
       {
-        "var_name": "enslaved_source_connections__source__title",
+        "var_name": "enslaved__source__ALL",
         "type": "CharField",
         "ops": ["icontains"],
         "label": {
-          "en": "Documentary Sources",
-          "es": "Fuentes Documentales",
-          "pt": "Fontes Documentais"
+          "en": "Documentary sources",
+          "es": "Fuentes documentales",
+          "pt": "Fontes documentais"
         }
       }
     ]
