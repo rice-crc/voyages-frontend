@@ -567,6 +567,7 @@ const Tables: React.FC = () => {
               theme="legacy"
               key={`grid-${styleNameRoute}`}
               ref={gridRef}
+              suppressHorizontalScroll={false}
               loading={loading}
               rowData={rowData}
               columnDefs={columnDefs}

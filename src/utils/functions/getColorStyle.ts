@@ -7,7 +7,7 @@ import { TYPESOFDATASET, TYPESOFDATASETPEOPLE } from '@/share/InterfaceTypes';
 
 export const getColorVoyagePageBackground = (
   item: string,
-  currentPage: number
+  currentPage: number,
 ) => {
   let background = 'rgb(55 148 141)';
   if (item === TYPESOFDATASET.allVoyages) {

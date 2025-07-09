@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FunctionComponent } from 'react';
 
 import {
@@ -18,7 +19,6 @@ import {
   LabelFilterMeneList,
 } from '@/share/InterfaceTypes';
 import '@/style/table.scss';
-
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
 interface SelectDropdownEstimateTableProps {

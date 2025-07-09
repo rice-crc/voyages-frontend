@@ -210,23 +210,6 @@
           "es": "ES: Guns mounted",
           "pt": "PT: Guns mounted"
         }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "cargo",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Cargo",
-          "es": "Cargo",
-          "pt": "Cargo"
-        }
       }
     ]
   },

@@ -233,18 +233,6 @@
 						}
 					}
 				]
-			},
-			{
-				"var_name": "cargo__cargo__name",
-				"type": "MultiselectList",
-				"ops": [
-					"icontains"
-				],
-				"label": {
-					"en": "Cargo",
-					"es": "Carga",
-					"pt": "Carga"
-				}
 			}
 		]
 	},

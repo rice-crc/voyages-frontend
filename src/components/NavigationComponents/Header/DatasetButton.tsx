@@ -1,13 +1,14 @@
+import { Button } from '@mui/material';
+import { useSelector } from 'react-redux';
+
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { RootState } from '@/redux/store';
+import { LabelFilterMeneList } from '@/share/InterfaceTypes';
 import {
   BaseFilter,
   BlockCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
-import { Button } from '@mui/material';
-import { usePageRouter } from '@/hooks/usePageRouter';
 import { getColorTextCollection } from '@/utils/functions/getColorStyle';
-import { useSelector } from 'react-redux';
-import { LabelFilterMeneList } from '@/share/InterfaceTypes';
-import { RootState } from '@/redux/store';
 interface DatasetButtonProps {
   item: any;
   index: any;
@@ -19,7 +20,7 @@ interface DatasetButtonProps {
     blocks: BlockCollectionProps[],
     filterMenuFlatfile?: string,
     tableFlatfile?: string,
-    cardFlatfile?: string
+    cardFlatfile?: string,
   ) => void;
 
   getColorBoxShadow: (item: string) => string;
@@ -37,7 +38,7 @@ export const DatasetButton = (props: DatasetButtonProps) => {
   } = props;
 
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
 
   const {
@@ -66,7 +67,7 @@ export const DatasetButton = (props: DatasetButtonProps) => {
           blocks,
           filter_menu_flatfile,
           table_flatfile,
-          card_flatfile
+          card_flatfile,
         )
       }
       sx={{

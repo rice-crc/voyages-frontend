@@ -1,12 +1,21 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect, useCallback } from 'react';
+
 import { SelectChangeEvent } from '@mui/material';
-import ESTIMATE_OPTIONS from '@/utils/flatfiles/estimates/estimates.json';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+
 import '@/style/estimates.scss';
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
+import '@/style/table.scss';
+import { SelectDropdownEstimateTable } from '@/components/SelectorComponents/SelectDrowdown/SelectDropdownEstimateTable';
+import { fetchEstimateCrosstabsTables } from '@/fetch/estimateFetch/fetchEstimateCrosstabsTables';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { ESTIMATES } from '@/share/CONST_DATA';
 import {
   EstimateCellVar,
   EstimateColumnVar,
@@ -16,13 +25,7 @@ import {
   Filter,
   FilterObjectsState,
 } from '@/share/InterfaceTypes';
-import '@/style/table.scss';
-
-import { fetchEstimateCrosstabsTables } from '@/fetch/estimateFetch/fetchEstimateCrosstabsTables';
-import { SelectDropdownEstimateTable } from '@/components/SelectorComponents/SelectDrowdown/SelectDropdownEstimateTable';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { ESTIMATES } from '@/share/CONST_DATA';
+import ESTIMATE_OPTIONS from '@/utils/flatfiles/estimates/estimates.json';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
 const EstimateTable = () => {
@@ -38,7 +41,7 @@ const EstimateTable = () => {
 
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<string | null>(null);
@@ -68,7 +71,7 @@ const EstimateTable = () => {
               rows_label: item.rows_label,
               label: item.label,
             };
-          }
+          },
         );
         setSelectRowValues(pivotRowVars);
       } else if (key === 'column_vars' && Array.isArray(value)) {
@@ -94,7 +97,7 @@ const EstimateTable = () => {
   const { rows, binsize, column_vars, cell_vars } = estimateValueOptions;
 
   const onlyYearRows = rows.filter(
-    (row) => row.startsWith('year_') && row.length > 5
+    (row) => row.startsWith('year_') && row.length > 5,
   );
   const updatedRowsValue = rows.join('').replace(/_(\d+)$/, '');
 
@@ -102,7 +105,7 @@ const EstimateTable = () => {
   const newFilters =
     filters !== undefined &&
     filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
+      const { ...filteredFilter } = filter;
       return filteredFilter;
     });
   const dataSend: EstimateTablesPropsRequest = {
@@ -119,7 +122,7 @@ const EstimateTable = () => {
     setLoading(true);
     try {
       const response = await dispatch(
-        fetchEstimateCrosstabsTables(dataSend)
+        fetchEstimateCrosstabsTables(dataSend),
       ).unwrap();
 
       if (response) {
@@ -204,12 +207,12 @@ const EstimateTable = () => {
     (
       event: SelectChangeEvent<string[]>,
       name: string,
-      options?: EstimateRowVar[]
+      options?: EstimateRowVar[],
     ) => {
       const value = event.target.value as string[];
       if (name === 'row_vars' && options) {
         const selectedRow = options.find(
-          (row) => row.rows.join('') === value.join('')
+          (row) => row.rows.join('') === [...value].join(''),
         );
         if (selectedRow) {
           setEstimateValueOptions((prevVoyageOption) => ({
@@ -227,14 +230,14 @@ const EstimateTable = () => {
         }));
       }
     },
-    [setEstimateValueOptions]
+    [setEstimateValueOptions],
   );
 
   return (
     <>
       {!loading && !data ? (
         <div className="loading-logo-graph">
-          <img src={LOADINGLOGO} />
+          <img src={LOADINGLOGO} alt="loading" />
         </div>
       ) : (
         <div className="estimate-table-card">
