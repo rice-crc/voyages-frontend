@@ -70,19 +70,17 @@ function BarGraph() {
   );
   const [yAxes, setYAxes] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label[lang],
-    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label[lang],
+    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].agg_fn,
   ]);
   const [chips, setChips] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
   ]);
-
   const [barGraphOptions, setBarOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
     y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
     agg_fn: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].agg_fn || '',
   });
   const maxWidth = maxWidthSize(width);
-  console.log({ barGraphOptions });
 
   const VoyageBargraphOptions = useCallback(() => {
     Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(
@@ -113,7 +111,6 @@ function BarGraph() {
     groupby: {
       by: barGraphOptions.x_vars,
       agg_series: chips.map((chip) => {
-        // Find the corresponding y_var to get the correct agg_fn
         const yVar = VOYAGE_BARGRAPH_OPTIONS.y_vars.find(
           (y) => y.var_name === chip,
         );
@@ -128,13 +125,13 @@ function BarGraph() {
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue;
   }
-  console.log({ dataSend });
 
   const {
     data: response,
     isLoading: loading,
     isError,
   } = useFetchLineAndBarcharts(dataSend);
+
   useEffect(() => {
     VoyageBargraphOptions();
     if (!loading && !isError && response) {
