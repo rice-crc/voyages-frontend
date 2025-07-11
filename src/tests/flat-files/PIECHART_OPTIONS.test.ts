@@ -1,6 +1,7 @@
+import { expect, test, vi, describe } from 'vitest';
+
 import { fetchVoyagesOptionsApi } from '@/fetch/voyagesFetch/fetchVoyagesOptionsApi';
 import dataVoyagePieOptions from '@/utils/flatfiles/voyages/voyages_piechart_options.json';
-import { expect, test, vi, describe } from 'vitest';
 
 const fileName = 'voyages_piechart_options.json';
 global.fetch = vi.fn();
@@ -41,16 +42,16 @@ test('Test the PIECHART_OPTIONS if data does not match with API data', async () 
   const options = Object.keys(data);
 
   const missingXVars = dataVoyagePieOptions.x_vars.filter(
-    (xVar) => !options.includes(xVar.var_name)
+    (xVar) => !options.includes(xVar.var_name),
   );
   const missingYVars = dataVoyagePieOptions.y_vars.filter(
-    (yVar) => !options.includes(yVar.var_name)
+    (yVar) => !options.includes(yVar.var_name),
   );
 
   const errorMessage = `Missing PIECHART_OPTIONS.json: flat file ${fileName} names variables:\n\n :${missingXVars
     .map((xVar) => xVar.var_name)
     .concat(
-      missingYVars.map((yVar) => yVar.var_name).join(', \n')
+      missingYVars.map((yVar) => yVar.var_name).join(', \n'),
     )}\n\nthat is not present in ${EndPoint}`;
 
   if (missingXVars.length + missingYVars.length > 0) {

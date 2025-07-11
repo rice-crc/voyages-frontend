@@ -217,10 +217,7 @@
         "es": "ES: Toneladas estandarizadas en toneladas británicas medidas 1773-1870",
         "pt": "PT: Toneladas padronizadas em toneladas britânicas medidas 1773-1870"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn": "sum"
     },
     {
       "var_name": "voyage_dates__imp_length_home_to_disembark",
@@ -230,10 +227,7 @@
         "es": "ES: Longitud de la travesía desde el puerto de origen hasta el desembarque (días) (VOY1IMP)",
         "pt": "PT: Comprimento da travessia desde o porto de origem até o desembarque (dias) (VOY1IMP)"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn": "mean"
     },
     {
       "var_name": "voyage_dates__length_middle_passage_days",
@@ -243,10 +237,7 @@
         "es": "ES: Longitud de la travesía en el medio (días) (VOYAGE)",
         "pt": "PT: Comprimento da travessia no meio (dias) (VOYAGE)"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn": "sum"
     },
     {
       "var_name": "voyage_crew__crew_first_landing",
@@ -256,10 +247,7 @@
         "es": "ES: Crew at first landing of slaves",
         "pt": "PT: Crew at first landing of slaves"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn":  "mean"
     },
     {
       "var_name": "voyage_crew__crew_voyage_outset",
@@ -269,10 +257,7 @@
         "es": "ES: Crew at voyage outset",
         "pt": "PT: Crew at voyage outset"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn":  "sum"
     },
     {
       "var_name": "voyage_slaves_numbers__percentage_male",
@@ -282,10 +267,7 @@
         "es": "ES: Porcentaje de hombres en la travesía (MALRAT7)",
         "pt": "PT: Percentagem de homens na travessia (MALRAT7)"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn": "mean"
     },
     {
       "var_name": "voyage_slaves_numbers__percentage_child",
@@ -295,10 +277,7 @@
         "es": "ES: Porcentaje de niños en la travesía (CHILRAT7)",
         "pt": "PT: Percentagem de crianças na travessia (CHILRAT7)"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn": "sum"
     },
     {
       "var_name": "voyage_slaves_numbers__percentage_girl",
@@ -308,10 +287,7 @@
         "es": "ES: Porcentaje de niñas en la travesía (GIRLRAT7)",
         "pt": "PT: Percentagem de meninas na travessia (GIRLRAT7)"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn":  "mean"
     },
     {
       "var_name": "voyage_slaves_numbers__percentage_boy",
@@ -321,10 +297,7 @@
         "es": "ES: Porcentaje de niños en la travesía (BOYRAT7)",
         "pt": "PT: Percentagem de meninos na travessia (BOYRAT7)"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn": "sum"
     },
     {
       "var_name": "voyage_slaves_numbers__percentage_women",
@@ -334,10 +307,7 @@
         "es": "ES: Porcentaje de mujeres en la travesía (WOMRAT7)",
         "pt": "PT: Percentagem de mulheres na travessia (WOMRAT7)"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn":  "mean"
     },
     {
       "var_name": "voyage_slaves_numbers__percentage_men",
@@ -347,10 +317,7 @@
         "es": "ES: Porcentaje de hombres en la travesía (MENRAT7)",
         "pt": "PT: Percentagem de homens na travessia (MENRAT7)"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn":  "sum"
     },
     {
       "var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
@@ -360,10 +327,7 @@
         "es": "ES: Total esclavos desembarcados imputados * (SLAMIMP)",
         "pt": "PT: Total de escravos desembarcados imputados * (SLAMIMP)"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn": "mean"
     },
     {
       "var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
@@ -373,10 +337,7 @@
         "es": "ES: Total esclavos embarcados imputados * (slaximp)",
         "pt": "PT: Total de escravos embarcados imputados * (slaximp)"
       },
-      "agg_fns": [
-        "sum",
-        "mean"
-      ]
+      "agg_fn":  "sum"
     }
   ]
 }

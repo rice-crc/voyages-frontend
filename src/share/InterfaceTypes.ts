@@ -66,6 +66,29 @@ export interface IRootFilterObjectScatterRequest {
   filter: Filter[];
   global_search?: string;
 }
+
+export interface IRootFilterLineAndBarRequest {
+  groupby: {
+    by: string;
+    agg_series: aggSeriesProps[];
+  };
+  filter: Filter[];
+  global_search?: string;
+}
+
+export interface aggSeriesProps {
+  vals: string;
+  agg_fn: string;
+}
+export interface IRootFilterObjectRequest {
+  groupby: {
+    by: string;
+    vals: string;
+    agg_fn: string;
+  };
+  filter: Filter[];
+  global_search?: string;
+}
 export interface IRootFilterTableObject {
   filter: Filter[];
   page: number;
@@ -313,7 +336,7 @@ export interface PlotXYVar {
   var_name: string;
   type?: string;
   label: Record<LanguageKey, string>;
-  agg_fns?: string[];
+  agg_fn?: string;
 }
 export interface PlotPieProps {
   x_vars: PlotPIEX[];
@@ -348,6 +371,7 @@ export interface ScatterOptionsXYResponse {
 export interface VoyagesOptionProps {
   x_vars: string;
   y_vars: string;
+  agg_fn: string;
 }
 
 export interface AutocompleteBoxProps {

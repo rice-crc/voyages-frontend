@@ -1,33 +1,35 @@
-import { useState, useEffect, ChangeEvent, useCallback } from 'react';
-import Plot from 'react-plotly.js';
-import { Data } from 'plotly.js';
-import VOYAGE_BARGRAPH_OPTIONS from '@/utils/flatfiles/voyages/voyages_bargraph_options.json';
+import { useState, useEffect, useCallback } from 'react';
+
 import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
-import { RootState } from '@/redux/store';
+import { Data } from 'plotly.js';
+import Plot from 'react-plotly.js';
 import { useSelector } from 'react-redux';
-import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
-import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
+
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
-import { RadioSelected } from '../../SelectorComponents/RadioSelected/RadioSelected';
+import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
+import { useFetchLineAndBarcharts } from '@/hooks/useFetchLineAndBarcharts';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { RootState } from '@/redux/store';
 import {
   PlotXYVar,
   VoyagesOptionProps,
   FilterObjectsState,
   CurrentPageInitialState,
   BargraphXYVar,
-  IRootFilterObjectScatterRequest,
+  LanguageKey,
+  IRootFilterLineAndBarRequest,
 } from '@/share/InterfaceTypes';
+import VOYAGE_BARGRAPH_OPTIONS from '@/utils/flatfiles/voyages/voyages_bargraph_options.json';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import { formatYAxes } from '@/utils/functions/formatYAxesLine';
 import {
   getMobileMaxHeight,
   getMobileMaxWidth,
   maxWidthSize,
 } from '@/utils/functions/maxWidthSize';
-import { useGroupBy } from '@/hooks/useGroupBy';
-import { formatYAxes } from '@/utils/functions/formatYAxesLine';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import { LanguageKey } from '@/share/InterfaceTypes';
+
+import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 
 function BarGraph() {
   const datas = useSelector((state: RootState) => state.getOptions?.value);
@@ -37,23 +39,25 @@ function BarGraph() {
     isLoading,
   } = useGetOptionsQuery(datas);
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const { styleName: styleNameRoute } = usePageRouter();
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
+    (state: RootState) => state.getDataSetCollection,
   );
   const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
+    (state: RootState) => state.getNodeEdgesAggroutesMapData,
   );
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages,
+  );
   const lang = languageValue as LanguageKey;
 
   const [error, setError] = useState(false);
@@ -62,10 +66,11 @@ function BarGraph() {
   const [barGraphSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
   const [barData, setBarData] = useState<Data[]>([]);
   const [xAxes, setXAxes] = useState<string>(
-    VOYAGE_BARGRAPH_OPTIONS.x_vars[0].label[lang]
+    VOYAGE_BARGRAPH_OPTIONS.x_vars[0].label[lang],
   );
   const [yAxes, setYAxes] = useState<string[]>([
-    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label[lang]
+    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label[lang],
+    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label[lang],
   ]);
   const [chips, setChips] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
@@ -74,10 +79,11 @@ function BarGraph() {
   const [barGraphOptions, setBarOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
     y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
+    agg_fn: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].agg_fn || '',
   });
   const maxWidth = maxWidthSize(width);
+  console.log({ barGraphOptions });
 
-  const [aggregation, setAggregation] = useState<string>('sum');
   const VoyageBargraphOptions = useCallback(() => {
     Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(
       ([key, value]: [string, BargraphXYVar[]]) => {
@@ -87,33 +93,48 @@ function BarGraph() {
         if (key === 'y_vars') {
           setSelectedY(value);
         }
-      }
+      },
     );
   }, []);
   const filters = filtersDataSend(
     filtersObj,
     styleNameRoute!,
     clusterNodeKeyVariable,
-    clusterNodeValue
+    clusterNodeValue,
   );
   const newFilters =
     filters !== undefined &&
     filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
+      const { ...filteredFilter } = filter;
       return filteredFilter;
     });
-  const dataSend: IRootFilterObjectScatterRequest = {
-    groupby_by: barGraphOptions.x_vars,
-    groupby_cols: [...chips],
-    agg_fn: aggregation,
-    cachename: 'voyage_bar_and_donut_charts',
+
+  const dataSend: IRootFilterLineAndBarRequest = {
+    groupby: {
+      by: barGraphOptions.x_vars,
+      agg_series: chips.map((chip) => {
+        // Find the corresponding y_var to get the correct agg_fn
+        const yVar = VOYAGE_BARGRAPH_OPTIONS.y_vars.find(
+          (y) => y.var_name === chip,
+        );
+        return {
+          vals: chip,
+          agg_fn: yVar?.agg_fn || 'sum',
+        };
+      }),
+    },
     filter: newFilters || [],
   };
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue;
   }
+  console.log({ dataSend });
 
-  const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
+  const {
+    data: response,
+    isLoading: loading,
+    isError,
+  } = useFetchLineAndBarcharts(dataSend);
   useEffect(() => {
     VoyageBargraphOptions();
     if (!loading && !isError && response) {
@@ -143,7 +164,6 @@ function BarGraph() {
     options_flat,
     barGraphOptions.x_vars,
     barGraphOptions.y_vars,
-    aggregation,
     varName,
     chips,
     currentPage,
@@ -153,13 +173,6 @@ function BarGraph() {
     lang,
   ]);
 
-  const handleChangeAggregation = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setAggregation(event.target.value);
-    },
-    []
-  );
-
   const handleChangeBarGraphOption = useCallback(
     (event: SelectChangeEvent<string>, name: string) => {
       const value = event.target.value;
@@ -168,7 +181,7 @@ function BarGraph() {
         [name]: value,
       }));
     },
-    []
+    [],
   );
 
   const handleChangeBarGraphChipYSelected = useCallback(
@@ -185,7 +198,7 @@ function BarGraph() {
         [name]: value,
       }));
     },
-    []
+    [],
   );
 
   if (isLoading) {
@@ -211,24 +224,30 @@ function BarGraph() {
         setXAxes={setXAxes}
         setYAxes={setYAxes}
         error={error}
-        aggregation={aggregation}
       />
-      <RadioSelected
-        handleChange={handleChangeAggregation}
-        aggregation={aggregation}
-      />
+
       {loading || yAxes.length === 0 ? (
         <div className="loading-logo-graph">
-          <img src={LOADINGLOGO} />
+          <img src={LOADINGLOGO} alt="loading" />
         </div>
       ) : (
-        <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
+        <Grid
+          style={{
+            maxWidth: maxWidth,
+            border: '1px solid #ccc',
+            marginTop: 18,
+          }}
+        >
           <Plot
             data={barData}
             layout={{
               width: getMobileMaxWidth(maxWidth - 5),
               height: getMobileMaxHeight(height),
-              title: 'Bar Graph',
+              title: {
+                text: 'Bar Graph',
+                x: 0.5,
+                xanchor: 'center',
+              },
               font: {
                 family: 'Arial, sans-serif',
                 size: maxWidth < 400 ? 7 : 10,
