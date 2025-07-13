@@ -7,6 +7,7 @@ import Plot from 'react-plotly.js';
 import { useSelector } from 'react-redux';
 
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
+import NoDataState from '@/components/NoResultComponents/NoDataState';
 import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { useFetchLineAndBarcharts } from '@/hooks/useFetchLineAndBarcharts';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -227,7 +228,7 @@ function BarGraph() {
         <div className="loading-logo-graph">
           <img src={LOADINGLOGO} alt="loading" />
         </div>
-      ) : (
+      ) : yAxes.length > 0 ? (
         <Grid
           style={{
             maxWidth: maxWidth,
@@ -262,10 +263,18 @@ function BarGraph() {
                 },
                 fixedrange: true,
               },
+              showlegend: false,
             }}
-            config={{ responsive: true }}
+            config={{
+              responsive: true,
+              displayModeBar: false,
+            }}
           />
         </Grid>
+      ) : (
+        <div className="no-data-icon">
+          <NoDataState text="" />
+        </div>
       )}
     </div>
   );

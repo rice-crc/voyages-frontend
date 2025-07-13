@@ -257,8 +257,12 @@ function Scatter() {
                 },
                 fixedrange: true,
               },
+              showlegend: false,
             }}
-            config={{ responsive: true }}
+            config={{
+              responsive: true,
+              displayModeBar: false,
+            }}
           />
         </Grid>
       ) : (
