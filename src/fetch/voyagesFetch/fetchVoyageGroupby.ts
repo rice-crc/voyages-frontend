@@ -1,9 +1,11 @@
 import axios from 'axios';
-import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
+
 import { IRootFilterObjectScatterRequest } from '@/share/InterfaceTypes';
 
+import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
+
 export const fetchVoyageGraphGroupby = async (
-  dataSend?: IRootFilterObjectScatterRequest
+  dataSend?: IRootFilterObjectScatterRequest,
 ) => {
   const response = await axios.post(`${BASEURL}/voyage/groupby/`, dataSend, {
     headers: {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect, ChangeEvent, useCallback, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import { Grid, SelectChangeEvent } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
@@ -11,7 +11,7 @@ import '@/style/homepage.scss';
 import NoDataState from '@/components/NoResultComponents/NoDataState';
 import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
-import { useGroupBy } from '@/hooks/useGroupBy';
+import { useFetchPieCharts } from '@/hooks/useFetchPieCharts';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
 import {
@@ -21,14 +21,13 @@ import {
   CurrentPageInitialState,
   PlotPIEX,
   PlotPIEY,
-  IRootFilterObjectScatterRequest,
+  IRootFilterObjectRequest,
   LanguageKey,
 } from '@/share/InterfaceTypes';
 import PIECHART_OPTIONS from '@/utils/flatfiles/voyages/voyages_piechart_options.json';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 
-import { RadioSelected } from '../../SelectorComponents/RadioSelected/RadioSelected';
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 
 function PieGraph() {
@@ -71,8 +70,8 @@ function PieGraph() {
   const [pieGraphOptions, setPieOptions] = useState<VoyagesOptionProps>({
     x_vars: PIECHART_OPTIONS.x_vars[0].var_name || '',
     y_vars: PIECHART_OPTIONS.y_vars[0].var_name || '',
+    agg_fn: PIECHART_OPTIONS.y_vars[0].agg_fn || '',
   });
-  const [aggregation, setAggregation] = useState<string>('sum');
 
   const VoyagepieGraphOptions = () => {
     Object.entries(PIECHART_OPTIONS).forEach(
@@ -99,11 +98,13 @@ function PieGraph() {
       const { ...filteredFilter } = filter;
       return filteredFilter;
     });
-  const dataSend: IRootFilterObjectScatterRequest = {
-    groupby_by: pieGraphOptions.x_vars,
-    groupby_cols: [pieGraphOptions.y_vars],
-    agg_fn: aggregation,
-    cachename: 'voyage_bar_and_donut_charts',
+
+  const dataSend: IRootFilterObjectRequest = {
+    groupby: {
+      by: pieGraphOptions.x_vars,
+      vals: pieGraphOptions.y_vars,
+      agg_fn: pieGraphOptions.agg_fn,
+    },
     filter: newFilters || [],
   };
 
@@ -111,7 +112,11 @@ function PieGraph() {
     dataSend['global_search'] = inputSearchValue;
   }
 
-  const { data: response, isLoading: loading, isError } = useGroupBy(dataSend);
+  const {
+    data: response,
+    isLoading: loading,
+    isError,
+  } = useFetchPieCharts(dataSend);
 
   // Calculate appropriate dimensions for the pie chart
   const getChartDimensions = () => {
@@ -158,7 +163,6 @@ function PieGraph() {
     options_flat,
     pieGraphOptions.x_vars,
     pieGraphOptions.y_vars,
-    aggregation,
     varName,
     currentPage,
     isSuccess,
@@ -171,16 +175,10 @@ function PieGraph() {
       setPieOptions({
         x_vars: PIECHART_OPTIONS.x_vars[0].var_name,
         y_vars: PIECHART_OPTIONS.y_vars[0].var_name,
+        agg_fn: PIECHART_OPTIONS.y_vars[0].agg_fn,
       });
     }
   }, [pieGraphSelectedX, pieGraphSelectedY]);
-
-  const handleChangeAggregation = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setAggregation(event.target.value);
-    },
-    [],
-  );
 
   const handleChangeSingleSelect = useMemo(() => {
     return (event: SelectChangeEvent<string>, name: string) => {
@@ -198,7 +196,6 @@ function PieGraph() {
     height: chartHeight,
     showLegend,
   } = getChartDimensions();
-  console.log({ chartWidth, chartHeight });
 
   return (
     <div className="mobile-responsive">
@@ -213,11 +210,6 @@ function PieGraph() {
         YFieldText={'Values'}
         setXAxes={setXAxes}
         setYAxesPie={setYAxes}
-        aggregation={aggregation}
-      />
-      <RadioSelected
-        handleChange={handleChangeAggregation}
-        aggregation={aggregation}
       />
       {loading ? (
         <div className="loading-logo-display">
@@ -230,6 +222,7 @@ function PieGraph() {
             border: '1px solid #ccc',
             overflow: 'hidden',
             display: 'flex',
+            marginTop: 18,
             justifyContent: 'center',
           }}
         >
@@ -257,7 +250,7 @@ function PieGraph() {
               width: chartWidth,
               height: chartHeight,
               title: {
-                text: `The ${aggregation} of ${xAxes || ''} vs <br>${yAxes || ''} Pie Chart`,
+                text: `The ${xAxes || ''} vs <br>${yAxes || ''} Pie Chart`,
                 x: 0.5,
                 xanchor: 'center',
               },
