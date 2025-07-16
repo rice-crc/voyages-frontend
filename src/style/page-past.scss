@@ -43,6 +43,9 @@
   width: 100vw;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 100vh;
   background-repeat: no-repeat;
   background: linear-gradient(
       rgba(127, 118, 191, 0.85),
@@ -115,10 +118,12 @@
 }
 
 .grid-people-introduction {
-  padding: 20px;
-  text-align: center;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
   align-items: center;
   color: #ffffff;
   font-weight: bold;
@@ -126,9 +131,17 @@
 }
 
 .text-intro-box {
+  max-width: 800px;
   margin: 0 auto;
   padding: 2rem 1rem 0 2rem;
 
+  .text-intro {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #ffffff;
+    padding-bottom: 2rem;
+    text-align: left; 
+  }
   @include breakpoint-standard(6) {
     font-size: 1.15rem;
     padding: 0 1rem 0 1rem;
@@ -166,26 +179,35 @@
 }
 
 .btn-Enslaved-enslavers {
-  margin-top: 20px;
   display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
   justify-content: center;
-  align-items: center;
-  padding: 2rem;
+}
+.credit-bottom-right {
+  align-self: flex-end;
+  color: #d1d1d1;
+  font-size: 0.9rem;
+  margin-top: auto;
+  padding-top: 1rem;
 }
 
 .enslaved-btn {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
   background-color: #ffffff;
   color: black;
   margin-right: 20px;
   padding: 8px;
   font-size: 1.15rem;
-  line-height: 28px;
+  line-height: 16px;
   width: 150px;
   border-radius: 12px;
   cursor: pointer;
 
   &:hover {
-    background-color: rgb(219 214 251);
+    background-color: #f1f1f1;
+    transform: scale(1.05);
   }
 
   @include breakpoint-standard(4) {
@@ -534,38 +556,6 @@
     padding: 1rem;
   }
 
-  // @include breakpoint-standard(4) {
-  //   padding: 5rem;
-  //   width: 100%;
-  // }
-
-  // @include breakpoint-standard(3) {
-  //   padding: 1.5rem;
-  //   width: 100%;
-  //   position: fixed;
-  //   top: 20%;
-  // }
-
-  // @include breakpoint-standard(2) {
-  //   padding: 1.5rem;
-  //   width: 100%;
-  //   position: fixed;
-  //   top: 20%;
-  // }
-
-  // @include breakpoint-standard(1) {
-  //   padding: 1.5rem;
-  //   width: 100%;
-  //   position: fixed;
-  //   top: 20%;
-  // }
-
-  // @include breakpoint-standard(0) {
-  //   padding: 1.5rem;
-  //   width: 100%;
-  //   position: fixed;
-  //   top: 20%;
-  // }
 }
 
 .intro-box {

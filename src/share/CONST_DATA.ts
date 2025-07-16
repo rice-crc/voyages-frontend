@@ -15,9 +15,9 @@ export const ENSLAVED_TEXAS_CARDFILE = 'enslaved_texas_card.json';
 export const ENSLAVERSCARDFILE = 'enslavers_card.json';
 export const ENSLAVERS_TABLE_FILE = 'enslavers_table.json';
 export const pathFlatFile = '@/utils/flatfiles/';
-export const ENSLAVED_TABLE_FILE = 'enslaved_all_table_menu.json';
+export const ENSLAVED_TABLE_FILE = 'enslaved_all_table.json';
 export const AFRICANORIGINS_TABLE_FILE = 'enslaved_african_origins_table.json';
-export const TEXAS_TABLE_FILE = 'enslaved_texas_table_cell_structure.json';
+export const TEXAS_TABLE_FILE = 'enslaved_texas_table.json';
 
 export const VOYAGESPAGE = 'VoyagesPage';
 export const ALLVOYAGES = 'all-voyages';
@@ -112,6 +112,7 @@ export const GlobalSearchVoyagesType = 'voyages';
 export const GlobalSearchEnslavedType = 'enslaved';
 export const GlobalSearchEnslaversType = 'enslavers';
 export const GlobalSearchBlogType = 'blog';
+export const GlobalSearchSourcesType = 'sources';
 
 export const ASSESSMENT = 'assessment';
 export const ESTIMATES = 'estimates';
@@ -160,3 +161,6 @@ export const varNameVesselCapturedOutcomeList =
   'voyage_outcome__vessel_captured_outcome__name';
 export const varNameEnslaverRoleList =
   'aliases__enslaver_relations__roles__name';
+export const varNameGenderName = 'gender__name';
+export const varNameCargoTypeList = 'cargo__cargo__name';
+export const varNameAfricanInfoList = 'african_info__name';

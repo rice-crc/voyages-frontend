@@ -1,7 +1,9 @@
-import { Paper } from '@mui/material';
 import { useRef } from 'react';
-import Draggable from 'react-draggable';
+
+import { Paper } from '@mui/material';
 import { PaperProps } from '@mui/material/Paper';
+import Draggable from 'react-draggable';
+
 import { PaperDraggableStyle, PaperDraggableTimeLapseStyle } from '@/styleMUI';
 
 export function PaperDraggable(props: PaperProps) {

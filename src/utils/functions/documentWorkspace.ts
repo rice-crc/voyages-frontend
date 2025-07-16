@@ -6,12 +6,13 @@ export interface DocumentItemInfo {
   bib?: string;
   revision_number: number;
   thumb: string | null;
+  textSnippet: string;
 }
 
 const UserWorkspaceLocalStorageKey = 'my-workspace';
 
 export const ManifestURLBase =
-  'https://voyages-api-staging.crc.rice.edu/static/iiif_manifests/';
+  import.meta.env.VITE_IIIF_MANIFESTS_BASEURL;
 
 export type DocumentWorkspace = DocumentItemInfo[];
 
@@ -26,7 +27,7 @@ export const getWorkspace = () => {
 
 export const performWorkspaceAction = (
   doc: DocumentItemInfo,
-  element: HTMLElement
+  element: HTMLElement,
 ) => {
   const items = getWorkspace();
   const matchIndex = items.findIndex((info) => info.key === doc.key);

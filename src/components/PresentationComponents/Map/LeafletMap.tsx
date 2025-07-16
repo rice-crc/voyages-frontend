@@ -1,17 +1,26 @@
-import React, { useState, useEffect, useRef, ReactNode } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
 import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
-import { useLocation } from 'react-router-dom';
-import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
+import { fetchEstimatesMap } from '@/fetch/estimateFetch/fetchEstimatesMap';
+import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
 import { fetchVoyagesMap } from '@/fetch/voyagesFetch/fetchVoyagesMap';
-import '@/style/map.scss';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setFilterObject } from '@/redux/getFilterSlice';
 import {
-  AutoCompleteInitialState,
-  CurrentPageInitialState,
-  Filter,
-  MapPropsRequest,
-  FilterObjectsState,
-} from '@/share/InterfaceTypes';
+  setEdgesDataPlace,
+  setEdgesDataRegion,
+  setHasFetchedRegion,
+  setMapData,
+  setNodesDataPlace,
+  setNodesDataRegion,
+  setPathsData,
+} from '@/redux/getNodeEdgesAggroutesMapDataSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import '@/style/map.scss';
 import {
   MAP_CENTER,
   MAXIMUM_ZOOM,
@@ -25,30 +34,24 @@ import {
   REGION,
   broadRegion,
 } from '@/share/CONST_DATA';
-import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
-import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
 import {
-  setEdgesDataPlace,
-  setEdgesDataRegion,
-  setHasFetchedRegion,
-  setMapData,
-  setNodesDataPlace,
-  setNodesDataRegion,
-  setPathsData,
-} from '@/redux/getNodeEdgesAggroutesMapDataSlice';
-import { HandleZoomEvent } from './HandleZoomEvent';
-import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
-import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
-import { usePageRouter } from '@/hooks/usePageRouter';
+  AutoCompleteInitialState,
+  CurrentPageInitialState,
+  Filter,
+  MapPropsRequest,
+  FilterObjectsState,
+} from '@/share/InterfaceTypes';
 import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForVoyages,
   checkPagesRouteMapEstimates,
 } from '@/utils/functions/checkPagesRoute';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { fetchEstimatesMap } from '@/fetch/estimateFetch/fetchEstimatesMap';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { getColorBackgroundHeader } from '@/utils/functions/getColorStyle';
+
+import { HandleZoomEvent } from './HandleZoomEvent';
+import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
+import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
 
 interface LeafletMapProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
@@ -62,7 +65,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const pathNameArr = location.pathname.split('/');
   const pathName = pathNameArr[1];
   const { nodesData } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
+    (state: RootState) => state.getNodeEdgesAggroutesMapData,
   );
 
   const effectOnce = useRef(false);
@@ -76,7 +79,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const hasFetchedPlaceRef = useRef(false);
   const { styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
+    (state: RootState) => state.getDataSetCollection,
   );
 
   const { hasFetchedRegion, clusterNodeKeyVariable, clusterNodeValue } =
@@ -84,16 +87,16 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
   const { rangeSliderMinMax: rang, varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
   const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
   const { autoCompleteValue, autoLabelName } = useSelector(
-    (state: RootState) => state.autoCompleteList as AutoCompleteInitialState
+    (state: RootState) => state.autoCompleteList as AutoCompleteInitialState,
   );
   useEffect(() => {
     const storedValue = localStorage.getItem('filterObject');
@@ -125,10 +128,10 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     const savedNodesDataRegion = localStorage.getItem('nodesDataregion');
     const saveEdgesDataRegion = localStorage.getItem('edgesDataregion');
     const savedNodesDataBroadRegion = localStorage.getItem(
-      'nodesDatabroad_region'
+      'nodesDatabroad_region',
     );
     const saveEdgesDataBroadRegion = localStorage.getItem(
-      'edgesDatabroad_region'
+      'edgesDatabroad_region',
     );
     const savedNodesDataPlace = localStorage.getItem('nodesDataplace');
     const saveEdgesDataPlace = localStorage.getItem('edgesDataplace');
@@ -170,7 +173,10 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
           dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion!)));
           dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion!)));
           setLoading(false);
-        } else if (currentBlockName !== 'tables' || 'timeline') {
+        } else if (
+          currentBlockName !== 'tables' &&
+          currentBlockName !== 'timeline'
+        ) {
           fetchData(regionPlace);
         }
       } else if (zoomLevel < ZOOM_LEVEL_THRESHOLD) {
@@ -185,12 +191,12 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     filtersObj,
     styleNamePage!,
     clusterNodeKeyVariable,
-    clusterNodeValue
+    clusterNodeValue,
   );
   const newFilters =
     filters !== undefined &&
     filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
+      const { ...filteredFilter } = filter;
       return filteredFilter;
     });
   const dataSend: MapPropsRequest = {
@@ -244,6 +250,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     clusterNodeKeyVariable,
     clusterNodeValue,
     filtersObj,
+    currentBlockName,
   ]);
 
   const handleDataResponse = (response: any, regionOrPlace: string) => {
@@ -256,11 +263,11 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         dispatch(setEdgesDataRegion(edges));
         localStorage.setItem(
           `nodesData${regionOrPlace}`,
-          JSON.stringify(nodes)
+          JSON.stringify(nodes),
         );
         localStorage.setItem(
           `edgesData${regionOrPlace}`,
-          JSON.stringify(edges)
+          JSON.stringify(edges),
         );
       } else if (regionOrPlace === REGION) {
         setLoading(false);
@@ -268,20 +275,20 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         dispatch(setEdgesDataRegion(edges));
         localStorage.setItem(
           `nodesData${regionOrPlace}`,
-          JSON.stringify(nodes)
+          JSON.stringify(nodes),
         );
         localStorage.setItem(
           `edgesData${regionOrPlace}`,
-          JSON.stringify(edges)
+          JSON.stringify(edges),
         );
       } else if (regionOrPlace === PLACE && varName === '') {
         localStorage.setItem(
           `nodesData${regionOrPlace}`,
-          JSON.stringify(nodes)
+          JSON.stringify(nodes),
         );
         localStorage.setItem(
           `edgesData${regionOrPlace}`,
-          JSON.stringify(edges)
+          JSON.stringify(edges),
         );
         if (varName || clusterNodeKeyVariable || clusterNodeValue) {
           dispatch(setNodesDataPlace(nodes));
@@ -303,7 +310,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     <div style={{ backgroundColor: getColorBackgroundHeader(styleNamePage!) }}>
       {loading || nodesData?.length === 0 ? (
         <div className="loading-logo">
-          <img src={LOADINGLOGO} />
+          <img src={LOADINGLOGO} alt="loading" />
         </div>
       ) : (
         <>

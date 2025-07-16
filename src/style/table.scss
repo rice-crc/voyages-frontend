@@ -171,7 +171,7 @@
   height: 32px;
 
   th {
-    color: var(--header-color-summary, #007269);
+    color: var(--header-color-summary, rgb(2 83 204));
     border-bottom: 2px solid #dee2e6;
     padding: 0 5px 0 5px;
     text-align: center;
@@ -180,7 +180,7 @@
 }
 
 .summary-table>div>table>tbody>tr>th {
-  color: var(--header-color-summary, #007269);
+  color: var(--header-color-summary, rgb(2 83 204));
   border-bottom: 2px solid #dee2e6;
   padding: 0 5px 0 5px;
   text-align: center;
@@ -246,6 +246,8 @@ div .customHeaderLabelSummaryTable {
   cursor: pointer;
   font-size: 10px;
   color: #979595;
+  border: none;
+  background: transparent;
 }
 
 .customSortUpLabel {
@@ -254,6 +256,9 @@ div .customHeaderLabelSummaryTable {
   cursor: pointer;
   font-size: 10px;
   color: #979595;
+  border: none;
+  background: transparent;
+  padding: 2px;
 }
 
 .customSortRemoveLabel {
@@ -408,6 +413,7 @@ div .customHeaderLabelSummaryTable {
 
   label {
     font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.6) !important;
   }
 
   @include breakpoint-standard(0) {
@@ -568,14 +574,11 @@ div .customHeaderLabelSummaryTable {
     border-radius: 4px;
     padding: 4px;
     color: #fff;
-    // background-color: #17a2b8;
-    // border-color: #17a2b8;
     background-color: rgb(25, 118, 210);
     border-color: rgb(25, 118, 210);
     cursor: pointer;
-    // box-shadow: #17a2b8 1px 2px 6px;
     box-shadow: rgb(25, 118, 210) 1px 2px 6px;
-    height: 26px;
+    height: 32px;
     width: 140px;
 
     @include breakpoint-standard(0) {
@@ -921,4 +924,31 @@ div .customHeaderLabelSummaryTable {
 .ag-cell-wrap-text {
   white-space: normal;
   word-break: break-word;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

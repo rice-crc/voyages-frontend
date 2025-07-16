@@ -1,5 +1,6 @@
-import { Filter } from '@/share/InterfaceTypes';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
+import { Filter } from '@/share/InterfaceTypes';
 interface FilterState {
   isFilter: boolean;
   filtersObj: Filter[];
@@ -28,7 +29,7 @@ export const getFilterSlice = createSlice({
     setType: (state, action: PayloadAction<string>) => {
       state.type = action.payload;
     },
-    resetSlice: (state) => initialState,
+    resetSlice: () => initialState,
   },
 });
 

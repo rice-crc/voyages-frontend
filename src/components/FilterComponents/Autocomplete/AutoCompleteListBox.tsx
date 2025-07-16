@@ -4,9 +4,19 @@ import React, {
   useRef,
   UIEventHandler,
   SyntheticEvent,
-  useCallback,
 } from 'react';
+
+import { CheckBoxOutlineBlankOutlined, Check } from '@mui/icons-material';
+import { Autocomplete, Checkbox, Typography, TextField } from '@mui/material';
 import { AutocompleteRenderOptionState } from '@mui/material/Autocomplete';
+import debounce from 'lodash.debounce';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useAutoComplete } from '@/hooks/useAutoComplete';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setAutoLabel } from '@/redux/getAutoCompleteSlice';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   AutoCompleteOption,
   DataSuggestedValuesProps,
@@ -14,22 +24,13 @@ import {
   IRootFilterObject,
   FilterObjectsState,
 } from '@/share/InterfaceTypes';
-import {CheckBoxOutlineBlankOutlined,Check} from '@mui/icons-material';
-import { Autocomplete, Checkbox, Typography, TextField } from '@mui/material';
-import { useAutoComplete } from '@/hooks/useAutoComplete';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import debounce from 'lodash.debounce';
-import { setAutoLabel } from '@/redux/getAutoCompleteSlice';
 
 export default function AutoCompleteListBox() {
   const [position, setPosition] = useState<number>(0);
   const listboxNodeRef = useRef<HTMLUListElement | null>(null); // Update type to HTMLUListElement
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const { styleName } = usePageRouter();
   const limit = 20;
@@ -46,7 +47,7 @@ export default function AutoCompleteListBox() {
   const newFilters =
     filters !== undefined &&
     filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
+      const { ...filteredFilter } = filter;
       return filteredFilter;
     });
   const dataSend: IRootFilterObject = {
@@ -63,7 +64,7 @@ export default function AutoCompleteListBox() {
     if (!isLoading && !isError && data) {
       const { suggested_values } = data as DataSuggestedValuesProps;
       const newAutoList: AutoCompleteOption[] = suggested_values.map(
-        (value: AutoCompleteOption) => value
+        (value: AutoCompleteOption) => value,
       );
       const items = paginate(newAutoList, limit, 1);
       setAutoList((prevAutoList) => {
@@ -110,7 +111,7 @@ export default function AutoCompleteListBox() {
 
     setSelectedValue(() => values);
     dispatch(setFilterObject(filter));
-  }, [varName, styleName]);
+  }, [dispatch, varName, styleName]);
 
   const loadMoreResults = () => {
     if (!isLoading && !isError && data) {
@@ -120,7 +121,7 @@ export default function AutoCompleteListBox() {
       setOffset(newOffset);
       const { suggested_values } = data as DataSuggestedValuesProps;
       const newAutoList: AutoCompleteOption[] = suggested_values.map(
-        (value: AutoCompleteOption) => value
+        (value: AutoCompleteOption) => value,
       );
       const items = paginate(newAutoList, limit, nextPage);
       setAutoList((prevAutoList) => [...prevAutoList, ...items]);
@@ -145,11 +146,11 @@ export default function AutoCompleteListBox() {
         setOffset((prev) => prev - offset);
       }
     },
-    100
+    100,
   );
   const handleAutoCompletedChange = (
     event: SyntheticEvent<Element, Event>,
-    newValue: AutoCompleteOption[]
+    newValue: AutoCompleteOption[],
   ) => {
     if (!newValue) return;
 
@@ -168,7 +169,7 @@ export default function AutoCompleteListBox() {
     }
 
     const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === varName
+      (filter) => filter.varName === varName,
     );
 
     // Type guard to check if autuLabels is an array before accessing its length property
@@ -202,7 +203,7 @@ export default function AutoCompleteListBox() {
   const optionRenderer = (
     props: React.HTMLAttributes<HTMLLIElement>,
     option: AutoCompleteOption,
-    { selected }: AutocompleteRenderOptionState
+    { selected }: AutocompleteRenderOptionState,
   ) => {
     return (
       <li {...props} key={`${option.value}`}>
@@ -220,7 +221,7 @@ export default function AutoCompleteListBox() {
   const getOptionLabel = (option: AutoCompleteOption) => {
     const textContent = new DOMParser().parseFromString(
       option.value ?? '',
-      'text/html'
+      'text/html',
     ).body.textContent;
     return textContent ?? '';
   };

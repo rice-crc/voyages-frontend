@@ -1,10 +1,12 @@
+import { FunctionComponent, useEffect, useState } from 'react';
+
+import { Button } from 'antd';
+import { useSelector } from 'react-redux';
+
 import { RootState } from '@/redux/store';
 import { CheckboxValueType } from '@/share/InterfaceTypes';
 import '@/style/estimates.scss';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
-import { Button } from 'antd';
-import { FunctionComponent, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 interface ShowAllSelectedProps {
   setViewAll: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,16 +14,15 @@ interface ShowAllSelectedProps {
 }
 const ShowAllSelected: FunctionComponent<ShowAllSelectedProps> = ({
   setViewAll,
-  ariaExpanded,
 }) => {
   const { checkedListEmbarkation, checkedListDisEmbarkation, selectedFlags } =
     useSelector((state: RootState) => state.getEstimateAssessment);
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const [flagNation, setFlagNation] = useState<CheckboxValueType[]>([]);
   const [embarkationShow, setEmbarkationShow] = useState<CheckboxValueType[]>(
-    []
+    [],
   );
   const [disembarkationShow, setDisEmbarkationShow] = useState<
     CheckboxValueType[]
@@ -50,7 +51,7 @@ const ShowAllSelected: FunctionComponent<ShowAllSelectedProps> = ({
   const translatedEstimates = translationLanguagesEstimatePage(languageValue);
 
   return (
-    <div id="panelCollapse" className="panel-list" v-if="hasCurrentQuery">
+    <div id="panelCollapse" className="panel-list">
       <div className="panel-list-item-wrapper">
         <div className="row-selected">
           <h4 className="col-selected">

@@ -42,10 +42,10 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           fontSize: '0.95rem',
-          '&$focused': {
+          '&.Mui-focused': {
             color: '#ffffff',
           },
-          '.MuiFormControl-root:hover &:not($focused)': {
+          '.MuiFormControl-root:hover &': {
             color: 'red',
           },
         },

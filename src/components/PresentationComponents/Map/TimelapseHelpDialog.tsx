@@ -1,11 +1,15 @@
 import React from 'react';
+
+import { Close } from '@mui/icons-material';
 import { Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
-import {Close} from '@mui/icons-material';
+import { useSelector } from 'react-redux';
+
 import { PaperDraggableTimeLapse } from '@/components/SelectorComponents/Cascading/PaperDraggable';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { RootState } from '@/redux/store';
 import { PaperDraggableTimeLapseStyle, StyleDialog } from '@/styleMUI';
 import '@/style/timelapse.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { getColorBackgroundHeader } from '@/utils/functions/getColorStyle';
 import { translationLanguagesTimelapse } from '@/utils/functions/translationLanguages';
 
 interface TimelapseHelpDialogProps {
@@ -18,8 +22,9 @@ const TimelapseHelpDialog = ({
   onClose,
 }: TimelapseHelpDialogProps): React.ReactElement => {
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
+  const { styleName: styleNamePage } = usePageRouter();
   const translatedTimelapse = translationLanguagesTimelapse(languageValue);
 
   return (
@@ -28,8 +33,8 @@ const TimelapseHelpDialog = ({
         onClick={(e) => e.stopPropagation()}
         slotProps={{
           backdrop: {
-            onClick: (e) => e.stopPropagation()
-          }
+            onClick: (e) => e.stopPropagation(),
+          },
         }}
         open={open}
         onClose={onClose}
@@ -42,7 +47,14 @@ const TimelapseHelpDialog = ({
         PaperComponent={PaperDraggableTimeLapse}
         aria-labelledby="draggable-dialog-title-timelapse"
       >
-        <DialogTitle sx={{ cursor: 'move' }}>
+        <DialogTitle
+          style={{
+            cursor: 'move',
+            padding: '10px 24px 0 24px',
+            color: '#fff',
+            backgroundColor: getColorBackgroundHeader(styleNamePage!),
+          }}
+        >
           <h2 className="header-timelapse">{translatedTimelapse.header}</h2>
           <IconButton
             edge="end"
@@ -57,7 +69,7 @@ const TimelapseHelpDialog = ({
             <Close />
           </IconButton>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent style={{ padding: '0 24px' }}>
           <div>
             <p className="detail-timelapse">{translatedTimelapse.details}</p>
             <h3 className="title-voyages"> {translatedTimelapse.voyageSize}</h3>

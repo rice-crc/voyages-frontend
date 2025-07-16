@@ -1,7 +1,9 @@
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
+
 import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
+
 import { MenuListDropdownStyle } from '@/styleMUI';
+
 import {
   Menu,
   Typography,
@@ -11,15 +13,37 @@ import {
   Hidden,
   Divider,
 } from '@mui/material';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useNavigate } from 'react-router-dom';
+import Toolbar from '@mui/material/Toolbar';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
+import { DrawerMenuBar } from '@/components/NavigationComponents/Header/DrawerMenuBar';
+import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
+import '@/style/Nav.scss';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
+import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
+
+import '@/style/homepage.scss';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
+import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
+import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
+import { setFilterObject } from '@/redux/getFilterSlice';
 import {
-  getColorBTNBackgroundEnslaved,
-  getColorBTNHoverEnslavedBackground,
-  getColorBoxShadow,
-  getColorNavbarEnslavedBackground,
-} from '@/utils/functions/getColorStyle';
+  setBaseFilterPeopleEnslavedDataSetValue,
+  setDataSetPeopleEnslavedHeader,
+  setPeopleEnslavedBlocksMenuList,
+  setPeopleEnslavedFilterMenuFlatfile,
+  setPeopleEnslavedStyleName,
+  setPeopleEnslavedTextIntro,
+  setPeopleTableEnslavedFlatfile,
+} from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   AFRICANORIGINS,
   AFRICANORIGINSPAGE,
@@ -32,55 +56,37 @@ import {
   AfricanOriginsTransAtlantic,
   TEXBOUND,
 } from '@/share/CONST_DATA';
+import { Filter } from '@/share/InterfaceTypes';
 import {
   BaseFilter,
   BlockCollectionProps,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
-import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
 import {
-  setBaseFilterPeopleEnslavedDataSetValue,
-  setDataSetPeopleEnslavedHeader,
-  setPeopleEnslavedBlocksMenuList,
-  setPeopleEnslavedFilterMenuFlatfile,
-  setPeopleEnslavedStyleName,
-  setPeopleEnslavedTextIntro,
-  setPeopleTableEnslavedFlatfile,
-} from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
-import { DrawerMenuBar } from '@/components/NavigationComponents/Header/DrawerMenuBar';
-import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
-import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
-import '@/style/Nav.scss';
-import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
-import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
-import '@/style/homepage.scss';
-import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
+  getColorBTNBackgroundEnslaved,
+  getColorBTNHoverEnslavedBackground,
+  getColorBoxShadow,
+  getColorNavbarEnslavedBackground,
+} from '@/utils/functions/getColorStyle';
+
 import HeaderLogo from './HeaderLogo';
-import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
-import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { Filter } from '@/share/InterfaceTypes';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
-import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 
 const HeaderEnslavedNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { styleName: styleNameRoute } = usePageRouter();
   const { currentPageBlockName } = useSelector(
-    (state: RootState) => state.getScrollEnslavedPage
+    (state: RootState) => state.getScrollEnslavedPage,
   );
 
   const { value, textHeader } = useSelector(
-    (state: RootState) => state.getPeopleEnlavedDataSetCollection
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection,
   );
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -103,55 +109,61 @@ const HeaderEnslavedNavBar: React.FC = () => {
     }
   }, [styleNameRoute]);
 
-  const handleSelectEnslavedDataset = useCallback((
-    baseFilter: BaseFilter[],
-    textHeder: string,
-    textIntro: string,
-    styleName: string,
-    blocks: BlockCollectionProps[],
-    filterMenuFlatfile?: string,
-    tableFlatfile?: string,
-    cardFlatfile?: string
-  ) => {
-    dispatch(resetAll());
-    const filters: Filter[] = [];
-    for (const base of baseFilter) {
-      filters.push({
-        varName: base.var_name,
-        searchTerm: base.value,
-        op: 'in',
-      });
-    }
-    const filteredFilters = filters.filter(
-      (filter) => !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
-    );
-    dispatch(setBaseFilterPeopleEnslavedDataSetValue(baseFilter))
-    dispatch(setFilterObject(filteredFilters));
-    dispatch(setDataSetPeopleEnslavedHeader(textHeder));
-    dispatch(setPeopleEnslavedTextIntro(textIntro));
-    dispatch(setPeopleEnslavedStyleName(styleName));
-    dispatch(setPeopleEnslavedBlocksMenuList(blocks));
-    dispatch(setPeopleEnslavedFilterMenuFlatfile(filterMenuFlatfile || ''));
-    dispatch(setPeopleTableEnslavedFlatfile(tableFlatfile || ''));
-    dispatch(setCardFileName(cardFlatfile || ''));
-    
-    // Always update localStorage with current filters, even if empty
-    localStorage.setItem('filterObject', JSON.stringify({ filter: filteredFilters }));
-
-    if (styleName === ALLENSLAVED && currentPageBlockName === 'people') {
-      navigate(`/past/enslaved/all-enslaved#people`);
-    } else if (styleNameToPathMap[styleName]) {
-      navigate(styleNameToPathMap[styleName]);
-    }
-
-    const keysToRemove = Object.keys(localStorage);
-    keysToRemove.forEach((key) => {
-      if (key !== 'filterObject') {
-        localStorage.removeItem(key);
+  const handleSelectEnslavedDataset = useCallback(
+    (
+      baseFilter: BaseFilter[],
+      textHeder: string,
+      textIntro: string,
+      styleName: string,
+      blocks: BlockCollectionProps[],
+      filterMenuFlatfile?: string,
+      tableFlatfile?: string,
+      cardFlatfile?: string,
+    ) => {
+      dispatch(resetAll());
+      const filters: Filter[] = [];
+      for (const base of baseFilter) {
+        filters.push({
+          varName: base.var_name,
+          searchTerm: base.value,
+          op: 'in',
+        });
       }
-    });
-  }, [value, currentPageBlockName, navigate, dispatch]);
+      const filteredFilters = filters.filter(
+        (filter) =>
+          !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0,
+      );
+      dispatch(setBaseFilterPeopleEnslavedDataSetValue(baseFilter));
+      dispatch(setFilterObject(filteredFilters));
+      dispatch(setDataSetPeopleEnslavedHeader(textHeder));
+      dispatch(setPeopleEnslavedTextIntro(textIntro));
+      dispatch(setPeopleEnslavedStyleName(styleName));
+      dispatch(setPeopleEnslavedBlocksMenuList(blocks));
+      dispatch(setPeopleEnslavedFilterMenuFlatfile(filterMenuFlatfile || ''));
+      dispatch(setPeopleTableEnslavedFlatfile(tableFlatfile || ''));
+      dispatch(setCardFileName(cardFlatfile || ''));
 
+      // Always update localStorage with current filters, even if empty
+      localStorage.setItem(
+        'filterObject',
+        JSON.stringify({ filter: filteredFilters }),
+      );
+
+      if (styleName === ALLENSLAVED && currentPageBlockName === 'people') {
+        navigate(`/past/enslaved/all-enslaved#people`);
+      } else if (styleNameToPathMap[styleName]) {
+        navigate(styleNameToPathMap[styleName]);
+      }
+
+      const keysToRemove = Object.keys(localStorage);
+      keysToRemove.forEach((key) => {
+        if (key !== 'filterObject') {
+          localStorage.removeItem(key);
+        }
+      });
+    },
+    [value, currentPageBlockName, navigate, dispatch],
+  );
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);

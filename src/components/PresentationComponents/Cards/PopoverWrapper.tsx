@@ -1,5 +1,5 @@
-import Popover from '@mui/material/Popover/Popover';
-import { ReactNode, useState } from 'react';
+import Tooltip from '@mui/material/Tooltip';
+import { ReactNode } from 'react';
 
 interface PopoverWrapperProps {
   children: ReactNode;
@@ -12,31 +12,38 @@ const PopoverWrapper = ({
   popoverContents,
   padding,
 }: PopoverWrapperProps) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
-  const onClose = () => setAnchorEl(null);
   return (
-    <div>
-      <div
-        onMouseEnter={(e) => setAnchorEl(e.currentTarget)}
-        onMouseOut={onClose}
-      >
-        {children}
-      </div>
-      <Popover
-        open={anchorEl !== null}
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        style={{ pointerEvents: 'none' }}
-        onClose={onClose}
-        disableAutoFocus
-        disableRestoreFocus
-      >
-        <div style={{ padding: padding ?? 0 }}>{popoverContents}</div>
-      </Popover>
-    </div>
+    <Tooltip
+      title={
+        <div style={{ padding: padding ?? 2, whiteSpace: 'pre-line', maxWidth: 1000 }}>
+          {popoverContents}
+        </div>
+      }
+      placement="top"
+      arrow
+      enterDelay={200}
+      leaveDelay={200}
+      componentsProps={{
+        tooltip: {
+          sx: {
+            bgcolor: '#fff',
+            color: '#000',
+            boxShadow: '1px 2px 8px rgba(0, 0, 0, 0.6)',
+            fontSize: '0.85rem',
+            maxWidth: 800,
+            py: 0,
+            px: 2,
+          },
+        },
+        arrow: {
+          sx: {
+            color: '#fff',
+          },
+        },
+      }}
+    >
+      <span style={{ display: 'inline-block' }}>{children}</span>
+    </Tooltip>
   );
 };
 

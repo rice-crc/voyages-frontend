@@ -1,3 +1,5 @@
+import { FunctionComponent, ReactNode } from 'react';
+
 import {
   Box,
   FormControl,
@@ -8,11 +10,15 @@ import {
   Chip,
   OutlinedInput,
 } from '@mui/material';
-import { FunctionComponent, ReactNode } from 'react';
-import { PlotXYVar, VoyagesOptionProps, LanguageKey } from '@/share/InterfaceTypes';
-import { getBoderColor } from '@/utils/functions/getColorStyle';
 import { useSelector } from 'react-redux';
+
 import { RootState } from '@/redux/store';
+import {
+  PlotXYVar,
+  VoyagesOptionProps,
+  LanguageKey,
+} from '@/share/InterfaceTypes';
+import { getBoderColor } from '@/utils/functions/getColorStyle';
 
 interface SelectDropdownProps {
   selectedX: PlotXYVar[];
@@ -22,9 +28,8 @@ interface SelectDropdownProps {
   handleChange: (event: SelectChangeEvent<string>, name: string) => void;
   handleChangeMultipleYSelected?: (
     event: SelectChangeEvent<string[]>,
-    name: string
+    name: string,
   ) => void;
-  aggregation: string;
   maxWidth?: number;
   XFieldText?: string;
   YFieldText?: string;
@@ -46,7 +51,6 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   handleChangeMultipleYSelected,
   maxWidth,
   XFieldText,
-  aggregation,
   YFieldText,
   setXAxes,
   setYAxes,
@@ -64,9 +68,11 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
     },
   };
   const { styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
+    (state: RootState) => state.getDataSetCollection,
   );
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages,
+  );
   const lang = languageValue as LanguageKey;
 
   const isDisabledX = (option: PlotXYVar) => {
@@ -108,9 +114,11 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, 'x_vars');
               const selectedOption = selectedX.find(
-                (option) => option.var_name === event.target.value
+                (option) => option.var_name === event.target.value,
               );
-              setXAxes && setXAxes(selectedOption ? selectedOption.label[lang] : '');
+              // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+              setXAxes &&
+                setXAxes(selectedOption ? selectedOption.label[lang] : '');
             }}
             name="x_vars"
           >
@@ -152,8 +160,11 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                 if (handleChangeMultipleYSelected) {
                   handleChangeMultipleYSelected(event, 'y_vars');
                   const selectedYOptions = selectedY
-                    .filter((option) => event.target.value.includes(option.var_name))
+                    .filter((option) =>
+                      event.target.value.includes(option.var_name),
+                    )
                     .map((option) => option.label[lang]);
+                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                   setYAxes && setYAxes(selectedYOptions);
                 }
               }}
@@ -171,7 +182,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                 >
                   {value.map((option: string, index: number) => {
                     const selectedOption = selectedY.find(
-                      (item) => item.var_name === option
+                      (item) => item.var_name === option,
                     );
                     return (
                       <Chip
@@ -189,21 +200,15 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               )}
             >
               {selectedY.map((option: PlotXYVar, index: number) => {
-                const label = displayYLabel(
-                  aggregation!,
-                  option.agg_fns!,
-                  option.label[lang]
-                );
+                const label = option.label[lang];
                 return (
-                  label !== null && (
-                    <MenuItem
-                      key={`${option.label[lang]}-${index}`}
-                      value={option.var_name}
-                      disabled={isDisabledY(option)}
-                    >
-                      {label}
-                    </MenuItem>
-                  )
+                  <MenuItem
+                    key={`${option.label[lang]}-${index}`}
+                    value={option.var_name}
+                    disabled={isDisabledY(option)}
+                  >
+                    {label}
+                  </MenuItem>
                 );
               })}
             </Select>
@@ -237,8 +242,9 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
             onChange={(event: SelectChangeEvent<string>) => {
               handleChange(event, 'y_vars');
               const selectYoption = selectedY.find(
-                (option) => option.var_name === event.target.value
+                (option) => option.var_name === event.target.value,
               );
+              // eslint-disable-next-line @typescript-eslint/no-unused-expressions
               setYAxesPie &&
                 setYAxesPie(selectYoption ? selectYoption.label[lang] : '');
             }}
@@ -256,32 +262,11 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
           </Select>
           {chips?.length === 0 && error && (
             <Box sx={{ maxWidth, my: 2, color: 'red', fontSize: '0.75rem' }}>
-              Value can't be empty
+              Value can not be empty
             </Box>
           )}
         </FormControl>
       )}
     </>
   );
-};
-
-// Create label Y depending on sum or mean to display
-const displayYLabel = (
-  aggregation: string,
-  agg_fns: string[],
-  label: string
-): string | null => {
-  let yLabel = null;
-  if (
-    aggregation === 'sum' &&
-    agg_fns!.includes('sum') &&
-    agg_fns!.includes('mean')
-  ) {
-    yLabel = label;
-  } else if (aggregation === 'sum' && agg_fns!.includes('sum')) {
-    yLabel = label;
-  } else if (aggregation === 'mean' && agg_fns!.includes('mean')) {
-    yLabel = label;
-  }
-  return yLabel;
 };

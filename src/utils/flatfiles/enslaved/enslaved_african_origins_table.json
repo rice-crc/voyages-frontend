@@ -2,11 +2,11 @@
   "cell_structure": [
     {
       "header_label": {
-        "en": "Documented Name",
-        "es": "Documented Name ES",
-        "pt": "Documented Name PT"
+        "en": "Documented name",
+        "es": "Documented name ES",
+        "pt": "Documented name PT"
       },
-      "cell_type": "literal-concat",
+      "cell_type": "literal",
       "visible": true,
       "number_format": null,
       "order_by": ["documented_name"],
@@ -18,17 +18,16 @@
             "var_name": "documented_name",
             "cell_fn": "literal"
           }
-        ],
-        "join": " / "
+        ]
       }
     },
     {
       "header_label": {
-        "en": "Modern Name",
-        "es": "Modern Name ES",
-        "pt": "Modern Name PT"
+        "en": "Modern name",
+        "es": "Modern name ES",
+        "pt": "Modern name PT"
       },
-      "cell_type": "literal-concat",
+      "cell_type": "literal",
       "visible": true,
       "number_format": null,
       "order_by": ["modern_name"],
@@ -38,28 +37,6 @@
         "fields": [
           {
             "var_name": "modern_name",
-            "cell_fn": "literal"
-          }
-        ],
-        "join": " / "
-      }
-    },
-    {
-      "header_label": {
-        "en": "Cultural Association",
-        "es": "Cultural Association ES",
-        "pt": "Cultural Association PT"
-      },
-      "cell_type": "literal",
-      "visible": true,
-      "number_format": null,
-      "order_by": ["language_group__name"],
-      "col_width_px": 151,
-      "colID": "language_group__name",
-      "cell_val": {
-        "fields": [
-          {
-            "var_name": "language_group__name",
             "cell_fn": "literal"
           }
         ]
@@ -139,11 +116,11 @@
       "number_format": "comma",
       "order_by": ["voyages__voyage_id"],
       "col_width_px": 100,
-      "colID": "voyages__voyage_id",
+      "colID": "voyages__id",
       "cell_val": {
         "fields": [
           {
-            "var_name": "voyages__voyage_id",
+            "var_name": "voyages__id",
             "cell_fn": "literal"
           }
         ]
@@ -151,9 +128,9 @@
     },
     {
       "header_label": {
-        "en": "Ship Name",
-        "es": "Ship Name ES",
-        "pt": "Ship Name PT"
+        "en": "Ship name",
+        "es": "Ship name ES",
+        "pt": "Ship name PT"
       },
       "cell_type": "literal",
       "visible": true,
@@ -164,7 +141,28 @@
       "cell_val": {
         "fields": [
           {
-            "var_name": "voyages__voyage_ship__ship_name",
+            "var_name": "voyages__ship_name",
+            "cell_fn": "literal"
+          }
+        ]
+      }
+    },
+    {
+      "header_label": {
+        "en": "Voyage outcome",
+        "es": "Voyage outcome ES",
+        "pt": "Voyage outcome PT"
+      },
+      "cell_type": "literal",
+      "visible": true,
+      "number_format": null,
+      "order_by": ["voyages__voyage_outcome__particular_outcome__name"],
+      "col_width_px": 140,
+      "colID": "particular_outcome",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "voyages__outcomes__particular_outcome",
             "cell_fn": "literal"
           }
         ]
@@ -198,7 +196,7 @@
         "es": "Enslavers ES",
         "pt": "Enslavers PT"
       },
-      "cell_type": "literal-concat",
+      "cell_type": "literal",
       "visible": true,
       "number_format": null,
       "order_by": [
@@ -209,21 +207,16 @@
       "cell_val": {
         "fields": [
           {
-            "var_name": "enslavers__enslaver__principal_alias",
-            "cell_fn": "literal"
-          },
-          {
-            "var_name": "enslavers__roles",
+            "var_name": "enslavers__name_and_role",
             "cell_fn": "literal"
           }
-        ],
-        "join": " : "
+        ]
       }
     },
     {
       "header_label": {
-        "en": "Embarkation Region",
-        "es": "Embarkation Region ES",
+        "en": "Embarkation region",
+        "es": "Embarkation region ES",
         "pt": "Embarkation region PT"
       },
       "cell_type": "literal",
@@ -237,17 +230,17 @@
       "cell_val": {
         "fields": [
           {
-            "var_name": "voyages__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
+            "var_name": "voyages__embarkation",
             "cell_fn": "literal"
           }
         ]
       }
     },
-    {
+ 	{
       "header_label": {
-        "en": "Disembarkation Port",
-        "es": "Disembarkation Port ES",
-        "pt": "Disembarkation Port PT"
+        "en": "Disembarkation port",
+        "es": "Disembarkation port ES",
+        "pt": "Disembarkation port PT"
       },
       "cell_type": "literal",
       "visible": true,
@@ -260,7 +253,7 @@
       "cell_val": {
         "fields": [
           {
-            "var_name": "voyages__voyage_itinerary__imp_principal_port_slave_dis__name",
+            "var_name": "voyages__disembarkation",
             "cell_fn": "literal"
           }
         ]
@@ -268,11 +261,11 @@
     },
     {
       "header_label": {
-        "en": "Date of Arrival",
-        "es": "Date of Arrival ES",
-        "pt": "Date of Arrival PT"
+        "en": "Date of arrival",
+        "es": "Date of arrival ES",
+        "pt": "Date of arrival PT"
       },
-      "cell_type": "literal-concat",
+      "cell_type": "literal",
       "visible": true,
       "number_format": null,
       "order_by": [
@@ -285,26 +278,25 @@
       "cell_val": {
         "fields": [
           {
-            "var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+            "var_name": "voyages__year",
             "cell_fn": "literal"
           },
           {
-            "var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
+            "var_name": "voyages__month",
             "cell_fn": "literal"
           },
           {
-            "var_name": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
+            "var_name": "voyages__day",
             "cell_fn": "literal"
           }
-        ],
-        "join": ","
+        ]
       }
     },
     {
       "header_label": {
-        "en": "Captive Fate",
-        "es": "Captive Fate ES",
-        "pt": "Captive Fate PT"
+        "en": "Captive fate",
+        "es": "Captive fate ES",
+        "pt": "Captive fate PT"
       },
       "cell_type": "literal",
       "visible": true,
@@ -323,9 +315,9 @@
     },
     {
       "header_label": {
-        "en": "Post-Disembarkation Location",
-        "es": "Post-Disembarkation Location ES",
-        "pt": "Post-Disembarkation Location PT"
+        "en": "Post-Disembarkation location",
+        "es": "Post-Disembarkation location ES",
+        "pt": "Post-Disembarkation location PT"
       },
       "cell_type": "literal",
       "visible": true,
@@ -395,15 +387,6 @@
   "column_selector_tree": [
     {
       "label": {
-        "en": "Cultural Association",
-        "es": "Cultural Association ES",
-        "pt": "Cultural Association PT"
-      },
-      "col_width_px": 151,
-      "colID": "language_group__name"
-    },
-    {
-      "label": {
         "en": "Names",
         "es": "Names ES",
         "pt": "Names PT"
@@ -413,27 +396,27 @@
           "col_width_px": 100,
           "colID": "documented_name",
           "label": {
-            "en": "Documented Name",
-            "es": "Documented Name ES",
-            "pt": "Documented Name PT"
+            "en": "Documented name",
+            "es": "Documented name ES",
+            "pt": "Documented name PT"
           }
         },
         {
           "col_width_px": 100,
           "colID": "modern_name",
           "label": {
-            "en": "Modern Name",
-            "es": "Modern Name ES",
-            "pt": "Modern Name PT"
+            "en": "Modern name",
+            "es": "Modern name ES",
+            "pt": "Modern name PT"
           }
         }
       ]
     },
     {
       "label": {
-        "en": "Bio Data",
-        "es": "Bio Data ES",
-        "pt": "Bio Data PT"
+        "en": "Bio data",
+        "es": "Bio data ES",
+        "pt": "Bio data PT"
       },
       "children": [
         {
@@ -485,18 +468,18 @@
           "col_width_px": 100,
           "colID": "voyages__voyage_itinerary__imp_principal_region_of_slave_purchase__name",
           "label": {
-            "en": "Embarkation Region",
-            "es": "Embarkation Region ES",
-            "pt": "Embarkation Region PT"
+            "en": "Embarkation region",
+            "es": "Embarkation region ES",
+            "pt": "Embarkation region PT"
           }
         },
         {
           "col_width_px": 100,
           "colID": "voyages__voyage_itinerary__imp_principal_region_slave_dis__name",
           "label": {
-            "en": "Disembarkation Region",
-            "es": "Disembarkation Region ES",
-            "pt": "Disembarkation Region PT"
+            "en": "Disembarkation region",
+            "es": "Disembarkation region ES",
+            "pt": "Disembarkation region PT"
           }
         },
         {
@@ -521,18 +504,27 @@
           "col_width_px": 100,
           "colID": "captive_fate__name",
           "label": {
-            "en": "Captive Outcome",
-            "es": "Captive Outcome ES",
-            "pt": "Captive Outcome PT"
+            "en": "Captive fate",
+            "es": "Destino del cautivo",
+            "pt": "Destino do cativo"
           }
         },
         {
           "col_width_px": 100,
           "colID": "post_disembark_location__name",
           "label": {
-            "en": "Post-Disembark Location",
-            "es": "Post-Disembark Location ES",
-            "pt": "Post-Disembark Location PT"
+            "en": "Post-Disembark location",
+            "es": "Post-Disembark location ES",
+            "pt": "Post-Disembark location PT"
+          }
+        },
+        {
+          "col_width_px": 100,
+          "colID": "particular_outcome",
+          "label": {
+            "en": "Voyage outcome",
+            "es": "Voyage outcome ES",
+            "pt": "Voyage outcome PT"
           }
         }
       ]

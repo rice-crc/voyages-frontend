@@ -66,6 +66,29 @@ export interface IRootFilterObjectScatterRequest {
   filter: Filter[];
   global_search?: string;
 }
+
+export interface IRootFilterLineAndBarRequest {
+  groupby: {
+    by: string;
+    agg_series: aggSeriesProps[];
+  };
+  filter: Filter[];
+  global_search?: string;
+}
+
+export interface aggSeriesProps {
+  vals: string;
+  agg_fn: string;
+}
+export interface IRootFilterObjectRequest {
+  groupby: {
+    by: string;
+    vals: string;
+    agg_fn: string;
+  };
+  filter: Filter[];
+  global_search?: string;
+}
 export interface IRootFilterTableObject {
   filter: Filter[];
   page: number;
@@ -75,11 +98,11 @@ export interface IRootFilterTableObject {
 export interface Filter {
   varName: string;
   searchTerm:
-  | number[]
-  | string[]
-  | CheckboxValueType[]
-  | RolesFilterProps[]
-  | CheckboxValueType;
+    | number[]
+    | string[]
+    | CheckboxValueType[]
+    | RolesFilterProps[]
+    | CheckboxValueType;
   op: string;
   label?: string;
   title?: string[];
@@ -313,7 +336,7 @@ export interface PlotXYVar {
   var_name: string;
   type?: string;
   label: Record<LanguageKey, string>;
-  agg_fns?: string[];
+  agg_fn?: string;
 }
 export interface PlotPieProps {
   x_vars: PlotPIEX[];
@@ -348,6 +371,7 @@ export interface ScatterOptionsXYResponse {
 export interface VoyagesOptionProps {
   x_vars: string;
   y_vars: string;
+  agg_fn: string;
 }
 
 export interface AutocompleteBoxProps {
@@ -535,7 +559,7 @@ export interface HeaderLabel {
 
 export interface MenuListsProps {
   name: LabelFilterMeneList;
-  url: string
+  url: string;
   submenu?: MenuListsProps[];
 }
 
@@ -737,8 +761,8 @@ export interface CheckboxGroupItem {
   label: string;
   plainOptions: string[];
   setCheckedList:
-  | React.Dispatch<React.SetStateAction<CheckboxValueType[]>>
-  | ((list: CheckboxValueType[]) => void);
+    | React.Dispatch<React.SetStateAction<CheckboxValueType[]>>
+    | ((list: CheckboxValueType[]) => void);
   checkedList: CheckboxValueType[];
   show: boolean;
   varName: string;

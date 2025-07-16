@@ -281,17 +281,40 @@
   display: flex;
   justify-content: space-between;
 }
-
 .panel-list-item-wrapper {
-  margin-bottom: 0;
-  list-style: none;
-  font-size: 0.85rem;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 8px;
+  padding: 4px;
+}
+.panel-list-item-hide {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px;
+}
 
-  a {
-    text-decoration: none;
-  }
+.panel-list-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  line-height: 1.5;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.panel-list-label {
+  margin: 0 4px 0 0;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.panel-list-value {
+  flex: 1;
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .btn-panel {
@@ -572,11 +595,12 @@ table > .dataframe {
 
 .view-show-row {
   display: flex;
-  border-radius: 6px;
-  border: 0.75px solid #fff;
-  margin-right: 4px;
-  padding: 1px;
-  margin-top: 2px;
+    border-radius: 6px;
+    border: 0.75px solid #fff;
+    margin-right: 4px;
+    padding: 1px 5px;
+    margin-top: 2px;
+    align-items: center;
 }
 
 .value-list {

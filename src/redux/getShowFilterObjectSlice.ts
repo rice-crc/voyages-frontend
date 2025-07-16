@@ -29,7 +29,7 @@ export const getShowFilterObjectSlice = createSlice({
     setIsViewButtonViewAllResetAll: (state, action: PayloadAction<boolean>) => {
       state.isView = action.payload;
     },
-    resetSliceShowHideFilter: (state) => initialStateViewHide,
+    resetSliceShowHideFilter: () => initialStateViewHide,
   },
 });
 
