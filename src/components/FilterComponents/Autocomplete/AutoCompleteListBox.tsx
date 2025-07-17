@@ -1,9 +1,12 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   useState,
   useEffect,
   useRef,
   UIEventHandler,
   SyntheticEvent,
+  useMemo,
 } from 'react';
 
 import { CheckBoxOutlineBlankOutlined, Check } from '@mui/icons-material';
@@ -44,19 +47,25 @@ export default function AutoCompleteListBox() {
   const dispatch: AppDispatch = useDispatch();
 
   const filters = filtersDataSend(filtersObj, styleName!);
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  const dataSend: IRootFilterObject = {
-    varName: varName,
-    querystr: autoValue,
-    offset: offset,
-    limit: limit,
-    filter: newFilters || [],
-  };
+
+  const newFilters = useMemo(() => {
+    return filters === undefined
+      ? undefined
+      : filters!.map((filter) => {
+        const { ...filteredFilter } = filter;
+        return filteredFilter;
+      });
+  }, [filters]);
+
+  const dataSend: IRootFilterObject = useMemo(() => {
+    return {
+      varName: varName,
+      querystr: autoValue,
+      offset: offset,
+      limit: limit,
+      filter: newFilters || [],
+    };
+  }, [varName, autoValue, newFilters, offset]);
 
   const { data, isLoading, isError } = useAutoComplete(dataSend, styleName);
 

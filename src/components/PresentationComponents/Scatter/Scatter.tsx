@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { Grid, SelectChangeEvent } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
@@ -103,32 +104,33 @@ function Scatter() {
     clusterNodeKeyVariable,
     clusterNodeValue,
   );
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
 
-  const dataSend: IRootFilterLineAndBarRequest = {
-    groupby: {
-      by: scatterOptions.x_vars,
-      agg_series: chips.map((chip) => {
-        const yVar = VOYAGE_SCATTER_OPTIONS.y_vars.find(
-          (y) => y.var_name === chip,
-        );
-        return {
-          vals: chip,
-          agg_fn: yVar?.agg_fn || 'sum',
-        };
-      }),
-    },
-    filter: newFilters || [],
-  };
+  const newFilters = useMemo(() => {
+    return filters?.map(({ ...rest }) => rest) || [];
+  }, [filters]);
+
+  const dataSend: IRootFilterLineAndBarRequest = useMemo(() => {
+    return {
+      groupby: {
+        by: scatterOptions.x_vars,
+        agg_series: chips.map((chip) => {
+          const yVar = VOYAGE_SCATTER_OPTIONS.y_vars.find(
+            (y) => y.var_name === chip,
+          );
+          return {
+            vals: chip,
+            agg_fn: yVar?.agg_fn || 'sum',
+          };
+        }),
+      },
+      filter: newFilters || [],
+    };
+  }, [chips, newFilters, scatterOptions.x_vars]);
+
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue;
   }
-  // console.log({ dataSend });
+
   const {
     data: response,
     isLoading: loading,

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -8,7 +9,7 @@ import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEns
 import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
 import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { setRowData, setPage } from '@/redux/getTableSlice';
+import { setRowData } from '@/redux/getTableSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { TableListPropsRequest } from '@/share/InterfaceTypes';
 import { StateRowData } from '@/share/InterfaceTypesTable';
@@ -53,6 +54,9 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     ascSort,
     descSort,
   } = props;
+  const { page } = useSelector(
+    (state: RootState) => state.getTableData as StateRowData,
+  );
   // Add state to track pageSize
   const [currentPageSize, setCurrentPageSize] = useState(pageSize);
 
@@ -67,9 +71,7 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch,
   );
-  const { page } = useSelector(
-    (state: RootState) => state.getTableData as StateRowData,
-  );
+
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData,
   );
@@ -86,36 +88,27 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
     fetchData(sortOrder, (column.colDef as any)?.context?.fieldToSort);
   };
 
-  useEffect(() => {
-    props.column.addEventListener('sortChanged', () => {
-      dispatch(setPage(page));
-    });
-    return () => {
-      props.column.removeEventListener('sortChanged', () => {
-        dispatch(setPage(page));
-      });
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const filters = filtersDataSend(
     filtersObj,
     styleName!,
     clusterNodeKeyVariable,
     clusterNodeValue,
   );
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
+
+  const newFilters = useMemo(() => {
+    return filters === undefined
+      ? undefined
+      : filters!.map((filter) => {
+        const { ...filteredFilter } = filter;
+        return filteredFilter;
+      });
+  }, [filters]);
 
   const dataSend: TableListPropsRequest = useMemo(
     () => ({
       filter: newFilters || [],
       page: Number(page + 1),
-      page_size: Number(currentPageSize), // Use currentPageSize instead of pageSize
+      page_size: Number(currentPageSize),
     }),
     [newFilters, page, currentPageSize],
   );
@@ -139,6 +132,7 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
         requestData.order_by = [sort];
       }
     }
+    console.log({requestData})
     try {
       let response;
       if (checkPagesRouteForVoyages(styleName!)) {

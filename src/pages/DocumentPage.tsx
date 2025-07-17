@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { Bookmarks, GridView, ViewList } from '@mui/icons-material';
 import { Tooltip, Badge, IconButton, Box } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import voyageLogo from '@/assets/sv-logo.png';
 import DocumentGallery from '@/components/PresentationComponents/Document/DocumentGallery';
@@ -54,6 +53,7 @@ const DocumentPage: React.FC = () => {
 
   useEffect(() => {
     setSources({ ...sources, Workspace: getWorkspaceSource(workspace ?? []) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workspace]);
 
   const tabSource = sources[tab];
@@ -79,6 +79,7 @@ const DocumentPage: React.FC = () => {
         }
       />
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab, tabSource, viewMode, sources]);
 
   return (

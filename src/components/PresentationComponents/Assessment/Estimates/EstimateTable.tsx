@@ -1,6 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { SelectChangeEvent } from '@mui/material';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -102,21 +100,32 @@ const EstimateTable = () => {
   const updatedRowsValue = rows.join('').replace(/_(\d+)$/, '');
 
   const filters = filtersDataSend(filtersObj, styleName!);
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  const dataSend: EstimateTablesPropsRequest = {
-    cols: column_vars,
-    rows: onlyYearRows.length > 0 ? [updatedRowsValue] : rows,
-    binsize: binsize!,
-    agg_fn: aggregation,
-    vals: cell_vars,
-    mode: mode,
-    filter: newFilters || [],
-  };
+
+  const newFilters = useMemo(() => {
+    return filters?.map(({ ...rest }) => rest) || [];
+  }, [filters]);
+
+  const dataSend: EstimateTablesPropsRequest = useMemo(() => {
+    return {
+      cols: column_vars,
+      rows: onlyYearRows.length > 0 ? [updatedRowsValue] : rows,
+      binsize: binsize!,
+      agg_fn: aggregation,
+      vals: cell_vars,
+      mode: mode,
+      filter: newFilters || [],
+    };
+  }, [
+    newFilters,
+    column_vars,
+    updatedRowsValue,
+    rows,
+    binsize,
+    aggregation,
+    cell_vars,
+    mode,
+    onlyYearRows.length,
+  ]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -146,6 +155,7 @@ const EstimateTable = () => {
     const parsedValue = JSON.parse(storedValue);
     const filter: Filter[] = parsedValue.filter;
     dispatch(setFilterObject(filter));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     estimateValueOptions,
     estimateValueOptions.rows,
@@ -159,6 +169,9 @@ const EstimateTable = () => {
     checkedListEmbarkation,
     checkedListDisEmbarkation,
     endpointPathEstimate,
+    EstimateTableOptions,
+    currentBlockName,
+    dispatch,
   ]);
 
   const handleButtonExportCSV = useCallback(() => {
