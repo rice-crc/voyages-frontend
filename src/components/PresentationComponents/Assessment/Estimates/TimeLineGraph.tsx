@@ -1,24 +1,27 @@
-import * as XLSX from 'xlsx';
-import React, { useEffect, useRef, useState } from 'react';
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+
+import { Button } from 'antd';
 import * as d3 from 'd3';
 import { select } from 'd3-selection';
-import { Button } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import * as XLSX from 'xlsx';
+
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEstimateTimeLines } from '@/fetch/estimateFetch/fetchEstimateTimeLines';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { AppDispatch, RootState } from '@/redux/store';
+import { Disembarked, Embarked } from '@/share/CONST_DATA';
 import {
   DataTimeLinesItem,
   ElementTimeLine,
   EventsTimeLinesType,
-  Filter,
   FilterObjectsState,
   TimeLineGraphRequest,
 } from '@/share/InterfaceTypes';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
 import '@/style/estimates.scss';
-import { Disembarked, Embarked } from '@/share/CONST_DATA';
-import { usePageRouter } from '@/hooks/usePageRouter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 
 const TimelineChart: React.FC<{
   timeline?: Record<string, [number, number]>;
@@ -32,18 +35,25 @@ const TimelineChart: React.FC<{
   const mouseOverInfoRef = useRef<HTMLDivElement | null>(null);
   const historicalEventsContainerRef = useRef<HTMLDivElement | null>(null);
   const filters = filtersDataSend(filtersObj, styleName!);
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  const dataSend: TimeLineGraphRequest = {
-    filter: newFilters || [],
-  };
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
+
+  const newFilters = useMemo(() => {
+    return filters === undefined
+      ? undefined
+      : filters!.map((filter) => {
+        const { ...filteredFilter } = filter;
+        return filteredFilter;
+      });
+  }, [filters]);
+
+  const dataSend: TimeLineGraphRequest = useMemo(() => {
+    return {
+      filter: newFilters || [],
+    };
+  }, [newFilters]);
+
   const {
     currentSliderValue,
     changeFlag,
@@ -56,7 +66,7 @@ const TimelineChart: React.FC<{
       setLoading(true);
       try {
         const response = await dispatch(
-          fetchEstimateTimeLines(dataSend)
+          fetchEstimateTimeLines(dataSend),
         ).unwrap();
         if (response) {
           const { data } = response;
@@ -72,6 +82,7 @@ const TimelineChart: React.FC<{
     if (currentBlockName === 'timeline') {
       fetchData();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dispatch,
     varName,
@@ -89,7 +100,7 @@ const TimelineChart: React.FC<{
       graphContainer.innerHTML = ''; // Clear existing content in graphContainer
 
       const indexByYear: { [key: number]: number } = {};
-      for (var i = 0; i < dataSort.length; ++i) {
+      for (let i = 0; i < dataSort.length; ++i) {
         indexByYear[dataSort[i].x] = i;
       }
 
@@ -159,7 +170,7 @@ const TimelineChart: React.FC<{
         tickSet.push(t);
       }
 
-      var xAxis = d3
+      const xAxis = d3
         .axisTop(scaleX)
         .tickValues(tickSet)
         .tickSize(-height)
@@ -204,9 +215,9 @@ const TimelineChart: React.FC<{
           mouseOverInfoRef.current.innerHTML = `<div class='flex'><strong>Year:</strong> ${
             d.x
           }</div><div class='flex'><strong >Embarked:</strong> ${Math.round(
-            d.y1
+            d.y1,
           ).toString()}</div><div class='flex'><strong>Disembarked:</strong> ${Math.round(
-            d.y0
+            d.y0,
           ).toString()}${historical}`;
         }
       }
@@ -322,7 +333,7 @@ const TimelineChart: React.FC<{
       }
 
       function changeHoveredBar(index: number) {
-        let out = index === undefined;
+        const out = index === undefined;
         if (!out) {
           mouseover(dataSort[index]);
           vertical.style('opacity', 1.0);
@@ -332,15 +343,15 @@ const TimelineChart: React.FC<{
               (scaleX.bandwidth() / 2 +
                 Number(scaleX(dataSort[index].x)) +
                 xShift) +
-              ',0)'
+              ',0)',
           );
           circle0.attr(
             'transform',
-            'translate(0, ' + yScale(dataSort[index].y0) + ')'
+            'translate(0, ' + yScale(dataSort[index].y0) + ')',
           );
           circle1.attr(
             'transform',
-            'translate(0, ' + yScale(dataSort[index].y1) + ')'
+            'translate(0, ' + yScale(dataSort[index].y1) + ')',
           );
         }
         if (out && (vertical as any).timeoutfn == null) {
@@ -379,14 +390,14 @@ const TimelineChart: React.FC<{
       const filteredEvents = [];
       const allEvents = [];
 
-      for (let year in events) {
-        let text = events[year];
+      for (const year in events) {
+        const text = events[year];
         const newYear = parseInt(year) as number;
         let data_index = -1;
-        let included =
+        const included =
           parseInt(year) >= firstOrdinal && parseInt(year) <= lastOrdinal;
         if (included) {
-          for (var i = 0; i < dataSort.length; ++i) {
+          for (let i = 0; i < dataSort.length; ++i) {
             if (dataSort[i].x == newYear) {
               data_index = i;
               break;
@@ -445,7 +456,7 @@ const TimelineChart: React.FC<{
       historicalMarkers
         .selectAll<SVGGElement, ElementTimeLine>('g')
         .on('mousemove', function (event: MouseEvent, d: ElementTimeLine) {
-          var highlightColor = '#CA4223';
+          const highlightColor = '#CA4223';
           select(this).selectAll('rect').style('fill', highlightColor);
           colorHistoricalEvent(d, highlightColor);
           if (d.index >= 0) {
@@ -464,7 +475,7 @@ const TimelineChart: React.FC<{
       function colorHistoricalEvent(d: ElementTimeLine, color: string): void {
         const ev = historicalEvents
           .selectAll<SVGGElement, ElementTimeLine>('g')
-          .filter(function (d2: ElementTimeLine, i: number) {
+          .filter(function (d2: ElementTimeLine) {
             return d2.year == d.year;
           });
 
@@ -570,7 +581,7 @@ const TimelineChart: React.FC<{
       <div className="results-panel">
         {loading ? (
           <div className="loading-logo-graph">
-            <img src={LOADINGLOGO} />
+            <img src={LOADINGLOGO} alt="loading" />
           </div>
         ) : (
           <>

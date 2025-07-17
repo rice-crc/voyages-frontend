@@ -40,26 +40,46 @@
 
 .colored-box {
   position: relative;
-  width: 180px;
   font-size: 0.9rem;
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   padding: 10px;
   border-radius: 4px;
-  color: #000;
+  color: rgb(0, 0, 0);
   z-index: 2;
-  bottom: 38%;
+  bottom: 22%;
   left: 1%;
+  line-height: 0;
+  display: flex;
+  width: min(345px, 90vw); /* Responsive width */
+  max-width: 90vw; /* Never exceed 90% of viewport width */
+  box-sizing: border-box;
+
+  .div-box-left {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .div-box-right {
+    display: flex;
+    flex-direction: column;
+    padding-left: 35px;
+    flex: 1;
+  }
 
   .div-box {
     display: flex;
     align-items: center;
     padding: 1px;
+    margin-bottom: 2px;
   }
 
   .circle {
     width: 22px;
     height: 22px;
     border-radius: 50%;
+    flex-shrink: 0; /* Prevent circles from shrinking */
+    margin-right: 8px;
   }
 
   .voyages {
@@ -81,12 +101,15 @@
   .div-box-line {
     display: flex;
     align-items: center;
+    margin-bottom: 2px;
   }
 
   .line-edges {
     width: 20px;
     height: 4px;
     border-radius: 8px;
+    flex-shrink: 0; /* Prevent lines from shrinking */
+    margin-right: 8px;
   }
 
   .captain {
@@ -109,41 +132,140 @@
     background-color: rgb(255, 127, 14);
   }
 
+  /* Text styling for better responsiveness */
   p {
-    padding-left: 0.5rem;
+    margin: 0;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
   }
+}
 
-  @include breakpoint-standard(0) {
-    bottom: 8%;
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+  .colored-box {
+    flex-direction: column;
+    width: min(160px, 95vw);
+    font-size: 0.8rem;
+    bottom: 42%;
+    
+    .div-box-right {
+      padding-left: 0;
+      margin-top: 10px;
+    }
+    
+    p {
+      font-size: 0.8rem;
+    }
   }
+}
+@media (max-width: 768px) {
+  .colored-box {
+    flex-direction: column;
+    width: min(160px, 95vw);
+    font-size: 0.8rem;
+    bottom: 42%;
+    
+    .div-box-right {
+      padding-left: 0;
+      margin-top: 10px;
+    }
+    
+    p {
+      font-size: 0.8rem;
+    }
+  }
+}
 
-  @include breakpoint-standard(1) {
-    bottom: 8%;
+@media (max-width: 480px) {
+  .colored-box {
+    width: min(160px, 98vw);
+    padding: 8px;
+    font-size: 0.75rem;
+    bottom: 38%;
+    
+    .circle {
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+    }
+    
+    .line-edges {
+      width: 16px;
+      height: 3px;
+      margin-right: 6px;
+    }
+    
+    p {
+      font-size: 0.75rem;
+    }
   }
+}
 
-  @include breakpoint-standard(1.1) {
-    bottom: 8%;
+@media (max-height: 600px) {
+  .colored-box {
+    bottom: 20%;
+    padding: 6px;
+    
+    .div-box, .div-box-line {
+      margin-bottom: 1px;
+    }
   }
+}
 
-  @include breakpoint-standard(2) {
-    bottom: 8%;
+@media (max-height: 400px) {
+  .colored-box {
+    bottom: 15%;
+    padding: 4px;
+    font-size: 0.7rem;
+    
+    .circle {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .line-edges {
+      width: 14px;
+      height: 2px;
+    }
+    
+    p {
+      font-size: 0.7rem;
+    }
   }
+  // @include breakpoint-standard(0) {
+  //   bottom: 8%;
+  // }
 
-  @include breakpoint-standard(3) {
-    bottom: 10%;
-  }
+  // @include breakpoint-standard(1) {
+  //   bottom: 8%;
+  // }
 
-  @include breakpoint-standard(4) {
-    bottom: 12%;
-  }
+  // @include breakpoint-standard(1.1) {
+  //   bottom: 8%;
+  // }
 
-  @include breakpoint-standard(5) {
-    bottom: 12%;
-  }
+  // @include breakpoint-standard(2) {
+  //   bottom: 8%;
+  // }
 
-  @include breakpoint-standard(6) {
-    bottom: 12%;
-  }
+  // @include breakpoint-standard(3) {
+  //   bottom: 10%;
+  // }
+
+  // @include breakpoint-standard(4) {
+  //   bottom: 12%;
+  // }
+
+  // @include breakpoint-standard(5) {
+  //   bottom: 12%;
+  // }
+
+  // @include breakpoint-standard(6) {
+  //   bottom: 12%;
+  // }
 }
 
 .network-header {

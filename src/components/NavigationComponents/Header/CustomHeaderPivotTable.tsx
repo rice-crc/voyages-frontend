@@ -1,6 +1,6 @@
-import { AppDispatch, RootState } from '@/redux/store';
-
-import React, { useEffect, useState } from 'react';
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,6 +12,7 @@ import {
   setRowPivotTableData,
   setTotalResultsCount,
 } from '@/redux/getPivotTablesDataSlice';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   PivotTableResponse,
   PivotTablesPropsRequest,
@@ -47,33 +48,11 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   const { styleName } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { offset, pivotValueOptions, aggregation, rowsPerPage } = useSelector(
-    (state: RootState) => state.getPivotTablesData
+    (state: RootState) => state.getPivotTablesData,
   );
-  const filters = filtersDataSend(filtersObj, styleName!);
-  const newFilters =
-    filters !== undefined &&
-    filters?.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  const onSortChanged = () => {
-    setAscSort(column?.isSortAscending() ? 'active' : 'inactive');
-    setDescSort(column?.isSortDescending() ? 'active' : 'inactive');
-  };
-  const onSortRequested = (
-    order: string,
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ) => {
-    if (setSort) {
-      setSort(order, event.shiftKey);
-    }
-
-    const sortOrder = column!.isSortAscending() ? 'asc' : 'desc';
-    fetchDataPivotTable(sortOrder, [column.colDef.field]);
-  };
 
   const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
 
   const { row_vars, rows_label, binsize, column_vars, cell_vars } =
@@ -81,22 +60,33 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
 
-  const dataSend: PivotTablesPropsRequest = {
-    columns: column_vars,
-    rows: updatedRowsValue,
-    rows_label: updatedRowsLabel,
-    agg_fn: aggregation,
-    binsize: binsize!,
-    value_field: cell_vars,
-    offset: offset,
-    limit: rowsPerPage,
-    filter: newFilters || [],
-  };
+  const filters = filtersDataSend(filtersObj, styleName!);
 
-  const fetchDataPivotTable = async (
+  const newFilters = useMemo(() => {
+    return filters === undefined
+      ? undefined
+      : filters!.map((filter) => {
+        const { ...filteredFilter } = filter;
+        return filteredFilter;
+      });
+  }, [filters]);
+  
+  const fetchDataPivotTable = useCallback(async (
     sortOrder: string,
-    sortingOrder: string[]
+    sortingOrder: string[],
   ) => {
+    const dataSend: PivotTablesPropsRequest = {
+      columns: column_vars,
+      rows: updatedRowsValue,
+      rows_label: updatedRowsLabel,
+      agg_fn: aggregation,
+      binsize: binsize!,
+      value_field: cell_vars,
+      offset: offset,
+      limit: rowsPerPage,
+      filter: newFilters || [],
+    };
+    console.log({dataSend})
     if (inputSearchValue) {
       dataSend['global_search'] = inputSearchValue;
     }
@@ -107,14 +97,14 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     } else if (sortOrder === 'desc') {
       if (sortingOrder?.length > 0) {
         sortingOrder.forEach(
-          (sort: string) => (dataSend['order_by'] = [`-${sort}`])
+          (sort: string) => (dataSend['order_by'] = [`-${sort}`]),
         );
       }
     }
 
     try {
       const response = await dispatch(
-        fetchPivotCrosstabsTables(dataSend)
+        fetchPivotCrosstabsTables(dataSend),
       ).unwrap();
       if (response) {
         const { tablestructure, data, metadata } =
@@ -150,7 +140,25 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     } catch (error) {
       console.log('error', error);
     }
-  };
+  },[inputSearchValue,dispatch, column_vars, updatedRowsValue, updatedRowsLabel, aggregation, binsize, cell_vars, offset, rowsPerPage, newFilters]);
+
+  const onSortChanged = useCallback(() => {
+    setAscSort(column?.isSortAscending() ? 'active' : 'inactive');
+    setDescSort(column?.isSortDescending() ? 'active' : 'inactive');
+  }, [column]);
+  
+  const onSortRequested = useCallback((
+    order: string,
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+  ) => {
+    if (setSort) {
+      setSort(order, event.shiftKey);
+    }
+
+    const sortOrder = column!.isSortAscending() ? 'asc' : 'desc';
+    fetchDataPivotTable(sortOrder, [column.colDef.field]);
+  }, [setSort, column, fetchDataPivotTable]);
+
 
   useEffect(() => {
     props.column.addEventListener('sortChanged', onSortChanged);
@@ -160,16 +168,16 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     document.documentElement.style.setProperty('--header-color--', headerColor);
     document.documentElement.style.setProperty(
       '--ag-secondary-foreground-color',
-      headerColor
+      headerColor,
     );
     document.documentElement.style.setProperty(
       '--ag-header-foreground-color',
-      headerColor
+      headerColor,
     );
     return () => {
       props.column.removeEventListener('sortChanged', onSortChanged);
     };
-  }, []);
+  }, [onSortChanged, props.column,styleName]);
 
   let sort: React.ReactNode = null;
   if (enableSorting) {
@@ -180,15 +188,25 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
         }}
       >
         <div
+          role="button"
+          tabIndex={0}
           onClick={(event) => onSortRequested('asc', event)}
           onTouchEnd={(event) => onSortRequested('asc', event)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') onSortRequested('asc', e);
+          }}
           className={`customSortDownLabel ${ascSort}`}
         >
           <i className="fa fa-long-arrow-alt-down"></i>
         </div>
         <div
+          role="button"
+          tabIndex={0}
           onClick={(event) => onSortRequested('desc', event)}
           onTouchEnd={(event) => onSortRequested('desc', event)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') onSortRequested('desc', e);
+          }}
           className={`customSortUpLabel ${descSort}`}
         >
           <i className="fa fa-long-arrow-alt-up"></i>

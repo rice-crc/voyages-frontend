@@ -348,7 +348,7 @@
       }
     ]
   },
-  "First place of slave purchase (PLAC1TRA)": {
+  "First place of slave purchase": {
     "type": "update",
     "entityRef": {
       "id": "9999999_Itinerary",
@@ -367,7 +367,7 @@
       }
     ]
   },
-  "Second place of slave purchase (PLAC2TRA)": {
+  "Second place of slave purchase ": {
     "type": "update",
     "entityRef": {
       "id": "9999999_Itinerary",
@@ -386,7 +386,7 @@
       }
     ]
   },
-  "Third place of slave purchase (PLAC3TRA)": {
+  "Third place of slave purchase": {
     "type": "update",
     "entityRef": {
       "id": "9999999_Itinerary",
@@ -405,7 +405,7 @@
       }
     ]
   },
-  "Port of call before Atlantic crossing (NPAFTTRA)": {
+  "Port of call before Atlantic crossing": {
     "type": "update",
     "entityRef": {
       "id": "9999999_Itinerary",
@@ -415,7 +415,7 @@
     "changes": [
       {
         "kind": "linked",
-        "property": "VoyageItinerary_Third place of slave purchase (PLAC3TRA)",
+        "property": "VoyageItinerary_Third place of slave purchase",
         "changed": {
           "id": 2,
           "schema": "Location",
@@ -439,7 +439,7 @@
       }
     ]
   },
-  "First place of slave landing (SLA1PORT)": {
+  "First place of slave landing": {
     "type": "update",
     "entityRef": {
       "id": "9999999_Itinerary",
@@ -458,7 +458,7 @@
       }
     ]
   },
-  "Second place of slave landing (ADPSALE1)": {
+  "Second place of slave landing": {
     "type": "update",
     "entityRef": {
       "id": "9999999_Itinerary",
@@ -477,7 +477,7 @@
       }
     ]
   },
-  "Third place of slave landing (ADPSALE2)": {
+  "Third place of slave landing": {
     "type": "update",
     "entityRef": {
       "id": "9999999_Itinerary",
@@ -496,7 +496,7 @@
       }
     ]
   },
-  "Place at which voyage ended (PORTRET)": {
+  "Place at which voyage ended": {
     "type": "update",
     "entityRef": {
       "id": "9999999_Itinerary",
@@ -553,7 +553,7 @@
       }
     ]
   },
-  "Imputed principal place of slave purchase (MJBYPTIMP)": {
+  "Imputed principal place of slave purchase": {
     "type": "update",
     "entityRef": {
       "id": "9999999_Itinerary",
@@ -610,7 +610,7 @@
       }
     ]
   },
-  "Length of Middle Passage in (days) (VOYAGE)": {
+  "Length of Middle Passage in (days)": {
     "type": "update",
     "entityRef": {
       "id": "9999999_Dates",
@@ -625,7 +625,7 @@
       }
     ]
   },
-  "Voyage length from home port to disembarkation (days) (VOY1IMP)": {
+  "Voyage length from home port to disembarkation (days)": {
     "type": "update",
     "entityRef": {
       "id": "9999999_Dates",

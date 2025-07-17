@@ -67,7 +67,7 @@ const DocumentGallery = ({
       );
     };
     refresh();
-  }, [source]);
+  }, [source, numPages, pageSize]);
 
   const galleryDivRef = useRef<HTMLDivElement>(null);
   const { width } = useDimensions(galleryDivRef);

@@ -1,32 +1,33 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+import { Button } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
-import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
-import {
-  getMobileMaxHeightTable,
-  maxWidthSize,
-} from '@/utils/functions/maxWidthSize';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
+
+import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
+import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummaryStatisticsTable';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   LabelFilterMeneList,
   FilterObjectsState,
   SummaryStatisticsTableRequest,
 } from '@/share/InterfaceTypes';
-import '@/style/table.scss';
-import { Button } from '@mui/material';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import {
   getColorBoxShadow,
   getColorBTNVoyageDatasetBackground,
   getColorHoverBackground,
   getHeaderColomnColor,
 } from '@/utils/functions/getColorStyle';
-import { fetchSummaryStatisticsTable } from '@/fetch/voyagesFetch/fetchSummaryStatisticsTable';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+import {
+  getMobileMaxHeightTable,
+  maxWidthSize,
+} from '@/utils/functions/maxWidthSize';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import '@/style/table.scss';
 import { downLoadText } from '@/utils/languages/title_pages';
-import { convertToSlug } from '@/utils/functions/convertToSlug';
 
 const SummaryStatisticsTable = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -36,26 +37,24 @@ const SummaryStatisticsTable = () => {
   const [summaryData, setSummaryData] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
 
   const effectOnce = useRef(false);
   const { styleName: styleNameRoute } = usePageRouter();
-  const { isChangeAuto, autoLabelName } = useSelector(
-    (state: RootState) => state.autoCompleteList
+  const { autoLabelName } = useSelector(
+    (state: RootState) => state.autoCompleteList,
   );
   const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
-  const { isChangeGeoTree } = useSelector(
-    (state: RootState) => state.getGeoTreeData
-  );
+
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
+    (state: RootState) => state.getNodeEdgesAggroutesMapData,
   );
 
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
@@ -64,18 +63,18 @@ const SummaryStatisticsTable = () => {
     filtersObj,
     styleNameRoute!,
     clusterNodeKeyVariable,
-    clusterNodeValue
+    clusterNodeValue,
   );
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  const dataSend: SummaryStatisticsTableRequest = {
-    mode: mode,
-    filter: newFilters || [],
-  };
+  const newFilters = useMemo(() => {
+    return filters?.map(({ ...rest }) => rest) || [];
+  }, [filters]);
+
+  const dataSend: SummaryStatisticsTableRequest = useMemo(() => {
+    return {
+      mode: mode,
+      filter: newFilters || [],
+    };
+  }, [newFilters, mode]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,7 +84,7 @@ const SummaryStatisticsTable = () => {
       }
       try {
         const response = await dispatch(
-          fetchSummaryStatisticsTable(dataSend)
+          fetchSummaryStatisticsTable(dataSend),
         ).unwrap();
         if (response) {
           const { data } = response;
@@ -99,7 +98,9 @@ const SummaryStatisticsTable = () => {
     if (!effectOnce.current) {
       fetchData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    dispatch,
     isFilter,
     filtersObj,
     varName,
@@ -119,7 +120,7 @@ const SummaryStatisticsTable = () => {
 
   const containerStyle = useMemo(
     () => ({ width: percentageString, height: height }),
-    [maxWidth, height]
+    [height],
   );
 
   useEffect(() => {
@@ -130,9 +131,9 @@ const SummaryStatisticsTable = () => {
     const headerColor = getHeaderColomnColor(styleNameRoute!);
     document.documentElement.style.setProperty(
       '--header-color-summary',
-      headerColor
+      headerColor,
     );
-  }, [width, height, maxWidth,styleNameRoute]);
+  }, [width, height, maxWidth, styleNameRoute]);
 
   const handleButtonExportCSV = useCallback(() => {
     const filename = 'summary_table_data';
@@ -174,7 +175,7 @@ const SummaryStatisticsTable = () => {
     link.target = '_blank';
     link.click();
     setMode('html');
-  }, [mode, summaryData]);
+  }, []);
 
   let DownloadCSVExport = '';
   for (const header of downLoadText.title) {
@@ -194,7 +195,7 @@ const SummaryStatisticsTable = () => {
                 }}
                 sx={{
                   backgroundColor: getColorBTNVoyageDatasetBackground(
-                    styleNameRoute!
+                    styleNameRoute!,
                   ),
                   boxShadow: getColorBoxShadow(styleNameRoute!),
                   '&:hover': {
@@ -207,7 +208,7 @@ const SummaryStatisticsTable = () => {
             </div>
             {!summaryData && loading ? (
               <div className="loading-logo-sumarytable">
-                <img src={LOADINGLOGO} />
+                <img src={LOADINGLOGO} alt="loading" />
               </div>
             ) : (
               <div className="summary-table-container">

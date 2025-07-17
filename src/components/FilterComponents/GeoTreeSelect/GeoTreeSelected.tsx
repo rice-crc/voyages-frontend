@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 
 import { TreeSelect } from 'antd';
 import type { TreeSelectProps } from 'antd/es/tree-select';
@@ -59,16 +60,22 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
     (state: RootState) => state.getShowFilterObject,
   );
   const filters = filtersDataSend(filtersObj, styleNameRoute!);
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  const dataSend: GeoTreeSelectStateProps = {
-    geotree_valuefields: [varName],
-    filter: newFilters || [],
-  };
+
+  const newFilters = useMemo(() => {
+    return filters === undefined
+      ? undefined
+      : filters!.map((filter) => {
+        const { ...filteredFilter } = filter;
+        return filteredFilter;
+      });
+  }, [filters]);
+
+  const dataSend: GeoTreeSelectStateProps = useMemo(()=>{
+    return {
+      geotree_valuefields: [varName],
+      filter: newFilters || [],
+    };
+  },[varName, newFilters])
 
   const fetchDataList = useCallback(async (type: string) => {
     try {

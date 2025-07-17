@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
+  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -1123,9 +1124,17 @@ const TimelapseUI = ({
             <h1>
               {selected.shipName}
               <span
+                role="button"
+                tabIndex={0}
                 onClick={onClearSelection}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    onClearSelection();
+                  }
+                }}
                 className="timelapseInfoBoxClose fa fa-close"
-                style={{ float: 'right' }}
+                style={{ float: 'right', cursor: 'pointer' }}
+                aria-label="Close"
               ></span>
             </h1>
             {selected.flag && (
@@ -1389,6 +1398,7 @@ const TimelapseAggregateChart = ({
       <div
         className="timelapseInfoBox"
         onMouseOver={(e) => e.currentTarget.style.setProperty('opacity', '0.9')}
+        onFocus={(e) => e.currentTarget.style.setProperty('opacity', '0.9')}
         onMouseLeave={(e) => {
           e.currentTarget.style.setProperty('opacity', '0.4');
           document
@@ -1510,6 +1520,7 @@ const useMapRouteBuilder = (network: string) => {
     if (current) {
       setRouteBuilder(current);
     } else if (current === undefined) {
+      setRouteBuilder(null);
       // Set to null while fetching in the background to avoid multiple
       // hits to the API endpoint.
       builders[network] = null!;
@@ -1552,13 +1563,16 @@ const useFilteredVoyageRoutes = () => {
   }, []);
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const filters = filtersDataSend(filtersObj, styleName!) || [];
-  const filter =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-
+  // NOTE: We use a dependency on the stringified filters because the
+  // filtersDataSend function returns a new array every time.
+  const filter = useMemo(() => {
+    return filters === undefined
+      ? undefined
+      : filters!.map((filter) => {
+          const { ...neededPartOfFilter } = filter;
+          return neededPartOfFilter;
+        });
+  }, [JSON.stringify(filters)]);
   useEffect(() => {
     const fetchVoyages = async () => {
       if (!routeBuilder || !nations) {
@@ -1599,6 +1613,7 @@ const useFilteredVoyageRoutes = () => {
         setCollection(new VoyageRouteCollection(voyages, 0.3, 0.2, nations));
       }
     };
+    setCollection(emptyCol);
     fetchVoyages();
   }, [filter, routeBuilder, nations]);
   return collection;
@@ -1700,6 +1715,16 @@ export const TimelapseMap = ({
   if (styleNamePeople === AFRICANORIGINS) {
     backgroundColor = styleNamePeople;
   }
+  const handleWindowChange = useCallback((win: VoyageRouteCollectionWindow) => {
+    const nextYears = win.years();
+    if (years !== nextYears) {
+      setYears(nextYears);
+    }
+    if (pauseWin) {
+      setPauseWin(win);
+    }
+    window.current = win;
+  }, []);
   return collection.voyageRoutes.length == 0 ? (
     <div
       className="loading-logo"
@@ -1752,16 +1777,7 @@ export const TimelapseMap = ({
         paused={pauseWin !== null}
         renderStyles={renderStyles}
         userStartYear={userStartYear}
-        onWindowChange={(win) => {
-          const nextYears = win.years();
-          if (years !== nextYears) {
-            setYears(nextYears);
-          }
-          if (pauseWin) {
-            setPauseWin(win);
-          }
-          window.current = win;
-        }}
+        onWindowChange={handleWindowChange}
       />
       {pauseWin !== null && (
         <InteractiveVoyageRoutesFrame

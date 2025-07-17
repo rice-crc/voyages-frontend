@@ -182,12 +182,10 @@ const PivotTables = () => {
     clusterNodeKeyVariable,
     clusterNodeValue,
   );
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
+
+  const newFilters = useMemo(() => {
+    return filters?.map(({ ...rest }) => rest) || [];
+  }, [filters]);
 
   const dataSend: PivotTablesPropsRequest = useMemo(() => {
     const baseDataSend = {

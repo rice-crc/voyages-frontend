@@ -92,21 +92,26 @@ function PieGraph() {
     clusterNodeKeyVariable,
     clusterNodeValue,
   );
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
 
-  const dataSend: IRootFilterObjectRequest = {
-    groupby: {
-      by: pieGraphOptions.x_vars,
-      vals: pieGraphOptions.y_vars,
-      agg_fn: pieGraphOptions.agg_fn,
-    },
-    filter: newFilters || [],
-  };
+  const newFilters = useMemo(() => {
+    return filters?.map(({ ...rest }) => rest) || [];
+  }, [filters]);
+
+  const dataSend: IRootFilterObjectRequest = useMemo(() => {
+    return {
+      groupby: {
+        by: pieGraphOptions.x_vars,
+        vals: pieGraphOptions.y_vars,
+        agg_fn: pieGraphOptions.agg_fn,
+      },
+      filter: newFilters || [],
+    };
+  }, [
+    newFilters,
+    pieGraphOptions.agg_fn,
+    pieGraphOptions.x_vars,
+    pieGraphOptions.y_vars,
+  ]);
 
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue;
