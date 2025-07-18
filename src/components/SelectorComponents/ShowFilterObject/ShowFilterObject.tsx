@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { RootState } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   CheckboxValueType,
   Filter,
@@ -50,7 +51,7 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({
   const translated = translationLanguagesEstimatePage(languageValue);
 
   const handleCloseFilter = (filterToRemove: FilterDataItem) => {
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
 
     const parsedValue = JSON.parse(storedValue);
@@ -81,7 +82,7 @@ const ShowFilterObject: FunctionComponent<ShowAllSelectedProps> = ({
   };
 
   useEffect(() => {
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
 
     const parsedValue = JSON.parse(storedValue);

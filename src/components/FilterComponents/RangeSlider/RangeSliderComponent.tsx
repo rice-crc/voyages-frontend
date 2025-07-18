@@ -17,7 +17,7 @@ import {
 } from '@/redux/getRangeSliderSlice';
 import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { allEnslavers } from '@/share/CONST_DATA';
+import { allEnslavers, FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   Filter,
   FilterObjectsState,
@@ -109,7 +109,7 @@ const RangeSlider = () => {
 
   useEffect(() => {
     fetchRangeSliderData();
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
 
     const parsedValue = JSON.parse(storedValue);
@@ -166,7 +166,7 @@ const RangeSlider = () => {
   };
 
   function updatedSliderToLocalStrage(updateValue: number[]) {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
 
     let existingFilterObject: any = {};
 

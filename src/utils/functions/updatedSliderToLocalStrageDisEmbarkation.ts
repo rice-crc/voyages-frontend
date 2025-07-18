@@ -1,13 +1,14 @@
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { AppDispatch } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import { CheckboxValueType, Filter } from '@/share/InterfaceTypes';
 
 export function updatedSliderToLocalStrageDisEmbarkation(
   updateValue: CheckboxValueType[],
   varName: string,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
 ) {
-  const existingFilterObjectString = localStorage.getItem('filterObject');
+  const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
   let existingFilterObject: any = {};
   if (!existingFilterObjectString) {
     existingFilterObject.filter = [];
@@ -19,7 +20,7 @@ export function updatedSliderToLocalStrageDisEmbarkation(
   const existingFilters: Filter[] = existingFilterObject.filter || [];
 
   const existingFilterIndex = existingFilters.findIndex(
-    (filter) => filter.varName === varName
+    (filter) => filter.varName === varName,
   );
 
   if (existingFilterIndex !== -1) {

@@ -1,7 +1,7 @@
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch } from '@/redux/store';
-import { allEnslavers } from '@/share/CONST_DATA';
+import { allEnslavers, FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   Filter,
   TYPESOFDATASET,
@@ -14,9 +14,9 @@ export function updatedEnslaversRoleAndNameToLocalStorage(
   listEnslavers: string[],
   enslaverName: string,
   varName: string,
-  opsRoles: string
+  opsRoles: string,
 ) {
-  const existingFilterObjectString = localStorage.getItem('filterObject');
+  const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
   let existingFilters: Filter[] = [];
 
   if (existingFilterObjectString) {
@@ -24,7 +24,7 @@ export function updatedEnslaversRoleAndNameToLocalStorage(
   }
 
   const existingFilterIndex = existingFilters.findIndex(
-    (filter) => filter.varName === varName
+    (filter) => filter.varName === varName,
   );
 
   if (listEnslavers.length > 0) {
@@ -46,7 +46,7 @@ export function updatedEnslaversRoleAndNameToLocalStorage(
 
   const filteredFilters = existingFilters.filter(
     (filter) =>
-      !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
+      !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0,
   );
   const filterObjectUpdate = {
     filter: filteredFilters,

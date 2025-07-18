@@ -28,8 +28,8 @@ import '@/style/homepage.scss';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
 import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
-import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 import { setFilterObject } from '@/redux/getFilterSlice';
@@ -82,9 +82,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
   const { value, textHeader } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection,
   );
-  const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages,
-  );
+
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch,
   );
@@ -263,7 +261,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
           >
             {value.map((item: DataSetCollectionProps, index: number) => (
               <DatasetButton
-                key={`${item}-${index}`}
+                key={`${item.style_name}-${index}`}
                 item={item}
                 index={index}
                 handleSelectDataset={handleSelectEnslavedDataset}

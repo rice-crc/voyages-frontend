@@ -161,7 +161,7 @@ const CascadingMenuMobile = () => {
     updateFilter(value);
   };
   const updateFilter = (newValue: string) => {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilters: Filter[] = [];
 
     if (existingFilterObjectString) {

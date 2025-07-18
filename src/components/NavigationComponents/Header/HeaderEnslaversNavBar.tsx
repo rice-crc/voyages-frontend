@@ -1,31 +1,19 @@
 import { MouseEventHandler, useEffect, useState, useCallback } from 'react';
+
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Box, Hidden, Divider, IconButton } from '@mui/material';
-import Toolbar from '@mui/material/Toolbar';
-import { MenuListDropdownStyle } from '@/styleMUI';
-import { Menu, Typography } from '@mui/material';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
 import {
-  ALLENSLAVERS,
-  ENSALVERSTYLE,
-  EnslaversAllTrades,
-  INTRAAMERICANENSLAVERS,
-  INTRAAMERICANTRADS,
-  IntraAmericanTitle,
-  TRANSATLANTICENSLAVERS,
-  TRANSATLANTICTRADS,
-  TransAtlanticTitle,
-  allEnslavers,
-} from '@/share/CONST_DATA';
-import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
-import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
+  AppBar,
+  Box,
+  Hidden,
+  Divider,
+  IconButton,
+  Menu,
+  Typography,
+} from '@mui/material';
+import Toolbar from '@mui/material/Toolbar';
+import { useDispatch, useSelector } from 'react-redux';
+
 import '@/style/Nav.scss';
-import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
-import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
-import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
-import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
-import HeaderLogo from './HeaderLogo';
 import {
   BaseFilter,
   BlockCollectionProps,
@@ -50,11 +38,33 @@ import {
   setPeopleTableEnslavedFlatfile,
 } from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
 import { useNavigate } from 'react-router-dom';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { DrawerMenuBar } from './DrawerMenuBar';
-import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
+import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
+import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
+import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import { usePageRouter } from '@/hooks/usePageRouter';
 import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import {
+  ALLENSLAVERS,
+  ENSALVERSTYLE,
+  EnslaversAllTrades,
+  INTRAAMERICANENSLAVERS,
+  INTRAAMERICANTRADS,
+  IntraAmericanTitle,
+  TRANSATLANTICENSLAVERS,
+  TRANSATLANTICTRADS,
+  TransAtlanticTitle,
+  allEnslavers,
+} from '@/share/CONST_DATA';
+import { MenuListDropdownStyle } from '@/styleMUI';
+
+import { DrawerMenuBar } from './DrawerMenuBar';
+import HeaderLogo from './HeaderLogo';
 
 const HeaderEnslaversNavBar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -62,15 +72,15 @@ const HeaderEnslaversNavBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const { value, textHeader } = useSelector(
-    (state: RootState) => state.getEnslaverDataSetCollections
+    (state: RootState) => state.getEnslaverDataSetCollections,
   );
   const { currentBlockName } = useSelector(
-    (state: RootState) => state.getScrollEnslaversPage
+    (state: RootState) => state.getScrollEnslaversPage,
   );
-  
+
   const { styleName: styleNameRoute } = usePageRouter();
   const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
 
   const [anchorFilterMobileEl, setAnchorFilterMobileEl] =
@@ -106,50 +116,57 @@ const HeaderEnslaversNavBar: React.FC = () => {
     });
   };
 
-  const handleSelectEnslaversDataset = useCallback((
-    baseFilter: BaseFilter[],
-    textHeder: string,
-    textIntro: string,
-    styleName: string,
-    blocks: BlockCollectionProps[],
-    filterMenuFlatfile?: string,
-    tableFlatfile?: string,
-    cardFlatfile?: string
-  ) => {
-    dispatch(resetAll());
-    const filters: Filter[] = [];
-    for (const base of baseFilter) {
-      filters.push({
-        varName: base.var_name,
-        searchTerm: base.value,
-        op: 'in',
-      });
-    }
-    const filteredFilters = filters.filter(
-      (filter) => !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
-    );
-
-    dispatch(setBaseFilterEnslaversDataSetValue(baseFilter));
-    dispatch(setFilterObject(filteredFilters));
-    dispatch(setDataSetEnslaversHeader(textHeder));
-    dispatch(setEnslaversStyleName(styleName));
-    dispatch(setEnslaversBlocksMenuList(blocks));
-    dispatch(setEnslaversFilterMenuFlatfile(filterMenuFlatfile || ''));
-    dispatch(setPeopleTableEnslavedFlatfile(tableFlatfile || ''));
-    dispatch(setCardFileName(cardFlatfile || ''));
-
-    localStorage.setItem('filterObject', JSON.stringify({ filter: filteredFilters }));
-
-    if (styleNameToPathMap[styleName]) {
-      navigate(styleNameToPathMap[styleName]);
-    }
-    const keysToRemove = Object.keys(localStorage);
-    keysToRemove.forEach((key) => {
-      if (key !== 'filterObject') {
-        localStorage.removeItem(key);
+  const handleSelectEnslaversDataset = useCallback(
+    (
+      baseFilter: BaseFilter[],
+      textHeder: string,
+      textIntro: string,
+      styleName: string,
+      blocks: BlockCollectionProps[],
+      filterMenuFlatfile?: string,
+      tableFlatfile?: string,
+      cardFlatfile?: string,
+    ) => {
+      dispatch(resetAll());
+      const filters: Filter[] = [];
+      for (const base of baseFilter) {
+        filters.push({
+          varName: base.var_name,
+          searchTerm: base.value,
+          op: 'in',
+        });
       }
-    });
-  },[value, currentBlockName, navigate, dispatch])
+      const filteredFilters = filters.filter(
+        (filter) =>
+          !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0,
+      );
+
+      dispatch(setBaseFilterEnslaversDataSetValue(baseFilter));
+      dispatch(setFilterObject(filteredFilters));
+      dispatch(setDataSetEnslaversHeader(textHeder));
+      dispatch(setEnslaversStyleName(styleName));
+      dispatch(setEnslaversBlocksMenuList(blocks));
+      dispatch(setEnslaversFilterMenuFlatfile(filterMenuFlatfile || ''));
+      dispatch(setPeopleTableEnslavedFlatfile(tableFlatfile || ''));
+      dispatch(setCardFileName(cardFlatfile || ''));
+
+      localStorage.setItem(
+        'filterObject',
+        JSON.stringify({ filter: filteredFilters }),
+      );
+
+      if (styleNameToPathMap[styleName]) {
+        navigate(styleNameToPathMap[styleName]);
+      }
+      const keysToRemove = Object.keys(localStorage);
+      keysToRemove.forEach((key) => {
+        if (key !== 'filterObject') {
+          localStorage.removeItem(key);
+        }
+      });
+    },
+    [value, currentBlockName, navigate, dispatch],
+  );
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -158,7 +175,6 @@ const HeaderEnslaversNavBar: React.FC = () => {
   const handleMenuOpen: MouseEventHandler<HTMLButtonElement> = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
 
   return (
     <Box
@@ -238,7 +254,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
           >
             {value.map((item: DataSetCollectionProps, index: number) => (
               <DatasetButton
-                key={`${item}-${index}`}
+                key={`${item.style_name}-${index}`}
                 item={item}
                 index={index}
                 handleSelectDataset={handleSelectEnslaversDataset}

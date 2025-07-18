@@ -15,6 +15,7 @@ import { setFilterObject } from '@/redux/getFilterSlice';
 import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
 import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   Filter,
   GeoTreeSelectItem,
@@ -35,6 +36,7 @@ import { convertDataToGeoTreeSelectFormat } from '@/utils/functions/convertDataT
 import { convertDataToLanguagesTreeSelectFormat } from '@/utils/functions/convertDataToLanguagesTreeSelectFormat';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { getGeoValuesCheck } from '@/utils/functions/getGeoValuesCheck';
+
 
 interface GeoTreeSelectedProps {
   type: string;
@@ -119,7 +121,7 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
   }, [type, geoTreeValueList]);
 
   useEffect(() => {
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
 
     if (!storedValue) return;
     const parsedValue = JSON.parse(storedValue);
@@ -183,7 +185,7 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
         }
       }
     });
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilters: Filter[] = [];
 
     if (existingFilterObjectString) {

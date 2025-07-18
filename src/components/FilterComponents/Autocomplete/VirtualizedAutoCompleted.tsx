@@ -29,6 +29,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { setAutoLabel } from '@/redux/getAutoCompleteSlice';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   AutoCompleteOption,
   DataSuggestedValuesProps,
@@ -44,6 +45,7 @@ import {
   checkPagesRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+
 
 
 export default function VirtualizedAutoCompleted() {
@@ -120,7 +122,7 @@ export default function VirtualizedAutoCompleted() {
   useEffect(() => {
     fetchAutoList();
 
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
 
     const parsedValue = JSON.parse(storedValue);
@@ -220,7 +222,7 @@ export default function VirtualizedAutoCompleted() {
   };
 
   const updateFilter = (newValue: AutoCompleteOption[]) => {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilters: Filter[] = [];
 
     if (existingFilterObjectString) {

@@ -15,13 +15,18 @@ export const filtersDataSend = (
   filtersObj: Filter[],
   styleNameRoute: string,
   clusterNodeKeyVariable?: string,
-  clusterNodeValue?: string
+  clusterNodeValue?: string,
 ) => {
   let filters: Filter[] = [];
-  if(styleNameRoute === ALLVOYAGES || styleNameRoute === ALLENSLAVED || styleNameRoute ===  ENSALVERSTYLE){
+  if (
+    styleNameRoute === ALLVOYAGES ||
+    styleNameRoute === ALLENSLAVED ||
+    styleNameRoute === ENSALVERSTYLE
+  ) {
     filters = filtersObj;
-   } else if (
-    Array.isArray(filtersObj[0]?.searchTerm) &&  filtersObj[0]?.searchTerm.length > 0 
+  } else if (
+    Array.isArray(filtersObj[0]?.searchTerm) &&
+    filtersObj[0]?.searchTerm.length > 0
   ) {
     filters = filtersObj;
   } else if (
@@ -75,9 +80,8 @@ export const filtersDataSend = (
     });
   }
 
-
   const uniqueFiltersSet = new Set<string>();
-  let uniqueFilters: Filter[] = [];
+  const uniqueFilters: Filter[] = [];
   for (const filter of filters) {
     const key = `${filter.varName}_${JSON.stringify(filter.searchTerm)}`;
     if (!uniqueFiltersSet.has(key)) {

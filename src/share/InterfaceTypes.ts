@@ -107,6 +107,9 @@ export interface Filter {
   label?: string;
   title?: string[];
 }
+export interface FilterEnslavedVoyageOutcomeRequest {
+  filter: Filter[];
+}
 
 export interface RangeSliderStateProps {
   varName: string;

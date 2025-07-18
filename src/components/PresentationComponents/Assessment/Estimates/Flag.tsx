@@ -1,29 +1,32 @@
+import { useEffect } from 'react';
+
 import { Button } from 'antd';
 import Checkbox from 'antd/es/checkbox';
-import { useEffect } from 'react';
 import '@/style/estimates.scss';
-import { flagText } from '@/utils/languages/estimate_text';
-import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setKeyValueName } from '@/redux/getRangeSliderSlice';
-import { CheckboxValueType, Filter } from '@/share/InterfaceTypes';
-import { setFilterObject } from '@/redux/getFilterSlice';
+
 import {
   setOnChangeFlag,
   setSelectedFlags,
 } from '@/redux/getEstimateAssessmentSlice';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { setKeyValueName } from '@/redux/getRangeSliderSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
+import { CheckboxValueType, Filter } from '@/share/InterfaceTypes';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
+import { flagText } from '@/utils/languages/estimate_text';
 const CheckboxGroup = Checkbox.Group;
 
 const Flag = () => {
   const dispatch: AppDispatch = useDispatch();
   const varName = 'nation__name';
-  const storedValue = localStorage.getItem('filterObject');
+  const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
   const { changeFlag, selectedFlags } = useSelector(
-    (state: RootState) => state.getEstimateAssessment
+    (state: RootState) => state.getEstimateAssessment,
   );
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedEstimates = translationLanguagesEstimatePage(languageValue);
 
@@ -59,7 +62,7 @@ const Flag = () => {
   };
 
   function updatedSliderToLocalStorage(updateValue: CheckboxValueType[]) {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilterObject: any = {};
 
     if (existingFilterObjectString) {
@@ -67,7 +70,7 @@ const Flag = () => {
     }
     const existingFilters: Filter[] = existingFilterObject.filter || [];
     const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === varName
+      (filter) => filter.varName === varName,
     );
 
     if (existingFilterIndex !== -1) {

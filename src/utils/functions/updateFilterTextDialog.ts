@@ -1,7 +1,7 @@
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch } from '@/redux/store';
-import { allEnslavers } from '@/share/CONST_DATA';
+import { allEnslavers, FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   Filter,
   TYPESOFDATASET,
@@ -17,7 +17,7 @@ export const updateFilterTextDialog = (
   opsRoles: string,
   labelVarName: string,
 ) => {
-  const existingFilterObjectString = localStorage.getItem('filterObject');
+  const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
   let existingFilters: Filter[] = [];
 
   if (existingFilterObjectString) {

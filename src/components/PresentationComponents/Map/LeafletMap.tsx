@@ -35,6 +35,7 @@ import {
   ESTIMATES,
   REGION,
   broadRegion,
+  FILTER_OBJECT_KEY,
 } from '@/share/CONST_DATA';
 import {
   AutoCompleteInitialState,
@@ -101,7 +102,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState,
   );
   useEffect(() => {
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
     const parsedValue = JSON.parse(storedValue);
     const filter: Filter[] = parsedValue.filter;

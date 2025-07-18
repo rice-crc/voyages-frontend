@@ -13,7 +13,7 @@ import { fetchEstimateCrosstabsTables } from '@/fetch/estimateFetch/fetchEstimat
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { ESTIMATES } from '@/share/CONST_DATA';
+import { ESTIMATES, FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   EstimateCellVar,
   EstimateColumnVar,
@@ -150,7 +150,7 @@ const EstimateTable = () => {
     } else if (currentBlockName === 'tables') {
       fetchData();
     }
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
     const parsedValue = JSON.parse(storedValue);
     const filter: Filter[] = parsedValue.filter;

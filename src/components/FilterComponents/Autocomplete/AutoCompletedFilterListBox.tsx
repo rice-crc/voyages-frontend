@@ -27,6 +27,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { setAutoLabel } from '@/redux/getAutoCompleteSlice';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   AutoCompleteOption,
   Filter,
@@ -36,6 +37,7 @@ import {
 import '@/style/Slider.scss';
 import '@/style/table.scss';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+
 
 const AutoCompletedFilterListBox = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -166,7 +168,7 @@ const AutoCompletedFilterListBox = () => {
   };
 
   const updateFilter = (newValue: AutoCompleteOption[]) => {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilters: Filter[] = [];
 
     if (existingFilterObjectString) {
