@@ -1,0 +1,40 @@
+.view-document-btn {
+    background-color: rgb(55, 148, 141) !important;
+    border-color: rgb(55, 148, 141) !important;
+    border-radius: 4px !important;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.2s, border 0.2s;
+    color: #fff;
+  }
+  .view-document-btn:hover,
+  .view-document-btn:focus {
+    background-color: rgb(45, 128, 121) !important;
+    border-color: rgb(45, 128, 121) !important;
+    color: #fff  !important;
+  }
+
+
+
+  .remove-document-btn{
+    border-radius: 4px !important;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.2s, border 0.2s;
+
+  }
+
+  .remove-document-btn:hover,
+  .remove-document-btn:focus {
+
+  }
+  @media (max-width: 576px) {
+    .view-document-btn {
+      font-size: 0.8rem;
+    }
+    .remove-document-btn {
+      font-size: 0.8rem;
+    }
+  }

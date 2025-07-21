@@ -1,27 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { AutoStories } from '@mui/icons-material';
+import { BookOutlined } from '@ant-design/icons';
 import {
-  Box,
   Button,
   Card,
-  CardActions,
-  CardContent,
-  CardMedia,
   List,
-  ListItem,
-  Typography,
   Pagination,
-  ImageListItem,
-  ImageList,
-  ImageListItemBar,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material';
+  Typography,
+  Image,
+  Row,
+  Col,
+} from 'antd';
 import DOMPurify from 'dompurify';
 
 import { useDimensions } from '@/hooks/useDimensions';
 import { DocumentItemInfo } from '@/utils/functions/documentWorkspace';
+import '@/style/document.scss';
+
+const { Title, Text } = Typography;
 
 interface DocumentPaginationSource {
   count: number;
@@ -51,9 +47,6 @@ const DocumentGallery = ({
   onPageChange,
 }: DocumentGalleryProps) => {
   const [contents, setContents] = useState<DocumentItemInfo[]>([]);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
   const numPages = Math.ceil(source.count / pageSize);
 
@@ -74,302 +67,306 @@ const DocumentGallery = ({
 
   // Calculate responsive grid columns
   const getGridCols = () => {
-    if (isMobile) return 1;
-    if (isTablet) return 2;
+    if (width < 576) return 1; // xs
+    if (width < 768) return 2; // sm
     return Math.max(1, Math.floor((0.9 * width) / thumbSize));
   };
 
   // Calculate responsive thumb size
   const getResponsiveThumbSize = () => {
-    if (isMobile) return Math.min(thumbSize, width * 0.8);
-    if (isTablet) return Math.min(thumbSize, width * 0.4);
+    if (width < 576) return Math.min(thumbSize, width * 0.8); // xs
+    if (width < 768) return Math.min(thumbSize, width * 0.4); // sm
     return thumbSize;
   };
 
   const responsiveThumbSize = getResponsiveThumbSize();
   const gridCols = getGridCols();
+  const isMobile = width < 576;
+  const isTablet = width < 768;
+
+  const paginationStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: isMobile ? '16px' : '24px',
+  };
 
   const paginator = (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        py: { xs: 2, sm: 3 },
-        px: { xs: 2, sm: 3 },
-      }}
-    >
+    <div style={paginationStyle}>
       <Pagination
-        count={numPages}
-        page={source.currentPage ?? 1}
-        onChange={(_, p) => onPageChange(p)}
-        size={isMobile ? 'small' : 'medium'}
-        siblingCount={isMobile ? 0 : 1}
-        boundaryCount={isMobile ? 1 : 2}
+        total={source.count}
+        current={source.currentPage ?? 1}
+        pageSize={pageSize}
+        onChange={onPageChange}
+        size={isMobile ? 'small' : 'default'}
+        showSizeChanger={false}
+        showQuickJumper={!isMobile}
+        showTotal={(total, range) =>
+          `${range[0]}-${range[1]} of ${total} items`
+        }
       />
-    </Box>
+    </div>
   );
 
+  const containerStyle: React.CSSProperties = {
+    width: '100%',
+    padding: isMobile ? '16px' : '24px',
+  };
+
+  const titleStyle: React.CSSProperties = {
+    marginBottom: '16px',
+    fontSize: isMobile ? '1.1rem' : isTablet ? '1.5rem' : '2rem',
+    fontWeight: 'bold',
+  };
+
+  const countStyle: React.CSSProperties = {
+    marginLeft: '8px',
+    fontSize: isMobile ? '0.8rem' : '0.9rem',
+    color: '#666',
+    fontWeight: 'normal',
+  };
+
   return (
-    <Box
-      ref={galleryDivRef}
-      sx={{
-        width: '100%',
-        px: { xs: 2, sm: 3 },
-        py: { xs: 2, sm: 3 },
-      }}
-    >
-      <Typography
-        variant={isMobile ? 'h6' : 'h4'}
-        component="h2"
-        sx={{
-          mb: 2,
-          fontSize: { xs: '1.1rem', sm: '1.5rem', md: '2rem' },
-          fontWeight: 'bold',
-        }}
-      >
+    <div ref={galleryDivRef} style={containerStyle}>
+      <Title level={isMobile ? 4 : 2} style={titleStyle}>
         {title}
-        <Typography
-          component="span"
-          variant="body2"
-          sx={{
-            ml: 1,
-            fontSize: { xs: '0.8rem', sm: '0.9rem' },
-            color: 'text.secondary',
-          }}
-        >
-          (Item count: {source.count})
-        </Typography>
-      </Typography>
+        <Text style={countStyle}>(Item count: {source.count})</Text>
+      </Title>
 
       {viewMode === 'list' && (
-        <List
-          sx={{
-            width: '100%',
+        <div
+          style={{
+            maxHeight: isMobile ? 'calc(100vh - 180px)' : 'calc(100vh - 220px)',
             overflowY: 'auto',
-            maxHeight: {
-              xs: 'calc(100vh - 180px)',
-              sm: 'calc(100vh - 220px)',
-            },
-            p: 0,
           }}
         >
-          {contents.map((item) => (
-            <ListItem
-              key={item.key}
-              sx={{
-                px: { xs: 0, sm: 2 },
-                py: { xs: 2, sm: 2 },
-              }}
-            >
-              <Card
-                sx={{
-                  display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'row' },
-                  width: '100%',
-                  boxShadow: 1,
-                  '&:hover': {
-                    boxShadow: 3,
-                  },
-                }}
-              >
-                {item.thumb && (
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      width: { xs: '100%', sm: responsiveThumbSize },
-                      height: { xs: 200, sm: responsiveThumbSize },
-                      objectFit: 'cover',
-                    }}
-                    image={item.thumb}
-                    alt={item.label}
-                  />
-                )}
-                <Box
-                  sx={{
+          <List
+            dataSource={contents}
+            renderItem={(item) => (
+              <List.Item style={{ padding: isMobile ? '16px 0' : '16px' }}>
+                <Card
+                  hoverable
+                  style={{
+                    width: '100%',
                     display: 'flex',
-                    flexDirection: 'column',
-                    flex: 1,
-                    minWidth: 0,
+                    flexDirection: isMobile ? 'column' : 'row',
                   }}
+                  styles={{
+                    body: {
+                      padding: isMobile ? '16px' : '24px',
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                    },
+                  }}
+                  cover={
+                    item.thumb && !isMobile ? undefined : item.thumb ? (
+                      <Image
+                        src={item.thumb}
+                        alt={item.label}
+                        style={{
+                          height: isMobile
+                            ? '200px'
+                            : `${responsiveThumbSize}px`,
+                          objectFit: 'cover',
+                        }}
+                        preview={false}
+                      />
+                    ) : undefined
+                  }
                 >
-                  <CardContent
-                    sx={{
-                      flex: '1 0 auto',
-                      px: { xs: 2, sm: 3 },
-                      py: { xs: 2, sm: 3 },
-                    }}
-                  >
-                    {item.bib && (
-                      <Box
-                        sx={{
-                          '& *': {
-                            fontSize: { xs: '0.9rem', sm: '1rem' },
-                            lineHeight: 1.4,
-                          },
+                  <div style={{ display: 'flex', width: '100%' }}>
+                    {item.thumb && !isMobile && (
+                      <Image
+                        src={item.thumb}
+                        alt={item.label}
+                        style={{
+                          width: `${responsiveThumbSize}px`,
+                          height: `${responsiveThumbSize}px`,
+                          objectFit: 'cover',
+                          marginRight: '16px',
                         }}
-                        dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(item.bib),
-                        }}
+                        preview={false}
                       />
                     )}
-                    {!item.bib && (
-                      <Typography
-                        component="div"
-                        variant={isMobile ? 'h6' : 'h5'}
-                        sx={{
-                          fontSize: { xs: '1.1rem', sm: '1.25rem' },
-                          fontWeight: 'medium',
-                          mb: 1,
-                        }}
-                      >
-                        {item.label}
-                      </Typography>
-                    )}
-                    {item.textSnippet && (
-                      <Box
-                        sx={{
-                          p: { xs: 2, sm: 2 },
-                          fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                          color: 'text.secondary',
-                          lineHeight: 1.5,
-                          whiteSpace: 'normal',
-                          wordBreak: 'break-word',
-                          bgcolor: 'grey.50',
-                          borderRadius: 1,
-                          mt: 1,
-                        }}
-                        dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(item.textSnippet),
-                        }}
-                      />
-                    )}
-                  </CardContent>
-                  <CardActions
-                    sx={{
-                      px: { xs: 2, sm: 3 },
-                      pb: { xs: 2, sm: 3 },
-                      pt: 0,
-                    }}
-                  >
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      aria-label={`Open ${item.label}`}
-                      onClick={() => onDocumentOpen(item)}
-                      startIcon={<AutoStories />}
-                      size={isMobile ? 'small' : 'medium'}
-                      sx={{
-                        backgroundColor: 'rgb(55, 148, 141)',
-                        color: '#fff',
-                        borderRadius: 1,
-                        px: { xs: 2, sm: 3 },
-                        py: { xs: 2, sm: 2 },
-                        fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                        '&:hover': {
-                          backgroundColor: 'rgb(45, 128, 121)',
-                        },
+                    <div
+                      style={{
+                        flex: 1,
+                        minWidth: 0,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: '100%',
                       }}
                     >
-                      View Document
-                    </Button>
-                  </CardActions>
-                </Box>
-              </Card>
-            </ListItem>
-          ))}
-        </List>
+                      <div>
+                        {item.bib ? (
+                          <div
+                            style={{
+                              fontSize: isMobile ? '0.9rem' : '1rem',
+                              lineHeight: 1.4,
+                              marginBottom: '12px',
+                            }}
+                            dangerouslySetInnerHTML={{
+                              __html: DOMPurify.sanitize(item.bib),
+                            }}
+                          />
+                        ) : (
+                          <Title
+                            level={isMobile ? 5 : 4}
+                            style={{
+                              fontSize: isMobile ? '1.1rem' : '1.25rem',
+                              fontWeight: 500,
+                              margin: 0,
+                              marginBottom: '12px',
+                            }}
+                          >
+                            {item.label}
+                          </Title>
+                        )}
+                        {item.textSnippet && (
+                          <div
+                            style={{
+                              padding: '16px',
+                              fontSize: isMobile ? '0.8rem' : '0.9rem',
+                              color: '#666',
+                              lineHeight: 1.5,
+                              whiteSpace: 'normal',
+                              wordBreak: 'break-word',
+                              backgroundColor: '#f5f5f5',
+                              borderRadius: '4px',
+                              marginTop: '8px',
+                              marginBottom: '12px',
+                            }}
+                            dangerouslySetInnerHTML={{
+                              __html: DOMPurify.sanitize(item.textSnippet),
+                            }}
+                          />
+                        )}
+                      </div>
+                      <div style={{ flex: 1 }} />
+                      <div style={{ marginTop: 'auto', paddingTop: 12 }}>
+                        <Button
+                          type="primary"
+                          icon={<BookOutlined />}
+                          onClick={() => onDocumentOpen(item)}
+                          size={isMobile ? 'small' : 'middle'}
+                          className="view-document-btn"
+                        >
+                          View Document
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </List.Item>
+            )}
+          />
+        </div>
       )}
 
       {viewMode !== 'list' && (
-        <ImageList
-          sx={{
-            width: '100%',
+        <div
+          style={{
+            maxHeight: isMobile ? 'calc(100vh - 180px)' : 'calc(100vh - 220px)',
             overflowY: 'auto',
-            maxHeight: {
-              xs: 'calc(100vh - 180px)',
-              sm: 'calc(100vh - 220px)',
-            },
-            gap: { xs: 1, sm: 2 }, // Responsive gap between items
           }}
-          cols={gridCols}
-          rowHeight={responsiveThumbSize}
         >
-          {contents.map((item) => (
-            <ImageListItem
-              key={item.key}
-              sx={{
-                width: responsiveThumbSize,
-                height: responsiveThumbSize,
-                borderRadius: 2,
-                overflow: 'hidden',
-                boxShadow: 1,
-                '&:hover': {
-                  boxShadow: 3,
-                  transform: 'scale(1.02)',
-                  transition: 'all 0.2s ease-in-out',
-                },
-              }}
-            >
-              {item.thumb && (
-                <img
-                  width={responsiveThumbSize}
-                  height={responsiveThumbSize}
-                  style={{
-                    maxWidth: responsiveThumbSize,
-                    maxHeight: responsiveThumbSize,
-                    objectFit: 'cover',
-                  }}
-                  src={item.thumb}
-                  alt={item.label}
-                  loading="lazy"
-                />
-              )}
-              <ImageListItemBar
-                title={
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                      fontWeight: 'medium',
-                    }}
-                  >
-                    {item.label}
-                  </Typography>
-                }
-                actionIcon={
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    aria-label={`Open ${item.label}`}
-                    onClick={() => onDocumentOpen(item)}
-                    size={isMobile ? 'small' : 'medium'}
-                    sx={{
-                      minWidth: 'auto',
-                      p: { xs: 2, sm: 2 },
-                      mr: 1,
-                      backgroundColor: 'rgb(55, 148, 141)',
-                      '&:hover': {
-                        backgroundColor: 'rgb(45, 128, 121)',
-                      },
-                    }}
-                  >
-                    <AutoStories fontSize={isMobile ? 'small' : 'medium'} />
-                  </Button>
-                }
-                sx={{
-                  background:
-                    'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-                  '& .MuiImageListItemBar-title': {
-                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                  },
+          <Row gutter={[isMobile ? 8 : 16, isMobile ? 8 : 16]}>
+            {contents.map((item) => (
+              <Col
+                key={item.key}
+                span={24 / gridCols}
+                style={{
+                  minWidth: `${responsiveThumbSize}px`,
+                  maxWidth: `${responsiveThumbSize}px`,
                 }}
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
+              >
+                <Card
+                  hoverable
+                  style={{
+                    width: responsiveThumbSize,
+                    height: responsiveThumbSize,
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    position: 'relative',
+                  }}
+                  bodyStyle={{ padding: 0, height: '100%' }}
+                  cover={
+                    item.thumb ? (
+                      <Image
+                        src={item.thumb}
+                        alt={item.label}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                        }}
+                        preview={false}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          backgroundColor: '#f0f0f0',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <BookOutlined
+                          style={{ fontSize: '48px', color: '#ccc' }}
+                        />
+                      </div>
+                    )
+                  }
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      background:
+                        'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                      padding: '8px',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontSize: isMobile ? '0.8rem' : '0.9rem',
+                        fontWeight: 500,
+                        flex: 1,
+                        marginRight: '8px',
+                      }}
+                      ellipsis
+                    >
+                      {item.label}
+                    </Text>
+                    <Button
+                      type="primary"
+                      shape="circle"
+                      icon={<BookOutlined />}
+                      onClick={() => onDocumentOpen(item)}
+                      size={isMobile ? 'small' : 'middle'}
+                      style={{
+                        backgroundColor: 'rgb(55, 148, 141)',
+                        borderColor: 'rgb(55, 148, 141)',
+                        minWidth: 'auto',
+                      }}
+                    />
+                  </div>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </div>
       )}
       {paginator}
-    </Box>
+    </div>
   );
 };
 

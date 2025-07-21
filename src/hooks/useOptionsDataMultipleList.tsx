@@ -27,7 +27,7 @@ export const useOptionsDataMultipleList = (
       let response;
       if (
         checkPagesRouteForEnslaved(styleNameRoute) &&
-        varNameEnslavedVoyageOutcome
+        varNameEnslavedVoyageOutcome === varName
       ) {
         response = await fetchEnslavedVoyageOutcome(dataSend);
       } else {
@@ -41,7 +41,7 @@ export const useOptionsDataMultipleList = (
 
       if (
         checkPagesRouteForEnslaved(styleNameRoute) &&
-        varNameEnslavedVoyageOutcome
+        varNameEnslavedVoyageOutcome === varName
       ) {
         setMultipleOptionsList(response as MultiselectListProps[]);
       } else {

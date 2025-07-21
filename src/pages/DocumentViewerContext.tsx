@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 
-import Button from '@mui/material/Button';
+import { Button } from 'antd';
 import { useSelector } from 'react-redux';
 
 import MiradorViewer from '@/components/DocumentComponents/MiradorViewer';
@@ -14,7 +14,7 @@ import {
   performWorkspaceAction,
 } from '@/utils/functions/documentWorkspace';
 import '@/style/mirador.scss';
-import { forceStyleRecalculation } from '@/utils/functions/forceStyleRecalculation';
+
 interface DocumentViewerProviderProps {
   children: React.ReactNode;
 }
@@ -37,7 +37,6 @@ export const DocumentViewerProvider = ({
 }: DocumentViewerProviderProps) => {
   const [doc, setDoc] = useState<DocumentItemInfo | null>(null);
   const [workspace, setWorkspace] = useState<DocumentWorkspace>(getWorkspace());
-  const [forceRender, setForceRender] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMiradorClose = (
@@ -48,13 +47,6 @@ export const DocumentViewerProvider = ({
       event.stopPropagation();
     }
     setDoc(null);
-
-    // Multiple approaches to force style recalculation
-    setTimeout(() => {
-      forceStyleRecalculation();
-      setForceRender((prev) => prev + 1);
-    }, 50);
-
     // Additional cleanup
     setTimeout(() => {
       if (containerRef.current) {
@@ -86,7 +78,6 @@ export const DocumentViewerProvider = ({
   return (
     <DocumentViewerContext.Provider value={{ doc, setDoc, workspace }}>
       <div
-        key={`container-${forceRender}`}
         ref={containerRef}
         style={{
           visibility: doc ? 'hidden' : 'visible',
@@ -98,17 +89,13 @@ export const DocumentViewerProvider = ({
       </div>
 
       <div style={{ display: 'none' }}>
-        <Button
-          key={`add-${forceRender}`}
-          color="primary"
-          id="__miradorWorkspaceAddBtn"
-        >
+        <Button id="__miradorWorkspaceAddBtn" className="view-document-btn">
           {addLabels[languageValue ?? 'en']}
         </Button>
         <Button
-          key={`remove-${forceRender}`}
-          color="error"
+          danger
           id="__miradorWorkspaceRemoveBtn"
+          className="remove-document-btn"
         >
           {removeLabels[languageValue ?? 'en']}
         </Button>

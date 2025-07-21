@@ -16,6 +16,7 @@ export const SelectSearchDropdownList = () => {
   const dispatch: AppDispatch = useDispatch();
   const { varName, labelVarName, filtersObj, styleNameRoute } =
     useFilterState();
+
   const { multipleList, setMultipleList } = useStoredFilters(varName, dispatch);
   const { multipleOptionsList } = useOptionsDataMultipleList(
     styleNameRoute!,
