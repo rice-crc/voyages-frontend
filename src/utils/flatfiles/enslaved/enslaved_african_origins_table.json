@@ -114,7 +114,7 @@
       "cell_type": "literal",
       "visible": true,
       "number_format": "comma",
-      "order_by": ["voyages__voyage_id"],
+      "order_by": ["enslaved_relations__relation__voyage__voyage_id"],
       "col_width_px": 100,
       "colID": "voyages__id",
       "cell_val": {
@@ -135,9 +135,9 @@
       "cell_type": "literal",
       "visible": true,
       "number_format": null,
-      "order_by": ["voyages__voyage_ship__ship_name"],
+      "order_by": ["enslaved_relations__relation__voyage__voyage_ship__ship_name"],
       "col_width_px": 140,
-      "colID": "voyages__voyage_ship__ship_name",
+      "colID": "voyages__ship_name",
       "cell_val": {
         "fields": [
           {
@@ -156,7 +156,7 @@
       "cell_type": "literal",
       "visible": true,
       "number_format": null,
-      "order_by": ["voyages__voyage_outcome__particular_outcome__name"],
+      "order_by": ["enslaved_relations__relation__voyage__voyage_outcome__particular_outcome__name"],
       "col_width_px": 140,
       "colID": "particular_outcome",
       "cell_val": {
@@ -269,9 +269,9 @@
       "visible": true,
       "number_format": null,
       "order_by": [
-        "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
-        "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
-        "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day"
+        "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+        "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
+        "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day"
       ],
       "col_width_px": 100,
       "colID": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate",
@@ -382,7 +382,7 @@
     }
   ],
   "other_properties": {
-    "default_order_by": "voyages__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
+    "default_order_by": "enslaved_relations__relation__voyage__voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
   },
   "column_selector_tree": [
     {
@@ -462,6 +462,15 @@
             "en": "Voyage ID",
             "es": "Voyage ID ES",
             "pt": "Voyage ID PT"
+          }
+        },
+		{
+          "col_width_px": 100,
+          "colID": "voyages__ship_name",
+          "label": {
+            "en": "Ship Name",
+            "es": "Ship Name",
+            "pt": "Ship Name"
           }
         },
         {
