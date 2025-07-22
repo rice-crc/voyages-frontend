@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
+
 import { Checkbox } from 'antd';
 import { CheckboxProps } from 'antd/es/checkbox';
+import { useDispatch } from 'react-redux';
+
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { setKeyValueName } from '@/redux/getRangeSliderSlice';
+import { AppDispatch } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   CheckboxGroupItem,
   CheckboxValueType,
   Filter,
 } from '@/share/InterfaceTypes';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { AppDispatch } from '@/redux/store';
-import { useDispatch } from 'react-redux';
-import { setKeyValueName } from '@/redux/getRangeSliderSlice';
 
 const CustomCheckboxEmbarkationGroup: React.FC<CheckboxGroupItem> = ({
   plainOptions,
@@ -21,7 +24,7 @@ const CustomCheckboxEmbarkationGroup: React.FC<CheckboxGroupItem> = ({
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const [checkAll, setCheckAll] = useState(false);
-  const storedValue = localStorage.getItem('filterObject');
+  const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
 
   useEffect(() => {
     setCheckAll(checkedList.length === plainOptions.length);
@@ -49,7 +52,7 @@ const CustomCheckboxEmbarkationGroup: React.FC<CheckboxGroupItem> = ({
     checkedList.length > 0 && checkedList.length < plainOptions.length;
 
   function updatedSliderToLocalStrage(updateValue: string[]) {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilterObject: any = {};
 
     if (existingFilterObjectString) {
@@ -57,7 +60,7 @@ const CustomCheckboxEmbarkationGroup: React.FC<CheckboxGroupItem> = ({
     }
     const existingFilters: Filter[] = existingFilterObject.filter || [];
     const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === varName
+      (filter) => filter.varName === varName,
     );
 
     if (existingFilterIndex !== -1) {

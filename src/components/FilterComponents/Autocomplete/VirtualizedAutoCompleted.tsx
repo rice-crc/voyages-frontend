@@ -1,10 +1,15 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   useState,
   useEffect,
   SyntheticEvent,
   UIEventHandler,
   useRef,
+  useMemo,
 } from 'react';
+
+import { Check, CheckBoxOutlineBlankOutlined } from '@mui/icons-material';
 import {
   Autocomplete,
   TextField,
@@ -14,36 +19,39 @@ import {
   Checkbox,
   AutocompleteRenderOptionState,
 } from '@mui/material';
-import { AppDispatch, RootState } from '@/redux/store';
+import debounce from 'lodash.debounce';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchPastEnslavedAutoComplete } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedAutoCompleted';
+import { fetchPastEnslaversAutoCompleted } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversAutoCompleted';
+import { fetchAutoVoyageComplete } from '@/fetch/voyagesFetch/fetchAutoVoyageComplete';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setAutoLabel } from '@/redux/getAutoCompleteSlice';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   AutoCompleteOption,
   DataSuggestedValuesProps,
   Filter,
   FilterObjectsState,
+  IRootFilterObject,
 } from '@/share/InterfaceTypes';
-import {Check,CheckBoxOutlineBlankOutlined} from '@mui/icons-material'
-import { setAutoLabel } from '@/redux/getAutoCompleteSlice';
 import '@/style/Slider.scss';
 import '@/style/table.scss';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { IRootFilterObject } from '@/share/InterfaceTypes';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import debounce from 'lodash.debounce';
-import { fetchAutoVoyageComplete } from '@/fetch/voyagesFetch/fetchAutoVoyageComplete';
 import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForEnslavers,
   checkPagesRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
-import { fetchPastEnslavedAutoComplete } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedAutoCompleted';
-import { fetchPastEnslaversAutoCompleted } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversAutoCompleted';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+
+
 
 export default function VirtualizedAutoCompleted() {
   const dispatch: AppDispatch = useDispatch();
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const { styleName } = usePageRouter();
   const limit = 20;
@@ -57,19 +65,25 @@ export default function VirtualizedAutoCompleted() {
   const [page, setPage] = useState(1);
 
   const filters = filtersDataSend(filtersObj, styleName!);
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  const dataSend: IRootFilterObject = {
-    varName: varName,
-    querystr: autoValue,
-    offset: offset,
-    limit: limit,
-    filter: newFilters || [],
-  };
+  const newFilters = useMemo(() => {
+    return filters === undefined
+      ? undefined
+      : filters!.map((filter) => {
+        const { ...filteredFilter } = filter;
+        return filteredFilter;
+      });
+  }, [filters]);
+
+  const dataSend: IRootFilterObject = useMemo(() => {
+    return {
+      varName: varName,
+      querystr: autoValue,
+      offset: offset,
+      limit: limit,
+      filter: newFilters || [],
+    };
+  }, [varName, autoValue, newFilters, offset]);
+
   const fetchAutoList = async () => {
     try {
       let response;
@@ -82,7 +96,7 @@ export default function VirtualizedAutoCompleted() {
       }
       const { suggested_values } = response as DataSuggestedValuesProps;
       const newAutoList: AutoCompleteOption[] = suggested_values.map(
-        (value: AutoCompleteOption) => value
+        (value: AutoCompleteOption) => value,
       );
 
       // Create a Set to track unique values
@@ -96,17 +110,19 @@ export default function VirtualizedAutoCompleted() {
 
       setAutoList((prevAutoList) => {
         const uniquePrevAutoList = prevAutoList.filter(
-          (item) => !uniqueValues.has(item.value)
+          (item) => !uniqueValues.has(item.value),
         );
         return [...filteredAutoList, ...uniquePrevAutoList];
       });
-    } catch {}
+    } catch {
+      console.log('error')
+    }
   };
 
   useEffect(() => {
     fetchAutoList();
 
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
 
     const parsedValue = JSON.parse(storedValue);
@@ -151,7 +167,7 @@ export default function VirtualizedAutoCompleted() {
     // fetchAutoList()
     // const newAutoList: AutoCompleteOption[] = suggested_values.map(
     const newAutoList: AutoCompleteOption[] = autoList.map(
-      (value: AutoCompleteOption) => value
+      (value: AutoCompleteOption) => value,
     );
     const items = paginate(newAutoList, limit, nextPage);
     setAutoList((prevAutoList) => [...prevAutoList, ...items]);
@@ -166,20 +182,20 @@ export default function VirtualizedAutoCompleted() {
       }
       setAutoValue(value);
     },
-    300
+    300,
   );
 
   // Use the debounced function in your Autocomplete component
   const handleInputChange = (
     event: React.SyntheticEvent<Element, Event>,
-    value: string
+    value: string,
   ) => {
     debouncedHandleInputChange(event, value);
   };
 
   const handleAutoCompletedChange = (
     event: SyntheticEvent<Element, Event>,
-    newValue: AutoCompleteOption[]
+    newValue: AutoCompleteOption[],
   ) => {
     if (!newValue) return;
 
@@ -190,7 +206,7 @@ export default function VirtualizedAutoCompleted() {
     // Update autoList based on selected items
     const updatedAutoList = autoList.filter(
       (item) =>
-        !newValue.some((selectedItem) => selectedItem.value === item.value)
+        !newValue.some((selectedItem) => selectedItem.value === item.value),
     );
 
     // Move selected items to the top of the autoList
@@ -206,7 +222,7 @@ export default function VirtualizedAutoCompleted() {
   };
 
   const updateFilter = (newValue: AutoCompleteOption[]) => {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilters: Filter[] = [];
 
     if (existingFilterObjectString) {
@@ -214,13 +230,13 @@ export default function VirtualizedAutoCompleted() {
     }
 
     const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === varName
+      (filter) => filter.varName === varName,
     );
 
     if (Array.isArray(newValue) && newValue.length > 0) {
       if (existingFilterIndex !== -1) {
         existingFilters[existingFilterIndex].searchTerm = newValue.map(
-          (ele) => ele.value
+          (ele) => ele.value,
         );
       } else {
         existingFilters.push({
@@ -235,7 +251,7 @@ export default function VirtualizedAutoCompleted() {
 
     const filteredFilters = existingFilters.filter(
       (filter) =>
-        !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
+        !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0,
     );
     dispatch(setFilterObject(filteredFilters));
 
@@ -256,7 +272,7 @@ export default function VirtualizedAutoCompleted() {
   const optionRenderer = (
     props: React.HTMLAttributes<HTMLLIElement>,
     option: AutoCompleteOption,
-    { selected }: AutocompleteRenderOptionState
+    { selected }: AutocompleteRenderOptionState,
   ) => {
     return (
       <li {...props} key={`${option.value}`}>
@@ -274,7 +290,7 @@ export default function VirtualizedAutoCompleted() {
   const getOptionLabel = (option: AutoCompleteOption) => {
     const textContent = new DOMParser().parseFromString(
       option.value ?? '',
-      'text/html'
+      'text/html',
     ).body.textContent;
     return textContent ?? '';
   };

@@ -1,28 +1,31 @@
-import { Button } from 'antd';
 import { ChangeEvent, useEffect } from 'react';
+
+import { Button } from 'antd';
 import '@/style/estimates.scss';
-import { CustomSliderTimeFrame, Input } from '@/styleMUI';
-import { Filter } from '@/share/InterfaceTypes';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { AppDispatch, RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setKeyValueName } from '@/redux/getRangeSliderSlice';
+
 import { setCurrentSliderValue } from '@/redux/getEstimateAssessmentSlice';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { setKeyValueName } from '@/redux/getRangeSliderSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
+import { Filter } from '@/share/InterfaceTypes';
+import { CustomSliderTimeFrame, Input } from '@/styleMUI';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
 const TimeFrame = () => {
   const dispatch: AppDispatch = useDispatch();
   const { currentSliderValue } = useSelector(
-    (state: RootState) => state.getEstimateAssessment
+    (state: RootState) => state.getEstimateAssessment,
   );
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const min = currentSliderValue[0];
   const max = currentSliderValue[1];
   const varName = 'year';
   const defaultValue: number[] = [1501, 1866];
-  const storedValue = localStorage.getItem('filterObject');
+  const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
 
   useEffect(() => {
     dispatch(setKeyValueName(varName));
@@ -51,7 +54,7 @@ const TimeFrame = () => {
   };
 
   const handleInputChange = (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
     const { name, value } = event.target;
     const updatedSliderValue = [...currentSliderValue];
@@ -66,7 +69,7 @@ const TimeFrame = () => {
   };
 
   function updatedSliderToLocalStrage(updateValue: number[]) {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilterObject: any = {};
 
     if (existingFilterObjectString) {
@@ -74,7 +77,7 @@ const TimeFrame = () => {
     }
     const existingFilters: Filter[] = existingFilterObject.filter || [];
     const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === varName
+      (filter) => filter.varName === varName,
     );
 
     if (existingFilterIndex !== -1) {

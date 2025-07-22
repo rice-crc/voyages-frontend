@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
 import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,6 +35,7 @@ import {
   ESTIMATES,
   REGION,
   broadRegion,
+  FILTER_OBJECT_KEY,
 } from '@/share/CONST_DATA';
 import {
   AutoCompleteInitialState,
@@ -99,7 +102,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState,
   );
   useEffect(() => {
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
     const parsedValue = JSON.parse(storedValue);
     const filter: Filter[] = parsedValue.filter;
@@ -185,7 +188,16 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         setLoading(false);
       }
     }
-  }, [zoomLevel, styleNamePage]);
+  }, [
+    zoomLevel,
+    styleNamePage,
+    varName,
+    clusterNodeValue,
+    clusterNodeKeyVariable,
+    dispatch,
+    currentBlockName,
+    regionPlace,
+  ]);
 
   const filters = filtersDataSend(
     filtersObj,
@@ -193,23 +205,24 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     clusterNodeKeyVariable,
     clusterNodeValue,
   );
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  const dataSend: MapPropsRequest = {
-    filter: newFilters || [],
-  };
+
+  const newFilters = useMemo(() => {
+    return filters?.map(({ ...rest }) => rest) || [];
+  }, [filters]);
+
+  const dataSend: MapPropsRequest = useMemo(() => {
+    return {
+      filter: newFilters || [],
+    };
+  }, [newFilters]);
 
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue;
   }
 
   const fetchData = async (regionOrPlace: string) => {
-    (dataSend['zoomlevel'] = regionOrPlace),
-      hasFetchedRegion ? setLoading(true) : setLoading(false);
+    dataSend['zoomlevel'] = regionOrPlace;
+    setLoading(hasFetchedRegion ? true : false);
     let response;
     if (checkPagesRouteForVoyages(styleNamePage! || nodeTypeURL!)) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();

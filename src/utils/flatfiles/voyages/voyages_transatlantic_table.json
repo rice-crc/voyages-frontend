@@ -571,7 +571,7 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"outgoing_to_other_voyages"
+				"incoming_from_other_voyages__first__voyage_id"
 			],
 			"col_width_px": 186,
 			"colID": "linked_voyages",
@@ -579,7 +579,7 @@
 				"fields": [
 					{
 						"var_name": "linked_voyages__voyage_id",
-						"cell_fn": "literal-concat"
+						"cell_fn": "literal"
 					}
 				]
 			}

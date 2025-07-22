@@ -1,9 +1,12 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   useState,
   useEffect,
   useRef,
   UIEventHandler,
   SyntheticEvent,
+  useMemo,
 } from 'react';
 
 import { CheckBoxOutlineBlankOutlined, Check } from '@mui/icons-material';
@@ -17,6 +20,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { setAutoLabel } from '@/redux/getAutoCompleteSlice';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   AutoCompleteOption,
   DataSuggestedValuesProps,
@@ -44,19 +48,25 @@ export default function AutoCompleteListBox() {
   const dispatch: AppDispatch = useDispatch();
 
   const filters = filtersDataSend(filtersObj, styleName!);
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  const dataSend: IRootFilterObject = {
-    varName: varName,
-    querystr: autoValue,
-    offset: offset,
-    limit: limit,
-    filter: newFilters || [],
-  };
+
+  const newFilters = useMemo(() => {
+    return filters === undefined
+      ? undefined
+      : filters!.map((filter) => {
+        const { ...filteredFilter } = filter;
+        return filteredFilter;
+      });
+  }, [filters]);
+
+  const dataSend: IRootFilterObject = useMemo(() => {
+    return {
+      varName: varName,
+      querystr: autoValue,
+      offset: offset,
+      limit: limit,
+      filter: newFilters || [],
+    };
+  }, [varName, autoValue, newFilters, offset]);
 
   const { data, isLoading, isError } = useAutoComplete(dataSend, styleName);
 
@@ -93,7 +103,7 @@ export default function AutoCompleteListBox() {
   }, [position, listboxNodeRef]);
 
   useEffect(() => {
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
 
     const parsedValue = JSON.parse(storedValue);
@@ -161,7 +171,7 @@ export default function AutoCompleteListBox() {
   };
 
   const updateFilter = (autuLabels: string[]) => {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilters: Filter[] = [];
 
     if (existingFilterObjectString) {

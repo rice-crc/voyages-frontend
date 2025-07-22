@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-import { IRootFilterObject } from '@/share/InterfaceTypes';
+import { FilterEnslavedVoyageOutcomeRequest } from '@/share/InterfaceTypes';
 
 import { AUTHTOKEN, BASEURL } from '../../share/AUTH_BASEURL';
 
-export const fetchPastEnslavedAutoComplete = async (
-  dataSend?: IRootFilterObject,
+export const fetchEnslavedVoyageOutcome = async (
+  dataSend?: FilterEnslavedVoyageOutcomeRequest,
 ) => {
   const response = await axios.post(
-    `${BASEURL}/past/enslaved/autocomplete/`,
+    `${BASEURL}/past/EnslavedVoyageOutcome/`,
     dataSend,
     {
       headers: {

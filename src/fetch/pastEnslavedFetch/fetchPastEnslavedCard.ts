@@ -1,6 +1,7 @@
-import axios from 'axios';
-import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+import { AUTHTOKEN, BASEURL } from '@/share/AUTH_BASEURL';
 
 export const fetchPastEnslavedCard = createAsyncThunk(
   'enslavedOptions/fetchEnslavedOptionsList',
@@ -13,8 +14,8 @@ export const fetchPastEnslavedCard = createAsyncThunk(
         },
       });
       return response;
-    } catch (error) {
+    } catch {
       throw new Error('Failed to fetchEnslavedOptionsList data');
     }
-  }
+  },
 );

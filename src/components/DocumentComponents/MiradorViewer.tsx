@@ -83,12 +83,15 @@ const MiradorViewer = (
   const { languageValue } = useSelector(
     (state: RootState) => state.getLanguages,
   );
-  const container = useRef<HTMLDivElement>(null!);
+  const container = useRef<HTMLDivElement>(null);
   const activeDoc = useRef<string | null>(null);
   const prevTheme = useRef<string | null>(null);
+
   // NOTE: Spanish is still not supported by Mirador! And for Portuguese, only
   // the Brazilian variant is available.
   const miradorLanguage = languageValue === 'pt' ? 'pt-BR' : 'en';
+
+  // Initialize Mirador viewer
   useEffect(() => {
     if (!container.current) {
       return;
@@ -97,9 +100,17 @@ const MiradorViewer = (
     const div = document.createElement('div');
     div.id = domId;
     container.current.appendChild(div);
-    const userSettings = JSON.parse(
-      localStorage.getItem(MiradorUserSettingsKey) ?? '{}',
-    );
+
+    // Get user settings from localStorage safely
+    let userSettings = {};
+    try {
+      const storedSettings = localStorage.getItem(MiradorUserSettingsKey);
+      userSettings = storedSettings ? JSON.parse(storedSettings) : {};
+    } catch (error) {
+      console.warn('Failed to parse Mirador user settings:', error);
+      userSettings = {};
+    }
+
     target.current = Mirador.viewer({
       ...userSettings,
       id: domId,
@@ -109,95 +120,129 @@ const MiradorViewer = (
     return () => {
       div.remove();
     };
-  }, [domId]);
+  }, [domId, miradorLanguage]);
 
+  // Handle manifest loading and window management
   useEffect(() => {
     if (!target.current) {
       return;
     }
+
     const store = Mirador.selectors.miradorSlice(target.current).store;
     const path = `${manifestUrlBase.replace(/\/$/, '')}/${manifestId}`;
-    const match = Object.values(store.getState().manifests).find(
-      (w: any) => w.id === path,
+
+    // Check if manifest already exists
+    const state = store.getState();
+    const match = Object.values(state.manifests).find(
+      (manifest: any) => manifest.id === path,
     );
+
     if (!match) {
-      // Add the manifest.
+      // Add the manifest if it doesn't exist
       const addRes = Mirador.actions.addResource(path);
       store.dispatch(addRes);
     }
-    // - Close any other window in the viewer.
-    for (const winKey of Object.keys(store.getState().windows)) {
+
+    // Close any existing windows in the viewer
+    Object.keys(state.windows).forEach((winKey) => {
       const rmw = Mirador.actions.removeWindow(winKey);
       store.dispatch(rmw);
-    }
-    // - Create a window with the manifest...
+    });
+
+    // Create a window with the manifest
     let canvasLoaded = false;
     const unsubscribe = store.subscribe(() => {
-      const state = store.getState();
-      const { selectedTheme } = state.config;
+      const currentState = store.getState();
+      const { selectedTheme } = currentState.config;
+
+      // Save theme changes to localStorage
       if (prevTheme.current && prevTheme.current !== selectedTheme) {
-        localStorage.setItem(
-          MiradorUserSettingsKey,
-          JSON.stringify({
-            selectedTheme: selectedTheme,
-          }),
-        );
+        try {
+          localStorage.setItem(
+            MiradorUserSettingsKey,
+            JSON.stringify({
+              selectedTheme: selectedTheme,
+            }),
+          );
+        } catch (error) {
+          console.warn('Failed to save Mirador settings:', error);
+        }
       }
       prevTheme.current = selectedTheme;
+
+      // Handle window closing
       if (
         activeDoc.current === manifestId &&
         canvasLoaded &&
         onClose &&
-        Object.keys(state.windows).length === 0
+        Object.keys(currentState.windows).length === 0
       ) {
         onClose();
         activeDoc.current = null;
         return;
       }
-      if (canvasLoaded || (state.manifests[path]?.isFetching ?? true)) {
+
+      // Check if manifest is still loading
+      const manifestState = currentState.manifests[path];
+      if (canvasLoaded || (manifestState?.isFetching ?? true)) {
         return;
       }
+
       canvasLoaded = true;
+
       try {
         const win = findWin(store, path);
-        const displayAction = Mirador.actions.setCanvas(
-          win.id,
-          `${path}/canvas1`,
-        );
-        store.dispatch(displayAction);
-      } catch (e) {
-        console.log(e);
+        if (win) {
+          const displayAction = Mirador.actions.setCanvas(
+            win.id,
+            `${path}/canvas1`,
+          );
+          store.dispatch(displayAction);
+        }
+      } catch (error) {
+        console.error('Error setting canvas:', error);
       }
+
       setReady(true);
       activeDoc.current = manifestId;
     });
+
+    // Dispatch actions to load and display the manifest
     store.dispatch(Mirador.actions.fetchManifest(path));
     store.dispatch(Mirador.actions.addWindow({ manifestId: path }));
 
-    for (const winKey of Object.keys(store.getState().windows)) {
+    // Maximize all windows
+    Object.keys(store.getState().windows).forEach((winKey) => {
       const maxw = Mirador.actions.maximizeWindow(winKey);
       store.dispatch(maxw);
-    }
+    });
+
+    // Update UI periodically until successful
     const uiUpdater = setInterval(() => {
       if (
-        updateMiradorUI(workspaceAction, !!close, manifestId, onWorkspaceAction)
+        updateMiradorUI(
+          workspaceAction,
+          !!onClose,
+          manifestId,
+          onWorkspaceAction,
+        )
       ) {
         clearInterval(uiUpdater);
       }
     }, 100);
+
     return () => {
       unsubscribe();
       clearInterval(uiUpdater);
     };
   }, [
-    // target.current,
     manifestUrlBase,
     manifestId,
-    ready,
     onClose,
     onWorkspaceAction,
     workspaceAction,
   ]);
+
   // We use the ready flag to hide the Mirador UI while the manifest window is
   // loaded. This prevents the user from seeing the Mirador app without any
   // windows for a brief moment.

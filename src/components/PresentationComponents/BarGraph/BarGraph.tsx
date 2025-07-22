@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
@@ -17,7 +17,6 @@ import {
   VoyagesOptionProps,
   FilterObjectsState,
   CurrentPageInitialState,
-  BargraphXYVar,
   LanguageKey,
   IRootFilterLineAndBarRequest,
 } from '@/share/InterfaceTypes';
@@ -84,45 +83,45 @@ function BarGraph() {
   const maxWidth = maxWidthSize(width);
 
   const VoyageBargraphOptions = useCallback(() => {
-    Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(
-      ([key, value]: [string, BargraphXYVar[]]) => {
-        if (key === 'x_vars') {
-          setSelectedX(value);
-        }
-        if (key === 'y_vars') {
-          setSelectedY(value);
-        }
-      },
-    );
+    Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(([key, value]) => {
+      if (key === 'x_vars') {
+        setSelectedX(value as PlotXYVar[]);
+      }
+      if (key === 'y_vars') {
+        setSelectedY(value as PlotXYVar[]);
+      }
+    });
   }, []);
+
   const filters = filtersDataSend(
     filtersObj,
     styleNameRoute!,
     clusterNodeKeyVariable,
     clusterNodeValue,
   );
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
 
-  const dataSend: IRootFilterLineAndBarRequest = {
-    groupby: {
-      by: barGraphOptions.x_vars,
-      agg_series: chips.map((chip) => {
-        const yVar = VOYAGE_BARGRAPH_OPTIONS.y_vars.find(
-          (y) => y.var_name === chip,
-        );
-        return {
-          vals: chip,
-          agg_fn: yVar?.agg_fn || 'sum',
-        };
-      }),
-    },
-    filter: newFilters || [],
-  };
+  const newFilters = useMemo(() => {
+    return filters?.map(({ ...rest }) => rest) || [];
+  }, [filters]);
+
+  const dataSend: IRootFilterLineAndBarRequest = useMemo(() => {
+    return {
+      groupby: {
+        by: barGraphOptions.x_vars,
+        agg_series: chips.map((chip) => {
+          const yVar = VOYAGE_BARGRAPH_OPTIONS.y_vars.find(
+            (y) => y.var_name === chip,
+          );
+          return {
+            vals: chip,
+            agg_fn: yVar?.agg_fn || 'sum',
+          };
+        }),
+      },
+      filter: newFilters || [],
+    };
+  }, [barGraphOptions.x_vars, chips, newFilters]);
+
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue;
   }
@@ -137,9 +136,10 @@ function BarGraph() {
     VoyageBargraphOptions();
     if (!loading && !isError && response) {
       const values = Object.values(response);
+      const cleanXVar = barGraphOptions.x_vars.replace(/__bins__\d+$/, '');
       const data: Data[] = [];
       for (const [index, [key, value]] of Object.entries(response).entries()) {
-        if (key !== barGraphOptions.x_vars && Array.isArray(value)) {
+        if (key !== cleanXVar && Array.isArray(value)) {
           data.push({
             x: values[0] as number[],
             y: value as number[],

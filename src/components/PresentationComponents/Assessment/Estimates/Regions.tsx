@@ -1,3 +1,8 @@
+import { useEffect } from 'react';
+
+import { Button } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+
 import CustomCheckboxDisEmbarkationGroup from '@/components/SelectorComponents/SelectDrowdown/CustomCheckboxDisEmbarkationGroup';
 import CustomCheckboxEmbarkationGroup from '@/components/SelectorComponents/SelectDrowdown/CustomCheckboxEmbarkationGroup';
 import {
@@ -6,26 +11,24 @@ import {
 } from '@/redux/getEstimateAssessmentSlice';
 import { setFilterObject } from '@/redux/getFilterSlice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import { CheckboxValueType, Filter } from '@/share/InterfaceTypes';
+import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
+import { updatedSliderToLocalStrageDisEmbarkation } from '@/utils/functions/updatedSliderToLocalStrageDisEmbarkation';
 import {
   disembarkationListData,
   embarkationListData,
 } from '@/utils/languages/estimate_text';
-import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
-import { Button } from 'antd';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updatedSliderToLocalStrageDisEmbarkation } from '@/utils/functions/updatedSliderToLocalStrageDisEmbarkation';
 
 const Regions: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { checkedListEmbarkation, checkedListDisEmbarkation } = useSelector(
-    (state: RootState) => state.getEstimateAssessment
+    (state: RootState) => state.getEstimateAssessment,
   );
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
-  const storedValue = localStorage.getItem('filterObject');
+  const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
 
   useEffect(() => {
     if (storedValue) {
@@ -38,7 +41,7 @@ const Regions: React.FC = () => {
   const handleSetCheckedListEmbarkation = (
     label: string,
     list: CheckboxValueType[],
-    varName: string
+    varName: string,
   ) => {
     const newState: Record<string, CheckboxValueType[]> = {
       ...checkedListEmbarkation,
@@ -61,7 +64,7 @@ const Regions: React.FC = () => {
     dispatch(setCheckedListEmbarkation(updatedList));
     updatedSliderToLocalStrageEmbarkation(
       updataCheckList,
-      'embarkation_region__name'
+      'embarkation_region__name',
     );
   };
 
@@ -77,7 +80,7 @@ const Regions: React.FC = () => {
   const handleSetCheckedListDisEmbarkation = (
     label: string,
     list: CheckboxValueType[],
-    varName: string
+    varName: string,
   ) => {
     const newState: Record<string, CheckboxValueType[]> = {
       ...checkedListDisEmbarkation,
@@ -93,7 +96,7 @@ const Regions: React.FC = () => {
     updatedSliderToLocalStrageDisEmbarkation(
       updataCheckList,
       varName,
-      dispatch
+      dispatch,
     );
   };
 
@@ -112,7 +115,7 @@ const Regions: React.FC = () => {
     updatedSliderToLocalStrageDisEmbarkation(
       updataCheckList,
       'disembarkation_region__name',
-      dispatch
+      dispatch,
     );
   };
 
@@ -127,15 +130,15 @@ const Regions: React.FC = () => {
     updatedSliderToLocalStrageDisEmbarkation(
       updataCheckList,
       'disembarkation_region__name',
-      dispatch
+      dispatch,
     );
   };
 
   function updatedSliderToLocalStrageEmbarkation(
     updateValue: CheckboxValueType[],
-    varName: string
+    varName: string,
   ) {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilterObject: any = {};
 
     if (existingFilterObjectString) {
@@ -143,7 +146,7 @@ const Regions: React.FC = () => {
     }
     const existingFilters: Filter[] = existingFilterObject.filter || [];
     const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === varName
+      (filter) => filter.varName === varName,
     );
 
     if (existingFilterIndex !== -1) {
@@ -212,7 +215,7 @@ const Regions: React.FC = () => {
               handleSetCheckedListDisEmbarkation(
                 group.label,
                 list,
-                group.varName
+                group.varName,
               )
             }
           />

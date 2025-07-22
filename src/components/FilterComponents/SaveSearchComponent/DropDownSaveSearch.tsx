@@ -1,16 +1,20 @@
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { SaveSearchRequest } from '@/share/InterfaceTypes';
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useMemo } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+
 import { fetchCommonMakeSavedSearch } from '@/fetch/saveSearch/fetchCommonMakeSavedSearch';
-import { BASE_URL_FRONTEND } from '@/share/AUTH_BASEURL';
+import { usePageRouter } from '@/hooks/usePageRouter';
 import {
   setListSaveSearchURL,
   setReloadTable,
   setRouteSaveSearch,
   setSaveSearchUrlID,
 } from '@/redux/getSaveSearchSlice';
-import { useEffect } from 'react';
+import { resetAll } from '@/redux/resetAllSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { BASE_URL_FRONTEND } from '@/share/AUTH_BASEURL';
 import {
   ASSESSMENT,
   ENSALVEDROUTE,
@@ -21,9 +25,9 @@ import {
   VOYAGEPATHENPOINT,
   allEnslavers,
 } from '@/share/CONST_DATA';
+import { SaveSearchRequest } from '@/share/InterfaceTypes';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { translationLanguagesSaveSearch } from '@/utils/functions/translationLanguages';
-import { resetAll } from '@/redux/resetAllSlice';
 
 const DropDownSaveSearch = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -31,7 +35,7 @@ const DropDownSaveSearch = () => {
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
   const { saveSearchUrlID, listSaveSearchURL, routeSaveSearch } = useSelector(
-    (state: RootState) => state.getSaveSearch
+    (state: RootState) => state.getSaveSearch,
   );
 
   let saveSearhURL: string = '';
@@ -60,21 +64,33 @@ const DropDownSaveSearch = () => {
     } else if (endpointPath === ASSESSMENT) {
       dispatch(setRouteSaveSearch(`${endpointPath}/${ESTIMATES}/`));
     }
-  }, [routeSaveSearch]);
+  }, [
+    routeSaveSearch,
+    dispatch,
+    endpointPath,
+    endpointPeopleDirect,
+    styleName,
+  ]);
 
   const filters = filtersDataSend(filtersObj, styleName!);
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
-      return filteredFilter;
-    });
 
-  const dataSend: SaveSearchRequest = {
-    endpoint: endpointSaveSearch,
-    front_end_path: routeSaveSearch,
-    query: newFilters || [],
-  };
+  const newFilters = useMemo(() => {
+    return filters === undefined
+      ? undefined
+      : filters!.map((filter) => {
+        const { ...filteredFilter } = filter;
+        return filteredFilter;
+      });
+  }, [filters]);
+
+  const dataSend: SaveSearchRequest = useMemo(()=>{
+    return {
+      endpoint: endpointSaveSearch,
+      front_end_path: routeSaveSearch,
+      query: newFilters || [],
+    };
+  },[endpointSaveSearch, routeSaveSearch, newFilters])
+  
   const URLSAVESEARCH = `${BASE_URL_FRONTEND}/${saveSearhURL}/`;
   const handleSaveSearch = () => {
     fetchData();
@@ -122,13 +138,13 @@ const DropDownSaveSearch = () => {
   const fetchData = async () => {
     try {
       const response = await dispatch(
-        fetchCommonMakeSavedSearch(dataSend)
+        fetchCommonMakeSavedSearch(dataSend),
       ).unwrap();
       if (response) {
         const { id } = response;
         dispatch(setSaveSearchUrlID(id));
         const listSaveSearhID = listSaveSearchURL.filter(
-          (searchID) => searchID !== id
+          (searchID) => searchID !== id,
         );
         // const storedValue = localStorage.getItem('saveSearchID');
         dispatch(setListSaveSearchURL([...listSaveSearhID, id]));
@@ -143,7 +159,7 @@ const DropDownSaveSearch = () => {
     }
   };
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedSaveSearch = translationLanguagesSaveSearch(languageValue);
 
@@ -151,7 +167,6 @@ const DropDownSaveSearch = () => {
     <div
       id="current-searches"
       className="dropdown-menu search-menu search-submenu search-menu-singular dropdown-menu-right show"
-      control-disabled="true"
     >
       <div className="popover-content">
         <div>

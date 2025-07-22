@@ -145,18 +145,17 @@
           "en": "Post-disembark location",
           "es": "Ubicación posterior al desembarco",
           "pt": "Localização pós-desembarque"
+        } },
+        {
+          "var_name": "enslaved_relations__relation__voyage__voyage_outcome__particular_outcome__name",
+          "type": "MultiselectList",
+          "ops": ["icontains"],
+          "label": {
+            "en": "Vessel fate",
+            "es": "Destino de la embarcación ",
+            "pt": "Destino da embarcação"
+          }
         }
-      },
-      {
-        "var_name": "enslaved_relations__relation__voyage__voyage_outcome__particular_outcome__name",
-        "type": "CharField",
-        "ops": ["icontains"],
-        "label": {
-          "en": "Vessel fate",
-          "es": "Destino de la embarcación ",
-          "pt": "Destino da embarcação"
-        }
-      }
     ]
   },
   {

@@ -16,7 +16,7 @@ export const fetchVoyageOptionsAPI = createAsyncThunk(
         },
       });
       return response;
-    } catch (error) {
+    } catch {
       throw new Error('Failed to fetchVoyageOptionsAPI data');
     }
   },

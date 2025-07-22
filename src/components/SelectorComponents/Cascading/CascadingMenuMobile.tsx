@@ -1,4 +1,8 @@
-import { ArrowLeft, Filter as FilterAltIcon  } from '@mui/icons-material';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable indent */
+import { useState, MouseEvent, useEffect } from 'react';
+
+import { ArrowLeft, Filter as FilterAltIcon } from '@mui/icons-material';
 import {
   Button,
   Dialog,
@@ -7,13 +11,36 @@ import {
   DialogTitle,
   IconButton,
 } from '@mui/material';
-import {
-  DialogModalStyle,
-  DropdownMenuItem,
-  DropdownNestedMenuItemChildren,
-  StyleDialog,
-} from '@/styleMUI';
+import { useDispatch, useSelector } from 'react-redux';
 
+import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
+import FilterTextBox from '@/components/FilterComponents/Autocomplete/FilterTextBox';
+import FilterTextNameEnslaversBox from '@/components/FilterComponents/Autocomplete/FilterTextNameEnslaversBox';
+import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import {
+  setIsChangeAuto,
+  setTextFilterValue,
+} from '@/redux/getAutoCompleteSlice';
+import { setFilterObject, setIsFilter, setType } from '@/redux/getFilterSlice';
+import {
+  setEnslaversNameAndRole,
+  setIsChange,
+  setKeyValueName,
+} from '@/redux/getRangeSliderSlice';
+import { setIsOpenDialogMobile } from '@/redux/getScrollPageSlice';
+import {
+  setIsViewButtonViewAllResetAll,
+  setLabelVarName,
+} from '@/redux/getShowFilterObjectSlice';
+import { resetAll } from '@/redux/resetAllSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import {
+  allEnslavers,
+  ENSALVERSTYLE,
+  INTRAAMERICANTRADS,
+  TRANSATLANTICTRADS,
+} from '@/share/CONST_DATA';
 import {
   ChildrenFilter,
   FilterMenu,
@@ -27,42 +54,13 @@ import {
   TYPESOFDATASET,
   RolesProps,
 } from '@/share/InterfaceTypes';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useState, MouseEvent, useEffect } from 'react';
 import {
-  setEnslaversNameAndRole,
-  setIsChange,
-  setKeyValueName,
-} from '@/redux/getRangeSliderSlice';
-import { setIsOpenDialogMobile } from '@/redux/getScrollPageSlice';
-import { PaperDraggable } from './PaperDraggable';
-import {
-  setIsChangeAuto,
-  setTextFilterValue,
-} from '@/redux/getAutoCompleteSlice';
-import { setFilterObject, setIsFilter, setType } from '@/redux/getFilterSlice';
-import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
-import { resetAll } from '@/redux/resetAllSlice';
-import { usePageRouter } from '@/hooks/usePageRouter';
+  DialogModalStyle,
+  DropdownMenuItem,
+  DropdownNestedMenuItemChildren,
+  StyleDialog,
+} from '@/styleMUI';
 import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
-import {
-  allEnslavers,
-  ENSALVERSTYLE,
-  INTRAAMERICANTRADS,
-  TRANSATLANTICTRADS,
-} from '@/share/CONST_DATA';
-import { DropdownCascading } from './DropdownCascading';
-import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
-import FilterTextBox from '@/components/FilterComponents/Autocomplete/FilterTextBox';
-import {
-  setIsViewButtonViewAllResetAll,
-  setLabelVarName,
-} from '@/redux/getShowFilterObjectSlice';
-import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
-import FilterTextNameEnslaversBox from '@/components/FilterComponents/Autocomplete/FilterTextNameEnslaversBox';
-import { RadioSelected } from '../RadioSelected/RadioSelected';
-import { SelectSearchDropdownEnslaversNameRole } from '../SelectDrowdown/SelectSearchDropdownEnslaversNameRole';
 import {
   getColorBackground,
   getColorBTNVoyageDatasetBackground,
@@ -70,6 +68,12 @@ import {
   getColorBoxShadow,
 } from '@/utils/functions/getColorStyle';
 import { updatedEnslaversRoleAndNameToLocalStorage } from '@/utils/functions/updatedEnslaversRoleAndNameToLocalStorage';
+
+import { DropdownCascading } from './DropdownCascading';
+import { PaperDraggable } from './PaperDraggable';
+import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
+import { RadioSelected } from '../RadioSelected/RadioSelected';
+import { SelectSearchDropdownEnslaversNameRole } from '../SelectDrowdown/SelectSearchDropdownEnslaversNameRole';
 import { SelectSearchDropdownList } from '../SelectDrowdown/SelectSearchDropdownList';
 
 const CascadingMenuMobile = () => {
@@ -84,30 +88,34 @@ const CascadingMenuMobile = () => {
     valueEnslavedTexas,
     valueEnslavers,
   } = useSelector(
-    (state: RootState) => state.getFilterMenuList.filterValueList
+    (state: RootState) => state.getFilterMenuList.filterValueList,
   );
   const { type: typeData } = useSelector((state: RootState) => state.getFilter);
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
   const [textError, setTextError] = useState<string>('');
   const { listEnslavers, varName, enslaverName, opsRoles } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const [textRoleListError, setTextRoleListError] = useState<string>('');
   const { isOpenDialogMobile } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
   const { labelVarName, textFilter } = useSelector(
-    (state: RootState) => state.getShowFilterObject
+    (state: RootState) => state.getShowFilterObject,
   );
   const dispatch: AppDispatch = useDispatch();
+  const [inputValue, setInputValue] = useState(textFilter);
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
   const [ops, setOps] = useState<string>('');
+  const isButtonDisabled =
+    enslaverName === '' && typeData === TYPES.EnslaverNameAndRole;
+
   useEffect(() => {
     const loadFilterCellStructure = async () => {
       try {
@@ -135,14 +143,25 @@ const CascadingMenuMobile = () => {
       }
     };
     loadFilterCellStructure();
-  }, [styleNameRoute]);
+  }, [
+    styleNameRoute,
+    languageValue,
+    isOpenDialogMobile,
+    valueTransaslantic,
+    valueIntraamerican,
+    valueAllVoyages,
+    valueEnslaved,
+    valueAfricanOrigin,
+    valueEnslavedTexas,
+    valueEnslavers,
+  ]);
 
   const handleApplyTextFilterDataDialog = (value: string) => {
     dispatch(setTextFilterValue(value));
     updateFilter(value);
   };
   const updateFilter = (newValue: string) => {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilters: Filter[] = [];
 
     if (existingFilterObjectString) {
@@ -150,7 +169,7 @@ const CascadingMenuMobile = () => {
     }
 
     const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === varName
+      (filter) => filter.varName === varName,
     );
 
     if (newValue.length > 0) {
@@ -176,7 +195,7 @@ const CascadingMenuMobile = () => {
 
     const filteredFilters = existingFilters.filter(
       (filter) =>
-        !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
+        !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0,
     );
 
     const filterObjectUpdate = {
@@ -199,7 +218,7 @@ const CascadingMenuMobile = () => {
     }
   };
 
-  let displayComponent;
+  let displayComponent: React.ReactNode;
 
   if (varName) {
     switch (typeData) {
@@ -213,6 +232,8 @@ const CascadingMenuMobile = () => {
           displayComponent = (
             <FilterTextBox
               handleKeyDownTextFilter={handleApplyTextFilterDataDialog}
+              inputValue={inputValue}
+              setInputValue={setInputValue}
               type={typeData}
             />
           );
@@ -228,6 +249,8 @@ const CascadingMenuMobile = () => {
               <RadioSelected type={typeData} />
               <FilterTextBox
                 handleKeyDownTextFilter={handleApplyTextFilterDataDialog}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
                 type={typeData}
               />
             </>
@@ -260,6 +283,7 @@ const CascadingMenuMobile = () => {
 
       case TYPES.IntegerField:
       case TYPES.DecimalField:
+      case TYPES.FloatField:
         displayComponent = <RangeSliderComponent />;
         break;
 
@@ -271,11 +295,10 @@ const CascadingMenuMobile = () => {
         break;
     }
   }
-
   const handleApplyEnslaversDialog = (
     roles: RolesProps[],
     name: string,
-    ops: string
+    ops: string,
   ) => {
     setTextError(textError);
     const newRoles: string[] = roles.map((ele) => ele.value);
@@ -285,13 +308,13 @@ const CascadingMenuMobile = () => {
       newRoles as string[],
       name,
       varName,
-      ops!
+      ops!,
     );
   };
   const handleClickMenu = (
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>,
     ops: string[],
-    roles?: RolesProps[]
+    roles?: RolesProps[],
   ) => {
     const { value, type, label } = event.currentTarget.dataset;
     event.stopPropagation();
@@ -433,8 +456,8 @@ const CascadingMenuMobile = () => {
         aria-labelledby="draggable-dialog-title"
         slotProps={{
           backdrop: {
-            onClick: (e) => e.stopPropagation()
-          }
+            onClick: (e) => e.stopPropagation(),
+          },
         }}
       >
         <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
@@ -460,44 +483,31 @@ const CascadingMenuMobile = () => {
               typeData === TYPES.EnslaverNameAndRole ||
               typeData === TYPES.MultiselectList) && (
               <Button
-                autoFocus
-                disabled={
-                  listEnslavers.length === 0 &&
-                  enslaverName === '' &&
-                  typeData === TYPES.EnslaverNameAndRole
-                }
+                disabled={isButtonDisabled}
                 type="submit"
                 onClickCapture={() => {
                   if (typeData === TYPES.EnslaverNameAndRole) {
                     handleApplyEnslaversDialog(
                       listEnslavers,
                       enslaverName,
-                      opsRoles!
+                      opsRoles!,
                     );
                   } else {
-                    handleApplyTextFilterDataDialog(textFilter);
+                    handleApplyTextFilterDataDialog(inputValue);
                   }
                 }}
                 sx={{
                   color: 'white',
                   textTransform: 'unset',
                   height: 30,
-                  cursor:
-                    listEnslavers.length === 0 &&
-                      enslaverName === '' &&
-                      typeData === TYPES.EnslaverNameAndRole
-                      ? 'not-allowed'
-                      : 'pointer',
-                  backgroundColor:
-                    listEnslavers.length === 0 &&
-                      enslaverName === '' &&
-                      typeData === TYPES.EnslaverNameAndRole
-                      ? getColorHoverBackgroundCollection(styleNameRoute!)
-                      : getColorBackground(styleNameRoute!),
+                  cursor: isButtonDisabled ? 'not-allowed' : 'pointer',
+                  backgroundColor: isButtonDisabled
+                    ? getColorHoverBackgroundCollection(styleNameRoute!)
+                    : getColorBackground(styleNameRoute!),
                   fontSize: '0.80rem',
                   '&:hover': {
                     backgroundColor: getColorHoverBackgroundCollection(
-                      styleNameRoute!
+                      styleNameRoute!,
                     ),
                     color: getColorBTNVoyageDatasetBackground(styleNameRoute!),
                   },
@@ -512,7 +522,6 @@ const CascadingMenuMobile = () => {
               </Button>
             )}
           <Button
-            autoFocus
             onClick={handleResetDataDialog}
             sx={{
               color: 'black',
@@ -524,7 +533,7 @@ const CascadingMenuMobile = () => {
               fontSize: '0.80rem',
               '&:hover': {
                 backgroundColor: getColorHoverBackgroundCollection(
-                  styleNameRoute!
+                  styleNameRoute!,
                 ),
                 color: getColorBTNVoyageDatasetBackground(styleNameRoute!),
               },
