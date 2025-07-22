@@ -5,6 +5,7 @@ import { useWindowSize } from '@react-hook/window-size';
 import { Data } from 'plotly.js';
 import Plot from 'react-plotly.js';
 import { useSelector } from 'react-redux';
+import { keyframes } from 'styled-components';
 
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import NoDataState from '@/components/NoResultComponents/NoDataState';
@@ -136,9 +137,11 @@ function BarGraph() {
     VoyageBargraphOptions();
     if (!loading && !isError && response) {
       const values = Object.values(response);
+      const cleanXVar = barGraphOptions.x_vars.replace(/__bins__\d+$/, '');
       const data: Data[] = [];
+
       for (const [index, [key, value]] of Object.entries(response).entries()) {
-        if (key !== barGraphOptions.x_vars && Array.isArray(value)) {
+        if (key !== cleanXVar && Array.isArray(value)) {
           data.push({
             x: values[0] as number[],
             y: value as number[],
@@ -169,7 +172,6 @@ function BarGraph() {
     VoyageBargraphOptions,
     lang,
   ]);
-
   const handleChangeBarGraphOption = useCallback(
     (event: SelectChangeEvent<string>, name: string) => {
       const value = event.target.value;
