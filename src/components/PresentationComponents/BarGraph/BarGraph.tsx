@@ -136,9 +136,10 @@ function BarGraph() {
     VoyageBargraphOptions();
     if (!loading && !isError && response) {
       const values = Object.values(response);
+      const cleanXVar = barGraphOptions.x_vars.replace(/__bins__\d+$/, '');
       const data: Data[] = [];
       for (const [index, [key, value]] of Object.entries(response).entries()) {
-        if (key !== barGraphOptions.x_vars && Array.isArray(value)) {
+        if (key !== cleanXVar && Array.isArray(value)) {
           data.push({
             x: values[0] as number[],
             y: value as number[],

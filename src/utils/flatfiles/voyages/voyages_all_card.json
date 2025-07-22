@@ -542,22 +542,6 @@
           "es": "Place where vessel's voyage ended",
           "pt": "Place where vessel's voyage ended"
         }
-      },
-      {
-        "cell_type": "literal",
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "linked_voyages__voyage_id",
-              "cell_fn": "literal"
-            }
-          ]
-        },
-        "label": {
-          "en": "Linked voyages",
-          "es": "Linked voyages",
-          "pt": "Linked voyages"
-        }
       }
     ]
   },
