@@ -38,3 +38,38 @@
       font-size: 0.8rem;
     }
   }
+
+  /* Add this CSS to your global styles or component styles */
+
+/* Isolate Mirador styles from affecting MUI */
+.mirador-viewer-container {
+  isolation: isolate;
+  contain: layout style;
+}
+
+/* Ensure MUI styles have higher specificity outside of Mirador */
+.MuiThemeProvider-root {
+  isolation: isolate;
+}
+
+/* Reset any conflicting styles within Mirador container */
+.mirador-viewer-container * {
+  box-sizing: border-box;
+}
+
+/* Prevent Mirador from affecting global MUI button styles */
+.mirador-viewer-container .MuiButton-root {
+  all: revert;
+}
+
+/* Ensure proper z-index stacking */
+.mirador-viewer-container {
+  z-index: 1;
+}
+
+/* If you're using MUI Dialog or other overlays, ensure they appear above Mirador */
+.MuiDialog-root,
+.MuiPopover-root,
+.MuiTooltip-popper {
+  z-index: 1300 !important;
+}
