@@ -11,7 +11,7 @@
 	{
       "var_name": "voyage_ship__rig_of_vessel__name",
       "label": {
-        "en": "Rig of Vessel",
+        "en": "Rig of vessel",
         "es": "ES: Rig del barco",
         "pt": "PT: Rig do navio"
       }
@@ -19,7 +19,7 @@
     {
       "var_name": "voyage_outcome__particular_outcome__name",
       "label": {
-        "en": "Particular Outcome",
+        "en": "Particular outcome",
         "es": "ES: Resultado particular",
         "pt": "PT: Resultado particular"
       }
@@ -35,7 +35,7 @@
     {
       "var_name": "voyage_outcome__outcome_owner__name",
       "label": {
-        "en": "Owner Outcome",
+        "en": "Owner outcome",
         "es": "ES: Resultado del propietario",
         "pt": "PT: Resultado do proprietário"
       }
@@ -43,7 +43,7 @@
     {
       "var_name": "voyage_outcome__vessel_captured_outcome__name",
       "label": {
-        "en": "Vessel Captured Outcome",
+        "en": "Vessel captured outcome",
         "es": "ES: Resultado de la captura del barco",
         "pt": "PT: Resultado da captura do navio"
       }
@@ -59,17 +59,17 @@
     {
       "var_name": "voyage_itinerary__imp_port_voyage_begin__name",
       "label": {
-        "en": "Imputed port where voyage began (PTDEPIMP)",
-        "es": "ES: Puerto donde el viaje comenzó imputado (PTDEPIMP)",
-        "pt": "PT: Porto onde o viaje começou imputado (PTDEPIMP)"
+        "en": "Imputed port where voyage began",
+        "es": "ES: Puerto donde el viaje comenzó imputado",
+        "pt": "PT: Porto onde o viaje começou imputado"
       }
     },
     {
       "var_name": "voyage_itinerary__imp_region_voyage_begin__name",
       "label": {
-        "en": "Imputed region where voyage began (DEPTREGIMP)",
-        "es": "ES: Región donde el viaje comenzó imputada (DEPTREGIMP)",
-        "pt": "PT: Região onde o viaje começou imputada (DEPTREGIMP)"
+        "en": "Imputed region where voyage began",
+        "es": "ES: Región donde el viaje comenzó imputada",
+        "pt": "PT: Região onde o viaje começou imputada"
       }
     },
     {
@@ -83,33 +83,33 @@
     {
       "var_name": "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
       "label": {
-        "en": "Imputed principal region of slave purchase (MAJBYIMP)",
-        "es": "ES: Región principal de compra de esclavos imputada (MAJBYIMP)",
-        "pt": "PT: Região principal de compra de escravos imputada (MAJBYIMP)"
+        "en": "Imputed principal region of slave purchase",
+        "es": "ES: Región principal de compra de esclavos imputada",
+        "pt": "PT: Região principal de compra de escravos imputada"
       }
     },
     {
       "var_name": "voyage_itinerary__imp_principal_port_slave_dis__name",
       "label": {
-        "en": "Imputed principal port of slave disembarkation (MJSLPTIMP)",
-        "es": "ES: Puerto principal de desembarque de esclavos imputado (MJSLPTIMP)",
-        "pt": "PT: Porto principal de desembarque de escravos imputado (MJSLPTIMP)"
+        "en": "Imputed principal port of slave disembarkation",
+        "es": "ES: Puerto principal de desembarque de esclavos imputado",
+        "pt": "PT: Porto principal de desembarque de escravos imputado"
       }
     },
     {
       "var_name": "voyage_itinerary__imp_principal_region_slave_dis__name",
       "label": {
-        "en": "Imputed principal region of slave disembarkation (MJSELIMP)",
-        "es": "ES: Región principal de desembarque de esclavos imputada (MJSELIMP)",
-        "pt": "PT: Região principal de desembarque de escravos imputada (MJSELIMP)"
+        "en": "Imputed principal region of slave disembarkation",
+        "es": "ES: Región principal de desembarque de esclavos imputada",
+        "pt": "PT: Região principal de desembarque de escravos imputada"
       }
     },
     {
       "var_name": "voyage_itinerary__imp_broad_region_slave_dis__name",
       "label": {
-        "en": "Imputed broad region of slave disembarkation (MJSELIMP1)",
-        "es": "ES: Región amplia de desembarque de esclavos imputada (MJSELIMP1)",
-        "pt": "PT: Região ampla de desembarque de escravos imputada (MJSELIMP1)"
+        "en": "Imputed broad region of slave disembarkation",
+        "es": "ES: Región amplia de desembarque de esclavos imputada",
+        "pt": "PT: Região ampla de desembarque de escravos imputada"
       }
     },
     {
@@ -190,18 +190,18 @@
     {
       "var_name": "voyage_dates__imp_length_home_to_disembark",
       "label": {
-        "en": "Average voyage length, home port to captives landing (days)",
-        "es": "ES: Average voyage length, home port to captives landing (days)",
-        "pt": "PT: Average voyage length, home port to captives landing (days)"
+        "en": "Average voyage length, home port to captives landing",
+        "es": "ES: Average voyage length, home port to captives landing",
+        "pt": "PT: Average voyage length, home port to captives landing"
       },
       "agg_fn": "mean"
     },
     {
       "var_name": "voyage_dates__length_middle_passage_days",
       "label": {
-        "en": "Average middle passage (days)",
-        "es": "ES: Average middle passage (days)",
-        "pt": "PT: Average middle passage (days)"
+        "en": "Average middle passage",
+        "es": "ES: Average middle passage",
+        "pt": "PT: Average middle passage"
       },
       "agg_fn": "mean"
     },
