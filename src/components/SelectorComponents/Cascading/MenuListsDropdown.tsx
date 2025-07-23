@@ -41,6 +41,7 @@ import { resetAll } from '@/redux/resetAllSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   ENSALVERSTYLE,
+  FILTER_OBJECT_KEY,
   INTRAAMERICANTRADS,
   TRANSATLANTICTRADS,
 } from '@/share/CONST_DATA';
@@ -164,7 +165,7 @@ export const MenuListsDropdown = () => {
   ]);
 
   useEffect(() => {
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
 
     const parsedValue = JSON.parse(storedValue);

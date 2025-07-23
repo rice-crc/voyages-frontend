@@ -28,7 +28,6 @@ import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { setData, setPage } from '@/redux/getTableSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
-  CurrentPageInitialState,
   FilterObjectsState,
   TableListPropsRequest,
 } from '@/share/InterfaceTypes';
@@ -62,6 +61,7 @@ ModuleRegistry.registerModules([
 
 const Tables: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
 
   const { rangeSliderMinMax } = useSelector(
@@ -118,10 +118,6 @@ const Tables: React.FC = () => {
 
   const [rowsPerPage, setRowsPerPage] = useState(
     getRowsPerPage(window.innerWidth, window.innerHeight),
-  );
-
-  const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
 
   const otherTableCellStrructure = useOtherTableCellStructure(styleNameRoute!);
@@ -225,7 +221,7 @@ const Tables: React.FC = () => {
     isChangeGeoTree,
     rangeSliderMinMax,
   ]);
-  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchDataTable = async () => {
       try {
@@ -267,7 +263,6 @@ const Tables: React.FC = () => {
     reloadTable,
     rowsPerPage,
     page,
-    currentPage,
     currentEnslavedPage,
     inputSearchValue,
     currentBlockName,

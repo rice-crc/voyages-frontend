@@ -1,15 +1,21 @@
 import { Button, Hidden } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import { setPathNameVoyages } from '@/redux/getDataPathNameSlice';
+import { setFilterObject, setIsFilter } from '@/redux/getFilterSlice';
 import { setCurrentPage } from '@/redux/getScrollPageSlice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { ALLVOYAGES, FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   CurrentPageInitialState,
   Filter,
   LabelFilterMeneList,
   TYPESOFBLOCKVOYAGES,
 } from '@/share/InterfaceTypes';
-
 import '@/style/page.scss';
+import { BlockCollectionProps } from '@/share/InterfactTypesDatasetCollection';
+import { checkBlockCollectionNameForVoyages } from '@/utils/functions/checkBlockCollectionName';
 import {
   getColorBTNVoyageDatasetBackground,
   getColorBackground,
@@ -17,27 +23,20 @@ import {
   getColorTextCollection,
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
-import { setFilterObject, setIsFilter } from '@/redux/getFilterSlice';
-import { setPathNameVoyages } from '@/redux/getDataPathNameSlice';
-import { ALLVOYAGES } from '@/share/CONST_DATA';
-import { useNavigate } from 'react-router-dom';
-import { BlockCollectionProps } from '@/share/InterfactTypesDatasetCollection';
-import { checkBlockCollectionNameForVoyages } from '@/utils/functions/checkBlockCollectionName';
 
 const CollectionTabVoyages = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { styleName, blocks } = useSelector(
-    (state: RootState) => state.getDataSetCollection
+    (state: RootState) => state.getDataSetCollection,
   );
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
 
   const { currentPage, currentVoyageBlockName } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
-  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
 
   const handlePageNavigation = (page: number, blockName: string) => {
     dispatch(setCurrentPage(page));
@@ -87,7 +86,7 @@ const CollectionTabVoyages = () => {
     ) {
       navigate(`#${TYPESOFBLOCKVOYAGES.timeLapseEN.toLowerCase()}`);
     }
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
     const parsedValue = JSON.parse(storedValue);
     const filter: Filter[] = parsedValue.filter;
@@ -122,28 +121,28 @@ const CollectionTabVoyages = () => {
                   boxShadow:
                     currentVoyageBlockName ===
                     checkBlockCollectionNameForVoyages(
-                      newBlockName.toLocaleLowerCase()
+                      newBlockName.toLocaleLowerCase(),
                     )
                       ? getColorBoxShadow(styleName)
                       : '',
                   color:
                     currentVoyageBlockName ===
                     checkBlockCollectionNameForVoyages(
-                      newBlockName.toLocaleLowerCase()
+                      newBlockName.toLocaleLowerCase(),
                     )
                       ? 'white'
                       : getColorTextCollection(styleName),
                   fontWeight:
                     currentVoyageBlockName ===
                     checkBlockCollectionNameForVoyages(
-                      newBlockName.toLocaleLowerCase()
+                      newBlockName.toLocaleLowerCase(),
                     )
                       ? 'bold'
                       : 600,
                   fontSize: '0.80rem',
                   '&:hover': {
                     backgroundColor: getColorHoverBackgroundCollection(
-                      styleName!
+                      styleName!,
                     ),
                     color: getColorBTNVoyageDatasetBackground(styleName),
                   },

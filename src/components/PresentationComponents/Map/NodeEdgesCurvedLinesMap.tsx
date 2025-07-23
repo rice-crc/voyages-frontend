@@ -1,46 +1,47 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
+
 import L, { LatLngExpression, Marker } from 'leaflet';
+import { useMap } from 'react-leaflet';
 import '@/style/table-popup.scss';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet/dist/leaflet.css';
-import { getNodeColorMapVoyagesStyle } from '@/utils/functions/getNodeColorStyle';
-import '@johnconnor_mulligan/leaflet.curve';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
-import { CustomMarker, EdgesAggroutes } from '@/share/InterfaceTypesMap';
-import { getNodeSize } from '@/utils/functions/getNodeSize';
-import '@/style/map.scss';
-import { createLogNodeValueScale } from '@/utils/functions/createLogNodeValueScale';
-import { handleHoverCircleMarker } from './handleHoverCircleMarker';
-import { handleHoverMarkerCluster } from './handleHoverMarkerCluster';
-import {
-  DISPOSTIONNODE,
-  ORIGINATIONNODE,
-  ORIGINLanguageGroupKEY,
-  nodeTypeOrigin,
-  nodeTypePostDisembarkation,
-  postDisembarkLocationKEY,
-} from '@/share/CONST_DATA';
+import { useSelector, useDispatch } from 'react-redux';
+
 import {
   setClusterNodeKeyVariable,
   setClusterNodeValue,
 } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
-import { AppDispatch } from '@/redux/store';
-import { useDispatch } from 'react-redux';
-import { handerRenderEdges } from './handerRenderEdges';
-import { createTooltipEmbarkDiseEmbarkEdges } from '@/utils/functions/createTooltipClusterEdges';
+import { RootState, AppDispatch } from '@/redux/store';
+import {
+  DISPOSTIONNODE,
+  FILTER_OBJECT_KEY,
+  nodeTypeOrigin,
+  nodeTypePostDisembarkation,
+  ORIGINATIONNODE,
+  ORIGINLanguageGroupKEY,
+  postDisembarkLocationKEY,
+} from '@/share/CONST_DATA';
 import { Filter } from '@/share/InterfaceTypes';
-import { usePageRouter } from '@/hooks/usePageRouter';
+import { CustomMarker, EdgesAggroutes } from '@/share/InterfaceTypesMap';
+import { createLogNodeValueScale } from '@/utils/functions/createLogNodeValueScale';
+import { createTooltipEmbarkDiseEmbarkEdges } from '@/utils/functions/createTooltipClusterEdges';
+import { getNodeColorMapVoyagesStyle } from '@/utils/functions/getNodeColorStyle';
+import '@johnconnor_mulligan/leaflet.curve';
+import { getNodeSize } from '@/utils/functions/getNodeSize';
+
+import '@/style/map.scss';
+import { handerRenderEdges } from './handerRenderEdges';
+import { handleHoverCircleMarker } from './handleHoverCircleMarker';
+import { handleHoverMarkerCluster } from './handleHoverMarkerCluster';
 
 const NodeEdgesCurvedLinesMap = () => {
   const map = useMap();
   const dispatch: AppDispatch = useDispatch();
-  const { styleName: styleNamePage } = usePageRouter();
 
   const { nodesData, edgesData } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
+    (state: RootState) => state.getNodeEdgesAggroutesMapData,
   );
 
   const handleSetClusterKeyValue = (value: string, nodeType: string) => {
@@ -51,7 +52,7 @@ const NodeEdgesCurvedLinesMap = () => {
       dispatch(setClusterNodeKeyVariable(postDisembarkLocationKEY));
       dispatch(setClusterNodeValue(value));
     }
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilterObject: any = {};
 
     if (existingFilterObjectString) {
@@ -59,7 +60,7 @@ const NodeEdgesCurvedLinesMap = () => {
     }
     const existingFilters: Filter[] = existingFilterObject.filter || [];
     const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === ORIGINLanguageGroupKEY
+      (filter) => filter.varName === ORIGINLanguageGroupKEY,
     );
     if (existingFilterIndex !== -1) {
       existingFilters[existingFilterIndex].searchTerm = [value];
@@ -99,12 +100,12 @@ const NodeEdgesCurvedLinesMap = () => {
 
     const hiddenEdges = (edgesData ?? []).filter(
       (edge: EdgesAggroutes) =>
-        edge.type === ORIGINATIONNODE || edge.type === DISPOSTIONNODE
+        edge.type === ORIGINATIONNODE || edge.type === DISPOSTIONNODE,
     );
 
     const edgesToRender = edgesData?.filter(
       (edge: EdgesAggroutes) =>
-        edge.type !== ORIGINATIONNODE && edge.type !== DISPOSTIONNODE
+        edge.type !== ORIGINATIONNODE && edge.type !== DISPOSTIONNODE,
     );
 
     // Render edges when page rendering
@@ -149,7 +150,7 @@ const NodeEdgesCurvedLinesMap = () => {
         nodesData,
         nodeTypeOrigin,
         handleSetClusterKeyValue,
-        map
+        map,
       );
     });
 
@@ -193,14 +194,14 @@ const NodeEdgesCurvedLinesMap = () => {
         nodesData,
         nodeTypePostDisembarkation,
         handleSetClusterKeyValue,
-        map
+        map,
       );
     });
 
     const originNodeMarkersMap = new Map<string, Marker>();
     nodesData.forEach((node) => {
       const { data, weights, id: nodeID } = node;
-      const { lat, lon, name } = data;
+      const { lat, lon } = data;
       const { origin, post_disembarkation, disembarkation, embarkation } =
         weights;
 
@@ -217,7 +218,7 @@ const NodeEdgesCurvedLinesMap = () => {
           radius === 0 ? 'transparent' : '#000000',
           radius === 0 ? 'transparent' : nodeColor,
           0.8,
-          nodeID
+          nodeID,
         );
 
         const popupContent = createTooltipEmbarkDiseEmbarkEdges(node);
@@ -236,7 +237,7 @@ const NodeEdgesCurvedLinesMap = () => {
             originNodeMarkersMap,
             originMarkerCluster,
             handleSetClusterKeyValue, // WAIT To Change if want to show table,
-            map
+            map,
           );
         });
 
@@ -270,6 +271,7 @@ const NodeEdgesCurvedLinesMap = () => {
     if (map) {
       updateEdgesAndNodes();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodesData, edgesData, map]);
 
   return null;

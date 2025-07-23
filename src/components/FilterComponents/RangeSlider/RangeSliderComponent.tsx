@@ -1,13 +1,23 @@
-import { useEffect, useState, ChangeEvent } from 'react';
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { Grid } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { fetchPastEnslavedRangeSliderData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedRangeSliderData';
+import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
+import { fetchRangeVoyageSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setFilterObject } from '@/redux/getFilterSlice';
 import {
   setRangeValue,
   setKeyValueName,
   setRangeSliderValue,
 } from '@/redux/getRangeSliderSlice';
-import { Grid } from '@mui/material';
-import { CustomSlider, Input } from '@/styleMUI';
+import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { allEnslavers, FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   Filter,
   FilterObjectsState,
@@ -15,30 +25,26 @@ import {
   TYPESOFDATASET,
   TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
+import { CustomSlider, Input } from '@/styleMUI';
 import '@/style/Slider.scss';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForEnslavers,
   checkPagesRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
-import { fetchRangeVoyageSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
-import { fetchPastEnslavedRangeSliderData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedRangeSliderData';
-import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
-import { allEnslavers } from '@/share/CONST_DATA';
-import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
+import { filtersDataSend } from '@/utils/functions/filtersDataSend';
+
 
 const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName: styleNameRoute } = usePageRouter();
   const { styleName } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { rangeValue, varName, rangeSliderMinMax, opsRoles } =
-    useSelector((state: RootState) => state.rangeSlider as FilterObjectsState);
+  const { rangeValue, varName, rangeSliderMinMax, opsRoles } = useSelector(
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
+  );
   const { labelVarName } = useSelector(
-    (state: RootState) => state.getShowFilterObject
+    (state: RootState) => state.getShowFilterObject,
   );
 
   const rangeMinMax = rangeSliderMinMax?.[varName] ||
@@ -50,18 +56,24 @@ const RangeSlider = () => {
   >(rangeMinMax);
 
   const filters = filtersDataSend(filtersObj, styleNameRoute!);
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  const dataSend: RangeSliderStateProps = {
-    varName: varName,
-    filter: newFilters || [],
-  };
 
-  const fetchRangeSliderData = async () => {
+  const newFilters = useMemo(() => {
+    return filters === undefined
+      ? undefined
+      : filters!.map((filter) => {
+        const { ...filteredFilter } = filter;
+        return filteredFilter;
+      });
+  }, [filters]);
+
+  const dataSend: RangeSliderStateProps = useMemo(()=>{
+    return {
+      varName: varName,
+      filter: newFilters || [],
+    };
+  },[varName,newFilters])
+
+  const fetchRangeSliderData =  useCallback(async() => {
     try {
       let response;
       if (checkPagesRouteForVoyages(styleName!)) {
@@ -80,23 +92,24 @@ const RangeSlider = () => {
           setRangeValue({
             ...rangeSliderMinMax,
             [varName]: initialValue as number[],
-          })
+          }),
         );
         dispatch(
           setRangeValue({
             ...rangeValue,
             [varName]: initialValue as number[],
-          })
+          }),
         );
       }
     } catch (error) {
       console.log(`Error can't fetch range slider data: ${error}`);
     }
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[ dispatch, styleName]);
 
   useEffect(() => {
     fetchRangeSliderData();
-    const storedValue = localStorage.getItem('filterObject');
+    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
     if (!storedValue) return;
 
     const parsedValue = JSON.parse(storedValue);
@@ -111,7 +124,7 @@ const RangeSlider = () => {
     const initialValue: number[] = rangSliderLocal;
     setCurrentSliderValue(initialValue);
     dispatch(setFilterObject(filter));
-  }, [varName, styleName]);
+  }, [varName, styleName, dispatch,fetchRangeSliderData]);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setCurrentSliderValue(newValue);
@@ -122,13 +135,13 @@ const RangeSlider = () => {
       setRangeSliderValue({
         ...rangeSliderMinMax,
         [varName]: currentSliderValue as number[],
-      })
+      }),
     );
     updatedSliderToLocalStrage(currentSliderValue as number[]);
   };
 
   const handleInputChange = (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
     const { name, value } = event.target;
 
@@ -139,7 +152,7 @@ const RangeSlider = () => {
         setRangeSliderValue({
           ...rangeSliderMinMax,
           [varName]: updatedSliderValue,
-        })
+        }),
       );
       updatedSliderToLocalStrage(updatedSliderValue);
     } else {
@@ -147,13 +160,13 @@ const RangeSlider = () => {
         setRangeSliderValue({
           ...rangeSliderMinMax,
           [varName]: [],
-        })
+        }),
       );
     }
   };
 
   function updatedSliderToLocalStrage(updateValue: number[]) {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
 
     let existingFilterObject: any = {};
 
@@ -162,7 +175,7 @@ const RangeSlider = () => {
     }
     const existingFilters: Filter[] = existingFilterObject.filter || [];
     const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === varName
+      (filter) => filter.varName === varName,
     );
     if (existingFilterIndex !== -1) {
       existingFilters[existingFilterIndex].searchTerm = updateValue as number[];

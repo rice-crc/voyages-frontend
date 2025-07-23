@@ -153,6 +153,8 @@ export const varNameOfFlagOfVesselIMP =
 export const varNameOfResistance = 'voyage_outcome__resistance__name';
 export const varNameParticularCoutComeList =
   'voyage_outcome__particular_outcome__name';
+export const varNameEnslavedVoyageOutcome =
+  'enslaved_relations__relation__voyage__voyage_outcome__particular_outcome__name';
 export const varNameRigOfVesselList = 'voyage_ship__rig_of_vessel__name';
 export const varNameOwnerOutcomeList = 'voyage_outcome__outcome_owner__name';
 export const varNameTonTypList = 'voyage_ship__ton_type__name';
@@ -164,3 +166,6 @@ export const varNameEnslaverRoleList =
 export const varNameGenderName = 'gender__name';
 export const varNameCargoTypeList = 'cargo__cargo__name';
 export const varNameAfricanInfoList = 'african_info__name';
+
+// Constants
+export const FILTER_OBJECT_KEY = 'filterObject';

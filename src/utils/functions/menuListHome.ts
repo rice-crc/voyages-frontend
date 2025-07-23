@@ -16,7 +16,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Acerca de',
       pt: 'Sobre',
     },
-    url: `${BLOGPAGE}/tag/about`
+    url: `${BLOGPAGE}/tag/about`,
   },
   {
     name: {
@@ -39,7 +39,8 @@ export const menuLists: MenuListsProps[] = [
           en: 'Trans-Atlantic',
           es: 'Transatlántico',
           pt: 'Transatlântico',
-        }, url: `${BLOGPAGE}/tag/essays-trans-atlantic`
+        },
+        url: `${BLOGPAGE}/tag/transatlantic`,
       },
       {
         name: {
@@ -47,7 +48,7 @@ export const menuLists: MenuListsProps[] = [
           es: 'Intraamericano',
           pt: 'Intra-americano',
         },
-        url: `${BLOGPAGE}/tag/essays-intra-american`
+        url: `${BLOGPAGE}/tag/intraamerican`,
       },
       {
         name: {
@@ -55,7 +56,7 @@ export const menuLists: MenuListsProps[] = [
           es: 'Rumbo a Texas',
           pt: 'Destino Texas',
         },
-        url: `${BLOGPAGE}/tag/texas-bound`
+        url: `${BLOGPAGE}/tag/texas-bound`,
       },
     ],
   },
@@ -65,10 +66,9 @@ export const menuLists: MenuListsProps[] = [
       es: 'Estimaciones',
       pt: 'Estimativas',
     },
-    url: `${ASSESSMENT}/${ESTIMATES}/`
+    url: `${ASSESSMENT}/${ESTIMATES}/`,
   },
   {
-
     name: {
       en: 'Timelapse',
       es: 'Línea de Tiempo',
@@ -82,14 +82,15 @@ export const menuLists: MenuListsProps[] = [
           es: 'Transatlántico',
           pt: 'Transatlântico',
         },
-        url: `${TRANSATLANTICTIMELAPSE}#timelapse`
+        url: `${TRANSATLANTICTIMELAPSE}#timelapse`,
       },
       {
         name: {
           en: 'Intra-American',
           es: 'Intraamericano',
           pt: 'Intra-americano',
-        }, url: `${INTRAAMERICANPAGE}#timelapse`
+        },
+        url: `${INTRAAMERICANPAGE}#timelapse`,
       },
     ],
   },
@@ -98,48 +99,55 @@ export const menuLists: MenuListsProps[] = [
       en: '3D Videos',
       es: 'Videos en 3D',
       pt: 'Vídeos 3D',
-    }, url: `${BLOGPAGE}/tag/3d-videos-slaving-vessels`
+    },
+    url: `${BLOGPAGE}/3d-videos-of-slaving-vessels/162/`,
   },
   {
     name: {
       en: 'Lesson Plans',
       es: 'Planes de Lecciones',
       pt: 'Planos de Aula',
-    }, url: `${BLOGPAGE}/tag/lesson-plan`
+    },
+    url: `${BLOGPAGE}/tag/lesson-plan`,
   },
   {
     name: {
       en: 'Documents',
       es: 'Documentos',
       pt: 'Documentos',
-    }, url: `${DOCUMENTPAGE}`
+    },
+    url: `${DOCUMENTPAGE}`,
   },
   {
     name: {
       en: 'Methodology',
       es: 'Metodología',
       pt: 'Metodologia',
-    }, url: `${BLOGPAGE}/tag/methodology`
+    },
+    url: `${BLOGPAGE}/tag/methodology`,
   },
   {
     name: {
       en: 'Resources',
       es: 'Recursos',
       pt: 'Recursos',
-    }, url: `${BLOGPAGE}/tag/resources`
+    },
+    url: `${BLOGPAGE}/tag/resources`,
   },
   {
     name: {
       en: 'Downloads',
       es: 'Descargas',
       pt: 'Downloads',
-    }, url: `${BLOGPAGE}/tag/downloads`
+    },
+    url: `${BLOGPAGE}/tag/downloads`,
   },
   {
     name: {
       en: 'Contribute',
       es: 'Contribuir',
       pt: 'Contribuir',
-    }, url: `${ACCOUNTS}signin/`
+    },
+    url: `${ACCOUNTS}signin/`,
   },
 ];

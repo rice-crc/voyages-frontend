@@ -371,15 +371,27 @@ export const getIntroBackgroundEnslavedColor = (styleName: string) => {
 };
 
 export const getBoderColor = (item: string) => {
-  let borderColor = '1px solid #54bfb6';
+  let borderColor = '1px solid rgb(25, 118, 210)';
   if (item === TYPESOFDATASET.allVoyages) {
-    borderColor = '1px solid #54bfb6';
+    borderColor = '1px solid #007269';
   } else if (item === TYPESOFDATASET.transatlantic) {
-    borderColor = '1px solid rgb(56, 116, 203)';
+    borderColor = '1px solid rgb(2 83 204)';
   } else if (item === TYPESOFDATASET.intraAmerican) {
     borderColor = '1px solid #ab47bc';
   } else if (item === TYPESOFDATASET.texas) {
     borderColor = '1px solid rgb(167 70 0)';
+  } else if (item === TYPESOFDATASETPEOPLE.allEnslaved) {
+    borderColor = '1px solid rgb(144, 104, 102)';
+  } else if (item === TYPESOFDATASETPEOPLE.africanOrigins) {
+    borderColor = '1px solid rgb(2 83 204)';
+  } else if (item === TYPESOFDATASETPEOPLE.texas) {
+    borderColor = '1px solid rgb(167 70 0)';
+  } else if (item === allEnslavers) {
+    borderColor = '1px solid #46a88c';
+  } else if (item === INTRAAMERICANTRADS) {
+    borderColor = '1px solid #ab47bc';
+  } else if (item === TRANSATLANTICTRADS) {
+    borderColor = '1px solid rgb(2 83 204)';
   }
   return borderColor;
 };

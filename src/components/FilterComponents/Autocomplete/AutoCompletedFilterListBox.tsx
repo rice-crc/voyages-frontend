@@ -1,10 +1,15 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   useState,
   useEffect,
   SyntheticEvent,
   UIEventHandler,
   useRef,
+  useMemo,
 } from 'react';
+
+import { Check, CheckBoxOutlineBlankOutlined } from '@mui/icons-material';
 import {
   Autocomplete,
   TextField,
@@ -14,28 +19,30 @@ import {
   Checkbox,
   AutocompleteRenderOptionState,
 } from '@mui/material';
-import { AppDispatch, RootState } from '@/redux/store';
+import debounce from 'lodash.debounce';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { useAutoCompletedSearch } from '@/hooks/useAutoCompletedSearch';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setAutoLabel } from '@/redux/getAutoCompleteSlice';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   AutoCompleteOption,
   Filter,
   FilterObjectsState,
+  IRootFilterObject,
 } from '@/share/InterfaceTypes';
-import {Check,CheckBoxOutlineBlankOutlined} from '@mui/icons-material';
-import { setAutoLabel } from '@/redux/getAutoCompleteSlice';
 import '@/style/Slider.scss';
 import '@/style/table.scss';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { IRootFilterObject } from '@/share/InterfaceTypes';
-import { setFilterObject } from '@/redux/getFilterSlice';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-import debounce from 'lodash.debounce';
-import { useAutoCompletedSearch } from '@/hooks/useAutoCompletedSearch';
+
 
 const AutoCompletedFilterListBox = () => {
   const dispatch: AppDispatch = useDispatch();
   const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
 
   const { styleName } = usePageRouter();
@@ -50,24 +57,29 @@ const AutoCompletedFilterListBox = () => {
   const mounted = useRef<boolean>(false);
   const [page, setPage] = useState(1);
   const filters = filtersDataSend(filtersObj, styleName!);
-  const newFilters =
-    filters !== undefined &&
-    filters!.map((filter) => {
-      const { label, title, ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  const dataSend: IRootFilterObject = {
-    varName: varName,
-    querystr: autoValue,
-    offset: offset,
-    limit: limit,
-    filter: newFilters || [],
-  };
+
+  const newFilters = useMemo(() => {
+    return filters === undefined
+      ? undefined
+      : filters!.map((filter) => {
+        const { ...filteredFilter } = filter;
+        return filteredFilter;
+      });
+  }, [filters]);
+
+  const dataSend: IRootFilterObject = useMemo(()=>{
+    return {
+      varName: varName,
+      querystr: autoValue,
+      offset: offset,
+      limit: limit,
+      filter: newFilters || [],
+    };
+  },[varName, autoValue, newFilters,offset])
 
   const {
     loading,
     error,
-    hasMore,
     autoList: newAutoList,
   } = useAutoCompletedSearch(
     dataSend,
@@ -75,7 +87,7 @@ const AutoCompletedFilterListBox = () => {
     setAutoList,
     autoValue,
     page,
-    styleName!
+    styleName!,
   );
 
   const loadMoreResults = () => {
@@ -116,20 +128,20 @@ const AutoCompletedFilterListBox = () => {
       setAutoValue(value);
       setPage(1);
     },
-    100
+    100,
   );
 
   // Use the debounced function in your Autocomplete component
   const handleInputChange = (
     event: React.SyntheticEvent<Element, Event>,
-    value: string
+    value: string,
   ) => {
     debouncedHandleInputChange(event, value);
   };
 
   const handleAutoCompletedChange = (
     event: SyntheticEvent<Element, Event>,
-    newValue: AutoCompleteOption[]
+    newValue: AutoCompleteOption[],
   ) => {
     if (!newValue) return;
 
@@ -140,7 +152,7 @@ const AutoCompletedFilterListBox = () => {
     // Update autoList based on selected items
     const updatedAutoList = autoList.filter(
       (item) =>
-        !newValue.some((selectedItem) => selectedItem.value === item.value)
+        !newValue.some((selectedItem) => selectedItem.value === item.value),
     );
 
     // Move selected items to the top of the autoList
@@ -156,7 +168,7 @@ const AutoCompletedFilterListBox = () => {
   };
 
   const updateFilter = (newValue: AutoCompleteOption[]) => {
-    const existingFilterObjectString = localStorage.getItem('filterObject');
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilters: Filter[] = [];
 
     if (existingFilterObjectString) {
@@ -164,13 +176,13 @@ const AutoCompletedFilterListBox = () => {
     }
 
     const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === varName
+      (filter) => filter.varName === varName,
     );
 
     if (Array.isArray(newValue) && newValue.length > 0) {
       if (existingFilterIndex !== -1) {
         existingFilters[existingFilterIndex].searchTerm = newValue.map(
-          (ele) => ele.value
+          (ele) => ele.value,
         );
       } else {
         existingFilters.push({
@@ -185,7 +197,7 @@ const AutoCompletedFilterListBox = () => {
 
     const filteredFilters = existingFilters.filter(
       (filter) =>
-        !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0
+        !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0,
     );
     dispatch(setFilterObject(filteredFilters));
 
@@ -206,7 +218,7 @@ const AutoCompletedFilterListBox = () => {
   const optionRenderer = (
     props: React.HTMLAttributes<HTMLLIElement>,
     option: AutoCompleteOption,
-    { selected }: AutocompleteRenderOptionState
+    { selected }: AutocompleteRenderOptionState,
   ) => {
     return (
       <li {...props} key={`${option.value}`}>
@@ -224,7 +236,7 @@ const AutoCompletedFilterListBox = () => {
   const getOptionLabel = (option: AutoCompleteOption) => {
     const textContent = new DOMParser().parseFromString(
       option.value ?? '',
-      'text/html'
+      'text/html',
     ).body.textContent;
     return textContent ?? '';
   };
@@ -256,7 +268,7 @@ const AutoCompletedFilterListBox = () => {
         <Paper
           component="ul"
           className="auto-options-list"
-          role="list-box"
+          role="listbox"
           ref={listboxNodeRef}
         >
           {children}

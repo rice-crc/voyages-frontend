@@ -22,23 +22,6 @@
             }
           ]
         }
-      },
-      {
-        "label": {
-          "en": "Enumeration of Enslaved People",
-          "es": "ES: Enumeration of Enslaved People",
-          "pt": "PT: Enumeration of Enslaved People"
-        },
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-            {
-              "var_name": "number_enslaved_people",
-              "cell_fn": "literal"
-            }
-          ]
-        }
       }
     ]
   },

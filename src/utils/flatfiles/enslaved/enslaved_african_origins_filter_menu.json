@@ -149,11 +149,11 @@
       },
       {
         "var_name": "enslaved_relations__relation__voyage__voyage_outcome__particular_outcome__name",
-        "type": "CharField",
+        "type": "MultiselectList",
         "ops": ["icontains"],
         "label": {
           "en": "Vessel fate",
-          "es": "Destino de la embarcación ",
+          "es": "Destino de la embarcación",
           "pt": "Destino da embarcação"
         }
       }
