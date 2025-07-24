@@ -1,13 +1,15 @@
-import { TableCellStructure } from '@/share/InterfaceTypesTable';
 import { ICellRendererParams } from 'ag-grid-community';
-import { hasValueGetter } from './hasValueGetter';
+
 import { GenerateCellTableRenderer } from '@/components/PresentationComponents/Tables/GenerateCellTableRenderer';
 import { LabelFilterMeneList } from '@/share/InterfaceTypes';
+import { TableCellStructure } from '@/share/InterfaceTypesTable';
+
+import { hasValueGetter } from './hasValueGetter';
 
 export const generateColumnDef = (
   value: TableCellStructure,
   languageValue: string,
-  visibleColumnCells?: string[]
+  visibleColumnCells?: string[],
 ) => {
   const nodeClass = value?.cell_val?.fields[0]?.node_class;
   const CELLFN = value?.cell_val?.fields[0]?.cell_fn;
@@ -16,7 +18,7 @@ export const generateColumnDef = (
   const columnHeader = (value.header_label as LabelFilterMeneList)[
     languageValue
   ];
-  
+
   return {
     headerName: columnHeader,
     field: value.colID,
@@ -28,13 +30,15 @@ export const generateColumnDef = (
     sortingOrder: ['asc', 'desc', null],
     headerTooltip: columnHeader,
     tooltipField: value.colID,
-    hide: visibleColumnCells ? !visibleColumnCells.includes(value.colID) : false,
+    hide: visibleColumnCells
+      ? !visibleColumnCells.includes(value.colID)
+      : false,
     filter: true,
     cellRenderer: (params: ICellRendererParams) =>
       GenerateCellTableRenderer(params, CELLFN, colID, numberFormat, nodeClass),
     valueGetter: (params: ICellRendererParams) => hasValueGetter(params, value),
     context: {
-      fieldToSort: value.order_by
-    }
+      fieldToSort: value.order_by,
+    },
   };
 };

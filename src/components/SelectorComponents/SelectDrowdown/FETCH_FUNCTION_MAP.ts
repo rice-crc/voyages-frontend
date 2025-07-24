@@ -1,3 +1,4 @@
+import { fetchCaptiveFateList } from '@/fetch/pastEnslavedFetch/fetchCaptiveFateList';
 import { fetchEnslavedGenderList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedGenderList';
 import { fetchAfricanInfoList } from '@/fetch/voyagesFetch/fetchAfricanInfoList';
 import { fetchCargoTypeListList } from '@/fetch/voyagesFetch/fetchCargoTypeList';
@@ -24,6 +25,7 @@ import {
   varNameGenderName,
   varNameCargoTypeList,
   varNameAfricanInfoList,
+  varNameCaptiveFateList,
 } from '@/share/CONST_DATA';
 
 // Fetch function mapping
@@ -41,4 +43,5 @@ export const FETCH_FUNCTION_MAP: Record<string, () => Promise<unknown>> = {
   [varNameGenderName]: fetchEnslavedGenderList,
   [varNameCargoTypeList]: fetchCargoTypeListList,
   [varNameAfricanInfoList]: fetchAfricanInfoList,
+  [varNameCaptiveFateList]: fetchCaptiveFateList,
 };

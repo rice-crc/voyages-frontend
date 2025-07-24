@@ -61,8 +61,15 @@ const GeoTreeSelected: React.FC<GeoTreeSelectedProps> = ({ type }) => {
   const { labelVarName } = useSelector(
     (state: RootState) => state.getShowFilterObject,
   );
-  const filters = filtersDataSend(filtersObj, styleNameRoute!);
 
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+      ),
+    [filtersObj, styleName]
+  );
   const newFilters = useMemo(() => {
     return filters === undefined
       ? undefined

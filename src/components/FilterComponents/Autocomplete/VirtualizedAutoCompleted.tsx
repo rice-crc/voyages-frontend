@@ -64,7 +64,14 @@ export default function VirtualizedAutoCompleted() {
   const listboxNodeRef = useRef<HTMLUListElement | null>(null);
   const [page, setPage] = useState(1);
 
-  const filters = filtersDataSend(filtersObj, styleName!);
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+      ),
+    [filtersObj, styleName]
+  );
   const newFilters = useMemo(() => {
     return filters === undefined
       ? undefined

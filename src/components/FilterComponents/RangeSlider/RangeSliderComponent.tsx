@@ -55,8 +55,16 @@ const RangeSlider = () => {
     number | number[]
   >(rangeMinMax);
 
-  const filters = filtersDataSend(filtersObj, styleNameRoute!);
 
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+      ),
+    [filtersObj, styleName]
+  );
+  
   const newFilters = useMemo(() => {
     return filters === undefined
       ? undefined

@@ -1,12 +1,13 @@
-import { TableCellStructure } from '@/share/InterfaceTypesTable';
 import { ICellRendererParams } from 'ag-grid-community';
+
+import { TableCellStructure } from '@/share/InterfaceTypesTable';
 
 export function hasValueGetter(
   params: ICellRendererParams,
-  value: TableCellStructure
+  value: TableCellStructure,
 ) {
   const finalData: string[] = [];
-  const data = params.data;
+  const data = params?.data;
 
   const fields = value.cell_val.fields;
   const firstData = data[fields[0]?.var_name];
@@ -14,9 +15,7 @@ export function hasValueGetter(
   const joinDelimiter: string | undefined = value.cell_val.join;
 
   if (valueCellType === 'literal') {
-    const dataDisplay = data[fields[0].var_name];
-
-    return dataDisplay ? dataDisplay : '--';
+    return firstData ? firstData : '--';
   } else if (value.colID === 'connections') {
     return data.id;
   } else if (valueCellType === 'literal-concat' && Array.isArray(firstData)) {

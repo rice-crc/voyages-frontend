@@ -1,6 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,17 +19,26 @@ import {
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 
-interface Props {
-  showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
-  column: {
-    colId: string;
-    sort: string | null;
-    colDef: unknown;
-    isSortAscending: () => boolean;
-    isSortDescending: () => boolean;
-    addEventListener: (event: string, callback: () => void) => void;
-    removeEventListener: (event: string, callback: () => void) => void;
+// Extracted types
+interface ColumnDef {
+  context?: {
+    fieldToSort: string[];
   };
+}
+
+interface Column {
+  colId: string;
+  sort: string | null;
+  colDef: ColumnDef;
+  isSortAscending: () => boolean;
+  isSortDescending: () => boolean;
+  addEventListener: (event: string, callback: () => void) => void;
+  removeEventListener: (event: string, callback: () => void) => void;
+}
+
+interface CustomHeaderTableProps {
+  showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
+  column: Column;
   setSort: (order: string, shiftKey: boolean) => void;
   enableMenu: boolean;
   menuIcon: string;
@@ -43,146 +50,187 @@ interface Props {
   descSort: string;
 }
 
-const CustomHeaderTable: React.FC<Props> = (props) => {
-  const {
-    column,
-    setSort,
-    enableSorting,
-    displayName,
-    pageSize,
-    setSortColumn,
-    ascSort,
-    descSort,
-  } = props;
+type SortOrder = 'asc' | 'desc';
+
+const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
+  column,
+  setSort,
+  enableSorting,
+  displayName,
+  pageSize,
+  setSortColumn,
+  ascSort,
+  descSort,
+}) => {
+  // State
+  const [currentPageSize, setCurrentPageSize] = useState(pageSize);
+
+  // Selectors
   const { page } = useSelector(
     (state: RootState) => state.getTableData as StateRowData,
   );
-  // Add state to track pageSize
-  const [currentPageSize, setCurrentPageSize] = useState(pageSize);
-
-  // Update currentPageSize when prop changes
-  useEffect(() => {
-    setCurrentPageSize(pageSize);
-  }, [pageSize]);
-
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const dispatch: AppDispatch = useDispatch();
-  const { styleName } = usePageRouter();
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch,
   );
-
   const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
     (state: RootState) => state.getNodeEdgesAggroutesMapData,
   );
 
-  const onSortRequested = (
-    order: string,
-    event:
-      | React.MouseEvent<HTMLButtonElement>
-      | React.TouchEvent<HTMLButtonElement>,
-  ) => {
-    setSort(order, event.shiftKey);
-    const sortOrder = column.isSortAscending() ? 'asc' : 'desc';
+  // Hooks
+  const dispatch: AppDispatch = useDispatch();
+  const { styleName } = usePageRouter();
 
-    fetchData(sortOrder, (column.colDef as any)?.context?.fieldToSort);
-  };
+  // Effects
+  useEffect(() => {
+    setCurrentPageSize(pageSize);
+  }, [pageSize]);
 
-  const filters = filtersDataSend(
-    filtersObj,
-    styleName!,
-    clusterNodeKeyVariable,
-    clusterNodeValue,
+  // Memoized values
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+        clusterNodeKeyVariable,
+        clusterNodeValue,
+      ),
+    [filtersObj, styleName, clusterNodeKeyVariable, clusterNodeValue],
   );
 
-  const newFilters = useMemo(() => {
-    return filters === undefined
-      ? undefined
-      : filters!.map((filter) => {
-        const { ...filteredFilter } = filter;
-        return filteredFilter;
-      });
+  const processedFilters = useMemo(() => {
+    if (!filters) return undefined;
+    return filters.map((filter) => {
+      const { ...filteredFilter } = filter;
+      return filteredFilter;
+    });
   }, [filters]);
 
-  const dataSend: TableListPropsRequest = useMemo(
+  const baseRequestData: TableListPropsRequest = useMemo(
     () => ({
-      filter: newFilters || [],
+      filter: processedFilters || [],
       page: Number(page + 1),
       page_size: Number(currentPageSize),
     }),
-    [newFilters, page, currentPageSize],
+    [processedFilters, page, currentPageSize],
   );
 
-  const fetchData = async (sortOrder: string, sortingOrder: string[]) => {
-    const requestData = { ...dataSend };
-    if (inputSearchValue) {
-      requestData.global_search = inputSearchValue;
+  // Helper functions
+  const getApiFunction = useCallback(() => {
+    if (checkPagesRouteForVoyages(styleName!)) {
+      return fetchVoyageOptionsAPI;
     }
+    if (checkPagesRouteForEnslaved(styleName!)) {
+      return fetchEnslavedOptionsList;
+    }
+    if (checkPagesRouteForEnslavers(styleName!)) {
+      return fetchEnslaversOptionsList;
+    }
+    return null;
+  }, [styleName]);
 
-    if (sortOrder === 'asc') {
-      if (sortingOrder?.length > 0) {
-        const sort = sortingOrder[0];
-        setSortColumn([sort]);
-        requestData.order_by = [sort];
-      }
-    } else if (sortOrder === 'desc') {
-      if (sortingOrder?.length > 0) {
-        const sort = `-${sortingOrder[0]}`;
-        setSortColumn([sort]);
-        requestData.order_by = [sort];
-      }
-    }
-    console.log({requestData})
-    try {
-      let response;
-      if (checkPagesRouteForVoyages(styleName!)) {
-        response = await dispatch(fetchVoyageOptionsAPI(requestData)).unwrap();
-      } else if (checkPagesRouteForEnslaved(styleName!)) {
-        response = await dispatch(
-          fetchEnslavedOptionsList(requestData),
-        ).unwrap();
-      } else if (checkPagesRouteForEnslavers(styleName!)) {
-        response = await dispatch(
-          fetchEnslaversOptionsList(requestData),
-        ).unwrap();
-      }
-      if (response) {
-        const { results } = response.data;
-        dispatch(setRowData(results));
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
+  const createSortOrder = useCallback(
+    (sortOrder: SortOrder, sortingFields: string[]) => {
+      if (sortingFields.length === 0) return [];
 
-  let sort: React.ReactNode = null;
-  if (enableSorting) {
-    sort = (
-      <div
-        style={{
-          display: 'flex',
-        }}
-      >
+      return sortOrder === 'asc'
+        ? sortingFields
+        : sortingFields.map((field) => `-${field}`);
+    },
+    [],
+  );
+
+  // Main data fetching function
+  const fetchData = useCallback(
+    async (sortOrder: SortOrder, sortingFields: string[]) => {
+      const apiFunction = getApiFunction();
+      if (!apiFunction) return;
+
+      const requestData = { ...baseRequestData };
+
+      // Add global search if present
+      if (inputSearchValue) {
+        requestData.global_search = inputSearchValue;
+      }
+
+      // Add sorting if fields are provided
+      if (sortingFields.length > 0) {
+        const orderBy = createSortOrder(sortOrder, sortingFields);
+        setSortColumn(orderBy);
+        requestData.order_by = orderBy;
+      }
+
+      try {
+        const response = await dispatch(apiFunction(requestData)).unwrap();
+        if (response?.data?.results) {
+          dispatch(setRowData(response.data.results));
+        }
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+      }
+    },
+    [
+      baseRequestData,
+      inputSearchValue,
+      dispatch,
+      getApiFunction,
+      createSortOrder,
+      setSortColumn,
+    ],
+  );
+
+  // Event handlers
+  const handleSortRequest = useCallback(
+    (
+      order: SortOrder,
+      event:
+        | React.MouseEvent<HTMLButtonElement>
+        | React.TouchEvent<HTMLButtonElement>,
+    ) => {
+      setSort(order, event.shiftKey);
+      const currentSortOrder: SortOrder = column.isSortAscending()
+        ? 'asc'
+        : 'desc';
+      const sortingFields = column.colDef?.context?.fieldToSort || [];
+
+      fetchData(currentSortOrder, sortingFields);
+    },
+    [setSort, column, fetchData],
+  );
+
+  // Render sorting buttons
+  const renderSortButtons = () => {
+    if (!enableSorting) return null;
+
+    return (
+      <div className="sort-buttons" style={{ display: 'flex' }}>
         <button
           type="button"
-          onClick={(event) => onSortRequested('asc', event)}
-          onTouchEnd={(event) => onSortRequested('asc', event)}
+          onClick={(event) =>
+            ascSort !== 'active' && handleSortRequest('asc', event)
+          }
+          onTouchEnd={(event) => handleSortRequest('asc', event)}
           className={`customSortDownLabel ${ascSort}`}
           aria-label="Sort ascending"
+          disabled={ascSort === 'active'}
         >
-          <i className="fa fa-long-arrow-alt-down"></i>
+          <i className="fa fa-long-arrow-alt-down" />
         </button>
         <button
-          onClick={(event) => onSortRequested('desc', event)}
-          onTouchEnd={(event) => onSortRequested('desc', event)}
+          type="button"
+          onClick={(event) =>
+            descSort !== 'active' && handleSortRequest('desc', event)
+          }
+          onTouchEnd={(event) => handleSortRequest('desc', event)}
           className={`customSortUpLabel ${descSort}`}
           aria-label="Sort descending"
+          disabled={descSort === 'active'}
         >
-          <i className="fa fa-long-arrow-alt-up"></i>
+          <i className="fa fa-long-arrow-alt-up" />
         </button>
       </div>
     );
-  }
+  };
 
   return (
     <div className="customHeaderLabel-box">
@@ -192,7 +240,7 @@ const CustomHeaderTable: React.FC<Props> = (props) => {
       >
         {displayName}
       </div>
-      {sort}
+      {renderSortButtons()}
     </div>
   );
 };

@@ -103,7 +103,7 @@
         "cell_val": {
           "fields": [
             {
-              "var_name": "named_enslaved_people__enslaved__documented_name",
+              "var_name": "named_enslaved_people__documented_name",
               "cell_fn": "literal"
             }
           ]

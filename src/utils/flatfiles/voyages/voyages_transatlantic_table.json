@@ -1130,9 +1130,9 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__voyage_began_sparsedate__day",
+				"voyage_dates__voyage_began_sparsedate__year",
 				"voyage_dates__voyage_began_sparsedate__month",
-				"voyage_dates__voyage_began_sparsedate__year"
+				"voyage_dates__voyage_began_sparsedate__day"
 			],
 			"col_width_px": 92,
 			"colID": "voyage_dates__voyage_began",
@@ -1155,9 +1155,9 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__slave_purchase_began_sparsedate__day",
+				"voyage_dates__slave_purchase_began_sparsedate__year",
 				"voyage_dates__slave_purchase_began_sparsedate__month",
-				"voyage_dates__slave_purchase_began_sparsedate__year"
+				"voyage_dates__slave_purchase_began_sparsedate__day"
 			],
 			"col_width_px": 125,
 			"colID": "voyage_dates__slave_purchase_began",
@@ -1180,9 +1180,9 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__date_departed_africa_sparsedate__day",
+				"voyage_dates__date_departed_africa_sparsedate__year",
 				"voyage_dates__date_departed_africa_sparsedate__month",
-				"voyage_dates__date_departed_africa_sparsedate__year"
+				"voyage_dates__date_departed_africa_sparsedate__day"
 			],
 			"col_width_px": 120,
 			"colID": "voyage_dates__date_departed_africa_sparsedate",
@@ -1205,9 +1205,9 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day",
+				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
 				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__month",
-				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year"
+				"voyage_dates__imp_arrival_at_port_of_dis_sparsedate__day"
 			],
 			"col_width_px": 120,
 			"colID": "voyage_dates__imp_arrival_at_port_of_dis",
@@ -1230,9 +1230,9 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__departure_last_place_of_landing_sparsedate__day",
+				"voyage_dates__departure_last_place_of_landing_sparsedate__year",
 				"voyage_dates__departure_last_place_of_landing_sparsedate__month",
-				"voyage_dates__departure_last_place_of_landing_sparsedate__year"
+				"voyage_dates__departure_last_place_of_landing_sparsedate__day"
 			],
 			"col_width_px": 120,
 			"colID": "voyage_dates__departure_last_place_of_landing",
@@ -1255,9 +1255,9 @@
 			"visible": false,
 			"number_format": null,
 			"order_by": [
-				"voyage_dates__voyage_completed_sparsedate__day",
+				"voyage_dates__voyage_completed_sparsedate__year",
 				"voyage_dates__voyage_completed_sparsedate__month",
-				"voyage_dates__voyage_completed_sparsedate__year"
+				"voyage_dates__voyage_completed_sparsedate__day"
 			],
 			"col_width_px": 100,
 			"colID": "voyage_dates__voyage_completed",

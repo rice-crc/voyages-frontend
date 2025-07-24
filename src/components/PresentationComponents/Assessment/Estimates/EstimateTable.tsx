@@ -99,7 +99,10 @@ const EstimateTable = () => {
   );
   const updatedRowsValue = rows.join('').replace(/_(\d+)$/, '');
 
-  const filters = filtersDataSend(filtersObj, styleName!);
+  const filters = useMemo(
+    () => filtersDataSend(filtersObj, styleName!),
+    [filtersObj, styleName],
+  );
 
   const newFilters = useMemo(() => {
     return filters?.map(({ ...rest }) => rest) || [];
