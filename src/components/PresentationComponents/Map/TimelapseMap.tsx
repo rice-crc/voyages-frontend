@@ -1562,7 +1562,11 @@ const useFilteredVoyageRoutes = () => {
     fetchNations();
   }, []);
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const filters = filtersDataSend(filtersObj, styleName!) || [];
+  const filters = useMemo(
+    () => filtersDataSend(filtersObj, styleName!),
+    [filtersObj, styleName],
+  );
+
   // NOTE: We use a dependency on the stringified filters because the
   // filtersDataSend function returns a new array every time.
   const filter = useMemo(() => {
@@ -1573,6 +1577,7 @@ const useFilteredVoyageRoutes = () => {
           return neededPartOfFilter;
         });
   }, [JSON.stringify(filters)]);
+
   useEffect(() => {
     const fetchVoyages = async () => {
       if (!routeBuilder || !nations) {

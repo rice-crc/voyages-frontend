@@ -86,11 +86,15 @@ function PieGraph() {
     );
   };
 
-  const filters = filtersDataSend(
-    filtersObj,
-    styleNameRoute!,
-    clusterNodeKeyVariable,
-    clusterNodeValue,
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+        clusterNodeKeyVariable,
+        clusterNodeValue,
+      ),
+    [filtersObj, styleName, clusterNodeKeyVariable, clusterNodeValue],
   );
 
   const newFilters = useMemo(() => {

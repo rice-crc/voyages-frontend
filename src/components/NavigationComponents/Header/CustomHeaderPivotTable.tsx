@@ -60,8 +60,15 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
 
-  const filters = filtersDataSend(filtersObj, styleName!);
-
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+      ),
+    [filtersObj, styleName]
+  );
+  
   const newFilters = useMemo(() => {
     return filters === undefined
       ? undefined

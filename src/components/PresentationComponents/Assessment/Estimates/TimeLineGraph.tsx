@@ -31,12 +31,21 @@ const TimelineChart: React.FC<{
   const [loading, setLoading] = useState(false);
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { currentBlockName, styleName } = usePageRouter();
+  const { varName } = useSelector(
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
+  );
+  
   const graphContainerRef = useRef<HTMLDivElement | null>(null);
   const mouseOverInfoRef = useRef<HTMLDivElement | null>(null);
   const historicalEventsContainerRef = useRef<HTMLDivElement | null>(null);
-  const filters = filtersDataSend(filtersObj, styleName!);
-  const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState,
+
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+      ),
+    [filtersObj, styleName]
   );
 
   const newFilters = useMemo(() => {

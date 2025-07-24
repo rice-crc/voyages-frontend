@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
-import { Grid, SelectChangeEvent } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
 import { Data } from 'plotly.js';
 import Plot from 'react-plotly.js';
@@ -23,20 +22,18 @@ import {
   IRootFilterLineAndBarRequest,
 } from '@/share/InterfaceTypes';
 import VOYAGE_SCATTER_OPTIONS from '@/utils/flatfiles/voyages/voyages_scatter_options.json';
+import {
+  chartHeightCustom,
+  chartWidthCustom,
+} from '@/utils/functions/chartWidth';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
-import {
-  getMobileMaxHeight,
-  getMobileMaxWidth,
-  maxWidthSize,
-} from '@/utils/functions/maxWidthSize';
+import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 
 function Scatter() {
-  const datas = useSelector(
-    (state: RootState | any) => state.getOptions?.value,
-  );
+  const datas = useSelector((state: RootState) => state.getOptions?.value);
   const {
     data: options_flat,
     isSuccess,
@@ -84,6 +81,11 @@ function Scatter() {
     agg_fn: VOYAGE_SCATTER_OPTIONS.y_vars[0].agg_fn || '',
   });
   const maxWidth = maxWidthSize(width);
+  const chartWidth = useMemo(
+    () => chartWidthCustom(width, maxWidth),
+    [width, maxWidth],
+  );
+  const chartHeight = useMemo(() => chartHeightCustom(height), [height]);
 
   const VoyageScatterOptions = useCallback(() => {
     Object.entries(VOYAGE_SCATTER_OPTIONS).forEach(
@@ -98,11 +100,16 @@ function Scatter() {
     );
   }, []);
 
-  const filters = filtersDataSend(
-    filtersObj,
-    styleNameRoute!,
-    clusterNodeKeyVariable,
-    clusterNodeValue,
+  // Memoized values
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+        clusterNodeKeyVariable,
+        clusterNodeValue,
+      ),
+    [filtersObj, styleName, clusterNodeKeyVariable, clusterNodeValue],
   );
 
   const newFilters = useMemo(() => {
@@ -231,12 +238,21 @@ function Scatter() {
           <img src={LOADINGLOGO} alt="loading" />
         </div>
       ) : yAxes.length > 0 ? (
-        <Grid style={{ maxWidth: maxWidth, border: '1px solid #ccc' }}>
+        <div
+          style={{
+            width: '100%',
+            maxWidth: chartWidth,
+            border: '1px solid #ccc',
+            marginTop: 18,
+            overflow: 'hidden',
+            position: 'relative',
+          }}
+        >
           <Plot
             data={scatterData}
             layout={{
-              width: getMobileMaxWidth(maxWidth - 5),
-              height: getMobileMaxHeight(height),
+              width: chartWidth,
+              height: chartHeight,
               title: {
                 text: 'Line Graph',
                 x: 0.5,
@@ -244,7 +260,7 @@ function Scatter() {
               },
               font: {
                 family: 'Arial, sans-serif',
-                size: maxWidth < 400 ? 7 : 10,
+                size: width < 400 ? 8 : width < 768 ? 10 : 12,
                 color: '#333333',
               },
               xaxis: {
@@ -266,7 +282,7 @@ function Scatter() {
               displayModeBar: false,
             }}
           />
-        </Grid>
+        </div>
       ) : (
         <div className="no-data-icon">
           <NoDataState text="" />

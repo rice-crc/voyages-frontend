@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
-import { Grid, SelectChangeEvent, Skeleton } from '@mui/material';
+import { SelectChangeEvent, Skeleton } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
 import { Data } from 'plotly.js';
 import Plot from 'react-plotly.js';
@@ -10,7 +10,6 @@ import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import NoDataState from '@/components/NoResultComponents/NoDataState';
 import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { useFetchLineAndBarcharts } from '@/hooks/useFetchLineAndBarcharts';
-import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
 import {
   PlotXYVar,
@@ -21,13 +20,13 @@ import {
   IRootFilterLineAndBarRequest,
 } from '@/share/InterfaceTypes';
 import VOYAGE_BARGRAPH_OPTIONS from '@/utils/flatfiles/voyages/voyages_bargraph_options.json';
+import {
+  chartHeightCustom,
+  chartWidthCustom,
+} from '@/utils/functions/chartWidth';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { formatYAxes } from '@/utils/functions/formatYAxesLine';
-import {
-  getMobileMaxHeight,
-  getMobileMaxWidth,
-  maxWidthSize,
-} from '@/utils/functions/maxWidthSize';
+import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 
 import { SelectDropdown } from '../../SelectorComponents/SelectDrowdown/SelectDropdown';
 
@@ -41,7 +40,7 @@ function BarGraph() {
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
-  const { styleName: styleNameRoute } = usePageRouter();
+
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
@@ -80,7 +79,13 @@ function BarGraph() {
     y_vars: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
     agg_fn: VOYAGE_BARGRAPH_OPTIONS.y_vars[0].agg_fn || '',
   });
+
   const maxWidth = maxWidthSize(width);
+  const chartWidth = useMemo(
+    () => chartWidthCustom(width, maxWidth),
+    [width, maxWidth],
+  );
+  const chartHeight = useMemo(() => chartHeightCustom(height), [height]);
 
   const VoyageBargraphOptions = useCallback(() => {
     Object.entries(VOYAGE_BARGRAPH_OPTIONS).forEach(([key, value]) => {
@@ -93,11 +98,16 @@ function BarGraph() {
     });
   }, []);
 
-  const filters = filtersDataSend(
-    filtersObj,
-    styleNameRoute!,
-    clusterNodeKeyVariable,
-    clusterNodeValue,
+  // Memoized values
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+        clusterNodeKeyVariable,
+        clusterNodeValue,
+      ),
+    [filtersObj, styleName, clusterNodeKeyVariable, clusterNodeValue],
   );
 
   const newFilters = useMemo(() => {
@@ -200,15 +210,20 @@ function BarGraph() {
   );
 
   if (isLoading) {
-    <div className="Skeleton-loading">
-      <Skeleton />
-      <Skeleton animation="wave" />
-      <Skeleton animation={false} />
-    </div>;
+    return (
+      <div className="Skeleton-loading">
+        <Skeleton />
+        <Skeleton animation="wave" />
+        <Skeleton animation={false} />
+      </div>
+    );
   }
 
   return (
-    <div className="mobile-responsive">
+    <div
+      className="mobile-responsive"
+      style={{ width: '100%', overflow: 'hidden' }}
+    >
       <SelectDropdown
         selectedX={barGraphSelectedX}
         chips={chips}
@@ -229,18 +244,21 @@ function BarGraph() {
           <img src={LOADINGLOGO} alt="loading" />
         </div>
       ) : yAxes.length > 0 ? (
-        <Grid
+        <div
           style={{
-            maxWidth: maxWidth,
+            width: '100%',
+            maxWidth: chartWidth,
             border: '1px solid #ccc',
             marginTop: 18,
+            overflow: 'hidden',
+            position: 'relative',
           }}
         >
           <Plot
             data={barData}
             layout={{
-              width: getMobileMaxWidth(maxWidth - 5),
-              height: getMobileMaxHeight(height),
+              width: chartWidth,
+              height: chartHeight,
               title: {
                 text: 'Bar Graph',
                 x: 0.5,
@@ -248,29 +266,54 @@ function BarGraph() {
               },
               font: {
                 family: 'Arial, sans-serif',
-                size: maxWidth < 400 ? 7 : 10,
+                size: width < 400 ? 8 : width < 768 ? 10 : 12,
                 color: '#333333',
               },
               xaxis: {
                 title: {
                   text: xAxes || barGraphSelectedX[0]?.label[lang],
+                  font: {
+                    size: width < 400 ? 10 : 12,
+                  },
                 },
                 fixedrange: true,
+                tickangle: width < 768 ? -45 : 0, // Rotate labels on mobile
+                tickfont: {
+                  size: width < 400 ? 8 : 10,
+                },
               },
               yaxis: {
                 title: {
                   text: Array.isArray(yAxes) ? formatYAxes(yAxes) : yAxes[lang],
+                  font: {
+                    size: width < 400 ? 10 : 12,
+                  },
                 },
                 fixedrange: true,
+                tickfont: {
+                  size: width < 400 ? 8 : 10,
+                },
               },
               showlegend: false,
+              margin: {
+                l: width < 768 ? 50 : 60,
+                r: width < 768 ? 20 : 30,
+                t: width < 768 ? 40 : 50,
+                b: width < 768 ? 80 : 100, // More bottom margin for rotated labels
+              },
+              autosize: false,
             }}
             config={{
-              responsive: true,
+              responsive: false, // Disable Plotly's responsive to use our custom sizing
               displayModeBar: false,
             }}
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+            useResizeHandler={true}
           />
-        </Grid>
+        </div>
       ) : (
         <div className="no-data-icon">
           <NoDataState text="" />
