@@ -33,13 +33,13 @@ const CustomSummaryHeader: React.FC<Props> = (props) => {
     setNoSort(
       !props.column.isSortAscending() && !props.column.isSortDescending()
         ? 'active'
-        : 'inactive'
+        : 'inactive',
     );
   };
 
   const onSortRequested = (
     order: string,
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
   ) => {
     props.setSort(order, event.shiftKey);
   };

@@ -1,24 +1,27 @@
-import { styleModalCard } from '@/styleMUI';
+import { Close } from '@mui/icons-material';
 import { Box, Divider, IconButton, Modal, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+
 import VoyageCard from './Cards';
-import { RootState } from '@/redux/store';
+
 import { setIsModalCard } from '@/redux/getCardFlatObjectSlice';
-import {Close} from '@mui/icons-material';
+import { RootState } from '@/redux/store';
+import { styleModalCard } from '@/styleMUI';
+
 import '@/style/cards.scss';
 import { translationCard } from '@/utils/functions/translationLanguages';
 
 const CardModal = () => {
   const dispatch = useDispatch();
   const { isModalCard } = useSelector(
-    (state: RootState) => state.getCardFlatObjectData
+    (state: RootState) => state.getCardFlatObjectData,
   );
 
   const handleClose = () => {
     dispatch(setIsModalCard(false));
   };
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedCard = translationCard(languageValue);
   return (

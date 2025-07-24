@@ -1,29 +1,32 @@
 import React, { useEffect } from 'react';
+
 import AOS from 'aos';
+
 import 'aos/dist/aos.css';
 import '@/style/homepage.scss';
-import VideoBackground from '@/components/PresentationComponents/VideoBackground/VideoBackground';
-import MenuButtonHomePage from '@/components/SelectorComponents/ButtonComponents/MenuButtonHomePage';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import SlaveVoyageLogo from '@/components/NavigationComponents/LogoComponent/SlaveVoyageLogo';
 import AutoGlobalSearchBar from '@/components/PresentationComponents/GlobalSearch/AutoGlobalSearchBar';
 import GlobalHomeNavigations from '@/components/PresentationComponents/GlobalSearch/GlobalHomeNavigations';
-import { Link } from 'react-router-dom';
-import { BLOGPAGE } from '@/share/CONST_DATA';
+import AfricanOrigins from '@/components/PresentationComponents/LadingPage/AfricanOrigins';
+import EnslaversBlogs from '@/components/PresentationComponents/LadingPage/EnslaversBlogs';
+import IntraAmerican from '@/components/PresentationComponents/LadingPage/IntraAmerican';
 import NewsBlog from '@/components/PresentationComponents/LadingPage/NewsBlog';
 import SouthSeaCompanyDocuments from '@/components/PresentationComponents/LadingPage/SouthSeaCompanyDocuments';
-import EnslaversBlogs from '@/components/PresentationComponents/LadingPage/EnslaversBlogs';
-import AfricanOrigins from '@/components/PresentationComponents/LadingPage/AfricanOrigins';
-import IntraAmerican from '@/components/PresentationComponents/LadingPage/IntraAmerican';
 import TransAtlantic from '@/components/PresentationComponents/LadingPage/TransAtlantic';
+import VideoBackground from '@/components/PresentationComponents/VideoBackground/VideoBackground';
 import { FooterComponent } from '@/components/SelectorComponents/ButtonComponents/FooterComponents';
+import MenuButtonHomePage from '@/components/SelectorComponents/ButtonComponents/MenuButtonHomePage';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { BLOGPAGE } from '@/share/CONST_DATA';
 import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 const HomePage: React.FC = () => {
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedHomepage = translationHomepage(languageValue);
   const handleBackToTop = () => {

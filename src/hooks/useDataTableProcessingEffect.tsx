@@ -75,11 +75,10 @@ function useDataTableProcessingEffect(
       }
 
       dispatch(setColumnDefs(newColumnDefs));
-      dispatch(setRowData(finalRowData as Record<string, any>[]));
+      dispatch(setRowData(finalRowData as Record<string, never>[]));
     } else {
-      dispatch(setRowData([]));
+      dispatch(setRowData([] as Record<string, never>[]));
     }
-    // Ensure to return undefined if there's no cleanup needed
     return undefined;
   }, [
     languageValue,

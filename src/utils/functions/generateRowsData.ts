@@ -1,9 +1,9 @@
-import { traverseData } from './traverseData';
 import { TableAndCardCollectionsOptions } from './TableAndCardCollectionsOptions';
+import { traverseData } from './traverseData';
 
 export const generateRowsData = (
   dataRow: Record<string, any>[],
-  file?: string
+  file?: string,
 ): Record<string, any>[] => {
   const finalRowArr: Record<string, any>[] = [];
   const columns = TableAndCardCollectionsOptions(file);
@@ -27,5 +27,5 @@ export const generateRowsData = (
 };
 
 const flattenData = (data: any): any => {
-  return Array.isArray(data) ? data.flat(3) : data ?? null;
+  return Array.isArray(data) ? data.flat(3) : (data ?? null);
 };

@@ -166,6 +166,7 @@ export const varNameEnslaverRoleList =
 export const varNameGenderName = 'gender__name';
 export const varNameCargoTypeList = 'cargo__cargo__name';
 export const varNameAfricanInfoList = 'african_info__name';
+export const varNameCaptiveFateList = 'captive_fate__name';
 
 // Constants
 export const FILTER_OBJECT_KEY = 'filterObject';

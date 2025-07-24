@@ -1,46 +1,49 @@
-import { ICellRendererParams } from 'ag-grid-community';
 import React, { CSSProperties, useContext } from 'react';
-import NETWORKICON from '@/assets/networksIcon.png';
+
+import { ICellRendererParams } from 'ag-grid-community';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  setNetWorksID,
-  setNetWorksKEY,
-  setsetOpenModalNetworks,
-} from '@/redux/getPastNetworksGraphDataSlice';
+
+import NETWORKICON from '@/assets/networksIcon.png';
+import { usePageRouter } from '@/hooks/usePageRouter';
 import {
   setCardFileName,
   setCardRowID,
   setIsModalCard,
   setNodeClass,
 } from '@/redux/getCardFlatObjectSlice';
+import {
+  setNetWorksID,
+  setNetWorksKEY,
+  setsetOpenModalNetworks,
+} from '@/redux/getPastNetworksGraphDataSlice';
 import '@/style/table.scss';
+import { RootState } from '@/redux/store';
 import {
   ENSLAVEDNODE,
   ENSLAVERSNODE,
   VOYAGESNODECLASS,
 } from '@/share/CONST_DATA';
-import { usePageRouter } from '@/hooks/usePageRouter';
 import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForEnslavers,
   checkPagesRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
 import { cleanUpTextDisplay } from '@/utils/functions/cleanUpTextDisplay';
-import { numberWithCommas } from '@/utils/functions/numberWithCommas';
 import {
   DocumentViewerContext,
   createDocKey,
 } from '@/utils/functions/documentWorkspace';
+import { numberWithCommas } from '@/utils/functions/numberWithCommas';
+
 import PopoverWrapper from '../Cards/PopoverWrapper';
-import { RootState } from '@/redux/store';
 
 export const GenerateCellTableRenderer = (
   params: ICellRendererParams,
   cellFN: string,
   colID: string,
   numberFormat?: string | null,
-  nodeClass?: string
+  nodeClass?: string,
 ) => {
   const values = params.value;
   const ID = params.data.id;
@@ -48,7 +51,7 @@ export const GenerateCellTableRenderer = (
   const { styleName } = usePageRouter();
   const { setDoc } = useContext(DocumentViewerContext);
   const { cardFileName } = useSelector(
-    (state: RootState) => state.getCardFlatObjectData
+    (state: RootState) => state.getCardFlatObjectData,
   );
 
   let nodeType: string = '';
@@ -132,12 +135,12 @@ export const GenerateCellTableRenderer = (
             setDoc({
               key: createDocKey(
                 params.data.sources__zotero_group_id[index],
-                params.data.sources__zotero_item_id[index]
+                params.data.sources__zotero_item_id[index],
               ),
               label: params.data.sources__title[index],
               thumb: params.data.sources__thumbnail?.at(index),
               revision_number: 1,
-              textSnippet: '', 
+              textSnippet: '',
             });
         }
         let cellComponent = (
@@ -222,10 +225,19 @@ export const GenerateCellTableRenderer = (
         <div
           className="value-cell"
           style={{ justifyContent: justifyContent }}
+          role="button"
+          tabIndex={0}
           onClick={() => {
             dispatch(setCardRowID(ID));
             dispatch(setIsModalCard(true));
             dispatch(setNodeClass(nodeType));
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              dispatch(setCardRowID(ID));
+              dispatch(setIsModalCard(true));
+              dispatch(setNodeClass(nodeType));
+            }
           }}
         >
           {valueFormat}
@@ -234,18 +246,27 @@ export const GenerateCellTableRenderer = (
     );
   } else if (cellFN === 'networks' && nodeClass) {
     return (
-      <div className="network-icon">
-        <img
-          alt="network"
-          src={NETWORKICON}
-          onClick={() => {
+      <span
+        role="button"
+        className="network-icon"
+        tabIndex={0}
+        onClick={() => {
+          dispatch(setsetOpenModalNetworks(true));
+          dispatch(setNetWorksID(ID));
+          dispatch(setNetWorksKEY(nodeType || nodeClass));
+          dispatch(setCardRowID(ID));
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
             dispatch(setsetOpenModalNetworks(true));
             dispatch(setNetWorksID(ID));
             dispatch(setNetWorksKEY(nodeType || nodeClass));
             dispatch(setCardRowID(ID));
-          }}
-        />
-      </div>
+          }
+        }}
+      >
+        <img alt="network" src={NETWORKICON} style={{ cursor: 'pointer' }} />
+      </span>
     );
   } else {
     return (
