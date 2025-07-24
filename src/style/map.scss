@@ -52,7 +52,31 @@
   }
 
   .leaflet-bottom-voyages {
-    bottom: 45px !important;
+    bottom: 50px !important;
+    @include breakpoint-standard(7) {
+      bottom: 58px !important;
+    }
+    @include breakpoint-standard(6) {
+      bottom: 125px !important
+    }
+    @include breakpoint-standard(5) {
+      bottom:125px !important
+    }
+    @include breakpoint-standard(4) {
+      bottom: 110px !important;
+    }
+    @include breakpoint-standard(3) {
+      bottom: 70px !important
+    }
+    @include breakpoint-standard(2) {
+      bottom: 70px !important
+    }
+    @include breakpoint-standard(1) {
+      bottom: 70px !important
+    }
+    @include breakpoint-standard(0) {
+      bottom: 70px !important
+    }
   }
 }
 

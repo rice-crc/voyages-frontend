@@ -17,6 +17,10 @@ import {
   INTRAAMERICAN,
   ALLVOYAGES,
 } from '@/share/CONST_DATA';
+import {
+  checkPagesRouteForEnslaved,
+  checkRouteForVoyages,
+} from '@/utils/functions/checkPagesRoute';
 
 import { LeafletMap } from './LeafletMap';
 import { LeafletMapURL } from './LeafletMapURL';
@@ -61,7 +65,7 @@ function MAPComponents() {
       );
     }
   }, [nameIdURL, ID, nodeTypeURL, dispatch]);
-
+  console.log('styleNameRoute === ID', styleNameRoute, ID);
   let classNameMap = 'mobile-responsive-map';
   if (styleNameRoute === ESTIMATES) {
     classNameMap = 'mobile-responsive-map-url';
@@ -71,6 +75,8 @@ function MAPComponents() {
     styleNameRoute === ALLVOYAGES
   ) {
     classNameMap = 'mobile-responsive-voyages';
+  } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+    classNameMap = 'mobile-responsive-map-enslaved';
   } else if (styleNameRoute === ID) {
     classNameMap = 'mobile-responsive-map-url';
   }
