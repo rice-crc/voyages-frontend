@@ -199,19 +199,16 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     regionPlace,
   ]);
 
-  const filters = useMemo(
-    () =>
-      filtersDataSend(
+  const filters = filtersDataSend(
         filtersObj,
         styleName!,
         clusterNodeKeyVariable,
         clusterNodeValue,
-      ),
-    [filtersObj, styleName, clusterNodeKeyVariable, clusterNodeValue],
-  );
+      )
+   
 
   const newFilters = useMemo(() => {
-    return filters?.map(({ ...rest }) => rest) || [];
+    return filters?.filter(f => !f.varName ) || [];
   }, [filters]);
 
   const dataSend: MapPropsRequest = useMemo(() => {
