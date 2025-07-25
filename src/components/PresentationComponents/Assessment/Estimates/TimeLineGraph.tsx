@@ -48,14 +48,9 @@ const TimelineChart: React.FC<{
     [filtersObj, styleName]
   );
 
-  const newFilters = useMemo(() => {
-    return filters === undefined
-      ? undefined
-      : filters!.map((filter) => {
-        const { ...filteredFilter } = filter;
-        return filteredFilter;
-      });
-  }, [filters]);
+   const newFilters = useMemo(() => {
+     return filters?.filter(f => !f.varName ) || [];
+   }, [filters]);
 
   const dataSend: TimeLineGraphRequest = useMemo(() => {
     return {
