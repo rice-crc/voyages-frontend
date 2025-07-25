@@ -210,7 +210,12 @@ function Scatter() {
   );
 
   return (
-    <div className="mobile-responsive">
+    <div className="mobile-responsive"
+    style={{
+      height: '80vh',
+      overflowY: 'auto',
+    }}
+    >
       <SelectDropdown
         selectedX={scatterSelectedX}
         selectedY={scatterSelectedY}
