@@ -233,7 +233,7 @@ function BarGraph() {
         handleChangeMultipleYSelected={handleChangeBarGraphChipYSelected}
         maxWidth={maxWidth}
         XFieldText={'X Field'}
-        YFieldText={'Multi-Selector Y-Feild'}
+        YFieldText={'Multi-Selector Y-Field'}
         setXAxes={setXAxes}
         setYAxes={setYAxes}
         error={error}
