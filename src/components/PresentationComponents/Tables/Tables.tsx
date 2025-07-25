@@ -244,6 +244,7 @@ const Tables: React.FC = () => {
           const { count, results } = response.data;
           setTotalResultsCount(Number(count));
           setDataTable(results);
+          console.log('Table  Data',results);
           setLoading(false);
         }
       } catch (error) {
@@ -394,13 +395,13 @@ const Tables: React.FC = () => {
   // Use useEffect to reapply column state after the grid data updates or pagination
   useEffect(() => {
     // Short timeout to ensure grid is ready
-    const timeoutId = setTimeout(() => {
+<!--     const timeoutId = setTimeout(() => { -->
       if (gridRef.current?.api && rowData.length > 0) {
         applyColumnState();
       }
-    }, 100);
+<!--     }, 100); -->
 
-    return () => clearTimeout(timeoutId);
+<!--     return () => clearTimeout(timeoutId); -->
   }, [rowData, applyColumnState, page]);
 
   // Add this useEffect to handle column visibility changes
