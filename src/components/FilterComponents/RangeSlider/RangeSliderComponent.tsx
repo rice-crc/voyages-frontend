@@ -4,7 +4,7 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Grid } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { IconButton, Button } from '@mui/material';
 import { fetchPastEnslavedRangeSliderData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedRangeSliderData';
 import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
 import { fetchRangeVoyageSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
@@ -34,7 +34,6 @@ import {
 } from '@/utils/functions/checkPagesRoute';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 
-
 const RangeSlider = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName: styleNameRoute } = usePageRouter();
@@ -55,33 +54,28 @@ const RangeSlider = () => {
     number | number[]
   >(rangeMinMax);
 
-
   const filters = useMemo(
-    () =>
-      filtersDataSend(
-        filtersObj,
-        styleName!,
-      ),
-    [filtersObj, styleName]
+    () => filtersDataSend(filtersObj, styleName!),
+    [filtersObj, styleName],
   );
-  
+
   const newFilters = useMemo(() => {
     return filters === undefined
       ? undefined
       : filters!.map((filter) => {
-        const { ...filteredFilter } = filter;
-        return filteredFilter;
-      });
+          const { ...filteredFilter } = filter;
+          return filteredFilter;
+        });
   }, [filters]);
 
-  const dataSend: RangeSliderStateProps = useMemo(()=>{
+  const dataSend: RangeSliderStateProps = useMemo(() => {
     return {
       varName: varName,
       filter: newFilters || [],
     };
-  },[varName,newFilters])
+  }, [varName, newFilters]);
 
-  const fetchRangeSliderData =  useCallback(async() => {
+  const fetchRangeSliderData = useCallback(async () => {
     try {
       let response;
       if (checkPagesRouteForVoyages(styleName!)) {
@@ -112,8 +106,8 @@ const RangeSlider = () => {
     } catch (error) {
       console.log(`Error can't fetch range slider data: ${error}`);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[ dispatch, styleName]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, styleName]);
 
   useEffect(() => {
     fetchRangeSliderData();
@@ -132,7 +126,7 @@ const RangeSlider = () => {
     const initialValue: number[] = rangSliderLocal;
     setCurrentSliderValue(initialValue);
     dispatch(setFilterObject(filter));
-  }, [varName, styleName, dispatch,fetchRangeSliderData]);
+  }, [varName, styleName, dispatch, fetchRangeSliderData]);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setCurrentSliderValue(newValue);
@@ -218,46 +212,94 @@ const RangeSlider = () => {
   return (
     <Grid
       className="autocomplete-modal-box"
-      style={{ width: 450, marginTop: 10 }}
+      style={{
+        width: 450,
+        marginTop: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 12,
+        alignItems: 'center',
+      }}
     >
-      <Input
-        color="secondary"
-        name="start"
-        value={rangeMinMax[0] !== undefined ? rangeMinMax[0] : 0}
-        size="small"
-        onChange={handleInputChange}
-        inputProps={{
-          step: max - min > 20 ? 10 : 1,
-          min: min,
-          max: max,
-          type: 'number',
-          'aria-labelledby': 'input-slider',
-          position: 'left',
+      <div
+        style={{
+          display: 'flex',
+          gap: 12,
+          width: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-      />
-      <Input
-        value={rangeMinMax[1] !== undefined ? rangeMinMax[1] : 0}
+      >
+        <Input
+          color="secondary"
+          name="start"
+          value={Array.isArray(currentSliderValue) ? currentSliderValue[0] : 0}
+          size="small"
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            setCurrentSliderValue((prev) => [
+              value,
+              Array.isArray(prev) ? prev[1] : 0,
+            ]);
+          }}
+          inputProps={{
+            step: max - min > 20 ? 10 : 1,
+            min: min,
+            max: max,
+            type: 'number',
+            'aria-labelledby': 'input-slider',
+            position: 'left',
+          }}
+        />
+        <Input
+          name="end"
+          value={Array.isArray(currentSliderValue) ? currentSliderValue[1] : 0}
+          size="small"
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            setCurrentSliderValue((prev) => [
+              Array.isArray(prev) ? prev[0] : 0,
+              value,
+            ]);
+          }}
+          inputProps={{
+            step: max - min > 20 ? 10 : 1,
+            min: min,
+            max: max,
+            type: 'number',
+            'aria-labelledby': 'input-slider',
+            position: 'left',
+          }}
+        />
+      </div>
+      <Button
+        variant="contained"
+        color="primary"
         size="small"
-        onChange={handleInputChange}
-        inputProps={{
-          step: max - min > 20 ? 10 : 1,
-          min: min,
-          max: max,
-          type: 'number',
-          'aria-labelledby': 'input-slider',
-          position: 'left',
+        onClick={handleSliderChangeMouseUp}
+        sx={{
+          minWidth: 60,
+          fontWeight: 600,
+          padding: '4px 12px',
+          fontSize: '0.85rem',
+          lineHeight: 1.2,
+          textTransform: 'none',
         }}
-      />
-      <CustomSlider
-        size="small"
-        min={min as number}
-        max={max as number}
-        value={rangeMinMax}
-        onChange={handleSliderChange}
-        onMouseUp={handleSliderChangeMouseUp}
-      />
+      >
+        Apply
+      </Button>
     </Grid>
   );
 };
 
 export default RangeSlider;
+
+{
+  /* <CustomSlider
+        size="small"
+        min={min as number}
+        max={max as number}
+        value={rangeMinMax}
+        onChange={handleSliderChange}
+      /> */
+}
