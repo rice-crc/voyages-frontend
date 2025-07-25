@@ -208,7 +208,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
    
 
   const newFilters = useMemo(() => {
-    return filters?.filter(f => !f.varName ) || [];
+    return filters?.filter(f => !f.varName || f.varName !== "dataset") || [];
   }, [filters]);
 
   const dataSend: MapPropsRequest = useMemo(() => {
