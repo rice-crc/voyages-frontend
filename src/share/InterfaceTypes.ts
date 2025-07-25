@@ -461,7 +461,7 @@ export interface PivotTablesPropsRequest {
   offset: number;
   limit: number;
   filter: Filter[];
-  order_by?: [string];
+  order_by?: string[];
   global_search?: string;
 }
 
