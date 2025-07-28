@@ -48,9 +48,9 @@ const TimelineChart: React.FC<{
     [filtersObj, styleName]
   );
 
-   const newFilters = useMemo(() => {
-     return filters?.filter(f => !f.varName || f.varName !== "dataset") || [];
-   }, [filters]);
+  const newFilters = useMemo(() => {
+    return filters?.filter(f => f.varName !== 'dataset') || [];
+  }, [filters]);
 
   const dataSend: TimeLineGraphRequest = useMemo(() => {
     return {
