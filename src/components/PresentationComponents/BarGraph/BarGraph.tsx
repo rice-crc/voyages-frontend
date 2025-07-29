@@ -248,9 +248,11 @@ function BarGraph() {
           style={{
             width: '100%',
             maxWidth: chartWidth,
+            height: chartHeight,
+            minHeight: 450,
             border: '1px solid #ccc',
             marginTop: 18,
-            overflow: 'hidden',
+            overflow: 'auto',
             position: 'relative',
           }}
         >

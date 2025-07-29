@@ -478,6 +478,7 @@ const PivotTables = () => {
             display: 'flex',
             flexDirection: 'column',
             overflowY: 'auto',
+            maxHeight: '75vh',
           }}
         >
           <AgGridReact
@@ -500,14 +501,14 @@ const PivotTables = () => {
             tooltipHideDelay={1000}
             groupDefaultExpanded={-1}
           />
-        </div>
-        <div className="pagination-div">
-          <Pagination
-            color="primary"
-            count={pageCount}
-            page={page + 1}
-            onChange={handleChangePagePagination}
-          />
+          <div className="pagination-div">
+            <Pagination
+              color="primary"
+              count={pageCount}
+              page={page + 1}
+              onChange={handleChangePagePagination}
+            />
+          </div>
         </div>
       </div>
     </div>

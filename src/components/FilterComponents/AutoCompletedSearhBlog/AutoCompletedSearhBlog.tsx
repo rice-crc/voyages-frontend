@@ -1,18 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { Autocomplete, Stack, TextField, Typography } from '@mui/material';
-import { setBlogAutoLists, setSearchAutoValue } from '@/redux/getBlogDataSlice';
-import { ResultAutoList } from '@/share/InterfaceTypesBlog';
-import SelectBlogDropdown from '../../SelectorComponents/SelectDrowdown/SelectBlogDropdown';
-import { useNavigate, useParams } from 'react-router-dom';
 import debounce from 'lodash.debounce';
-import { BLOGPAGE } from '@/share/CONST_DATA';
-import { resetAll } from '@/redux/resetAllSlice';
-import { formatTextURL } from '@/utils/functions/formatText';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { Filter, IRootFilterObject } from '@/share/InterfaceTypes';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { useAutoBlogList } from '@/hooks/useAutoBlogList';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setBlogAutoLists, setSearchAutoValue } from '@/redux/getBlogDataSlice';
+import { resetAll } from '@/redux/resetAllSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { BLOGPAGE } from '@/share/CONST_DATA';
+import { Filter, IRootFilterObject } from '@/share/InterfaceTypes';
+import { ResultAutoList } from '@/share/InterfaceTypesBlog';
+import { formatTextURL } from '@/utils/functions/formatText';
+
+import SelectBlogDropdown from '../../SelectorComponents/SelectDrowdown/SelectBlogDropdown';
 
 const AutoCompletedSearhBlog = () => {
   const { tagID } = useParams();
@@ -21,10 +24,10 @@ const AutoCompletedSearhBlog = () => {
   const navigate = useNavigate();
   const { searchTitle, searchAutoKey, searchAutoValue, blogAutoLists } =
     useSelector((state: RootState) => state.getBlogData);
-    const { languageValue} = useSelector(
-      (state: RootState) => state.getLanguages
-    );
-  const { currentBlockName, blogURL } = usePageRouter();
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages,
+  );
+  const { currentBlockName } = usePageRouter();
   const [inputValue, setInputValue] = useState<
     ResultAutoList | undefined | null
   >(null);
@@ -34,13 +37,14 @@ const AutoCompletedSearhBlog = () => {
   const limit = 10;
   const offset = 0;
 
-  const filters: Filter[] = [{
-      op:"exact",
-      varName:"language",
-      searchTerm: languageValue
-    }
+  const filters: Filter[] = [
+    {
+      op: 'exact',
+      varName: 'language',
+      searchTerm: languageValue,
+    },
   ];
- 
+
   const dataSend: IRootFilterObject = {
     varName: searchAutoKey,
     querystr: searchAutoValue,
@@ -66,7 +70,7 @@ const AutoCompletedSearhBlog = () => {
   useEffect(() => {
     if (isInitialLoad) {
       const tagLabel = blogAutoLists.find(
-        (item: any) => item.id === Number(tagID)
+        (item: any) => item.id === Number(tagID),
       );
       if (tagLabel) {
         setInputValue(tagLabel);
@@ -92,12 +96,12 @@ const AutoCompletedSearhBlog = () => {
     (event: React.SyntheticEvent<Element, Event>, value: string) => {
       dispatch(setSearchAutoValue(value));
     },
-    200
+    200,
   );
 
   const handleAutocompleteChange = (
     event: React.SyntheticEvent,
-    newValue: ResultAutoList | null
+    newValue: ResultAutoList | null,
   ) => {
     setInputValue(newValue || null);
     if (tagID) {

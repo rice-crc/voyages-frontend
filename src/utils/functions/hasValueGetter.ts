@@ -8,6 +8,7 @@ export function hasValueGetter(
 ) {
   const finalData: string[] = [];
   const data = params?.data;
+  console.log({ value });
 
   const fields = value.cell_val.fields;
   const firstData = data[fields[0]?.var_name];

@@ -132,6 +132,7 @@ const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
   const createSortOrder = useCallback(
     (sortOrder: SortOrder, sortingFields: string[]) => {
       if (sortingFields.length === 0) return [];
+      console.log({ sortOrder });
       return sortOrder === 'desc'
         ? sortingFields
         : sortingFields.map((field) => `-${field}`);
@@ -147,7 +148,6 @@ const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
 
       const requestData = { ...baseRequestData };
 
-      // Add global search if present
       if (inputSearchValue) {
         requestData.global_search = inputSearchValue;
       }
@@ -206,24 +206,24 @@ const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
         <button
           type="button"
           onClick={(event) =>
-            descSort !== 'active' && handleSortRequest('desc', event)
-          }
-          onTouchEnd={(event) => handleSortRequest('desc', event)}
-          className={`customSortDownLabel ${descSort}`}
-          aria-label="Sort descending"
-          disabled={descSort === 'active'}
-        >
-          <i className="fa fa-long-arrow-alt-down" />
-        </button>
-        <button
-          type="button"
-          onClick={(event) =>
             ascSort !== 'active' && handleSortRequest('asc', event)
           }
           onTouchEnd={(event) => handleSortRequest('asc', event)}
           className={`customSortUpLabel ${ascSort}`}
           aria-label="Sort ascending"
           disabled={ascSort === 'active'}
+        >
+          <i className="fa fa-long-arrow-alt-down" />
+        </button>
+        <button
+          type="button"
+          onClick={(event) =>
+            descSort !== 'active' && handleSortRequest('desc', event)
+          }
+          onTouchEnd={(event) => handleSortRequest('desc', event)}
+          className={`customSortDownLabel ${descSort}`}
+          aria-label="Sort descending"
+          disabled={descSort === 'active'}
         >
           <i className="fa fa-long-arrow-alt-up" />
         </button>

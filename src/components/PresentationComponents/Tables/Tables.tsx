@@ -87,7 +87,7 @@ const Tables: React.FC = () => {
   const { columnDefs, rowData, page } = useSelector(
     (state: RootState) => state.getTableData as StateRowData,
   );
-  console.log({ rowData: rowData[0] });
+  // console.log({ rowData: rowData[0] });
   const { isChangeGeoTree } = useSelector(
     (state: RootState) => state.getGeoTreeData,
   );
@@ -299,6 +299,7 @@ const Tables: React.FC = () => {
         const { column } = props;
         const ascSort = column.isSortAscending() ? 'active' : 'inactive';
         const descSort = column.isSortDescending() ? 'active' : 'inactive';
+
         return (
           <CustomHeaderTable
             pageSize={rowsPerPage}
@@ -460,52 +461,55 @@ const Tables: React.FC = () => {
     [dispatch],
   );
 
-  const hanldeGridReady = (params: any) => {
-    const { api, columnApi } = params;
-    columnApi?.autoSizeColumns();
+  const hanldeGridReady = useCallback(
+    (params: any) => {
+      const { api, columnApi } = params;
+      columnApi?.autoSizeColumns();
 
-    // First apply column visibility from visibleColumnCells
-    const columnState = columnDefs.map((col) => ({
-      colId: col.field,
-      hide: !visibleColumnCells.includes(col.field),
-    }));
+      // First apply column visibility from visibleColumnCells
+      const columnState = columnDefs.map((col) => ({
+        colId: col.field,
+        hide: !visibleColumnCells.includes(col.field),
+      }));
 
-    // Then try to apply saved column order
-    const savedState = localStorage.getItem('columnState');
-    if (savedState) {
-      try {
-        const parsedState = JSON.parse(savedState);
-        // Merge visibility with saved order
-        const mergedState = parsedState.map((saved: any) => {
-          const visibilityState = columnState.find(
-            (col) => col.colId === saved.colId,
-          );
-          return {
-            ...saved,
-            hide: visibilityState ? visibilityState.hide : saved.hide,
-          };
-        });
+      // Then try to apply saved column order
+      const savedState = localStorage.getItem('columnState');
+      if (savedState) {
+        try {
+          const parsedState = JSON.parse(savedState);
+          // Merge visibility with saved order
+          const mergedState = parsedState.map((saved: any) => {
+            const visibilityState = columnState.find(
+              (col) => col.colId === saved.colId,
+            );
+            return {
+              ...saved,
+              hide: visibilityState ? visibilityState.hide : saved.hide,
+            };
+          });
 
-        api.applyColumnState({
-          state: mergedState,
-          applyOrder: true,
-        });
-        setCurrentColumnState(mergedState);
-      } catch (error) {
-        console.error('Failed to apply saved column state:', error);
+          api.applyColumnState({
+            state: mergedState,
+            applyOrder: true,
+          });
+          setCurrentColumnState(mergedState);
+        } catch (error) {
+          console.error('Failed to apply saved column state:', error);
+          api.applyColumnState({
+            state: columnState,
+            applyOrder: false,
+          });
+        }
+      } else {
+        // Just apply visibility if no order is saved
         api.applyColumnState({
           state: columnState,
           applyOrder: false,
         });
       }
-    } else {
-      // Just apply visibility if no order is saved
-      api.applyColumnState({
-        state: columnState,
-        applyOrder: false,
-      });
-    }
-  };
+    },
+    [columnDefs, visibleColumnCells, setCurrentColumnState],
+  );
 
   const pageCount = Math.ceil(
     totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1,
