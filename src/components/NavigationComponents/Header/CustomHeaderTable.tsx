@@ -132,8 +132,8 @@ const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
   const createSortOrder = useCallback(
     (sortOrder: SortOrder, sortingFields: string[]) => {
       if (sortingFields.length === 0) return [];
-
-      return sortOrder === 'asc'
+      console.log({ sortOrder });
+      return sortOrder === 'desc'
         ? sortingFields
         : sortingFields.map((field) => `-${field}`);
     },
@@ -148,7 +148,6 @@ const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
 
       const requestData = { ...baseRequestData };
 
-      // Add global search if present
       if (inputSearchValue) {
         requestData.global_search = inputSearchValue;
       }
@@ -210,7 +209,7 @@ const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
             ascSort !== 'active' && handleSortRequest('asc', event)
           }
           onTouchEnd={(event) => handleSortRequest('asc', event)}
-          className={`customSortDownLabel ${ascSort}`}
+          className={`customSortUpLabel ${ascSort}`}
           aria-label="Sort ascending"
           disabled={ascSort === 'active'}
         >
@@ -222,7 +221,7 @@ const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
             descSort !== 'active' && handleSortRequest('desc', event)
           }
           onTouchEnd={(event) => handleSortRequest('desc', event)}
-          className={`customSortUpLabel ${descSort}`}
+          className={`customSortDownLabel ${descSort}`}
           aria-label="Sort descending"
           disabled={descSort === 'active'}
         >

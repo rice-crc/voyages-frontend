@@ -22,7 +22,6 @@ export const generateRowsData = (
       finalRowArr.push(finalRowObj);
     });
   }
-
   return finalRowArr;
 };
 

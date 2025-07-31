@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { Autocomplete, Stack, TextField, Typography } from '@mui/material';
+
 import { setBlogAutoLists, setSearchAutoValue } from '@/redux/getBlogDataSlice';
 import { ResultAutoList } from '@/share/InterfaceTypesBlog';
 import SelectBlogDropdown from '../../SelectorComponents/SelectDrowdown/SelectBlogDropdown';
@@ -14,7 +14,18 @@ import { resetAll } from '@/redux/resetAllSlice';
 import { formatTextURL } from '@/utils/functions/formatText';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { Filter, IRootFilterObject } from '@/share/InterfaceTypes';
+
 import { useAutoBlogList } from '@/hooks/useAutoBlogList';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setBlogAutoLists, setSearchAutoValue } from '@/redux/getBlogDataSlice';
+import { resetAll } from '@/redux/resetAllSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { BLOGPAGE } from '@/share/CONST_DATA';
+import { Filter, IRootFilterObject } from '@/share/InterfaceTypes';
+import { ResultAutoList } from '@/share/InterfaceTypesBlog';
+import { formatTextURL } from '@/utils/functions/formatText';
+
+import SelectBlogDropdown from '../../SelectorComponents/SelectDrowdown/SelectBlogDropdown';
 
 const AutoCompletedSearhBlog = () => {
   const { tagID } = useParams();
@@ -87,7 +98,7 @@ const AutoCompletedSearhBlog = () => {
   useEffect(() => {
     if (isInitialLoad) {
       const tagLabel = blogAutoLists.find(
-        (item: any) => item.id === Number(tagID)
+        (item: any) => item.id === Number(tagID),
       );
       if (tagLabel) {
         setInputValue(tagLabel);
@@ -116,10 +127,9 @@ const AutoCompletedSearhBlog = () => {
   ) => {
     setLocalSearchValue(value);
   };
-
   const handleAutocompleteChange = (
     event: React.SyntheticEvent,
-    newValue: ResultAutoList | null
+    newValue: ResultAutoList | null,
   ) => {
     setInputValue(newValue || null);
     if (tagID) {

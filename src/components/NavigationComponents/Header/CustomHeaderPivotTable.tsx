@@ -20,6 +20,7 @@ import {
 import { customValueFormatter } from '@/utils/functions/customValueFormatter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
+
 interface Props {
   showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
   column: {
@@ -35,10 +36,9 @@ interface Props {
   enableMenu: boolean;
   menuIcon: string;
   enableSorting: boolean;
-  dataSend: PivotTablesPropsRequest;
   displayName?: string;
 }
-
+type SortOrder = 'asc' | 'desc';
 const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   const { column, setSort, enableSorting, displayName } = props;
 
@@ -69,20 +69,16 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     [filtersObj, styleName]
   );
   
-  const newFilters = useMemo(() => {
-    return filters === undefined
-      ? undefined
-      : filters!.map((filter) => {
-        const { ...filteredFilter } = filter;
-        return filteredFilter;
-      });
+  const processedFilters = useMemo(() => {
+    if (!filters) return undefined;
+    return filters.map((filter) => {
+      const { ...filteredFilter } = filter;
+      return filteredFilter;
+    });
   }, [filters]);
-  
-  const fetchDataPivotTable = useCallback(async (
-    sortOrder: string,
-    sortingOrder: string[],
-  ) => {
-    const dataSend: PivotTablesPropsRequest = {
+
+  const baseRequestData: PivotTablesPropsRequest = useMemo(
+    () => ({
       columns: column_vars,
       rows: updatedRowsValue,
       rows_label: updatedRowsLabel,
@@ -91,27 +87,43 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
       value_field: cell_vars,
       offset: offset,
       limit: rowsPerPage,
-      filter: newFilters || [],
-    };
-    console.log({dataSend})
+      filter: processedFilters || [],
+    }),
+    [processedFilters, updatedRowsValue,column_vars, updatedRowsLabel,aggregation,binsize, cell_vars, offset, rowsPerPage],
+  );
+
+
+  const createSortOrder = useCallback(
+    (sortOrder: SortOrder, sortingFields: string[]) => {
+      if (sortingFields.length === 0) return [];
+
+      return sortOrder === 'desc'
+        ? sortingFields
+        : sortingFields.map((field) => `-${field}`);
+    },
+    [],
+  );
+
+  const fetchDataPivotTable = useCallback(async (
+    sortOrder: SortOrder,
+    sortingOrder: string[],
+  ) => {
+
+    const requestData = { ...baseRequestData };
     if (inputSearchValue) {
-      dataSend['global_search'] = inputSearchValue;
+      requestData.global_search = inputSearchValue;
     }
-    if (sortOrder === 'asc') {
-      if (sortingOrder?.length > 0) {
-        sortingOrder.forEach((sort: string) => (dataSend['order_by'] = [sort]));
-      }
-    } else if (sortOrder === 'desc') {
-      if (sortingOrder?.length > 0) {
-        sortingOrder.forEach(
-          (sort: string) => (dataSend['order_by'] = [`-${sort}`]),
-        );
-      }
+
+    // Add sorting if fields are provided
+    if (sortingOrder?.length > 0) {
+      const orderBy = createSortOrder(sortOrder, sortingOrder);
+      requestData.order_by = orderBy;
     }
+
 
     try {
       const response = await dispatch(
-        fetchPivotCrosstabsTables(dataSend),
+        fetchPivotCrosstabsTables(requestData),
       ).unwrap();
       if (response) {
         const { tablestructure, data, metadata } =
@@ -147,7 +159,7 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     } catch (error) {
       console.log('error', error);
     }
-  },[inputSearchValue,dispatch, column_vars, updatedRowsValue, updatedRowsLabel, aggregation, binsize, cell_vars, offset, rowsPerPage, newFilters]);
+  },[]);
 
   const onSortChanged = useCallback(() => {
     setAscSort(column?.isSortAscending() ? 'active' : 'inactive');
@@ -156,10 +168,10 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   
   const onSortRequested = useCallback((
     order: string,
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>,
   ) => {
     if (setSort) {
-      setSort(order, event.shiftKey);
+      setSort(order, (event as any).shiftKey);
     }
 
     const sortOrder = column!.isSortAscending() ? 'asc' : 'desc';
@@ -200,9 +212,9 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
           onClick={(event) => onSortRequested('asc', event)}
           onTouchEnd={(event) => onSortRequested('asc', event)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') onSortRequested('asc', e);
+            if (e.key === 'Enter' || e.key === ' ') onSortRequested('asc', { shiftKey: e.shiftKey } as any);
           }}
-          className={`customSortDownLabel ${ascSort}`}
+          className={`customSortUpLabel-pivot ${ascSort}`}
         >
           <i className="fa fa-long-arrow-alt-down"></i>
         </div>
@@ -212,9 +224,9 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
           onClick={(event) => onSortRequested('desc', event)}
           onTouchEnd={(event) => onSortRequested('desc', event)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') onSortRequested('desc', e);
+            if (e.key === 'Enter' || e.key === ' ') onSortRequested('desc', { shiftKey: e.shiftKey } as any);
           }}
-          className={`customSortUpLabel ${descSort}`}
+          className={`customSortDownLabel-pivot ${descSort}`}
         >
           <i className="fa fa-long-arrow-alt-up"></i>
         </div>

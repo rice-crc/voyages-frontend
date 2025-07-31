@@ -65,7 +65,7 @@ function MAPComponents() {
       );
     }
   }, [nameIdURL, ID, nodeTypeURL, dispatch]);
-  console.log('styleNameRoute === ID', styleNameRoute, ID);
+
   let classNameMap = 'mobile-responsive-map';
   if (styleNameRoute === ESTIMATES) {
     classNameMap = 'mobile-responsive-map-url';
