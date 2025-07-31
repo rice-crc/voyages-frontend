@@ -96,6 +96,11 @@ export const arcInterpolate = (
     end: [elat, elng],
     centralAngle: g,
   } = arc;
+  if (t > 0.999) {
+    return [elat, elng];
+  } else if (t < 0.001) {
+    return [slat, slng];
+  }
   const A = Math.sin((1 - t) * g) / Math.sin(g);
   const B = Math.sin(t * g) / Math.sin(g);
   const x =
@@ -631,6 +636,8 @@ export interface VoyageRouteRenderStyles {
   getStyleForVoyage: (voyage: VoyageRoute) => number;
 }
 
+const UnknownLabel = 'Unknown';
+
 const CustomShipFlagColors: Record<string, string> = {
   // colors are either mixed or adopted based on national flag colors
   'Portugal / Brazil': '#009c3b', // brazil - green
@@ -641,7 +648,8 @@ const CustomShipFlagColors: Record<string, string> = {
   'U.S.A.': '#00A0D1', // usa - blend of blue and white
   'Denmark / Baltic': '#E07A8E', // denmark mix
   Portugal: '#5D4100', // portugal mix
-  Other: '#999999', // grey
+  Other: '#999999', // grey,
+  [UnknownLabel]: '#999999', // grey
 };
 
 const createRenderStyles = (
@@ -1385,17 +1393,33 @@ const TimelapseAggregateChart = ({
       .style('opacity', '0.7');
     return () => document.getElementById(sliderId)?.remove();
   }, [years]);
+  const handleHighlight = useCallback(
+    (
+      e: React.MouseEvent<HTMLDivElement> | React.FocusEvent<HTMLDivElement>,
+    ) => {
+      e.currentTarget?.style.setProperty('opacity', '0.9');
+    },
+    [],
+  );
+  const handleLeave = useCallback(
+    (
+      e: React.MouseEvent<HTMLDivElement> | React.FocusEvent<HTMLDivElement>,
+    ) => {
+      e.currentTarget.style.setProperty('opacity', '0.4');
+      document
+        .getElementById('timelapse_hoverline')
+        ?.style.setProperty('opacity', '0');
+    },
+    [],
+  );
   return (
     collection.voyageRoutes.length > 0 && (
       <div
         className="timelapseInfoBox"
-        onMouseOver={(e) => e.currentTarget.style.setProperty('opacity', '0.9')}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.setProperty('opacity', '0.4');
-          document
-            .getElementById('timelapse_hoverline')
-            ?.style.setProperty('opacity', '0');
-        }}
+        onFocus={handleHighlight}
+        onMouseOver={handleHighlight}
+        onMouseLeave={handleLeave}
+        onBlur={handleLeave}
         style={{
           position: 'absolute',
           bottom: 10,
@@ -1414,6 +1438,7 @@ const TimelapseAggregateChart = ({
             marginRight: '3px',
             maxHeight: NormalHeight,
             overflowY: 'scroll',
+            overflowX: 'hidden',
           }}
         >
           <ul>
@@ -1600,8 +1625,15 @@ const useFilteredVoyageRoutes = () => {
         const voyages = (data as OBSOLETE_APIVoyageEntry[]).map((v) =>
           OBSOLETE_legacyToVoyageRoute(routeBuilder, nations, v),
         );
-        // TODO: replace hardcoded args.
-        setCollection(new VoyageRouteCollection(voyages, 0.3, 0.2, nations));
+        const fuzzyMultiplier = network === 'trans' ? 1.0 : 0.1;
+        setCollection(
+          new VoyageRouteCollection(
+            voyages,
+            fuzzyMultiplier * 0.3,
+            fuzzyMultiplier * 0.2,
+            nations,
+          ),
+        );
       }
     };
     setCollection(emptyCol);
@@ -1628,10 +1660,9 @@ export const VoyagesTimelapseMap = () => {
   const tanslateTimelapse = translationLanguagesTimelapse(languageValue);
 
   useEffect(() => {
-    const unknownLabel = 'Unknown';
     const color = d3
       .scaleOrdinal()
-      .domain([...Object.keys(collection.nations), unknownLabel])
+      .domain([...Object.keys(collection.nations), UnknownLabel])
       .range(d3.schemePaired) as (key: string) => string;
     const styles = Object.values(collection.nations).reduce<
       Record<number, VoyageGroupStyle>
@@ -1647,8 +1678,8 @@ export const VoyagesTimelapseMap = () => {
       {},
     );
     styles[-1] = {
-      label: unknownLabel,
-      style: color(unknownLabel),
+      label: UnknownLabel,
+      style: CustomShipFlagColors[UnknownLabel] ?? color(UnknownLabel),
       isLeftoverGroup: true,
     };
     setStyles(
