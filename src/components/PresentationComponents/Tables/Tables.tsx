@@ -255,11 +255,12 @@ const Tables: React.FC = () => {
     };
 
     fetchDataTable();
-    return () => {
-      if (!textFilter) {
-        dispatch(setData([]));
-      }
-    };
+    //return () => {
+      //console.log('!textFilter',!textFilter);
+      //if (!textFilter) {
+       // dispatch(setData([]));
+      //}
+    //};
   }, [
     dispatch,
     reloadTable,
@@ -395,7 +396,9 @@ const Tables: React.FC = () => {
   // Use useEffect to reapply column state after the grid data updates or pagination
   useEffect(() => {
     // Short timeout to ensure grid is ready
+
     const timeoutId = setTimeout(() => {// removing this timeout seemed to reduce the bug occurrence for John? Unsure
+
       if (gridRef.current?.api && rowData.length > 0) {
         applyColumnState();
       }

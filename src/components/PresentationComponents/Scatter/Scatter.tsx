@@ -217,7 +217,12 @@ function Scatter() {
   );
 
   return (
-    <div className="mobile-responsive">
+    <div className="mobile-responsive"
+    style={{
+      height: '80vh',
+      overflowY: 'auto',
+    }}
+    >
       <SelectDropdown
         selectedX={scatterSelectedX}
         selectedY={scatterSelectedY}
@@ -227,7 +232,7 @@ function Scatter() {
         handleChangeMultipleYSelected={handleChangeScatterChipYSelected}
         maxWidth={maxWidth}
         XFieldText="X Field"
-        YFieldText="Multi-Selector Y-Feild"
+        YFieldText="Multi-Selector Y-Field"
         setXAxes={setXAxes}
         setYAxes={setYAxes}
         error={error}
