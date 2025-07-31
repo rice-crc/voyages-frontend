@@ -48,13 +48,11 @@ const TimelineChart: React.FC<{
     [filtersObj, styleName]
   );
 
+///  
+// Filter out any filter with varName 'dataset'.
+// This is necessary because the backend for map requests does not accept 'dataset' as a valid filter.
   const newFilters = useMemo(() => {
-    return filters === undefined
-      ? undefined
-      : filters!.map((filter) => {
-        const { ...filteredFilter } = filter;
-        return filteredFilter;
-      });
+    return filters?.filter(f => f.varName !== 'dataset') || [];
   }, [filters]);
 
   const dataSend: TimeLineGraphRequest = useMemo(() => {
