@@ -85,7 +85,7 @@ export interface GreatCircle {
 
 /**
  * Obtain the point along the arc that corresponds to a fraction t \in [0, 1] of
- * the total arc.
+ * the total arc. MODIFIED VERSION with changed coordinate handling.
  */
 export const arcInterpolate = (
   arc: GreatCircle,
@@ -96,21 +96,42 @@ export const arcInterpolate = (
     end: [elat, elng],
     centralAngle: g,
   } = arc;
-  const A = Math.sin((1 - t) * g) / Math.sin(g);
-  const B = Math.sin(t * g) / Math.sin(g);
-  const x =
-    A * Math.cos(slng) * Math.cos(slat) + B * Math.cos(elng) * Math.cos(elat);
-  const y =
-    A * Math.cos(slng) * Math.sin(slat) + B * Math.cos(elng) * Math.sin(elat);
-  const z = A * Math.sin(slng) + B * Math.sin(elng);
-  const lng = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
-  const lat = Math.atan2(y, x);
+
+  // Handle edge cases to prevent division by zero
+  if (Math.abs(g) < 1e-10) {
+    // Points are identical, return start point
+    return [slat, slng];
+  }
+
+  if (Math.abs(g - Math.PI) < 1e-10) {
+    // Antipodal points - interpolation is ambiguous
+    // Return midpoint of one possible great circle path
+    const midLat = (slat + elat) / 2;
+    const midLng = (slng + elng) / 2;
+    return [midLat, midLng];
+  }
+
+  const sinG = Math.sin(g);
+  const A = Math.sin((1 - t) * g) / sinG;
+  const B = Math.sin(t * g) / sinG;
+
+  // MODIFIED: Correct Cartesian coordinate calculation
+  // x = cos(lat) * cos(lng), y = cos(lat) * sin(lng), z = sin(lat)
+  const x = A * Math.cos(slat) * Math.cos(slng) + B * Math.cos(elat) * Math.cos(elng);
+  const y = A * Math.cos(slat) * Math.sin(slng) + B * Math.cos(elat) * Math.sin(elng);
+  const z = A * Math.sin(slat) + B * Math.sin(elat);  // MODIFIED: Use latitude for z
+
+  // MODIFIED: Correct spherical coordinate conversion
+  const lat = Math.atan2(z, Math.sqrt(x * x + y * y));  // MODIFIED: lat from z
+  const lng = Math.atan2(y, x);  // MODIFIED: lng from y, x
+
   return [lat, lng];
 };
 
 /**
  * Computes the central angle of a great circle. In the very exceptional case of
  * antipodal points or numerical errors, an exception is thrown.
+ * Modified version with hopefully better numerical stability and antimeridian handling.
  */
 export const greatCircle = (
   start: LatLngPathPointDeg,
@@ -118,16 +139,37 @@ export const greatCircle = (
 ): GreatCircle | null => {
   const [sx, sy] = convertToRadians(start);
   const [ex, ey] = convertToRadians(end);
-  const w = sx - ex;
+
+  // Handle longitude difference with proper wrapping for antimeridian crossing
+  let w = sx - ex;
+  while (w > Math.PI) w -= 2 * Math.PI;
+  while (w < -Math.PI) w += 2 * Math.PI;
+
   const h = sy - ey;
+
+  // Early return for identical points (within floating point tolerance)
+  if (Math.abs(w) < 1e-10 && Math.abs(h) < 1e-10) {
+    return { start: [sx, sy], end: [ex, ey], centralAngle: 0 };
+  }
+
   // https://en.wikipedia.org/wiki/Haversine_formula
   const z =
     Math.pow(Math.sin(h / 2.0), 2) +
     Math.cos(sy) * Math.cos(ey) * Math.pow(Math.sin(w / 2.0), 2);
-  const centralAngle = 2.0 * Math.asin(Math.sqrt(z));
-  if (centralAngle === Math.PI || isNaN(centralAngle)) {
+
+  // Use atan2 instead of asin for better numerical stability
+  const centralAngle = 2.0 * Math.atan2(Math.sqrt(z), Math.sqrt(1 - z));
+
+  // Check for invalid results (NaN, negative values, or values > π)
+  if (!isFinite(centralAngle) || centralAngle < 0 || centralAngle > Math.PI) {
     return null;
   }
+
+  // Check for antipodal points with small tolerance for numerical errors
+  if (Math.abs(centralAngle - Math.PI) < 1e-10) {
+    return null;
+  }
+
   return { start: [sx, sy], end: [ex, ey], centralAngle };
 };
 
