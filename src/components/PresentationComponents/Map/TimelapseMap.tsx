@@ -85,7 +85,7 @@ export interface GreatCircle {
 
 /**
  * Obtain the point along the arc that corresponds to a fraction t \in [0, 1] of
- * the total arc. MODIFIED VERSION with changed coordinate handling.
+ * the total arc.
  */
 export const arcInterpolate = (
   arc: GreatCircle,
@@ -96,42 +96,26 @@ export const arcInterpolate = (
     end: [elat, elng],
     centralAngle: g,
   } = arc;
-
-  // Handle edge cases to prevent division by zero
-  if (Math.abs(g) < 1e-10) {
-    // Points are identical, return start point
+  if (t > 0.999) {
+    return [elat, elng];
+  } else if (t < 0.001) {
     return [slat, slng];
   }
-
-  if (Math.abs(g - Math.PI) < 1e-10) {
-    // Antipodal points - interpolation is ambiguous
-    // Return midpoint of one possible great circle path
-    const midLat = (slat + elat) / 2;
-    const midLng = (slng + elng) / 2;
-    return [midLat, midLng];
-  }
-
-  const sinG = Math.sin(g);
-  const A = Math.sin((1 - t) * g) / sinG;
-  const B = Math.sin(t * g) / sinG;
-
-  // MODIFIED: Correct Cartesian coordinate calculation
-  // x = cos(lat) * cos(lng), y = cos(lat) * sin(lng), z = sin(lat)
-  const x = A * Math.cos(slat) * Math.cos(slng) + B * Math.cos(elat) * Math.cos(elng);
-  const y = A * Math.cos(slat) * Math.sin(slng) + B * Math.cos(elat) * Math.sin(elng);
-  const z = A * Math.sin(slat) + B * Math.sin(elat);  // MODIFIED: Use latitude for z
-
-  // MODIFIED: Correct spherical coordinate conversion
-  const lat = Math.atan2(z, Math.sqrt(x * x + y * y));  // MODIFIED: lat from z
-  const lng = Math.atan2(y, x);  // MODIFIED: lng from y, x
-
+  const A = Math.sin((1 - t) * g) / Math.sin(g);
+  const B = Math.sin(t * g) / Math.sin(g);
+  const x =
+    A * Math.cos(slng) * Math.cos(slat) + B * Math.cos(elng) * Math.cos(elat);
+  const y =
+    A * Math.cos(slng) * Math.sin(slat) + B * Math.cos(elng) * Math.sin(elat);
+  const z = A * Math.sin(slng) + B * Math.sin(elng);
+  const lng = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
+  const lat = Math.atan2(y, x);
   return [lat, lng];
 };
 
 /**
  * Computes the central angle of a great circle. In the very exceptional case of
  * antipodal points or numerical errors, an exception is thrown.
- * Modified version with hopefully better numerical stability and antimeridian handling.
  */
 export const greatCircle = (
   start: LatLngPathPointDeg,
@@ -139,37 +123,16 @@ export const greatCircle = (
 ): GreatCircle | null => {
   const [sx, sy] = convertToRadians(start);
   const [ex, ey] = convertToRadians(end);
-
-  // Handle longitude difference with proper wrapping for antimeridian crossing
-  let w = sx - ex;
-  while (w > Math.PI) w -= 2 * Math.PI;
-  while (w < -Math.PI) w += 2 * Math.PI;
-
+  const w = sx - ex;
   const h = sy - ey;
-
-  // Early return for identical points (within floating point tolerance)
-  if (Math.abs(w) < 1e-10 && Math.abs(h) < 1e-10) {
-    return { start: [sx, sy], end: [ex, ey], centralAngle: 0 };
-  }
-
   // https://en.wikipedia.org/wiki/Haversine_formula
   const z =
     Math.pow(Math.sin(h / 2.0), 2) +
     Math.cos(sy) * Math.cos(ey) * Math.pow(Math.sin(w / 2.0), 2);
-
-  // Use atan2 instead of asin for better numerical stability
-  const centralAngle = 2.0 * Math.atan2(Math.sqrt(z), Math.sqrt(1 - z));
-
-  // Check for invalid results (NaN, negative values, or values > π)
-  if (!isFinite(centralAngle) || centralAngle < 0 || centralAngle > Math.PI) {
+  const centralAngle = 2.0 * Math.asin(Math.sqrt(z));
+  if (centralAngle === Math.PI || isNaN(centralAngle)) {
     return null;
   }
-
-  // Check for antipodal points with small tolerance for numerical errors
-  if (Math.abs(centralAngle - Math.PI) < 1e-10) {
-    return null;
-  }
-
   return { start: [sx, sy], end: [ex, ey], centralAngle };
 };
 
@@ -673,6 +636,8 @@ export interface VoyageRouteRenderStyles {
   getStyleForVoyage: (voyage: VoyageRoute) => number;
 }
 
+const UnknownLabel = 'Unknown';
+
 const CustomShipFlagColors: Record<string, string> = {
   // colors are either mixed or adopted based on national flag colors
   'Portugal / Brazil': '#009c3b', // brazil - green
@@ -683,7 +648,8 @@ const CustomShipFlagColors: Record<string, string> = {
   'U.S.A.': '#00A0D1', // usa - blend of blue and white
   'Denmark / Baltic': '#E07A8E', // denmark mix
   Portugal: '#5D4100', // portugal mix
-  Other: '#999999', // grey
+  Other: '#999999', // grey,
+  [UnknownLabel]: '#999999', // grey
 };
 
 const createRenderStyles = (
@@ -1435,18 +1401,33 @@ const TimelapseAggregateChart = ({
       .style('opacity', '0.7');
     return () => document.getElementById(sliderId)?.remove();
   }, [years]);
+  const handleHighlight = useCallback(
+    (
+      e: React.MouseEvent<HTMLDivElement> | React.FocusEvent<HTMLDivElement>,
+    ) => {
+      e.currentTarget?.style.setProperty('opacity', '0.9');
+    },
+    [],
+  );
+  const handleLeave = useCallback(
+    (
+      e: React.MouseEvent<HTMLDivElement> | React.FocusEvent<HTMLDivElement>,
+    ) => {
+      e.currentTarget.style.setProperty('opacity', '0.4');
+      document
+        .getElementById('timelapse_hoverline')
+        ?.style.setProperty('opacity', '0');
+    },
+    [],
+  );
   return (
     collection.voyageRoutes.length > 0 && (
       <div
         className="timelapseInfoBox"
-        onMouseOver={(e) => e.currentTarget.style.setProperty('opacity', '0.9')}
-        onFocus={(e) => e.currentTarget.style.setProperty('opacity', '0.9')}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.setProperty('opacity', '0.4');
-          document
-            .getElementById('timelapse_hoverline')
-            ?.style.setProperty('opacity', '0');
-        }}
+        onFocus={handleHighlight}
+        onMouseOver={handleHighlight}
+        onMouseLeave={handleLeave}
+        onBlur={handleLeave}
         style={{
           position: 'absolute',
           bottom: 10,
@@ -1465,6 +1446,7 @@ const TimelapseAggregateChart = ({
             marginRight: '3px',
             maxHeight: NormalHeight,
             overflowY: 'scroll',
+            overflowX: 'hidden',
           }}
         >
           <ul>
@@ -1656,8 +1638,15 @@ const useFilteredVoyageRoutes = () => {
         const voyages = (data as OBSOLETE_APIVoyageEntry[]).map((v) =>
           OBSOLETE_legacyToVoyageRoute(routeBuilder, nations, v),
         );
-        // TODO: replace hardcoded args.
-        setCollection(new VoyageRouteCollection(voyages, 0.3, 0.2, nations));
+        const fuzzyMultiplier = network === 'trans' ? 1.0 : 0.1;
+        setCollection(
+          new VoyageRouteCollection(
+            voyages,
+            fuzzyMultiplier * 0.3,
+            fuzzyMultiplier * 0.2,
+            nations,
+          ),
+        );
       }
     };
     setCollection(emptyCol);
@@ -1684,10 +1673,9 @@ export const VoyagesTimelapseMap = () => {
   const tanslateTimelapse = translationLanguagesTimelapse(languageValue);
 
   useEffect(() => {
-    const unknownLabel = 'Unknown';
     const color = d3
       .scaleOrdinal()
-      .domain([...Object.keys(collection.nations), unknownLabel])
+      .domain([...Object.keys(collection.nations), UnknownLabel])
       .range(d3.schemePaired) as (key: string) => string;
     const styles = Object.values(collection.nations).reduce<
       Record<number, VoyageGroupStyle>
@@ -1703,8 +1691,8 @@ export const VoyagesTimelapseMap = () => {
       {},
     );
     styles[-1] = {
-      label: unknownLabel,
-      style: color(unknownLabel),
+      label: UnknownLabel,
+      style: CustomShipFlagColors[UnknownLabel] ?? color(UnknownLabel),
       isLeftoverGroup: true,
     };
     setStyles(

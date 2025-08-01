@@ -46,7 +46,6 @@ export const GenerateCellTableRenderer = (
   nodeClass?: string,
 ) => {
   const values = params.value;
-  console.log({ values });
   const ID = params.data.id;
   const dispatch = useDispatch();
   const { styleName } = usePageRouter();
