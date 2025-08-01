@@ -241,8 +241,6 @@ div .customHeaderLabelSummaryTable {
 
 .customSortDownLabel {
   float: left;
-  margin: 0 0 0 3px;
-  padding: 0 2px;
   cursor: pointer;
   font-size: 10px;
   color: #979595;
@@ -252,7 +250,7 @@ div .customHeaderLabelSummaryTable {
 
 .customSortUpLabel {
   float: left;
-  margin: 0;
+  margin: 0 -3px;
   cursor: pointer;
   font-size: 10px;
   color: #979595;
@@ -261,6 +259,25 @@ div .customHeaderLabelSummaryTable {
   padding: 2px;
 }
 
+.customSortDownLabel-pivot {
+  float: left;
+  cursor: pointer;
+  font-size: 10px;
+  color: #979595;
+  border: none;
+  background: transparent;
+  margin-left: 4px;
+}
+
+.customSortUpLabel-pivot {
+  float: left;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 10px;
+  color: #979595;
+  border: none;
+  background: transparent;
+}
 .customSortRemoveLabel {
   float: left;
   margin: 0 0 0 3px;

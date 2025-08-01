@@ -11,7 +11,6 @@ import '@/style/page.scss';
 import NoDataState from '@/components/NoResultComponents/NoDataState';
 import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { useFetchLineAndBarcharts } from '@/hooks/useFetchLineAndBarcharts';
-import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
 import {
   PlotXYVar,
@@ -60,8 +59,6 @@ function Scatter() {
     (state: RootState) => state.getLanguages,
   );
   const lang = languageValue as LanguageKey;
-
-  const { styleName: styleNameRoute } = usePageRouter();
   const [width, height] = useWindowSize();
   const [scatterSelectedX, setSelectedX] = useState<PlotXYVar[]>([]);
   const [scatterSelectedY, setSelectedY] = useState<PlotXYVar[]>([]);
@@ -179,7 +176,6 @@ function Scatter() {
     isSuccess,
     styleName,
     VoyageScatterOptions,
-    styleNameRoute,
     lang,
   ]);
 
@@ -217,7 +213,12 @@ function Scatter() {
   );
 
   return (
-    <div className="mobile-responsive">
+    <div className="mobile-responsive"
+    style={{
+      height: '80vh',
+      overflowY: 'auto',
+    }}
+    >
       <SelectDropdown
         selectedX={scatterSelectedX}
         selectedY={scatterSelectedY}
@@ -227,7 +228,7 @@ function Scatter() {
         handleChangeMultipleYSelected={handleChangeScatterChipYSelected}
         maxWidth={maxWidth}
         XFieldText="X Field"
-        YFieldText="Multi-Selector Y-Feild"
+        YFieldText="Multi-Selector Y-Field"
         setXAxes={setXAxes}
         setYAxes={setYAxes}
         error={error}
@@ -242,9 +243,11 @@ function Scatter() {
           style={{
             width: '100%',
             maxWidth: chartWidth,
+            height: chartHeight,
+            minHeight: 450,
             border: '1px solid #ccc',
             marginTop: 18,
-            overflow: 'hidden',
+            overflow: 'auto',
             position: 'relative',
           }}
         >
