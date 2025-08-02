@@ -63,7 +63,6 @@ const Tables: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
-
   const { rangeSliderMinMax } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
@@ -87,7 +86,7 @@ const Tables: React.FC = () => {
   const { columnDefs, rowData, page } = useSelector(
     (state: RootState) => state.getTableData as StateRowData,
   );
-  // console.log({ rowData: rowData[0] });
+
   const { isChangeGeoTree } = useSelector(
     (state: RootState) => state.getGeoTreeData,
   );
@@ -185,7 +184,6 @@ const Tables: React.FC = () => {
   const stableSortColumn = useMemo(() => {
     return sortColumn;
   }, [sortColumn]);
-
   const dataSend = useMemo(() => {
     const base: TableListPropsRequest = {
       filter: stableFilters,
@@ -223,20 +221,33 @@ const Tables: React.FC = () => {
     rangeSliderMinMax,
   ]);
 
-  useEffect(() => {
-    const fetchDataTable = async () => {
+  // CENTRALIZED data fetching function
+  const fetchDataTable = useCallback(
+    async (customSortColumn?: string[]) => {
       try {
         setLoading(true);
+
+        // Use custom sort column if provided, otherwise use current state
+        const currentSort = customSortColumn || sortColumn;
+
+        const requestData = {
+          ...dataSend,
+          ...(currentSort.length > 0 && { order_by: currentSort }),
+        };
+
         let response;
+
         if (checkPagesRouteForVoyages(styleNameRoute!)) {
-          response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+          response = await dispatch(
+            fetchVoyageOptionsAPI(requestData),
+          ).unwrap();
         } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
           response = await dispatch(
-            fetchEnslavedOptionsList(dataSend),
+            fetchEnslavedOptionsList(requestData),
           ).unwrap();
         } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
           response = await dispatch(
-            fetchEnslaversOptionsList(dataSend),
+            fetchEnslaversOptionsList(requestData),
           ).unwrap();
         }
 
@@ -244,21 +255,39 @@ const Tables: React.FC = () => {
           const { count, results } = response.data;
           setTotalResultsCount(Number(count));
           setDataTable(results);
-          setLoading(false);
         }
       } catch (error) {
-        console.log('error', error);
+        console.error('Failed to fetch data:', error);
       } finally {
         setLoading(false);
       }
-    };
+    },
+    [dispatch, dataSend, sortColumn, styleNameRoute],
+  );
+  // Handle sort changes from CustomHeaderTable
+  const handleSortChange = useCallback(
+    (sortOrder: 'asc' | 'desc', sortingFields: string[]) => {
+      const newSortColumn =
+        sortOrder === 'asc'
+          ? sortingFields
+          : sortingFields.map((field) => `-${field}`);
+      setSortColumn(newSortColumn);
+      // Fetch data with new sort order
+      fetchDataTable(newSortColumn);
+    },
+    [fetchDataTable],
+  );
 
+  // Main data fetching effect
+  useEffect(() => {
     fetchDataTable();
+
     return () => {
       if (!textFilter) {
         dispatch(setData([]));
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dispatch,
     reloadTable,
@@ -269,9 +298,60 @@ const Tables: React.FC = () => {
     currentBlockName,
     styleNameRoute,
     shouldFetchData,
-    dataSend,
+    stableFilters,
     textFilter,
   ]);
+  // SIMPLIFIED useEffect - just fetch data, no sorting
+  // useEffect(() => {
+  //   const fetchDataTable = async () => {
+  //     try {
+  //       setLoading(true);
+  //       let response;
+
+  //       if (checkPagesRouteForVoyages(styleNameRoute!)) {
+  //         response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+  //       } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+  //         response = await dispatch(
+  //           fetchEnslavedOptionsList(dataSend),
+  //         ).unwrap();
+  //       } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
+  //         response = await dispatch(
+  //           fetchEnslaversOptionsList(dataSend),
+  //         ).unwrap();
+  //       }
+
+  //       if (response) {
+  //         const { count, results } = response.data;
+  //         setTotalResultsCount(Number(count));
+  //         setDataTable(results); // ✅ Just set raw data - no sorting here!
+  //         setLoading(false);
+  //       }
+  //     } catch (error) {
+  //       console.log('error', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchDataTable();
+  //   return () => {
+  //     if (!textFilter) {
+  //       dispatch(setData([]));
+  //     }
+  //   };
+  // }, [
+  //   dispatch,
+  //   reloadTable,
+  //   rowsPerPage,
+  //   page,
+  //   currentEnslavedPage,
+  //   inputSearchValue,
+  //   currentBlockName,
+  //   styleNameRoute,
+  //   shouldFetchData,
+  //   dataSend,
+  //   textFilter,
+  // ]);
 
   useDataTableProcessingEffect(
     dataTable,
@@ -280,8 +360,37 @@ const Tables: React.FC = () => {
     tableFlatfileEnslaved,
     tableFlatfileEnslavers,
     tablesCell,
+    sortColumn,
   );
 
+  const components = useMemo(
+    () => ({
+      agColumnHeader: (props: any) => {
+        const { column } = props;
+        const ascSort = column.isSortAscending() ? 'active' : 'inactive';
+        const descSort = column.isSortDescending() ? 'active' : 'inactive';
+        // const onSortChanged = () => {
+        const sort = column?.getSort();
+        console.log({ sort });
+        // setAscSort(sort === 'asc' ? 'active' : 'inactive');
+        // setDescSort(sort === 'desc' ? 'active' : 'inactive');
+
+        console.log({ sort });
+
+        return (
+          <CustomHeaderTable
+            pageSize={rowsPerPage}
+            // ascSort={ascSort}
+            // descSort={descSort}
+            setSortColumn={setSortColumn}
+            onSortChange={handleSortChange}
+            {...props}
+          />
+        );
+      },
+    }),
+    [rowsPerPage, setSortColumn, handleSortChange],
+  );
   const defaultColDef = useMemo(
     () => ({
       sortable: true,
@@ -293,26 +402,7 @@ const Tables: React.FC = () => {
     [],
   );
 
-  const components = useMemo(
-    () => ({
-      agColumnHeader: (props: any) => {
-        const { column } = props;
-        const ascSort = column.isSortAscending() ? 'active' : 'inactive';
-        const descSort = column.isSortDescending() ? 'active' : 'inactive';
-
-        return (
-          <CustomHeaderTable
-            pageSize={rowsPerPage}
-            ascSort={ascSort}
-            descSort={descSort}
-            setSortColumn={setSortColumn}
-            {...props}
-          />
-        );
-      },
-    }),
-    [rowsPerPage, setSortColumn],
-  );
+  // Updated components memo to include handleSortChange
 
   const getRowRowStyle = useCallback(
     () => ({

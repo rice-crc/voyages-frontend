@@ -1,22 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import '@/style/table.scss';
-import { fetchEnslavedOptionsList } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedOptionsList';
-import { fetchEnslaversOptionsList } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversOptionsList';
-import { fetchVoyageOptionsAPI } from '@/fetch/voyagesFetch/fetchVoyageOptionsAPI';
+import { SortDirection } from 'ag-grid-community';
+import type { CustomHeaderProps } from 'ag-grid-react';
+export interface MyCustomHeaderProps extends CustomHeaderProps {
+  menuIcon: string;
+}
+
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { setRowData } from '@/redux/getTableSlice';
-import { AppDispatch, RootState } from '@/redux/store';
-import { TableListPropsRequest } from '@/share/InterfaceTypes';
-import { StateRowData } from '@/share/InterfaceTypesTable';
-import {
-  checkPagesRouteForEnslaved,
-  checkPagesRouteForEnslavers,
-  checkPagesRouteForVoyages,
-} from '@/utils/functions/checkPagesRoute';
-import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { getHeaderColomnColor } from '@/utils/functions/getColorStyle';
 
 // Extracted types
@@ -30,6 +21,7 @@ interface Column {
   colId: string;
   sort: string | null;
   colDef: ColumnDef;
+  getSort: () => SortDirection | undefined;
   isSortAscending: () => boolean;
   isSortDescending: () => boolean;
   addEventListener: (event: string, callback: () => void) => void;
@@ -37,17 +29,19 @@ interface Column {
 }
 
 interface CustomHeaderTableProps {
-  showColumnMenu: (ref: React.RefObject<HTMLDivElement> | null) => void;
+  showColumnMenu?: (ref: React.RefObject<HTMLDivElement> | null) => void;
   column: Column;
   setSort: (order: string, shiftKey: boolean) => void;
-  enableMenu: boolean;
-  menuIcon: string;
-  enableSorting: boolean;
+  enableMenu?: boolean;
+  menuIcon?: string;
+  enableSorting?: boolean;
   displayName: string;
-  pageSize: number;
+  pageSize?: number;
   setSortColumn: React.Dispatch<React.SetStateAction<string[]>>;
   ascSort: string;
   descSort: string;
+  // New prop to handle sorting externally
+  onSortChange?: (sortOrder: 'asc' | 'desc', sortingFields: string[]) => void;
 }
 
 type SortOrder = 'asc' | 'desc';
@@ -55,84 +49,21 @@ type SortOrder = 'asc' | 'desc';
 const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
   column,
   setSort,
-  enableSorting,
+  enableSorting = true,
   displayName,
-  pageSize,
   setSortColumn,
-  ascSort,
-  descSort,
+  // ascSort,
+  // descSort,
+  onSortChange,
 }) => {
-  // State
-  const [currentPageSize, setCurrentPageSize] = useState(pageSize);
-
-  // Selectors
-  const { page } = useSelector(
-    (state: RootState) => state.getTableData as StateRowData,
-  );
-  const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch,
-  );
-  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData,
-  );
-
-  // Hooks
-  const dispatch: AppDispatch = useDispatch();
   const { styleName } = usePageRouter();
+  const [ascSort, setAscSort] = useState('inactive');
+  const [descSort, setDescSort] = useState('inactive');
 
-  // Effects
-  useEffect(() => {
-    setCurrentPageSize(pageSize);
-  }, [pageSize]);
-
-  // Memoized values
-  const filters = useMemo(
-    () =>
-      filtersDataSend(
-        filtersObj,
-        styleName!,
-        clusterNodeKeyVariable,
-        clusterNodeValue,
-      ),
-    [filtersObj, styleName, clusterNodeKeyVariable, clusterNodeValue],
-  );
-
-  const processedFilters = useMemo(() => {
-    if (!filters) return undefined;
-    return filters.map((filter) => {
-      const { ...filteredFilter } = filter;
-      return filteredFilter;
-    });
-  }, [filters]);
-
-  const baseRequestData: TableListPropsRequest = useMemo(
-    () => ({
-      filter: processedFilters || [],
-      page: Number(page + 1),
-      page_size: Number(currentPageSize),
-    }),
-    [processedFilters, page, currentPageSize],
-  );
-
-  // Helper functions
-  const getApiFunction = useCallback(() => {
-    if (checkPagesRouteForVoyages(styleName!)) {
-      return fetchVoyageOptionsAPI;
-    }
-    if (checkPagesRouteForEnslaved(styleName!)) {
-      return fetchEnslavedOptionsList;
-    }
-    if (checkPagesRouteForEnslavers(styleName!)) {
-      return fetchEnslaversOptionsList;
-    }
-    return null;
-  }, [styleName]);
-
+  // Helper function to create sort order
   const createSortOrder = useCallback(
     (sortOrder: SortOrder, sortingFields: string[]) => {
       if (sortingFields.length === 0) return [];
-      console.log({ sortOrder });
       return sortOrder === 'desc'
         ? sortingFields
         : sortingFields.map((field) => `-${field}`);
@@ -140,45 +71,7 @@ const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
     [],
   );
 
-  // Main data fetching function
-  const fetchData = useCallback(
-    async (sortOrder: SortOrder, sortingFields: string[]) => {
-      const apiFunction = getApiFunction();
-      if (!apiFunction) return;
-
-      const requestData = { ...baseRequestData };
-
-      if (inputSearchValue) {
-        requestData.global_search = inputSearchValue;
-      }
-
-      // Add sorting if fields are provided
-      if (sortingFields.length > 0) {
-        const orderBy = createSortOrder(sortOrder, sortingFields);
-        setSortColumn(orderBy);
-        requestData.order_by = orderBy;
-      }
-
-      try {
-        const response = await dispatch(apiFunction(requestData)).unwrap();
-        if (response?.data?.results) {
-          dispatch(setRowData(response.data.results));
-        }
-      } catch (error) {
-        console.error('Failed to fetch data:', error);
-      }
-    },
-    [
-      baseRequestData,
-      inputSearchValue,
-      dispatch,
-      getApiFunction,
-      createSortOrder,
-      setSortColumn,
-    ],
-  );
-
-  // Event handlers
+  // Event handlers - NO MORE DATA FETCHING HERE
   const handleSortRequest = useCallback(
     (
       order: SortOrder,
@@ -187,14 +80,23 @@ const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
         | React.TouchEvent<HTMLButtonElement>,
     ) => {
       setSort(order, event.shiftKey);
-      const currentSortOrder: SortOrder = column.isSortAscending()
-        ? 'asc'
-        : 'desc';
+
       const sortingFields = column.colDef?.context?.fieldToSort || [];
 
-      fetchData(currentSortOrder, sortingFields);
+      if (sortingFields.length > 0) {
+        // Create the sort order array
+        const orderBy = createSortOrder(order, sortingFields);
+
+        // Update the sort column state
+        setSortColumn(orderBy);
+
+        // Notify parent component about sort change (if callback provided)
+        if (onSortChange) {
+          onSortChange(order, sortingFields);
+        }
+      }
     },
-    [setSort, column, fetchData],
+    [setSort, column, createSortOrder, setSortColumn, onSortChange],
   );
 
   // Render sorting buttons
@@ -206,24 +108,24 @@ const CustomHeaderTable: React.FC<CustomHeaderTableProps> = ({
         <button
           type="button"
           onClick={(event) =>
-            ascSort !== 'active' && handleSortRequest('asc', event)
-          }
-          onTouchEnd={(event) => handleSortRequest('asc', event)}
-          className={`customSortUpLabel ${ascSort}`}
-          aria-label="Sort ascending"
-          disabled={ascSort === 'active'}
-        >
-          <i className="fa fa-long-arrow-alt-down" />
-        </button>
-        <button
-          type="button"
-          onClick={(event) =>
             descSort !== 'active' && handleSortRequest('desc', event)
           }
           onTouchEnd={(event) => handleSortRequest('desc', event)}
           className={`customSortDownLabel ${descSort}`}
           aria-label="Sort descending"
           disabled={descSort === 'active'}
+        >
+          <i className="fa fa-long-arrow-alt-down" />
+        </button>
+        <button
+          type="button"
+          onClick={(event) =>
+            ascSort !== 'active' && handleSortRequest('asc', event)
+          }
+          onTouchEnd={(event) => handleSortRequest('asc', event)}
+          className={`customSortUpLabel ${ascSort}`}
+          aria-label="Sort ascending"
+          disabled={ascSort === 'active'}
         >
           <i className="fa fa-long-arrow-alt-up" />
         </button>

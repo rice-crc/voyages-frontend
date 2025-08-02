@@ -27,7 +27,7 @@ export const generateColumnDef = (
     autoHeight: true,
     wrapText: true,
     resizable: true,
-    sortingOrder: ['asc', 'desc', null],
+    sortingOrder: ['asc', 'desc'],
     headerTooltip: columnHeader,
     tooltipField: value.colID,
     hide: visibleColumnCells
