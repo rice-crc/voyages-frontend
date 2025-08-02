@@ -46,19 +46,25 @@ const CustomHeaderTable = (props: MyCustomHeaderProps) => {
   );
 
   useEffect(() => {
-    const currentColumnId = props.column?.colId;
-    if (!currentColumnId || !sortColumn.length) {
+    if (!sortColumn.length) {
       setAscSort('inactive');
       setDescSort('inactive');
       return;
     }
 
-    // Check if current column is being sorted
     const sortedField = sortColumn[0];
     const isDescending = sortedField?.startsWith('-');
     const fieldName = isDescending ? sortedField.substring(1) : sortedField;
 
-    if (fieldName === currentColumnId) {
+    // ✅ Get order_by from column context/definition
+    // This should come from your generateColumnDef function where you set:
+    // colDef: { context: { fieldToSort: cell.order_by } }
+    const orderByFields = props.column?.colDef?.context?.fieldToSort || [];
+
+    // ✅ Check if current column's order_by includes the sorted field
+    const isMatch = orderByFields.includes(fieldName);
+
+    if (isMatch) {
       if (isDescending) {
         setAscSort('inactive');
         setDescSort('active');
@@ -70,7 +76,11 @@ const CustomHeaderTable = (props: MyCustomHeaderProps) => {
       setAscSort('inactive');
       setDescSort('inactive');
     }
-  }, [sortColumn, props.column?.colId]);
+  }, [
+    sortColumn,
+    props.column?.colDef?.context?.fieldToSort,
+    props.displayName,
+  ]);
 
   const handleSortRequest = useCallback(
     (
@@ -80,12 +90,11 @@ const CustomHeaderTable = (props: MyCustomHeaderProps) => {
         | React.TouchEvent<HTMLButtonElement>,
     ) => {
       props.setSort(order, event.shiftKey);
-      const sortingFields = props.column.colDef?.context?.fieldToSort || [
-        props.column.colId,
-      ];
+
+      // ✅ Use order_by fields from context (set by generateColumnDef)
+      const sortingFields = props.column.colDef?.context?.fieldToSort || [];
 
       if (sortingFields.length > 0) {
-        // Create the sort order array for your API
         const orderBy = createSortOrder(order, sortingFields);
         dispatch(setSortColumn(orderBy));
       }

@@ -22,6 +22,7 @@ export const generateColumnDef = (
   return {
     headerName: columnHeader,
     field: value.colID,
+    colId: value.colID,
     width: value.col_width_px,
     sortable: true,
     autoHeight: true,
@@ -38,7 +39,7 @@ export const generateColumnDef = (
       GenerateCellTableRenderer(params, CELLFN, colID, numberFormat, nodeClass),
     valueGetter: (params: ICellRendererParams) => hasValueGetter(params, value),
     context: {
-      fieldToSort: value.order_by,
+      fieldToSort: value.order_by || [colID],
     },
   };
 };
