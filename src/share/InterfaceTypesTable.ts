@@ -846,6 +846,7 @@ export interface StateRowData {
   loading: boolean;
   error: null | any;
   page: number;
+  sortColumn: string[];
 }
 export interface TableCellStructure {
   colID: string;

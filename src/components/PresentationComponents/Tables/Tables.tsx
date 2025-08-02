@@ -25,7 +25,7 @@ import { useOtherTableCellStructure } from '@/hooks/useOtherTableCellStructure';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
-import { setData, setPage } from '@/redux/getTableSlice';
+import { initializeSortColumn, setData, setPage } from '@/redux/getTableSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   FilterObjectsState,
@@ -121,11 +121,16 @@ const Tables: React.FC = () => {
   );
 
   const otherTableCellStrructure = useOtherTableCellStructure(styleNameRoute!);
-  const [sortColumn, setSortColumn] = useState<string[]>(
-    otherTableCellStrructure?.default_order_by
-      ? [otherTableCellStrructure?.default_order_by]
-      : [],
+  const { sortColumn } = useSelector(
+    (state: RootState) => state.getTableData as StateRowData,
   );
+
+  useEffect(() => {
+    if (otherTableCellStrructure?.default_order_by && sortColumn.length === 0) {
+      dispatch(initializeSortColumn(otherTableCellStrructure.default_order_by));
+    }
+  }, [otherTableCellStrructure?.default_order_by, sortColumn.length, dispatch]);
+
   const {
     data: tableCellStructure,
     isLoading,
@@ -184,6 +189,7 @@ const Tables: React.FC = () => {
   const stableSortColumn = useMemo(() => {
     return sortColumn;
   }, [sortColumn]);
+
   const dataSend = useMemo(() => {
     const base: TableListPropsRequest = {
       filter: stableFilters,
@@ -221,62 +227,30 @@ const Tables: React.FC = () => {
     rangeSliderMinMax,
   ]);
 
-  // CENTRALIZED data fetching function
-  const fetchDataTable = useCallback(
-    async (customSortColumn?: string[]) => {
-      try {
-        setLoading(true);
+  const fetchDataTable = useCallback(async () => {
+    try {
+      setLoading(true);
+      let response;
 
-        // Use custom sort column if provided, otherwise use current state
-        const currentSort = customSortColumn || sortColumn;
-
-        const requestData = {
-          ...dataSend,
-          ...(currentSort.length > 0 && { order_by: currentSort }),
-        };
-
-        let response;
-
-        if (checkPagesRouteForVoyages(styleNameRoute!)) {
-          response = await dispatch(
-            fetchVoyageOptionsAPI(requestData),
-          ).unwrap();
-        } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-          response = await dispatch(
-            fetchEnslavedOptionsList(requestData),
-          ).unwrap();
-        } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-          response = await dispatch(
-            fetchEnslaversOptionsList(requestData),
-          ).unwrap();
-        }
-
-        if (response) {
-          const { count, results } = response.data;
-          setTotalResultsCount(Number(count));
-          setDataTable(results);
-        }
-      } catch (error) {
-        console.error('Failed to fetch data:', error);
-      } finally {
-        setLoading(false);
+      if (checkPagesRouteForVoyages(styleNameRoute!)) {
+        response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+      } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+        response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
+      } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
+        response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
       }
-    },
-    [dispatch, dataSend, sortColumn, styleNameRoute],
-  );
-  // Handle sort changes from CustomHeaderTable
-  const handleSortChange = useCallback(
-    (sortOrder: 'asc' | 'desc', sortingFields: string[]) => {
-      const newSortColumn =
-        sortOrder === 'asc'
-          ? sortingFields
-          : sortingFields.map((field) => `-${field}`);
-      setSortColumn(newSortColumn);
-      // Fetch data with new sort order
-      fetchDataTable(newSortColumn);
-    },
-    [fetchDataTable],
-  );
+
+      if (response) {
+        const { count, results } = response.data;
+        setTotalResultsCount(Number(count));
+        setDataTable(results);
+      }
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [dispatch, dataSend, styleNameRoute]);
 
   // Main data fetching effect
   useEffect(() => {
@@ -287,8 +261,8 @@ const Tables: React.FC = () => {
         dispatch(setData([]));
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    dataSend,
     dispatch,
     reloadTable,
     rowsPerPage,
@@ -300,58 +274,8 @@ const Tables: React.FC = () => {
     shouldFetchData,
     stableFilters,
     textFilter,
+    fetchDataTable,
   ]);
-  // SIMPLIFIED useEffect - just fetch data, no sorting
-  // useEffect(() => {
-  //   const fetchDataTable = async () => {
-  //     try {
-  //       setLoading(true);
-  //       let response;
-
-  //       if (checkPagesRouteForVoyages(styleNameRoute!)) {
-  //         response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-  //       } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-  //         response = await dispatch(
-  //           fetchEnslavedOptionsList(dataSend),
-  //         ).unwrap();
-  //       } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-  //         response = await dispatch(
-  //           fetchEnslaversOptionsList(dataSend),
-  //         ).unwrap();
-  //       }
-
-  //       if (response) {
-  //         const { count, results } = response.data;
-  //         setTotalResultsCount(Number(count));
-  //         setDataTable(results); // ✅ Just set raw data - no sorting here!
-  //         setLoading(false);
-  //       }
-  //     } catch (error) {
-  //       console.log('error', error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchDataTable();
-  //   return () => {
-  //     if (!textFilter) {
-  //       dispatch(setData([]));
-  //     }
-  //   };
-  // }, [
-  //   dispatch,
-  //   reloadTable,
-  //   rowsPerPage,
-  //   page,
-  //   currentEnslavedPage,
-  //   inputSearchValue,
-  //   currentBlockName,
-  //   styleNameRoute,
-  //   shouldFetchData,
-  //   dataSend,
-  //   textFilter,
-  // ]);
 
   useDataTableProcessingEffect(
     dataTable,
@@ -363,41 +287,14 @@ const Tables: React.FC = () => {
     sortColumn,
   );
 
-  const components = useMemo(
-    () => ({
-      agColumnHeader: (props: any) => {
-        const { column } = props;
-        const ascSort = column.isSortAscending() ? 'active' : 'inactive';
-        const descSort = column.isSortDescending() ? 'active' : 'inactive';
-        // const onSortChanged = () => {
-        const sort = column?.getSort();
-        console.log({ sort });
-        // setAscSort(sort === 'asc' ? 'active' : 'inactive');
-        // setDescSort(sort === 'desc' ? 'active' : 'inactive');
-
-        console.log({ sort });
-
-        return (
-          <CustomHeaderTable
-            pageSize={rowsPerPage}
-            // ascSort={ascSort}
-            // descSort={descSort}
-            setSortColumn={setSortColumn}
-            onSortChange={handleSortChange}
-            {...props}
-          />
-        );
-      },
-    }),
-    [rowsPerPage, setSortColumn, handleSortChange],
-  );
   const defaultColDef = useMemo(
     () => ({
-      sortable: true,
+      sortable: false,
       resizable: true,
       filter: true,
       wrapHeaderText: true,
       autoHeaderHeight: true,
+      headerComponent: CustomHeaderTable,
     }),
     [],
   );
@@ -672,7 +569,6 @@ const Tables: React.FC = () => {
               getRowHeight={getRowHeightTable}
               paginationPageSize={rowsPerPage}
               defaultColDef={defaultColDef}
-              components={components}
               getRowStyle={getRowRowStyle}
               enableBrowserTooltips={true}
               tooltipShowDelay={0}
