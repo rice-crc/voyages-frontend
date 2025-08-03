@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import NETWORKICON from '@/assets/networksIcon.png';
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { openDocumentModal } from '@/redux/documentModalSlice';
 import {
   setCardFileName,
   setCardRowID,
@@ -132,7 +133,9 @@ export const GenerateCellTableRenderer = (
               <i className="fa fa-file-text" aria-hidden="true"></i>
             </>
           );
-          additionalProps.onClick = () =>
+
+          additionalProps.onClick = (e) => {
+            e.stopPropagation();
             setDoc({
               key: createDocKey(
                 params.data.sources__zotero_group_id[index],
@@ -143,6 +146,22 @@ export const GenerateCellTableRenderer = (
               revision_number: 1,
               textSnippet: '',
             });
+
+            // dispatch(
+            //   openDocumentModal({
+            //     key: createDocKey(
+            //       params.data.sources__zotero_group_id[index],
+            //       params.data.sources__zotero_item_id[index],
+            //     ),
+            //     label: params.data.sources__title[index],
+            //     thumb: params.data.sources__thumbnail?.at(index),
+            //     zoteroGroupId: params.data.sources__zotero_group_id[index],
+            //     zoteroItemId: params.data.sources__zotero_item_id[index],
+            //     revision_number: 1,
+            //     textSnippet: '',
+            //   }),
+            // );
+          };
         }
         let cellComponent = (
           <span key={`${index}-${value}`}>

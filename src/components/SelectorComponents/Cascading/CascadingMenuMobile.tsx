@@ -414,7 +414,7 @@ const CascadingMenuMobile = () => {
 
   return (
     <>
-      <DropdownCascading
+      {/* <DropdownCascading
         trigger={
           <IconButton
             edge="start"
@@ -442,7 +442,7 @@ const CascadingMenuMobile = () => {
           </IconButton>
         }
         menu={renderDropdownMenu(filterMenu)}
-      />
+      /> */}
       <Dialog
         onClick={(e) => e.stopPropagation()}
         BackdropProps={{

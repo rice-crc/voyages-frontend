@@ -1,10 +1,10 @@
-import { MouseEvent, useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo, useState } from 'react';
 
-import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
+import { Button, Dropdown } from 'antd';
+import type { MenuProps } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { DropdownCascading } from '../Cascading/DropdownCascading';
 
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
@@ -23,7 +23,6 @@ import {
   ColumnSelectorTree,
   TableCellStructureInitialStateProp,
 } from '@/share/InterfaceTypesTable';
-import { DropdownMenuItem, DropdownNestedMenuItemChildren } from '@/styleMUI';
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/enslaved/enslaved_african_origins_table.json';
 import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_all_table.json';
 import TEXAS_TABLE from '@/utils/flatfiles/enslaved/enslaved_texas_table.json';
@@ -43,22 +42,18 @@ const ButtonDropdownColumnSelector = () => {
   const dispatch: AppDispatch = useDispatch();
   const { styleName: styleNameRoute } = usePageRouter();
   const { visibleColumnCells } = useSelector(
-    (state: RootState) => state.getColumns as TableCellStructureInitialStateProp
+    (state: RootState) =>
+      state.getColumns as TableCellStructureInitialStateProp,
   );
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const [menuValueCells, setMenuValueCells] = useState<ColumnSelectorTree[]>(
-    []
+    [],
   );
   const translatedHomepage = translationHomepage(languageValue);
 
-  const handleColumnVisibilityChange = (
-    event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
-  ) => {
-    const target = event.currentTarget as HTMLLIElement | HTMLDivElement;
-    const colID = target.dataset.colid;
-    
+  const handleColumnVisibilityChange = (colID: string) => {
     if (colID) {
       // Get current column state from localStorage if it exists
       let currentOrder: string[] = [];
@@ -71,65 +66,70 @@ const ButtonDropdownColumnSelector = () => {
       } catch (error) {
         console.error('Error parsing column state:', error);
       }
-      
+
       // Update visible columns
       let updatedVisibleColumns: string[];
-      
+
       if (visibleColumnCells.includes(colID)) {
         // Remove column
-        updatedVisibleColumns = visibleColumnCells.filter((column: string) => column !== colID);
+        updatedVisibleColumns = visibleColumnCells.filter(
+          (column: string) => column !== colID,
+        );
       } else {
         // Add column - maintain the relative position if it was in the saved order
         updatedVisibleColumns = [...visibleColumnCells, colID];
-        
+
         // If we have a saved order and the column was previously in it,
         // sort the visible columns according to that order
         if (currentOrder.length > 0) {
           updatedVisibleColumns.sort((a, b) => {
             const indexA = currentOrder.indexOf(a);
             const indexB = currentOrder.indexOf(b);
-            
+
             // If neither is in the saved order, maintain current order
             if (indexA === -1 && indexB === -1) return 0;
-            
+
             // If only one is in the saved order, put it first
             if (indexA === -1) return 1;
             if (indexB === -1) return -1;
-            
+
             // Otherwise, use the saved ordering
             return indexA - indexB;
           });
         }
       }
-      
+
       // Dispatch the updated visible columns
       dispatch(setVisibleColumn(updatedVisibleColumns));
-      
+
       // Save to localStorage
-      localStorage.setItem('visibleColumns', JSON.stringify(updatedVisibleColumns));
+      localStorage.setItem(
+        'visibleColumns',
+        JSON.stringify(updatedVisibleColumns),
+      );
     }
   };
 
   const transatlanticColumnSelector: ColumnSelectorTree[] = JSON.parse(
-    JSON.stringify(Transatlantic_TABLE_FLAT.column_selector_tree)
+    JSON.stringify(Transatlantic_TABLE_FLAT.column_selector_tree),
   );
   const intraamericanColumnSelector: ColumnSelectorTree[] = JSON.parse(
-    JSON.stringify(Intraamerican_TABLE_FLAT.column_selector_tree)
+    JSON.stringify(Intraamerican_TABLE_FLAT.column_selector_tree),
   );
   const allVoyageColumnSelector: ColumnSelectorTree[] = JSON.parse(
-    JSON.stringify(AllVoyages_TABLE_FLAT.column_selector_tree)
+    JSON.stringify(AllVoyages_TABLE_FLAT.column_selector_tree),
   );
   const enslavedColumnSelector: ColumnSelectorTree[] = JSON.parse(
-    JSON.stringify(ENSLAVED_TABLE.column_selector_tree)
+    JSON.stringify(ENSLAVED_TABLE.column_selector_tree),
   );
   const africanOriginsColumnSelector: ColumnSelectorTree[] = JSON.parse(
-    JSON.stringify(AFRICANORIGINS_TABLE.column_selector_tree)
+    JSON.stringify(AFRICANORIGINS_TABLE.column_selector_tree),
   );
   const texasColumnSelector: ColumnSelectorTree[] = JSON.parse(
-    JSON.stringify(TEXAS_TABLE.column_selector_tree)
+    JSON.stringify(TEXAS_TABLE.column_selector_tree),
   );
   const enslaversColumnSelector: ColumnSelectorTree[] = JSON.parse(
-    JSON.stringify(ENSLAVERS_TABLE.column_selector_tree)
+    JSON.stringify(ENSLAVERS_TABLE.column_selector_tree),
   );
 
   useEffect(() => {
@@ -161,71 +161,117 @@ const ButtonDropdownColumnSelector = () => {
     loadMenuValueCellStructure();
   }, [styleNameRoute]);
 
-  function renderMenuItems(nodes: any[]) {
+  function renderMenuItems(nodes: any[]): MenuProps['items'] {
     return nodes.map((node) => {
       const { label: nodeLabel, children, var_name, colID } = node;
       const hasChildren = children && children.length > 0;
       const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
-
+      const isDisabled = visibleColumnCells?.includes(colID);
       if (hasChildren) {
-        return (
-          <DropdownNestedMenuItemChildren
-            label={`${menuLabel}`}
-            dense
-            data-colid={colID}
-            data-value={var_name}
-            data-label={menuLabel}
-            rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
-            onClickMenu={handleColumnVisibilityChange}
-            menu={renderMenuItems(children)}
-            disabled={visibleColumnCells?.includes(colID)}
-          />
-        );
+        return {
+          key: colID,
+          label: (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <span>{menuLabel}</span>
+              <CaretRightOutlined
+                style={{ fontSize: '0.65rem', marginLeft: 'auto' }}
+              />
+            </div>
+          ),
+          disabled: isDisabled,
+          children: renderMenuItems(children),
+          onClick: () => handleColumnVisibilityChange(colID),
+        };
       }
 
-      return (
-        <DropdownMenuItem
-          onClick={handleColumnVisibilityChange}
-          data-colid={colID}
-          data-value={var_name}
-          data-label={menuLabel}
-          dense
-          disabled={visibleColumnCells?.includes(colID)}
-        >
-          {menuLabel}
-        </DropdownMenuItem>
-      );
+      return {
+        key: colID || var_name,
+        label: menuLabel,
+        disabled: isDisabled,
+        onClick: () => handleColumnVisibilityChange(colID),
+      };
     });
   }
+
+  // Base button styles
+  const baseButtonStyle = {
+    fontSize: '0.80rem',
+    textTransform: 'unset' as const,
+    backgroundColor: getColorBTNVoyageDatasetBackground(styleNameRoute!),
+    boxShadow: getColorBoxShadow(styleNameRoute!),
+    fontWeight: 600,
+    color: '#ffffff',
+    width: window.innerWidth < 600 ? 180 : 180, // Responsive width
+    height: '28px',
+    border: 'none',
+  };
+
+  // Event handlers for hover effects
+  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorHoverBackground(styleNameRoute!);
+    target.style.color = '#ffffff';
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorBTNVoyageDatasetBackground(
+      styleNameRoute!,
+    );
+    target.style.color = '#ffffff';
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorHoverBackground(styleNameRoute!);
+    target.style.color = '#ffffff';
+    target.style.outline = 'none';
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorBTNVoyageDatasetBackground(
+      styleNameRoute!,
+    );
+    target.style.color = '#ffffff';
+  };
+
+  const menu: MenuProps = useMemo(
+    () => ({
+      items: renderMenuItems(menuValueCells),
+    }),
+    [menuValueCells],
+  );
+
   return (
-    <DropdownCascading
-      trigger={
-        <span style={{ display: 'flex', alignItems: 'center' }}>
-          <Button
-            sx={{
-              fontSize: '0.80rem',
-              textTransform: 'unset',
-              backgroundColor: getColorBTNVoyageDatasetBackground(
-                styleNameRoute!
-              ),
-              boxShadow: getColorBoxShadow(styleNameRoute!),
-              fontWeight: 600,
-              color: '#ffffff',
-              width: { xs: 180, sm: 180 },
-              height: 28,
-              '&:hover': {
-                backgroundColor: getColorHoverBackground(styleNameRoute!),
-              },
-            }}
-            className="configureColumnsButton"
-            endIcon={<ArrowDropDown />}
-          >
-            {translatedHomepage.configureColumns}
-          </Button>
-        </span>
-      }
-      menu={renderMenuItems(menuValueCells)}
-    />
+    <span style={{ display: 'flex', alignItems: 'center' }}>
+      <style>{`
+        .ant-dropdown-menu-submenu-arrow {
+          display: none !important;
+        }
+      `}</style>
+      <Dropdown menu={menu} trigger={['click']} placement="bottomLeft">
+        <Button
+          className="configureColumnsButton"
+          style={baseButtonStyle}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        >
+          {translatedHomepage.configureColumns}
+          <CaretDownOutlined />
+        </Button>
+      </Dropdown>
+    </span>
   );
 };
+
 export default ButtonDropdownColumnSelector;

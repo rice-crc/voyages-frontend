@@ -1,10 +1,8 @@
-import { useState, MouseEvent, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-import { ArrowDropDown } from '@mui/icons-material';
-import Button from '@mui/material/Button';
-import Fade from '@mui/material/Fade';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import { CaretDownOutlined } from '@ant-design/icons';
+import { Button, Dropdown } from 'antd';
+import type { MenuProps } from 'antd';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,9 +23,7 @@ interface DatabaseDropdownProps {
 
 export default function DatabaseDropdown(props: DatabaseDropdownProps) {
   const { onClickReset } = props;
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [headerTitle, setHeadTitle] = useState('');
-  const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const {
     styleName: styleNameRoute,
@@ -50,81 +46,106 @@ export default function DatabaseDropdown(props: DatabaseDropdownProps) {
     }
   }, [endpointPath, endpointPeopleDirect, translatedPageValue]);
 
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleMenuClick = (key: string) => {
+    const selectedPage = PagesOptions.find(
+      (option) => option.page.name === key,
+    );
+    if (selectedPage) {
+      onClickReset();
+      navigate(selectedPage.page.pathUrl);
+    }
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  // Create menu items for dropdown
+  const menuItems: MenuProps['items'] = PagesOptions.filter((value) => {
+    const { label } = value.page;
+    const labelPage = (label! as LabelFilterMeneList)[languageValue];
+    return labelPage !== headerTitle;
+  }).map((value) => {
+    const { name, label } = value.page;
+    const labelPage = (label! as LabelFilterMeneList)[languageValue];
+    return {
+      key: name,
+      label: labelPage,
+      style: { fontSize: '1rem' },
+    };
+  });
+
+  const menu: MenuProps = {
+    items: menuItems,
+    onClick: ({ key }) => handleMenuClick(key),
   };
+
+  // Base button styles
+  const baseButtonStyle = {
+    textTransform: 'none' as const,
+    background: 'none',
+    border: 'none',
+    boxShadow: 'none',
+    color: 'inherit',
+  };
+
+  // Event handlers to maintain consistent styling
+  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.background = 'none';
+    target.style.border = 'none';
+    target.style.boxShadow = 'none';
+    target.style.color = 'inherit';
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.background = 'none';
+    target.style.border = 'none';
+    target.style.boxShadow = 'none';
+    target.style.color = 'inherit';
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.background = 'none';
+    target.style.border = 'none';
+    target.style.boxShadow = 'none';
+    target.style.color = 'inherit';
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.background = 'none';
+    target.style.border = 'none';
+    target.style.boxShadow = 'none';
+    target.style.color = 'inherit';
+  };
+
   return (
     <div className="select-languages">
-      <Button
-        id="fade-button"
-        sx={{
-          textTransform: 'none',
+      <Dropdown
+        menu={menu}
+        trigger={['click']}
+        overlayStyle={{
+          width: styleNameRoute ? 'auto' : '150px',
         }}
-        className="button-header"
-        aria-controls={open ? 'fade-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        endIcon={
-          <span>
-            <ArrowDropDown
-              sx={{
-                display: {
-                  xs: 'none',
-                  sm: 'none',
-                  md: 'flex',
-                },
-                fontSize: '1.25rem',
-              }}
-            />
-          </span>
-        }
-        onClick={handleClick}
       >
-        {headerTitle}
-      </Button>
-      <Menu
-        id="fade-menu"
-        disableScrollLock={true}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Fade}
-        PaperProps={{ sx: { width: styleNameRoute ? null : '150px' } }}
-      >
-        {PagesOptions.map((value) => {
-          const { name, label, pathUrl } = value.page;
-          const labelPage = (label! as LabelFilterMeneList)[languageValue];
-          return labelPage !== headerTitle ? (
-            <MenuItem style={{ fontSize: '1rem' }} key={name}>
-              <button
-                onClick={() => {
-                  onClickReset();
-                  navigate(pathUrl);
-                  handleClose();
-                }}
-                style={{
-                  textDecoration: 'none',
-                  color: '#000',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: 'inherit',
-                  fontFamily: 'inherit',
-                  padding: 0,
-                  width: '100%',
-                  textAlign: 'left',
-                }}
-              >
-                {labelPage!}
-              </button>
-            </MenuItem>
-          ) : null;
-        })}
-      </Menu>
+        <Button
+          className="button-header"
+          style={baseButtonStyle}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        >
+          {headerTitle}
+          <CaretDownOutlined
+            style={{
+              fontSize: '0.9rem',
+              marginLeft: '4px',
+              marginTop: '4px',
+              display: window.innerWidth >= 768 ? 'inline' : 'none',
+            }}
+          />
+        </Button>
+      </Dropdown>
     </div>
   );
 }

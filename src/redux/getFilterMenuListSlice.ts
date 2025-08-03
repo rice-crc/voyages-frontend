@@ -1,15 +1,16 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
 import {
   InitialStateFilterMenuProps,
   ValueFilterList,
 } from '@/share/InterfaceTypes';
-import TRNSASLATIC_FILTR_MENU from '@/utils/flatfiles/voyages/voyages_transatlantic_filter_menu.json';
-import INTRAAMERICAN_MENU from '@/utils/flatfiles/voyages/voyages_intraamerican_filter_menu.json';
-import ALLVOYAGES_FILTR_MENU from '@/utils/flatfiles/voyages/voyages_all_filter_menu.json';
-import ENSLAVED_FILTER_MENU from '@/utils/flatfiles/enslaved/enslaved_all_filter_menu.json';
 import AFRICAN_FILTER_MENU from '@/utils/flatfiles/enslaved/enslaved_african_origins_filter_menu.json';
+import ENSLAVED_FILTER_MENU from '@/utils/flatfiles/enslaved/enslaved_all_filter_menu.json';
 import TEXAS_FILTER_MENU from '@/utils/flatfiles/enslaved/enslaved_texas_filter_menu.json';
 import ENSLAVERS_FILTER_MENU from '@/utils/flatfiles/enslavers/enslavers_filter_menu.json';
+import ALLVOYAGES_FILTR_MENU from '@/utils/flatfiles/voyages/voyages_all_filter_menu.json';
+import INTRAAMERICAN_MENU from '@/utils/flatfiles/voyages/voyages_intraamerican_filter_menu.json';
+import TRNSASLATIC_FILTR_MENU from '@/utils/flatfiles/voyages/voyages_transatlantic_filter_menu.json';
 const initialState: InitialStateFilterMenuProps = {
   filterValueList: {
     valueTransaslantic: TRNSASLATIC_FILTR_MENU as any,
@@ -21,7 +22,7 @@ const initialState: InitialStateFilterMenuProps = {
     valueEnslavers: ENSLAVERS_FILTER_MENU as any,
   },
 };
-export const getFilterMenuListSlice = createSlice({
+const getFilterMenuListSlice = createSlice({
   name: 'getFilterMenuListSlice',
   initialState,
   reducers: {

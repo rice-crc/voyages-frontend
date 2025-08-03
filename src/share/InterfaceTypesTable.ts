@@ -880,6 +880,8 @@ export interface TableCellStructureProps {
 }
 export interface ColumnSelectorTree {
   label: HeaderLabel;
+  var_name: string;
+  colID: string;
   children: ChildrenColumnSelector[];
 }
 export interface HeaderLabel {

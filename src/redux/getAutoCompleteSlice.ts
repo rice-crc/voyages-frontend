@@ -1,6 +1,6 @@
-import { AutoCompleteInitialState } from '@/share/InterfaceTypes';
-import { Filter } from '@/share/InterfaceTypes';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
+import { AutoCompleteInitialState, Filter } from '@/share/InterfaceTypes';
 
 const initialState: AutoCompleteInitialState = {
   results: [],
@@ -13,7 +13,7 @@ const initialState: AutoCompleteInitialState = {
   isLoadingList: false,
 };
 
-export const getAutoCompleteSlice = createSlice({
+const getAutoCompleteSlice = createSlice({
   name: 'autoCompleteList',
   initialState,
   reducers: {
@@ -22,7 +22,7 @@ export const getAutoCompleteSlice = createSlice({
     },
     setAutoCompleteValue: (
       state,
-      action: PayloadAction<Record<string, string[]>>
+      action: PayloadAction<Record<string, string[]>>,
     ) => {
       state.autoCompleteValue = action.payload;
     },

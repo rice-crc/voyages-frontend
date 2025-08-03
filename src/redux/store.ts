@@ -1,47 +1,51 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import getOptionsDataSlice from './getOptionsDataSlice';
-import rangeSliderSlice from './getRangeSliderSlice';
-import getAutoCompleteList from './getAutoCompleteSlice';
-import getOptionsFlatMenu from './getOptionsFlatObjSlice';
-import getScrollPageSlice from './getScrollPageSlice';
-import getTableSlice from './getTableSlice';
-import { voyagesApi } from '../fetch/voyagesFetch/fetchApiService';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
-import getFilterSlice from './getFilterSlice';
-import getColumnsSlice from './getColumnSlice';
-import getDataSetCollectionSlice from './getDataSetCollectionSlice';
-import getPeopleEnslavedDataSetCollectionSlice from './getPeopleEnslavedDataSetCollectionSlice';
-import getScrollEnslavedPageSlice from './getScrollEnslavedPageSlice';
-import getOptionsDataPastPeopleEnslavedSlice from './getOptionsDataPastPeopleEnslavedSlice';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+
 import { pastEnslavedService } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedService';
 import { pastEnslaversService } from '@/fetch/pastEnslaversFetch/pastEnslaversService';
-import getScrollEnslaversPageSlice from './getScrollEnslaversPageSlice';
-import getPeopleEnslaversDataSetCollectionSlice from './getPeopleEnslaversDataSetCollectionSlice';
-import getBlogDataSlice from './getBlogDataSlice';
-import getLanguagesSlice from './getLanguagesSlice';
-import getCommonGlobalSearchResultSlice from './getCommonGlobalSearchResultSlice';
-import getPastNetworksGraphDataSlice from './getPastNetworksGraphDataSlice';
-import getNodeEdgesAggroutesMapDataSlice from './getNodeEdgesAggroutesMapDataSlice';
-import getPivotTablesDataSlice from './getPivotTablesDataSlice';
-import getCardFlatObjectSlice from './getCardFlatObjectSlice';
-import getGeoTreeDataSlice from './getGeoTreeDataSlice';
-import getDataPathNameSlice from './getDataPathNameSlice';
-import getFilterMenuListSlice from './getFilterMenuListSlice';
-import getEstimateAssesmentSlice from './getEstimateAssessmentSlice';
-import getSaveSearchSlice from './getSaveSearchSlice';
-import getQuerySaveSearchSlice from './getQuerySaveSearchSlice';
-import getShowFilterObjectSlice from './getShowFilterObjectSlice';
+
+import documentModalSlice from './documentModalSlice';
 import getAuthUserSlice from './getAuthUserSlice';
+import getAutoCompleteSlice from './getAutoCompleteSlice';
+import getBlogDataSlice from './getBlogDataSlice';
+import getCardFlatObjectSlice from './getCardFlatObjectSlice';
+import getColumnsSlice from './getColumnSlice';
+import getCommonGlobalSearchResultSlice from './getCommonGlobalSearchResultSlice';
+import getDataPathNameSlice from './getDataPathNameSlice';
+import getDataSetCollectionSlice from './getDataSetCollectionSlice';
+import getEstimateAssesmentSlice from './getEstimateAssessmentSlice';
+import getFilterMenuListSlice from './getFilterMenuListSlice';
+import getFilterSlice from './getFilterSlice';
+import getGeoTreeDataSlice from './getGeoTreeDataSlice';
+import getLanguagesSlice from './getLanguagesSlice';
+import getNodeEdgesAggroutesMapDataSlice from './getNodeEdgesAggroutesMapDataSlice';
+import getOptionsDataPastPeopleEnslavedSlice from './getOptionsDataPastPeopleEnslavedSlice';
+import getOptionsDataSlice from './getOptionsDataSlice';
+import getOptionsFlatObjSlice from './getOptionsFlatObjSlice';
+import getPastNetworksGraphDataSlice from './getPastNetworksGraphDataSlice';
+import getPeopleEnslavedDataSetCollectionSlice from './getPeopleEnslavedDataSetCollectionSlice';
+import getPeopleEnslaversDataSetCollectionSlice from './getPeopleEnslaversDataSetCollectionSlice';
+import getPivotTablesDataSlice from './getPivotTablesDataSlice';
+import getQuerySaveSearchSlice from './getQuerySaveSearchSlice';
+import rangeSliderSlice from './getRangeSliderSlice';
+import getSaveSearchSlice from './getSaveSearchSlice';
+import getScrollEnslavedPageSlice from './getScrollEnslavedPageSlice';
+import getScrollEnslaversPageSlice from './getScrollEnslaversPageSlice';
+import getScrollPageSlice from './getScrollPageSlice';
+import getShowFilterObjectSlice from './getShowFilterObjectSlice';
+import getTableSlice from './getTableSlice';
+import { voyagesApi } from '../fetch/voyagesFetch/fetchApiService';
 
 // Define types for slices
 type GetAuthUserSlice = ReturnType<typeof getAuthUserSlice>;
 type GetOptionsDataSlice = ReturnType<typeof getOptionsDataSlice>;
 type RangeSliderSlice = ReturnType<typeof rangeSliderSlice>;
-type AutoCompleteListSlice = ReturnType<typeof getAutoCompleteList>;
-type OptionsFlatMenuSlice = ReturnType<typeof getOptionsFlatMenu>;
+type AutoCompleteListSlice = ReturnType<typeof getAutoCompleteSlice>;
+type OptionsFlatMenuSlice = ReturnType<typeof getOptionsFlatObjSlice>;
 type FilterMenuListSlice = ReturnType<typeof getFilterMenuListSlice>;
 type ScrollPageSlice = ReturnType<typeof getScrollPageSlice>;
+
 type TableSlice = ReturnType<typeof getTableSlice>;
 type FilterSlice = ReturnType<typeof getFilterSlice>;
 type ColumnsSlice = ReturnType<typeof getColumnsSlice>;
@@ -76,6 +80,7 @@ type EstimateAssesmentSlice = ReturnType<typeof getEstimateAssesmentSlice>;
 type SaveSearchSlice = ReturnType<typeof getSaveSearchSlice>;
 type QuerySaveSearchSlice = ReturnType<typeof getQuerySaveSearchSlice>;
 type ShowFilterObjectSlice = ReturnType<typeof getShowFilterObjectSlice>;
+type DocumentModalSlice = ReturnType<typeof documentModalSlice>;
 
 // Define RootState
 export type RootState = {
@@ -108,6 +113,7 @@ export type RootState = {
   getSaveSearch: SaveSearchSlice;
   getQuerySaveSearch: QuerySaveSearchSlice;
   getShowFilterObject: ShowFilterObjectSlice;
+  documentModal: DocumentModalSlice;
   [voyagesApi.reducerPath]: ReturnType<typeof voyagesApi.reducer>;
 };
 
@@ -116,8 +122,8 @@ const store = configureStore({
     getAuthUserSlice: getAuthUserSlice,
     getOptions: getOptionsDataSlice,
     rangeSlider: rangeSliderSlice,
-    autoCompleteList: getAutoCompleteList,
-    optionFlatMenu: getOptionsFlatMenu,
+    autoCompleteList: getAutoCompleteSlice,
+    optionFlatMenu: getOptionsFlatObjSlice,
     getFilterMenuList: getFilterMenuListSlice,
     getScrollPage: getScrollPageSlice,
     getTableData: getTableSlice,
@@ -142,6 +148,7 @@ const store = configureStore({
     getSaveSearch: getSaveSearchSlice,
     getQuerySaveSearch: getQuerySaveSearchSlice,
     getShowFilterObject: getShowFilterObjectSlice,
+    documentModal: documentModalSlice,
     [voyagesApi.reducerPath]: voyagesApi.reducer,
     [pastEnslavedService.reducerPath]: pastEnslavedService.reducer,
     [pastEnslaversService.reducerPath]: pastEnslaversService.reducer,

@@ -15,7 +15,7 @@ const initialState: StateRowData = {
   sortColumn: [],
 };
 
-export const getTableSlice = createSlice({
+const getTableSlice = createSlice({
   name: 'getTableData',
   initialState,
   reducers: {

@@ -1,26 +1,23 @@
-import { useState, MouseEvent } from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Fade from '@mui/material/Fade';
-import { ArrowDropDown } from '@mui/icons-material';
-import { LanguageOptions } from '@/utils/functions/languages';
+import { CaretDownOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Button, Dropdown } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { setLanguages, setLanguagesLabel } from '@/redux/getLanguagesSlice';
-import { setBlogPost } from '@/redux/getBlogDataSlice';
-import { BlogDataProps } from '@/share/InterfaceTypesBlog';
+
 import { usePageRouter } from '@/hooks/usePageRouter';
+import { setBlogPost } from '@/redux/getBlogDataSlice';
 import { setDataSetHeader } from '@/redux/getDataSetCollectionSlice';
-import { checkHeaderTitleLanguages } from '@/utils/functions/checkHeaderTitleLanguages';
+import { setLanguages, setLanguagesLabel } from '@/redux/getLanguagesSlice';
 import { setDataSetPeopleEnslavedHeader } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
 import { setDataSetEnslaversHeader } from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
+import { RootState } from '@/redux/store';
+import { BlogDataProps } from '@/share/InterfaceTypesBlog';
+import { checkHeaderTitleLanguages } from '@/utils/functions/checkHeaderTitleLanguages';
+import { LanguageOptions } from '@/utils/functions/languages';
 
 export default function LanguagesDropdown() {
   const dispatch = useDispatch();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { languageValueLabel } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const {
     styleName: styleNameRoute,
@@ -28,18 +25,8 @@ export default function LanguagesDropdown() {
     endpointPath,
   } = usePageRouter();
   const post = useSelector(
-    (state: RootState) => state.getBlogData.post as BlogDataProps
+    (state: RootState) => state.getBlogData.post as BlogDataProps,
   );
-
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleChangeLanguage = (value: string, label: string) => {
     dispatch(setLanguages(value));
@@ -52,6 +39,7 @@ export default function LanguagesDropdown() {
     localStorage.setItem('languages', value);
   };
 
+  // Dynamic color calculation
   let colorText = '#ffffff';
   if (
     endpointPathEstimate === 'estimates' ||
@@ -64,54 +52,91 @@ export default function LanguagesDropdown() {
   }
   const fontSize = '0.8rem';
 
+  // Create menu items for dropdown
+  const menuItems: MenuProps['items'] = LanguageOptions.map((lag) => ({
+    key: lag.value,
+    label: lag.language,
+    style: { fontSize: fontSize },
+    onClick: () => handleChangeLanguage(lag.value, lag.lable),
+  }));
+
+  const menu: MenuProps = {
+    items: menuItems,
+  };
+
+  // Base button styles
+  const baseButtonStyle = {
+    color: colorText,
+    fontSize: fontSize,
+    fontWeight: 600,
+    textTransform: 'none' as const,
+    background: 'none',
+    border: 'none',
+    boxShadow: 'none',
+    padding: '4px 8px',
+  };
+
+  // Event handlers to maintain consistent styling across states
+  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.background = 'none';
+    target.style.border = 'none';
+    target.style.boxShadow = 'none';
+    target.style.color = colorText;
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.background = 'none';
+    target.style.border = 'none';
+    target.style.boxShadow = 'none';
+    target.style.color = colorText;
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.background = 'none';
+    target.style.border = 'none';
+    target.style.boxShadow = 'none';
+    target.style.color = colorText;
+    target.style.outline = 'none';
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.background = 'none';
+    target.style.border = 'none';
+    target.style.boxShadow = 'none';
+    target.style.color = colorText;
+  };
+
   return (
     <div className="select-languages">
-      <Button
-        id="fade-button"
-        sx={{
-          textTransform: 'none',
+      <Dropdown
+        menu={menu}
+        trigger={['click']}
+        overlayStyle={{
+          width: styleNameRoute ? 'auto' : '150px',
         }}
-        style={{ color: colorText, fontSize: fontSize, fontWeight: 600 }}
-        aria-controls={open ? 'fade-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        endIcon={
-          <span>
-            <ArrowDropDown
-              sx={{
-                display: {
-                  xs: 'none',
-                  sm: 'none',
-                  md: 'flex',
-                },
-                fontSize: '1rem',
-              }}
-            />
-          </span>
-        }
-        onClick={handleClick}
       >
-        {languageValueLabel}
-      </Button>
-      <Menu
-        id="fade-menu"
-        disableScrollLock={true}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Fade}
-        PaperProps={{ sx: { width: styleNameRoute ? null : '150px' } }}
-      >
-        {LanguageOptions.map((lag) => (
-          <MenuItem
-            style={{ fontSize: fontSize }}
-            key={lag.language}
-            onClick={() => handleChangeLanguage(lag.value, lag.lable)}
-          >
-            {lag.language}
-          </MenuItem>
-        ))}
-      </Menu>
+        <Button
+          style={baseButtonStyle}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        >
+          {languageValueLabel}
+          <CaretDownOutlined
+            style={{
+              fontSize: '0.9rem',
+              marginLeft: '4px',
+              marginTop: '4px',
+              display: window.innerWidth >= 768 ? 'inline' : 'none',
+            }}
+          />
+        </Button>
+      </Dropdown>
     </div>
   );
 }

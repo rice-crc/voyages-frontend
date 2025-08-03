@@ -24,6 +24,7 @@ import useDataTableProcessingEffect from '@/hooks/useDataTableProcessingEffect';
 import { useOtherTableCellStructure } from '@/hooks/useOtherTableCellStructure';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { useTableCellStructure } from '@/hooks/useTableCellStructure';
+import { closeDocumentModal } from '@/redux/documentModalSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { initializeSortColumn, setData, setPage } from '@/redux/getTableSlice';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -72,6 +73,9 @@ const Tables: React.FC = () => {
   );
   const { reloadTable } = useSelector(
     (state: RootState) => state.getSaveSearch,
+  );
+  const { isOpen, currentDocument } = useSelector(
+    (state: RootState) => state.documentModal,
   );
 
   const { viewAll, textFilter } = useSelector(
