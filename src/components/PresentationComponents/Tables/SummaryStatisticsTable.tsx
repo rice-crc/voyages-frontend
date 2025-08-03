@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { Button } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
+import { Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
@@ -187,6 +187,45 @@ const SummaryStatisticsTable = () => {
     DownloadCSVExport = (header.label as LabelFilterMeneList)[languageValue];
   }
 
+  // Base button styles
+  const baseButtonStyle = {
+    backgroundColor: getColorBTNVoyageDatasetBackground(styleNameRoute!),
+    boxShadow: getColorBoxShadow(styleNameRoute!),
+    border: 'none',
+    color: '#ffffff',
+    padding: '0 10px',
+  };
+
+  // Event handlers for hover effects
+  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorHoverBackground(styleNameRoute!);
+    target.style.color = '#ffffff';
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorBTNVoyageDatasetBackground(
+      styleNameRoute!,
+    );
+    target.style.color = '#ffffff';
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorHoverBackground(styleNameRoute!);
+    target.style.color = '#ffffff';
+    target.style.outline = 'none';
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorBTNVoyageDatasetBackground(
+      styleNameRoute!,
+    );
+    target.style.color = '#ffffff';
+  };
+
   return (
     <>
       <div className="summary-box">
@@ -195,18 +234,11 @@ const SummaryStatisticsTable = () => {
             <div className="button-export-csv-summary">
               <Button
                 onClick={handleButtonExportCSV}
-                style={{
-                  boxShadow: getColorBoxShadow(styleNameRoute!),
-                }}
-                sx={{
-                  backgroundColor: getColorBTNVoyageDatasetBackground(
-                    styleNameRoute!,
-                  ),
-                  boxShadow: getColorBoxShadow(styleNameRoute!),
-                  '&:hover': {
-                    backgroundColor: getColorHoverBackground(styleNameRoute!),
-                  },
-                }}
+                style={baseButtonStyle}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
               >
                 {DownloadCSVExport}
               </Button>

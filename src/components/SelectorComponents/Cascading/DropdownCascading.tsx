@@ -4,14 +4,12 @@ import {
   MouseEvent,
   useState,
   useRef,
-  ReactNode,
-  createElement,
-  Children,
   cloneElement,
   useEffect,
 } from 'react';
-import Menu from '@mui/material/Menu';
-import { List } from '@mui/material';
+
+import { Dropdown } from 'antd';
+import type { MenuProps } from 'antd';
 
 interface DropdownProps {
   trigger: ReactElement;
@@ -24,13 +22,11 @@ interface DropdownProps {
 export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
   (
     { trigger, menu, isOpen: controlledIsOpen, onOpen: onControlledOpen },
-    ref
+    ref,
   ) => {
-    const [isInternalOpen, setInternalOpen] = useState<HTMLElement | null>(
-      null
-    );
+    const [isInternalOpen, setInternalOpen] = useState<boolean>(false);
 
-    const isOpen = controlledIsOpen || isInternalOpen !== null;
+    const isOpen = controlledIsOpen || isInternalOpen;
     const anchorRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -52,21 +48,16 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
       };
     }, []);
 
-    const handleOpen = (event: MouseEvent<HTMLDivElement, MouseEvent>) => {
-      event.stopPropagation();
-      if (menu?.length) {
-        onControlledOpen
-          ? onControlledOpen(event)
-          : setInternalOpen(event.currentTarget);
+    const handleOpenChange = (open: boolean) => {
+      if (onControlledOpen) {
+        onControlledOpen(open ? ({} as any) : null);
+      } else {
+        setInternalOpen(open);
       }
     };
 
-    const handleClose = () => {
-      handleForceClose();
-    };
-
     const handleForceClose = () => {
-      onControlledOpen ? onControlledOpen(null) : setInternalOpen(null);
+      onControlledOpen ? onControlledOpen(null) : setInternalOpen(false);
     };
 
     // Function that menu items can call to close the dropdown
@@ -74,74 +65,72 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
       setTimeout(() => handleForceClose(), 100); // Small delay to ensure click event completes
     };
 
-    const renderMenu = (menuItem: ReactElement, index: number): ReactNode => {
-      const { parentMenuOpen, onClick, ...props } = menuItem.props;
-      
-      // Prepare extra props for the menu item
-      let extraProps = {};
-      if (props.menu) {
-        extraProps = {
-          parentMenuOpen: isOpen,
+    // Convert ReactElement menu items to Ant Design MenuProps format
+    const convertToAntdMenuItems = (
+      menuItems?: ReactElement[],
+    ): MenuProps['items'] => {
+      if (!menuItems) return [];
+
+      return menuItems.map((menuItem, index) => {
+        const { onClick, children, menu: submenu, ...props } = menuItem.props;
+
+        // Handle click event by combining original handler with close function
+        const handleItemClick = (e: any) => {
+          // Convert the click info to a mouse event-like object
+          const mouseEvent = {
+            currentTarget: e.domEvent?.currentTarget || {},
+            stopPropagation: () => e.domEvent?.stopPropagation?.(),
+            preventDefault: () => e.domEvent?.preventDefault?.(),
+            ...props, // Include data attributes and other props
+          };
+
+          // Call the original onClick if it exists
+          if (onClick) {
+            onClick(mouseEvent);
+          }
+
+          // Don't close dropdown if this item has a submenu
+          if (!submenu) {
+            closeMenu();
+          }
         };
-      }
 
-      // Handle click event by combining original handler with close function
-      const handleItemClick = (e: MouseEvent) => {
-        // Call the original onClick if it exists
-        if (onClick) {
-          onClick(e);
+        const menuItemConfig: any = {
+          key: props.key || index,
+          label: children,
+          onClick: handleItemClick,
+          ...props, // Spread other props like data attributes
+        };
+
+        // Handle submenus recursively
+        if (submenu && Array.isArray(submenu)) {
+          menuItemConfig.children = convertToAntdMenuItems(submenu);
         }
-        
-        // Don't close dropdown if this item has a submenu
-        if (!props.menu) {
-          closeMenu();
-        }
-      };
 
-      const allowedComponents = [
-        'li',
-        'yourCustomComponentType',
-        'otherCustomComponentType',
-      ];
-
-      const filteredProps = {
-        ...props,
-        onClick: handleItemClick, // Add our combined click handler
-        ...(allowedComponents.includes(String(menuItem.type))
-          ? extraProps
-          : {}),
-      };
-
-      return createElement(menuItem.type, {
-        ...filteredProps,
-        key: index,
-        children: props.menu
-          ? Children.map(props.menu, (child, i) => renderMenu(child, i))
-          : props.children,
+        return menuItemConfig;
       });
+    };
+
+    const menuConfig: MenuProps = {
+      items: convertToAntdMenuItems(menu),
     };
 
     return (
       <div ref={ref}>
-        {cloneElement(trigger, {
-          onClick: handleOpen,
-          ref: anchorRef,
-        })}
-
-        <Menu
-          anchorEl={isOpen ? anchorRef.current : null}
+        <Dropdown
+          menu={menuConfig}
+          trigger={['click']}
           open={isOpen}
-          onClose={handleClose}
-          disableScrollLock={true}
-          // Adding these props to improve behavior
-          keepMounted
-          MenuListProps={{
-            onClick: (e) => e.stopPropagation() // Prevent clicks inside menu from closing immediately
-          }}
+          onOpenChange={handleOpenChange}
+          placement="bottomLeft"
         >
-          <List>{menu?.map(renderMenu)}</List>
-        </Menu>
+          {cloneElement(trigger, {
+            ref: anchorRef,
+          })}
+        </Dropdown>
       </div>
     );
-  }
+  },
 );
+
+DropdownCascading.displayName = 'DropdownCascading';

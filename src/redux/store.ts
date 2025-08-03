@@ -5,7 +5,6 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { pastEnslavedService } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedService';
 import { pastEnslaversService } from '@/fetch/pastEnslaversFetch/pastEnslaversService';
 
-import documentModalSlice from './documentModalSlice';
 import getAuthUserSlice from './getAuthUserSlice';
 import getAutoCompleteSlice from './getAutoCompleteSlice';
 import getBlogDataSlice from './getBlogDataSlice';
@@ -113,7 +112,6 @@ export type RootState = {
   getSaveSearch: SaveSearchSlice;
   getQuerySaveSearch: QuerySaveSearchSlice;
   getShowFilterObject: ShowFilterObjectSlice;
-  documentModal: DocumentModalSlice;
   [voyagesApi.reducerPath]: ReturnType<typeof voyagesApi.reducer>;
 };
 
@@ -148,7 +146,6 @@ const store = configureStore({
     getSaveSearch: getSaveSearchSlice,
     getQuerySaveSearch: getQuerySaveSearchSlice,
     getShowFilterObject: getShowFilterObjectSlice,
-    documentModal: documentModalSlice,
     [voyagesApi.reducerPath]: voyagesApi.reducer,
     [pastEnslavedService.reducerPath]: pastEnslavedService.reducer,
     [pastEnslaversService.reducerPath]: pastEnslaversService.reducer,

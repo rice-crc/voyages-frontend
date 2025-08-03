@@ -1,18 +1,21 @@
 import React from 'react';
-import type { CollapseProps } from 'antd';
-import { Collapse } from 'antd';
+
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import TimeFrame from './TimeFrame';
-import Regions from './Regions';
-import Flag from './Flag';
+import { Collapse } from 'antd';
+import type { CollapseProps } from 'antd';
 import '@/style/estimates.scss';
 import { useSelector } from 'react-redux';
+
 import { RootState } from '@/redux/store';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
+import Flag from './Flag';
+import Regions from './Regions';
+import TimeFrame from './TimeFrame';
+
 const EstimateCollapse: React.FC = () => {
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedEstimates = translationLanguagesEstimatePage(languageValue);
 

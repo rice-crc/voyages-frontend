@@ -7,9 +7,9 @@ import React, {
   useState,
 } from 'react';
 
-import { Pagination } from '@mui/material';
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 import { AgGridReact } from 'ag-grid-react';
+import { Pagination } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CustomLoadingOverlay } from '@/components/CommonComponts/CustomLoadingOverlay';
@@ -24,7 +24,6 @@ import useDataTableProcessingEffect from '@/hooks/useDataTableProcessingEffect';
 import { useOtherTableCellStructure } from '@/hooks/useOtherTableCellStructure';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { useTableCellStructure } from '@/hooks/useTableCellStructure';
-import { closeDocumentModal } from '@/redux/documentModalSlice';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
 import { initializeSortColumn, setData, setPage } from '@/redux/getTableSlice';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -73,9 +72,6 @@ const Tables: React.FC = () => {
   );
   const { reloadTable } = useSelector(
     (state: RootState) => state.getSaveSearch,
-  );
-  const { isOpen, currentDocument } = useSelector(
-    (state: RootState) => state.documentModal,
   );
 
   const { viewAll, textFilter } = useSelector(
@@ -211,7 +207,7 @@ const Tables: React.FC = () => {
     };
     return base;
   }, [stableFilters]);
-
+  const isShowDownloadButton = checkPagesRouteForVoyages(styleNameRoute!);
   const shouldFetchData = useMemo(() => {
     return (
       (checkPagesRouteForVoyages(styleNameRoute!) &&
@@ -314,28 +310,6 @@ const Tables: React.FC = () => {
     [],
   );
 
-  const handleChangeRowsPerPage = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      // Save column state before changing rows per page
-      if (gridRef.current?.api) {
-        setCurrentColumnState(gridRef.current.api.getColumnState());
-      }
-
-      const newPageSize = parseInt(event.target.value);
-      setRowsPerPage(newPageSize);
-      dispatch(setPage(0));
-    },
-    [dispatch],
-  );
-
-  const handleChangePagePagination = (event: any, newPage: number) => {
-    // Save column state before pagination
-    if (gridRef.current?.api) {
-      setCurrentColumnState(gridRef.current.api.getColumnState());
-    }
-    dispatch(setPage(newPage - 1));
-  };
-
   // Create a function to specifically save column order after dragging
   const handleColumnDragStop = useCallback(() => {
     if (gridRef.current?.api) {
@@ -431,13 +405,24 @@ const Tables: React.FC = () => {
     setCurrentColumnState(newState);
   }, [visibleColumnCells]);
 
-  // Modify your pagination handlers to ensure column state is preserved
-  const handleChangePage = (event: any, newPage: number) => {
-    // Save column state before changing page
+  const handleChangePagePagination = useCallback(
+    (newPage: number) => {
+      // Save column state before pagination
+      if (gridRef.current?.api) {
+        setCurrentColumnState(gridRef.current.api.getColumnState());
+      }
+      dispatch(setPage(newPage - 1));
+    },
+    [dispatch],
+  );
+
+  // Add this new function to handle page size changes:
+  const handlePageSizeChange = (current: number, size: number) => {
     if (gridRef.current?.api) {
       setCurrentColumnState(gridRef.current.api.getColumnState());
     }
-    dispatch(setPage(newPage));
+    setRowsPerPage(size);
+    dispatch(setPage(0));
   };
 
   const handleColumnVisibleChange = useCallback(
@@ -505,10 +490,6 @@ const Tables: React.FC = () => {
     [columnDefs, visibleColumnCells, setCurrentColumnState],
   );
 
-  const pageCount = Math.ceil(
-    totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1,
-  );
-
   const gridOptions = useMemo(
     () => ({
       headerHeight: 35,
@@ -539,19 +520,12 @@ const Tables: React.FC = () => {
           <span className="tableContainer">
             <ButtonDropdownColumnSelector />
             <div className="tableContainer">
-              <CustomTablePagination
-                component="div"
-                count={totalResultsCount}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPageOptions={[5, 8, 10, 12, 15, 20, 25, 30, 45, 50, 100]}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-              <DownloadCSV
-                dataSend={dataSendToDownloadCSV}
-                styleNameRoute={styleNameRoute}
-              />
+              {isShowDownloadButton && (
+                <DownloadCSV
+                  dataSend={dataSendToDownloadCSV}
+                  styleNameRoute={styleNameRoute}
+                />
+              )}
             </div>
           </span>
           {loading && rowData.length === 0 ? (
@@ -586,10 +560,29 @@ const Tables: React.FC = () => {
         </div>
         <div className="pagination-div">
           <Pagination
-            color="primary"
-            count={pageCount}
-            page={page + 1}
+            current={page + 1} // Convert 0-based to 1-based for display
+            total={totalResultsCount} // Use total items, not pages
+            pageSize={rowsPerPage}
             onChange={handleChangePagePagination}
+            onShowSizeChange={handlePageSizeChange}
+            showSizeChanger={true}
+            pageSizeOptions={[
+              '5',
+              '8',
+              '10',
+              '12',
+              '15',
+              '20',
+              '25',
+              '30',
+              '45',
+              '50',
+              '100',
+            ]}
+            showQuickJumper={false}
+            showTotal={(total, range) =>
+              `${range[0]}-${range[1]} of ${total} items`
+            }
           />
         </div>
       </div>

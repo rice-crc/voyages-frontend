@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, FunctionComponent } from 'react';
 
-import { Grid } from '@mui/material';
+import { Grid ,  Input} from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { IconButton, Button } from '@mui/material';
+
 import { fetchPastEnslavedRangeSliderData } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedRangeSliderData';
 import { fetchPastEnslaversRangeSliderData } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversRangeSliderData';
 import { fetchRangeVoyageSliderData } from '@/fetch/voyagesFetch/fetchRangeSliderData';
@@ -13,19 +13,14 @@ import { setFilterObject } from '@/redux/getFilterSlice';
 import {
   setRangeValue,
   setKeyValueName,
-  setRangeSliderValue,
 } from '@/redux/getRangeSliderSlice';
-import { setIsViewButtonViewAllResetAll } from '@/redux/getShowFilterObjectSlice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { allEnslavers, FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
+import { FILTER_OBJECT_KEY } from '@/share/CONST_DATA';
 import {
   Filter,
   FilterObjectsState,
   RangeSliderStateProps,
-  TYPESOFDATASET,
-  TYPESOFDATASETPEOPLE,
 } from '@/share/InterfaceTypes';
-import { CustomSlider, Input } from '@/styleMUI';
 import '@/style/Slider.scss';
 import {
   checkPagesRouteForEnslaved,
@@ -33,26 +28,27 @@ import {
   checkPagesRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
-
-const RangeSlider = () => {
+interface RangeSliderProps {
+  handleSliderChangeMouseUp: () => void
+  setCurrentSliderValue: React.Dispatch<React.SetStateAction<number | number[]>>
+  currentSliderValue: number | number[]
+  minRange: number
+  maxRange: number
+}
+const RangeSlider:FunctionComponent<RangeSliderProps> = ({
+  handleSliderChangeMouseUp,
+  setCurrentSliderValue,
+  currentSliderValue,
+  minRange:min,
+  maxRange:max
+}) => {
+// const RangeSlider= () => {
   const dispatch: AppDispatch = useDispatch();
-  const { styleName: styleNameRoute } = usePageRouter();
   const { styleName } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { rangeValue, varName, rangeSliderMinMax, opsRoles } = useSelector(
+  const { rangeValue, varName, rangeSliderMinMax, } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
-  const { labelVarName } = useSelector(
-    (state: RootState) => state.getShowFilterObject,
-  );
-
-  const rangeMinMax = rangeSliderMinMax?.[varName] ||
-    rangeValue?.[varName] || [0, 0.5];
-  const min = rangeValue?.[varName]?.[0] || 0;
-  const max = rangeValue?.[varName]?.[1] || 0;
-  const [currentSliderValue, setCurrentSliderValue] = useState<
-    number | number[]
-  >(rangeMinMax);
 
   const filters = useMemo(
     () => filtersDataSend(filtersObj, styleName!),
@@ -63,9 +59,9 @@ const RangeSlider = () => {
     return filters === undefined
       ? undefined
       : filters!.map((filter) => {
-          const { ...filteredFilter } = filter;
-          return filteredFilter;
-        });
+        const { ...filteredFilter } = filter;
+        return filteredFilter;
+      });
   }, [filters]);
 
   const dataSend: RangeSliderStateProps = useMemo(() => {
@@ -126,88 +122,8 @@ const RangeSlider = () => {
     const initialValue: number[] = rangSliderLocal;
     setCurrentSliderValue(initialValue);
     dispatch(setFilterObject(filter));
-  }, [varName, styleName, dispatch, fetchRangeSliderData]);
+  }, [varName, styleName, dispatch, fetchRangeSliderData,setCurrentSliderValue]);
 
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    setCurrentSliderValue(newValue);
-  };
-
-  const handleSliderChangeMouseUp = () => {
-    dispatch(
-      setRangeSliderValue({
-        ...rangeSliderMinMax,
-        [varName]: currentSliderValue as number[],
-      }),
-    );
-    updatedSliderToLocalStrage(currentSliderValue as number[]);
-  };
-
-  const handleInputChange = (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) => {
-    const { name, value } = event.target;
-
-    if (value) {
-      const updatedSliderValue = [...rangeMinMax];
-      updatedSliderValue[name === 'start' ? 0 : 1] = Number(value);
-      dispatch(
-        setRangeSliderValue({
-          ...rangeSliderMinMax,
-          [varName]: updatedSliderValue,
-        }),
-      );
-      updatedSliderToLocalStrage(updatedSliderValue);
-    } else {
-      dispatch(
-        setRangeSliderValue({
-          ...rangeSliderMinMax,
-          [varName]: [],
-        }),
-      );
-    }
-  };
-
-  function updatedSliderToLocalStrage(updateValue: number[]) {
-    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
-
-    let existingFilterObject: any = {};
-
-    if (existingFilterObjectString) {
-      existingFilterObject = JSON.parse(existingFilterObjectString);
-    }
-    const existingFilters: Filter[] = existingFilterObject.filter || [];
-    const existingFilterIndex = existingFilters.findIndex(
-      (filter) => filter.varName === varName,
-    );
-    if (existingFilterIndex !== -1) {
-      existingFilters[existingFilterIndex].searchTerm = updateValue as number[];
-      existingFilters[existingFilterIndex].op = opsRoles!;
-    } else {
-      const newFilter: Filter = {
-        varName: varName,
-        searchTerm: updateValue!,
-        op: opsRoles!,
-        label: labelVarName,
-      };
-      existingFilters.push(newFilter);
-    }
-    const filterObjectUpdate = {
-      filter: existingFilters,
-    };
-    const filterObjectString = JSON.stringify(filterObjectUpdate);
-    dispatch(setFilterObject(existingFilters));
-    localStorage.setItem('filterObject', filterObjectString);
-    if (
-      (styleNameRoute === TYPESOFDATASET.allVoyages ||
-        styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved ||
-        styleNameRoute === allEnslavers) &&
-      existingFilters.length > 0
-    ) {
-      dispatch(setIsViewButtonViewAllResetAll(true));
-    } else if (existingFilters.length > 1) {
-      dispatch(setIsViewButtonViewAllResetAll(true));
-    }
-  }
 
   return (
     <Grid
@@ -272,34 +188,9 @@ const RangeSlider = () => {
           }}
         />
       </div>
-      <Button
-        variant="contained"
-        color="primary"
-        size="small"
-        onClick={handleSliderChangeMouseUp}
-        sx={{
-          minWidth: 60,
-          fontWeight: 600,
-          padding: '4px 12px',
-          fontSize: '0.85rem',
-          lineHeight: 1.2,
-          textTransform: 'none',
-        }}
-      >
-        Apply
-      </Button>
     </Grid>
   );
 };
 
 export default RangeSlider;
 
-{
-  /* <CustomSlider
-        size="small"
-        min={min as number}
-        max={max as number}
-        value={rangeMinMax}
-        onChange={handleSliderChange}
-      /> */
-}

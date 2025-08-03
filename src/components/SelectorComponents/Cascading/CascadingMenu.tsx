@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { Toolbar, Hidden } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import SaveSearchComponent from '@/components/FilterComponents/SaveSearchComponent/SaveSearchComponent';
@@ -67,35 +66,25 @@ export default function CascadingMenu() {
   return (
     <>
       <div className="list-filter-menu-bar">
-        <Toolbar
-          sx={{
-            '@media (min-width: 600px)': {
-              minHeight: '40px',
-            },
-          }}
-        >
-          <Hidden smDown>
-            <div className="list-filter-menu">
-              <MenuListsDropdown />
-              {filterData.length > 0 ? (
-                <>
-                  <ViewAllButton
-                    varName={varName}
-                    clusterNodeKeyVariable={clusterNodeKeyVariable}
-                    clusterNodeValue={clusterNodeValue}
-                    handleViewAll={handleViewAll}
-                  />
-                  <ResetAllButton
-                    varName={varName}
-                    clusterNodeKeyVariable={clusterNodeKeyVariable}
-                    clusterNodeValue={clusterNodeValue}
-                    handleResetAll={handleResetAll}
-                  />
-                </>
-              ) : null}
-            </div>
-          </Hidden>
-        </Toolbar>
+        <div className="list-filter-menu">
+          <MenuListsDropdown />
+          {filterData.length > 0 ? (
+            <>
+              <ViewAllButton
+                varName={varName}
+                clusterNodeKeyVariable={clusterNodeKeyVariable}
+                clusterNodeValue={clusterNodeValue}
+                handleViewAll={handleViewAll}
+              />
+              <ResetAllButton
+                varName={varName}
+                clusterNodeKeyVariable={clusterNodeKeyVariable}
+                clusterNodeValue={clusterNodeValue}
+                handleResetAll={handleResetAll}
+              />
+            </>
+          ) : null}
+        </div>
         {(currentBlockName === '' ||
           currentBlockName === VOYAGE ||
           currentBlockName === 'people') && <SaveSearchComponent />}
