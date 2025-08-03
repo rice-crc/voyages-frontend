@@ -93,11 +93,6 @@ const BlogCardHeaderBody = () => {
                 className="media-left media-top"
                 key={`${index}-${author.photo || author.institution.image}`}
               >
-                <Link
-                  to={`/${BLOGPAGE}/author/${convertToSlug(author?.name)}/${
-                    author?.id
-                  }/`}
-                >
                   {author.photo ? (
                     <img
                       className="rounded-circle"
@@ -111,17 +106,10 @@ const BlogCardHeaderBody = () => {
                       <i className="fas fa-user fa-3x" aria-hidden="true"></i>
                     </div>
                   )}
-                </Link>
               </div>
               <div className="media-body" key={`${index}-${author.name}`}>
                 <h4 className="media-heading">
-                  <Link
-                    to={`/${BLOGPAGE}/author/${convertToSlug(author?.name)}/${
-                      author?.id
-                    }/`}
-                  >
                     {author.name}
-                  </Link>
                 </h4>
                 {author.description}
               </div>

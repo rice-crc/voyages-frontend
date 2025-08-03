@@ -84,29 +84,124 @@ export interface GreatCircle {
 }
 
 /**
- * Obtain the point along the arc that corresponds to a fraction t \in [0, 1] of
- * the total arc.
+ * 3D Cartesian vector: only used for intermediate calculations
+ */
+interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
+}
+
+/**
+ * Interpolates along a great circle arc using Spherical Linear Interpolation (SLERP)
+ * for numerical stability.
+ *
+ * @param arc Great circle arc with start/end points and central angle
+ * @param t Interpolation parameter in [0, 1], where 0 returns start and 1 returns end
+ * @returns Interpolated point in radians [lat, lng]
  */
 export const arcInterpolate = (
   arc: GreatCircle,
   t: number,
 ): LatLngPathPointRad => {
-  const {
-    start: [slat, slng],
-    end: [elat, elng],
-    centralAngle: g,
-  } = arc;
-  const A = Math.sin((1 - t) * g) / Math.sin(g);
-  const B = Math.sin(t * g) / Math.sin(g);
-  const x =
-    A * Math.cos(slng) * Math.cos(slat) + B * Math.cos(elng) * Math.cos(elat);
-  const y =
-    A * Math.cos(slng) * Math.sin(slat) + B * Math.cos(elng) * Math.sin(elat);
-  const z = A * Math.sin(slng) + B * Math.sin(elng);
-  const lng = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
-  const lat = Math.atan2(y, x);
-  return [lat, lng];
+  // Clamp t to [0, 1] for safety
+  t = Math.max(0, Math.min(1, t));
+  // Handle trivial cases
+  if (t === 0) return arc.start;
+  if (t === 1) return arc.end;
+  // Step 1: Convert lat/lng points to unit vectors in Cartesian space
+  const v1 = latLngToCartesian(arc.start);
+  const v2 = latLngToCartesian(arc.end);
+  // Step 2: Use the provided central angle (more efficient than recomputing)
+  const theta = arc.centralAngle;
+  // Step 3: Handle special cases for numerical stability
+  const EPSILON = 1e-6;
+  let interpolatedVector: Vector3;
+  if (theta < EPSILON) {
+    // Points are nearly identical - use linear interpolation with renormalization
+    // This avoids division by sin(θ) ≈ 0
+    interpolatedVector = normalize(linearCombination(v1, 1 - t, v2, t));
+  } else if (Math.abs(theta - Math.PI) < EPSILON) {
+    // Points are nearly antipodal - geodesic is not unique
+    // For practical purposes, we'll use linear interpolation through the sphere
+    // and normalize (this picks one of the possible great circles)
+    interpolatedVector = normalize(linearCombination(v1, 1 - t, v2, t));
+  } else {
+    // Step 4: General case - use SLERP formula
+    const sinTheta = Math.sin(theta);
+    const w1 = Math.sin((1 - t) * theta) / sinTheta;
+    const w2 = Math.sin(t * theta) / sinTheta;
+    interpolatedVector = linearCombination(v1, w1, v2, w2);
+  }
+  // Step 5: Convert back to lat/lng coordinates
+  return cartesianToLatLng(interpolatedVector);
 };
+
+/**
+ * Converts lat/lng coordinates to Cartesian unit vector
+ * @param point [latitude, longitude] in radians
+ * @returns Unit vector in Cartesian coordinates
+ */
+function latLngToCartesian(point: LatLngPathPointRad): Vector3 {
+  const [lat, lng] = point;
+  const cosLat = Math.cos(lat);
+  return {
+    x: cosLat * Math.cos(lng),
+    y: cosLat * Math.sin(lng),
+    z: Math.sin(lat),
+  };
+}
+
+/**
+ * Converts Cartesian unit vector to lat/lng coordinates
+ * @param vector Unit vector in Cartesian coordinates
+ * @returns [latitude, longitude] in radians
+ */
+function cartesianToLatLng(vector: Vector3): LatLngPathPointRad {
+  const lat = Math.asin(clamp(vector.z, -1, 1));
+  const lng = Math.atan2(vector.y, vector.x);
+  return [lat, lng];
+}
+
+/**
+ * Computes linear combination of two vectors: w1 * v1 + w2 * v2
+ */
+function linearCombination(
+  v1: Vector3,
+  w1: number,
+  v2: Vector3,
+  w2: number,
+): Vector3 {
+  return {
+    x: w1 * v1.x + w2 * v2.x,
+    y: w1 * v1.y + w2 * v2.y,
+    z: w1 * v1.z + w2 * v2.z,
+  };
+}
+
+/**
+ * Normalizes a vector to unit length
+ */
+function normalize(vector: Vector3): Vector3 {
+  const length = Math.sqrt(
+    vector.x * vector.x + vector.y * vector.y + vector.z * vector.z,
+  );
+  if (length === 0) {
+    throw new Error('Cannot normalize zero vector');
+  }
+  return {
+    x: vector.x / length,
+    y: vector.y / length,
+    z: vector.z / length,
+  };
+}
+
+/**
+ * Clamps a value between min and max bounds
+ */
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
 
 /**
  * Computes the central angle of a great circle. In the very exceptional case of
@@ -631,6 +726,8 @@ export interface VoyageRouteRenderStyles {
   getStyleForVoyage: (voyage: VoyageRoute) => number;
 }
 
+const UnknownLabel = 'Unknown';
+
 const CustomShipFlagColors: Record<string, string> = {
   // colors are either mixed or adopted based on national flag colors
   'Portugal / Brazil': '#009c3b', // brazil - green
@@ -641,7 +738,8 @@ const CustomShipFlagColors: Record<string, string> = {
   'U.S.A.': '#00A0D1', // usa - blend of blue and white
   'Denmark / Baltic': '#E07A8E', // denmark mix
   Portugal: '#5D4100', // portugal mix
-  Other: '#999999', // grey
+  Other: '#999999', // grey,
+  [UnknownLabel]: '#999999', // grey
 };
 
 const createRenderStyles = (
@@ -1393,18 +1491,33 @@ const TimelapseAggregateChart = ({
       .style('opacity', '0.7');
     return () => document.getElementById(sliderId)?.remove();
   }, [years]);
+  const handleHighlight = useCallback(
+    (
+      e: React.MouseEvent<HTMLDivElement> | React.FocusEvent<HTMLDivElement>,
+    ) => {
+      e.currentTarget?.style.setProperty('opacity', '0.9');
+    },
+    [],
+  );
+  const handleLeave = useCallback(
+    (
+      e: React.MouseEvent<HTMLDivElement> | React.FocusEvent<HTMLDivElement>,
+    ) => {
+      e.currentTarget.style.setProperty('opacity', '0.4');
+      document
+        .getElementById('timelapse_hoverline')
+        ?.style.setProperty('opacity', '0');
+    },
+    [],
+  );
   return (
     collection.voyageRoutes.length > 0 && (
       <div
         className="timelapseInfoBox"
-        onMouseOver={(e) => e.currentTarget.style.setProperty('opacity', '0.9')}
-        onFocus={(e) => e.currentTarget.style.setProperty('opacity', '0.9')}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.setProperty('opacity', '0.4');
-          document
-            .getElementById('timelapse_hoverline')
-            ?.style.setProperty('opacity', '0');
-        }}
+        onFocus={handleHighlight}
+        onMouseOver={handleHighlight}
+        onMouseLeave={handleLeave}
+        onBlur={handleLeave}
         style={{
           position: 'absolute',
           bottom: 10,
@@ -1423,6 +1536,7 @@ const TimelapseAggregateChart = ({
             marginRight: '3px',
             maxHeight: NormalHeight,
             overflowY: 'scroll',
+            overflowX: 'hidden',
           }}
         >
           <ul>
@@ -1614,8 +1728,15 @@ const useFilteredVoyageRoutes = () => {
         const voyages = (data as OBSOLETE_APIVoyageEntry[]).map((v) =>
           OBSOLETE_legacyToVoyageRoute(routeBuilder, nations, v),
         );
-        // TODO: replace hardcoded args.
-        setCollection(new VoyageRouteCollection(voyages, 0.3, 0.2, nations));
+        const fuzzyMultiplier = network === 'trans' ? 1.0 : 0.1;
+        setCollection(
+          new VoyageRouteCollection(
+            voyages,
+            fuzzyMultiplier * 0.3,
+            fuzzyMultiplier * 0.2,
+            nations,
+          ),
+        );
       }
     };
     setCollection(emptyCol);
@@ -1642,10 +1763,9 @@ export const VoyagesTimelapseMap = () => {
   const tanslateTimelapse = translationLanguagesTimelapse(languageValue);
 
   useEffect(() => {
-    const unknownLabel = 'Unknown';
     const color = d3
       .scaleOrdinal()
-      .domain([...Object.keys(collection.nations), unknownLabel])
+      .domain([...Object.keys(collection.nations), UnknownLabel])
       .range(d3.schemePaired) as (key: string) => string;
     const styles = Object.values(collection.nations).reduce<
       Record<number, VoyageGroupStyle>
@@ -1661,8 +1781,8 @@ export const VoyagesTimelapseMap = () => {
       {},
     );
     styles[-1] = {
-      label: unknownLabel,
-      style: color(unknownLabel),
+      label: UnknownLabel,
+      style: CustomShipFlagColors[UnknownLabel] ?? color(UnknownLabel),
       isLeftoverGroup: true,
     };
     setStyles(

@@ -90,7 +90,7 @@ const Tables: React.FC = () => {
   const { columnDefs, rowData, page } = useSelector(
     (state: RootState) => state.getTableData as StateRowData,
   );
-
+  // console.log({ rowData: rowData[0] });
   const { isChangeGeoTree } = useSelector(
     (state: RootState) => state.getGeoTreeData,
   );
@@ -259,7 +259,6 @@ const Tables: React.FC = () => {
   // Main data fetching effect
   useEffect(() => {
     fetchDataTable();
-
     return () => {
       if (!textFilter) {
         dispatch(setData([]));
@@ -386,12 +385,16 @@ const Tables: React.FC = () => {
   // Use useEffect to reapply column state after the grid data updates or pagination
   useEffect(() => {
     // Short timeout to ensure grid is ready
+
     const timeoutId = setTimeout(() => {
+      // removing this timeout seemed to reduce the bug occurrence for John? Unsure
+
       if (gridRef.current?.api && rowData.length > 0) {
         applyColumnState();
       }
     }, 100);
-
+    // this is what causes the change of data in the table and is triggered by the page and row data variables and the apply column state function
+    // Even though the data is being pulled correctly, it is not showing in the table...why is that? Tried using a reference variable to no avail, maybe try state?
     return () => clearTimeout(timeoutId);
   }, [rowData, applyColumnState, page]);
 
@@ -560,7 +563,7 @@ const Tables: React.FC = () => {
               ref={gridRef}
               suppressHorizontalScroll={false}
               loading={loading}
-              rowData={rowData}
+              rowData={rowData} // this is where the data is being pulled for the table, maybe update via state instead?
               columnDefs={columnDefs}
               suppressMenuHide={true}
               onGridReady={hanldeGridReady}
