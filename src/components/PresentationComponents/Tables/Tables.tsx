@@ -537,7 +537,7 @@ const Tables: React.FC = () => {
               ref={gridRef}
               suppressHorizontalScroll={false}
               loading={loading}
-              rowData={rowData} // this is where the data is being pulled for the table, maybe update via state instead?
+              rowData={rowData} 
               columnDefs={columnDefs}
               suppressMenuHide={true}
               onGridReady={hanldeGridReady}

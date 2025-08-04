@@ -65,52 +65,58 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
       setTimeout(() => handleForceClose(), 100); // Small delay to ensure click event completes
     };
 
-    // Convert ReactElement menu items to Ant Design MenuProps format
+
     const convertToAntdMenuItems = (
       menuItems?: ReactElement[],
+      parentKey: string = '',
     ): MenuProps['items'] => {
       if (!menuItems) return [];
-
+    
       return menuItems.map((menuItem, index) => {
         const { onClick, children, menu: submenu, ...props } = menuItem.props;
-
-        // Handle click event by combining original handler with close function
+    
+        const {
+          key,
+          dense,
+          component,
+          onClickMenu,
+          ...safeProps
+        } = props;
+    
+        const compositeKey = key || `${parentKey}-${index}`;
+    
         const handleItemClick = (e: any) => {
-          // Convert the click info to a mouse event-like object
           const mouseEvent = {
             currentTarget: e.domEvent?.currentTarget || {},
             stopPropagation: () => e.domEvent?.stopPropagation?.(),
             preventDefault: () => e.domEvent?.preventDefault?.(),
-            ...props, // Include data attributes and other props
+            ...safeProps,
           };
-
-          // Call the original onClick if it exists
+    
           if (onClick) {
             onClick(mouseEvent);
           }
-
-          // Don't close dropdown if this item has a submenu
+    
           if (!submenu) {
             closeMenu();
           }
         };
-
+    
         const menuItemConfig: any = {
-          key: props.key || index,
+          key: compositeKey,
           label: children,
           onClick: handleItemClick,
-          ...props, // Spread other props like data attributes
+          ...safeProps,
         };
-
-        // Handle submenus recursively
+    
         if (submenu && Array.isArray(submenu)) {
-          menuItemConfig.children = convertToAntdMenuItems(submenu);
+          menuItemConfig.children = convertToAntdMenuItems(submenu, compositeKey);
         }
-
+    
         return menuItemConfig;
       });
     };
-
+    
     const menuConfig: MenuProps = {
       items: convertToAntdMenuItems(menu),
     };

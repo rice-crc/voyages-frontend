@@ -58,11 +58,6 @@ function useDataTableProcessingEffect(
         const sortOrder = isDescending ? 'desc' : 'asc';
 
         finalRowData = sortDataOnFrontend(finalRowData, sortOrder, [fieldName]);
-
-        // console.log('✅ Data sorted:', {
-        //   sortOrder,
-        //   first3: finalRowData.slice(0, 3).map((r) => r.voyage_id || r.id),
-        // });
       } else if (isFirstProcessing.current) {
         isFirstProcessing.current = false;
       }

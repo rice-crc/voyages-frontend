@@ -38,6 +38,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import {
   allEnslavers,
   ENSALVERSTYLE,
+  FILTER_OBJECT_KEY,
   INTRAAMERICANTRADS,
   TRANSATLANTICTRADS,
 } from '@/share/CONST_DATA';
@@ -69,7 +70,7 @@ import {
 } from '@/utils/functions/getColorStyle';
 import { updatedEnslaversRoleAndNameToLocalStorage } from '@/utils/functions/updatedEnslaversRoleAndNameToLocalStorage';
 
-import { DropdownCascading } from './DropdownCascading';
+
 import { PaperDraggable } from './PaperDraggable';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { RadioSelected } from '../RadioSelected/RadioSelected';
@@ -259,7 +260,6 @@ const CascadingMenuMobile = () => {
           displayComponent = (
             <>
               <RadioSelected type={typeData} />
-              <RangeSliderComponent />
             </>
           );
         }
@@ -279,12 +279,6 @@ const CascadingMenuMobile = () => {
             />
           </div>
         );
-        break;
-
-      case TYPES.IntegerField:
-      case TYPES.DecimalField:
-      case TYPES.FloatField:
-        displayComponent = <RangeSliderComponent />;
         break;
 
       case TYPES.MultiselectList:
@@ -414,35 +408,6 @@ const CascadingMenuMobile = () => {
 
   return (
     <>
-      {/* <DropdownCascading
-        trigger={
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{
-              color: '#000000',
-              display: {
-                xs: 'flex',
-                sm: 'flex',
-                md: 'none',
-                paddingRight: 40,
-              },
-              cursor: 'pointer',
-              alignItems: 'center',
-              margin: '10px 0',
-              fontSize: 15,
-              fontWeight: 600,
-            }}
-          >
-            <span style={{ display: 'flex', alignItems: 'center' }}>
-              <FilterAltIcon style={{ color: '#fff' }} />
-              <div className="menu-nav-bar">Filter Search</div>
-            </span>
-          </IconButton>
-        }
-        menu={renderDropdownMenu(filterMenu)}
-      /> */}
       <Dialog
         onClick={(e) => e.stopPropagation()}
         BackdropProps={{

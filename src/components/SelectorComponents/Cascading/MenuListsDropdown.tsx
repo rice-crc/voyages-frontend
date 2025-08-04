@@ -414,7 +414,16 @@ export const MenuListsDropdown = () => {
       dispatch(setIsViewButtonViewAllResetAll(true));
     }
   }
-
+  // <div 
+  // style={{
+  //   display: 'flex',
+  //   justifyContent: 'space-between',
+  //   alignItems: 'center',
+  //   width: '100%',
+  // }}>
+  // <span>{menuLabel}XX</span>
+  // <span style={{ fontSize: '10px' }}>▶</span>
+  // </div>
   const renderDropdownMenu = (
     nodes: FilterMenu | ChildrenFilter | (FilterMenu | ChildrenFilter)[],
   ): React.ReactElement<any>[] | undefined => {
@@ -426,26 +435,27 @@ export const MenuListsDropdown = () => {
         if (hasChildren) {
           return (
             <DropdownNestedMenuItemChildren
-              onClickMenu={(event) => handleClickMenu(event, ops!, roles!)}
-              key={`${menuLabel} - ${index}`}
-              label={`${menuLabel}`}
-              data-value={var_name}
-              data-type={type}
-              data-label={menuLabel}
-              menu={renderDropdownMenu(children)}
-            />
-          );
+            onClickMenu={(event) => handleClickMenu(event, ops!, roles!)}
+            key={`${menuLabel} - ${index}`}
+            label={`${menuLabel}`}
+            data-value={var_name}
+            data-type={type}
+            data-label={menuLabel}
+            menu={renderDropdownMenu(children)}
+          />)
+           
         }
+   
         return (
-          <DropdownMenuItem
+            <DropdownMenuItem
             key={`${menuLabel} - ${index}`}
             onClick={(event) => handleClickMenu(event, ops!, roles!)}
             dense
             data-value={var_name}
             data-type={type}
             data-label={menuLabel}
-          >
-            {menuLabel}
+
+          >{menuLabel}
           </DropdownMenuItem>
         );
       });
@@ -612,7 +622,7 @@ export const MenuListsDropdown = () => {
                   >
                     {itemLabel}
                   </Tooltip>
-                  <span style={{ marginLeft: '8px' }}>
+                  <span style={{ marginTop: 4 }}>
                     <CaretRightOutlined
                       style={{
                         display: window.innerWidth >= 768 ? 'none' : 'inline',

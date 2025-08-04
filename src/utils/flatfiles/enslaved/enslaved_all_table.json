@@ -457,7 +457,7 @@
       "children": [
         {
           "col_width_px": 100,
-          "colID": "voyages__voyage_id",
+          "colID": "voyages__id",
           "label": {
             "en": "Voyage ID",
             "es": "Voyage ID ES",
