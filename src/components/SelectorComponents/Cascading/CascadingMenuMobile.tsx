@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable indent */
 import { useState, MouseEvent, useEffect } from 'react';
-
-import { ArrowLeft, Filter as FilterAltIcon } from '@mui/icons-material';
 import {
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-} from '@mui/material';
+  Modal,
+  Dropdown,
+  Space,
+  MenuProps,
+  Typography,
+  theme,
+} from 'antd';
+import {
+  FilterOutlined,
+  LeftOutlined,
+} from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
@@ -27,6 +30,7 @@ import {
   setEnslaversNameAndRole,
   setIsChange,
   setKeyValueName,
+  setRangeSliderValue,
 } from '@/redux/getRangeSliderSlice';
 import { setIsOpenDialogMobile } from '@/redux/getScrollPageSlice';
 import {
@@ -55,12 +59,6 @@ import {
   TYPESOFDATASET,
   RolesProps,
 } from '@/share/InterfaceTypes';
-import {
-  DialogModalStyle,
-  DropdownMenuItem,
-  DropdownNestedMenuItemChildren,
-  StyleDialog,
-} from '@/styleMUI';
 import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import {
   getColorBackground,
@@ -70,14 +68,15 @@ import {
 } from '@/utils/functions/getColorStyle';
 import { updatedEnslaversRoleAndNameToLocalStorage } from '@/utils/functions/updatedEnslaversRoleAndNameToLocalStorage';
 
-
-import { PaperDraggable } from './PaperDraggable';
 import GeoTreeSelected from '../../FilterComponents/GeoTreeSelect/GeoTreeSelected';
 import { RadioSelected } from '../RadioSelected/RadioSelected';
 import { SelectSearchDropdownEnslaversNameRole } from '../SelectDrowdown/SelectSearchDropdownEnslaversNameRole';
 import { SelectSearchDropdownList } from '../SelectDrowdown/SelectSearchDropdownList';
 
+const { Title } = Typography;
+
 const CascadingMenuMobile = () => {
+  const { token } = theme.useToken();
   const { styleName: styleNameRoute } = usePageRouter();
 
   const {
@@ -96,7 +95,14 @@ const CascadingMenuMobile = () => {
     (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
   const [textError, setTextError] = useState<string>('');
-  const { listEnslavers, varName, enslaverName, opsRoles } = useSelector(
+  const {
+    listEnslavers,
+    varName,
+    enslaverName,
+    opsRoles,
+    rangeSliderMinMax,
+    rangeValue,
+  } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const { languageValue } = useSelector(
@@ -106,6 +112,14 @@ const CascadingMenuMobile = () => {
   const { isOpenDialogMobile } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
+  const rangeMinMax = rangeSliderMinMax?.[varName] ||
+    rangeValue?.[varName] || [0, 0.5];
+  const minRange = rangeValue?.[varName]?.[0] || 0;
+  const maxRange = rangeValue?.[varName]?.[1] || 0;
+  const [currentSliderValue, setCurrentSliderValue] = useState<
+    number | number[]
+  >(rangeMinMax);
+
   const { labelVarName, textFilter } = useSelector(
     (state: RootState) => state.getShowFilterObject,
   );
@@ -157,10 +171,53 @@ const CascadingMenuMobile = () => {
     valueEnslavers,
   ]);
 
+  function updatedSliderToLocalStrage(updateValue: number[]) {
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
+
+    let existingFilterObject: any = {};
+
+    if (existingFilterObjectString) {
+      existingFilterObject = JSON.parse(existingFilterObjectString);
+    }
+    const existingFilters: Filter[] = existingFilterObject.filter || [];
+    const existingFilterIndex = existingFilters.findIndex(
+      (filter) => filter.varName === varName,
+    );
+    if (existingFilterIndex !== -1) {
+      existingFilters[existingFilterIndex].searchTerm = updateValue as number[];
+      existingFilters[existingFilterIndex].op = opsRoles!;
+    } else {
+      const newFilter: Filter = {
+        varName: varName,
+        searchTerm: updateValue!,
+        op: opsRoles!,
+        label: labelVarName,
+      };
+      existingFilters.push(newFilter);
+    }
+    const filterObjectUpdate = {
+      filter: existingFilters,
+    };
+    const filterObjectString = JSON.stringify(filterObjectUpdate);
+    dispatch(setFilterObject(existingFilters));
+    localStorage.setItem('filterObject', filterObjectString);
+    if (
+      (styleNameRoute === TYPESOFDATASET.allVoyages ||
+        styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved ||
+        styleNameRoute === allEnslavers) &&
+      existingFilters.length > 0
+    ) {
+      dispatch(setIsViewButtonViewAllResetAll(true));
+    } else if (existingFilters.length > 1) {
+      dispatch(setIsViewButtonViewAllResetAll(true));
+    }
+  }
+
   const handleApplyTextFilterDataDialog = (value: string) => {
     dispatch(setTextFilterValue(value));
     updateFilter(value);
   };
+
   const updateFilter = (newValue: string) => {
     const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
     let existingFilters: Filter[] = [];
@@ -219,6 +276,98 @@ const CascadingMenuMobile = () => {
     }
   };
 
+  const handleApplyEnslaversDialog = (
+    roles: RolesProps[],
+    name: string,
+    ops: string,
+  ) => {
+    setTextError(textError);
+    const newRoles: string[] = roles.map((ele) => ele.value);
+    updatedEnslaversRoleAndNameToLocalStorage(
+      dispatch,
+      styleNameRoute!,
+      newRoles as string[],
+      name,
+      varName,
+      ops!,
+    );
+  };
+
+  const handleClickMenu = (
+    event: MouseEvent<HTMLDivElement>,
+    value: string,
+    type: string,
+    label: string,
+    ops: string[],
+    roles?: RolesProps[],
+  ) => {
+    event.stopPropagation();
+    setIsClickMenu(!isClickMenu);
+    let opsValue = '';
+    
+    if (value && type && label) {
+      if (type === 'EnslaverNameAndRole') {
+        dispatch(setKeyValueName(type));
+      } else {
+        dispatch(setKeyValueName(value));
+      }
+
+      dispatch(setType(type));
+
+      if (ops) {
+        for (const ele of ops) {
+          if (ele === 'icontains') {
+            opsValue = 'icontains';
+          } else if (ele === 'in') {
+            opsValue = 'in';
+          } else if (ele === 'exact') {
+            opsValue = 'exact';
+          }
+        }
+        setOps(opsValue);
+      }
+      dispatch(setLabelVarName(label));
+      dispatch(setIsOpenDialogMobile(true));
+      if (roles) {
+        dispatch(setEnslaversNameAndRole(roles));
+      }
+    }
+  };
+
+  const handleCloseDialog = () => {
+    setIsClickMenu(!isClickMenu);
+    dispatch(setIsOpenDialogMobile(false));
+    dispatch(setIsFilter(false));
+    if (currentPage !== 5) {
+      dispatch(setIsChange(true));
+      dispatch(setIsChangeAuto(true));
+    }
+  };
+
+  const handleResetDataDialog = () => {
+    setIsClickMenu(!isClickMenu);
+    dispatch(setIsOpenDialogMobile(false));
+    if (currentPage !== 5) {
+      dispatch(setIsChange(true));
+      dispatch(setIsChangeAuto(true));
+    }
+    dispatch(resetAll());
+    const keysToRemove = Object.keys(localStorage);
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+  };
+
+  const handleSliderChangeMouseUp = () => {
+    dispatch(
+      setRangeSliderValue({
+        ...rangeSliderMinMax,
+        [varName]: currentSliderValue as number[],
+      }),
+    );
+    updatedSliderToLocalStrage(currentSliderValue as number[]);
+  };
+
   let displayComponent: React.ReactNode;
 
   if (varName) {
@@ -260,6 +409,13 @@ const CascadingMenuMobile = () => {
           displayComponent = (
             <>
               <RadioSelected type={typeData} />
+              <RangeSliderComponent
+                handleSliderChangeMouseUp={handleSliderChangeMouseUp}
+                setCurrentSliderValue={setCurrentSliderValue}
+                currentSliderValue={currentSliderValue}
+                minRange={minRange}
+                maxRange={maxRange}
+              />
             </>
           );
         }
@@ -281,6 +437,20 @@ const CascadingMenuMobile = () => {
         );
         break;
 
+      case TYPES.IntegerField:
+      case TYPES.DecimalField:
+      case TYPES.FloatField:
+        displayComponent = (
+          <RangeSliderComponent
+            handleSliderChangeMouseUp={handleSliderChangeMouseUp}
+            setCurrentSliderValue={setCurrentSliderValue}
+            currentSliderValue={currentSliderValue}
+            minRange={minRange}
+            maxRange={maxRange}
+          />
+        );
+        break;
+
       case TYPES.MultiselectList:
         displayComponent = <SelectSearchDropdownList />;
         break;
@@ -289,230 +459,192 @@ const CascadingMenuMobile = () => {
         break;
     }
   }
-  const handleApplyEnslaversDialog = (
-    roles: RolesProps[],
-    name: string,
-    ops: string,
-  ) => {
-    setTextError(textError);
-    const newRoles: string[] = roles.map((ele) => ele.value);
-    updatedEnslaversRoleAndNameToLocalStorage(
-      dispatch,
-      styleNameRoute!,
-      newRoles as string[],
-      name,
-      varName,
-      ops!,
-    );
-  };
-  const handleClickMenu = (
-    event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>,
-    ops: string[],
-    roles?: RolesProps[],
-  ) => {
-    const { value, type, label } = event.currentTarget.dataset;
-    event.stopPropagation();
-    setIsClickMenu(!isClickMenu);
-    let opsValue = '';
-    if (value && type && label) {
-      if (type === 'EnslaverNameAndRole') {
-        dispatch(setKeyValueName(type));
-      } else {
-        dispatch(setKeyValueName(value));
-      }
 
-      dispatch(setType(type));
-
-      if (ops) {
-        for (const ele of ops) {
-          if (ele === 'icontains') {
-            opsValue = 'icontains';
-          } else if (ele === 'in') {
-            opsValue = 'in';
-          } else if (ele === 'exact') {
-            opsValue = 'exact';
-          }
-        }
-        setOps(opsValue);
-      }
-      dispatch(setLabelVarName(label));
-      dispatch(setIsOpenDialogMobile(true));
-      if (roles) {
-        dispatch(setEnslaversNameAndRole(roles));
-      }
-    }
-  };
-
-  const handleCloseDialog = (event: any) => {
-    event.stopPropagation();
-    const value = event.cancelable;
-    setIsClickMenu(!isClickMenu);
-    dispatch(setIsOpenDialogMobile(false));
-    dispatch(setIsFilter(false));
-    if (currentPage !== 5) {
-      dispatch(setIsChange(!value));
-      dispatch(setIsChangeAuto(!value));
-    }
-  };
-
-  const handleResetDataDialog = (event: any) => {
-    event.stopPropagation();
-    const value = event.cancelable;
-    setIsClickMenu(!isClickMenu);
-    dispatch(setIsOpenDialogMobile(false));
-    if (currentPage !== 5) {
-      dispatch(setIsChange(!value));
-      dispatch(setIsChangeAuto(!value));
-    }
-    dispatch(resetAll());
-    const keysToRemove = Object.keys(localStorage);
-    keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
-    });
-  };
-
-  const renderDropdownMenu = (nodes: FilterMenu[] | ChildrenFilter[]) => {
+  const createMenuItems = (nodes: FilterMenu[] | ChildrenFilter[]): MenuProps['items'] => {
     return nodes?.map((node: FilterMenu | ChildrenFilter, index: number) => {
       const { children, var_name, type, label: nodeLabel, ops, roles } = node;
       const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
       const hasChildren = children && children.length >= 1;
+      
       if (hasChildren) {
-        return (
-          <DropdownNestedMenuItemChildren
-            onClickMenu={(event) => handleClickMenu(event, ops!, roles!)}
-            key={`${menuLabel}-${index}`}
-            label={`${menuLabel}`}
-            rightIcon={<ArrowLeft style={{ fontSize: 15 }} />}
-            data-value={var_name}
-            data-type={type}
-            data-label={menuLabel}
-            menu={renderDropdownMenu(children)}
-          />
-        );
+        return {
+          key: `${menuLabel}-${index}`,
+          label: menuLabel,
+          icon: <LeftOutlined style={{ fontSize: 12 }} />,
+          children: createMenuItems(children),
+        };
       }
 
-      return (
-        <DropdownMenuItem
-          key={`${menuLabel}-${index}`}
-          onClick={(event) => handleClickMenu(event, ops!, roles!)}
-          dense
-          data-value={var_name}
-          data-type={type}
-          data-label={menuLabel}
-        >
-          {menuLabel}
-        </DropdownMenuItem>
-      );
+      return {
+        key: `${menuLabel}-${index}`,
+        label: menuLabel,
+        onClick: (event: any) => {
+          event.domEvent.stopPropagation();
+          handleClickMenu(
+            event.domEvent,
+            var_name,
+            type,
+            menuLabel,
+            ops!,
+            roles!
+          );
+        },
+      };
     });
   };
 
+  const menuItems: MenuProps['items'] = createMenuItems(filterMenu);
+
+  const dropdownTrigger = (
+    <Button
+      type="text"
+      icon={<FilterOutlined />}
+      style={{
+        color: '#ffffff',
+        display: 'flex',
+        alignItems: 'center',
+        margin: '10px 0',
+        fontSize: 15,
+        fontWeight: 600,
+        border: 'none',
+        background: 'transparent',
+        padding: '4px 8px',
+      }}
+      className="mobile-filter-button"
+    >
+      <Space>
+        Filter Search
+      </Space>
+    </Button>
+  );
+
   return (
     <>
-      <Dialog
-        onClick={(e) => e.stopPropagation()}
-        BackdropProps={{
-          style: DialogModalStyle,
+      <div
+        style={{
+          display: 'block',
         }}
-        disableScrollLock={true}
-        sx={StyleDialog}
-        open={isOpenDialogMobile}
-        onClose={handleCloseDialog}
-        PaperComponent={PaperDraggable}
-        aria-labelledby="draggable-dialog-title"
-        slotProps={{
-          backdrop: {
-            onClick: (e) => e.stopPropagation(),
-          },
-        }}
+        className="mobile-filter-container"
       >
-        <DialogTitle sx={{ cursor: 'move' }} id="draggable-dialog-title">
-          <div style={{ fontSize: 16, fontWeight: 500 }}>
+        <Dropdown
+          menu={{ items: menuItems }}
+          trigger={['click']}
+          placement="bottomLeft"
+          overlayStyle={{
+            minWidth: 200,
+          }}
+        >
+          {dropdownTrigger}
+        </Dropdown>
+      </div>
+
+      <Modal
+        title={
+          <Title level={5} style={{ margin: 0, fontSize: 16, fontWeight: 500 }}>
             {typeData === TYPES.EnslaverNameAndRole
               ? `Search for ${labelVarName}:`
               : labelVarName}
-          </div>
-        </DialogTitle>
-        <DialogContent style={{ textAlign: 'center' }}>
-          {displayComponent}
-        </DialogContent>
-        <DialogActions
-          style={{
-            paddingRight: '2rem',
-            marginTop: typeData === TYPES.EnslaverNameAndRole ? '10rem' : 0,
-          }}
-        >
-          {varName &&
-            opsRoles !== 'btw' &&
-            ((typeData === TYPES.CharField && ops === 'icontains') ||
-              (typeData === TYPES.IdMatch && opsRoles === 'exact') ||
-              typeData === TYPES.EnslaverNameAndRole ||
-              typeData === TYPES.MultiselectList) && (
-              <Button
-                disabled={isButtonDisabled}
-                type="submit"
-                onClickCapture={() => {
-                  if (typeData === TYPES.EnslaverNameAndRole) {
-                    handleApplyEnslaversDialog(
-                      listEnslavers,
-                      enslaverName,
-                      opsRoles!,
-                    );
-                  } else {
-                    handleApplyTextFilterDataDialog(inputValue);
-                  }
-                }}
-                sx={{
-                  color: 'white',
-                  textTransform: 'unset',
-                  height: 30,
-                  cursor: isButtonDisabled ? 'not-allowed' : 'pointer',
-                  backgroundColor: isButtonDisabled
-                    ? getColorHoverBackgroundCollection(styleNameRoute!)
-                    : getColorBackground(styleNameRoute!),
-                  fontSize: '0.80rem',
-                  '&:hover': {
-                    backgroundColor: getColorHoverBackgroundCollection(
-                      styleNameRoute!,
-                    ),
-                    color: getColorBTNVoyageDatasetBackground(styleNameRoute!),
-                  },
-                  '&:disabled': {
-                    color: '#fff',
-                    boxShadow: getColorBoxShadow(styleNameRoute!),
-                    cursor: 'not-allowed',
-                  },
-                }}
-              >
-                Apply
-              </Button>
-            )}
+          </Title>
+        }
+        open={isOpenDialogMobile}
+        onCancel={handleCloseDialog}
+        width={600}
+        centered
+        maskClosable={false}
+        destroyOnHidden
+        styles={{
+          body: {
+            textAlign: 'center',
+            marginTop: typeData === TYPES.EnslaverNameAndRole ? '2rem' : 0,
+          }
+        }}
+        footer={[
           <Button
+            key="reset"
             onClick={handleResetDataDialog}
-            sx={{
+            style={{
               color: 'black',
-              textTransform: 'unset',
-              height: 30,
-              cursor: 'pointer',
               backgroundColor: 'transparent',
               border: `1px solid ${getColorBackground(styleNameRoute!)}`,
               fontSize: '0.80rem',
-              '&:hover': {
-                backgroundColor: getColorHoverBackgroundCollection(
-                  styleNameRoute!,
-                ),
-                color: getColorBTNVoyageDatasetBackground(styleNameRoute!),
-              },
-              '&:disabled': {
-                color: '#fff',
-                boxShadow: getColorBoxShadow(styleNameRoute!),
-                cursor: 'not-allowed',
-              },
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = getColorHoverBackgroundCollection(styleNameRoute!);
+              e.currentTarget.style.color = getColorBTNVoyageDatasetBackground(styleNameRoute!);
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = 'black';
             }}
           >
             Reset
-          </Button>
-        </DialogActions>
-      </Dialog>
+          </Button>,
+          varName &&
+          opsRoles !== 'btw' &&
+          ((typeData === TYPES.CharField && ops === 'icontains') ||
+            (typeData === TYPES.IdMatch && opsRoles === 'exact') ||
+            typeData === TYPES.EnslaverNameAndRole ||
+            typeData === TYPES.MultiselectList) && (
+            <Button
+              key="apply"
+              type="primary"
+              disabled={isButtonDisabled}
+              onClick={() => {
+                if (typeData === TYPES.EnslaverNameAndRole) {
+                  handleApplyEnslaversDialog(
+                    listEnslavers,
+                    enslaverName,
+                    opsRoles!,
+                  );
+                } else {
+                  handleApplyTextFilterDataDialog(inputValue);
+                }
+              }}
+              style={{
+                color: 'white',
+                height: 30,
+                cursor: isButtonDisabled ? 'not-allowed' : 'pointer',
+                backgroundColor: isButtonDisabled
+                  ? getColorHoverBackgroundCollection(styleNameRoute!)
+                  : getColorBackground(styleNameRoute!),
+                fontSize: '0.80rem',
+                border: 'none',
+              }}
+              onMouseEnter={(e) => {
+                if (!isButtonDisabled) {
+                  e.currentTarget.style.backgroundColor = getColorHoverBackgroundCollection(styleNameRoute!);
+                  e.currentTarget.style.color = getColorBTNVoyageDatasetBackground(styleNameRoute!);
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isButtonDisabled) {
+                  e.currentTarget.style.backgroundColor = getColorBackground(styleNameRoute!);
+                  e.currentTarget.style.color = 'white';
+                }
+              }}
+            >
+              Apply
+            </Button>
+          ),
+        ]}
+
+      >
+        {displayComponent}
+      </Modal>
+
+      <style>{`
+        @media (min-width: 768px) {
+          .mobile-filter-container {
+            display: none !important;
+          }
+        }
+        
+        @media (max-width: 767px) {
+          .mobile-filter-container {
+            display: flex !important;
+          }
+        }
+      `}</style>
     </>
   );
 };

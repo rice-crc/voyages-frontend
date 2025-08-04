@@ -414,16 +414,6 @@ export const MenuListsDropdown = () => {
       dispatch(setIsViewButtonViewAllResetAll(true));
     }
   }
-  // <div 
-  // style={{
-  //   display: 'flex',
-  //   justifyContent: 'space-between',
-  //   alignItems: 'center',
-  //   width: '100%',
-  // }}>
-  // <span>{menuLabel}XX</span>
-  // <span style={{ fontSize: '10px' }}>▶</span>
-  // </div>
   const renderDropdownMenu = (
     nodes: FilterMenu | ChildrenFilter | (FilterMenu | ChildrenFilter)[],
   ): React.ReactElement<any>[] | undefined => {
