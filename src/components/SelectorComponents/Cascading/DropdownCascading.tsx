@@ -65,58 +65,96 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
       setTimeout(() => handleForceClose(), 100); // Small delay to ensure click event completes
     };
 
-
     const convertToAntdMenuItems = (
-      menuItems?: ReactElement[],
+      menuItems?: (ReactElement | any)[], // Accept both React elements and plain objects
       parentKey: string = '',
     ): MenuProps['items'] => {
       if (!menuItems) return [];
     
       return menuItems.map((menuItem, index) => {
-        const { onClick, children, menu: submenu, ...props } = menuItem.props;
+        // Check if it's a React element or a plain object
+        const isReactElement = menuItem.props !== undefined;
+        
+        if (isReactElement) {
+          // Handle React elements (your existing logic)
+          const { onClick, children, menu: submenu, ...props } = menuItem.props;
+          
+          const {
+            key,
+            dense,
+            component,
+            onClickMenu,
+            ...safeProps
+          } = props;
     
-        const {
-          key,
-          dense,
-          component,
-          onClickMenu,
-          ...safeProps
-        } = props;
+          const compositeKey = key || `${parentKey}-${index}`;
     
-        const compositeKey = key || `${parentKey}-${index}`;
+          const handleItemClick = (e: any) => {
+            const mouseEvent = {
+              currentTarget: e.domEvent?.currentTarget || {},
+              stopPropagation: () => e.domEvent?.stopPropagation?.(),
+              preventDefault: () => e.domEvent?.preventDefault?.(),
+              ...safeProps,
+            };
     
-        const handleItemClick = (e: any) => {
-          const mouseEvent = {
-            currentTarget: e.domEvent?.currentTarget || {},
-            stopPropagation: () => e.domEvent?.stopPropagation?.(),
-            preventDefault: () => e.domEvent?.preventDefault?.(),
+            if (onClick) {
+              onClick(mouseEvent);
+            }
+    
+            if (!submenu) {
+              closeMenu();
+            }
+          };
+    
+          const menuItemConfig: any = {
+            key: compositeKey,
+            label: children,
+            onClick: handleItemClick,
             ...safeProps,
           };
     
-          if (onClick) {
-            onClick(mouseEvent);
+          if (submenu && Array.isArray(submenu)) {
+            menuItemConfig.children = convertToAntdMenuItems(submenu, compositeKey);
           }
     
-          if (!submenu) {
-            closeMenu();
+          return menuItemConfig;
+        } else {
+          // Handle plain objects (from renderDropdownMenu)
+          const { key, label, children, onClick, ...otherProps } = menuItem;
+          const compositeKey = key || `${parentKey}-${index}`;
+    
+          const handleItemClick = (e: any) => {
+            if (onClick) {
+              const mouseEvent = {
+                currentTarget: e.domEvent?.currentTarget || {},
+                stopPropagation: () => e.domEvent?.stopPropagation?.(),
+                preventDefault: () => e.domEvent?.preventDefault?.(),
+                ...otherProps,
+              };
+              onClick(mouseEvent);
+            }
+    
+            if (!children) {
+              closeMenu();
+            }
+          };
+    
+          const menuItemConfig: any = {
+            key: compositeKey,
+            label,
+            onClick: handleItemClick,
+            ...otherProps,
+          };
+    
+          if (children && Array.isArray(children)) {
+            menuItemConfig.children = convertToAntdMenuItems(children, compositeKey);
           }
-        };
     
-        const menuItemConfig: any = {
-          key: compositeKey,
-          label: children,
-          onClick: handleItemClick,
-          ...safeProps,
-        };
-    
-        if (submenu && Array.isArray(submenu)) {
-          menuItemConfig.children = convertToAntdMenuItems(submenu, compositeKey);
+          return menuItemConfig;
         }
-    
-        return menuItemConfig;
       });
     };
-    
+
     const menuConfig: MenuProps = {
       items: convertToAntdMenuItems(menu),
     };

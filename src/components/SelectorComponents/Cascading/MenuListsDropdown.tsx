@@ -70,7 +70,6 @@ import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import {
   getColorBTNVoyageDatasetBackground,
   getColorBackground,
-  getColorBoxShadow,
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
 import { updatedEnslaversRoleAndNameToLocalStorage } from '@/utils/functions/updatedEnslaversRoleAndNameToLocalStorage';
@@ -414,40 +413,46 @@ export const MenuListsDropdown = () => {
       dispatch(setIsViewButtonViewAllResetAll(true));
     }
   }
+
   const renderDropdownMenu = (
     nodes: FilterMenu | ChildrenFilter | (FilterMenu | ChildrenFilter)[],
-  ): React.ReactElement<any>[] | undefined => {
+  ): any[] | undefined => { // Changed return type to any[] to accommodate menu item objects
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
         const { children, var_name, type, label: nodeLabel, ops, roles } = node;
         const hasChildren = children && children.length >= 1;
         const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
+        const uniqueKey = `${menuLabel} - ${index}`;
+        
         if (hasChildren) {
-          return (
-            <DropdownNestedMenuItemChildren
-            onClickMenu={(event) => handleClickMenu(event, ops!, roles!)}
-            key={`${menuLabel} - ${index}`}
-            label={`${menuLabel}`}
-            data-value={var_name}
-            data-type={type}
-            data-label={menuLabel}
-            menu={renderDropdownMenu(children)}
-          />)
-           
+          return {
+            key: uniqueKey,
+            label: (
+              <div
+                style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+                }}
+              >
+                <span>{menuLabel}</span>
+                <span style={{ fontSize: '10px', paddingLeft: 12 }}>▶</span>
+              </div>
+            ),
+            children: renderDropdownMenu(children),
+            onClick: (event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>) => handleClickMenu(event, ops!, roles!)
+          };
         }
-   
-        return (
-            <DropdownMenuItem
-            key={`${menuLabel} - ${index}`}
-            onClick={(event) => handleClickMenu(event, ops!, roles!)}
-            dense
-            data-value={var_name}
-            data-type={type}
-            data-label={menuLabel}
-
-          >{menuLabel}
-          </DropdownMenuItem>
-        );
+  
+        return {
+          key: uniqueKey,
+          label: menuLabel,
+          onClick: (event: any) => handleClickMenu(event, ops!, roles!),
+          'data-value': var_name,
+          'data-type': type,
+          'data-label': menuLabel
+        };
       });
     }
   };

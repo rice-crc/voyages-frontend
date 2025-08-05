@@ -185,7 +185,7 @@ const ButtonDropdownColumnSelector = () => {
               }}
             >
               <span>{menuLabel}</span>
-              <span style={{ fontSize: '10px' }}>▶</span>
+              <span style={{ fontSize: '10px'}}>▶</span>
             </div>
           ),
           children: renderMenuItems(children, uniqueKey),
@@ -247,8 +247,8 @@ const ButtonDropdownColumnSelector = () => {
     boxShadow: getColorBoxShadow(styleNameRoute!),
     fontWeight: 600,
     color: '#ffffff',
-    width: window.innerWidth < 600 ? 200 : 200, // Slightly wider for better text
-    height: '32px', // Slightly taller
+    width: window.innerWidth < 600 ? 200 : 200, 
+    height: '32px',
     border: 'none',
     display: 'flex',
     alignItems: 'center',
