@@ -1,11 +1,17 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
+import defaultImage from '@/assets/voyage-blog.png';
+import NoDataState from '@/components/NoResultComponents/NoDataState';
+import BlogPageButton from '@/components/SelectorComponents/ButtonComponents/BlogPageButton';
 import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
-import { AppDispatch, RootState } from '@/redux/store';
+import { usePageRouter } from '@/hooks/usePageRouter';
 import { setBlogData, setBlogPost } from '@/redux/getBlogDataSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { BASEURL } from '@/share/AUTH_BASEURL';
 import {
   BlogDataProps,
   BlogDataPropsRequest,
@@ -16,13 +22,8 @@ import {
   formatTextURL,
   reverseFormatTextURL,
 } from '@/utils/functions/formatText';
-import { BASEURL } from '@/share/AUTH_BASEURL';
 import '@/style/blogs.scss';
 import { BLOGPAGE } from '@/share/CONST_DATA';
-import BlogPageButton from '@/components/SelectorComponents/ButtonComponents/BlogPageButton';
-import defaultImage from '@/assets/voyage-blog.png';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import NoDataState from '@/components/NoResultComponents/NoDataState';
 
 const BlogResultsList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -32,18 +33,18 @@ const BlogResultsList: React.FC = () => {
     searchAutoKey,
     searchAutoValue,
   } = useSelector(
-    (state: RootState) => state.getBlogData as InitialStateBlogProps
+    (state: RootState) => state.getBlogData as InitialStateBlogProps,
   );
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const [page, setPage] = useState<number>(1);
 
   const imagesPerPage = 12;
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const [loading, setLoading] = useState(false);
   const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
 
   const effectOnce = useRef(false);

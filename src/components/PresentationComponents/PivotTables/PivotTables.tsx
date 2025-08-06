@@ -176,11 +176,15 @@ const PivotTables = () => {
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
   const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
 
-  const filters = filtersDataSend(
-    filtersObj,
-    styleNameRoute!,
-    clusterNodeKeyVariable,
-    clusterNodeValue,
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+        clusterNodeKeyVariable,
+        clusterNodeValue,
+      ),
+    [filtersObj, styleName, clusterNodeKeyVariable, clusterNodeValue],
   );
 
   const newFilters = useMemo(() => {
@@ -474,6 +478,7 @@ const PivotTables = () => {
             display: 'flex',
             flexDirection: 'column',
             overflowY: 'auto',
+            maxHeight: '75vh',
           }}
         >
           <AgGridReact
@@ -496,14 +501,14 @@ const PivotTables = () => {
             tooltipHideDelay={1000}
             groupDefaultExpanded={-1}
           />
-        </div>
-        <div className="pagination-div">
-          <Pagination
-            color="primary"
-            count={pageCount}
-            page={page + 1}
-            onChange={handleChangePagePagination}
-          />
+          <div className="pagination-div">
+            <Pagination
+              color="primary"
+              count={pageCount}
+              page={page + 1}
+              onChange={handleChangePagePagination}
+            />
+          </div>
         </div>
       </div>
     </div>

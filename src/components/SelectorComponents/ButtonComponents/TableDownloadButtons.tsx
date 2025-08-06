@@ -1,12 +1,27 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from '@mui/material';
 import { Download } from 'lucide-react';
+import { useSelector } from 'react-redux';
+
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
-import { getColorBTNVoyageDatasetBackground, getColorBoxShadow, getColorHoverBackground } from '@/utils/functions/getColorStyle';
-import { useSelector } from 'react-redux';
-import { translationHomepage } from '@/utils/functions/translationLanguages';
 import { ColumnDef } from '@/share/InterfaceTypesTable';
+import {
+  getColorBTNVoyageDatasetBackground,
+  getColorBoxShadow,
+  getColorHoverBackground,
+} from '@/utils/functions/getColorStyle';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 interface TableDownloadButtonsProps {
   data: Record<string, any>[];
@@ -14,9 +29,15 @@ interface TableDownloadButtonsProps {
   filename?: string;
 }
 
-const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, columnDefs, filename = 'table-data' }) => {
+const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({
+  data,
+  columnDefs,
+  filename = 'table-data',
+}) => {
   const [openDialog, setOpenDialog] = useState(false);
-  const [downloadOption, setDownloadOption] = useState<'all' | 'filtered'>('all');
+  const [downloadOption, setDownloadOption] = useState<'all' | 'filtered'>(
+    'all',
+  );
   const { styleName: styleNameRoute } = usePageRouter();
 
   const handleOpen = () => {
@@ -27,27 +48,30 @@ const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, colum
     setOpenDialog(false);
   };
 
-  const handleDownloadOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDownloadOptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setDownloadOption(event.target.value as 'all' | 'filtered');
   };
 
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages,
+  );
   const translatedHomepage = translationHomepage(languageValue);
 
   const downloadCSV = () => {
     const isFiltered = downloadOption === 'filtered';
-    const filteredData =
-      isFiltered
-        ? data.filter((row) => {
-          const filteredRow: Record<string, any> = {};
-          columnDefs.forEach((col) => {
-            if (!col.hide) {
-              filteredRow[col.field] = row[col.field];
-            }
-          });
-          return filteredRow;
-        })
-        : data;
+    const filteredData = isFiltered
+      ? data.filter((row) => {
+        const filteredRow: Record<string, any> = {};
+        columnDefs.forEach((col) => {
+          if (!col.hide) {
+            filteredRow[col.field] = row[col.field];
+          }
+        });
+        return filteredRow;
+      })
+      : data;
     const csvContent = [
       isFiltered
         ? columnDefs
@@ -67,7 +91,7 @@ const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, colum
           : columnDefs
             .filter((col) => col.field !== 'connections')
             .map((col) => JSON.stringify(row[col.field] ?? ''))
-            .join(',')
+            .join(','),
       ),
     ].join('\n');
 
@@ -86,25 +110,25 @@ const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, colum
 
   const downloadExcel = () => {
     const isFiltered = downloadOption === 'filtered';
-    const filteredData =
-      isFiltered
-        ? data.filter((row) => {
-          const filteredRow: Record<string, any> = {};
-          columnDefs.forEach((col) => {
-            if (!col.hide) {
-              filteredRow[col.field] = row[col.field];
-            }
-          });
-          return filteredRow;
-        })
-        : data;
+    const filteredData = isFiltered
+      ? data.filter((row) => {
+        const filteredRow: Record<string, any> = {};
+        columnDefs.forEach((col) => {
+          if (!col.hide) {
+            filteredRow[col.field] = row[col.field];
+          }
+        });
+        return filteredRow;
+      })
+      : data;
 
     const excelContent = [
-      isFiltered ? columnDefs
-        .filter((col) => col.field !== 'connections' && !col.hide)
-        .map((col) => col.headerName)
-        .join('\t') :
-        columnDefs
+      isFiltered
+        ? columnDefs
+          .filter((col) => col.field !== 'connections' && !col.hide)
+          .map((col) => col.headerName)
+          .join('\t')
+        : columnDefs
           .filter((col) => col.field !== 'connections')
           .map((col) => col.headerName)
           .join('\t'),
@@ -117,11 +141,13 @@ const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, colum
           : columnDefs
             .filter((col) => col.field !== 'connections')
             .map((col) => JSON.stringify(row[col.field] ?? ''))
-            .join('\t')
+            .join('\t'),
       ),
     ].join('\n');
 
-    const blob = new Blob([excelContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+    const blob = new Blob([excelContent], {
+      type: 'application/vnd.ms-excel;charset=utf-8;',
+    });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
 
@@ -143,7 +169,9 @@ const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, colum
           sx={{
             fontSize: '0.80rem',
             textTransform: 'unset',
-            backgroundColor: getColorBTNVoyageDatasetBackground(styleNameRoute!),
+            backgroundColor: getColorBTNVoyageDatasetBackground(
+              styleNameRoute!,
+            ),
             boxShadow: getColorBoxShadow(styleNameRoute!),
             fontWeight: 600,
             color: '#ffffff',
@@ -158,14 +186,37 @@ const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, colum
         </Button>
       </span>
       <Dialog open={openDialog} onClose={handleDialogClose}>
-        <DialogTitle sx={{ fontSize: 16 }}>{translatedHomepage.selectingOption}</DialogTitle>
+        <DialogTitle sx={{ fontSize: 16 }}>
+          {translatedHomepage.selectingOption}
+        </DialogTitle>
         <DialogContent>
-          <RadioGroup value={downloadOption} onChange={handleDownloadOptionChange}>
-            <FormControlLabel value="all" control={<Radio />} label={<span style={{ fontSize: '0.90rem' }}>{translatedHomepage.downloadAll}</span>} />
-            <FormControlLabel value="filtered" control={<Radio />} label={<span style={{ fontSize: '0.90rem' }}>{translatedHomepage.downloadFilter} </span>} />
+          <RadioGroup
+            value={downloadOption}
+            onChange={handleDownloadOptionChange}
+          >
+            <FormControlLabel
+              value="all"
+              control={<Radio />}
+              label={
+                <span style={{ fontSize: '0.90rem' }}>
+                  {translatedHomepage.downloadAll}
+                </span>
+              }
+            />
+            <FormControlLabel
+              value="filtered"
+              control={<Radio />}
+              label={
+                <span style={{ fontSize: '0.90rem' }}>
+                  {translatedHomepage.downloadFilter}{' '}
+                </span>
+              }
+            />
           </RadioGroup>
         </DialogContent>
-        <DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <DialogActions
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+        >
           <div>
             <Button
               onClick={handleDialogClose}
@@ -193,7 +244,9 @@ const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, colum
               sx={{
                 fontSize: '0.80rem',
                 textTransform: 'unset',
-                backgroundColor: getColorBTNVoyageDatasetBackground(styleNameRoute!),
+                backgroundColor: getColorBTNVoyageDatasetBackground(
+                  styleNameRoute!,
+                ),
                 boxShadow: getColorBoxShadow(styleNameRoute!),
                 fontWeight: 600,
                 color: '#ffffff',
@@ -212,7 +265,9 @@ const TableDownloadButtons: React.FC<TableDownloadButtonsProps> = ({ data, colum
               sx={{
                 fontSize: '0.80rem',
                 textTransform: 'unset',
-                backgroundColor: getColorBTNVoyageDatasetBackground(styleNameRoute!),
+                backgroundColor: getColorBTNVoyageDatasetBackground(
+                  styleNameRoute!,
+                ),
                 boxShadow: getColorBoxShadow(styleNameRoute!),
                 fontWeight: 600,
                 color: '#ffffff',

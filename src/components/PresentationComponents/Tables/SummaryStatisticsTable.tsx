@@ -59,12 +59,17 @@ const SummaryStatisticsTable = () => {
 
   const { isFilter } = useSelector((state: RootState) => state.getFilter);
 
-  const filters = filtersDataSend(
-    filtersObj,
-    styleNameRoute!,
-    clusterNodeKeyVariable,
-    clusterNodeValue,
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleNameRoute!,
+        clusterNodeKeyVariable,
+        clusterNodeValue,
+      ),
+    [filtersObj, styleNameRoute, clusterNodeKeyVariable, clusterNodeValue],
   );
+
   const newFilters = useMemo(() => {
     return filters?.map(({ ...rest }) => rest) || [];
   }, [filters]);

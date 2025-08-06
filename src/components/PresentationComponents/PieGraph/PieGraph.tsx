@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useMemo } from 'react';
 
-import { Grid, SelectChangeEvent } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 import { useWindowSize } from '@react-hook/window-size';
 import Plot from 'react-plotly.js';
 import { useSelector } from 'react-redux';
@@ -12,7 +12,6 @@ import NoDataState from '@/components/NoResultComponents/NoDataState';
 import { useGetOptionsQuery } from '@/fetch/voyagesFetch/fetchApiService';
 import { fetchOptionsFlat } from '@/fetch/voyagesFetch/fetchOptionsFlat';
 import { useFetchPieCharts } from '@/hooks/useFetchPieCharts';
-import { usePageRouter } from '@/hooks/usePageRouter';
 import { RootState } from '@/redux/store';
 import {
   VoyagesOptionProps,
@@ -25,6 +24,10 @@ import {
   LanguageKey,
 } from '@/share/InterfaceTypes';
 import PIECHART_OPTIONS from '@/utils/flatfiles/voyages/voyages_piechart_options.json';
+import {
+  chartHeightCustom,
+  chartWidthCustom,
+} from '@/utils/functions/chartWidth';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
 import { maxWidthSize } from '@/utils/functions/maxWidthSize';
 
@@ -49,7 +52,6 @@ function PieGraph() {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch,
   );
-  const { styleName: styleNameRoute } = usePageRouter();
   const [width, height] = useWindowSize();
   const [pieGraphSelectedX, setSelectedX] = useState<PlotPIEX[]>([]);
   const [pieGraphSelectedY, setSelectedY] = useState<PlotPIEY[]>([]);
@@ -86,11 +88,15 @@ function PieGraph() {
     );
   };
 
-  const filters = filtersDataSend(
-    filtersObj,
-    styleNameRoute!,
-    clusterNodeKeyVariable,
-    clusterNodeValue,
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+        clusterNodeKeyVariable,
+        clusterNodeValue,
+      ),
+    [filtersObj, styleName, clusterNodeKeyVariable, clusterNodeValue],
   );
 
   const newFilters = useMemo(() => {
@@ -123,27 +129,13 @@ function PieGraph() {
     isError,
   } = useFetchPieCharts(dataSend);
 
-  // Calculate appropriate dimensions for the pie chart
-  const getChartDimensions = () => {
-    const showLegend = maxWidth >= 768;
-    const legendWidth = showLegend ? 200 : 0; // Estimated legend width
-    const padding = 40; // Padding for the container
+  const chartWidth = useMemo(
+    () => chartWidthCustom(width, maxWidth),
+    [width, maxWidth],
+  );
+  const chartHeight = useMemo(() => chartHeightCustom(height), [height]);
 
-    const availableWidth = maxWidth - padding;
-    const chartWidth = showLegend
-      ? availableWidth - legendWidth
-      : availableWidth;
-
-    // Ensure minimum width for readability
-    const finalWidth = Math.max(chartWidth, 300);
-    const chartHeight = Math.min(height * 0.58, finalWidth * 0.8);
-
-    return {
-      width: finalWidth,
-      height: chartHeight,
-      showLegend,
-    };
-  };
+  const showLegend = maxWidth >= 768;
 
   useEffect(() => {
     VoyagepieGraphOptions();
@@ -196,11 +188,6 @@ function PieGraph() {
   }, []);
 
   const isPlotYZeroAll = plotY.every((item) => item === 0);
-  const {
-    width: chartWidth,
-    height: chartHeight,
-    showLegend,
-  } = getChartDimensions();
 
   return (
     <div className="mobile-responsive">
@@ -221,14 +208,16 @@ function PieGraph() {
           <img src={LOADINGLOGO} alt="loading" />
         </div>
       ) : plotX.length > 0 && !isPlotYZeroAll ? (
-        <Grid
+        <div
           style={{
-            maxWidth: maxWidth,
+            width: '100%',
+            maxWidth: chartWidth,
+            height: chartHeight,
+            minHeight: 450,
             border: '1px solid #ccc',
-            overflow: 'hidden',
-            display: 'flex',
             marginTop: 18,
-            justifyContent: 'center',
+            overflow: 'auto',
+            position: 'relative',
           }}
         >
           <Plot
@@ -278,7 +267,7 @@ function PieGraph() {
               displayModeBar: false,
             }}
           />
-        </Grid>
+        </div>
       ) : (
         <div className="no-data-icon">
           <NoDataState text="" />

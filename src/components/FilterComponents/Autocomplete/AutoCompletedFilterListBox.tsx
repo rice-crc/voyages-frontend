@@ -56,7 +56,16 @@ const AutoCompletedFilterListBox = () => {
   const listboxNodeRef = useRef<HTMLUListElement | null>(null);
   const mounted = useRef<boolean>(false);
   const [page, setPage] = useState(1);
-  const filters = filtersDataSend(filtersObj, styleName!);
+
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+          styleName!
+      ),
+    [filtersObj, styleName],
+  );
+  
 
   const newFilters = useMemo(() => {
     return filters === undefined

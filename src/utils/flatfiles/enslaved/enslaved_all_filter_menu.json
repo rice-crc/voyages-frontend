@@ -129,7 +129,7 @@
     "children": [
       {
         "var_name": "captive_fate__name",
-        "type": "CharField",
+        "type": "MultiselectList",
         "ops": ["icontains"],
         "label": {
           "en": "Captive fate",

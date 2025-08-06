@@ -241,8 +241,6 @@ div .customHeaderLabelSummaryTable {
 
 .customSortDownLabel {
   float: left;
-  margin: 0 0 0 3px;
-  padding: 0 2px;
   cursor: pointer;
   font-size: 10px;
   color: #979595;
@@ -252,7 +250,7 @@ div .customHeaderLabelSummaryTable {
 
 .customSortUpLabel {
   float: left;
-  margin: 0;
+  margin: 0 -3px;
   cursor: pointer;
   font-size: 10px;
   color: #979595;
@@ -261,6 +259,25 @@ div .customHeaderLabelSummaryTable {
   padding: 2px;
 }
 
+.customSortDownLabel-pivot {
+  float: left;
+  cursor: pointer;
+  font-size: 10px;
+  color: #979595;
+  border: none;
+  background: transparent;
+  margin-left: 4px;
+}
+
+.customSortUpLabel-pivot {
+  float: left;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 10px;
+  color: #979595;
+  border: none;
+  background: transparent;
+}
 .customSortRemoveLabel {
   float: left;
   margin: 0 0 0 3px;
@@ -719,7 +736,7 @@ div .customHeaderLabelSummaryTable {
 
 
 .mobile-responsive-voyages {
-  padding: 110px 0px 0px 10px !important;
+  padding: 115px 0px 0px 10px !important;
 
   @include breakpoint-standard(5) {
     padding: 155px 50px 0px 20px !important;
@@ -745,7 +762,35 @@ div .customHeaderLabelSummaryTable {
     padding: 130px 2px !important;
   }
 }
+.mobile-responsive-map-enslaved{
+  padding: 140px 35px 0px 10px !important;
+  @include breakpoint-standard(6) {
+    padding: 140px 40px 0px 15px !important
+  }
+  @include breakpoint-standard(5) {
+    padding: 155px 50px 0px 20px !important;
+  }
 
+  @include breakpoint-standard(4) {
+    padding: 135px 0px 0px 20px !important;
+  }
+
+  @include breakpoint-standard(3) {
+    padding: 150px 2px !important;
+  }
+
+  @include breakpoint-standard(2) {
+    padding: 130px 2px !important;
+  }
+
+  @include breakpoint-standard(1) {
+    padding: 130px 2px !important;
+  }
+
+  @include breakpoint-standard(0) {
+    padding: 130px 2px !important;
+  }
+}
 .summary-box {
   margin-top: 8.5rem;
 

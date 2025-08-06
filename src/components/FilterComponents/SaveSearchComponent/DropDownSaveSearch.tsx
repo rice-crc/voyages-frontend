@@ -72,8 +72,16 @@ const DropDownSaveSearch = () => {
     styleName,
   ]);
 
-  const filters = filtersDataSend(filtersObj, styleName!);
 
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+      ),
+    [filtersObj, styleName]
+  );
+  
   const newFilters = useMemo(() => {
     return filters === undefined
       ? undefined

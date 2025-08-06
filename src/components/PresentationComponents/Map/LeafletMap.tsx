@@ -199,15 +199,23 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     regionPlace,
   ]);
 
-  const filters = filtersDataSend(
-    filtersObj,
-    styleNamePage!,
-    clusterNodeKeyVariable,
-    clusterNodeValue,
+
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+        clusterNodeKeyVariable,
+        clusterNodeValue,
+      ),
+    [filtersObj, styleName, clusterNodeKeyVariable, clusterNodeValue],
   );
 
+
+  // Filter out any filter with varName 'dataset'.
+// This is necessary because the backend for map requests does not accept 'dataset' as a valid filter.
   const newFilters = useMemo(() => {
-    return filters?.map(({ ...rest }) => rest) || [];
+    return filters?.filter((f) => f.varName !== 'dataset') || [];
   }, [filters]);
 
   const dataSend: MapPropsRequest = useMemo(() => {

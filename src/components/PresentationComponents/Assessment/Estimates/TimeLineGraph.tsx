@@ -31,21 +31,28 @@ const TimelineChart: React.FC<{
   const [loading, setLoading] = useState(false);
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
   const { currentBlockName, styleName } = usePageRouter();
-  const graphContainerRef = useRef<HTMLDivElement | null>(null);
-  const mouseOverInfoRef = useRef<HTMLDivElement | null>(null);
-  const historicalEventsContainerRef = useRef<HTMLDivElement | null>(null);
-  const filters = filtersDataSend(filtersObj, styleName!);
   const { varName } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
+  
+  const graphContainerRef = useRef<HTMLDivElement | null>(null);
+  const mouseOverInfoRef = useRef<HTMLDivElement | null>(null);
+  const historicalEventsContainerRef = useRef<HTMLDivElement | null>(null);
 
+  const filters = useMemo(
+    () =>
+      filtersDataSend(
+        filtersObj,
+        styleName!,
+      ),
+    [filtersObj, styleName]
+  );
+
+///  
+// Filter out any filter with varName 'dataset'.
+// This is necessary because the backend for map requests does not accept 'dataset' as a valid filter.
   const newFilters = useMemo(() => {
-    return filters === undefined
-      ? undefined
-      : filters!.map((filter) => {
-        const { ...filteredFilter } = filter;
-        return filteredFilter;
-      });
+    return filters?.filter(f => f.varName !== 'dataset') || [];
   }, [filters]);
 
   const dataSend: TimeLineGraphRequest = useMemo(() => {
