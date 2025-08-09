@@ -212,11 +212,10 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   );
 
 
-  // Filter out any filter with varName 'dataset'.
-// This is necessary because the backend for map requests does not accept 'dataset' as a valid filter.
   const newFilters = useMemo(() => {
-    return filters?.filter((f) => f.varName !== 'dataset') || [];
+    return filters?.map(({ ...rest }) => rest) || [];
   }, [filters]);
+  console.log({newFilters})
 
   const dataSend: MapPropsRequest = useMemo(() => {
     return {
