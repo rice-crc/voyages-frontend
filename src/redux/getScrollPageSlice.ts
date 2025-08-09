@@ -7,7 +7,7 @@ const initialState = {
   currentVoyageBlockName: 'voyages',
 };
 
-export const getScrollPageSlice = createSlice({
+const getScrollPageSlice = createSlice({
   name: 'getScrollPage',
   initialState,
   reducers: {

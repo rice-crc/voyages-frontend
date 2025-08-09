@@ -1,12 +1,13 @@
-import { Filter } from '@/share/InterfaceTypes';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
+import { Filter } from '@/share/InterfaceTypes';
 interface QueryState {
   querySaveSearch: Filter[];
 }
 const initialState: QueryState = {
   querySaveSearch: [],
 };
-export const getQuerySaveSearchSlice = createSlice({
+const getQuerySaveSearchSlice = createSlice({
   name: 'getQuerySaveSearch',
   initialState,
   reducers: {

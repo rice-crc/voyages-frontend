@@ -13,7 +13,7 @@ const initialState: FilterState = {
   nameIdURL: '',
   type: '',
 };
-export const getFilterSlice = createSlice({
+const getFilterSlice = createSlice({
   name: 'getFilter',
   initialState,
   reducers: {

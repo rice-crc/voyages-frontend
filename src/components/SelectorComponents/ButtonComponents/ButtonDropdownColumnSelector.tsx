@@ -1,10 +1,9 @@
-import { MouseEvent, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 
-import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { CaretDownOutlined, QuestionCircleOutlined, CheckOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Tooltip } from 'antd';
+import type { MenuProps } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { DropdownCascading } from '../Cascading/DropdownCascading';
 
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
@@ -23,7 +22,6 @@ import {
   ColumnSelectorTree,
   TableCellStructureInitialStateProp,
 } from '@/share/InterfaceTypesTable';
-import { DropdownMenuItem, DropdownNestedMenuItemChildren } from '@/styleMUI';
 import AFRICANORIGINS_TABLE from '@/utils/flatfiles/enslaved/enslaved_african_origins_table.json';
 import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_all_table.json';
 import TEXAS_TABLE from '@/utils/flatfiles/enslaved/enslaved_texas_table.json';
@@ -53,12 +51,9 @@ const ButtonDropdownColumnSelector = () => {
   );
   const translatedHomepage = translationHomepage(languageValue);
 
-  const handleColumnVisibilityChange = (
-    event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>
-  ) => {
-    const target = event.currentTarget as HTMLLIElement | HTMLDivElement;
-    const colID = target.dataset.colid;
-    
+  // Updated handleColumnVisibilityChange to work with Ant Design menu
+  const handleColumnVisibilityChange = (colID: string) => {
+
     if (colID) {
       // Get current column state from localStorage if it exists
       let currentOrder: string[] = [];
@@ -78,6 +73,12 @@ const ButtonDropdownColumnSelector = () => {
       if (visibleColumnCells.includes(colID)) {
         // Remove column
         updatedVisibleColumns = visibleColumnCells.filter((column: string) => column !== colID);
+        
+        // Prevent hiding all columns
+        if (updatedVisibleColumns.length === 0) {
+          console.warn('Cannot hide all columns. Keeping at least one visible.');
+          return;
+        }
       } else {
         // Add column - maintain the relative position if it was in the saved order
         updatedVisibleColumns = [...visibleColumnCells, colID];
@@ -101,7 +102,7 @@ const ButtonDropdownColumnSelector = () => {
           });
         }
       }
-      
+
       // Dispatch the updated visible columns
       dispatch(setVisibleColumn(updatedVisibleColumns));
       
@@ -161,71 +162,209 @@ const ButtonDropdownColumnSelector = () => {
     loadMenuValueCellStructure();
   }, [styleNameRoute]);
 
-  function renderMenuItems(nodes: any[]) {
-    return nodes.map((node) => {
+  function renderMenuItems(nodes: any[], parentKey = ''): MenuProps['items'] {
+    return nodes.map((node, index) => {
       const { label: nodeLabel, children, var_name, colID } = node;
       const hasChildren = children && children.length > 0;
       const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
+      const isVisible = visibleColumnCells?.includes(colID);
+      
+      // Create unique key to prevent duplicates
+      const uniqueKey = `${parentKey}-${colID || var_name || index}`;
 
       if (hasChildren) {
-        return (
-          <DropdownNestedMenuItemChildren
-            label={`${menuLabel}`}
-            dense
-            data-colid={colID}
-            data-value={var_name}
-            data-label={menuLabel}
-            rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
-            onClickMenu={handleColumnVisibilityChange}
-            menu={renderMenuItems(children)}
-            disabled={visibleColumnCells?.includes(colID)}
-          />
-        );
+        return {
+          key: uniqueKey,
+          label: (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <span>{menuLabel}</span>
+              <span style={{ fontSize: '10px'}}>▶</span>
+            </div>
+          ),
+          children: renderMenuItems(children, uniqueKey),
+          // For parent items with children, pass the colID directly
+          onClick: colID ? () => handleColumnVisibilityChange(colID) : undefined,
+        };
       }
 
-      return (
-        <DropdownMenuItem
-          onClick={handleColumnVisibilityChange}
-          data-colid={colID}
-          data-value={var_name}
-          data-label={menuLabel}
-          dense
-          disabled={visibleColumnCells?.includes(colID)}
-        >
-          {menuLabel}
-        </DropdownMenuItem>
-      );
+      return {
+        key: uniqueKey,
+        label: (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%',
+              padding: '4px 8px',
+              cursor: 'pointer',
+              backgroundColor: isVisible ? '#f0f8ff' : 'transparent',
+              borderRadius: '4px',
+              border: isVisible ? '1px solid #1890ff' : '1px solid transparent',
+            }}
+          >
+            <span 
+              style={{ 
+                fontWeight: isVisible ? 600 : 400,
+                color: isVisible ? '#1890ff' : 'inherit'
+              }}
+            >
+              {menuLabel}
+            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              {isVisible ? (
+                <>
+                  <CheckOutlined style={{ color: '#52c41a', fontSize: '12px' }} />
+                  <EyeOutlined style={{ color: '#1890ff', fontSize: '12px' }} />
+                </>
+              ) : (
+                <EyeInvisibleOutlined style={{ color: '#d9d9d9', fontSize: '12px' }} />
+              )}
+            </div>
+          </div>
+        ),
+        // Pass the colID directly to the handler
+        onClick: () => handleColumnVisibilityChange(colID),
+        style: {
+          padding: 0, // Remove default padding since we're adding it to the inner div
+        }
+      };
     });
   }
+
+  // Base button styles
+  const baseButtonStyle = {
+    fontSize: '0.80rem',
+    textTransform: 'unset' as const,
+    backgroundColor: getColorBTNVoyageDatasetBackground(styleNameRoute!),
+    boxShadow: getColorBoxShadow(styleNameRoute!),
+    fontWeight: 600,
+    color: '#ffffff',
+    width: window.innerWidth < 600 ? 200 : 200, 
+    height: '32px',
+    border: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+  };
+
+  // Event handlers for hover effects
+  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorHoverBackground(styleNameRoute!);
+    target.style.color = '#ffffff';
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorBTNVoyageDatasetBackground(
+      styleNameRoute!,
+    );
+    target.style.color = '#ffffff';
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorHoverBackground(styleNameRoute!);
+    target.style.color = '#ffffff';
+    target.style.outline = 'none';
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorBTNVoyageDatasetBackground(
+      styleNameRoute!,
+    );
+    target.style.color = '#ffffff';
+  };
+  const [visibilityTootip,setTooltipVisible ] =  useState(false)
+  const handleButtonClick = (e: React.MouseEvent<HTMLElement>) => {
+    // Hide tooltip immediately when button is clicked
+    setTooltipVisible(!visibilityTootip);
+  };
+
+  const menu: MenuProps = useMemo(
+    () => ({
+      items: renderMenuItems(menuValueCells),
+    }),
+    [menuValueCells, visibleColumnCells], // Add visibleColumnCells as dependency
+  );
+
+  const visibleCount = visibleColumnCells?.length || 0;
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   return (
-    <DropdownCascading
-      trigger={
-        <span style={{ display: 'flex', alignItems: 'center' }}>
-          <Button
-            sx={{
-              fontSize: '0.80rem',
-              textTransform: 'unset',
-              backgroundColor: getColorBTNVoyageDatasetBackground(
-                styleNameRoute!
-              ),
-              boxShadow: getColorBoxShadow(styleNameRoute!),
-              fontWeight: 600,
-              color: '#ffffff',
-              width: { xs: 180, sm: 180 },
-              height: 28,
-              '&:hover': {
-                backgroundColor: getColorHoverBackground(styleNameRoute!),
-              },
-            }}
+    <span style={{ display: 'flex', alignItems: 'center' }}>
+      <style>{`
+        .ant-dropdown-menu-submenu-arrow {
+          display: none !important;
+        }
+        .ant-dropdown-menu-item:hover {
+          background-color: #f5f5f5 !important;
+        }
+        .column-selector-tooltip .ant-tooltip-inner {
+          max-width: 300px;
+          text-align: left;
+        }
+      `}</style>
+      <Dropdown 
+        menu={menu} 
+        trigger={['click']} 
+        placement="bottomLeft"
+        overlayStyle={{ minWidth: '250px' }}
+      > 
+       <Button
+            ref={buttonRef}
             className="configureColumnsButton"
-            endIcon={<ArrowDropDown />}
+            style={baseButtonStyle}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onClick={handleButtonClick}
           >
             {translatedHomepage.configureColumns}
+            <span style={{ 
+              backgroundColor: 'rgba(255,255,255,0.2)', 
+              borderRadius: '10px', 
+              padding: '2px 6px',
+              fontSize: '0.7rem',
+              minWidth: '20px',
+              textAlign: 'center'
+            }}>
+              {visibleCount}
+            </span>
+            <CaretDownOutlined />
           </Button>
-        </span>
-      }
-      menu={renderMenuItems(menuValueCells)}
-    />
+      </Dropdown>
+      <div>
+        <Tooltip 
+          classNames={{ root: "column-selector-tooltip" }}
+          title={
+            <div style={{fontSize: 12}}>
+              <div><strong>Column Configuration Help:</strong></div>
+              <div>• Click to show/hide columns</div>
+              <div>• ✓ = Currently visible</div>
+              <div>• 👁 = Shown in table</div>
+              <div>• New columns appear on the right</div>
+              <div>• Drag column headers to reorder</div>
+              <div>• At least one column must remain visible</div>
+            </div>
+          }
+        >
+           <QuestionCircleOutlined style={{cursor:'pointer', paddingLeft: 4, fontSize: '0.85rem'}}/>
+        </Tooltip>
+      </div>
+    </span>
   );
 };
+
 export default ButtonDropdownColumnSelector;

@@ -22,12 +22,13 @@ export const generateColumnDef = (
   return {
     headerName: columnHeader,
     field: value.colID,
+    colId: value.colID,
     width: value.col_width_px,
     sortable: true,
     autoHeight: true,
     wrapText: true,
     resizable: true,
-    sortingOrder: ['asc', 'desc', null],
+    sortingOrder: ['asc', 'desc'],
     headerTooltip: columnHeader,
     tooltipField: value.colID,
     hide: visibleColumnCells
@@ -38,7 +39,7 @@ export const generateColumnDef = (
       GenerateCellTableRenderer(params, CELLFN, colID, numberFormat, nodeClass),
     valueGetter: (params: ICellRendererParams) => hasValueGetter(params, value),
     context: {
-      fieldToSort: value.order_by,
+      fieldToSort: value.order_by || [colID],
     },
   };
 };

@@ -11,7 +11,7 @@ const initialState: SaveSearchProps = {
   listSaveSearchURL: [],
   reloadTable: false,
 };
-export const getSaveSearchSlice = createSlice({
+const getSaveSearchSlice = createSlice({
   name: 'getSaveSearchSlice',
   initialState,
   reducers: {

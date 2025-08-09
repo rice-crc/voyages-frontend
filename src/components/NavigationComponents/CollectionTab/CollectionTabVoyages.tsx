@@ -1,4 +1,4 @@
-import { Button, Hidden } from '@mui/material';
+import { Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -100,67 +100,92 @@ const CollectionTabVoyages = () => {
   };
 
   return (
-    <Hidden>
-      <div className="navbar-wrapper">
-        <nav className="nav-button">
-          {blocks.map((items: BlockCollectionProps, index: number) => {
-            const { label: block } = items;
-            const blockName = (block as LabelFilterMeneList)[languageValue];
-            const newBlockName = blockName.toLowerCase().replace(/\s/g, '');
-            const buttonIndex = index + 1;
-            return (
-              <Button
-                key={`${newBlockName}-${buttonIndex}`}
-                onClick={() => handlePageNavigation(buttonIndex, newBlockName)}
-                className="nav-button-page"
-                sx={{
-                  margin: '5px',
-                  cursor: 'pointer',
-                  textTransform: 'unset',
-                  backgroundColor: getColorBackground(styleName),
-                  boxShadow:
-                    currentVoyageBlockName ===
-                    checkBlockCollectionNameForVoyages(
-                      newBlockName.toLocaleLowerCase(),
-                    )
-                      ? getColorBoxShadow(styleName)
-                      : '',
-                  color:
-                    currentVoyageBlockName ===
-                    checkBlockCollectionNameForVoyages(
-                      newBlockName.toLocaleLowerCase(),
-                    )
-                      ? 'white'
-                      : getColorTextCollection(styleName),
-                  fontWeight:
-                    currentVoyageBlockName ===
-                    checkBlockCollectionNameForVoyages(
-                      newBlockName.toLocaleLowerCase(),
-                    )
-                      ? 'bold'
-                      : 600,
-                  fontSize: '0.80rem',
-                  '&:hover': {
-                    backgroundColor: getColorHoverBackgroundCollection(
-                      styleName!,
-                    ),
-                    color: getColorBTNVoyageDatasetBackground(styleName),
-                  },
-                  '&:disabled': {
-                    color: '#fff',
-                    boxShadow: getColorBoxShadow(styleName!),
-                    cursor: 'not-allowed',
-                  },
-                }}
-                variant={currentPage === buttonIndex ? 'contained' : 'outlined'}
-              >
-                {blockName}
-              </Button>
+    <div
+      className="navbar-wrapper"
+      style={{ display: window.innerWidth < 768 ? 'none' : 'block' }}
+    >
+      <nav className="nav-button">
+        {blocks.map((items: BlockCollectionProps, index: number) => {
+          const { label: block } = items;
+          const blockName = (block as LabelFilterMeneList)[languageValue];
+          const newBlockName = blockName.toLowerCase().replace(/\s/g, '');
+          const buttonIndex = index + 1;
+          const isActive =
+            currentVoyageBlockName ===
+            checkBlockCollectionNameForVoyages(
+              newBlockName.toLocaleLowerCase(),
             );
-          })}
-        </nav>
-      </div>
-    </Hidden>
+          const isCurrentPage = currentPage === buttonIndex;
+
+          // Base button styles
+          const baseButtonStyle = {
+            margin: '5px',
+            cursor: 'pointer',
+            textTransform: 'unset' as const,
+            backgroundColor: getColorBackground(styleName),
+            boxShadow: isActive ? getColorBoxShadow(styleName) : 'none',
+            color: isActive ? 'white' : getColorTextCollection(styleName),
+            fontWeight: isActive ? 'bold' : 600,
+            fontSize: '0.80rem',
+            border: isCurrentPage
+              ? `2px solid ${getColorBackground(styleName)}`
+              : '1px solid transparent',
+          };
+
+          // Event handlers for hover effects
+          const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+            const target = e.currentTarget;
+            target.style.backgroundColor = getColorHoverBackgroundCollection(
+              styleName!,
+            );
+            target.style.color = getColorBTNVoyageDatasetBackground(styleName);
+          };
+
+          const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+            const target = e.currentTarget;
+            target.style.backgroundColor = getColorBackground(styleName);
+            target.style.color = isActive
+              ? 'white'
+              : getColorTextCollection(styleName);
+          };
+
+          const handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+            const target = e.currentTarget;
+            target.style.backgroundColor = getColorHoverBackgroundCollection(
+              styleName!,
+            );
+            target.style.color = getColorBTNVoyageDatasetBackground(styleName);
+            target.style.outline = 'none';
+          };
+
+          const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
+            const target = e.currentTarget;
+            target.style.backgroundColor = getColorBackground(styleName);
+            target.style.color = isActive
+              ? 'white'
+              : getColorTextCollection(styleName);
+          };
+
+          return (
+            <Button
+              key={`${newBlockName}-${buttonIndex}`}
+              onClick={() => handlePageNavigation(buttonIndex, newBlockName)}
+              className="nav-button-page"
+              type={isCurrentPage ? 'primary' : 'default'}
+              style={baseButtonStyle}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            >
+              <div style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>
+                {blockName}
+              </div>
+            </Button>
+          );
+        })}
+      </nav>
+    </div>
   );
 };
 

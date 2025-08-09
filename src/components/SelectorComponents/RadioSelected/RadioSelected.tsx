@@ -1,6 +1,5 @@
-import { setOpsRole } from '@/redux/getRangeSliderSlice';
-import { AppDispatch, RootState } from '@/redux/store';
-import { FilterObjectsState, TYPES } from '@/share/InterfaceTypes';
+import { ChangeEvent, FunctionComponent, useEffect } from 'react';
+
 import {
   FormControl,
   FormControlLabel,
@@ -9,8 +8,11 @@ import {
   RadioGroup,
   Typography,
 } from '@mui/material';
-import { ChangeEvent, FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { setOpsRole } from '@/redux/getRangeSliderSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { FilterObjectsState, TYPES } from '@/share/InterfaceTypes';
 
 interface RadioSelectedProps {
   aggregation?: string;
@@ -21,9 +23,8 @@ export const RadioSelected: FunctionComponent<RadioSelectedProps> = (props) => {
   const dispatch: AppDispatch = useDispatch();
   const { aggregation, handleChange, type } = props;
   const { opsRoles, varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
-
 
   useEffect(() => {
     if (varName === 'EnslaverNameAndRole') {
@@ -32,7 +33,7 @@ export const RadioSelected: FunctionComponent<RadioSelectedProps> = (props) => {
   }, []);
 
   const handleChangeEqualToOrOthers = (
-    event: ChangeEvent<HTMLInputElement>
+    event: ChangeEvent<HTMLInputElement>,
   ) => {
     const newOpsRoles = event.target.value;
     dispatch(setOpsRole(newOpsRoles));

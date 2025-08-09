@@ -4,7 +4,7 @@ const initialState = {
   currentEnslavedPage: 1,
   currentPageBlockName: 'people',
 };
-export const getScrollEnslavedPageSlice = createSlice({
+const getScrollEnslavedPageSlice = createSlice({
   name: 'getScrollEnslavedPage',
   initialState,
   reducers: {

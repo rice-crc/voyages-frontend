@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-export const getDataPathNameSlice = createSlice({
+const getDataPathNameSlice = createSlice({
   name: 'getDataPathName',
   initialState: {
     pathNameVoyages: '',

@@ -1,5 +1,6 @@
-import { LanguagesProps } from '@/share/InterfaceTypeLanguages';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
+import { LanguagesProps } from '@/share/InterfaceTypeLanguages';
 
 const setSelectedLanguageToLocalStorage = (language: string) => {
   localStorage.setItem('languages', language);
@@ -10,7 +11,7 @@ const initialStateLanguages: LanguagesProps = {
   languageValueLabel: 'English',
 };
 
-export const getLanguagesSlice = createSlice({
+const getLanguagesSlice = createSlice({
   name: 'getLanguagesSlice',
   initialState: initialStateLanguages,
   reducers: {

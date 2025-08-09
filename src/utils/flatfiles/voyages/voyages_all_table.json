@@ -309,29 +309,6 @@
 		},
 		{
 			"header_label": {
-				"en": "Guns mounted",
-				"es": "Cañones montados",
-				"pt": "Armas montadas"
-			},
-			"cell_type": "literal",
-			"number_format": null,
-			"visible": false,
-			"order_by": [
-				"voyage_ship__guns_mounted"
-			],
-			"col_width_px": 100,
-			"colID": "voyage_ship__guns_mounted",
-			"cell_val": {
-				"fields": [
-					{
-						"var_name": "voyage_ship__guns_mounted",
-						"cell_fn": "literal"
-					}
-				]
-			}
-		},
-		{
-			"header_label": {
 				"en": "Place where vessel's voyage began (IMP)",
 				"es": "Lugar donde comenzó el viaje del buque (IMP)",
 				"pt": "Local onde se iniciou a viagem do navio (IMP)"

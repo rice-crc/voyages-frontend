@@ -1,7 +1,8 @@
-import { GlobalSearchProp } from '@/share/InterfaceTypesGlobalSearch';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-export const getCommonGlobalSearchResultSlice = createSlice({
+import { GlobalSearchProp } from '@/share/InterfaceTypesGlobalSearch';
+
+const getCommonGlobalSearchResultSlice = createSlice({
   name: 'getFilter',
   initialState: {
     data: [] as GlobalSearchProp[],
