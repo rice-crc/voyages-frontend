@@ -8,7 +8,8 @@ import {
   useRef,
 } from 'react';
 
-import { Button, Pagination, SelectChangeEvent } from '@mui/material';
+import { Button, Pagination } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 import {
   ModuleRegistry,
   AllCommunityModule, // or AllEnterpriseModule
@@ -40,7 +41,6 @@ import {
   PivotColumnVar,
   PivotCellVar,
 } from '@/share/InterfaceTypes';
-import { CustomTablePagination } from '@/styleMUI';
 import VOYAGE_PIVOT_OPTIONS from '@/utils/flatfiles/voyages/voyages_pivot_options.json';
 import { customValueFormatter } from '@/utils/functions/customValueFormatter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
@@ -112,7 +112,7 @@ const PivotTables = () => {
   const [rowVars, setSelectRowValues] = useState<PivotRowVar[]>([]);
   const [columnVars, setSelectColumnValue] = useState<PivotColumnVar[]>([]);
   const [cellVars, setSelectCellValue] = useState<PivotCellVar[]>([]);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1); // Ant Design Pagination starts from 1
 
   const components = useMemo(
     () => ({
@@ -171,6 +171,7 @@ const PivotTables = () => {
       }
     });
   }, []);
+
   const { row_vars, rows_label, binsize, column_vars, cell_vars } =
     pivotValueOptions;
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
@@ -343,11 +344,10 @@ const PivotTables = () => {
 
   const handleChangeOptions = useCallback(
     (
-      event: SelectChangeEvent<string>,
+      value: string,
       name: string,
       options?: PivotRowVar[],
     ) => {
-      const value = event.target.value;
       if (name === 'row_vars' && options) {
         const selectedRow = options.find((row) => row.rows === value);
         if (selectedRow) {
@@ -378,39 +378,22 @@ const PivotTables = () => {
   }, []);
 
   const handleChangePage = useCallback(
-    (event: any, newPage: number) => {
+    (newPage: number, pageSize: number) => {
       setPage(newPage);
-      const newOffset =
-        newPage > page ? offset + rowsPerPage : offset - rowsPerPage;
+      const newOffset = (newPage - 1) * pageSize;
       dispatch(setOffset(newOffset >= 0 ? newOffset : 0));
     },
-    [page, rowsPerPage, offset, dispatch],
+    [dispatch],
   );
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { value } = event.target;
-    const newRowsPerPage = parseInt(value);
-    dispatch(setRowsPerPage(newRowsPerPage));
-  };
-
-  const pageCount = Math.ceil(
-    totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1,
-  );
-
-  const handleChangePagePagination = useCallback(
-    (event: any, newPage: number) => {
-      setPage(newPage - 1);
-      if (newPage === 0 || newPage === 1) {
-        dispatch(setOffset(0));
-      } else {
-        const newOffset =
-          newPage > page ? offset + rowsPerPage : offset - rowsPerPage;
-        dispatch(setOffset(newOffset));
-      }
+  const handleChangePageSize = useCallback(
+    (current: number, size: number) => {
+      dispatch(setRowsPerPage(size));
+      // Reset to first page when page size changes
+      setPage(1);
+      dispatch(setOffset(0));
     },
-    [page, rowsPerPage, offset, dispatch],
+    [dispatch],
   );
 
   let DownloadCSVExport = '';
@@ -445,33 +428,26 @@ const PivotTables = () => {
           />
           <div className="button-export-csv">
             <Button
+              type="primary"
+              icon={<DownloadOutlined />}
               onClick={handleButtonExportCSV}
               style={{
+                backgroundColor: getColorBTNVoyageDatasetBackground(styleName!),
+                borderColor: getColorBTNVoyageDatasetBackground(styleName!),
                 boxShadow: getColorBoxShadow(styleName!),
               }}
-              sx={{
-                backgroundColor: getColorBTNVoyageDatasetBackground(styleName!),
-                boxShadow: getColorBoxShadow(styleName!),
-                '&:hover': {
-                  backgroundColor: getColorHoverBackground(styleName!),
-                },
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = getColorHoverBackground(styleName!);
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = getColorBTNVoyageDatasetBackground(styleName!);
               }}
             >
               {DownloadCSVExport}
             </Button>
           </div>
         </span>
-        <CustomTablePagination
-          disablescrolllock={true.toString()}
-          component="span"
-          className="pivot-table-pagination"
-          count={totalResultsCount}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 45, 50, 100]}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        
         <div
           className="ag-theme-alpine grid-container ag-theme-balham"
           style={{
@@ -501,12 +477,19 @@ const PivotTables = () => {
             tooltipHideDelay={1000}
             groupDefaultExpanded={-1}
           />
-          <div className="pagination-div">
+          
+          <div style={{ marginTop: 16, textAlign: 'center', display: 'flex', alignContent:'center', justifyContent:'flex-end' }}>
             <Pagination
-              color="primary"
-              count={pageCount}
-              page={page + 1}
-              onChange={handleChangePagePagination}
+              current={page}
+              total={totalResultsCount}
+              pageSize={rowsPerPage}
+              pageSizeOptions={['5', '10', '15', '20', '25', '30', '45', '50', '100']}
+              showSizeChanger={true}
+              showTotal={(total, range) =>
+                `${range[0]}-${range[1]} of ${total} items`
+              }
+              onChange={handleChangePage}
+              onShowSizeChange={handleChangePageSize}
             />
           </div>
         </div>

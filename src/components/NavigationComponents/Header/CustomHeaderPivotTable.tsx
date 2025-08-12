@@ -38,7 +38,9 @@ interface Props {
   enableSorting: boolean;
   displayName?: string;
 }
+
 type SortOrder = 'asc' | 'desc';
+
 const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   const { column, setSort, enableSorting, displayName } = props;
 
@@ -50,23 +52,23 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
   const { offset, pivotValueOptions, aggregation, rowsPerPage } = useSelector(
     (state: RootState) => state.getPivotTablesData,
   );
+  const { clusterNodeKeyVariable, clusterNodeValue } = useSelector(
+    (state: RootState) => state.getNodeEdgesAggroutesMapData,
+  );
 
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch,
   );
-
-  const { row_vars, rows_label, binsize, column_vars, cell_vars } =
-    pivotValueOptions;
-  const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
-  const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
 
   const filters = useMemo(
     () =>
       filtersDataSend(
         filtersObj,
         styleName!,
+        clusterNodeKeyVariable,
+        clusterNodeValue,
       ),
-    [filtersObj, styleName]
+    [filtersObj, styleName, clusterNodeKeyVariable, clusterNodeValue]
   );
   
   const processedFilters = useMemo(() => {
@@ -76,22 +78,6 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
       return filteredFilter;
     });
   }, [filters]);
-
-  const baseRequestData: PivotTablesPropsRequest = useMemo(
-    () => ({
-      columns: column_vars,
-      rows: updatedRowsValue,
-      rows_label: updatedRowsLabel,
-      agg_fn: aggregation,
-      binsize: binsize!,
-      value_field: cell_vars,
-      offset: offset,
-      limit: rowsPerPage,
-      filter: processedFilters || [],
-    }),
-    [processedFilters, updatedRowsValue,column_vars, updatedRowsLabel,aggregation,binsize, cell_vars, offset, rowsPerPage],
-  );
-
 
   const createSortOrder = useCallback(
     (sortOrder: SortOrder, sortingFields: string[]) => {
@@ -108,8 +94,23 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     sortOrder: SortOrder,
     sortingOrder: string[],
   ) => {
+    // Get fresh values from Redux state at the time of sorting
+    const { row_vars, rows_label, binsize, column_vars, cell_vars } = pivotValueOptions;
+    const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
+    const updatedRowsLabel = rows_label.replace(/_(\d+)$/, '');
 
-    const requestData = { ...baseRequestData };
+    const requestData: PivotTablesPropsRequest = {
+      columns: column_vars,
+      rows: updatedRowsValue,
+      rows_label: updatedRowsLabel,
+      agg_fn: aggregation,
+      binsize: binsize!,
+      value_field: cell_vars,
+      offset: offset,
+      limit: rowsPerPage,
+      filter: processedFilters || [],
+    };
+
     if (inputSearchValue) {
       requestData.global_search = inputSearchValue;
     }
@@ -120,11 +121,11 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
       requestData.order_by = orderBy;
     }
 
-
     try {
       const response = await dispatch(
         fetchPivotCrosstabsTables(requestData),
       ).unwrap();
+      
       if (response) {
         const { tablestructure, data, metadata } =
           response.data as PivotTableResponse;
@@ -159,7 +160,16 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     } catch (error) {
       console.log('error', error);
     }
-  },[]);
+  }, [
+    pivotValueOptions,
+    aggregation,
+    offset,
+    rowsPerPage,
+    processedFilters,
+    inputSearchValue,
+    dispatch,
+    createSortOrder,
+  ]);
 
   const onSortChanged = useCallback(() => {
     setAscSort(column?.isSortAscending() ? 'active' : 'inactive');
@@ -178,7 +188,6 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     fetchDataPivotTable(sortOrder, [column.colDef.field]);
   }, [setSort, column, fetchDataPivotTable]);
 
-
   useEffect(() => {
     props.column.addEventListener('sortChanged', onSortChanged);
     onSortChanged();
@@ -196,7 +205,7 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     return () => {
       props.column.removeEventListener('sortChanged', onSortChanged);
     };
-  }, [onSortChanged, props.column,styleName]);
+  }, [onSortChanged, props.column, styleName]);
 
   let sort: React.ReactNode = null;
   if (enableSorting) {

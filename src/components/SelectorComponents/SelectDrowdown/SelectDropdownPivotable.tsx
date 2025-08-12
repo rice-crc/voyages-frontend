@@ -1,10 +1,5 @@
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
+import { Select, Row, Col } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 import { FunctionComponent } from 'react';
 import {
   PivotRowVar,
@@ -18,13 +13,15 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
+const { Option } = Select;
+
 interface SelectDropdownPivotableProps {
   selectRowValue: PivotRowVar[];
   selectColumnValue: PivotColumnVar[];
   selectCellValue: PivotCellVar[];
   selectedPivottablesOptions: PivotTablesProps;
   handleChangeOptions: (
-    event: SelectChangeEvent<string>,
+    value: string,
     name: string,
     selectRowValue?: PivotRowVar[]
   ) => void;
@@ -41,131 +38,135 @@ export const SelectDropdownPivotable: FunctionComponent<
   handleChangeOptions,
   aggregation,
 }) => {
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    disableScrollLock: true,
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
-
   const { languageValue } = useSelector(
     (state: RootState) => state.getLanguages
   );
 
   const translatedEstimates = translationLanguagesEstimatePage(languageValue);
 
+  const selectStyle = {
+    height: 34,
+    borderRadius: 4,
+    width: 360,
+    maxWidth: 400,
+    backgroundColor: '#ffffff',
+    transition: 'all 0.3s ease',
+  };
+
+  const labelStyle = {
+    display: 'block',
+    marginBottom: 2,
+    color: '#1f2937',
+    fontSize: '14px',
+    fontWeight: 600,
+    letterSpacing: '0.025em',
+  };
+
+
   return (
-    <div className="pivot-table-flex-container">
-      <div className="pivot-table-flex-item">
-        <FormControl fullWidth>
-          <InputLabel id="rows-field-label" style={{ color: '#000' }}>
-            {translatedEstimates.rowDropDownTitle}
-          </InputLabel>
-          <Select
-            sx={{
-              height: 36,
-              fontSize: '0.95rem',
-              color: '#000',
-            }}
-            MenuProps={MenuProps}
-            labelId="rows-field-label"
-            id="rows-field-select"
-            value={selectedPivottablesOptions?.row_vars}
-            label={translatedEstimates.rowDropDownTitle}
-            onChange={(event: SelectChangeEvent<string>) => {
-              handleChangeOptions(event, 'row_vars', selectRowValue);
-            }}
-            name="row_vars"
-          >
-            {selectRowValue.map((option: PivotRowVar, index: number) => {
-              const rowLabel = (option.label as LabelFilterMeneList)[
-                languageValue
-              ];
-              return (
-                <MenuItem key={`${rowLabel}-${index}`} value={option.rows}>
-                  {rowLabel}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-      </div>
-      <div className="pivot-table-flex-item">
-        <FormControl fullWidth>
-          <InputLabel id="columns-field-label" style={{ color: '#000' }}>
-            {translatedEstimates.columnsDropDownTitle}
-          </InputLabel>
-          <Select
-            sx={{
-              height: 36,
-              fontSize: '0.95rem',
-              color: '#000',
-            }}
-            MenuProps={MenuProps}
-            labelId="columns-field-label"
-            id="columns-field-select"
-            value={selectedPivottablesOptions?.column_vars as any}
-            label={translatedEstimates.columnsDropDownTitle}
-            onChange={(event: SelectChangeEvent<string>) => {
-              handleChangeOptions(event, 'column_vars');
-            }}
-            name="column_vars"
-          >
-            {selectColumnValue.map((option: any, index: number) => {
-              const columnLabel = (option.label as LabelFilterMeneList)[
-                languageValue
-              ];
-              return (
-                <MenuItem key={`$columnLabel}-${index}`} value={option.columns}>
-                  {columnLabel}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-      </div>
-      <div className="pivot-table-flex-item">
-        <FormControl fullWidth>
-          <InputLabel id="cells-field-label" style={{ color: '#000' }}>
-            {translatedEstimates.cellDropDownTitle}
-          </InputLabel>
-          <Select
-            sx={{
-              height: 36,
-              fontSize: '0.95rem',
-              color: '#000',
-            }}
-            MenuProps={MenuProps}
-            labelId="cells-field-label"
-            id="cells-field-select"
-            value={selectedPivottablesOptions?.cell_vars}
-            label={translatedEstimates.cellDropDownTitle}
-            onChange={(event: SelectChangeEvent<string>) => {
-              handleChangeOptions(event, 'cell_vars');
-            }}
-            name="cell_vars"
-          >
-            {selectCellValue.map((option: any, index: number) => {
-              const cellLabel = (option.label as LabelFilterMeneList)[
-                languageValue
-              ];
-              return (
-                <MenuItem
-                  key={`${cellLabel}-${index}`}
-                  value={option.value_field}
-                >
-                  {cellLabel}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-      </div>
-    </div>
+      <Row gutter={[20, 16]} align="middle">
+        <Col xs={24} sm={8}>
+          <div>
+            <label style={labelStyle}>
+              {translatedEstimates.rowDropDownTitle}
+            </label>
+            <Select
+              
+              style={selectStyle}
+              size="large"
+              value={selectedPivottablesOptions?.row_vars}
+              onChange={(value: string) => {
+                handleChangeOptions(value, 'row_vars', selectRowValue);
+              }}
+              placeholder={`Select ${translatedEstimates.rowDropDownTitle.toLowerCase()}`}
+              suffixIcon={<DownOutlined style={{ color: '#6b7280' }} />}
+              popupMatchSelectWidth={false}
+              classNames={{
+                popup: { root: 'custom-select-dropdown' }
+              }}
+            >
+              {selectRowValue.map((option: PivotRowVar, index: number) => {
+                const rowLabel = (option.label as LabelFilterMeneList)[
+                  languageValue
+                ];
+                return (
+                  <Option key={`${rowLabel}-${index}`} value={option.rows}>
+                    <div style={{ padding: '4px 0' }}>{rowLabel}</div>
+                  </Option>
+                );
+              })}
+            </Select>
+          </div>
+        </Col>
+        
+        <Col xs={24} sm={8}>
+          <div>
+            <label style={labelStyle}>
+              {translatedEstimates.columnsDropDownTitle}
+            </label>
+            <Select
+              style={selectStyle}
+              size="large"
+              value={selectedPivottablesOptions?.column_vars as any}
+              onChange={(value: string) => {
+                handleChangeOptions(value, 'column_vars');
+              }}
+              placeholder={`Select ${translatedEstimates.columnsDropDownTitle.toLowerCase()}`}
+              suffixIcon={<DownOutlined style={{ color: '#6b7280' }} />}
+              popupMatchSelectWidth={false}
+              classNames={{
+                popup: { root: 'custom-select-dropdown-wide' }
+              }}
+            >
+              {selectColumnValue.map((option: any, index: number) => {
+                const columnLabel = (option.label as LabelFilterMeneList)[
+                  languageValue
+                ];
+                return (
+                  <Option key={`${columnLabel}-${index}`} value={option.columns}>
+                    <div style={{ padding: '4px 0' }}>{columnLabel}</div>
+                  </Option>
+                );
+              })}
+            </Select>
+          </div>
+        </Col>
+        
+        <Col xs={24} sm={8}>
+          <div>
+            <label style={labelStyle}>
+              {translatedEstimates.cellDropDownTitle}
+            </label>
+            <Select
+              style={selectStyle}
+              size="large"
+              value={selectedPivottablesOptions?.cell_vars}
+              onChange={(value: string) => {
+                handleChangeOptions(value, 'cell_vars');
+              }}
+              placeholder={`Select ${translatedEstimates.cellDropDownTitle.toLowerCase()}`}
+              suffixIcon={<DownOutlined style={{ color: '#6b7280' }} />}
+              popupMatchSelectWidth={false}
+              classNames={{
+                popup: { root: 'custom-select-dropdown' }
+              }}
+            >
+              {selectCellValue.map((option: any, index: number) => {
+                const cellLabel = (option.label as LabelFilterMeneList)[
+                  languageValue
+                ];
+                return (
+                  <Option
+                    key={`${cellLabel}-${index}`}
+                    value={option.value_field}
+                  >
+                    <div style={{ padding: '4px 0' }}>{cellLabel}</div>
+                  </Option>
+                );
+              })}
+            </Select>
+          </div>
+        </Col>
+      </Row>
   );
 };

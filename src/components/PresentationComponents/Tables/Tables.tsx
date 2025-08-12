@@ -36,7 +36,6 @@ import {
   TableCellStructureInitialStateProp,
   TableCellStructure,
 } from '@/share/InterfaceTypesTable';
-import { CustomTablePagination } from '@/styleMUI';
 import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForEnslavers,

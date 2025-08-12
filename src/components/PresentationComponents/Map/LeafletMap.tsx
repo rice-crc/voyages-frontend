@@ -215,7 +215,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const newFilters = useMemo(() => {
     return filters?.map(({ ...rest }) => rest) || [];
   }, [filters]);
-  console.log({newFilters})
 
   const dataSend: MapPropsRequest = useMemo(() => {
     return {
