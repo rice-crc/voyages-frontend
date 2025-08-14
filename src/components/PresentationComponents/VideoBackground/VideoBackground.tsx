@@ -33,10 +33,10 @@ const VideoBackground = () => {
                 rel="noopener"
               >
                 <img
-                  data-src="https://www.slavevoyages.org/static/images/site/social-media/fb.svg"
+                  data-src="https://api.slavevoyages.org/static/uploads/fb.png"
                   className="social-icon lazy initial loaded"
                   alt="Facebook Logo"
-                  src="https://www.slavevoyages.org/static/images/site/social-media/fb.svg"
+                  src="https://api.slavevoyages.org/static/uploads/fb.png"
                   data-was-processed="true"
                 />
               </a>
@@ -46,7 +46,7 @@ const VideoBackground = () => {
                 rel="noopener"
               >
                 <img
-                  data-src="https://www.slavevoyages.org/static/images/site/social-media/X_icon.svg"
+                  data-src="https://api.slavevoyages.org/static/uploads/X_icon.png"
                   className="social-icon-x lazy initial loaded"
                   alt="Twitter Logo"
                   src={XICON}
@@ -67,7 +67,7 @@ const VideoBackground = () => {
               >
                 <img
                   className="legacy-icon"
-                  src="https://www.slavevoyages.org/static/images/site/feedback.svg"
+                  src="https://api.slavevoyages.org/static/uploads/feedback.png"
                   alt="Feedback Button"
                 />
                 <span className="separator">
@@ -87,7 +87,7 @@ const VideoBackground = () => {
               >
                 <img
                   className="legacy-icon"
-                  src="https://www.slavevoyages.org/static/images/site/bug.svg"
+                  src="https://api.slavevoyages.org/static/uploads/bug.png"
                   alt="Issue Button"
                 />
                 <span className="separator">
@@ -107,9 +107,9 @@ const VideoBackground = () => {
             >
               <img
                 className="cover-logo lazy initial loaded"
-                data-src="https://www.slavevoyages.org/static/images/site/landing/Rice_Logo_Reverse_White.svg"
+                data-src="https://www.slavevoyages.org/static/uploads/Rice_Logo_Reverse_White.png"
                 alt="Rice University Logo"
-                src="https://www.slavevoyages.org/static/images/site/landing/Rice_Logo_Reverse_White.svg"
+                src="https://api.slavevoyages.org/static/uploads/Rice_Logo_Reverse_White.png"
                 data-was-processed="true"
               />
             </a>
