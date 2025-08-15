@@ -1,10 +1,11 @@
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
 import {
   BaseFilter,
   BlockCollectionProps,
   InitialStateDataPeopleSetCollection,
 } from '@/share/InterfactTypesDatasetCollection';
 import jsonDataPEOPLECOLLECTIONS from '@/utils/flatfiles/people/people_collections.json';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export const initialState: InitialStateDataPeopleSetCollection = {
   value: jsonDataPEOPLECOLLECTIONS,
@@ -19,25 +20,25 @@ export const initialState: InitialStateDataPeopleSetCollection = {
   tableFlatfileEnslaved: jsonDataPEOPLECOLLECTIONS[0].table_flatfile,
 };
 
-export const getPeopleEnslavedDataSetCollectionSlice = createSlice({
+const getPeopleEnslavedDataSetCollectionSlice = createSlice({
   name: 'getPeopleEnslavedDataSetCollectionSlice',
   initialState,
   reducers: {
     setBaseFilterPeopleEnslavedDataSetValue: (
       state,
-      action: PayloadAction<BaseFilter[]>
+      action: PayloadAction<BaseFilter[]>,
     ) => {
       state.dataSetValueBaseFilter = action.payload;
     },
     setBaseFilterPeopleEnslavedDataKey: (
       state,
-      action: PayloadAction<string>
+      action: PayloadAction<string>,
     ) => {
       state.dataSetKeyPeople = action.payload;
     },
     setBaseFilterPeopleEnslavedDataValue: (
       state,
-      action: PayloadAction<string[] | number[]>
+      action: PayloadAction<string[] | number[]>,
     ) => {
       state.dataSetValuePeople = action.payload;
     },
@@ -52,13 +53,13 @@ export const getPeopleEnslavedDataSetCollectionSlice = createSlice({
     },
     setPeopleEnslavedBlocksMenuList: (
       state,
-      action: PayloadAction<BlockCollectionProps[]>
+      action: PayloadAction<BlockCollectionProps[]>,
     ) => {
       state.blocksPeople = action.payload;
     },
     setPeopleEnslavedFilterMenuFlatfile: (
       state,
-      action: PayloadAction<string>
+      action: PayloadAction<string>,
     ) => {
       state.filterMenuFlatfile = action.payload;
     },

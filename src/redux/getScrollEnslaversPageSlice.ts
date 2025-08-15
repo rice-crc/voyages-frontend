@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-export const getScrollEnslaversPageSlice = createSlice({
+const getScrollEnslaversPageSlice = createSlice({
   name: 'getScrollEnslavedPage',
   initialState: {
     currentEnslaversPage: 1,

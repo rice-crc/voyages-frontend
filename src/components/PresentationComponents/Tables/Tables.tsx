@@ -7,9 +7,9 @@ import React, {
   useState,
 } from 'react';
 
-import { Pagination } from '@mui/material';
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 import { AgGridReact } from 'ag-grid-react';
+import { Pagination } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CustomLoadingOverlay } from '@/components/CommonComponts/CustomLoadingOverlay';
@@ -25,7 +25,7 @@ import { useOtherTableCellStructure } from '@/hooks/useOtherTableCellStructure';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import { useTableCellStructure } from '@/hooks/useTableCellStructure';
 import { setVisibleColumn } from '@/redux/getColumnSlice';
-import { setData, setPage } from '@/redux/getTableSlice';
+import { initializeSortColumn, setData, setPage } from '@/redux/getTableSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   FilterObjectsState,
@@ -36,7 +36,6 @@ import {
   TableCellStructureInitialStateProp,
   TableCellStructure,
 } from '@/share/InterfaceTypesTable';
-import { CustomTablePagination } from '@/styleMUI';
 import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForEnslavers,
@@ -63,7 +62,6 @@ const Tables: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { styleName: styleNameRoute, currentBlockName } = usePageRouter();
-
   const { rangeSliderMinMax } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
@@ -87,10 +85,7 @@ const Tables: React.FC = () => {
   const { columnDefs, rowData, page } = useSelector(
     (state: RootState) => state.getTableData as StateRowData,
   );
-
-  // this row data contains the data being used when the table is updated
   // console.log({ rowData: rowData[0] });
-
   const { isChangeGeoTree } = useSelector(
     (state: RootState) => state.getGeoTreeData,
   );
@@ -125,11 +120,16 @@ const Tables: React.FC = () => {
   );
 
   const otherTableCellStrructure = useOtherTableCellStructure(styleNameRoute!);
-  const [sortColumn, setSortColumn] = useState<string[]>(
-    otherTableCellStrructure?.default_order_by
-      ? [otherTableCellStrructure?.default_order_by]
-      : [],
+  const { sortColumn } = useSelector(
+    (state: RootState) => state.getTableData as StateRowData,
   );
+
+  useEffect(() => {
+    if (otherTableCellStrructure?.default_order_by && sortColumn.length === 0) {
+      dispatch(initializeSortColumn(otherTableCellStrructure.default_order_by));
+    }
+  }, [otherTableCellStrructure?.default_order_by, sortColumn.length, dispatch]);
+
   const {
     data: tableCellStructure,
     isLoading,
@@ -206,7 +206,7 @@ const Tables: React.FC = () => {
     };
     return base;
   }, [stableFilters]);
-
+  const isShowDownloadButton = checkPagesRouteForVoyages(styleNameRoute!);
   const shouldFetchData = useMemo(() => {
     return (
       (checkPagesRouteForVoyages(styleNameRoute!) &&
@@ -226,44 +226,41 @@ const Tables: React.FC = () => {
     rangeSliderMinMax,
   ]);
 
-  useEffect(() => {
-    const fetchDataTable = async () => {
-      try {
-        setLoading(true);
-        let response;
-        if (checkPagesRouteForVoyages(styleNameRoute!)) {
-          response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
-        } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
-          response = await dispatch(
-            fetchEnslavedOptionsList(dataSend),
-          ).unwrap();
-        } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
-          response = await dispatch(
-            fetchEnslaversOptionsList(dataSend),
-          ).unwrap();
-        }
+  const fetchDataTable = useCallback(async () => {
+    try {
+      setLoading(true);
+      let response;
 
-        if (response) {
-          const { count, results } = response.data;
-          setTotalResultsCount(Number(count));
-          setDataTable(results);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.log('error', error);
-      } finally {
-        setLoading(false);
+      if (checkPagesRouteForVoyages(styleNameRoute!)) {
+        response = await dispatch(fetchVoyageOptionsAPI(dataSend)).unwrap();
+      } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
+        response = await dispatch(fetchEnslavedOptionsList(dataSend)).unwrap();
+      } else if (checkPagesRouteForEnslavers(styleNameRoute!)) {
+        response = await dispatch(fetchEnslaversOptionsList(dataSend)).unwrap();
+      }
+
+      if (response) {
+        const { count, results } = response.data;
+        setTotalResultsCount(Number(count));
+        setDataTable(results);
+      }
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [dispatch, dataSend, styleNameRoute]);
+
+  // Main data fetching effect
+  useEffect(() => {
+    fetchDataTable();
+    return () => {
+      if (!textFilter) {
+        dispatch(setData([]));
       }
     };
-
-    fetchDataTable();
-    //return () => {
-      //console.log('!textFilter',!textFilter);
-      //if (!textFilter) {
-       // dispatch(setData([]));
-      //}
-    //};
   }, [
+    dataSend,
     dispatch,
     reloadTable,
     rowsPerPage,
@@ -273,8 +270,9 @@ const Tables: React.FC = () => {
     currentBlockName,
     styleNameRoute,
     shouldFetchData,
-    dataSend,
+    stableFilters,
     textFilter,
+    fetchDataTable,
   ]);
 
   useDataTableProcessingEffect(
@@ -284,39 +282,22 @@ const Tables: React.FC = () => {
     tableFlatfileEnslaved,
     tableFlatfileEnslavers,
     tablesCell,
+    sortColumn,
   );
 
   const defaultColDef = useMemo(
     () => ({
-      sortable: true,
+      sortable: false,
       resizable: true,
       filter: true,
       wrapHeaderText: true,
       autoHeaderHeight: true,
+      headerComponent: CustomHeaderTable,
     }),
     [],
   );
 
-  const components = useMemo(
-    () => ({
-      agColumnHeader: (props: any) => {
-        const { column } = props;
-        const ascSort = column.isSortAscending() ? 'active' : 'inactive';
-        const descSort = column.isSortDescending() ? 'active' : 'inactive';
-
-        return (
-          <CustomHeaderTable
-            pageSize={rowsPerPage}
-            ascSort={ascSort}
-            descSort={descSort}
-            setSortColumn={setSortColumn}
-            {...props}
-          />
-        );
-      },
-    }),
-    [rowsPerPage, setSortColumn],
-  );
+  // Updated components memo to include handleSortChange
 
   const getRowRowStyle = useCallback(
     () => ({
@@ -327,28 +308,6 @@ const Tables: React.FC = () => {
     }),
     [],
   );
-
-  const handleChangeRowsPerPage = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      // Save column state before changing rows per page
-      if (gridRef.current?.api) {
-        setCurrentColumnState(gridRef.current.api.getColumnState());
-      }
-
-      const newPageSize = parseInt(event.target.value);
-      setRowsPerPage(newPageSize);
-      dispatch(setPage(0));
-    },
-    [dispatch],
-  );
-
-  const handleChangePagePagination = (event: any, newPage: number) => {
-    // Save column state before pagination
-    if (gridRef.current?.api) {
-      setCurrentColumnState(gridRef.current.api.getColumnState());
-    }
-    dispatch(setPage(newPage - 1));
-  };
 
   // Create a function to specifically save column order after dragging
   const handleColumnDragStop = useCallback(() => {
@@ -400,7 +359,8 @@ const Tables: React.FC = () => {
   useEffect(() => {
     // Short timeout to ensure grid is ready
 
-    const timeoutId = setTimeout(() => {// removing this timeout seemed to reduce the bug occurrence for John? Unsure
+    const timeoutId = setTimeout(() => {
+      // removing this timeout seemed to reduce the bug occurrence for John? Unsure
 
       if (gridRef.current?.api && rowData.length > 0) {
         applyColumnState();
@@ -444,13 +404,24 @@ const Tables: React.FC = () => {
     setCurrentColumnState(newState);
   }, [visibleColumnCells]);
 
-  // Modify your pagination handlers to ensure column state is preserved
-  const handleChangePage = (event: any, newPage: number) => {
-    // Save column state before changing page
+  const handleChangePagePagination = useCallback(
+    (newPage: number) => {
+      // Save column state before pagination
+      if (gridRef.current?.api) {
+        setCurrentColumnState(gridRef.current.api.getColumnState());
+      }
+      dispatch(setPage(newPage - 1));
+    },
+    [dispatch],
+  );
+
+  // Add this new function to handle page size changes:
+  const handlePageSizeChange = (current: number, size: number) => {
     if (gridRef.current?.api) {
       setCurrentColumnState(gridRef.current.api.getColumnState());
     }
-    dispatch(setPage(newPage));
+    setRowsPerPage(size);
+    dispatch(setPage(0));
   };
 
   const handleColumnVisibleChange = useCallback(
@@ -518,10 +489,6 @@ const Tables: React.FC = () => {
     [columnDefs, visibleColumnCells, setCurrentColumnState],
   );
 
-  const pageCount = Math.ceil(
-    totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1,
-  );
-
   const gridOptions = useMemo(
     () => ({
       headerHeight: 35,
@@ -552,19 +519,12 @@ const Tables: React.FC = () => {
           <span className="tableContainer">
             <ButtonDropdownColumnSelector />
             <div className="tableContainer">
-              <CustomTablePagination
-                component="div"
-                count={totalResultsCount}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPageOptions={[5, 8, 10, 12, 15, 20, 25, 30, 45, 50, 100]}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-              <DownloadCSV
-                dataSend={dataSendToDownloadCSV}
-                styleNameRoute={styleNameRoute}
-              />
+              {isShowDownloadButton && (
+                <DownloadCSV
+                  dataSend={dataSendToDownloadCSV}
+                  styleNameRoute={styleNameRoute}
+                />
+              )}
             </div>
           </span>
           {loading && rowData.length === 0 ? (
@@ -576,7 +536,7 @@ const Tables: React.FC = () => {
               ref={gridRef}
               suppressHorizontalScroll={false}
               loading={loading}
-              rowData={rowData} // this is where the data is being pulled for the table, maybe update via state instead?
+              rowData={rowData} 
               columnDefs={columnDefs}
               suppressMenuHide={true}
               onGridReady={hanldeGridReady}
@@ -589,7 +549,6 @@ const Tables: React.FC = () => {
               getRowHeight={getRowHeightTable}
               paginationPageSize={rowsPerPage}
               defaultColDef={defaultColDef}
-              components={components}
               getRowStyle={getRowRowStyle}
               enableBrowserTooltips={true}
               tooltipShowDelay={0}
@@ -600,10 +559,29 @@ const Tables: React.FC = () => {
         </div>
         <div className="pagination-div">
           <Pagination
-            color="primary"
-            count={pageCount}
-            page={page + 1}
+            current={page + 1} // Convert 0-based to 1-based for display
+            total={totalResultsCount} // Use total items, not pages
+            pageSize={rowsPerPage}
             onChange={handleChangePagePagination}
+            onShowSizeChange={handlePageSizeChange}
+            showSizeChanger={true}
+            pageSizeOptions={[
+              '5',
+              '8',
+              '10',
+              '12',
+              '15',
+              '20',
+              '25',
+              '30',
+              '45',
+              '50',
+              '100',
+            ]}
+            showQuickJumper={false}
+            showTotal={(total, range) =>
+              `${range[0]}-${range[1]} of ${total} items`
+            }
           />
         </div>
       </div>

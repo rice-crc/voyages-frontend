@@ -131,7 +131,9 @@ export const GenerateCellTableRenderer = (
               <i className="fa fa-file-text" aria-hidden="true"></i>
             </>
           );
-          additionalProps.onClick = () =>
+
+          additionalProps.onClick = (e) => {
+            e.stopPropagation();
             setDoc({
               key: createDocKey(
                 params.data.sources__zotero_group_id[index],
@@ -142,6 +144,7 @@ export const GenerateCellTableRenderer = (
               revision_number: 1,
               textSnippet: '',
             });
+          };
         }
         let cellComponent = (
           <span key={`${index}-${value}`}>

@@ -846,6 +846,7 @@ export interface StateRowData {
   loading: boolean;
   error: null | any;
   page: number;
+  sortColumn: string[];
 }
 export interface TableCellStructure {
   colID: string;
@@ -879,6 +880,8 @@ export interface TableCellStructureProps {
 }
 export interface ColumnSelectorTree {
   label: HeaderLabel;
+  var_name: string;
+  colID: string;
   children: ChildrenColumnSelector[];
 }
 export interface HeaderLabel {

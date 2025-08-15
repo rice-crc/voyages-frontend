@@ -31,9 +31,9 @@ export const FooterComponent = () => {
               <div className="logo-grid-item fade-in">
                 <img
                   className="card-img sponsor-card-img block lazy loaded"
-                  data-src="https://www.slavevoyages.org/static/images/site/logos/rice_white_205_76.svg"
+                  data-src="https://api.slavevoyages.org/static/uploads/rice_white_205_76.png"
                   aria-label="Rice University"
-                  src="https://www.slavevoyages.org/static/images/site/logos/rice_white_205_76.svg"
+                  src="https://api.slavevoyages.org/static/uploads/rice_white_205_76.png"
                   data-was-processed="true"
                 />
               </div>
@@ -47,9 +47,9 @@ export const FooterComponent = () => {
               <div className="logo-grid-item fade-in" style={{ width: 250 }}>
                 <img
                   className="card-img sponsor-card-img block lazy loaded"
-                  data-src="https://www.slavevoyages.org/static/images/site/logos/emory_white_500_130.png"
+                  data-src="https://api.slavevoyages.org/static/uploads/emory_white_500_130.png"
                   aria-label="Emory University"
-                  src="https://www.slavevoyages.org/static/images/site/logos/emory_white_500_130.png"
+                  src="https://api.slavevoyages.org/static/uploads/emory_white_500_130.png"
                   data-was-processed="true"
                 />
               </div>
@@ -64,9 +64,9 @@ export const FooterComponent = () => {
               <div className="logo-grid-item fade-in">
                 <img
                   className="card-img sponsor-card-img block lazy loaded"
-                  data-src="https://www.slavevoyages.org/static/images/site/logos/hutchins_white_580_204.png"
+                  data-src="https://api.slavevoyages.org/static/uploads/hutchins_white_580_204.png"
                   aria-label="Hutchins Center for African and African American Research (Harvard University)"
-                  src="https://www.slavevoyages.org/static/images/site/logos/hutchins_white_580_204.png"
+                  src="https://api.slavevoyages.org/static/uploads/hutchins_white_580_204.png"
                   data-was-processed="true"
                 />
               </div>
@@ -81,9 +81,9 @@ export const FooterComponent = () => {
               <div className="logo-grid-item fade-in">
                 <img
                   className="card-img sponsor-card-img block lazy loaded"
-                  data-src="https://www.slavevoyages.org/static/images/site/logos/nmaahc_white_7510_3126.png"
+                  data-src="https://api.slavevoyages.org/static/uploads/nmaahc_white_7510_3126.png"
                   aria-label="National Museum of African American History and Culture"
-                  src="https://www.slavevoyages.org/static/images/site/logos/nmaahc_white_7510_3126.png"
+                  src="https://api.slavevoyages.org/static/uploads/nmaahc_white_7510_3126.png"
                   data-was-processed="true"
                 />
               </div>
@@ -98,9 +98,9 @@ export const FooterComponent = () => {
               <div className="logo-grid-item fade-in" style={{ width: 150 }}>
                 <img
                   className="card-img sponsor-card-img block lazy loaded"
-                  data-src="https://www.slavevoyages.org/static/images/site/logos/oi_white_686_528.svg"
+                  data-src="https://api.slavevoyages.org/static/uploads/oi_white_686_528.png"
                   aria-label="Omohundro Institute"
-                  src="https://www.slavevoyages.org/static/images/site/logos/oi_white_686_528.svg"
+                  src="https://api.slavevoyages.org/static/uploads/oi_white_686_528.png"
                   data-was-processed="true"
                 />
               </div>
@@ -113,9 +113,9 @@ export const FooterComponent = () => {
             <div className="logo-grid-item fade-in" style={{ width: 100 }}>
               <img
                 className="card-img sponsor-card-img block lazy loaded"
-                data-src="https://www.slavevoyages.org/static/images/site/logos/ucshield_white_250_250.svg"
+                data-src="https://api.slavevoyages.org/static/uploads/ucshield_white_250_250.png"
                 aria-label="University of California"
-                src="https://www.slavevoyages.org/static/images/site/logos/ucshield_white_250_250.svg"
+                src="https://api.slavevoyages.org/static/uploads/ucshield_white_250_250.png"
                 data-was-processed="true"
               />
             </div>
@@ -128,9 +128,9 @@ export const FooterComponent = () => {
               <div className="logo-grid-item fade-in">
                 <img
                   className="card-img sponsor-card-img block lazy loaded"
-                  data-src="https://www.slavevoyages.org/static/images/site/logos/uci_noshield_white_751_240.svg"
+                  data-src="https://api.slavevoyages.org/static/uploads/uci_noshield_white_751_240.png"
                   aria-label="University of California, Irvine"
-                  src="https://www.slavevoyages.org/static/images/site/logos/uci_noshield_white_751_240.svg"
+                  src="https://api.slavevoyages.org/static/uploads/uci_noshield_white_751_240.png"
                   data-was-processed="true"
                 />
               </div>
@@ -145,9 +145,9 @@ export const FooterComponent = () => {
               <div className="logo-grid-item fade-in">
                 <img
                   className="card-img sponsor-card-img block lazy loaded"
-                  data-src="https://www.slavevoyages.org/static/images/site/logos/ucsc_noshield_white_691_164.svg"
+                  data-src="https://api.slavevoyages.org/static/uploads/ucsc_noshield_white_691_164.png"
                   aria-label="University of California, Santa Cruz"
-                  src="https://www.slavevoyages.org/static/images/site/logos/ucsc_noshield_white_691_164.svg"
+                  src="https://api.slavevoyages.org/static/uploads/ucsc_noshield_white_691_164.png"
                   data-was-processed="true"
                 />
               </div>
@@ -179,9 +179,9 @@ export const FooterComponent = () => {
               <div className="logo-grid-item fade-in">
                 <img
                   className="card-img sponsor-card-img block lazy loaded"
-                  data-src="https://www.slavevoyages.org/static/images/site/logos/uwi_white_crest.png"
+                  data-src="https://api.slavevoyages.org/static/uploads/uwi_white_crest.png"
                   aria-label="University of the West Indies at Cave Hill, Barbados (UWI)"
-                  src="https://www.slavevoyages.org/static/images/site/logos/uwi_white_crest.png"
+                  src="https://api.slavevoyages.org/static/uploads/uwi_white_crest.png"
                   data-was-processed="true"
                 />
               </div>
@@ -195,9 +195,9 @@ export const FooterComponent = () => {
               <div className="logo-grid-item fade-in">
                 <img
                   className="card-img sponsor-card-img block lazy loaded"
-                  data-src="https://www.slavevoyages.org/static/images/site/logos/washu_white_stacked_1280_836.png"
+                  data-src="https://api.slavevoyages.org/static/uploads/washu_white_stacked_1280_836.png"
                   aria-label="Washington University Center for the Study of Race, Ethnicity, and Equity"
-                  src="https://www.slavevoyages.org/static/images/site/logos/washu_white_stacked_1280_836.png"
+                  src="https://api.slavevoyages.org/static/uploads/washu_white_stacked_1280_836.png"
                   data-was-processed="true"
                 />
               </div>
@@ -262,7 +262,7 @@ export const FooterComponent = () => {
           >
             <img
               aria-label="Powered by Oracle for Research"
-              src="https://www.slavevoyages.org/static/images/site/logos/oci_white_206_63.svg"
+              src="https://api.slavevoyages.org/static/uploads/oci_white_206_63.png"
               style={{ height: 35 }}
             />
           </Link>

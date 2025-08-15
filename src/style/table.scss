@@ -84,6 +84,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 5px 0;
 
   @include breakpoint-standard(5) {
     margin-top: 20px;
@@ -557,7 +558,7 @@ div .customHeaderLabelSummaryTable {
     padding: 4px;
     color: #fff;
     cursor: pointer;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 600;
 
     @include breakpoint-standard(0) {
@@ -996,4 +997,16 @@ div .customHeaderLabelSummaryTable {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.custom-select-dropdown {
+  min-width: 280px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.custom-select-dropdown-wide {
+  min-width: 320px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
 }
