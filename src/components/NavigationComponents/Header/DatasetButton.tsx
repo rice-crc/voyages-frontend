@@ -36,7 +36,6 @@ export const DatasetButton = (props: DatasetButtonProps) => {
     index,
     handleSelectDataset,
     getColorBTNBackground,
-    getColorHover,
   } = props;
 
   const { languageValue } = useSelector(

@@ -1,15 +1,28 @@
-// Define a custom value formatter function
 export const customValueFormatter = (params: any) => {
-  const { value } = params; // Extract the value from the params object
-
-  // Perform custom formatting based on your requirements
-  let formattedValue = ''; // Initialize the formatted value variable
-
-  if (typeof value === 'number') {
-    formattedValue = value.toLocaleString('en-US'); // Format numbers with commas
-  } else if (value) {
-    formattedValue = value.toString(); // Convert non-numeric values to strings
+  const { value } = params;
+  
+  // Handle null, undefined first
+  if (value === null || value === undefined) {
+    return '0';
   }
 
-  return formattedValue; // Return the formatted value
+  // Handle numbers (including 0)
+  if (typeof value === 'number') {
+    const formatted = value.toLocaleString('en-US');
+    return formatted;
+  }
+
+  // Handle string numbers
+  if (typeof value === 'string' && !isNaN(Number(value))) {
+    const numValue = Number(value);
+    const formatted = numValue.toLocaleString('en-US');
+    return formatted;
+  }
+
+  // Handle other values
+  if (value) {
+    const formatted = value.toString();
+    return formatted;
+  }
+  return '0';
 };

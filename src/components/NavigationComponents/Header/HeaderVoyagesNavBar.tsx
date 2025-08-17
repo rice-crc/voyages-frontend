@@ -151,9 +151,11 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
       if (card_flatfile) {
         dispatch(setCardFileName(card_flatfile));
       }
-
+      const filterObjectUpdate = {
+        filter: filters,
+      };
       // Save to LocalStorage
-      localStorage.setItem('filterObject', JSON.stringify({ filter: filters }));
+      localStorage.setItem('filterObject', JSON.stringify(filterObjectUpdate));
 
       // Navigate after state updates
       if (styleName === ALLVOYAGES && currentVoyageBlockName === 'timelapse') {
