@@ -13,7 +13,7 @@ const initialStateViewHide: StateViewHideProps = {
   isView: false,
 };
 
-export const getShowFilterObjectSlice = createSlice({
+const getShowFilterObjectSlice = createSlice({
   name: 'getShowFilterObjectSlice',
   initialState: initialStateViewHide,
   reducers: {

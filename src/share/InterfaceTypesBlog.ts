@@ -21,7 +21,7 @@ export interface BlogDataPropsRequest {
 }
 export interface BlogFilter {
   varName: string;
-  searchTerm: string[] | number[];
+  searchTerm: string[] | number[] | string | number;
   op: string;
 }
 export interface InstitutionProps {

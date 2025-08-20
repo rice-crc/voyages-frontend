@@ -213,11 +213,12 @@ function Scatter() {
   );
 
   return (
-    <div className="mobile-responsive"
-    style={{
-      height: '80vh',
-      overflowY: 'auto',
-    }}
+    <div
+      className="mobile-responsive"
+      style={{
+        height: '100vh',
+        overflowY: 'auto',
+      }}
     >
       <SelectDropdown
         selectedX={scatterSelectedX}
@@ -244,7 +245,7 @@ function Scatter() {
             width: '100%',
             maxWidth: chartWidth,
             height: chartHeight,
-            minHeight: 450,
+            minHeight: 500,
             border: '1px solid #ccc',
             marginTop: 18,
             overflow: 'auto',

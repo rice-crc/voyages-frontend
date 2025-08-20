@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TableAndCardCollectionsOptions } from './TableAndCardCollectionsOptions';
 import { traverseData } from './traverseData';
 

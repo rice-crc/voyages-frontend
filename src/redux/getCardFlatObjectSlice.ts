@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
 import {
   InitialStateTransatlanticCard,
   TransatlanticCardProps,
@@ -13,7 +14,7 @@ const initialState: InitialStateTransatlanticCard = {
   nodeTypeClass: '',
   variable: '',
 };
-export const getCardFlatObjectSlice = createSlice({
+const getCardFlatObjectSlice = createSlice({
   name: 'getCardFlatObject',
   initialState,
   reducers: {
@@ -31,7 +32,7 @@ export const getCardFlatObjectSlice = createSlice({
     },
     setCardDataArray: (
       state,
-      action: PayloadAction<TransatlanticCardProps[]>
+      action: PayloadAction<TransatlanticCardProps[]>,
     ) => {
       state.cardDataArray = action.payload;
     },

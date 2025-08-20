@@ -2,16 +2,14 @@
 /* eslint-disable indent */
 import { useState, MouseEvent, useEffect } from 'react';
 
-import { ArrowDropDown, ArrowRight } from '@mui/icons-material';
+import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
 import {
-  Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from '@mui/material';
-import { Tooltip } from 'antd';
+import { Button, Tooltip } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
@@ -31,15 +29,18 @@ import {
   setKeyValueName,
   setListEnslavers,
   setOpsRole,
+  setRangeSliderValue,
 } from '@/redux/getRangeSliderSlice';
 import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
 import {
+  setIsViewButtonViewAllResetAll,
   setLabelVarName,
   setTextFilter,
 } from '@/redux/getShowFilterObjectSlice';
 import { resetAll } from '@/redux/resetAllSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
+  allEnslavers,
   ENSALVERSTYLE,
   FILTER_OBJECT_KEY,
   INTRAAMERICANTRADS,
@@ -61,15 +62,12 @@ import {
 } from '@/share/InterfaceTypes';
 import {
   DialogModalStyle,
-  DropdownMenuItem,
-  DropdownNestedMenuItemChildren,
   StyleDialog,
 } from '@/styleMUI';
 import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import {
   getColorBTNVoyageDatasetBackground,
   getColorBackground,
-  getColorBoxShadow,
   getColorHoverBackgroundCollection,
 } from '@/utils/functions/getColorStyle';
 import { updatedEnslaversRoleAndNameToLocalStorage } from '@/utils/functions/updatedEnslaversRoleAndNameToLocalStorage';
@@ -112,7 +110,14 @@ export const MenuListsDropdown = () => {
     (state: RootState) => state.getShowFilterObject,
   );
 
-  const { listEnslavers, varName, enslaverName, opsRoles } = useSelector(
+  const {
+    listEnslavers,
+    varName,
+    enslaverName,
+    opsRoles,
+    rangeSliderMinMax,
+    rangeValue,
+  } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const [inputValue, setInputValue] = useState(textFilter);
@@ -121,6 +126,13 @@ export const MenuListsDropdown = () => {
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
   const [textError, setTextError] = useState<string>('');
   const [textRoleListError, setTextRoleListError] = useState<string>('');
+  const rangeMinMax = rangeSliderMinMax?.[varName] ||
+    rangeValue?.[varName] || [0, 0.5];
+  const minRange = rangeValue?.[varName]?.[0] || 0;
+  const maxRange = rangeValue?.[varName]?.[1] || 0;
+  const [currentSliderValue, setCurrentSliderValue] = useState<
+    number | number[]
+  >(rangeMinMax);
   const isButtonDisabled =
     enslaverName === '' && typeData === TYPES.EnslaverNameAndRole;
 
@@ -242,7 +254,7 @@ export const MenuListsDropdown = () => {
       }
     }
   };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const handleCloseDialog = (event: any) => {
     event.stopPropagation();
     setTextError('');
@@ -314,40 +326,131 @@ export const MenuListsDropdown = () => {
     );
   };
 
+  // Event handlers for apply button
+  const handleApplyMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    if (!isButtonDisabled) {
+      const target = e.currentTarget;
+      target.style.backgroundColor = getColorHoverBackgroundCollection(
+        styleNameRoute!,
+      );
+      target.style.color = getColorBTNVoyageDatasetBackground(styleNameRoute!);
+    }
+  };
+
+  const handleApplyMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    if (!isButtonDisabled) {
+      const target = e.currentTarget;
+      target.style.backgroundColor = getColorBackground(styleNameRoute!);
+      target.style.color = 'white';
+    }
+  };
+
+  // Event handlers for reset button
+  const handleResetMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorHoverBackgroundCollection(
+      styleNameRoute!,
+    );
+    target.style.color = getColorBTNVoyageDatasetBackground(styleNameRoute!);
+  };
+
+  const handleResetMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = 'transparent';
+    target.style.color = 'black';
+  };
+
+  const handleSliderChangeMouseUp = () => {
+    dispatch(
+      setRangeSliderValue({
+        ...rangeSliderMinMax,
+        [varName]: currentSliderValue as number[],
+      }),
+    );
+    updatedSliderToLocalStrage(currentSliderValue as number[]);
+  };
+
+  function updatedSliderToLocalStrage(updateValue: number[]) {
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
+
+    let existingFilterObject: any = {};
+
+    if (existingFilterObjectString) {
+      existingFilterObject = JSON.parse(existingFilterObjectString);
+    }
+    const existingFilters: Filter[] = existingFilterObject.filter || [];
+    const existingFilterIndex = existingFilters.findIndex(
+      (filter) => filter.varName === varName,
+    );
+    if (existingFilterIndex !== -1) {
+      existingFilters[existingFilterIndex].searchTerm = updateValue as number[];
+      existingFilters[existingFilterIndex].op = opsRoles!;
+    } else {
+      const newFilter: Filter = {
+        varName: varName,
+        searchTerm: updateValue!,
+        op: opsRoles!,
+        label: labelVarName,
+      };
+      existingFilters.push(newFilter);
+    }
+    const filterObjectUpdate = {
+      filter: existingFilters,
+    };
+    const filterObjectString = JSON.stringify(filterObjectUpdate);
+    dispatch(setFilterObject(existingFilters));
+    localStorage.setItem('filterObject', filterObjectString);
+    if (
+      (styleNameRoute === TYPESOFDATASET.allVoyages ||
+        styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved ||
+        styleNameRoute === allEnslavers) &&
+      existingFilters.length > 0
+    ) {
+      dispatch(setIsViewButtonViewAllResetAll(true));
+    } else if (existingFilters.length > 1) {
+      dispatch(setIsViewButtonViewAllResetAll(true));
+    }
+  }
+
   const renderDropdownMenu = (
     nodes: FilterMenu | ChildrenFilter | (FilterMenu | ChildrenFilter)[],
-  ): React.ReactElement<any>[] | undefined => {
+  ): any[] | undefined => { // Changed return type to any[] to accommodate menu item objects
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
         const { children, var_name, type, label: nodeLabel, ops, roles } = node;
         const hasChildren = children && children.length >= 1;
         const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
+        const uniqueKey = `${menuLabel} - ${index}`;
+        
         if (hasChildren) {
-          return (
-            <DropdownNestedMenuItemChildren
-              onClickMenu={(event) => handleClickMenu(event, ops!, roles!)}
-              key={`${menuLabel} - ${index}`}
-              label={`${menuLabel}`}
-              rightIcon={<ArrowRight style={{ fontSize: 15 }} />}
-              data-value={var_name}
-              data-type={type}
-              data-label={menuLabel}
-              menu={renderDropdownMenu(children)}
-            />
-          );
+          return {
+            key: uniqueKey,
+            label: (
+              <div
+                style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+                }}
+              >
+                <span>{menuLabel}</span>
+                <span style={{ fontSize: '10px', paddingLeft: 12 }}>▶</span>
+              </div>
+            ),
+            children: renderDropdownMenu(children),
+            onClick: (event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>) => handleClickMenu(event, ops!, roles!)
+          };
         }
-        return (
-          <DropdownMenuItem
-            key={`${menuLabel} - ${index}`}
-            onClick={(event) => handleClickMenu(event, ops!, roles!)}
-            dense
-            data-value={var_name}
-            data-type={type}
-            data-label={menuLabel}
-          >
-            {menuLabel}
-          </DropdownMenuItem>
-        );
+  
+        return {
+          key: uniqueKey,
+          label: menuLabel,
+          onClick: (event: any) => handleClickMenu(event, ops!, roles!),
+          'data-value': var_name,
+          'data-type': type,
+          'data-label': menuLabel
+        };
       });
     }
   };
@@ -393,7 +496,13 @@ export const MenuListsDropdown = () => {
           displayComponent = (
             <>
               <RadioSelected type={typeData} />
-              <RangeSliderComponent />
+              <RangeSliderComponent
+                handleSliderChangeMouseUp={handleSliderChangeMouseUp}
+                setCurrentSliderValue={setCurrentSliderValue}
+                currentSliderValue={currentSliderValue}
+                minRange={minRange}
+                maxRange={maxRange}
+              />
             </>
           );
         }
@@ -418,7 +527,15 @@ export const MenuListsDropdown = () => {
       case TYPES.IntegerField:
       case TYPES.DecimalField:
       case TYPES.FloatField:
-        displayComponent = <RangeSliderComponent />;
+        displayComponent = (
+          <RangeSliderComponent
+            handleSliderChangeMouseUp={handleSliderChangeMouseUp}
+            setCurrentSliderValue={setCurrentSliderValue}
+            currentSliderValue={currentSliderValue}
+            minRange={minRange}
+            maxRange={maxRange}
+          />
+        );
         break;
 
       case TYPES.MultiselectList:
@@ -430,9 +547,42 @@ export const MenuListsDropdown = () => {
     }
   }
 
+  // Base button styles for filter menu items (Ant Design)
+  const baseFilterButtonStyle = {
+    color: '#000000',
+    textTransform: 'none' as const,
+    fontSize: '14px',
+    background: 'none',
+    border: 'none',
+    boxShadow: 'none',
+  };
+
+  // Base button styles for modal actions (Ant Design)
+  const baseApplyButtonStyle = {
+    color: 'white',
+    textTransform: 'unset' as const,
+    height: '30px',
+    cursor: isButtonDisabled ? 'not-allowed' : 'pointer',
+    backgroundColor: isButtonDisabled
+      ? getColorHoverBackgroundCollection(styleNameRoute!)
+      : getColorBackground(styleNameRoute!),
+    fontSize: '0.80rem',
+    border: 'none',
+  };
+
+  const baseResetButtonStyle = {
+    color: 'black',
+    textTransform: 'unset' as const,
+    height: '30px',
+    cursor: 'pointer',
+    backgroundColor: 'transparent',
+    border: `1px solid ${getColorBackground(styleNameRoute!)}`,
+    fontSize: '0.80rem',
+  };
+
   return (
     <div>
-      <Box className="filter-menu-bar">
+      <div className="filter-menu-bar">
         {filterMenu.map((item: FilterMenuList, index: number) => {
           const { var_name, label, type, ops } = item;
           const itemLabel = (label as LabelFilterMeneList)[languageValue];
@@ -443,69 +593,50 @@ export const MenuListsDropdown = () => {
               data-type={type}
               data-label={itemLabel}
               onClick={(event: any) => handleClickMenu(event, ops!)}
-              sx={{
-                color: '#000000',
-                textTransform: 'none',
-                fontSize: 14,
-              }}
+              style={baseFilterButtonStyle}
             >
               <Tooltip
                 placement="top"
                 title={`Filter by ${itemLabel}`}
                 color="rgba(0, 0, 0, 0.75)"
               >
-                {itemLabel}{' '}
+                {itemLabel}
               </Tooltip>
             </Button>
           ) : (
             <DropdownCascading
               key={`${itemLabel} - ${index}`}
               trigger={
-                <Button
-                  sx={{
-                    color: '#000000',
-                    textTransform: 'none',
-                    fontSize: 14,
-                  }}
-                  endIcon={
-                    <span>
-                      <ArrowRight
-                        sx={{
-                          display: {
-                            xs: 'flex',
-                            sm: 'flex',
-                            md: 'none',
-                          },
-                          fontSize: 14,
-                        }}
-                      />
-                      <ArrowDropDown
-                        sx={{
-                          display: {
-                            xs: 'none',
-                            sm: 'none',
-                            md: 'flex',
-                          },
-                          fontSize: 16,
-                        }}
-                      />
-                    </span>
-                  }
-                >
+                <Button style={baseFilterButtonStyle}>
                   <Tooltip
                     placement="top"
                     title={`Filter by ${itemLabel}`}
                     color="rgba(0, 0, 0, 0.75)"
                   >
-                    {itemLabel}{' '}
+                    {itemLabel}
                   </Tooltip>
+                  <span style={{ marginTop: 4 }}>
+                    <CaretRightOutlined
+                      style={{
+                        display: window.innerWidth >= 768 ? 'none' : 'inline',
+                        fontSize: 14,
+                      }}
+                    />
+                    <CaretDownOutlined
+                      style={{
+                        display: window.innerWidth >= 768 ? 'inline' : 'none',
+                        fontSize: 16,
+                      }}
+                    />
+                  </span>
                 </Button>
               }
               menu={renderDropdownMenu(item.children!)}
             />
           );
         })}
-      </Box>
+      </div>
+      {/* Using Material-UI Dialog components as requested */}
       <Dialog
         onClick={(e) => e.stopPropagation()}
         slotProps={{
@@ -546,8 +677,7 @@ export const MenuListsDropdown = () => {
               typeData === TYPES.MultiselectList) && (
               <Button
                 disabled={isButtonDisabled}
-                type="submit"
-                onClickCapture={() => {
+                onClick={() => {
                   if (typeData === TYPES.EnslaverNameAndRole) {
                     handleApplyEnslaversDialog(
                       listEnslavers,
@@ -558,53 +688,30 @@ export const MenuListsDropdown = () => {
                     handleApplyTextFilterDataDialog(inputValue);
                   }
                 }}
-                sx={{
-                  color: 'white',
-                  textTransform: 'unset',
-                  height: 30,
-                  cursor: isButtonDisabled ? 'not-allowed' : 'pointer',
-                  backgroundColor: isButtonDisabled
-                    ? getColorHoverBackgroundCollection(styleNameRoute!)
-                    : getColorBackground(styleNameRoute!),
-                  fontSize: '0.80rem',
-                  '&:hover': {
-                    backgroundColor: getColorHoverBackgroundCollection(
-                      styleNameRoute!,
-                    ),
-                    color: getColorBTNVoyageDatasetBackground(styleNameRoute!),
-                  },
-                  '&:disabled': {
-                    color: '#fff',
-                    boxShadow: getColorBoxShadow(styleNameRoute!),
-                    cursor: 'not-allowed',
-                  },
-                }}
+                style={baseApplyButtonStyle}
+                onMouseEnter={handleApplyMouseEnter}
+                onMouseLeave={handleApplyMouseLeave}
               >
                 Apply
               </Button>
             )}
+            
+          {varName && (typeData === TYPES.IntegerField || typeData === TYPES.IdMatch || typeData === TYPES.FloatField || typeData === TYPES.DecimalField) && (
+            <Button
+              disabled={isButtonDisabled}
+              onClick={handleSliderChangeMouseUp}
+              style={baseApplyButtonStyle}
+              onMouseEnter={handleApplyMouseEnter}
+              onMouseLeave={handleApplyMouseLeave}
+            >
+              Apply
+            </Button>
+          )}
           <Button
             onClick={handleResetDataDialog}
-            sx={{
-              color: 'black',
-              textTransform: 'unset',
-              height: 30,
-              cursor: 'pointer',
-              backgroundColor: 'transparent',
-              border: `1px solid ${getColorBackground(styleNameRoute!)} `,
-              fontSize: '0.80rem',
-              '&:hover': {
-                backgroundColor: getColorHoverBackgroundCollection(
-                  styleNameRoute!,
-                ),
-                color: getColorBTNVoyageDatasetBackground(styleNameRoute!),
-              },
-              '&:disabled': {
-                color: '#fff',
-                boxShadow: getColorBoxShadow(styleNameRoute!),
-                cursor: 'not-allowed',
-              },
-            }}
+            style={baseResetButtonStyle}
+            onMouseEnter={handleResetMouseEnter}
+            onMouseLeave={handleResetMouseLeave}
           >
             Reset
           </Button>

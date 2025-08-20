@@ -8,7 +8,8 @@ import {
   useRef,
 } from 'react';
 
-import { Button, Pagination, SelectChangeEvent } from '@mui/material';
+import { Button, Pagination } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 import {
   ModuleRegistry,
   AllCommunityModule, // or AllEnterpriseModule
@@ -40,7 +41,6 @@ import {
   PivotColumnVar,
   PivotCellVar,
 } from '@/share/InterfaceTypes';
-import { CustomTablePagination } from '@/styleMUI';
 import VOYAGE_PIVOT_OPTIONS from '@/utils/flatfiles/voyages/voyages_pivot_options.json';
 import { customValueFormatter } from '@/utils/functions/customValueFormatter';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
@@ -60,7 +60,6 @@ import { SelectDropdownPivotable } from '../../SelectorComponents/SelectDrowdown
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-// Import ModuleRegistry and the required module
 
 // Register the module
 ModuleRegistry.registerModules([
@@ -112,7 +111,7 @@ const PivotTables = () => {
   const [rowVars, setSelectRowValues] = useState<PivotRowVar[]>([]);
   const [columnVars, setSelectColumnValue] = useState<PivotColumnVar[]>([]);
   const [cellVars, setSelectCellValue] = useState<PivotCellVar[]>([]);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1); // Ant Design Pagination starts from 1
 
   const components = useMemo(
     () => ({
@@ -127,6 +126,7 @@ const PivotTables = () => {
     [],
   );
 
+  // Enhanced defaultColDef with better configuration
   const defaultColDef = useMemo(() => {
     return {
       enableRowGroup: true,
@@ -136,7 +136,16 @@ const PivotTables = () => {
       resizable: true,
       filter: true,
       flex: 1,
-      minWidth: 100,
+      minWidth: 120,
+      maxWidth: 300,
+      suppressMenu: false,
+      cellDataType: false,
+      valueGetter: undefined,
+      cellRenderer: undefined,
+      cellStyle: {
+        textAlign: 'right',
+        paddingRight: '8px',
+      },
     };
   }, []);
 
@@ -171,6 +180,7 @@ const PivotTables = () => {
       }
     });
   }, []);
+
   const { row_vars, rows_label, binsize, column_vars, cell_vars } =
     pivotValueOptions;
   const updatedRowsValue = row_vars.replace(/_(\d+)$/, '');
@@ -221,6 +231,87 @@ const PivotTables = () => {
     inputSearchValue,
   ]);
 
+  const processColumnDefs = useCallback((tablestructure: any[]) => {
+    return tablestructure.map((structure) => {
+      const processedStructure = { ...structure };
+      
+      if (structure.children) {
+        processedStructure.children = structure.children.map((child:any) => {
+          const processedChild = { ...child };
+          
+          if (child.field === 'Africa__West Central Africa and St. Helena') {
+            // Simple cell renderer that just shows the value
+            processedChild.cellRenderer = (params: any) => {
+              // Get the value directly from data if params.value is undefined
+              let value = params.value;
+              if (value === undefined || value === null) {
+                value = params.data?.['Africa__West Central Africa and St. Helena'];
+              }
+              return value !== null && value !== undefined 
+                ? Number(value).toLocaleString('en-US')
+                : '0';
+            };
+          
+            // Don't use valueFormatter for this column
+            delete processedChild.valueFormatter;
+            
+          } else  if (child.field === 'Year range') {
+            processedChild.type = 'leftAligned';
+            processedChild.cellClass = 'ag-left-aligned-cell';
+            processedChild.pinned = 'left';
+            processedChild.width = 120;
+          } else if (child.field === 'All') {
+            processedChild.type = 'rightAligned';
+            processedChild.cellClass = 'ag-right-aligned-cell';
+            processedChild.valueFormatter = (params: any) =>
+              customValueFormatter(params);
+          } else {
+            processedChild.type = 'rightAligned';
+            processedChild.cellClass = 'ag-right-aligned-cell';
+            processedChild.valueFormatter = (params: any) =>
+              customValueFormatter(params);
+          }
+          
+          return processedChild;
+        });
+      } else {
+        // Handle direct columns (not nested in children)
+        if (processedStructure.field === 'Africa__West Central Africa and St. Helena') {
+          processedStructure.cellStyle = {
+            textAlign: 'right',
+            color: '#000000',
+            fontWeight: 'bold',
+            padding: '4px 8px'
+          };
+          
+          processedStructure.cellRenderer = (params: any) => {
+            let value = params.value;
+            if (value === undefined || value === null) {
+              value = params.data?.['Africa__West Central Africa and St. Helena'];
+            }
+            
+            return value !== null && value !== undefined ? String(value) : '0';
+          };
+          
+          delete processedStructure.valueFormatter;
+          
+        } else if (processedStructure.field === 'Year range') {
+          processedStructure.type = 'leftAligned';
+          processedStructure.cellClass = 'ag-left-aligned-cell';
+          processedStructure.pinned = 'left';
+          processedStructure.width = 120;
+        } else {
+          processedStructure.type = 'rightAligned';
+          processedStructure.cellClass = 'ag-right-aligned-cell';
+          processedStructure.valueFormatter = (params: any) =>
+            customValueFormatter(params);
+        }
+      }
+      
+      return processedStructure;
+    });
+  }, []);
+
   const fetchData = useCallback(async () => {
     try {
       const response = await dispatch(
@@ -230,37 +321,17 @@ const PivotTables = () => {
       if (response) {
         const { tablestructure, data, metadata } =
           response.data as PivotTableResponse;
-        tablestructure.forEach((structure) => {
-          if (structure.children) {
-            structure.children.forEach((child) => {
-              if (child.field === 'Year range') {
-                // DO WE NEED TO Handle the condition here?
-                child.type = 'leftAligned';
-                child.cellClass = 'ag-left-aligned-cell';
-              } else if (child.field === 'All') {
-                // DO WE NEED TO Handle the condition here?
-                child.type = 'rightAligned';
-                child.cellClass = 'ag-right-aligned-cell';
-                child.valueFormatter = (params: any) =>
-                  customValueFormatter(params);
-              }
-            });
-          } else {
-            structure.type = 'rightAligned';
-            structure.cellClass = 'ag-right-aligned-cell';
-            // We will need to check if the valueFromatter will be comma or percent
-            structure.valueFormatter = (params: any) =>
-              customValueFormatter(params);
-          }
-        });
-        dispatch(setPivotTablColumnDefs(tablestructure));
+        
+        const processedColumns = processColumnDefs(tablestructure);
+        
+        dispatch(setPivotTablColumnDefs(processedColumns));
         dispatch(setRowPivotTableData(data));
         dispatch(setTotalResultsCount(metadata.total_results_count));
       }
     } catch (error) {
       console.log('error', error);
     }
-  }, [dispatch, dataSend]);
+  }, [dispatch, dataSend, processColumnDefs]);
 
   useEffect(() => {
     if (!effectOnce.current) {
@@ -313,24 +384,28 @@ const PivotTables = () => {
     }
   }, [fetchData]);
 
+  // Enhanced grid options
   const gridOptions = useMemo(
     () => ({
       headerHeight: 35,
       suppressHorizontalScroll: false,
-      onGridReady: (params: any) => {
-        const { columnApi } = params;
-        columnApi?.autoSizeColumns();
-      },
+      suppressRowVirtualisation: false,
+      suppressColumnVirtualisation: false,
+      animateRows: true,
+      enableCellTextSelection: true,
+      ensureDomOrder: true,
     }),
     [],
   );
 
-  const getRowStyle = () => {
+  // Enhanced row style function
+  const getRowStyle = (params: any) => {
     return {
       fontSize: 13,
       color: '#000',
       fontFamily: 'sans-serif',
       paddingLeft: '20px',
+      backgroundColor: params.node.rowIndex % 2 === 0 ? '#ffffff' : '#f9f9f9',
     };
   };
 
@@ -343,31 +418,31 @@ const PivotTables = () => {
 
   const handleChangeOptions = useCallback(
     (
-      event: SelectChangeEvent<string>,
+      value: string | string[],
       name: string,
       options?: PivotRowVar[],
     ) => {
-      const value = event.target.value;
       if (name === 'row_vars' && options) {
         const selectedRow = options.find((row) => row.rows === value);
         if (selectedRow) {
-          dispatch(
-            setPivotValueOptions({
-              ...pivotValueOptions,
-              [name]: selectedRow.rows,
-              binsize: selectedRow.binsize ?? null,
-              rows_label: selectedRow.rows_label ?? '',
-              label: selectedRow.label ?? '',
-            }),
-          );
-        }
-      } else {
-        dispatch(
-          setPivotValueOptions({
+          dispatch(setPivotValueOptions({
             ...pivotValueOptions,
-            [name]: value,
-          }),
-        );
+            [name]: selectedRow.rows,
+            binsize: selectedRow.binsize ?? null,
+            rows_label: selectedRow.rows_label ?? '',
+            label: selectedRow.label ?? '',
+          }));
+        }
+      } else if (name === 'column_vars') {
+        dispatch(setPivotValueOptions({
+          ...pivotValueOptions,
+          [name]: Array.isArray(value) ? value : [value],
+        }));
+      } else {
+        dispatch(setPivotValueOptions({
+          ...pivotValueOptions,
+          [name]: value,
+        }));
       }
     },
     [dispatch, pivotValueOptions],
@@ -378,39 +453,21 @@ const PivotTables = () => {
   }, []);
 
   const handleChangePage = useCallback(
-    (event: any, newPage: number) => {
+    (newPage: number, pageSize: number) => {
       setPage(newPage);
-      const newOffset =
-        newPage > page ? offset + rowsPerPage : offset - rowsPerPage;
+      const newOffset = (newPage - 1) * pageSize;
       dispatch(setOffset(newOffset >= 0 ? newOffset : 0));
     },
-    [page, rowsPerPage, offset, dispatch],
+    [dispatch],
   );
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { value } = event.target;
-    const newRowsPerPage = parseInt(value);
-    dispatch(setRowsPerPage(newRowsPerPage));
-  };
-
-  const pageCount = Math.ceil(
-    totalResultsCount && rowsPerPage ? totalResultsCount / rowsPerPage : 1,
-  );
-
-  const handleChangePagePagination = useCallback(
-    (event: any, newPage: number) => {
-      setPage(newPage - 1);
-      if (newPage === 0 || newPage === 1) {
-        dispatch(setOffset(0));
-      } else {
-        const newOffset =
-          newPage > page ? offset + rowsPerPage : offset - rowsPerPage;
-        dispatch(setOffset(newOffset));
-      }
+  const handleChangePageSize = useCallback(
+    (current: number, size: number) => {
+      dispatch(setRowsPerPage(size));
+      setPage(1);
+      dispatch(setOffset(0));
     },
-    [page, rowsPerPage, offset, dispatch],
+    [dispatch],
   );
 
   let DownloadCSVExport = '';
@@ -418,8 +475,79 @@ const PivotTables = () => {
     DownloadCSVExport = (header.label as LabelFilterMeneList)[languageValue];
   }
 
-  const newRowsData = rowData.slice(0, -1);
-  const totalItemData = rowData.slice(-1);
+  // Enhanced data processing with validation
+  const newRowsData = useMemo(() => {
+    const slicedData = rowData.slice(0, -1);
+    return slicedData;
+  }, [rowData]);
+
+  const totalItemData = useMemo(() => {
+    const lastRow = rowData.slice(-1);
+    return lastRow;
+  }, [rowData]);
+
+  // Force grid refresh when data changes
+  useEffect(() => {
+    if (gridRef.current && newRowsData.length > 0) {
+      const gridApi = gridRef.current.api;
+      const columnApi = (gridRef.current as any).columnApi;
+      
+      setTimeout(() => {
+        gridApi?.refreshCells({ force: true });
+        columnApi?.autoSizeAllColumns();
+        
+        // Force specific column width
+        columnApi?.setColumnWidth('Africa__West Central Africa and St. Helena', 200);
+      }, 100);
+    }
+  }, [newRowsData]);
+
+  // // Debug button for testing
+  // const DebugButton = () => (
+  //   <div style={{ margin: '10px', display: 'flex', gap: '10px' }}>
+  //     <Button onClick={() => {
+  //       const gridApi = gridRef.current?.api;
+  //       const columnApi = (gridRef.current as any)?.columnApi;
+        
+  //       console.log('=== GRID DEBUG INFO ===');
+  //       console.log('Total columns:', columnApi?.getAllColumns()?.length);
+  //       console.log('Visible columns:', columnApi?.getAllDisplayedColumns()?.length);
+        
+  //       const targetColumn = columnApi?.getColumn('Africa__West Central Africa and St. Helena');
+  //       console.log('Target column:', {
+  //         exists: !!targetColumn,
+  //         visible: targetColumn?.isVisible(),
+  //         width: targetColumn?.getActualWidth(),
+  //         left: targetColumn?.getLeft(),
+  //         field: targetColumn?.getColDef()?.field
+  //       });
+        
+  //       // Get actual row data from grid
+  //       const allRowData: any[] = [];
+  //       gridApi?.forEachNode((node) => {
+  //         console.log({node: node.data})
+  //         allRowData.push(node.data);
+  //       });
+        
+  //       console.log('Grid row data:', allRowData[0]);
+  //       console.log('Grid target field value:', allRowData[0]?.['Africa__West Central Africa and St. Helena']);
+        
+  //       // Force refresh
+  //       gridApi?.refreshCells({ force: true });
+  //       columnApi?.autoSizeAllColumns();
+  //     }}>
+  //       Debug Grid
+  //     </Button>
+      
+  //     <Button onClick={() => {
+  //       console.log('Current newRowsData:', newRowsData);
+  //       console.log('Current totalItemData:', totalItemData);
+  //       console.log('Current columnDefs:', columnDefs);
+  //     }}>
+  //       Log Current State
+  //     </Button>
+  //   </div>
+  // );
 
   return (
     <div className="mobile-responsive">
@@ -445,33 +573,29 @@ const PivotTables = () => {
           />
           <div className="button-export-csv">
             <Button
+              type="primary"
+              icon={<DownloadOutlined />}
               onClick={handleButtonExportCSV}
               style={{
+                backgroundColor: getColorBTNVoyageDatasetBackground(styleName!),
+                borderColor: getColorBTNVoyageDatasetBackground(styleName!),
                 boxShadow: getColorBoxShadow(styleName!),
               }}
-              sx={{
-                backgroundColor: getColorBTNVoyageDatasetBackground(styleName!),
-                boxShadow: getColorBoxShadow(styleName!),
-                '&:hover': {
-                  backgroundColor: getColorHoverBackground(styleName!),
-                },
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = getColorHoverBackground(styleName!);
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = getColorBTNVoyageDatasetBackground(styleName!);
               }}
             >
               {DownloadCSVExport}
             </Button>
           </div>
         </span>
-        <CustomTablePagination
-          disablescrolllock={true.toString()}
-          component="span"
-          className="pivot-table-pagination"
-          count={totalResultsCount}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 45, 50, 100]}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        
+        {/* Add debug button in development */}
+        {/* {process.env.NODE_ENV === 'development' && <DebugButton />} */}
+        
         <div
           className="ag-theme-alpine grid-container ag-theme-balham"
           style={{
@@ -500,13 +624,25 @@ const PivotTables = () => {
             tooltipShowDelay={0}
             tooltipHideDelay={1000}
             groupDefaultExpanded={-1}
+            // debug={process.env.NODE_ENV === 'development'}
+            // onCellValueChanged={(params) => {
+            //   console.log('Cell value changed:', params);
+            // }}
+            suppressPropertyNamesCheck={true}
           />
-          <div className="pagination-div">
+          
+          <div style={{ marginTop: 16, textAlign: 'center', display: 'flex', alignContent:'center', justifyContent:'flex-end' }}>
             <Pagination
-              color="primary"
-              count={pageCount}
-              page={page + 1}
-              onChange={handleChangePagePagination}
+              current={page}
+              total={totalResultsCount}
+              pageSize={rowsPerPage}
+              pageSizeOptions={['5', '10', '15', '20', '25', '30', '45', '50', '100']}
+              showSizeChanger={true}
+              showTotal={(total, range) =>
+                `${range[0]}-${range[1]} of ${total} items`
+              }
+              onChange={handleChangePage}
+              onShowSizeChange={handleChangePageSize}
             />
           </div>
         </div>

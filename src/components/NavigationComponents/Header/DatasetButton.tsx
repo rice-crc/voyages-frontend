@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button } from 'antd';
 import { useSelector } from 'react-redux';
 
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -9,6 +9,7 @@ import {
   BlockCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
 import { getColorTextCollection } from '@/utils/functions/getColorStyle';
+
 interface DatasetButtonProps {
   item: any;
   index: any;
@@ -27,6 +28,7 @@ interface DatasetButtonProps {
   getColorBTNBackground: (item: string) => string;
   getColorHover: (item: string) => string;
 }
+
 export const DatasetButton = (props: DatasetButtonProps) => {
   const {
     getColorBoxShadow,
@@ -34,7 +36,6 @@ export const DatasetButton = (props: DatasetButtonProps) => {
     index,
     handleSelectDataset,
     getColorBTNBackground,
-    getColorHover,
   } = props;
 
   const { languageValue } = useSelector(
@@ -54,10 +55,35 @@ export const DatasetButton = (props: DatasetButtonProps) => {
   const { label: labelDataset } = headers;
   const { styleName } = usePageRouter();
   const menuLabel = (labelDataset as LabelFilterMeneList)[languageValue];
+  const isDisabled = styleName === style_name;
+
+  // Base button styles
+  const baseButtonStyle = {
+    color: getColorTextCollection(style_name),
+    fontWeight: 600,
+    height: '32px',
+    fontSize: '0.80rem',
+    textTransform: 'unset' as const,
+    margin: '0 2px',
+    backgroundColor: getColorBTNBackground(style_name),
+    border: 'none',
+    boxShadow: isDisabled ? getColorBoxShadow(styleName!) : 'none',
+    cursor: isDisabled ? 'not-allowed' : 'pointer',
+  };
+
+  // Disabled button styles
+  const disabledButtonStyle = {
+    ...baseButtonStyle,
+    backgroundColor: getColorBTNBackground(style_name),
+    color: '#fff',
+    boxShadow: getColorBoxShadow(styleName!),
+    cursor: 'not-allowed',
+  };
+
   return (
     <Button
       key={`${menuLabel}-${index}`}
-      disabled={styleName === style_name}
+      disabled={isDisabled}
       onClick={() =>
         handleSelectDataset(
           base_filter,
@@ -70,25 +96,7 @@ export const DatasetButton = (props: DatasetButtonProps) => {
           card_flatfile,
         )
       }
-      sx={{
-        color: getColorTextCollection(style_name),
-        fontWeight: 600,
-        height: 32,
-        fontSize: '0.80rem',
-        textTransform: 'unset',
-        margin: '0 2px',
-        backgroundColor: getColorBTNBackground(style_name),
-        '&:hover': {
-          backgroundColor: getColorHover(style_name),
-          color: getColorBTNBackground(style_name),
-        },
-        '&:disabled': {
-          backgroundColor: getColorBTNBackground(style_name),
-          color: '#fff',
-          boxShadow: getColorBoxShadow(styleName!),
-          cursor: 'not-allowed',
-        },
-      }}
+      style={isDisabled ? disabledButtonStyle : baseButtonStyle}
     >
       <div>{menuLabel}</div>
     </Button>

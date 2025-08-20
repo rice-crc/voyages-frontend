@@ -213,7 +213,7 @@ function PieGraph() {
             width: '100%',
             maxWidth: chartWidth,
             height: chartHeight,
-            minHeight: 450,
+            minHeight: 500,
             border: '1px solid #ccc',
             marginTop: 18,
             overflow: 'auto',

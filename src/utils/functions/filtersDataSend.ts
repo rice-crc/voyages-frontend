@@ -18,7 +18,7 @@ export const filtersDataSend = (
   clusterNodeValue?: string,
 ) => {
   let filters: Filter[] = [];
-  if (
+  if (  
     styleNameRoute === ALLVOYAGES ||
     styleNameRoute === ALLENSLAVED ||
     styleNameRoute === ENSALVERSTYLE
@@ -41,6 +41,7 @@ export const filtersDataSend = (
       op: 'in',
     });
   } else if (styleNameRoute === INTRAAMERICAN) {
+    // console.log("INTRAAMERICAN", styleNameRoute)
     filters.push({
       varName: 'dataset',
       searchTerm: [1],
@@ -96,6 +97,5 @@ export const filtersDataSend = (
   // Update localStorages
   const filterObjectString = JSON.stringify(filterObjectUpdate);
   localStorage.setItem('filterObject', filterObjectString);
-
   return filtersObj.length === 0 ? filters : uniqueFilters;
 };
