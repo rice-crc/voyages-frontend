@@ -13,13 +13,13 @@ import {
   faTwitterSquare,
   faLinkedin,
 } from '@fortawesome/free-brands-svg-icons';
+import defaultImage from '@/assets/voyage-blog.png';
 import { faSquareEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { BASEURL } from '@/share/AUTH_BASEURL';
 import { BLOGPAGE } from '@/share/CONST_DATA';
-import { convertToSlug } from '@/utils/functions/convertToSlug';
 
 const BlogCardHeaderBody = () => {
   const { ID } = useParams();
@@ -33,7 +33,8 @@ const BlogCardHeaderBody = () => {
   const effectOnce = useRef(false);
   const fetchDataBlog = async () => {
     const filters: BlogFilter[] = [];
-    if ([parseInt(ID!)]) {
+    const parsedId = parseInt(ID!);
+    if (!isNaN(parsedId)) {
       filters.push({
         varName: 'id',
         searchTerm: [parseInt(ID!)],
@@ -79,7 +80,7 @@ const BlogCardHeaderBody = () => {
     <div className="card-body">
       <img
         className="blog-detail-thumbnail"
-        src={`${BASEURL}${thumbnail ? thumbnail : ''}`}
+        src={thumbnail ? `${BASEURL}${thumbnail}`: defaultImage}
         alt={title ? title : ''}
       />
       <h1 className="titleText">{title ? title : ''}</h1>

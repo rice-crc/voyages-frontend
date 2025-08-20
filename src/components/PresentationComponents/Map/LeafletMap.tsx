@@ -35,12 +35,10 @@ import {
   ESTIMATES,
   REGION,
   broadRegion,
-  FILTER_OBJECT_KEY,
 } from '@/share/CONST_DATA';
 import {
   AutoCompleteInitialState,
   CurrentPageInitialState,
-  Filter,
   MapPropsRequest,
   FilterObjectsState,
 } from '@/share/InterfaceTypes';
@@ -73,17 +71,14 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
 
   const effectOnce = useRef(false);
   const {
-    styleName: styleNamePage,
+    styleName: styleNameRoute,
     nodeTypeURL,
     currentBlockName,
   } = usePageRouter();
-  const zoomlevelValue = styleNamePage !== ESTIMATES ? REGION : broadRegion;
+  const zoomlevelValue = styleNameRoute !== ESTIMATES ? REGION : broadRegion;
   const [regionPlace, setRegionPlace] = useState<string>(zoomlevelValue);
   const [loading, setLoading] = useState<boolean>(false);
   const hasFetchedPlaceRef = useRef(false);
-  const { styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection,
-  );
 
   const { hasFetchedRegion, clusterNodeKeyVariable, clusterNodeValue } =
     useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
@@ -101,19 +96,11 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const { autoCompleteValue, autoLabelName } = useSelector(
     (state: RootState) => state.autoCompleteList as AutoCompleteInitialState,
   );
-  useEffect(() => {
-    const storedValue = localStorage.getItem(FILTER_OBJECT_KEY);
-    if (!storedValue) return;
-    const parsedValue = JSON.parse(storedValue);
-    const filter: Filter[] = parsedValue.filter;
-    if (!filter) return;
-    dispatch(setFilterObject(filter));
-  }, []);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout | undefined;
     // check if route is voyages, enslaved, enslaver , will not call zoom place
-    if (!hasFetchedPlaceRef.current && styleNamePage !== ESTIMATES) {
+    if (!hasFetchedPlaceRef.current && styleNameRoute !== ESTIMATES) {
       timeout = setTimeout(() => {
         setLoading(false);
         fetchData(PLACE);
@@ -150,7 +137,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         !varName &&
         !clusterNodeValue &&
         !clusterNodeKeyVariable &&
-        styleNamePage !== ESTIMATES
+        styleNameRoute !== ESTIMATES
       ) {
         dispatch(setNodesDataPlace(JSON.parse(savedNodesDataPlace!)));
         dispatch(setEdgesDataPlace(JSON.parse(saveEdgesDataPlace!)));
@@ -160,7 +147,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         !varName &&
         !clusterNodeValue &&
         !clusterNodeKeyVariable &&
-        styleNamePage !== ESTIMATES
+        styleNameRoute !== ESTIMATES
       ) {
         dispatch(setNodesDataRegion(JSON.parse(savedNodesDataRegion!)));
         dispatch(setEdgesDataRegion(JSON.parse(saveEdgesDataRegion!)));
@@ -169,7 +156,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     } else if (
       savedNodesDataBroadRegion &&
       saveEdgesDataBroadRegion &&
-      styleNamePage === ESTIMATES
+      styleNameRoute === ESTIMATES
     ) {
       if (zoomLevel >= ZOOM_LEVEL_THRESHOLD) {
         if (savedNodesDataRegion && saveEdgesDataRegion) {
@@ -190,7 +177,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     }
   }, [
     zoomLevel,
-    styleNamePage,
+    styleNameRoute,
     varName,
     clusterNodeValue,
     clusterNodeKeyVariable,
@@ -204,14 +191,13 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     () =>
       filtersDataSend(
         filtersObj,
-        styleName!,
+        styleNameRoute!,
         clusterNodeKeyVariable,
         clusterNodeValue,
       ),
-    [filtersObj, styleName, clusterNodeKeyVariable, clusterNodeValue],
+    [filtersObj, styleNameRoute, clusterNodeKeyVariable, clusterNodeValue],
   );
-
-
+  // console.log('Map', {filters,filtersObj})
   const newFilters = useMemo(() => {
     return filters?.map(({ ...rest }) => rest) || [];
   }, [filters]);
@@ -230,11 +216,11 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     dataSend['zoomlevel'] = regionOrPlace;
     setLoading(hasFetchedRegion ? true : false);
     let response;
-    if (checkPagesRouteForVoyages(styleNamePage! || nodeTypeURL!)) {
+    if (checkPagesRouteForVoyages(styleNameRoute! || nodeTypeURL!)) {
       response = await dispatch(fetchVoyagesMap(dataSend)).unwrap();
-    } else if (checkPagesRouteForEnslaved(styleNamePage!)) {
+    } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {
       response = await dispatch(fetchEnslavedMap(dataSend)).unwrap();
-    } else if (checkPagesRouteMapEstimates(styleNamePage!)) {
+    } else if (checkPagesRouteMapEstimates(styleNameRoute!)) {
       response = await dispatch(fetchEstimatesMap(dataSend)).unwrap();
     }
     if (response) {
@@ -263,8 +249,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     autoLabelName,
     currentPage,
     pathName,
-    styleName,
-    styleNamePage,
+    styleNameRoute,
     inputSearchValue,
     clusterNodeKeyVariable,
     clusterNodeValue,
@@ -326,7 +311,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   });
 
   return (
-    <div style={{ backgroundColor: getColorBackgroundHeader(styleNamePage!) }}>
+    <div style={{ backgroundColor: getColorBackgroundHeader(styleNameRoute!) }}>
       {loading || nodesData?.length === 0 ? (
         <div className="loading-logo">
           <img src={LOADINGLOGO} alt="loading" />
@@ -348,7 +333,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
               setZoomLevel={setZoomLevel}
               setRegionPlace={setRegionPlace}
               zoomLevel={zoomLevel}
-              styleRouteName={styleNamePage}
+              styleRouteName={styleNameRoute}
             />
             <TileLayer url={mappingSpecialists} />
             <LayersControl position="topright">

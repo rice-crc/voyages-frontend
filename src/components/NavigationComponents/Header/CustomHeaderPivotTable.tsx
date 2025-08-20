@@ -90,6 +90,92 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     [],
   );
 
+  // Enhanced processColumnDefs function to handle special columns
+  const processColumnDefs = useCallback((tablestructure: any[]) => {
+    return tablestructure.map((structure) => {
+      const processedStructure = { ...structure };
+      
+      if (structure.children) {
+        processedStructure.children = structure.children.map((child: any) => {
+          const processedChild = { ...child };
+          
+          // Special handling for West Central Africa column
+          if (child.field === 'Africa__West Central Africa and St. Helena') {
+            processedChild.cellRenderer = (params: any) => {
+              let value = params.value;
+              if (value === undefined || value === null) {
+                value = params.data?.['Africa__West Central Africa and St. Helena'];
+              }
+              
+              // Format with commas and 2 decimal places
+              return value !== null && value !== undefined 
+                ? Number(value).toLocaleString('en-US')
+                : '0.00';
+            };
+            
+            // Don't use valueFormatter for this column
+            delete processedChild.valueFormatter;
+            
+          } else if (
+            child.field === 'Year range' ||
+            child.field === 'Año Rango' ||
+            child.field === 'Intervalo de anos'
+          ) {
+            processedChild.type = 'leftAligned';
+            processedChild.cellClass = 'ag-left-aligned-cell';
+          } else if (child.field === 'All') {
+            processedChild.type = 'rightAligned';
+            processedChild.cellClass = 'ag-right-aligned-cell';
+            processedChild.valueFormatter = (params: any) =>
+              customValueFormatter(params);
+          } else {
+            // Apply customValueFormatter to all other columns
+            processedChild.type = 'rightAligned';
+            processedChild.cellClass = 'ag-right-aligned-cell';
+            processedChild.valueFormatter = (params: any) =>
+              customValueFormatter(params);
+          }
+          
+          return processedChild;
+        });
+      } else {
+        // Handle direct columns (not nested in children)
+        if (processedStructure.field === 'Africa__West Central Africa and St. Helena') {
+          processedStructure.cellRenderer = (params: any) => {
+            let value = params.value;
+            if (value === undefined || value === null) {
+              value = params.data?.['Africa__West Central Africa and St. Helena'];
+            }
+            
+            return value !== null && value !== undefined 
+              ? Number(value).toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                })
+              : '0.00';
+          };
+          
+          delete processedStructure.valueFormatter;
+          
+        } else if (
+          processedStructure.field === 'Year range' ||
+          processedStructure.field === 'Año Rango' ||
+          processedStructure.field === 'Intervalo de anos'
+        ) {
+          processedStructure.type = 'leftAligned';
+          processedStructure.cellClass = 'ag-left-aligned-cell';
+        } else {
+          processedStructure.type = 'rightAligned';
+          processedStructure.cellClass = 'ag-right-aligned-cell';
+          processedStructure.valueFormatter = (params: any) =>
+            customValueFormatter(params);
+        }
+      }
+      
+      return processedStructure;
+    });
+  }, []);
+
   const fetchDataPivotTable = useCallback(async (
     sortOrder: SortOrder,
     sortingOrder: string[],
@@ -129,31 +215,11 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
       if (response) {
         const { tablestructure, data, metadata } =
           response.data as PivotTableResponse;
-        tablestructure.forEach((structure) => {
-          if (structure.children) {
-            structure.children.forEach((child) => {
-              if (
-                child.field === 'Year range' ||
-                child.field === 'Año Rango' ||
-                child.field === 'Intervalo de anos'
-              ) {
-                child.type = 'leftAligned';
-                child.cellClass = 'ag-left-aligned-cell';
-              } else if (child.field === 'All') {
-                child.type = 'rightAligned';
-                child.cellClass = 'ag-right-aligned-cell';
-                child.valueFormatter = (params: any) =>
-                  customValueFormatter(params);
-              }
-            });
-          } else {
-            structure.type = 'rightAligned';
-            structure.cellClass = 'ag-right-aligned-cell';
-            structure.valueFormatter = (params: any) =>
-              customValueFormatter(params);
-          }
-        });
-        dispatch(setPivotTablColumnDefs(tablestructure));
+        
+        // Use the enhanced processColumnDefs function instead of inline processing
+        const processedColumns = processColumnDefs(tablestructure);
+        
+        dispatch(setPivotTablColumnDefs(processedColumns));
         dispatch(setRowPivotTableData(data));
         dispatch(setTotalResultsCount(metadata.total_results_count));
       }
@@ -169,6 +235,7 @@ const CustomHeaderPivotTable: React.FC<Props> = (props) => {
     inputSearchValue,
     dispatch,
     createSortOrder,
+    processColumnDefs, // Add this dependency
   ]);
 
   const onSortChanged = useCallback(() => {

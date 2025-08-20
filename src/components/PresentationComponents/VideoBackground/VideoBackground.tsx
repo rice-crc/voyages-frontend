@@ -104,12 +104,12 @@ const VideoBackground = () => {
               rel="noopener"
               aria-label="Rice University"
               href="https://www.rice.edu"
-            >
+            > 
               <img
                 className="cover-logo lazy initial loaded"
-                data-src="https://www.slavevoyages.org/static/uploads/Rice_Logo_Reverse_White.png"
+                data-src="https://www.slavevoyages.org/static/uploads/rice_logo_reverse_white.png"
                 alt="Rice University Logo"
-                src="https://api.slavevoyages.org/static/uploads/Rice_Logo_Reverse_White.png"
+                src="https://api.slavevoyages.org/static/uploads/rice_logo_reverse_white.png"
                 data-was-processed="true"
               />
             </a>

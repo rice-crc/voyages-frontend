@@ -62,8 +62,6 @@ import {
 } from '@/share/InterfaceTypes';
 import {
   DialogModalStyle,
-  DropdownMenuItem,
-  DropdownNestedMenuItemChildren,
   StyleDialog,
 } from '@/styleMUI';
 import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
@@ -697,7 +695,8 @@ export const MenuListsDropdown = () => {
                 Apply
               </Button>
             )}
-          {varName && typeData === TYPES.IntegerField && (
+            
+          {varName && (typeData === TYPES.IntegerField || typeData === TYPES.IdMatch || typeData === TYPES.FloatField || typeData === TYPES.DecimalField) && (
             <Button
               disabled={isButtonDisabled}
               onClick={handleSliderChangeMouseUp}

@@ -18,14 +18,12 @@ export const filtersDataSend = (
   clusterNodeValue?: string,
 ) => {
   let filters: Filter[] = [];
-   console.log({filtersObj, styleNameRoute})
   if (  
     styleNameRoute === ALLVOYAGES ||
     styleNameRoute === ALLENSLAVED ||
     styleNameRoute === ENSALVERSTYLE
   ) {
-    return filters
-    // filters = filtersObj;
+    filters = filtersObj;
   } else if (
     Array.isArray(filtersObj[0]?.searchTerm) &&
     filtersObj[0]?.searchTerm.length > 0
@@ -37,7 +35,6 @@ export const filtersDataSend = (
   ) {
     filters = filtersObj;
   } else if (styleNameRoute === TRANSATLANTICPATH) {
-    console.log("TRANSATLANTICPATH", styleNameRoute)
     filters.push({
       varName: 'dataset',
       searchTerm: [0],
@@ -100,6 +97,5 @@ export const filtersDataSend = (
   // Update localStorages
   const filterObjectString = JSON.stringify(filterObjectUpdate);
   localStorage.setItem('filterObject', filterObjectString);
-  console.log({filters, uniqueFilters})
   return filtersObj.length === 0 ? filters : uniqueFilters;
 };

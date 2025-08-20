@@ -161,6 +161,18 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
 
     return (
       <div ref={ref}>
+        <style>{`
+        .ant-dropdown-menu-submenu-arrow {
+          display: none !important;
+        }
+        .ant-dropdown-menu-item:hover {
+          background-color: #f5f5f5 !important;
+        }
+        .column-selector-tooltip .ant-tooltip-inner {
+          max-width: 300px;
+          text-align: left;
+        }
+      `}</style>
         <Dropdown
           menu={menuConfig}
           trigger={['click']}

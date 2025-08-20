@@ -62,6 +62,23 @@ export const SelectDropdownPivotable: FunctionComponent<
     letterSpacing: '0.025em',
   };
 
+  // Helper function to compare arrays
+  const arraysEqual = (a: string[], b: string[]): boolean => {
+    if (a.length !== b.length) return false;
+    return a.every((val, index) => val === b[index]);
+  };
+
+  // Helper function to find the currently selected column option
+  const getSelectedColumnValue = (): string => {
+    const currentColumns = selectedPivottablesOptions?.column_vars;
+    if (!currentColumns) return '';
+    
+    const foundOption = selectColumnValue.find(option => 
+      arraysEqual(option.columns, currentColumns)
+    );
+    
+    return foundOption ? JSON.stringify(foundOption.columns) : '';
+  };
 
   return (
       <Row gutter={[20, 16]} align="middle">
@@ -71,7 +88,6 @@ export const SelectDropdownPivotable: FunctionComponent<
               {translatedEstimates.rowDropDownTitle}
             </label>
             <Select
-              
               style={selectStyle}
               size="large"
               value={selectedPivottablesOptions?.row_vars}
@@ -107,9 +123,11 @@ export const SelectDropdownPivotable: FunctionComponent<
             <Select
               style={selectStyle}
               size="large"
-              value={selectedPivottablesOptions?.column_vars as any}
+              value={getSelectedColumnValue()}
               onChange={(value: string) => {
-                handleChangeOptions(value, 'column_vars');
+                // Parse the JSON string back to array
+                const columnsArray = JSON.parse(value);
+                handleChangeOptions(columnsArray, 'column_vars');
               }}
               placeholder={`Select ${translatedEstimates.columnsDropDownTitle.toLowerCase()}`}
               suffixIcon={<DownOutlined style={{ color: '#6b7280' }} />}
@@ -118,12 +136,14 @@ export const SelectDropdownPivotable: FunctionComponent<
                 popup: { root: 'custom-select-dropdown-wide' }
               }}
             >
-              {selectColumnValue.map((option: any, index: number) => {
+              {selectColumnValue.map((option: PivotColumnVar, index: number) => {
                 const columnLabel = (option.label as LabelFilterMeneList)[
                   languageValue
                 ];
+                // Use JSON.stringify to create a unique string value for the array
+                const optionValue = JSON.stringify(option.columns);
                 return (
-                  <Option key={`${columnLabel}-${index}`} value={option.columns}>
+                  <Option key={`${optionValue}-${index}`} value={optionValue}>
                     <div style={{ padding: '4px 0' }}>{columnLabel}</div>
                   </Option>
                 );
@@ -151,7 +171,7 @@ export const SelectDropdownPivotable: FunctionComponent<
                 popup: { root: 'custom-select-dropdown' }
               }}
             >
-              {selectCellValue.map((option: any, index: number) => {
+              {selectCellValue.map((option: PivotCellVar, index: number) => {
                 const cellLabel = (option.label as LabelFilterMeneList)[
                   languageValue
                 ];
