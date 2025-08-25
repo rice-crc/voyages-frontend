@@ -60,10 +60,7 @@ import {
   RolesProps,
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
-import {
-  DialogModalStyle,
-  StyleDialog,
-} from '@/styleMUI';
+import { DialogModalStyle, StyleDialog } from '@/styleMUI';
 import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import {
   getColorBTNVoyageDatasetBackground,
@@ -120,6 +117,7 @@ export const MenuListsDropdown = () => {
   } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
+
   const [inputValue, setInputValue] = useState(textFilter);
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [ops, setOps] = useState<string>('');
@@ -276,6 +274,7 @@ export const MenuListsDropdown = () => {
     event.stopPropagation();
     setTextError('');
     setTextRoleListError('');
+    setInputValue('');
     const value = event.cancelable;
     setIsClickMenu(!isClickMenu);
     dispatch(setIsOpenDialog(false));
@@ -414,24 +413,25 @@ export const MenuListsDropdown = () => {
 
   const renderDropdownMenu = (
     nodes: FilterMenu | ChildrenFilter | (FilterMenu | ChildrenFilter)[],
-  ): any[] | undefined => { // Changed return type to any[] to accommodate menu item objects
+  ): any[] | undefined => {
+    // Changed return type to any[] to accommodate menu item objects
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
         const { children, var_name, type, label: nodeLabel, ops, roles } = node;
         const hasChildren = children && children.length >= 1;
         const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
         const uniqueKey = `${menuLabel} - ${index}`;
-        
+
         if (hasChildren) {
           return {
             key: uniqueKey,
             label: (
               <div
                 style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
                 }}
               >
                 <span>{menuLabel}</span>
@@ -439,17 +439,19 @@ export const MenuListsDropdown = () => {
               </div>
             ),
             children: renderDropdownMenu(children),
-            onClick: (event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>) => handleClickMenu(event, ops!, roles!)
+            onClick: (
+              event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>,
+            ) => handleClickMenu(event, ops!, roles!),
           };
         }
-  
+
         return {
           key: uniqueKey,
           label: menuLabel,
           onClick: (event: any) => handleClickMenu(event, ops!, roles!),
           'data-value': var_name,
           'data-type': type,
-          'data-label': menuLabel
+          'data-label': menuLabel,
         };
       });
     }
@@ -695,18 +697,23 @@ export const MenuListsDropdown = () => {
                 Apply
               </Button>
             )}
-            
-          {varName && (typeData === TYPES.IntegerField || typeData === TYPES.IdMatch || typeData === TYPES.FloatField || typeData === TYPES.DecimalField) && (
-            <Button
-              disabled={isButtonDisabled}
-              onClick={handleSliderChangeMouseUp}
-              style={baseApplyButtonStyle}
-              onMouseEnter={handleApplyMouseEnter}
-              onMouseLeave={handleApplyMouseLeave}
-            >
-              Apply
-            </Button>
-          )}
+
+          {varName &&
+            (typeData === TYPES.IntegerField ||
+              typeData === TYPES.IdMatch ||
+              typeData === TYPES.FloatField ||
+              typeData === TYPES.DecimalField) &&
+            opsRoles === 'btw' && (
+              <Button
+                disabled={isButtonDisabled}
+                onClick={handleSliderChangeMouseUp}
+                style={baseApplyButtonStyle}
+                onMouseEnter={handleApplyMouseEnter}
+                onMouseLeave={handleApplyMouseLeave}
+              >
+                Apply
+              </Button>
+            )}
           <Button
             onClick={handleResetDataDialog}
             style={baseResetButtonStyle}
