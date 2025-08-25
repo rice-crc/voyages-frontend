@@ -53,9 +53,9 @@ function useDataTableProcessingEffect(
         // Extract sort info
         const firstSort = sortColumn[0];
         // console.log({ firstSort });
-        const isDescending = firstSort.startsWith('-');
-        const fieldName = isDescending ? firstSort.substring(1) : firstSort;
-        const sortOrder = isDescending ? 'desc' : 'asc';
+        const isAscending = firstSort.startsWith('-');
+        const fieldName = isAscending ? firstSort.substring(1) : firstSort;
+        const sortOrder = isAscending ? 'asc' : 'desc';
 
         finalRowData = sortDataOnFrontend(finalRowData, sortOrder, [fieldName]);
       } else if (isFirstProcessing.current) {

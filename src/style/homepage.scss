@@ -851,30 +851,6 @@
 .card-img {
   width: 100%;
   border-radius: calc(0.25rem - 1px);
-
-  @include breakpoint-standard(5) {
-    width: 80%;
-  }
-
-  @include breakpoint-standard(4) {
-    width: 75%;
-  }
-
-  @include breakpoint-standard(3) {
-    width: 75%;
-  }
-
-  @include breakpoint-standard(2) {
-    width: 75%;
-  }
-
-  @include breakpoint-standard(1) {
-    width: 75%;
-  }
-
-  @include breakpoint-standard(0) {
-    width: 75%;
-  }
 }
 
 .logo-grid-container:last-child {

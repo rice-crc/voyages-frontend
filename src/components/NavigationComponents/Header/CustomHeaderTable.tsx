@@ -38,7 +38,7 @@ const CustomHeaderTable = (props: MyCustomHeaderProps) => {
   const createSortOrder = useCallback(
     (sortOrder: SortOrder, sortingFields: string[]) => {
       if (sortingFields.length === 0) return [];
-      return sortOrder === 'asc'
+      return sortOrder === 'desc'
         ? sortingFields
         : sortingFields.map((field) => `-${field}`);
     },
@@ -53,24 +53,23 @@ const CustomHeaderTable = (props: MyCustomHeaderProps) => {
     }
 
     const sortedField = sortColumn[0];
-    const isDescending = sortedField?.startsWith('-');
-    const fieldName = isDescending ? sortedField.substring(1) : sortedField;
+    const isAscending = sortedField?.startsWith('-');
+    const fieldName = isAscending ? sortedField.substring(1) : sortedField;
 
     // ✅ Get order_by from column context/definition
     // This should come from your generateColumnDef function where you set:
-    // colDef: { context: { fieldToSort: cell.order_by } }
     const orderByFields = props.column?.colDef?.context?.fieldToSort || [];
 
     // ✅ Check if current column's order_by includes the sorted field
     const isMatch = orderByFields.includes(fieldName);
 
     if (isMatch) {
-      if (isDescending) {
-        setAscSort('inactive');
-        setDescSort('active');
-      } else {
+      if (isAscending) {
         setAscSort('active');
         setDescSort('inactive');
+      } else {
+        setAscSort('inactive');
+        setDescSort('active');
       }
     } else {
       setAscSort('inactive');
@@ -90,12 +89,14 @@ const CustomHeaderTable = (props: MyCustomHeaderProps) => {
         | React.TouchEvent<HTMLButtonElement>,
     ) => {
       props.setSort(order, event.shiftKey);
+      console.log({ order });
 
       // ✅ Use order_by fields from context (set by generateColumnDef)
       const sortingFields = props.column.colDef?.context?.fieldToSort || [];
 
       if (sortingFields.length > 0) {
         const orderBy = createSortOrder(order, sortingFields);
+        console.log({ orderBy });
         dispatch(setSortColumn(orderBy));
       }
     },
@@ -108,19 +109,19 @@ const CustomHeaderTable = (props: MyCustomHeaderProps) => {
       <div className="sort-buttons" style={{ display: 'flex' }}>
         <button
           type="button"
-          onClick={(event) => handleSortRequest('desc', event)}
-          onTouchEnd={(event) => handleSortRequest('desc', event)}
-          className={`customSortDownLabel ${descSort}`}
-        >
-          <i className="fa fa-long-arrow-alt-down"></i>
-        </button>
-        <button
-          type="button"
           onClick={(event) => handleSortRequest('asc', event)}
           onTouchEnd={(event) => handleSortRequest('asc', event)}
           className={`customSortUpLabel ${ascSort}`}
         >
           <i className="fa fa-long-arrow-alt-up"></i>
+        </button>
+        <button
+          type="button"
+          onClick={(event) => handleSortRequest('desc', event)}
+          onTouchEnd={(event) => handleSortRequest('desc', event)}
+          className={`customSortDownLabel ${descSort}`}
+        >
+          <i className="fa fa-long-arrow-alt-down"></i>
         </button>
       </div>
     );

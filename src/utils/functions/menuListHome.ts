@@ -26,40 +26,40 @@ export const menuLists: MenuListsProps[] = [
     },
     url: `${BLOGPAGE}/tag/all-intro-maps`,
   },
-  {
-    name: {
-      en: 'Essays',
-      es: 'Ensayos',
-      pt: 'Ensaios',
-    },
-    url: `${BLOGPAGE}/tag/essays`,
-    submenu: [
-      {
-        name: {
-          en: 'Trans-Atlantic',
-          es: 'Transatlántico',
-          pt: 'Transatlântico',
-        },
-        url: `${BLOGPAGE}/tag/transatlantic`,
-      },
-      {
-        name: {
-          en: 'Intra-American',
-          es: 'Intraamericano',
-          pt: 'Intra-americano',
-        },
-        url: `${BLOGPAGE}/tag/intraamerican`,
-      },
-      {
-        name: {
-          en: 'Texas Bound',
-          es: 'Rumbo a Texas',
-          pt: 'Destino Texas',
-        },
-        url: `${BLOGPAGE}/tag/texas-bound`,
-      },
-    ],
-  },
+  // {
+  //   name: {
+  //     en: 'Essays',
+  //     es: 'Ensayos',
+  //     pt: 'Ensaios',
+  //   },
+  //   url: `${BLOGPAGE}/tag/essays`,
+  //   submenu: [
+  //     {
+  //       name: {
+  //         en: 'Trans-Atlantic',
+  //         es: 'Transatlántico',
+  //         pt: 'Transatlântico',
+  //       },
+  //       url: `${BLOGPAGE}/tag/transatlantic`,
+  //     },
+  //     {
+  //       name: {
+  //         en: 'Intra-American',
+  //         es: 'Intraamericano',
+  //         pt: 'Intra-americano',
+  //       },
+  //       url: `${BLOGPAGE}/tag/intraamerican`,
+  //     },
+  //     {
+  //       name: {
+  //         en: 'Texas Bound',
+  //         es: 'Rumbo a Texas',
+  //         pt: 'Destino Texas',
+  //       },
+  //       url: `${BLOGPAGE}/tag/texas-bound`,
+  //     },
+  //   ],
+  // },
   {
     name: {
       en: 'Estimates',
