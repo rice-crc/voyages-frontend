@@ -1,12 +1,14 @@
-import { StyledMenu } from '@/styleMUI/stylesMenu/StyledMenu';
 import { useEffect, useState } from 'react';
+
 import '@/style/menu.scss';
-import { Link } from 'react-router-dom';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { List, ListItemText, ListItemButton, Collapse } from '@mui/material';
-import {ExpandLess,ExpandMore} from '@mui/icons-material'
-import { menuLists } from '@/utils/functions/menuListHome';
-import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { RootState } from '@/redux/store';
+import { StyledMenu } from '@/styleMUI/stylesMenu/StyledMenu';
+import { menuLists } from '@/utils/functions/menuListHome';
 
 interface MenuDropdownProps {
   open: boolean;
@@ -19,12 +21,16 @@ interface SubmenuState {
 export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
   const [maxTextLength, setMaxTextLength] = useState(0);
   const [expandedMenus, setExpandedMenus] = useState<SubmenuState>({});
-  const { languageValue: Lang } = useSelector((state: RootState) => state.getLanguages);
+  const { languageValue: language } = useSelector(
+    (state: RootState) => state.getLanguages,
+  );
   useEffect(() => {
-    const maxLength = Math.max(...menuLists.map((list) => list.name[Lang].length));
+    const maxLength = Math.max(
+      ...menuLists.map((list) => list.name[language].length),
+    );
 
     setMaxTextLength(maxLength * 5);
-  }, [menuLists]);
+  }, [language]);
 
   const handleClick = (menuName: string) => {
     const isExpanded = expandedMenus[menuName];
@@ -56,11 +62,12 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
       >
         {menuLists.map((item) => {
           return (
-
-            <div key={item.name[Lang]} style={{ padding: 0 }}>
+            <div key={item.name[language]} style={{ padding: 0 }}>
               <ListItemButton
                 onClick={
-                  item.submenu ? () => handleClick(item.name[Lang]) : undefined
+                  item.submenu
+                    ? () => handleClick(item.name[language])
+                    : undefined
                 }
                 style={{
                   padding: '0 0 0 10px',
@@ -70,25 +77,25 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
                 }}
               >
                 <Link to={`/${item.url}`}>
-                  <ListItemText primary={item.name[Lang]} />
+                  <ListItemText primary={item.name[language]} />
                 </Link>
-                {item.submenu ? displayIcon(item.name[Lang]) : null}
+                {item.submenu ? displayIcon(item.name[language]) : null}
               </ListItemButton>
               {item.submenu &&
-                expandedMenus[item.name[Lang]] &&
+                expandedMenus[item.name[language]] &&
                 item.submenu.map((submenuItem) => (
                   <Collapse
-                    in={expandedMenus[item.name[Lang]]}
+                    in={expandedMenus[item.name[language]]}
                     timeout="auto"
                     unmountOnExit
-                    key={submenuItem.name[Lang]}
+                    key={submenuItem.name[language]}
                   >
                     <List component="div" style={{ paddingLeft: 20 }}>
                       <ListItemButton style={{ padding: 0 }}>
                         <Link to={`${submenuItem.url}`}>
                           {' '}
                           <ListItemText
-                            primary={submenuItem.name[Lang]}
+                            primary={submenuItem.name[language]}
                             style={{
                               paddingLeft: 20,
                               marginTop: 0,

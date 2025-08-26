@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +12,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { setBlogData, setBlogPost } from '@/redux/getBlogDataSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { BASEURL } from '@/share/AUTH_BASEURL';
+import { BLOGPAGE } from '@/share/CONST_DATA';
 import {
   BlogDataProps,
   BlogDataPropsRequest,
@@ -22,24 +24,31 @@ import {
   reverseFormatTextURL,
 } from '@/utils/functions/formatText';
 import '@/style/blogs.scss';
-import { BLOGPAGE } from '@/share/CONST_DATA';
 
 const IMAGES_PER_PAGE = 12;
 
 const BlogResultsList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { blogURL } = usePageRouter();
-  
+
   // Selectors
   const {
     data: BlogData,
     searchAutoKey,
     searchAutoValue,
-  } = useSelector((state: RootState) => state.getBlogData as InitialStateBlogProps);
-  
-  const { languageValue } = useSelector((state: RootState) => state.getLanguages);
-  const { inputSearchValue } = useSelector((state: RootState) => state.getCommonGlobalSearch);
-  
+  } = useSelector(
+    (state: RootState) => state.getBlogData as InitialStateBlogProps,
+  );
+  const [localSearchValue, setLocalSearchValue] = useState<string | null>(
+    searchAutoValue,
+  );
+  const { languageValue } = useSelector(
+    (state: RootState) => state.getLanguages,
+  );
+  const { inputSearchValue } = useSelector(
+    (state: RootState) => state.getCommonGlobalSearch,
+  );
+
   // Local state
   const [totalResultsCount, setTotalResultsCount] = useState(0);
   const [page, setPage] = useState<number>(1);
@@ -48,7 +57,7 @@ const BlogResultsList: React.FC = () => {
   // Build filters based on current state
   const buildFilters = useCallback((): BlogFilter[] => {
     const filters: BlogFilter[] = [];
-    
+
     // Add language filter if present
     if (languageValue) {
       filters.push({
@@ -57,36 +66,36 @@ const BlogResultsList: React.FC = () => {
         op: 'in',
       });
     }
-    
-    // Add search filter based on priority: searchAutoValue > blogURL
-    // If searchAutoValue exists (even if empty string), use it and ignore blogURL
-    // If searchAutoValue is null/undefined, fall back to blogURL
-    let searchTerm = null;
-    
-    if (searchAutoValue !== null && searchAutoValue !== undefined) {
-      // searchAutoValue is explicitly set (could be empty string or non-empty)
-      searchTerm = searchAutoValue.trim(); // Use trimmed value, empty string if originally empty
+
+    if (searchAutoValue) {
+      setLocalSearchValue(searchAutoValue.trim());
     } else if (blogURL) {
       // No searchAutoValue set, use blogURL as fallback
-      searchTerm = reverseFormatTextURL(blogURL);
+      setLocalSearchValue(reverseFormatTextURL(blogURL));
     }
-    
+
     // Only add search filter if we have a non-empty search term and searchAutoKey
-    if (searchTerm && searchAutoKey) {
+    if (localSearchValue && searchAutoKey) {
       filters.push({
         varName: searchAutoKey,
-        searchTerm: searchTerm,
+        searchTerm: localSearchValue,
         op: 'icontains',
       });
     }
-    
+
     return filters;
-  }, [languageValue, searchAutoValue, searchAutoKey, blogURL]);
+  }, [
+    languageValue,
+    searchAutoValue,
+    searchAutoKey,
+    blogURL,
+    localSearchValue,
+  ]);
 
   // Fetch blog data
   const fetchDataBlog = useCallback(async () => {
     setLoading(true);
-    
+
     try {
       const filters = buildFilters();
       const dataSend: BlogDataPropsRequest = {
@@ -94,7 +103,7 @@ const BlogResultsList: React.FC = () => {
         page: page,
         page_size: IMAGES_PER_PAGE,
       };
-      
+
       // Add global search if present
       if (inputSearchValue?.trim()) {
         dataSend.global_search = inputSearchValue.trim();
@@ -130,7 +139,14 @@ const BlogResultsList: React.FC = () => {
   // Effect to reset page when filters change (but not page itself)
   useEffect(() => {
     resetToFirstPage();
-  }, [languageValue, inputSearchValue, searchAutoKey, searchAutoValue, blogURL, resetToFirstPage]);
+  }, [
+    languageValue,
+    inputSearchValue,
+    searchAutoKey,
+    searchAutoValue,
+    blogURL,
+    resetToFirstPage,
+  ]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -146,8 +162,10 @@ const BlogResultsList: React.FC = () => {
         <img
           src={blog.thumbnail ? `${BASEURL}${blog.thumbnail}` : defaultImage}
           alt={blog.title}
-          className={blog.thumbnail ? "card-img img-fluid content-image" : ""}
-          style={!blog.thumbnail ? { textAlign: 'center', width: '100%' } : undefined}
+          className={blog.thumbnail ? 'card-img img-fluid content-image' : ''}
+          style={
+            !blog.thumbnail ? { textAlign: 'center', width: '100%' } : undefined
+          }
         />
         <div className="content-details fadeIn-bottom">
           <h3 className="content-title">{blog.title}</h3>
@@ -182,13 +200,11 @@ const BlogResultsList: React.FC = () => {
           <h2>{displayTitle}</h2>
         </div>
       )}
-      
+
       {hasData ? (
         <div className={blogURL ? 'container-new-with-intro' : 'container-new'}>
-          <div className="card-columns">
-            {BlogData.map(renderBlogCard)}
-          </div>
-          
+          <div className="card-columns">{BlogData.map(renderBlogCard)}</div>
+
           <BlogPageButton
             setCurrentBlogPage={setPage}
             currentBlogPage={page}
