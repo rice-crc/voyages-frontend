@@ -331,10 +331,33 @@
   justify-content: center;
   align-items: center;
   padding: 5px 0 5px 30px;
-
+  
   button {
     color: rgba(255, 255, 255, 0.75) !important;
     font-weight: 600;
+    @include breakpoint-standard(5) {
+      color: #fff !important;
+    }
+  
+    @include breakpoint-standard(4) {
+      color: #fff !important;
+    }
+  
+    @include breakpoint-standard(3) {
+      color: #fff !important;
+    }
+  
+    @include breakpoint-standard(2) {
+      color: #fff !important;
+    }
+  
+    @include breakpoint-standard(1) {
+      color: #fff !important;
+    }
+  
+    @include breakpoint-standard(0) {
+      color: #fff !important;
+    }
   }
 
   button:hover {
@@ -350,7 +373,17 @@
   position: relative;
   right: 2.5rem;
   z-index: 6;
-
+  background: transparent;
+  border: none;
+  // @include breakpoint-standard(5) {
+  //   right: -2.5rem;
+  // }
+  @include breakpoint-standard(4) {
+    right: -2.5rem;
+  }
+  @include breakpoint-standard(3) {
+    right: -1rem;
+  }
   @include breakpoint-standard(2) {
     right: -1rem;
   }

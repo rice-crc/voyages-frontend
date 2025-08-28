@@ -1,15 +1,17 @@
 import '@/style/estimates.scss';
 import '@/style/Nav.scss';
-import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
-import HeaderLogoEstimate from '@/components/NavigationComponents/Header/HeaderLogoEstimate';
 import { FunctionComponent } from 'react';
-import { AppDispatch, RootState } from '@/redux/store';
+
+import { styled } from '@mui/material/styles';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetAll } from '@/redux/resetAllSlice';
+
 import SaveSearchComponent from '@/components/FilterComponents/SaveSearchComponent/SaveSearchComponent';
-import { usePageRouter } from '@/hooks/usePageRouter';
+import HeaderLogoEstimate from '@/components/NavigationComponents/Header/HeaderLogoEstimate';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { resetAll } from '@/redux/resetAllSlice';
+import { AppDispatch, RootState } from '@/redux/store';
 import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
 interface EstimatesNavBarProps {
@@ -32,7 +34,7 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({
   const dispatch: AppDispatch = useDispatch();
   const { currentBlockName } = usePageRouter();
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
 
   const resetAllEstimate = () => {
@@ -85,18 +87,42 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({
               aria-expanded="false"
               aria-controls="panelCollapse"
             >
-              <div className="btn-navbar" onClick={handleViewAll}>
+              {/* <div className="navbar-subitem">
+                <a
+                  data-toggle="collapse"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="panelCollapse"
+                >
+                  <button className="btn-navbar" onClick={handleViewAll}>
+                    <i className="fa fa-filter" aria-hidden="true"></i>
+                    {translatedEstimates.viewAll}
+                  </button>
+                </a>
+              </div>
+              <div className="navbar-subitem">
+                <button className="btn-navbar" onClick={resetAllEstimate}>
+                  <i className="fa fa-times" aria-hidden="true"></i>
+                  {translatedEstimates.resetAll}
+                </button>
+              </div> */}
+              <button className="btn-navbar" onClick={handleViewAll}>
                 <i className="fa fa-filter" aria-hidden="true"></i>
                 {translatedEstimates.viewAll}
-              </div>
+              </button>
             </a>
           </div>
           <div className="navbar-subitem">
-            <a role="button" onClick={resetAllEstimate}>
-              <div className="btn-navbar">
+            <a
+              data-toggle="collapse"
+              role="button"
+              aria-expanded="false"
+              aria-controls="panelCollapse"
+            >
+              <button className="btn-navbar" onClick={resetAllEstimate}>
                 <i className="fa fa-times" aria-hidden="true"></i>
                 {translatedEstimates.resetAll}
-              </div>
+              </button>
             </a>
           </div>
         </div>

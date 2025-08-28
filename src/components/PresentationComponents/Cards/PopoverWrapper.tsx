@@ -1,5 +1,6 @@
-import Tooltip from '@mui/material/Tooltip';
 import { ReactNode } from 'react';
+
+import Tooltip from '@mui/material/Tooltip';
 
 interface PopoverWrapperProps {
   children: ReactNode;
@@ -15,7 +16,13 @@ const PopoverWrapper = ({
   return (
     <Tooltip
       title={
-        <div style={{ padding: padding ?? 2, whiteSpace: 'pre-line', maxWidth: 1000 }}>
+        <div
+          style={{
+            padding: padding ?? 2,
+            whiteSpace: 'pre-line',
+            maxWidth: 1000,
+          }}
+        >
           {popoverContents}
         </div>
       }

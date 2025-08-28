@@ -37,58 +37,72 @@
     }
   }
 }
+@media (min-width: 768px) {
+  .mobile-filter-container {
+    display: none !important;
+  }
+  .filter-menu-bar {
+    display: flex !important;
+  }
+}
 
-// @mixin breakpoint-standard($size) {
-//   @if $size==0 {
-//     @media only screen and (max-width: 320px) {
-//       // Small mobile devices
-//       @content;
-//     }
-//   }
+@media (max-width: 770px) {
+  .mobile-filter-container {
+    display: flex !important;
+  }
+  .filter-menu-bar {
+    display: none !important;
+  }
+}
 
-//   @else if $size==1 {
-//     @media only screen and (min-width: 321px) and (max-width: 480px) {
-//       // Medium mobile devices
-//       @content;
-//     }
-//   }
+/* Mobile dropdown specific styles */
+.mobile-filter-overlay .ant-dropdown-menu {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 8px 0;
+  border: none;
+}
 
-//   @else if $size==2 {
-//     @media only screen and (min-width: 481px) and (max-width: 767px) {
-//       // Large mobile devices / small tablets
-//       @content;
-//     }
-//   }
+.mobile-filter-overlay .ant-dropdown-menu-item {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333333;
+  border-bottom: 1px solid #f0f0f0;
+  margin: 0;
+  border-radius: 0;
+}
 
-//   @else if $size==3 {
-//     @media only screen and (min-width: 768px) and (max-width: 991px) {
-//       // Tablets
-//       @content;
-//     }
-//   }
+.mobile-filter-overlay .ant-dropdown-menu-item:last-child {
+  border-bottom: none;
+}
 
-//   @else if $size==4 {
-//     @media only screen and (min-width: 992px) and (max-width: 1199px) {
-//       // Small desktops
-//       @content;
-//     }
-//   }
+.mobile-filter-overlay .ant-dropdown-menu-item:hover {
+  background-color: #f5f5f5;
+}
+.ant-dropdown-menu-submenu-popup {
+  z-index: 10002 !important;
+}
 
-//   @else if $size==5 {
-//     @media only screen and (min-width: 1200px) and (max-width: 1399px) {
-//       // Medium desktops
-//       @content;
-//     }
-//   }
+.ant-dropdown-menu-submenu-popup .ant-dropdown-menu {
+  z-index: 10002 !important;
+}
 
-//   @else if $size==6 {
-//     @media only screen and (min-width: 1400px) {
-//       // Large desktops
-//       @content;
-//     }
-//   }
-// }
+.mobile-filter-overlay .ant-dropdown-menu-submenu-title {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333333;
+  border-bottom: 1px solid #f0f0f0;
+}
 
+.mobile-filter-overlay .ant-dropdown-menu-submenu-arrow {
+  right: 16px;
+}
+
+/* Ensure mobile dropdown appears above other elements */
+.mobile-filter-overlay {
+  z-index: 9999;
+}
 .video-background {
   position: absolute;
   top: 0;
