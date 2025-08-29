@@ -142,12 +142,13 @@ export const menuLists: MenuListsProps[] = [
     },
     url: `${BLOGPAGE}/tag/downloads`,
   },
-  {
-    name: {
-      en: 'Contribute',
-      es: 'Contribuir',
-      pt: 'Contribuir',
-    },
-    url: `${ACCOUNTS}signin/`,
-  },
+  /*** Hide until Contribute finish  */
+  // {
+  //   name: {
+  //     en: 'Contribute',
+  //     es: 'Contribuir',
+  //     pt: 'Contribuir',
+  //   },
+  //   url: `${ACCOUNTS}signin/`,
+  // },
 ];
