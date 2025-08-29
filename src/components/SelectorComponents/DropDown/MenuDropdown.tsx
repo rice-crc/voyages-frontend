@@ -76,9 +76,13 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
                   cursor: 'pointer',
                 }}
               >
-                <Link to={`/${item.url}`}>
+                {item.url ? (
+                  <Link to={`/${item.url}`}>
+                    <ListItemText primary={item.name[language]} />
+                  </Link>
+                ) : (
                   <ListItemText primary={item.name[language]} />
-                </Link>
+                )}
                 {item.submenu ? displayIcon(item.name[language]) : null}
               </ListItemButton>
               {item.submenu &&
@@ -90,10 +94,16 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
                     unmountOnExit
                     key={submenuItem.name[language]}
                   >
-                    <List component="div" style={{ paddingLeft: 20 }}>
+                    <List
+                      component="div"
+                      style={{
+                        paddingLeft: 20,
+                        paddingTop: 4,
+                        paddingBottom: 4,
+                      }}
+                    >
                       <ListItemButton style={{ padding: 0 }}>
                         <Link to={`${submenuItem.url}`}>
-                          {' '}
                           <ListItemText
                             primary={submenuItem.name[language]}
                             style={{

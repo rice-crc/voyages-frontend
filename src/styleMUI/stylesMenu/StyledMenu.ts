@@ -25,15 +25,16 @@ export const StyledMenu = styled.nav<StyledMenuProps>`
   flex-direction: column;
   justify-content: center;
   background: #ffffff;
-  transform: ${({ open }: StyledMenuNavProps) => (open ? 'translateX(0)' : 'translateX(-100%)')};
+  transform: ${({ open }: StyledMenuNavProps) =>
+    open ? 'translateX(0)' : 'translateX(-100%)'};
   text-align: left;
-  padding: 3rem 2rem 1rem 2rem;
+  padding: 2.5rem 2rem 1rem 1rem;
   position: absolute;
   top: 1px;
   left: 0;
   z-index: 2;
   transition: transform 0.3s ease-in-out;
-  width: 200px;
+  width: 205px;
   @media (max-width: 576px) {
     width: 80%;
   }

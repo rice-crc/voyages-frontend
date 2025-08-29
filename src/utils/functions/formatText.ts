@@ -11,6 +11,7 @@ export function reverseFormatTextURL(formattedURL: string) {
   if (!formattedURL) return null;
   if (formattedURL === 'all-intro-maps') return 'Introductory Maps';
   if (formattedURL === 'about') return 'About';
+  if (formattedURL === 'slavevoyages-30') return 'SlaveVoyages 3.0';
   return formattedURL
     .replace(/-/g, ' ') // Replace dashes with spaces
     .replace(/\b\w\b/g, '') // Remove single-letter words

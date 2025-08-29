@@ -16,7 +16,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Acerca de',
       pt: 'Sobre',
     },
-    url: `${BLOGPAGE}/tag/about`,
+    url: `${BLOGPAGE}/tag/about#about`,
   },
   {
     name: {
@@ -24,42 +24,42 @@ export const menuLists: MenuListsProps[] = [
       es: 'Mapas Introductorios',
       pt: 'Mapas Introdutórios',
     },
-    url: `${BLOGPAGE}/tag/all-intro-maps`,
+    url: `${BLOGPAGE}/tag/all-intro-maps#all-intro-maps`,
   },
-  // {
-  //   name: {
-  //     en: 'Essays',
-  //     es: 'Ensayos',
-  //     pt: 'Ensaios',
-  //   },
-  //   url: `${BLOGPAGE}/tag/essays`,
-  //   submenu: [
-  //     {
-  //       name: {
-  //         en: 'Trans-Atlantic',
-  //         es: 'Transatlántico',
-  //         pt: 'Transatlântico',
-  //       },
-  //       url: `${BLOGPAGE}/tag/transatlantic`,
-  //     },
-  //     {
-  //       name: {
-  //         en: 'Intra-American',
-  //         es: 'Intraamericano',
-  //         pt: 'Intra-americano',
-  //       },
-  //       url: `${BLOGPAGE}/tag/intraamerican`,
-  //     },
-  //     {
-  //       name: {
-  //         en: 'Texas Bound',
-  //         es: 'Rumbo a Texas',
-  //         pt: 'Destino Texas',
-  //       },
-  //       url: `${BLOGPAGE}/tag/texas-bound`,
-  //     },
-  //   ],
-  // },
+  {
+    name: {
+      en: 'Essays',
+      es: 'Ensayos',
+      pt: 'Ensaios',
+    },
+    url: undefined,
+    submenu: [
+      {
+        name: {
+          en: 'Trans-Atlantic',
+          es: 'Transatlántico',
+          pt: 'Transatlântico',
+        },
+        url: `${BLOGPAGE}/tag/transatlantic#transatlantic`,
+      },
+      {
+        name: {
+          en: 'Intra-American',
+          es: 'Intraamericano',
+          pt: 'Intra-americano',
+        },
+        url: `${BLOGPAGE}/tag/intraamerican#intraamerican`,
+      },
+      {
+        name: {
+          en: 'Texas Bound',
+          es: 'Rumbo a Texas',
+          pt: 'Destino Texas',
+        },
+        url: `${BLOGPAGE}/tag/texas-bound#texas-bound`,
+      },
+    ],
+  },
   {
     name: {
       en: 'Estimates',
@@ -74,7 +74,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Línea de Tiempo',
       pt: 'Linha do Tempo',
     },
-    url: `${TRANSATLANTICTIMELAPSE}#timelapse`,
+    url: undefined,
     submenu: [
       {
         name: {

@@ -197,14 +197,13 @@ const BlogResultsList: React.FC = () => {
     <>
       {displayTitle && (
         <div id="blog_intro" className="blog_intro">
-          <h2>{displayTitle}</h2>
+          <h2>{searchAutoValue}</h2>
         </div>
       )}
 
       {hasData ? (
         <div className={blogURL ? 'container-new-with-intro' : 'container-new'}>
           <div className="card-columns">{BlogData.map(renderBlogCard)}</div>
-
           <BlogPageButton
             setCurrentBlogPage={setPage}
             currentBlogPage={page}
@@ -221,3 +220,38 @@ const BlogResultsList: React.FC = () => {
 };
 
 export default BlogResultsList;
+/*
+[
+    {
+        "varName": "language",
+        "searchTerm": [
+            "en"
+        ],
+        "op": "in"
+    },
+    {
+        "varName": "tags__name",
+        "searchTerm": "Slavevoyages 30",
+        "op": "icontains"
+    }
+]
+
+{
+    "filter": [
+        {
+            "varName": "language",
+            "searchTerm": [
+                "en"
+            ],
+            "op": "in"
+        },
+        {
+            "varName": "tags__name",
+            "searchTerm": "SlaveVoyages 3.0",
+            "op": "icontains"
+        }
+    ],
+    "page": 1,
+    "page_size": 12
+}
+*/

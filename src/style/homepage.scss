@@ -604,58 +604,71 @@
 
 .place-page-box-timelapse {
   cursor: pointer;
+  --image-size: 107px;
 
   img {
-    width: 107px;
+    width: var(--image-size);
+    height: var(--image-size);
     border-radius: 50%;
     margin: 5px 0px 10px 0;
     opacity: 0.65;
-  }
-
-  @include breakpoint-standard(6) {
-    img {
-      width: 110px;
+    object-fit: cover;
+    object-position: center;
+    transition: opacity 0.3s ease;
+    
+    &:hover {
+      opacity: 0.9;
     }
   }
 
+  @include breakpoint-standard(6) {
+    --image-size: 110px;
+  }
+
   @include breakpoint-standard(5) {
+    --image-size: 110px;
+    
     img {
-      width: 110px;
       margin: 5px 0px 5px 0;
     }
   }
 
   @include breakpoint-standard(4) {
+    --image-size: 90px;
+    
     img {
-      width: 65%;
       margin: 5px 0 5px 0;
     }
   }
 
   @include breakpoint-standard(3) {
+    --image-size: 80px;
+    
     img {
-      width: 42%;
       margin: 5px 0 5px 0;
     }
   }
 
   @include breakpoint-standard(2) {
+    --image-size: 70px;
+    
     img {
-      width: 50%;
       margin: 5px 0 5px 0;
     }
   }
 
   @include breakpoint-standard(1) {
+    --image-size: 65px;
+    
     img {
-      width: 50%;
       margin: 5px 0 5px 0;
     }
   }
 
   @include breakpoint-standard(0) {
+    --image-size: 60px;
+    
     img {
-      width: 50%;
       margin: 5px 0 5px 0;
     }
   }
