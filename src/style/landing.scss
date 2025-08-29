@@ -289,14 +289,6 @@ $animationSpeed: 100s;
     font-size: 4.8rem;
   }
 
-  p {
-    font-size: 1rem;
-    margin-bottom: 0;
-    padding: 0.5rem;
-    line-height: 1.12rem;
-    font-weight: 700;
-  }
-
   a {
     text-decoration: none;
     color: #000000;
@@ -1060,6 +1052,8 @@ $animationSpeed: 100s;
   border-radius: 10px;
   height: 230px;
   box-shadow: 8px 8px 5px 2px #3f3f3f;
+  object-fit: cover; // This will crop the image to fit while maintaining aspect ratio
+  object-position: center; // Center the image within the container
 
   @include breakpoint-standard(6) {
     height: 230px;

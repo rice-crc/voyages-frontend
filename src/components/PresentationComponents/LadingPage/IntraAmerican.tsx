@@ -1,22 +1,27 @@
 import React from 'react';
+
 import '@/style/intra-american.scss';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import INTRAMERCAN from '@/assets/Intra-American.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
-import { INTRAAMERICANPAGE, BLOGPAGE, ACCOUNTS } from '@/share/CONST_DATA';
-import { useSelector } from 'react-redux';
-import { translationHomepage } from '@/utils/functions/translationLanguages';
 import { RootState } from '@/redux/store';
-import { Link } from 'react-router-dom';
+import { INTRAAMERICANPAGE, BLOGPAGE, ACCOUNTS } from '@/share/CONST_DATA';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 const IntraAmerican: React.FC = () => {
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedHomepage = translationHomepage(languageValue);
 
   const lists = [
-    { name: `${translatedHomepage.btnAbout}`, url: `${BLOGPAGE}/tag/about` },
+    {
+      name: `${translatedHomepage.btnAbout}`,
+      url: `${BLOGPAGE}/tag/about#about`,
+    },
     {
       name: `${translatedHomepage.btnDatabase}`,
       url: `${INTRAAMERICANPAGE}#voyages`,
@@ -25,7 +30,8 @@ const IntraAmerican: React.FC = () => {
       name: `${translatedHomepage.btnDownloads}`,
       url: `${BLOGPAGE}/tag/downloads`,
     },
-    { name: `${translatedHomepage.btnContribute}`, url: `${ACCOUNTS}signin` },
+    //** ToDo==> Hide Contribute Button until finish  */
+    // { name: `${translatedHomepage.btnContribute}`, url: `${ACCOUNTS}signin` },
   ];
 
   return (

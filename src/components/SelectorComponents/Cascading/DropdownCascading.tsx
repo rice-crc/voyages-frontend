@@ -57,38 +57,40 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
     };
 
     const handleForceClose = () => {
-      onControlledOpen ? onControlledOpen(null) : setInternalOpen(false);
+      if (onControlledOpen) {
+        onControlledOpen(null);
+      } else {
+        setInternalOpen(false);
+      }
     };
 
     // Function that menu items can call to close the dropdown
     const closeMenu = () => {
-      setTimeout(() => handleForceClose(), 100); // Small delay to ensure click event completes
+      setTimeout(() => handleForceClose(), 100);
     };
 
     const convertToAntdMenuItems = (
-      menuItems?: (ReactElement | any)[], // Accept both React elements and plain objects
+      menuItems?: (ReactElement | any)[],
       parentKey: string = '',
     ): MenuProps['items'] => {
       if (!menuItems) return [];
-    
+
       return menuItems.map((menuItem, index) => {
         // Check if it's a React element or a plain object
         const isReactElement = menuItem.props !== undefined;
-        
+
         if (isReactElement) {
           // Handle React elements (your existing logic)
-          const { onClick, children, menu: submenu, ...props } = menuItem.props;
-          
           const {
+            onClick,
+            children,
+            menu: submenu,
             key,
-            dense,
-            component,
-            onClickMenu,
             ...safeProps
-          } = props;
-    
+          } = menuItem.props;
+
           const compositeKey = key || `${parentKey}-${index}`;
-    
+
           const handleItemClick = (e: any) => {
             const mouseEvent = {
               currentTarget: e.domEvent?.currentTarget || {},
@@ -96,33 +98,36 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
               preventDefault: () => e.domEvent?.preventDefault?.(),
               ...safeProps,
             };
-    
+
             if (onClick) {
               onClick(mouseEvent);
             }
-    
+
             if (!submenu) {
               closeMenu();
             }
           };
-    
+
           const menuItemConfig: any = {
             key: compositeKey,
             label: children,
             onClick: handleItemClick,
             ...safeProps,
           };
-    
+
           if (submenu && Array.isArray(submenu)) {
-            menuItemConfig.children = convertToAntdMenuItems(submenu, compositeKey);
+            menuItemConfig.children = convertToAntdMenuItems(
+              submenu,
+              compositeKey,
+            );
           }
-    
+
           return menuItemConfig;
         } else {
           // Handle plain objects (from renderDropdownMenu)
           const { key, label, children, onClick, ...otherProps } = menuItem;
           const compositeKey = key || `${parentKey}-${index}`;
-    
+
           const handleItemClick = (e: any) => {
             if (onClick) {
               const mouseEvent = {
@@ -133,23 +138,26 @@ export const DropdownCascading = forwardRef<HTMLDivElement, DropdownProps>(
               };
               onClick(mouseEvent);
             }
-    
+
             if (!children) {
               closeMenu();
             }
           };
-    
+
           const menuItemConfig: any = {
             key: compositeKey,
             label,
             onClick: handleItemClick,
             ...otherProps,
           };
-    
+
           if (children && Array.isArray(children)) {
-            menuItemConfig.children = convertToAntdMenuItems(children, compositeKey);
+            menuItemConfig.children = convertToAntdMenuItems(
+              children,
+              compositeKey,
+            );
           }
-    
+
           return menuItemConfig;
         }
       });

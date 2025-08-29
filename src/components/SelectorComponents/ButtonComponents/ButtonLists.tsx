@@ -1,8 +1,10 @@
-import { resetAll } from '@/redux/resetAllSlice';
-import { AppDispatch } from '@/redux/store';
-import '@/style/landing.scss';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import { resetAll } from '@/redux/resetAllSlice';
+import { AppDispatch } from '@/redux/store';
+
+import '@/style/landing.scss';
 
 interface ListBtnItem {
   name: string;
@@ -23,11 +25,13 @@ const ButtonLists: React.FC<ButtonListsProps> = ({ lists }) => {
   return (
     <div className="list-btn">
       {lists.map((list) => (
-        <div
-          key={`${list.name}-${list.url}`}
-          onClick={() => handleClikLink(list.url)}
-        >
-          <div className="btn-list-name">{list.name}</div>
+        <div key={`${list.name}-${list.url}`}>
+          <button
+            onClick={() => handleClikLink(list.url)}
+            className="btn-list-name"
+          >
+            {list.name}
+          </button>
         </div>
       ))}
     </div>

@@ -12,23 +12,18 @@ import {
 } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { useDispatch, useSelector } from 'react-redux';
-
 import '@/style/Nav.scss';
-import {
-  BaseFilter,
-  BlockCollectionProps,
-  DataSetCollectionProps,
-} from '@/share/InterfactTypesDatasetCollection';
-import { DatasetButton } from './DatasetButton';
+import { useNavigate } from 'react-router-dom';
+
+import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
+import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
+import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
+import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
+import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 import { setFilterObject } from '@/redux/getFilterSlice';
-import { Filter } from '@/share/InterfaceTypes';
-import {
-  getColorBTNVoyageDatasetBackground,
-  getColorBoxShadow,
-  getColorHoverBackground,
-  getColorNavbarBackground,
-} from '@/utils/functions/getColorStyle';
-import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import {
   setBaseFilterEnslaversDataSetValue,
   setDataSetEnslaversHeader,
@@ -37,17 +32,8 @@ import {
   setEnslaversStyleName,
   setPeopleTableEnslavedFlatfile,
 } from '@/redux/getPeopleEnslaversDataSetCollectionSlice';
-import { useNavigate } from 'react-router-dom';
-import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
-import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
-import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
-import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
-import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
-import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
-import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
+import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   ALLENSLAVERS,
@@ -61,8 +47,21 @@ import {
   TransAtlanticTitle,
   allEnslavers,
 } from '@/share/CONST_DATA';
+import { Filter } from '@/share/InterfaceTypes';
+import {
+  BaseFilter,
+  BlockCollectionProps,
+  DataSetCollectionProps,
+} from '@/share/InterfactTypesDatasetCollection';
 import { MenuListDropdownStyle } from '@/styleMUI';
+import {
+  getColorBTNVoyageDatasetBackground,
+  getColorBoxShadow,
+  getColorHoverBackground,
+  getColorNavbarBackground,
+} from '@/utils/functions/getColorStyle';
 
+import { DatasetButton } from './DatasetButton';
 import { DrawerMenuBar } from './DrawerMenuBar';
 import HeaderLogo from './HeaderLogo';
 
@@ -94,16 +93,10 @@ const HeaderEnslaversNavBar: React.FC = () => {
     } else if (styleNameRoute === ENSALVERSTYLE) {
       dispatch(setDataSetEnslaversHeader(EnslaversAllTrades));
     }
-  }, [styleNameRoute]);
+  }, [dispatch, styleNameRoute]);
 
   const handleMenuFilterMobileClose = () => {
     setAnchorFilterMobileEl(null);
-  };
-
-  const styleNameToPathMap: { [key: string]: string } = {
-    [allEnslavers]: `${ALLENSLAVERS}/${allEnslavers}#${currentBlockName}`,
-    [INTRAAMERICANTRADS]: `${ALLENSLAVERS}${INTRAAMERICANENSLAVERS}#${currentBlockName}`,
-    [TRANSATLANTICTRADS]: `${ALLENSLAVERS}${TRANSATLANTICENSLAVERS}#${currentBlockName}`,
   };
 
   const onClickResetOnHeader = () => {
@@ -155,9 +148,13 @@ const HeaderEnslaversNavBar: React.FC = () => {
         JSON.stringify({ filter: filteredFilters }),
       );
 
-      if (styleNameToPathMap[styleName]) {
+      const styleNameToPathMap: { [key: string]: string } = {
+        [allEnslavers]: `${ALLENSLAVERS}/${allEnslavers}#${currentBlockName}`,
+        [INTRAAMERICANTRADS]: `${ALLENSLAVERS}${INTRAAMERICANENSLAVERS}#${currentBlockName}`,
+        [TRANSATLANTICTRADS]: `${ALLENSLAVERS}${TRANSATLANTICENSLAVERS}#${currentBlockName}`,
+      };
+      if (styleNameToPathMap[styleName])
         navigate(styleNameToPathMap[styleName]);
-      }
       const keysToRemove = Object.keys(localStorage);
       keysToRemove.forEach((key) => {
         if (key !== 'filterObject') {
@@ -165,7 +162,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
         }
       });
     },
-    [value, currentBlockName, navigate, dispatch],
+    [navigate, dispatch, currentBlockName],
   );
 
   const handleMenuClose = () => {
@@ -236,7 +233,7 @@ const HeaderEnslaversNavBar: React.FC = () => {
               {inputSearchValue && <GlobalSearchButton />}
             </Typography>
           </Typography>
-          {!inputSearchValue && <CascadingMenuMobile />}
+          <Hidden mdUp>{!inputSearchValue && <CascadingMenu />}</Hidden>
           <Box
             className="menu-nav-bar-select-box"
             sx={{

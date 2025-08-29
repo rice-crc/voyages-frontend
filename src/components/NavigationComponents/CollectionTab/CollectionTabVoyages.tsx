@@ -178,9 +178,7 @@ const CollectionTabVoyages = () => {
               onFocus={handleFocus}
               onBlur={handleBlur}
             >
-              <div style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>
-                {blockName}
-              </div>
+              <div style={{ textAlign: 'center' }}>{blockName}</div>
             </Button>
           );
         })}

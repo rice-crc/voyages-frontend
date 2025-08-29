@@ -50,13 +50,27 @@ const FilterTextBox: FunctionComponent<FilterTextProps> = ({
         label={
           type === TYPES.IdMatch ? 'Filter by Voyage ID' : 'Filter by Text'
         }
-        style={{ marginTop: 20, width: 450 }}
-        InputLabelProps={{
-          sx: {
-            fontSize: 14,
-            color: 'primary.main',
-            '&.Mui-focused': {
+        sx={{
+          marginTop: 2.5,
+          width: {
+            xs: '100%', // Mobile: full width
+            sm: '90%', // Small: 90% width
+            md: 450, // Medium and up: 450px
+          },
+          maxWidth: {
+            xs: '100%',
+            sm: 400,
+            md: 450,
+          },
+        }}
+        slotProps={{
+          inputLabel: {
+            sx: {
+              fontSize: 14,
               color: 'primary.main',
+              '&.Mui-focused': {
+                color: 'primary.main',
+              },
             },
           },
         }}

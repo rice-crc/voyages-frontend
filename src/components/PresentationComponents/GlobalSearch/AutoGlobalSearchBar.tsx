@@ -1,20 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IconButton, List, ListItem, ListItemText, Stack } from '@mui/material';
+
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material';
-import { TextFieldSearch } from '@/styleMUI';
-import { AppDispatch, RootState } from '@/redux/store';
+import { IconButton, List, ListItem, ListItemText, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import { fetchSearchGlobal } from '@/fetch/homeFetch/fetchSearchGlobal';
-import { translationHomepage } from '@/utils/functions/translationLanguages';
 import {
   setInputSearchValue,
   setRequestId,
   setSearchGlobalData,
   setTypePage,
 } from '@/redux/getCommonGlobalSearchResultSlice';
-import { GlobalSearchProp } from '@/share/InterfaceTypesGlobalSearch';
-import '@/style/homepage.scss';
-import { useNavigate } from 'react-router-dom';
+import {
+  setCurrentBlockName,
+  setCurrentEnslavedPage,
+} from '@/redux/getScrollEnslavedPageSlice';
+import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
+import { setCurrentPage } from '@/redux/getScrollPageSlice';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   ALLENSLAVEDPAGE,
   ALLVOYAGESPAGE,
@@ -29,29 +33,27 @@ import {
   GlobalSearchVoyagesType,
   TRANSATLANTICENSLAVERS,
 } from '@/share/CONST_DATA';
-import { setCurrentPage } from '@/redux/getScrollPageSlice';
-import { setCurrentEnslaversPage } from '@/redux/getScrollEnslaversPageSlice';
-import {
-  setCurrentBlockName,
-  setCurrentEnslavedPage,
-} from '@/redux/getScrollEnslavedPageSlice';
+import { GlobalSearchProp } from '@/share/InterfaceTypesGlobalSearch';
+import '@/style/homepage.scss';
+import { TextFieldSearch } from '@/styleMUI';
 import {
   getOptionLabelSearchGlobal,
   shouldDisable,
 } from '@/utils/functions/getOptionLabelSearchGlobal';
+import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 const AutoGlobalSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { data, inputSearchValue, requestId } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
   const [showClearButton, setShowClearButton] = useState<boolean>(false);
   const [calledIds, setCalledIds] = useState<Set<number>>(new Set());
   const [isFetching, setIsFetching] = useState(false);
   const signalRef = useRef<AbortController | null>(null);
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedSearch = translationHomepage(languageValue);
 
@@ -134,7 +136,7 @@ const AutoGlobalSearchBar = () => {
         navigate(`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}#people`);
       } else if (type === GlobalSearchBlogType) {
         navigate(`${BLOGPAGE}`);
-      }else if (type === GlobalSearchSourcesType) {
+      } else if (type === GlobalSearchSourcesType) {
         navigate(`${DOCUMENTPAGE}`);
       }
       localStorage.setItem('global_search', inputSearchValue);
@@ -183,9 +185,9 @@ const AutoGlobalSearchBar = () => {
             >
               <ListItem
                 onClick={() => !shouldDisable(option) && handleSelect(option)}
-                sx={{ 
+                sx={{
                   opacity: shouldDisable(option) ? 0.5 : 1,
-                  cursor: shouldDisable(option) ? 'not-allowed' : 'pointer'
+                  cursor: shouldDisable(option) ? 'not-allowed' : 'pointer',
                 }}
               >
                 <ListItemText primary={getOptionLabelSearchGlobal(option)} />

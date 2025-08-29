@@ -206,6 +206,7 @@ const Tables: React.FC = () => {
     };
     return base;
   }, [stableFilters]);
+
   const isShowDownloadButton = checkPagesRouteForVoyages(styleNameRoute!);
   const shouldFetchData = useMemo(() => {
     return (
@@ -536,7 +537,7 @@ const Tables: React.FC = () => {
               ref={gridRef}
               suppressHorizontalScroll={false}
               loading={loading}
-              rowData={rowData} 
+              rowData={rowData}
               columnDefs={columnDefs}
               suppressMenuHide={true}
               onGridReady={hanldeGridReady}

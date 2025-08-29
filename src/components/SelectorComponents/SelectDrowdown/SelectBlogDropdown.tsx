@@ -1,13 +1,15 @@
 import { useState, MouseEvent, useCallback } from 'react';
-import { Button, Menu, MenuItem, Fade } from '@mui/material';
-import { Link } from 'react-router-dom';
+
 import { ArrowDropDown } from '@mui/icons-material';
+import { Button, Menu, MenuItem, Fade } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { Link, useParams } from 'react-router-dom';
+
 import { setSearchAutoKey, setSearchBlogTitle } from '@/redux/getBlogDataSlice';
-import { searchBlogData } from '@/share/InterfaceTypesBlog';
+import { RootState } from '@/redux/store';
 import { BLOGPAGE } from '@/share/CONST_DATA';
-import { useParams } from 'react-router-dom';
+import { searchBlogData } from '@/share/InterfaceTypesBlog';
+
 interface SelectBlogDropdownProps {
   handleReset: () => void;
 }
@@ -72,7 +74,6 @@ export default function SelectBlogDropdown({
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        TransitionComponent={Fade}
       >
         {searchBlogData.map((value) => (
           <div className="dropdown-item" key={value.tag}>

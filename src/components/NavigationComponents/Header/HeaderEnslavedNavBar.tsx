@@ -1,9 +1,6 @@
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 
 import MenuIcon from '@mui/icons-material/Menu';
-
-import { MenuListDropdownStyle } from '@/styleMUI';
-
 import {
   Menu,
   Typography,
@@ -21,13 +18,10 @@ import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetB
 import { DrawerMenuBar } from '@/components/NavigationComponents/Header/DrawerMenuBar';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import '@/style/Nav.scss';
-import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import GlobalSearchButton from '@/components/PresentationComponents/GlobalSearch/GlobalSearchButton';
-
 import '@/style/homepage.scss';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
 import CascadingMenu from '@/components/SelectorComponents/Cascading/CascadingMenu';
-import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
 import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -42,6 +36,7 @@ import {
   setPeopleEnslavedTextIntro,
   setPeopleTableEnslavedFlatfile,
 } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
+import { resetAll } from '@/redux/resetAllSlice';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
@@ -62,6 +57,7 @@ import {
   BlockCollectionProps,
   DataSetCollectionProps,
 } from '@/share/InterfactTypesDatasetCollection';
+import { MenuListDropdownStyle } from '@/styleMUI';
 import {
   getColorBTNBackgroundEnslaved,
   getColorBTNHoverEnslavedBackground,
@@ -105,7 +101,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
     } else if (styleNameRoute === ENSLAVEDTEXAS) {
       dispatch(setDataSetPeopleEnslavedHeader(TEXBOUND));
     }
-  }, [styleNameRoute]);
+  }, [dispatch, styleNameRoute]);
 
   const handleSelectEnslavedDataset = useCallback(
     (
@@ -242,8 +238,7 @@ const HeaderEnslavedNavBar: React.FC = () => {
               {inputSearchValue && <GlobalSearchButton />}
             </Typography>
           </Typography>
-          {!inputSearchValue && <CascadingMenuMobile />}
-
+          <Hidden mdUp>{!inputSearchValue && <CascadingMenu />}</Hidden>
           <Box
             className="menu-nav-bar-select-box"
             sx={{

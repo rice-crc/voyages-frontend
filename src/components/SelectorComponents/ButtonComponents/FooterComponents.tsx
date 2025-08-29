@@ -1,14 +1,16 @@
 import { BLOGPAGE } from '@/share/CONST_DATA';
+
 import '@/style/homepage.scss';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { Link } from 'react-router-dom';
+
 import UniversityOfGlasgow from '@/assets/UoG_white.png';
+import { RootState } from '@/redux/store';
 import { translationHomepage } from '@/utils/functions/translationLanguages';
 
 export const FooterComponent = () => {
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedHomepage = translationHomepage(languageValue);
 

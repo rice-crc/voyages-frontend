@@ -139,6 +139,7 @@
   color: white;
   padding: 0 0.5rem 0 0.35rem;
   cursor: pointer;
+  background-color: transparent;
 
   @include breakpoint-standard(1) {
     font-size: 9px;

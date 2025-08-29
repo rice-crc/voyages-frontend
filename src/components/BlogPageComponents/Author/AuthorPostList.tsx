@@ -1,18 +1,20 @@
-import { RootState } from '@/redux/store';
-import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
 import { useSelector } from 'react-redux';
-import { BASEURL } from '@/share/AUTH_BASEURL';
-import { formatTextURL } from '@/utils/functions/formatText';
 import { Link } from 'react-router-dom';
-import '@/style/blogs.scss';
+
+import { RootState } from '@/redux/store';
+import { BASEURL } from '@/share/AUTH_BASEURL';
 import { BLOGPAGE } from '@/share/CONST_DATA';
+import { InitialStateBlogProps } from '@/share/InterfaceTypesBlog';
+import { formatTextURL } from '@/utils/functions/formatText';
+
+import '@/style/blogs.scss';
 
 const AuthorPostList: React.FC = () => {
   const { authorPost } = useSelector(
-    (state: RootState) => state.getBlogData as InitialStateBlogProps
+    (state: RootState) => state.getBlogData as InitialStateBlogProps,
   );
   const { languageValue: Lang } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
 
   const displayListPost = authorPost.map((value) => {
@@ -38,7 +40,7 @@ const AuthorPostList: React.FC = () => {
 
   return (
     <div className="container-new-author">
-      <h3>Author's posts:</h3>
+      <h3>Author&apos;s posts:</h3>
       <div className="card-columns">{displayListPost}</div>
     </div>
   );

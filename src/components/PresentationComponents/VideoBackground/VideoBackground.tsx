@@ -1,13 +1,14 @@
+import { useSelector } from 'react-redux';
+
+import XICON from '@/assets/pages/X_icon.svg';
 import BackGroundVideo from '@/assets/wavesBG.mp4';
 import { RootState } from '@/redux/store';
 import '@/style/page.scss';
 import { translationHomepage } from '@/utils/functions/translationLanguages';
-import { useSelector } from 'react-redux';
-import XICON from '@/assets/pages/X_icon.svg';
 
 const VideoBackground = () => {
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedHomepage = translationHomepage(languageValue);
 
@@ -30,7 +31,7 @@ const VideoBackground = () => {
               <a
                 href="https://www.facebook.com/Voyages-The-Trans-Atlantic-Slave-Trade-Database-125441173016/"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 <img
                   data-src="https://api.slavevoyages.org/static/uploads/fb.png"
@@ -43,7 +44,7 @@ const VideoBackground = () => {
               <a
                 href="https://twitter.com/slavevoyages"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 <img
                   data-src="https://api.slavevoyages.org/static/uploads/X_icon.png"
@@ -61,7 +62,7 @@ const VideoBackground = () => {
                 title=""
                 className="social-icon lazy initial"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 data-was-processed="true"
                 data-original-title="Provide your thoughts and suggestions about the Slave Voyages site."
               >
@@ -81,7 +82,7 @@ const VideoBackground = () => {
                 title=""
                 className="social-icon lazy initial"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 data-was-processed="true"
                 data-original-title="Report a specific issue/bug found on the site."
               >
@@ -101,10 +102,10 @@ const VideoBackground = () => {
           <div className="social-icon-container">
             <a
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               aria-label="Rice University"
               href="https://www.rice.edu"
-            > 
+            >
               <img
                 className="cover-logo lazy initial loaded"
                 data-src="https://www.slavevoyages.org/static/uploads/rice_logo_reverse_white.png"
