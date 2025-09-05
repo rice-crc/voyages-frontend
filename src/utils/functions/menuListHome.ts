@@ -108,7 +108,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Planes de Lecciones',
       pt: 'Planos de Aula',
     },
-    url: `${BLOGPAGE}/tag/lesson-plan`,
+    url: `${BLOGPAGE}/tag/lesson-plan#lesson-plan`,
   },
   {
     name: {
@@ -124,7 +124,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Metodología',
       pt: 'Metodologia',
     },
-    url: `${BLOGPAGE}/tag/methodology`,
+    url: `${BLOGPAGE}/tag/methodology#methodology`,
   },
   {
     name: {
@@ -132,7 +132,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Recursos',
       pt: 'Recursos',
     },
-    url: `${BLOGPAGE}/tag/resources`,
+    url: `${BLOGPAGE}/tag/resources#resources`,
   },
   {
     name: {
@@ -140,7 +140,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Descargas',
       pt: 'Downloads',
     },
-    url: `${BLOGPAGE}/tag/downloads`,
+    url: `${BLOGPAGE}/tag/downloads#downloads`,
   },
   /*** Hide until Contribute finish  */
   // {

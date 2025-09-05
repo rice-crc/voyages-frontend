@@ -7,7 +7,7 @@
         "pt": "Documented name PT"
       },
       "cell_type": "literal",
-      "visible": true,
+      "visible": false,
       "number_format": null,
       "order_by": ["documented_name"],
       "col_width_px": 130,
@@ -28,7 +28,7 @@
         "pt": "Modern name PT"
       },
       "cell_type": "literal",
-      "visible": true,
+      "visible": false,
       "number_format": null,
       "order_by": ["modern_name"],
       "col_width_px": 100,
