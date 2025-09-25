@@ -36,7 +36,7 @@ import {
   setPeopleEnslavedTextIntro,
   setPeopleTableEnslavedFlatfile,
 } from '@/redux/getPeopleEnslavedDataSetCollectionSlice';
-import { resetAll } from '@/redux/resetAllSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import { resetBlockNameAndPageName } from '@/redux/resetBlockNameAndPageName';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
