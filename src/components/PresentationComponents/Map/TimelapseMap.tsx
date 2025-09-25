@@ -1888,14 +1888,6 @@ export const TimelapseMap = ({
         zoomLevel={zoomLevel}
       />
       <TileLayer url={mappingSpecialists} />
-      <LayersControl position="topright">
-        <LayersControl.Overlay name="River">
-          <TileLayer url={mappingSpecialistsRivers} />
-        </LayersControl.Overlay>
-        <LayersControl.Overlay name="Modern Countries">
-          <TileLayer url={mappingSpecialistsCountries} />
-        </LayersControl.Overlay>
-      </LayersControl>
       <CanvasAnimation
         collection={collection}
         speed={speed}

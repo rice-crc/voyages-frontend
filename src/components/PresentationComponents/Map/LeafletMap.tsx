@@ -336,14 +336,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
               styleRouteName={styleNameRoute}
             />
             <TileLayer url={mappingSpecialists} />
-            <LayersControl position="topright">
-              <LayersControl.Overlay name="River">
-                <TileLayer url={mappingSpecialistsRivers} />
-              </LayersControl.Overlay>
-              <LayersControl.Overlay name="Modern Countries">
-                <TileLayer url={mappingSpecialistsCountries} />
-              </LayersControl.Overlay>
-            </LayersControl>
             <NodeEdgesCurvedLinesMap />
           </MapContainer>
           <ShowsColoredNodeOnMap />
