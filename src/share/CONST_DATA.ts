@@ -62,9 +62,7 @@ export const TRANSATLANTICTRADS = 'trans-atlantic-trades';
 
 export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGhqMXZ5YmxjZCJ9.eP7ZuC68Q5iBZQa8I13AGw`;
 
-export const mappingSpecialists = `https://api.mapbox.com/styles/v1/jcm10/clbmdqh2q000114o328k5yjpf/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
-export const mappingSpecialistsRivers = `https://api.mapbox.com/styles/v1/jcm10/cl98xvv9r001z14mm17w970no/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
-export const mappingSpecialistsCountries = `https://api.mapbox.com/styles/v1/jcm10/cl98yryw3003t14o66r6fx4m9/tiles/{z}/{x}/{y}?access_token=${mbaccesstoken}`;
+export const mappingSpecialists = `https://legacy.slavevoyages.org/static/maps/img/map_all/{z}/{x}/{y}.png`;
 
 export const MAP_CENTER: [number, number] = [5.486678, -35.59375];
 export const MAXIMUM_NATIVE_ZOOM = 10;
