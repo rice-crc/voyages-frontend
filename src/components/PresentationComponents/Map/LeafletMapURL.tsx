@@ -16,9 +16,7 @@ import {
   MAXIMUM_ZOOM,
   MINIMUM_ZOOM,
   ZOOM_LEVEL_THRESHOLD,
-  mappingSpecialists,
-  mappingSpecialistsCountries,
-  mappingSpecialistsRivers,
+  mappingSpecialists
   PLACE,
   AFRICANORIGINS,
   ENSLAVEDNODE,
@@ -264,14 +262,6 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
               zoomLevel={zoomLevel}
             />
             <TileLayer url={mappingSpecialists} />
-            <LayersControl position="topright">
-              <LayersControl.Overlay name="River">
-                <TileLayer url={mappingSpecialistsRivers} />
-              </LayersControl.Overlay>
-              <LayersControl.Overlay name="Modern Countries">
-                <TileLayer url={mappingSpecialistsCountries} />
-              </LayersControl.Overlay>
-            </LayersControl>
             <NodeEdgesCurvedLinesMap />
           </MapContainer>
           <ShowsColoredNodeOnMap />

@@ -42,9 +42,7 @@ import {
   MAXIMUM_ZOOM,
   MINIMUM_ZOOM,
   VOYAGE,
-  mappingSpecialists,
-  mappingSpecialistsCountries,
-  mappingSpecialistsRivers,
+  mappingSpecialists
 } from '@/share/CONST_DATA';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';
@@ -1888,14 +1886,6 @@ export const TimelapseMap = ({
         zoomLevel={zoomLevel}
       />
       <TileLayer url={mappingSpecialists} />
-      <LayersControl position="topright">
-        <LayersControl.Overlay name="River">
-          <TileLayer url={mappingSpecialistsRivers} />
-        </LayersControl.Overlay>
-        <LayersControl.Overlay name="Modern Countries">
-          <TileLayer url={mappingSpecialistsCountries} />
-        </LayersControl.Overlay>
-      </LayersControl>
       <CanvasAnimation
         collection={collection}
         speed={speed}
