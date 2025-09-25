@@ -15,13 +15,7 @@ import * as d3 from 'd3';
 import { LatLngBounds } from 'leaflet';
 import * as L from 'leaflet';
 import { GeodesicLine } from 'leaflet.geodesic';
-import {
-  MapContainer,
-  TileLayer,
-  LayersControl,
-  useMap,
-  SVGOverlay,
-} from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, SVGOverlay } from 'react-leaflet';
 import { useDispatch, useSelector } from 'react-redux';
 
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
@@ -42,7 +36,7 @@ import {
   MAXIMUM_ZOOM,
   MINIMUM_ZOOM,
   VOYAGE,
-  mappingSpecialists
+  mappingSpecialists,
 } from '@/share/CONST_DATA';
 import { checkPagesRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import { filtersDataSend } from '@/utils/functions/filtersDataSend';

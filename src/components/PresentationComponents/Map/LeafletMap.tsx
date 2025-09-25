@@ -28,7 +28,7 @@ import {
   MAXIMUM_ZOOM,
   MINIMUM_ZOOM,
   ZOOM_LEVEL_THRESHOLD,
-  mappingSpecialists
+  mappingSpecialists,
   PLACE,
   ESTIMATES,
   REGION,
@@ -183,7 +183,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     currentBlockName,
     regionPlace,
   ]);
-
 
   const filters = useMemo(
     () =>
