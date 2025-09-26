@@ -1,15 +1,18 @@
 import '@/style/Nav.scss';
 import { useEffect, useState } from 'react';
-import DropDownSaveSearch from './DropDownSaveSearch';
+
+import { StarOutlined } from '@mui/icons-material';
+import { Box } from '@mui/material';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import { Tooltip } from 'antd';
+
 import { usePageRouter } from '@/hooks/usePageRouter';
 import {
   getColorHoverBackgroundCollection,
   getHeaderColomnColor,
 } from '@/utils/functions/getColorStyle';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import { Box } from '@mui/material';
-import { Tooltip } from 'antd';
-import { StarOutlined } from '@mui/icons-material';
+
+import DropDownSaveSearch from './DropDownSaveSearch';
 
 const SaveSearchComponent = () => {
   const { styleName } = usePageRouter();
@@ -28,7 +31,7 @@ const SaveSearchComponent = () => {
     document.documentElement.style.setProperty('--saveSearch--', buttonColor);
     document.documentElement.style.setProperty(
       '--saveSearchHover--',
-      buttonHover
+      buttonHover,
     );
   }, [styleName]);
 
@@ -36,11 +39,11 @@ const SaveSearchComponent = () => {
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Box>
-        <div onClick={handleClick} className="save-sarch-content">
+        <button onClick={handleClick} className="save-sarch-content">
           <Tooltip placement="top" title={text} color="rgba(0, 0, 0, 0.75)">
             <StarOutlined />
           </Tooltip>
-        </div>
+        </button>
         {isOpen ? (
           <Box className="save-search-box">
             <DropDownSaveSearch />

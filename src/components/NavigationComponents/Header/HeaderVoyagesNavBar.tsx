@@ -17,17 +17,10 @@ import { useNavigate } from 'react-router-dom';
 import { DatasetButton } from '@/components/NavigationComponents/Header/DatasetButton';
 import { HeaderTitle } from '@/components/NavigationComponents/Header/HeaderTitle';
 import '@/style/Nav.scss';
-import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
-import GlobalSearchButton from '../../PresentationComponents/GlobalSearch/GlobalSearchButton';
-import { DrawerMenuBar } from './DrawerMenuBar';
-import HeaderLogo from './HeaderLogo';
 import ButtonDropdownColumnSelector from '@/components/SelectorComponents/ButtonComponents/ButtonDropdownColumnSelector';
-import CascadingMenuMobile from '@/components/SelectorComponents/Cascading/CascadingMenuMobile';
-import { setFilterObject } from '@/redux/getFilterSlice';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
-import { voyagesHeader } from '@/utils/languages/title_pages';
 import DatabaseDropdown from '@/components/SelectorComponents/DropDown/DatabaseDropdown';
+import LanguagesDropdown from '@/components/SelectorComponents/DropDown/LanguagesDropdown';
+import { usePageRouter } from '@/hooks/usePageRouter';
 import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
 import {
   setBaseFilterDataSetValue,
@@ -38,6 +31,8 @@ import {
   setTextIntro,
   setVoyagesFilterMenuFlatfile,
 } from '@/redux/getDataSetCollectionSlice';
+import { setFilterObject } from '@/redux/getFilterSlice';
+import { resetAll, resetAllStateToInitailState } from '@/redux/resetAllSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   ALLVOYAGES,
@@ -50,12 +45,7 @@ import {
   TRANSATLANTICPAGE,
   TransAtlanticTitle,
 } from '@/share/CONST_DATA';
-import {
-  CurrentPageInitialState,
-  Filter,
-  HeaderNavBarMenuProps,
-  LabelFilterMeneList,
-} from '@/share/InterfaceTypes';
+import { CurrentPageInitialState, Filter } from '@/share/InterfaceTypes';
 import {
   BaseFilter,
   BlockCollectionProps,
@@ -69,17 +59,17 @@ import {
   getColorBTNVoyageDatasetBackground,
 } from '@/utils/functions/getColorStyle';
 
+import { DrawerMenuBar } from './DrawerMenuBar';
+import HeaderLogo from './HeaderLogo';
+import GlobalSearchButton from '../../PresentationComponents/GlobalSearch/GlobalSearchButton';
 import CascadingMenu from '../../SelectorComponents/Cascading/CascadingMenu';
 
-export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
+export default function HeaderVoyagesNavBar() {
   const dispatch: AppDispatch = useDispatch();
   const { styleName: styleNameRoute } = usePageRouter();
   const navigate = useNavigate();
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch,
-  );
-  const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages,
   );
 
   const { currentVoyageBlockName } = useSelector(
@@ -194,11 +184,6 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
     });
   };
 
-  let VOYAGETILE = '';
-  for (const header of voyagesHeader.header) {
-    VOYAGETILE = (header.label as LabelFilterMeneList)[languageValue];
-  }
-
   return (
     <Box
       sx={{
@@ -222,7 +207,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               onClick={handleMenuOpen}
               sx={{ mr: 2, display: { md: 'none' } }}
             >
-              <MenuIcon />
+              <MenuIcon style={{ color: 'fff' }} />
             </IconButton>
           </Hidden>
           <Typography
@@ -258,7 +243,7 @@ export default function HeaderVoyagesNavBar(props: HeaderNavBarMenuProps) {
               {inputSearchValue && <GlobalSearchButton />}
             </Typography>
           </Typography>
-          {!inputSearchValue && <CascadingMenuMobile />}
+          <Hidden mdUp>{!inputSearchValue && <CascadingMenu />}</Hidden>
           <Box
             className="menu-nav-bar-select-box"
             sx={{

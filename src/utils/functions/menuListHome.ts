@@ -16,7 +16,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Acerca de',
       pt: 'Sobre',
     },
-    url: `${BLOGPAGE}/tag/about`,
+    url: `${BLOGPAGE}/tag/about#about`,
   },
   {
     name: {
@@ -24,7 +24,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Mapas Introductorios',
       pt: 'Mapas Introdutórios',
     },
-    url: `${BLOGPAGE}/tag/all-intro-maps`,
+    url: `${BLOGPAGE}/tag/all-intro-maps#all-intro-maps`,
   },
   {
     name: {
@@ -32,7 +32,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Ensayos',
       pt: 'Ensaios',
     },
-    url: `${BLOGPAGE}/tag/essays`,
+    url: undefined,
     submenu: [
       {
         name: {
@@ -40,7 +40,7 @@ export const menuLists: MenuListsProps[] = [
           es: 'Transatlántico',
           pt: 'Transatlântico',
         },
-        url: `${BLOGPAGE}/tag/transatlantic`,
+        url: `${BLOGPAGE}/tag/transatlantic#transatlantic`,
       },
       {
         name: {
@@ -48,7 +48,7 @@ export const menuLists: MenuListsProps[] = [
           es: 'Intraamericano',
           pt: 'Intra-americano',
         },
-        url: `${BLOGPAGE}/tag/intraamerican`,
+        url: `${BLOGPAGE}/tag/intraamerican#intraamerican`,
       },
       {
         name: {
@@ -56,7 +56,7 @@ export const menuLists: MenuListsProps[] = [
           es: 'Rumbo a Texas',
           pt: 'Destino Texas',
         },
-        url: `${BLOGPAGE}/tag/texas-bound`,
+        url: `${BLOGPAGE}/tag/texas-bound#texas-bound`,
       },
     ],
   },
@@ -74,7 +74,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Línea de Tiempo',
       pt: 'Linha do Tempo',
     },
-    url: `${TRANSATLANTICTIMELAPSE}#timelapse`,
+    url: undefined,
     submenu: [
       {
         name: {
@@ -108,7 +108,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Planes de Lecciones',
       pt: 'Planos de Aula',
     },
-    url: `${BLOGPAGE}/tag/lesson-plan`,
+    url: `${BLOGPAGE}/tag/lesson-plan#lesson-plan`,
   },
   {
     name: {
@@ -124,7 +124,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Metodología',
       pt: 'Metodologia',
     },
-    url: `${BLOGPAGE}/tag/methodology`,
+    url: `${BLOGPAGE}/tag/methodology#methodology`,
   },
   {
     name: {
@@ -132,7 +132,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Recursos',
       pt: 'Recursos',
     },
-    url: `${BLOGPAGE}/tag/resources`,
+    url: `${BLOGPAGE}/tag/resources#resources`,
   },
   {
     name: {
@@ -140,14 +140,15 @@ export const menuLists: MenuListsProps[] = [
       es: 'Descargas',
       pt: 'Downloads',
     },
-    url: `${BLOGPAGE}/tag/downloads`,
+    url: `${BLOGPAGE}/tag/downloads#downloads`,
   },
-  {
-    name: {
-      en: 'Contribute',
-      es: 'Contribuir',
-      pt: 'Contribuir',
-    },
-    url: `${ACCOUNTS}signin/`,
-  },
+  /*** Hide until Contribute finish  */
+  // {
+  //   name: {
+  //     en: 'Contribute',
+  //     es: 'Contribuir',
+  //     pt: 'Contribuir',
+  //   },
+  //   url: `${ACCOUNTS}signin/`,
+  // },
 ];

@@ -128,14 +128,14 @@ const RangeSlider:FunctionComponent<RangeSliderProps> = ({
   return (
     <Grid
       className="autocomplete-modal-box"
-      style={{
-        width: 450,
-        marginTop: 10,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 12,
-        alignItems: 'center',
-      }}
+      // style={{
+      //   width: 450,
+      //   marginTop: 10,
+      //   display: 'flex',
+      //   flexDirection: 'column',
+      //   gap: 12,
+      //   alignItems: 'center',
+      // }}
     >
       <div
         style={{

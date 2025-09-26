@@ -177,9 +177,18 @@ export const DialogModalStyle = {
   backgroundColor: 'transparent',
 };
 export const PaperDraggableStyle = {
-  maxWidth: 500,
-  minWidth: 500,
+  maxWidth: 'min(500px, 90vw)',
+  minWidth: 'min(300px, 90vw)',
+  '@media (max-width: 768px)': {
+    maxWidth: '90vw !important',
+    minWidth: '90vw !important',
+  },
+  '@media (max-width: 480px)': {
+    maxWidth: '95vw',
+    minWidth: '95vw',
+  },
 };
+
 export const PaperDraggableTimeLapseStyle = {
   maxWidth: 550,
   minWidth: 550,

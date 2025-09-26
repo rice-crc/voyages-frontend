@@ -1,8 +1,13 @@
 import React from 'react';
+
 import '@/style/landing.scss';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import TRANSATLANTICIMG from '@/assets/transAtlantic.svg';
 import ButtonLearnMore from '@/components/SelectorComponents/ButtonComponents/ButtonLearnMore';
 import ButtonLists from '@/components/SelectorComponents/ButtonComponents/ButtonLists';
+import { RootState } from '@/redux/store';
 import {
   TRANSATLANTICPAGE,
   TRANSATLANTIC,
@@ -12,17 +17,17 @@ import {
   ACCOUNTS,
 } from '@/share/CONST_DATA';
 import { translationHomepage } from '@/utils/functions/translationLanguages';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 const TransAtlantic: React.FC = () => {
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
   const translatedHomepage = translationHomepage(languageValue);
 
   const lists = [
-    { name: `${translatedHomepage.btnAbout}`, url: `${BLOGPAGE}/tag/about` },
+    {
+      name: `${translatedHomepage.btnAbout}`,
+      url: `${BLOGPAGE}/tag/about#about`,
+    },
     {
       name: `${translatedHomepage.btnDatabase}`,
       url: `${TRANSATLANTICPAGE}#voyages`,
@@ -31,12 +36,13 @@ const TransAtlantic: React.FC = () => {
       name: `${translatedHomepage.btnEstimates}`,
       url: `/${ASSESSMENT}/${ESTIMATES}`,
     },
-    { name: `${translatedHomepage.btnEssays}`, url: `${BLOGPAGE}/tag/essays` },
+    // { name: `${translatedHomepage.btnEssays}`, url: `${BLOGPAGE}/tag/essays` },
     {
       name: `${translatedHomepage.btnDownloads}`,
-      url: `${BLOGPAGE}/tag/downloads`,
+      url: `${BLOGPAGE}/tag/downloads#downloads`,
     },
-    { name: `${translatedHomepage.btnContribute}`, url: `${ACCOUNTS}signin` },
+    //** ToDo==> Hide Contribute Button until finish  */
+    // { name: `${translatedHomepage.btnContribute}`, url: `${ACCOUNTS}signin` },
   ];
 
   return (

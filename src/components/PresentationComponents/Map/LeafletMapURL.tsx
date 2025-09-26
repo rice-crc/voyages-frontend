@@ -1,32 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
-import { useLocation } from 'react-router-dom';
-import { AppDispatch, RootState } from '@/redux/store';
+
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVoyagesMap } from '@/fetch/voyagesFetch/fetchVoyagesMap';
-import '@/style/map.scss';
-import {
-  CurrentPageInitialState,
-  Filter,
-  MapPropsRequest,
-  FilterObjectsState,
-} from '@/share/InterfaceTypes';
-import {
-  MAP_CENTER,
-  MAXIMUM_ZOOM,
-  MINIMUM_ZOOM,
-  ZOOM_LEVEL_THRESHOLD,
-  mappingSpecialists,
-  mappingSpecialistsCountries,
-  mappingSpecialistsRivers,
-  PLACE,
-  AFRICANORIGINS,
-  ENSLAVEDNODE,
-  VOYAGESTYPE,
-} from '@/share/CONST_DATA';
+import { useLocation } from 'react-router-dom';
+
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
-import { getMapBackgroundColor } from '@/utils/functions/getMapBackgroundColor';
+import { fetchVoyagesMap } from '@/fetch/voyagesFetch/fetchVoyagesMap';
+import { usePageRouter } from '@/hooks/usePageRouter';
 import {
   setEdgesDataPlace,
   setEdgesDataRegion,
@@ -36,14 +17,34 @@ import {
   setNodesDataRegion,
   setPathsData,
 } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
-import { HandleZoomEvent } from './HandleZoomEvent';
-import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
-import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
-import { usePageRouter } from '@/hooks/usePageRouter';
+import { AppDispatch, RootState } from '@/redux/store';
+import '@/style/map.scss';
+import {
+  MAP_CENTER,
+  MAXIMUM_ZOOM,
+  MINIMUM_ZOOM,
+  ZOOM_LEVEL_THRESHOLD,
+  mappingSpecialists,
+  PLACE,
+  AFRICANORIGINS,
+  ENSLAVEDNODE,
+  VOYAGESTYPE,
+} from '@/share/CONST_DATA';
+import {
+  CurrentPageInitialState,
+  Filter,
+  MapPropsRequest,
+  FilterObjectsState,
+} from '@/share/InterfaceTypes';
 import {
   checkPagesRouteForEnslaved,
   checkPagesRouteForVoyages,
 } from '@/utils/functions/checkPagesRoute';
+import { getMapBackgroundColor } from '@/utils/functions/getMapBackgroundColor';
+
+import { HandleZoomEvent } from './HandleZoomEvent';
+import NodeEdgesCurvedLinesMap from './NodeEdgesCurvedLinesMap';
+import ShowsColoredNodeOnMap from './ShowsColoredNodeOnMap';
 
 interface LeafletMapProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
@@ -57,7 +58,7 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const pathNameArr = location.pathname.split('/');
   const pathName = pathNameArr[1];
   const { nodesData } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
+    (state: RootState) => state.getNodeEdgesAggroutesMapData,
   );
   const { voyageURLID, endpointPath: styleNamePage } = usePageRouter();
   const [regionPlace, setRegionPlace] = useState<string>('region');
@@ -65,27 +66,27 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const hasFetchedPlaceRef = useRef(false);
   const { styleName } = useSelector(
-    (state: RootState) => state.getDataSetCollection
+    (state: RootState) => state.getDataSetCollection,
   );
 
   const { styleNamePeople } = useSelector(
-    (state: RootState) => state.getPeopleEnlavedDataSetCollection
+    (state: RootState) => state.getPeopleEnlavedDataSetCollection,
   );
 
   const { hasFetchedRegion, clusterNodeKeyVariable, clusterNodeValue } =
     useSelector((state: RootState) => state.getNodeEdgesAggroutesMapData);
   const { filtersObj, nameIdURL } = useSelector(
-    (state: RootState) => state.getFilter
+    (state: RootState) => state.getFilter,
   );
   const { rangeSliderMinMax: rang, varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState
+    (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
   const { currentPage } = useSelector(
-    (state: RootState) => state.getScrollPage as CurrentPageInitialState
+    (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
 
   const { inputSearchValue } = useSelector(
-    (state: RootState) => state.getCommonGlobalSearch
+    (state: RootState) => state.getCommonGlobalSearch,
   );
 
   useEffect(() => {
@@ -184,20 +185,20 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
         dispatch(setEdgesDataRegion(edges));
         localStorage.setItem(
           `nodesData${regionOrPlace}`,
-          JSON.stringify(nodes)
+          JSON.stringify(nodes),
         );
         localStorage.setItem(
           `edgesData${regionOrPlace}`,
-          JSON.stringify(edges)
+          JSON.stringify(edges),
         );
       } else if (regionOrPlace === 'place' && varName === '') {
         localStorage.setItem(
           `nodesData${regionOrPlace}`,
-          JSON.stringify(nodes)
+          JSON.stringify(nodes),
         );
         localStorage.setItem(
           `edgesData${regionOrPlace}`,
-          JSON.stringify(edges)
+          JSON.stringify(edges),
         );
         if (varName || clusterNodeKeyVariable || clusterNodeValue) {
           dispatch(setNodesDataPlace(nodes));
@@ -264,14 +265,6 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
               zoomLevel={zoomLevel}
             />
             <TileLayer url={mappingSpecialists} />
-            <LayersControl position="topright">
-              <LayersControl.Overlay name="River">
-                <TileLayer url={mappingSpecialistsRivers} />
-              </LayersControl.Overlay>
-              <LayersControl.Overlay name="Modern Countries">
-                <TileLayer url={mappingSpecialistsCountries} />
-              </LayersControl.Overlay>
-            </LayersControl>
             <NodeEdgesCurvedLinesMap />
           </MapContainer>
           <ShowsColoredNodeOnMap />

@@ -64,12 +64,26 @@ const FilterTextNameEnslaversBox: FunctionComponent<
           </Typography>
         }
         placeholder="Last Name, First Name"
-        style={{ marginTop: 20, width: 450 }}
+        sx={{
+          marginTop: 2.5,
+          width: {
+            xs: '100%', // Mobile: full width
+            sm: '90%', // Small: 90% width
+            md: 450, // Medium and up: 450px
+          },
+          maxWidth: {
+            xs: '100%',
+            sm: 400,
+            md: 450,
+          },
+        }}
         helperText={textError}
-        FormHelperTextProps={{
-          style: {
-            color: 'red',
-            fontSize: '0.875rem',
+        slotProps={{
+          inputLabel: {
+            sx: {
+              fontSize: '0.875rem',
+              color: 'red',
+            },
           },
         }}
       />
