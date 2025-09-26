@@ -1,27 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable indent */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable indent */
 import { useState, MouseEvent, useEffect } from 'react';
 
-import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
+import {
+  CaretDownOutlined,
+  CaretRightOutlined,
+  FilterOutlined,
+  LeftOutlined,
+} from '@ant-design/icons';
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from '@mui/material';
-import { Button, Tooltip } from 'antd';
+import { Button, Dropdown, Tooltip } from 'antd';
+import type { MenuProps } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AutoCompleteListBox from '@/components/FilterComponents/Autocomplete/AutoCompleteListBox';
 import FilterTextBox from '@/components/FilterComponents/Autocomplete/FilterTextBox';
 import FilterTextNameEnslaversBox from '@/components/FilterComponents/Autocomplete/FilterTextNameEnslaversBox';
 import RangeSliderComponent from '@/components/FilterComponents/RangeSlider/RangeSliderComponent';
+import useIsMobile from '@/hooks/useIsMobile';
 import { usePageRouter } from '@/hooks/usePageRouter';
 import {
   setIsChangeAuto,
   setTextFilterValue,
 } from '@/redux/getAutoCompleteSlice';
-import { setType, setFilterObject } from '@/redux/getFilterSlice';
+import { setType, setFilterObject, setIsFilter } from '@/redux/getFilterSlice';
 import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
 import {
   setEnslaversNameAndRole,
@@ -31,7 +40,10 @@ import {
   setOpsRole,
   setRangeSliderValue,
 } from '@/redux/getRangeSliderSlice';
-import { setIsOpenDialog } from '@/redux/getScrollPageSlice';
+import {
+  setIsOpenDialog,
+  setIsOpenDialogMobile,
+} from '@/redux/getScrollPageSlice';
 import {
   setIsViewButtonViewAllResetAll,
   setLabelVarName,
@@ -60,10 +72,7 @@ import {
   RolesProps,
   TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
-import {
-  DialogModalStyle,
-  StyleDialog,
-} from '@/styleMUI';
+import { DialogModalStyle, StyleDialog } from '@/styleMUI';
 import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
 import {
   getColorBTNVoyageDatasetBackground,
@@ -83,6 +92,8 @@ import { SelectSearchDropdownList } from '../SelectDrowdown/SelectSearchDropdown
 
 export const MenuListsDropdown = () => {
   const dispatch: AppDispatch = useDispatch();
+  const isMobile = useIsMobile();
+
   const {
     valueAllVoyages,
     valueTransaslantic,
@@ -103,7 +114,7 @@ export const MenuListsDropdown = () => {
     (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
 
-  const { isOpenDialog } = useSelector(
+  const { isOpenDialog, isOpenDialogMobile } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState,
   );
   const { labelVarName, textFilter } = useSelector(
@@ -120,12 +131,14 @@ export const MenuListsDropdown = () => {
   } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
+
   const [inputValue, setInputValue] = useState(textFilter);
   const [isClickMenu, setIsClickMenu] = useState<boolean>(false);
   const [ops, setOps] = useState<string>('');
   const [filterMenu, setFilterMenu] = useState<FilterMenuList[]>([]);
   const [textError, setTextError] = useState<string>('');
   const [textRoleListError, setTextRoleListError] = useState<string>('');
+
   const rangeMinMax = rangeSliderMinMax?.[varName] ||
     rangeValue?.[varName] || [0, 0.5];
   const minRange = rangeValue?.[varName]?.[0] || 0;
@@ -133,8 +146,12 @@ export const MenuListsDropdown = () => {
   const [currentSliderValue, setCurrentSliderValue] = useState<
     number | number[]
   >(rangeMinMax);
+
   const isButtonDisabled =
     enslaverName === '' && typeData === TYPES.EnslaverNameAndRole;
+
+  // Determine which dialog state to use based on screen size
+  const isDialogOpen = isMobile ? isOpenDialogMobile : isOpenDialog;
 
   useEffect(() => {
     const loadFilterCellStructure = async () => {
@@ -166,7 +183,7 @@ export const MenuListsDropdown = () => {
   }, [
     styleNameRoute,
     languageValue,
-    isOpenDialog,
+    isDialogOpen,
     valueTransaslantic,
     valueIntraamerican,
     valueAllVoyages,
@@ -181,7 +198,6 @@ export const MenuListsDropdown = () => {
     if (!storedValue) return;
 
     const parsedValue = JSON.parse(storedValue);
-
     const filter: Filter[] = parsedValue.filter;
     const filterByVarName =
       filter?.length > 0 &&
@@ -243,7 +259,14 @@ export const MenuListsDropdown = () => {
         dispatch(setOpsRole('btw'));
       }
       dispatch(setLabelVarName(label));
-      dispatch(setIsOpenDialog(true));
+
+      // Use appropriate dialog action based on screen size
+      if (isMobile) {
+        dispatch(setIsOpenDialogMobile(true));
+      } else {
+        dispatch(setIsOpenDialog(true));
+      }
+
       if (roles) {
         if (listEnslavers.length > 0) {
           dispatch(setListEnslavers(listEnslavers));
@@ -255,16 +278,28 @@ export const MenuListsDropdown = () => {
     }
   };
 
-  const handleCloseDialog = (event: any) => {
-    event.stopPropagation();
+  const handleCloseDialog = (event?: any) => {
+    if (event) event.stopPropagation();
     setTextError('');
     setTextRoleListError('');
     dispatch(setIsChange(false));
     dispatch(setIsChangeAuto(false));
     dispatch(setIsChangeGeoTree(false));
-    const value = event.cancelable;
+
+    if (isMobile) {
+      dispatch(setIsFilter(false));
+    }
+
+    const value = event?.cancelable;
     setIsClickMenu(!isClickMenu);
-    dispatch(setIsOpenDialog(false));
+
+    // Close appropriate dialog based on screen size
+    if (isMobile) {
+      dispatch(setIsOpenDialogMobile(false));
+    } else {
+      dispatch(setIsOpenDialog(false));
+    }
+
     if (currentPage !== 5) {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
@@ -272,13 +307,21 @@ export const MenuListsDropdown = () => {
     }
   };
 
-  const handleResetDataDialog = (event: any) => {
-    event.stopPropagation();
+  const handleResetDataDialog = (event?: any) => {
+    if (event) event.stopPropagation();
     setTextError('');
     setTextRoleListError('');
-    const value = event.cancelable;
+    setInputValue('');
+    const value = event?.cancelable;
     setIsClickMenu(!isClickMenu);
-    dispatch(setIsOpenDialog(false));
+
+    // Close appropriate dialog based on screen size
+    if (isMobile) {
+      dispatch(setIsOpenDialogMobile(false));
+    } else {
+      dispatch(setIsOpenDialog(false));
+    }
+
     if (currentPage !== 5) {
       dispatch(setIsChange(!value));
       dispatch(setIsChangeAuto(!value));
@@ -315,49 +358,77 @@ export const MenuListsDropdown = () => {
 
   const handleApplyTextFilterDataDialog = (value: string) => {
     dispatch(setTextFilterValue(value));
-    updateFilterTextDialog(
-      dispatch,
-      value,
-      styleNameRoute!,
-      varName,
-      ops,
-      opsRoles!,
-      labelVarName,
-    );
-  };
-
-  // Event handlers for apply button
-  const handleApplyMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
-    if (!isButtonDisabled) {
-      const target = e.currentTarget;
-      target.style.backgroundColor = getColorHoverBackgroundCollection(
+    if (isMobile) {
+      updateFilterMobile(value);
+    } else {
+      updateFilterTextDialog(
+        dispatch,
+        value,
         styleNameRoute!,
+        varName,
+        ops,
+        opsRoles!,
+        labelVarName,
       );
-      target.style.color = getColorBTNVoyageDatasetBackground(styleNameRoute!);
     }
   };
 
-  const handleApplyMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-    if (!isButtonDisabled) {
-      const target = e.currentTarget;
-      target.style.backgroundColor = getColorBackground(styleNameRoute!);
-      target.style.color = 'white';
-    }
-  };
+  const updateFilterMobile = (newValue: string) => {
+    const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
+    let existingFilters: Filter[] = [];
 
-  // Event handlers for reset button
-  const handleResetMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.currentTarget;
-    target.style.backgroundColor = getColorHoverBackgroundCollection(
-      styleNameRoute!,
+    if (existingFilterObjectString) {
+      existingFilters = JSON.parse(existingFilterObjectString).filter || [];
+    }
+
+    const existingFilterIndex = existingFilters.findIndex(
+      (filter) => filter.varName === varName,
     );
-    target.style.color = getColorBTNVoyageDatasetBackground(styleNameRoute!);
-  };
 
-  const handleResetMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.currentTarget;
-    target.style.backgroundColor = 'transparent';
-    target.style.color = 'black';
+    if (newValue.length > 0) {
+      if (existingFilterIndex !== -1) {
+        existingFilters[existingFilterIndex].searchTerm =
+          ops === 'icontains' || ops === 'exact'
+            ? (newValue as string)
+            : [newValue];
+      } else {
+        existingFilters.push({
+          varName: varName,
+          searchTerm:
+            ops === 'icontains' || ops === 'exact'
+              ? (newValue as string)
+              : [newValue],
+          op: ops,
+          label: labelVarName,
+        });
+      }
+    } else if (existingFilterIndex !== -1) {
+      existingFilters[existingFilterIndex].searchTerm = [];
+    }
+
+    const filteredFilters = existingFilters.filter(
+      (filter) =>
+        !Array.isArray(filter.searchTerm) || filter.searchTerm.length > 0,
+    );
+
+    const filterObjectUpdate = {
+      filter: filteredFilters,
+    };
+
+    const filterObjectString = JSON.stringify(filterObjectUpdate);
+    localStorage.setItem('filterObject', filterObjectString);
+
+    dispatch(setFilterObject(filteredFilters));
+    if (
+      (styleNameRoute === TYPESOFDATASET.allVoyages ||
+        styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved ||
+        styleNameRoute === allEnslavers) &&
+      filteredFilters.length > 0
+    ) {
+      dispatch(setIsViewButtonViewAllResetAll(true));
+    } else if (filteredFilters.length > 1) {
+      dispatch(setIsViewButtonViewAllResetAll(true));
+    }
   };
 
   const handleSliderChangeMouseUp = () => {
@@ -372,7 +443,6 @@ export const MenuListsDropdown = () => {
 
   function updatedSliderToLocalStrage(updateValue: number[]) {
     const existingFilterObjectString = localStorage.getItem(FILTER_OBJECT_KEY);
-
     let existingFilterObject: any = {};
 
     if (existingFilterObjectString) {
@@ -412,26 +482,60 @@ export const MenuListsDropdown = () => {
     }
   }
 
+  // Event handlers for buttons
+  const handleApplyMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    if (!isButtonDisabled) {
+      const target = e.currentTarget;
+      target.style.backgroundColor = getColorHoverBackgroundCollection(
+        styleNameRoute!,
+      );
+      target.style.color = getColorBTNVoyageDatasetBackground(styleNameRoute!);
+    }
+  };
+
+  const handleApplyMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    if (!isButtonDisabled) {
+      const target = e.currentTarget;
+      target.style.backgroundColor = getColorBackground(styleNameRoute!);
+      target.style.color = 'white';
+    }
+  };
+
+  const handleResetMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = getColorHoverBackgroundCollection(
+      styleNameRoute!,
+    );
+    target.style.color = getColorBTNVoyageDatasetBackground(styleNameRoute!);
+  };
+
+  const handleResetMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    target.style.backgroundColor = 'transparent';
+    target.style.color = 'black';
+  };
+
+  // Render dropdown menu for desktop
   const renderDropdownMenu = (
     nodes: FilterMenu | ChildrenFilter | (FilterMenu | ChildrenFilter)[],
-  ): any[] | undefined => { // Changed return type to any[] to accommodate menu item objects
+  ): any[] | undefined => {
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
         const { children, var_name, type, label: nodeLabel, ops, roles } = node;
         const hasChildren = children && children.length >= 1;
         const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
         const uniqueKey = `${menuLabel} - ${index}`;
-        
+
         if (hasChildren) {
           return {
             key: uniqueKey,
             label: (
               <div
                 style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
                 }}
               >
                 <span>{menuLabel}</span>
@@ -439,24 +543,65 @@ export const MenuListsDropdown = () => {
               </div>
             ),
             children: renderDropdownMenu(children),
-            onClick: (event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>) => handleClickMenu(event, ops!, roles!)
+            onClick: (
+              event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>,
+            ) => handleClickMenu(event, ops!, roles!),
           };
         }
-  
+
         return {
           key: uniqueKey,
           label: menuLabel,
           onClick: (event: any) => handleClickMenu(event, ops!, roles!),
           'data-value': var_name,
           'data-type': type,
-          'data-label': menuLabel
+          'data-label': menuLabel,
         };
       });
     }
   };
 
-  let displayComponent;
+  // Create menu items for mobile
+  const createMobileMenuItems = (
+    nodes: FilterMenu[] | ChildrenFilter[],
+  ): MenuProps['items'] => {
+    return nodes?.map((node: FilterMenu | ChildrenFilter, index: number) => {
+      const { children, var_name, type, label: nodeLabel, ops, roles } = node;
+      const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
+      const hasChildren = children && children.length >= 1;
 
+      if (hasChildren) {
+        return {
+          key: `${menuLabel}-${index}`,
+          label: menuLabel,
+          icon: <LeftOutlined style={{ fontSize: 12 }} />,
+          children: createMobileMenuItems(children),
+        };
+      }
+
+      return {
+        key: `${menuLabel}-${index}`,
+        label: menuLabel,
+        onClick: (event: any) => {
+          event.domEvent.stopPropagation();
+          const mockEvent = {
+            currentTarget: {
+              dataset: {
+                value: var_name,
+                type: type,
+                label: menuLabel,
+              },
+            },
+            stopPropagation: () => {},
+          } as any;
+          handleClickMenu(mockEvent, ops!, roles!);
+        },
+      };
+    });
+  };
+
+  // Get display component based on type
+  let displayComponent;
   if (varName) {
     switch (typeData) {
       case TYPES.GeoTreeSelect:
@@ -547,7 +692,7 @@ export const MenuListsDropdown = () => {
     }
   }
 
-  // Base button styles for filter menu items (Ant Design)
+  // Base button styles
   const baseFilterButtonStyle = {
     color: '#000000',
     textTransform: 'none' as const,
@@ -557,7 +702,6 @@ export const MenuListsDropdown = () => {
     boxShadow: 'none',
   };
 
-  // Base button styles for modal actions (Ant Design)
   const baseApplyButtonStyle = {
     color: 'white',
     textTransform: 'unset' as const,
@@ -580,76 +724,120 @@ export const MenuListsDropdown = () => {
     fontSize: '0.80rem',
   };
 
-  return (
-    <div>
-      <div className="filter-menu-bar">
-        {filterMenu.map((item: FilterMenuList, index: number) => {
-          const { var_name, label, type, ops } = item;
-          const itemLabel = (label as LabelFilterMeneList)[languageValue];
-          return var_name ? (
-            <Button
-              key={`${itemLabel} - ${index}`}
-              data-value={var_name}
-              data-type={type}
-              data-label={itemLabel}
-              onClick={(event: any) => handleClickMenu(event, ops!)}
-              style={baseFilterButtonStyle}
+  const dropdownTriggerMobile = (
+    <Button
+      type="text"
+      icon={<FilterOutlined />}
+      style={{
+        color: '#ffffff',
+        display: 'flex',
+        alignItems: 'center',
+        margin: '10px 0',
+        fontSize: 15,
+        fontWeight: 600,
+        border: 'none',
+        background: 'transparent',
+        padding: '4px 8px',
+      }}
+      className="mobile-filter-button"
+    >
+      {' '}
+      <span>Filter</span>
+    </Button>
+  );
+  // Render mobile filter button
+  const renderMobileFilterButton = () => (
+    <div className="mobile-filter-container">
+      <Dropdown
+        menu={{ items: createMobileMenuItems(filterMenu) }}
+        trigger={['click']}
+        placement="bottomLeft"
+        overlayStyle={{
+          minWidth: 200,
+          overflow: 'auto',
+        }}
+        overlayClassName="mobile-filter-overlay"
+      >
+        {dropdownTriggerMobile}
+      </Dropdown>
+    </div>
+  );
+
+  // Render desktop filter buttons
+  const renderDesktopFilterButtons = () => (
+    <div className="filter-menu-bar">
+      {filterMenu.map((item: FilterMenuList, index: number) => {
+        const { var_name, label, type, ops } = item;
+        const itemLabel = (label as LabelFilterMeneList)[languageValue];
+        return var_name ? (
+          <Button
+            key={`${itemLabel} - ${index}`}
+            data-value={var_name}
+            data-type={type}
+            data-label={itemLabel}
+            onClick={(event: any) => handleClickMenu(event, ops!)}
+            style={baseFilterButtonStyle}
+          >
+            <Tooltip
+              placement="top"
+              title={`Filter by ${itemLabel}`}
+              color="rgba(0, 0, 0, 0.75)"
             >
-              <Tooltip
-                placement="top"
-                title={`Filter by ${itemLabel}`}
-                color="rgba(0, 0, 0, 0.75)"
-              >
-                {itemLabel}
-              </Tooltip>
-            </Button>
-          ) : (
-            <DropdownCascading
-              key={`${itemLabel} - ${index}`}
-              trigger={
-                <Button style={baseFilterButtonStyle}>
-                  <Tooltip
-                    placement="top"
-                    title={`Filter by ${itemLabel}`}
-                    color="rgba(0, 0, 0, 0.75)"
-                  >
-                    {itemLabel}
-                  </Tooltip>
-                  <span style={{ marginTop: 4 }}>
-                    <CaretRightOutlined
-                      style={{
-                        display: window.innerWidth >= 768 ? 'none' : 'inline',
-                        fontSize: 14,
-                      }}
-                    />
-                    <CaretDownOutlined
-                      style={{
-                        display: window.innerWidth >= 768 ? 'inline' : 'none',
-                        fontSize: 16,
-                      }}
-                    />
-                  </span>
-                </Button>
-              }
-              menu={renderDropdownMenu(item.children!)}
-            />
-          );
-        })}
-      </div>
-      {/* Using Material-UI Dialog components as requested */}
+              {itemLabel}
+            </Tooltip>
+          </Button>
+        ) : (
+          <DropdownCascading
+            key={`${itemLabel} - ${index}`}
+            trigger={
+              <Button style={baseFilterButtonStyle}>
+                <Tooltip
+                  placement="top"
+                  title={`Filter by ${itemLabel}`}
+                  color="rgba(0, 0, 0, 0.75)"
+                >
+                  {itemLabel}
+                </Tooltip>
+                <span style={{ marginTop: 4 }}>
+                  <CaretRightOutlined
+                    style={{
+                      display: isMobile ? 'inline' : 'none',
+                      fontSize: 14,
+                    }}
+                  />
+                  <CaretDownOutlined
+                    style={{
+                      display: isMobile ? 'none' : 'inline',
+                      fontSize: 16,
+                    }}
+                  />
+                </span>
+              </Button>
+            }
+            menu={renderDropdownMenu(item.children!)}
+          />
+        );
+      })}
+    </div>
+  );
+
+  return (
+    <div className="render-filter">
+      {/* Conditional rendering based on screen size */}
+      {isMobile ? renderMobileFilterButton() : renderDesktopFilterButtons()}
+
+      {/* Single Dialog component that works for both mobile and desktop */}
       <Dialog
         onClick={(e) => e.stopPropagation()}
         slotProps={{
           backdrop: {
             onClick: (e) => e.stopPropagation(),
+            style: DialogModalStyle,
           },
-        }}
-        BackdropProps={{
-          style: DialogModalStyle,
         }}
         disableScrollLock={true}
         sx={StyleDialog}
-        open={isOpenDialog}
+        open={isDialogOpen}
         onClose={handleCloseDialog}
         PaperComponent={PaperDraggable}
         aria-labelledby="draggable-dialog-title"
@@ -695,18 +883,23 @@ export const MenuListsDropdown = () => {
                 Apply
               </Button>
             )}
-            
-          {varName && (typeData === TYPES.IntegerField || typeData === TYPES.IdMatch || typeData === TYPES.FloatField || typeData === TYPES.DecimalField) && (
-            <Button
-              disabled={isButtonDisabled}
-              onClick={handleSliderChangeMouseUp}
-              style={baseApplyButtonStyle}
-              onMouseEnter={handleApplyMouseEnter}
-              onMouseLeave={handleApplyMouseLeave}
-            >
-              Apply
-            </Button>
-          )}
+
+          {varName &&
+            (typeData === TYPES.IntegerField ||
+              typeData === TYPES.IdMatch ||
+              typeData === TYPES.FloatField ||
+              typeData === TYPES.DecimalField) &&
+            opsRoles === 'btw' && (
+              <Button
+                disabled={isButtonDisabled}
+                onClick={handleSliderChangeMouseUp}
+                style={baseApplyButtonStyle}
+                onMouseEnter={handleApplyMouseEnter}
+                onMouseLeave={handleApplyMouseLeave}
+              >
+                Apply
+              </Button>
+            )}
           <Button
             onClick={handleResetDataDialog}
             style={baseResetButtonStyle}

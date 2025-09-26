@@ -146,7 +146,7 @@ export const homePageTranslated: TranslateType = {
       en: `At the foundation of the African diaspora lay an enslaver (or an owner), the enslaved person, and the movement of the enslaved person initiated by the enslaver or owner (this could be one of the various slave trades, a self-emancipated person or a single transaction between buyer and seller). Any movement of property or changes in that property’s status generated documentation – in the case of enslaved persons and their owners, these were typically accounts, baptismal certificates, newspapers, or shipping records.`,
       es: `En la base de la diáspora africana se encontraba un esclavizador (o propietario), la persona esclavizada y el movimiento de la persona esclavizada iniciado por el esclavizador o propietario (esto podría ser uno de los diversos comercios de esclavos, una persona auto-emancipada o una transacción única entre comprador y vendedor). Cualquier movimiento de propiedad o cambios en el estado de esa propiedad generaba documentación – en el caso de las personas esclavizadas y sus propietarios, estos eran típicamente cuentas, certificados de bautismo, periódicos o registros de envío.`,
       pt: `Na base da diáspora africana estava um escravizador (ou proprietário), a pessoa escravizada e o movimento da pessoa escravizada iniciado pelo escravizador ou proprietário (isso poderia ser um dos vários comércios de escravos, uma pessoa auto-emancipada ou uma única transação entre comprador e vendedor). Qualquer movimento de propriedade ou mudanças no status dessa propriedade gerava documentação – no caso das pessoas escravizadas e seus proprietários, estes eram tipicamente contas, certidões de batismo, jornais ou registros de embarque.`,
-    }
+    },
   },
   homeAfrican: {
     label: {
@@ -173,7 +173,7 @@ export const homePageTranslated: TranslateType = {
     label: {
       en: `This database contains information on more than 37,000 maritime voyages trafficking enslaved people within the Americas between 1550 and 1887. These slave trades operated within colonial empires, across imperial boundaries, and inside the borders of nations such as the United States and Brazil.Explore the forced removals, which not only dispersed African survivors of the Atlantic crossing but also displaced enslaved people born in the Americas.`,
       es: `Esta base de datos contiene información sobre más de 37.000 viajes marítimos que traficaron personas esclavizadas dentro de las Américas entre 1550 y 1887. Estos comercios de esclavos operaban dentro de imperios coloniales, a través de fronteras imperiales y dentro de las fronteras de naciones como Estados Unidos y Brasil. Explore las deportaciones forzadas, que no solo dispersaron a los sobrevivientes africanos de la travesía atlántica sino que también desplazaron a personas esclavizadas nacidas en las Américas.`,
-      pt: `Este banco de dados contém informações sobre mais de 37.000 viagens marítimas que traficaram pessoas escravizadas dentro das Américas entre 1550 e 1887. Esses comércios de escravos operavam dentro de impérios coloniais, através de fronteiras imperiais e dentro das fronteiras de nações como os Estados Unidos e o Brasil. Explore as remoções forçadas, que não apenas dispersaram os sobreviventes africanos da travessia atlântica, mas também deslocaram pessoas escravizadas nascidas nas Américas.`
+      pt: `Este banco de dados contém informações sobre mais de 37.000 viagens marítimas que traficaram pessoas escravizadas dentro das Américas entre 1550 e 1887. Esses comércios de escravos operavam dentro de impérios coloniais, através de fronteiras imperiais e dentro das fronteiras de nações como os Estados Unidos e o Brasil. Explore as remoções forçadas, que não apenas dispersaram os sobreviventes africanos da travessia atlântica, mas também deslocaram pessoas escravizadas nascidas nas Américas.`,
     },
   },
   btnAbout: {
@@ -405,6 +405,6 @@ export const homePageTranslated: TranslateType = {
       en: 'Cancel',
       es: 'Cancelar',
       pt: 'Cancelar',
-    }
-  }
+    },
+  },
 };

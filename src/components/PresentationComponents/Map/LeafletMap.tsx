@@ -29,8 +29,6 @@ import {
   MINIMUM_ZOOM,
   ZOOM_LEVEL_THRESHOLD,
   mappingSpecialists,
-  mappingSpecialistsCountries,
-  mappingSpecialistsRivers,
   PLACE,
   ESTIMATES,
   REGION,
@@ -186,7 +184,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     regionPlace,
   ]);
 
-
   const filters = useMemo(
     () =>
       filtersDataSend(
@@ -336,14 +333,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
               styleRouteName={styleNameRoute}
             />
             <TileLayer url={mappingSpecialists} />
-            <LayersControl position="topright">
-              <LayersControl.Overlay name="River">
-                <TileLayer url={mappingSpecialistsRivers} />
-              </LayersControl.Overlay>
-              <LayersControl.Overlay name="Modern Countries">
-                <TileLayer url={mappingSpecialistsCountries} />
-              </LayersControl.Overlay>
-            </LayersControl>
             <NodeEdgesCurvedLinesMap />
           </MapContainer>
           <ShowsColoredNodeOnMap />

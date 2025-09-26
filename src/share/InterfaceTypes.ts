@@ -562,7 +562,7 @@ export interface HeaderLabel {
 
 export interface MenuListsProps {
   name: LabelFilterMeneList;
-  url: string;
+  url?: string;
   submenu?: MenuListsProps[];
 }
 
