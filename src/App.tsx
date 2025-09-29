@@ -4,6 +4,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { StylesProvider } from '@mui/styles';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { HelmetProvider } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 
@@ -194,25 +195,27 @@ const App: React.FC = () => {
 };
 
 const AppWithRouter: React.FC = () => (
-  <BrowserRouter
-    future={{
-      v7_startTransition: true,
-      v7_relativeSplatPath: true,
-    }}
-  >
-    <StyledEngineProvider injectFirst>
-      <StylesProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <QueryClientProvider client={queryClient}>
-            <DocumentViewerProvider>
-              <App />
-            </DocumentViewerProvider>
-          </QueryClientProvider>
-        </ThemeProvider>
-      </StylesProvider>
-    </StyledEngineProvider>
-  </BrowserRouter>
+  <HelmetProvider>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
+      <StyledEngineProvider injectFirst>
+        <StylesProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <QueryClientProvider client={queryClient}>
+              <DocumentViewerProvider>
+                <App />
+              </DocumentViewerProvider>
+            </QueryClientProvider>
+          </ThemeProvider>
+        </StylesProvider>
+      </StyledEngineProvider>
+    </BrowserRouter>
+  </HelmetProvider>
 );
 
 export default AppWithRouter;
