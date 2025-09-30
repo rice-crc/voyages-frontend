@@ -21,13 +21,14 @@ const TabsSelect = () => {
   const dispatch: AppDispatch = useDispatch();
   const { currentBlockName, voyageURLID: ID } = usePageRouter();
   const { variable, nodeTypeClass, cardRowID } = useSelector(
-    (state: RootState) => state.getCardFlatObjectData
+    (state: RootState) => state.getCardFlatObjectData,
   );
-  
-  // Use URL data immediately for better SEO
+
   const voyageId = cardRowID || ID;
-  const initialTitle = voyageId ? `Voyage ${voyageId} - SlaveVoyages Database` : 'Slave Voyages Database';
-  const initialDescription = voyageId 
+  const initialTitle = voyageId
+    ? `Voyage ${voyageId} - SlaveVoyages Database`
+    : 'Slave Voyages Database';
+  const initialDescription = voyageId
     ? `Explore detailed historical records for voyage ${voyageId}. View routes, dates, vessel information, and documentation from the SlaveVoyages database.`
     : 'Explore detailed records from the SlaveVoyages database.';
 
@@ -54,15 +55,18 @@ const TabsSelect = () => {
       if (!fetchFn) return;
 
       try {
-        const numericID = typeof targetID === 'string' ? parseInt(targetID) : targetID;
+        const numericID =
+          typeof targetID === 'string' ? parseInt(targetID) : targetID;
         const response = await dispatch(fetchFn(numericID)).unwrap();
-        
+
         if (response?.data) {
-          const title = titleMap[nodeTypeClass]?.(String(targetID)) || 'SlaveVoyages Database';
-          // Enhanced description with actual data
+          const title =
+            titleMap[nodeTypeClass]?.(String(targetID)) ||
+            'SlaveVoyages Database';
+
           const voyageData = response.data.voyage_dates;
           const description = `Detailed information about voyage ${targetID} from ${voyageData?.voyage_began_sparsedate?.date_str || 'unknown date'} to ${voyageData?.vessel_left_port_sparsedate?.date_str || 'unknown date'}. Historical slave voyage records and documentation.`;
-          
+
           setPageTitle(title);
           setPageDescription(description);
         }
@@ -84,17 +88,29 @@ const TabsSelect = () => {
     {
       key: 'variables',
       label: 'Variables',
-      children: <Box sx={styleCard}><VoyageCard /></Box>,
+      children: (
+        <Box sx={styleCard}>
+          <VoyageCard />
+        </Box>
+      ),
     },
     {
       key: 'map',
       label: 'Map',
-      children: <Box sx={styleCard}><MAPS /></Box>,
+      children: (
+        <Box sx={styleCard}>
+          <MAPS />
+        </Box>
+      ),
     },
     {
       key: 'images',
       label: 'Images',
-      children: <Box sx={styleCard}><div style={{ height: 500 }}>No images are available.</div></Box>,
+      children: (
+        <Box sx={styleCard}>
+          <div style={{ height: 500 }}>No images are available.</div>
+        </Box>
+      ),
     },
   ];
 
@@ -103,20 +119,17 @@ const TabsSelect = () => {
       <Helmet defer={false}>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
-        
-        {/* Open Graph */}
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDescription} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
-        
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={pageDescription} />
-        
-        {/* SEO */}
-        <link rel="canonical" href={typeof window !== 'undefined' ? window.location.href : ''} />
+        <meta
+          property="og:url"
+          content={typeof window !== 'undefined' ? window.location.href : ''}
+        />
+        <link
+          rel="canonical"
+          href={typeof window !== 'undefined' ? window.location.href : ''}
+        />
         <meta name="robots" content="index, follow" />
       </Helmet>
       <Divider />
