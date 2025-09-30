@@ -14,9 +14,7 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { fetchVoyageCard } from '@/fetch/voyagesFetch/fetchVoyageCard';
-import { fetchPastEnslavedCard } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedCard';
-import { fetchPastEnslaversCard } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversCard';
-import { VOYAGESNODECLASS, VOYAGESNODE, ENSLAVEDNODE, ENSLAVERSNODE } from '@/share/CONST_DATA';
+import { VOYAGESNODECLASS, VOYAGESNODE } from '@/share/CONST_DATA';
 import { AppDispatch } from '@/redux/store';
 
 const TabsSelect = () => {
@@ -26,43 +24,45 @@ const TabsSelect = () => {
     (state: RootState) => state.getCardFlatObjectData
   );
   
-  const [pageData, setPageData] = useState<any>(null);
-  const [pageTitle, setPageTitle] = useState('Slave Voyages Database');
-  const [pageDescription, setPageDescription] = useState('Explore detailed records from the SlaveVoyages database.');
+  // Use URL data immediately for better SEO
+  const voyageId = cardRowID || ID;
+  const initialTitle = voyageId ? `Voyage ${voyageId} - SlaveVoyages Database` : 'Slave Voyages Database';
+  const initialDescription = voyageId 
+    ? `Explore detailed historical records for voyage ${voyageId}. View routes, dates, vessel information, and documentation from the SlaveVoyages database.`
+    : 'Explore detailed records from the SlaveVoyages database.';
 
+  const [pageTitle, setPageTitle] = useState(initialTitle);
+  const [pageDescription, setPageDescription] = useState(initialDescription);
   const navigate = useNavigate();
 
-  // Fetch the same data that VoyageCard fetches
-  useEffect(() => {
-    const fetchPageData = async () => {
-      const targetID = cardRowID || ID;
-      
-      if (!targetID) return;
-      
-      try {
-        let response = null;
-        const numericID = typeof targetID === 'string' ? parseInt(targetID, 10) : targetID;
-        
-        switch (nodeTypeClass) {
-          case VOYAGESNODECLASS:
-          case VOYAGESNODE:
-            response = await dispatch(fetchVoyageCard(numericID)).unwrap();
-            break;
-          case ENSLAVEDNODE:
-            response = await dispatch(fetchPastEnslavedCard(numericID)).unwrap();
-            break;
-          case ENSLAVERSNODE:
-            response = await dispatch(fetchPastEnslaversCard(numericID)).unwrap();
-            break;
-          default:
-            response = null;
-        }
+  const fetchMap: Record<string, any> = {
+    [VOYAGESNODECLASS]: fetchVoyageCard,
+    [VOYAGESNODE]: fetchVoyageCard,
+  };
 
-        if (response && response.data) {
-          setPageData(response.data);
-          // Extract meaningful data for meta tags
-          const title = extractTitle(response.data, nodeTypeClass, String(targetID));
-          const description = extractDescription(response.data, nodeTypeClass, String(targetID));
+  const titleMap: Record<string, (id: string) => string> = {
+    [VOYAGESNODECLASS]: (id: string) => `Voyage ${id} - SlaveVoyages Database`,
+    [VOYAGESNODE]: (id: string) => `Voyage ${id} - SlaveVoyages Database`,
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const targetID = cardRowID || ID;
+      if (!targetID) return;
+
+      const fetchFn = fetchMap[nodeTypeClass];
+      if (!fetchFn) return;
+
+      try {
+        const numericID = typeof targetID === 'string' ? parseInt(targetID) : targetID;
+        const response = await dispatch(fetchFn(numericID)).unwrap();
+        
+        if (response?.data) {
+          const title = titleMap[nodeTypeClass]?.(String(targetID)) || 'SlaveVoyages Database';
+          // Enhanced description with actual data
+          const voyageData = response.data.voyage_dates;
+          const description = `Detailed information about voyage ${targetID} from ${voyageData?.voyage_began_sparsedate?.date_str || 'unknown date'} to ${voyageData?.vessel_left_port_sparsedate?.date_str || 'unknown date'}. Historical slave voyage records and documentation.`;
+          
           setPageTitle(title);
           setPageDescription(description);
         }
@@ -71,50 +71,8 @@ const TabsSelect = () => {
       }
     };
 
-    fetchPageData();
+    fetchData();
   }, [dispatch, nodeTypeClass, cardRowID, ID]);
-
-  // Helper functions to extract meaningful data
-  const extractTitle = (data: any, nodeType: string, id: string) => {
-    switch (nodeType) {
-      case VOYAGESNODECLASS:
-      case VOYAGESNODE:
-        return `Voyage ${id} - SlaveVoyages Database`;
-      case ENSLAVEDNODE:
-        return `Enslaved Person ${id} - SlaveVoyages Database`;
-      case ENSLAVERSNODE:
-        return `Enslaver ${id} - SlaveVoyages Database`;
-      default:
-        return 'SlaveVoyages Database';
-    }
-  };
-
-  const extractDescription = (data: any, nodeType: string, id: string) => {
-    // Extract relevant information from the data
-    if (data && data.length > 0) {
-      const firstItem = data[0];
-      // Try to find meaningful fields for description
-      const summary = [];
-      
-      // Add basic information based on node type
-      switch (nodeType) {
-        case VOYAGESNODECLASS:
-        case VOYAGESNODE:
-          summary.push(`Detailed information about voyage ${id}`);
-          break;
-        case ENSLAVEDNODE:
-          summary.push(`Detailed information about enslaved person ${id}`);
-          break;
-        case ENSLAVERSNODE:
-          summary.push(`Detailed information about enslaver ${id}`);
-          break;
-      }
-      
-      summary.push('from the SlaveVoyages database with comprehensive historical records');
-      return summary.join(' ');
-    }
-    return `Explore detailed records for ${nodeType} ${id} from the SlaveVoyages database.`;
-  };
 
   const onChange = (key: string) => {
     dispatch(setValueVariable(key));
@@ -126,40 +84,40 @@ const TabsSelect = () => {
     {
       key: 'variables',
       label: 'Variables',
-      children: (
-        <Box sx={styleCard}>
-          {' '}
-          <VoyageCard />{' '}
-        </Box>
-      ),
+      children: <Box sx={styleCard}><VoyageCard /></Box>,
     },
     {
       key: 'map',
       label: 'Map',
-      children: (
-        <Box sx={styleCard}>
-          {' '}
-          <MAPS />{' '}
-        </Box>
-      ),
+      children: <Box sx={styleCard}><MAPS /></Box>,
     },
     {
       key: 'images',
       label: 'Images',
-      children: (
-        <Box sx={styleCard}>
-          <div style={{ height: 500 }}>No images are available.</div>{' '}
-        </Box>
-      ),
+      children: <Box sx={styleCard}><div style={{ height: 500 }}>No images are available.</div></Box>,
     },
   ];
+
   return (
     <div>
       <Helmet defer={false}>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
+        
+        {/* Open Graph */}
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        
+        {/* SEO */}
+        <link rel="canonical" href={typeof window !== 'undefined' ? window.location.href : ''} />
+        <meta name="robots" content="index, follow" />
       </Helmet>
       <Divider />
       <Tabs
