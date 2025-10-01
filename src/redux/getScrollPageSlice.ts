@@ -21,7 +21,6 @@ const getScrollPageSlice = createSlice({
       state.isOpenDialogMobile = action.payload;
     },
     setCurrentVoyagesBlockName: (state, action: PayloadAction<string>) => {
-      console.log({ block: action.payload });
       state.currentVoyageBlockName = action.payload;
     },
     resetSlice: (state) => {
