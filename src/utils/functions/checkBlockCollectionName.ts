@@ -1,17 +1,6 @@
 import {
-  AFRICANORIGINS,
-  ALLENSLAVED,
-  ENSALVEDTYPE,
-  ENSALVERSTYLE,
-  ENSLAVEDTEXAS,
-  ESTIMATES,
-  INTRAAMERICANTRADS,
-  TRANSATLANTICTRADS,
-} from '@/share/CONST_DATA';
-import {
   TYPESOFBLOCKENSLAVED,
   TYPESOFBLOCKVOYAGES,
-  TYPESOFDATASET,
 } from '@/share/InterfaceTypes';
 
 export const checkBlockCollectionNameForVoyages = (blockName: string) => {
@@ -25,7 +14,7 @@ export const checkBlockCollectionNameForVoyages = (blockName: string) => {
     case TYPESOFBLOCKVOYAGES.summaryStatisticsEN:
     case TYPESOFBLOCKVOYAGES.summaryStatisticsES:
     case TYPESOFBLOCKVOYAGES.summaryStatisticsPT:
-      return (collectionBlockName = 'summarystatistics');
+      return (collectionBlockName = 'sumstats');
 
     case TYPESOFBLOCKVOYAGES.lineEN:
     case TYPESOFBLOCKVOYAGES.lineES:
