@@ -240,20 +240,49 @@
   ],
   "cell_vars": [
     {
+      "value_field": "voyage_id",
+      "label": {
+        "en": "Number of Voyages",
+        "es": "Number of Voyages (ES)",
+        "pt": "Number of Voyages (PT)"
+      },
+      "agg_fn":"count"
+    },
+    {
       "value_field": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
       "label": {
-        "en": "Imputed Number of Enslaved People Embarked",
-        "es": "Número Estimado de Personas Esclavizadas Embarcadas",
-        "pt": "Número Estimado de Pessoas Escravizadas Embarcadas"
-      }
+        "en": "Sum of Embarked Captives (IMP)",
+        "es": "Sum of Embarked Captives (IMP) (ES)",
+        "pt": "Sum of Embarked Captives (IMP) (PT)"
+      },
+      "agg_fn":"sum"
+    },
+    {
+      "value_field": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+      "label": {
+        "en": "Average of Embarked Captives (IMP)",
+        "es": "Average of Embarked Captives (IMP) (ES)",
+        "pt": "Average of Embarked Captives (IMP) (PT)"
+      },
+      "agg_fn":"mean"
     },
     {
       "value_field": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
       "label": {
-        "en": "Imputed Number of Enslaved People Disembarked",
-        "es": "Número Estimado de Personas Esclavizadas Desembarcadas",
-        "pt": "Número Estimado de Pessoas Escravizadas Desembarcadas"
-      }
+        "en": "Sum of Disembarked Captives (IMP)",
+        "es": "Sum of Disembarked Captives (IMP) (ES)",
+        "pt": "Sum of Disembarked Captives (IMP) (PT)"
+      },
+      "agg_fn":"sum"
+    },
+    {
+      "value_field": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+      "label": {
+        "en": "Average of Disembarked Captives (IMP)",
+        "es": "Average of Disembarked Captives (IMP) (ES)",
+        "pt": "Average of Disembarked Captives (IMP) (PT)"
+      },
+      "agg_fn":"mean"
     },
     {
       "value_field": "voyage_slaves_numbers__imp_jamaican_cash_price",
@@ -261,7 +290,8 @@
         "en": "Sterling Cash Price in Jamaica",
         "es": "Precio en Efectivo en Jamaica (Libra Esterlina)",
         "pt": "Preço em Dinheiro em Jamaica (Libra Esterlina)"
-      }
+      },
+      "agg_fn":"mean"
     }
   ]
 }
