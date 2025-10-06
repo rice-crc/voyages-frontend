@@ -35,6 +35,7 @@ import { setIsChangeGeoTree } from '@/redux/getGeoTreeDataSlice';
 import {
   setEnslaversNameAndRole,
   setIsChange,
+  setIsPercent,
   setKeyValueName,
   setListEnslavers,
   setOpsRole,
@@ -146,7 +147,6 @@ export const MenuListsDropdown = () => {
   const [currentSliderValue, setCurrentSliderValue] = useState<
     number | number[]
   >(rangeMinMax);
-
   const isButtonDisabled =
     enslaverName === '' && typeData === TYPES.EnslaverNameAndRole;
 
@@ -227,8 +227,7 @@ export const MenuListsDropdown = () => {
     ops: string[],
     roles?: RolesProps[],
   ) => {
-    const { value, type, label } = event.currentTarget.dataset;
-
+    const { value, type, label, percent } = event.currentTarget.dataset;
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
     let opsValue = '';
@@ -238,7 +237,11 @@ export const MenuListsDropdown = () => {
       } else {
         dispatch(setKeyValueName(value));
       }
-
+      if (percent) {
+        dispatch(setIsPercent(Boolean(percent)));
+      } else {
+        dispatch(setIsPercent(false));
+      }
       dispatch(setType(type));
       if (ops) {
         for (const ele of ops) {
@@ -522,6 +525,7 @@ export const MenuListsDropdown = () => {
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
         const { children, var_name, type, label: nodeLabel, ops, roles } = node;
+        const isPercent = var_name?.includes('percentage');
         const hasChildren = children && children.length >= 1;
         const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
         const uniqueKey = `${menuLabel} - ${index}`;
@@ -556,6 +560,7 @@ export const MenuListsDropdown = () => {
           'data-value': var_name,
           'data-type': type,
           'data-label': menuLabel,
+          'data-percent': isPercent,
         };
       });
     }
