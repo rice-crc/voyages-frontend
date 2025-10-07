@@ -15,7 +15,6 @@ import { RootState } from '@/redux/store';
 import {
   PlotXYVar,
   VoyagesOptionProps,
-  FilterObjectsState,
   CurrentPageInitialState,
   LanguageKey,
   IRootFilterLineAndBarRequest,
@@ -38,9 +37,7 @@ function Scatter() {
     isSuccess,
     isLoading,
   } = useGetOptionsQuery(datas);
-  const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState,
-  );
+
   const [error, setError] = useState(false);
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState,
