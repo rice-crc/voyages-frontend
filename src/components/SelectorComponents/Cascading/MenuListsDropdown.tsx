@@ -129,6 +129,7 @@ export const MenuListsDropdown = () => {
     opsRoles,
     rangeSliderMinMax,
     rangeValue,
+    isPercent,
   } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
@@ -226,8 +227,10 @@ export const MenuListsDropdown = () => {
     event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>,
     ops: string[],
     roles?: RolesProps[],
+    isPercentParam?: boolean,
   ) => {
-    const { value, type, label, percent } = event.currentTarget.dataset;
+    const { value, type, label } = event.currentTarget.dataset;
+    const isPercent = value?.includes('percentage') || isPercentParam;
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
     let opsValue = '';
@@ -237,8 +240,8 @@ export const MenuListsDropdown = () => {
       } else {
         dispatch(setKeyValueName(value));
       }
-      if (percent) {
-        dispatch(setIsPercent(Boolean(percent)));
+      if (isPercent) {
+        dispatch(setIsPercent(Boolean(isPercent)));
       } else {
         dispatch(setIsPercent(false));
       }
@@ -456,12 +459,18 @@ export const MenuListsDropdown = () => {
       (filter) => filter.varName === varName,
     );
     if (existingFilterIndex !== -1) {
-      existingFilters[existingFilterIndex].searchTerm = updateValue as number[];
+      existingFilters[existingFilterIndex].searchTerm = isPercent
+        ? updateValue.map((v) => v / 100)
+        : updateValue;
       existingFilters[existingFilterIndex].op = opsRoles!;
     } else {
+      const normalizedValue = isPercent
+        ? updateValue.map((v) => v / 100)
+        : updateValue;
+
       const newFilter: Filter = {
         varName: varName,
-        searchTerm: updateValue!,
+        searchTerm: normalizedValue,
         op: opsRoles!,
         label: labelVarName,
       };
@@ -549,18 +558,19 @@ export const MenuListsDropdown = () => {
             children: renderDropdownMenu(children),
             onClick: (
               event: MouseEvent<HTMLLIElement> | MouseEvent<HTMLDivElement>,
-            ) => handleClickMenu(event, ops!, roles!),
+            ) => handleClickMenu(event, ops!, roles!, isPercent!),
           };
         }
 
         return {
           key: uniqueKey,
           label: menuLabel,
-          onClick: (event: any) => handleClickMenu(event, ops!, roles!),
+          onClick: (event: any) =>
+            handleClickMenu(event, ops!, roles!, isPercent!),
           'data-value': var_name,
           'data-type': type,
           'data-label': menuLabel,
-          'data-percent': isPercent,
+          'data-is-percent': isPercent,
         };
       });
     }
@@ -574,6 +584,7 @@ export const MenuListsDropdown = () => {
       const { children, var_name, type, label: nodeLabel, ops, roles } = node;
       const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
       const hasChildren = children && children.length >= 1;
+      const isPercent = var_name?.includes('percentage');
 
       if (hasChildren) {
         return {
@@ -595,11 +606,12 @@ export const MenuListsDropdown = () => {
                 value: var_name,
                 type: type,
                 label: menuLabel,
+                isPercent: String(isPercent),
               },
             },
             stopPropagation: () => {},
           } as any;
-          handleClickMenu(mockEvent, ops!, roles!);
+          handleClickMenu(mockEvent, ops!, roles!, isPercent);
         },
       };
     });
@@ -771,58 +783,63 @@ export const MenuListsDropdown = () => {
   // Render desktop filter buttons
   const renderDesktopFilterButtons = () => (
     <div className="filter-menu-bar">
-      {filterMenu.map((item: FilterMenuList, index: number) => {
-        const { var_name, label, type, ops } = item;
-        const itemLabel = (label as LabelFilterMeneList)[languageValue];
-        return var_name ? (
-          <Button
-            key={`${itemLabel} - ${index}`}
-            data-value={var_name}
-            data-type={type}
-            data-label={itemLabel}
-            onClick={(event: any) => handleClickMenu(event, ops!)}
-            style={baseFilterButtonStyle}
-          >
-            <Tooltip
-              placement="top"
-              title={`Filter by ${itemLabel}`}
-              color="rgba(0, 0, 0, 0.75)"
+      {filterMenu.map(
+        (item: FilterMenuList | ChildrenFilter, index: number) => {
+          const { var_name, label, type, ops, roles } = item;
+          const isPercent = var_name?.includes('percentage');
+          const itemLabel = (label as LabelFilterMeneList)[languageValue];
+          return var_name ? (
+            <Button
+              key={`${itemLabel} - ${index}`}
+              data-value={var_name}
+              data-type={type}
+              data-label={itemLabel}
+              onClick={(event: any) =>
+                handleClickMenu(event, ops!, roles!, isPercent)
+              }
+              style={baseFilterButtonStyle}
             >
-              {itemLabel}
-            </Tooltip>
-          </Button>
-        ) : (
-          <DropdownCascading
-            key={`${itemLabel} - ${index}`}
-            trigger={
-              <Button style={baseFilterButtonStyle}>
-                <Tooltip
-                  placement="top"
-                  title={`Filter by ${itemLabel}`}
-                  color="rgba(0, 0, 0, 0.75)"
-                >
-                  {itemLabel}
-                </Tooltip>
-                <span style={{ marginTop: 4 }}>
-                  <CaretRightOutlined
-                    style={{
-                      display: isMobile ? 'inline' : 'none',
-                      fontSize: 14,
-                    }}
-                  />
-                  <CaretDownOutlined
-                    style={{
-                      display: isMobile ? 'none' : 'inline',
-                      fontSize: 16,
-                    }}
-                  />
-                </span>
-              </Button>
-            }
-            menu={renderDropdownMenu(item.children!)}
-          />
-        );
-      })}
+              <Tooltip
+                placement="top"
+                title={`Filter by ${itemLabel}`}
+                color="rgba(0, 0, 0, 0.75)"
+              >
+                {itemLabel}
+              </Tooltip>
+            </Button>
+          ) : (
+            <DropdownCascading
+              key={`${itemLabel} - ${index}`}
+              trigger={
+                <Button style={baseFilterButtonStyle}>
+                  <Tooltip
+                    placement="top"
+                    title={`Filter by ${itemLabel}`}
+                    color="rgba(0, 0, 0, 0.75)"
+                  >
+                    {itemLabel}
+                  </Tooltip>
+                  <span style={{ marginTop: 4 }}>
+                    <CaretRightOutlined
+                      style={{
+                        display: isMobile ? 'inline' : 'none',
+                        fontSize: 14,
+                      }}
+                    />
+                    <CaretDownOutlined
+                      style={{
+                        display: isMobile ? 'none' : 'inline',
+                        fontSize: 16,
+                      }}
+                    />
+                  </span>
+                </Button>
+              }
+              menu={renderDropdownMenu(item.children!)}
+            />
+          );
+        },
+      )}
     </div>
   );
 

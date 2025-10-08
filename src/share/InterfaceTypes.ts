@@ -675,6 +675,7 @@ export interface FilterMenuList {
   var_name?: string;
   type?: string;
   ops?: string[];
+  roles?: RolesProps[];
   children?: ChildrenFilter[];
 }
 export interface LabelFilterMeneList {
