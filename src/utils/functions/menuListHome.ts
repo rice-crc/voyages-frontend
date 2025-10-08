@@ -1,3 +1,4 @@
+import { BASE_URL_FRONTEND } from '@/share/AUTH_BASEURL';
 import {
   ACCOUNTS,
   ASSESSMENT,
@@ -157,7 +158,8 @@ export const menuLists: MenuListsProps[] = [
       es: 'Comentarios del usuario y reportar problemas',
       pt: 'Feedback do usuário e reportar problemas',
     },
-    url: `https://airtable.com/appZmGW1SJBCvNVkS/pagCykoWOYCdlEryO/form`,
+    url: 'https://airtable.com/appZmGW1SJBCvNVkS/pagCykoWOYCdlEryO/form',
+    isExternal: true,
   },
   {
     name: {
@@ -165,7 +167,7 @@ export const menuLists: MenuListsProps[] = [
       es: 'Contacto',
       pt: 'Contato',
     },
-    url: `https://www.slavevoyages.org/blog/contact-us/177`,
+    url: `${BLOGPAGE}/contact-us/177`,
   },
   {
     name: {
@@ -173,6 +175,6 @@ export const menuLists: MenuListsProps[] = [
       es: 'FAQ',
       pt: 'FAQ',
     },
-    url: `https://www.slavevoyages.org/blog/faqs/179`,
+    url: `${BLOGPAGE}/faqs/179`,
   },
 ];

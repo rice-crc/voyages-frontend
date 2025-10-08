@@ -24,11 +24,11 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
   const { languageValue: language } = useSelector(
     (state: RootState) => state.getLanguages,
   );
+
   useEffect(() => {
     const maxLength = Math.max(
       ...menuLists.map((list) => list.name[language].length),
     );
-
     setMaxTextLength(maxLength * 5);
   }, [language]);
 
@@ -49,6 +49,28 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
       <span className="menu_icon">
         <ExpandMore />
       </span>
+    );
+  };
+
+  // ✅ Helper function to render link (internal or external)
+  const renderLink = (url: string, text: string, isExternal?: boolean) => {
+    if (isExternal) {
+      return (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <ListItemText primary={text} />
+        </a>
+      );
+    }
+
+    return (
+      <Link to={url.startsWith('/') ? url : `/${url}`}>
+        <ListItemText primary={text} />
+      </Link>
     );
   };
 
@@ -76,15 +98,16 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
                   cursor: 'pointer',
                 }}
               >
+                {/* ✅ Handle main menu links */}
                 {item.url ? (
-                  <Link to={`/${item.url}`}>
-                    <ListItemText primary={item.name[language]} />
-                  </Link>
+                  renderLink(item.url, item.name[language], item.isExternal)
                 ) : (
                   <ListItemText primary={item.name[language]} />
                 )}
                 {item.submenu ? displayIcon(item.name[language]) : null}
               </ListItemButton>
+
+              {/* ✅ Handle submenu links */}
               {item.submenu &&
                 expandedMenus[item.name[language]] &&
                 item.submenu.map((submenuItem) => (
@@ -103,17 +126,36 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ open }) => {
                       }}
                     >
                       <ListItemButton style={{ padding: 0 }}>
-                        <Link to={`${submenuItem.url}`}>
-                          <ListItemText
-                            primary={submenuItem.name[language]}
-                            style={{
-                              paddingLeft: 20,
-                              marginTop: 0,
-                              marginBottom: 0,
-                              cursor: 'pointer',
-                            }}
-                          />
-                        </Link>
+                        {submenuItem.isExternal ? (
+                          <a
+                            href={submenuItem.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ textDecoration: 'none', color: 'inherit' }}
+                          >
+                            <ListItemText
+                              primary={submenuItem.name[language]}
+                              style={{
+                                paddingLeft: 20,
+                                marginTop: 0,
+                                marginBottom: 0,
+                                cursor: 'pointer',
+                              }}
+                            />
+                          </a>
+                        ) : (
+                          <Link to={`${submenuItem.url}`}>
+                            <ListItemText
+                              primary={submenuItem.name[language]}
+                              style={{
+                                paddingLeft: 20,
+                                marginTop: 0,
+                                marginBottom: 0,
+                                cursor: 'pointer',
+                              }}
+                            />
+                          </Link>
+                        )}
                       </ListItemButton>
                     </List>
                   </Collapse>
