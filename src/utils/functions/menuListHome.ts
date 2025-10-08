@@ -151,4 +151,28 @@ export const menuLists: MenuListsProps[] = [
   //   },
   //   url: `${ACCOUNTS}signin/`,
   // },
+  {
+    name: {
+      en: 'User Feedback and Report Issues',
+      es: 'Comentarios del usuario y reportar problemas',
+      pt: 'Feedback do usuário e reportar problemas',
+    },
+    url: `https://airtable.com/appZmGW1SJBCvNVkS/pagCykoWOYCdlEryO/form`,
+  },
+  {
+    name: {
+      en: 'Contact Us',
+      es: 'Contacto',
+      pt: 'Contato',
+    },
+    url: `https://www.slavevoyages.org/blog/contact-us/177`,
+  },
+  {
+    name: {
+      en: 'FAQ',
+      es: 'FAQ',
+      pt: 'FAQ',
+    },
+    url: `https://www.slavevoyages.org/blog/faqs/179`,
+  },
 ];

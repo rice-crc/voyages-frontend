@@ -46,7 +46,7 @@ const RangeSlider:FunctionComponent<RangeSliderProps> = ({
   const dispatch: AppDispatch = useDispatch();
   const { styleName } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { rangeValue, varName, rangeSliderMinMax, } = useSelector(
+  const { rangeValue, varName, rangeSliderMinMax, isPercent} = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
 
@@ -83,7 +83,10 @@ const RangeSlider:FunctionComponent<RangeSliderProps> = ({
       }
       if (response) {
         const { min, max, varName } = response;
-        const initialValue: number[] = [parseInt(min ?? 0), parseInt(max ?? 0)];
+        const rangMin = isPercent ? min * 100 : min || 0;
+        const rangMax = isPercent ? max * 100 : max || 0;
+        const initialValue: number[] = [Math.round(rangMin), Math.round(rangMax)];
+        
         dispatch(setKeyValueName(varName));
         setCurrentSliderValue(initialValue);
         dispatch(

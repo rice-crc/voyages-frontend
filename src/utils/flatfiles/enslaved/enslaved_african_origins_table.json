@@ -2,6 +2,27 @@
   "cell_structure": [
     {
       "header_label": {
+        "en": "ID",
+        "es": "ID ES",
+        "pt": "ID PT"
+      },
+      "cell_type": "literal",
+      "visible": true,
+      "number_format": null,
+      "order_by": ["enslaved_id"],
+      "col_width_px": 130,
+      "colID": "enslaved_id",
+      "cell_val": {
+        "fields": [
+          {
+            "var_name": "enslaved_id",
+            "cell_fn": "literal"
+          }
+        ]
+      }
+    },
+    {
+      "header_label": {
         "en": "Documented name",
         "es": "Documented name ES",
         "pt": "Documented name PT"
@@ -392,6 +413,15 @@
         "pt": "Names PT"
       },
       "children": [
+        {
+          "col_width_px": 100,
+          "colID": "enslaved_id",
+          "label": {
+            "en": "ID",
+            "es": "ID ES",
+            "pt": "ID PT"
+          }
+        },
         {
           "col_width_px": 100,
           "colID": "documented_name",

@@ -20,6 +20,7 @@ const initialState: StatePivotRowData = {
     binsize: VOYAGE_PIVOT_OPTIONS.row_vars[13].binsize,
     column_vars: VOYAGE_PIVOT_OPTIONS.column_vars[0].columns,
     cell_vars: VOYAGE_PIVOT_OPTIONS.cell_vars[0].value_field,
+    agg_fn: VOYAGE_PIVOT_OPTIONS.cell_vars[0].agg_fn,
   },
   aggregation: 'sum',
   rowsPerPage: getRowsPerPage(window.innerWidth, window.innerHeight),
