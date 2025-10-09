@@ -566,6 +566,7 @@ export interface HeaderLabel {
 export interface MenuListsProps {
   name: LabelFilterMeneList;
   url?: string;
+  isExternal?: boolean;
   submenu?: MenuListsProps[];
 }
 
@@ -675,6 +676,7 @@ export interface FilterMenuList {
   var_name?: string;
   type?: string;
   ops?: string[];
+  roles?: RolesProps[];
   children?: ChildrenFilter[];
 }
 export interface LabelFilterMeneList {
