@@ -230,10 +230,7 @@ export const MenuListsDropdown = () => {
     isPercentParam?: boolean,
   ) => {
     const { value, type, label } = event.currentTarget.dataset;
-    const isPercent =
-      value?.includes('percentage') ||
-      value?.includes('_ratio') ||
-      isPercentParam;
+    const isPercent = value?.includes('percentage') || isPercentParam;
     event.stopPropagation();
     setIsClickMenu(!isClickMenu);
     let opsValue = '';
@@ -537,8 +534,7 @@ export const MenuListsDropdown = () => {
     if (Array.isArray(nodes!)) {
       return nodes.map((node: FilterMenu | ChildrenFilter, index: number) => {
         const { children, var_name, type, label: nodeLabel, ops, roles } = node;
-        const isPercent =
-          var_name?.includes('percentage') || var_name?.includes('_ratio');
+        const isPercent = var_name?.includes('percentage');
         const hasChildren = children && children.length >= 1;
         const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
         const uniqueKey = `${menuLabel} - ${index}`;
@@ -588,8 +584,7 @@ export const MenuListsDropdown = () => {
       const { children, var_name, type, label: nodeLabel, ops, roles } = node;
       const menuLabel = (nodeLabel as LabelFilterMeneList)[languageValue];
       const hasChildren = children && children.length >= 1;
-      const isPercent =
-        var_name?.includes('percentage') || var_name?.includes('_ratio');
+      const isPercent = var_name?.includes('percentage');
 
       if (hasChildren) {
         return {
@@ -791,8 +786,7 @@ export const MenuListsDropdown = () => {
       {filterMenu.map(
         (item: FilterMenuList | ChildrenFilter, index: number) => {
           const { var_name, label, type, ops, roles } = item;
-          const isPercent =
-            var_name?.includes('percentage') || var_name?.includes('_ratio');
+          const isPercent = var_name?.includes('percentage');
           const itemLabel = (label as LabelFilterMeneList)[languageValue];
           return var_name ? (
             <Button
