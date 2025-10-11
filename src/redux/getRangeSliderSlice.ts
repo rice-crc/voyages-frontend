@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
 import { FilterObjectsState, RolesProps } from '@/share/InterfaceTypes';
 
 const initialState: FilterObjectsState = {
@@ -13,7 +12,6 @@ const initialState: FilterObjectsState = {
   enslaverName: '',
   opsRoles: 'in',
   listEnslavers: [],
-  isPercent: false,
 };
 
 const rangeSliderSlice = createSlice({
@@ -29,12 +27,9 @@ const rangeSliderSlice = createSlice({
     setIsChange: (state, action: PayloadAction<boolean>) => {
       state.isChange = action.payload;
     },
-    setIsPercent: (state, action: PayloadAction<boolean>) => {
-      state.isPercent = action.payload;
-    },
     setRangeSliderValue: (
       state,
-      action: PayloadAction<Record<string, number[]>>,
+      action: PayloadAction<Record<string, number[]>>
     ) => {
       state.rangeSliderMinMax = action.payload;
     },
@@ -43,7 +38,7 @@ const rangeSliderSlice = createSlice({
     },
     setEnslaversNameAndRole: (
       state,
-      action: PayloadAction<RolesProps[] | undefined>,
+      action: PayloadAction<RolesProps[] | undefined>
     ) => {
       state.enslaversNameAndRole = action.payload;
     },
@@ -53,7 +48,7 @@ const rangeSliderSlice = createSlice({
     setListEnslavers: (state, action: PayloadAction<RolesProps[]>) => {
       state.listEnslavers = action.payload;
     },
-    resetSlice: () => initialState,
+    resetSlice: (state) => initialState,
   },
 });
 export const {
@@ -66,6 +61,5 @@ export const {
   setIsChange,
   resetSlice,
   setRangeSliderValue,
-  setIsPercent,
 } = rangeSliderSlice.actions;
 export default rangeSliderSlice.reducer;
