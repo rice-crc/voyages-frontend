@@ -36,6 +36,7 @@ interface RangeSliderProps {
   maxRange: number
 }
 const RangeSlider:FunctionComponent<RangeSliderProps> = ({
+  handleSliderChangeMouseUp,
   setCurrentSliderValue,
   currentSliderValue,
   minRange:min,
@@ -71,7 +72,6 @@ const RangeSlider:FunctionComponent<RangeSliderProps> = ({
   }, [varName, newFilters]);
 
   const fetchRangeSliderData = useCallback(async () => {
-
     try {
       let response;
       if (checkPagesRouteForVoyages(styleName!)) {
@@ -122,19 +122,23 @@ const RangeSlider:FunctionComponent<RangeSliderProps> = ({
 
     const rangSliderLocal: number[] = filterByVarName.searchTerm as number[];
 
-    // ✅  Convert back to percentage for display if isPercent is true
-    const initialValue: number[] = isPercent 
-      ? rangSliderLocal.map(v => v * 100)  // Convert 0-1 to 0-100
-      : rangSliderLocal;
-   
+    const initialValue: number[] = rangSliderLocal;
     setCurrentSliderValue(initialValue);
     dispatch(setFilterObject(filter));
-  }, [varName, styleName, dispatch, fetchRangeSliderData, setCurrentSliderValue, isPercent]);
+  }, [varName, styleName, dispatch, fetchRangeSliderData,setCurrentSliderValue]);
 
 
   return (
     <Grid
       className="autocomplete-modal-box"
+      // style={{
+      //   width: 450,
+      //   marginTop: 10,
+      //   display: 'flex',
+      //   flexDirection: 'column',
+      //   gap: 12,
+      //   alignItems: 'center',
+      // }}
     >
       <div
         style={{
