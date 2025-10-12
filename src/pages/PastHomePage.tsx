@@ -1,6 +1,7 @@
 import React from 'react';
-import PastPeopleIntro from '@/components/PresentationComponents/Intro/PastPeopleIntro';
+
 import HeaderPeopleNavBar from '@/components/NavigationComponents/Header/HeaderPeopleNavBar';
+import PastPeopleIntro from '@/components/PresentationComponents/Intro/PastPeopleIntro';
 
 const PastHomePage: React.FC = () => {
   return (

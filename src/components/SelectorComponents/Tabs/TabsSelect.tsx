@@ -1,21 +1,22 @@
-import { Divider, Tabs } from 'antd';
+import { useEffect, useState } from 'react';
 import '@/style/cards.scss';
-import { setValueVariable } from '@/redux/getCardFlatObjectSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { styleCard } from '@/styleMUI';
+
 import { Box } from '@mui/material';
+import type { TabsProps } from 'antd';
+import { Divider, Tabs } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import MetaTag from '@/components/MetaTag/MetaTag';
 import VoyageCard from '@/components/PresentationComponents/Cards/Cards';
 import MAPS from '@/components/PresentationComponents/Map/MAPS';
-import type { TabsProps } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { Helmet } from 'react-helmet-async';
-import { useEffect, useState } from 'react';
 import { fetchVoyageCard } from '@/fetch/voyagesFetch/fetchVoyageCard';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setValueVariable } from '@/redux/getCardFlatObjectSlice';
+import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
+import { RootState, AppDispatch } from '@/redux/store';
 import { VOYAGESNODECLASS, VOYAGESNODE } from '@/share/CONST_DATA';
-import { AppDispatch } from '@/redux/store';
+import { styleCard } from '@/styleMUI';
 
 const TabsSelect = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -116,22 +117,7 @@ const TabsSelect = () => {
 
   return (
     <div>
-      <Helmet defer={false}>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content={typeof window !== 'undefined' ? window.location.href : ''}
-        />
-        <link
-          rel="canonical"
-          href={typeof window !== 'undefined' ? window.location.href : ''}
-        />
-        <meta name="robots" content="index, follow" />
-      </Helmet>
+      <MetaTag pageDescription={pageDescription} pageTitle={pageTitle} />
       <Divider />
       <Tabs
         defaultActiveKey={variable || currentBlockName}

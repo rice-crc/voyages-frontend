@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { StylesProvider } from '@mui/styles';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { HelmetProvider } from 'react-helmet-async';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 
@@ -60,6 +60,7 @@ import {
 import { theme } from '@/styleMUI/theme';
 
 import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
+import MetaTag from './components/MetaTag/MetaTag';
 import { DocumentViewerProvider } from './pages/DocumentViewerContext';
 import { checkEntityType } from './utils/functions/checkEntityType';
 
@@ -120,77 +121,95 @@ const App: React.FC = () => {
   ]);
 
   return (
-    <Routes>
-      {nodeClass && ID && (
-        <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
-      )}
-      <Route path="/" element={<HomePage />} />
-      {saveSearchURL && nodeClass && (
-        <Route path={`${saveSearchURL}`} element={<UseSaveSearchURL />} />
-      )}
-      <Route path={`${TRANSATLANTICPAGE}`} element={<VoyagesPage />} />
-      <Route path={`${INTRAAMERICANPAGE}`} element={<VoyagesPage />} />
-      <Route path={`${ALLVOYAGESPAGE}`} element={<VoyagesPage />} />
-      <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
-      <Route
-        path={`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
-        element={<EnslavedHomePage />}
-      />
-      <Route
-        path={`${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
-        element={<EnslavedHomePage />}
-      />
-      <Route
-        path={`${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
-        element={<EnslavedHomePage />}
-      />
-      <Route
-        path={`${ENSALVERSPAGE}${INTRAAMERICANENSLAVERS}`}
-        element={<EnslaversHomePage />}
-      />
-      <Route
-        path={`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}`}
-        element={<EnslaversHomePage />}
-      />
-      <Route
-        path={`${ENSALVERSPAGE}/${allEnslavers}`}
-        element={<EnslaversHomePage />}
-      />
-      <Route path={`${ASSESSMENT}/${ESTIMATES}/`} element={<Estimates />} />
-      <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
-      <Route path={`${BLOGPAGE}/`} element={<BlogPage />} />
-      <Route path={`${BLOGPAGE}/tag/${blogURL}`} element={<BlogPage />} />
-      <Route
-        path={`${BLOGPAGE}/:blogTitle/:ID`}
-        element={<BlogDetailsPost />}
-      />
-      <Route
-        path={`${BLOGPAGE}/author/:authorName/:ID/`}
-        element={<AuthorPage />}
-      />
-      <Route
-        path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
-        element={<InstitutionAuthorsPage />}
-      />
-      <Route path={`${CONTRIBUTE}`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}guidelines`} element={<ContributePage />} />
-      <Route path={`${ACCOUNTS}signin`} element={<ContributePage />} />
-      <Route path={`${ACCOUNTS}signup`} element={<ContributePage />} />
-      <Route path={`${ACCOUNTS}password/reset`} element={<ContributePage />} />
-      <Route path={`${ACCOUNTS}logout`} element={<ContributePage />} />
-      <Route path={`${ACCOUNTS}password_change`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}legal`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}interim/new/`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}edit_voyage`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}merge_voyages`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}delete_voyage`} element={<ContributePage />} />
-      <Route path={`${LESSONPLANS}/`} element={<LessonPlans />} />
-      <Route path={`${INTRODUCTORYMAPS}/`} element={<IntroductoryMaps />} />
-      <Route path={`${ABOUTPAGE}`} element={<AboutPage />} />
-      <Route path={`${DOWNLOADS}`} element={<DownloadPage />} />
-      <Route path="/404" element={<PageNotFound404 />} />
-      <Route path="*" element={<PageNotFound404 />} />
-    </Routes>
+    <>
+      <MetaTag pageDescription={''} pageTitle={''} />
+      <Routes>
+        {nodeClass && ID && (
+          <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
+        )}
+        <Route path="/" element={<HomePage />} />
+        {saveSearchURL && nodeClass && (
+          <Route path={`${saveSearchURL}`} element={<UseSaveSearchURL />} />
+        )}
+        <Route path={`${TRANSATLANTICPAGE}`} element={<VoyagesPage />} />
+        <Route path={`${INTRAAMERICANPAGE}`} element={<VoyagesPage />} />
+        <Route path={`${ALLVOYAGESPAGE}`} element={<VoyagesPage />} />
+        <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
+        <Route
+          path={`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
+          element={<EnslavedHomePage />}
+        />
+        <Route
+          path={`${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
+          element={<EnslavedHomePage />}
+        />
+        <Route
+          path={`${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
+          element={<EnslavedHomePage />}
+        />
+        <Route
+          path={`${ENSALVERSPAGE}${INTRAAMERICANENSLAVERS}`}
+          element={<EnslaversHomePage />}
+        />
+        <Route
+          path={`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}`}
+          element={<EnslaversHomePage />}
+        />
+        <Route
+          path={`${ENSALVERSPAGE}/${allEnslavers}`}
+          element={<EnslaversHomePage />}
+        />
+        <Route path={`${ASSESSMENT}/${ESTIMATES}/`} element={<Estimates />} />
+        <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
+        <Route path={`${BLOGPAGE}/`} element={<BlogPage />} />
+        <Route path={`${BLOGPAGE}/tag/${blogURL}`} element={<BlogPage />} />
+        <Route
+          path={`${BLOGPAGE}/:blogTitle/:ID`}
+          element={<BlogDetailsPost />}
+        />
+        <Route
+          path={`${BLOGPAGE}/author/:authorName/:ID/`}
+          element={<AuthorPage />}
+        />
+        <Route
+          path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
+          element={<InstitutionAuthorsPage />}
+        />
+        <Route path={`${CONTRIBUTE}`} element={<ContributePage />} />
+        <Route path={`${CONTRIBUTE}guidelines`} element={<ContributePage />} />
+        <Route path={`${ACCOUNTS}signin`} element={<ContributePage />} />
+        <Route path={`${ACCOUNTS}signup`} element={<ContributePage />} />
+        <Route
+          path={`${ACCOUNTS}password/reset`}
+          element={<ContributePage />}
+        />
+        <Route path={`${ACCOUNTS}logout`} element={<ContributePage />} />
+        <Route
+          path={`${ACCOUNTS}password_change`}
+          element={<ContributePage />}
+        />
+        <Route path={`${CONTRIBUTE}legal`} element={<ContributePage />} />
+        <Route
+          path={`${CONTRIBUTE}interim/new/`}
+          element={<ContributePage />}
+        />
+        <Route path={`${CONTRIBUTE}edit_voyage`} element={<ContributePage />} />
+        <Route
+          path={`${CONTRIBUTE}merge_voyages`}
+          element={<ContributePage />}
+        />
+        <Route
+          path={`${CONTRIBUTE}delete_voyage`}
+          element={<ContributePage />}
+        />
+        <Route path={`${LESSONPLANS}/`} element={<LessonPlans />} />
+        <Route path={`${INTRODUCTORYMAPS}/`} element={<IntroductoryMaps />} />
+        <Route path={`${ABOUTPAGE}`} element={<AboutPage />} />
+        <Route path={`${DOWNLOADS}`} element={<DownloadPage />} />
+        <Route path="/404" element={<PageNotFound404 />} />
+        <Route path="*" element={<PageNotFound404 />} />
+      </Routes>
+    </>
   );
 };
 
