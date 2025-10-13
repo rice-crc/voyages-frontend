@@ -62,7 +62,7 @@ export const TRANSATLANTICTRADS = 'trans-atlantic-trades';
 
 export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGhqMXZ5YmxjZCJ9.eP7ZuC68Q5iBZQa8I13AGw`;
 
-export const mappingSpecialists = `https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png`
+export const mappingSpecialists = `https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png`;
 
 export const MAP_CENTER: [number, number] = [5.486678, -35.59375];
 export const MAXIMUM_NATIVE_ZOOM = 10;
