@@ -196,6 +196,72 @@ const App: React.FC = () => {
             />
           }
         />
+        <Route
+          path="/voyage/database"
+          element={<Navigate to="/voyage/all-voyages#voyages" replace />}
+        />
+        <Route
+          path="/blog/tag/intro-maps"
+          element={
+            <Navigate to="/blog/tag/all-intro-maps#all-intro-maps" replace />
+          }
+        />
+        <Route
+          path="/voyage/ship"
+          element={
+            <Navigate to="/blog/3d-videos-of-slaving-vessels/162/" replace />
+          }
+        />
+        <Route
+          path="/past/database"
+          element={<Navigate to="/PastHomePage" replace />}
+        />
+        <Route
+          path="/american/database"
+          element={<Navigate to="/voyage/intra-american#voyages" replace />}
+        />
+        <Route
+          path="/blog/volume-and-direction-trans-atlantic-slave-trade"
+          element={
+            <Navigate
+              to="/blog/-volume-and-direction-of-the-transatlantic-slave-trade/123"
+              replace
+            />
+          }
+        />
+        <Route
+          path="/voyage/about"
+          element={
+            <Navigate
+              to="/blog/the-transatlantic-slave-trade-database/166"
+              replace
+            />
+          }
+        />
+        <Route
+          path="/voyage/essays"
+          element={
+            <Navigate
+              to="/blog/-brief-overview-of-the-transatlantic-slave-trade/154"
+              replace
+            />
+          }
+        />
+        <Route
+          path="/past/database/african-origins"
+          element={
+            <Navigate to="/past/enslaved/african-origins#people" replace />
+          }
+        />
+        <Route
+          path="/blog/overview-slave-trade-out-africa"
+          element={
+            <Navigate
+              to="/blog/-overview-of-the-slave-trade-out-of-africa/99"
+              replace
+            />
+          }
+        />
 
         {nodeClass && ID && (
           <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
