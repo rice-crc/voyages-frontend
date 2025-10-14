@@ -1,9 +1,13 @@
+import { useState } from 'react';
+
+import { Grid } from '@mui/material';
+
+import MetaTag from '@/components/MetaTag/MetaTag';
+
+import EstimateCollapse from './EstimateCollapse';
 import EstimatesNavBar from './EstimatesNavBar';
 import EstimatesTabs from './EstimatesTabs';
-import { Grid } from '@mui/material';
-import EstimateCollapse from './EstimateCollapse';
 import ShowAllSelected from './ShowAllSelected';
-import { useState } from 'react';
 
 const Estimates = () => {
   const [viewAll, setViewAll] = useState(false);
@@ -14,6 +18,10 @@ const Estimates = () => {
 
   return (
     <>
+      <MetaTag
+        pageTitle="Estimates: Trans-Atlantic Slave Trade"
+        pageDescription="Explore estimates and assessments of the Trans-Atlantic slave trade."
+      />
       <EstimatesNavBar handleViewAll={handleViewAll} />
       <div className={`panel-list-unshow${viewAll ? '-show' : ''}`}>
         <ShowAllSelected setViewAll={setViewAll} ariaExpanded={false} />

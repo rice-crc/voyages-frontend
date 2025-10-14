@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable import/order */
 import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,9 +10,11 @@ import BarGraph from '@/components/PresentationComponents/BarGraph/BarGraph';
 import VoyagesMaps from '@/components/PresentationComponents/Map/MAPS';
 import { VoyagesTimelapseMap } from '@/components/PresentationComponents/Map/TimelapseMap';
 import PieGraph from '@/components/PresentationComponents/PieGraph/PieGraph';
-import PivotTables from '@/components/PresentationComponents/PivotTables/PivotTables';
 import Scatter from '@/components/PresentationComponents/Scatter/Scatter';
+
+import PivotTables from '@/components/PresentationComponents/PivotTables/PivotTables';
 import { AppDispatch, RootState } from '@/redux/store';
+import { ALLVOYAGES, INTRAAMERICAN, TRANSATLANTIC } from '@/share/CONST_DATA';
 import {
   CurrentPageInitialState,
   TYPESOFBLOCKVOYAGES,
@@ -21,7 +25,6 @@ import {
   pageVariantsFromBottom,
   pageVariantsFromTop,
 } from '@/utils/functions/pageVariantsFromTop';
-
 import { useEffect } from 'react';
 
 import { usePageRouter } from '@/hooks/usePageRouter';
@@ -35,10 +38,10 @@ import {
   setCurrentPage,
   setCurrentVoyagesBlockName,
 } from '@/redux/getScrollPageSlice';
-import { ALLVOYAGES, INTRAAMERICAN, TRANSATLANTIC } from '@/share/CONST_DATA';
 import Tables from '@/components/PresentationComponents/Tables/Tables';
 import SummaryStatisticsTable from '@/components/PresentationComponents/Tables/SummaryStatisticsTable';
 import { setCardFileName } from '@/redux/getCardFlatObjectSlice';
+import MetaTag from '@/components/MetaTag/MetaTag';
 
 const VoyagesPage = () => {
   const { styleName: styleVoyagesName, currentBlockName } = usePageRouter();
@@ -54,6 +57,62 @@ const VoyagesPage = () => {
   const { inputSearchValue } = useSelector(
     (state: RootState) => state.getCommonGlobalSearch,
   );
+
+  // Add function to generate page title and description
+  const getPageMetadata = () => {
+    let baseTitle = '';
+    let baseDescription = '';
+
+    // Determine base title from style
+    switch (styleVoyagesName) {
+      case TRANSATLANTIC:
+        baseTitle = 'Trans-Atlantic Slave Voyages';
+        baseDescription =
+          'Explore the Trans-Atlantic slave trade voyages database with detailed records, statistics, and visualizations.';
+        break;
+      case INTRAAMERICAN:
+        baseTitle = 'Intra-American Slave Voyages';
+        baseDescription =
+          'Explore the Intra-American slave trade voyages database with detailed records, statistics, and visualizations.';
+        break;
+      case ALLVOYAGES:
+        baseTitle = 'Slave Voyages';
+        baseDescription =
+          'Explore all slave trade voyages database with comprehensive records, statistics, and visualizations.';
+        break;
+      default:
+        baseTitle = 'Slave Voyages';
+        baseDescription = 'Explore the slave trade voyages database.';
+    }
+
+    // Add block-specific suffix if not on main voyages page
+    if (
+      currentVoyageBlockName &&
+      currentVoyageBlockName !== TYPESOFBLOCKVOYAGES.voyagesEN
+    ) {
+      const blockTitles: Record<string, string> = {
+        [TYPESOFBLOCKVOYAGES.summaryStatisticsEN]: 'Summary Statistics',
+        [TYPESOFBLOCKVOYAGES.lineEN]: 'Line Graph',
+        [TYPESOFBLOCKVOYAGES.barEN]: 'Bar Graph',
+        [TYPESOFBLOCKVOYAGES.pieEN]: 'Pie Chart',
+        [TYPESOFBLOCKVOYAGES.tableEN]: 'Pivot Tables',
+        [TYPESOFBLOCKVOYAGES.mapEN]: 'Map',
+        [TYPESOFBLOCKVOYAGES.timeLapseEN]: 'Timelapse Map',
+      };
+
+      const blockTitle = blockTitles[currentVoyageBlockName];
+      if (blockTitle) {
+        baseTitle = `${baseTitle} ${blockTitle}`;
+      }
+    }
+
+    return {
+      title: baseTitle,
+      description: baseDescription,
+    };
+  };
+
+  const { title: pageTitle, description: pageDescription } = getPageMetadata();
 
   useEffect(() => {
     if (styleVoyagesName) {
@@ -157,8 +216,8 @@ const VoyagesPage = () => {
         currentVoyageBlockName === TYPESOFBLOCKVOYAGES.voyagesEN && <Tables />}
       {currentPage === 2 &&
         currentVoyageBlockName === TYPESOFBLOCKVOYAGES.summaryStatisticsEN && (
-        <SummaryStatisticsTable />
-      )}
+          <SummaryStatisticsTable />
+        )}
       {currentPage === 3 &&
         currentVoyageBlockName === TYPESOFBLOCKVOYAGES.lineEN && <Scatter />}
       {currentPage === 4 &&
@@ -187,6 +246,7 @@ const VoyagesPage = () => {
     currentVoyageBlockName === TYPESOFBLOCKVOYAGES.timeLapseEN;
   return (
     <div>
+      <MetaTag pageDescription={pageDescription} pageTitle={pageTitle} />
       <HeaderVoyagesNavBar />
       <Grid
         className={

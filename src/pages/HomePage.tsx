@@ -7,6 +7,7 @@ import '@/style/homepage.scss';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import MetaTag from '@/components/MetaTag/MetaTag';
 import SlaveVoyageLogo from '@/components/NavigationComponents/LogoComponent/SlaveVoyageLogo';
 import AutoGlobalSearchBar from '@/components/PresentationComponents/GlobalSearch/AutoGlobalSearchBar';
 import GlobalHomeNavigations from '@/components/PresentationComponents/GlobalSearch/GlobalHomeNavigations';
@@ -60,6 +61,10 @@ const HomePage: React.FC = () => {
   }, []);
   return (
     <div id="home-voyagepage-container">
+      <MetaTag
+        pageTitle="About - Slave Voyages"
+        pageDescription="Learn about the Slave Voyages project and database."
+      />
       <div className="centered-content">
         <VideoBackground />
         <MenuButtonHomePage />
@@ -110,14 +115,15 @@ const HomePage: React.FC = () => {
         <TransAtlantic />
       </div>
       <div className="backToTopBtn">
-        <div
+        <button
           className="btn"
           onClick={handleBackToTop}
           id="backToTop"
           title="Go to top"
+          type="button"
         >
           {translatedHomepage.btnBackToTop}
-        </div>
+        </button>
       </div>
       <FooterComponent />
     </div>

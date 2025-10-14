@@ -28,7 +28,6 @@ export interface FilterObjectsState {
   enslaverName: string;
   opsRoles?: string;
   listEnslavers: RolesProps[];
-  isPercent: boolean;
 }
 export interface FilterMultiselectList {
   multiselectList: MultiselectListProps[];
@@ -676,7 +675,6 @@ export interface FilterMenuList {
   var_name?: string;
   type?: string;
   ops?: string[];
-  roles?: RolesProps[];
   children?: ChildrenFilter[];
 }
 export interface LabelFilterMeneList {

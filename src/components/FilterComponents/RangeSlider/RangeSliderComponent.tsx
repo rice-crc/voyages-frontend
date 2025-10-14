@@ -36,6 +36,7 @@ interface RangeSliderProps {
   maxRange: number
 }
 const RangeSlider:FunctionComponent<RangeSliderProps> = ({
+  handleSliderChangeMouseUp,
   setCurrentSliderValue,
   currentSliderValue,
   minRange:min,
@@ -45,7 +46,7 @@ const RangeSlider:FunctionComponent<RangeSliderProps> = ({
   const dispatch: AppDispatch = useDispatch();
   const { styleName } = usePageRouter();
   const { filtersObj } = useSelector((state: RootState) => state.getFilter);
-  const { rangeValue, varName, rangeSliderMinMax, isPercent} = useSelector(
+  const { rangeValue, varName, rangeSliderMinMax, } = useSelector(
     (state: RootState) => state.rangeSlider as FilterObjectsState,
   );
 
@@ -71,7 +72,6 @@ const RangeSlider:FunctionComponent<RangeSliderProps> = ({
   }, [varName, newFilters]);
 
   const fetchRangeSliderData = useCallback(async () => {
-
     try {
       let response;
       if (checkPagesRouteForVoyages(styleName!)) {
@@ -83,10 +83,7 @@ const RangeSlider:FunctionComponent<RangeSliderProps> = ({
       }
       if (response) {
         const { min, max, varName } = response;
-        const rangMin = isPercent ? min * 100 : min || 0;
-        const rangMax = isPercent ? max * 100 : max || 0;
-        const initialValue: number[] = [Math.round(rangMin), Math.round(rangMax)];
-        
+        const initialValue: number[] = [parseInt(min ?? 0), parseInt(max ?? 0)];
         dispatch(setKeyValueName(varName));
         setCurrentSliderValue(initialValue);
         dispatch(
@@ -122,19 +119,23 @@ const RangeSlider:FunctionComponent<RangeSliderProps> = ({
 
     const rangSliderLocal: number[] = filterByVarName.searchTerm as number[];
 
-    // ✅  Convert back to percentage for display if isPercent is true
-    const initialValue: number[] = isPercent 
-      ? rangSliderLocal.map(v => v * 100)  // Convert 0-1 to 0-100
-      : rangSliderLocal;
-   
+    const initialValue: number[] = rangSliderLocal;
     setCurrentSliderValue(initialValue);
     dispatch(setFilterObject(filter));
-  }, [varName, styleName, dispatch, fetchRangeSliderData, setCurrentSliderValue, isPercent]);
+  }, [varName, styleName, dispatch, fetchRangeSliderData,setCurrentSliderValue]);
 
 
   return (
     <Grid
       className="autocomplete-modal-box"
+      // style={{
+      //   width: 450,
+      //   marginTop: 10,
+      //   display: 'flex',
+      //   flexDirection: 'column',
+      //   gap: 12,
+      //   alignItems: 'center',
+      // }}
     >
       <div
         style={{
