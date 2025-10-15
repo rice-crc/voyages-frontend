@@ -5,6 +5,7 @@ import { Tooltip, Badge, IconButton, Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import voyageLogo from '@/assets/sv-logo.png';
+import MetaTag from '@/components/MetaTag/MetaTag';
 import DocumentGallery from '@/components/PresentationComponents/Document/DocumentGallery';
 import DocumentSearchBox, {
   DocumentPaginationSource,
@@ -81,10 +82,12 @@ const DocumentPage: React.FC = () => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab, tabSource, viewMode, sources]);
-
+  const pageTitle = `Documents of the African Slave Trade`;
+  const pageDescription = ``;
   return (
     <>
       <div className="nav-blog-header-logo nav-blog-header-sticky-logo">
+        <MetaTag pageDescription={pageDescription} pageTitle={pageTitle} />
         <a href={'/'} style={{ textDecoration: 'none' }}>
           <img src={voyageLogo} alt={'voyages logo'} className="logo-blog" />
         </a>

@@ -1,3 +1,4 @@
+import { BASE_URL_FRONTEND } from '@/share/AUTH_BASEURL';
 import {
   ACCOUNTS,
   ASSESSMENT,
@@ -151,4 +152,29 @@ export const menuLists: MenuListsProps[] = [
   //   },
   //   url: `${ACCOUNTS}signin/`,
   // },
+  {
+    name: {
+      en: 'User Feedback and Report Issues',
+      es: 'Comentarios del usuario y reportar problemas',
+      pt: 'Feedback do usuário e reportar problemas',
+    },
+    url: 'https://airtable.com/appZmGW1SJBCvNVkS/pagCykoWOYCdlEryO/form',
+    isExternal: true,
+  },
+  {
+    name: {
+      en: 'Contact Us',
+      es: 'Contacto',
+      pt: 'Contato',
+    },
+    url: `${BLOGPAGE}/contact-us/177`,
+  },
+  {
+    name: {
+      en: 'FAQ',
+      es: 'FAQ',
+      pt: 'FAQ',
+    },
+    url: `${BLOGPAGE}/faqs/179`,
+  },
 ];

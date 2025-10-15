@@ -121,9 +121,9 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               const selectedOption = selectedX.find(
                 (option) => option.var_name === event.target.value,
               );
-              // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-              setXAxes &&
+              if (setXAxes) {
                 setXAxes(selectedOption ? selectedOption.label[lang] : '');
+              }
             }}
             name="x_vars"
           >
@@ -164,13 +164,22 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               onChange={(event: SelectChangeEvent<string[]>) => {
                 if (handleChangeMultipleYSelected) {
                   handleChangeMultipleYSelected(event, 'y_vars');
-                  const selectedYOptions = selectedY
-                    .filter((option) =>
-                      event.target.value.includes(option.var_name),
-                    )
-                    .map((option) => option.label[lang]);
-                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                  setYAxes && setYAxes(selectedYOptions);
+                  const value = event.target.value;
+                  const valueArray =
+                    typeof value === 'string' ? value.split(',') : value;
+                  const selectedYOptions = valueArray
+                    .map((chipValue: string) => {
+                      const [varName, aggFn] = chipValue.split('__AGG__');
+                      const option = selectedY.find(
+                        (opt) =>
+                          opt.var_name === varName && opt.agg_fn === aggFn,
+                      );
+                      return option ? option.label[lang] : '';
+                    })
+                    .filter((label: string) => label !== '');
+                  if (setYAxes) {
+                    setYAxes(selectedYOptions);
+                  }
                 }
               }}
               input={
@@ -185,9 +194,12 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                     fontSize: '0.75rem',
                   }}
                 >
-                  {value.map((option: string, index: number) => {
+                  {value.map((chipValue: string, index: number) => {
+                    // CHANGED: Parse combined identifier to find option
+                    const [varName, aggFn] = chipValue.split('__AGG__');
                     const selectedOption = selectedY.find(
-                      (item) => item.var_name === option,
+                      (item) =>
+                        item.var_name === varName && item.agg_fn === aggFn,
                     );
                     return (
                       <Chip
@@ -196,7 +208,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                           border: getBoderColor(styleName),
                           color: '#000',
                         }}
-                        key={`${option}-${index}`}
+                        key={`${chipValue}-${index}`}
                         label={selectedOption ? selectedOption.label[lang] : ''}
                       />
                     );
@@ -205,11 +217,13 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               )}
             >
               {selectedY.map((option: PlotXYVar, index: number) => {
+                // CHANGED: Create unique value combining var_name and agg_fn
+                const uniqueValue = `${option.var_name}__AGG__${option.agg_fn}`;
                 const label = option.label[lang];
                 return (
                   <MenuItem
-                    key={`${option.label[lang]}-${index}`}
-                    value={option.var_name}
+                    key={`${uniqueValue}-${index}`}
+                    value={uniqueValue}
                     disabled={isDisabledY(option)}
                   >
                     {label}
@@ -249,9 +263,9 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
               const selectYoption = selectedY.find(
                 (option) => option.var_name === event.target.value,
               );
-              // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-              setYAxesPie &&
+              if (setYAxesPie) {
                 setYAxesPie(selectYoption ? selectYoption.label[lang] : '');
+              }
             }}
             name="y_vars"
           >

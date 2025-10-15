@@ -1,62 +1,64 @@
-import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
-import { setBlogPost } from '@/redux/getBlogDataSlice';
-import { AppDispatch, RootState } from '@/redux/store';
-import {
-  BlogDataPropsRequest,
-  BlogFilter,
-  InitialStateBlogProps,
-} from '@/share/InterfaceTypesBlog';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useRef } from 'react';
+
 import {
   faWhatsapp,
   faSquareFacebook,
   faTwitterSquare,
   faLinkedin,
 } from '@fortawesome/free-brands-svg-icons';
-import defaultImage from '@/assets/voyage-blog.png';
 import { faSquareEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+
+import defaultImage from '@/assets/voyage-blog.png';
+import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
+import { setBlogPost } from '@/redux/getBlogDataSlice';
+import { AppDispatch, RootState } from '@/redux/store';
 import { BASEURL } from '@/share/AUTH_BASEURL';
 import { BLOGPAGE } from '@/share/CONST_DATA';
+import {
+  BlogDataPropsRequest,
+  BlogFilter,
+  InitialStateBlogProps,
+} from '@/share/InterfaceTypesBlog';
 
 const BlogCardHeaderBody = () => {
   const { ID } = useParams();
   const dispatch: AppDispatch = useDispatch();
 
   const { post } = useSelector(
-    (state: RootState) => state.getBlogData as InitialStateBlogProps
+    (state: RootState) => state.getBlogData as InitialStateBlogProps,
   );
 
   const { title, thumbnail, authors, subtitle, tags, updated_on } = post;
   const effectOnce = useRef(false);
-  const fetchDataBlog = async () => {
-    const filters: BlogFilter[] = [];
-    const parsedId = parseInt(ID!);
-    if (!isNaN(parsedId)) {
-      filters.push({
-        varName: 'id',
-        searchTerm: [parseInt(ID!)],
-        op: 'in',
-      });
-    }
-    const dataSend: BlogDataPropsRequest = {
-      filter: filters || [],
-    };
-
-    try {
-      const response = await dispatch(fetchBlogData(dataSend)).unwrap();
-      if (response) {
-        dispatch(setBlogPost(response.results?.[0]));
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
 
   useEffect(() => {
     if (!effectOnce.current) {
+      const fetchDataBlog = async () => {
+        const filters: BlogFilter[] = [];
+        const parsedId = parseInt(ID!);
+        if (!isNaN(parsedId)) {
+          filters.push({
+            varName: 'id',
+            searchTerm: [parseInt(ID!)],
+            op: 'in',
+          });
+        }
+        const dataSend: BlogDataPropsRequest = {
+          filter: filters || [],
+        };
+
+        try {
+          const response = await dispatch(fetchBlogData(dataSend)).unwrap();
+          if (response) {
+            dispatch(setBlogPost(response.results?.[0]));
+          }
+        } catch (error) {
+          console.log('error', error);
+        }
+      };
       fetchDataBlog();
     }
   }, [dispatch, ID]);
@@ -80,7 +82,7 @@ const BlogCardHeaderBody = () => {
     <div className="card-body">
       <img
         className="blog-detail-thumbnail"
-        src={thumbnail ? `${BASEURL}${thumbnail}`: defaultImage}
+        src={thumbnail ? `${BASEURL}${thumbnail}` : defaultImage}
         alt={title ? title : ''}
       />
       <h1 className="titleText">{title ? title : ''}</h1>
@@ -94,24 +96,22 @@ const BlogCardHeaderBody = () => {
                 className="media-left media-top"
                 key={`${index}-${author.photo || author.institution.image}`}
               >
-                  {author.photo ? (
-                    <img
-                      className="rounded-circle"
-                      src={`${BASEURL}${author.photo}`}
-                      width="40"
-                      height="40"
-                      alt={author.name}
-                    />
-                  ) : (
-                    <div className="avatar">
-                      <i className="fas fa-user fa-3x" aria-hidden="true"></i>
-                    </div>
-                  )}
+                {author.photo ? (
+                  <img
+                    className="rounded-circle"
+                    src={`${BASEURL}${author.photo}`}
+                    width="40"
+                    height="40"
+                    alt={author.name}
+                  />
+                ) : (
+                  <div className="avatar">
+                    <i className="fas fa-user fa-3x" aria-hidden="true"></i>
+                  </div>
+                )}
               </div>
               <div className="media-body" key={`${index}-${author.name}`}>
-                <h4 className="media-heading">
-                    {author.name}
-                </h4>
+                <h4 className="media-heading">{author.name}</h4>
                 {author.description}
               </div>
             </div>

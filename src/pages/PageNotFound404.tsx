@@ -4,6 +4,7 @@ import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import AnimatedLogo from '@/assets/sv-logo_v2_notext.svg';
+import MetaTag from '@/components/MetaTag/MetaTag';
 const PageNotFound404: React.FC = () => {
   const navigate = useNavigate();
 
@@ -18,6 +19,10 @@ const PageNotFound404: React.FC = () => {
       bgcolor="#f9fafb"
       px={2}
     >
+      <MetaTag
+        pageTitle="404 - Page Not Found - Slave Voyages"
+        pageDescription="The page you are looking for does not exist."
+      />
       <Typography variant="h4" fontWeight="bold" mb={2}>
         404: Page Not Found
       </Typography>

@@ -56,7 +56,7 @@ const VideoBackground = () => {
               </a>
               <span className="separator">|</span>
               <a
-                href="https://forms.gle/B1Q4Z3xA8oviNiJ4A"
+                href="https://airtable.com/appZmGW1SJBCvNVkS/pagCykoWOYCdlEryO/form"
                 data-toggle="tooltip"
                 data-placement="top"
                 title=""
@@ -76,7 +76,7 @@ const VideoBackground = () => {
                 </span>
               </a>
               <a
-                href="mailto:svopcom@googlegroups.com?subject=Report an Issue"
+                href="https://airtable.com/appZmGW1SJBCvNVkS/pagCykoWOYCdlEryO/form"
                 data-toggle="tooltip"
                 data-placement="top"
                 title=""

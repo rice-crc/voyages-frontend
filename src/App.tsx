@@ -3,9 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { StylesProvider } from '@mui/styles';
+import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
 
 import BlogDetailsPost from '@/components/BlogPageComponents/Blogcomponents/BlogDetailsPost';
 import Estimates from '@/components/PresentationComponents/Assessment/Estimates/Estimates';
@@ -59,6 +66,7 @@ import {
 import { theme } from '@/styleMUI/theme';
 
 import UseSaveSearchURL from './components/FilterComponents/SaveSearchComponent/SaveSearchURLReturn';
+import MetaTag from './components/MetaTag/MetaTag';
 import { DocumentViewerProvider } from './pages/DocumentViewerContext';
 import { checkEntityType } from './utils/functions/checkEntityType';
 
@@ -119,100 +127,253 @@ const App: React.FC = () => {
   ]);
 
   return (
-    <Routes>
-      {nodeClass && ID && (
-        <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
-      )}
-      <Route path="/" element={<HomePage />} />
-      {saveSearchURL && nodeClass && (
-        <Route path={`${saveSearchURL}`} element={<UseSaveSearchURL />} />
-      )}
-      <Route path={`${TRANSATLANTICPAGE}`} element={<VoyagesPage />} />
-      <Route path={`${INTRAAMERICANPAGE}`} element={<VoyagesPage />} />
-      <Route path={`${ALLVOYAGESPAGE}`} element={<VoyagesPage />} />
-      <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
-      <Route
-        path={`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
-        element={<EnslavedHomePage />}
-      />
-      <Route
-        path={`${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
-        element={<EnslavedHomePage />}
-      />
-      <Route
-        path={`${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
-        element={<EnslavedHomePage />}
-      />
-      <Route
-        path={`${ENSALVERSPAGE}${INTRAAMERICANENSLAVERS}`}
-        element={<EnslaversHomePage />}
-      />
-      <Route
-        path={`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}`}
-        element={<EnslaversHomePage />}
-      />
-      <Route
-        path={`${ENSALVERSPAGE}/${allEnslavers}`}
-        element={<EnslaversHomePage />}
-      />
-      <Route path={`${ASSESSMENT}/${ESTIMATES}/`} element={<Estimates />} />
-      <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
-      <Route path={`${BLOGPAGE}/`} element={<BlogPage />} />
-      <Route path={`${BLOGPAGE}/tag/${blogURL}`} element={<BlogPage />} />
-      <Route
-        path={`${BLOGPAGE}/:blogTitle/:ID`}
-        element={<BlogDetailsPost />}
-      />
-      <Route
-        path={`${BLOGPAGE}/author/:authorName/:ID/`}
-        element={<AuthorPage />}
-      />
-      <Route
-        path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
-        element={<InstitutionAuthorsPage />}
-      />
-      <Route path={`${CONTRIBUTE}`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}guidelines`} element={<ContributePage />} />
-      <Route path={`${ACCOUNTS}signin`} element={<ContributePage />} />
-      <Route path={`${ACCOUNTS}signup`} element={<ContributePage />} />
-      <Route path={`${ACCOUNTS}password/reset`} element={<ContributePage />} />
-      <Route path={`${ACCOUNTS}logout`} element={<ContributePage />} />
-      <Route path={`${ACCOUNTS}password_change`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}legal`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}interim/new/`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}edit_voyage`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}merge_voyages`} element={<ContributePage />} />
-      <Route path={`${CONTRIBUTE}delete_voyage`} element={<ContributePage />} />
-      <Route path={`${LESSONPLANS}/`} element={<LessonPlans />} />
-      <Route path={`${INTRODUCTORYMAPS}/`} element={<IntroductoryMaps />} />
-      <Route path={`${ABOUTPAGE}`} element={<AboutPage />} />
-      <Route path={`${DOWNLOADS}`} element={<DownloadPage />} />
-      <Route path="/404" element={<PageNotFound404 />} />
-      <Route path="*" element={<PageNotFound404 />} />
-    </Routes>
+    <>
+      <MetaTag pageDescription={''} pageTitle={''} />
+      <Routes>
+        <Route
+          path="/voyage/database"
+          element={<Navigate to="/voyage/all-voyages#voyages" replace />}
+        />
+        <Route
+          path="/blog/tag/intro-maps"
+          element={
+            <Navigate to="/blog/tag/all-intro-maps#all-intro-maps" replace />
+          }
+        />
+        <Route
+          path="/voyage/ship"
+          element={
+            <Navigate to="/blog/3d-videos-of-slaving-vessels/162/" replace />
+          }
+        />
+        <Route
+          path="/past/database"
+          element={<Navigate to="/PastHomePage" replace />}
+        />
+        <Route
+          path="/american/database"
+          element={<Navigate to="/voyage/intra-american#voyages" replace />}
+        />
+        <Route
+          path="/blog/volume-and-direction-trans-atlantic-slave-trade"
+          element={
+            <Navigate
+              to="/blog/-volume-and-direction-of-the-transatlantic-slave-trade/123"
+              replace
+            />
+          }
+        />
+        <Route
+          path="/voyage/about"
+          element={
+            <Navigate
+              to="/blog/the-transatlantic-slave-trade-database/166"
+              replace
+            />
+          }
+        />
+        <Route
+          path="/voyage/essays"
+          element={
+            <Navigate
+              to="/blog/-brief-overview-of-the-transatlantic-slave-trade/154"
+              replace
+            />
+          }
+        />
+        <Route
+          path="/past/database/african-origins"
+          element={
+            <Navigate to="/past/enslaved/african-origins#people" replace />
+          }
+        />
+        <Route
+          path="/blog/overview-slave-trade-out-africa"
+          element={
+            <Navigate
+              to="/blog/-overview-of-the-slave-trade-out-of-africa/99"
+              replace
+            />
+          }
+        />
+        <Route
+          path="/voyage/database"
+          element={<Navigate to="/voyage/all-voyages#voyages" replace />}
+        />
+        <Route
+          path="/blog/tag/intro-maps"
+          element={
+            <Navigate to="/blog/tag/all-intro-maps#all-intro-maps" replace />
+          }
+        />
+        <Route
+          path="/voyage/ship"
+          element={
+            <Navigate to="/blog/3d-videos-of-slaving-vessels/162/" replace />
+          }
+        />
+        <Route
+          path="/past/database"
+          element={<Navigate to="/PastHomePage" replace />}
+        />
+        <Route
+          path="/american/database"
+          element={<Navigate to="/voyage/intra-american#voyages" replace />}
+        />
+        <Route
+          path="/blog/volume-and-direction-trans-atlantic-slave-trade"
+          element={
+            <Navigate
+              to="/blog/-volume-and-direction-of-the-transatlantic-slave-trade/123"
+              replace
+            />
+          }
+        />
+        <Route
+          path="/voyage/about"
+          element={
+            <Navigate
+              to="/blog/the-transatlantic-slave-trade-database/166"
+              replace
+            />
+          }
+        />
+        <Route
+          path="/voyage/essays"
+          element={
+            <Navigate
+              to="/blog/-brief-overview-of-the-transatlantic-slave-trade/154"
+              replace
+            />
+          }
+        />
+        <Route
+          path="/past/database/african-origins"
+          element={
+            <Navigate to="/past/enslaved/african-origins#people" replace />
+          }
+        />
+        <Route
+          path="/blog/overview-slave-trade-out-africa"
+          element={
+            <Navigate
+              to="/blog/-overview-of-the-slave-trade-out-of-africa/99"
+              replace
+            />
+          }
+        />
+
+        {nodeClass && ID && (
+          <Route path={`${nodeClass}/${ID}`} element={<TabsSelect />} />
+        )}
+        <Route path="/" element={<HomePage />} />
+        {saveSearchURL && nodeClass && (
+          <Route path={`${saveSearchURL}`} element={<UseSaveSearchURL />} />
+        )}
+        <Route path={`${TRANSATLANTICPAGE}`} element={<VoyagesPage />} />
+        <Route path={`${INTRAAMERICANPAGE}`} element={<VoyagesPage />} />
+        <Route path={`${ALLVOYAGESPAGE}`} element={<VoyagesPage />} />
+        <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
+        <Route
+          path={`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}
+          element={<EnslavedHomePage />}
+        />
+        <Route
+          path={`${ENSALVEDPAGE}${AFRICANORIGINSPAGE}`}
+          element={<EnslavedHomePage />}
+        />
+        <Route
+          path={`${ENSALVEDPAGE}${ENSLAVEDTEXASPAGE}`}
+          element={<EnslavedHomePage />}
+        />
+        <Route
+          path={`${ENSALVERSPAGE}${INTRAAMERICANENSLAVERS}`}
+          element={<EnslaversHomePage />}
+        />
+        <Route
+          path={`${ENSALVERSPAGE}${TRANSATLANTICENSLAVERS}`}
+          element={<EnslaversHomePage />}
+        />
+        <Route
+          path={`${ENSALVERSPAGE}/${allEnslavers}`}
+          element={<EnslaversHomePage />}
+        />
+        <Route path={`${ASSESSMENT}/${ESTIMATES}/`} element={<Estimates />} />
+        <Route path={`${DOCUMENTPAGE}`} element={<DocumentPage />} />
+        <Route path={`${BLOGPAGE}/`} element={<BlogPage />} />
+        <Route path={`${BLOGPAGE}/tag/${blogURL}`} element={<BlogPage />} />
+        <Route
+          path={`${BLOGPAGE}/:blogTitle/:ID`}
+          element={<BlogDetailsPost />}
+        />
+        <Route
+          path={`${BLOGPAGE}/author/:authorName/:ID/`}
+          element={<AuthorPage />}
+        />
+        <Route
+          path={`${BLOGPAGE}/institution/:institutionName/:ID/`}
+          element={<InstitutionAuthorsPage />}
+        />
+        <Route path={`${CONTRIBUTE}`} element={<ContributePage />} />
+        <Route path={`${CONTRIBUTE}guidelines`} element={<ContributePage />} />
+        <Route path={`${ACCOUNTS}signin`} element={<ContributePage />} />
+        <Route path={`${ACCOUNTS}signup`} element={<ContributePage />} />
+        <Route
+          path={`${ACCOUNTS}password/reset`}
+          element={<ContributePage />}
+        />
+        <Route path={`${ACCOUNTS}logout`} element={<ContributePage />} />
+        <Route
+          path={`${ACCOUNTS}password_change`}
+          element={<ContributePage />}
+        />
+        <Route path={`${CONTRIBUTE}legal`} element={<ContributePage />} />
+        <Route
+          path={`${CONTRIBUTE}interim/new/`}
+          element={<ContributePage />}
+        />
+        <Route path={`${CONTRIBUTE}edit_voyage`} element={<ContributePage />} />
+        <Route
+          path={`${CONTRIBUTE}merge_voyages`}
+          element={<ContributePage />}
+        />
+        <Route
+          path={`${CONTRIBUTE}delete_voyage`}
+          element={<ContributePage />}
+        />
+        <Route path={`${LESSONPLANS}/`} element={<LessonPlans />} />
+        <Route path={`${INTRODUCTORYMAPS}/`} element={<IntroductoryMaps />} />
+        <Route path={`${ABOUTPAGE}`} element={<AboutPage />} />
+        <Route path={`${DOWNLOADS}`} element={<DownloadPage />} />
+        <Route path="/404" element={<PageNotFound404 />} />
+        <Route path="*" element={<PageNotFound404 />} />
+      </Routes>
+    </>
   );
 };
 
 const AppWithRouter: React.FC = () => (
-  <BrowserRouter
-    future={{
-      v7_startTransition: true,
-      v7_relativeSplatPath: true,
-    }}
-  >
-    <StyledEngineProvider injectFirst>
-      <StylesProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <QueryClientProvider client={queryClient}>
-            <DocumentViewerProvider>
-              <App />
-            </DocumentViewerProvider>
-          </QueryClientProvider>
-        </ThemeProvider>
-      </StylesProvider>
-    </StyledEngineProvider>
-  </BrowserRouter>
+  <HelmetProvider>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
+      <StyledEngineProvider injectFirst>
+        <StylesProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <QueryClientProvider client={queryClient}>
+              <DocumentViewerProvider>
+                <App />
+              </DocumentViewerProvider>
+            </QueryClientProvider>
+          </ThemeProvider>
+        </StylesProvider>
+      </StyledEngineProvider>
+    </BrowserRouter>
+  </HelmetProvider>
 );
 
 export default AppWithRouter;

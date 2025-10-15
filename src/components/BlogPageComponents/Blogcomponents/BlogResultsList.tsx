@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import LOADINGLOGO from '@/assets/sv-logo_v2_notext.svg';
 import defaultImage from '@/assets/voyage-blog.png';
+import MetaTag from '@/components/MetaTag/MetaTag';
 import NoDataState from '@/components/NoResultComponents/NoDataState';
 import BlogPageButton from '@/components/SelectorComponents/ButtonComponents/BlogPageButton';
 import { fetchBlogData } from '@/fetch/blogFetch/fetchBlogData';
@@ -195,6 +196,10 @@ const BlogResultsList: React.FC = () => {
 
   return (
     <>
+      <MetaTag
+        pageTitle={displayTitle ? displayTitle : 'Blog - Slave Voyages'}
+        pageDescription="Read articles and insights about the slave trade history."
+      />
       {displayTitle && (
         <div id="blog_intro" className="blog_intro">
           <h2>{searchAutoValue}</h2>
@@ -220,38 +225,3 @@ const BlogResultsList: React.FC = () => {
 };
 
 export default BlogResultsList;
-/*
-[
-    {
-        "varName": "language",
-        "searchTerm": [
-            "en"
-        ],
-        "op": "in"
-    },
-    {
-        "varName": "tags__name",
-        "searchTerm": "Slavevoyages 30",
-        "op": "icontains"
-    }
-]
-
-{
-    "filter": [
-        {
-            "varName": "language",
-            "searchTerm": [
-                "en"
-            ],
-            "op": "in"
-        },
-        {
-            "varName": "tags__name",
-            "searchTerm": "SlaveVoyages 3.0",
-            "op": "icontains"
-        }
-    ],
-    "page": 1,
-    "page_size": 12
-}
-*/

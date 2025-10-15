@@ -14,7 +14,6 @@ import { RootState } from '@/redux/store';
 import {
   PlotXYVar,
   VoyagesOptionProps,
-  FilterObjectsState,
   CurrentPageInitialState,
   LanguageKey,
   IRootFilterLineAndBarRequest,
@@ -37,9 +36,6 @@ function BarGraph() {
     isSuccess,
     isLoading,
   } = useGetOptionsQuery(datas);
-  const { varName } = useSelector(
-    (state: RootState) => state.rangeSlider as FilterObjectsState,
-  );
 
   const { currentPage } = useSelector(
     (state: RootState) => state.getScrollPage as CurrentPageInitialState,
@@ -69,10 +65,9 @@ function BarGraph() {
   );
   const [yAxes, setYAxes] = useState<string[]>([
     VOYAGE_BARGRAPH_OPTIONS.y_vars[0].label[lang],
-    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].agg_fn,
   ]);
   const [chips, setChips] = useState<string[]>([
-    VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name,
+    `${VOYAGE_BARGRAPH_OPTIONS.y_vars[0].var_name}__AGG__${VOYAGE_BARGRAPH_OPTIONS.y_vars[0].agg_fn}`,
   ]);
   const [barGraphOptions, setBarOptions] = useState<VoyagesOptionProps>({
     x_vars: VOYAGE_BARGRAPH_OPTIONS.x_vars[0].var_name,
@@ -119,12 +114,10 @@ function BarGraph() {
       groupby: {
         by: barGraphOptions.x_vars,
         agg_series: chips.map((chip) => {
-          const yVar = VOYAGE_BARGRAPH_OPTIONS.y_vars.find(
-            (y) => y.var_name === chip,
-          );
+          const [varName, aggFn] = chip.split('__AGG__');
           return {
-            vals: chip,
-            agg_fn: yVar?.agg_fn || 'sum',
+            vals: varName,
+            agg_fn: aggFn || 'sum',
           };
         }),
       },
@@ -142,24 +135,48 @@ function BarGraph() {
     isError,
   } = useFetchLineAndBarcharts(dataSend);
 
+  // CHANGED: Complete rewrite of the data processing logic
   useEffect(() => {
     VoyageBargraphOptions();
     if (!loading && !isError && response) {
-      const values = Object.values(response);
-      const cleanXVar = barGraphOptions.x_vars.replace(/__bins__\d+$/, '');
       const data: Data[] = [];
-      for (const [index, [key, value]] of Object.entries(response).entries()) {
-        if (key !== cleanXVar && Array.isArray(value)) {
+
+      // Find x-axis data - handle both regular and binned variables
+      const cleanXVar = barGraphOptions.x_vars.replace(/__bins__\d+$/, '');
+      const xVarKey = Object.keys(response).find(
+        (key) => key === barGraphOptions.x_vars || key === cleanXVar,
+      );
+
+      const xData = xVarKey ? response[xVarKey] : [];
+
+      // Create a bar for each selected y-variable
+      chips.forEach((chip) => {
+        const [varName, aggFn] = chip.split('__AGG__');
+        const yDataKey = Object.keys(response).find((key) => {
+          // Skip the x-axis key
+          if (key === xVarKey) return false;
+
+          // Check if key matches varName exactly or starts with varName
+          return key === varName || key.startsWith(varName);
+        });
+
+        const yVar = VOYAGE_BARGRAPH_OPTIONS.y_vars.find(
+          (y) => y.var_name === varName && y.agg_fn === aggFn,
+        );
+
+        // Find the corresponding data in response
+        const yData = yDataKey ? response[yDataKey] : null;
+        if (yVar && yData && Array.isArray(yData)) {
           data.push({
-            x: values[0] as number[],
-            y: value as number[],
+            x: xData as number[],
+            y: yData as number[],
             type: 'bar',
             mode: 'lines',
             line: { shape: 'spline' },
-            name: `${VOYAGE_BARGRAPH_OPTIONS.y_vars[index].label[lang]}`,
+            name: yVar.label[lang],
           });
         }
-      }
+      });
       setBarData(data);
     }
     return () => {
@@ -171,8 +188,6 @@ function BarGraph() {
     isError,
     options_flat,
     barGraphOptions.x_vars,
-    barGraphOptions.y_vars,
-    varName,
     chips,
     currentPage,
     isSuccess,
@@ -279,7 +294,7 @@ function BarGraph() {
                   },
                 },
                 fixedrange: true,
-                tickangle: width < 768 ? -45 : 0, // Rotate labels on mobile
+                tickangle: width < 768 ? -45 : 0,
                 tickfont: {
                   size: width < 400 ? 8 : 10,
                 },
@@ -296,17 +311,17 @@ function BarGraph() {
                   size: width < 400 ? 8 : 10,
                 },
               },
-              showlegend: false,
+              showlegend: true,
               margin: {
                 l: width < 768 ? 50 : 60,
                 r: width < 768 ? 20 : 30,
                 t: width < 768 ? 40 : 50,
-                b: width < 768 ? 80 : 100, // More bottom margin for rotated labels
+                b: width < 768 ? 80 : 100,
               },
               autosize: false,
             }}
             config={{
-              responsive: false, // Disable Plotly's responsive to use our custom sizing
+              responsive: false,
               displayModeBar: false,
             }}
             style={{
