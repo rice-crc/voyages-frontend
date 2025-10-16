@@ -204,12 +204,13 @@ const NodeEdgesCurvedLinesMap = () => {
       const { lat, lon } = data;
       const { origin, post_disembarkation, disembarkation, embarkation } =
         weights;
-
+   
       const size = getNodeSize(node);
+
       const nodeColor = getNodeColorMapVoyagesStyle(node);
+   
       const logSize = nodeLogValueScale(size);
       const radius = isNaN(logSize) ? 0 : (logSize as number);
-
       if (lat && lon) {
         const latlon: LatLngExpression = [lat, lon];
         const circleMarker = new CustomMarker(

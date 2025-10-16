@@ -51,7 +51,7 @@ const FilterTextBox: FunctionComponent<FilterTextProps> = ({
           type === TYPES.IdMatch ? 'Filter by Voyage ID' : 'Filter by Text'
         }
         sx={{
-          marginTop: 2.5,
+          marginTop: 2,
           width: {
             xs: '100%', // Mobile: full width
             sm: '90%', // Small: 90% width
