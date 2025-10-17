@@ -193,13 +193,13 @@ export const FooterComponent = () => {
               to="https://www.ulisboa.pt"
               target="_blank"
               rel="noopener"
-              aria-label="Washington University Center for the Study of Race, Ethnicity, and Equity"
+              aria-label="University of Lisbon"
             >
               <div className="logo-grid-item fade-in">
                 <img
                   className="card-img sponsor-card-img block lazy loaded"
                   data-src="https://api.slavevoyages.org/static/uploads/ULISBOA_HORIZONTAL_NEG_RGB.png"        
-                  aria-label=" University of Lisbon "
+                  aria-label="University of Lisbon"
                   src={UniversityOfLisbon}
                   data-was-processed="true"
                 />
