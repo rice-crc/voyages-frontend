@@ -1195,9 +1195,9 @@
 		},
 		{
 			"header_label": {
-				"en": "Date vessel departed with captives (IMP)",
-				"es": "Date vessel departed with captives (IMP)",
-				"pt": "Date vessel departed with captives (IMP)"
+				"en": "Date vessel departed with captives",
+				"es": "Date vessel departed with captives",
+				"pt": "Date vessel departed with captives"
 			},
 			"cell_type": "literal",
 			"visible": false,
@@ -1220,7 +1220,7 @@
 		},
 		{
 			"header_label": {
-				"en": "Date vessel arrived with captives (IMP)",
+				"en": "Date vessel arrived with captives",
 				"es": "Fecha de llegada del buque con los cautivos",
 				"pt": "Data de chegada do navio com os cativos"
 			},

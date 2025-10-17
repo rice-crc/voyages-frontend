@@ -94,31 +94,41 @@
     }
   }
   @include breakpoint-standard(4) {
+    justify-content: flex-start;
     button {
+      margin-left: 15px;
       font-size: 12px !important;;
       height: 26px !important;
     }
   }
   @include breakpoint-standard(3) {
+    justify-content: flex-start;
     button {
+      margin-left: 15px;
       font-size: 12px !important;;
       height: 26px !important;
     }
   }
     @include breakpoint-standard(2) {
-    button {
+      justify-content: flex-start;
+      button {
+        margin-left: 15px;
       font-size: 12px !important;;
       height: 26px !important;
     }
   }
     @include breakpoint-standard(1) {
-    button {
+      justify-content: flex-start;
+      button {
+        margin-left: 15px;
       font-size: 12px !important;;
       height: 26px !important;
     }
   }
   @include breakpoint-standard(0) {
+    justify-content: flex-start;
     button {
+      margin-left: 15px;
       font-size: 12px !important;;
       height: 26px !important;
     }
@@ -696,37 +706,37 @@ div .customHeaderLabelSummaryTable {
   padding: 130px 120px 0 30px;
 
   @include breakpoint-standard(0) {
-    top: 45px;
+    top: 100px;
     padding: 10px 20px 0 10px;
-    margin-top: 6rem;
+    margin-top: 20px;
   }
 
   @include breakpoint-standard(1) {
-    top: 75px;
+    top: 100px;
     padding: 30px 20px 0 10px;
-    margin-top: 3rem;
+    margin-top: 20px;
   }
 
   @include breakpoint-standard(1.1) {
-    top: 75px;
+    top: 90px;
     padding: 30px 20px 0 10px;
-    margin-top: 3rem;
+    margin-top: 35px;
   }
 
   @include breakpoint-standard(2) {
     top: -30px;
     padding: 30px 30px 0 30px;
-    margin-top: 76px;
+    margin-top: 65px;
   }
 
   @include breakpoint-standard(3) {
     padding: 20px;
-    margin-top: 110px;
+    margin-top: 65px
   }
 
   @include breakpoint-standard(4) {
     padding: 20px;
-    margin-top: 10rem;
+    margin-top: 6rem;
   }
 }
 

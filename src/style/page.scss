@@ -390,6 +390,127 @@
   }
 }
 
+// Mobile dropdown styles for Enslaved
+.navbar-wrapper-mobile-enslaved {
+  position: fixed;
+  top: 12%;
+  right: 10px;
+  z-index: 10000;
+  display: block;
+
+  @include breakpoint-standard(5) {
+    top: 12%;
+    right: 10px;
+    button {
+      font-size: 14px;
+      height: 28px;
+    }
+  }
+
+  @include breakpoint-standard(4) {
+    top: 11%;
+    right: 10px;
+    button {
+      font-size: 14px;
+      height: 28px;
+    }
+  }
+
+  @include breakpoint-standard(3) {
+    top: 10%;
+    right: 10px;
+    button {
+      font-size: 14px;
+      height: 28px;
+    }
+  }
+
+  @include breakpoint-standard(2) {
+    top: 10.5%;
+    right: 10px;
+    button {
+      font-size: 14px;
+      height: 28px;
+    }
+  }
+
+  @include breakpoint-standard(1.1) {
+    top: 10%;
+    right: 10px;
+    button {
+      font-size: 14px;
+      height: 28px;
+    }
+  }
+
+  @include breakpoint-standard(1) {
+    top: 10%;
+    right: 10px;
+    button {
+      font-size: 14px;
+      height: 28px;
+    }
+  }
+
+  @include breakpoint-standard(0) {
+    top: 10%;
+    right: 10px;
+      button {
+      font-size: 14px;
+      height: 28px;
+    }
+  }
+}
+
+.nav-dropdown-button-enslaved {
+  min-width: 150px;
+  height: 40px;
+  font-size: 14px;
+
+  @include breakpoint-standard(5) {
+    min-width: 130px;
+    height: 38px;
+    font-size: 13px;
+  }
+
+  @include breakpoint-standard(4) {
+    min-width: 120px;
+    height: 36px;
+    font-size: 12px;
+  }
+
+  @include breakpoint-standard(3) {
+    min-width: 120px;
+    height: 36px;
+    font-size: 12px;
+  }
+
+  @include breakpoint-standard(2) {
+    min-width: 110px;
+    height: 32px;
+    font-size: 11px;
+  }
+
+  @include breakpoint-standard(1.1) {
+    min-width: 100px;
+    height: 30px;
+    font-size: 10px;
+  }
+
+  @include breakpoint-standard(1) {
+    min-width: 90px;
+    height: 28px;
+    font-size: 9px;
+  }
+
+  @include breakpoint-standard(0) {
+    min-width: 80px;
+    height: 26px;
+    font-size: 8px;
+  }
+}
+
+// Update the existing nav-button-enslaved to hide on mobile
 .nav-button-enslaved {
   position: fixed;
   top: 45%;
@@ -399,52 +520,16 @@
   flex-direction: column;
   align-items: flex-start;
   padding-right: 5px;
+  z-index: 10000;
 
   @include breakpoint-standard(5) {
     top: 35%;
     align-items: center;
   }
 
-  @include breakpoint-standard(4) {
-    display: inline-block;
-    padding-right: 5rem;
-    top: 10%;
-    height: 0;
-  }
-
-  @include breakpoint-standard(3) {
-    display: inline-block;
-    padding-right: 30px;
-    top: 7%;
-    height: 0;
-  }
-
-  @include breakpoint-standard(2) {
-    display: inline-block;
-    padding-right: 30px;
-    top: 8%;
-    height: 0;
-  }
-
-  @include breakpoint-standard(1.1) {
-    display: inline-block;
-    padding-right: 30px;
-    top: 10%;
-    height: 0;
-  }
-
-  @include breakpoint-standard(1) {
-    display: inline-block;
-    padding-right: 30px;
-    top: 10%;
-    height: 0;
-  }
-
-  @include breakpoint-standard(0) {
-    display: inline-block;
-    padding-right: 30px;
-    top: 10%;
-    height: 0;
+  // Hide on mobile (below 992px)
+  @media only screen and (max-width: 991px) {
+    display: none !important;
   }
 }
 
