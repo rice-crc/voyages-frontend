@@ -178,15 +178,7 @@ export const DialogModalStyle = {
 };
 export const PaperDraggableStyle = {
   maxWidth: 'min(500px, 90vw)',
-  minWidth: 'min(300px, 90vw)',
-  '@media (max-width: 768px)': {
-    maxWidth: '90vw !important',
-    minWidth: '90vw !important',
-  },
-  '@media (max-width: 480px)': {
-    maxWidth: '95vw',
-    minWidth: '95vw',
-  },
+  minWidth: 'min(300px, 90vw)'
 };
 
 export const PaperDraggableTimeLapseStyle = {
@@ -239,6 +231,17 @@ export const styleCard = {
   boxShadow: 24,
   p: '10px 50px',
 };
+export const styleTapMap = {
+  bgcolor: '#fff',
+  overflowY: 'auto',
+  boxShadow: 24,
+  p: '10px',
+};
+export const styleTapNetWorkGraph = {
+  bgcolor: '#222',
+  overflowY: 'auto'
+};
+
 export const styleCardEstimate = {
   bgcolor: '#fff',
   overflowY: 'auto',

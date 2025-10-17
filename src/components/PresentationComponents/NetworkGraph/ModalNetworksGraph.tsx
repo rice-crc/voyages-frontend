@@ -49,7 +49,6 @@ const ModalNetworksGraph = () => {
             <Close fontSize="large" onClick={handleClose} />
           </div>
         </div>
-
         <NetworkDiagramSlaveVoyagesSVG />
       </Box>
     </Modal>

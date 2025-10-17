@@ -1,3 +1,5 @@
+import { convertToYYYYMMDD } from "./convertToYYYYMMDD";
+
 export function generateCardsData(data: any, value: any) {
   // Early return if required data is missing
   // console.log({ data, value })
@@ -8,12 +10,16 @@ export function generateCardsData(data: any, value: any) {
 
   const finalData: (string | String)[] = [];
   const fields = value.cell_val.fields;
+  const isDateStr = fields[0]?.var_name.includes('date_str')
   const firstData = data[fields[0].var_name];
 
   const joinDelimiter: string | undefined = value.cell_val.join;
 
   if (value.cell_type === 'literal') {
     const dataDisplay = data[fields[0].var_name];
+    if(isDateStr){
+      return dataDisplay ? convertToYYYYMMDD(dataDisplay) : '--';
+    }
     return dataDisplay ? dataDisplay : '--';
   } else if (value.cell_type === 'literal-concat' && Array.isArray(firstData)) {
     for (let i = 0; i < firstData?.length; i++) {

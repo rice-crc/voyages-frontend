@@ -65,7 +65,7 @@ const FilterTextNameEnslaversBox: FunctionComponent<
         }
         placeholder="Last Name, First Name"
         sx={{
-          marginTop: 2.5,
+          marginTop: 2,
           width: {
             xs: '100%', // Mobile: full width
             sm: '90%', // Small: 90% width

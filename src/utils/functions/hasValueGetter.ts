@@ -1,6 +1,7 @@
 import { ICellRendererParams } from 'ag-grid-community';
 
 import { TableCellStructure } from '@/share/InterfaceTypesTable';
+import { convertToYYYYMMDD } from './convertToYYYYMMDD';
 
 export function hasValueGetter(
   params: ICellRendererParams,
@@ -10,11 +11,15 @@ export function hasValueGetter(
   const data = params?.data;
 
   const fields = value.cell_val.fields;
+  const isDateStr = fields[0]?.var_name.includes('date_str')
   const firstData = data[fields[0]?.var_name];
   const valueCellType = value.cell_type;
   const joinDelimiter: string | undefined = value.cell_val.join;
 
   if (valueCellType === 'literal') {
+    if(isDateStr){
+      return firstData ? convertToYYYYMMDD(firstData) : '--';
+    }
     return firstData ? firstData : '--';
   } else if (value.colID === 'connections') {
     return data.id;
