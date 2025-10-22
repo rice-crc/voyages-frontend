@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-
-import { Button } from 'antd';
+import { useEffect, useState } from 'react';
+import { Button, Dropdown, Menu } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -34,6 +34,8 @@ import {
 const CollectionTabEnslaved = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 992);
+
   const { blocksPeople } = useSelector(
     (state: RootState) => state.getPeopleEnlavedDataSetCollection,
   );
@@ -56,6 +58,14 @@ const CollectionTabEnslaved = () => {
       );
     }
   }, [styleName, currentBlockName, dispatch]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 992);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handlePageNavigation = (page: number, blockName: string) => {
     if (page === 1) {
@@ -80,97 +90,162 @@ const CollectionTabEnslaved = () => {
     dispatch(setFilterObject(filtersObj));
   };
 
+  // Get current active block name for dropdown label
+  const getCurrentBlockName = () => {
+    const currentBlock = blocksPeople[currentEnslavedPage - 1];
+    if (currentBlock) {
+      const { label: block } = currentBlock;
+      return (block as LabelFilterMeneList)[languageValue];
+    }
+    return 'Select Page';
+  };
+
+  // Create menu items for dropdown
+  const menuItems = blocksPeople.map(
+    (items: BlockCollectionProps, index: number) => {
+      const { label: block } = items;
+      const blockName = (block as LabelFilterMeneList)[languageValue];
+      const newBlockName = blockName.toLowerCase().replace(/\s/g, '');
+      const buttonIndex = index + 1;
+      const isActive =
+        currentPageBlockName ===
+        checkBlockCollectionNameForEnslaved(newBlockName.toLocaleLowerCase());
+
+      return {
+        key: `${newBlockName}-${buttonIndex}`,
+        label: blockName,
+        onClick: () => handlePageNavigation(buttonIndex, newBlockName),
+        style: {
+          backgroundColor: isActive
+            ? getColorBTNBackgroundEnslaved(styleName!)
+            : 'transparent',
+          color: isActive ? 'white' : getColorTextCollection(styleName!),
+          fontWeight: isActive ? 'bold' : 600,
+        },
+      };
+    },
+  );
+
+  const menu = <Menu items={menuItems} />;
+
+  // Desktop version - vertical buttons
+  if (isDesktop) {
+    return (
+      <div className="navbar-wrapper">
+        <nav className="nav-button-enslaved">
+          {blocksPeople.map((items: BlockCollectionProps, index: number) => {
+            const { label: block } = items;
+            const blockName = (block as LabelFilterMeneList)[languageValue];
+            const newBlockName = blockName.toLowerCase().replace(/\s/g, '');
+            const buttonIndex = index + 1;
+            const isActive =
+              currentPageBlockName ===
+              checkBlockCollectionNameForEnslaved(
+                newBlockName.toLocaleLowerCase(),
+              );
+            const isCurrentPage = currentEnslavedPage === buttonIndex;
+
+            const baseButtonStyle = {
+              width: '75px',
+              margin: '5px',
+              cursor: 'pointer',
+              textTransform: 'unset' as const,
+              backgroundColor: getColorBTNBackgroundEnslaved(styleName!),
+              boxShadow: isActive
+                ? getColorBoxShadowEnslaved(styleName!)
+                : 'none',
+              color: isActive ? 'white' : getColorTextCollection(styleName!),
+              fontWeight: isActive ? 'bold' : 600,
+              fontSize: '0.80rem',
+              border: isCurrentPage
+                ? `2px solid ${getColorBTNBackgroundEnslaved(styleName!)}`
+                : '1px solid transparent',
+            };
+
+            const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+              const target = e.currentTarget;
+              target.style.backgroundColor = getColorHoverBackgroundCollection(
+                styleName!,
+              );
+              target.style.color = getColorBTNVoyageDatasetBackground(
+                styleName!,
+              );
+            };
+
+            const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+              const target = e.currentTarget;
+              target.style.backgroundColor = getColorBTNBackgroundEnslaved(
+                styleName!,
+              );
+              target.style.color = isActive
+                ? 'white'
+                : getColorTextCollection(styleName!);
+            };
+
+            const handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+              const target = e.currentTarget;
+              target.style.backgroundColor = getColorHoverBackgroundCollection(
+                styleName!,
+              );
+              target.style.color = getColorBTNVoyageDatasetBackground(
+                styleName!,
+              );
+              target.style.outline = 'none';
+            };
+
+            const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
+              const target = e.currentTarget;
+              target.style.backgroundColor = getColorBTNBackgroundEnslaved(
+                styleName!,
+              );
+              target.style.color = isActive
+                ? 'white'
+                : getColorTextCollection(styleName!);
+            };
+
+            return (
+              <Button
+                key={`${newBlockName}-${buttonIndex}`}
+                onClick={() => handlePageNavigation(buttonIndex, newBlockName)}
+                className="nav-button-page"
+                type={isCurrentPage ? 'primary' : 'default'}
+                style={baseButtonStyle}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              >
+                {blockName}
+              </Button>
+            );
+          })}
+        </nav>
+      </div>
+    );
+  }
+
+  // Mobile version - dropdown menu
   return (
-    <div
-      className="navbar-wrapper"
-      style={{ display: window.innerWidth < 768 ? 'none' : 'block' }}
-    >
-      <nav className="nav-button-enslaved">
-        {blocksPeople.map((items: BlockCollectionProps, index: number) => {
-          const { label: block } = items;
-          const blockName = (block as LabelFilterMeneList)[languageValue];
-          const newBlockName = blockName.toLowerCase().replace(/\s/g, '');
-          const buttonIndex = index + 1;
-          const isActive =
-            currentPageBlockName ===
-            checkBlockCollectionNameForEnslaved(
-              newBlockName.toLocaleLowerCase(),
-            );
-          const isCurrentPage = currentEnslavedPage === buttonIndex;
-
-          // Base button styles
-          const baseButtonStyle = {
-            width: '75px',
-            margin: '5px',
-            cursor: 'pointer',
-            textTransform: 'unset' as const,
+    <div className="navbar-wrapper-mobile-enslaved">
+      <Dropdown
+        overlay={menu}
+        trigger={['click']}
+        placement="bottomRight"
+        getPopupContainer={(trigger) => trigger.parentElement || document.body}
+        overlayStyle={{ zIndex: 10001 }}
+      >
+        <Button
+          className="nav-dropdown-button-enslaved"
+          style={{
             backgroundColor: getColorBTNBackgroundEnslaved(styleName!),
-            boxShadow: isActive
-              ? getColorBoxShadowEnslaved(styleName!)
-              : 'none',
-            color: isActive ? 'white' : getColorTextCollection(styleName!),
-            fontWeight: isActive ? 'bold' : 600,
-            fontSize: '0.80rem',
-            border: isCurrentPage
-              ? `2px solid ${getColorBTNBackgroundEnslaved(styleName!)}`
-              : '1px solid transparent',
-          };
-
-          // Event handlers for hover effects
-          const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
-            const target = e.currentTarget;
-            target.style.backgroundColor = getColorHoverBackgroundCollection(
-              styleName!,
-            );
-            target.style.color = getColorBTNVoyageDatasetBackground(styleName!);
-          };
-
-          const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-            const target = e.currentTarget;
-            target.style.backgroundColor = getColorBTNBackgroundEnslaved(
-              styleName!,
-            );
-            target.style.color = isActive
-              ? 'white'
-              : getColorTextCollection(styleName!);
-          };
-
-          const handleFocus = (e: React.FocusEvent<HTMLElement>) => {
-            const target = e.currentTarget;
-            target.style.backgroundColor = getColorHoverBackgroundCollection(
-              styleName!,
-            );
-            target.style.color = getColorBTNVoyageDatasetBackground(styleName!);
-            target.style.outline = 'none';
-          };
-
-          const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
-            const target = e.currentTarget;
-            target.style.backgroundColor = getColorBTNBackgroundEnslaved(
-              styleName!,
-            );
-            target.style.color = isActive
-              ? 'white'
-              : getColorTextCollection(styleName!);
-          };
-
-          return (
-            <Button
-              key={`${newBlockName}-${buttonIndex}`}
-              onClick={() => handlePageNavigation(buttonIndex, newBlockName)}
-              className="nav-button-page"
-              type={isCurrentPage ? 'primary' : 'default'}
-              style={baseButtonStyle}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            >
-              {blockName}
-            </Button>
-          );
-        })}
-      </nav>
+            color: 'white',
+            fontWeight: 600,
+            border: 'none',
+          }}
+        >
+          {getCurrentBlockName()} <DownOutlined />
+        </Button>
+      </Dropdown>
     </div>
   );
 };

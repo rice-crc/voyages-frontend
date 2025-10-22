@@ -89,14 +89,12 @@ const CustomHeaderTable = (props: MyCustomHeaderProps) => {
         | React.TouchEvent<HTMLButtonElement>,
     ) => {
       props.setSort(order, event.shiftKey);
-      console.log({ order });
 
       // ✅ Use order_by fields from context (set by generateColumnDef)
       const sortingFields = props.column.colDef?.context?.fieldToSort || [];
 
       if (sortingFields.length > 0) {
         const orderBy = createSortOrder(order, sortingFields);
-        console.log({ orderBy });
         dispatch(setSortColumn(orderBy));
       }
     },

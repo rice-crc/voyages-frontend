@@ -660,23 +660,6 @@
         "cell_val": {
           "fields": [
 				{
-					"var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__date_str",
-					"cell_fn": "literal"
-				}
-			]
-        },
-        "label": {
-          "en": "Date vessel arrived with captives (IMP)",
-          "es": "Fecha de llegada del buque con los cautivos",
-          "pt": "Data de chegada do navio com os cativos"
-        }
-      },
-      {
-        "cell_type": "literal",
-        "number_format": null,
-        "cell_val": {
-          "fields": [
-				{
 					"var_name": "voyage_dates__departure_last_place_of_landing_sparsedate__date_str",
 					"cell_fn": "literal"
 				}

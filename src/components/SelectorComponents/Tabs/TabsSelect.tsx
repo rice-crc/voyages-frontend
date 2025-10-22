@@ -15,8 +15,15 @@ import { usePageRouter } from '@/hooks/usePageRouter';
 import { setValueVariable } from '@/redux/getCardFlatObjectSlice';
 import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
 import { RootState, AppDispatch } from '@/redux/store';
-import { VOYAGESNODECLASS, VOYAGESNODE } from '@/share/CONST_DATA';
-import { styleCard } from '@/styleMUI';
+import { VOYAGESNODECLASS, VOYAGESNODE, ENSLAVERSNODE, ENSLAVEDNODE } from '@/share/CONST_DATA';
+import { styleCard, styleTapMap, styleTapNetWorkGraph } from '@/styleMUI';
+import { NetworkDiagramSlaveVoyagesSVG } from '@/components/PresentationComponents/NetworkGraph/NetworkDiagramSlaveVoyagesSVG';
+import { setNetWorksID, setNetWorksKEY } from '@/redux/getPastNetworksGraphDataSlice';
+import { fetchPastEnslaversCard } from '@/fetch/pastEnslaversFetch/fetchPastEnslaversCard';
+import { fetchPastEnslavedCard } from '@/fetch/pastEnslavedFetch/fetchPastEnslavedCard';
+import { generateVoyageDescription, generateVoyageTitle } from './generateVoyageTitle';
+import { generateEnslaverDescription, generateEnslaverTitle } from './generateEnslaverTitle';
+import { generateEnslavedDescription, generateEnslavedTitle } from './generateEnslavedTitle';
 
 const TabsSelect = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -36,37 +43,62 @@ const TabsSelect = () => {
   const [pageTitle, setPageTitle] = useState(initialTitle);
   const [pageDescription, setPageDescription] = useState(initialDescription);
   const navigate = useNavigate();
+  console.log({pageTitle , pageDescription})
 
   const fetchMap: Record<string, any> = {
     [VOYAGESNODECLASS]: fetchVoyageCard,
     [VOYAGESNODE]: fetchVoyageCard,
+    [ENSLAVERSNODE]: fetchPastEnslaversCard,
+    [ENSLAVEDNODE]: fetchPastEnslavedCard
   };
 
-  const titleMap: Record<string, (id: string) => string> = {
-    [VOYAGESNODECLASS]: (id: string) => `Voyage ${id} - SlaveVoyages Database`,
-    [VOYAGESNODE]: (id: string) => `Voyage ${id} - SlaveVoyages Database`,
+  // Map of title generators by entity type
+  const titleGenerators: Record<string, (data: any, id: string) => string> = {
+    [VOYAGESNODECLASS]: generateVoyageTitle,
+    [VOYAGESNODE]: generateVoyageTitle,
+    [ENSLAVERSNODE]: generateEnslaverTitle,
+    [ENSLAVEDNODE]: generateEnslavedTitle,
+  };
+
+  // Map of description generators by entity type
+  const descriptionGenerators: Record<string, (data: any, id: string) => string> = {
+    [VOYAGESNODECLASS]: generateVoyageDescription,
+    [VOYAGESNODE]: generateVoyageDescription,
+    [ENSLAVERSNODE]: generateEnslaverDescription,
+    [ENSLAVEDNODE]:generateEnslavedDescription,
   };
 
   useEffect(() => {
+    if (currentBlockName === 'network') {
+      dispatch(setNetWorksID(Number(ID)));
+      const networkKEY = nodeTypeClass === 'voyage' ? 'voyages' : nodeTypeClass;
+      dispatch(setNetWorksKEY(networkKEY));
+    }
+    
     const fetchData = async () => {
       const targetID = cardRowID || ID;
       if (!targetID) return;
-
+      
       const fetchFn = fetchMap[nodeTypeClass];
       if (!fetchFn) return;
 
       try {
-        const numericID =
-          typeof targetID === 'string' ? parseInt(targetID) : targetID;
+        const numericID = typeof targetID === 'string' ? parseInt(targetID) : targetID;
         const response = await dispatch(fetchFn(numericID)).unwrap();
 
         if (response?.data) {
-          const title =
-            titleMap[nodeTypeClass]?.(String(targetID)) ||
-            'SlaveVoyages Database';
+          // Get the appropriate generators for this entity type
+          const titleGenerator = titleGenerators[nodeTypeClass];
+          const descriptionGenerator = descriptionGenerators[nodeTypeClass];
 
-          const voyageData = response.data.voyage_dates;
-          const description = `Detailed information about voyage ${targetID} from ${voyageData?.voyage_began_sparsedate?.date_str || 'unknown date'} to ${voyageData?.vessel_left_port_sparsedate?.date_str || 'unknown date'}. Historical slave voyage records and documentation.`;
+          // Generate SEO-optimized title and description
+          const title = titleGenerator 
+            ? titleGenerator(response.data, String(targetID))
+            : `${nodeTypeClass} ${targetID} - SlaveVoyages Database`;
+            
+          const description = descriptionGenerator
+            ? descriptionGenerator(response.data, String(targetID))
+            : `Explore detailed historical records for ${nodeTypeClass} ${targetID}.`;
 
           setPageTitle(title);
           setPageDescription(description);
@@ -82,6 +114,11 @@ const TabsSelect = () => {
   const onChange = (key: string) => {
     dispatch(setValueVariable(key));
     dispatch(setCurrentBlockName(key));
+    if (key === 'network') {
+      dispatch(setNetWorksID(Number(ID)));
+      const networkKEY = nodeTypeClass === 'voyage' ? 'voyages' : nodeTypeClass;
+      dispatch(setNetWorksKEY(networkKEY));
+    }
     navigate(`/${nodeTypeClass}/${ID}#${key.toLowerCase()}`);
   };
 
@@ -99,20 +136,29 @@ const TabsSelect = () => {
       key: 'map',
       label: 'Map',
       children: (
-        <Box sx={styleCard}>
+        <Box sx={styleTapMap}>
           <MAPS />
         </Box>
       ),
     },
     {
-      key: 'images',
-      label: 'Images',
+      key: 'network',
+      label: 'Network graph',
       children: (
-        <Box sx={styleCard}>
-          <div style={{ height: 500 }}>No images are available.</div>
+        <Box sx={styleTapNetWorkGraph}>
+          <NetworkDiagramSlaveVoyagesSVG />
         </Box>
       ),
     },
+    // {
+    //   key: 'images',
+    //   label: 'Images',
+    //   children: (
+    //     <Box sx={styleCard}>
+    //       <div style={{ height: 500 }}>No images are available.</div>
+    //     </Box>
+    //   ),
+    // },
   ];
 
   return (

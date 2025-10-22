@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import UniversityOfGlasgow from '@/assets/UoG_white.png';
+import  UniversityOfLisbon from '@/assets/ULISBOA_HORIZONTAL_NEG_RGB.png';
 import { RootState } from '@/redux/store';
 import { translationHomepage } from '@/utils/functions/translationLanguages';
 
@@ -189,17 +190,17 @@ export const FooterComponent = () => {
               </div>
             </Link>
             <Link
-              to="https://cre2.wustl.edu/"
+              to="https://www.ulisboa.pt"
               target="_blank"
               rel="noopener"
-              aria-label="Washington University Center for the Study of Race, Ethnicity, and Equity"
+              aria-label="University of Lisbon"
             >
               <div className="logo-grid-item fade-in">
                 <img
                   className="card-img sponsor-card-img block lazy loaded"
-                  data-src="https://api.slavevoyages.org/static/uploads/washu_white_stacked_1280_836.png"
-                  aria-label="Washington University Center for the Study of Race, Ethnicity, and Equity"
-                  src="https://api.slavevoyages.org/static/uploads/washu_white_stacked_1280_836.png"
+                  data-src="https://api.slavevoyages.org/static/uploads/ULISBOA_HORIZONTAL_NEG_RGB.png"        
+                  aria-label="University of Lisbon"
+                  src={UniversityOfLisbon}
                   data-was-processed="true"
                 />
               </div>
