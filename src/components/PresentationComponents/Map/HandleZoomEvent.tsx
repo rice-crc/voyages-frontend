@@ -1,3 +1,11 @@
+import { useEffect } from 'react';
+
+import L from 'leaflet';
+import { useMap, useMapEvents } from 'react-leaflet';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setHasFetchedRegion } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   ESTIMATES,
   PLACE,
@@ -7,12 +15,6 @@ import {
   broadRegion,
 } from '@/share/CONST_DATA';
 import { HandleZoomEventProps } from '@/share/InterfaceTypesMap';
-import { useMap, useMapEvents } from 'react-leaflet';
-import L from 'leaflet';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import { setHasFetchedRegion } from '@/redux/getNodeEdgesAggroutesMapDataSlice';
 
 export const HandleZoomEvent: React.FC<HandleZoomEventProps> = ({
   setZoomLevel,
@@ -23,7 +25,7 @@ export const HandleZoomEvent: React.FC<HandleZoomEventProps> = ({
   const map = useMap();
   const dispatch: AppDispatch = useDispatch();
   const { nodesData } = useSelector(
-    (state: RootState) => state.getNodeEdgesAggroutesMapData
+    (state: RootState) => state.getNodeEdgesAggroutesMapData,
   );
   const oceanic_animation_edges_layer_group = L.layerGroup();
   const oceanic_main_edges_layer_group = L.layerGroup();
@@ -37,7 +39,7 @@ export const HandleZoomEvent: React.FC<HandleZoomEventProps> = ({
       oceanic_edges_holding_layer_group.addTo(map);
       oceanic_main_edges_layer_group.addTo(oceanic_edges_holding_layer_group);
       oceanic_animation_edges_layer_group.addTo(
-        oceanic_edges_holding_layer_group
+        oceanic_edges_holding_layer_group,
       );
       endpoint_main_edges_layer_group.addTo(map);
       endpoint_animation_edges_layer_group.addTo(map);
@@ -53,7 +55,16 @@ export const HandleZoomEvent: React.FC<HandleZoomEventProps> = ({
         map.removeLayer(oceanic_edges_holding_layer_group);
       }
     };
-  }, [map, setZoomLevel, zoomLevel]);
+  }, [
+    endpoint_animation_edges_layer_group,
+    endpoint_main_edges_layer_group,
+    map,
+    oceanic_animation_edges_layer_group,
+    oceanic_edges_holding_layer_group,
+    oceanic_main_edges_layer_group,
+    setZoomLevel,
+    zoomLevel,
+  ]);
 
   useMapEvents({
     zoomend: () => {
@@ -67,23 +78,21 @@ export const HandleZoomEvent: React.FC<HandleZoomEventProps> = ({
         }
         if (styleRouteName !== ESTIMATES) {
           if (newZoomLevel >= ZOOM_LEVEL_THRESHOLD) {
-            if(setRegionPlace){
+            if (setRegionPlace) {
               setRegionPlace(PLACE);
             }
-           
           } else {
-            if(setRegionPlace){
+            if (setRegionPlace) {
               setRegionPlace(REGION);
             }
-           
           }
         } else if (styleRouteName === ESTIMATES) {
           if (newZoomLevel >= ZOOM_LEVEL_REGION_ESTIMATE_MIN) {
-            if(setRegionPlace){
+            if (setRegionPlace) {
               setRegionPlace(REGION);
             }
           } else {
-            if(setRegionPlace) setRegionPlace(broadRegion);
+            if (setRegionPlace) setRegionPlace(broadRegion);
           }
         }
       }

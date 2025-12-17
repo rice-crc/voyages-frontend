@@ -80,6 +80,7 @@ function BarGraph() {
     () => chartWidthCustom(width, maxWidth),
     [width, maxWidth],
   );
+
   const chartHeight = useMemo(() => chartHeightCustom(height), [height]);
 
   const VoyageBargraphOptions = useCallback(() => {
@@ -199,6 +200,38 @@ function BarGraph() {
   const handleChangeBarGraphOption = useCallback(
     (event: SelectChangeEvent<string>, name: string) => {
       const value = event.target.value;
+
+       // If changing X field, remove any Y chips with the same var_name
+      if (name === 'x_vars') {
+        setChips((prevChips) => {
+          const filteredChips = prevChips.filter((chip) => {
+            const [varName] = chip.split('__AGG__');
+            return varName !== value;
+          });
+
+          // Update Y axes labels accordingly
+          if (filteredChips.length !== prevChips.length) {
+            const selectedYOptions = filteredChips
+              .map((chipValue: string) => {
+                const [varName, aggFn] = chipValue.split('__AGG__');
+                const option = barGraphSelectedY.find(
+                  (opt) => opt.var_name === varName && opt.agg_fn === aggFn,
+                );
+                return option ? option.label[lang] : '';
+              })
+              .filter((label: string) => label !== '');
+            setYAxes(selectedYOptions);
+
+            // Set error if all Y chips were removed
+            if (filteredChips.length === 0) {
+              setError(true);
+            }
+          }
+
+          return filteredChips;
+        });
+      }
+
       setBarOptions((prevVoyageOption) => ({
         ...prevVoyageOption,
         [name]: value,
@@ -224,6 +257,16 @@ function BarGraph() {
     [],
   );
 
+  const handleClearAll = useCallback(() => {
+    setChips([]);
+    setYAxes([]);
+    setError(true);
+    setBarOptions((prevOptions) => ({
+      ...prevOptions,
+      y_vars: '',
+    }));
+  }, []);
+
   if (isLoading) {
     return (
       <div className="Skeleton-loading">
@@ -246,6 +289,7 @@ function BarGraph() {
         selectedOptions={barGraphOptions}
         handleChange={handleChangeBarGraphOption}
         handleChangeMultipleYSelected={handleChangeBarGraphChipYSelected}
+        handleClearAll={handleClearAll}
         maxWidth={maxWidth}
         XFieldText={'X Field'}
         YFieldText={'Multi-Selector Y-Field'}
@@ -262,7 +306,7 @@ function BarGraph() {
         <div
           style={{
             width: '100%',
-            maxWidth: chartWidth,
+            maxWidth: maxWidth,
             height: chartHeight,
             minHeight: 600,
             border: '1px solid #ccc',
@@ -294,7 +338,7 @@ function BarGraph() {
                   },
                 },
                 fixedrange: true,
-                tickangle: width < 768 ? -45 : 0,
+                tickangle: width < 768 ? -45 : -25,
                 tickfont: {
                   size: width < 400 ? 8 : 10,
                 },

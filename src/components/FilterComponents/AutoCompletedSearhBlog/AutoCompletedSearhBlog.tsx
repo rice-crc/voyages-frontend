@@ -150,7 +150,6 @@ const AutoCompletedSearhBlog = () => {
         navigate(`/${BLOGPAGE}`);
       }
       if (newValue) {
-        console.log({ newValue });
         if (newValue.value === 'Introductory Maps') {
           navigate(
             `/${BLOGPAGE}/tag/${formatTextURL('all Intro Maps')}#${formatTextURL('all Intro Maps')}`,

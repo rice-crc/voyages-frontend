@@ -244,7 +244,7 @@ export const LeafletMapURL = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     <div style={{ backgroundColor: getMapBackgroundColor(backgroundColor) }}>
       {loading || nodesData?.length === 0 ? (
         <div className="loading-logo">
-          <img src={LOADINGLOGO} />
+          <img src={LOADINGLOGO} alt="loading" />
         </div>
       ) : (
         <>

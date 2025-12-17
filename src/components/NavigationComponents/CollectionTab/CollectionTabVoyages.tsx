@@ -1,8 +1,9 @@
-import { Button, Dropdown, Menu } from 'antd';
+import { useState } from 'react';
+
 import { DownOutlined } from '@ant-design/icons';
+import { Button, Dropdown } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 import { setPathNameVoyages } from '@/redux/getDataPathNameSlice';
 import { setFilterObject, setIsFilter } from '@/redux/getFilterSlice';
@@ -137,14 +138,14 @@ const CollectionTabVoyages = () => {
       label: blockName,
       onClick: () => handlePageNavigation(buttonIndex, newBlockName),
       style: {
-        backgroundColor: isActive ? getColorBackground(styleName) : 'transparent',
+        backgroundColor: isActive
+          ? getColorBackground(styleName)
+          : 'transparent',
         color: isActive ? 'white' : getColorTextCollection(styleName),
         fontWeight: isActive ? 'bold' : 600,
       },
     };
   });
-
-  const menu = <Menu items={menuItems} />;
 
   // Desktop version - vertical buttons
   if (isDesktop) {
@@ -182,7 +183,8 @@ const CollectionTabVoyages = () => {
               target.style.backgroundColor = getColorHoverBackgroundCollection(
                 styleName!,
               );
-              target.style.color = getColorBTNVoyageDatasetBackground(styleName);
+              target.style.color =
+                getColorBTNVoyageDatasetBackground(styleName);
             };
 
             const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
@@ -198,7 +200,8 @@ const CollectionTabVoyages = () => {
               target.style.backgroundColor = getColorHoverBackgroundCollection(
                 styleName!,
               );
-              target.style.color = getColorBTNVoyageDatasetBackground(styleName);
+              target.style.color =
+                getColorBTNVoyageDatasetBackground(styleName);
               target.style.outline = 'none';
             };
 
@@ -234,12 +237,14 @@ const CollectionTabVoyages = () => {
   // Mobile version - dropdown menu
   return (
     <div className="navbar-wrapper-mobile">
-      <Dropdown 
-        overlay={menu} 
-        trigger={['click']} 
+      <Dropdown
+        menu={{
+          items: menuItems,
+          style: { zIndex: 10001 },
+        }}
+        trigger={['click']}
         placement="bottomRight"
         getPopupContainer={(trigger) => trigger.parentElement || document.body}
-        overlayStyle={{ zIndex: 10001 }}
       >
         <Button
           className="nav-dropdown-button"

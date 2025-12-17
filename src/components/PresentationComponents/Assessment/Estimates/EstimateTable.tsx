@@ -217,7 +217,7 @@ const EstimateTable = () => {
     link.target = '_blank';
     link.click();
     setMode('html');
-  }, [mode, data]);
+  }, []);
 
   const handleChangeOptions = useCallback(
     (

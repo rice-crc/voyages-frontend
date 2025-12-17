@@ -1,27 +1,29 @@
-import { Tabs } from 'antd';
 import '@/style/cards.scss';
 import '@/style/estimates.scss';
-import { setValueVariable } from '@/redux/getCardFlatObjectSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { styleCardEstimate } from '@/styleMUI';
 import { Box } from '@mui/material';
-import MAPComponents from '@/components/PresentationComponents/Map/MAPS';
 import type { TabsProps } from 'antd';
+import { Tabs } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import MAPComponents from '@/components/PresentationComponents/Map/MAPS';
+import { usePageRouter } from '@/hooks/usePageRouter';
+import { setValueVariable } from '@/redux/getCardFlatObjectSlice';
 import { setCurrentBlockName } from '@/redux/getScrollEnslavedPageSlice';
+import { AppDispatch, RootState } from '@/redux/store';
+import { ASSESSMENT, ESTIMATES } from '@/share/CONST_DATA';
+import { styleCardEstimate } from '@/styleMUI';
+import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
+
 import EstimateTable from './EstimateTable';
 import TimeLineGraph from './TimeLineGraph';
-import { ASSESSMENT, ESTIMATES } from '@/share/CONST_DATA';
-import { usePageRouter } from '@/hooks/usePageRouter';
-import { AppDispatch, RootState } from '@/redux/store';
-import { translationLanguagesEstimatePage } from '@/utils/functions/translationLanguages';
 
 const EstimatesTabs = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { currentBlockName } = usePageRouter();
   const { languageValue } = useSelector(
-    (state: RootState) => state.getLanguages
+    (state: RootState) => state.getLanguages,
   );
 
   const onChange = (key: string) => {

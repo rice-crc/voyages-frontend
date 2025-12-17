@@ -13,81 +13,81 @@
     {
       "rows": "voyage_itinerary__imp_broad_region_voyage_begin__name",
       "binsize": null,
-      "rows_label": "Broad Region Where Voyage Began (IMP)",
+      "rows_label": "Broad region where voyage began (IMP)",
       "label": {
-        "en": "Broad Region Where Voyage Began (IMP)",
-        "es": "Región Amplia Donde Comenzó el Viaje (IMP)",
-        "pt": "Região Ampla Onde o Navio Partiu (IMP)"
+        "en": "Broad region where voyage began (IMP)",
+        "es": "Región amplia donde comenzó el viaje (IMP)",
+        "pt": "Região ampla onde o navio partiu (IMP)"
       }
     },
     {
       "rows": "voyage_itinerary__imp_region_voyage_begin__name",
       "binsize": null,
-      "rows_label": "Region Where Voyage Began (IMP)",
+      "rows_label": "Region where voyage began (IMP)",
       "label": {
-        "en": "Region Where Voyage Began (IMP)",
-        "es": "Región Donde Comenzó el Viaje (IMP)",
-        "pt": "Região Onde o Navio Partiu (IMP)"
+        "en": "Region where voyage began (IMP)",
+        "es": "Región donde comenzó el viaje (IMP)",
+        "pt": "Região onde o navio partiu (IMP)"
       }
     },
     {
       "rows": "voyage_itinerary__imp_port_voyage_begin__name",
       "binsize": null,
-      "rows_label": "Port Where Voyage Began (IMP)",
+      "rows_label": "Port where voyage began (IMP)",
       "label": {
-        "en": "Port Where Voyage Began (IMP)",
-        "es": "Puerto Donde Comenzó el Viaje (IMP)",
-        "pt": "Porto Onde o Navio Partiu (IMP)"
+        "en": "Port where voyage began (IMP)",
+        "es": "Puerto donde comenzó el viaje (IMP)",
+        "pt": "Porto onde o navio partiu (IMP)"
       }
     },
     {
       "rows": "voyage_itinerary__imp_principal_region_of_slave_purchase__name",
       "binsize": null,
-      "rows_label": "Principle Region of Embarkation (IMP)",
+      "rows_label": "Principal Region of embarkation (IMP)",
       "label": {
-        "en": "Principle Region of Embarkation (IMP)",
-        "es": "Región Principal de Embarque (IMP)",
-        "pt": "Região Principal de Embarque (IMP)"
+        "en": "Principal Region of embarkation (IMP)",
+        "es": "Región Principal de embarque (IMP)",
+        "pt": "Região Principal de embarque (IMP)"
       }
     },
     {
       "rows": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
       "binsize": null,
-      "rows_label": "Principle Place of Embarkation (IMP)",
+      "rows_label": "Principal place of embarkation (IMP)",
       "label": {
-        "en": "Principle Place of Embarkation (IMP)",
-        "es": "Lugar Principal de Embarque (IMP)",
-        "pt": "Local Principal de Embarque (IMP)"
+        "en": "Principal place of embarkation (IMP)",
+        "es": "Lugar principal de embarque (IMP)",
+        "pt": "Local principal de embarque (IMP)"
       }
     },
     {
       "rows": "voyage_itinerary__imp_broad_region_slave_dis__name",
       "binsize": null,
-      "rows_label": "",
+      "rows_label": "Broad region of disembarkation (IMP)",
       "label": {
-        "en": "Broad Region of Disembarkation (IMP)",
-        "es": "Región Amplia de Desembarque (IMP)",
-        "pt": "Região Ampla de Desembarque (IMP)"
+        "en": "Broad region of disembarkation (IMP)",
+        "es": "Región amplia de desembarque (IMP)",
+        "pt": "Região ampla de desembarque (IMP)"
       }
     },
     {
       "rows": "voyage_itinerary__imp_principal_region_slave_dis__name",
       "binsize": null,
-      "rows_label": "Region of Disembarkation (IMP)",
+      "rows_label": "Region of disembarkation (IMP)",
       "label": {
-        "en": "Region of Disembarkation (IMP)",
-        "es": "Región de Desembarque (IMP)",
-        "pt": "Região de Desembarque (IMP)"
+        "en": "Region of disembarkation (IMP)",
+        "es": "Región de desembarque (IMP)",
+        "pt": "Região de desembarque (IMP)"
       }
     },
     {
       "rows": "voyage_itinerary__imp_principal_port_slave_dis__name",
       "binsize": null,
-      "rows_label": "Principal Place of Landing (IMP)",
+      "rows_label": "Principal place of landing (IMP)",
       "label": {
-        "en": "Principal Place of Landing (IMP)",
-        "es": "Lugar Principal de Desembarco (IMP)",
-        "pt": "Local Principal de Desembarque (IMP)"
+        "en": "Principal place of landing (IMP)",
+        "es": "Lugar principal de desembarco (IMP)",
+        "pt": "Local principal de desembarque (IMP)"
       }
     },
     {
@@ -153,11 +153,19 @@
   ],
   "column_vars": [
     {
+      "columns": ["voyage_ship__imputed_nationality__name"],
+      "label": {
+        "en": "* Flag (IMP)",
+        "es": "* Bandera (IMP)",
+        "pt": "* Bandeira (IMP)"
+      }
+    },
+    {
       "columns": ["voyage_itinerary__imp_broad_region_voyage_begin__name"],
       "label": {
-        "en": "Broad Region Where Voyage Began (IMP)",
-        "es": "Región Amplia Donde Comenzó el Viaje (IMP)",
-        "pt": "Região Ampla Onde o Viagem Começou (IMP)"
+        "en": "Broad region where voyage began (IMP)",
+        "es": "Región amplia donde comenzó el viaje (IMP)",
+        "pt": "Região ampla onde o viagem começou (IMP)"
       }
     },
     {
@@ -166,9 +174,9 @@
         "voyage_itinerary__imp_region_voyage_begin__name"
       ],
       "label": {
-        "en": "Region Where Voyage Began (IMP)",
-        "es": "Región Donde Comenzó el Viaje (IMP)",
-        "pt": "Região Onde o Viagem Começou (IMP)"
+        "en": "Region where voyage began (IMP)",
+        "es": "Región donde comenzó el viaje (IMP)",
+        "pt": "Região onde o viagem começou (IMP)"
       }
     },
     {
@@ -178,9 +186,9 @@
         "voyage_itinerary__imp_port_voyage_begin__name"
       ],
       "label": {
-        "en": "Port Where Voyage Began (IMP)",
-        "es": "Puerto Donde Comenzó el Viaje (IMP)",
-        "pt": "Porto Onde o Viagem Começou (IMP)"
+        "en": "Port where voyage began (IMP)",
+        "es": "Puerto donde comenzó el viaje (IMP)",
+        "pt": "Porto onde o viagem começou (IMP)"
       }
     },
     {
@@ -189,9 +197,9 @@
         "voyage_itinerary__imp_principal_region_of_slave_purchase__name"
       ],
       "label": {
-        "en": "Region of Embarkation (IMP)",
-        "es": "Región de Embarque (IMP)",
-        "pt": "Região de Embarque (IMP)"
+        "en": "Region of embarkation (IMP)",
+        "es": "Región de embarque (IMP)",
+        "pt": "Região de embarque (IMP)"
       }
     },
     {
@@ -201,17 +209,17 @@
         "voyage_itinerary__imp_principal_place_of_slave_purchase__name"
       ],
       "label": {
-        "en": "Principle Port of Embarkation (IMP)",
-        "es": "Puerto Principal de Embarque (IMP)",
-        "pt": "Porto Principal de Embarque (IMP)"
+        "en": "Principle port of embarkation (IMP)",
+        "es": "Puerto principal de embarque (IMP)",
+        "pt": "Porto principal de embarque (IMP)"
       }
     },
     {
       "columns": ["voyage_itinerary__imp_broad_region_slave_dis__name"],
       "label": {
-        "en": "Broad Region of Disembarkation (IMP)",
-        "es": "Región Amplia de Desembarque (IMP)",
-        "pt": "Região Ampla de Desembarque (IMP)"
+        "en": "Broad region of disembarkation (IMP)",
+        "es": "Región amplia de desembarque (IMP)",
+        "pt": "Região ampla de desembarque (IMP)"
       }
     },
     {
@@ -220,9 +228,9 @@
         "voyage_itinerary__imp_principal_region_slave_dis__name"
       ],
       "label": {
-        "en": "Region of Disembarkation (IMP)",
-        "es": "Región de Desembarque (IMP)",
-        "pt": "Região de Desembarque (IMP)"
+        "en": "Region of disembarkation (IMP)",
+        "es": "Región de desembarque (IMP)",
+        "pt": "Região de desembarque (IMP)"
       }
     },
     {
@@ -232,9 +240,9 @@
         "voyage_itinerary__imp_principal_port_slave_dis__name"
       ],
       "label": {
-        "en": "Principal Place of Disembarkation (IMP)",
-        "es": "Lugar Principal de Desembarque (IMP)",
-        "pt": "Lugar Principal de Desembarque (IMP)"
+        "en": "Principal place [port] of disembarkation (IMP)",
+        "es": "Lugar principal de desembarque (IMP)",
+        "pt": "Lugar principal de desembarque (IMP)"
       }
     }
   ],
@@ -242,54 +250,54 @@
     {
       "value_field": "voyage_id",
       "label": {
-        "en": "Number of Voyages",
-        "es": "Number of Voyages (ES)",
-        "pt": "Number of Voyages (PT)"
+        "en": "Number of voyages",
+        "es": "Number of voyages (ES)",
+        "pt": "Number of voyages (PT)"
       },
       "agg_fn":"count"
     },
     {
       "value_field": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
       "label": {
-        "en": "Sum of Embarked Captives (IMP)",
-        "es": "Sum of Embarked Captives (IMP) (ES)",
-        "pt": "Sum of Embarked Captives (IMP) (PT)"
+        "en": "Sum of embarked captives (IMP)",
+        "es": "Sum of embarked captives (IMP) (ES)",
+        "pt": "Sum of embarked captives (IMP) (PT)"
       },
       "agg_fn":"sum"
     },
     {
       "value_field": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
       "label": {
-        "en": "Average of Embarked Captives (IMP)",
-        "es": "Average of Embarked Captives (IMP) (ES)",
-        "pt": "Average of Embarked Captives (IMP) (PT)"
+        "en": "Average of embarked captives (IMP)",
+        "es": "Average of embarked captives (IMP) (ES)",
+        "pt": "Average of embarked captives (IMP) (PT)"
       },
       "agg_fn":"mean"
     },
     {
       "value_field": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
       "label": {
-        "en": "Sum of Disembarked Captives (IMP)",
-        "es": "Sum of Disembarked Captives (IMP) (ES)",
-        "pt": "Sum of Disembarked Captives (IMP) (PT)"
+        "en": "Sum of disembarked captives (IMP)",
+        "es": "Sum of disembarked captives (IMP) (ES)",
+        "pt": "Sum of disembarked captives (IMP) (PT)"
       },
       "agg_fn":"sum"
     },
     {
       "value_field": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
       "label": {
-        "en": "Average of Disembarked Captives (IMP)",
-        "es": "Average of Disembarked Captives (IMP) (ES)",
-        "pt": "Average of Disembarked Captives (IMP) (PT)"
+        "en": "Average of disembarked captives (IMP)",
+        "es": "Average of disembarked captives (IMP) (ES)",
+        "pt": "Average of disembarked captives (IMP) (PT)"
       },
       "agg_fn":"mean"
     },
     {
       "value_field": "voyage_slaves_numbers__imp_jamaican_cash_price",
       "label": {
-        "en": "Sterling Cash Price in Jamaica",
-        "es": "Precio en Efectivo en Jamaica (Libra Esterlina)",
-        "pt": "Preço em Dinheiro em Jamaica (Libra Esterlina)"
+        "en": "Sterling cash price in Jamaica",
+        "es": "Precio en efectivo en Jamaica (Libra Esterlina)",
+        "pt": "Preço em dinheiro em Jamaica (Libra Esterlina)"
       },
       "agg_fn":"mean"
     }

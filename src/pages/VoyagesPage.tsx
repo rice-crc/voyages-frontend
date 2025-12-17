@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 /* eslint-disable import/order */
-import { Grid } from '@mui/material';
+import { Row, Col } from 'antd';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -248,7 +248,7 @@ const VoyagesPage = () => {
     <div>
       <MetaTag pageDescription={pageDescription} pageTitle={pageTitle} />
       <HeaderVoyagesNavBar />
-      <Grid
+      <Row
         className={
           isTimelapsePage ? 'voyages-home-page-timelapse' : 'voyages-home-page'
         }
@@ -260,8 +260,8 @@ const VoyagesPage = () => {
         }}
       >
         <CollectionTabVoyages />
-        <Grid id="content-container">{displayPage}</Grid>
-      </Grid>
+        <Col id="content-container">{displayPage}</Col>
+      </Row>
     </div>
   );
 };

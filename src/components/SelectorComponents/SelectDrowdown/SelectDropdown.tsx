@@ -1,5 +1,7 @@
+/* eslint-disable indent */
 import { FunctionComponent, ReactNode } from 'react';
 
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Box,
   FormControl,
@@ -9,6 +11,8 @@ import {
   SelectChangeEvent,
   Chip,
   OutlinedInput,
+  IconButton,
+  InputAdornment,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
 
@@ -30,6 +34,7 @@ interface SelectDropdownProps {
     event: SelectChangeEvent<string[]>,
     name: string,
   ) => void;
+  handleClearAll?: () => void;
   maxWidth?: number;
   XFieldText?: string;
   YFieldText?: string;
@@ -49,6 +54,7 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   selectedOptions,
   handleChange,
   handleChangeMultipleYSelected,
+  handleClearAll,
   maxWidth,
   XFieldText,
   YFieldText,
@@ -87,6 +93,21 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
   const xVarValue = xVarOptions.includes(selectedOptions.x_vars)
     ? selectedOptions.x_vars
     : '';
+
+  // CHANGED: For PIE graph, create unique value with agg_fn
+  // Check if the option exists in selectedY before setting the value
+  const yVarValue =
+    graphType === 'PIE'
+      ? (() => {
+          const uniqueValue = `${selectedOptions.y_vars}__AGG__${selectedOptions.agg_fn}`;
+          const exists = selectedY.some(
+            (opt) =>
+              opt.var_name === selectedOptions.y_vars &&
+              opt.agg_fn === selectedOptions.agg_fn,
+          );
+          return exists ? uniqueValue : '';
+        })()
+      : selectedOptions.y_vars;
 
   return (
     <>
@@ -183,7 +204,35 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                 }
               }}
               input={
-                <OutlinedInput id="select-multiple-chip" label={YFieldText} />
+                <OutlinedInput
+                  id="select-multiple-chip"
+                  label={YFieldText}
+                  endAdornment={
+                    chips && chips.length > 0 ? (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (handleClearAll) {
+                              handleClearAll();
+                            }
+                          }}
+                          edge="end"
+                          size="small"
+                          aria-label="clear all selections"
+                          sx={{
+                            marginRight: '8px',
+                            '&:hover': {
+                              backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                            },
+                          }}
+                        >
+                          <CloseIcon fontSize="small" />
+                        </IconButton>
+                      </InputAdornment>
+                    ) : null
+                  }
+                />
               }
               renderValue={(value): ReactNode => (
                 <Box
@@ -210,6 +259,24 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
                         }}
                         key={`${chipValue}-${index}`}
                         label={selectedOption ? selectedOption.label[lang] : ''}
+                        onDelete={(e) => {
+                          e.stopPropagation();
+                          if (handleChangeMultipleYSelected) {
+                            const newValue = value.filter(
+                              (v) => v !== chipValue,
+                            );
+                            const syntheticEvent = {
+                              target: { value: newValue },
+                            } as SelectChangeEvent<string[]>;
+                            handleChangeMultipleYSelected(
+                              syntheticEvent,
+                              'y_vars',
+                            );
+                          }
+                        }}
+                        onMouseDown={(e) => {
+                          e.stopPropagation();
+                        }}
                       />
                     );
                   })}
@@ -256,28 +323,37 @@ export const SelectDropdown: FunctionComponent<SelectDropdownProps> = ({
             }}
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={selectedOptions.y_vars}
+            value={yVarValue}
             label={XFieldText}
             onChange={(event: SelectChangeEvent<string>) => {
-              handleChange(event, 'y_vars');
-              const selectYoption = selectedY.find(
-                (option) => option.var_name === event.target.value,
-              );
-              if (setYAxesPie) {
-                setYAxesPie(selectYoption ? selectYoption.label[lang] : '');
+              if (handleChange) {
+                handleChange(event, 'y_vars');
+                const value = event.target.value;
+                const [varName, aggFn] = value.split('__AGG__');
+                const selectedOption = selectedY.find(
+                  (opt) => opt.var_name === varName && opt.agg_fn === aggFn,
+                );
+                if (setYAxesPie && selectedOption) {
+                  setYAxesPie(selectedOption.label[lang]);
+                }
               }
             }}
             name="y_vars"
           >
-            {selectedY.map((option: PlotXYVar, index: number) => (
-              <MenuItem
-                key={`${option.label[lang]}-${index}`}
-                value={option.var_name}
-                disabled={isDisabledY(option)}
-              >
-                {option.label[lang]}
-              </MenuItem>
-            ))}
+            {selectedY.map((option: PlotXYVar, index: number) => {
+              // CHANGED: Create unique value combining var_name and agg_fn
+              const uniqueValue = `${option.var_name}__AGG__${option.agg_fn}`;
+              const label = option.label[lang];
+              return (
+                <MenuItem
+                  key={`${uniqueValue}-${index}`}
+                  value={uniqueValue}
+                  disabled={isDisabledY(option)}
+                >
+                  {label}
+                </MenuItem>
+              );
+            })}
           </Select>
           {chips?.length === 0 && error && (
             <Box sx={{ maxWidth, my: 2, color: 'red', fontSize: '0.75rem' }}>

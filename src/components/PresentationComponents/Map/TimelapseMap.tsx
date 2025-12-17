@@ -1868,7 +1868,7 @@ export const TimelapseMap = ({
       zoomControl={true}
       style={{
         position: 'absolute',
-        top: '140px',
+        top: '120px',
         marginLeft: '30px',
         width: 'calc(-150px + 100vw)',
         height: 'calc(-150px + 100vh)',

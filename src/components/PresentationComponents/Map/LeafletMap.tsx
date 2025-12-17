@@ -208,7 +208,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue;
   }
-
+  console.log({ hasFetchedRegion });
   const fetchData = async (regionOrPlace: string) => {
     dataSend['zoomlevel'] = regionOrPlace;
     setLoading(hasFetchedRegion ? true : false);
@@ -252,6 +252,7 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
     clusterNodeValue,
     filtersObj,
     currentBlockName,
+    regionPlace,
   ]);
 
   const handleDataResponse = (response: any, regionOrPlace: string) => {
@@ -291,10 +292,16 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
           `edgesData${regionOrPlace}`,
           JSON.stringify(edges),
         );
-        if (varName || clusterNodeKeyVariable || clusterNodeValue) {
-          dispatch(setNodesDataPlace(nodes));
-          dispatch(setEdgesDataPlace(edges));
-        }
+      } else if (
+        regionOrPlace === PLACE &&
+        (varName || clusterNodeKeyVariable || clusterNodeValue)
+      ) {
+        dispatch(setNodesDataPlace(nodes));
+        dispatch(setEdgesDataPlace(edges));
+      }
+      if (clusterNodeKeyVariable || clusterNodeValue) {
+        dispatch(setNodesDataPlace(nodes));
+        dispatch(setEdgesDataPlace(edges));
       }
       dispatch(setPathsData(paths));
     }
