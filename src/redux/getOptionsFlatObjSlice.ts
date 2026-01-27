@@ -12,7 +12,7 @@ const getOptionsFlatObjSlice = createSlice({
     getOptionsFlatMenu: (state, action: PayloadAction<FilterMenu[]>) => {
       state.value = action.payload;
     },
-    resetSlice: (state) => initialState,
+    resetSlice: () => initialState,
   },
 });
 

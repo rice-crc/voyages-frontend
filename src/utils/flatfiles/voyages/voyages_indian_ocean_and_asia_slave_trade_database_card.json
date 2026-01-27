@@ -1,0 +1,1150 @@
+[
+  {
+    "label": {
+      "en": "Ship, nation",
+      "es": "Ship, nation",
+      "pt": "Ship, nation"
+    },
+    "children": [
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_id",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Voyage ID",
+          "es": "ES: Voyage ID",
+          "pt": "PT: Voyage ID"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__ship_name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Vessel name",
+          "es": "Vessel name",
+          "pt": "Vessel name"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__nationality_ship__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Flag of vessel",
+          "es": "Flag of vessel",
+          "pt": "Flag of vessel"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__imputed_nationality__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Flag of vessel (IMP)",
+          "es": "Flag of vessel (IMP)",
+          "pt": "Flag of vessel (IMP)"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__vessel_construction_place__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Region of construction",
+		  "es": "Región de construcción",
+		  "pt": "Região de construção"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__year_of_construction",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Year of construction",
+		  "es": "Año de construcción",
+		  "pt": "Ano de construção"
+        }
+      },
+      
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__registered_place__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Place registered",
+          "es": "Place registered",
+          "pt": "Place registered"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__registered_year",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Year registered",
+          "es": "Year registered",
+          "pt": "Year registered"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__rig_of_vessel__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Rig or type of Vessel",
+          "es": "Rig or type of Vessel",
+          "pt": "Rig or type of Vessel"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__tonnage",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Tonnage of vessel",
+          "es": "ES: Tonnage of vessel",
+          "pt": "PT: Tonnage of vessel"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__tonnage_mod",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Tonnage standardized on British measured tons 1773-1870",
+          "es": "ES: Tonnage standardized on British measured tons 1773-1870",
+          "pt": "PT: Tonnage standardized on British measured tons 1773-1870"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_ship__guns_mounted",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Guns mounted",
+          "es": "ES: Guns mounted",
+          "pt": "PT: Guns mounted"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "cargo",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Cargo",
+          "es": "Carga",
+          "pt": "Carga"
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Enslavers",
+      "es": "Enslavers",
+      "pt": "Enslavers"
+    },
+    "children": [
+      {"cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "enslavers__name_and_role",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Enslavers",
+          "es": "ES: Enslavers",
+          "pt": "PT: Enslavers"
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Outcomes",
+      "es": "ES: Outcomes",
+      "pt": "PT: Outcomes"
+    },
+    "children": [
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_outcome__particular_outcome__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Particular outcome of voyage",
+          "es": "Particular outcome of voyage",
+          "pt": "Particular outcome of voyage"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_outcome__outcome_slaves__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Outcome of voyage for captives",
+          "es": "Outcome of voyage for captives",
+          "pt": "Outcome of voyage for captives"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_outcome__vessel_captured_outcome__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Outcome of voyage if ship captured",
+          "es": "Outcome of voyage if ship captured",
+          "pt": "Outcome of voyage if ship captured"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_outcome__outcome_owner__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Outcome of voyage for owner",
+          "es": "Outcome of voyage for owner",
+          "pt": "Outcome of voyage for owner"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_outcome__resistance__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Resistance",
+          "es": "ES: Resistance",
+          "pt": "PT: Resistance"
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Itinerary",
+      "es": "ES: Itinerary",
+      "pt": "PT: Itinerary"
+    },
+    "children": [
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_itinerary__imp_port_voyage_begin__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Place where vessel's voyage began (IMP)",
+          "es": "Place where vessel's voyage began (IMP)",
+          "pt": "Place where vessel's voyage began (IMP)"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_itinerary__imp_principal_place_of_slave_purchase__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Principal place where captives were purchased (IMP)",
+          "es": "Principal place where captives were purchased (IMP)",
+          "pt": "Principal place where captives were purchased (IMP)"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_itinerary__first_place_slave_purchase__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "First place where captives were purchased",
+          "es": "First place where captives were purchased",
+          "pt": "First place where captives were purchased"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_itinerary__second_place_slave_purchase__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Second place where captives were purchased",
+          "es": "Second place where captives were purchased",
+          "pt": "Second place where captives were purchased"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_itinerary__third_place_slave_purchase__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Third place where captives were purchased",
+          "es": "Third place where captives were purchased",
+          "pt": "Third place where captives were purchased"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_itinerary__port_of_call_before_atl_crossing__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Port of call before Atlantic crossing",
+          "es": "Port of call before Atlantic crossing",
+          "pt": "Port of call before Atlantic crossing"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_itinerary__imp_principal_port_slave_dis__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Principal place where captives were landed (IMP)",
+          "es": "Principal place where captives were landed (IMP)",
+          "pt": "Principal place where captives were landed (IMP)"
+        }
+      },
+
+
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_itinerary__first_landing_place__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "First place where captives were landed ",
+          "es": "First place where captives were landed ",
+          "pt": "First place where captives were landed "
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_itinerary__second_landing_place__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Second place where captives were landed",
+          "es": "Second place where captives were landed",
+          "pt": "Second place where captives were landed"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_itinerary__third_landing_place__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Third place where captives were landed",
+          "es": "Third place where captives were landed",
+          "pt": "Third place where captives were landed"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_itinerary__place_voyage_ended__name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Place where vessel's voyage ended",
+          "es": "Place where vessel's voyage ended",
+          "pt": "Place where vessel's voyage ended"
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Dates",
+      "es": "ES: Dates",
+      "pt": "PT: Dates"
+    },
+    "children": [
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_dates__imp_length_home_to_disembark",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Voyage duration, homeport to disembarkation (in days)",
+          "es": "Voyage duration, homeport to disembarkation (in days)",
+          "pt": "Voyage duration, homeport to disembarkation (in days)"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_dates__length_middle_passage_days",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Duration of captives' crossing (in days)",
+          "es": "Duration of captives' crossing (in days)",
+          "pt": "Duration of captives' crossing (in days)"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_dates__imp_arrival_at_port_of_dis_sparsedate__year",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Year captives were landed (IMP)",
+          "es": "Year captives were landed (IMP)",
+          "pt": "Year captives were landed (IMP)"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+				{
+					"var_name": "voyage_dates__voyage_began_sparsedate__date_str",
+					"cell_fn": "literal"
+				}
+			]
+        },
+        "label": {
+          "en": "Date vessel's voyage began",
+          "es": "Date vessel's voyage began",
+          "pt": "Date vessel's voyage began"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+				{
+					"var_name": "voyage_dates__slave_purchase_began_sparsedate__date_str",
+					"cell_fn": "literal"
+				}
+			]
+        },
+        "label": {
+          "en": "Date captive embarkation began",
+          "es": "Date captive embarkation began",
+          "pt": "Date captive embarkation began"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+				{
+					"var_name": "voyage_dates__date_departed_africa_sparsedate__date_str",
+					"cell_fn": "literal"
+				}
+			]
+        },
+        "label": {
+          "en": "Date vessel departed with captives",
+          "es": "Date vessel departed with captives",
+          "pt": "Date vessel departed with captives"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+				{
+					"var_name": "voyage_dates__departure_last_place_of_landing_sparsedate__date_str",
+					"cell_fn": "literal"
+				}
+			]
+        },
+        "label": {
+          "en": "Date vessel departed for homeport",
+          "es": "Date vessel departed for homeport",
+          "pt": "Date vessel departed for homeport"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+				{
+					"var_name": "voyage_dates__voyage_completed_sparsedate__date_str",
+					"cell_fn": "literal"
+				}
+			]
+        },
+        "label": {
+          "en": "Date vessel arrived at homeport",
+          "es": "Date vessel arrived at homeport",
+          "pt": "Date vessel arrived at homeport"
+        }
+      }
+      
+    ]
+  },
+  {
+    "label": {
+      "en": "Crew",
+      "es": "ES: Crew",
+      "pt": "PT: Crew"
+    },
+    "children": [
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_crew__crew_voyage_outset",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Crew at voyage outset",
+          "es": "ES: Crew at voyage outset",
+          "pt": "PT: Crew at voyage outset"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_crew__crew_first_landing",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Crew at first landing of captives",
+          "es": "Crew at first landing of captives",
+          "pt": "Crew at first landing of captives"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_crew__crew_died_complete_voyage",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Crew died during complete voyage",
+          "es": "ES: Crew died during complete voyage",
+          "pt": "PT: Crew died during complete voyage"
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Enslaved People",
+      "es": "ES: Enslaved People",
+      "pt": "PT: Enslaved People"
+    },
+    "children": [
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "named_enslaved_people__documented_name",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Names of Enslaved People",
+          "es": "ES: Names of Enslaved People",
+          "pt": "PT: Names of Enslaved People"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__imp_total_num_slaves_embarked",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Total embarked (IMP)",
+          "es": "Total embarked (IMP)",
+          "pt": "Total embarked (IMP)"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__total_num_slaves_purchased",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Total embarked",
+          "es": "Total embarked",
+          "pt": "Total embarked"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__imp_total_num_slaves_disembarked",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Total disembarked (IMP)",
+          "es": "Total disembarked (IMP)",
+          "pt": "Total disembarked (IMP)"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__num_slaves_intended_first_port",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Captives intended to be purchased at 1st place",
+          "es": "Captives intended to be purchased at 1st place",
+          "pt": "Captives intended to be purchased at 1st place"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__num_slaves_carried_first_port",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Captives carried from 1st port",
+          "es": "Captives carried from 1st port",
+          "pt": "Captives carried from 1st port"
+        }
+      },      
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__num_slaves_carried_second_port",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Captives carried from 2nd port",
+          "es": "Captives carried from 2nd port",
+          "pt": "Captives carried from 2nd port"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__num_slaves_carried_third_port",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Captives carried from 3rd port",
+          "es": "Captives carried from 3rd port",
+          "pt": "Captives carried from 3rd port"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__total_num_slaves_arr_first_port_embark",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Captives arrived at 1st port",
+          "es": "Captives arrived at 1st port",
+          "pt": "Captives arrived at 1st port"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__num_slaves_disembark_first_place",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Captives landed at 1st port",
+          "es": "Captives landed at 1st port",
+          "pt": "Captives landed at 1st port"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__num_slaves_disembark_second_place",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Captives landed at 2nd port",
+          "es": "Captives landed at 2nd port",
+          "pt": "Captives landed at 2nd port"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__num_slaves_disembark_third_place",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Captives landed at 3rd port",
+          "es": "Captives landed at 3rd port",
+          "pt": "Captives landed at 3rd port"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "percent",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__percentage_men",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Percent men",
+          "es": "Percent men",
+          "pt": "Percent men"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "percent",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__percentage_women",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Percent women",
+          "es": "Percent women",
+          "pt": "Percent women"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "percent",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__percentage_boy",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Percentage boys",
+          "es": "Percentage boys",
+          "pt": "Percentage boys"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "percent",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__percentage_girl",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Percent girls",
+          "es": "Percent girls",
+          "pt": "Percent girls"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "percent",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__percentage_male",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Percent males",
+          "es": "Percent males",
+          "pt": "Percent males"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "percent",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__percentage_child",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Percent children",
+          "es": "Percent children",
+          "pt": "Percent children"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__imp_jamaican_cash_price",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Sterling cash price in Jamaica (IMP)",
+          "es": "Sterling cash price in Jamaica (IMP)",
+          "pt": "Sterling cash price in Jamaica (IMP)"
+        }
+      },
+      {
+        "cell_type": "literal",
+        "number_format": "comma",
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "voyage_slaves_numbers__imp_mortality_during_voyage",
+              "cell_fn": "literal"
+            }
+          ]
+        },
+        "label": {
+          "en": "Percentage of captives who died during crossing (IMP)",
+          "es": "Percentage of captives who died during crossing (IMP)",
+          "pt": "Percentage of captives who died during crossing (IMP)"
+        }
+      }
+    ]
+  },
+  {
+    "label": {
+      "en": "Sources",
+      "es": "ES: Sources",
+      "pt": "PT: Sources"
+    },
+    "children": [
+      {
+        "cell_type": "literal-concat",
+        "number_format": null,
+        "cell_val": {
+          "fields": [
+            {
+              "var_name": "sources__title",
+              "cell_fn": "literal"
+            },
+            {
+              "var_name": "sources__bib",
+              "cell_fn": "metadata"
+            },
+            {
+              "var_name": "sources__has_published_manifest",
+              "cell_fn": "metadata"
+            },
+            {
+              "var_name": "sources__zotero_group_id",
+              "cell_fn": "metadata"
+            },
+            {
+              "var_name": "sources__zotero_item_id",
+              "cell_fn": "metadata"
+            },
+            {
+              "var_name": "sources__thumbnail",
+              "cell_fn": "metadata"
+            }
+          ],
+          "join": ": "
+        },
+        "label": {
+          "en": "Data Sources",
+          "es": "ES: Data Sources",
+          "pt": "PT: Data Sources"
+        }
+      }
+    ]
+  }
+]

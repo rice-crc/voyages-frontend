@@ -16,7 +16,7 @@
         ]
       }
     ],
-    "filter_menu_flatfile": "voyages_transatlantic_table.json",
+    "filter_menu_flatfile": "voyages_transatlantic_filter_menu.json",
     "table_flatfile": "voyages_transatlantic_table.json",
     "card_flatfile": "voyages_transatlantic_card.json",
     "style_name": "trans-atlantic",
@@ -96,7 +96,7 @@
         ]
       }
     ],
-    "filter_menu_flatfile": "voyages_intraamerican_table.json",
+    "filter_menu_flatfile": "voyages_intraamerican_filter_menu.json",
     "table_flatfile": "voyages_intraamerican_table.json",
     "card_flatfile": "voyages_intraamerican_card.json",
     "style_name": "intra-american",
@@ -159,6 +159,79 @@
       }
     ]
   },
+   {
+    "headers": {
+      "label": {
+        "en": "Indian Ocean",
+        "es": "Océano Índico",
+        "pt": "Oceano Índico"
+      },
+      "text_introduce": "The Indian Ocean and Asia Slave Trades is a comprehensive database of slave trade voyages in the Indian Ocean and Asia. It includes voyages from Africa to the Americas, as well as voyages from the Americas to Africa."
+    },
+    "base_filter": [
+    {
+        "var_name": "dataset",
+        "value": [
+          3
+        ]
+    }
+    ],
+    "filter_menu_flatfile": "voyages_indian_ocean_and_asia_slave_trade_database_filter_menu.json",
+    "table_flatfile": "voyages_indian_ocean_and_asia_slave_trade_database_table.json",
+    "card_flatfile": "voyages_indian_ocean_and_asia_slave_trade_database_card.json",
+    "style_name": "indian-ocean",
+    "blocks": [
+      {
+        "label": {
+          "en": "Voyages",
+          "es": "Viajes",
+          "pt": "Viagens"
+        }
+      },
+      {
+        "label": {
+          "en": "Sum stats",
+          "es": "Resu estad",
+          "pt": "Resu estat"
+        }
+      },
+      {
+        "label": {
+          "en": "Line",
+          "es": "Línea",
+          "pt": "Linha"
+        }
+      },
+      {
+        "label": {
+          "en": "Bar",
+          "es": "Barra",
+          "pt": "Barra"
+        }
+      },
+      {
+        "label": {
+          "en": "Pie",
+          "es": "Pastel",
+          "pt": "Pizza"
+        }
+      },
+      {
+        "label": {
+          "en": "Table",
+          "es": "Tabla",
+          "pt": "Tabela"
+        }
+      },
+      {
+        "label": {
+          "en": "Map",
+          "es": "Mapa",
+          "pt": "Mapa"
+        }
+      }
+    ]
+  },
   {
     "headers": {
       "label": {
@@ -169,7 +242,7 @@
       "text_introduce": "The Trans-Atlantic and Intra-American slave trade databases are the culmination of several decades of independent and collaborative research by scholars drawing upon data in libraries and archives around the Atlantic world. The new Slave Voyages website itself is the product of three years of development by a multi-disciplinary team of historians, librarians, curriculum specialists, cartographers, computer programmers, and web designers, in consultation with scholars of the slave trade from universities in Europe, Africa, South America, and North America. The National Endowment for the Humanities was the principal sponsor of this work carried out originally at Emory Center for Digital Scholarship, the University of California at Irvine, and the University of California at Santa Cruz. The Hutchins Center of Harvard University has also provided support. The website is currently hosted at Rice University."
     },
     "base_filter": [],
-    "filter_menu_flatfile": "voyages_all_table.json",
+    "filter_menu_flatfile": "voyages_all_filter_menu.json",
     "table_flatfile": "voyages_all_table.json",
     "card_flatfile": "voyages_all_card.json",
     "style_name": "all-voyages",
@@ -225,4 +298,5 @@
       }
     ]
   }
+ 
 ]

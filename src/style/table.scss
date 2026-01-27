@@ -83,22 +83,22 @@
   .ag-header {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1;
     background-color: #fff;
   }
 
   .ag-header-viewport {
     position: sticky;
     top: 0;
-    z-index: 100;
+     z-index: 1;
   }
 
   .ag-pinned-left-header {
-    z-index: 101;
+    z-index: 2;
   }
 
   .ag-pinned-right-header {
-    z-index: 101;
+    z-index: 2;
   }
 }
 .pivot-table-pagination-container{

@@ -54,6 +54,7 @@ import {
   ENSALVERSPAGE,
   ENSLAVEDTEXASPAGE,
   ESTIMATES,
+  INDIANOCEANANDASIANSLAVETRADEDATABASEPAGE,
   INTRAAMERICANENSLAVERS,
   INTRAAMERICANPAGE,
   INTRODUCTORYMAPS,
@@ -273,6 +274,10 @@ const App: React.FC = () => {
         <Route path={`${TRANSATLANTICPAGE}`} element={<VoyagesPage />} />
         <Route path={`${INTRAAMERICANPAGE}`} element={<VoyagesPage />} />
         <Route path={`${ALLVOYAGESPAGE}`} element={<VoyagesPage />} />
+        <Route
+          path={`${INDIANOCEANANDASIANSLAVETRADEDATABASEPAGE}`}
+          element={<VoyagesPage />}
+        />
         <Route path={`${PASTHOMEPAGE}`} element={<PastHomePage />} />
         <Route
           path={`${ENSALVEDPAGE}${ALLENSLAVEDPAGE}`}

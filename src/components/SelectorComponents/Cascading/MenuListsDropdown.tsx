@@ -849,7 +849,7 @@ export const MenuListsDropdown = () => {
               : labelVarName}
           </div>
         </DialogTitle>
-        <DialogContent style={{ textAlign: 'center' }}>
+        <DialogContent style={{ textAlign: 'center', overflowY: 'unset' }}>
           {displayComponent}
         </DialogContent>
         <DialogActions

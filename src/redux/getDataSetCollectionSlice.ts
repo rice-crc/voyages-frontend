@@ -46,12 +46,14 @@ const getDataSetCollectionSlice = createSlice({
       state.filterMenuVoyageFlatfile = action.payload;
     },
     resetSlice: (state) => {
-      state.dataSetValueBaseFilter,
-        state.dataSetValueBaseFilter,
-        state.textHeader,
-        state.textIntroduce,
-        state.blocks,
-        (state.styleName = '');
+      state.dataSetValueBaseFilter = initialState.dataSetValueBaseFilter;
+      state.textHeader = initialState.textHeader;
+      state.textIntroduce = initialState.textIntroduce;
+      state.blocks = initialState.blocks;
+      state.styleName = initialState.styleName;
+      state.filterMenuVoyageFlatfile = initialState.filterMenuVoyageFlatfile;
+      state.tableFlatfileVoyages = initialState.tableFlatfileVoyages;
+      state.value = initialState.value;
     },
   },
 });

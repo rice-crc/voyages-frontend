@@ -16,6 +16,7 @@ export const checkRouteForVoyages = (pathStyleRoute: string) => {
     case TYPESOFDATASET.allVoyages:
     case TYPESOFDATASET.voyages:
     case TYPESOFDATASET.voyage:
+    case TYPESOFDATASET.indianOceanAndAsiaSlaveTrades:
       return true;
     default:
       return false;
@@ -30,6 +31,7 @@ export const checkPagesRouteForVoyages = (pathStyleRoute: string) => {
     case TYPESOFDATASET.intraAmerican:
     case TYPESOFDATASET.transatlantic:
     case TYPESOFDATASET.texas:
+    case TYPESOFDATASET.indianOceanAndAsiaSlaveTrades:
       return true;
     default:
       return false;

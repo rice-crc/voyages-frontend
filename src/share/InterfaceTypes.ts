@@ -175,11 +175,13 @@ export const TYPESOFDATASET: {
   allVoyages: string;
   intraAmerican: string;
   transatlantic: string;
+  indianOceanAndAsiaSlaveTrades: string;
   texas: string;
   voyages: string;
   voyage: string;
 } = {
   allVoyages: 'all-voyages',
+  indianOceanAndAsiaSlaveTrades: 'indian-ocean',
   intraAmerican: 'intra-american',
   transatlantic: 'trans-atlantic',
   texas: 'texas',
@@ -668,6 +670,7 @@ export interface ValueFilterList {
   valueAfricanOrigin: FilterMenuList[];
   valueEnslavedTexas: FilterMenuList[];
   valueEnslavers: FilterMenuList[];
+  valueIndianOceanAndAsiaSlaveTradeDatabase: FilterMenuList[];
 }
 
 export interface FilterMenuList {

@@ -91,7 +91,7 @@ export default function HeaderLogoSearch() {
         >
           <img src={voyageLogo} alt={'voyages logo'} className="logo-blog" />
         </button>
-        <div className='blog-header-search'>
+        <div className="blog-header-search">
           <div className="search-autocomplete-blog">
             {inputSearchValue ? (
               <GlobalSearchButton />

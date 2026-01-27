@@ -16,11 +16,9 @@ import {
   TRANSATLANTIC,
   INTRAAMERICAN,
   ALLVOYAGES,
+  INDIANOCEANANDASIANSLAVETRADEDATABASE,
 } from '@/share/CONST_DATA';
-import {
-  checkPagesRouteForEnslaved,
-  checkRouteForVoyages,
-} from '@/utils/functions/checkPagesRoute';
+import { checkPagesRouteForEnslaved } from '@/utils/functions/checkPagesRoute';
 
 import { LeafletMap } from './LeafletMap';
 import { LeafletMapURL } from './LeafletMapURL';
@@ -43,6 +41,7 @@ function MAPComponents() {
 
     for (const num of ID!) {
       if (NUMBER.includes(num)) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         isUrLMap = true;
       }
     }
@@ -72,7 +71,8 @@ function MAPComponents() {
   } else if (
     styleNameRoute === TRANSATLANTIC ||
     styleNameRoute === INTRAAMERICAN ||
-    styleNameRoute === ALLVOYAGES
+    styleNameRoute === ALLVOYAGES ||
+    styleNameRoute === INDIANOCEANANDASIANSLAVETRADEDATABASE
   ) {
     classNameMap = 'mobile-responsive-voyages';
   } else if (checkPagesRouteForEnslaved(styleNameRoute!)) {

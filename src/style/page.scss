@@ -302,22 +302,22 @@
 // Desktop vertical navigation (992px and above)
 .nav-button {
   position: fixed;
-  top: 30%;
+  top: 32%;
   right: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding-right: 5px;
-  z-index: 10000;
+  z-index: 1000;
 
   @include breakpoint-standard(6) {
-    top: 30%;
+    top: 32%;
     align-items: center;
   }
 
   @include breakpoint-standard(5) {
-    top: 30%;
+    top: 32%;
     align-items: center;
   }
   // Hide on mobile (below 992px - handled by parent .navbar-wrapper)

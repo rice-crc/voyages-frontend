@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable indent */
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
@@ -27,6 +28,7 @@ import {
   ENSLAVEDNODE,
   ENSLAVERSCARDFILE,
   ENSLAVERSNODE,
+  INDIANOCEANANDASIANFILECARD,
   INTRAAMERICANFILECARD,
   TRANSATLANTICFILECARD,
   VOYAGESNODE,
@@ -41,6 +43,7 @@ import CARDS_ALLENSLAVED from '@/utils/flatfiles/enslaved/enslaved_all_card.json
 import CARDS_TEXAS_ENSLAVED from '@/utils/flatfiles/enslaved/enslaved_texas_card.json';
 import CARDS_ENSLAVERS_COLLECTION from '@/utils/flatfiles/enslavers/enslavers_card.json';
 import CARDS_ALLVOYAGES_COLLECTION from '@/utils/flatfiles/voyages/voyages_all_card.json';
+import CARDS_INDIANOCEANANDASIANFILE_COLLECTION from '@/utils/flatfiles/voyages/voyages_indian_ocean_and_asia_slave_trade_database_card.json';
 import CARDS_INTRAAMERICAN_COLLECTION from '@/utils/flatfiles/voyages/voyages_intraamerican_card.json';
 import CARDS_TRANSATLANTIC_COLLECTION from '@/utils/flatfiles/voyages/voyages_transatlantic_card.json';
 import {
@@ -111,6 +114,11 @@ const VoyageCard = () => {
         } else if (cardFileName === INTRAAMERICANFILECARD) {
           newCardFileName = INTRAAMERICANFILECARD;
           newCardDataArray.push(...(CARDS_INTRAAMERICAN_COLLECTION as any));
+        } else if (cardFileName === INDIANOCEANANDASIANFILECARD) {
+          newCardFileName = INDIANOCEANANDASIANFILECARD;
+          newCardDataArray.push(
+            ...(CARDS_INDIANOCEANANDASIANFILE_COLLECTION as any),
+          );
         } else {
           newCardFileName = ALLVOYAGESFILECARD;
           newCardDataArray.push(...(CARDS_ALLVOYAGES_COLLECTION as any));
@@ -233,9 +241,22 @@ const VoyageCard = () => {
     <div>
       <p className="body-text">
         {translatedCard.title}{' '}
-        <a href="#" onClick={toggleExpandAll}>
+        <button
+          type="button"
+          className="link-button"
+          onClick={toggleExpandAll}
+          style={{
+            color: 'rgb(0, 140, 168)',
+            border: 'none',
+            background: 'transparent',
+            fontSize: '15px',
+            fontWeight: 500,
+            textDecoration: 'underline',
+            cursor: 'pointer',
+          }}
+        >
           {!globalExpand ? translatedCard.expand : translatedCard.collapse}
-        </a>{' '}
+        </button>{' '}
       </p>
       <Card style={{ border: '1px solid rgba(0,0,0,.1)' }}>
         {newCardData.length > 0 &&

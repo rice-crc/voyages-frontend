@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 
-import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
@@ -11,7 +11,6 @@ import { fetchEstimatesMap } from '@/fetch/estimateFetch/fetchEstimatesMap';
 import { fetchEnslavedMap } from '@/fetch/pastEnslavedFetch/fetchEnslavedMap';
 import { fetchVoyagesMap } from '@/fetch/voyagesFetch/fetchVoyagesMap';
 import { usePageRouter } from '@/hooks/usePageRouter';
-import { setFilterObject } from '@/redux/getFilterSlice';
 import {
   setEdgesDataPlace,
   setEdgesDataRegion,
@@ -208,7 +207,6 @@ export const LeafletMap = ({ setZoomLevel, zoomLevel }: LeafletMapProps) => {
   if (inputSearchValue) {
     dataSend['global_search'] = inputSearchValue;
   }
-  console.log({ hasFetchedRegion });
   const fetchData = async (regionOrPlace: string) => {
     dataSend['zoomlevel'] = regionOrPlace;
     setLoading(hasFetchedRegion ? true : false);

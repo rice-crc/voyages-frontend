@@ -79,7 +79,6 @@ type EstimateAssesmentSlice = ReturnType<typeof getEstimateAssesmentSlice>;
 type SaveSearchSlice = ReturnType<typeof getSaveSearchSlice>;
 type QuerySaveSearchSlice = ReturnType<typeof getQuerySaveSearchSlice>;
 type ShowFilterObjectSlice = ReturnType<typeof getShowFilterObjectSlice>;
-type DocumentModalSlice = ReturnType<typeof documentModalSlice>;
 
 // Define RootState
 export type RootState = {

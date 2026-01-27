@@ -9,6 +9,7 @@ import ENSLAVED_TABLE from '@/utils/flatfiles/enslaved/enslaved_all_table.json';
 import TEXAS_TABLE from '@/utils/flatfiles/enslaved/enslaved_texas_table.json';
 import ENSLAVERS_TABLE from '@/utils/flatfiles/enslavers/enslavers_table.json';
 import AllVoyages_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_all_table.json';
+import IndianOceanAndAsianSlaveTrades from '@/utils/flatfiles/voyages/voyages_indian_ocean_and_asia_slave_trade_database_table.json';
 import Intraamerican_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_intraamerican_table.json';
 import Transatlantic_TABLE_FLAT from '@/utils/flatfiles/voyages/voyages_transatlantic_table.json';
 import { checkRouteForVoyages } from '@/utils/functions/checkPagesRoute';
@@ -19,6 +20,8 @@ export const useOtherTableCellStructure = (styleNameRoute?: string) => {
     otherCellStructure = Transatlantic_TABLE_FLAT.other_properties;
   } else if (styleNameRoute === TYPESOFDATASET.intraAmerican) {
     otherCellStructure = Intraamerican_TABLE_FLAT.other_properties;
+  } else if (styleNameRoute === TYPESOFDATASET.indianOceanAndAsiaSlaveTrades) {
+    otherCellStructure = IndianOceanAndAsianSlaveTrades.other_properties;
   } else if (checkRouteForVoyages(styleNameRoute!)) {
     otherCellStructure = AllVoyages_TABLE_FLAT.other_properties;
   } else if (styleNameRoute === TYPESOFDATASETPEOPLE.allEnslaved) {

@@ -5,8 +5,12 @@ export const EnslaversTitle = 'Enslavers';
 export const TRANSATLANTICTABLEFILE = 'voyages_transatlantic_table.json';
 export const INTRAAMERICANTABLEFILE = 'voyages_intraamerican_table.json';
 export const ALLVOYAGESTABLEFILE = 'voyages_all_table.json';
+export const INDIANOCEANANDASIANFILE =
+  'voyages_indian_ocean_and_asia_slave_trade_database_table.json';
 export const TRANSATLANTICFILECARD = 'voyages_transatlantic_card.json';
 export const INTRAAMERICANFILECARD = 'voyages_intraamerican_card.json';
+export const INDIANOCEANANDASIANFILECARD =
+  'voyages_indian_ocean_and_asia_slave_trade_database_card.json';
 export const ALLVOYAGESFILECARD = 'voyages_all_card.json';
 export const ENSLAVED_african_origins_CARDFILE =
   'enslaved_african_origins_card.json';
@@ -21,6 +25,8 @@ export const TEXAS_TABLE_FILE = 'enslaved_texas_table.json';
 
 export const VOYAGESPAGE = 'VoyagesPage';
 export const ALLVOYAGES = 'all-voyages';
+export const INDIANOCEANANDASIANSLAVETRADEDATABASE =
+  'indian-ocean';
 export const VOYAGE = 'voyages';
 export const voyageURL = '/voyage';
 export const ALLVOYAGESPAGE = '/voyage/all-voyages';
@@ -34,7 +40,8 @@ export const VOYAGESTEXAS = 'texas';
 export const VOYAGESTEXASPAGE = '/voyage/texas';
 export const USESAVESEARCHURL = 'saveUrl';
 export const VOYAGEPATHDROPDOWN = '/voyage/trans-atlantic#voyages';
-
+export const INDIANOCEANANDASIANSLAVETRADEDATABASEPAGE =
+  '/voyage/indian-ocean';
 export const PASTHOMEPAGE = 'PastHomePage';
 export const PASTHOMEPAGEPATH = '/PastHomePage';
 export const Enslaved = 'Enslaved';
@@ -59,6 +66,7 @@ export const TRANSATLANTICENSLAVERS = '/trans-atlantic-trades';
 export const allEnslavers = 'enslaver';
 export const INTRAAMERICANTRADS = 'intra-american-trades';
 export const TRANSATLANTICTRADS = 'trans-atlantic-trades';
+export const INDIANOCEANANDASIANTRANDS = 'indian-ocean';
 
 export const mbaccesstoken = `pk.eyJ1IjoiamNtMTAiLCJhIjoiY2xid2VpZmF3MDhsaTN1bGhqMXZ5YmxjZCJ9.eP7ZuC68Q5iBZQa8I13AGw`;
 
@@ -118,6 +126,8 @@ export const CONTRIBUTE = 'contribute/';
 export const ACCOUNTS = 'accounts/';
 export const TIMELAPSE = 'timelapse';
 export const TRANSATLANTICTIMELAPSEPATH = '/voyage/trans-atlantic#timelapse';
+export const INDIANOCEANANDASIANSLAVETRADEDATABASETIMELAPSEPATH =
+  '/voyage/indian-ocean#timelapse';
 export const LESSONPLANS = 'lessonplans';
 export const INTRODUCTORYMAPS = 'introductorymaps';
 export const TIMELAPSEPAGE = 'voyage/database/timelapse';
@@ -140,6 +150,8 @@ export const DOWNLOADS = '/voyage/downloads';
 export const TransAtlanticTitle = 'Trans-Atlantic';
 export const IntraAmericanTitle = 'Intra-American';
 export const AllVoyagesTitle = 'All Voyages';
+export const IndianOceanAndAsiaSlaveTradesTitle =
+  'Indian Ocean & Asia Slave Trades';
 export const AllEnslavedPeople = 'All Enslaved People';
 export const AfricanOriginsTransAtlantic = 'African Origins/Trans-Atlantic';
 export const TEXBOUND = 'Texas Bound';
