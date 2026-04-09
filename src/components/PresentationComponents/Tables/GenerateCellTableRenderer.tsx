@@ -23,6 +23,7 @@ import {
   ENSLAVEDNODE,
   ENSLAVERSNODE,
   VOYAGESNODECLASS,
+  urlRegex,
 } from '@/share/CONST_DATA';
 import {
   checkPagesRouteForEnslaved,
@@ -88,6 +89,13 @@ export const GenerateCellTableRenderer = (
       cursor: 'pointer',
     };
 
+    const sourceIcon = (value?: string, title?: string) => (// This function renders the source icon depending on if it has a published manifest or not, and if it has a valid URL in the bib
+      <>
+        <span>{value} </span>
+        <i className="fa fa-file-text" aria-hidden="true" title={title}></i>
+      </>
+    );
+
     if (values.length <= 0) {
       return (
         <span>
@@ -125,12 +133,7 @@ export const GenerateCellTableRenderer = (
             borderStyle: 'solid',
           };
           additionalProps.dangerouslySetInnerHTML = undefined;
-          extraElements = (
-            <>
-              <span>{value} </span>
-              <i className="fa fa-file-text" aria-hidden="true"></i>
-            </>
-          );
+          extraElements = sourceIcon(value, "View Source Document");
 
           additionalProps.onClick = (e) => {
             e.stopPropagation();
@@ -146,6 +149,37 @@ export const GenerateCellTableRenderer = (
             });
           };
         }
+        // Check if the source string contains a URL and if the manifest is published, then make the cell clickable to open the URL in a new tab.
+        const sourceString = params.data.sources__bib?.[index];
+        const foundUrl = sourceString?.match(urlRegex) ?? null;
+        if (
+          (colID === 'voyage_sources' || colID === 'enslaved_sources') &&
+          params.data.sources__title?.[index] &&
+          params.data.sources__has_published_manifest?.[index] === false &&
+          foundUrl?.[0]
+        ) {// Only display external source if the manifest is not published even if it has a link inside the bib
+            const urlString = foundUrl[0];
+            try {
+              new URL(urlString); // Throws if invalid
+
+              additionalProps.style = {
+                ...style,
+                borderColor: 'red',
+                borderWidth: 1,
+                borderStyle: 'solid',
+              };
+              additionalProps.dangerouslySetInnerHTML = undefined;
+              extraElements = sourceIcon(value, "View External Source");
+
+              additionalProps.onClick = (e) => {
+                e.stopPropagation();
+                window.open(urlString, '_blank', 'noopener,noreferrer');
+              }; 
+            } catch (e) {
+            console.error('Invalid URL:', urlString);
+            }
+        }
+
         let cellComponent = (
           <span key={`${index}-${value}`}>
             <div {...additionalProps} key={`${index}-${value}`}>

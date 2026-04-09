@@ -1509,7 +1509,7 @@
 				"pt": "Fontes"
 			},
 			"cell_type": "literal",
-			"visible": false,
+			"visible": true,
 			"number_format": null,
 			"order_by": [
 				"voyage_source_connections__source__title"

@@ -33,6 +33,7 @@ import {
   TRANSATLANTICFILECARD,
   VOYAGESNODE,
   VOYAGESNODECLASS,
+  urlRegex
 } from '@/share/CONST_DATA';
 import '@/style/cards.scss';
 import { TransatlanticCardProps } from '@/share/InterfaceTypes';
@@ -72,6 +73,24 @@ function isDocumentReference(
     cast?.sources__has_published_manifest &&
     !!cast.sources__zotero_group_id &&
     !!cast.sources__zotero_item_id
+  );
+}
+
+type ExternalReference = {
+  sources__has_published_manifest: boolean;
+  sources__bib : string;
+};
+
+function isExternalReference(
+  s?: string | ExternalReference,
+): s is ExternalReference {
+  if (typeof s !== 'object' || s === null) {
+    return false;
+  }
+  return (
+    s.sources__has_published_manifest === false &&
+    typeof s.sources__bib === 'string' &&
+    urlRegex.test(s.sources__bib)
   );
 }
 
@@ -300,6 +319,7 @@ const VoyageCard = () => {
                                   key={`${index}-${uuidv4()}`}
                                   className="fa fa-file-text"
                                   aria-hidden="true"
+                                  title="View Source Document"
                                 ></i>,
                               );
                               additionalStyles.borderColor = 'blue';
@@ -320,6 +340,37 @@ const VoyageCard = () => {
                                 dispatch(setIsModalCard(false));
                               };
                             }
+                            // Check if the value is an external reference with a valid URL in the bib 
+                            if (isExternalReference(value)) {
+                              const sourceString = value.sources__bib;
+                              console.log('Checking source string for URL:', sourceString);
+                              const foundUrl = sourceString?.match(urlRegex) ?? null;
+                              if (foundUrl) {
+                                console.log(foundUrl[0])
+                                const urlString = foundUrl[0];
+                                try {
+                                  new URL(urlString); // Validate the URL
+                                  valueToRender += ' ';
+                                  extraElements.push(
+                                    <i
+                                      key={`${index}-${uuidv4()}`}
+                                      className="fa fa-file-text"
+                                      aria-hidden="true"
+                                      title="View External Source"
+                                    ></i>,
+                                  );
+                                  additionalStyles.borderColor = 'red';
+                                  additionalStyles.borderWidth = 1;
+                                  additionalStyles.borderStyle = 'solid';
+                                  additionalProps.onClick = () => {
+                                    window.open(urlString, '_blank', 'noopener,noreferrer');
+                                  };
+                                } catch (e) {
+                                  console.error('Invalid URL:', urlString);
+                                }
+                              }
+                            }
+
                             let component = valueToRender ? (
                               <div
                                 key={`${index}-${value}-${uuidv4()}`}

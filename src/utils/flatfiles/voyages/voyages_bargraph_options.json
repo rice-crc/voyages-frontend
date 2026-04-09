@@ -107,9 +107,9 @@
     {
       "var_name": "voyage_itinerary__imp_broad_region_slave_dis__name",
       "label": {
-        "en": "Imputed broad region of slave disembarkation (MJSELIMP1)",
-        "es": "ES: Región amplia de desembarque de esclavos imputada (MJSELIMP1)",
-        "pt": "PT: Região ampla de desembarque de escravos imputada (MJSELIMP1)"
+        "en": "Imputed broad region of slave disembarkation ",
+        "es": "ES: Región amplia de desembarque de esclavos imputada ",
+        "pt": "PT: Região ampla de desembarque de escravos imputada "
       }
     },
     {

@@ -122,7 +122,7 @@ const BlogCardHeaderBody = () => {
         {tags?.length > 0 &&
           tags?.map((tag, index) => (
             <div key={`${index}-${tag.slug}`} className="tags-name-list">
-              <Link to={`/${BLOGPAGE}/tag/${tag.slug}/${tag.id}`}>
+              <Link to={`/${BLOGPAGE}/tag/${tag.slug}`}>
                 <div className="badge badge-secondary">{tag.name}</div>
               </Link>
             </div>
