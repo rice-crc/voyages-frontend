@@ -59,6 +59,14 @@ export const menuLists: MenuListsProps[] = [
         },
         url: `${BLOGPAGE}/tag/texas-bound#texas-bound`,
       },
+      {
+        name: {
+          en: 'Indian Ocean',
+          es: 'Océano Índico',
+          pt: 'Oceano Índico',
+        },
+        url: `${BLOGPAGE}/tag/indian-ocean#indian-ocean`,
+      }
     ],
   },
   {
