@@ -190,15 +190,25 @@ const Tables: React.FC = () => {
   }, [sortColumn]);
 
   const dataSend = useMemo(() => {
+    // Use the active sort column, or fall back to the default order so the
+    // very first request already carries order_by (avoids a race condition
+    // where the unsorted initial fetch overwrites the sorted second fetch).
+    const effectiveOrderBy =
+      stableSortColumn.length > 0
+        ? stableSortColumn
+        : otherTableCellStrructure?.default_order_by
+          ? [otherTableCellStrructure.default_order_by]
+          : [];
+
     const base: TableListPropsRequest = {
       filter: stableFilters,
       page: Number(page + 1),
       page_size: Number(rowsPerPage),
     };
     if (inputSearchValue) base.global_search = inputSearchValue;
-    if (stableSortColumn?.length) base.order_by = stableSortColumn;
+    if (effectiveOrderBy.length) base.order_by = effectiveOrderBy;
     return base;
-  }, [stableFilters, page, rowsPerPage, inputSearchValue, stableSortColumn]);
+  }, [stableFilters, page, rowsPerPage, inputSearchValue, stableSortColumn, otherTableCellStrructure?.default_order_by]);
 
   const dataSendToDownloadCSV = useMemo(() => {
     const base: TableListPropsRequest = {
@@ -283,7 +293,6 @@ const Tables: React.FC = () => {
     tableFlatfileEnslaved,
     tableFlatfileEnslavers,
     tablesCell,
-    sortColumn,
   );
 
   const defaultColDef = useMemo(
@@ -313,7 +322,12 @@ const Tables: React.FC = () => {
   // Create a function to specifically save column order after dragging
   const handleColumnDragStop = useCallback(() => {
     if (gridRef.current?.api) {
-      const columnState = gridRef.current.api.getColumnState();
+      // Strip sort info — sorting is server-side, ag-grid must not re-sort on restore
+      const columnState = gridRef.current.api.getColumnState().map((col: any) => ({
+        ...col,
+        sort: null,
+        sortIndex: null,
+      }));
       setCurrentColumnState(columnState);
       localStorage.setItem('columnState', JSON.stringify(columnState));
 
@@ -464,6 +478,9 @@ const Tables: React.FC = () => {
             return {
               ...saved,
               hide: visibilityState ? visibilityState.hide : saved.hide,
+              // Strip any saved ag-grid sort — sorting is server-side only
+              sort: null,
+              sortIndex: null,
             };
           });
 

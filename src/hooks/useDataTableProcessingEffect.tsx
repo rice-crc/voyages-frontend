@@ -1,5 +1,4 @@
-// 2. UPDATED useDataTableProcessingEffect.tsx - Clean, single responsibility
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,7 +12,6 @@ import {
 } from '@/utils/functions/checkPagesRoute';
 import { generateColumnDef } from '@/utils/functions/generateColumnDef';
 import { generateRowsData } from '@/utils/functions/generateRowsData';
-import { sortDataOnFrontend } from '@/utils/functions/sortDataOnFrontend';
 
 import { usePageRouter } from './usePageRouter';
 
@@ -24,10 +22,8 @@ function useDataTableProcessingEffect(
   tableFlatfileEnslaved: string,
   tableFlatfileEnslavers: string,
   tablesCell: TableCellStructure[],
-  sortColumn?: string[], // Changed to accept full sort column array
 ) {
   const dispatch: AppDispatch = useDispatch();
-  const isFirstProcessing = useRef(true);
   const { languageValue } = useSelector(
     (state: RootState) => state.getLanguages,
   );
@@ -43,24 +39,8 @@ function useDataTableProcessingEffect(
           : null;
 
     if (data.length > 0) {
-      // Always process the raw data first
-      let finalRowData = generateRowsData(data, tableFileName!);
-
-      // Apply sorting only if not first processing AND we have sort columns
-      if (!isFirstProcessing.current && sortColumn && sortColumn.length > 0) {
-        // console.log('🔄 Applying sorting in hook:', { sortColumn });
-
-        // Extract sort info
-        const firstSort = sortColumn[0];
-        // console.log({ firstSort });
-        const isAscending = firstSort.startsWith('-');
-        const fieldName = isAscending ? firstSort.substring(1) : firstSort;
-        const sortOrder = isAscending ? 'asc' : 'desc';
-
-        finalRowData = sortDataOnFrontend(finalRowData, sortOrder, [fieldName]);
-      } else if (isFirstProcessing.current) {
-        isFirstProcessing.current = false;
-      }
+      // Display data in the order returned by the server — server handles sorting via order_by
+      const finalRowData = generateRowsData(data, tableFileName!);
 
       // Generate column definitions
       const newColumnDefs = tablesCell.map((value) =>
@@ -108,7 +88,6 @@ function useDataTableProcessingEffect(
     tableFlatfileEnslavers,
     tablesCell,
     styleNameRoute,
-    sortColumn, // Now depends on the full sort column array
   ]);
 }
 
