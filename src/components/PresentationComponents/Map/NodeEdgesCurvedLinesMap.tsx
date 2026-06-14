@@ -186,7 +186,19 @@ const NodeEdgesCurvedLinesMap = () => {
           iconSize: new L.Point(40, 40, true),
         });
       },
-    }).on('clustermouseover', (event) => {
+    })
+    .on('clustermouseover', (event) => {
+      handleHoverMarkerCluster(
+        event,
+        hiddenEdgesLayer,
+        hiddenEdges,
+        nodesData,
+        nodeTypePostDisembarkation,
+        handleSetClusterKeyValue,
+        map,
+      );
+    })
+    .on('mouseover', (event) => {
       handleHoverMarkerCluster(
         event,
         hiddenEdgesLayer,
@@ -268,13 +280,6 @@ const NodeEdgesCurvedLinesMap = () => {
           disembarkation === 0 &&
           embarkation === 0
         ) {
-          const count = Number(post_disembarkation);
-          const peopleText = count === 1 ? 'person' : 'people';
-          const popupText = `<p>${node.data.name} is the final known location for ${count} enslaved ${peopleText}.</p>`;
-          circleMarker.bindPopup(popupText);
-          circleMarker.on('mouseover', () => {
-            circleMarker.openPopup();
-          });
           postDisembarkationsMarkerCluster
             .addLayer(circleMarker)
             .bringToFront();
