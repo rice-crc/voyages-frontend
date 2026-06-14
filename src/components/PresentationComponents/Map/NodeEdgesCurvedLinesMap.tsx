@@ -118,7 +118,7 @@ const NodeEdgesCurvedLinesMap = () => {
       spiderfyOnMaxZoom: false,
       iconCreateFunction: function (cluster) {
         const childCount = cluster.getChildCount();
-        let c = ' marker-cluster-';
+        let c = 'marker-cluster-';
         if (childCount < 10) {
           c += 'large';
         } else if (childCount < 100) {
@@ -222,29 +222,43 @@ const NodeEdgesCurvedLinesMap = () => {
           nodeID,
         );
 
-        const popupContent = createTooltipEmbarkDiseEmbarkEdges(node);
-
-        circleMarker.bindPopup(popupContent).bringToFront();
-
         const originMarker = L.marker(latlon);
-        circleMarker.on('mouseover', (event) => {
-          circleMarker.openPopup();
-          handleHoverCircleMarker(
-            event,
-            hiddenEdgesLayer,
-            edgesData,
-            nodesData,
-            node,
-            originNodeMarkersMap,
-            originMarkerCluster,
-            handleSetClusterKeyValue, // WAIT To Change if want to show table,
-            map,
-          );
-        });
 
         if (disembarkation !== 0 || embarkation !== 0) {
+          const popupContent = createTooltipEmbarkDiseEmbarkEdges(node);
+          circleMarker.bindPopup(popupContent).bringToFront();
+          circleMarker.on('mouseover', (event) => {
+            circleMarker.openPopup();
+            handleHoverCircleMarker(
+              event,
+              hiddenEdgesLayer,
+              edgesData,
+              nodesData,
+              node,
+              originNodeMarkersMap,
+              originMarkerCluster,
+              handleSetClusterKeyValue,
+              map,
+            );
+          });
           circleMarker.addTo(map).bringToFront();
         } else if (origin && origin > 0) {
+          const popupContent = createTooltipEmbarkDiseEmbarkEdges(node);
+          circleMarker.bindPopup(popupContent).bringToFront();
+          circleMarker.on('mouseover', (event) => {
+            circleMarker.openPopup();
+            handleHoverCircleMarker(
+              event,
+              hiddenEdgesLayer,
+              edgesData,
+              nodesData,
+              node,
+              originNodeMarkersMap,
+              originMarkerCluster,
+              handleSetClusterKeyValue,
+              map,
+            );
+          });
           originNodeMarkersMap.set(nodeID, originMarker);
           originMarkerCluster.addLayer(circleMarker).bringToFront();
           originMarkerCluster.addLayer(originMarker).bringToFront();
@@ -254,6 +268,13 @@ const NodeEdgesCurvedLinesMap = () => {
           disembarkation === 0 &&
           embarkation === 0
         ) {
+          const count = Number(post_disembarkation);
+          const peopleText = count === 1 ? 'person' : 'people';
+          const popupText = `<p>${node.data.name} is the final known location for ${count} enslaved ${peopleText}.</p>`;
+          circleMarker.bindPopup(popupText);
+          circleMarker.on('mouseover', () => {
+            circleMarker.openPopup();
+          });
           postDisembarkationsMarkerCluster
             .addLayer(circleMarker)
             .bringToFront();
