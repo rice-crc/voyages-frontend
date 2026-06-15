@@ -86,9 +86,9 @@ const VoyagesPage = () => {
           'Explore all slave trade voyages database with comprehensive records, statistics, and visualizations.';
         break;
       case INDIANOCEANANDASIANSLAVETRADEDATABASE:
-        baseTitle = 'Indian Ocean & Asia Slave Trades';
+        baseTitle = 'Indian Ocean';
         baseDescription =
-          'Explore the Indian Ocean & Asia slave trade voyages database with detailed records, statistics, and visualizations.';
+          'Explore the Indian Ocean database\'s detailed records, statistics, and visualizations.';
         break;
       default:
         baseTitle = 'Slave Voyages';
