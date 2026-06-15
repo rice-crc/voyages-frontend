@@ -151,7 +151,7 @@ export const TransAtlanticTitle = 'Trans-Atlantic';
 export const IntraAmericanTitle = 'Intra-American';
 export const AllVoyagesTitle = 'All Voyages';
 export const IndianOceanAndAsiaSlaveTradesTitle =
-  'Indian Ocean & Asia Slave Trades';
+  'Indian Ocean';
 export const AllEnslavedPeople = 'All Enslaved People';
 export const AfricanOriginsTransAtlantic = 'African Origins/Trans-Atlantic';
 export const TEXBOUND = 'Texas Bound';
