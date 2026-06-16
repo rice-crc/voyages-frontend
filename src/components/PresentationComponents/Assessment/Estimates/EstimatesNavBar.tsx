@@ -126,7 +126,7 @@ const EstimatesNavBar: FunctionComponent<EstimatesNavBarProps> = ({
             </a>
           </div>
         </div>
-        <div>{currentBlockName !== 'maps' && <SaveSearchComponent />}</div>
+
       </div>
     </div>
   );
