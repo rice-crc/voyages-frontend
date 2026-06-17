@@ -87,7 +87,9 @@ export default function CascadingMenu() {
         </div>
         {(currentBlockName === '' ||
           currentBlockName === VOYAGE ||
-          currentBlockName === 'people') && <SaveSearchComponent />}
+          currentBlockName === 'people')
+
+        }
       </div>
       <div className={`panel-list-unshow${viewAll ? '-show' : ''}`}>
         <ShowFilterObject

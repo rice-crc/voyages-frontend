@@ -118,7 +118,7 @@ const NodeEdgesCurvedLinesMap = () => {
       spiderfyOnMaxZoom: false,
       iconCreateFunction: function (cluster) {
         const childCount = cluster.getChildCount();
-        let c = 'marker-cluster-';
+        let c = ' marker-cluster-';
         if (childCount < 10) {
           c += 'large';
         } else if (childCount < 100) {
